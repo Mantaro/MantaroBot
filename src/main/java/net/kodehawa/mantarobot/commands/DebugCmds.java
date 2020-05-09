@@ -22,7 +22,6 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -37,7 +36,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -55,18 +53,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 @SuppressWarnings("unused")
 public class DebugCmds {
-    private final Config config = MantaroData.config().get();
-
     @Subscribe
     public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                var config = ctx.getConfig();
                 var bot = ctx.getBot();
                 var guilds = 0L;
                 var users = 0L;
@@ -84,9 +80,9 @@ public class DebugCmds {
                         .mapToLong(JDA::getResponseTotal)
                         .sum();
 
-                var mapiRequests = 0;
+                var mApiRequests = 0;
                 try {
-                    mapiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
+                    mApiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
                 } catch (IOException ignored) { }
 
                 ctx.send("```prolog\n"
@@ -96,7 +92,7 @@ public class DebugCmds {
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
                         + "API Responses: " + String.format("%,d", responseTotal) + "\n"
-                        + "MAPI Responses: " + String.format("%,d", mapiRequests) + "\n"
+                        + "MAPI Responses: " + String.format("%,d", mApiRequests) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
@@ -238,11 +234,14 @@ public class DebugCmds {
         cr.register("status", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                var config = ctx.getConfig();
                 MantaroBot bot = MantaroBot.getInstance();
+
                 long ping = (long) bot.getShardManager()
                         .getShards().stream().mapToLong(JDA::getGatewayPing).average()
                         .orElse(-1);
                 StringBuilder stringBuilder = new StringBuilder();
+
                 int dead = 0;
                 int reconnecting = 0;
                 int connecting = 0;
@@ -301,7 +300,7 @@ public class DebugCmds {
                                 "* Shards Reconnecting: %s shards.\n" +
                                 "* Shards Connecting: %s shards\n" +
                                 "* High Last Event Time: %s shards.\n\n" +
-                                "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
+                                "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s"
                         ,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()),
                         MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
