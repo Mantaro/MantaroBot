@@ -1329,7 +1329,7 @@
         "age": "Âge",
         "no_pets": "%1$sTu n'as pas d'animaux.",
         "header": "Voici la liste des animaux que tu possèdes pour le moment.\nLes animaux sont vos compagnons pour chercher de l'argent! **Tu peux les entrainer, les chouchouter, les nourrir ou les faire combattre entre eux ou contre ceux des autres !** Pour créer un animal de compagnie, tu as besoin d'un incubateur que tu peux créer avec du lait, du breuvage et des diamants, ça te permettra de l'incuber et donc de lui donner un nom.",
-        "pages": "**Nombre total de pages: %1$s \nUtilise les réaction pour changer de page.\n\n"
+        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
         "success": "%1$sTu as entrainer l'habileté de **%2$s** avec succès. Expérience gagnée : %3$s. Expérience actuelle : %4$s. (Coût: %5$s)"
