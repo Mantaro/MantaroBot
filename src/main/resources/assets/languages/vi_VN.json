@@ -458,7 +458,7 @@
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
         "success": "%1$sĐã lưu lệnh `%2$s`",
-        "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, vì vậy bạn không thể tạo thêm nữa (+100). Điều này có thể được bỏ qua nếu bạn ở máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
+        "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
