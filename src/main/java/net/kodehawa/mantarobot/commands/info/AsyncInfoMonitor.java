@@ -17,8 +17,12 @@
 
 package net.kodehawa.mantarobot.commands.info;
 
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
+import net.kodehawa.mantarobot.data.MantaroData;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -98,7 +102,8 @@ public class AsyncInfoMonitor {
     }
 
     public static void start() {
-        if (started) throw new IllegalStateException("Already Started.");
+        if (started)
+            throw new IllegalStateException("Already Started.");
 
         log.debug("Started AsyncInfoMonitor... Monitoring system statistics since now!");
         OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
@@ -119,6 +124,26 @@ public class AsyncInfoMonitor {
             vpsFreeMemory = calculateVPSFreeMemory(os);
             vpsMaxMemory = calculateVPSMaxMemory(os);
             vpsUsedMemory = vpsMaxMemory - vpsFreeMemory;
+
+            if(ExtraRuntimeOptions.NODE_NUMBER.isPresent()) {
+                try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
+                    j.hset("node-stats",
+                            "node-" + ExtraRuntimeOptions.NODE_NUMBER,
+                            new JSONObject()
+                                    .put("thread_count", threadCount)
+                                    .put("available_processors", r.availableProcessors())
+                                    .put("free_memory", Runtime.getRuntime().freeMemory())
+                                    .put("max_memory", Runtime.getRuntime().maxMemory())
+                                    .put("total_memory", Runtime.getRuntime().totalMemory())
+                                    .put("cpu_usage", calculateCpuUsage(os))
+                                    .put("machine_cpu_usage", getInstanceCPUUsage(os))
+                                    .put("machine_free_memory", calculateVPSFreeMemory(os))
+                                    .put("machine_total_memory", calculateVPSMaxMemory(os))
+                                    .put("machine_used_memory", vpsMaxMemory - vpsFreeMemory)
+                                    .toString()
+                    );
+                }
+            }
         }, 1, 1, TimeUnit.SECONDS);
         started = true;
     }

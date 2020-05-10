@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Config {
-    public boolean cacheGames = false;
     public String carbonToken;
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
@@ -64,8 +63,7 @@ public class Config {
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean lazyLoading = false;
 
-    public Config() {
-    }
+    public Config() { }
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
@@ -77,14 +75,6 @@ public class Config {
 
     public boolean isOwner(String id) {
         return owners.contains(id);
-    }
-
-    public boolean isCacheGames() {
-        return this.cacheGames;
-    }
-
-    public void setCacheGames(boolean cacheGames) {
-        this.cacheGames = cacheGames;
     }
 
     public String getCarbonToken() {
