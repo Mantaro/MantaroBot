@@ -45,6 +45,7 @@ public enum EmoteReference {
     SMILE(":smile:", "\uD83D\uDE04"),
     PICK(":pick:", "\u26cf"),
     HEART(":heart:", "\u2764"),
+    BLUE_HEART(":blue_heart:", "\uD83D\uDC99"),
     RUNNER(":runner:", "\uD83C\uDFC3"),
     POTION1(":milk:", "\uD83E\uDD5B"),
     POTION2(":champagne:", "\uD83C\uDF7E"),
@@ -85,6 +86,7 @@ public enum EmoteReference {
     TROPHY(":trophy:", "\uD83C\uDFC6"),
     WRENCH(":wrench:", "\ud83d\udd27"),
     WHITE_CIRCLE(":white_circle:", "\u25CB"),
+    MUSICAL_NOTE(":musical_note", "\uD83C\uDFB5"),
     //Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),

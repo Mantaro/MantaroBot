@@ -22,6 +22,7 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -66,6 +67,7 @@ public class DebugCmds {
                 var bot = ctx.getBot();
                 var guilds = 0L;
                 var users = 0L;
+                var clusterTotal = 0L;
 
                 try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
                     for(int i = 0; i < config.getTotalShards(); i++) {
@@ -73,6 +75,8 @@ public class DebugCmds {
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
+
+                    clusterTotal = jedis.hlen("node-stats-" + config.getClientId());
                 }
 
                 var responseTotal = bot.getShardManager().getShards()
@@ -91,14 +95,16 @@ public class DebugCmds {
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + String.format("%,d", responseTotal) + "\n"
-                        + "MAPI Responses: " + String.format("%,d", mApiRequests) + "\n"
+                        + "API Responses: " + String.format("%,d (MAPI: %,d)", responseTotal, mApiRequests) + "\n"
+                        + "Clusters: " + String.format("%,d (Current: %,d)", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d", guilds) + "\n"
+                        + "Cluster Guilds: " + String.format("%,d", ctx.getShardManager().getGuildCache().size()) + "\n"
                         + "Users: " + String.format("%,d", users) + "\n"
+                        + "Cluster Users: " + String.format("%,d", ctx.getShardManager().getUserCache().size()) + "\n"
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + ctx.getJDA().getShardInfo().getShardId() + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
@@ -266,16 +272,20 @@ public class DebugCmds {
                 }
 
                 String status = (dead == 0 && (high == 0 || reconnecting > 10)) ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
-                stringBuilder.append(status);
+                stringBuilder.append(EmoteReference.BLUE_HEART).append(status);
 
                 if (reconnecting > 10)
-                    stringBuilder.append("WARNING: A large number of shards are reconnecting right now!" +
-                            " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
+                    stringBuilder
+                            .append("WARNING: A large number of shards are reconnecting right now!" +
+                                    " Bot might be unavailable on several thousands guilds for some minutes! (")
+                            .append(reconnecting).append(" shards reconnecting now)\n");
                 if (high > 20)
-                    stringBuilder.append("WARNING: A very large number of shards has a high last event time! " +
+                    stringBuilder
+                            .append("WARNING: A very large number of shards has a high last event time! " +
                             "A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if (dead > 5)
-                    stringBuilder.append("WARNING: Several shards (").append(dead).append(") ")
+                    stringBuilder
+                            .append("WARNING: Several shards (").append(dead).append(") ")
                             .append("appear to be dead! If this doesn't get fixed in 30 minutes please report this!\n");
 
                 long guilds = 0;
@@ -290,20 +300,24 @@ public class DebugCmds {
                 }
 
                 stringBuilder.append(String.format(
-                        "Uptime: %s.\n\n" +
-                                "Bot Version: %s\n" +
-                                "JDA Version: %s\n" +
-                                "LP Version: %s\n\n" +
-                                "* Average Ping: %dms.\n" +
+                        "%sUptime: %s\n\n" +
+                                "+ Bot Version: %s\n" +
+                                "+ JDA Version: %s\n" +
+                                "+ LP Version: %s\n\n" +
+                                "* Cluster Guilds: %,d (ID: %,d)\n" +
+                                "* Cluster Users: %,d\n" +
+                                "* Average Ping: %,dms\n" +
                                 "* (High) Ping Breakdown: %s\n" +
-                                "* Dead Shards: %s shards.\n" +
-                                "* Shards Reconnecting: %s shards.\n" +
-                                "* Shards Connecting: %s shards\n" +
-                                "* High Last Event Time: %s shards.\n\n" +
-                                "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s"
-                        ,
+                                "* Dead Shards: %,d\n" +
+                                "* Shards Reconnecting: %,d\n" +
+                                "* Shards Connecting: %,d\n" +
+                                "* High Last Event: %,d\n\n" +
+                                "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s",
+                        EmoteReference.SELL,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()),
                         MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
+                        ctx.getShardManager().getGuildCache().size(), ctx.getBot().getNodeNumber(),
+                        ctx.getShardManager().getUserCache().size(),
                         ping,
                         bot.getShardList().stream().filter(s -> s.getNullableJDA() != null)
                                 //"high" ping shards

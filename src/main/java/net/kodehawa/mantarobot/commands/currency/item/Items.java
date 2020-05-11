@@ -459,7 +459,6 @@ public class Items {
     public static Pair<Boolean, Player> handleDurability(Context ctx, Item item, Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
-        boolean assumeBroken = false;
         PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
         float subtractFrom = (float) (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, POTION_STAMINA, user) ?
                 //if player has potion | if there's no active potion
@@ -474,7 +473,7 @@ public class Items {
         }
 
         int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, subtractFrom));
-        assumeBroken = durability < 5;
+        boolean assumeBroken = durability < 5;
         I18nContext languageContext = ctx.getLanguageContext();
 
         if (assumeBroken) {

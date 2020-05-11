@@ -122,7 +122,6 @@ public class MantaroAudioManager {
             log.info("STARTUP: Enabled non-allocating buffer.");
             playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         }
-        //playerManager.getConfiguration().setFilterHotSwapEnabled(true);
     }
 
     public static boolean isResultFromCache() {

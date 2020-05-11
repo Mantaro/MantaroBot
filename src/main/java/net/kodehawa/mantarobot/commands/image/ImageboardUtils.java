@@ -249,11 +249,14 @@ public class ImageboardUtils {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
                 .setImage(url)
-                .setDescription(String.format(languageContext.get("commands.imageboard.description_image"), rating.getLongName(), imageboard))
-                .addField(languageContext.get("commands.imageboard.width"), width, true)
+                .setDescription(String.format(languageContext.get("commands.imageboard.description_image"),
+                        rating.getLongName(), imageboard)
+                ).addField(languageContext.get("commands.imageboard.width"), width, true)
                 .addField(languageContext.get("commands.imageboard.height"), height, true)
                 .addField(languageContext.get("commands.imageboard.tags"), "`" + (tags == null ? "None" : tags) + "`", false)
-                .setFooter(languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " + languageContext.get("commands.imageboard.rule34_notice") : ""), null);
+                .setFooter(languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " +
+                        languageContext.get("commands.imageboard.rule34_notice") : ""), null
+                );
 
         channel.sendMessage(builder.build()).queue();
     }

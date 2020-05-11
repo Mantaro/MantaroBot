@@ -21,9 +21,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
+import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +36,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class I18n {
+    private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
+
     public static final List<String> LANGUAGES = new ArrayList<>();
     private static final ThreadLocal<String> ROOT = new ThreadLocal<>();
     private static final Map<String, I18n> LANGUAGE_MAP;
@@ -55,7 +60,10 @@ public class I18n {
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ?> map = (Map<String, ?>) mapper.readValue(is, Map.class);
-                m.put(s.replace(".json", ""), new I18n(map, s));
+                var name = s.replace(".json", "");
+                m.put(name, new I18n(map, s));
+
+                log.debug("Initialized I18n for: {}", name);
             } catch (Exception e) {
                 throw new Error("Unable to initialize I18n", e);
             }

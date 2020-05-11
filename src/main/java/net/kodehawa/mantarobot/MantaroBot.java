@@ -299,4 +299,8 @@ public class MantaroBot {
 
         return true;
     }
+
+    public int getNodeNumber() {
+        return ExtraRuntimeOptions.NODE_NUMBER.orElse(1);
+    }
 }

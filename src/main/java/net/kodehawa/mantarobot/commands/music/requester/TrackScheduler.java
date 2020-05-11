@@ -83,6 +83,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
+
         if (repeatMode == Repeat.SONG && currentTrack != null && !force) {
             queue(currentTrack.makeClone());
         } else {
@@ -138,7 +139,8 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                     getRequestedChannelParsed().sendMessage(
                             new MessageBuilder().append(String.format(language.get("commands.music_general.np_message"),
                                     "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                            String.format(language.get("general.requested_by"), String.format("**%s#%s**", user.getName(), user.getDiscriminator())) : ""))
+                                            String.format(language.get("general.requested_by"),
+                                                    String.format("**%s#%s**", user.getName(), user.getDiscriminator())) : ""))
                                     .stripMentions(getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                                     .build()
                     ).queue(message -> {

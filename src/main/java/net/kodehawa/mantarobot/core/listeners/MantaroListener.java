@@ -829,18 +829,19 @@ public class MantaroListener implements EventListener {
     }
     private void postStats(JDA jda) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            var json = new JSONObject()
+                    .put("guild_count", jda.getGuildCache().size())
+                    .put("cached_users", jda.getUserCache().size())
+                    .put("gateway_ping", jda.getGatewayPing())
+                    .put("shard_status", jda.getStatus())
+                    .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff())
+                    .toString();
+
             jedis.hset("shardstats-" + config.getClientId(),
-                    String.valueOf(jda.getShardInfo().getShardId()),
-                    new JSONObject()
-                            .put("guild_count", jda.getGuildCache().size())
-                            .put("cached_users", jda.getUserCache().size())
-                            .put("gateway_ping", jda.getGatewayPing())
-                            .put("shard_status", jda.getStatus())
-                            .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff())
-                            .toString()
+                    String.valueOf(jda.getShardInfo().getShardId()), json
             );
 
-            log.debug("Sent process shard stats to redis.");
+            log.debug("Sent process shard stats to redis -> {}", json);
         }
     }
 }
