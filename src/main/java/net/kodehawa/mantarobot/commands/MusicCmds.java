@@ -126,7 +126,7 @@ public class MusicCmds {
                     JdaLink link = audioManager.getMusicManager(guild).getLavaLink();
 
                     try {
-                        VoiceChannel vc = guild.getMember(ctx.getAuthor()).getVoiceState().getChannel();
+                        VoiceChannel vc = ctx.getMember().getVoiceState().getChannel();
 
                         if (vc != guild.getMember(ctx.getSelfUser()).getVoiceState().getChannel()) {
                             ctx.sendLocalized("commands.move.attempt", EmoteReference.THINKING);
