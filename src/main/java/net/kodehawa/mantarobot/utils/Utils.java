@@ -91,7 +91,9 @@ public class Utils {
      * @return A string with the first letter capitalized.
      */
     public static String capitalize(String s) {
-        if (s.length() == 0) return s;
+        if (s.length() == 0)
+            return s;
+
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
@@ -108,6 +110,23 @@ public class Utils {
                 TimeUnit.MILLISECONDS.toSeconds(length) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
+    }
+
+    /**
+     * Gets the humanized time.
+     * @param time The time to parse, in ms
+     * @return The humanized time, in the x days, x minutes and x seconds format.
+     */
+    public static String formatDuration(long time) {
+        long days = TimeUnit.MILLISECONDS.toDays(time);
+        long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
+        return ((days == 0 ? "" : days + " day" + (days == 1 ? "" : "s") + ", ") +
+                (hours == 0 ? "" : hours + " hour" + (hours == 1 ? "" : "s") + ", ") +
+                (minutes == 0 ? "" : minutes + " minute" + (minutes == 1 ? "" : "s") + ", ") +
+                (seconds == 0 ? "" : seconds + " second" + (seconds == 1 ? "" : "s")))
+                .replaceAll(", (\\d{1,2} \\S+)$", " and $1");
     }
 
     public static Iterable<String> iterate(Pattern pattern, String string) {
