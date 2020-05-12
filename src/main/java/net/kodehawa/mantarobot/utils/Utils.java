@@ -53,6 +53,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
@@ -167,6 +168,7 @@ public class Utils {
                     if (r.code() != 404) {
                         log.warn("Non 404 code failure for {}: {}", url, r.code());
                     }
+
                     return null;
                 }
                 return r.body().string();
