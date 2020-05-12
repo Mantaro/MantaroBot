@@ -454,15 +454,35 @@ public class Utils {
         return time[0];
     }
 
+    private static String formatUnit(long amount, String baseName) {
+        if(amount == 0) return "";
+        if(amount == 1) return "1 " + baseName;
+        return amount + " " + baseName + "s";
+    }
+
     public static String formatDuration(long time) {
         long days = TimeUnit.MILLISECONDS.toDays(time);
         long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
-        return ((days == 0 ? "" : days + " day" + (days == 1 ? "" : "s") + ", ") +
-                (hours == 0 ? "" : hours + " hour" + (hours == 1 ? "" : "s") + ", ") +
-                (minutes == 0 ? "" : minutes + " minute" + (minutes == 1 ? "" : "s") + ", ") +
-                (seconds == 0 ? "" : seconds + " second" + (seconds == 1 ? "" : "s"))).replaceAll(", (\\d{1,2} \\S+)$", " and $1");
+        var parts = Stream.of(
+                formatUnit(days, "day"), formatUnit(hours, "hour"),
+                formatUnit(minutes, "minute"), formatUnit(seconds, "second")
+        ).filter(i -> !i.isEmpty()).iterator();
+        var sb = new StringBuilder();
+        var multiple = false;
+        while(parts.hasNext()) {
+            sb.append(parts.next());
+            if(parts.hasNext()) {
+                multiple = true;
+                sb.append(", ");
+            }
+        }
+        if(multiple) {
+            var last = sb.lastIndexOf(", ");
+            sb.replace(last, last + 2, " and ");
+        }
+        return sb.toString();
     }
 
     public static Connection newDbConnection() {
