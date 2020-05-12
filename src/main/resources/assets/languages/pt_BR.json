@@ -596,7 +596,7 @@
         "key_locked": "%1$sO usuário que você tentou reivindicar está com uma chave o bloqueando e não pode ser reivindicado.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para reivindicar esta waifu **(Custo: %2$s)**",
         "not_enough_slots": "%1$sVocê não tem slots disponíveis para reivindicar esta waifu. (Total de slots: %2$s, Slots usados: %3$s)",
-        "success": "%1$sReivindicado com sucesso `%2$s` para %3$,d. Espaços usados: %4$s",
+        "success": "%1$sReivindicado com sucesso `%2$s` por %3$,d. Espaços usados: %4$s",
         "yourself": "%1$sVocê não pode reivindicar a si mesmo!",
         "already_claimed": "%1$sVocê já reivindicou esta waifu.",
         "not_found": "%1$sNão consigui encontrar nenhum usuário com essa consulta. "
@@ -1438,7 +1438,7 @@
     "help": {
       "title": "Ajuda da Mantaro",
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nGuias: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Comandos Customizáveis](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Mensagens de Bem-vindo](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
       "support": "[Para ter ajuda, você pode entrar no servidor de suporte](https://support.mantaro.site). [Você pode me seguir no Twitter para atualizações.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
