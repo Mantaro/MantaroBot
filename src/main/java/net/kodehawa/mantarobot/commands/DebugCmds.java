@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -243,15 +244,15 @@ public class DebugCmds {
                 var config = ctx.getConfig();
                 MantaroBot bot = MantaroBot.getInstance();
 
-                long ping = (long) bot.getShardManager()
+                var ping = (long) bot.getShardManager()
                         .getShards().stream().mapToLong(JDA::getGatewayPing).average()
                         .orElse(-1);
                 StringBuilder stringBuilder = new StringBuilder();
 
-                int dead = 0;
-                int reconnecting = 0;
-                int connecting = 0;
-                int high = 0;
+                var dead = 0;
+                var reconnecting = 0;
+                var connecting = 0;
+                var high = 0;
 
                 for (var shard : bot.getShardList()) {
                     if (shard.getNullableJDA() == null) {
@@ -290,6 +291,7 @@ public class DebugCmds {
 
                 long guilds = 0;
                 long users = 0;
+                long clusters = 0;
 
                 try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
                     for(int i = 0; i < config.getTotalShards(); i++) {
@@ -297,13 +299,22 @@ public class DebugCmds {
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
+
+                    clusters = jedis.hlen("node-stats-" + config.getClientId());;
                 }
+
+                var highPing = bot.getShardList().stream().filter(s -> s.getNullableJDA() != null)
+                        //"high" ping shards
+                        .filter(shard -> shard.getJDA().getGatewayPing() > 350)
+                        .map(shard -> shard.getId() + ": " + shard.getJDA().getGatewayPing() + "ms")
+                        .collect(Collectors.joining(", "));
 
                 stringBuilder.append(String.format(
                         "%sUptime: %s\n\n" +
                                 "+ Bot Version: %s\n" +
                                 "+ JDA Version: %s\n" +
                                 "+ LP Version: %s\n\n" +
+                                "* Clusters: %s\n" +
                                 "* Cluster Guilds: %,d (ID: %,d)\n" +
                                 "* Cluster Users: %,d\n" +
                                 "* Average Ping: %,dms\n" +
@@ -316,14 +327,11 @@ public class DebugCmds {
                         EmoteReference.SELL,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()),
                         MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
+                        clusters,
                         ctx.getShardManager().getGuildCache().size(), ctx.getBot().getNodeNumber(),
                         ctx.getShardManager().getUserCache().size(),
                         ping,
-                        bot.getShardList().stream().filter(s -> s.getNullableJDA() != null)
-                                //"high" ping shards
-                                .filter(shard -> shard.getJDA().getGatewayPing() > 350)
-                                .map(shard -> shard.getId() + ": " + shard.getJDA().getGatewayPing() + "ms")
-                                .collect(Collectors.joining(", ")),
+                        highPing.isEmpty() ? "None" : StringUtils.limit(highPing, 700),
                         dead, reconnecting, connecting, high,
                         String.format("%,d", guilds),
                         String.format("%,d", users),
