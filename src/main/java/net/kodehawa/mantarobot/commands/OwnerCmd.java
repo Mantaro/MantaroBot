@@ -538,7 +538,7 @@ public class OwnerCmd {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    APIUtils.getFrom("/patreon/refresh");
+                    APIUtils.getFrom("/mantaroapi/bot/patreon/refresh");
                     ctx.send("Refreshed Patreon pledges successfully.");
                 } catch (Exception e) {
                     ctx.send("Somehow this failed. Pretty sure that just always returned ok...");
