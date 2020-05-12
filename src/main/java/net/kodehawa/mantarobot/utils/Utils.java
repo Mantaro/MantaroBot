@@ -113,6 +113,31 @@ public class Utils {
         );
     }
 
+    public static String formatDuration(long time) {
+        long days = TimeUnit.MILLISECONDS.toDays(time);
+        long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
+        var parts = Stream.of(
+                formatUnit(days, "day"), formatUnit(hours, "hour"),
+                formatUnit(minutes, "minute"), formatUnit(seconds, "second")
+        ).filter(i -> !i.isEmpty()).iterator();
+        var sb = new StringBuilder();
+        var multiple = false;
+        while(parts.hasNext()) {
+            sb.append(parts.next());
+            if(parts.hasNext()) {
+                multiple = true;
+                sb.append(", ");
+            }
+        }
+        if(multiple) {
+            var last = sb.lastIndexOf(", ");
+            sb.replace(last, last + 2, " and ");
+        }
+        return sb.toString();
+    }
+
     public static Iterable<String> iterate(Pattern pattern, String string) {
         return () -> {
             Matcher matcher = pattern.matcher(string);
@@ -462,31 +487,6 @@ public class Utils {
         if(amount == 0) return "";
         if(amount == 1) return "1 " + baseName;
         return amount + " " + baseName + "s";
-    }
-
-    public static String formatDuration(long time) {
-        long days = TimeUnit.MILLISECONDS.toDays(time);
-        long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
-        var parts = Stream.of(
-                formatUnit(days, "day"), formatUnit(hours, "hour"),
-                formatUnit(minutes, "minute"), formatUnit(seconds, "second")
-        ).filter(i -> !i.isEmpty()).iterator();
-        var sb = new StringBuilder();
-        var multiple = false;
-        while(parts.hasNext()) {
-            sb.append(parts.next());
-            if(parts.hasNext()) {
-                multiple = true;
-                sb.append(", ");
-            }
-        }
-        if(multiple) {
-            var last = sb.lastIndexOf(", ");
-            sb.replace(last, last + 2, " and ");
-        }
-        return sb.toString();
     }
 
     public static Connection newDbConnection() {
