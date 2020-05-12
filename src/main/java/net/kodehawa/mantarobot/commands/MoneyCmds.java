@@ -102,7 +102,7 @@ public class MoneyCmds {
                     long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
 
                     ctx.sendLocalized("commands.daily.check", EmoteReference.TALKING,
-                            (rl) > 0 ? Utils.getHumanizedTime(rl) :
+                            (rl) > 0 ? Utils.formatDuration(rl) :
                                     languageContext.get("commands.daily.about_now")
                     );
                     return;

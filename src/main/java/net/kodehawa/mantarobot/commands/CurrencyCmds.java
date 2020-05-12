@@ -531,7 +531,7 @@ public class CurrencyCmds {
                     ctx.getChannel().sendMessage(
                             EmoteReference.STOPWATCH +
                                     String.format(ctx.getLanguageContext().get("commands.transfer.party"), giveTo.getName()) + " (Ratelimited)" +
-                                    "\n **You'll be able to transfer to this user again in " + Utils.getHumanizedTime(partyRateLimiter.tryAgainIn(partyKey))
+                                    "\n **You'll be able to transfer to this user again in " + Utils.formatDuration(partyRateLimiter.tryAgainIn(partyKey))
                                     + ".**"
                     ).queue();
 

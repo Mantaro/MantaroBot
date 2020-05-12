@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -148,9 +149,6 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if (roles.length() > 1020)
-                    roles = roles.substring(0, 1020 - 4) + "...";
-
                 Member owner = guild.getOwner();
                 //This is wank lol
                 if(owner == null)
@@ -163,17 +161,20 @@ public class InfoCmds {
                         .setDescription(String.format(languageContext.get("commands.serverinfo.description"), guild.getName()))
                         .setThumbnail(guild.getIconUrl())
                         .addField(languageContext.get("commands.serverinfo.users"),
-                                (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
+                                (int) guild.getMembers().stream().filter(u ->
+                                        !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
                         .addField(languageContext.get("commands.serverinfo.created"),
-                                guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
+                                guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME)
+                                        .replaceAll("[^0-9.:-]", " "), true)
                         .addField(languageContext.get("commands.serverinfo.channels"),
                                 guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                         .addField(languageContext.get("commands.serverinfo.owner"),
                                 owner.getUser().getName() + "#" + owner.getUser().getDiscriminator(), true)
                         .addField(languageContext.get("commands.serverinfo.region"),
-                                guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") : guild.getRegion().getName(), true)
+                                guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") :
+                                        guild.getRegion().getName(), true)
                         .addField(String.format(languageContext.get("commands.serverinfo.roles"),
-                                guild.getRoles().size()), roles, false)
+                                guild.getRoles().size()), StringUtils.limit(roles, 1016), false)
                         .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
                         .build()
                 );
@@ -597,9 +598,6 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
-                    roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
-
                 var languageContext = ctx.getLanguageContext();
                 String s = String.join("\n",
                         prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
@@ -635,8 +633,9 @@ public class InfoCmds {
                                 user.getName(), user.getDiscriminator()), null, ctx.getAuthor().getEffectiveAvatarUrl()
                         ).setThumbnail(user.getEffectiveAvatarUrl())
                         .setDescription(s)
-                        .addField(String.format(languageContext.get("commands.userinfo.roles"), member.getRoles().size()), roles + ".", true)
-                        .build()
+                        .addField(String.format(languageContext.get("commands.userinfo.roles"),
+                                member.getRoles().size()), StringUtils.limit(roles, 900), true
+                        ).build()
                 );
             }
 

@@ -403,7 +403,7 @@ public class UtilsCmds {
                         displayRemind = Utils.DISCORD_INVITE_2.matcher(displayRemind).replaceAll("discord invite link");
 
                         ctx.sendStrippedLocalized("commands.remindme.success", EmoteReference.CORRECT, ctx.getUser().getName(),
-                                ctx.getUser().getDiscriminator(), displayRemind, Utils.getHumanizedTime(time));
+                                ctx.getUser().getDiscriminator(), displayRemind, Utils.formatDuration(time));
 
                         new Reminder.Builder()
                                 .id(user.getId())
@@ -449,7 +449,7 @@ public class UtilsCmds {
                 AtomicInteger i = new AtomicInteger();
                 for (ReminderObject rems : rms) {
                     builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
-                            .append(Utils.getHumanizedTime(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
+                            .append(Utils.formatDuration(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
                 }
 
                 Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
@@ -483,7 +483,7 @@ public class UtilsCmds {
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
                         DiscordUtils.selectList(ctx.getEvent(), rems,
-                                r -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
+                                r -> String.format("%s, Due in: %s", r.reminder, Utils.formatDuration(r.time - System.currentTimeMillis())),
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(ctx.getLanguageContext().get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
                                         .setFooter(String.format(ctx.getLanguageContext().get("general.timeout"), 10), null).build(),
@@ -596,8 +596,8 @@ public class UtilsCmds {
                         .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                         .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
                         .setColor(Color.GREEN)
-                        .addField(languageContext.get("general.definition"), definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                        .addField(languageContext.get("general.example"), urbanData.getExample().length() > 1000 ? urbanData.getExample().substring(0, 1000) + "..." : urbanData.getExample(), false)
+                        .addField(languageContext.get("general.definition"), StringUtils.limit(definition, 1000), false)
+                        .addField(languageContext.get("general.example"), StringUtils.limit(urbanData.getExample(), 800), false)
                         .addField(":thumbsup:", urbanData.thumbs_up, true)
                         .addField(":thumbsdown:", urbanData.thumbs_down, true)
                         .setFooter(languageContext.get("commands.urban.footer"), null)

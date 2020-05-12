@@ -20,6 +20,7 @@ package net.kodehawa.mantarobot.commands.music.utils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.utils.StringUtils;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
@@ -44,12 +45,11 @@ public class AudioUtils {
 
             User dj = audioTrack.getUserData() != null ? MantaroBot.getInstance().getShardManager()
                     .getUserById(String.valueOf(audioTrack.getUserData())) : null;
-            String title = audioTrack.getInfo().title;
-            if (title.length() > 30) title = title.substring(0, 30) + "...";
+
             sb.append("**")
                     .append(n)
                     .append(". [")
-                    .append(title)
+                    .append(StringUtils.limit(audioTrack.getInfo().title, 30))
                     .append("](")
                     .append(audioTrack.getInfo().uri)
                     .append(")** (")

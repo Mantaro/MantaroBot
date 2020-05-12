@@ -439,17 +439,19 @@ public class DiscordUtils {
             if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
 
-            if (e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
+            String contentRaw = e.getMessage().getContentRaw();
+
+            if (contentRaw.equals("&p <<") || contentRaw.equals("&page <<")) {
                 if (index.get() == 0) return Operation.IGNORED;
 
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-            } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
+            } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) return Operation.IGNORED;
 
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
             }
 
-            if (e.getMessage().getContentRaw().equals("&cancel")) {
+            if (contentRaw.equals("&cancel")) {
                 m.delete().queue();
                 return Operation.COMPLETED;
             }

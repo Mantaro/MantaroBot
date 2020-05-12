@@ -102,85 +102,12 @@ public class Utils {
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
     }
 
-    public static String getVerboseTime(long millis) {
-        return String.format("%02d hours, %02d minutes and %02d seconds",
-                TimeUnit.MILLISECONDS.toHours(millis),
-                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-    }
-
     public static String getDurationMinutes(long length) {
         return String.format("%d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(length),
                 TimeUnit.MILLISECONDS.toSeconds(length) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
-    }
-
-    /**
-     * @param millis How many ms to convert.
-     * @return The humanized time (for example, 2 hours and 3 minutes, or 24 seconds).
-     */
-    public static String getHumanizedTime(long millis) {
-        //What we're dealing with.
-        long days = TimeUnit.MILLISECONDS.toDays(millis);
-        long hours = TimeUnit.MILLISECONDS.toHours(millis) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis));
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
-
-        StringBuilder output = new StringBuilder();
-        //Marks whether it's just one value or more after.
-        boolean leading = false;
-
-        if (days > 0) {
-            output.append(days).append(" ").append((days > 1 ? "days" : "day"));
-            leading = true;
-        }
-
-        if (hours > 0) {
-            //If we have a leading day, and minutes after, append a comma
-            if (leading && (minutes != 0 || seconds != 0)) {
-                output.append(", ");
-            }
-
-            if (!output.toString().isEmpty() && (minutes == 0 && seconds == 0)) { //else, append "and", since it's the end.
-                output.append(" and ");
-            }
-
-            output.append(hours).append(" ").append((hours > 1 ? "hours" : "hour"));
-            leading = true;
-        }
-
-        if (minutes > 0) {
-            //If we have a leading hour, and seconds after, append a comma
-            if (leading && seconds != 0) {
-                output.append(", ");
-            }
-
-            if (!output.toString().isEmpty() && seconds == 0) { //else, append "and", since it's the end.
-                output.append(" and ");
-            }
-
-            //Re-assign, in case we didn't get hours at all.
-            leading = true;
-
-            output.append(minutes).append(" ").append((minutes > 1 ? "minutes" : "minute"));
-        }
-
-        if (seconds > 0) {
-            if (leading) {
-                //We reach our destiny...
-                output.append(" and ");
-            }
-
-            output.append(seconds).append(" ").append((seconds > 1 ? "seconds" : "second"));
-        }
-
-        if (output.toString().isEmpty() && !leading) {
-            output.append("0 seconds (about now)..");
-        }
-
-        return output.toString();
     }
 
     public static Iterable<String> iterate(Pattern pattern, String string) {
@@ -552,7 +479,7 @@ public class Utils {
         if (rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
                     String.format(context.get("general.ratelimit.header"),
-                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.getHumanizedTime(rateLimit.getCooldown()))
+                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.formatDuration(rateLimit.getCooldown()))
                             + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
                             + ((rateLimit.getSpamAttempts() > 4 && spamAware) ? context.get("general.ratelimit.spam_2") : "")
             ).queue();

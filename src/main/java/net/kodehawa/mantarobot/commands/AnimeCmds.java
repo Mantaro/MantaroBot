@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
@@ -204,7 +205,7 @@ public class AnimeCmds {
                 .addField(lang.get("commands.anime.type"), animeType, true)
                 .addField(lang.get("commands.anime.episodes"), episodes, true)
                 .addField(lang.get("commands.anime.episode_duration"), episodeDuration + " " + lang.get("commands.anime.minutes"), true)
-                .addField(lang.get("commands.anime.description"), animeDescription.length() <= 850 ? animeDescription : animeDescription.substring(0, 850) + "...", false);
+                .addField(lang.get("commands.anime.description"), StringUtils.limit(animeDescription, 850), false);
         event.getChannel().sendMessage(embed.build()).queue();
     }
 
@@ -219,7 +220,7 @@ public class AnimeCmds {
             final String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n").replaceAll("\\<.*?>", "")); //This is silly.
 
             final String charDescription = attributes.getDescription() == null || attributes.getDescription().isEmpty() ? lang.get("commands.character.no_info")
-                    : characterDescription.length() <= 1024 ? characterDescription : characterDescription.substring(0, 1020 - 1) + "...";
+                    : StringUtils.limit(characterDescription, 1016);
 
             Player p = MantaroData.db().getPlayer(event.getAuthor());
             Badge badge = APIUtils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);

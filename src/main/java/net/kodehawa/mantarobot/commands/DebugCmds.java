@@ -325,7 +325,7 @@ public class DebugCmds {
                                 "* High Last Event: %,d\n\n" +
                                 "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s",
                         EmoteReference.SELL,
-                        Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()),
+                        Utils.formatDuration(ManagementFactory.getRuntimeMXBean().getUptime()),
                         MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
                         clusters,
                         ctx.getShardManager().getGuildCache().size(), ctx.getBot().getNodeNumber(),
