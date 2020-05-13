@@ -503,9 +503,12 @@ public class Utils {
         if (rateLimit.getTriesLeft() < 1) {
             event.getChannel().sendMessage(
                     String.format(context.get("general.ratelimit.header"),
-                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"), Utils.formatDuration(rateLimit.getCooldown()))
-                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
-                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ? context.get("general.ratelimit.spam_2") : "")
+                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),
+                            Utils.formatDuration(rateLimit.getCooldown()))
+                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n"
+                            + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
+                            context.get("general.ratelimit.spam_2") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.

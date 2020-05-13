@@ -786,7 +786,6 @@ public class MantaroListener implements EventListener {
 
             int c = message.indexOf(':');
             if (c != -1) {
-
                 //Wonky?
                 Matcher matcher = modifierPattern.matcher(message);
                 String m = "none";
@@ -798,28 +797,36 @@ public class MantaroListener implements EventListener {
                 String v = message.substring(c + 1);
                 String r = message.substring(0, c - m.length()).trim();
 
-                if (m.equals("embed")) {
-                    EmbedJSON embed;
-                    try {
-                        embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
-                    } catch (Exception ignored) {
-                        tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                try {
+                    if (m.equals("embed")) {
+                        EmbedJSON embed;
+                        try {
+                            embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+                        } catch (Exception ignored) {
+                            tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                            return;
+                        }
+
+                        MessageBuilder builder = new MessageBuilder()
+                                .setEmbed(embed.gen(null));
+
+                        if (!r.isEmpty())
+                            builder.append(r);
+
+                        builder.sendTo(tc)
+                                .queue(success -> { },
+                                        error -> tc.sendMessage("Failed to send join/leave message.").queue()
+                                );
+
                         return;
                     }
-
-                    MessageBuilder builder = new MessageBuilder()
-                            .setEmbed(embed.gen(null));
-
-                    if (!r.isEmpty())
-                        builder.append(r);
-
-                    builder.sendTo(tc)
-                            .queue(success -> {
-                                    }, error ->
-                                            tc.sendMessage("Failed to send join/leave message.").queue()
-                            );
-
-                    return;
+                } catch (Exception e) {
+                    if(e.getLocalizedMessage().contains("URL must be a valid http(s) or attachment url")) {
+                        tc.sendMessage("Failed to send join/leave message: Wrong image URL in thumbnail, image, footer and/or author.").queue();
+                    } else {
+                        tc.sendMessage("Failed to send join/leave message: Unknown error, try checking your message.").queue();
+                        e.printStackTrace();
+                    }
                 }
             }
 
