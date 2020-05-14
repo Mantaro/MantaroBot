@@ -21,8 +21,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 
 public class CachedMessage {
-    private long author;
-    private String content;
+    private final long author;
+    private final String content;
 
     public CachedMessage(long author, String content) {
         this.author = author;

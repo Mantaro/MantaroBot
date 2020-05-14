@@ -31,11 +31,12 @@ import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
-    private RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+    private final RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
     private static boolean validate(GuildVoiceState state) {
         return state == null || !state.inVoiceChannel();
@@ -46,7 +47,7 @@ public class VoiceChannelListener implements EventListener {
     }
 
     @Override
-    public void onEvent(GenericEvent event) {
+    public void onEvent(@NotNull GenericEvent event) {
         if (event instanceof GuildVoiceMoveEvent) {
             onGuildVoiceMove((GuildVoiceMoveEvent) event);
         } else if (event instanceof GuildVoiceJoinEvent) {
@@ -85,25 +86,27 @@ public class VoiceChannelListener implements EventListener {
             return;
 
         GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-        if (gmm != null) {
-            if (event.isMuted()) {
-                TrackScheduler scheduler = gmm.getTrackScheduler();
-                if (scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
-                    TextChannel tc = scheduler.getRequestedChannelParsed();
-                    //Didn't ratelimit this one because mute can only be done by admins and such? Don't think it'll get abused.
-                    if (tc.canTalk()) {
-                        tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.paused"), EmoteReference.SAD).queue();
-                    }
-                    gmm.getLavaLink().getPlayer().setPaused(true);
+        if(gmm == null)
+            return;
+
+        if (event.isMuted()) {
+            TrackScheduler scheduler = gmm.getTrackScheduler();
+            if (scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
+                TextChannel tc = scheduler.getRequestedTextChannel();
+                //Didn't ratelimit this one because mute can only be done by admins and such? Don't think it'll get abused.
+                if (tc.canTalk()) {
+                    tc.sendMessageFormat(
+                            scheduler.getLanguage().get("commands.music_general.listener.paused"), EmoteReference.SAD
+                    ).queue();
                 }
-            } else {
-                if (!isAlone(vs.getChannel())) {
-                    if (gmm.getTrackScheduler().getCurrentTrack() != null) {
-                        gmm.getLavaLink().getPlayer().setPaused(false);
-                    }
-                }
+                gmm.getLavaLink().getPlayer().setPaused(true);
+            }
+        } else {
+            if (!isAlone(vs.getChannel()) && gmm.getTrackScheduler().getCurrentTrack() != null) {
+                gmm.getLavaLink().getPlayer().setPaused(false);
             }
         }
+
     }
 
     private void onJoin(VoiceChannel vc) {
@@ -113,21 +116,24 @@ public class VoiceChannelListener implements EventListener {
 
         if (!isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
-            if (gmm != null) {
-                TrackScheduler scheduler = gmm.getTrackScheduler();
-                if (scheduler.getCurrentTrack() != null) {
-                    if (gmm.isAwaitingDeath()) {
-                        TextChannel tc = scheduler.getRequestedChannelParsed();
-                        if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
-                            tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.resumed"), EmoteReference.POPPER).queue();
-                        }
+            if(gmm == null)
+                return;
+
+            TrackScheduler scheduler = gmm.getTrackScheduler();
+            if (scheduler.getCurrentTrack() != null) {
+                if (gmm.isAwaitingDeath()) {
+                    TextChannel tc = scheduler.getRequestedTextChannel();
+                    if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
+                        tc.sendMessageFormat(
+                                scheduler.getLanguage().get("commands.music_general.listener.resumed"), EmoteReference.POPPER
+                        ).queue();
                     }
                 }
-
-                gmm.cancelLeave();
-                gmm.setAwaitingDeath(false);
-                gmm.getLavaLink().getPlayer().setPaused(false);
             }
+
+            gmm.cancelLeave();
+            gmm.setAwaitingDeath(false);
+            gmm.getLavaLink().getPlayer().setPaused(false);
         }
     }
 
@@ -138,21 +144,24 @@ public class VoiceChannelListener implements EventListener {
 
         if (isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
-            if (gmm != null) {
-                TrackScheduler scheduler = gmm.getTrackScheduler();
-                if (scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedChannelParsed() != null) {
-                    TextChannel tc = scheduler.getRequestedChannelParsed();
-                    if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
-                        tc.sendMessageFormat(scheduler.getLanguage().get("commands.music_general.listener.left_alone"), EmoteReference.THINKING, vc.getName()).queue(
-                                m -> m.delete().queueAfter(30, TimeUnit.SECONDS)
-                        );
-                    }
-                }
+            if(gmm == null)
+                return;
 
-                gmm.setAwaitingDeath(true);
-                gmm.scheduleLeave();
-                gmm.getLavaLink().getPlayer().setPaused(true);
+            TrackScheduler scheduler = gmm.getTrackScheduler();
+            if (scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
+                TextChannel tc = scheduler.getRequestedTextChannel();
+                if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
+                    tc.sendMessageFormat(scheduler.getLanguage().get(
+                            "commands.music_general.listener.left_alone"), EmoteReference.THINKING, vc.getName()
+                    ).queue(m -> m.delete()
+                            .queueAfter(30, TimeUnit.SECONDS)
+                    );
+                }
             }
+
+            gmm.setAwaitingDeath(true);
+            gmm.scheduleLeave();
+            gmm.getLavaLink().getPlayer().setPaused(true);
         }
     }
 }

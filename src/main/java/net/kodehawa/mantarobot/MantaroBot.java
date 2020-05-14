@@ -143,7 +143,7 @@ public class MantaroBot {
 
         birthdayCacher = new BirthdayCacher();
 
-        LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
+        LogUtils.log("Startup", String.format("Starting up MantaroBot %s\nHold your seatbelts! <3", MantaroInfo.VERSION));
 
         long start = System.currentTimeMillis();
 
