@@ -481,9 +481,10 @@ public class ItemCmds {
                             player.save();
                         }
 
-                        ctx.sendLocalized("commands.repair.success" + "\n" + message,
+                        ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success") + "\n" + message,
                                 EmoteReference.WRENCH, brokenItem.getEmoji(), brokenItem.getName(),
-                                repairedItem.getEmoji(), repairedItem.getName(), repairCost, recipeString.toString().trim()
+                                repairedItem.getEmoji(), repairedItem.getName(), repairCost,
+                                recipeString.toString().trim()
                         );
                     }
                 };
