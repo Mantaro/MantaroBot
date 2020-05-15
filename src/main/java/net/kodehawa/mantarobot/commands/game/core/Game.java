@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -58,28 +59,33 @@ public abstract class Game<T> {
         }
 
         Message message = e.getMessage();
+        String contentRaw = message.getContentRaw();
+        I18nContext languageContext = lobby.getLanguageContext();
 
         for (String s : MantaroData.config().get().getPrefix()) {
-            if (message.getContentRaw().startsWith(s)) {
+            if (contentRaw.startsWith(s)) {
                 return Operation.IGNORED;
             }
         }
 
         if (players.contains(e.getAuthor().getId())) {
-            if (message.getContentRaw().equalsIgnoreCase("end")) {
-                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_game"), EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
+            if (contentRaw.equalsIgnoreCase("end")) {
+                channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_game"),
+                        EmoteReference.CORRECT, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))
+                ).queue();
+
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
-            if (message.getContentRaw().equalsIgnoreCase("endlobby")) {
-                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT).queue();
+            if (contentRaw.equalsIgnoreCase("endlobby")) {
+                channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT).queue();
                 lobby.getGamesToPlay().clear();
                 lobby.startNextGame(true);
                 return Operation.COMPLETED;
             }
 
-            if (expectedAnswer.stream().map(String::valueOf).anyMatch(message.getContentRaw()::equalsIgnoreCase)) {
+            if (expectedAnswer.stream().map(String::valueOf).anyMatch(contentRaw::equalsIgnoreCase)) {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
                 Player player = unifiedPlayer.getPlayer();
                 PlayerData data = player.getData();
@@ -100,7 +106,8 @@ public abstract class Game<T> {
                 unifiedPlayer.save();
 
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                new MessageBuilder().setContent(String.format(lobby.getLanguageContext().get("commands.game.lobby.won_game"), EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
+                new MessageBuilder().setContent(String.format(languageContext.get("commands.game.lobby.won_game"),
+                        EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
                         .stripMentions(e.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                         .sendTo(channel)
                         .queue();
@@ -110,12 +117,18 @@ public abstract class Game<T> {
             }
 
             if (attempts >= maxAttempts) {
-                channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.all_attempts_used"), EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))).queue();
+                channel.sendMessageFormat(languageContext.get("commands.game.lobby.all_attempts_used"),
+                        EmoteReference.ERROR, expectedAnswer.stream().map(String::valueOf).collect(Collectors.joining(", "))
+                ).queue();
+
                 lobby.startNextGame(true); //This should take care of removing the lobby, actually.
                 return Operation.COMPLETED;
             }
 
-            channel.sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby.incorrect_answer"), EmoteReference.ERROR, (maxAttempts - attempts)).queue();
+            channel.sendMessageFormat(languageContext.get("commands.game.lobby.incorrect_answer"),
+                    EmoteReference.ERROR, (maxAttempts - attempts)
+            ).queue();
+
             setAttempts(getAttempts() + 1);
             return Operation.IGNORED;
         }

@@ -40,4 +40,8 @@ public class Lobby {
 
         return getGuild().getTextChannelById(channel);
     }
+
+    public String getChannelId() {
+        return channel;
+    }
 }

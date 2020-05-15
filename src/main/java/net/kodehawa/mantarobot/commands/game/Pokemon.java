@@ -52,8 +52,10 @@ public class Pokemon extends ImageGame {
 
             @Override
             public void onExpire() {
-                if (lobby.getChannel() == null)
+                if (lobby.getChannel() == null) {
+                    GameLobby.LOBBYS.remove(Long.parseLong(lobby.getChannelId()));
                     return;
+                }
 
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(", ", expectedAnswer)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());

@@ -61,8 +61,10 @@ public class Trivia extends Game<String> {
 
             @Override
             public void onExpire() {
-                if (lobby.getChannel() == null)
+                if (lobby.getChannel() == null) {
+                    GameLobby.LOBBYS.remove(Long.parseLong(lobby.getChannelId()));
                     return;
+                }
 
                 lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, expectedAnswer.get(0)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());

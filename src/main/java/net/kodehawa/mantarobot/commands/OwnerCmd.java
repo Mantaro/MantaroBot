@@ -426,7 +426,7 @@ public class OwnerCmd {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Evaluates stuff (A: js/bsh).")
+                        .setDescription("Evaluates stuff (A: java).")
                         .build();
             }
         });

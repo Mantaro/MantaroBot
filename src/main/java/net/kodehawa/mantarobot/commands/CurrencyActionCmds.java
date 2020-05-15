@@ -55,7 +55,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.commands.currency.item.Items.handleDurability;
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class CurrencyActionCmds {

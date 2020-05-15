@@ -97,7 +97,7 @@ public class MoneyCmds {
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 //155
-                // Args: Check -check for duration
+                //Args: Check -check for duration
                 if (args.length > 0 && ctx.getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
                     long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
 
@@ -187,7 +187,7 @@ public class MoneyCmds {
                 long streak = authorPlayerData.getDailyStreak();
 
                 // Not expired?
-                if(currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0 ){ ;
+                if(currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
                     streak++;
                     if(targetOther)
                         returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.given.up"), streak));
@@ -196,7 +196,8 @@ public class MoneyCmds {
                     if(currentDailyOffset < 0){
                         int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
                         authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, streakSaversUsed * -1));
-                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"), streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
+                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"),
+                                streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
                     }
 
                 } else{
@@ -259,12 +260,16 @@ public class MoneyCmds {
 
                 // Sellout
                 if(random.nextBoolean()){
-                    returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") : languageContext.get("commands.daily.sellout.get_premium"));
+                    returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
+                            languageContext.get("commands.daily.sellout.get_premium"));
                 }
                 // Build Message
                 StringBuilder toSend = new StringBuilder((targetOther ?
-                        String.format(languageContext.withRoot("commands", "daily.given_credits"), EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
-                        String.format(languageContext.withRoot("commands", "daily.credits"), EmoteReference.CORRECT, dailyMoney)) + "\n");
+                        String.format(languageContext.withRoot("commands", "daily.given_credits"),
+                                EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
+                        String.format(languageContext.withRoot("commands", "daily.credits"),
+                                EmoteReference.CORRECT, dailyMoney)) + "\n");
+
                 for(String s : returnMessage)
                     toSend.append("\n").append(s);
 
@@ -301,7 +306,7 @@ public class MoneyCmds {
                     .premiumAware(true)
                     .build();
 
-            SecureRandom r = new SecureRandom();
+            final SecureRandom r = new SecureRandom();
 
             @Override
             public void call(Context ctx, String content, String[] args) {
@@ -750,7 +755,9 @@ public class MoneyCmds {
                 toSend = String.join("\n", rows);
 
                 if (isWin) {
-                    message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.win"), gains, money)).append(EmoteReference.POPPER);
+                    message.append(toSend).append("\n\n")
+                            .append(String.format(languageContext.withRoot("commands", "slots.win"), gains, money))
+                            .append(EmoteReference.POPPER);
 
                     stats.incrementSlotsWins();
                     stats.addSlotsWin(gains);

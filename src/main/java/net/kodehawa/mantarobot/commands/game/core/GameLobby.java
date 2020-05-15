@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GameLobby extends Lobby {
-
     public static final Map<Long, GameLobby> LOBBYS = new ConcurrentHashMap<>();
     private static final ExecutorService executorService = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()
