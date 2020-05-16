@@ -18,7 +18,6 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.eventbus.EventBus;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.sentry.Sentry;
@@ -49,6 +48,7 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
@@ -79,7 +79,7 @@ public class MantaroCore {
     private static LoadState loadState = PRELOAD;
     private final Map<Integer, Shard> shards = new ConcurrentHashMap<>();
     private final ExecutorService threadPool = Executors.newCachedThreadPool(
-            new ThreadFactoryBuilder().setNameFormat("Mantaro-Thread-%d").build()
+            Thread.builder().name("Mantaro-Thread-", 0).factory()
     );
     private final Config config;
     private final boolean isDebug;
@@ -168,20 +168,21 @@ public class MantaroCore {
             controller = new BucketedController(bucketFactor, 213468583252983809L);
         }
 
-        var callbackThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("CallbackThread-%d")
-                .setDaemon(true)
-                .build();
-        var gatewayThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("GatewayThread-%d")
-                .setDaemon(true)
-                .setPriority(Thread.MAX_PRIORITY)
-                .build();
-        var requesterThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("RequesterThread-%d")
-                .setDaemon(true)
-                .build();
+        var callbackThreadFactory = Thread.builder()
+                .name("CallbackThread-", 0)
+                .daemon(true)
+                .factory();
+        var gatewayThreadFactory = Thread.builder()
+                .name("GatewayThread-", 0)
+                .daemon(true)
+                .priority(Thread.MAX_PRIORITY)
+                .factory();
+        var requesterThreadFactory = Thread.builder()
+                .name("RequesterThread-", 0)
+                .daemon(true)
+                .factory();
 
+        //TODO: loom based web socket factory?
         try {
             var listener = new ShardStartListener();
             DefaultShardManagerBuilder builder;
@@ -212,13 +213,16 @@ public class MantaroCore {
                     .setLargeThreshold(100)
                     .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
-
-
+            
             if (isDebug) {
+                var callback = maybeLoom("CallbackThread", 1, callbackThreadFactory);
+                var gateway = maybeLoomScheduled("GatewayThread", 1, gatewayThreadFactory);
+                var rateLimit = maybeLoomScheduled("RateLimitThread", 2, requesterThreadFactory);
+                
                 builder.setShardsTotal(2)
-                        .setCallbackPool(Executors.newFixedThreadPool(1, callbackThreadFactory), true)
-                        .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
-                        .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
+                        .setCallbackPool(callback, true)
+                        .setGatewayPool(gateway, true)
+                        .setRateLimitPool(rateLimit, true);
             } else {
                 if(config.totalShards != 0) {
                     if (ExtraRuntimeOptions.SHARD_SUBSET) {
@@ -378,6 +382,28 @@ public class MantaroCore {
             }, 0, 1, TimeUnit.HOURS);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
+        }
+    }
+    
+    private ExecutorService maybeLoom(String name, int size, ThreadFactory fallbackFactory) {
+        if(MantaroData.config().get().useLoomJDAPools()) {
+            var factory = Thread.builder().virtual(threadPool)
+                                  .name(name + "-", 0)
+                                  .factory();
+            return Executors.newUnboundedExecutor(factory);
+        } else {
+            return Executors.newFixedThreadPool(size, fallbackFactory);
+        }
+    }
+    
+    private ScheduledExecutorService maybeLoomScheduled(String name, int size, ThreadFactory fallbackFactory) {
+        if(MantaroData.config().get().useLoomJDAPools()) {
+            var factory = Thread.builder().virtual(threadPool)
+                                  .name(name + "-", 0)
+                                  .factory();
+            return Executors.newScheduledThreadPool(size, factory);
+        } else {
+            return Executors.newScheduledThreadPool(size, fallbackFactory);
         }
     }
     

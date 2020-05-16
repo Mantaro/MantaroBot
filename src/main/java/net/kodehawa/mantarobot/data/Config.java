@@ -62,6 +62,7 @@ public class Config {
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean lazyLoading = false;
+    public boolean loomJDAPools;
 
     public Config() { }
 
@@ -363,5 +364,13 @@ public class Config {
 
     public void setLazyLoading(boolean lazyLoading) {
         this.lazyLoading = lazyLoading;
+    }
+    
+    public boolean useLoomJDAPools() {
+        return loomJDAPools;
+    }
+    
+    public void setLoomJDAPools(boolean loomJDAPools) {
+        this.loomJDAPools = loomJDAPools;
     }
 }
