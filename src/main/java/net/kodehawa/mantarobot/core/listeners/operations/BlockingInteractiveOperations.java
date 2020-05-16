@@ -109,7 +109,7 @@ public class BlockingInteractiveOperations {
         } finally {
             set.remove(op);
             OPS.compute(channelId, (__, curr) -> {
-                if(curr == set && set.isEmpty()) throw new UnsupportedOperationException();
+                if(curr == set && set.isEmpty()) return null;
                 return curr;
             });
         }
