@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -196,11 +197,13 @@ public class MantaroCore {
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                            listener
+                            listener, BlockingInteractiveOperations.listener()
                     )
                     .addEventListenerProviders(List.of(
-                            id -> new CommandListener(commandProcessor, threadPool, getShard(id).getMessageCache()),
-                            id -> new MantaroListener(threadPool, getShard(id).getMessageCache()),
+                            id -> new CommandListener(commandProcessor,
+                                    loomExecutor("Command-VThread"), getShard(id).getMessageCache()),
+                            id -> new MantaroListener(loomExecutor("Mantaro-VThread"),
+                                    getShard(id).getMessageCache()),
                             id -> getShard(id).getListener()
                     ))
                     .setEventManagerProvider(id -> getShard(id).getManager())
@@ -376,6 +379,13 @@ public class MantaroCore {
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
+    }
+    
+    private Executor loomExecutor(String name) {
+        var factory = Thread.builder().virtual(threadPool)
+                       .name(name + "-", 0)
+                       .factory();
+        return task -> factory.newThread(task).start();
     }
 
     private static class ShardStartListener implements EventListener {

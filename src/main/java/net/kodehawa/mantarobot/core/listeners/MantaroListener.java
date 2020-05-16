@@ -69,15 +69,13 @@ import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -123,9 +121,9 @@ public class MantaroListener implements EventListener {
 
     private static int logTotal = 0;
     private final ManagedDatabase db = MantaroData.db();
-    private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
     private final SecureRandom rand = new SecureRandom();
-    private final ExecutorService threadPool;
+    private final Executor executor;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
 
     private final Pattern modifierPattern = Pattern.compile("\\b\\p{L}*:\\b");
@@ -134,8 +132,8 @@ public class MantaroListener implements EventListener {
     private final List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
     private final Config config = MantaroData.config().get();
 
-    public MantaroListener(ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
-        this.threadPool = threadPool;
+    public MantaroListener(Executor executor, Cache<Long, Optional<CachedMessage>> messageCache) {
+        this.executor = executor;
         this.messageCache = messageCache;
     }
 
@@ -175,12 +173,12 @@ public class MantaroListener implements EventListener {
         }
 
         if (event instanceof GuildMemberJoinEvent) {
-            threadPool.execute(() -> onUserJoin((GuildMemberJoinEvent) event));
+            executor.execute(() -> onUserJoin((GuildMemberJoinEvent) event));
             return;
         }
 
         if (event instanceof GuildMemberRemoveEvent) {
-            threadPool.execute(() -> onUserLeave((GuildMemberRemoveEvent) event));
+            executor.execute(() -> onUserLeave((GuildMemberRemoveEvent) event));
             return;
         }
 
@@ -283,7 +281,7 @@ public class MantaroListener implements EventListener {
     private void handleNewPatron(GuildMemberRoleAddEvent event) {
         //Only in mantaro's guild...
         if (event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
-            threadPool.execute(() -> {
+            executor.execute(() -> {
                 User user = event.getUser();
                 //who...
                 DBUser dbUser = db.getUser(user);
@@ -321,7 +319,7 @@ public class MantaroListener implements EventListener {
     }
 
     private void logBan(GuildBanEvent event) {
-        String hour = df.format(new Date(System.currentTimeMillis()));
+        String hour = dtf.format(OffsetDateTime.now());
         GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
         String logChannel = data.getGuildLogChannel();
         if (logChannel != null) {
@@ -345,7 +343,7 @@ public class MantaroListener implements EventListener {
 
     private void logDelete(GuildMessageDeleteEvent event) {
         try {
-            String hour = df.format(new Date(System.currentTimeMillis()));
+            String hour = dtf.format(OffsetDateTime.now());
             final ManagedDatabase db = MantaroData.db();
 
             final DBGuild dbGuild = db.getGuild(event.getGuild());
@@ -403,7 +401,7 @@ public class MantaroListener implements EventListener {
 
     private void logEdit(GuildMessageUpdateEvent event) {
         try {
-            String hour = df.format(new Date(System.currentTimeMillis()));
+            String hour = dtf.format(OffsetDateTime.now());
             final ManagedDatabase db = MantaroData.db();
             final GuildData guildData = db.getGuild(event.getGuild()).getData();
             String logChannel = guildData.getGuildLogChannel();
@@ -475,7 +473,7 @@ public class MantaroListener implements EventListener {
 
     private void logUnban(GuildUnbanEvent event) {
         try {
-            String hour = df.format(new Date(System.currentTimeMillis()));
+            String hour = dtf.format(OffsetDateTime.now());
             GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
             String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
@@ -621,7 +619,7 @@ public class MantaroListener implements EventListener {
             //Has link protection enabled, let's check if they don't have admin stuff.
             if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 //Check if invite is valid. This is async because hasInvite uses complete sometimes.
-                threadPool.execute(() -> {
+                executor.execute(() -> {
                     //If this message has an invite and it's not an invite to the same guild it was sent on, proceed to delete.
                     if (hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                         Member bot = event.getGuild().getSelfMember();
@@ -659,7 +657,7 @@ public class MantaroListener implements EventListener {
         try {
             String role = data.getGuildAutoRole();
 
-            String hour = df.format(new Date(System.currentTimeMillis()));
+            String hour = dtf.format(OffsetDateTime.now());
             if (role != null) {
                 try {
                     if (!(user.isBot() && data.isIgnoreBotsAutoRole())) {
@@ -723,7 +721,7 @@ public class MantaroListener implements EventListener {
         GuildData data = dbg.getData();
 
         try {
-            String hour = df.format(new Date(System.currentTimeMillis()));
+            String hour = dtf.format(OffsetDateTime.now());
 
             if (event.getUser().isBot() && data.isIgnoreBotsWelcomeMessage()) {
                 return;

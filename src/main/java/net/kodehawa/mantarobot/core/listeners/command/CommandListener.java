@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 public class CommandListener implements EventListener {
@@ -60,12 +60,12 @@ public class CommandListener implements EventListener {
     private static int commandTotal = 0;
     private final Random random = new Random();
     private final ICommandProcessor commandProcessor;
-    private final ExecutorService threadPool;
+    private final Executor executor;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
 
-    public CommandListener(ICommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
+    public CommandListener(ICommandProcessor processor, Executor executor, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.commandProcessor = processor;
-        this.threadPool = threadPool;
+        this.executor = executor;
         this.messageCache = messageCache;
     }
 
@@ -87,8 +87,8 @@ public class CommandListener implements EventListener {
             //Ignore myself and bots.
             if (msg.getAuthor().isBot() || msg.isWebhookMessage() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))
                 return;
-
-            threadPool.execute(() -> onCommand(msg));
+    
+            executor.execute(() -> onCommand(msg));
         }
     }
 
