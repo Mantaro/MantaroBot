@@ -20,7 +20,6 @@ package net.kodehawa.mantarobot.commands.action;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.tuple.Pair;
@@ -37,9 +36,7 @@ public class WeebAPIRequester {
     private static final String API_BASE_URL = "https://api.weeb.sh/images";
     private final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
     private final String RANDOM_IMAGE = "/random";
-
-    private final OkHttpClient httpClient = new OkHttpClient();
-
+    
     public Pair<String, String> getRandomImageByType(String type, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("type", type);
@@ -108,7 +105,7 @@ public class WeebAPIRequester {
                     .addHeader("Authorization", AUTH_HEADER)
                     .build();
 
-            Response r1 = httpClient.newCall(r).execute();
+            Response r1 = Utils.httpClient.newCall(r).execute();
             String response = r1.body().string();
 
             r1.close();

@@ -207,6 +207,7 @@ public class MantaroCore {
                                     getShard(id).getMessageCache()),
                             id -> getShard(id).getListener()
                     ))
+                    .setHttpClient(Utils.httpClient)
                     .setEventManagerProvider(id -> getShard(id).getManager())
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
@@ -387,10 +388,7 @@ public class MantaroCore {
     
     private ExecutorService maybeLoom(String name, int size, ThreadFactory fallbackFactory) {
         if(MantaroData.config().get().useLoomJDAPools()) {
-            var factory = Thread.builder().virtual(threadPool)
-                                  .name(name + "-", 0)
-                                  .factory();
-            return Executors.newUnboundedExecutor(factory);
+            return loomExecutor(name);
         } else {
             return Executors.newFixedThreadPool(size, fallbackFactory);
         }
@@ -407,11 +405,11 @@ public class MantaroCore {
         }
     }
     
-    private Executor loomExecutor(String name) {
+    private ExecutorService loomExecutor(String name) {
         var factory = Thread.builder().virtual(threadPool)
                        .name(name + "-", 0)
                        .factory();
-        return task -> factory.newThread(task).start();
+        return Executors.newUnboundedExecutor(factory);
     }
 
     private static class ShardStartListener implements EventListener {

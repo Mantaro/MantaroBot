@@ -47,6 +47,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -61,7 +62,7 @@ import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_M
 
 public class Utils {
     public static final Map<Long, AtomicInteger> ratelimitedUsers = new ConcurrentHashMap<>();
-    public static final OkHttpClient httpClient = new OkHttpClient();
+    public static final OkHttpClient httpClient;
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
 
     //The regex to filter discord invites.
@@ -85,6 +86,19 @@ public class Utils {
     private static final Config config = MantaroData.config().get();
     private static final Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
 
+    static {
+        var factory = Thread.builder().virtual()
+                              .name("OkHttpVThread-", 0)
+                              .factory();
+        //jda defaults but loom
+        var dispatcher = new Dispatcher(Executors.newUnboundedExecutor(factory));
+        dispatcher.setMaxRequestsPerHost(25);
+        httpClient = new OkHttpClient.Builder()
+                             .dispatcher(dispatcher)
+                             .connectionPool(new ConnectionPool(5, 10, TimeUnit.SECONDS))
+                             .build();
+    }
+    
     /**
      * Capitalizes the first letter of a string.
      *
