@@ -38,8 +38,9 @@ mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 def ver = new Version(major: 5, minor: 5, revision: 5)
 version ver.toString()
 
-sourceCompatibility = 11
-targetCompatibility = 11
+//for loom
+sourceCompatibility = 15
+targetCompatibility = 15
 
 repositories {
     mavenLocal()
@@ -212,7 +213,7 @@ tasks.withType(JavaCompile) {
     options.incremental = true
 }
 
-build.dependsOn shadowJar
+//build.dependsOn shadowJar
 
 shadowJar {
     classifier = null

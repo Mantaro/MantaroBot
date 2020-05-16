@@ -66,6 +66,7 @@ public class OwnerCmd {
             "import net.kodehawa.mantarobot.core.modules.commands.base.Context;\n" +
             "import net.kodehawa.mantarobot.*;\n" +
             "import net.kodehawa.mantarobot.core.listeners.operations.*;\n" +
+            "import net.kodehawa.mantarobot.core.listeners.operations.core.*;\n" +
             "import net.kodehawa.mantarobot.data.*;\n" +
             "import net.kodehawa.mantarobot.db.*;\n" +
             "import net.kodehawa.mantarobot.db.entities.*;\n" +
