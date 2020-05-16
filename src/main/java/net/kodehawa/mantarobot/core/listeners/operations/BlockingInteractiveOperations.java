@@ -52,6 +52,21 @@ public class BlockingInteractiveOperations {
         return LISTENER;
     }
     
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message wait(long channelId, long userId, long timeout, @Nonnull TimeUnit unit) {
+        return wait(channelId, userId, null, timeout, unit);
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
     @Nullable
     public static Message wait(long channelId, long userId, @Nullable BlockingOperationFilter filter, long timeout, @Nonnull TimeUnit unit) {
         if(!Thread.currentThread().isVirtual()) {
@@ -66,8 +81,6 @@ public class BlockingInteractiveOperations {
         var set = OPS.compute(channelId, (__, s) -> {
             if(s == null) {
                 s = ConcurrentHashMap.newKeySet(1);
-                s.add(op);
-                return s;
             } else {
                 s.removeIf(o -> {
                     if(o.userId == userId) {
@@ -77,9 +90,9 @@ public class BlockingInteractiveOperations {
                     }
                     return false;
                 });
-                s.add(op);
-                return s;
             }
+            s.add(op);
+            return s;
         });
     
         try {
