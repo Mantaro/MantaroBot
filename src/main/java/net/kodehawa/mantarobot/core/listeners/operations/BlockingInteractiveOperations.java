@@ -120,6 +120,7 @@ public class BlockingInteractiveOperations {
         private final long userId;
         private final BlockingOperationFilter filter;
         private volatile boolean cancelled;
+        private volatile boolean done;
     
         private RunningOperation(long userId, BlockingOperationFilter filter) {
             this.userId = userId;
@@ -146,9 +147,11 @@ public class BlockingInteractiveOperations {
                 return;
     
             for(var op : set) {
+                //don't risk blocking forever on a finished operation
+                if(op.done) continue;
                 var res = op.filter.test(message);
                 switch(res) {
-                    case ACCEPT: op.queue.offer(message); break;
+                    case ACCEPT: op.done = true; op.queue.offer(message); break;
                     case IGNORE: break;
                     case RESET_TIMEOUT: op.queue.offer(RECHECK_CONDITIONS); break;
                 }
