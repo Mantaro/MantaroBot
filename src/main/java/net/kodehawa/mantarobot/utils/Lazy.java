@@ -17,9 +17,12 @@
 
 package net.kodehawa.mantarobot.utils;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.StampedLock;
 import java.util.function.Supplier;
 
 public class Lazy<T> implements Supplier<T> {
+    private final Lock lock = new StampedLock().asWriteLock();
     private final Supplier<T> supplier;
     private T value;
     private boolean set;
@@ -32,12 +35,15 @@ public class Lazy<T> implements Supplier<T> {
         if (set) {
             return value;
         }
-        synchronized (this) {
+        lock.lock();
+        try {
             if (set) return value;
             T v = supplier.get();
             value = v;
             set = true;
             return v;
+        } finally {
+            lock.unlock();
         }
     }
 }

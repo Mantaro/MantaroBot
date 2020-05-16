@@ -62,7 +62,7 @@ public class Shard {
         this.id = id;
         this.listener = new ListenerAdapter() {
             @Override
-            public synchronized void onReady(@Nonnull ReadyEvent event) {
+            public void onReady(@Nonnull ReadyEvent event) {
                 jda = event.getJDA();
                 if (statusChange != null) {
                     statusChange.cancel(true);

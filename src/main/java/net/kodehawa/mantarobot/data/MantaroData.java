@@ -29,10 +29,13 @@ import redis.clients.jedis.JedisPool;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.StampedLock;
 
 import static com.rethinkdb.RethinkDB.r;
 
 public class MantaroData {
+    private static final Lock CONNECTION_LOCK = new StampedLock().asWriteLock();
     private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build());
     private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
     private static GsonDataManager<Config> config;
@@ -53,12 +56,15 @@ public class MantaroData {
     }
 
     public static Connection conn() {
-        Config c = config().get();
         if (conn == null) {
-            synchronized (MantaroData.class) {
+            CONNECTION_LOCK.lock();
+            try {
                 if (conn != null) return conn;
+                Config c = config().get();
                 conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
                 log.info("Established first database connection to {}:{} ({})", c.dbHost, c.dbPort, c.dbUser);
+            } finally {
+                CONNECTION_LOCK.unlock();
             }
         }
         return conn;
