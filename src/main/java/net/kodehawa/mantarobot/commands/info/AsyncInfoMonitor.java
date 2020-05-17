@@ -151,6 +151,7 @@ public class AsyncInfoMonitor {
                                 .put("machine_used_memory", vpsMaxMemory - vpsFreeMemory)
                                 .put("guild_count", MantaroBot.getInstance().getShardManager().getGuildCache().size())
                                 .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
+                                .put("shard_slice", MantaroBot.getInstance().getShardSlice())
                                 .toString()
                 );
             }

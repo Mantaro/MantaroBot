@@ -300,6 +300,14 @@ public class MantaroBot {
         return true;
     }
 
+    public String getShardSlice() {
+        if(ExtraRuntimeOptions.SHARD_SUBSET) {
+            return ExtraRuntimeOptions.FROM_SHARD + " to " + ExtraRuntimeOptions.TO_SHARD;
+        } else {
+            return "0 to " + getShardManager().getShardsTotal();
+        }
+    }
+
     public int getNodeNumber() {
         return ExtraRuntimeOptions.NODE_NUMBER.orElse(0);
     }

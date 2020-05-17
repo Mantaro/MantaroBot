@@ -495,6 +495,7 @@ public class InfoCmds {
                                     "**CPU Usage**: %s\n" +
                                     "**Memory**: %s\n" +
                                     "**Threads**: %s\n" +
+                                    "**Shards**: %s\n" +
                                     "**Guilds**: %s\n" +
                                     "**Users**: %s\n" +
                                     "**Machine Memory**: %s\n",
@@ -503,6 +504,7 @@ public class InfoCmds {
                                     nodeData.getLong("machine_cpu_usage") + "%",
                                     Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
                                     nodeData.getLong("thread_count"),
+                                    nodeData.getString("shard_slice"),
                                     nodeData.getLong("guild_count"),
                                     nodeData.getLong("user_count"),
                                     Utils.formatMemoryAmount(nodeData.getLong("machine_total_memory"))),
