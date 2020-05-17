@@ -481,7 +481,7 @@ public class InfoCmds {
 
                 var embed = new EmbedBuilder().setTitle("Mantaro Node Statistics")
                         .setDescription("This shows the current status of the online nodes. " +
-                                "Every node contains a set amount of servers and users.")
+                                "Every node contains a set amount of shards.")
                         .setThumbnail(ctx.getSelfUser().getAvatarUrl())
                         .setColor(Color.PINK)
                         .setFooter("Available Nodes: " + nodeMap.size());
