@@ -296,7 +296,7 @@ public class OwnerCmd {
                     return;
                 }
 
-                Player p = ctx.getPlayer();
+                Player p = ctx.getPlayer(user);
                 p.getData().addBadgeIfAbsent(badge);
                 p.saveAsync();
 
