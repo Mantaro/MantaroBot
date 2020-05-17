@@ -94,7 +94,6 @@ public class InfoCmds {
         });
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     @Subscribe
     public void language(CommandRegistry cr) {
         cr.register("lang", new SimpleCommand(Category.INFO) {
@@ -483,12 +482,17 @@ public class InfoCmds {
 
                     RemoteStats stats = node.getStats();
                     fields.add(new MessageEmbed.Field(node.getName(),
-                            "Uptime: " + Utils.formatDuration(stats.getUptime()) + "\n"
-                                    + "Memory Used: " + Utils.formatMemoryAmount(stats.getMemUsed()) + "\n"
-                                    + "Memory Free: " + Utils.formatMemoryAmount(stats.getMemFree()) + "\n"
-                                    + "Players: " + stats.getPlayers() + "\n"
-                                    + "Playing Players: " + stats.getPlayingPlayers(),
-                            false
+                            String.format("Uptime: %s\n" +
+                                    "Memory Used: %s\n" +
+                                    "Memory Free: %s\n" +
+                                    "Players: %,d\n" +
+                                    "Players Playing: %,d",
+                                    Utils.formatDuration(stats.getUptime()),
+                                    Utils.formatMemoryAmount(stats.getMemUsed()),
+                                    Utils.formatMemoryAmount(stats.getMemFree()),
+                                    stats.getPlayers(),
+                                    stats.getPlayingPlayers()
+                            ), false
                     ));
                 }
 

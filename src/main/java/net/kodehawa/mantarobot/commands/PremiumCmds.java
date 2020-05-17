@@ -341,7 +341,7 @@ public class PremiumCmds {
                                                             data.getKeysClaimed().entrySet().stream().map(entry ->
                                                                     "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n")
                                                             )
-                                                    ), patreonAmount, amountClaimed, (amountClaimed / 2)
+                                                    ), patreonAmount, amountClaimed, (patreonAmount / 2)
                                             )
                                     );
                                 }

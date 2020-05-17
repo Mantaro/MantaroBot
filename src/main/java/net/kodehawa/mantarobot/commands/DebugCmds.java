@@ -303,7 +303,7 @@ public class DebugCmds {
 
                 try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
-                    for (Map.Entry<String, String> shards : stats.entrySet()) {
+                    for (var shards : stats.entrySet()) {
                         var json = new JSONObject(shards.getValue());
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
