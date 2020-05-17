@@ -541,11 +541,11 @@ public class InfoCmds {
 
                     RemoteStats stats = node.getStats();
                     fields.add(new MessageEmbed.Field(node.getName(),
-                            String.format("Uptime: %s\n" +
-                                    "Memory Used: %s\n" +
-                                    "Memory Free: %s\n" +
-                                    "Players: %,d\n" +
-                                    "Players Playing: %,d",
+                            String.format("**Uptime**: %s\n" +
+                                    "**Used Memory**: %s\n" +
+                                    "**Free Memory**: %s\n" +
+                                    "**Players**: %,d\n" +
+                                    "**Players Playing**: %,d",
                                     Utils.formatDuration(stats.getUptime()),
                                     Utils.formatMemoryAmount(stats.getMemUsed()),
                                     Utils.formatMemoryAmount(stats.getMemFree()),
