@@ -237,6 +237,10 @@ public class Config {
         this.spambotUrl = spambotUrl;
     }
 
+    public boolean hasWeebapiKey() {
+        return this.weebapiKey != null;
+    }
+
     public String getWeebapiKey() {
         return this.weebapiKey;
     }
