@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 import java.util.Map;
@@ -230,5 +231,9 @@ public class Context {
                 .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
                 .sendTo(getChannel())
                 .queue();
+    }
+
+    public JedisPool getJedisPool() {
+        return MantaroData.getDefaultJedisPool();
     }
 }

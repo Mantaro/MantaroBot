@@ -50,6 +50,8 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import org.json.JSONObject;
+import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
@@ -446,21 +448,75 @@ public class InfoCmds {
             protected void call(Context ctx, String content) {
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                ctx.send(
-                        new EmbedBuilder()
+                ctx.send(new EmbedBuilder()
                                 .setAuthor(languageContext.get("commands.stats.usage.header"), null, ctx.getSelfUser().getAvatarUrl())
                                 .setDescription(languageContext.get("commands.stats.usage.description"))
                                 .setThumbnail(ctx.getSelfUser().getAvatarUrl())
-                                .addField(languageContext.get("commands.stats.usage.threads"), getThreadCount() + " Threads", false)
-                                .addField(languageContext.get("commands.stats.usage.memory_usage"), Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()), false)
-                                .addField(languageContext.get("commands.stats.usage.cores"), getAvailableProcessors() + " Cores", true)
-                                .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
-                                .addField(languageContext.get("commands.stats.usage.assigned_mem"), Utils.formatMemoryAmount(getTotalMemory()), false)
-                                .addField(languageContext.get("commands.stats.usage.assigned_remaining"), Utils.formatMemoryAmount(getFreeMemory()), true)
+                                .addField(languageContext.get("commands.stats.usage.threads"),
+                                        getThreadCount() + " Threads", false)
+                                .addField(languageContext.get("commands.stats.usage.memory_usage"),
+                                        Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()), false)
+                                .addField(languageContext.get("commands.stats.usage.cores"),
+                                        getAvailableProcessors() + " Cores", true)
+                                .addField(languageContext.get("commands.stats.usage.cpu_usage"),
+                                        String.format("%.2f", getInstanceCPUUsage()) + "%", true)
+                                .addField(languageContext.get("commands.stats.usage.assigned_mem"),
+                                        Utils.formatMemoryAmount(getTotalMemory()), false)
+                                .addField(languageContext.get("commands.stats.usage.assigned_remaining"),
+                                        Utils.formatMemoryAmount(getFreeMemory()), true)
                                 .build()
                 );
 
                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(4, 5);
+            }
+        });
+
+        statsCommand.addSubCommand("nodes", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                Map<String, String> nodeMap;
+                try (Jedis jedis = ctx.getJedisPool().getResource()) {
+                    nodeMap = jedis.hgetAll("node-stats-" + ctx.getConfig().getClientId());
+                }
+
+                var embed = new EmbedBuilder().setTitle("Mantaro Node Statistics")
+                        .setDescription("This shows the current status of the online nodes. " +
+                                "Every node contains a set amount of servers and users.")
+                        .setThumbnail(ctx.getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setFooter("Available Nodes: " + nodeMap.size());
+
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                for(var node : nodeMap.entrySet()) {
+                    var nodeData = new JSONObject(node.getValue());
+                    fields.add(new MessageEmbed.Field("Node " + node.getKey(),
+                            String.format("**Uptime**: %s\n" +
+                                    "**CPU Cores**: %s\n" +
+                                    "**CPU Usage**: %s\n" +
+                                    "**Memory**: %s\n" +
+                                    "**Threads**: %s\n" +
+                                    "**Guilds**: %s\n" +
+                                    "**Users**: %s\n" +
+                                    "**Machine Memory**: %s\n",
+                                    Utils.formatDuration(nodeData.getLong("uptime")),
+                                    nodeData.getLong("available_processors"),
+                                    nodeData.getLong("machine_cpu_usage") + "%",
+                                    Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
+                                    nodeData.getLong("thread_count"),
+                                    nodeData.getLong("guild_count"),
+                                    nodeData.getLong("user_count"),
+                                    Utils.formatMemoryAmount(nodeData.getLong("machine_total_memory"))),
+                            false
+                    ));
+                }
+
+                var splitFields = DiscordUtils.divideFields(3, fields);
+                boolean hasReactionPerms = ctx.hasReactionPerms();
+
+                if (hasReactionPerms)
+                    DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
+                else
+                    DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
             }
         });
 
@@ -470,7 +526,10 @@ public class InfoCmds {
                 List<LavalinkSocket> nodes = ctx.getBot().getLavaLink().getNodes();
                 var embed = new EmbedBuilder();
                 embed.setTitle("Lavalink Node Statistics")
-                        .setThumbnail(ctx.getGuild().getIconUrl())
+                        .setDescription("This shows the current status of the online Lavalink nodes. " +
+                                "Every node contains a dynamic amount of players. This is for balancing music processes " +
+                                "outside of the main bot nodes.")
+                        .setThumbnail(ctx.getSelfUser().getAvatarUrl())
                         .setColor(Color.PINK)
                         .setFooter("Available Nodes: " + nodes.size());
 
@@ -496,41 +555,13 @@ public class InfoCmds {
                     ));
                 }
 
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(3, fields);
+                var splitFields = DiscordUtils.divideFields(3, fields);
                 boolean hasReactionPerms = ctx.hasReactionPerms();
 
                 if (hasReactionPerms)
                     DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
                 else
                     DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
-            }
-        });
-
-        statsCommand.addSubCommand("server", new SubCommand() {
-            @Override
-            public String description() {
-                return "The bot's hardware usage";
-            }
-
-            @Override
-            protected void call(Context ctx, String content) {
-                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(4, 5);
-                var languageContext = ctx.getLanguageContext();
-
-                EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.stats.server.header"), null, ctx.getSelfUser().getAvatarUrl())
-                        .setThumbnail(ctx.getSelfUser().getAvatarUrl())
-                        .addField(languageContext.get("commands.stats.server.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
-                        .addField(languageContext.get("commands.stats.server.rem"),
-                                String.format(
-                                        "%s/%s/%s",
-                                        Utils.formatMemoryAmount(getVpsMaxMemory()),
-                                        Utils.formatMemoryAmount(getVpsFreeMemory()),
-                                        Utils.formatMemoryAmount(getVpsUsedMemory())
-                                ), false
-                        );
-
-                ctx.send(embedBuilder.build());
             }
         });
 

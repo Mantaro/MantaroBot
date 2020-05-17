@@ -71,7 +71,7 @@ public class DebugCmds {
                 var clusterTotal = 0L;
                 var players = 0L;
 
-                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
                     for (var shards : stats.entrySet()) {
                         var json = new JSONObject(shards.getValue());
@@ -300,7 +300,7 @@ public class DebugCmds {
                 long users = 0;
                 long clusters = 0;
 
-                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
                     for (var shards : stats.entrySet()) {
                         var json = new JSONObject(shards.getValue());

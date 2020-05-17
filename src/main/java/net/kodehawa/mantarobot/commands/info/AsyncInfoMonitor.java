@@ -137,20 +137,24 @@ public class AsyncInfoMonitor {
                 j.hset(nodeSetName,
                         "node-" + MantaroBot.getInstance().getNodeNumber(),
                         new JSONObject()
+                                .put("uptime", ManagementFactory.getRuntimeMXBean().getUptime())
                                 .put("thread_count", threadCount)
                                 .put("available_processors", r.availableProcessors())
                                 .put("free_memory", Runtime.getRuntime().freeMemory())
                                 .put("max_memory", Runtime.getRuntime().maxMemory())
                                 .put("total_memory", Runtime.getRuntime().totalMemory())
+                                .put("used_memory", getTotalMemory() - getFreeMemory())
                                 .put("cpu_usage", calculateCpuUsage(os))
                                 .put("machine_cpu_usage", getInstanceCPUUsage(os))
                                 .put("machine_free_memory", calculateVPSFreeMemory(os))
                                 .put("machine_total_memory", calculateVPSMaxMemory(os))
                                 .put("machine_used_memory", vpsMaxMemory - vpsFreeMemory)
+                                .put("guild_count", MantaroBot.getInstance().getShardManager().getGuildCache().size())
+                                .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
                                 .toString()
                 );
             }
-        }, 1, 1, TimeUnit.SECONDS);
+        }, 2, 2, TimeUnit.SECONDS);
 
         started = true;
     }
