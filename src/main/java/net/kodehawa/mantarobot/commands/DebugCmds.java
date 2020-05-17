@@ -102,20 +102,18 @@ public class DebugCmds {
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
                         + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
-                        + "Bot Version: " + MantaroInfo.VERSION + "\n"
+                        + "Bot Version: " + MantaroInfo.VERSION + " [" + MantaroInfo.GIT_REVISION + "]\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + String.format("%,d (MAPI: %,d)", responseTotal, mApiRequests) + "\n"
-                        + "Clusters: " + String.format("%,d (Current: %,d)", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
+                        + "API Responses: " + String.format("%,d [MAPI: %,d]", responseTotal, mApiRequests) + "\n"
+                        + "Clusters: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + String.format("%,d", guilds) + "\n"
-                        + "Cluster Guilds: " + String.format("%,d", ctx.getShardManager().getGuildCache().size()) + "\n"
-                        + "Users: " + String.format("%,d", users) + "\n"
-                        + "Cluster Users: " + String.format("%,d", ctx.getShardManager().getUserCache().size()) + "\n"
-                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + ctx.getJDA().getShardInfo().getShardId() + ")" + "\n"
+                        + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"
+                        + "Users: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
+                        + "Shards: " + bot.getShardManager().getShardsTotal() + " [Current: " + ctx.getJDA().getShardInfo().getShardId() + "]" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                         + "Music Players: " + players + "\n"
@@ -322,7 +320,7 @@ public class DebugCmds {
 
                 stringBuilder.append(String.format(
                         "%sUptime: %s\n\n" +
-                                "+ Bot Version: %s\n" +
+                                "+ Bot Version: %s (Git: %s)\n" +
                                 "+ JDA Version: %s\n" +
                                 "+ LP Version: %s\n\n" +
                                 "* Clusters: %s\n" +
@@ -337,7 +335,7 @@ public class DebugCmds {
                                 "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s",
                         EmoteReference.SELL,
                         Utils.formatDuration(ManagementFactory.getRuntimeMXBean().getUptime()),
-                        MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
+                        MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, JDAInfo.VERSION, PlayerLibrary.VERSION,
                         clusters,
                         ctx.getShardManager().getGuildCache().size(), ctx.getBot().getNodeNumber(),
                         ctx.getShardManager().getUserCache().size(),

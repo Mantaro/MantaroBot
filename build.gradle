@@ -177,11 +177,22 @@ def lint = [
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
+def gitRevision() {
+    def gitVersion = new ByteArrayOutputStream()
+    exec {
+        commandLine("git", "rev-parse", "--short", "HEAD")
+        standardOutput = gitVersion
+    }
+
+    return gitVersion.toString().trim()
+}
+
 task sourcesForRelease(type: Copy) {
     from ('src/main/java') {
         include '**/MantaroInfo.java'
         filter(ReplaceTokens, tokens: [
-                version: ver.toString()
+                version: ver.toString(),
+                revision: gitRevision().toString()
         ])
     }
     into 'build/filteredSrc'
