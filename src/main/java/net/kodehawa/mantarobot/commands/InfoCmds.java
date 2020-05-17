@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands;
 
 import com.github.natanbc.usagetracker.DefaultBucket;
 import com.google.common.eventbus.Subscribe;
+import lavalink.client.io.LavalinkSocket;
+import lavalink.client.io.RemoteStats;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
@@ -42,6 +44,7 @@ import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -50,10 +53,8 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -461,6 +462,42 @@ public class InfoCmds {
                 );
 
                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(4, 5);
+            }
+        });
+
+        statsCommand.addSubCommand("lavalink", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                List<LavalinkSocket> nodes = ctx.getBot().getLavaLink().getNodes();
+                var embed = new EmbedBuilder();
+                embed.setTitle("Lavalink Node Statistics")
+                        .setThumbnail(ctx.getGuild().getIconUrl())
+                        .setColor(Color.PINK)
+                        .setFooter("Available Nodes: " + nodes.size());
+
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+
+                for (LavalinkSocket node : nodes) {
+                    RemoteStats stats = node.getStats();
+                    fields.add(new MessageEmbed.Field(node.getName(),
+                            "```prolog\n"
+                                    + "Uptime: " + Utils.formatDuration(stats.getUptime()) + "\n"
+                                    + "Memory Used: " + Utils.formatMemoryAmount(stats.getMemUsed()) + "\n"
+                                    + "Memory Free: " + Utils.formatMemoryAmount(stats.getMemFree()) + "\n"
+                                    + "Players: " + stats.getPlayers() + "\n"
+                                    + "Playing Players: " + stats.getPlayingPlayers()
+                                    + "```",
+                            false
+                    ));
+                }
+
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(3, fields);
+                boolean hasReactionPerms = ctx.hasReactionPerms();
+
+                if (hasReactionPerms)
+                    DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
+                else
+                    DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
             }
         });
 

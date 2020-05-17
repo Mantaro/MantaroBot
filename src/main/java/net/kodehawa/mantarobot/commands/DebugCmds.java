@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -71,8 +72,9 @@ public class DebugCmds {
                 var clusterTotal = 0L;
 
                 try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    for(int i = 0; i < config.getTotalShards(); i++) {
-                        var json = new JSONObject(jedis.hget("shardstats-" + config.getClientId(), String.valueOf(i)));
+                    var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+                    for (Map.Entry<String, String> shards : stats.entrySet()) {
+                        var json = new JSONObject(shards.getValue());
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
@@ -294,8 +296,9 @@ public class DebugCmds {
                 long clusters = 0;
 
                 try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    for(int i = 0; i < config.getTotalShards(); i++) {
-                        var json = new JSONObject(jedis.hget("shardstats-" + config.getClientId(), String.valueOf(i)));
+                    var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+                    for (Map.Entry<String, String> shards : stats.entrySet()) {
+                        var json = new JSONObject(shards.getValue());
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
