@@ -19,10 +19,10 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
+import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -70,16 +70,23 @@ public class DebugCmds {
                 var guilds = 0L;
                 var users = 0L;
                 var clusterTotal = 0L;
+                var players = 0L;
 
                 try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
-                    for (Map.Entry<String, String> shards : stats.entrySet()) {
+                    for (var shards : stats.entrySet()) {
                         var json = new JSONObject(shards.getValue());
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
 
                     clusterTotal = jedis.hlen("node-stats-" + config.getClientId());
+                }
+
+                List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
+                for(var lavaLink : lavaLinkSockets) {
+                    if(lavaLink.isAvailable())
+                        players += lavaLink.getStats().getPlayingPlayers();
                 }
 
                 var responseTotal = bot.getShardManager().getShards()
@@ -111,6 +118,7 @@ public class DebugCmds {
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + ctx.getJDA().getShardInfo().getShardId() + ")" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
+                        + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()) + "\n"
                         + "Queue Size: " + String.format("%,d", bot.getAudioManager().getTotalQueueSize())

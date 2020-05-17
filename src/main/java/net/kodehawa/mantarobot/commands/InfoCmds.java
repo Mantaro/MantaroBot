@@ -53,8 +53,8 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -478,15 +478,16 @@ public class InfoCmds {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 for (LavalinkSocket node : nodes) {
+                    if(!node.isAvailable())
+                        continue;
+
                     RemoteStats stats = node.getStats();
                     fields.add(new MessageEmbed.Field(node.getName(),
-                            "```prolog\n"
-                                    + "Uptime: " + Utils.formatDuration(stats.getUptime()) + "\n"
+                            "Uptime: " + Utils.formatDuration(stats.getUptime()) + "\n"
                                     + "Memory Used: " + Utils.formatMemoryAmount(stats.getMemUsed()) + "\n"
                                     + "Memory Free: " + Utils.formatMemoryAmount(stats.getMemFree()) + "\n"
                                     + "Players: " + stats.getPlayers() + "\n"
-                                    + "Playing Players: " + stats.getPlayingPlayers()
-                                    + "```",
+                                    + "Playing Players: " + stats.getPlayingPlayers(),
                             false
                     ));
                 }
