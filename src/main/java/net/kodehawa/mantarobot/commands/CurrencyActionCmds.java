@@ -368,6 +368,7 @@ public class CurrencyActionCmds {
 
                         playerInventory.process(new ItemStack(Items.SHARK, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.shark_success"), Items.SHARK.getEmoji());
+                        player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
                     }
 
                     //START OF ITEM ADDING HANDLING
@@ -421,9 +422,6 @@ public class CurrencyActionCmds {
                         handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                         return;
                     }
-
-                    if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.SHARK)))
-                        player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {
