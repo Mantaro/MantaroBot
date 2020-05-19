@@ -53,7 +53,7 @@ public class MessageCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context context, String content) {
+                    protected void call(Context ctx, String content) {
                         var args = ctx.getArguments();
 
                         if (content.isEmpty()) {
