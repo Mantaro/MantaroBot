@@ -659,7 +659,7 @@
       "no_tool": "%1$sDu musst %2$s haben, um die Herstellung durchführen zu können!",
       "item_broke": "\nLeider brach dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
       "too_many": "%1$sDu hättest mehr als 5000 von diesem Gegenstand, wenn du fortfährst. Versuche weniger von diesem Gegenstand herzustellen?",
-      "low_tier": "%1$sDu brauchst mindestens einen Stufe 2 Schraubenschlüssel um mehrere Gegenstände auf einmal herzustellen. Du hast aktuell einen Stufe %2$s Schraubenschlüssel.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sDein Schraubenschlüssel reicht nicht aus, um diesen Gegenstand herzustellen. Gib vielleicht einen besseren an? *Schraubenschlüssellevel: %2$s, Benötigtes Level: %3$s*. Beispiel: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sDu kannst nicht so viel von dem Gegenstand auf einmal herstellen! Limit: %2$s, Versucht: %3$s. Ein glitzernder Schraubenschlüssel verdoppelt das Limit! Außer du benutzt bereits einen.",
       "ls": {
@@ -1455,7 +1455,7 @@
       "no_item_found": "%1$sIch kann den Gegenstand nicht finden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "no_main_item": "%1$sDu hast nicht den benötigten Gegenstand, um das zu reparieren.",
       "cant_repair": "%1$s**%2$s** ist kein reparierbarer Gegenstand. Du kannst nur kaputte Gegenstände reparieren.",
-      "no_tool": "%1$sDu brauchst einen Stufe 2 Schraubenschlüssel oder höher, um diesen Gegenstand zu reparieren . Prüfe, ob du den richtigen Schraubenschlüssel angegeben hast, im Falle dessen, dass du einen angegeben hast. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sDein Inventar ist zu verstaubt, um eine Reparatur durchzuführen. Staublevel: %2$s",
       "not_wrench": "%1$sDu kannst das nicht als Schraubenschlüssel verwenden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "not_enough_level": "%1$sDu brauchst einen besseren Schraubenschlüssel, um diese Reparatur durchzuführen.",
