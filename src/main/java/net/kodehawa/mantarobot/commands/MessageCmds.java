@@ -66,7 +66,7 @@ public class MessageCmds {
                         int i = 5;
                         if (args.length >= 1) {
                             try {
-                                i = Integer.parseInt(mentionedUsers.isEmpty() ? content : args[0]);
+                                i = Integer.parseInt(args.length == 1 ? content : args[0]);
                                 if (i < 3) i = 3;
                             } catch (Exception e) {
                                 ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
