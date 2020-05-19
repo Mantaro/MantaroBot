@@ -659,7 +659,7 @@
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a comet wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
@@ -1455,7 +1455,7 @@
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
       "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
