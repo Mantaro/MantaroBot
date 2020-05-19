@@ -110,8 +110,9 @@ public class MessageCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Prunes X amount of messages from a channel.")
-                        .setUsage("`~>prune <messages>`")
+                        .setUsage("`~>prune <messages> [@user...]`")
                         .addParameter("messages", "Number of messages from 4 to 100.")
+                        .addParameterOptional("@user...", "Prunes messages only from mentioned users.")
                         .build();
             }
         });
