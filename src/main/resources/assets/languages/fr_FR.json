@@ -659,7 +659,7 @@
       "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
       "item_broke": "\nMalheureusement, ton marteau s'est cassé dans le processus, mais tu as reçu ton objet!",
       "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?!",
-      "low_tier": "%1$sTu as besoin d'une clé de tier 2 pour fabriquer plus d'objet en une fois. Actuellement tu possèdes une clé de tier %2$s.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sTa clé n'est pas assez puissante pour forger cet objet. Spécifie peut-être une plus puissante ? *Niveau de ta clé : %2$s, Niveau nécessaire : %3$s*. Exemple : `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais : %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
       "ls": {
@@ -1455,7 +1455,7 @@
       "no_item_found": "%1$sJe ne trouve pas cet objet. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
       "no_main_item": "%1$sTu n'as pas l'objet que tu veux réparer!",
       "cant_repair": "%1$s**%2$s** ce n'est pas un objet réparable. Tu ne peux réparer que ce qui est cassé.",
-      "no_tool": "%1$sTu as besoin d'une clé de tier 2 pour réparer cet objet. Assure-toi d'en avoir une et d'avoir spécifié la bonne clé si tu en as spécifié une. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sTon inventaire est trop poussiéreux pour réparer quoi que ce soit. Niveau de poussière : %2$s",
       "not_wrench": "%1$sTu ne peux pas utiliser ça en guise de clé. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
       "not_enough_level": "%1$sTu as besoin d'une clé de tier supérieur pour faire cette réparation.",
