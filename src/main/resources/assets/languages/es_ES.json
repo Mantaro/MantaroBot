@@ -659,7 +659,7 @@
       "no_tool": "%1$sNecesitas tener un %2$s para proceder con la creación de este ítem.",
       "item_broke": "Lamentablemente, tu llave inglesa se rompió, pero lograste crear el item.",
       "too_many": "%1$sTendrías mas de 5000 unidades de este item si procedes. ¿Intenta crear menos de este objeto?",
-      "low_tier": "%1$sNecesitas al menos una llave inglesa de nivel 2 para crear mas ítems por llamado. Actualmente tienes una llave inglesa de nivel %2$s.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sTu llave inglesa no es lo suficientemente poderosa para crear este ítem. Intenta especificar una más poderosa. *Nivel de la llave inglesa: %2$s, Nivel Requerido: %3$s*. Por ejemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sNo puedes crear tantos de ese item de una sola vez! Limite: %2$s, Intento: %3$s. Una llave inglesa de sparkle hace que el limite sea el doble! A menos que ya estés usando una.",
       "ls": {
@@ -1455,7 +1455,7 @@
       "no_item_found": "%1$sNo puedo encontrar ese ítem. Recuerda poner el nombre entre comillas si éste tiene espacios.",
       "no_main_item": "%1$s¡No tienes el ítem necesario para reparar esto!",
       "cant_repair": "%1$s**%2$s** no es un ítem que puedas reparar. Sólo puedes reparar ítems rotos.",
-      "no_tool": "%1$sNecesitas una llave inglesa de tier 2 o más alta para reparar este ítem. Revisa que la tienes y que especificaste la llave inglesa correcta en caso de que la especificaras. Recuerda poner el nombre entre comillas si el nombre tiene espacios.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sTu inventario está muy sucio para reparar cosas. Nivel de polvo: %2$s",
       "not_wrench": "%1$sNo puedes usar esto como una llave inglesa. Recuerda poner el nombre entre comillas si el nombre tiene espacios.",
       "not_enough_level": "%1$sNecesitas una llave inglesa de mayor nivel para hacer esta reparación.",
