@@ -64,9 +64,9 @@ public class MessageCmds {
                         List<User> mentionedUsers = ctx.getMentionedUsers();
 
                         int i = 5;
-                        if (args.length > 1) {
+                        if (args.length >= 1) {
                             try {
-                                i = Integer.parseInt(mentionedUsers.isEmpty() ? content : args[1]);
+                                i = Integer.parseInt(mentionedUsers.isEmpty() ? content : args[0]);
                                 if (i < 3) i = 3;
                             } catch (Exception e) {
                                 ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
@@ -127,9 +127,9 @@ public class MessageCmds {
                 var args = ctx.getArguments();
 
                 int i = 100;
-                if (args.length > 1) {
+                if (args.length >= 1) {
                     try {
-                        i = Integer.parseInt(args[1]);
+                        i = Integer.parseInt(args[0]);
                         if (i < 3) i = 3;
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
@@ -164,9 +164,9 @@ public class MessageCmds {
                 var args = ctx.getArguments();
 
                 int i = 100;
-                if (args.length > 1) {
+                if (args.length >= 1) {
                     try {
-                        i = Integer.parseInt(args[1]);
+                        i = Integer.parseInt(args[0]);
                         if (i < 3) i = 3;
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
