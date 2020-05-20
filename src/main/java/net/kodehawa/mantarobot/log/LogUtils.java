@@ -127,7 +127,7 @@ public class LogUtils {
         }
     }
 
-    public static void spambot(User user) {
+    public static void spambot(User user, SpamType type) {
         if (SPAMBOT_WEBHOOK == null)
             return;
 
@@ -139,6 +139,7 @@ public class LogUtils {
             fields.add(new WebhookEmbed.EmbedField(true, "Mutual Guilds", user.getMutualGuilds().stream().map(g ->
                     g.getId() + ": " + g.getMemberCache().size() + " members"
             ).collect(Collectors.joining("\n"))));
+            fields.add(new WebhookEmbed.EmbedField(true, "Type", type.toString()));
 
             SPAMBOT_WEBHOOK.send(new WebhookEmbed(null, Color.PINK.getRGB(),
                     null, user.getEffectiveAvatarUrl(),
@@ -148,5 +149,9 @@ public class LogUtils {
             SentryHelper.captureException("Cannot post to spambot webhook", e, LogUtils.class);
             e.printStackTrace();
         }
+    }
+
+    public enum SpamType {
+        BLATANT, OVER_SPAM_LIMIT
     }
 }

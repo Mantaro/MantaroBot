@@ -525,7 +525,7 @@ public class Utils {
                 //Why would ANYONE go over 20 attempts?
                 if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedAttemptUsers.contains(user.getId())) {
                     loggedAttemptUsers.add(user.getId());
-                    LogUtils.spambot(user);
+                    LogUtils.spambot(user, LogUtils.SpamType.OVER_SPAM_LIMIT);
                 }
 
                 onRateLimit(user);
@@ -553,7 +553,7 @@ public class Utils {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
         if (ratelimitedTimes > 800 && !loggedSpambotUsers.contains(user.getId())) {
             loggedSpambotUsers.add(user.getId());
-            LogUtils.spambot(user);
+            LogUtils.spambot(user, LogUtils.SpamType.BLATANT);
         }
     }
 
