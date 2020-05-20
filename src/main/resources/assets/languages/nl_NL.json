@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
       "spam_1": "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*",
-      "spam_2": "Ik denk dat stoppen voorlopig de beste optie is..."
+      "spam_2": "Ik denk dat stoppen voorlopig de beste optie is...",
+      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
+      "spam_4": "Is this thing even on?"
     },
     "generic_error": "If you want, join our **support server** (Link at `support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
