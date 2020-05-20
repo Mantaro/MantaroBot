@@ -363,7 +363,7 @@ public class ModerationCmds {
                 return new HelpContent.Builder()
                         .setDescription("Kicks the mentioned user.")
                         .setUsage("`~>kick <@user> [reason]`")
-                        .addParameter("@user", "The kick to ban.")
+                        .addParameter("@user", "The user to kick.")
                         .addParameter("reason", "The reason of the kick. This is optional.")
                         .build();
             }

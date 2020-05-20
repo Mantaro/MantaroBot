@@ -106,6 +106,7 @@ public class CCv3 {
                 if (predicate.test(input1)) {
                     return args.get(2).evaluate();
                 }
+
                 resultIdx = 3;
             } else {
                 if (compare.equals("true") || compare.equals("false")) {
@@ -244,9 +245,11 @@ public class CCv3 {
             if (args.size() < 1) {
                 return "{Set: missing required parameter <name>}";
             }
+
             if (args.size() < 2) {
                 return "{Set: missing required parameter <value>}";
             }
+
             String key = args.get(0).evaluate();
             String value = args.stream().skip(1)
                     .map(Operation.Argument::evaluate).collect(Collectors.joining(";"));
@@ -258,6 +261,7 @@ public class CCv3 {
             if (args.size() < 1) {
                 return "{Iam: missing required argument <role>}";
             }
+
             String iam = args.get(0).evaluate();
             String ctn = args.stream().skip(1).map(Operation.Argument::evaluate).collect(Collectors.joining(" "));
             GuildMessageReceivedEvent event = context.event();
@@ -323,12 +327,15 @@ public class CCv3 {
             if (args.size() < 1) {
                 return "{Replace: missing required parameter <search>}";
             }
+
             if (args.size() < 2) {
                 return "{Replace: missing required parameter <replacement>}";
             }
+
             if (args.size() < 3) {
                 return "{Replace: missing required parameter <text>}";
             }
+
             String search = args.get(0).evaluate();
             String replace = args.get(1).evaluate();
             return args.stream().skip(2).map(Operation.Argument::evaluate)
