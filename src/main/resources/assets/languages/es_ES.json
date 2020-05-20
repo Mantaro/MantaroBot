@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Podrás usar este comando en %3$s.**",
       "spam_1": "Descansa, es bueno para tu salud :( *Recuerda que el ratelimit seguirá subiendo si sigues intentando antes de que termine!*",
-      "spam_2": "\nCreo que la mejor opción sería tomar un descanso..."
+      "spam_2": "\nCreo que la mejor opción sería tomar un descanso...",
+      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
+      "spam_4": "Is this thing even on?"
     },
     "generic_error": "Si quieres, únete a nuestro **servidor de soporte** (Link en `support.mantaro.site`), o revisa nuestra página en GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor diles que dejen de hacerme explotar ¡y no olvides Error ID cuando reportes este incidente!",
     "boom_quotes": [
