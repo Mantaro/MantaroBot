@@ -50,7 +50,7 @@ public class MessageCmds {
     public void prune(CommandRegistry cr) {
         var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
+            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {

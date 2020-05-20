@@ -81,7 +81,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     public DynamicModifiers mapMember(String prefix, Member member) {
         return this
                 .mapUser(prefix, member.getUser())
-                .set(prefix, "name", member.getEffectiveName());
+                .set(prefix, "name", member.getEffectiveName())
+                .set(prefix, "nickname", member.getEffectiveName());
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GuildMessageReceivedEvent event) {
