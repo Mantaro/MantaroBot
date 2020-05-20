@@ -1649,7 +1649,7 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",

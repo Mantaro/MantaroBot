@@ -578,7 +578,11 @@ public class ItemCmds {
 
                 Item item = itemOptional.get();
                 String description = ctx.getLanguageContext().get(item.getDesc());
-                ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER, item.getEmoji(), item.getName(), item.getItemType(), description);
+                ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
+                        item.getEmoji(), item.getName(),
+                        ctx.getLanguageContext().get(item.getTranslatedName()),
+                        item.getItemType(), description
+                );
             }
 
             @Override
