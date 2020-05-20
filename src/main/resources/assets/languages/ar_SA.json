@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (معدل محدد)\n**سيمكنك استخدام الأمر مره اخرى في %3$s.**",
       "spam_1": "أرجوك إرتح, هذا جيد لصحتك :( *تذكر المعدل المحدد سوف يزيد اذا جربت الأمر قبل الكول داون!*",
-      "spam_2": "أظن التوقف هو أفضل حل للان....."
+      "spam_2": "أظن التوقف هو أفضل حل للان.....",
+      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
+      "spam_4": "Is this thing even on?"
     },
     "generic_error": "إذا أردت الدخول الى **فريق الدعم** ادخل رابط (`support.mantaro.site`), أو تحقق من صفحتنا في GitHub (`https://github.com/Kodehawa/MantaroBot`). من فضلك قل لهم أن يتوقفو عن ازعاجي والرجاء لا تنسى اي دي الخطأ عند الإبلاغ!",
     "boom_quotes": [
