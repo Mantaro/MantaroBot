@@ -52,11 +52,14 @@ public class LogUtils {
         if (spambotWebhook != null) {
             String[] parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
             SPAMBOT_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
+        } else {
+            log("Log", "Spambot webhook URL is null!");
         }
     }
 
     public static void shard(String message) {
-        if (SHARD_WEBHOOK == null) return;
+        if (SHARD_WEBHOOK == null)
+            return;
 
         try {
             SHARD_WEBHOOK.send(new WebhookEmbed(
@@ -71,7 +74,8 @@ public class LogUtils {
     }
 
     public static void log(String title, String message) {
-        if (LOGBACK_WEBHOOK == null) return;
+        if (LOGBACK_WEBHOOK == null)
+            return;
 
         try {
             LOGBACK_WEBHOOK.send(new WebhookEmbed(
@@ -86,7 +90,8 @@ public class LogUtils {
     }
 
     public static void log(String message) {
-        if (LOGBACK_WEBHOOK == null) return;
+        if (LOGBACK_WEBHOOK == null)
+            return;
 
         try {
             LOGBACK_WEBHOOK.send(new WebhookEmbed(
@@ -101,7 +106,8 @@ public class LogUtils {
     }
 
     public static void simple(String message) {
-        if (LOGBACK_WEBHOOK == null) return;
+        if (LOGBACK_WEBHOOK == null)
+            return;
 
         try {
             LOGBACK_WEBHOOK.send(message);
@@ -111,7 +117,8 @@ public class LogUtils {
     }
 
     public static void shardSimple(String message) {
-        if (SHARD_WEBHOOK == null) return;
+        if (SHARD_WEBHOOK == null)
+            return;
 
         try {
             SHARD_WEBHOOK.send(message);
@@ -121,7 +128,8 @@ public class LogUtils {
     }
 
     public static void spambot(User user) {
-        if (SPAMBOT_WEBHOOK == null) return;
+        if (SPAMBOT_WEBHOOK == null)
+            return;
         try {
             List<WebhookEmbed.EmbedField> fields = new ArrayList<>();
             fields.add(new WebhookEmbed.EmbedField(true, "Tag", String.format("%#s", user)));
@@ -137,6 +145,7 @@ public class LogUtils {
                     new WebhookEmbed.EmbedTitle("Possible spambot detected", null), null, fields));
         } catch (Exception e) {
             SentryHelper.captureException("Cannot post to spambot webhook", e, LogUtils.class);
+            e.printStackTrace();
         }
     }
 }
