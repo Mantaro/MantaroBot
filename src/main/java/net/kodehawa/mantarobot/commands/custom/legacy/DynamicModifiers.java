@@ -43,14 +43,19 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
 
         Set<String> dejaVu = new HashSet<>();
         for (String key : iterate(GETTER_MODIFIER, string)) {
-            if (dejaVu.contains(key)) continue;
+            if (dejaVu.contains(key))
+                continue;
+
             String mapKey = key.substring(2, key.length() - 1);
             String value = get(mapKey);
             if (value == null) {
                 value = "{Unresolved variable " + mapKey + "}";
             }
+
             string = string.replace(key, value.replaceAll("[^\\\\]\\\\[^\\\\]", "\\\\"));
-            if (!string.contains("$(")) break;
+            if (!string.contains("$("))
+                break;
+
             dejaVu.add(key);
         }
 
@@ -63,7 +68,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "name", guild.getName())
                 .mapMember(k(prefix, "owner"), guild.getOwner() == null ? guild.retrieveOwner(false).complete() : guild.getOwner())
                 .set(prefix, "region", guild.getRegion().getName())
-                .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()));
+                .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()))
+                .set(prefix, "icon", guild.getIconUrl() == null ? "https://i.imgur.com/k0V7Vnu.png" : guild.getIconUrl());
     }
 
     public DynamicModifiers mapUser(String prefix, User member) {
