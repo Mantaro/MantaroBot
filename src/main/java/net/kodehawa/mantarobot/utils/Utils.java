@@ -84,7 +84,7 @@ public class Utils {
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
     private static final Set<String> loggedSpambotUsers = ConcurrentHashMap.newKeySet();
-    private static final Set<String> loggedSpamUsers = ConcurrentHashMap.newKeySet();
+    private static final Set<String> loggedAttemptUsers = ConcurrentHashMap.newKeySet();
 
     /**
      * Capitalizes the first letter of a string.
@@ -511,9 +511,9 @@ public class Utils {
                             + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
                             context.get("general.ratelimit.spam_2") : "")
                             + ((rateLimit.getSpamAttempts() > 10 && spamAware) ?
-                            context.get("general.ratelimit.spam_3") : "")
+                            "\n" + context.get("general.ratelimit.spam_3") : "")
                             + ((rateLimit.getSpamAttempts() > 15 && spamAware) ?
-                            context.get("general.ratelimit.spam_4") : "")
+                            "\n" + context.get("general.ratelimit.spam_4") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
@@ -523,8 +523,8 @@ public class Utils {
                 User user = MantaroBot.getInstance().getShardManager().getUserById(u);
 
                 //Why would ANYONE go over 20 attempts?
-                if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedSpamUsers.contains(user.getId())) {
-                    loggedSpamUsers.add(user.getId());
+                if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedAttemptUsers.contains(user.getId())) {
+                    loggedAttemptUsers.add(user.getId());
                     LogUtils.spambot(user);
                 }
 
