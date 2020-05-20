@@ -511,9 +511,9 @@ public class Utils {
                             + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
                             context.get("general.ratelimit.spam_2") : "")
                             + ((rateLimit.getSpamAttempts() > 10 && spamAware) ?
-                            "\n" + context.get("general.ratelimit.spam_3") : "")
+                            context.get("general.ratelimit.spam_3") : "")
                             + ((rateLimit.getSpamAttempts() > 15 && spamAware) ?
-                            "\n" + context.get("general.ratelimit.spam_4") : "")
+                            context.get("general.ratelimit.spam_4") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
