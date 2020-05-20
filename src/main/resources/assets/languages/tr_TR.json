@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (cooldown)\n **%3$s saniye içinde tekrar bu komutu kullanabileceksin.**",
       "spam_1": "Lütfen dinlenin, bu senin sağlığın açısından iyi! :( *Cooldown git gide yükseliyor sen böyle denedikçe, sakin ... sakin!*",
-      "spam_2": "\nBiraz duraklamak en iyi seçenek olacaktır..."
+      "spam_2": "\nBiraz duraklamak en iyi seçenek olacaktır...",
+      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
+      "spam_4": "Is this thing even on?"
     },
     "generic_error": "Isterseniz, bizim **destek sunucumuza** katılın (Link `support.mantaro.site`), veya GitHub sayfasını kontrol edin (`https://github.com/Kodehawa/MantaroBot`). Lütfen beni pis pis kullanmalarına izin verme ve ERROR ID'yi bug raporlarına eklemeyi unutma!",
     "boom_quotes": [
