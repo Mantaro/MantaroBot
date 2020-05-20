@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (제한된 속도)\n **%3$s초 후 이 명령어를 다시 사용할 수 있어요.**",
       "spam_1": "건강을 위해서 쉬세요 ㅠㅠ *재사용 대기시간이 재설정되기 전에 시도하면 제한된 속도가 계속 증가한다는 것을 기억하세요!*",
-      "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요..."
+      "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요...",
+      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
+      "spam_4": "Is this thing even on?"
     },
     "generic_error": "만약 원한다면 저희 **고객 지원 서버**(`support.mantaro.site`)나 저희 GitHub 페이지(`https://github.com/Kodehawa/MantaroBot`)를 확인해주세요. 제발 저를 폭파시키지 말라고 말해줘요. 그리고 신고할 때 오류 ID를 잊지 말아줘요!",
     "boom_quotes": [
