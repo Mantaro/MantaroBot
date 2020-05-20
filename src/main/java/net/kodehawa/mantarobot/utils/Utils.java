@@ -83,7 +83,8 @@ public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
-    private static final Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
+    private static final Set<String> loggedSpambotUsers = ConcurrentHashMap.newKeySet();
+    private static final Set<String> loggedSpamUsers = ConcurrentHashMap.newKeySet();
 
     /**
      * Capitalizes the first letter of a string.
@@ -509,6 +510,10 @@ public class Utils {
                             + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
                             + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
                             context.get("general.ratelimit.spam_2") : "")
+                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ?
+                            context.get("general.ratelimit.spam_3") : "")
+                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ?
+                            context.get("general.ratelimit.spam_4") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
@@ -516,6 +521,13 @@ public class Utils {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
                 User user = MantaroBot.getInstance().getShardManager().getUserById(u);
+
+                //Why would ANYONE go over 20 attempts?
+                if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedSpamUsers.contains(user.getId())) {
+                    loggedSpamUsers.add(user.getId());
+                    LogUtils.spambot(user);
+                }
+
                 onRateLimit(user);
             } catch (Exception ignored) {}
 
@@ -539,8 +551,8 @@ public class Utils {
 
     private static void onRateLimit(User user) {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
-        if (ratelimitedTimes > 800 && !loggedUsers.contains(user.getId())) {
-            loggedUsers.add(user.getId());
+        if (ratelimitedTimes > 800 && !loggedSpambotUsers.contains(user.getId())) {
+            loggedSpambotUsers.add(user.getId());
             LogUtils.spambot(user);
         }
     }

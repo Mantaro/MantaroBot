@@ -130,6 +130,7 @@ public class LogUtils {
     public static void spambot(User user) {
         if (SPAMBOT_WEBHOOK == null)
             return;
+
         try {
             List<WebhookEmbed.EmbedField> fields = new ArrayList<>();
             fields.add(new WebhookEmbed.EmbedField(true, "Tag", String.format("%#s", user)));
