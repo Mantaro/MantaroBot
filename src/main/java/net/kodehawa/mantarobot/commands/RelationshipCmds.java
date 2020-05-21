@@ -636,7 +636,7 @@ public class RelationshipCmds {
                         }
 
                         boolean id = opts.containsKey("id");
-                        boolean claimRemove = false;
+                        List<String> toRemove = new ArrayList<>();
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         for (String waifu : userData.getWaifus().keySet()) {
@@ -648,11 +648,9 @@ public class RelationshipCmds {
                                                 languageContext.get("commands.waifu.credits_format"), false)
                                 );
                             } else {
-                                //This is also expensive to do, smh.
                                 Player waifuClaimed = ctx.getPlayer(user);
                                 if(waifuClaimed.getData().isWaifuout()) {
-                                    claimRemove = true;
-                                    userData.getWaifus().remove(waifu);
+                                    toRemove.add(waifu);
                                     continue;
                                 }
 
@@ -685,8 +683,13 @@ public class RelationshipCmds {
                             DiscordUtils.listText(ctx.getEvent(), 60, false, waifusEmbed, splitFields);
                         }
 
-                        if(claimRemove)
+                        if(toRemove.size() > 0) {
+                            for(String remove : toRemove) {
+                                dbUser.getData().getWaifus().remove(remove);
+                            }
+
                             player.saveAsync();
+                        }
                     }
                 };
             }
