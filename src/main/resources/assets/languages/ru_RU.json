@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова в %3$s.**",
       "spam_1": "Остынь, выпей водички, дыши глубже :( *Время запроса продолжит увеличиваться, если ты продолжишь спамить!*",
       "spam_2": "\nЯ думаю тебе лучше остановиться сейчас...",
-      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
-      "spam_4": "Is this thing even on?"
+      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_4": "\nIs this thing even on?"
     },
     "generic_error": "Если ты хочешь вступить, на наш **сервер поддержки** (Перейди по ссылке `support.mantaro.site`), или перейди через страницу на GitHub (`https://github.com/Kodehawa/MantaroBot`). Если у вас появилась проблема, не забывайте отправлять ID ошибки при обращении!",
     "boom_quotes": [
@@ -1649,7 +1649,7 @@
     "iteminfo": {
       "no_content": "%1$sВы не указали название предмета, про который хотите узнать!",
       "no_item": "%1$sПо вашему запросу нет результатов.",
-      "success": "%1$s**Информация про предмет для** %2$s **%3$s** (Тип: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sУ ботов нет уровня.",
