@@ -56,6 +56,7 @@ public class PlayerData {
     private long timesMopped;
     private long cratesOpened;
     private long sharksCaught;
+    private boolean waifuout;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -306,6 +307,14 @@ public class PlayerData {
 
     public void setSharksCaught(long sharksCaught) {
         this.sharksCaught = sharksCaught;
+    }
+
+    public boolean isWaifuout() {
+        return waifuout;
+    }
+
+    public void setWaifuout(boolean waifuout) {
+        this.waifuout = waifuout;
     }
 
     @JsonIgnore

@@ -599,4 +599,5 @@ public enum Badge {
     private static class LoggerHolder {
         static final Logger LOGGER = LoggerFactory.getLogger("Badge");
     }
+
 }
