@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
       "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut :( *Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!*",
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option...",
-      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
-      "spam_4": "Is this thing even on?"
+      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_4": "\nIs this thing even on?"
     },
     "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (Link auf `support.mantaro.site` zu finden), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID beim Melden eines Fehlers!",
     "boom_quotes": [
@@ -1649,7 +1649,7 @@
     "iteminfo": {
       "no_content": "%1$sDu hast kein Item zum Suchen angegeben!",
       "no_item": "%1$sEs gibt kein Item, das zu deiner Suchanfrage passt.",
-      "success": "%1$s**Iteminfo für** %2$s **%3$s** (Typ: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots haben kein Level.",
