@@ -828,6 +828,12 @@ public class RelationshipCmds {
                 final DBUser claimedUser = ctx.getDBUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
 
+                if(claimedPlayer.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.claim_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+
                 //Waifu object declaration.
                 final Waifu waifuToClaim = calculateWaifuValue(toLookup);
                 final long waifuFinalValue = waifuToClaim.getFinalValue();
