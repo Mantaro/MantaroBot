@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
       "spam_1": "Por favor descanse, faz bem pra saúde :( *Lembre-se que o Limite de taxa irá continuar aumentando se você tentar antes do tempo acabar!*",
       "spam_2": "\nEu acho que parar é a melhor opção por enquanto...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_3": "\nNão seria melhor se você fosse pra fora um pouco?",
+      "spam_4": "\nEssa coisa está ligada?"
     },
     "generic_error": "Se você quiser, entre no nosso **servidor de suporte** (Link em `support.mantaro.site`), ou cheque nossa página no GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor diga a eles para parar de me explodir e por favor não se esqueça do Error ID quando reportar!",
     "boom_quotes": [
@@ -661,7 +661,7 @@
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
       "item_broke": "\nInfelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
       "too_many": "%1$sVocê teria mais de 5000 desse item se você prosseguir. Talvez tentar fundir menos deste objeto?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sVocê precisa de pelo uma chave inglesa de tier 2 (pelo menos uma Chave Inglesa de Cometa) pra fundir mais item por chamada. Você atualmente tem uma chave inglesa de tier %2$s.",
       "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para fundir este item. Talvez tentar especificar uma mais poderosa? *Nível da chave inglesa: %2$s, Nível necessário: %3$s*. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sVocê não pode fundir isso tudo de item ao mesmo tempo! Limite: %2$s, Tentativa: %3$s. Uma chave inglesa brilhante faz com que o limite duplique! A menos que você já esteja usando uma.",
       "ls": {
@@ -1457,7 +1457,7 @@
       "no_item_found": "%1$sNão consegui encontrar esse item. Lembre-se de usar aspas se o nome contém espaços.",
       "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar items quebrados.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sVocê precisa de uma Tier 2 (pelo menos uma Chave Inglesa de Cometa) ou uma chave inglesa superior para consertar esse item. Certifique-se de que você tem ela e se você especificou a chave inglesa correta caso você tenha especificado ela. Lembre-se de usar aspas se o nome conter espaços.",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
       "not_enough_level": "%1$sVocê precisa de uma chave inglesa de maior tier pra consertar isso.",
@@ -1649,7 +1649,7 @@
     "iteminfo": {
       "no_content": "%1$sVocê não especificou nenhum item para procurar!",
       "no_item": "%1$sNão há itens que correspondam à sua pesquisa.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
+      "success": "%1$s**Informação do Item** %2$s **%3$s** (%4$s) (Tipo: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots não tem level.",
@@ -2181,7 +2181,7 @@
     "diamond_pick": "Picareta de Diamante",
     "tv": "Televisão",
     "wrench": "Chave Inglesa",
-    "star_wrench": "Chave Inglesa de Estrela",
+    "star_wrench": "Chave Inglesa de Cometa",
     "sparkle_wrench": "Chave Inglesa Brilhante",
     "motorcycle": "Motocicleta",
     "comet_pick": "Picareta de Gema de Cometa",
