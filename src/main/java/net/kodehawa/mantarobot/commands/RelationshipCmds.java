@@ -713,7 +713,7 @@ public class RelationshipCmds {
         waifu.addSubCommand("optout", new SubCommand() {
             @Override
             public String description() {
-                return "Opt-out of the waifu stuff. This will remove all of your claims and make you unable to be claimed.";
+                return "Opt-out of the waifu stuff. This will disable the waifu system, remove all of your claims and make you unable to be claimed.";
             }
 
             @Override
