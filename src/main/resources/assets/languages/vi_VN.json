@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n**Bạn có thể sử dụng lệnh này sau %3$s.**",
       "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. :( *Nhớ rằng thời gian chờ sẽ tăng nếu bạn cố thử lại trước khi nó về 0!*",
       "spam_2": "\nTôi nghĩ rằng dừng lại là lựa chọn tốt nhất bây giờ...",
-      "spam_3": "Wouldn't it be better if you just go outside for a bit?",
-      "spam_4": "Is this thing even on?"
+      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_4": "\nIs this thing even on?"
     },
     "generic_error": "Nếu bạn muốn, hãy vào **máy chủ hỗ trợ** (đường link tại `support.mantaro.site`). Hoặc xem trang GitHub của chúng tôi (`https://github.com/Kodehawa/MantaroBot`). Làm ơn hãy nói với họ để tránh việc tôi bị nổ và làm ơn đừng quên những ID lỗi khi báo cáo!",
     "boom_quotes": [
@@ -1649,7 +1649,7 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
