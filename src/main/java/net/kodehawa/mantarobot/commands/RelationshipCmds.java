@@ -683,7 +683,7 @@ public class RelationshipCmds {
                             DiscordUtils.listText(ctx.getEvent(), 60, false, waifusEmbed, splitFields);
                         }
 
-                        if(toRemove.size() > 0) {
+                        if(!toRemove.isEmpty()) {
                             for(String remove : toRemove) {
                                 dbUser.getData().getWaifus().remove(remove);
                             }
