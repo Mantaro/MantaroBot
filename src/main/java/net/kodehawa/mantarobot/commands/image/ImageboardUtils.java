@@ -63,6 +63,9 @@ public class ImageboardUtils {
         boolean needRating = list.size() >= 2;
         if (needRating && !nsfwOnly) {
             rating = Rating.lookupFromString(list.get(1));
+        } else if (!needRating) {
+            //Attempt to get from the tags instead.
+            rating = Rating.lookupFromString(list.get(0));
         }
 
         if (rating == null) {
