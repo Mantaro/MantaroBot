@@ -53,14 +53,14 @@ public class LogUtils {
             String[] parts = logWebhook.replace(WEBHOOK_START, "").split("/");
             LOGBACK_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         } else {
-            log.error("Webhook URL is null! Webhooks won't be posted at all to status channels.");
+            log.error("Webhook URL is null. Webhooks won't be posted at all to status channels.");
         }
         if (spambotWebhook != null) {
             String[] parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
             SPAMBOT_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         } else {
             log("Warning", "Spambot Webhook URL is null. Spam bots won't be logged.");
-            log.error("Spambot Webhook URL is null. Spam bots won't be logged.");
+            log.error("Spambot Webhook URL is null. Spam bots won't be logged to status channels.");
         }
     }
 
@@ -140,8 +140,10 @@ public class LogUtils {
     }
 
     public static void spambot(User user, SpamType type) {
-        if (SPAMBOT_WEBHOOK == null)
+        if (SPAMBOT_WEBHOOK == null) {
+            log.warn("---- Spambot detected! ID: {}, Reason: {}", user.getId(), type);
             return;
+        }
 
         try {
             List<WebhookEmbed.EmbedField> fields = new ArrayList<>();
