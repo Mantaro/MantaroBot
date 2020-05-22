@@ -39,7 +39,6 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.services.StatsPoster;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
@@ -93,7 +92,6 @@ public class MantaroBot {
     private final MantaroCore core;
     private final DiscordBotsAPI discordBotsAPI;
     private final JdaLavalink lavaLink;
-    private final StatsPoster statsPoster;
 
     private final BirthdayCacher birthdayCacher;
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
@@ -137,13 +135,14 @@ public class MantaroBot {
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
 
-        statsPoster = new StatsPoster(Long.parseLong(config.clientId));
         audioManager = new MantaroAudioManager();
         Items.setItemActions();
 
         birthdayCacher = new BirthdayCacher();
 
-        LogUtils.log("Startup", String.format("Starting up MantaroBot %s\nHold your seatbelts! <3", MantaroInfo.VERSION));
+        LogUtils.log("Startup", String.format("Starting up Mantaro %s (Git: %s) in Node %s\nHold your seatbelts! <3",
+                MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
+        );
 
         long start = System.currentTimeMillis();
 
@@ -286,10 +285,6 @@ public class MantaroBot {
 
     public JdaLavalink getLavaLink() {
         return this.lavaLink;
-    }
-
-    public StatsPoster getStatsPoster() {
-        return statsPoster;
     }
 
     public boolean isMasterNode() {

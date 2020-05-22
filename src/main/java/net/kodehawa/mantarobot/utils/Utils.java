@@ -115,6 +115,10 @@ public class Utils {
     }
 
     public static String formatDuration(long time) {
+        if(time < 1000) {
+            return "less than a second";
+        }
+
         long days = TimeUnit.MILLISECONDS.toDays(time);
         long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
@@ -506,14 +510,10 @@ public class Utils {
                     String.format(context.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),
                             Utils.formatDuration(rateLimit.getCooldown()))
-                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n"
-                            + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
-                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
-                            context.get("general.ratelimit.spam_2") : "")
-                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ?
-                            context.get("general.ratelimit.spam_3") : "")
-                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ?
-                            context.get("general.ratelimit.spam_4") : "")
+                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ? context.get("general.ratelimit.spam_2") : "")
+                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ? context.get("general.ratelimit.spam_3") : "")
+                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ? context.get("general.ratelimit.spam_4") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.

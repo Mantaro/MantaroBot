@@ -339,6 +339,10 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
+    CALENDAR("Calendar", "\uD83D\uDCC5", "Set your profile timezone", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     //Self-explanatory.
     WRITER("Writer", "\uD83D\uDCF0", "Set a profile description.", 91, 92,
             (player, dbUser) -> false, false

@@ -699,9 +699,9 @@ public class RelationshipCmds {
                 return new HelpContent.Builder()
                         .setDescription("This command is the hub for all waifu operations. Yeah, it's all fiction.")
                         .setUsage("`~>waifu` - Shows a list of all your waifus and their current value.\n" +
-                                "`~>waifu <command> [@user]`")
-                        .addParameter("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
-                        .addParameter("@user", "The user you want to do the action with.")
+                                "`~>waifu [command] [@user]`")
+                        .addParameterOptional("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
+                        .addParameterOptional("@user", "The user you want to do the action with.")
                         .addParameterOptional("-id", "Shows the user id.")
                         .build();
             }
@@ -920,7 +920,6 @@ public class RelationshipCmds {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
-
 
                 if (content.isEmpty() && !isId) {
                     ctx.sendLocalized("commands.waifu.unclaim.no_user", EmoteReference.ERROR);

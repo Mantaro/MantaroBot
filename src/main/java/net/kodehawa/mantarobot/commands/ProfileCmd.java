@@ -307,6 +307,10 @@ public class ProfileCmd {
                     return;
                 }
 
+                Player player = ctx.getPlayer();
+                if(player.getData().addBadgeIfAbsent(Badge.CALENDAR))
+                    player.save();
+
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveAsync();
                 ctx.sendLocalized("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
