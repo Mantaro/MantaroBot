@@ -21,8 +21,6 @@ import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
@@ -41,13 +39,13 @@ public class MantaroData {
     private static ManagedDatabase db;
 
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
-    private static final org.redisson.config.Config redissonConfig = new org.redisson.config.Config();
-    private static RedissonClient redisson;
+    //private static final org.redisson.config.Config redissonConfig = new org.redisson.config.Config();
+    //private static RedissonClient redisson;
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
-        redissonConfig.useSingleServer().setAddress("redis://127.0.0.1:" + config().get().jedisPoolPort);
-        redisson = Redisson.create(redissonConfig);
+        //redissonConfig.useSingleServer().setAddress("redis://127.0.0.1:" + config().get().jedisPoolPort);
+        //redisson = Redisson.create(redissonConfig);
     }
 
     public static GsonDataManager<Config> config() {
@@ -79,9 +77,9 @@ public class MantaroData {
         return db;
     }
 
-    public static RedissonClient redisson() {
-        return redisson;
-    }
+    // public static RedissonClient redisson() {
+    //     return redisson;
+    // }
 
     public static ScheduledExecutorService getExecutor() {
         return exec;
