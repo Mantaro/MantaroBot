@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
       "spam_1": "S'il te plait repose toi, c'est bon pour ta santé :( *N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!*",
-      "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment..."
+      "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment...",
+      "spam_3": "\nCe serait pas mieux si tu sortais un peu?",
+      "spam_4": "\nEst-ce que ce truc est allumé au moins?"
     },
     "generic_error": "Si tu veux, tu peux rejoindre notre **serveur de support** (Lien sur `support.mantaro.site`), et consulter notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). S’il te plait dis leur d'arrêter de m'exploiter, et stp n'oublies pas le code de l'erreur en rapportant le problème !",
     "boom_quotes": [
@@ -617,6 +619,13 @@
         "success": "%1$sAcheté avec succès cet emplacement pour %2$s, tu as actuellement %3s emplacements au total et %4$s emplacements disponibles.",
         "too_many": "%1$sTu as déjà trop d'emplacements!"
       },
+      "optout": {
+        "notice": "%1$sTu as été complètement enlevé.e du système de Waifu, tu ne peux donc pas l'utiliser.",
+        "warning": "%1$sVeux-tu vraiment être enlevé.e du système de Waifu? C'EST PERMANENT ET IRRÉVERSIBLE!\nSi tu veux simplement éviter d'être acheté.e et que tu veux utiliser le système de waifu comme d'habitude, utilise la commande `~>profile claimlock` à la place.\nTu ne pourras plus acheter de Waifu ni être acheté.e et tout tes achats seront annulés.\nEnvoie `yes` ou `no`. Le yes t'enlèveras du système tandis que le `no` annuleras ta demande.",
+        "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
+        "cancelled": "%1$sOpération d'extraction annulée avec succès.",
+        "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système."
+      },
       "header": "Liste de Waifus",
       "description_header": "Voici une liste avec toutes tes waifus bien-aimées, triée par date d'ajout.\n*Tu peux avoir au maximum %1$d waifus pour l'instant.*\n\nSi tu souhaites voir les statistiques de tes waifus, utilise `~>waifu stats`\n\n",
       "no_waifu": "Aucune waifu à voir ici, juste de la poussière :(\nTu peux avoir des Waifus en réclamant quelqu'un! Utilise `~>waifu claim` pour commencer.",
@@ -659,7 +668,7 @@
       "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
       "item_broke": "\nMalheureusement, ton marteau s'est cassé dans le processus, mais tu as reçu ton objet!",
       "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?!",
-      "low_tier": "%1$sTu as besoin d'une clé de tier 2 pour fabriquer plus d'objet en une fois. Actuellement tu possèdes une clé de tier %2$s.",
+      "low_tier": "%1$sTu as besoin d'une clé de tier 2 au minimum (la clé de comète) pour forger plus d'objets. Ta clé actuelle est de tier %2$s.",
       "not_enough_wrench_level": "%1$sTa clé n'est pas assez puissante pour forger cet objet. Spécifie peut-être une plus puissante ? *Niveau de ta clé : %2$s, Niveau nécessaire : %3$s*. Exemple : `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais : %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
       "ls": {
@@ -686,32 +695,32 @@
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser) et l'objet que tu veux vendre.",
+        "invalid": "%1$sNombre d'objets à vendre invalide.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sEs-tu *sûr.e* de vouloir vendre **tous** tes objets? Cela va effacer *tout* ton inventaire! Si tu veux vendre les objets individuels, utilise la quantité. Écris *yes* (oui) pour confirmer et *no* (non) pour annuler.",
+          "success": "%1$sTu as vendu tous les objets de ton inventaire et as reçu %2$,d credits!",
+          "cancelled": "%1$sAnnulé avec succès."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sTu ne peux pas vendre un objet qui n'existe pas! Si tu es perdu.e, tu peux essayer d'utiliser son nom abrégé ou de mettre son nom entre guillemets.",
+        "no_sell_price": "%1$sTu ne peux pas vendre un objet invendable!. (Mais tu peux le jeter avec `~>market dump`)",
+        "no_item_player": "%1$sTu ne peux pas vendre un objet que tu n'as pas!",
+        "more_items_than_player": "%1$sTu ne peux pas vendre plus d'objets que tu n'en as!",
+        "success": "%1$sTu as vendu %2$,d **%3$s** et as gagné %4$,d crédits!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
+        "invalid": "%1$sNombre d'objets à acheter invalide.",
+        "non_existent": "%1$sTu ne peux pas acheter un objet non existant! Si tu es perdu.e, tu peux essayer d'utiliser son nom abrégé ou de mettre son nom entre guillemets.",
+        "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
+        "item_limit_reached": "%1$sTu ne peux pas acheter plus de cet objet.",
+        "success": "%1$sAchat de %2$,d %3$s pour %4$,d credits. Tu as désormais %5$,d credits.",
+        "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet."
       },
       "header": "Marché de Mantaro",
       "reference": "\nTu peux acheter et vendre des objets en utilisant `~>market buy <objet>` et `~>market sell <objet>`. Utilise `~>help market` pour plus d'infos. Attention, les commandes fonctionnent uniquement avec le nom des objets en anglais ou avec l'emoji correspondant.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "sell_price": "- **Prix de vente:**",
+      "buy_price": "- **Prix d'achat:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sTu ne peux pas te transférer des objets à toi-même.",
@@ -864,11 +873,11 @@
         "buff": "Bonus",
         "buff_type": "Type de buff",
         "experience": "Expérience",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "mine_xp": "Expérience de minage",
+        "fish_xp": "Expérience de pêche",
+        "sharks_caught": "Requins attrapés",
+        "crates_open": "Coffres ouverts",
+        "times_mop": "Nombre de dépoussiérages",
         "daily": "Passages quotidiens",
         "daily_at": "Dernier gain quotidien",
         "waifu_claimed": "Nombre de fois où tu es devenu.e waifu",
@@ -930,7 +939,7 @@
       "xp": "XP",
       "rep": "Réputation",
       "birthday": "Anniversaire",
-      "married": "Marié à",
+      "married": "Marié.e à",
       "nobody": "Personne",
       "inventory": "Collection d'items",
       "badges": "Top 5 des Badges",
@@ -1065,7 +1074,7 @@
         "premium": "**Serveur Premium! <3**",
         "old_system": "**Serveur Premium de l'ancien système! Ne t'en fait pas, il est Premium avec tout ce que ça implique ;) !**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Les clés sont valides aussi longtemps que ton engagement est actif, sauf indication contraire.\nMerci d'avoir fait un don ou de t'être engagé.e <3",
       "valid_for_old": "Valide pendant",
       "old_days_more": "%1$d jours de plus",
       "thank_note": "Merci pour votre support <3",
@@ -1329,7 +1338,7 @@
         "age": "Âge",
         "no_pets": "%1$sTu n'as pas d'animaux.",
         "header": "Voici la liste des animaux que tu possèdes pour le moment.\nLes animaux sont vos compagnons pour chercher de l'argent! **Tu peux les entrainer, les chouchouter, les nourrir ou les faire combattre entre eux ou contre ceux des autres !** Pour créer un animal de compagnie, tu as besoin d'un incubateur que tu peux créer avec du lait, du breuvage et des diamants, ça te permettra de l'incuber et donc de lui donner un nom.",
-        "pages": "**Nombre total de pages: %1$s \nUtilise les réaction pour changer de page.\n\n"
+        "pages": "**Nombre total de pages: %1$s \nUtilise les réactions pour te déplacer à travers les pages.\n\n"
       },
       "train": {
         "success": "%1$sTu as entrainer l'habileté de **%2$s** avec succès. Expérience gagnée : %3$s. Expérience actuelle : %4$s. (Coût: %5$s)"
@@ -1437,9 +1446,9 @@
     },
     "help": {
       "title": "Menu d'aide de Mantaro",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Liste des commandes pour la categorie %1$s. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guide pour l'argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Liste complète des commandes**. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nAutres guides : [Argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Commandes personnalisées](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Messages de bienvenue](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[Pour obtenir de l'aide, rejoins le serveur de support](https://support.mantaro.site). [Tu peux me suivre sur Twitter pour avoir des nouvelles des mises à jour.](https://twitter.com/mantarodiscord) (Attention, le tout est en anglais!)\n",
       "patreon": "[**On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Je ne montre que les commandes actives. Nombre total de commandes désactivées : %1$s",
       "channel_specific_disabled_commands": "\nJe ne montre que les commandes actives. Nombre total de commandes désactivées dans ce salon : %1$s",
@@ -1455,7 +1464,7 @@
       "no_item_found": "%1$sJe ne trouve pas cet objet. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
       "no_main_item": "%1$sTu n'as pas l'objet que tu veux réparer!",
       "cant_repair": "%1$s**%2$s** ce n'est pas un objet réparable. Tu ne peux réparer que ce qui est cassé.",
-      "no_tool": "%1$sTu as besoin d'une clé de tier 2 pour réparer cet objet. Assure-toi d'en avoir une et d'avoir spécifié la bonne clé si tu en as spécifié une. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
+      "no_tool": "%1$sTu as besoin d'une clé de tier 2 au minimum (la clé de comète) pour réparer cet objet. Assure-toi de l'avoir et de l'avoir bien spécifiée (si tu l'as spécifiée). Souviens-toi d'utiliser des guillemets si le nom contient des espaces.",
       "dust": "%1$sTon inventaire est trop poussiéreux pour réparer quoi que ce soit. Niveau de poussière : %2$s",
       "not_wrench": "%1$sTu ne peux pas utiliser ça en guise de clé. N'oublie pas d'utiliser les guillemets si le nom de l'objet contient des espaces.",
       "not_enough_level": "%1$sTu as besoin d'une clé de tier supérieur pour faire cette réparation.",
@@ -1647,12 +1656,12 @@
     "iteminfo": {
       "no_content": "%1$sTu n'as pas spécifié d'objet à chercher!",
       "no_item": "%1$sAucun objet ne correspond à ta recherche",
-      "success": "%1$s**Info de l'objet pour** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "success": "%1$s**Infos d'objet pour** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sLes bots n'ont pas de niveau.",
-      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "own_success": "%1$s ton niveau est %2$s. (Expérience: %3$s/%4$s)",
+      "success_other": "%1$s le niveau de %2$s est %3$s. (Expérience: %4$s/%5$s)"
     }
   },
   "options": {
@@ -2264,7 +2273,7 @@
       "cobweb": "Un truc laissé par une araignée au fond de la mine. Je me demande ce que ça vaut.",
       "fragment": "Fragment d'une gemme trouvé en minant.",
       "mop": "Une bonne manière de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
+      "claim_key": "Cet objet te rendre inobtenable (en tant que Waifu) dés que tu auras fais la commande `~>profile claimlock`.",
       "coffee": "Une très bonne façon de commencer votre journée",
       "waifu_pill": "Te donne un avantage significatif sur le minage et la pêche si l’une de tes waifus est évaluée à plus de 10 millions. Dure 5 sessions.",
       "bait": "Te donne une plus grande chance d'attraper du poisson.",
