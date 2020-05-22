@@ -472,6 +472,11 @@ public class InfoCmds {
 
         statsCommand.addSubCommand("nodes", new SubCommand() {
             @Override
+            public String description() {
+                return "Mantaro node statistics.";
+            }
+
+            @Override
             protected void call(Context ctx, String content) {
                 Map<String, String> nodeMap;
                 try (Jedis jedis = ctx.getJedisPool().getResource()) {
@@ -522,6 +527,11 @@ public class InfoCmds {
         });
 
         statsCommand.addSubCommand("lavalink", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lavalink node statistics.";
+            }
+
             @Override
             protected void call(Context ctx, String content) {
                 List<LavalinkSocket> nodes = ctx.getBot().getLavaLink().getNodes();
