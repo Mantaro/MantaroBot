@@ -619,6 +619,13 @@
         "success": "%1$sDit slot is succesvol aangekocht voor %2$s, je hebt op dit moment in totaal %3s sloten en %4$s hiervan zijn beschikbare sloten.",
         "too_many": "%1$sJe hebt al teveel sloten!"
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "Waifu Lijst",
       "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$d waifus hebben.*\n\nals je je waifu statistieken wil bekijken, typ `~>waifu stats`\n\n",
       "no_waifu": "Geen waifu te zien hier, alleen maar stof :(\nJe kunt waifus krijgen door iemand te claimen! Typ `~>waifu claim` om te beginnen met claimen.",
