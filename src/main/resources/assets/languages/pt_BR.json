@@ -619,6 +619,13 @@
         "success": "%1$sEspaço comprado com sucesso por %2$s, você atualmente tem %3s espaços no total e %4$s espaços disponíveis.",
         "too_many": "%1$sVocê já tem muitos espaços!"
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "Lista de Waifu",
       "description_header": "Aqui está uma lista com todas as suas amadas waifus, classificadas por data de adição.\n*Você pode ter um máximo de %1$d waifus por enquanto.*\n\nSe você deseja checar suas estatísticas de waifu, use `~>waifu stats`\n\n",
       "no_waifu": "Não há waifus para ver aqui, apenas poeira :(\nVocê pode ter waifus reivindicando alguém! Use `~>waifu claim` para começar.",
