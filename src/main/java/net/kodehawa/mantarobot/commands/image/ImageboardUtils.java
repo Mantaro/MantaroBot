@@ -59,6 +59,8 @@ public class ImageboardUtils {
         Rating rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
+        if(type == ImageRequestType.RANDOM)
+            list.remove("random"); // remove "random" declaration.
 
         boolean needRating = list.size() >= 2;
         if (needRating && !nsfwOnly) {
@@ -102,8 +104,6 @@ public class ImageboardUtils {
         switch (type) {
             case TAGS:
                 try {
-                    //Keep this: basically we will still accept the old way of doing it.
-                    //See up there for the actual removal of the tags from the old checking.
                     DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
                     if (list.stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
                         ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
@@ -130,9 +130,7 @@ public class ImageboardUtils {
                         }
                     }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
                 } catch (NumberFormatException nex) {
-                    ctx.getChannel().sendMessageFormat(
-                            ctx.getLanguageContext().get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard
-                    ).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
+                    ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
                 } catch (Exception ex) {
                     ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
                 }
