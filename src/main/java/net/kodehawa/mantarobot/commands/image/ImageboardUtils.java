@@ -104,12 +104,8 @@ public class ImageboardUtils {
                 try {
                     //Keep this: basically we will still accept the old way of doing it.
                     //See up there for the actual removal of the tags from the old checking.
-                    String replaced = content.replace("tags ", "");
-                    String[] arguments = replaced.split(" ");
-                    String tags = arguments[0];
-
                     DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
-                    if (dbGuild.getData().getBlackListedImageTags().contains(tags.toLowerCase())) {
+                    if (list.stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
                         ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
                         return;
                     }
@@ -126,14 +122,7 @@ public class ImageboardUtils {
                                 return;
                             }
 
-                            int number;
-                            try {
-                                number = Integer.parseInt(arguments[1]);
-                            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                                number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
-                            }
-
-                            BoardImage image = filter.get(number);
+                            BoardImage image = filter.get(r.nextInt(filter.size()));
                             String imageTags = String.join(", ", image.getTags());
                             sendImage(ctx, imageTags, imageboard, image, dbGuild);
                         } catch (Exception e) {
@@ -144,7 +133,7 @@ public class ImageboardUtils {
                     ctx.getChannel().sendMessageFormat(
                             ctx.getLanguageContext().get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard
                     ).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                } catch (Exception exception) {
+                } catch (Exception ex) {
                     ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
                 }
 
