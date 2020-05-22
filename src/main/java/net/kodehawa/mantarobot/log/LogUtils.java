@@ -23,6 +23,8 @@ import club.minnced.discord.webhook.send.WebhookEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LogUtils {
+    private static final Logger log = LoggerFactory.getLogger(LogUtils.class);
+
     private final static String ICON_URL = "https://totally-not.a-sketchy.site/985414.png";
     private static final String WEBHOOK_START = "https://discordapp.com/api/webhooks/";
     private static WebhookClient LOGBACK_WEBHOOK;
@@ -48,12 +52,15 @@ public class LogUtils {
         if (logWebhook != null) {
             String[] parts = logWebhook.replace(WEBHOOK_START, "").split("/");
             LOGBACK_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
+        } else {
+            log.error("Webhook URL is null! Webhooks won't be posted at all to status channels.");
         }
         if (spambotWebhook != null) {
             String[] parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
             SPAMBOT_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         } else {
-            log("Warning", "Spambot Webhook URL is null. Spam bots won't be logged!");
+            log("Warning", "Spambot Webhook URL is null. Spam bots won't be logged.");
+            log.error("Spambot Webhook URL is null. Spam bots won't be logged.");
         }
     }
 
