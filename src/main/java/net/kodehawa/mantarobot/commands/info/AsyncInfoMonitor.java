@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.info;
 
-import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -154,7 +153,7 @@ public class AsyncInfoMonitor {
                                 .toString()
                 );
             }
-        }, 2, 2, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);
 
         started = true;
     }
