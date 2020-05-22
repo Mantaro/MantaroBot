@@ -26,7 +26,6 @@ import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceM
 import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
 import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner;
@@ -43,27 +42,18 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Lazy;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static com.sedmelluq.discord.lavaplayer.tools.FriendlyException.Severity.COMMON;
 
 public class MantaroAudioManager {
-    private static final ThreadLocal<Boolean> IS_RESULT_FROM_CACHE = ThreadLocal.withInitial(() -> false);
     private static final Lazy<Executor> LOAD_EXECUTOR = new Lazy<>(() -> Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()
                     .setNameFormat("AudioLoadThread-%d")
@@ -119,18 +109,9 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
         if (!ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
-            log.info("STARTUP: Enabled non-allocating buffer.");
+            log.info("Enabled non-allocating audio buffer.");
             playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         }
-    }
-
-    public static boolean isResultFromCache() {
-        return IS_RESULT_FROM_CACHE.get();
-    }
-
-    private static boolean isYoutube(String url) {
-        if (url.startsWith("ytsearch:")) return true;
-        return YTExtractor.getIdentifier(url) != null;
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
@@ -163,90 +144,5 @@ public class MantaroAudioManager {
 
     public AudioPlayerManager getPlayerManager() {
         return this.playerManager;
-    }
-
-    private static class YTExtractor {
-        private static final String PROTOCOL_REGEX = "(?:http://|https://|)";
-        private static final String DOMAIN_REGEX = "(?:www\\.|m\\.|music\\.|)youtube\\.com";
-        private static final String SHORT_DOMAIN_REGEX = "(?:www\\.|)youtu\\.be";
-        private static final String VIDEO_ID_REGEX = "(?<v>[a-zA-Z0-9_-]{11})";
-        private static final String PLAYLIST_ID_REGEX = "(?<list>(PL|LL|FL|UU)[a-zA-Z0-9_-]+)";
-
-        private static final Extractor[] EXTRACTORS = new Extractor[]{
-                new Extractor(Pattern.compile("^" + VIDEO_ID_REGEX + "$"), Function.identity()),
-                new Extractor(Pattern.compile("^" + PLAYLIST_ID_REGEX + "$"), Function.identity()),
-                new Extractor(Pattern.compile("^" + PROTOCOL_REGEX + DOMAIN_REGEX + "/.*"), YTExtractor::idFromMainDomain),
-                new Extractor(Pattern.compile("^" + PROTOCOL_REGEX + SHORT_DOMAIN_REGEX + "/.*"), YTExtractor::idFromShortDomain)
-        };
-
-        static String getIdentifier(String url) {
-            for (Extractor e : EXTRACTORS) {
-                if (e.pattern.matcher(url).matches()) {
-                    return e.idFunction.apply(url);
-                }
-            }
-            return null;
-        }
-
-        private static String idFromMainDomain(String identifier) {
-            UrlInfo urlInfo = getUrlInfo(identifier, true);
-
-            if ("/watch".equals(urlInfo.path)) {
-                return urlInfo.parameters.get("v");
-            } else if ("/playlist".equals(urlInfo.path)) {
-                return urlInfo.parameters.get("list");
-            }/* else if ("/watch_videos".equals(urlInfo.path)) {
-                String videoIds = urlInfo.parameters.get("video_ids");
-                if (videoIds != null) {
-                    return loadAnonymous(videoIds);
-                }
-            }*/
-
-            return null;
-        }
-
-        private static String idFromShortDomain(String identifier) {
-            UrlInfo urlInfo = getUrlInfo(identifier, true);
-            return urlInfo.path.substring(1);
-        }
-
-        private static UrlInfo getUrlInfo(String url, boolean retryValidPart) {
-            try {
-                if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                    url = "https://" + url;
-                }
-
-                URIBuilder builder = new URIBuilder(url);
-                return new UrlInfo(builder.getPath(), builder.getQueryParams().stream()
-                        .filter(it -> it.getValue() != null)
-                        .collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue, (a, b) -> a)));
-            } catch (URISyntaxException e) {
-                if (retryValidPart) {
-                    return getUrlInfo(url.substring(0, e.getIndex() - 1), false);
-                } else {
-                    throw new FriendlyException("Not a valid URL: " + url, COMMON, e);
-                }
-            }
-        }
-
-        private static class Extractor {
-            private final Pattern pattern;
-            private final Function<String, String> idFunction;
-
-            private Extractor(Pattern pattern, Function<String, String> idFunction) {
-                this.pattern = pattern;
-                this.idFunction = idFunction;
-            }
-        }
-
-        private static class UrlInfo {
-            private final String path;
-            private final Map<String, String> parameters;
-
-            private UrlInfo(String path, Map<String, String> parameters) {
-                this.path = path;
-                this.parameters = parameters;
-            }
-        }
     }
 }

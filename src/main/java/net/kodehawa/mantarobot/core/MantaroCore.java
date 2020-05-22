@@ -348,8 +348,8 @@ public class MantaroCore {
         bot.getCore().markAsReady();
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-        LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %d seconds.", shardManager.getShardsRunning(),
-                shardManager.getShardsTotal(), elapsed / 1000));
+        LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %s.", shardManager.getShardsRunning(),
+                shardManager.getShardsTotal(), Utils.formatDuration(elapsed)));
         log.info("Loaded all shards successfully! Status: {}", MantaroCore.getLoadState());
 
         bot.getCore().getShardEventBus().post(new PostLoadEvent());

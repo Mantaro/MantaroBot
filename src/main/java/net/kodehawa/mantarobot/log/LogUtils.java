@@ -53,7 +53,7 @@ public class LogUtils {
             String[] parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
             SPAMBOT_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         } else {
-            log("Log", "Spambot webhook URL is null!");
+            log("Warning", "Spambot Webhook URL is null. Spam bots won't be logged!");
         }
     }
 
@@ -69,6 +69,7 @@ public class LogUtils {
                     new WebhookEmbed.EmbedTitle("Shard", null), null,
                     new ArrayList<>()));
         } catch (Exception e) {
+            e.printStackTrace();
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
@@ -85,6 +86,7 @@ public class LogUtils {
                     new WebhookEmbed.EmbedTitle(title, null), null,
                     new ArrayList<>()));
         } catch (Exception e) {
+            e.printStackTrace();
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
@@ -101,6 +103,7 @@ public class LogUtils {
                     new WebhookEmbed.EmbedTitle("Log", null), null,
                     new ArrayList<>()));
         } catch (Exception e) {
+            e.printStackTrace();
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
@@ -112,6 +115,7 @@ public class LogUtils {
         try {
             LOGBACK_WEBHOOK.send(message);
         } catch (Exception e) {
+            e.printStackTrace();
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
@@ -123,6 +127,7 @@ public class LogUtils {
         try {
             SHARD_WEBHOOK.send(message);
         } catch (Exception e) {
+            e.printStackTrace();
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
