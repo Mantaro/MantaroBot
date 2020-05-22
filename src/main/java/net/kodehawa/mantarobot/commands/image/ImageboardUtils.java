@@ -68,22 +68,20 @@ public class ImageboardUtils {
             rating = Rating.lookupFromString(list.get(0));
         }
 
-        if (rating == null) {
+        if (rating == null && needRating) {
             //Try with short name
             rating = Rating.lookupFromStringShort(list.get(1));
 
-            if (rating != null) {
+            if (rating != null)
                 list.remove(rating.getShortName());
-            }
         }
 
         //Allow for more tags after declaration.
         Rating finalRating = rating;
-        if (finalRating != null) {
+        if (finalRating != null)
             list.remove(rating.getLongName());
-        } else {
+        else
             finalRating = Rating.SAFE;
-        }
 
         if (!nsfwCheck(ctx, nsfwOnly, false, finalRating)) {
             ctx.sendLocalized("commands.imageboard.nsfw_no_nsfw", EmoteReference.ERROR);
@@ -142,7 +140,7 @@ public class ImageboardUtils {
                             ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                         }
                     }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
-                } catch (NumberFormatException numberEx) {
+                } catch (NumberFormatException nex) {
                     ctx.getChannel().sendMessageFormat(
                             ctx.getLanguageContext().get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard
                     ).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));

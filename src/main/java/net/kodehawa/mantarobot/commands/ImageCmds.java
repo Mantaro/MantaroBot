@@ -166,7 +166,7 @@ public class ImageCmds {
                         .setUsage("`~>konachan` - Retrieves a random image.\n" +
                                 "`~>konachan <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on konachan's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
@@ -208,7 +208,7 @@ public class ImageCmds {
                         .setUsage("`~>danbooru` - Retrieves a random image.\n" +
                                 "`~>danbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on danbooru's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
@@ -257,7 +257,7 @@ public class ImageCmds {
                         .setUsage("`~>yandere` - Retrieves a random image.\n" +
                                 "`~>yandere <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on yande.re's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
@@ -285,7 +285,7 @@ public class ImageCmds {
                         .setUsage("`~>gelbooru` - Retrieves a random image.\n" +
                                 "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on gelbooru's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
