@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n**Bạn có thể sử dụng lệnh này sau %3$s.**",
       "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. :( *Nhớ rằng thời gian chờ sẽ tăng nếu bạn cố thử lại trước khi nó về 0!*",
-      "spam_2": "\nTôi nghĩ rằng dừng lại là lựa chọn tốt nhất bây giờ..."
+      "spam_2": "\nTôi nghĩ rằng dừng lại là lựa chọn tốt nhất bây giờ...",
+      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_4": "\nIs this thing even on?"
     },
     "generic_error": "Nếu bạn muốn, hãy vào **máy chủ hỗ trợ** (đường link tại `support.mantaro.site`). Hoặc xem trang GitHub của chúng tôi (`https://github.com/Kodehawa/MantaroBot`). Làm ơn hãy nói với họ để tránh việc tôi bị nổ và làm ơn đừng quên những ID lỗi khi báo cáo!",
     "boom_quotes": [
@@ -368,7 +370,7 @@
       "check": "%1$sÂm lượng hiện tại là: %2$d\n\n%3$s",
       "success": "%1$sÂm lượng được đặt thành %2$d\n\n%3$s",
       "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt nhạc là gì (từ 5 đến 100).",
-      "premium_only": "%1$sĐây là tính năng chỉ dùng cho cao cấp. Để có được những lợi ích như thế này bạn có thể cam kết trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể bị ràng buộc bởi người dùng hoặc máy chủ. Vui lòng tham gia vào nhóm hỗ trợ và hỏi về nó nếu như bạn đã ủng hộ."
+      "premium_only": "%1$sĐây là tính năng chỉ có ở tài khoản cao cấp. Để có được những tiện lợi này bạn có thể đăng kí trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể bị ràng buộc bởi người dùng hoặc máy chủ. Nếu bạn đã ủng hộ, vui lòng tham gia máy chủ hỗ trợ và hỏi về nó."
     },
     "lyrics": {
       "no_current_track": "%1$sKhông có bài hát nào đang được chơi ở máy chủ này!",
@@ -458,7 +460,7 @@
         "not_enough_args": "%1$sBạn cần phải đưa ra tên lệnh và cách phản hồi của lệnh mà bạn muốn thêm vào.",
         "empty_content": "%1$sBạn cần phải đưa ra nội dung của lệnh tùy chỉnh này",
         "success": "%1$sĐã lưu lệnh `%2$s`",
-        "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, vì vậy bạn không thể tạo thêm nữa (+100). Điều này có thể được bỏ qua nếu bạn ở máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
+        "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
@@ -617,6 +619,13 @@
         "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots!"
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
@@ -659,7 +668,7 @@
       "no_tool": "%1$sBạn cần có %2$s để thực hiện quá trình chế tạo này!",
       "item_broke": "\nRất tiếc, cờ lê của bạn đã bị gãy trong quá trình chế tạo, nhưng bạn đã có được đồ của bạn!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sBạn không thể chế tạo quá nhiều món đồ này cùng một lúc như thế! Giới hạn: %2$s, Số lượng bạn đưa ra: %3$s. Một cờ lê lấp lánh có thể tăng giới hạn lên gấp đôi! Trừ khi bạn đang dùng nó.",
       "ls": {
@@ -871,7 +880,7 @@
         "times_mop": "Times Mopped",
         "daily": "Chuỗi ngày nhận daily",
         "daily_at": "Lần cuối cùng nhận daily",
-        "waifu_claimed": "Số lần nhận Waifu",
+        "waifu_claimed": "Số lần được nhận làm Waifu",
         "waifu_locked": "Khoá waifu",
         "dust": "Cấp độ bụi bặm",
         "lang": "Ngôn ngữ hiển thị",
@@ -1329,7 +1338,7 @@
         "age": "Age",
         "no_pets": "%1$sYou have no pets.",
         "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
-        "pages": "**Total pages: %1$s \nUse the message reaction to move between pages.\n\n"
+        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
         "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
@@ -1438,7 +1447,7 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
       "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
@@ -1455,7 +1464,7 @@
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
       "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
@@ -1647,7 +1656,7 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
@@ -2168,7 +2177,7 @@
     "tropical_fish": "Cá nhiệt đới",
     "blowfish": "Cá nóc",
     "comet_gem": "Ngọc sao chổi",
-    "star_gem": "Ngọc sao",
+    "star_gem": "Ngọc sao băng",
     "cobweb": "Mạng nhện",
     "fragment": "Mảnh ngọc vỡ",
     "mop": "Chổi lau nhà",
@@ -2179,11 +2188,11 @@
     "diamond_pick": "Cuốc kim cương",
     "tv": "Tivi",
     "wrench": "Cờ lê",
-    "star_wrench": "Cờ lê sao chổi",
+    "star_wrench": "Cờ lê sao băng",
     "sparkle_wrench": "Cơ lê lấp lánh",
     "motorcycle": "Xe máy",
     "comet_pick": "Cuốc sao chổi",
-    "star_pick": "Cuốc sao",
+    "star_pick": "Cuốc sao băng",
     "sparkle": "Vật chất lấp lánh",
     "sparkle_pick": "Cuốc lấp lánh",
     "pizza": "Bánh pizza",
@@ -2192,7 +2201,7 @@
     "mine_premium_crate": "Hòm ngọc cao cấp",
     "fish_premium_crate": "Hòm câu cá cao cấp",
     "comet_rod": "Cần câu sao chổi",
-    "star_rod": "Cần câu sao",
+    "star_rod": "Cần câu sao băng",
     "sparkle_rod": "Cần câu lấp lánh",
     "shell": "Vỏ ốc",
     "shark": "Cá mập",
@@ -2203,10 +2212,10 @@
     "flake": "Bông tuyết",
     "broken_comet_pick": "Cuốc sao chổi hỏng",
     "broken_sparkle_pick": "Cuốc lấp lánh hỏng",
-    "broken_star_pick": "Cuốc sao hỏng",
+    "broken_star_pick": "Cuốc sao băng hỏng",
     "broken_comet_rod": "Cần câu sao chổi hỏng",
     "broken_sparkle_rod": "Cần câu lấp lánh hỏng",
-    "broken_star_rod": "Cần câu sao hỏng",
+    "broken_star_rod": "Cần câu sao băng hỏng",
     "incubator_egg": "Trứng ấp",
     "water_bottle": "Chai nước",
     "magic_watch": "Đồng hồ thần kì",

@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
       "spam_1": "Por favor descanse, faz bem pra saúde :( *Lembre-se que o Limite de taxa irá continuar aumentando se você tentar antes do tempo acabar!*",
-      "spam_2": "\nEu acho que parar é a melhor opção por enquanto..."
+      "spam_2": "\nEu acho que parar é a melhor opção por enquanto...",
+      "spam_3": "\nNão seria melhor se você fosse pra fora um pouco?",
+      "spam_4": "\nEssa coisa está ligada?"
     },
     "generic_error": "Se você quiser, entre no nosso **servidor de suporte** (Link em `support.mantaro.site`), ou cheque nossa página no GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor diga a eles para parar de me explodir e por favor não se esqueça do Error ID quando reportar!",
     "boom_quotes": [
@@ -596,7 +598,7 @@
         "key_locked": "%1$sO usuário que você tentou reivindicar está com uma chave o bloqueando e não pode ser reivindicado.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para reivindicar esta waifu **(Custo: %2$s)**",
         "not_enough_slots": "%1$sVocê não tem slots disponíveis para reivindicar esta waifu. (Total de slots: %2$s, Slots usados: %3$s)",
-        "success": "%1$sReivindicado com sucesso `%2$s` para %3$,d. Espaços usados: %4$s",
+        "success": "%1$sReivindicado com sucesso `%2$s` por %3$,d. Espaços usados: %4$s",
         "yourself": "%1$sVocê não pode reivindicar a si mesmo!",
         "already_claimed": "%1$sVocê já reivindicou esta waifu.",
         "not_found": "%1$sNão consigui encontrar nenhum usuário com essa consulta. "
@@ -616,6 +618,13 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar mais espaços! Você precisa de %2$d créditos.",
         "success": "%1$sEspaço comprado com sucesso por %2$s, você atualmente tem %3s espaços no total e %4$s espaços disponíveis.",
         "too_many": "%1$sVocê já tem muitos espaços!"
+      },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
       },
       "header": "Lista de Waifu",
       "description_header": "Aqui está uma lista com todas as suas amadas waifus, classificadas por data de adição.\n*Você pode ter um máximo de %1$d waifus por enquanto.*\n\nSe você deseja checar suas estatísticas de waifu, use `~>waifu stats`\n\n",
@@ -659,7 +668,7 @@
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
       "item_broke": "\nInfelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
       "too_many": "%1$sVocê teria mais de 5000 desse item se você prosseguir. Talvez tentar fundir menos deste objeto?",
-      "low_tier": "%1$sVocê precisa de pelo menos uma chave inglesa de tier 2 para fundir mais items. Você atualmente tem uma chave inglesa de tier %2$s.",
+      "low_tier": "%1$sVocê precisa de pelo uma chave inglesa de tier 2 (pelo menos uma Chave Inglesa de Cometa) pra fundir mais item por chamada. Você atualmente tem uma chave inglesa de tier %2$s.",
       "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para fundir este item. Talvez tentar especificar uma mais poderosa? *Nível da chave inglesa: %2$s, Nível necessário: %3$s*. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sVocê não pode fundir isso tudo de item ao mesmo tempo! Limite: %2$s, Tentativa: %3$s. Uma chave inglesa brilhante faz com que o limite duplique! A menos que você já esteja usando uma.",
       "ls": {
@@ -686,32 +695,32 @@
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
+        "invalid": "%1$sNão é um número válido de items para vender.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sVocê tem *certeza* que deseja vender **todos** os seus items? Isso irá apagar *todo* o seu inventário. Se você quiser vender items individualmente por favor especifique a quantidade. Digite *yes* para confirmar e *no* para cancelar",
+          "success": "%1$sVocê vendeu todos os items do seu inventário e ganhou %2$,d créditos!",
+          "cancelled": "%1$sCancelado com sucesso."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sVocê não pode vender um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
+        "no_sell_price": "%1$sVocê não pode vender um item que não pode ser vendido. (Mas você pode usar `~>market dump` nele)",
+        "no_item_player": "%1$sVocê não pode vender um item que você não tem.",
+        "more_items_than_player": "%1$sVocê não pode vender mais items do que você tem.",
+        "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
+        "invalid": "%1$sNão é um número válido de items para comprar.",
+        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
+        "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
+        "item_limit_reached": "%1$sVocê não pode comprar mais desse objeto.",
+        "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar este item."
       },
       "header": "Mercado da Mantaro",
       "reference": "\nVocê pode comprar e vender items usando `~>market buy <item>` e `~>market sell <item>`. Cheque `~>help market` para mais informações.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "sell_price": "-**Preço de Venda:**",
+      "buy_price": "-**Preço de Compra:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sVocê não pode transferir items para si mesmo.",
@@ -1186,7 +1195,7 @@
         "ended_lobby": "%1$sLobby terminado corretamente! Obrigado por jogar.",
         "all_attempts_used": "%1$sToda as tentativas foram usadas, terminando jogo. Possível resposta era: %2$s",
         "incorrect_answer": "%1$sNão é isso, você tem %2$d tentativas restantes.",
-        "won_game": "%1$s**%2$s** ganhou $%3$d creditos por ter respondido corretamente!"
+        "won_game": "%1$s**%2$s** ganhou $%3$,d créditos por ter respondido corretamente!"
       },
       "lobby_time_out": "%1$sO tempo acabou! A resposta correta era: %2$s",
       "end_footer": "Você tem 5 tentativas e 60 segundos. (Digite end para terminar o jogo)",
@@ -1329,7 +1338,7 @@
         "age": "Idade",
         "no_pets": "%1$sVocê não tem pets.",
         "header": "Isso é uma lista de pets que você possui atualmente.\nPets são seus companheiros no uso da moeda! **Você pode treiná-los, acariciá-los, alimentá-los ou ter lutas entre seus próprios pets com de outras pessoas!** Para criar um pet você precisa de uma incubadora, que você pode fundir com leite, bebida antiga e diamantes, isso vai permitir que você possa incubar um pet, que exigirá que você dê um nome.",
-        "pages": "**Total de páginas: %1$s\nUse as reações para mudar de página.\n\n"
+        "pages": "**Total de páginas:**%1$s\nUse as reações na mensagem para mover sobre as páginas.\n\n"
       },
       "train": {
         "success": "%1$sHabilidade **%2$s** treinada com sucesso. Experiência ganha: %3$s. Experiência de habilidade atual: %4$s. (Custo: %5$s)"
@@ -1438,7 +1447,7 @@
     "help": {
       "title": "Ajuda da Mantaro",
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Lista completa de comando**. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nOutros guias: [Moeda](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Comandos Customizáveis](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Mensagens de Bem-vindo]\n(https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nGuias: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Comandos Customizáveis](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Mensagens de Bem-vindo](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
       "support": "[Para ter ajuda, você pode entrar no servidor de suporte](https://support.mantaro.site). [Você pode me seguir no Twitter para atualizações.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
@@ -1455,7 +1464,7 @@
       "no_item_found": "%1$sNão consegui encontrar esse item. Lembre-se de usar aspas se o nome contém espaços.",
       "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar items quebrados.",
-      "no_tool": "%1$sVocê precisa de uma chave inglesa de Tier 2 ou maior para consertar este item. Certifique-se de que você a tenha e que você especificou a chave inglesa correta caso tenha especificado ela. Lembre-se de usar aspas se o nome contém espaços.",
+      "no_tool": "%1$sVocê precisa de uma Tier 2 (pelo menos uma Chave Inglesa de Cometa) ou uma chave inglesa superior para consertar esse item. Certifique-se de que você tem ela e se você especificou a chave inglesa correta caso você tenha especificado ela. Lembre-se de usar aspas se o nome conter espaços.",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
       "not_enough_level": "%1$sVocê precisa de uma chave inglesa de maior tier pra consertar isso.",
@@ -1540,7 +1549,7 @@
     },
     "gamble": {
       "no_credits": "%1$sVocê está sem dinheiro. Talvez procure por alguns créditos primeiro.",
-      "too_much_money": "%1$sVocê tem muito dinheiro! Talvez transferir ou comprar itens? Agora você também pode usar `~>slots` para todas as suas necessidades de aposta! Obrigado por não quebrar o banco local. *(Limite absoluto de aposta: %2$d creditos)*",
+      "too_much_money": "%1$sVocê tem muito dinheiro! Talvez transferir ou comprar itens? Agora você também pode usar `~>slots` para todas as suas necessidades de aposta! Obrigado por não quebrar o banco local. *(Limite absoluto de aposta: %2$d créditos)*",
       "invalid_money_or_modifier": "%1$sPor favor, digite um número válido menor ou igual ao seu saldo atual ou `all` para apostar todos os seus créditos.",
       "not_enough_money": "%1$sPor favor digite um valor dentro do seu saldo.",
       "invalid_percentage": "%1$sPor favor, digite um valor percentual válido.",
@@ -1647,7 +1656,7 @@
     "iteminfo": {
       "no_content": "%1$sVocê não especificou nenhum item para procurar!",
       "no_item": "%1$sNão há itens que correspondam à sua pesquisa.",
-      "success": "%1$s**Informação do Item** %2$s **%3$s** (Tipo: %4$s): *%5$s*"
+      "success": "%1$s**Informação do Item** %2$s **%3$s** (%4$s) (Tipo: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots não tem level.",
@@ -2179,7 +2188,7 @@
     "diamond_pick": "Picareta de Diamante",
     "tv": "Televisão",
     "wrench": "Chave Inglesa",
-    "star_wrench": "Chave Inglesa de Estrela",
+    "star_wrench": "Chave Inglesa de Cometa",
     "sparkle_wrench": "Chave Inglesa Brilhante",
     "motorcycle": "Motocicleta",
     "comet_pick": "Picareta de Gema de Cometa",
