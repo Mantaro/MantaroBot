@@ -619,6 +619,13 @@
         "success": "%1$sتم بنجاح شراء فتحة من أجل %2$s، أنت حالياً تملك %3$s مجموع فتحاتك و%4$s فتحة متاحة. ",
         "too_many": "%1$sأنت بالفعل تملك فتحات كثيرة! "
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "لستة الوايفو",
       "description_header": "هنا قائمة مع كل من الوايفو الخاص بك، مرتبة حسب تاريخ الإضافة.\n*يمكنك أن تحصل على الحد الاقصى %1$,d من الوايفو الى الآن.*\n\nإذا أردت أن تتحقق من حالتك للوايفو، إستخدم `~>waifu stats`",
       "no_waifu": "لا يوجد وايفو هنا، فقط غبار :(\nيمكنك الحصول على وايفو عن طريق المُطالبه بأحد! إستخدم `~>waifu claim` ليبدأ المرح!",
