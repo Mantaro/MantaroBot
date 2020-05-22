@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AsyncInfoMonitor {
     private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(
-            task -> new Thread(task, "AsyncInfoMonitor")
+            task -> new Thread(task, "Mantaro-AsyncInfoMonitor")
     );
 
     private static final Logger log = LoggerFactory.getLogger(AsyncInfoMonitor.class);

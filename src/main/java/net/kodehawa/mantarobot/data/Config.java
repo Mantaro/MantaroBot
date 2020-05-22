@@ -35,7 +35,6 @@ public class Config {
     public String dbotsorgToken;
     public boolean isPremiumBot = false;
     public int maxJdaReconnectDelay = 3; //3 seconds
-    public String osuApiKey;
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
     public String sentryDSN;
@@ -154,14 +153,6 @@ public class Config {
 
     public void setMaxJdaReconnectDelay(int maxJdaReconnectDelay) {
         this.maxJdaReconnectDelay = maxJdaReconnectDelay;
-    }
-
-    public String getOsuApiKey() {
-        return this.osuApiKey;
-    }
-
-    public void setOsuApiKey(String osuApiKey) {
-        this.osuApiKey = osuApiKey;
     }
 
     public List<String> getOwners() {

@@ -27,7 +27,6 @@ You will need the following to utilize all of Mantaro's features (items marked w
 * RethinkDB
 * JDK
 * Redis
-* osu! API*
 * Wolke's Weeb API (For most of the action commands)*
 * Other unmentioned API keys*
 
