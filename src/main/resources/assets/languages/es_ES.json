@@ -817,24 +817,6 @@
       "cancelled": "%1$sVotación cancelada.",
       "incorrect_time_format": "%1$sFormato de tiempo incorrecto. Recuerda, el formato de tiempo es un número seguido por `h, m or s` (horas, minutos o segundos). Por ejemplo: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "Estadísiticas de %1$s para osu!",
-        "rank": "Rango",
-        "acc": "Precisión",
-        "level": "Nivel",
-        "ranked": "Puntuación Rankeada",
-        "country_rank": "Rank de País"
-      },
-      "retrieving_info": "%1$sRecuperando la información de los servidores de osu!...",
-      "timeout": "%1$sLa API de osu! parece que está tomando una siesta ahorita mismo. ¿Puedes intentarlo en unos minutos?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Combo máximo: %7$d",
-      "best": "**Mejores 10 scores de osu! para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... parece que solo recibí unos tamales como respuesta... (Error externo mientras intentabamos recuperar los resultados)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Fecha: %5$s -> Combo máximo: %6$s\n",
-      "recent": "**10 scores más recientes para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... parece que solo recibí unos tamales como respuesta... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sNecesitas especificar una zona horaria.",
@@ -1027,17 +1009,6 @@
       "main_def": "Definición principal.",
       "footer": "Información por Urban Dictionary",
       "nsfw_notice": "%1$sEste comando solo puede usar en canales NSFW debido a la naturaleza de sus resultados."
-    },
-    "weather": {
-      "header": "%1$s Información del tiempo para %2$s",
-      "clouds": "nubosidad",
-      "temperature": "Temperatura",
-      "humidity": "Humedad",
-      "wind_speed": "Velocidad del Viento",
-      "pressure": "Presión",
-      "footer": "Información por OpenWeatherMap (Tiempo tomado: %1$dms)",
-      "error": "%1$sEncontré un error mientras intentaba buscar los resultados. ¿No existe?",
-      "no_content": "%1$sNecesitas especificar la ciudad y país para ver el tiempo."
     },
     "activatekey": {
       "check": {
