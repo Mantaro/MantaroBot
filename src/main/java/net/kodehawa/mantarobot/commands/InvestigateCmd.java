@@ -73,6 +73,7 @@ public class InvestigateCmd {
             event.getChannel().sendMessage("Unknown guild").queue();
             return;
         }
+
         Investigation investigation = new Investigation(file);
         CompletableFuture.allOf(guild.getTextChannels().stream().filter(tc ->
                 guild.getSelfMember().hasPermission(tc, Permission.MESSAGE_HISTORY)
