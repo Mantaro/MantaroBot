@@ -817,24 +817,6 @@
       "cancelled": "%1$sGeannuleerde poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "osu! statistieken voor %1$s",
-        "rank": "Rank",
-        "acc": "Nauwkeurigheid",
-        "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Land Rank"
-      },
-      "retrieving_info": "%1$sOphalen van informatie van osu! server...",
-      "timeout": "%1$sDe osu! api lijkt een dutje te doen. Misschien later nog een keer proberen?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 beste osu! scores voor: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... het lijkt alsof ik net scramblesoep heb ontvangen als reactie ... (Error tijdens het ophalen van resultaten)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %6$d\n",
-      "recent": "**10 meest recente osu! scores voor: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... het lijkt alsof ik net scramblesoep heb ontvangen als reactie... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sJe moet de tijdzone opgeven.",
@@ -1027,17 +1009,6 @@
       "main_def": "Hoofddefinitie.",
       "footer": "Informatie komt uit Urban Dictionary",
       "nsfw_notice": "%1$sDit commando kan alleen gebruikt worden in channels met de NSFW tag in verband met het soort resultaten."
-    },
-    "weather": {
-      "header": "%1$s Weersvoorspelling voor %2$s",
-      "clouds": "Wolken",
-      "temperature": "Temperatuur",
-      "humidity": "Luchtvochtigheid",
-      "wind_speed": "Windsnelheid",
-      "pressure": "Luchtdruk",
-      "footer": "Informatie komt van OpenWeatherMap (Procestijd: %1$dms)",
-      "error": "%1$sFout bij ophalen van resultaten.(Niet gevonden?)",
-      "no_content": "%1$sJe moet aangeven voor welke stad en welk land je die weersvoorspellingen wilt weten!"
     },
     "activatekey": {
       "check": {
