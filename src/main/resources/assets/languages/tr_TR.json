@@ -876,7 +876,7 @@
         "never": "Never"
       },
       "hide_tag": {
-        "success": "%1%sTag hidden status is now: `%2$s`"
+        "success": "%1$sTag hidden status is now: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sHangi eşyayı giymek istediğini belirtmelisin!",
