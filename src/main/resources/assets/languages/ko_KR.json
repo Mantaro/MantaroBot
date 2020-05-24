@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (제한된 속도)\n **%3$s초 후 이 명령어를 다시 사용할 수 있어요.**",
       "spam_1": "건강을 위해서 쉬세요 ㅠㅠ *재사용 대기시간이 재설정되기 전에 시도하면 제한된 속도가 계속 증가한다는 것을 기억하세요!*",
       "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_3": "\n잠깐 밖에 나가 있는 게 낫지 않을까요?",
+      "spam_4": "\n이거 켜는 거 맞나요?"
     },
     "generic_error": "만약 원한다면 저희 **고객 지원 서버**(`support.mantaro.site`)나 저희 GitHub 페이지(`https://github.com/Kodehawa/MantaroBot`)를 확인해주세요. 제발 저를 폭파시키지 말라고 말해줘요. 그리고 신고할 때 오류 ID를 잊지 말아줘요!",
     "boom_quotes": [
@@ -470,8 +470,8 @@
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "invalid_json": "%1$s`{%2$s}` 문자열은 유효한 JSON이 아니에요.",
+      "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -517,31 +517,31 @@
         "ㅈ..제가 충분히 빠른가요?",
         "지금 무엇을 하고 있나요?",
         "W-What are you looking at?!",
-        "Huh.",
+        "흠.",
         "Did I do well?",
         "What do you think?",
         "Does this happen often?",
         "Am I performing p-properly?",
         "<3",
-        "*pats*",
+        "*머리를 쓰다듬음*",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
         "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "ㅇ..음...ㅇ..안녕"
       ],
       "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
+      "not_ideal": "다음 기회를 이용해 보세요...",
+      "decent": "좋은 편이에요!",
       "nice": "Good match!",
       "perfect": "Perfect match!",
       "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
       "header": "Love Meter",
-      "result": "Result:"
+      "result": "결과:"
     },
     "marry": {
       "loveletter": {
@@ -632,7 +632,7 @@
       "footer": "Total waifus: %1$,d - available slots: %2$s",
       "value_format": "**Value:**",
       "value_b_format": "**Bought for:**",
-      "credits_format": " credits.",
+      "credits_format": " 크레딧.",
       "waifu_header": "**Your waifus:**",
       "not_claimed": "%1$sYou haven't claimed this waifu."
     },
@@ -777,8 +777,8 @@
     "iam": {
       "list": {
         "name": "Auto-role name: ",
-        "role": "Role:",
-        "category": "Category: ",
+        "role": "역할:",
+        "category": "카테고리: ",
         "header": "Auto-roles list",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
@@ -809,37 +809,19 @@
       "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
       "time": "You have %1$s to vote.",
       "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
-      "result_header": "Poll results",
+      "result_header": "투표 결과",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
       "thank_note": "Thanks for your vote",
-      "results": "Results",
+      "results": "결과",
       "cancelled": "%1$sCancelled poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
-    },
-    "osustats": {
-      "user": {
-        "header": "osu! statistics for %1$s",
-        "rank": "Rank",
-        "acc": "Accuracy",
-        "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Country Rank"
-      },
-      "retrieving_info": "%1$sRetrieving information from osu! server...",
-      "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | Rank: %6$s -> Max Combo: %7$,d",
-      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
-      "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },
     "profile": {
       "timezone": {
         "not_specified": "%1$sYou need to specify the timezone.",
-        "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone.",
+        "reset": "%1$s표준시간대 초기화.",
+        "invalid": "%1$s유효하지 않은 표준시간대.",
         "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**",
         "reset_success": "%1$sSuccessfully reset your timezone."
       },
@@ -870,9 +852,9 @@
         "market": "Market Used",
         "potion": "Active Potion",
         "potion_type": "Potion Type",
-        "buff": "Buff",
-        "buff_type": "Buff Type",
-        "experience": "Experience",
+        "buff": "버프",
+        "buff_type": "버프 유형",
+        "experience": "경험치",
         "mine_xp": "Mining Experience",
         "fish_xp": "Fishing Experience",
         "sharks_caught": "Sharks Caught",
@@ -1027,17 +1009,6 @@
       "main_def": "Main definition.",
       "footer": "Information by Urban Dictionary",
       "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
-    },
-    "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "clouds",
-      "temperature": "Temperature",
-      "humidity": "Humidity",
-      "wind_speed": "Wind Speed",
-      "pressure": "Pressure",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)",
-      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
     },
     "activatekey": {
       "check": {

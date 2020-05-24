@@ -817,24 +817,6 @@
       "cancelled": "%1$sCancelled poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "osu! %1$s statistikos",
-        "rank": "Reitingas",
-        "acc": "Tikslumas",
-        "level": "Lygis",
-        "ranked": "Ranked Score",
-        "country_rank": "Country Rank"
-      },
-      "retrieving_info": "%1$sRetrieving information from osu! server...",
-      "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %5$d\n",
-      "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sTuri nurodyti laiko zoną.",
@@ -1027,17 +1009,6 @@
       "main_def": "Pagrindinė reikšmė.",
       "footer": "Informaciją pateikė Urban Dictionary",
       "nsfw_notice": "%1$sŠi komanda gali būti naudojama tik NDA kanaluose dėl rezultatų naturalumo."
-    },
-    "weather": {
-      "header": "%1$s %2$s orai",
-      "clouds": "debesys",
-      "temperature": "Temperatūra",
-      "humidity": "Drėgnumas",
-      "wind_speed": "Vėjo greitis",
-      "pressure": "Spaudimas",
-      "footer": "Informaciją pateikė OpenWeatherMap (Proceso laikas: %1$dms)",
-      "error": "%1$sKlaida apdorojant rezultatus. (Nerasta?)",
-      "no_content": "%1$sTuri nurodyti, kurio miesto ar šalies orus norėtum sužinoti!"
     },
     "activatekey": {
       "check": {

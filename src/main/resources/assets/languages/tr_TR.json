@@ -817,24 +817,6 @@
       "cancelled": "%1$sCancelled poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "osu! İstatistikleri %1$s",
-        "rank": "Rütbe",
-        "acc": "İsabetlilik",
-        "level": "Seviye",
-        "ranked": "Dereceli Skoru",
-        "country_rank": "Sahil Rütbesi"
-      },
-      "retrieving_info": "%1$sosu! sunucusundan bilgiler alınıyor...",
-      "timeout": "%1$sThe osu! api görünüşe göre çalışmıyor, sonra tekrar dener misin?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rütbe: %6$s -> Max Kombo: %7$d",
-      "best": "**En iyi 10 osu! scoru: %1$s** (Moe: %2$d)\n```md\n%3$s```",
-      "error": "%1$sOha çorba olmuş burası, hiçi bir bilgl yok... (Bilgi alamadım.)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Tarih: %5$s -> Max Kombo: %6$s\n",
-      "recent": "**En son 10 osu! skorları: %1$s** (Mod: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Aldığım bilgiler çorba olmuş sanki... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sSaat dilimi girmelisiniz.",
@@ -1027,17 +1009,6 @@
       "main_def": "Main definition.",
       "footer": "Information by Urban Dictionary",
       "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
-    },
-    "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "clouds",
-      "temperature": "Temperature",
-      "humidity": "Humidity",
-      "wind_speed": "Wind Speed",
-      "pressure": "Pressure",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)",
-      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
     },
     "activatekey": {
       "check": {

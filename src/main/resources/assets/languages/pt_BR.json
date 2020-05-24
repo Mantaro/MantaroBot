@@ -817,24 +817,6 @@
       "cancelled": "%1$sEnquete cancelada",
       "incorrect_time_format": "%1$sFormato de tempo incorreto. Lembre-se, o formato de hora adequado é um número seguido por `h, m ou s` (horas, minutos ou segundos). Exemplo: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "osu! estatísticas de %1$s",
-        "rank": "Classificação",
-        "acc": "Precisão",
-        "level": "Nível",
-        "ranked": "Pontuação Classificada",
-        "country_rank": "Classificação no País"
-      },
-      "retrieving_info": "%1$sRecuperando informações do servidor de osu!...",
-      "timeout": "%1$sParece que o api de osu! está tirando uma soneca. Talvez tente novamente mais tarde",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Classificação: %6$s -> Combo Máximo: %7$d",
-      "best": "**10 melhores osu! pontuações para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... parece que eu recebi uma sopa embaralhada como resposta... (Erro ao recuperar resultados)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Data: %5$s -> Combo Máximo: %6$s\n",
-      "recent": "**10 pontuações de osu! mais recentes para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... parece que eu recebi uma sopa embaralhada como resposta... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sVocê tem que especificar o fuso horário.",
@@ -1027,17 +1009,6 @@
       "main_def": "Definição principal.",
       "footer": "Informação por Dicionário Urbano",
       "nsfw_notice": "%1$sEste comando só pode ser usado em canais NSFW devido à natureza de seus resultados."
-    },
-    "weather": {
-      "header": "%1$s Previsão de informações para %2$s",
-      "clouds": "nuvens",
-      "temperature": "Temperatura",
-      "humidity": "Umidade",
-      "wind_speed": "Velocidade do vento",
-      "pressure": "Pressão",
-      "footer": "Informações fornecidas por OpenWeatherMap (Tempo de processamento: %1$dms)",
-      "error": "%1$sErro ao buscar resultados. (Não encontrado?)",
-      "no_content": "%1$sVocê tem que especificar qual cidade e país você quer pesquisar o clima!"
     },
     "activatekey": {
       "check": {

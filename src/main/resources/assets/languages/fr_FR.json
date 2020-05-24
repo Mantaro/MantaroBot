@@ -817,24 +817,6 @@
       "cancelled": "%1$sSondage supprimé",
       "incorrect_time_format": "%1$sFormat de durée incorrect. Souviens-toi, le format adéquat utilise les nombres suivis de `h, m or s` (heures, minutes or secondes). Exemple : `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "osu! statistiques pour %1$s",
-        "rank": "Rang",
-        "acc": "Précision",
-        "level": "Niveau",
-        "ranked": "Score du classement",
-        "country_rank": "Rang national"
-      },
-      "retrieving_info": "%1$sRecherche des informations depuis le serveur osu!...",
-      "timeout": "%1$sL'api osu! semble faire une sieste. Réessaie plus tard.",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rang: %6$s -> Max Combo: %7$d",
-      "best": "**Les 10 meilleurs scores osu! pour: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... on dirait que j'ai reçu un beau méli-mélo en guise de résultat... (Erreur lors de la recherche)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Combo Max : %6$s\n",
-      "recent": "**Les 10 scores osu! les plus récents pour: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... on dirait que j'ai reçu un beau méli-mélo en guise de résultat... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sTu dois spécifier un fuseau horaire.",
@@ -1027,17 +1009,6 @@
       "main_def": "Définition principale",
       "footer": "Information par Urban Dictionary",
       "nsfw_notice": "%1$sCette commande ne peut être utilisée que dans les channels NSFW dû à ses résultats."
-    },
-    "weather": {
-      "header": "%1$s Prévisions météo pour %2$s",
-      "clouds": "nuages",
-      "temperature": "Température",
-      "humidity": "Humidité",
-      "wind_speed": "Vitesse du vent",
-      "pressure": "Pression",
-      "footer": "Information données par OpenWeatherMap (Temps de calculs: %1$dms)",
-      "error": "%1$sErreur lors du traitement des résultats. (Non trouvé ?)",
-      "no_content": "%1$sTu dois me donner la ville et le pays dont tu veux connaitre la météo!"
     },
     "activatekey": {
       "check": {

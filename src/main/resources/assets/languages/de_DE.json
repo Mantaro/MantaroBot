@@ -817,24 +817,6 @@
       "cancelled": "%1$sUmfrage abgebrochen",
       "incorrect_time_format": "%1$sInkorrektes Zeitformat. Beachte, das korrekte Zeitformat ist eine Zahl gefolgt von `h, m oder s` (Stunden, Minuten oder Sekunden). Beispiel: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "osu! Statistiken für %1$s",
-        "rank": "Rang",
-        "acc": "Genauigkeit",
-        "level": "Level",
-        "ranked": "Rangliste Punkte",
-        "country_rank": "Landesrang"
-      },
-      "retrieving_info": "%1$sInformationen abrufen vom osu! Server...",
-      "timeout": "%1$sDie osu! API scheint ein Nickerchen zu machen. Vielleicht später noch einmal versuchen?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$spp] | Rang: %6$s -> Max Combo: %7$s",
-      "best": "**10 beste osu! Ergebnisse für: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... scheint, als hätte ich gerade einen Buchstabensalat als Antwort bekommen... (Fehler beim Abrufen der Ergebnisse)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %6$d\n",
-      "recent": "**10 neuesten osu! Ergebnisse für: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... scheint, als hätte ich gerade einen Buchstabensalat als Antwort bekommen... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sSie müssen die Zeitzone angeben.",
@@ -1027,17 +1009,6 @@
       "main_def": "Haupt-Definition.",
       "footer": "Information von Urban Dictionary",
       "nsfw_notice": "%1$sDieser Befehl kann, aufgrund der Art der Ergebnisse, nur in NSFW-Kanälen genutzt werden."
-    },
-    "weather": {
-      "header": "%1$s Prognose für %2$s",
-      "clouds": "Wolken",
-      "temperature": "Temperatur",
-      "humidity": "Feuchtigkeit",
-      "wind_speed": "Wind Geschwindigkeit",
-      "pressure": "Druck",
-      "footer": "Information zur Verfügung gestellt von OpenWeatherMap (Verarbeitungszeit: %1$dms)",
-      "error": "%1$sFehler beim Abrufen der Ergebnisse... (Nicht gefunden?)",
-      "no_content": "%1$sDu musst eine Stadt und ein Land angeben, um das Wetter zu sehen!"
     },
     "activatekey": {
       "check": {

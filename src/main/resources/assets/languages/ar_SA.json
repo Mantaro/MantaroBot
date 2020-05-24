@@ -817,24 +817,6 @@
       "cancelled": "%1$sإستطلاع تم إلغاؤه",
       "incorrect_time_format": "تنسيق الوقت غير صحيح. تذكر، تنسيق الوقت المناسب هو رقم متبوع بـ \"h أو m أو s\" (ساعات أو دقائق أو ثوان). مثال: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "أوسو! الإحصائيات ل %1$s",
-        "rank": "مركز",
-        "acc": "دِقة",
-        "level": "مستوى",
-        "ranked": "نقاط المركز",
-        "country_rank": "مركز البلد "
-      },
-      "retrieving_info": "%1$sإسترجاع المعلومات من أوسو! سيرفر...",
-      "timeout": "%1$sالأوسو! يبدو أن آبي يأخذ قيلولة. يمكنك المحاولة لاحقاً.",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | مركز: %6$s -> الحد الأقصى من السرد: %7$,d",
-      "best": "**10 أفضل أوسو! عشرات لـ: %1$s** (وضع: %2$d)\n```md\n%3$s```",
-      "error": "%1$sآه أوه... يبدو أنني تلقيت للتو حساء التدافع كاستجابة... (خطأ أثناء استرداد النتائج)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | تاريخ: %5$s -> الحد الأقصى للسرد: %6$s",
-      "recent": "**أحدث 10 أوسو! نقاط لـ: %1$s** (وضع: %2$d)\n```md\n%3$s```",
-      "error_detailed": "أووووه... يبدو أنني تلقيت للتو حساء التدافع كاستجابة... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sيجب أن تُحدد المنطقة الزمنية (timezone).",
@@ -1027,17 +1009,6 @@
       "main_def": "التعريف الرئيسي.",
       "footer": "Information by Urban Dictionary",
       "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
-    },
-    "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "الغيوم",
-      "temperature": "درجة الحرارة",
-      "humidity": "الرطوبة",
-      "wind_speed": "سرعة الرياح",
-      "pressure": "الضغط",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)",
-      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
     },
     "activatekey": {
       "check": {
