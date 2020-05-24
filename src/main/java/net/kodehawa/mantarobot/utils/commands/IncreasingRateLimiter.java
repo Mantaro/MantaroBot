@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-public class IncreasingRateLimiter {
+public class  IncreasingRateLimiter {
     private static final String SCRIPT;
 
     static {
@@ -51,10 +51,11 @@ public class IncreasingRateLimiter {
     private final int cooldownIncrease;
     private final int maxCooldown;
     private String scriptSha;
-    private boolean randomIncrement;
-    private boolean premiumAware;
+    private final boolean randomIncrement;
+    private final boolean premiumAware;
+    private final int incrementDivider;
 
-    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown, boolean randomIncrement, boolean premiumAware) {
+    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown, boolean randomIncrement, boolean premiumAware, int incrementDivider) {
         this.pool = pool;
         this.prefix = prefix;
         this.limit = limit;
@@ -64,6 +65,7 @@ public class IncreasingRateLimiter {
         this.maxCooldown = maxCooldown;
         this.randomIncrement = randomIncrement;
         this.premiumAware = premiumAware;
+        this.incrementDivider = incrementDivider;
     }
 
     @SuppressWarnings("unchecked")
@@ -83,7 +85,7 @@ public class IncreasingRateLimiter {
                         Arrays.asList(
                                 String.valueOf(limit),
                                 String.valueOf(start),
-                                String.valueOf(premiumAwareness ? cd - ThreadLocalRandom.current().nextInt(cooldown / 4) : cd),
+                                String.valueOf(premiumAwareness ? cd - ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : cd),
                                 String.valueOf(spamBeforeCooldownIncrease),
                                 String.valueOf(cooldownIncrease),
                                 String.valueOf(maxCooldown)
@@ -129,6 +131,7 @@ public class IncreasingRateLimiter {
         private int maxCooldown;
         private boolean randomIncrement = true;
         private boolean premiumAware = false;
+        private int incrementDivider = 4;
 
         public Builder pool(JedisPool pool) {
             this.pool = pool;
@@ -142,6 +145,11 @@ public class IncreasingRateLimiter {
 
         public Builder randomIncrement(boolean incr) {
             this.randomIncrement = incr;
+            return this;
+        }
+
+        public Builder incrementDivider(int incrementDivider) {
+            this.incrementDivider = incrementDivider;
             return this;
         }
 
@@ -204,7 +212,7 @@ public class IncreasingRateLimiter {
             if (cooldown < 0) {
                 throw new IllegalStateException("Cooldown must be set");
             }
-            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown, randomIncrement, premiumAware);
+            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown, randomIncrement, premiumAware, incrementDivider);
         }
     }
 }
