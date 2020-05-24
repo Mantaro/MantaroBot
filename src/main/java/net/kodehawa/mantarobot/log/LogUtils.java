@@ -138,7 +138,7 @@ public class LogUtils {
         }
     }
 
-    public static void spambot(User user, SpamType type) {
+    public static void spambot(User user, String guildId, SpamType type) {
         if (SPAMBOT_WEBHOOK == null) {
             log.warn("---- Spambot detected! ID: {}, Reason: {}", user.getId(), type);
             return;
@@ -146,13 +146,14 @@ public class LogUtils {
 
         try {
             List<WebhookEmbed.EmbedField> fields = new ArrayList<>();
-            fields.add(new WebhookEmbed.EmbedField(true, "Tag", String.format("%#s", user)));
+            fields.add(new WebhookEmbed.EmbedField(false, "Tag", String.format("%#s", user)));
             fields.add(new WebhookEmbed.EmbedField(true, "ID", user.getId()));
+            fields.add(new WebhookEmbed.EmbedField(true, "Guild ID", guildId));
             fields.add(new WebhookEmbed.EmbedField(true, "Account Creation", user.getTimeCreated().toString()));
             fields.add(new WebhookEmbed.EmbedField(true, "Mutual Guilds", user.getMutualGuilds().stream().map(g ->
-                    g.getId() + ": " + g.getMemberCache().size() + " members"
+                    g.getId() + ": " + g.getMemberCount() + " members"
             ).collect(Collectors.joining("\n"))));
-            fields.add(new WebhookEmbed.EmbedField(true, "Type", type.toString()));
+            fields.add(new WebhookEmbed.EmbedField(false, "Type", type.toString()));
 
             SPAMBOT_WEBHOOK.send(new WebhookEmbed(null, Color.PINK.getRGB(),
                     null, user.getEffectiveAvatarUrl(),

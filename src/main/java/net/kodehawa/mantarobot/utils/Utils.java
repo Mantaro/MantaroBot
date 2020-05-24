@@ -524,10 +524,10 @@ public class Utils {
                 //Why would ANYONE go over 20 attempts?
                 if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedAttemptUsers.contains(user.getId())) {
                     loggedAttemptUsers.add(user.getId());
-                    LogUtils.spambot(user, LogUtils.SpamType.OVER_SPAM_LIMIT);
+                    LogUtils.spambot(user, event.getGuild().getId(), LogUtils.SpamType.OVER_SPAM_LIMIT);
                 }
 
-                onRateLimit(user);
+                onRateLimit(user, event.getGuild().getId());
             } catch (Exception ignored) {}
 
             return false;
@@ -548,11 +548,11 @@ public class Utils {
         return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
     }
 
-    private static void onRateLimit(User user) {
+    private static void onRateLimit(User user, String guildId) {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
         if (ratelimitedTimes > 800 && !loggedSpambotUsers.contains(user.getId())) {
             loggedSpambotUsers.add(user.getId());
-            LogUtils.spambot(user, LogUtils.SpamType.BLATANT);
+            LogUtils.spambot(user, guildId, LogUtils.SpamType.BLATANT);
         }
     }
 
