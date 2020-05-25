@@ -52,25 +52,25 @@ import java.util.stream.Collectors;
 
 @Module
 public class InvestigateCmd {
-    public static void investigate(GuildMessageReceivedEvent event, Type type, String id, boolean file) {
+    public static void investigate(Context ctx, Type type, String id, boolean file) {
         switch (type) {
             case GUILD:
-                investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
+                investigateGuild(ctx, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
                 return;
             case USER:
-                investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
+                investigateUser(ctx, MantaroBot.getInstance().getShardManager().getUserById(id), file);
                 return;
             case CHANNEL:
-                investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
+                investigateChannel(ctx, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
                 return;
             default:
                 throw new AssertionError();
         }
     }
 
-    private static void investigateGuild(GuildMessageReceivedEvent event, Guild guild, boolean file) {
+    private static void investigateGuild(Context ctx, Guild guild, boolean file) {
         if (guild == null) {
-            event.getChannel().sendMessage("Unknown guild").queue();
+            ctx.send("Unknown guild");
             return;
         }
 
@@ -91,28 +91,30 @@ public class InvestigateCmd {
                     });
             return f;
         }).toArray(CompletableFuture[]::new))
-                .thenRun(() -> investigation.result(guild, event))
+                .thenRun(() -> investigation.result(guild, ctx.getEvent()))
                 .exceptionally(e -> {
                     e.printStackTrace();
-                    event.getChannel().sendMessage("Unable to execute: " + e).queue();
+                    ctx.send("Unable to execute: " + e);
                     return null;
                 });
     }
 
-    private static void investigateUser(GuildMessageReceivedEvent event, User user, boolean file) {
+    private static void investigateUser(Context ctx, User user, boolean file) {
         if (user == null) {
-            event.getChannel().sendMessage("Unknown user").queue();
+            ctx.send("Unknown user");
             return;
         }
         EmbedBuilder eb = new EmbedBuilder()
                 .setTitle("Please pick a guild")
                 .setColor(Color.PINK);
-        DiscordUtils.selectList(event, user.getMutualGuilds(), Guild::toString, s -> eb.setDescription(s).build(), g -> investigateGuild(event, g, file));
+        var selected = DiscordUtils.selectList(ctx, user.getMutualGuilds(),
+                Guild::toString, s -> eb.setDescription(s).build());
+        selected.ifPresent(g -> investigateGuild(ctx, g, file));
     }
 
-    private static void investigateChannel(GuildMessageReceivedEvent event, TextChannel channel, boolean file) {
+    private static void investigateChannel(Context ctx, TextChannel channel, boolean file) {
         if (channel == null) {
-            event.getChannel().sendMessage("Unknown channel").queue();
+            ctx.send("Unknown channel");
             return;
         }
         Investigation investigation = new Investigation(file);
@@ -121,10 +123,10 @@ public class InvestigateCmd {
                     List<InvestigatedMessage> res = investigation.get(channel);
                     messages.forEach(m -> res.add(0, InvestigatedMessage.from(m)));
                 })
-                .thenRun(() -> investigation.result(channel.getGuild(), event))
+                .thenRun(() -> investigation.result(channel.getGuild(), ctx.getEvent()))
                 .exceptionally(e -> {
                     e.printStackTrace();
-                    event.getChannel().sendMessage("Unable to execute: " + e).queue();
+                   ctx.send("Unable to execute: " + e);
                     return null;
                 });
     }
@@ -168,7 +170,7 @@ public class InvestigateCmd {
                     file = false;
                 }
 
-                investigate(ctx.getEvent(), type, id, file);
+                investigate(ctx, type, id, file);
             }
 
             @Override
