@@ -27,7 +27,9 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -213,125 +215,109 @@ public class RelationshipCmds {
                         ctx.sendLocalized("commands.marry.confirmation", EmoteReference.MEGA,
                                 proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH
                         );
-
-                        InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 120, (ie) -> {
-                            //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
-                            if (!ie.getAuthor().getId().equals(proposedToUser.getId()))
-                                return Operation.IGNORED;
-
-                            //Replace prefix because people seem to think you have to add the prefix before saying yes.
-                            String message = ie.getMessage().getContentRaw();
-                            for (String s : ctx.getConfig().prefix) {
-                                if (message.toLowerCase().startsWith(s)) {
-                                    message = message.substring(s.length());
-                                }
+                        
+                        var filter = BlockingOperationFilter.fromUser(proposedToUser.getIdLong())
+                                .andThen(BlockingOperationFilter.withContentAfterPrefix(
+                                        dbGuild.getData().getGuildCustomPrefix(), "yes", "no"
+                                ));
+                        var msg = BlockingInteractiveOperations.wait(ctx, filter, 120, TimeUnit.SECONDS);
+                        if(msg == null) {
+                            return;
+                        }
+                        
+                        var c = Utils.stripPrefixes(msg, dbGuild.getData().getGuildCustomPrefix());
+    
+                        //Lovely~ <3
+                        if (c.equalsIgnoreCase("yes")) {
+                            //Here we NEED to get the Player,
+                            //User and Marriage objects once again to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
+                            //We need to check if the marriage is empty once again before continuing, also if we have enough rings!
+                            //USE THOSE VARIABLES TO MODIFY DATA, NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
+                            //Else we end up with really annoying to debug bugs, lol.
+                            Player proposingPlayer = ctx.getPlayer(proposingUser);
+                            Player proposedToPlayer = ctx.getPlayer(proposedToUser);
+                            DBUser proposingUserDB = ctx.getDBUser(proposingUser);
+                            DBUser proposedToUserDB = ctx.getDBUser(proposedToUser);
+    
+                            // ---------------- START OF FINAL MARRIAGE CHECK ----------------
+                            final Marriage proposingMarriageFinal = proposingUserDB.getData().getMarriage();
+                            final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
+    
+                            if(proposingMarriageFinal != null) {
+                                ctx.sendLocalized("commands.marry.already_married", EmoteReference.ERROR);
+                                return;
                             }
-
-                            String guildCustomPrefix = dbGuild.getData().getGuildCustomPrefix();
-                            if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
-                                message = message.substring(guildCustomPrefix.length());
+    
+                            if(proposedToMarriageFinal != null) {
+                                ctx.sendLocalized("commands.marry.receipt_married", EmoteReference.ERROR);
+                                return;
                             }
-                            //End of prefix replacing.
-
-                            //Lovely~ <3
-                            if (message.equalsIgnoreCase("yes")) {
-                                //Here we NEED to get the Player,
-                                //User and Marriage objects once again to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
-                                //We need to check if the marriage is empty once again before continuing, also if we have enough rings!
-                                //USE THOSE VARIABLES TO MODIFY DATA, NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
-                                //Else we end up with really annoying to debug bugs, lol.
-                                Player proposingPlayer = ctx.getPlayer(proposingUser);
-                                Player proposedToPlayer = ctx.getPlayer(proposedToUser);
-                                DBUser proposingUserDB = ctx.getDBUser(proposingUser);
-                                DBUser proposedToUserDB = ctx.getDBUser(proposedToUser);
-
-                                // ---------------- START OF FINAL MARRIAGE CHECK ----------------
-                                final Marriage proposingMarriageFinal = proposingUserDB.getData().getMarriage();
-                                final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
-
-                                if (proposingMarriageFinal != null) {
-                                    ctx.sendLocalized("commands.marry.already_married", EmoteReference.ERROR);
-                                    return Operation.COMPLETED;
-                                }
-
-                                if (proposedToMarriageFinal != null) {
-                                    ctx.sendLocalized("commands.marry.receipt_married", EmoteReference.ERROR);
-                                    return Operation.COMPLETED;
-                                }
-                                // ---------------- END OF FINAL MARRIAGE CHECK ----------------
-
-                                // ---------------- START OF INVENTORY CHECKS ----------------
-                                //LAST inventory check and ring assignment is gonna happen using those.
-                                final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
-                                final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
-
-                                if (proposingPlayerFinalInventory.getAmount(Items.RING) < 2) {
-                                    ctx.sendLocalized("commands.marry.ring_check_fail", EmoteReference.ERROR);
-                                    return Operation.COMPLETED;
-                                }
-
-                                //Remove the ring from the proposing player inventory.
-                                proposingPlayerFinalInventory.process(new ItemStack(Items.RING, -1));
-
-                                //Silently scrape the rings if the receipt has more than 5000 rings.
-                                if (proposedToPlayerInventory.getAmount(Items.RING) < 5000) {
-                                    proposedToPlayerInventory.process(new ItemStack(Items.RING, 1));
-                                }
-                                // ---------------- END OF INVENTORY CHECKS ----------------
-
-                                // ---------------- START OF MARRIAGE ASSIGNMENT ----------------
-                                final long marriageCreationMillis = Instant.now().toEpochMilli();
-                                //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
-                                String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
-
-                                //Make and save the new marriage object.
-                                Marriage actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
-                                actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
-                                actualMarriage.save();
-
-                                //Assign the marriage ID to the respective users and save it.
-                                proposingUserDB.getData().setMarriageId(marriageId);
-                                proposedToUserDB.getData().setMarriageId(marriageId);
-                                proposingUserDB.save();
-                                proposedToUserDB.save();
-                                //---------------- END OF MARRIAGE ASSIGNMENT ----------------
-
-                                //Send marriage confirmation message.
-                                ctx.sendLocalized("commands.marry.accepted",
-                                        EmoteReference.POPPER, ie.getAuthor().getName(),
-                                        ie.getAuthor().getDiscriminator(), proposingUser.getName(), proposingUser.getDiscriminator()
-                                );
-
-                                //Add the badge to the married couple.
-                                proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-                                proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
-
-                                //Give a love letter both to the proposing player and the one who was proposed to.
-                                if (proposingPlayerFinalInventory.getAmount(Items.LOVE_LETTER) < 5000)
-                                    proposingPlayerFinalInventory.process(new ItemStack(Items.LOVE_LETTER, 1));
-
-                                if (proposedToPlayerInventory.getAmount(Items.LOVE_LETTER) < 5000)
-                                    proposedToPlayerInventory.process(new ItemStack(Items.LOVE_LETTER, 1));
-
-                                //Badge assignment saving.
-                                proposingPlayer.save();
-                                proposedToPlayer.save();
-
-                                return Operation.COMPLETED;
+                            // ---------------- END OF FINAL MARRIAGE CHECK ----------------
+    
+                            // ---------------- START OF INVENTORY CHECKS ----------------
+                            //LAST inventory check and ring assignment is gonna happen using those.
+                            final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
+                            final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
+    
+                            if(proposingPlayerFinalInventory.getAmount(Items.RING) < 2) {
+                                ctx.sendLocalized("commands.marry.ring_check_fail", EmoteReference.ERROR);
+                                return;
                             }
-
-                            if (message.equalsIgnoreCase("no")) {
-                                ctx.sendLocalized("commands.marry.denied", EmoteReference.CORRECT, proposingUser.getName());
-
-                                //Well, we have a badge for this too. Consolation prize I guess.
-                                final Player proposingPlayer = ctx.getPlayer(proposingUser);
-                                proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
-                                proposingPlayer.saveAsync();
-                                return Operation.COMPLETED;
+    
+                            //Remove the ring from the proposing player inventory.
+                            proposingPlayerFinalInventory.process(new ItemStack(Items.RING, -1));
+    
+                            //Silently scrape the rings if the receipt has more than 5000 rings.
+                            if(proposedToPlayerInventory.getAmount(Items.RING) < 5000) {
+                                proposedToPlayerInventory.process(new ItemStack(Items.RING, 1));
                             }
-
-                            return Operation.IGNORED;
-                        });
+                            // ---------------- END OF INVENTORY CHECKS ----------------
+    
+                            // ---------------- START OF MARRIAGE ASSIGNMENT ----------------
+                            final long marriageCreationMillis = Instant.now().toEpochMilli();
+                            //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
+                            String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
+    
+                            //Make and save the new marriage object.
+                            Marriage actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
+                            actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
+                            actualMarriage.save();
+    
+                            //Assign the marriage ID to the respective users and save it.
+                            proposingUserDB.getData().setMarriageId(marriageId);
+                            proposedToUserDB.getData().setMarriageId(marriageId);
+                            proposingUserDB.save();
+                            proposedToUserDB.save();
+                            //---------------- END OF MARRIAGE ASSIGNMENT ----------------
+    
+                            //Send marriage confirmation message.
+                            ctx.sendLocalized("commands.marry.accepted",
+                                    EmoteReference.POPPER, msg.getAuthor().getName(),
+                                    msg.getAuthor().getDiscriminator(), proposingUser.getName(), proposingUser.getDiscriminator()
+                            );
+    
+                            //Add the badge to the married couple.
+                            proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+                            proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
+    
+                            //Give a love letter both to the proposing player and the one who was proposed to.
+                            if(proposingPlayerFinalInventory.getAmount(Items.LOVE_LETTER) < 5000)
+                                proposingPlayerFinalInventory.process(new ItemStack(Items.LOVE_LETTER, 1));
+    
+                            if(proposedToPlayerInventory.getAmount(Items.LOVE_LETTER) < 5000)
+                                proposedToPlayerInventory.process(new ItemStack(Items.LOVE_LETTER, 1));
+    
+                            //Badge assignment saving.
+                            proposingPlayer.save();
+                            proposedToPlayer.save();
+                        } else {
+                            ctx.sendLocalized("commands.marry.denied", EmoteReference.CORRECT, proposingUser.getName());
+    
+                            //Well, we have a badge for this too. Consolation prize I guess.
+                            final Player proposingPlayer = ctx.getPlayer(proposingUser);
+                            proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
+                            proposingPlayer.saveAsync();
+                        }
                     }
                 };
             }
@@ -406,62 +392,43 @@ public class RelationshipCmds {
                     ctx.sendStrippedLocalized("commands.marry.loveletter.confirmation", EmoteReference.TALKING, marriedTo.getName(),
                             marriedTo.getDiscriminator(), finalContent
                     );
-
-                    //Start the operation.
-                    InteractiveOperations.create(ctx.getChannel(), author.getIdLong(), 60, e -> {
-                        if (!e.getAuthor().getId().equals(author.getId())) {
-                            return Operation.IGNORED;
+                    
+                    var filter = BlockingOperationFilter.withContentAfterPrefix(
+                            ctx.getDBGuild().getData().getGuildCustomPrefix(), "yes", "no"
+                    );
+                    var msg = BlockingInteractiveOperations.waitFromUser(ctx, filter, 60, TimeUnit.SECONDS);
+                    if(msg == null) {
+                        return;
+                    }
+                    if(msg.getContentRaw().equalsIgnoreCase("yes")) {
+                        final Player playerFinal = ctx.getPlayer();
+                        final Inventory inventoryFinal = playerFinal.getInventory();
+                        final Marriage currentMarriageFinal = dbUser.getData().getMarriage();
+    
+                        //We need to do most of the checks all over again just to make sure nothing important slipped through.
+                        if (currentMarriageFinal == null) {
+                            ctx.sendLocalized("commands.marry.loveletter.no_marriage", EmoteReference.SAD);
+                            return;
                         }
-
-                        //Replace prefix because people seem to think you have to add the prefix before saying yes.
-                        String c = e.getMessage().getContentRaw();
-                        for (String s : ctx.getConfig().prefix) {
-                            if (c.toLowerCase().startsWith(s)) {
-                                c = c.substring(s.length());
-                            }
+    
+                        if (!inventoryFinal.containsItem(Items.LOVE_LETTER)) {
+                            ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
+                            return;
                         }
-
-                        String guildCustomPrefix = ctx.getDBGuild().getData().getGuildCustomPrefix();
-                        if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
-                            c = c.substring(guildCustomPrefix.length());
-                        }
-                        //End of prefix replacing.
-
-                        //Confirmed they want to save this as the permanent love letter.
-                        if (c.equalsIgnoreCase("yes")) {
-                            final Player playerFinal = ctx.getPlayer();
-                            final Inventory inventoryFinal = playerFinal.getInventory();
-                            final Marriage currentMarriageFinal = dbUser.getData().getMarriage();
-
-                            //We need to do most of the checks all over again just to make sure nothing important slipped through.
-                            if (currentMarriageFinal == null) {
-                                ctx.sendLocalized("commands.marry.loveletter.no_marriage", EmoteReference.SAD);
-                                return Operation.COMPLETED;
-                            }
-
-                            if (!inventoryFinal.containsItem(Items.LOVE_LETTER)) {
-                                ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
-                                return Operation.COMPLETED;
-                            }
-
-                            //Remove the love letter from the inventory.
-                            inventoryFinal.process(new ItemStack(Items.LOVE_LETTER, -1));
-                            playerFinal.save();
-
-                            //Save the love letter. The content variable is the actual letter, while c is the content of the operation itself.
-                            //Yes it's confusing.
-                            currentMarriageFinal.getData().setLoveLetter(content);
-                            currentMarriageFinal.save();
-
-                            ctx.sendLocalized("commands.marry.loveletter.confirmed", EmoteReference.CORRECT);
-                            return Operation.COMPLETED;
-                        } else if (c.equalsIgnoreCase("no")) {
-                            ctx.sendLocalized("commands.marry.loveletter.scrapped", EmoteReference.CORRECT);
-                            return Operation.COMPLETED;
-                        }
-
-                        return Operation.IGNORED;
-                    });
+    
+                        //Remove the love letter from the inventory.
+                        inventoryFinal.process(new ItemStack(Items.LOVE_LETTER, -1));
+                        playerFinal.save();
+    
+                        //Save the love letter. The content variable is the actual letter, while c is the content of the operation itself.
+                        //Yes it's confusing.
+                        currentMarriageFinal.getData().setLoveLetter(content);
+                        currentMarriageFinal.save();
+    
+                        ctx.sendLocalized("commands.marry.loveletter.confirmed", EmoteReference.CORRECT);
+                    } else {
+                        ctx.sendLocalized("commands.marry.loveletter.scrapped", EmoteReference.CORRECT);
+                    }
                 } else {
                     ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
                 }
@@ -723,26 +690,20 @@ public class RelationshipCmds {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
-
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
-                    if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
-                        return Operation.IGNORED;
-                    }
-
-                    String c = e.getMessage().getContentRaw();
-
-                    if (c.equalsIgnoreCase("yes")) {
-                        player.getData().setWaifuout(true);
-                        ctx.sendLocalized("commands.waifu.optout.success", EmoteReference.CORRECT);
-                        player.saveAsync();
-                        return Operation.COMPLETED;
-                    } else if (c.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.waifu.optout.cancelled", EmoteReference.CORRECT);
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
+                
+                var msg = BlockingInteractiveOperations.waitFromUser(
+                        ctx, BlockingOperationFilter.withContent("yes", "no"), 60, TimeUnit.SECONDS);
+                if(msg == null) {
+                    return;
+                }
+                
+                if (msg.getContentRaw().equalsIgnoreCase("yes")) {
+                    player.getData().setWaifuout(true);
+                    ctx.sendLocalized("commands.waifu.optout.success", EmoteReference.CORRECT);
+                    player.saveAsync();
+                } else if (msg.getContentRaw().equalsIgnoreCase("no")) {
+                    ctx.sendLocalized("commands.waifu.optout.cancelled", EmoteReference.CORRECT);
+                }
             }
         });
 
@@ -963,54 +924,40 @@ public class RelationshipCmds {
                 //Send confirmation message.
                 ctx.sendLocalized("commands.waifu.unclaim.confirmation", EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH);
 
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, (ie) -> {
-                    if (!ie.getAuthor().getId().equals(ctx.getAuthor().getId())) {
-                        return Operation.IGNORED;
+                var filter = BlockingOperationFilter.withContentAfterPrefix(
+                        ctx.getDBGuild().getData().getGuildCustomPrefix(), "yes", "no");
+                
+                var msg = BlockingInteractiveOperations.waitFromUser(ctx, filter, 60, TimeUnit.SECONDS);
+                if(msg == null) {
+                    return;
+                }
+                
+                var c = Utils.stripPrefixes(msg, ctx.getDBGuild().getData().getGuildCustomPrefix());
+                
+                if (c.equalsIgnoreCase("yes")) {
+                    Player p = ctx.getPlayer();
+                    final DBUser user = ctx.getDBUser();
+                    final UserData userData = user.getData();
+        
+                    if (p.getMoney() < valuePayment) {
+                        ctx.sendLocalized("commands.waifu.unclaim.not_enough_money", EmoteReference.ERROR);
+                        return;
                     }
-
-                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
-                    String c = ie.getMessage().getContentRaw();
-                    for (String s : ctx.getConfig().prefix) {
-                        if (c.toLowerCase().startsWith(s)) {
-                            c = c.substring(s.length());
-                        }
+        
+                    if (p.isLocked()) {
+                        ctx.sendLocalized("commands.waifu.unclaim.player_locked", EmoteReference.ERROR);
+                        return;
                     }
-
-                    String guildCustomPrefix = ctx.getDBGuild().getData().getGuildCustomPrefix();
-                    if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
-                        c = c.substring(guildCustomPrefix.length());
-                    }
-                    //End of prefix replacing.
-
-                    if (c.equalsIgnoreCase("yes")) {
-                        Player p = ctx.getPlayer();
-                        final DBUser user = ctx.getDBUser();
-                        final UserData userData = user.getData();
-
-                        if (p.getMoney() < valuePayment) {
-                            ctx.sendLocalized("commands.waifu.unclaim.not_enough_money", EmoteReference.ERROR);
-                            return Operation.COMPLETED;
-                        }
-
-                        if (p.isLocked()) {
-                            ctx.sendLocalized("commands.waifu.unclaim.player_locked", EmoteReference.ERROR);
-                            return Operation.COMPLETED;
-                        }
-
-                        p.removeMoney(valuePayment);
-                        userData.getWaifus().remove(userId);
-                        user.save();
-                        p.save();
-
-                        ctx.sendLocalized("commands.waifu.unclaim.success", EmoteReference.CORRECT, name, valuePayment);
-                        return Operation.COMPLETED;
-                    } else if (c.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.waifu.unclaim.scrapped", EmoteReference.CORRECT);
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
+        
+                    p.removeMoney(valuePayment);
+                    userData.getWaifus().remove(userId);
+                    user.save();
+                    p.save();
+        
+                    ctx.sendLocalized("commands.waifu.unclaim.success", EmoteReference.CORRECT, name, valuePayment);
+                } else {
+                    ctx.sendLocalized("commands.waifu.unclaim.scrapped", EmoteReference.CORRECT);
+                }
             }
         });
 

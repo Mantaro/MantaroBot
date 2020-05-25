@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -642,6 +643,27 @@ public class Utils {
 
     public static String formatMemoryUsage(long used, long total) {
         return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
+    }
+    
+    @Nonnull
+    @CheckReturnValue
+    public static String stripPrefixes(@Nonnull Message message, @Nullable String guildPrefix) {
+        return stripPrefixes(message.getContentRaw(), guildPrefix);
+    }
+    
+    @Nonnull
+    @CheckReturnValue
+    public static String stripPrefixes(@Nonnull String content, @Nullable String guildPrefix) {
+        for (String s : MantaroData.config().get().prefix) {
+            if (content.toLowerCase().startsWith(s)) {
+                content = content.substring(s.length());
+            }
+        }
+    
+        if (guildPrefix != null && !guildPrefix.isEmpty() && content.toLowerCase().startsWith(guildPrefix)) {
+            content = content.substring(guildPrefix.length());
+        }
+        return content;
     }
     
     /**

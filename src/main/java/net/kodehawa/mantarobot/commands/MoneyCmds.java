@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -28,8 +27,8 @@ import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -387,31 +386,21 @@ public class MoneyCmds {
                     player.setLocked(true);
                     player.save();
                     ctx.sendLocalized("commands.gamble.confirmation_message", EmoteReference.WARNING, i);
-                    InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, new InteractiveOperation() {
-                        @Override
-                        public int run(GuildMessageReceivedEvent e) {
-                            if (e.getAuthor().getId().equals(user.getId())) {
-                                if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                    proceedGamble(ctx, player, finalLuck, random, i, finalGains, i);
-                                    return COMPLETED;
-                                } else if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                                    e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
-                                    player.setLocked(false);
-                                    player.saveAsync();
-                                    return COMPLETED;
-                                }
-                            }
-
-                            return IGNORED;
-                        }
-
-                        @Override
-                        public void onExpire() {
-                            ctx.sendLocalized("general.operation_timed_out", EmoteReference.ERROR2);
-                            player.setLocked(false);
-                            player.saveAsync();
-                        }
-                    });
+                    var msg = BlockingInteractiveOperations.waitFromUser(
+                            ctx, BlockingOperationFilter.withContent("yes", "no"), 30, TimeUnit.SECONDS);
+                    if(msg == null) {
+                        ctx.sendLocalized("general.operation_timed_out", EmoteReference.ERROR2);
+                        player.setLocked(false);
+                        player.saveAsync();
+                        return;
+                    }
+                    if (msg.getContentRaw().equalsIgnoreCase("yes")) {
+                        proceedGamble(ctx, player, finalLuck, random, i, finalGains, i);
+                    } else if (msg.getContentRaw().equalsIgnoreCase("no")) {
+                        ctx.send(EmoteReference.ZAP + "Cancelled bet.");
+                        player.setLocked(false);
+                        player.saveAsync();
+                    }
                     return;
                 }
 

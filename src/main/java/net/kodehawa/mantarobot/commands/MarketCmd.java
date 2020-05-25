@@ -27,9 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
-import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
@@ -52,8 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
-
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class MarketCmd {
@@ -170,7 +166,6 @@ public class MarketCmd {
                 Map<String, String> t = ctx.getOptionalArguments();
                 boolean isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
-                I18nContext languageContext = ctx.getLanguageContext();
 
                 String[] args = content.split(" ");
                 String itemName = content;

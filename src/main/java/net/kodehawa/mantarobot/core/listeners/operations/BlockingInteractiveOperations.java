@@ -90,7 +90,7 @@ public class BlockingInteractiveOperations {
      */
     @Nullable
     public static Message waitFromUser(long channelId, long userId, @Nullable BlockingOperationFilter filter, long timeout, @Nonnull TimeUnit unit) {
-        var userFilter = BlockingOperationFilter.acceptIf(m -> m.getAuthor().getIdLong() == userId);
+        var userFilter = BlockingOperationFilter.fromUser(userId);
         if(filter != null) userFilter = userFilter.andThen(filter);
         return wait(channelId, userId, userFilter, timeout, unit);
     }
