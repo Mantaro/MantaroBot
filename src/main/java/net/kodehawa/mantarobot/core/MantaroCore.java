@@ -182,10 +182,9 @@ public class MantaroCore {
                 .build();
 
         try {
-            var listener = new ShardStartListener();
+            var shardStartListener = new ShardStartListener();
             DefaultShardManagerBuilder builder;
 
-            //Shared between the two builders (lazy load and normal)
             builder = DefaultShardManagerBuilder.create(config.token,
                     GatewayIntent.GUILD_PRESENCES, //This one is so we can have lazy loading
                     GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
@@ -196,7 +195,7 @@ public class MantaroCore {
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                            listener
+                            shardStartListener
                     )
                     .addEventListenerProviders(List.of(
                             id -> new CommandListener(commandProcessor, threadPool, getShard(id).getMessageCache()),
@@ -218,28 +217,30 @@ public class MantaroCore {
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
                 int count;
+                //Count specified in config.
                 if(config.totalShards != 0) {
                     count = config.totalShards;
-                    if (ExtraRuntimeOptions.SHARD_SUBSET) {
-                        if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
-                            throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
-                                    "when using shard subsets. Please specify the missing one.");
-                        }
-
-                        builder.setShardsTotal(config.totalShards)
-                                .setShards(
-                                        ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
-                                        ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1
-                                );
-                    } else {
-                        builder.setShardsTotal(config.totalShards);
-                    }
+                    builder.setShardsTotal(config.totalShards);
                 } else {
+                    //Count specified on runtime options or recommended count by discord.
                     count = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
                     builder.setShardsTotal(count);
                 }
-                builder
-                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
+
+                //Using a shard subset. FROM_SHARD is inclusive, TO_SHARD is exclusive (else 0 to 448 would start 449 shards)
+                if (ExtraRuntimeOptions.SHARD_SUBSET) {
+                    if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
+                        throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
+                                "when using shard subsets. Please specify the missing one.");
+                    }
+
+                    builder.setShards(
+                            ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
+                            ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1
+                    );
+                }
+
+                builder.setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
                         .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
             }
@@ -255,9 +256,9 @@ public class MantaroCore {
                 log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
 
                 try {
-                    listener.setLatch(new CountDownLatch(latchAmount)).await();
+                    shardStartListener.setLatch(new CountDownLatch(latchAmount)).await();
                     var elapsed = System.currentTimeMillis() - start;
-                    shardManager.removeEventListener(listener);
+                    shardManager.removeEventListener(shardStartListener);
                     startPostLoadProcedure(elapsed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
