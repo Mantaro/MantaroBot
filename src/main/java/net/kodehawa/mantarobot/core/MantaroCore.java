@@ -113,6 +113,7 @@ public class MantaroCore {
         if (ExtraRuntimeOptions.SHARD_SUBSET) {
             return ExtraRuntimeOptions.TO_SHARD.orElseThrow() - ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
         }
+
         if (ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
             return ExtraRuntimeOptions.SHARD_COUNT.getAsInt();
         }
@@ -226,7 +227,7 @@ public class MantaroCore {
                         builder.setShardsTotal(config.totalShards)
                                 .setShards(
                                         ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
-                                        ExtraRuntimeOptions.TO_SHARD.orElseThrow()
+                                        ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1
                                 );
                     } else {
                         builder.setShardsTotal(config.totalShards);
