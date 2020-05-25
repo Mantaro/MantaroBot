@@ -49,19 +49,14 @@ public class MuteTask {
 
                     Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
                     if (guild == null) {
-                        //Might be in another instance, or the guild left.
+                        //Might be in another instance, or the guild left, either way we can't check properly.
                         continue;
                     }
 
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();
 
-                    if (guild == null) {
-                        data.getMutes().remove(id);
-                        data.saveAsync();
-                        log.debug("Removed {} because guild == null", id);
-                        continue;
-                    } else if (guild.getMemberById(id) == null) {
+                    if (guild.getMemberById(id) == null) {
                         data.getMutes().remove(id);
                         data.saveAsync();
                         log.debug("Removed {} because member == null", id);
