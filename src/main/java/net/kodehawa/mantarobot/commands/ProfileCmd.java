@@ -286,7 +286,6 @@ public class ProfileCmd {
                 }
 
                 String timezone = args[0].replace("UTC", "GMT").toUpperCase();
-                System.out.println(timezone);
 
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
