@@ -20,7 +20,9 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.I18n;
@@ -36,6 +38,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -183,25 +186,23 @@ public class GuildOptions extends OptionHandler {
                                 lang.get("options.birthday_enable.warning_3"),
                                 lang.get("options.birthday_enable.warning_4")), EmoteReference.WARNING, roleObj.getName()
                 ).queue();
-                InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 45, interactiveEvent -> {
-                    String content = interactiveEvent.getMessage().getContentRaw();
-                    if (content.equalsIgnoreCase("yes")) {
-                        String roleId = roleObj.getId();
-                        guildData.setBirthdayChannel(channelId);
-                        guildData.setBirthdayRole(roleId);
-                        dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
-                                channelObj.getName(), channelId, role, roleId
-                        ).queue();
-                        return Operation.COMPLETED;
-                    } else if (content.equalsIgnoreCase("no")) {
-                        interactiveEvent.getChannel().sendMessageFormat(lang.get("general.cancelled"), EmoteReference.CORRECT).queue();
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
-                });
-
+                var msg = BlockingInteractiveOperations.waitFromUser(
+                        event.getChannel().getIdLong(), event.getAuthor().getIdLong(),
+                        BlockingOperationFilter.withContent("yes", "no"), 45, TimeUnit.SECONDS);
+                if(msg == null) {
+                    return;
+                }
+                if (msg.getContentRaw().equalsIgnoreCase("yes")) {
+                    String roleId = roleObj.getId();
+                    guildData.setBirthdayChannel(channelId);
+                    guildData.setBirthdayRole(roleId);
+                    dbGuild.saveAsync();
+                    msg.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
+                            channelObj.getName(), channelId, role, roleId
+                    ).queue();
+                } else {
+                    msg.getChannel().sendMessageFormat(lang.get("general.cancelled"), EmoteReference.CORRECT).queue();
+                }
             } catch (IndexOutOfBoundsException ex1) {
                 event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.error_channel_1") + "\n" + lang.get("options.birthday_enable.error_channel_2"),
                         EmoteReference.ERROR
