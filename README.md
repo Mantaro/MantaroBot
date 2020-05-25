@@ -67,7 +67,8 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 Many thanks to
 
 * [@natanbc](https://github.com/natanbc) - A lot of backend improvements and developing. Active.
-* [@mrlar](https://github.com/mrlar) - Basically made all of the user-facing documentation.
+* [@mrlar](https://github.com/mrlar) - Wrote most of the user-facing documentation (no longer maintaining it). Responsible for maintaining/running the Support-Server.
++ [@haxiz](https://github.com/Haxiz) - Responsible for maintaining user-facing documentation.
 * [@adriantodt](https://github.com/adriantodt) - Backend development on the early stages of the bot. Was crucial to the development and thanks to him this bot is what it is now. Inactive.
 
 And a lot more people. Check the *[Contributors](https://github.com/Mantaro/MantaroBot/graphs/contributors)* tab!
