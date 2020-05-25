@@ -216,7 +216,9 @@ public class MantaroCore {
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
+                int count;
                 if(config.totalShards != 0) {
+                    count = config.totalShards;
                     if (ExtraRuntimeOptions.SHARD_SUBSET) {
                         if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
                             throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
@@ -232,8 +234,13 @@ public class MantaroCore {
                         builder.setShardsTotal(config.totalShards);
                     }
                 } else {
-                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
+                    count = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
+                    builder.setShardsTotal(count);
                 }
+                builder
+                        .setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
+                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
