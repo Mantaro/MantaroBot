@@ -167,10 +167,6 @@ public class MantaroCore {
             controller = new BucketedController(bucketFactor, 213468583252983809L);
         }
 
-        var callbackThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("CallbackThread-%d")
-                .setDaemon(true)
-                .build();
         var gatewayThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("GatewayThread-%d")
                 .setDaemon(true)
@@ -212,7 +208,6 @@ public class MantaroCore {
 
             if (isDebug) {
                 builder.setShardsTotal(2)
-                        .setCallbackPool(Executors.newFixedThreadPool(1, callbackThreadFactory), true)
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
             } else {
