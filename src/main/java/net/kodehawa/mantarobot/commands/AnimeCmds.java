@@ -77,15 +77,14 @@ public class AnimeCmds {
                     }
                     
                     var list = found.subList(0, Math.min(found.size(), 7) - 1);
-                    var selected = DiscordUtils.selectList(ctx, list,
+                    DiscordUtils.selectList(ctx, list,
                             anime -> String.format("[**%s** (%s)](%s)", anime.getAttributes().getCanonicalTitle(), anime.getAttributes().getTitles().getJa_jp(), anime.getURL()),
                             s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.selection_start"))
                                          .setDescription(s)
                                          .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                          .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                          .build()
-                    );
-                    selected.ifPresent(anime -> animeData(ctx.getEvent(), languageContext, anime));
+                    ).ifPresent(anime -> animeData(ctx.getEvent(), languageContext, anime));
                 } catch (JsonSyntaxException jsonException) {
                     ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                 } catch (NullPointerException nullException) {
@@ -133,7 +132,7 @@ public class AnimeCmds {
                     }
                     
                     var list = characters.subList(0, Math.min(characters.size(), 7) - 1);
-                    var selected = DiscordUtils.selectList(ctx, list,
+                    DiscordUtils.selectList(ctx, list,
                             character -> String.format("[**%s** (%s)](%s)",
                                     character.getAttributes().getName(), character.getAttributes().getNames().getJa_jp(), character.getURL()
                             ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.information_footer"))
@@ -141,9 +140,7 @@ public class AnimeCmds {
                                             .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                             .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                             .build()
-                    );
-
-                    selected.ifPresent(character -> characterData(ctx.getEvent(), languageContext, character));
+                    ).ifPresent(character -> characterData(ctx.getEvent(), languageContext, character));
                 } catch (JsonSyntaxException jsonException) {
                     ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                 } catch (NullPointerException nullException) {

@@ -107,9 +107,9 @@ public class InvestigateCmd {
         EmbedBuilder eb = new EmbedBuilder()
                 .setTitle("Please pick a guild")
                 .setColor(Color.PINK);
-        var selected = DiscordUtils.selectList(ctx, user.getMutualGuilds(),
-                Guild::toString, s -> eb.setDescription(s).build());
-        selected.ifPresent(g -> investigateGuild(ctx, g, file));
+        DiscordUtils.selectList(ctx, user.getMutualGuilds(),
+                Guild::toString, s -> eb.setDescription(s).build()
+        ).ifPresent(g -> investigateGuild(ctx, g, file));
     }
 
     private static void investigateChannel(Context ctx, TextChannel channel, boolean file) {

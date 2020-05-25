@@ -463,7 +463,7 @@ public class CustomCmds {
 
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                var selected = DiscordUtils.selectList(
+                DiscordUtils.selectList(
                         ctx, filtered,
                         pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()),
                         s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
@@ -471,8 +471,7 @@ public class CustomCmds {
                                         languageContext.get("commands.custom.import.note"),
                                         null
                                 ).build()
-                );
-                selected.ifPresent(pair -> {
+                ).ifPresent(pair -> {
                     CustomCommand custom = CustomCommand.transfer(ctx.getGuild().getId(), pair.getValue());
                     //save at DB
                     custom.saveAsync();
