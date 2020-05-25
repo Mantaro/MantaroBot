@@ -63,7 +63,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
 
         if (!predicate.test(context)) return;
 
-        command.run(context, commandName + (isDefault ? "" : " " + args[0]), ct);
+        command.run(new Context(context.getEvent(), context.getLanguageContext(), ct), commandName + (isDefault ? "" : " " + args[0]), ct);
     }
 
     public TreeCommand addSubCommand(String name, BiConsumer<Context, String> command) {

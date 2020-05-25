@@ -91,7 +91,7 @@ public class UtilsCmds {
     public void birthday(CommandRegistry registry) {
         TreeCommand birthdayCommand = (TreeCommand) registry.register("birthday", new TreeCommand(Category.UTILS) {
             @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
+            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {
@@ -100,7 +100,6 @@ public class UtilsCmds {
                             return;
                         }
 
-                        String[] args = ctx.getArguments();
                         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
                         Date bd1;
 
@@ -115,9 +114,7 @@ public class UtilsCmds {
 
                             bd1 = format1.parse(bd);
                         } catch (Exception e) {
-                            Optional.ofNullable(args[0]).ifPresent(s ->
-                                    ctx.sendStrippedLocalized("commands.birthday.error_date", "\u274C", args[0])
-                            );
+                            ctx.sendStrippedLocalized("commands.birthday.error_date", "\u274C", content);
                             return;
                         }
 

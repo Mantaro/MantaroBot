@@ -62,8 +62,10 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
             return;
         }
 
-        if (!predicate.test(context)) return;
-        command.run(context, commandName + " " + args[0], args[1]);
+        if (!predicate.test(context))
+            return;
+
+        command.run(new Context(context.getEvent(), context.getLanguageContext(), args[1]), commandName + " " + args[0], args[1]);
     }
 
     public ITreeCommand setPredicate(Predicate<Context> predicate) {
