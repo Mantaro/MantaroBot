@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -53,6 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -254,7 +256,13 @@ public class CommandRegistry {
             );
         }
 
-        cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
+        try {
+            cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
+        } catch(CancellationException e) {
+            if(!BlockingInteractiveOperations.isCancelledOperation(e)) {
+                throw e;
+            }
+        }
 
         //Logging
         if (cmd.category() != null) {

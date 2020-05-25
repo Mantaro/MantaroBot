@@ -36,13 +36,15 @@ import java.util.EnumSet;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
 public class BlockingInteractiveOperations {
+    private static final String CANCELLATION_MESSAGE = "Blocking interactive operation cancelled";
     private static final Message RECHECK_CONDITIONS = new RecheckConditions();
     private static final ConcurrentMap<Long, Set<RunningOperation>> OPS = new ConcurrentHashMap<>();
     private static final EventListener LISTENER = new InteractiveListener();
@@ -162,7 +164,7 @@ public class BlockingInteractiveOperations {
             Message m;
             do {
                 if(op.cancelled) {
-                    throw new CancellationException();
+                    throw new CancellationException(CANCELLATION_MESSAGE);
                 }
                 m = op.queue.poll(timeout, unit);
             } while(m == RECHECK_CONDITIONS);
@@ -178,8 +180,13 @@ public class BlockingInteractiveOperations {
         }
     }
     
+    @CheckReturnValue
+    public static boolean isCancelledOperation(@Nonnull CancellationException e) {
+        return e.getMessage().equals(CANCELLATION_MESSAGE);
+    }
+    
     private static class RunningOperation {
-        private final SynchronousQueue<Message> queue = new SynchronousQueue<>();
+        private final BlockingQueue<Message> queue = new ArrayBlockingQueue<>(1);
         private final long userId;
         private final BlockingOperationFilter filter;
         private volatile boolean cancelled;
