@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -48,6 +49,8 @@ public class GeneralOptions extends OptionHandler {
             List<Future<Void>> stuck = InteractiveOperations.get(event.getChannel());
             if (stuck.size() > 0)
                 stuck.forEach(f -> f.cancel(true));
+    
+            BlockingInteractiveOperations.get(event.getChannel()).forEach(f -> f.cancel(true));
 
             event.getChannel().sendMessageFormat(lang.get("options.lobby_reset.success"), EmoteReference.CORRECT).queue();
         });

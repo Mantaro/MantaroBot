@@ -27,11 +27,13 @@ import net.dv8tion.jda.api.requests.restaction.pagination.ReactionPaginationActi
 import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import org.apache.commons.collections4.Bag;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Formatter;
 import java.util.List;
@@ -41,7 +43,11 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 public class BlockingInteractiveOperations {
     private static final String CANCELLATION_MESSAGE = "Blocking interactive operation cancelled";
@@ -185,7 +191,25 @@ public class BlockingInteractiveOperations {
         return e.getMessage().equals(CANCELLATION_MESSAGE);
     }
     
-    private static class RunningOperation {
+    /**
+     * @param channel The MessageChannel to check.
+     * @return The set of futures representing the pending operations on the channel.
+     */
+    public static Set<? extends Future<Void>> get(MessageChannel channel) {
+        return get(channel.getIdLong());
+    }
+    
+    /**
+     * @param channelId The ID of the channel to check.
+     * @return The set of futures representing the pending operations on the channel.
+     */
+    public static Set<? extends Future<Void>> get(long channelId) {
+        var l = OPS.get(channelId);
+        
+        return l == null ? Collections.emptySet() : l;
+    }
+    
+    private static class RunningOperation implements Future<Void> {
         private final BlockingQueue<Message> queue = new ArrayBlockingQueue<>(1);
         private final long userId;
         private final BlockingOperationFilter filter;
@@ -195,6 +219,34 @@ public class BlockingInteractiveOperations {
         private RunningOperation(long userId, BlockingOperationFilter filter) {
             this.userId = userId;
             this.filter = filter;
+        }
+    
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
+            if(done || cancelled) return false;
+            cancelled = true;
+            queue.offer(RECHECK_CONDITIONS);
+            return true;
+        }
+    
+        @Override
+        public boolean isCancelled() {
+            return cancelled;
+        }
+    
+        @Override
+        public boolean isDone() {
+            return done;
+        }
+    
+        @Override
+        public Void get() {
+            throw new UnsupportedOperationException();
+        }
+    
+        @Override
+        public Void get(long timeout, @NotNull TimeUnit unit) {
+            throw new UnsupportedOperationException();
         }
     }
     
@@ -218,7 +270,7 @@ public class BlockingInteractiveOperations {
     
             for(var op : set) {
                 //don't risk blocking forever on a finished operation
-                if(op.done) continue;
+                if(op.done || op.cancelled) continue;
                 var res = op.filter.test(message);
                 switch(res) {
                     case ACCEPT: op.done = true; op.queue.offer(message); break;

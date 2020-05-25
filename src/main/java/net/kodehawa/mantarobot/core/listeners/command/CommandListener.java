@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
@@ -110,6 +111,8 @@ public class CommandListener implements EventListener {
                         //Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
                         //some nasty race conditions involving player save.
                         if (InteractiveOperations.get(event.getChannel()).size() > 0)
+                            return;
+                        if (BlockingInteractiveOperations.get(event.getChannel()).size() > 0)
                             return;
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
