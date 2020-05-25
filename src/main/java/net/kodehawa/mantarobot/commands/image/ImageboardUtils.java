@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands.image;
@@ -20,7 +19,6 @@ package net.kodehawa.mantarobot.commands.image;
 import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
@@ -29,15 +27,12 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class ImageboardUtils {
     private static final Random r = new Random();
@@ -59,37 +54,39 @@ public class ImageboardUtils {
         Rating rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
+        if(type == ImageRequestType.RANDOM)
+            list.remove("random"); // remove "random" declaration.
 
         boolean needRating = list.size() >= 2;
         if (needRating && !nsfwOnly) {
             rating = Rating.lookupFromString(list.get(1));
+        } else if (!needRating && !list.isEmpty()) {
+            //Attempt to get from the tags instead.
+            rating = Rating.lookupFromString(list.get(0));
         }
 
-        if (rating == null) {
+        if (rating == null && needRating) {
             //Try with short name
             rating = Rating.lookupFromStringShort(list.get(1));
 
-            if (rating != null) {
+            if (rating != null)
                 list.remove(rating.getShortName());
-            }
         }
 
         //Allow for more tags after declaration.
         Rating finalRating = rating;
-        if (finalRating != null) {
+        if (finalRating != null)
             list.remove(rating.getLongName());
-        } else {
+        else
             finalRating = Rating.SAFE;
-        }
 
         if (!nsfwCheck(ctx, nsfwOnly, false, finalRating)) {
             ctx.sendLocalized("commands.imageboard.nsfw_no_nsfw", EmoteReference.ERROR);
             return;
         }
 
-        if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true)) {
+        if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true))
             finalRating = null;
-        }
 
         int limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
 
@@ -98,79 +95,61 @@ public class ImageboardUtils {
             return;
         }
 
-        switch (type) {
-            case TAGS:
-                try {
-                    //Keep this: basically we will still accept the old way of doing it.
-                    //See up there for the actual removal of the tags from the old checking.
-                    String replaced = content.replace("tags ", "");
-                    String[] arguments = replaced.split(" ");
-                    String tags = arguments[0];
+        if(type == ImageRequestType.TAGS) {
+            try {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData data = dbGuild.getData();
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
-                    if (dbGuild.getData().getBlackListedImageTags().contains(tags.toLowerCase())) {
-                        ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    api.search(list, finalRating).async(requestedImages -> {
-                        //account for this
-                        if (isListNull(requestedImages, ctx))
-                            return;
-
-                        try {
-                            List<BoardImage> filter = (List<BoardImage>) requestedImages;
-                            if (filter.isEmpty()) {
-                                ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
-                                return;
-                            }
-
-                            int number;
-                            try {
-                                number = Integer.parseInt(arguments[1]);
-                            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                                number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
-                            }
-
-                            BoardImage image = filter.get(number);
-                            String imageTags = String.join(", ", image.getTags());
-                            sendImage(ctx, imageTags, imageboard, image, dbGuild);
-                        } catch (Exception e) {
-                            ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
-                        }
-                    }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
-                } catch (NumberFormatException numberEx) {
-                    ctx.getChannel().sendMessageFormat(
-                            ctx.getLanguageContext().get("commands.imageboard.wrong_argument"), EmoteReference.ERROR, imageboard
-                    ).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                } catch (Exception exception) {
-                    ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
+                if (list.stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
+                    ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+                    return;
                 }
 
-                break;
-            case RANDOM:
                 api.search(list, finalRating).async(requestedImages -> {
-                    try {
-                        if (isListNull(requestedImages, ctx))
-                            return;
+                    //account for this
+                    if (isListNull(requestedImages, ctx))
+                        return;
 
+                    try {
                         List<BoardImage> filter = (List<BoardImage>) requestedImages;
                         if (filter.isEmpty()) {
                             ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
                             return;
                         }
 
-                        int number = r.nextInt(filter.size());
-                        BoardImage image = filter.get(number);
-                        String tags = String.join(", ", image.getTags());
-
-                        DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
-                        sendImage(ctx, tags, imageboard, image, dbGuild);
+                        BoardImage image = filter.get(r.nextInt(filter.size()));
+                        String imageTags = String.join(", ", image.getTags());
+                        sendImage(ctx, imageTags, imageboard, image, dbGuild);
                     } catch (Exception e) {
-                        ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                        ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                     }
-                }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
-                break;
+                }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
+            } catch (NumberFormatException nex) {
+                ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
+            } catch (Exception ex) {
+                ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
+            }
+        } else if (type == ImageRequestType.RANDOM) {
+            api.search(list, finalRating).async(requestedImages -> {
+                try {
+                    if (isListNull(requestedImages, ctx))
+                        return;
+
+                    List<BoardImage> filter = (List<BoardImage>) requestedImages;
+                    if (filter.isEmpty()) {
+                        ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
+                        return;
+                    }
+
+                    int number = r.nextInt(filter.size());
+                    BoardImage image = filter.get(number);
+                    String tags = String.join(", ", image.getTags());
+
+                    sendImage(ctx, tags, imageboard, image, ctx.getDBGuild());
+                } catch (Exception e) {
+                    ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                }
+            }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
         }
     }
 

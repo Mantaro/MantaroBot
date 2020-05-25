@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.utils;
@@ -84,7 +83,8 @@ public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
-    private static final Set<String> loggedUsers = ConcurrentHashMap.newKeySet();
+    private static final Set<String> loggedSpambotUsers = ConcurrentHashMap.newKeySet();
+    private static final Set<String> loggedAttemptUsers = ConcurrentHashMap.newKeySet();
 
     static {
         var factory = Thread.builder().virtual()
@@ -128,6 +128,10 @@ public class Utils {
     }
 
     public static String formatDuration(long time) {
+        if(time < 1000) {
+            return "less than a second";
+        }
+
         long days = TimeUnit.MILLISECONDS.toDays(time);
         long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
@@ -519,10 +523,10 @@ public class Utils {
                     String.format(context.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),
                             Utils.formatDuration(rateLimit.getCooldown()))
-                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n"
-                            + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
-                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
-                            context.get("general.ratelimit.spam_2") : "")
+                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ? context.get("general.ratelimit.spam_2") : "")
+                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ? context.get("general.ratelimit.spam_3") : "")
+                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ? context.get("general.ratelimit.spam_4") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
@@ -530,7 +534,17 @@ public class Utils {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
                 User user = MantaroBot.getInstance().getShardManager().getUserById(u);
-                onRateLimit(user);
+                String guildId = event.getGuild().getId();
+                String channelId = event.getChannel().getId();
+                String messageId = event.getMessage().getId();
+
+                //Why would ANYONE go over 20 attempts?
+                if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedAttemptUsers.contains(user.getId())) {
+                    loggedAttemptUsers.add(user.getId());
+                    LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.OVER_SPAM_LIMIT);
+                }
+
+                onRateLimit(user, guildId, channelId, messageId);
             } catch (Exception ignored) {}
 
             return false;
@@ -551,11 +565,11 @@ public class Utils {
         return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
     }
 
-    private static void onRateLimit(User user) {
+    private static void onRateLimit(User user, String guildId, String channelId, String messageId) {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
-        if (ratelimitedTimes > 800 && !loggedUsers.contains(user.getId())) {
-            loggedUsers.add(user.getId());
-            LogUtils.spambot(user);
+        if (ratelimitedTimes > 800 && !loggedSpambotUsers.contains(user.getId())) {
+            loggedSpambotUsers.add(user.getId());
+            LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
         }
     }
 

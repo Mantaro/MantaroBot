@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.data;
@@ -43,9 +42,13 @@ public class MantaroData {
     private static ManagedDatabase db;
 
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
+    //private static final org.redisson.config.Config redissonConfig = new org.redisson.config.Config();
+    //private static RedissonClient redisson;
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
+        //redissonConfig.useSingleServer().setAddress("redis://127.0.0.1:" + config().get().jedisPoolPort);
+        //redisson = Redisson.create(redissonConfig);
     }
 
     public static GsonDataManager<Config> config() {
@@ -77,6 +80,10 @@ public class MantaroData {
         }
         return db;
     }
+
+    // public static RedissonClient redisson() {
+    //     return redisson;
+    // }
 
     public static ScheduledExecutorService getExecutor() {
         return exec;

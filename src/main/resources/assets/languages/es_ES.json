@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Podrás usar este comando en %3$s.**",
       "spam_1": "Descansa, es bueno para tu salud :( *Recuerda que el ratelimit seguirá subiendo si sigues intentando antes de que termine!*",
-      "spam_2": "\nCreo que la mejor opción sería tomar un descanso..."
+      "spam_2": "\nCreo que la mejor opción sería tomar un descanso...",
+      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_4": "\nIs this thing even on?"
     },
     "generic_error": "Si quieres, únete a nuestro **servidor de soporte** (Link en `support.mantaro.site`), o revisa nuestra página en GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor diles que dejen de hacerme explotar ¡y no olvides Error ID cuando reportes este incidente!",
     "boom_quotes": [
@@ -617,6 +619,13 @@
         "success": "%1$sCompraste correctamente este espacio por %2$s, en este momento tienes %3s espacios totales y %4$s espacios disponibles.",
         "too_many": "%1$s¡Ya tienes muchos slots!"
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "Lista Waifu",
       "description_header": "Aquí está la lista de tus queridas waifus, ordenadas por fecha.\n*Puedes tener un máximo de %1$d waifus en este momento.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No hay waifus acá, solo polvo :(\nPuedes conseguir waifus si reclamas a alguien! Usa `~>waifu claim` para empezar.",
@@ -659,7 +668,7 @@
       "no_tool": "%1$sNecesitas tener un %2$s para proceder con la creación de este ítem.",
       "item_broke": "Lamentablemente, tu llave inglesa se rompió, pero lograste crear el item.",
       "too_many": "%1$sTendrías mas de 5000 unidades de este item si procedes. ¿Intenta crear menos de este objeto?",
-      "low_tier": "%1$sNecesitas al menos una llave inglesa de nivel 2 para crear mas ítems por llamado. Actualmente tienes una llave inglesa de nivel %2$s.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sTu llave inglesa no es lo suficientemente poderosa para crear este ítem. Intenta especificar una más poderosa. *Nivel de la llave inglesa: %2$s, Nivel Requerido: %3$s*. Por ejemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sNo puedes crear tantos de ese item de una sola vez! Limite: %2$s, Intento: %3$s. Una llave inglesa de sparkle hace que el limite sea el doble! A menos que ya estés usando una.",
       "ls": {
@@ -686,32 +695,32 @@
         "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sNecesitas especificar la cantidad del item (si es solo uno, no tendrás que especificar la cantidad) y el item que deseas vender.",
+        "invalid": "%1$sEse no es un número válido de items para vender.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sEstas *seguro* que quieres vender *todos* tus items? Esto vaciará *todo* tu inventario.\nSi quieres vender items individuales, por favor indica la cantidad. Escribe *Si* para confirmar o *No* para cancelar",
+          "success": "%1$sVendiste todos los items de tú inventario y obtuviste %2$,d créditos!",
+          "cancelled": "%1$sCancelado correctamente."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sNo puedes vender un item inexistente. si estas perdido, puedes intentar escribir el nombre acortado o encerrar el nombre entre comillas.",
+        "no_sell_price": "%1$sNo puedes vender un item que no puede venderse.\n(Pero puedes tirarlo con ~>market dump)",
+        "no_item_player": "%1$sNo puedes vender un item que no tienes.",
+        "more_items_than_player": "%1$sNo puedes vender mas items de los que tienes.",
+        "success": "%1$sHas vendido %2$,d **%3$s** y obtuviste %4$,d créditos!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sNecesitas especificar la cantidad del item (Si es solo uno, no necesitas especificar la cantidad) Y el item que deseas comprar.",
+        "invalid": "%1$sEse no es un número valido de items para comprar.",
+        "non_existent": "%1$sNo puedes comprar un item inexistente. Si estás perdido, puedes intentar escribir su nombre corto o encerrar el nombre entre comillas.",
+        "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
+        "item_limit_reached": "%1$sNo puedes comprar mas de este objeto.",
+        "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este item."
       },
       "header": "La tiendita de Mantaro",
       "reference": "\nPuedes comprar y vender ítems usando `~>market buy <item>` y `~>market sell <item>`. Revisa `~>help market` para más información.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "sell_price": "- **Precio de venta:**",
+      "buy_price": "- **Precio de compra:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sNo puedes transferirte items a ti mismo!",
@@ -808,24 +817,6 @@
       "cancelled": "%1$sVotación cancelada.",
       "incorrect_time_format": "%1$sFormato de tiempo incorrecto. Recuerda, el formato de tiempo es un número seguido por `h, m or s` (horas, minutos o segundos). Por ejemplo: `-time 40m`"
     },
-    "osustats": {
-      "user": {
-        "header": "Estadísiticas de %1$s para osu!",
-        "rank": "Rango",
-        "acc": "Precisión",
-        "level": "Nivel",
-        "ranked": "Puntuación Rankeada",
-        "country_rank": "Rank de País"
-      },
-      "retrieving_info": "%1$sRecuperando la información de los servidores de osu!...",
-      "timeout": "%1$sLa API de osu! parece que está tomando una siesta ahorita mismo. ¿Puedes intentarlo en unos minutos?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Combo máximo: %7$d",
-      "best": "**Mejores 10 scores de osu! para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... parece que solo recibí unos tamales como respuesta... (Error externo mientras intentabamos recuperar los resultados)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Fecha: %5$s -> Combo máximo: %6$s\n",
-      "recent": "**10 scores más recientes para: %1$s** (Modo: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... parece que solo recibí unos tamales como respuesta... (%1$s)"
-    },
     "profile": {
       "timezone": {
         "not_specified": "%1$sNecesitas especificar una zona horaria.",
@@ -864,11 +855,11 @@
         "buff": "Mejora",
         "buff_type": "Tipo de Mejora",
         "experience": "Experiencia",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "mine_xp": "Experiencia En La Mina",
+        "fish_xp": "Experiencia En La Pesca",
+        "sharks_caught": "Tiburones Capturados",
+        "crates_open": "Crates Abiertos",
+        "times_mop": "Veces Limpiado",
         "daily": "Racha Diaria",
         "daily_at": "Último Daily",
         "waifu_claimed": "Veces Claimeada como Waifu",
@@ -1018,17 +1009,6 @@
       "main_def": "Definición principal.",
       "footer": "Información por Urban Dictionary",
       "nsfw_notice": "%1$sEste comando solo puede usar en canales NSFW debido a la naturaleza de sus resultados."
-    },
-    "weather": {
-      "header": "%1$s Información del tiempo para %2$s",
-      "clouds": "nubosidad",
-      "temperature": "Temperatura",
-      "humidity": "Humedad",
-      "wind_speed": "Velocidad del Viento",
-      "pressure": "Presión",
-      "footer": "Información por OpenWeatherMap (Tiempo tomado: %1$dms)",
-      "error": "%1$sEncontré un error mientras intentaba buscar los resultados. ¿No existe?",
-      "no_content": "%1$sNecesitas especificar la ciudad y país para ver el tiempo."
     },
     "activatekey": {
       "check": {
@@ -1310,45 +1290,45 @@
     "petactions": {
       "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
       "incubate": {
-        "no_name": "%1$sYou need to specify a name to give to your pet.",
+        "no_name": "%1$sNecesitas especificar un nombre para tu mascota.",
         "only_letters": "%1$sEl nombre solo puede contener letras de la a a la z.",
-        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
-        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
-        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
-        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+        "no_egg": "%1$sNo tienes un incubator egg en tu inventario.",
+        "not_enough_slots": "%1$sNo tienes mas ranuras para mascotas restantes (Total: %2$s, Usados: %3$s)",
+        "no_money": "%1$sNo tienes suficiente dinero para incubar este huevo. (Requerido: **%2$s** créditos)",
+        "success": "%1$sHas incubado tu huevo correctamente! tu nueva mascota %2$s `(ID: %3$s)` está lista. revisa `~>pet <name>` para ver los stats de tu mascota."
       },
       "rename": {
-        "not_enough_args": "%1$sYou need to specify the current name and the new name.",
+        "not_enough_args": "%1$sNecesitas especificar el nombre actual y el nombre nuevo.",
         "new_name_exists": "%1$sYa tienes una mascota con este nombre.",
         "not_enough_money": "%1$sNo tienes suficiente dinero para esto. **(Requiere: %2$s)**",
-        "confirmation": "%1$sDo you really want to rename **%2$s** to **%3$s**? Type *yes* to confirm and *no* to cancel.",
-        "success": "%1$sSuccessfully renamed **%2$s** to **%3$s** (ID: %4$s). Cost: %5$s"
+        "confirmation": "%1$sEn serio quieres renombrar **%2$s** a **%3$s**? Escribe *si* para confirmar o *no* para cancelar.",
+        "success": "%1$sHas renombrado correctamente **%2$s** a **%3$s** (ID: %4$s). Costo: %5$s"
       },
       "ls": {
         "experience": "XP",
         "age": "Edad",
         "no_pets": "%1$sNo tienes mascotas.",
-        "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
-        "pages": "**Páginas: %1$d.**\nUsa las reacciones para moverte entre las páginas.\n\n"
+        "header": "Esta es una lista de las mascotas que actualmente tienes.\nLas mascotas son tus compañeros en el uso del dinero **Puedes entrenarlos, acariciarlos, alimentarlos o tener batallas entre tus mascotas o mascotas de otra gente!** Para crear una mascota necesitas una incubadora, la cual puedes crear con leche, bebida vieja y diamantes, esto te hará capaz de incubar una mascota, la cual tendrás que darle un nombre.",
+        "pages": "**Paginas en total:** %1$s \nUsa las reacciones para moverte entre las páginas.\n\n"
       },
       "train": {
-        "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
+        "success": "%1$sHabilidad entrenada correctamente **%2$s**. Experiencia obtenida: %3$s. Experiencia total de la habilidad: %4$s. (Costo: %5$s)"
       },
       "pet": {
-        "no_pet": "%1$sI can't find a pet with the name you specified.",
-        "pet": "%1$sAww! T-Thanks. (Affection: %2$s, Total pets: %3$s)"
+        "no_pet": "%1$sNo pude encontrar una mascota con el nombre que especificaste.",
+        "pet": "%1$sAww! G-Gracias. (Afecto: %2$s, Mascotas: %3$s)"
       },
       "feed": {
-        "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
+        "fire_type": "%1$sNo creo que puedas alimentar a una mascota de fuego... a menos que quieras hacer carbón.",
         "no_item": "%1$sNo puedo encontrar ese ítem.",
         "not_food": "%1$sEl ítem especificado no es comida.",
         "full": "%1$sTu mascota está satisfecha y no puede comer más.",
-        "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
+        "success": "%1$sAlimentaste a tu mascota correctamente %2$s. (Nivel de hambre: %3$s. Saturacion: %4$s)"
       },
       "hydrate": {
-        "fire_type": "%1$sYou can't really hydrate a fire type pet... unless you wanna put them off.",
-        "not_water": "%1$sThis pet isn't a water type pet.",
-        "no_water": "%1$sYou don't have a water bottle in your inventory",
+        "fire_type": "%1$sNo creo que puedas hidratar a una mascota de fuego... a menos que quieras apagarlo.",
+        "not_water": "%1$sEsta mascota no es una mascota de agua.",
+        "no_water": "%1$sNo tienes una botella de agua en tu inventario",
         "success": "%1$sHas hidratado a tu mascota correctamente. (Nivel de hidratación actual: %2$s)"
       }
     },
@@ -1437,9 +1417,9 @@
     },
     "help": {
       "title": "Ayuda de Mantaro",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Lista de comandos para %1$s. Para una guia detallada, por favor revisa la [wiki]\n(https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[Si necesitas ayuda puedes unirte al servidor de soporte](https://support.mantaro.site). [puedes seguirme en twitter para ver las actualizaciones.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[¡Necesitamos tu ayuda para mantener Mantaro a flote! Clickea aquí para más info.](https://www.patreon.com/mantaro)",
       "disabled_commands": "Solo mostrando los comandos habilitados. Comandos deshabilitados: %1$s",
       "channel_specific_disabled_commands": "\nSolo mostrando los comandos habilitados. Comandos deshabilitados en este canal: %1$s",
@@ -1455,7 +1435,7 @@
       "no_item_found": "%1$sNo puedo encontrar ese ítem. Recuerda poner el nombre entre comillas si éste tiene espacios.",
       "no_main_item": "%1$s¡No tienes el ítem necesario para reparar esto!",
       "cant_repair": "%1$s**%2$s** no es un ítem que puedas reparar. Sólo puedes reparar ítems rotos.",
-      "no_tool": "%1$sNecesitas una llave inglesa de tier 2 o más alta para reparar este ítem. Revisa que la tienes y que especificaste la llave inglesa correcta en caso de que la especificaras. Recuerda poner el nombre entre comillas si el nombre tiene espacios.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sTu inventario está muy sucio para reparar cosas. Nivel de polvo: %2$s",
       "not_wrench": "%1$sNo puedes usar esto como una llave inglesa. Recuerda poner el nombre entre comillas si el nombre tiene espacios.",
       "not_enough_level": "%1$sNecesitas una llave inglesa de mayor nivel para hacer esta reparación.",
@@ -1647,7 +1627,7 @@
     "iteminfo": {
       "no_content": "%1$s¡No especificaste ningún ítem que buscar!",
       "no_item": "%1$sNo he encontrado ningún ítem con los términos que me diste.",
-      "success": "%1$s**Información de ítem para** %2$s **%3$s** (Tipo: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sLos bots no tienen nivel.",
@@ -1904,16 +1884,16 @@
     },
     "autoroles_category_add": {
       "no_args": "%1$sNecesitas especificar el nombre de la categoría (y el nombre del rol de iam si quieres añadirlo a una categoría existente).",
-      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
-      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
-      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
-      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+      "success_new": "%1$sSe agregó la categoría auto-asignable **%2$s**",
+      "success": "%1$sSe agregó el rol auto-asignable **%2$s** a la categoría **%3$s**",
+      "already_exists": "%1$sEsta categoría ya existe y no especificaste un role para agregarle.",
+      "no_role": "%1$sNo hay ningún autorole **%2$s**, así que no puedo agregarlo."
     },
     "autoroles_category_remove": {
       "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
-      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
-      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
-      "no_category": "%1$sThere's no category **%2$s**"
+      "success_new": "%1$sSe removió la categoría auto-asignable **%2$s**",
+      "success": "%1$sSe removió el role auto-asignable **%2$s** de la categoría **%3$s**",
+      "no_category": "%1$sNo hay una categoría llamada **%2$s**"
     },
     "autoroles_remove": {
       "no_args": "%1$sNecesitas especificar el nombre del iam que desees eliminar.",
@@ -2226,9 +2206,9 @@
       "beverage": "Hace cosas muy raras en cantidades grandes. Bueno, depende de qué cosas ;)",
       "lewd": "Muchos comandos pervertidos. Demasiados. ¿Te divertiste?",
       "ring": "Básicamente lo que hace tu casamiento oficial.",
-      "letter": "A letter from your loved one.",
+      "letter": "Una carta de tu amad@.",
       "key": "Used to open loot boxes with `~>opencrate` or `~>useitem loot crate`.",
-      "clothes": "Basically what you wear. Hopefully...",
+      "clothes": "Básicamente lo que te pones. Espero...",
       "diamond": "Básicamente una mejor manera de guardar tu dinero. Es brillante también. Y te deja crear cosas brillantes. Que lindo.",
       "dress": "¿No es tierno?",
       "necklace": "Se ve bien.",
@@ -2245,14 +2225,14 @@
       "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
       "prize": "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`",
       "crate": "You can use this along with a loot key to open a loot crate! `~>opencrate`",
-      "prize_2": "In the first place, how did you get so much money?",
-      "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
+      "prize_2": "En primer lugar. como obtuviste tanto dinero?",
+      "slot_ticket": "Te da una chance extra en las traga-monedas, también sirve para ocupar espacio.",
       "house": "Un lugar cómodo para vivir.",
       "car": "Para moverse.",
       "bell": "Christmas event 2017/2018 reward. Gives you a cozy christmas feeling on your tree.",
       "tree": "Christmas event 2017/2018 reward. Who doesn't like a christmas tree?.",
       "pants": "Espero que sea básicamente lo que te pones en las piernas.",
-      "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
+      "haste": "Te permite recoger mas cosas de los comandos loot por 2 usos.",
       "milky": "Limpia todos los efectos de pociones.",
       "energy": "Hace que un pico o caña de pescar pierda menos durabilidad por uso. Dura 3 sesiones de minería/pesca.",
       "rod": "Enables you to fish.",
@@ -2266,23 +2246,23 @@
       "mop": "Una forma increíble de barrer todo el polvo que has acumulado. Me imagino que hay bastante.",
       "claim_key": "Este ítem te hace no reclamable (como una waifu) cuando usas `~>profile claimlock`.",
       "coffee": "Una forma increíble de empezar tu día.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
-      "bait": "Gives you a higher chance of catching fish.",
+      "waifu_pill": "Te da una notable ventaja en la minería y pesca si una de tus waifus vale mas de 10 millones. Dura 5 usos.",
+      "bait": "Te da una mayor chance de capturar peces.",
       "diamond_pick": "A very much stronger pick (Diamond). (`~>mine` tool).",
       "tv": "Debo... ver... televisión...",
-      "wrench": "Casting tool. Useful to put stuff together.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
-      "motorcycle": "Going around, the cool way.",
+      "wrench": "Herramienta de creación. Útil para poner cosas juntas.",
+      "star_wrench": "Herramienta de creación. Útil para poner cosas juntas. Menos probabilidad de que se rompa, necesario para crear múltiples items a la vez. Tier 2.",
+      "sparkle_wrench": "Herramienta de creación. Útil para poner cosas juntas. Menos probabilidad de que se rompa. Menos costo por cada creación. Tier 3.",
+      "motorcycle": "Dando vueltas, pero a la manera cool.",
       "comet_pick": "A very much stronger pick (Comet). (`~>mine` tool).",
       "star_pick": "A very much stronger pick (Star). (`~>mine` tool).",
-      "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe & sparkle rods)",
-      "sparkle_pick": "The strongest pick out there (450 durability). (`~>mine` tool)",
+      "sparkle": "Una de las gemas mas raras. Ten cuidado en no perderla. (Usado para crear sparkle pickaxe y sparkle rods)",
+      "sparkle_pick": "El pico mas fuerte de todos (450 de durabilidad). (`~>mine` tool)",
       "pizza": "Sabroso.",
-      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "mine_crate": "Una gema, se encuentra en la mina. Puede contener varias cosas buenas adentro. Puede ser abierto con `~>opencrate gem crate`",
+      "fish_crate": "Un tesoro que encuentras mientras pescas. Puede contener varias cosas buenas adentro. Puede ser abierto con `~>opencrate treasure`",
+      "mine_premium_crate": "Una gema que se encuentra mientras minas. Puede contener varias cosas buenas adentro. Puede ser abierto con `~>opencrate gem premium crate`",
+      "fish_premium_crate": "Un tesoro que encuentras mientras pescas. Puede contener varias cosas buenas adentro. Puede ser abierto con `~>opencrate premium treasure`",
       "comet_rod": "Una caña de pescar un poco más fuerte. (90 de durabilidad)",
       "star_rod": "Una caña de pesca más fuerte (130 durabilidad)",
       "sparkle_rod": "Una caña de pescar mucho más fuerte. (250 de durabilidad)",

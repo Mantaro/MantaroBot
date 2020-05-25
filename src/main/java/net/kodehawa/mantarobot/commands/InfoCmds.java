@@ -1,24 +1,25 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands;
 
 import com.github.natanbc.usagetracker.DefaultBucket;
 import com.google.common.eventbus.Subscribe;
+import lavalink.client.io.LavalinkSocket;
+import lavalink.client.io.RemoteStats;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
@@ -42,18 +43,19 @@ import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import org.json.JSONObject;
+import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -93,7 +95,6 @@ public class InfoCmds {
         });
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     @Subscribe
     public void language(CommandRegistry cr) {
         cr.register("lang", new SimpleCommand(Category.INFO) {
@@ -446,17 +447,22 @@ public class InfoCmds {
             protected void call(Context ctx, String content) {
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                ctx.send(
-                        new EmbedBuilder()
+                ctx.send(new EmbedBuilder()
                                 .setAuthor(languageContext.get("commands.stats.usage.header"), null, ctx.getSelfUser().getAvatarUrl())
                                 .setDescription(languageContext.get("commands.stats.usage.description"))
                                 .setThumbnail(ctx.getSelfUser().getAvatarUrl())
-                                .addField(languageContext.get("commands.stats.usage.threads"), getThreadCount() + " Threads", false)
-                                .addField(languageContext.get("commands.stats.usage.memory_usage"), Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()), false)
-                                .addField(languageContext.get("commands.stats.usage.cores"), getAvailableProcessors() + " Cores", true)
-                                .addField(languageContext.get("commands.stats.usage.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
-                                .addField(languageContext.get("commands.stats.usage.assigned_mem"), Utils.formatMemoryAmount(getTotalMemory()), false)
-                                .addField(languageContext.get("commands.stats.usage.assigned_remaining"), Utils.formatMemoryAmount(getFreeMemory()), true)
+                                .addField(languageContext.get("commands.stats.usage.threads"),
+                                        getThreadCount() + " Threads", false)
+                                .addField(languageContext.get("commands.stats.usage.memory_usage"),
+                                        Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()), false)
+                                .addField(languageContext.get("commands.stats.usage.cores"),
+                                        getAvailableProcessors() + " Cores", true)
+                                .addField(languageContext.get("commands.stats.usage.cpu_usage"),
+                                        String.format("%.2f", getInstanceCPUUsage()) + "%", true)
+                                .addField(languageContext.get("commands.stats.usage.assigned_mem"),
+                                        Utils.formatMemoryAmount(getTotalMemory()), false)
+                                .addField(languageContext.get("commands.stats.usage.assigned_remaining"),
+                                        Utils.formatMemoryAmount(getFreeMemory()), true)
                                 .build()
                 );
 
@@ -464,31 +470,109 @@ public class InfoCmds {
             }
         });
 
-        statsCommand.addSubCommand("server", new SubCommand() {
+        statsCommand.addSubCommand("nodes", new SubCommand() {
             @Override
             public String description() {
-                return "The bot's hardware usage";
+                return "Mantaro node statistics.";
             }
 
             @Override
             protected void call(Context ctx, String content) {
-                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(4, 5);
-                var languageContext = ctx.getLanguageContext();
+                Map<String, String> nodeMap;
+                try (Jedis jedis = ctx.getJedisPool().getResource()) {
+                    nodeMap = jedis.hgetAll("node-stats-" + ctx.getConfig().getClientId());
+                }
 
-                EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.stats.server.header"), null, ctx.getSelfUser().getAvatarUrl())
+                var embed = new EmbedBuilder().setTitle("Mantaro Node Statistics")
+                        .setDescription("This shows the current status of the online nodes. " +
+                                "Every node contains a set amount of shards.")
                         .setThumbnail(ctx.getSelfUser().getAvatarUrl())
-                        .addField(languageContext.get("commands.stats.server.cpu_usage"), String.format("%.2f", getInstanceCPUUsage()) + "%", true)
-                        .addField(languageContext.get("commands.stats.server.rem"),
-                                String.format(
-                                        "%s/%s/%s",
-                                        Utils.formatMemoryAmount(getVpsMaxMemory()),
-                                        Utils.formatMemoryAmount(getVpsFreeMemory()),
-                                        Utils.formatMemoryAmount(getVpsUsedMemory())
-                                ), false
-                        );
+                        .setColor(Color.PINK)
+                        .setFooter("Available Nodes: " + nodeMap.size());
 
-                ctx.send(embedBuilder.build());
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                for(var node : nodeMap.entrySet()) {
+                    var nodeData = new JSONObject(node.getValue());
+                    fields.add(new MessageEmbed.Field("Node " + node.getKey(),
+                            String.format("**Uptime**: %s\n" +
+                                    "**CPU Cores**: %s\n" +
+                                    "**CPU Usage**: %s\n" +
+                                    "**Memory**: %s\n" +
+                                    "**Threads**: %,d\n" +
+                                    "**Shards**: %s\n" +
+                                    "**Guilds**: %,d\n" +
+                                    "**Users**: %,d\n" +
+                                    "**Machine Memory**: %s\n",
+                                    Utils.formatDuration(nodeData.getLong("uptime")),
+                                    nodeData.getLong("available_processors"),
+                                    nodeData.getLong("machine_cpu_usage") + "%",
+                                    Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
+                                    nodeData.getLong("thread_count"),
+                                    nodeData.getString("shard_slice"),
+                                    nodeData.getLong("guild_count"),
+                                    nodeData.getLong("user_count"),
+                                    Utils.formatMemoryAmount(nodeData.getLong("machine_total_memory"))),
+                            false
+                    ));
+                }
+
+                var splitFields = DiscordUtils.divideFields(3, fields);
+                boolean hasReactionPerms = ctx.hasReactionPerms();
+
+                if (hasReactionPerms)
+                    DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
+                else
+                    DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
+            }
+        });
+
+        statsCommand.addSubCommand("lavalink", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lavalink node statistics.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                List<LavalinkSocket> nodes = ctx.getBot().getLavaLink().getNodes();
+                var embed = new EmbedBuilder();
+                embed.setTitle("Lavalink Node Statistics")
+                        .setDescription("This shows the current status of the online Lavalink nodes. " +
+                                "Every node contains a dynamic amount of players. This is for balancing music processes " +
+                                "outside of the main bot nodes.")
+                        .setThumbnail(ctx.getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setFooter("Available Nodes: " + nodes.size());
+
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+
+                for (LavalinkSocket node : nodes) {
+                    if(!node.isAvailable())
+                        continue;
+
+                    RemoteStats stats = node.getStats();
+                    fields.add(new MessageEmbed.Field(node.getName(),
+                            String.format("**Uptime**: %s\n" +
+                                    "**Used Memory**: %s\n" +
+                                    "**Free Memory**: %s\n" +
+                                    "**Players**: %,d\n" +
+                                    "**Players Playing**: %,d",
+                                    Utils.formatDuration(stats.getUptime()),
+                                    Utils.formatMemoryAmount(stats.getMemUsed()),
+                                    Utils.formatMemoryAmount(stats.getMemFree()),
+                                    stats.getPlayers(),
+                                    stats.getPlayingPlayers()
+                            ), false
+                    ));
+                }
+
+                var splitFields = DiscordUtils.divideFields(3, fields);
+                boolean hasReactionPerms = ctx.hasReactionPerms();
+
+                if (hasReactionPerms)
+                    DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
+                else
+                    DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
             }
         });
 

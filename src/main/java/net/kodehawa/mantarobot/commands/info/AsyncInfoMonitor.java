@@ -1,23 +1,21 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands.info;
 
-import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -35,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AsyncInfoMonitor {
     private static final ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor(
-            task -> new Thread(task, "AsyncInfoMonitor")
+            task -> new Thread(task, "Mantaro-AsyncInfoMonitor")
     );
 
     private static final Logger log = LoggerFactory.getLogger(AsyncInfoMonitor.class);
@@ -137,20 +135,25 @@ public class AsyncInfoMonitor {
                 j.hset(nodeSetName,
                         "node-" + MantaroBot.getInstance().getNodeNumber(),
                         new JSONObject()
+                                .put("uptime", ManagementFactory.getRuntimeMXBean().getUptime())
                                 .put("thread_count", threadCount)
                                 .put("available_processors", r.availableProcessors())
                                 .put("free_memory", Runtime.getRuntime().freeMemory())
                                 .put("max_memory", Runtime.getRuntime().maxMemory())
                                 .put("total_memory", Runtime.getRuntime().totalMemory())
+                                .put("used_memory", getTotalMemory() - getFreeMemory())
                                 .put("cpu_usage", calculateCpuUsage(os))
                                 .put("machine_cpu_usage", getInstanceCPUUsage(os))
                                 .put("machine_free_memory", calculateVPSFreeMemory(os))
                                 .put("machine_total_memory", calculateVPSMaxMemory(os))
                                 .put("machine_used_memory", vpsMaxMemory - vpsFreeMemory)
+                                .put("guild_count", MantaroBot.getInstance().getShardManager().getGuildCache().size())
+                                .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
+                                .put("shard_slice", MantaroBot.getInstance().getShardSlice())
                                 .toString()
                 );
             }
-        }, 1, 1, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);
 
         started = true;
     }

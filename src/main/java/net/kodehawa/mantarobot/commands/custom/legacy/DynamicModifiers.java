@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands.custom.legacy;
@@ -43,14 +42,19 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
 
         Set<String> dejaVu = new HashSet<>();
         for (String key : iterate(GETTER_MODIFIER, string)) {
-            if (dejaVu.contains(key)) continue;
+            if (dejaVu.contains(key))
+                continue;
+
             String mapKey = key.substring(2, key.length() - 1);
             String value = get(mapKey);
             if (value == null) {
                 value = "{Unresolved variable " + mapKey + "}";
             }
+
             string = string.replace(key, value.replaceAll("[^\\\\]\\\\[^\\\\]", "\\\\"));
-            if (!string.contains("$(")) break;
+            if (!string.contains("$("))
+                break;
+
             dejaVu.add(key);
         }
 
@@ -63,7 +67,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
                 .set(prefix, "name", guild.getName())
                 .mapMember(k(prefix, "owner"), guild.getOwner() == null ? guild.retrieveOwner(false).complete() : guild.getOwner())
                 .set(prefix, "region", guild.getRegion().getName())
-                .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()));
+                .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()))
+                .set(prefix, "icon", guild.getIconUrl() == null ? "https://i.imgur.com/k0V7Vnu.png" : guild.getIconUrl());
     }
 
     public DynamicModifiers mapUser(String prefix, User member) {
@@ -81,7 +86,8 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     public DynamicModifiers mapMember(String prefix, Member member) {
         return this
                 .mapUser(prefix, member.getUser())
-                .set(prefix, "name", member.getEffectiveName());
+                .set(prefix, "name", member.getEffectiveName())
+                .set(prefix, "nickname", member.getEffectiveName());
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GuildMessageReceivedEvent event) {

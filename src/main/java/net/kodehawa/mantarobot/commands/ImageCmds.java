@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -163,7 +162,7 @@ public class ImageCmds {
                         .setUsage("`~>konachan` - Retrieves a random image.\n" +
                                 "`~>konachan <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on konachan's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
@@ -205,7 +204,7 @@ public class ImageCmds {
                         .setUsage("`~>danbooru` - Retrieves a random image.\n" +
                                 "`~>danbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on danbooru's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
@@ -254,7 +253,7 @@ public class ImageCmds {
                         .setUsage("`~>yandere` - Retrieves a random image.\n" +
                                 "`~>yandere <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on yande.re's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
@@ -282,7 +281,7 @@ public class ImageCmds {
                         .setUsage("`~>gelbooru` - Retrieves a random image.\n" +
                                 "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on gelbooru's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });

@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -613,6 +612,11 @@ public class RelationshipCmds {
                         DBUser dbUser = ctx.getDBUser();
                         UserData userData = dbUser.getData();
                         I18nContext languageContext = ctx.getLanguageContext();
+                        Player player = ctx.getPlayer();
+                        if(player.getData().isWaifuout()) {
+                            ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                            return;
+                        }
 
                         String description = userData.getWaifus().isEmpty() ?
                                 languageContext.get("commands.waifu.waifu_header") + "\n" + languageContext.get("commands.waifu.no_waifu") :
@@ -631,6 +635,7 @@ public class RelationshipCmds {
                         }
 
                         boolean id = opts.containsKey("id");
+                        List<String> toRemove = new ArrayList<>();
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         for (String waifu : userData.getWaifus().keySet()) {
@@ -642,6 +647,12 @@ public class RelationshipCmds {
                                                 languageContext.get("commands.waifu.credits_format"), false)
                                 );
                             } else {
+                                Player waifuClaimed = ctx.getPlayer(user);
+                                if(waifuClaimed.getData().isWaifuout()) {
+                                    toRemove.add(waifu);
+                                    continue;
+                                }
+
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + (!userData.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
                                         (id ? languageContext.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
                                                 languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
@@ -670,6 +681,14 @@ public class RelationshipCmds {
 
                             DiscordUtils.listText(ctx.getEvent(), 60, false, waifusEmbed, splitFields);
                         }
+
+                        if(!toRemove.isEmpty()) {
+                            for(String remove : toRemove) {
+                                dbUser.getData().getWaifus().remove(remove);
+                            }
+
+                            player.saveAsync();
+                        }
                     }
                 };
             }
@@ -679,9 +698,9 @@ public class RelationshipCmds {
                 return new HelpContent.Builder()
                         .setDescription("This command is the hub for all waifu operations. Yeah, it's all fiction.")
                         .setUsage("`~>waifu` - Shows a list of all your waifus and their current value.\n" +
-                                "`~>waifu <command> [@user]`")
-                        .addParameter("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
-                        .addParameter("@user", "The user you want to do the action with.")
+                                "`~>waifu [command] [@user]`")
+                        .addParameterOptional("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
+                        .addParameterOptional("@user", "The user you want to do the action with.")
                         .addParameterOptional("-id", "Shows the user id.")
                         .build();
             }
@@ -689,6 +708,43 @@ public class RelationshipCmds {
 
         cr.registerAlias("waifu", "waifus");
         waifu.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+
+        waifu.addSubCommand("optout", new SubCommand() {
+            @Override
+            public String description() {
+                return "Opt-out of the waifu stuff. This will disable the waifu system, remove all of your claims and make you unable to be claimed.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                ctx.sendLocalized("commands.waifu.optout.warning", EmoteReference.WARNING);
+                Player player = ctx.getPlayer();
+                if(player.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
+                    if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
+                        return Operation.IGNORED;
+                    }
+
+                    String c = e.getMessage().getContentRaw();
+
+                    if (c.equalsIgnoreCase("yes")) {
+                        player.getData().setWaifuout(true);
+                        ctx.sendLocalized("commands.waifu.optout.success", EmoteReference.CORRECT);
+                        player.saveAsync();
+                        return Operation.COMPLETED;
+                    } else if (c.equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.waifu.optout.cancelled", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+        });
 
         waifu.addSubCommand("stats", new SubCommand() {
             @Override
@@ -698,6 +754,12 @@ public class RelationshipCmds {
 
             @Override
             protected void call(Context ctx, String content) {
+                Player player = ctx.getPlayer();
+                if(player.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                    return;
+                }
+
                 Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
                 if (member == null)
                     return;
@@ -739,6 +801,12 @@ public class RelationshipCmds {
 
             @Override
             protected void call(Context ctx, String content) {
+                Player player = ctx.getPlayer();
+                if(player.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (ctx.getMentionedUsers().isEmpty()) {
                     ctx.sendLocalized("commands.waifu.claim.no_user", EmoteReference.ERROR);
                     return;
@@ -758,6 +826,12 @@ public class RelationshipCmds {
                 final Player claimedPlayer = ctx.getPlayer(toLookup);
                 final DBUser claimedUser = ctx.getDBUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
+
+                if(claimedPlayer.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.claim_notice", EmoteReference.ERROR);
+                    return;
+                }
+
 
                 //Waifu object declaration.
                 final Waifu waifuToClaim = calculateWaifuValue(toLookup);
@@ -840,6 +914,11 @@ public class RelationshipCmds {
                 Map<String, String> t = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(t, content, "unknown");
                 boolean isId = content.matches("\\d{16,20}");
+                Player player = ctx.getPlayer();
+                if(player.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                    return;
+                }
 
                 if (content.isEmpty() && !isId) {
                     ctx.sendLocalized("commands.waifu.unclaim.no_user", EmoteReference.ERROR);
@@ -948,6 +1027,11 @@ public class RelationshipCmds {
                 DBUser user = ctx.getDBUser();
                 Player player = ctx.getPlayer();
                 final UserData userData = user.getData();
+
+                if(player.getData().isWaifuout()) {
+                    ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                    return;
+                }
 
                 int currentSlots = userData.getWaifuSlots();
                 int baseMultiplier = (currentSlots / 3) + 1;

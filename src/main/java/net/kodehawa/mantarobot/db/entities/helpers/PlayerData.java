@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.db.entities.helpers;
@@ -56,6 +55,7 @@ public class PlayerData {
     private long timesMopped;
     private long cratesOpened;
     private long sharksCaught;
+    private boolean waifuout;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -306,6 +306,14 @@ public class PlayerData {
 
     public void setSharksCaught(long sharksCaught) {
         this.sharksCaught = sharksCaught;
+    }
+
+    public boolean isWaifuout() {
+        return waifuout;
+    }
+
+    public void setWaifuout(boolean waifuout) {
+        this.waifuout = waifuout;
     }
 
     @JsonIgnore

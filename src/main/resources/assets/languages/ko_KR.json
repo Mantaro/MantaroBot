@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (제한된 속도)\n **%3$s초 후 이 명령어를 다시 사용할 수 있어요.**",
       "spam_1": "건강을 위해서 쉬세요 ㅠㅠ *재사용 대기시간이 재설정되기 전에 시도하면 제한된 속도가 계속 증가한다는 것을 기억하세요!*",
-      "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요..."
+      "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요...",
+      "spam_3": "\n잠깐 밖에 나가 있는 게 낫지 않을까요?",
+      "spam_4": "\n이거 켜는 거 맞나요?"
     },
     "generic_error": "만약 원한다면 저희 **고객 지원 서버**(`support.mantaro.site`)나 저희 GitHub 페이지(`https://github.com/Kodehawa/MantaroBot`)를 확인해주세요. 제발 저를 폭파시키지 말라고 말해줘요. 그리고 신고할 때 오류 ID를 잊지 말아줘요!",
     "boom_quotes": [
@@ -171,8 +173,8 @@
       "self_hierarchy_conflict": "%1$s멤버을 차단할 수 없어요: %2$s님이 저보다 높거나 같은 위치예요!",
       "success": "%1$s%2$s (%3$s님이 소프트 차단됨)",
       "success_multiple": "%1$s%2$s (%3$명 소프트 차단됨)",
-      "error": "%1$sError banning %2$s: (I need the permission %3$s)",
-      "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
+      "error": "%1$s%2$s을(를) 차단하는 중 오류: (%3$s 권한이 필요해요)",
+      "unknown_error": "%1$s흐어, 차단하는 동안 알 수 없는 오류가 발생했어요 %2$s"
     },
     "kick": {
       "no_permission": "%1$s추방할 수 없어요: 멤버 추방 권한이 없네요.",
@@ -365,7 +367,7 @@
       "cleanup": "%1$s**%2$d개 음악**을 대기열에서 지웠어요."
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
+      "check": "%1$s이 세션의 현재 볼륨은 다음과 같아요:%2$d\n\n%3$s",
       "success": "%1$s볼륨이 %2$d(으)로 설정되었어요\n\n%3$s",
       "no_args": "%1$s음악을 어떤 볼륨으로 설정할지 말씀해 주세요(5부터 100까지).",
       "premium_only": "%1$s프리미엄 전용 기능이에요. 이와 같은 프리미엄 혜택을 받으려면 Patreon (https://www.patreon.com/mantaro)에 서약을 하면 되요. 이해해주셔서 고마워요.\n프리미엄 기능은 사용자 또는 서버에 바운드 할 수 있어요. 기부할 경우 지원 길드에 가입하여 요청하세요."
@@ -381,7 +383,7 @@
       "none": "이 서버는 사용자 지정 접두사가 설정되지 않았어요."
     },
     "custom": {
-      "no_args": "%1$s이 명령으로 수행할 작업을 정의해야 해요. 자세한 내용은 명령어 도움말을 확인하세요!",
+      "no_args": "%1$s이 명령으로 수행할 작업을 지정해야 해요. 자세한 내용은 명령어 도움말을 확인하세요!",
       "incorrect_args": "%1$s잘못된 인수예요. `~>help custom` 또는 https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands에서 어떻게 사용하는지 더 많은 도움을 받으세요. 위키를 읽은 후 추가로 문제가 발생하면 <https://support.mantaro.site>를 참조하세요.\n",
       "error_running": "%1$s사용자 정의 명령을 실행하는 동안 오류가 발생했어요... 응답 내용 및 길이를 확인하세요(2000자 이상일 수 없어요).",
       "error_running_new": "%1$s사용자 정의 명령을 실행하는 동안 오류가 발생했어요. 응답, 내용, 길이를 확인하세요.\n**Error:**\n```%2$s```",
@@ -397,7 +399,7 @@
       },
       "invalid": "%1$s잘못된 명령어 선택이에요. 명령 도움말(`help custom`)을 확인하세요.",
       "view": {
-        "invalid": "%1$s명령과 응답 번호를 정의해야 해요.",
+        "invalid": "%1$s명령과 응답 번호를 지정해야 해요.",
         "not_found": "%1$s이 이름을 가진 사용자 정의 명령어가 없어요.",
         "less_than_specified": "%1$s%이 명령어는 정의한 수보다 응답이 적어요...\n",
         "success": "**사용자 정의 명령어 `%2$s`에 대한 응답 `%1$d`:** \n```\n%3$s```"
@@ -419,7 +421,7 @@
         "no_name_specified": "%1$s생성할 사용자 정의 명령어의 이름을 정하지 않았어요!"
       },
       "eval": {
-        "not_specified": "감정할 내용을 정의하지 않았어요.",
+        "not_specified": "감정할 내용을 지정하지 않았어요.",
         "new_error": "%1$s이 사용자 정의 명령어을 감정하는 동안 오류가 발생했어요.\n**오류**:\n```%2$s```",
         "error": "%1$s이 사용자 정의 명령어을 감정하는 동안 오류가 발생했어요!\n%2$s"
       },
@@ -436,40 +438,40 @@
         "success": "총 %3$d 응답으로 길드 `%2$s`에서 가져온 사용자 정의 명령어 `%1$s`이에요."
       },
       "edit": {
-        "no_command": "%1$s어떤 명령어를 수정하고 싶은지 말해주세요.",
-        "invalid_number": "%1$s변경할 번호를 올바르게 정의해야 해요.",
+        "no_command": "%1$s어떤 명령어를 수정하고 싶은지 지정해주세요.",
+        "invalid_number": "%1$s변경할 숫자를 올바르게 지정해야 해요.",
         "no_index": "%1$s존재하지 않는 지수(Index)는 편집할 수 없어요.",
         "empty_response": "%1$s무응답으로 편집할 수 없어요",
-        "not_enough_args": "%1$s명령어, 지수(Index) 및 새 응답을 정의해야 해요",
+        "not_enough_args": "%1$s명령어, 지수(Index) 및 새 응답을 지정해야 해요",
         "success": "%1$s`%3$s` 명령어의 **#%2$d** 응답을 올바르게 수정했어요"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$s응답을 제거할 명령을 지정해야 해요.",
+        "invalid_number": "%1$s변경할 숫자를 올바르게 지정해야 해요.",
+        "no_index": "%1$s존재하지 않는 지수(Index)는 제거할 수 없어요.",
+        "not_enough_args": "%1$s삭제할 명령어와 지수(Index)를 지정해야 해요.",
+        "success": "%1$s`%3$s` 명령어의 **#%2$d** 응답을 올바르게 제거했어요"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$s명령어 이름을 `2$s`에서 `%3$s`(으)로 변경했어요."
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
-        "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "no_command": "%1$s명령어를 추가하고 싶은지 지정해주세요.",
+        "not_enough_args": "%1$s추가할 명령어의 명령어 이름과 응답을 지정해야 해요.",
+        "empty_content": "%1$s이 사용자 정의 명령어의 내용을 지정해야 해요",
+        "success": "%1$s`%2$s` 명령어를 저장했어요",
+        "too_many_commands": "%1이 서버에 명령어가 너무 많아서 더 이상 추가할 수 없어요(+100개). 프리미엄 길드에서 우회할 수 있어요(클릭<https://patreon.com/mantaro>)."
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+      "character_not_allowed": "%1$s이 문자는 사용자 정의 명령어의 이름에 사용할 수 없어요.",
+      "already_exists": "%1$s`%2$s` 명령어는 이미 있어요. 기본적 봇 명령어예요.",
+      "name_too_long": "%1$s이름이 너무 길어요.",
+      "no_cc": "%1$s이 길드에 등록된 사용자 정의 명령어가 없네요. 약간의 먼지만 있군요.",
+      "admin_only": "이 길드는 관리자로부터 사용자 지정 명령 작성, 편집, 가져오기 및 평가만 허용해요.\n**이제 디폴트(DEFAULT) 설정이에요.**\n- 모든 사용자에게 이 작업을 허용하고 싶다면 관리자(Bot Commander 역할 또는 서버 관리 권한)인 경우 `~>opts admincustom false`를 실행하세요.",
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "invalid_json": "%1$s`{%2$s}` 문자열은 유효한 JSON이 아니에요.",
+      "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -496,50 +498,50 @@
     "ping": {
       "quotes": {
         "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "great! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "decent. :neutral_face:",
-        "400": "average... :confused:",
-        "500": "slightly slow. :slight_frown:",
-        "600": "kinda slow.. :frowning2:",
-        "700": "slow.. :worried:",
-        "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (help me)",
-        "1600": "#BlameDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
+        "10": "소닉보다 빨라요! :smiley:",
+        "69": "서..선정적이야! <:MantaroGasm:318869352851963904>",
+        "100": "좋아요! :smiley:",
+        "200": "멋있네요! :slight_smile:",
+        "300": "괜찮아요. :neutral_face:",
+        "400": "평균이네요... :confused:",
+        "500": "약간 느려요. :slight_frown:",
+        "600": "좀 느려요.. :frowning2:",
+        "700": "느려요.. :worried:",
+        "800": "매우 느려요. :disappointed:",
+        "900": "나빠요. :sob: (도와줘요)",
+        "1600": "#Discord책임져. :angry:",
+        "10000": "이건 말도 안 돼요 :thinking: #Steven책임져",
+        "default": "느리게. :dizzy_face:"
       },
       "display": [
-        "W-Was I fast enough?",
-        "What are you doing?",
+        "ㅈ..제가 충분히 빠른가요?",
+        "지금 무엇을 하고 있나요?",
         "W-What are you looking at?!",
-        "Huh.",
+        "흠.",
         "Did I do well?",
         "What do you think?",
         "Does this happen often?",
         "Am I performing p-properly?",
         "<3",
-        "*pats*",
+        "*머리를 쓰다듬음*",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
         "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "ㅇ..음...ㅇ..안녕"
       ],
       "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
+      "not_ideal": "다음 기회를 이용해 보세요...",
+      "decent": "좋은 편이에요!",
       "nice": "Good match!",
       "perfect": "Perfect match!",
       "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
       "header": "Love Meter",
-      "result": "Result:"
+      "result": "결과:"
     },
     "marry": {
       "loveletter": {
@@ -617,13 +619,20 @@
         "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots!"
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
       "footer": "Total waifus: %1$,d - available slots: %2$s",
       "value_format": "**Value:**",
       "value_b_format": "**Bought for:**",
-      "credits_format": " credits.",
+      "credits_format": " 크레딧.",
       "waifu_header": "**Your waifus:**",
       "not_claimed": "%1$sYou haven't claimed this waifu."
     },
@@ -659,7 +668,7 @@
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
@@ -768,8 +777,8 @@
     "iam": {
       "list": {
         "name": "Auto-role name: ",
-        "role": "Role:",
-        "category": "Category: ",
+        "role": "역할:",
+        "category": "카테고리: ",
         "header": "Auto-roles list",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
@@ -800,37 +809,19 @@
       "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
       "time": "You have %1$s to vote.",
       "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
-      "result_header": "Poll results",
+      "result_header": "투표 결과",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
       "thank_note": "Thanks for your vote",
-      "results": "Results",
+      "results": "결과",
       "cancelled": "%1$sCancelled poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
-    },
-    "osustats": {
-      "user": {
-        "header": "osu! statistics for %1$s",
-        "rank": "Rank",
-        "acc": "Accuracy",
-        "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Country Rank"
-      },
-      "retrieving_info": "%1$sRetrieving information from osu! server...",
-      "timeout": "%1$sThe osu! api seems to be taking a nap. Maybe try again later?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$,dpp] | Rank: %6$s -> Max Combo: %7$,d",
-      "best": "**10 best osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Date: %5$s -> Max Combo: %6$s\n",
-      "recent": "**10 most recent osu! scores for: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... seems like I just received scramble soup as a response... (%1$s)"
     },
     "profile": {
       "timezone": {
         "not_specified": "%1$sYou need to specify the timezone.",
-        "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone.",
+        "reset": "%1$s표준시간대 초기화.",
+        "invalid": "%1$s유효하지 않은 표준시간대.",
         "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**",
         "reset_success": "%1$sSuccessfully reset your timezone."
       },
@@ -861,9 +852,9 @@
         "market": "Market Used",
         "potion": "Active Potion",
         "potion_type": "Potion Type",
-        "buff": "Buff",
-        "buff_type": "Buff Type",
-        "experience": "Experience",
+        "buff": "버프",
+        "buff_type": "버프 유형",
+        "experience": "경험치",
         "mine_xp": "Mining Experience",
         "fish_xp": "Fishing Experience",
         "sharks_caught": "Sharks Caught",
@@ -1018,17 +1009,6 @@
       "main_def": "Main definition.",
       "footer": "Information by Urban Dictionary",
       "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
-    },
-    "weather": {
-      "header": "%1$s Forecast information for %2$s",
-      "clouds": "clouds",
-      "temperature": "Temperature",
-      "humidity": "Humidity",
-      "wind_speed": "Wind Speed",
-      "pressure": "Pressure",
-      "footer": "Information provided by OpenWeatherMap (Process time: %1$dms)",
-      "error": "%1$sError while fetching results. (Not found?)",
-      "no_content": "%1$sYou need to specify which city and country to search the weather of!"
     },
     "activatekey": {
       "check": {
@@ -1329,7 +1309,7 @@
         "age": "Age",
         "no_pets": "%1$sYou have no pets.",
         "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
-        "pages": "**Total pages: %1$s \nUse the message reaction to move between pages.\n\n"
+        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
         "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
@@ -1438,7 +1418,7 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
       "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
@@ -1455,7 +1435,7 @@
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
       "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
@@ -1647,7 +1627,7 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",

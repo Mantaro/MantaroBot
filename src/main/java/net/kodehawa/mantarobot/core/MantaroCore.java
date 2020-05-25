@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.core;
@@ -115,6 +114,7 @@ public class MantaroCore {
         if (ExtraRuntimeOptions.SHARD_SUBSET) {
             return ExtraRuntimeOptions.TO_SHARD.orElseThrow() - ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
         }
+
         if (ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
             return ExtraRuntimeOptions.SHARD_COUNT.getAsInt();
         }
@@ -167,11 +167,7 @@ public class MantaroCore {
             log.info("Using buckets of {} shards to start the bot! Assuming we're on big bot :tm: sharding.", bucketFactor);
             controller = new BucketedController(bucketFactor, 213468583252983809L);
         }
-
-        var callbackThreadFactory = Thread.builder()
-                .name("CallbackThread-", 0)
-                .daemon(true)
-                .factory();
+        
         var gatewayThreadFactory = Thread.builder()
                 .name("GatewayThread-", 0)
                 .daemon(true)
@@ -184,10 +180,9 @@ public class MantaroCore {
 
         //TODO: loom based web socket factory?
         try {
-            var listener = new ShardStartListener();
+            var shardStartListener = new ShardStartListener();
             DefaultShardManagerBuilder builder;
 
-            //Shared between the two builders (lazy load and normal)
             builder = DefaultShardManagerBuilder.create(config.token,
                     GatewayIntent.GUILD_PRESENCES, //This one is so we can have lazy loading
                     GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
@@ -198,7 +193,7 @@ public class MantaroCore {
                     .addEventListeners(
                             VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(),
                             ReactionOperations.listener(), MantaroBot.getInstance().getLavaLink(),
-                            listener, BlockingInteractiveOperations.listener()
+                            shardStartListener, BlockingInteractiveOperations.listener()
                     )
                     .addEventListenerProviders(List.of(
                             id -> new CommandListener(commandProcessor,
@@ -214,35 +209,42 @@ public class MantaroCore {
                     .setLargeThreshold(100)
                     .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
-            
+
+
             if (isDebug) {
-                var callback = maybeLoom("CallbackThread", 1, callbackThreadFactory);
                 var gateway = maybeLoomScheduled("GatewayThread", 1, gatewayThreadFactory);
                 var rateLimit = maybeLoomScheduled("RateLimitThread", 2, requesterThreadFactory);
                 
                 builder.setShardsTotal(2)
-                        .setCallbackPool(callback, true)
                         .setGatewayPool(gateway, true)
                         .setRateLimitPool(rateLimit, true);
             } else {
+                int count;
+                //Count specified in config.
                 if(config.totalShards != 0) {
-                    if (ExtraRuntimeOptions.SHARD_SUBSET) {
-                        if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
-                            throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
-                                    "when using shard subsets. Please specify the missing one.");
-                        }
-
-                        builder.setShardsTotal(config.totalShards)
-                                .setShards(
-                                        ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
-                                        ExtraRuntimeOptions.TO_SHARD.orElseThrow()
-                                );
-                    } else {
-                        builder.setShardsTotal(config.totalShards);
-                    }
+                    count = config.totalShards;
+                    builder.setShardsTotal(config.totalShards);
                 } else {
-                    builder.setShardsTotal(ExtraRuntimeOptions.SHARD_COUNT.orElse(-1));
+                    //Count specified on runtime options or recommended count by discord.
+                    count = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
+                    builder.setShardsTotal(count);
                 }
+
+                //Using a shard subset. FROM_SHARD is inclusive, TO_SHARD is exclusive (else 0 to 448 would start 449 shards)
+                if (ExtraRuntimeOptions.SHARD_SUBSET) {
+                    if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
+                        throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
+                                "when using shard subsets. Please specify the missing one.");
+                    }
+
+                    builder.setShards(
+                            ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
+                            ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1
+                    );
+                }
+
+                builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count * 5 / 4), requesterThreadFactory), true);
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
@@ -256,9 +258,9 @@ public class MantaroCore {
                 log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
 
                 try {
-                    listener.setLatch(new CountDownLatch(latchAmount)).await();
+                    shardStartListener.setLatch(new CountDownLatch(latchAmount)).await();
                     var elapsed = System.currentTimeMillis() - start;
-                    shardManager.removeEventListener(listener);
+                    shardManager.removeEventListener(shardStartListener);
                     startPostLoadProcedure(elapsed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -356,8 +358,8 @@ public class MantaroCore {
         bot.getCore().markAsReady();
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-        LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %d seconds.", shardManager.getShardsRunning(),
-                shardManager.getShardsTotal(), elapsed / 1000));
+        LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %s.", shardManager.getShardsRunning(),
+                shardManager.getShardsTotal(), Utils.formatDuration(elapsed)));
         log.info("Loaded all shards successfully! Status: {}", MantaroCore.getLoadState());
 
         bot.getCore().getShardEventBus().post(new PostLoadEvent());

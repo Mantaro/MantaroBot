@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands;
@@ -68,7 +67,7 @@ public class CurrencyActionCmds {
                     .spamTolerance(2)
                     .cooldown(5, TimeUnit.MINUTES)
                     .maxCooldown(5, TimeUnit.MINUTES)
-                    .randomIncrement(false)
+                    .incrementDivider(10)
                     .premiumAware(true)
                     .pool(MantaroData.getDefaultJedisPool())
                     .prefix("mine")
@@ -251,7 +250,7 @@ public class CurrencyActionCmds {
                 .spamTolerance(2)
                 .cooldown(4, TimeUnit.MINUTES)
                 .maxCooldown(4, TimeUnit.MINUTES)
-                .randomIncrement(false)
+                .incrementDivider(10)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("fish")
                 .premiumAware(true)
@@ -368,6 +367,7 @@ public class CurrencyActionCmds {
 
                         playerInventory.process(new ItemStack(Items.SHARK, 1));
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.shark_success"), Items.SHARK.getEmoji());
+                        player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
                     }
 
                     //START OF ITEM ADDING HANDLING
@@ -421,9 +421,6 @@ public class CurrencyActionCmds {
                         handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
                         return;
                     }
-
-                    if(reducedList.stream().map(ItemStack::getItem).anyMatch(it -> it.equals(Items.SHARK)))
-                        player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {

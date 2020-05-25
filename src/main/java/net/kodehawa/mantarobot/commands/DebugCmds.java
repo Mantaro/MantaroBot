@@ -1,28 +1,27 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
+import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -69,15 +68,23 @@ public class DebugCmds {
                 var guilds = 0L;
                 var users = 0L;
                 var clusterTotal = 0L;
+                var players = 0L;
 
-                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    for(int i = 0; i < config.getTotalShards(); i++) {
-                        var json = new JSONObject(jedis.hget("shardstats-" + config.getClientId(), String.valueOf(i)));
+                try(Jedis jedis = ctx.getJedisPool().getResource()) {
+                    var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+                    for (var shards : stats.entrySet()) {
+                        var json = new JSONObject(shards.getValue());
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
 
                     clusterTotal = jedis.hlen("node-stats-" + config.getClientId());
+                }
+
+                List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
+                for(var lavaLink : lavaLinkSockets) {
+                    if(lavaLink.isAvailable())
+                        players += lavaLink.getStats().getPlayingPlayers();
                 }
 
                 var responseTotal = bot.getShardManager().getShards()
@@ -93,22 +100,21 @@ public class DebugCmds {
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
                         + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
-                        + "Bot Version: " + MantaroInfo.VERSION + "\n"
+                        + "Bot Version: " + MantaroInfo.VERSION + " [" + MantaroInfo.GIT_REVISION + "]\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + String.format("%,d (MAPI: %,d)", responseTotal, mApiRequests) + "\n"
-                        + "Clusters: " + String.format("%,d (Current: %,d)", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
+                        + "API Responses: " + String.format("%,d [MAPI: %,d]", responseTotal, mApiRequests) + "\n"
+                        + "Clusters: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + String.format("%,d", guilds) + "\n"
-                        + "Cluster Guilds: " + String.format("%,d", ctx.getShardManager().getGuildCache().size()) + "\n"
-                        + "Users: " + String.format("%,d", users) + "\n"
-                        + "Cluster Users: " + String.format("%,d", ctx.getShardManager().getUserCache().size()) + "\n"
-                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (Current: " + ctx.getJDA().getShardInfo().getShardId() + ")" + "\n"
+                        + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"
+                        + "Users: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
+                        + "Shards: " + bot.getShardManager().getShardsTotal() + " [Current: " + ctx.getJDA().getShardInfo().getShardId() + "]" + "\n"
                         + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
+                        + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()) + "\n"
                         + "Queue Size: " + String.format("%,d", bot.getAudioManager().getTotalQueueSize())
@@ -293,9 +299,10 @@ public class DebugCmds {
                 long users = 0;
                 long clusters = 0;
 
-                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                    for(int i = 0; i < config.getTotalShards(); i++) {
-                        var json = new JSONObject(jedis.hget("shardstats-" + config.getClientId(), String.valueOf(i)));
+                try(Jedis jedis = ctx.getJedisPool().getResource()) {
+                    var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+                    for (var shards : stats.entrySet()) {
+                        var json = new JSONObject(shards.getValue());
                         guilds += json.getLong("guild_count");
                         users += json.getLong("cached_users");
                     }
@@ -311,7 +318,7 @@ public class DebugCmds {
 
                 stringBuilder.append(String.format(
                         "%sUptime: %s\n\n" +
-                                "+ Bot Version: %s\n" +
+                                "+ Bot Version: %s (Git: %s)\n" +
                                 "+ JDA Version: %s\n" +
                                 "+ LP Version: %s\n\n" +
                                 "* Clusters: %s\n" +
@@ -326,7 +333,7 @@ public class DebugCmds {
                                 "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s",
                         EmoteReference.SELL,
                         Utils.formatDuration(ManagementFactory.getRuntimeMXBean().getUptime()),
-                        MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
+                        MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, JDAInfo.VERSION, PlayerLibrary.VERSION,
                         clusters,
                         ctx.getShardManager().getGuildCache().size(), ctx.getBot().getNodeNumber(),
                         ctx.getShardManager().getUserCache().size(),

@@ -40,11 +40,9 @@ _Configuration guide: https://github.com/Mantaro/MantaroBot/wiki_
 *   Options include but are not limited to a birthday announcer, server logs, music announcements and much more
 
 ## Misc
-*   99.9% uptime and amazing and friendly support! (Support server: `https://is.gd/mantaroguild`)
+*   99.9% uptime and amazing and friendly support! (Support server: `https://support.mantaro.site`)
 *   A constantly update and improved experience
 *   A big music system for your server!
-*   Check **osu!** stats of any player using `~>osustats`!
-*   Check the Weather from everywhere with the `~>weather` command.
 *   Check anime information with `~>anime`.
 *   Create complex custom commands using two custom command system!
 *   Way way more to enjoy than we can possibly list here!
@@ -66,6 +64,6 @@ Invite Mantaro to your own server now!: https://add.mantaro.site/
 *   **Other Commands :**  
     `8ball`, `game`, `trivia`, `about`, `avatar`, `ban`, `remindme`, `birthday`, `dice`, 
     `dictionary`, `guildinfo`, `help`, `kick`, `konachan`, `math`, `misc`  
-    `opts`, `osustats`, `ping`, `iam`, `iamnot`, `prune`, `coinflip`, `choose`, `quote`, `randomfact`, `stats`  
+    `opts`, `ping`, `iam`, `iamnot`, `prune`, `coinflip`, `choose`, `quote`, `randomfact`, `stats`  
     `time`, `translate`, `urban`, `userinfo`, `weather`, `yandere`, `danbooru`, `rule34`, `mute`, `unmute`, `dictionary` 
 *   **With many more to discover!**

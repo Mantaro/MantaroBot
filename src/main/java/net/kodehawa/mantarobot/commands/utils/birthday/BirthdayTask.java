@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2016-2020 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * Mantaro is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  (at your option) any later version.
+ *  Mantaro is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
- *
  */
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
@@ -41,6 +40,8 @@ public class BirthdayTask {
             .name("birthdays_logged").help("Logged birthdays")
             .register();
     private static final FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
+    private static final String modLogMessage = "Birthday assigner." +
+            " If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable";
 
     public static void handle(int shardId) {
         try {
@@ -97,14 +98,16 @@ public class BirthdayTask {
                             String birthday = data.getValue().birthday;
 
                             //shut up warnings
-                            if (member == null) continue;
-                            if(tempGuildData.getBirthdayBlockedIds().contains(member.getId())) continue;
+                            if (member == null)
+                                continue;
+                            if(tempGuildData.getBirthdayBlockedIds().contains(member.getId()))
+                                continue;
 
                             if (birthday == null) {
                                 log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
                                 if (member.getRoles().contains(birthdayRole)) {
                                     guild.removeRoleFromMember(member, birthdayRole)
-                                            .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
+                                            .reason(modLogMessage)
                                             .queue();
                                 }
                                 continue; //shouldn't happen
@@ -128,16 +131,16 @@ public class BirthdayTask {
                                 if (!member.getRoles().contains(birthdayRole)) {
                                     try {
                                         guild.addRoleToMember(member, birthdayRole)
-                                                .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
-                                                .queue(
-                                                        s -> {
-                                                            new MessageBuilder().setContent(birthdayMessage)
-                                                                    .stripMentions(guild, Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
-                                                                    .sendTo(channel)
-                                                                    .queue();
-                                                            birthdayCounter.inc();
-                                                        }
-                                                );
+                                                .reason(modLogMessage)
+                                                .queue(s -> {
+                                                    new MessageBuilder().setContent(birthdayMessage)
+                                                            .stripMentions(guild,
+                                                                    Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE
+                                                            ).sendTo(channel)
+                                                            .queue();
+                                                    birthdayCounter.inc();
+                                                });
+
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         membersAssigned++;
                                         //Something went boom, ignore and continue
@@ -151,7 +154,7 @@ public class BirthdayTask {
                                     try {
                                         log.debug("Removing birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         guild.removeRoleFromMember(member, birthdayRole)
-                                                .reason("Birthday assigner. If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable")
+                                                .reason(modLogMessage)
                                                 .queue();
                                         membersDivested++;
                                         //Something went boom, ignore and continue

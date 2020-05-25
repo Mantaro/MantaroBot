@@ -72,7 +72,9 @@
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
       "spam_1": "Please rest, it's good for your health :( *Remember that Ratelimit will keep increasing if you try before the cooldown resets!*",
-      "spam_2": "Ik denk dat stoppen voorlopig de beste optie is..."
+      "spam_2": "Ik denk dat stoppen voorlopig de beste optie is...",
+      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_4": "\nIs this thing even on?"
     },
     "generic_error": "If you want, join our **support server** (Link at `support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
@@ -617,6 +619,13 @@
         "success": "%1$sDit slot is succesvol aangekocht voor %2$s, je hebt op dit moment in totaal %3s sloten en %4$s hiervan zijn beschikbare sloten.",
         "too_many": "%1$sJe hebt al teveel sloten!"
       },
+      "optout": {
+        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
+        "success": "%1$sYou successfully opted out of the waifu system.",
+        "cancelled": "%1$sCancelled opt-out operation.",
+        "claim_notice": "%1$sThe user you're trying to claim opted out."
+      },
       "header": "Waifu Lijst",
       "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$d waifus hebben.*\n\nals je je waifu statistieken wil bekijken, typ `~>waifu stats`\n\n",
       "no_waifu": "Geen waifu te zien hier, alleen maar stof :(\nJe kunt waifus krijgen door iemand te claimen! Typ `~>waifu claim` om te beginnen met claimen.",
@@ -659,7 +668,7 @@
       "no_tool": "%1$sJe hebt %2$s nodig om verder te gaan met deze cast!",
       "item_broke": "\nHelaas, je moersleutel brak tijdens het proces, maar je hebt wel je voorwerp gekregen!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
@@ -807,24 +816,6 @@
       "results": "Resultaten",
       "cancelled": "%1$sGeannuleerde poll",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
-    },
-    "osustats": {
-      "user": {
-        "header": "osu! statistieken voor %1$s",
-        "rank": "Rank",
-        "acc": "Nauwkeurigheid",
-        "level": "Level",
-        "ranked": "Ranked Score",
-        "country_rank": "Land Rank"
-      },
-      "retrieving_info": "%1$sOphalen van informatie van osu! server...",
-      "timeout": "%1$sDe osu! api lijkt een dutje te doen. Misschien later nog een keer proberen?",
-      "best_format": "# %1$s [%2$s] -> %3$s (★%4$.2f*) \n | ####### | [%5$dpp] | Rank: %6$s -> Max Combo: %7$d",
-      "best": "**10 beste osu! scores voor: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error": "%1$sUh-oh... het lijkt alsof ik net scramblesoep heb ontvangen als reactie ... (Error tijdens het ophalen van resultaten)",
-      "recent_format": "# %1$s -> %2$s\n | (★%3$s) - %4$s | Datum: %5$s -> Max Combo: %6$d\n",
-      "recent": "**10 meest recente osu! scores voor: %1$s** (Mode: %2$d)\n```md\n%3$s```",
-      "error_detailed": "Uh-oh... het lijkt alsof ik net scramblesoep heb ontvangen als reactie... (%1$s)"
     },
     "profile": {
       "timezone": {
@@ -1018,17 +1009,6 @@
       "main_def": "Hoofddefinitie.",
       "footer": "Informatie komt uit Urban Dictionary",
       "nsfw_notice": "%1$sDit commando kan alleen gebruikt worden in channels met de NSFW tag in verband met het soort resultaten."
-    },
-    "weather": {
-      "header": "%1$s Weersvoorspelling voor %2$s",
-      "clouds": "Wolken",
-      "temperature": "Temperatuur",
-      "humidity": "Luchtvochtigheid",
-      "wind_speed": "Windsnelheid",
-      "pressure": "Luchtdruk",
-      "footer": "Informatie komt van OpenWeatherMap (Procestijd: %1$dms)",
-      "error": "%1$sFout bij ophalen van resultaten.(Niet gevonden?)",
-      "no_content": "%1$sJe moet aangeven voor welke stad en welk land je die weersvoorspellingen wilt weten!"
     },
     "activatekey": {
       "check": {
@@ -1329,7 +1309,7 @@
         "age": "Age",
         "no_pets": "%1$sYou have no pets.",
         "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
-        "pages": "**Total pages: %1$s \nUse the message reaction to move between pages.\n\n"
+        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
         "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
@@ -1438,7 +1418,7 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nOther guides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
       "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[We hebben je hulp nodig om Mantaro online te houden! Klik hier voor meer info](https://www.patreon.com/mantaro)",
       "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
@@ -1455,7 +1435,7 @@
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
       "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
@@ -1647,7 +1627,7 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for!",
       "no_item": "%1$sThere's no item matching your search query.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (Type: %4$s): *%5$s*"
+      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
