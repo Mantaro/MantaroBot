@@ -241,7 +241,7 @@ public class MantaroCore {
                 }
 
                 builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
-                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count * 5 / 4), requesterThreadFactory), true);
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
