@@ -21,9 +21,12 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -34,7 +37,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -97,11 +103,6 @@ public class DiscordUtils {
         });
     }
 
-    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-        return selectInt(event, max, valueConsumer, (o) -> {
-        });
-    }
-
     public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         Pair<String, Integer> r = embedList(list, toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
@@ -109,21 +110,49 @@ public class DiscordUtils {
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
-        Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
-        event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
-
-        return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]), cancelConsumer);
-    }
-
     public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {
         });
     }
-
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
-        return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {
+    
+    public static OptionalInt selectInt(Context ctx, int max) {
+        var prefix = ctx.getDBGuild().getData().getGuildCustomPrefix();
+        var filter = BlockingOperationFilter.afterPrefix(prefix, m -> {
+            if(m.equalsIgnoreCase("&cancel")) return true;
+            try {
+                Integer.parseInt(m);
+                return true;
+            } catch(Exception e) {
+                return false;
+            }
         });
+        while(true) {
+            var msg = BlockingInteractiveOperations.waitFromUser(ctx, filter, 30, TimeUnit.SECONDS);
+            if(msg == null) {
+                return OptionalInt.empty();
+            }
+            var content = Utils.stripPrefixes(msg, prefix);
+            if(content.equalsIgnoreCase("&cancel")) {
+                ctx.send(EmoteReference.CORRECT + "Cancelled operation.");
+                return OptionalInt.empty();
+            }
+            int choose = Integer.parseInt(content);
+            if(choose < 1 || choose > max) {
+                continue;
+            }
+            return OptionalInt.of(choose);
+        }
+    }
+    
+    
+    public static <T> Optional<T> selectList(Context ctx, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed) {
+        var r = embedList(list, toString);
+        ctx.send(toEmbed.apply(r.getLeft()));
+    
+        return selectInt(ctx, r.getRight() + 1)
+                .stream()
+                .mapToObj(i -> list.get(i - 1))
+                .findFirst();
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {

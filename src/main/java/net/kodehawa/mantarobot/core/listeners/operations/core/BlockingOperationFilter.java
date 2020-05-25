@@ -74,17 +74,25 @@ public interface BlockingOperationFilter {
     
     @Nonnull
     @CheckReturnValue
-    static BlockingOperationFilter withContentAfterPrefix(@Nullable String customPrefix, @Nonnull String... values) {
+    static BlockingOperationFilter afterPrefix(@Nullable String customPrefix, @Nonnull Predicate<String> filter) {
         return acceptIf(m -> {
-            var message = m.getContentRaw().toLowerCase();
+            var message = m.getContentRaw();
             for (String s : MantaroData.config().get().prefix) {
-                if (message.startsWith(s)) {
+                if (message.toLowerCase().startsWith(s)) {
                     message = message.substring(s.length());
                 }
             }
-            if (customPrefix != null && !customPrefix.isEmpty() && message.startsWith(customPrefix)) {
+            if (customPrefix != null && !customPrefix.isEmpty() && message.toLowerCase().startsWith(customPrefix)) {
                 message = message.substring(customPrefix.length());
             }
+            return filter.test(message);
+        });
+    }
+    
+    @Nonnull
+    @CheckReturnValue
+    static BlockingOperationFilter withContentAfterPrefix(@Nullable String customPrefix, @Nonnull String... values) {
+        return afterPrefix(customPrefix, message -> {
             for(var v : values) {
                 if(message.equalsIgnoreCase(v)) return true;
             }
