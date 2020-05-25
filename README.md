@@ -51,6 +51,17 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 8.  Run it and prepare yourself to start filling in some config values (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
 9.  In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)
 
+### Extra runtime options:
+This are java arguments that Mantaro parses outside of config.json and that can be dynamically adjusted using a script or similar:
+*   `-Dmantaro.shard-count=z` - Specify the amount of shards Mantaro will be starting up. (for all nodes, see below for subsets)
+*   `-Dmantaro.from-shard=x` - Start Shard Manager from shard X. (inclusive)
+*   `-Dmantaro.to-shard=y`- Start Shard Manager up to shard Y. (exclusive)
+*   `-Dmantaro.verbose` - Log all the things.
+*   `-Dmantaro.debug` - Start Mantaro with two shards and some extra logging, regardless of the settings above.
+*   `-Dmantaro.debug_logs` - Use debug logs.
+*   `-Dmantaro.trace_logs` - Spam your logs.
+*   `-Dmantaro.log_db_access` - Log all db access. (spams your logs aswell)
+*   `-Dmantaro.disable-non-allocating-buffer` - Disable LP's non-allocating buffer.
 
 # Tools and Contributors
 
