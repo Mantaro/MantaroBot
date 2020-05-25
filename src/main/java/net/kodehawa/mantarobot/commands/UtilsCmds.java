@@ -478,15 +478,15 @@ public class UtilsCmds {
                     } else {
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
-                        DiscordUtils.selectList(ctx.getEvent(), rems,
+                        DiscordUtils.selectList(ctx, rems,
                                 r -> String.format("%s, Due in: %s", r.reminder, Utils.formatDuration(r.time - System.currentTimeMillis())),
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(ctx.getLanguageContext().get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
-                                        .setFooter(String.format(ctx.getLanguageContext().get("general.timeout"), 10), null).build(),
-                                sr -> {
-                                    Reminder.cancel(ctx.getUser().getId(), sr.id + ":" + sr.getUserId());
-                                    ctx.send(EmoteReference.CORRECT + "Cancelled your reminder");
-                                });
+                                        .setFooter(String.format(ctx.getLanguageContext().get("general.timeout"), 10), null).build()
+                        ).ifPresent(sr -> {
+                            Reminder.cancel(ctx.getUser().getId(), sr.id + ":" + sr.getUserId());
+                            ctx.send(EmoteReference.CORRECT + "Cancelled your reminder");
+                        });
                     }
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.remindme.no_reminders", EmoteReference.ERROR);
