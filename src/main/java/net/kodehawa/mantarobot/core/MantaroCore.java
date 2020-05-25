@@ -240,8 +240,7 @@ public class MantaroCore {
                     );
                 }
 
-                builder.setCallbackPool(Executors.newFixedThreadPool(Math.max(1, count / 4), callbackThreadFactory), true)
-                        .setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
+                builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count / 8), requesterThreadFactory), true);
             }
 
