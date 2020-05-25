@@ -463,27 +463,27 @@ public class CustomCmds {
 
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                DiscordUtils.selectList(
-                        ctx.getEvent(), filtered,
+                var selected = DiscordUtils.selectList(
+                        ctx, filtered,
                         pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()),
                         s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
                                 .setFooter(
                                         languageContext.get("commands.custom.import.note"),
                                         null
-                                ).build(),
-                        pair -> {
-                            CustomCommand custom = CustomCommand.transfer(ctx.getGuild().getId(), pair.getValue());
-                            //save at DB
-                            custom.saveAsync();
-
-                            //reflect at local
-                            customCommands.put(custom.getId(), custom);
-
-                            ctx.sendLocalized("commands.custom.import.success", custom.getName(), pair.getKey().getName(), custom.getValues().size());
-                            //easter egg :D
-                            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(8, 2);
-                        }
+                                ).build()
                 );
+                selected.ifPresent(pair -> {
+                    CustomCommand custom = CustomCommand.transfer(ctx.getGuild().getId(), pair.getValue());
+                    //save at DB
+                    custom.saveAsync();
+    
+                    //reflect at local
+                    customCommands.put(custom.getId(), custom);
+    
+                    ctx.sendLocalized("commands.custom.import.success", custom.getName(), pair.getKey().getName(), custom.getValues().size());
+                    //easter egg :D
+                    TextChannelGround.of(ctx.getEvent()).dropItemWithChance(8, 2);
+                });
             }
         }).createSubCommandAlias("import", "ipt");
 
