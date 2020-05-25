@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.requests.restaction.pagination.ReactionPaginationAction;
 import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import org.apache.commons.collections4.Bag;
 
 import javax.annotation.CheckReturnValue;
@@ -50,6 +51,68 @@ public class BlockingInteractiveOperations {
     @CheckReturnValue
     public static EventListener listener() {
         return LISTENER;
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message waitFromUser(@Nonnull Context context, long timeout, @Nonnull TimeUnit unit) {
+        return waitFromUser(context, null, timeout, unit);
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message waitFromUser(@Nonnull Context context, @Nullable BlockingOperationFilter filter, long timeout, @Nonnull TimeUnit unit) {
+        return waitFromUser(context.getChannel().getIdLong(), context.getAuthor().getIdLong(), null, timeout, unit);
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message waitFromUser(long channelId, long userId, long timeout, @Nonnull TimeUnit unit) {
+        return waitFromUser(channelId, userId, null, timeout, unit);
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message waitFromUser(long channelId, long userId, @Nullable BlockingOperationFilter filter, long timeout, @Nonnull TimeUnit unit) {
+        var userFilter = BlockingOperationFilter.acceptIf(m -> m.getAuthor().getIdLong() == userId);
+        if(filter != null) userFilter = userFilter.andThen(filter);
+        return wait(channelId, userId, userFilter, timeout, unit);
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message wait(@Nonnull Context context, long timeout, @Nonnull TimeUnit unit) {
+        return wait(context, null, timeout, unit);
+    }
+    
+    /**
+     * @return null on timeout, valid message on success.
+     * @throws java.util.concurrent.CancellationException if this operation is cancelled
+     *         by starting another one for the same user on the same channel.
+     */
+    @Nullable
+    public static Message wait(@Nonnull Context context, @Nullable BlockingOperationFilter filter, long timeout, @Nonnull TimeUnit unit) {
+        return wait(context.getChannel().getIdLong(), context.getAuthor().getIdLong(), null, timeout, unit);
     }
     
     /**

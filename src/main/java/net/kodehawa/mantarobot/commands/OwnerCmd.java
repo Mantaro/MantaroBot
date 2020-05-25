@@ -29,8 +29,8 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -226,47 +226,41 @@ public class OwnerCmd {
                 }
 
                 ctx.send(EmoteReference.WARNING + "You're about to transfer all the player information from " + args[0] + " to " + args[1] + " are you sure you want to continue?");
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, e -> {
-                    if (ctx.getAuthor().getIdLong() != ctx.getAuthor().getIdLong()) {
-                        return Operation.IGNORED;
-                    }
-
-                    if (ctx.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                while(true) {
+                    var msg = BlockingInteractiveOperations.waitFromUser(
+                            ctx, BlockingOperationFilter.withContent("yes", "no"), 30, TimeUnit.SECONDS);
+                    if(msg == null) return;
+                    if(msg.getContentRaw().equalsIgnoreCase("yes")) {
                         Player transferred = MantaroData.db().getPlayer(args[0]);
                         Player transferTo = MantaroData.db().getPlayer(args[1]);
-
+    
                         transferTo.setMoney(transferred.getMoney());
                         transferTo.setLevel(transferred.getLevel());
                         transferTo.setReputation(transferred.getReputation());
                         transferTo.getInventory().merge(transferred.getInventory().asList());
-
+    
                         PlayerData transferredData = transferred.getData();
                         PlayerData transferToData = transferTo.getData();
-
+    
                         transferToData.setExperience(transferredData.getExperience());
                         transferToData.setBadges(transferredData.getBadges());
                         transferToData.setShowBadge(transferredData.isShowBadge());
                         transferToData.setMarketUsed(transferredData.getMarketUsed());
                         transferToData.setMainBadge(transferredData.getMainBadge());
                         transferToData.setGamesWon(transferredData.getGamesWon());
-
-
+    
+    
                         transferTo.save();
                         Player reset = Player.of(args[0]);
                         reset.save();
-
+    
                         ctx.send(EmoteReference.CORRECT + "Transfer from " + args[0] + " to " + args[1] + " completed.");
-
-                        return Operation.COMPLETED;
                     }
-
-                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                    if(msg.getContentRaw().equalsIgnoreCase("no")) {
                         ctx.send(EmoteReference.CORRECT + "Cancelled.");
-                        return Operation.COMPLETED;
+                        return;
                     }
-
-                    return Operation.IGNORED;
-                });
+                }
             }
         });
     }

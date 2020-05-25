@@ -26,7 +26,9 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.BlockingInteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.BlockingOperationFilter;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -292,32 +294,23 @@ public class MarketCmd {
                     if (args[0].equals("all") && !isSeasonal) {
                         ctx.sendLocalized("commands.market.sell.all.confirmation", EmoteReference.WARNING);
                         //Start the operation.
-                        InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
-                            if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
-                                return Operation.IGNORED;
-                            }
-
-                            String c = e.getMessage().getContentRaw();
-
-                            if (c.equalsIgnoreCase("yes")) {
-                                long all = player.getInventory().asList().stream()
-                                        .filter(item -> item.getItem().isSellable())
-                                        .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-                                        .sum();
-
-                                player.getInventory().clearOnlySellables();
-                                player.addMoney(all);
-
-                                ctx.sendLocalized("commands.market.sell.all.success", EmoteReference.MONEY, all);
-                                player.saveAsync();
-                                return Operation.COMPLETED;
-                            } else if (c.equalsIgnoreCase("no")) {
-                                ctx.sendLocalized("commands.market.sell.all.cancelled", EmoteReference.CORRECT);
-                                return Operation.COMPLETED;
-                            }
-
-                            return Operation.IGNORED;
-                        });
+                        var msg = BlockingInteractiveOperations.waitFromUser(
+                                ctx, BlockingOperationFilter.withContent("yes", "no"), 60, TimeUnit.SECONDS);
+                        if(msg == null) return;
+                        if(msg.getContentRaw().equalsIgnoreCase("yes")) {
+                            long all = player.getInventory().asList().stream()
+                                               .filter(item -> item.getItem().isSellable())
+                                               .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                               .sum();
+    
+                            player.getInventory().clearOnlySellables();
+                            player.addMoney(all);
+    
+                            ctx.sendLocalized("commands.market.sell.all.success", EmoteReference.MONEY, all);
+                            player.saveAsync();
+                        } else {
+                            ctx.sendLocalized("commands.market.sell.all.cancelled", EmoteReference.CORRECT);
+                        }
 
                         return;
                     }
