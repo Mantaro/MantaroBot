@@ -2024,19 +2024,23 @@
     },
     "logs_editmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
-      "success": "%1$sMessage edit message set to: `%2$s`"
+      "success": "%1$sMessage edit message set to: `%2$s`",
+      "reset_success": "%1$sReset logs edit message."
     },
     "logs_deletemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
-      "success": "%1$sMessage delete message set to: `%2$s`"
+      "success": "%1$sMessage delete message set to: `%2$s`",
+      "reset_success": "%1$sReset logs delete message."
     },
     "logs_banmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`"
+      "success": "%1$sBan message set to: `%2$s`",
+      "reset_success": "%1$sReset logs ban message."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`"
+      "success": "%1$sUnban message set to: `%2$s`",
+      "reset_success": "%1$sReset logs unban message."
     },
     "showdisablewarning": {
       "success": "%1$sDisplay warning on disabled command is set to: %2$s"
