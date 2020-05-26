@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (معدل محدد)\n**سيمكنك استخدام الأمر مره اخرى في %3$s.**",
       "spam_1": "أرجوك إرتح, هذا جيد لصحتك :( *تذكر المعدل المحدد سوف يزيد اذا جربت الأمر قبل الكول داون!*",
       "spam_2": "أظن التوقف هو أفضل حل للان.....",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_3": "ألن يكون من الأفضل أن تخرج قليلاً؟",
+      "spam_4": "هل هذا الشيء حتى على؟"
     },
     "generic_error": "إذا أردت الدخول الى **فريق الدعم** ادخل رابط (`support.mantaro.site`), أو تحقق من صفحتنا في GitHub (`https://github.com/Kodehawa/MantaroBot`). من فضلك قل لهم أن يتوقفو عن ازعاجي والرجاء لا تنسى اي دي الخطأ عند الإبلاغ!",
     "boom_quotes": [
@@ -620,11 +620,11 @@
         "too_many": "%1$sأنت بالفعل تملك فتحات كثيرة! "
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "notice": "%1$sلقد اخترت الخروج من نظام الوايفو بأكمله ، لذلك لا يمكنك استخدام هذا.\n",
+        "warning": "%1$sهل تريد الانسحاب من نظام الوايفو؟ هذا دائم ولا يمكن الرجوع إليها. \nإذا كنت ترغب فقط في أن يتم اختيارك من المطالبات الجديدة وتريد استخدام نظام الوايفو كالمعتاد ، يرجى استخدام\n`~>profile claimlock` بدلاً من ذلك.\nلن تتمكن من المطالبة أو المطالبة، وسيتم إزالة جميع المطالبات التي تطالب بها.\nاكتب `yes` أو `no`. كتابة yes سوف تختار لك الخروج، لا إلغائها.",
+        "success": "%1$sاخترت بنجاح الخروج من نظام الوايفو.",
+        "cancelled": "%1$sإلغاء عملية إلغاء الاشتراك.",
+        "claim_notice": "%1$sالمستخدم الذي تحاول المطالبة به قام بإلغاء الاشتراك."
       },
       "header": "لستة الوايفو",
       "description_header": "هنا قائمة مع كل من الوايفو الخاص بك، مرتبة حسب تاريخ الإضافة.\n*يمكنك أن تحصل على الحد الاقصى %1$,d من الوايفو الى الآن.*\n\nإذا أردت أن تتحقق من حالتك للوايفو، إستخدم `~>waifu stats`",
@@ -668,7 +668,7 @@
       "no_tool": "%1$sتحتاج أن تملك %2$s للمضي بعملية الصب!",
       "item_broke": "للأسف، المفك إنكسر بينما كنت تصب، ولكن حصلت على غرضك! ",
       "too_many": "%1$sسوف تملك أكثر من 5000 قطعة من نفس الغرض اذا تم المُضي. جرب صب أقل من هذا الغرض؟",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sتحتاج على الأقل مفك مستوى 2  (على الأقل مفك المُذنب comet wrench ) لصب أكثر من 1 عدد لنفس الغرض بنفس الأمر. الآن تملك مفك مستوى %2$s ",
       "not_enough_wrench_level": "%1$sمفكك غير قوي كفاية لصب هذا الغرض. ريما تحديد مفك أقوى؟  *مستوى المفك: %2$s, المستوى المطلوب: %3$s*. مثال: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sلايمكنك صب العديد من هذا الغرض مرة واحدة! الحد: %2$s، محاولة: %3$s. مفك البريق يجعل الحد مزدوج! إلا إذا كنت تستخدم واحد بالفعل. ",
       "ls": {
@@ -876,7 +876,7 @@
         "never": "أبداً"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1%sحالة إخفاء الهاشتاق الآن هي: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sيجب أن تُحدد الغرض المُراد تركيبه.",
@@ -941,16 +941,16 @@
       },
       "brief_success": "**ميداليات %1$s.**\n%2$s",
       "profile_notice": "إذا إعتقدت أنك حصلت على ميدالية جديدة ولم تظهر هُنا، إستخدم أمر `~>profile` وبعدها إستخدم الأمر مرة أخرى. ",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
-      "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
+      "info_notice": "استخدم `~>badges info <اسم الميدالية>` لمعرفة المزيد عن الميدالية، يمكنك ايضاً التحقق من ال wiki :\n(https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)",
+      "upvote_notice": "**يمكنك الحصول على ميدالية ببلاش عن طريق التصويت لمونتارو على  [discordbots.org] (https://discordbots.org/bot/mantaro)!**\n(يمكن أن يأخذ بعض الدقائق للتصويت).",
+      "donate_notice": "**يمكنك الحصول على ميدالية لدعم تطوير مونتارو! (https://patreon.com/mantaro)!**\n(من الممكن أن يأخذ بعض الدقائق)",
       "no_badges": "لايوجد ميداليات لعرضها (بَعد:)!)",
       "header": "الميداليات التي تحققت من قبل %1$s",
       "total_badges": "**جميع الميداليات الي تحققت:** %1$s",
-      "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
+      "footer": "الشارات هي مثل الإنجازات ، وأنها اكتسبت من خلال التقدم في لعبة مانتارو أو مجرد استخدام البوت."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sيجب أن يكون عمر الحساب (مقدار الوقت منذ إنشاء حساب دسكورد) لإعطاء أو استقبال ريب أقدم من 5 أيام. حاول مرة أخرى في وقت لاحق.",
       "no_mentions": "%1$sتحتاج إلى منشن أو وضع اسم عضو واحد. %2$s",
       "more_than_one": "%1$sيمكنك إعطاء الريب لشخص واحد فقط",
       "rep_bot": "%1$sلايمكنك إعطاء بوت ريب \n%2$s",
@@ -964,7 +964,7 @@
     "birthday": {
       "reset": "%1$sتم بنجاح إعادة تعيين تاريخ ميلادك.",
       "no_global_birthdays": "%1$sالأشياء تبدو فارغة قليلاً هنا...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
+      "no_guild_month_birthdays": "%1$sلا توجد أعياد ميلاد لهذا الشهر (%2$s) هنا :(\n%3$sإذا قمت بإعداد مذيع عيد ميلاد فقط، يرجى الانتظار قليلا حتى استخدام هذا الأمر مرة أخرى. (ذاكرة التخزين المؤقت تحديث كل 23h)",
       "cache_not_running": "%1$sيبدو أن ميلاد ساشير لايمكن إستخدامه (خطأ داخلي) :(.",
       "error": "%1$sحصل شئ خطأ ما بينما كنت تحاول الحصول على عيدميلاد (خطأ داخلي) :(.",
       "header": "**ميلاد %1$s ل %2$s** ",
@@ -982,10 +982,10 @@
     "dictionary": {
       "no_word": "%1$sيجب أن تُحدد كلمة.",
       "header": "التعريف ل %1$s",
-      "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
+      "description": "**جزء من الكلام:** `%1$s`\n**كلمة رأس:** `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
+      "nothing_specified": "%1$sما الذي يمكنني أن أذكرك به إذا لم تعطني ما أذكرك؟ اوه! اجعلني أُذكرك بوضع تذكير!",
       "no_reminders": "%1$sلم تضع أي تذكير.",
       "cancel": {
         "success": "%1$sإلغاء تذكيرك.",
@@ -999,37 +999,37 @@
     },
     "time": {
       "invalid_timezone": "%1$sمنطقة زمنية غير صحيحة. ",
-      "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "success": "%1$sانه %2$s في %3$s المنطقة الزمنية. ",
+      "error": "%1$sوجدت خطأ اثناء النظر في المنطقة الزمنية في الكتاب الكبير... أو يمكنه ان يكون غير صالح. "
     },
     "urban": {
-      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
-      "header": "Urban Dictionary definition for %1$s",
-      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
+      "no_args": "%1$sتحتاج إلى أن تقول لي ما هو المصطلح للبحث عنه في القاموس الحضري.",
+      "header": "تعريف القاموس الحضري ل %1$s",
+      "too_many_args": "%1$sالكثير من الحجج! تنسيق الصفحة هو \n`name->page number`\n",
       "main_def": "التعريف الرئيسي.",
-      "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
+      "footer": "معلومات حسب القاموس الحضري",
+      "nsfw_notice": "%1$sيمكن استخدام هذا الأمر فقط في روم NSFW نظرًا لطبيعة نتائجه."
     },
     "activatekey": {
       "check": {
         "key_valid_for": "%1$sمفتاحك صالح لغاية %2$s يوم :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "no_key_found": "%1$sليس لديك مفتاح مُفعل... إذا كنت بريميوم من النظام القديم يجب أن يكون لا يزال لديك المكافآت الخاصة بك، وإن كان!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key",
-      "guild_already_premium": "%1$sThis server already has a premium subscription",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "no_key_provided": "%1$sلا يمكنني تفعيل مفتاح بريميوم إذا لم تعطني مفتاحًا",
+      "invalid_key": "%1$sلقد قمت باستخدام مفتاح غير صالح أو مُفعل بالفعل",
+      "guild_already_premium": "%1$sيحتوي هذا السيرفر بالفعل على اشتراك بريميوم",
+      "guild_successful": "%1$sهذا السيرفر الآن **Premium** :heart: (لعدد من الأيام : %2$d)\nإذا كنت مُتعهد في Patreon، هذا المفتاح مرتبط بتعهدك.\n",
       "user_already_premium": "%1$sأنت بالفعل بريميوم :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+      "user_successful": "%1$sأنت الآن **Premium** :heart: (لعدد من الأيام: %2$d)\nإذا كنت مُتعهد في Patreon، هذا المفتاح مرتبط بتعهدك.",
+      "mp": "مونتارو Patreon لا يستخدم مفاتيح ، بدلا من ذلك ،نظرا لأنه بريميوم من حقيقة أن بوت نفسه يعمل."
     },
     "claimkey": {
-      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
-      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
-      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
-      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly, so it wasn't generated.",
+      "not_patron": "%1$sأنت لست patron، لذا لا يمكنك فعل هذا. إذا كنت ترغب في دعم مانتارو والحصول على الامتيازات معها، توجه إلى <https://www.patreon.com/mantaro>\nإذا كنت مُتعهد حاليًا وترى هذه الرسالة، فهذا يعني أنه ليس لديك مفتاح نشط. يرجى التحقق مرة أخرى من أنك قمت بتمكين المفتاح مونتارو يجب أن يكون تم ارساله لك بالخاص.\n",
+      "already_top": "%1$sلقد استخدمت كل المفاتيح التي لديك وإذا انتهت صلاحية أي منها، يرجى التوجه إلى سيرفر الدعم الفني <https://support.mantaro.site> (على الرغم من أنه يجب تجديدها تلقائيًا)",
+      "successful": "%1$sتم بنجاح تجميع مفتاح '%2$s'. لقد جمعت مجموع %3$s مفاتيح ولديك مفاتيح متبقية %4$s لتجميعها. هذا المفتاح من نوع %5$s. (إذا كان هذا مفتاح النقابة، استخدمه على السيرفر حيث تريد تفعيله)",
+      "cant_dm": "%1%sلايمكنني إرسال المفتاح اليك بالخاص، بسبب اعدادات الخصوصية، على مايبدو.",
       "success": "%1$sتم إرسال المعلومات عن طريق الرسائل الخاصة",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `~>claimkey guild` or `~>claimkey user`"
+      "invalid_scope": "%1$sنطاق مفتاح غير صالح! صالح هي `user` و `guild`. بدون أية وسيطات، هذا الأمر افتراضياً إلى `user`.. مثال: \n`~>claimkey guild` أو `~>claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1037,15 +1037,15 @@
         "header_other": "حالة %1$s البريميوم",
         "not_premium": "%1$sأنت لست بريميوم :(",
         "premium": "**عضو بريميوم! 3>**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "old_system": "**عضو بريميوم تحت النظام القديم! لا تقلق ، أنت عضو بريميوم والفوائد الخاصة بك سوف تعمل بشكل صحيح!**"
       },
       "guild": {
         "header": "حالة %1$s البريميوم",
         "not_premium": "%1$sهذه النقابة ليست بريميوم :(",
         "premium": "**بريميوم النقابة! 3>**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "old_system": "**النقابة بريميوم تحت النظام القديم! لا تقلق ، النقابة بريميوم والفوائد الخاصة بك سوف تعمل بشكل صحيح!**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "المفاتيح صالحة طالما أن تعهدك نشط، ما لم ينص على خلاف ذلك. شكرا ً للتبرع أو التعهد 3>",
       "valid_for_old": "صالح ل",
       "old_days_more": "%1$,dأيام أكثر ",
       "thank_note": "شكراً لك لدعمك 3>",
@@ -1059,12 +1059,12 @@
       "keys_claimed": "مفاتيح إضافية تُطالب"
     },
     "support": {
-      "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
+      "info": "%1$sأذا احتجت الى مساعدة، توجه الى سيرفر الدعم الفني \n<https://support.mantaro.site> وتفضل بالسؤال عن أسالتك في روم الدعم #support!"
     },
     "action": {
       "no_mention": "%1$sتحتاج منشن عضو.",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error)",
-      "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
+      "error_retrieving": "%1$sلقد وجدت خطأ أثناء استرداد gif التالي لهذا الإجراء... (خطأ خارجي)",
+      "permission_or_unexpected_error": "%1$sأعتذر! لقد أسقطت الصورة (ربما ليس لدي اذن لإرسالها)",
       "lonely": {
         "pat": "اووووو، أرى أنك وحيد، خُذ بات 3>",
         "hug": "اووووو، أرى أنك وحيد، خُذ عناق 3>",
@@ -1082,16 +1082,16 @@
         "holdhands": "*يُمسك يَدك*",
         "cuddle": "*يُعانقك*",
         "nuzzle": "*يُضايقك*",
-        "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
+        "bloodsuck": "فقط كيف أنا مقدر لي ذلك؟ أوه جيدا.. * تمتص دمك *"
       },
       "self": {
         "pat": "*يربت*",
         "hug": "*الحمره* أوووه... شككراً! ",
-        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
+        "kiss": "*أحمر الخدود*... أنا... لا أعتقد أنك يجب أن تقبل بوت ولكن...",
         "poke": "اوووه! ماذا تُريد؟",
         "slap": ":(",
         "bite": "هذا يؤلم!!!",
-        "lick": "How does metal taste? I don't believe it's too great...",
+        "lick": "كيف طعم المعدن؟ لا أعتقد أنه رائع جداً...",
         "tickle": "هههههههه... توقف أرجوك >u<",
         "highfive": "*كفك بكفي*",
         "pout": "هل أنت غاضب مني؟ :(",
@@ -1108,10 +1108,10 @@
       "kiss": "%1$sلقد حصلت على قبلة من %2$s",
       "poke": "%1$sلقد حصلت على بوك من %2$s",
       "slap": "%1$sتم صفعك من قبل %2$s",
-      "bite": "%1$s you have been bitten by %2$s :eyes:",
-      "tickle": "%1$s you have been tickled by %2$s",
-      "lick": "%1$s you have been licked by %2$s",
-      "highfive": "%1$s highfives %2$s :heart:",
+      "bite": "%1$sلقد لدغك %2$s",
+      "tickle": "%1$s دغدغك %2$s",
+      "lick": "%1$s تم لعقتك من قِبل %2$s",
+      "highfive": "%1$s هاي فايف %2$s :heart:",
       "pout": "%1$s pouts at %2$s *hmph*",
       "teehee": "%1$s is teasing %2$s",
       "smile": "%1$s is smiling at %2$s :heart:",
