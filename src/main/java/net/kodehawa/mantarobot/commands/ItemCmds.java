@@ -555,7 +555,7 @@ public class ItemCmds {
                     DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
                 }
             }
-        }).createSubCommandAlias("ls", "list");
+        }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }
 
     @Subscribe

@@ -98,10 +98,11 @@ public class RelationshipCmds {
         long reputation = waifuPlayer.getReputation();
         double reputationScaling = (reputation / 4.5) / 20;
         long finalValue = (long) (
-                Math.min(Integer.MAX_VALUE,
-                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6500 ? 1.1 : 1)
-                        )
-                ));
+                Math.min (
+                        Integer.MAX_VALUE,
+                        (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6500 ? 1.1 : 1))
+                )
+        );
 
         //waifu pp, yes btmcLewd
         int divide = (int) (moneyValue / 1348);
