@@ -2024,19 +2024,23 @@
     },
     "logs_editmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht bearbeitet!",
-      "success": "%1$s\"Nachricht bearbeitet\"-Nachricht gesetzt auf: `%2$s`"
+      "success": "%1$s\"Nachricht bearbeitet\"-Nachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs edit message."
     },
     "logs_deletemessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht löscht!",
-      "success": "%1$s\"Nachricht gelöscht\"-Nachricht gesetzt auf: `%2$s`"
+      "success": "%1$s\"Nachricht gelöscht\"-Nachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs delete message."
     },
     "logs_banmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand gebannt wird!",
-      "success": "%1$sBannachricht gesetzt auf: `%2$s`"
+      "success": "%1$sBannachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs ban message."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand entbannt wird!",
-      "success": "%1$sEntbannnachricht gesetzt auf: `%2$s`"
+      "success": "%1$sEntbannnachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs unban message."
     },
     "showdisablewarning": {
       "success": "%1$sWarnung bei deaktivierten Befehlen ist gesetzt auf: %2$s"
