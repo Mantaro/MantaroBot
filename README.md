@@ -64,6 +64,8 @@ This are java arguments that Mantaro parses outside of config.json and that can 
 *   `-Dmantaro.log_db_access` - Log all db access. (spams your logs aswell)
 *   `-Dmantaro.disable-non-allocating-buffer` - Disable LP's non-allocating buffer.
 
+The above options can also be used as environment variables by removing `-D`, and replacing `.` with `_`, for example, `-Dmantaro.node-number=x` becomes environment variable `MANTARO_NODE_NUMBER=x`
+
 # Tools and Contributors
 
 ## Tools Mantaro uses
