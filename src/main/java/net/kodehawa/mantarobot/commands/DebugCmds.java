@@ -114,7 +114,6 @@ public class DebugCmds {
                         + "Clusters: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
-                        + "Memory Usage: " + Utils.formatMemoryAmount(totalMemory) + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"
@@ -124,7 +123,7 @@ public class DebugCmds {
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                         + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
-                        + "Memory: " + Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()) + "\n"
+                        + "Memory: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory()) + " (Total: " +  Utils.formatMemoryAmount(totalMemory) + ")\n"
                         + "Queue Size: " + String.format("%,d", bot.getAudioManager().getTotalQueueSize())
                         + "```"
                 );
