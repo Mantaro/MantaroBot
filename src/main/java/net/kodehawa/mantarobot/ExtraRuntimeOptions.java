@@ -28,6 +28,7 @@ public class ExtraRuntimeOptions {
     public static final boolean LOG_DB_ACCESS = getValue("mantaro.log_db_access") != null;
     public static final boolean TRACE_LOGS = getValue("mantaro.trace_logs") != null;
     public static final boolean VERBOSE = getValue("mantaro.verbose") != null;
+    public static final boolean PRINT_VARIABLES = getValue("mantaro.print_variables") != null;
 
     public static final OptionalInt FROM_SHARD = maybeInt("mantaro.from-shard");
     public static final OptionalInt TO_SHARD = maybeInt("mantaro.to-shard");

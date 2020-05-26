@@ -94,6 +94,9 @@ public class MantaroBot {
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
 
     private MantaroBot() throws Exception {
+        if(ExtraRuntimeOptions.PRINT_VARIABLES || ExtraRuntimeOptions.DEBUG)
+            printStartVariables();
+
         instance = this;
         Config config = MantaroData.config().get();
 
@@ -297,5 +300,27 @@ public class MantaroBot {
 
     public int getNodeNumber() {
         return ExtraRuntimeOptions.NODE_NUMBER.orElse(0);
+    }
+
+    //This will print if the MANTARO_PRINT_VARIABLES env variable is present.
+    private void printStartVariables() {
+        log.info("--- Variables set on this startup:\n" +
+                        "DISABLE_NON_ALLOCATING_BUFFER = {}\n" +
+                        "DEBUG = {}\n" + "DEBUG_LOGS = {}\n" +
+                        "LOG_DB_ACCESS = {}\n" + "TRACE_LOGS = {}\n" +
+                        "VERBOSE = {}\n" + "FROM_SHARD = {}\n" +
+                        "TO_SHARD = {}\n" + "SHARD_COUNT = {}\n" +
+                        "NODE_NUMBER = {}",
+                ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER,
+                ExtraRuntimeOptions.DEBUG,
+                ExtraRuntimeOptions.DEBUG_LOGS,
+                ExtraRuntimeOptions.LOG_DB_ACCESS,
+                ExtraRuntimeOptions.TRACE_LOGS,
+                ExtraRuntimeOptions.VERBOSE,
+                ExtraRuntimeOptions.FROM_SHARD,
+                ExtraRuntimeOptions.TO_SHARD,
+                ExtraRuntimeOptions.SHARD_COUNT,
+                ExtraRuntimeOptions.NODE_NUMBER
+        );
     }
 }

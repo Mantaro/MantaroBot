@@ -52,7 +52,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;

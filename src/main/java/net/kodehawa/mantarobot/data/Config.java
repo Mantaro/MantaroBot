@@ -25,13 +25,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Config {
-    public String carbonToken;
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
     public String dbPassword;
     public int dbPort = 28015;
     public String dbUser;
-    public String dbotsToken;
     public String dbotsorgToken;
     public String botsOnDiscordToken;
     public boolean isPremiumBot = false;
@@ -42,7 +40,6 @@ public class Config {
     public String shardWebhookUrl;
     public String token;
     public int totalShards = 0;
-    public String weatherAppId;
     public String webhookUrl;
     public String spambotUrl;
     public String weebapiKey;
@@ -74,14 +71,6 @@ public class Config {
 
     public boolean isOwner(String id) {
         return owners.contains(id);
-    }
-
-    public String getCarbonToken() {
-        return this.carbonToken;
-    }
-
-    public void setCarbonToken(String carbonToken) {
-        this.carbonToken = carbonToken;
     }
 
     public String getDbDb() {
@@ -122,14 +111,6 @@ public class Config {
 
     public void setDbUser(String dbUser) {
         this.dbUser = dbUser;
-    }
-
-    public String getDbotsToken() {
-        return this.dbotsToken;
-    }
-
-    public void setDbotsToken(String dbotsToken) {
-        this.dbotsToken = dbotsToken;
     }
 
     public String getDbotsorgToken() {
@@ -206,14 +187,6 @@ public class Config {
 
     public void setTotalShards(int totalShards) {
         this.totalShards = totalShards;
-    }
-
-    public String getWeatherAppId() {
-        return this.weatherAppId;
-    }
-
-    public void setWeatherAppId(String weatherAppId) {
-        this.weatherAppId = weatherAppId;
     }
 
     public String getWebhookUrl() {
