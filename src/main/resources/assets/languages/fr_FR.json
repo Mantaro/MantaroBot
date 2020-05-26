@@ -2024,19 +2024,23 @@
     },
     "logs_editmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un édite un message!",
-      "success": "%1$sMessage d'édition de message réglé sur: `%2$s`"
+      "success": "%1$sMessage d'édition de message réglé sur: `%2$s`",
+      "reset_success": "%1$sReset logs edit message."
     },
     "logs_deletemessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un supprime un message!",
-      "success": "%1$sMessage de suppression de message réglé sur: `%2$s`"
+      "success": "%1$sMessage de suppression de message réglé sur: `%2$s`",
+      "reset_success": "%1$sReset logs delete message."
     },
     "logs_banmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est bannis!",
-      "success": "%1$sMessage de ban réglé sur: `%2$s`"
+      "success": "%1$sMessage de ban réglé sur: `%2$s`",
+      "reset_success": "%1$sReset logs ban message."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est grâcié!",
-      "success": "%1$sMessage de grâce réglé sur: `%2$s`"
+      "success": "%1$sMessage de grâce réglé sur: `%2$s`",
+      "reset_success": "%1$sReset logs unban message."
     },
     "showdisablewarning": {
       "success": "%1$sMessage d'alerte lors de la désactivation d'une commande défini sur: %2$s"
