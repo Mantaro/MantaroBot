@@ -477,6 +477,9 @@ public class MantaroListener implements EventListener {
             //Very janky solution lol.
             if(event.getNewStatus().ordinal() > JDA.Status.LOADING_SUBSYSTEMS.ordinal())
                 log.info("Shard #{}: {}", shardId, event.getNewStatus());
+
+            //Log it to debug eitherway.
+            log.debug("Shard #{}: Changed from {} to {}", shardId, event.getOldStatus(), event.getNewStatus());
         }
 
         this.postStats(event.getJDA());
