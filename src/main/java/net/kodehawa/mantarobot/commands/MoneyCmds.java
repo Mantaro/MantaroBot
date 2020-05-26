@@ -475,7 +475,7 @@ public class MoneyCmds {
                     ground.dropItemWithChance(Items.BELL_SPECIAL, 4);
                 }
 
-                if (r.nextInt(100) == 0) { //1 in 100 chance of it dropping a loot crate.
+                if (r.nextInt(100) > 90) {
                     ground.dropItem(Items.LOOT_CRATE);
                     if (player.getData().addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
