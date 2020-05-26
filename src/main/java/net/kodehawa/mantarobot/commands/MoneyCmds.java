@@ -475,7 +475,7 @@ public class MoneyCmds {
                     ground.dropItemWithChance(Items.BELL_SPECIAL, 4);
                 }
 
-                if (r.nextInt(100) > 90) {
+                if (r.nextInt(100) > 95) {
                     ground.dropItem(Items.LOOT_CRATE);
                     if (player.getData().addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
