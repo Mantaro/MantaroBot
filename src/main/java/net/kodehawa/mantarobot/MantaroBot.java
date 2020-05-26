@@ -308,15 +308,16 @@ public class MantaroBot {
                         "DISABLE_NON_ALLOCATING_BUFFER = {}\n" +
                         "DEBUG = {}\n" + "DEBUG_LOGS = {}\n" +
                         "LOG_DB_ACCESS = {}\n" + "TRACE_LOGS = {}\n" +
-                        "VERBOSE = {}\n" + "FROM_SHARD = {}\n" +
-                        "TO_SHARD = {}\n" + "SHARD_COUNT = {}\n" +
-                        "NODE_NUMBER = {}",
+                        "VERBOSE = {}\n" + "VERBOSE_SHARD_LOGS = {}\n" +
+                        "FROM_SHARD = {}\n" + "TO_SHARD = {}\n" +
+                        "SHARD_COUNT = {}\n" + "NODE_NUMBER = {}",
                 ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER,
                 ExtraRuntimeOptions.DEBUG,
                 ExtraRuntimeOptions.DEBUG_LOGS,
                 ExtraRuntimeOptions.LOG_DB_ACCESS,
                 ExtraRuntimeOptions.TRACE_LOGS,
                 ExtraRuntimeOptions.VERBOSE,
+                ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.FROM_SHARD,
                 ExtraRuntimeOptions.TO_SHARD,
                 ExtraRuntimeOptions.SHARD_COUNT,
