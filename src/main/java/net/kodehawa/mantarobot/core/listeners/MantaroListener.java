@@ -282,7 +282,7 @@ public class MantaroListener implements EventListener {
      */
     private void handleNewPatron(GuildMemberRoleAddEvent event) {
         //Only in mantaro's guild...
-        if (event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
+        if (event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot()) {
             threadPool.execute(() -> {
                 User user = event.getUser();
                 //who...
@@ -540,7 +540,7 @@ public class MantaroListener implements EventListener {
             }
 
             //Don't send greet message for MP. Not necessary.
-            if(!config.isPremiumBot) {
+            if(!config.isPremiumBot()) {
                 //Greet message start.
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail(jda.getSelfUser().getEffectiveAvatarUrl())

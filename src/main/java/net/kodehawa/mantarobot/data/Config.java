@@ -33,7 +33,6 @@ public class Config {
     public String dbotsorgToken;
     public String botsOnDiscordToken;
     public boolean isPremiumBot = false;
-    public int maxJdaReconnectDelay = 3; //3 seconds
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
     public String sentryDSN;
@@ -77,32 +76,16 @@ public class Config {
         return this.dbDb;
     }
 
-    public void setDbDb(String dbDb) {
-        this.dbDb = dbDb;
-    }
-
     public String getDbHost() {
         return this.dbHost;
-    }
-
-    public void setDbHost(String dbHost) {
-        this.dbHost = dbHost;
     }
 
     public String getDbPassword() {
         return this.dbPassword;
     }
 
-    public void setDbPassword(String dbPassword) {
-        this.dbPassword = dbPassword;
-    }
-
     public int getDbPort() {
         return this.dbPort;
-    }
-
-    public void setDbPort(int dbPort) {
-        this.dbPort = dbPort;
     }
 
     public String getDbUser() {
@@ -117,10 +100,6 @@ public class Config {
         return this.dbotsorgToken;
     }
 
-    public void setDbotsorgToken(String dbotsorgToken) {
-        this.dbotsorgToken = dbotsorgToken;
-    }
-
     public String getBotsOnDiscordToken() {
         return botsOnDiscordToken;
     }
@@ -129,24 +108,8 @@ public class Config {
         return this.isPremiumBot;
     }
 
-    public void setPremiumBot(boolean isPremiumBot) {
-        this.isPremiumBot = isPremiumBot;
-    }
-
-    public int getMaxJdaReconnectDelay() {
-        return this.maxJdaReconnectDelay;
-    }
-
-    public void setMaxJdaReconnectDelay(int maxJdaReconnectDelay) {
-        this.maxJdaReconnectDelay = maxJdaReconnectDelay;
-    }
-
     public List<String> getOwners() {
         return this.owners;
-    }
-
-    public void setOwners(List<String> owners) {
-        this.owners = owners;
     }
 
     public String[] getPrefix() {
@@ -161,16 +124,8 @@ public class Config {
         return this.sentryDSN;
     }
 
-    public void setSentryDSN(String sentryDSN) {
-        this.sentryDSN = sentryDSN;
-    }
-
     public String getShardWebhookUrl() {
         return this.shardWebhookUrl;
-    }
-
-    public void setShardWebhookUrl(String shardWebhookUrl) {
-        this.shardWebhookUrl = shardWebhookUrl;
     }
 
     public String getToken() {
@@ -185,151 +140,75 @@ public class Config {
         return this.totalShards;
     }
 
-    public void setTotalShards(int totalShards) {
-        this.totalShards = totalShards;
-    }
-
     public String getWebhookUrl() {
         return this.webhookUrl;
-    }
-
-    public void setWebhookUrl(String webhookUrl) {
-        this.webhookUrl = webhookUrl;
     }
 
     public String getSpambotUrl() {
         return this.spambotUrl;
     }
 
-    public void setSpambotUrl(String spambotUrl) {
-        this.spambotUrl = spambotUrl;
-    }
-
     public String getWeebapiKey() {
         return this.weebapiKey;
-    }
-
-    public void setWeebapiKey(String weebapiKey) {
-        this.weebapiKey = weebapiKey;
     }
 
     public String getApiTwoUrl() {
         return this.apiTwoUrl;
     }
 
-    public void setApiTwoUrl(String apiTwoUrl) {
-        this.apiTwoUrl = apiTwoUrl;
-    }
-
     public boolean isNeedApi() {
         return this.needApi;
-    }
-
-    public void setNeedApi(boolean needApi) {
-        this.needApi = needApi;
     }
 
     public int getPrometheusPort() {
         return this.prometheusPort;
     }
 
-    public void setPrometheusPort(int prometheusPort) {
-        this.prometheusPort = prometheusPort;
-    }
-
     public String getApiAuthKey() {
         return this.apiAuthKey;
-    }
-
-    public void setApiAuthKey(String apiAuthKey) {
-        this.apiAuthKey = apiAuthKey;
     }
 
     public Season getCurrentSeason() {
         return this.currentSeason;
     }
 
-    public void setCurrentSeason(Season currentSeason) {
-        this.currentSeason = currentSeason;
-    }
-
     public String getClientId() {
         return this.clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
     }
 
     public String getJedisPoolAddress() {
         return this.jedisPoolAddress;
     }
 
-    public void setJedisPoolAddress(String jedisPoolAddress) {
-        this.jedisPoolAddress = jedisPoolAddress;
-    }
-
     public int getJedisPoolPort() {
         return this.jedisPoolPort;
-    }
-
-    public void setJedisPoolPort(int jedisPoolPort) {
-        this.jedisPoolPort = jedisPoolPort;
     }
 
     public List<String> getLavalinkNodes() {
         return this.lavalinkNodes;
     }
 
-    public void setLavalinkNodes(List<String> lavalinkNodes) {
-        this.lavalinkNodes = lavalinkNodes;
-    }
-
     public String getLavalinkPass() {
         return this.lavalinkPass;
-    }
-
-    public void setLavalinkPass(String lavalinkPass) {
-        this.lavalinkPass = lavalinkPass;
     }
 
     public String getIpv6Block() {
         return this.ipv6Block;
     }
 
-    public void setIpv6Block(String ipv6Block) {
-        this.ipv6Block = ipv6Block;
-    }
-
     public String getExcludeAddress() {
         return this.excludeAddress;
-    }
-
-    public void setExcludeAddress(String excludeAddress) {
-        this.excludeAddress = excludeAddress;
     }
 
     public int getBucketFactor() {
         return this.bucketFactor;
     }
 
-    public void setBucketFactor(int bucketFactor) {
-        this.bucketFactor = bucketFactor;
-    }
-
     public long getDailyMaxPeriodMilliseconds(){
         return this.dailyMaxPeriodMilliseconds;
     }
 
-    public void setDailyMaxPeriodMilliseconds(long dailyMaxPeriodMilliseconds){
-        this.dailyMaxPeriodMilliseconds = dailyMaxPeriodMilliseconds;
-    }
-
     public boolean isLazyLoading() {
         return lazyLoading;
-    }
-
-    public void setLazyLoading(boolean lazyLoading) {
-        this.lazyLoading = lazyLoading;
     }
 }

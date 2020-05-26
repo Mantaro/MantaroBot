@@ -494,7 +494,7 @@ public class Utils {
     }
 
     public static Connection newDbConnection() {
-        return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
+        return r.connection().hostname(config.getDbHost()).port(config.getDbPort()).db(config.getDbDb()).user(config.getDbUser(), config.getDbPassword()).connect();
     }
 
     public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {

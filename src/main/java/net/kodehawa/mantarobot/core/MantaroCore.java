@@ -373,7 +373,7 @@ public class MantaroCore {
     }
 
     private void startUpdaters() {
-        if (config.dbotsorgToken != null && config.botsOnDiscordToken != null) {
+        if (config.getDbotsorgToken() != null && config.getBotsOnDiscordToken() != null) {
             Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
                 try {
                     var serverCount = 0L;

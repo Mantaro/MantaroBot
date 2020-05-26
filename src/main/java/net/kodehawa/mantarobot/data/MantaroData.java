@@ -39,13 +39,9 @@ public class MantaroData {
     private static ManagedDatabase db;
 
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
-    //private static final org.redisson.config.Config redissonConfig = new org.redisson.config.Config();
-    //private static RedissonClient redisson;
 
     static {
         Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
-        //redissonConfig.useSingleServer().setAddress("redis://127.0.0.1:" + config().get().jedisPoolPort);
-        //redisson = Redisson.create(redissonConfig);
     }
 
     public static GsonDataManager<Config> config() {
@@ -62,8 +58,8 @@ public class MantaroData {
                 if (conn != null)
                     return conn;
 
-                conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
-                log.info("Established first database connection to {}:{} ({})", c.dbHost, c.dbPort, c.dbUser);
+                conn = r.connection().hostname(c.getDbHost()).port(c.getDbPort()).db(c.getDbDb()).user(c.getDbUser(), c.getDbPassword()).connect();
+                log.info("Established first database connection to {}:{} ({})", c.getDbHost(), c.getDbPort(), c.getDbUser());
             }
         }
         return conn;
@@ -74,12 +70,9 @@ public class MantaroData {
         if (db == null) {
             db = new ManagedDatabase(conn());
         }
+
         return db;
     }
-
-    // public static RedissonClient redisson() {
-    //     return redisson;
-    // }
 
     public static ScheduledExecutorService getExecutor() {
         return exec;
