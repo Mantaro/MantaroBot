@@ -58,6 +58,7 @@ This are java arguments that Mantaro parses outside of config.json and that can 
 *   `-Dmantaro.from-shard=x` - Start Shard Manager from shard X. (inclusive)
 *   `-Dmantaro.to-shard=y`- Start Shard Manager up to shard Y. (exclusive)
 *   `-Dmantaro.verbose` - Log all the things.
+*   `-Dmantaro.verbose_shard_logs` - Show all shard status changes.
 *   `-Dmantaro.debug` - Start Mantaro with two shards and some extra logging, regardless of the settings above.
 *   `-Dmantaro.debug_logs` - Use debug logs.
 *   `-Dmantaro.trace_logs` - Spam your logs.

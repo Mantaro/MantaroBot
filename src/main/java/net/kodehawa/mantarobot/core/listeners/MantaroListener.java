@@ -40,6 +40,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -468,7 +469,16 @@ public class MantaroListener implements EventListener {
     }
 
     private void logStatusChange(StatusChangeEvent event) {
-        log.info(String.format("Shard #%d: Changed from %s to %s", event.getJDA().getShardInfo().getShardId(), event.getOldStatus(), event.getNewStatus()));
+        int shardId = event.getJDA().getShardInfo().getShardId();
+
+        if(ExtraRuntimeOptions.VERBOSE_SHARD_LOGS || ExtraRuntimeOptions.VERBOSE) {
+            log.info("Shard #{}: Changed from {} to {}", shardId, event.getOldStatus(), event.getNewStatus());
+        } else {
+            //Very janky solution lol.
+            if(event.getNewStatus().ordinal() > JDA.Status.LOADING_SUBSYSTEMS.ordinal())
+                log.info("Shard #{}: {}", shardId, event.getNewStatus());
+        }
+
         this.postStats(event.getJDA());
     }
 

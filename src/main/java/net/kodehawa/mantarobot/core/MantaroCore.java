@@ -168,7 +168,11 @@ public class MantaroCore {
             controller = new BucketedController(1, 213468583252983809L);
         } else {
             var bucketFactor = config.getBucketFactor();
-            log.info("Using buckets of {} shards to start the bot! Assuming we're on big bot :tm: sharding.", bucketFactor);
+            if(bucketFactor > 1) {
+                log.info("Using buckets of {} shards to start the bot! Assuming we're on big bot sharding." , bucketFactor);
+                log.info("If you're self-hosting, set bucketFactor in config.json to 1.");
+            }
+
             controller = new BucketedController(bucketFactor, 213468583252983809L);
         }
 
