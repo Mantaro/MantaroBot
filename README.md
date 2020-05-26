@@ -53,7 +53,7 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 
 ### Extra runtime options:
 This are java arguments that Mantaro parses outside of config.json and that can be dynamically adjusted using a script or similar:
-*   `-Dmantaro.node_number=x` - Specify the number of this node (important if you use more than once instance)
+*   `-Dmantaro.node-number=x` - Specify the number of this node (important if you use more than once instance)
 *   `-Dmantaro.shard-count=x` - Specify the amount of shards Mantaro will be starting up. (for all nodes, see below for subsets)
 *   `-Dmantaro.from-shard=x` - Start Shard Manager from shard X. (inclusive)
 *   `-Dmantaro.to-shard=y`- Start Shard Manager up to shard Y. (exclusive)

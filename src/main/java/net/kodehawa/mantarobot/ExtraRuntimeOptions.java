@@ -37,7 +37,7 @@ public class ExtraRuntimeOptions {
             FROM_SHARD.isPresent() || TO_SHARD.isPresent()
     );
 
-    public static final OptionalInt NODE_NUMBER = maybeInt("mantaro.node_number");
+    public static final OptionalInt NODE_NUMBER = maybeInt("mantaro.node-number");
 
     private static OptionalInt maybeInt(String name) {
         var value = getValue(name);
