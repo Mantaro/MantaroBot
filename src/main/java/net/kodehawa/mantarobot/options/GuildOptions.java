@@ -1123,6 +1123,13 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
+            if(args[0].equals("reset")) {
+                guildData.setEditMessageLog(null);
+                dbGuild.save();
+                event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.reset_success"), EmoteReference.CORRECT).queue();
+                return;
+            }
+
             String editMessage = String.join(" ", args);
             guildData.setEditMessageLog(editMessage);
             dbGuild.save();
@@ -1142,6 +1149,13 @@ public class GuildOptions extends OptionHandler {
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
+
+            if(args[0].equals("reset")) {
+                guildData.setDeleteMessageLog(null);
+                dbGuild.save();
+                event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.reset_success"), EmoteReference.CORRECT).queue();
+                return;
+            }
 
             String deleteMessage = String.join(" ", args);
             guildData.setDeleteMessageLog(deleteMessage);
@@ -1163,6 +1177,13 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
+            if(args[0].equals("reset")) {
+                guildData.setBannedMemberLog(null);
+                dbGuild.save();
+                event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.reset_success"), EmoteReference.CORRECT).queue();
+                return;
+            }
+
             String banMessage = String.join(" ", args);
             guildData.setBannedMemberLog(banMessage);
             dbGuild.save();
@@ -1182,6 +1203,13 @@ public class GuildOptions extends OptionHandler {
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
+
+            if(args[0].equals("reset")) {
+                guildData.setUnbannedMemberLog(null);
+                dbGuild.save();
+                event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.reset_success"), EmoteReference.CORRECT).queue();
+                return;
+            }
 
             String unbanMessage = String.join(" ", args);
             guildData.setUnbannedMemberLog(unbanMessage);

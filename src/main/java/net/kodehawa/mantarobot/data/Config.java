@@ -33,6 +33,7 @@ public class Config {
     public String dbUser;
     public String dbotsToken;
     public String dbotsorgToken;
+    public String botsOnDiscordToken;
     public boolean isPremiumBot = false;
     public int maxJdaReconnectDelay = 3; //3 seconds
     public List<String> owners = new ArrayList<>();
@@ -137,6 +138,10 @@ public class Config {
 
     public void setDbotsorgToken(String dbotsorgToken) {
         this.dbotsorgToken = dbotsorgToken;
+    }
+
+    public String getBotsOnDiscordToken() {
+        return botsOnDiscordToken;
     }
 
     public boolean isPremiumBot() {

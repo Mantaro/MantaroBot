@@ -69,6 +69,7 @@ public class DebugCmds {
                 var users = 0L;
                 var clusterTotal = 0L;
                 var players = 0L;
+                var totalMemory = 0L;
 
                 try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
@@ -78,7 +79,13 @@ public class DebugCmds {
                         users += json.getLong("cached_users");
                     }
 
-                    clusterTotal = jedis.hlen("node-stats-" + config.getClientId());
+                    var clusters = jedis.hgetAll("node-stats-" + config.getClientId());
+                    for(var cluster : clusters.entrySet()) {
+                        var json = new JSONObject(cluster.getValue());
+                        totalMemory += json.getLong("used_memory");
+                    }
+
+                    clusterTotal = clusters.size();
                 }
 
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
@@ -107,6 +114,7 @@ public class DebugCmds {
                         + "Clusters: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
+                        + "Memory Usage: " + Utils.formatMemoryAmount(totalMemory) + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"

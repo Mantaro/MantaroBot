@@ -34,6 +34,7 @@ import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -47,6 +48,7 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
@@ -55,10 +57,13 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
@@ -69,6 +74,7 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
+import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class MantaroCore {
     private static final Logger log = LoggerFactory.getLogger(MantaroCore.class);
@@ -356,27 +362,64 @@ public class MantaroCore {
 
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
-        startUpdaters();
+        //Only update guild count from the master node.
+        if(bot.isMasterNode())
+            startUpdaters();
+
         bot.startCheckingBirthdays();
     }
 
     private void startUpdaters() {
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Carbonitex post task"))
-                .scheduleAtFixedRate(Carbonitex::handle, 0, 30, TimeUnit.MINUTES);
-        MantaroBot instance = MantaroBot.getInstance();
-
-        if (config.dbotsorgToken != null) {
-            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "dbots.org update thread")).scheduleAtFixedRate(() -> {
+        if (config.dbotsorgToken != null && config.botsOnDiscordToken != null) {
+            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
                 try {
-                    long count = instance.getShardManager().getGuildCache().size();
-                    int[] shards = instance.getShardList().stream().mapToInt(shard -> (int) shard.getJDA().getGuildCache().size()).toArray();
-                    instance.getDiscordBotsAPI().postStats(shards).execute();
-                    log.debug("Updated server count ({}) for discordbots.org", count);
-                } catch (Exception ignored) {
+                    var serverCount = 0L;
+                    //Fetch actual guild count.
+                    try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                        var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+                        for (var shards : stats.entrySet()) {
+                            var json = new JSONObject(shards.getValue());
+                            serverCount += json.getLong("guild_count");
+                        }
+                    }
+
+                    //top.gg
+                    RequestBody post = RequestBody.create(MediaType.parse("application/json"),
+                            new JSONObject().put("server_count", serverCount).toString()
+                    );
+
+                    Request topgg = new Request.Builder()
+                            .url(String.format("https://discord.bots.gg/bots/%s/stats", config.getClientId()))
+                            .header("User-Agent", MantaroInfo.USER_AGENT)
+                            .header("Authorization", config.getDbotsorgToken())
+                            .header("Content-Type", "application/json")
+                            .post(post)
+                            .build();
+
+                    httpClient.newCall(topgg).execute();
+                    log.debug("Updated server count ({}) for discordbots.org", serverCount);
+
+                    //bots.ondiscord.xyz
+                    RequestBody botsOnDiscordPost = RequestBody.create(MediaType.parse("application/json"),
+                            new JSONObject().put("guildCount", serverCount).toString()
+                    );
+
+                    Request botsOnDiscord = new Request.Builder()
+                            .url(String.format("https://bots.ondiscord.xyz/bot-api/bots/%s/guilds", config.getClientId()))
+                            .header("User-Agent", MantaroInfo.USER_AGENT)
+                            .header("Authorization", config.getBotsOnDiscordToken())
+                            .header("Content-Type", "application/json")
+                            .post(botsOnDiscordPost)
+                            .build();
+
+                    httpClient.newCall(botsOnDiscord).execute();
+                    log.debug("Updated server count ({}) for bots.ondiscord.xyz", serverCount);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-            }, 0, 1, TimeUnit.HOURS);
+            }, 0, 15, TimeUnit.MINUTES);
         } else {
-            log.warn("discordbots.org token not set in config, cannot start posting stats!");
+            log.warn("discordbots.org/bots.ondiscord.xyz token not set in config, cannot start posting stats!");
         }
     }
 

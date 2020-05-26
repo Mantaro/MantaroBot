@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot;
 
-import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
@@ -89,7 +88,6 @@ public class MantaroBot {
 
     private final MantaroAudioManager audioManager;
     private final MantaroCore core;
-    private final DiscordBotsAPI discordBotsAPI;
     private final JdaLavalink lavaLink;
 
     private final BirthdayCacher birthdayCacher;
@@ -132,7 +130,6 @@ public class MantaroBot {
         lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
-        discordBotsAPI = new DiscordBotsAPI.Builder().setToken(config.dbotsorgToken).build();
 
         audioManager = new MantaroAudioManager();
         Items.setItemActions();
@@ -268,10 +265,6 @@ public class MantaroBot {
 
     public MantaroCore getCore() {
         return this.core;
-    }
-
-    public DiscordBotsAPI getDiscordBotsAPI() {
-        return this.discordBotsAPI;
     }
 
     public BirthdayCacher getBirthdayCacher() {
