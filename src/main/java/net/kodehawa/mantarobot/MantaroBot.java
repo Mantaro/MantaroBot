@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.jda.JdaLavalink;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -123,7 +124,7 @@ public class MantaroBot {
         lavaLink = new JdaLavalink(
                 config.clientId,
                 config.totalShards,
-                shardId -> getShard(shardId).getJDA()
+                shardId -> getShardManager().getShardById(shardId)
         );
 
         for (String node : config.getLavalinkNodes())
@@ -206,27 +207,27 @@ public class MantaroBot {
         return core.getShardManager();
     }
 
-    public Shard getShard(int id) {
-        return core.getShard(id);
+    public JDA getShard(int id) {
+        return getShardManager().getShardById(id);
     }
 
     public void restartShard(int shardId) {
         getShardManager().restart(shardId);
     }
 
-    public Shard getShardForGuild(String guildId) {
-        return getShardForGuild(MiscUtil.parseSnowflake(guildId));
+    public JDA getShardGuild(String guildId) {
+        return getShardGuild(MiscUtil.parseSnowflake(guildId));
     }
 
-    public Shard getShardForGuild(long guildId) {
-        return getShard((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
+    public JDA getShardGuild(long guildId) {
+        return getShardManager().getShardById((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
 
-    public int getShardIdForGuild(long guildId) {
+    public int getShardIdGuild(long guildId) {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
     }
 
-    public List<Shard> getShardList() {
+    public List<JDA> getShardList() {
         return IntStream.range(0, getShardManager().getShardsTotal())
                 .mapToObj(this::getShard)
                 .collect(Collectors.toList());
@@ -259,7 +260,7 @@ public class MantaroBot {
     }
 
     public void forceRestartShardFromGuild(String guildId) {
-        restartShard(getShardForGuild(guildId).getId());
+        restartShard(getShardGuild(guildId).getShardInfo().getShardId());
     }
 
     public MantaroAudioManager getAudioManager() {

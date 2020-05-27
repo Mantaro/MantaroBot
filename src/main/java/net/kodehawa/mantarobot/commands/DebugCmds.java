@@ -52,6 +52,7 @@ import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -269,14 +270,13 @@ public class DebugCmds {
                 var high = 0;
 
                 for (var shard : bot.getShardList()) {
-                    if (shard.getNullableJDA() == null) {
+                    if (shard == null) {
                         connecting++;
                         continue;
                     }
 
-                    var jda = shard.getJDA();
-                    var reconnect = jda.getStatus() == JDA.Status.RECONNECT_QUEUED;
-                    var manager = ((MantaroEventManager) jda.getEventManager());
+                    var reconnect = shard.getStatus() == JDA.Status.RECONNECT_QUEUED;
+                    var manager = ((MantaroEventManager) shard.getEventManager());
 
                     if (manager.getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
@@ -318,10 +318,10 @@ public class DebugCmds {
                     clusters = jedis.hlen("node-stats-" + config.getClientId());;
                 }
 
-                var highPing = bot.getShardList().stream().filter(s -> s.getNullableJDA() != null)
+                var highPing = bot.getShardList().stream().filter(Objects::nonNull)
                         //"high" ping shards
-                        .filter(shard -> shard.getJDA().getGatewayPing() > 350)
-                        .map(shard -> shard.getId() + ": " + shard.getJDA().getGatewayPing() + "ms")
+                        .filter(shard -> shard.getGatewayPing() > 350)
+                        .map(shard -> shard.getShardInfo().getShardId() + ": " + shard.getGatewayPing() + "ms")
                         .collect(Collectors.joining(", "));
 
                 stringBuilder.append(String.format(
