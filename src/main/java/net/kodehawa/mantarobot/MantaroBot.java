@@ -123,7 +123,7 @@ public class MantaroBot {
         //Lavalink stuff.
         lavaLink = new JdaLavalink(
                 config.clientId,
-                config.totalShards,
+                ExtraRuntimeOptions.SHARD_COUNT.orElse(config.totalShards),
                 shardId -> getShardManager().getShardById(shardId)
         );
 
