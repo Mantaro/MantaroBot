@@ -213,7 +213,7 @@ public class DebugCmds {
                 //id, shard_status, cached_users, guild_count, last_ping_diff, gateway_ping
                 for(var shard : stats.entrySet()) {
                     var jsonData = new JSONObject(shard.getValue());
-                    var shardId = jsonData.getInt("id");
+                    var shardId = Integer.parseInt(shard.getKey());
 
                     builder.append(String.format(
                             "%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",

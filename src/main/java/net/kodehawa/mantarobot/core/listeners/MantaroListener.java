@@ -849,7 +849,6 @@ public class MantaroListener implements EventListener {
     private void postStats(JDA jda) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
             var json = new JSONObject()
-                    .put("id", jda.getShardInfo().getShardId())
                     .put("guild_count", jda.getGuildCache().size())
                     .put("cached_users", jda.getUserCache().size())
                     .put("gateway_ping", jda.getGatewayPing())
