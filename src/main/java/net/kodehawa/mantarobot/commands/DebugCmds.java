@@ -22,6 +22,7 @@ import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -50,6 +51,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -202,34 +204,33 @@ public class DebugCmds {
             protected void call(Context ctx, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
                 int connecting = 0;
+                Map<String, String> stats;
 
-                for (var shard : MantaroBot.getInstance().getShardList()) {
-                    if (shard.getNullableJDA() == null) {
-                        connecting++;
-                        continue;
-                    }
+                try(Jedis jedis = ctx.getJedisPool().getResource()) {
+                    stats = jedis.hgetAll("shardstats-" + ctx.getConfig().getClientId());
+                }
 
-                    var jda = shard.getJDA();
+                //id, shard_status, cached_users, guild_count, last_ping_diff, gateway_ping
+                for(var shard : stats.entrySet()) {
+                    var jsonData = new JSONObject(shard.getValue());
+                    var shardId = jsonData.getInt("id");
 
                     builder.append(String.format(
-                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
-                            jda.getShardInfo(),
-                            jda.getStatus(),
-                            jda.getUserCache().size(),
-                            jda.getGuildCache().size(),
-                            ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff() + " ms",
-                            jda.getGatewayPing()
+                            "%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
+                            shardId + " / " + ExtraRuntimeOptions.SHARD_COUNT.orElse(ctx.getConfig().getTotalShards()),
+                            jsonData.getString("shard_status"),
+                            jsonData.getLong("cached_users"),
+                            jsonData.getLong("guild_count"),
+                            jsonData.getLong("last_ping_diff") + " ms",
+                            jsonData.getLong("gateway_ping")
                     ));
 
-                    if (shard.getJDA().getShardInfo().equals(ctx.getJDA().getShardInfo())) {
+                    if (shardId == ctx.getJDA().getShardInfo().getShardId()) {
                         builder.append(" <- CURRENT");
                     }
 
                     builder.append("\n");
                 }
-
-                if (connecting > 0)
-                    builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
 
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
