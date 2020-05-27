@@ -2025,22 +2025,22 @@
     "logs_editmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem que você quer que eu diga quando alguém editar uma mensagem!",
       "success": "%1$sMensagem de edição de mensagem definida para: `%2$s`",
-      "reset_success": "%1$sReset logs edit message."
+      "reset_success": "%1$sReseta registros de mensagens editadas."
     },
     "logs_deletemessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém deletar uma mensagem!",
       "success": "%1$sMensagem de mensagem deletada definida para: `%2$s`",
-      "reset_success": "%1$sReset logs delete message."
+      "reset_success": "%1$sReseta registros de mensagens deletadas."
     },
     "logs_banmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for banido!",
       "success": "%1$sMensagem de banimento definida para: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
+      "reset_success": "%1$sReseta registros de mensagens de banimentos."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for desbanido!",
       "success": "%1$sMensagem de desbanimento definida para: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
+      "reset_success": "%1$sReseta registros de mensagens de desbanimentos."
     },
     "showdisablewarning": {
       "success": "%1$sAviso de exibição em comandos desativados definido para: %2$s"
