@@ -53,6 +53,6 @@ public class ExtraRuntimeOptions {
 
     @Nullable
     private static String getValue(@Nonnull String name) {
-        return System.getProperty(name, System.getenv(name.replace(".", "_").toUpperCase()));
+        return System.getProperty(name, System.getenv(name.replace("-", "_").replace(".", "_").toUpperCase()));
     }
 }
