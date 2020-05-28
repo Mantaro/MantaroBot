@@ -228,6 +228,7 @@ public class MantaroBot {
     }
 
     //You would ask, doesn't ShardManager#getShardsTotal do that? Absolutely not. It's screwed. Fucked. I dunno why.
+    //DefaultShardManager overrides it, nvm, ouch.
     public int getManagedShards() {
         return getShardManager().getShardsRunning() + getShardManager().getShardsQueued();
     }

@@ -226,11 +226,11 @@ public class OwnerCmd {
 
                 ctx.send(EmoteReference.WARNING + "You're about to transfer all the player information from " + args[0] + " to " + args[1] + " are you sure you want to continue?");
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, e -> {
-                    if (ctx.getAuthor().getIdLong() != ctx.getAuthor().getIdLong()) {
+                    if (e.getAuthor().getIdLong() != ctx.getAuthor().getIdLong()) {
                         return Operation.IGNORED;
                     }
 
-                    if (ctx.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         Player transferred = MantaroData.db().getPlayer(args[0]);
                         Player transferTo = MantaroData.db().getPlayer(args[1]);
 
