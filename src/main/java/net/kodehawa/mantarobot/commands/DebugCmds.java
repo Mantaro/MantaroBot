@@ -49,6 +49,7 @@ import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -212,10 +213,12 @@ public class DebugCmds {
                 }
 
                 //id, shard_status, cached_users, guild_count, last_ping_diff, gateway_ping
-                for(var shard : stats.entrySet()) {
+                stats.entrySet().stream().sorted(
+                        Comparator.comparingInt(e -> Integer.parseInt(e.getKey()))
+                ).forEach(shard -> {
                     var jsonData = new JSONObject(shard.getValue());
                     var shardId = Integer.parseInt(shard.getKey());
-
+    
                     builder.append(String.format(
                             "%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
                             shardId + " / " + ExtraRuntimeOptions.SHARD_COUNT.orElse(ctx.getConfig().getTotalShards()),
@@ -225,13 +228,13 @@ public class DebugCmds {
                             jsonData.getLong("last_ping_diff") + " ms",
                             jsonData.getLong("gateway_ping")
                     ));
-
+    
                     if (shardId == ctx.getJDA().getShardInfo().getShardId()) {
                         builder.append(" <- CURRENT");
                     }
-
+    
                     builder.append("\n");
-                }
+                });
 
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
