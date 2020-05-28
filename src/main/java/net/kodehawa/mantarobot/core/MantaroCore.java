@@ -412,8 +412,8 @@ public class MantaroCore {
                             .header("Content-Type", "application/json")
                             .post(post)
                             .build();
-
-                    httpClient.newCall(topgg).execute();
+    
+                    httpClient.newCall(topgg).execute().close();
                     log.debug("Updated server count ({}) for discordbots.org", serverCount);
 
                     //bots.ondiscord.xyz
@@ -429,7 +429,7 @@ public class MantaroCore {
                             .post(botsOnDiscordPost)
                             .build();
 
-                    httpClient.newCall(botsOnDiscord).execute();
+                    httpClient.newCall(botsOnDiscord).execute().close();
                     log.debug("Updated server count ({}) for bots.ondiscord.xyz", serverCount);
                 } catch (Exception ex) {
                     ex.printStackTrace();
