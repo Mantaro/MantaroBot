@@ -387,7 +387,7 @@ public class MantaroCore {
     }
 
     private void startUpdaters() {
-        if (config.getDbotsorgToken() != null && config.getBotsOnDiscordToken() != null) {
+        if (config.getDbotsorgToken() != null && config.getBotsOnDiscordToken() != null && config.getDiscordBoatsToken() != null) {
             Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
                 try {
                     var serverCount = 0L;
@@ -400,13 +400,13 @@ public class MantaroCore {
                         }
                     }
 
-                    //top.gg
+                    //top.gg and discord.boats
                     RequestBody post = RequestBody.create(MediaType.parse("application/json"),
                             new JSONObject().put("server_count", serverCount)
-                                    .put("shard_count", shardManager.getShardsTotal())
                                     .toString()
                     );
 
+                    //top.gg request
                     Request topgg = new Request.Builder()
                             .url(String.format("https://top.gg/api/bots/%s/stats", config.getClientId()))
                             .header("User-Agent", MantaroInfo.USER_AGENT)
@@ -414,9 +414,6 @@ public class MantaroCore {
                             .header("Content-Type", "application/json")
                             .post(post)
                             .build();
-    
-                    httpClient.newCall(topgg).execute().close();
-                    log.debug("Updated server count ({}) for discordbots.org", serverCount);
 
                     //bots.ondiscord.xyz
                     RequestBody botsOnDiscordPost = RequestBody.create(MediaType.parse("application/json"),
@@ -431,14 +428,26 @@ public class MantaroCore {
                             .post(botsOnDiscordPost)
                             .build();
 
+                    //discord.boats
+                    Request boats = new Request.Builder()
+                            .url(String.format("https://discord.boats/api/bot/%s", config.getClientId()))
+                            .header("User-Agent", MantaroInfo.USER_AGENT)
+                            .header("Authorization", config.getDiscordBoatsToken())
+                            .header("Content-Type", "application/json")
+                            .post(post)
+                            .build();
+
+                    //*Actually* post the stats.
+                    httpClient.newCall(topgg).execute().close();
                     httpClient.newCall(botsOnDiscord).execute().close();
-                    log.debug("Updated server count ({}) for bots.ondiscord.xyz", serverCount);
+                    httpClient.newCall(boats).execute().close();
+                    log.debug("Updated server count ({}) for all bot lists", serverCount);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }, 0, 15, TimeUnit.MINUTES);
         } else {
-            log.warn("discordbots.org/bots.ondiscord.xyz token not set in config, cannot start posting stats!");
+            log.warn("discordbots.org/bots.ondiscord.xyz/discord.boats token not set in config, cannot start posting stats!");
         }
     }
 
