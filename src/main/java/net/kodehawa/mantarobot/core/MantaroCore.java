@@ -215,27 +215,29 @@ public class MantaroCore {
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
 
 
-            int count;
+            int latchCount;
             if (isDebug) {
-                count = 2;
-                builder.setShardsTotal(count)
+                var shardCount = 2;
+                latchCount = shardCount;
+                builder.setShardsTotal(shardCount)
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
-                log.info("Debug instance, using {} shards", count);
+                log.info("Debug instance, using {} shards", shardCount);
             } else {
+                int shardCount;
                 //Count specified in config.
                 if(config.totalShards != 0) {
-                    count = config.totalShards;
+                    shardCount = config.totalShards;
                     builder.setShardsTotal(config.totalShards);
-                    log.info("Using {} shards from config (totalShards != 0)", count);
+                    log.info("Using {} shards from config (totalShards != 0)", shardCount);
                 } else {
                     //Count specified on runtime options or recommended count by discord.
-                    count = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
-                    builder.setShardsTotal(count);
+                    shardCount = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
+                    builder.setShardsTotal(shardCount);
                     if(ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
-                        log.info("Using {} shards from ExtraRuntimeOptions", count);
+                        log.info("Using {} shards from ExtraRuntimeOptions", shardCount);
                     } else {
-                        log.info("Using {} shards from discord recommended amount", count);
+                        log.info("Using {} shards from discord recommended amount", shardCount);
                     }
                 }
 
@@ -247,24 +249,28 @@ public class MantaroCore {
                     }
                     var from = ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
                     var to = ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1;
+                    
+                    latchCount = to - from + 1;
 
                     log.info("Using shard range {}-{}", from, to);
                     builder.setShards(from, to);
+                } else {
+                    latchCount = shardCount;
                 }
 
-                builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
-                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, count * 5 / 4), requesterThreadFactory), true);
+                builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, shardCount / 16), gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, shardCount * 5 / 4), requesterThreadFactory), true);
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning shards...");
             var start = System.currentTimeMillis();
-            shardStartListener.setLatch(new CountDownLatch(count));
+            shardStartListener.setLatch(new CountDownLatch(latchCount));
             shardManager = builder.build();
 
             //This is so it doesn't block command registering, lol.
             threadPool.submit(() -> {
-                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", count);
+                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchCount);
 
                 try {
                     shardStartListener.latch.await();
