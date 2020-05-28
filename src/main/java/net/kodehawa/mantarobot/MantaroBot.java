@@ -144,20 +144,12 @@ public class MantaroBot {
                 MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
         );
 
-        long start = System.currentTimeMillis();
-
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
                 .start();
 
-        long end = System.currentTimeMillis();
-
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
         MantaroData.config().save();
-
-        LogUtils.log("Startup",
-                String.format("Partially loaded %d commands in %d seconds.\n" +
-                        "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         //Handle the removal of mutes.
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler"))
@@ -299,7 +291,7 @@ public class MantaroBot {
 
     public String getShardSlice() {
         if(ExtraRuntimeOptions.SHARD_SUBSET) {
-            return ExtraRuntimeOptions.FROM_SHARD + " to " + ExtraRuntimeOptions.TO_SHARD;
+            return ExtraRuntimeOptions.FROM_SHARD.getAsInt() + " to " + ExtraRuntimeOptions.TO_SHARD.getAsInt();
         } else {
             return "0 to " + getShardManager().getShardsTotal();
         }
@@ -311,14 +303,16 @@ public class MantaroBot {
 
     //This will print if the MANTARO_PRINT_VARIABLES env variable is present.
     private void printStartVariables() {
-        log.info("--- Variables set on this startup:\n" +
+        log.info("Environment variables set on this startup:\n" +
                         "DISABLE_NON_ALLOCATING_BUFFER = {}\n" +
+                        "VERBOSE_SHARD_LOGS = {}\n" +
                         "DEBUG = {}\n" + "DEBUG_LOGS = {}\n" +
                         "LOG_DB_ACCESS = {}\n" + "TRACE_LOGS = {}\n" +
                         "VERBOSE = {}\n" + "VERBOSE_SHARD_LOGS = {}\n" +
                         "FROM_SHARD = {}\n" + "TO_SHARD = {}\n" +
                         "SHARD_COUNT = {}\n" + "NODE_NUMBER = {}",
                 ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER,
+                ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.DEBUG,
                 ExtraRuntimeOptions.DEBUG_LOGS,
                 ExtraRuntimeOptions.LOG_DB_ACCESS,

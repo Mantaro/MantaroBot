@@ -491,18 +491,20 @@ public class InfoCmds {
                         .setFooter("Available Nodes: " + nodeMap.size());
 
                 List<MessageEmbed.Field> fields = new LinkedList<>();
-                for(var node : nodeMap.entrySet()) {
+                nodeMap.entrySet().stream().sorted(
+                        Comparator.comparingInt(e -> Integer.parseInt(e.getKey().split("-")[1]))
+                ).forEach(node -> {
                     var nodeData = new JSONObject(node.getValue());
                     fields.add(new MessageEmbed.Field("Node " + node.getKey(),
                             String.format("**Uptime**: %s\n" +
-                                    "**CPU Cores**: %s\n" +
-                                    "**CPU Usage**: %s\n" +
-                                    "**Memory**: %s\n" +
-                                    "**Threads**: %,d\n" +
-                                    "**Shards**: %s\n" +
-                                    "**Guilds**: %,d\n" +
-                                    "**Users**: %,d\n" +
-                                    "**Machine Memory**: %s\n",
+                                            "**CPU Cores**: %s\n" +
+                                            "**CPU Usage**: %s\n" +
+                                            "**Memory**: %s\n" +
+                                            "**Threads**: %,d\n" +
+                                            "**Shards**: %s\n" +
+                                            "**Guilds**: %,d\n" +
+                                            "**Users**: %,d\n" +
+                                            "**Machine Memory**: %s\n",
                                     Utils.formatDuration(nodeData.getLong("uptime")),
                                     nodeData.getLong("available_processors"),
                                     nodeData.getLong("machine_cpu_usage") + "%",
@@ -514,7 +516,7 @@ public class InfoCmds {
                                     Utils.formatMemoryAmount(nodeData.getLong("machine_total_memory"))),
                             false
                     ));
-                }
+                });
 
                 var splitFields = DiscordUtils.divideFields(3, fields);
                 boolean hasReactionPerms = ctx.hasReactionPerms();

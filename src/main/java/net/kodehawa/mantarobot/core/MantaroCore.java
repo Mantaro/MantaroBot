@@ -373,8 +373,8 @@ public class MantaroCore {
         bot.getCore().markAsReady();
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-        LogUtils.shard(String.format("Loaded all %d (of a total of %d) shards in %s.", shardManager.getShardsRunning(),
-                shardManager.getShardsTotal(), Utils.formatDuration(elapsed)));
+        LogUtils.shard(String.format("Loaded all %d (out of %d [T: %d]) shards\nTook %s.", shardManager.getShardsRunning(),
+                bot.getManagedShards(), shardManager.getShardsTotal(), Utils.formatDuration(elapsed)));
         log.info("Loaded all shards successfully! Status: {}", MantaroCore.getLoadState());
 
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
@@ -454,9 +454,8 @@ public class MantaroCore {
     private static class ShardStartListener implements EventListener {
         private CountDownLatch latch;
 
-        public CountDownLatch setLatch(CountDownLatch latch) {
+        public void setLatch(CountDownLatch latch) {
             this.latch = latch;
-            return latch;
         }
 
         @Override
