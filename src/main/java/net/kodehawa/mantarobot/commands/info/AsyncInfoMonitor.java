@@ -153,7 +153,7 @@ public class AsyncInfoMonitor {
                                 .toString()
                 );
             }
-        }, 5, 5, TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.MINUTES);
 
         started = true;
     }
