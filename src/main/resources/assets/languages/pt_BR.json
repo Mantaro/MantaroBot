@@ -343,7 +343,7 @@
       "dj_skip": "%1$sO DJ decidiu pular",
       "vote": {
         "submit": "%1$s**Seu voto foi submetido** Você precisa de mais %2$d voto(s) para pular!",
-        "remove": "%1$s**Seu voto foi removido** Você de mais %2$d voto(s) para pular!"
+        "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
       "success": "%1$sMeta de votos alcançada, pulando música...",
       "no_track": "%1$sNão tem música para pular, então eu não posso fazer nada..."
