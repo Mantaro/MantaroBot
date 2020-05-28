@@ -402,11 +402,13 @@ public class MantaroCore {
 
                     //top.gg
                     RequestBody post = RequestBody.create(MediaType.parse("application/json"),
-                            new JSONObject().put("server_count", serverCount).toString()
+                            new JSONObject().put("server_count", serverCount)
+                                    .put("shard_count", shardManager.getShardsTotal())
+                                    .toString()
                     );
 
                     Request topgg = new Request.Builder()
-                            .url(String.format("https://discord.bots.gg/bots/%s/stats", config.getClientId()))
+                            .url(String.format("https://top.gg/api/bots/%s/stats", config.getClientId()))
                             .header("User-Agent", MantaroInfo.USER_AGENT)
                             .header("Authorization", config.getDbotsorgToken())
                             .header("Content-Type", "application/json")
