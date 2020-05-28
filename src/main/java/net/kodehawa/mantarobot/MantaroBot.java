@@ -227,8 +227,13 @@ public class MantaroBot {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
     }
 
+    //You would ask, doesn't ShardManager#getShardsTotal do that? Absolutely not. It's screwed. Fucked. I dunno why.
+    public int getManagedShards() {
+        return getShardManager().getShardsRunning() + getShardManager().getShardsQueued();
+    }
+
     public List<JDA> getShardList() {
-        return IntStream.range(0, getShardManager().getShardsTotal())
+        return IntStream.range(0, getManagedShards())
                 .mapToObj(this::getShard)
                 .collect(Collectors.toList());
     }
