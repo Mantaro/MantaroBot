@@ -215,20 +215,28 @@ public class MantaroCore {
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
 
 
+            int count;
             if (isDebug) {
-                builder.setShardsTotal(2)
+                count = 2;
+                builder.setShardsTotal(count)
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
+                log.info("Debug instance, using {} shards", count);
             } else {
-                int count;
                 //Count specified in config.
                 if(config.totalShards != 0) {
                     count = config.totalShards;
                     builder.setShardsTotal(config.totalShards);
+                    log.info("Using {} shards from config (totalShards != 0)", count);
                 } else {
                     //Count specified on runtime options or recommended count by discord.
                     count = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
                     builder.setShardsTotal(count);
+                    if(ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
+                        log.info("Using {} shards from ExtraRuntimeOptions", count);
+                    } else {
+                        log.info("Using {} shards from discord recommended amount", count);
+                    }
                 }
 
                 //Using a shard subset. FROM_SHARD is inclusive, TO_SHARD is exclusive (else 0 to 448 would start 449 shards)
@@ -237,11 +245,11 @@ public class MantaroCore {
                         throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
                                 "when using shard subsets. Please specify the missing one.");
                     }
+                    var from = ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
+                    var to = ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1;
 
-                    builder.setShards(
-                            ExtraRuntimeOptions.FROM_SHARD.orElseThrow(),
-                            ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1
-                    );
+                    log.info("Using shard range {}-{}", from, to);
+                    builder.setShards(from, to);
                 }
 
                 builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, count / 16), gatewayThreadFactory), true)
@@ -251,15 +259,15 @@ public class MantaroCore {
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning shards...");
             var start = System.currentTimeMillis();
+            shardStartListener.setLatch(new CountDownLatch(count));
             shardManager = builder.build();
 
             //This is so it doesn't block command registering, lol.
             threadPool.submit(() -> {
-                var latchAmount = shardManager.getShardsTotal();
-                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchAmount);
+                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", count);
 
                 try {
-                    shardStartListener.setLatch(new CountDownLatch(latchAmount)).await();
+                    shardStartListener.latch.await();
                     var elapsed = System.currentTimeMillis() - start;
                     shardManager.removeEventListener(shardStartListener);
                     startPostLoadProcedure(elapsed);
