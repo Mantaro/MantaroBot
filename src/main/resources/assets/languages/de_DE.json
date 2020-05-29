@@ -1166,7 +1166,7 @@
         "ended_lobby": "%1$sBeendete Lobby! Danke fürs Spielen!",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Mögliche Antworten waren: %2$s",
         "incorrect_answer": "%1$sDas ist es nicht, Sie haben %2$d Versuche übrig.",
-        "won_game": "%1$s**%2$s** hat $%3$s Credits gewonnen, dank eine richtigen Antwort!"
+        "won_game": "%1$s**%2$s** hat durch's korrekte Beantworten %3$s Credits gewonnen!"
       },
       "lobby_time_out": "%1$sDie Zeit ist abgelaufen! Die richtige Antwort ist: %2$s",
       "end_footer": "Du hast 5 Versuche und 60 Sekunden. (Schreibe end, um das Spiel zu beenden)",
