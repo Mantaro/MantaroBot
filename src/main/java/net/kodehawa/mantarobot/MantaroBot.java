@@ -168,18 +168,18 @@ public class MantaroBot {
 
     public static void main(String[] args) {
         try {
+            Prometheus.enable();
+        } catch (Exception e) {
+            SentryHelper.captureException("Unable to start prometheus client", e, MantaroBot.class);
+            log.error("Unable to start prometheus client!", e);
+        }
+        try {
             new MantaroBot();
         } catch (Exception e) {
             SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
             log.error("Could not complete Main Thread routine!", e);
             log.error("Cannot continue! Exiting program...");
             System.exit(FATAL_FAILURE);
-        }
-        try {
-            Prometheus.enable();
-        } catch (Exception e) {
-            SentryHelper.captureException("Unable to start prometheus client", e, MantaroBot.class);
-            log.error("Unable to start prometheus client!", e);
         }
     }
 
