@@ -263,14 +263,14 @@ public class MantaroCore {
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
-            log.info("Spawning shards...");
+            log.info("Spawning {} shards...", latchCount);
             var start = System.currentTimeMillis();
             shardStartListener.setLatch(new CountDownLatch(latchCount));
             shardManager = builder.build();
 
             //This is so it doesn't block command registering, lol.
             threadPool.submit(() -> {
-                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad!", latchCount);
+                log.info("CountdownLatch started: Awaiting for {} shards to be counted down to start PostLoad.", latchCount);
 
                 try {
                     shardStartListener.latch.await();
@@ -373,9 +373,11 @@ public class MantaroCore {
         bot.getCore().markAsReady();
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-        LogUtils.shard(String.format("Loaded all %d (out of %d [T: %d]) shards\nTook %s.", shardManager.getShardsRunning(),
-                bot.getManagedShards(), shardManager.getShardsTotal(), Utils.formatDuration(elapsed)));
-        log.info("Loaded all shards successfully! Status: {}", MantaroCore.getLoadState());
+        LogUtils.shard(String.format("Loaded all %d (out of %d) shards and %d commands.\nTook %s.\nCross-node shard count is %d.", shardManager.getShardsRunning(),
+                bot.getManagedShards(), DefaultCommandProcessor.REGISTRY.commands().size(),
+                Utils.formatDuration(elapsed), shardManager.getShardsTotal())
+        );
+        log.info("Loaded all shards successfully! Status: {}.", MantaroCore.getLoadState());
 
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 

@@ -147,7 +147,12 @@ public class DebugCmds {
         cr.register("shard", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                ctx.sendLocalized("commands.shard.info", ctx.getJDA().getShardInfo().getShardId());
+                long nodeAmount;
+                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    nodeAmount = jedis.hlen("node-stats-" + ctx.getConfig().getClientId());
+                }
+
+                ctx.sendLocalized("commands.shard.info", ctx.getJDA().getShardInfo().getShardId(), ctx.getBot().getNodeNumber(), nodeAmount);
             }
 
             @Override
