@@ -317,7 +317,7 @@
       "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "Ich bin in Shard %1$d! Wenn du mehr Hilfe brauchst, schau hier: <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -876,7 +876,7 @@
         "never": "Nie"
       },
       "hide_tag": {
-        "success": "%1%sTag-Sichtbarkeit gesetzt auf: `%2$s`"
+        "success": "%1$sTag hidden status is now: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sDu musst den auszurüstenden Gegenstand angeben!",
@@ -2024,19 +2024,23 @@
     },
     "logs_editmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht bearbeitet!",
-      "success": "%1$s\"Nachricht bearbeitet\"-Nachricht gesetzt auf: `%2$s`"
+      "success": "%1$s\"Nachricht bearbeitet\"-Nachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs edit message."
     },
     "logs_deletemessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht löscht!",
-      "success": "%1$s\"Nachricht gelöscht\"-Nachricht gesetzt auf: `%2$s`"
+      "success": "%1$s\"Nachricht gelöscht\"-Nachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs delete message."
     },
     "logs_banmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand gebannt wird!",
-      "success": "%1$sBannachricht gesetzt auf: `%2$s`"
+      "success": "%1$sBannachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs ban message."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand entbannt wird!",
-      "success": "%1$sEntbannnachricht gesetzt auf: `%2$s`"
+      "success": "%1$sEntbannnachricht gesetzt auf: `%2$s`",
+      "reset_success": "%1$sReset logs unban message."
     },
     "showdisablewarning": {
       "success": "%1$sWarnung bei deaktivierten Befehlen ist gesetzt auf: %2$s"
