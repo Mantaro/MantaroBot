@@ -317,7 +317,7 @@
       "vc_not_found": "%1$sKhông tìm thấy kênh thoại hoặc bạn không chỉ định một kênh!"
     },
     "shard": {
-      "info": "Tôi đang ở trong mảnh vỡ %1$d! Nếu bạn cần giúp bất kì điều gì, hãy ghé qua <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
