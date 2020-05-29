@@ -41,6 +41,7 @@ public class Prometheus {
             new GarbageCollectorExports().register();
             new ClassLoadingExports().register();
             new VersionInfoExports().register();
+            new MantaroThreadExports().register();
             server = new HTTPServer(MantaroData.config().get().prometheusPort);
             STATE.set(State.ENABLED);
         }
