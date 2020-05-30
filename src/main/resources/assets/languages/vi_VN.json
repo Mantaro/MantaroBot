@@ -47,7 +47,7 @@
       "crate": {
         "no_key": "%1$s Bạn cần chìa khóa hòm thính để mở cái hòm này. Nó bị khóa!",
         "no_crate": "%1$s Bạn cần phải có hòm thính! Chứ bạn nghĩ làm sao để dùng cái chìa khóa này =='",
-        "success": "%1$s Bạn đã mở hòm nhận được: %2$s%3$s. Chúc mừng!",
+        "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn cần quyết định vứt đồ thừa đi"
       },
       "potion_active": "%1$s Bạn đã có một **%2$s** hiệu ứng thuốc đang hoạt động. Số lượng có thể đang đang ở mức tối đa!",
@@ -317,7 +317,7 @@
       "vc_not_found": "%1$sKhông tìm thấy kênh thoại hoặc bạn không chỉ định một kênh!"
     },
     "shard": {
-      "info": "Tôi đang ở trong mảnh vỡ %1$d! Nếu bạn cần giúp bất kì điều gù, hãy ghé qua <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -876,7 +876,7 @@
         "never": "Không bao giờ"
       },
       "hide_tag": {
-        "success": "%1%sTrạng thái ẩn đề cập giờ là: `%2$s`"
+        "success": "%1$sTag hidden status is now: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sBạn cần nói rõ đồ bạn muốn trang bị!",
@@ -2024,19 +2024,23 @@
     },
     "logs_editmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
-      "success": "%1$sMessage edit message set to: `%2$s`"
+      "success": "%1$sMessage edit message set to: `%2$s`",
+      "reset_success": "%1$sReset logs edit message."
     },
     "logs_deletemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
-      "success": "%1$sMessage delete message set to: `%2$s`"
+      "success": "%1$sMessage delete message set to: `%2$s`",
+      "reset_success": "%1$sReset logs delete message."
     },
     "logs_banmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`"
+      "success": "%1$sBan message set to: `%2$s`",
+      "reset_success": "%1$sReset logs ban message."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`"
+      "success": "%1$sUnban message set to: `%2$s`",
+      "reset_success": "%1$sReset logs unban message."
     },
     "showdisablewarning": {
       "success": "%1$sDisplay warning on disabled command is set to: %2$s"
