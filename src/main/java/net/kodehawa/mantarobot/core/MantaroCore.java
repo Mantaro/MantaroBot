@@ -257,9 +257,16 @@ public class MantaroCore {
                 } else {
                     latchCount = shardCount;
                 }
-
-                builder.setGatewayPool(Executors.newScheduledThreadPool(Math.max(1, shardCount / 16), gatewayThreadFactory), true)
-                        .setRateLimitPool(Executors.newScheduledThreadPool(Math.max(2, shardCount * 5 / 4), requesterThreadFactory), true);
+    
+                //use latchCount instead of shardCount
+                //latchCount is the number of shards on this process
+                //shardCount is the total number of shards in all processes
+                var gatewayThreads = Math.max(1, latchCount / 16);
+                var rateLimitThreads = Math.max(2, latchCount * 5 / 4);
+                log.info("Gateway pool: {} threads", gatewayThreads);
+                log.info("Rate limit pool: {} threads", rateLimitThreads);
+                builder.setGatewayPool(Executors.newScheduledThreadPool(gatewayThreads, gatewayThreadFactory), true)
+                        .setRateLimitPool(Executors.newScheduledThreadPool(rateLimitThreads, requesterThreadFactory), true);
             }
 
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
