@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.exporters;
 
 import io.prometheus.client.Collector;
 import io.prometheus.client.CounterMetricFamily;

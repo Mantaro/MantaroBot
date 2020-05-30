@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.exporters;
 
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;

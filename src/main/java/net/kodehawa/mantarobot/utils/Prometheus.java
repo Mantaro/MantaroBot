@@ -19,6 +19,10 @@ package net.kodehawa.mantarobot.utils;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.*;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.exporters.GCListener;
+import net.kodehawa.mantarobot.utils.exporters.MantaroThreadExports;
+import net.kodehawa.mantarobot.utils.exporters.SafepointExports;
+import net.kodehawa.mantarobot.utils.exporters.ThreadPoolCollector;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -43,6 +47,7 @@ public class Prometheus {
             new VersionInfoExports().register();
             new MantaroThreadExports().register();
             new SafepointExports().register();
+            GCListener.register();
             server = new HTTPServer(MantaroData.config().get().prometheusPort);
             STATE.set(State.ENABLED);
         }
