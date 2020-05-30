@@ -846,7 +846,11 @@ public class MantaroListener implements EventListener {
             }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
         }
     }
+
     private void postStats(JDA jda) {
+        if(jda.getStatus() == JDA.Status.INITIALIZED)
+            return;
+
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
             var json = new JSONObject()
                     .put("guild_count", jda.getGuildCache().size())
