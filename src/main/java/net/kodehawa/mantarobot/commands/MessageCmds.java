@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 public class MessageCmds {
     @Subscribe
     public void prune(CommandRegistry cr) {
-        var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(Category.MODERATION, CommandPermission.ADMIN) {
+        var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(Category.MODERATION) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -108,7 +108,7 @@ public class MessageCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Prunes X amount of messages from a channel.")
+                        .setDescription("Prunes X amount of messages from a channel. Requires Message Manage permission.")
                         .setUsage("`~>prune <messages> [@user...]`")
                         .addParameter("messages", "Number of messages from 4 to 100.")
                         .addParameterOptional("@user...", "Prunes messages only from mentioned users.")
@@ -190,6 +190,11 @@ public class MessageCmds {
         });
 
         pruneCmd.setPredicate(ctx -> {
+            if(!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                ctx.sendLocalized("commands.prune.no_permissions_user", EmoteReference.ERROR);
+                return false;
+            }
+
             if (!ctx.getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
                 ctx.sendLocalized("commands.prune.no_permissions", EmoteReference.ERROR);
                 return false;
