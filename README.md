@@ -41,7 +41,7 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 ### Steps for building:
 <sub>Please do note that you will not receive any help whatsoever while trying to build your own Mantaro.</sub>
 1.  Make sure you have the prerequisites installed and running.
-2.  Make sure your Java version is 11 or later.
+2.  Make sure your Java version is 14 or later.
 2.  Clone this repository (you can also fork this repo and clone your fork). 
 3.  Open a Terminal in the root folder.
 4.  Run `gradlew shadowJar`
