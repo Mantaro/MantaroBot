@@ -171,6 +171,7 @@ public class JFRExports {
          */
         event(rs ,"jdk.NetworkUtilization", e -> {
             var itf = e.getString("networkInterface");
+            if(itf == null) itf = "N/A";
             NETWORK_READ.labels(itf).set(e.getLong("readRate"));
             NETWORK_WRITE.labels(itf).set(e.getLong("writeRate"));
         }).withPeriod(PERIOD);
