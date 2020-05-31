@@ -5,6 +5,7 @@ import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
 import jdk.jfr.EventSettings;
 import jdk.jfr.consumer.RecordedEvent;
+import jdk.jfr.consumer.RecordedObject;
 import jdk.jfr.consumer.RecordingStream;
 
 import java.time.Duration;
@@ -58,6 +59,27 @@ public class JFRExports {
             .name("jvm_threads_daemon")
             .help("Daemon thread count of the JVM")
             .create();
+    //jdk.CPULoad
+    private static final Gauge CPU_USER = Gauge.build()
+            .name("jvm_cpu_user")
+            .help("User CPU usage of the JVM")
+            .create();
+    //jdk.CPULoad
+    private static final Gauge CPU_SYSTEM = Gauge.build()
+            .name("jvm_cpu_system")
+            .help("System CPU usage of the JVM")
+            .create();
+    //jdk.CPULoad
+    private static final Gauge CPU_MACHINE = Gauge.build()
+            .name("jvm_cpu_machine")
+            .help("CPU usage of the machine the JVM is running on")
+            .create();
+    //jdk.GCHeapSummary, jdk.MetaspaceSummary
+    private static final Gauge MEMORY_USAGE = Gauge.build()
+            .name("jvm_memory_bytes_used")
+            .help("Bytes of memory used by the JVM")
+            .labelNames("area") //heap, nonheap
+            .create();
 
     public static void register() {
         SAFEPOINTS.register();
@@ -68,6 +90,10 @@ public class JFRExports {
         NETWORK_WRITE.register();
         THREADS_CURRENT.register();
         THREADS_DAEMON.register();
+        CPU_USER.register();
+        CPU_SYSTEM.register();
+        CPU_MACHINE.register();
+        MEMORY_USAGE.register();
         var rs = new RecordingStream();
         rs.setReuse(true);
 
@@ -154,7 +180,74 @@ public class JFRExports {
             THREADS_DAEMON.set(e.getLong("daemonCount"));
         }).withPeriod(Duration.ofSeconds(5));
 
+        /*
+         * jdk.CPULoad {
+         *   startTime = 23:22:50.114
+         *   jvmUser = 31,88%
+         *   jvmSystem = 8,73%
+         *   machineTotal = 40,60%
+         * }
+         */
+        event(rs, "jdk.CPULoad", e -> {
+            CPU_USER.set(e.getFloat("jvmUser"));
+            CPU_SYSTEM.set(e.getFloat("jvmSystem"));
+            CPU_MACHINE.set(e.getFloat("machineTotal"));
+        }).withPeriod(Duration.ofSeconds(5));
+
+        /*
+         * jdk.GCHeapSummary {
+         *   startTime = 01:35:46.792
+         *   gcId = 19
+         *   when = "After GC"
+         *   heapSpace = {
+         *     start = 0x701600000
+         *     committedEnd = 0x702400000
+         *     committedSize = 14,0 MB
+         *     reservedEnd = 0x800000000
+         *     reservedSize = 4,0 GB
+         *   }
+         *   heapUsed = 6,3 MB
+         * }
+         */
+        event(rs, "jdk.GCHeapSummary", e -> {
+            MEMORY_USAGE.labels("heap").set(e.getLong("heapUsed"));
+        }).withPeriod(Duration.ofSeconds(5));
+
+        /*
+         * jdk.MetaspaceSummary {
+         *   startTime = 01:49:47.867
+         *   gcId = 37
+         *   when = "After GC"
+         *   gcThreshold = 20,8 MB
+         *   metaspace = {
+         *     committed = 6,3 MB
+         *     used = 5,6 MB
+         *     reserved = 1,0 GB
+         *   }
+         *   dataSpace = {
+         *     committed = 5,5 MB
+         *     used = 5,0 MB
+         *     reserved = 8,0 MB
+         *   }
+         *   classSpace = {
+         *     committed = 768,0 kB
+         *     used = 579,4 kB
+         *     reserved = 1,0 GB
+         *   }
+         * }
+         */
+        event(rs, "jdk.MetaspaceSummary", e -> {
+            var amt = getNestedUsed(e, "metaspace")
+                    + getNestedUsed(e, "dataSpace")
+                    + getNestedUsed(e, "classSpace");
+            MEMORY_USAGE.labels("nonheap").set(amt);
+        }).withPeriod(Duration.ofSeconds(5));
+
         rs.startAsync();
+    }
+
+    private static long getNestedUsed(RecordedEvent event, String field) {
+        return event.<RecordedObject>getValue(field).getLong("used");
     }
 
     private static EventSettings event(RecordingStream rs, String name, Consumer<RecordedEvent> c) {

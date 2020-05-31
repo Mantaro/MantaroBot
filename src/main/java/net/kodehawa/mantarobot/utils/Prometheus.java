@@ -20,8 +20,6 @@ import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.*;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.JFRExports;
-import net.kodehawa.mantarobot.utils.exporters.MantaroThreadExports;
-import net.kodehawa.mantarobot.utils.exporters.SafepointExports;
 import net.kodehawa.mantarobot.utils.exporters.ThreadPoolCollector;
 
 import java.io.IOException;
@@ -39,10 +37,16 @@ public class Prometheus {
 
     public static void enable() throws IOException {
         if (STATE.compareAndSet(State.DISABLED, State.ENABLING)) {
+            //replaced by jfr? needs testing, if yes then remove
+            //used for cpu usage
             new StandardExports().register();
+            //replaced by jfr? needs testing, if yes then remove
+            //used for memory usage
             new MemoryPoolsExports().register();
+            //ig we can keep this one for now
             new BufferPoolsExports().register();
-            new GarbageCollectorExports().register();
+            //replaced by jfr, jfr also has this as a histogram
+            //new GarbageCollectorExports().register();
             //not needed
             //new ClassLoadingExports().register();
             //not needed
