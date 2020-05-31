@@ -278,7 +278,8 @@ public class JFRExports {
     }
 
     private static EventSettings event(RecordingStream rs, String name, Consumer<RecordedEvent> c) {
-        var s = rs.enable(name);
+        //default to no stacktrace
+        var s = rs.enable(name).withoutStackTrace();
         rs.onEvent(name, c);
         return s;
     }
