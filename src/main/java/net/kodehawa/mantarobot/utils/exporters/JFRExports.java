@@ -34,6 +34,7 @@ public class JFRExports {
     //jdk.GCReferenceStatistics
     private static final Gauge REFERENCE_STATISTICS = Gauge.build()
             .name("jvm_reference_statistics")
+            .help("Number of java.lang.ref references by type")
             .labelNames("type")
             .create();
     //jdk.ExecuteVMOperation
@@ -81,7 +82,8 @@ public class JFRExports {
             .create();
     //jdk.GCHeapSummary, jdk.MetaspaceSummary
     private static final Gauge MEMORY_USAGE = Gauge.build()
-            .name("jvm_memory_bytes_used")
+            //TODO: remove _jfr suffix if we remove the standard exports
+            .name("jvm_memory_bytes_used_jfr")
             .help("Bytes of memory used by the JVM")
             .labelNames("area") //heap, nonheap
             .create();
