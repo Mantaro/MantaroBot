@@ -1190,6 +1190,7 @@
     "prune": {
       "no_messages_specified": "%1$sВы не указали сообщения для удаления.",
       "no_permissions": "%1$sЯ не могу удалять сообщения на этом сервере, так как у меня нет прав на управление сообщениями.",
+      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
       "bot_no_messages": "%1$sТут нет сообщений от ботов или вызовов ботов.",
       "no_pins_no_messages": "%1$sТут нет сообщений, которые не закреплены...",
       "mention_no_messages": "%1$sТут нет сообщений с вашим упоминанием.",
