@@ -20,7 +20,7 @@
     "reaction_timeout": "Reactions will timeout in %1$d seconds.",
     "example": "例",
     "definition": "定義",
-    "name": "Name",
+    "name": "名前",
     "description": "概要",
     "options": "オプション",
     "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
