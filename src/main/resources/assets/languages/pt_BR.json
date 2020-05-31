@@ -1190,6 +1190,7 @@
     "prune": {
       "no_messages_specified": "%1$sVocê não especificou as mensagens para excluir.",
       "no_permissions": "%1$sEu não posso excluir mensagens nesse servidor pois eu não tenho a permissão de Gerenciar Mensagens.",
+      "no_permissions_user": "%1$sEu não posso punir nesse servidor pois você não tem a permissão de Gerenciar Mensagens.",
       "bot_no_messages": "%1$sNão tem mensagens de bots ou calls de bot aqui.",
       "no_pins_no_messages": "%1$sNão tem nenhuma mensagem fixada aqui...",
       "mention_no_messages": "%1$sNão tem mensagens de usuários que você mencionou aqui.",
@@ -1637,7 +1638,7 @@
   },
   "options": {
     "options": "Opções da Mantaro",
-    "error_general": "%1$sUso incorreto ou argumentos ausentes.\nSe você está perdido ou quer ajuda para usar as opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. Se você tiver algum problema depois de ler a wiki, vá até  <https://support.mantaro.site>",
+    "error_general": "%1$sUso incorreto ou argumentos ausentes.\nSe você está perdido ou quer ajuda para usar as opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar o opts. Se você tiver algum problema depois de ler a wiki, vá até <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sNão é possível recuperar valores. Coisa esquisita...",
       "header": "Opções definidas para o servidor **%1$s**.",
