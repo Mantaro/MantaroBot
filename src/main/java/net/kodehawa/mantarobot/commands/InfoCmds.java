@@ -458,7 +458,7 @@ public class InfoCmds {
                                 .addField(languageContext.get("commands.stats.usage.cores"),
                                         getAvailableProcessors() + " Cores", true)
                                 .addField(languageContext.get("commands.stats.usage.cpu_usage"),
-                                        String.format("%.2f", getInstanceCPUUsage()) + "%", true)
+                                        String.format("%.2f", getInstanceCPUUsage() * 100) + "%", true)
                                 .addField(languageContext.get("commands.stats.usage.assigned_mem"),
                                         Utils.formatMemoryAmount(getTotalMemory()), false)
                                 .addField(languageContext.get("commands.stats.usage.assigned_remaining"),
