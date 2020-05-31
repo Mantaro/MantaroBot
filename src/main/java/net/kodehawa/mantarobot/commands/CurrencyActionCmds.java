@@ -218,7 +218,7 @@ public class CurrencyActionCmds {
                 if (breakage.getKey()) {
                     Player p = breakage.getValue();
                     Inventory inv = p.getInventory();
-                    if(userData.isAutoEquip() && inv.containsItem(item)) {
+                    if(userData.isAutoEquip() && inv.containsItem(item) && !isSeasonal) {
                         userData.getEquippedItems().equipItem(item);
                         inv.process(new ItemStack(item, -1));
 
