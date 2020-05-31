@@ -1190,6 +1190,7 @@
     "prune": {
       "no_messages_specified": "%1$sVous n'avez spécifié aucun message à effacer.",
       "no_permissions": "%1$sJe ne peux pas purger ce serveur car je n'ai pas la permission Gérer les messages.",
+      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
       "bot_no_messages": "%1$sIl n'y a aucun messages de bots ici.",
       "no_pins_no_messages": "%1$sIl n'y a aucun message non-épinglé ici...",
       "mention_no_messages": "%1$sIl n'y a aucun message de l'utilisateur mentionné ici.",
