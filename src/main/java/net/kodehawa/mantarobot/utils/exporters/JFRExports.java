@@ -44,14 +44,14 @@ public class JFRExports {
             .create();
     //jdk.NetworkUtilization
     private static final Gauge NETWORK_READ = Gauge.build()
-            .name("jvm_network_utilization")
-            .help("Network utilization")
+            .name("jvm_network_read")
+            .help("Bits read from the network per second")
             .labelNames("interface")
             .create();
     //jdk.NetworkUtilization
     private static final Gauge NETWORK_WRITE = Gauge.build()
-            .name("jvm_network_utilization")
-            .help("Network utilization")
+            .name("jvm_network_write")
+            .help("Bits written to the network per second")
             .labelNames("interface")
             .create();
     //jdk.JavaThreadStatistics
