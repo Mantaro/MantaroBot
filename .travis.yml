@@ -3,7 +3,7 @@ sudo: false
 install: true
 
 jdk:
-  - openjdk11
+  - openjdk14
 
 services:
   - docker
