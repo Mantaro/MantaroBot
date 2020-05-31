@@ -19,14 +19,13 @@ package net.kodehawa.mantarobot.commands.info;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.exporters.JFRExports;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.management.ThreadMXBean;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -39,28 +38,20 @@ public class AsyncInfoMonitor {
     private static final Logger log = LoggerFactory.getLogger(AsyncInfoMonitor.class);
     private static final Config config = MantaroData.config().get();
 
-    private static int availableProcessors = Runtime.getRuntime().availableProcessors();
-    private static double cpuUsage = 0;
+    private static final int availableProcessors = Runtime.getRuntime().availableProcessors();
     private static long freeMemory = 0;
-    private static double lastProcessCpuTime = 0;
-    private static long lastSystemTime = 0;
     private static long maxMemory = 0;
     private static boolean started = false;
-    private static int threadCount = 0;
+    private static long threadCount = 0;
     private static long totalMemory = 0;
+    private static float processCpuUsage;
     private static double vpsCPUUsage = 0;
     private static long vpsFreeMemory = 0;
     private static long vpsMaxMemory = 0;
-    private static long vpsUsedMemory = 0;
 
     public static int getAvailableProcessors() {
         check();
         return availableProcessors;
-    }
-
-    public static double getCpuUsage() {
-        check();
-        return cpuUsage;
     }
 
     public static long getFreeMemory() {
@@ -73,7 +64,7 @@ public class AsyncInfoMonitor {
         return maxMemory;
     }
 
-    public static int getThreadCount() {
+    public static long getThreadCount() {
         check();
         return threadCount;
     }
@@ -85,51 +76,43 @@ public class AsyncInfoMonitor {
 
     public static double getInstanceCPUUsage() {
         check();
-        return vpsCPUUsage;
+        return processCpuUsage;
     }
 
-    public static long getVpsFreeMemory() {
-        check();
-        return vpsFreeMemory;
+    //the following methods are used by JFRExports to set values in this class
+
+    public static void setProcessCpuUsage(float usage) {
+        processCpuUsage = usage;
     }
 
-    public static long getVpsMaxMemory() {
-        check();
-        return vpsMaxMemory;
+    public static void setThreadCount(long count) {
+        threadCount = count;
     }
 
-    public static long getVpsUsedMemory() {
-        check();
-        return vpsUsedMemory;
+    public static void setMachineMemoryUsage(long used, long total) {
+        vpsMaxMemory = total;
+        vpsFreeMemory = total - used;
+    }
+
+    public static void setMachineCPUUsage(float usage) {
+        vpsCPUUsage = usage;
     }
 
     public static void start() {
         if (started)
             throw new IllegalStateException("Already Started.");
+        //some stats are set by JFRExports
+        JFRExports.register();
 
         String nodeSetName = "node-stats-" + config.getClientId();
 
         log.info("Started System Monitor! Monitoring system statistics since now!");
         log.info("Posting node system stats to redis on set {}", nodeSetName);
 
-        OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
-        ThreadMXBean thread = ManagementFactory.getThreadMXBean();
-        Runtime r = Runtime.getRuntime();
-
-        lastSystemTime = System.nanoTime();
-        lastProcessCpuTime = calculateProcessCpuTime(os);
-
         POOL.scheduleAtFixedRate(() -> {
-            threadCount = thread.getThreadCount();
-            availableProcessors = r.availableProcessors();
             freeMemory = Runtime.getRuntime().freeMemory();
             maxMemory = Runtime.getRuntime().maxMemory();
             totalMemory = Runtime.getRuntime().totalMemory();
-            cpuUsage = calculateCpuUsage(os);
-            vpsCPUUsage = getInstanceCPUUsage(os);
-            vpsFreeMemory = calculateVPSFreeMemory(os);
-            vpsMaxMemory = calculateVPSMaxMemory(os);
-            vpsUsedMemory = vpsMaxMemory - vpsFreeMemory;
 
             try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
                 j.hset(nodeSetName,
@@ -137,15 +120,15 @@ public class AsyncInfoMonitor {
                         new JSONObject()
                                 .put("uptime", ManagementFactory.getRuntimeMXBean().getUptime())
                                 .put("thread_count", threadCount)
-                                .put("available_processors", r.availableProcessors())
-                                .put("free_memory", Runtime.getRuntime().freeMemory())
-                                .put("max_memory", Runtime.getRuntime().maxMemory())
-                                .put("total_memory", Runtime.getRuntime().totalMemory())
-                                .put("used_memory", getTotalMemory() - getFreeMemory())
-                                .put("cpu_usage", calculateCpuUsage(os))
-                                .put("machine_cpu_usage", getInstanceCPUUsage(os))
-                                .put("machine_free_memory", calculateVPSFreeMemory(os))
-                                .put("machine_total_memory", calculateVPSMaxMemory(os))
+                                .put("available_processors", availableProcessors)
+                                .put("free_memory", freeMemory)
+                                .put("max_memory", maxMemory)
+                                .put("total_memory", totalMemory)
+                                .put("used_memory", totalMemory - freeMemory)
+                                .put("cpu_usage", processCpuUsage)
+                                .put("machine_cpu_usage", vpsCPUUsage)
+                                .put("machine_free_memory", vpsFreeMemory)
+                                .put("machine_total_memory", vpsMaxMemory)
                                 .put("machine_used_memory", vpsMaxMemory - vpsFreeMemory)
                                 .put("guild_count", MantaroBot.getInstance().getShardManager().getGuildCache().size())
                                 .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
@@ -158,36 +141,7 @@ public class AsyncInfoMonitor {
         started = true;
     }
 
-    private static double calculateCpuUsage(OperatingSystemMXBean os) {
-        long systemTime = System.nanoTime();
-        double processCpuTime = calculateProcessCpuTime(os);
-
-        double cpuUsage = (processCpuTime - lastProcessCpuTime) / ((double) (systemTime - lastSystemTime));
-
-        lastSystemTime = systemTime;
-        lastProcessCpuTime = processCpuTime;
-
-        return cpuUsage / availableProcessors;
-    }
-
-    private static double calculateProcessCpuTime(OperatingSystemMXBean os) {
-        return ((com.sun.management.OperatingSystemMXBean) os).getProcessCpuTime();
-    }
-
-    private static long calculateVPSFreeMemory(OperatingSystemMXBean os) {
-        return ((com.sun.management.OperatingSystemMXBean) os).getFreePhysicalMemorySize();
-    }
-
-    private static long calculateVPSMaxMemory(OperatingSystemMXBean os) {
-        return ((com.sun.management.OperatingSystemMXBean) os).getTotalPhysicalMemorySize();
-    }
-
     private static void check() {
         if (!started) throw new IllegalStateException("AsyncInfoMonitor not started");
-    }
-
-    private static double getInstanceCPUUsage(OperatingSystemMXBean os) {
-        vpsCPUUsage = ((com.sun.management.OperatingSystemMXBean) os).getSystemCpuLoad() * 100;
-        return vpsCPUUsage;
     }
 }

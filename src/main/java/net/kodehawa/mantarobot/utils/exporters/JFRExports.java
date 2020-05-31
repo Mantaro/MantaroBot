@@ -7,11 +7,16 @@ import jdk.jfr.EventSettings;
 import jdk.jfr.consumer.RecordedEvent;
 import jdk.jfr.consumer.RecordedObject;
 import jdk.jfr.consumer.RecordingStream;
+import net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class JFRExports {
+    private static final Duration PERIOD = Duration.ofSeconds(5);
+
+    private static final AtomicBoolean REGISTERED = new AtomicBoolean(false);
     private static final double NANOSECONDS_PER_SECOND = 1E9;
     //jdk.SafepointBegin
     private static final Histogram SAFEPOINTS = Histogram.build()
@@ -82,6 +87,8 @@ public class JFRExports {
             .create();
 
     public static void register() {
+        if(!REGISTERED.compareAndSet(false, true)) return;
+        
         SAFEPOINTS.register();
         GC_PAUSES.register();
         REFERENCE_STATISTICS.register();
@@ -164,7 +171,7 @@ public class JFRExports {
             var itf = e.getString("networkInterface");
             NETWORK_READ.labels(itf).set(e.getLong("readRate"));
             NETWORK_WRITE.labels(itf).set(e.getLong("writeRate"));
-        }).withPeriod(Duration.ofSeconds(5));
+        }).withPeriod(PERIOD);
 
         /*
          * jdk.JavaThreadStatistics {
@@ -176,9 +183,11 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.JavaThreadStatistics", e -> {
-            THREADS_CURRENT.set(e.getLong("activeCount"));
+            var count = e.getLong("activeCount");
+            THREADS_CURRENT.set(count);
             THREADS_DAEMON.set(e.getLong("daemonCount"));
-        }).withPeriod(Duration.ofSeconds(5));
+            AsyncInfoMonitor.setThreadCount(count);
+        }).withPeriod(PERIOD);
 
         /*
          * jdk.CPULoad {
@@ -189,10 +198,15 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.CPULoad", e -> {
-            CPU_USER.set(e.getFloat("jvmUser"));
-            CPU_SYSTEM.set(e.getFloat("jvmSystem"));
-            CPU_MACHINE.set(e.getFloat("machineTotal"));
-        }).withPeriod(Duration.ofSeconds(5));
+            var user = e.getFloat("jvmUser");
+            var system = e.getFloat("jvmSystem");
+            var machine = e.getFloat("machineTotal");
+            CPU_USER.set(user);
+            CPU_SYSTEM.set(system);
+            CPU_MACHINE.set(machine);
+            AsyncInfoMonitor.setProcessCpuUsage(user + system);
+            AsyncInfoMonitor.setMachineCPUUsage(machine);
+        }).withPeriod(PERIOD);
 
         /*
          * jdk.GCHeapSummary {
@@ -211,7 +225,7 @@ public class JFRExports {
          */
         event(rs, "jdk.GCHeapSummary", e -> {
             MEMORY_USAGE.labels("heap").set(e.getLong("heapUsed"));
-        }).withPeriod(Duration.ofSeconds(5));
+        }).withPeriod(PERIOD);
 
         /*
          * jdk.MetaspaceSummary {
@@ -241,7 +255,20 @@ public class JFRExports {
                     + getNestedUsed(e, "dataSpace")
                     + getNestedUsed(e, "classSpace");
             MEMORY_USAGE.labels("nonheap").set(amt);
-        }).withPeriod(Duration.ofSeconds(5));
+        }).withPeriod(PERIOD);
+        
+        //start AsyncInfoMonitor data collection
+
+        /*
+         * jdk.PhysicalMemory {
+         *   startTime = 01:59:31.806
+         *   totalSize = 15,9 GB
+         *   usedSize = 10,9 GB
+         * }
+         */
+        event(rs, "jdk.PhysicalMemory", e -> {
+            AsyncInfoMonitor.setMachineMemoryUsage(e.getLong("usedSize"), e.getLong("totalSize"));
+        }).withPeriod(PERIOD);
 
         rs.startAsync();
     }
