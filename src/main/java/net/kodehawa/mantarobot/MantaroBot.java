@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
+import lavalink.client.io.LessAnnoyingJdaLavalink;
 import lavalink.client.io.jda.JdaLavalink;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -120,7 +121,7 @@ public class MantaroBot {
         }
 
         //Lavalink stuff.
-        lavaLink = new JdaLavalink(
+        lavaLink = new LessAnnoyingJdaLavalink(
                 config.clientId,
                 ExtraRuntimeOptions.SHARD_COUNT.orElse(config.totalShards),
                 shardId -> getShardManager().getShardById(shardId)
