@@ -82,7 +82,7 @@
       "Uh oh... 我的主人好像把一些0和1留在桌上了 :<",
       "等...等一下，怎麼回事?!",
       "我...我覺得這裡好像失火了... 你可能得請我主人來看一下",
-      "我已經掌握了爆炸的技術，看到了嗎?",
+      "我已經掌握了製造爆炸的技術，看到了嗎?",
       "也許什麼變數出錯了，不過...啊...哈哈，我會把他修好的！",
       "Uhhh...蛤? 你要幹嘛?"
     ],
@@ -140,36 +140,36 @@
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把它們丟回水裡...",
-      "success": "%1$s在全神貫注的釣完魚之後，你找到了%2$s且把他們放到水桶裡了。",
-      "success_money": "%1$s在全神貫注的釣完魚之後，你找到了%2$s和**$%3$d元**且把他們放到口袋裡了。%4$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
-      "not_suitable": "%1$sYou can't use this to fish.",
-      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!",
-      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "success": "%1$s在全神貫注的釣完魚之後，你找到了%2$s且把它們放到水桶裡了。",
+      "success_money": "%1$s在全神貫注的釣完魚之後，你找到了%2$s和**$%3$d元**且把它們放到口袋裡了。%4$s",
+      "success_money_noitem": "%1$s在全神貫注的釣完魚之後，你找到了**%2$d元**且把它們放到口袋裡了。",
+      "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
+      "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
+      "not_suitable": "%1$s你不能用這個釣魚。",
+      "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛",
+      "fossil_success": "%1$s你在釣魚時順便釣到了化石，看起來像是鑄造的材料，我相信可能非常值錢。",
+      "bait": "有隻魚在過程中把你的魚餌吃掉了!",
+      "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了! 已裝備魚竿已經被重設了。",
+      "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修理它。得到損壞物品: %2$s *%3$s*",
+      "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿!"
     },
     "softban": {
-      "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "no_users": "%1$sYou need to give me an user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
-      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
-      "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
+      "no_permission": "%1$s無法soft ban(軟驅逐): 你沒有*驅逐成員*權限。",
+      "no_permission_self": "%1$s對不起! 我沒有驅逐成員的權限。",
+      "no_users": "%1$s別忘了告知我你想soft ban(軟驅逐)的成員。",
+      "hierarchy_conflict": "%1$s你無法soft ban(軟驅逐)一個身分組比你高的用戶",
+      "yourself_note": "%1$s你怎麼會想試著soft ban(軟驅逐)你自己?",
+      "self_hierarchy_conflict": "%1$s無法soft ban(軟驅逐)成員: %2$s，他的身分組跟我一樣或比我高!",
+      "success": "%1$s%2$s. **%3$s 被soft ban(軟驅逐)了**",
+      "error": "%1$ssoft ban(軟驅逐)錯誤 [%2$s]: (沒有權限: %3$s)",
+      "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s: *(Error? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me a user to ban.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
-      "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
+      "no_permission": "%1$s你無法驅逐用戶: 你需要*驅逐成員*權限。",
+      "no_users": "%1$s你需要給我你想驅逐的成員。",
+      "no_permission_self": "%1$s抱歉! 我沒有驅逐成員的權限。",
+      "hierarchy_conflict": "%1$s你無法驅逐一個身分組比你高的成員! 想的美 %2$s",
+      "yourself_note": "%1$s為什麼你會想要驅逐你自己? 真愚蠢。",
       "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
       "success": "%1$s%2$s (%3$s got banned)",
       "success_multiple": "%1$s%2$s (%3$s people got banned)",
@@ -2290,6 +2290,6 @@
     }
   },
   "test": {
-    "inherited": "owo"
+    "inherited": "uwu"
   }
 }
