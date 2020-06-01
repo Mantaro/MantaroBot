@@ -112,7 +112,7 @@ public class DebugCmds {
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
                         + "API Responses: " + String.format("%,d [MAPI: %,d]", responseTotal, mApiRequests) + "\n"
-                        + "Clusters: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
+                        + "Nodes: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage() * 100) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
