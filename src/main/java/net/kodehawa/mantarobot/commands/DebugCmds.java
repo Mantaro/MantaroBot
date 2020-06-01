@@ -225,7 +225,7 @@ public class DebugCmds {
     
                     builder.append(String.format(
                             "%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
-                            shardId + " / " + ExtraRuntimeOptions.SHARD_COUNT.orElse(ctx.getConfig().getTotalShards()),
+                            shardId + " / " + ctx.getBot().getShardManager().getShardsTotal(),
                             jsonData.getString("shard_status"),
                             jsonData.getLong("cached_users"),
                             jsonData.getLong("guild_count"),

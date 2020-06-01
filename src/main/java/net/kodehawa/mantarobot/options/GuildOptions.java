@@ -645,7 +645,7 @@ public class GuildOptions extends OptionHandler {
             }
 
             if (data.getLeaveMessage() != null) {
-                builder.append("M: ").append(data.getJoinMessage()).append("\n\n");
+                builder.append("M: ").append(data.getLeaveMessage()).append("\n\n");
             }
 
             AtomicInteger index = new AtomicInteger();

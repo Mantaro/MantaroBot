@@ -718,7 +718,7 @@ public class MantaroListener implements EventListener {
 
             String joinMessage = data.getJoinMessage();
             sendJoinLeaveMessage(event.getUser(), event.getGuild(),
-                    event.getGuild().getTextChannelById(joinChannel), data.getExtraLeaveMessages(), joinMessage
+                    event.getGuild().getTextChannelById(joinChannel), data.getExtraJoinMessages(), joinMessage
             );
 
             actions.labels("join_messages").inc();
