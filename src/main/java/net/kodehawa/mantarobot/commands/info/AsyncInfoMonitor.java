@@ -133,10 +133,11 @@ public class AsyncInfoMonitor {
                                 .put("guild_count", MantaroBot.getInstance().getShardManager().getGuildCache().size())
                                 .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
                                 .put("shard_slice", MantaroBot.getInstance().getShardSlice())
+                                .put("queue_size", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
                                 .toString()
                 );
             }
-        }, 30, 30, TimeUnit.SECONDS);
+        }, 15, 30, TimeUnit.SECONDS);
 
         started = true;
     }
