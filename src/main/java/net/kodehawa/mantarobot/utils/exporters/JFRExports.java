@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class JFRExports {
-    private static final Duration PERIOD = Duration.ofSeconds(5);
+    private static final Duration PERIOD = Duration.ofSeconds(3);
 
     private static final AtomicBoolean REGISTERED = new AtomicBoolean(false);
     private static final double NANOSECONDS_PER_SECOND = 1E9;
@@ -131,7 +131,7 @@ public class JFRExports {
          */
         event(rs, "jdk.GarbageCollection", e -> {
             GC_PAUSES.labels(e.getString("name"), e.getString("cause"))
-                    .observe(e.getDuration("sumOfPauses").toNanos() / NANOSECONDS_PER_SECOND);
+                    .observe(e.getDuration("longestPause").toNanos() / NANOSECONDS_PER_SECOND);
         });
 
         /*
@@ -228,7 +228,7 @@ public class JFRExports {
          */
         event(rs, "jdk.GCHeapSummary", e -> {
             MEMORY_USAGE.labels("heap").set(e.getLong("heapUsed"));
-        }).withPeriod(PERIOD);
+        });
 
         /*
          * jdk.MetaspaceSummary {
