@@ -21,12 +21,9 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
@@ -40,7 +37,6 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
@@ -48,14 +44,11 @@ import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 
@@ -74,6 +67,7 @@ public class DebugCmds {
                 var clusterTotal = 0L;
                 var players = 0L;
                 var totalMemory = 0L;
+                var queueSize = 0L;
 
                 try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
@@ -87,6 +81,7 @@ public class DebugCmds {
                     for(var cluster : clusters.entrySet()) {
                         var json = new JSONObject(cluster.getValue());
                         totalMemory += json.getLong("used_memory");
+                        queueSize += json.getLong("queue_size");
                     }
 
                     clusterTotal = clusters.size();
@@ -128,7 +123,7 @@ public class DebugCmds {
                         + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory()) + " (Total: " +  Utils.formatMemoryAmount(totalMemory) + ")\n"
-                        + "Queue Size: " + String.format("%,d", bot.getAudioManager().getTotalQueueSize())
+                        + "Queue Size: " + String.format("%,d", queueSize)
                         + "```"
                 );
             }
@@ -140,6 +135,8 @@ public class DebugCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("info", "status");
     }
 
     @Subscribe
@@ -254,126 +251,6 @@ public class DebugCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Returns information about shards.")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void debug(CommandRegistry cr) {
-        cr.register("status", new SimpleCommand(Category.INFO) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var config = ctx.getConfig();
-                MantaroBot bot = MantaroBot.getInstance();
-
-                var ping = (long) bot.getShardManager()
-                        .getShards().stream().mapToLong(JDA::getGatewayPing).average()
-                        .orElse(-1);
-                StringBuilder stringBuilder = new StringBuilder();
-
-                var dead = 0;
-                var reconnecting = 0;
-                var connecting = 0;
-                var high = 0;
-
-                for (var shard : bot.getShardList()) {
-                    if (shard == null) {
-                        connecting++;
-                        continue;
-                    }
-
-                    var reconnect = shard.getStatus() == JDA.Status.RECONNECT_QUEUED;
-                    var manager = ((MantaroEventManager) shard.getEventManager());
-
-                    if (manager.getLastJDAEventTimeDiff() > 50000 && !reconnect)
-                        dead++;
-                    if (reconnect)
-                        reconnecting++;
-                    if (manager.getLastJDAEventTimeDiff() > 1650 && !reconnect)
-                        high++;
-                }
-
-                String status = (dead == 0 && (high == 0 || reconnecting > 10)) ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
-                stringBuilder.append(EmoteReference.BLUE_HEART).append(status);
-
-                if (reconnecting > 10)
-                    stringBuilder
-                            .append("WARNING: A large number of shards are reconnecting right now!" +
-                                    " Bot might be unavailable on several thousands guilds for some minutes! (")
-                            .append(reconnecting).append(" shards reconnecting now)\n");
-                if (high > 20)
-                    stringBuilder
-                            .append("WARNING: A very large number of shards has a high last event time! " +
-                            "A restart might be needed if this doesn't fix itself on some minutes!\n");
-                if (dead > 5)
-                    stringBuilder
-                            .append("WARNING: Several shards (").append(dead).append(") ")
-                            .append("appear to be dead! If this doesn't get fixed in 30 minutes please report this!\n");
-
-                long guilds = 0;
-                long users = 0;
-                long clusters = 0;
-
-                try(Jedis jedis = ctx.getJedisPool().getResource()) {
-                    var stats = jedis.hgetAll("shardstats-" + config.getClientId());
-                    for (var shards : stats.entrySet()) {
-                        var json = new JSONObject(shards.getValue());
-                        guilds += json.getLong("guild_count");
-                        users += json.getLong("cached_users");
-                    }
-
-                    clusters = jedis.hlen("node-stats-" + config.getClientId());;
-                }
-
-                var highPing = bot.getShardList().stream().filter(Objects::nonNull)
-                        //"high" ping shards
-                        .filter(shard -> shard.getGatewayPing() > 350)
-                        .map(shard -> shard.getShardInfo().getShardId() + ": " + shard.getGatewayPing() + "ms")
-                        .collect(Collectors.joining(", "));
-
-                stringBuilder.append(String.format(
-                        "%sUptime: %s\n\n" +
-                                "+ Bot Version: %s (Git: %s)\n" +
-                                "+ JDA Version: %s\n" +
-                                "+ LP Version: %s\n\n" +
-                                "* Clusters: %s\n" +
-                                "* Cluster Guilds: %,d (ID: %,d)\n" +
-                                "* Cluster Users: %,d\n" +
-                                "* Average Ping: %,dms\n" +
-                                "* (High) Ping Breakdown: %s\n" +
-                                "* Dead Shards: %,d\n" +
-                                "* Shards Reconnecting: %,d\n" +
-                                "* Shards Connecting: %,d\n" +
-                                "* High Last Event: %,d\n\n" +
-                                "--- Total Guilds: %-4s | Cached Users: %-8s | Shards: %-3s",
-                        EmoteReference.SELL,
-                        Utils.formatDuration(ManagementFactory.getRuntimeMXBean().getUptime()),
-                        MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, JDAInfo.VERSION, PlayerLibrary.VERSION,
-                        clusters,
-                        ctx.getShardManager().getGuildCache().size(), ctx.getBot().getNodeNumber(),
-                        ctx.getShardManager().getUserCache().size(),
-                        ping,
-                        highPing.isEmpty() ? "None" : StringUtils.limit(highPing, 700),
-                        dead, reconnecting, connecting, high,
-                        String.format("%,d", guilds),
-                        String.format("%,d", users),
-                        bot.getShardList().size())
-                );
-
-                ctx.send(new MessageBuilder()
-                        .append(EmoteReference.OK)
-                        .append("**Mantaro's Status**")
-                        .append("\n")
-                        .appendCodeBlock(stringBuilder.toString(), "prolog")
-                        .build()
-                );
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Is the bot doing fine? Oh who am I kidding, it's probably fire. Or an earthquake, who knows (not really, it's probably doing ok)")
                         .build();
             }
         });
