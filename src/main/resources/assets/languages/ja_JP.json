@@ -34,7 +34,7 @@
       "claim_key": "クレームキーを渡すことができません。"
     },
     "misc_item_usage": {
-      "mop": "%1$s（恐らく）掘り窟の全ての埃を拭き取りました。",
+      "mop": "%1$s（恐らく）全ての埃を拭き取りました。",
       "milk": "%1$sCleared potion effects.",
       "stamina": "%1$sActivated stamina for 3 mining sessions.",
       "stamina_used": "%1$sYou already have an active stamina effect!",
