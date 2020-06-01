@@ -155,7 +155,7 @@ public class CommandListener implements EventListener {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();
         } catch (PermissionException e) {
             if (e.getPermission() != Permission.UNKNOWN) {
-                event.getChannel().sendMessage(String.format("%sI don't have permission to do this :(, I need the permission: **%s**%s", EmoteReference.ERROR, e.getPermission().getName(), e.getMessage() != null ? String.format(" | Message: %s", e.getMessage()) : "")).queue();
+                event.getChannel().sendMessage(String.format("%sI don't have permission to do this :(\nI need the permission: **%s**", EmoteReference.ERROR, e.getPermission().getName())).queue();
             } else {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot perform this action due to the lack of permission! Is the role I might be trying to assign" +
                         " higher than my role? Do I have the correct permissions/hierarchy to perform this action?").queue();
