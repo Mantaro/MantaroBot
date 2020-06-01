@@ -849,7 +849,7 @@
       "stats": {
         "header": "Profile Statistics for %1$s",
         "wins": "Casino Wins",
-        "market": "市場使用回数",
+        "market": "Market Used",
         "potion": "Active Potion",
         "potion_type": "Potion Type",
         "buff": "Buff",
