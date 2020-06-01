@@ -1,10 +1,10 @@
 {
   "general": {
-    "invalid_number": "%1$s 不是一個有效的數字!",
-    "requested_by": "被 %1$s 要求。",
-    "operation_timed_out": "%1$s 回答此操作的時間已經用完。",
+    "invalid_number": "%1$s不是一個有效的數字!",
+    "requested_by": "被 %1$s要求。",
+    "operation_timed_out": "%1$s回答此操作的時間已經用完。",
     "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件? (舉例: 名字#判別數)\n**找到用戶:** %2$s",
-    "search_no_result": "%1$s 你的搜索沒有結果 :(",
+    "search_no_result": "%1$s你的搜索沒有結果 :(",
     "unknown": "未知",
     "days": "天",
     "none": "無",
@@ -38,7 +38,7 @@
       "milk": "%1$s藥水效果已清除。",
       "stamina": "%1$s已激活耐力，持續三次採礦。",
       "stamina_used": "%1$s你目前已經有耐力效果了！",
-      "haste": "%1$s以激活勤奮，持續兩次活動。",
+      "haste": "%1$s已激活勤奮，持續兩次活動。",
       "haste_used": "%1$s你目前已經有勤奮效果了！",
       "bait": "%1$s勾上了你的魚餌! (可使用一次)",
       "bait_used": "%1$s你目前已經有魚餌了!",
@@ -64,7 +64,7 @@
     "interactive_running": "%1$s這個頻道裡已經有你與我的互動了。",
     "buy_sell_paged_react": "**總頁數: %1$d**\n使用回應來切換頁數。\n%2$s",
     "buy_sell_paged_text": "**總頁數: %1$d.**\n使用 **&p >>** 和 **&p <<** 來切換頁數。\n%2$s",
-    "buy_sell_paged_reference": "**提示: %1$s 買 %2$s 賣。**",
+    "buy_sell_paged_reference": "**提示: %1$s買 %2$s 賣。**",
     "cancelled": "%1$s以取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能讓我持續開發!",
     "deprecated": "不再使用",
@@ -133,15 +133,15 @@
         "extra": "然後你也幸運的找到了%1$s!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "你在釣魚的時候找到了**%1$s**，但是你已經有太多了，所以只能把它丟回水裡...",
+        "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <crate name>` 來開啟它! 別忘了你需要一個寶箱鑰匙!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
-      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
+      "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把它們丟回水裡...",
+      "success": "%1$s在全神貫注的釣完魚之後，你找到了%2$s且把他們放到水桶裡了。",
+      "success_money": "%1$s在全神貫注的釣完魚之後，你找到了%2$s和**$%3$d元**且把他們放到口袋裡了。%4$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
