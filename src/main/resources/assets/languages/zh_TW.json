@@ -83,54 +83,54 @@
       "等...等一下，怎麼回事?!",
       "我...我覺得這裡好像失火了... 你可能得請我主人來看一下",
       "我已經掌握了爆炸的技術，看到了嗎?",
-      "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "也許什麼變數出錯了，不過...啊...哈哈，我會把他修好的！",
+      "Uhhh...蛤? 你要幹嘛?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
-      "Don't be greedy!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
-      "Halt in there buddy!",
-      "Wait just a tiiiiny bit more uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "哇...你能不能不要一直叫我...我快頭暈了!",
+      "不要太貪心!",
+      "你...你慢一點拜託...我已經頭暈了...",
+      "在這休息一下 同學!",
+      "就再等一下下 úwù",
+      "如果我們持續那麼快的話可能要被開罰單了!",
+      "我也想這樣做... 不過拜託先休息一下",
+      "嘿 等一下! 我還沒吃完飯!",
+      "可以請你慢一點嗎?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
-      "Just wholesome admin work happening over here...",
-      "The boot has been thrown!",
-      "You'll be missed... not really",
-      "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "Uh oh 看來有人被正義之槌打中了!",
+      "這裡只是在進行一些很酷的管理員工作而已...",
+      "拜拜!",
+      "你會被記得的... 其實不會",
+      "我希望我做了正確的決定...",
+      "你看看! 管理員說話了!",
+      "Uh-uhhh... 好吧，某個人就這樣離開了"
     ]
   },
   "categories": {
-    "music": "Audio",
-    "action": "Action",
-    "misc": "Misc",
-    "moderation": "Moderation",
-    "owner": "Owner",
-    "image": "Image",
-    "utils": "Utility",
-    "fun": "Fun",
-    "games": "Games",
-    "info": "Info",
-    "currency": "Currency",
-    "pet": "Pet"
+    "music": "音樂",
+    "action": "動作",
+    "misc": "其它",
+    "moderation": "管理",
+    "owner": "作者",
+    "image": "圖像",
+    "utils": "實用",
+    "fun": "娛樂",
+    "games": "遊戲",
+    "info": "資訊",
+    "currency": "貨幣",
+    "pet": "寵物"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have a fish rod to fish with! (try with another rod)",
+      "dust": "%1$s時機已經過了，你的桶子只有粉塵。(粉塵高度 %2$s%%)",
+      "no_rod": "%1$s你沒有釣魚竿怎麼釣魚! (試著使用另一種釣竿)",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
+        "success": "%1$s全神貫注的釣完魚之後，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "然後你也幸運的找到了%1$s!"
       },
       "crate": {
         "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
