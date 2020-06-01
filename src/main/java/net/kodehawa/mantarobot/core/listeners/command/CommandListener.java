@@ -152,7 +152,15 @@ public class CommandListener implements EventListener {
                 } catch (Exception ignored) { }
             }
         } catch (IndexOutOfBoundsException e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();
+            String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            event.getChannel().sendMessage(EmoteReference.ERROR +
+                    String.format(
+                            "Your query returned no results or you used the incorrect arguments, seemingly (Error ID: %s). Just in case, check command help!",
+                            id
+                    )
+            ).queue();
+
+            log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
         } catch (PermissionException e) {
             if (e.getPermission() != Permission.UNKNOWN) {
                 event.getChannel().sendMessage(String.format("%sI don't have permission to do this :(\nI need the permission: **%s**", EmoteReference.ERROR, e.getPermission().getName())).queue();
@@ -187,7 +195,7 @@ public class CommandListener implements EventListener {
             if (player.getData().addBadgeIfAbsent(Badge.FIRE))
                 player.saveAsync();
 
-            SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getContentRaw(), id), e, this.getClass());
+            SentryHelper.captureException(String.format("Unexpected Exception on Command: %s (Error ID: %s)", event.getMessage().getContentRaw(), id), e, this.getClass());
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
     }
