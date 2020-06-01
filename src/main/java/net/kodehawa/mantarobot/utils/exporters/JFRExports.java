@@ -32,7 +32,7 @@ public class JFRExports {
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
     //jdk.GCReferenceStatistics
-    private static final Gauge REFERENCE_STATISTICS = Gauge.build()
+    private static final Counter REFERENCE_STATISTICS = Counter.build()
             .name("jvm_reference_statistics")
             .help("Number of java.lang.ref references by type")
             .labelNames("type")
@@ -143,7 +143,7 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.GCReferenceStatistics", e -> {
-            REFERENCE_STATISTICS.labels(e.getString("type")).set(e.getLong("count"));
+            REFERENCE_STATISTICS.labels(e.getString("type")).inc(e.getLong("count"));
         });
 
         /*
