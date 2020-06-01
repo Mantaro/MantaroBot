@@ -68,6 +68,7 @@ public class DebugCmds {
                 var players = 0L;
                 var totalMemory = 0L;
                 var queueSize = 0L;
+                var totalThreadCount = 0L;
 
                 try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
@@ -82,6 +83,7 @@ public class DebugCmds {
                         var json = new JSONObject(cluster.getValue());
                         totalMemory += json.getLong("used_memory");
                         queueSize += json.getLong("queue_size");
+                        totalThreadCount += json.getLong("thread_count");
                     }
 
                     clusterTotal = clusters.size();
@@ -118,7 +120,7 @@ public class DebugCmds {
                         + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"
                         + "Users: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " [Current: " + ctx.getJDA().getShardInfo().getShardId() + "]" + "\n"
-                        + "Threads: " + String.format("%,d", Thread.activeCount()) + "\n"
+                        + "Threads: " + String.format("%,d [Local: %,d]", totalThreadCount, Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
                         + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
