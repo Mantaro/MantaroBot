@@ -113,7 +113,8 @@ public class CommandRegistry {
             return false;
         }
 
-        if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
+        //Just as a reminder: this is global permissions *with* channel overrides, lol.
+        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage(EmoteReference.STOP + "I need the permission Embed Links to work, without this permission " +
                     "I can't show embeds, so a ton of commands won't work. Try adding the permission to the bot role or checking channel overrides!.").queue();
             return false;
