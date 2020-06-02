@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.utils.Pair;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -95,7 +96,7 @@ public class DBUser implements ManagedObject {
         if (key != null) {
             //Check for this because there's no need to check if this key is active.
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
-            if (!isKeyActive) {
+            if (!isKeyActive && LocalDate.now().getDayOfMonth() > 5) {
                 DBUser owner = MantaroData.db().getUser(key.getOwner());
                 UserData ownerData = owner.getData();
 
