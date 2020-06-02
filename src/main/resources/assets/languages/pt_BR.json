@@ -317,7 +317,7 @@
       "vc_not_found": "%1$sCanal de voz não encontrado ou você não especificou um!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "Estou na shard %1$d (Node %2$d/%3$d)! Se você precisar de ajuda, por favor vá para <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
