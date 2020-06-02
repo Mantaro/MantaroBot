@@ -165,7 +165,7 @@
       "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s: *(Error? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$s你無法驅逐用戶: 你需要*驅逐成員*權限。",
+      "no_permission": "%1$s你無法驅逐成員: 你需要*驅逐成員*權限。",
       "no_users": "%1$s你需要給我你想驅逐的成員。",
       "no_permission_self": "%1$s抱歉! 我沒有驅逐成員的權限。",
       "hierarchy_conflict": "%1$s你無法驅逐一個身分組比你高的成員! 想的美 %2$s",
