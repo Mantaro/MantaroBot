@@ -70,7 +70,12 @@ public class OwnerCmd {
             "import net.kodehawa.mantarobot.db.entities.*;\n" +
             "import net.kodehawa.mantarobot.commands.currency.*;\n" +
             "import net.kodehawa.mantarobot.utils.*;\n" +
-            "import net.dv8tion.jda.api.entities.*;\n";
+            "import net.dv8tion.jda.api.entities.*;\n" +
+            "import java.util.*;\n" +
+            "import java.util.stream.*;\n" +
+            "import java.util.function.*;\n" +
+            "import java.lang.reflect.*;\n" +
+            "import java.lang.management.*;\n";
     private static final Logger log = LoggerFactory.getLogger(OwnerCmd.class);
 
     @Subscribe
