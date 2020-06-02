@@ -574,7 +574,7 @@
       "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
-      "denied": "%1$sProposta negada de **%2$s**"
+      "denied": "%1$sProposta de **%2$s** negada"
     },
     "divorce": {
       "not_married": "%1$sVocê não é casado com ninguém, por que você não acha aquele alguém especial?",
