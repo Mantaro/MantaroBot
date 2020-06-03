@@ -170,32 +170,32 @@
       "no_permission_self": "%1$s抱歉! 我沒有驅逐成員的權限。",
       "hierarchy_conflict": "%1$s你無法驅逐一個身分組比你高的成員! 想的美 %2$s",
       "yourself_note": "%1$s為什麼你會想要驅逐你自己? 真愚蠢。",
-      "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got banned)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
-      "error": "%1$sError banning %2$s: (I need the permission %3$s)",
-      "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
+      "self_hierarchy_conflict": "%1$s無法驅逐成員: %2$s，他的身分組跟我一樣或比我高!",
+      "success": "%1$s%2$s (%3$s 被驅逐了)",
+      "success_multiple": "%1$s%2$s (%3$s 都被驅逐了)",
+      "error": "%1$s驅逐錯誤 %2$s: (我需要%3$s權限)",
+      "unknown_error": "%1$s在驅逐 %2$s 時發生未知錯誤"
     },
     "kick": {
-      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_users": "%1$sYou need to give me a user to kick.",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot kick member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s (%3$s got kicked)",
-      "error": "%1$sError kicking %2$s: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
+      "no_permission": "%1$s無法踢出成員: 你需要*踢出成員*權限。",
+      "no_users": "%1$s你需要給我你想踢出的成員。",
+      "no_permission_self": "%1$s抱歉! 我沒有踢出成員的權限。",
+      "hierarchy_conflict": "%1$s你無法踢出一個身分組比你高的用戶",
+      "yourself_note": "%1$s為什麼你會想要踢出你自己? 真愚蠢。",
+      "self_hierarchy_conflict": "%1$s無法踢出成員: %2$s，他的身分組跟我一樣或比我高!",
+      "success": "%1$s%2$s (%3$s 被踢出了)",
+      "error": "%1$s踢出錯誤 [%2$s]: (沒有權限: %3$s)",
+      "unknown_error": "%1$s在嘗試踢出%2$s時發生未知錯誤"
     },
     "tempban": {
-      "no_time": "%1$sYou cannot temp ban a user without giving me the time.",
-      "no_reason": "%2$sYou cannot temp ban someone without a reason.",
-      "success": "%1$s%2$s (%3$s got temporally banned)"
+      "no_time": "已移除。",
+      "no_reason": "已移除",
+      "success": "已移除"
     },
     "music_usage": {
-      "1": "*How to use music in Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
+      "1": "*如何使用Mantaro的音樂功能?*",
+      "2": "- **加入YouTube或SoundCloud的歌曲到播放清單** 使用`~>play` 範例: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *我會自動連接到你所在的語音頻道*",
+      "3": "- **搜尋YouTube上的歌曲** 使用 `~>play <關鍵詞>` (不包含<和>) 範例: `~>play see you again` (然後你需要選擇歌曲號碼，只要在選擇結果出現後*輸入那個號碼*就好了!)",
       "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
       "5": "- To **check the queue** you just type `~>queue`",
       "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
