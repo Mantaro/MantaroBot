@@ -13,7 +13,7 @@
     "daily": "一天",
     "total": "總計",
     "arrow_react": "使用箭號反應來改變頁數。",
-    "text_menu": "用 &page >> 和 &page << 來改變頁數 和 &cancel 結束",
+    "text_menu": "用 &page >> 和 &page << 改變頁數及 &cancel 結束",
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在 %1$d 內超時",
@@ -187,11 +187,6 @@
       "error": "%1$s踢出錯誤 [%2$s]: (沒有權限: %3$s)",
       "unknown_error": "%1$s在嘗試踢出%2$s時發生未知錯誤"
     },
-    "tempban": {
-      "no_time": "已移除。",
-      "no_reason": "已移除",
-      "success": "已移除"
-    },
     "music_usage": {
       "1": "*如何使用Mantaro的音樂功能?*",
       "2": "- **加入YouTube或SoundCloud的歌曲到播放清單** 使用`~>play` 範例: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *我會自動連接到你所在的語音頻道*",
@@ -215,37 +210,37 @@
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+        "timeout": "%1$s無法連接至%2$s: 連線超時。試著改變伺服器區域並再試一次。",
+        "unknown": "%1$s無法連接至%2$s: 未知錯誤。"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
-      "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
-      "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
-      "dj_only": "%1$sYou need to be a DJ to use this command.",
-      "enjoy_note": "Enjoy the music! <3",
-      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report this at <https://support.mantaro.site>)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it. If you need help with the bot, you can join <https://support.mantaro.site>\n%2$s",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "not_working": "%1$s由於YouTube阻止了許多大型伺服器的訪問，因此Mantaro音樂功能目前無法正常運作。我們的Mantaro Patreon還能正常運行，如果你想試試看的話，請考慮每月贊助我們4元美金，同時幫助我們維持Mantaro的正常運作及硬體更新。\n訪問 <https://patreon.com/mantaro> 取得更多資訊\n\n我們非常抱歉造成你的不便。別忘了還能使用SoundCloud搜尋! `(~>play soundcloud <關鍵詞>)`",
+      "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字: YouTube, SoundCloud, Twitch)*",
+      "not_playing": "%1$s我目前不在播放任何音樂。如果你相信這是錯誤的話，請在<https://support.mantaro.site>回報",
+      "dj_only": "%1$s你需要成為DJ才能使用這個指令。",
+      "enjoy_note": "享受音樂吧 <3",
+      "no_player": "%1$s目前沒有任何音樂正在播放... (先播一首試試看?)",
+      "not_connected": "%1$s你還沒進入到我目前正在播放的語音頻道! (如果你相信這是錯誤的話，請在<https://support.mantaro.site>回報)",
+      "np_message": "%1$s 現正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
+      "track_error": "%1$s播放這首曲目時發生了些問題! 不便之處敬請見諒，如果還有的話我會先播放下一首的。",
+      "queue_finished": "%1$s目前清單已播放完畢! 希望你用得開心，如果需要任何幫助，請加入<https://support.mantaro.site>\n%2$s",
+      "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
+      "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
+      "no_vc_found": "%1$s我還沒有連接到任何語音頻道? 在試一次。",
       "queue": {
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
-        "np": "Currently playing",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
+        "no_track_found_np": "找不到曲目或名稱/持續時間",
+        "header": "%1$s播放清單",
+        "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽?\n如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
+        "nothing_playing_2": "**如果這裡只有一首正在播放，那這邊真的就只剩灰塵了。你也可以加入更多歌曲!**",
+        "np": "現正播放",
+        "page_overflow": "這裡啥都沒有。為何不返回一些頁面?",
+        "page_overflow_2": "如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
+        "total_queue_time": "總播放時間",
+        "total_size": "總播放量",
+        "togglers": "重複 / 暫停",
+        "playing_in": "正在播放",
+        "footer": "總頁數: %1$d%2$s 目前頁數: %3$d",
+        "multiple_pages": " -> 使用 ~>queue <頁數> 改變頁數",
+        "page_react": " -> 反應以更改頁數",
         "no_channel": "No channel :(",
         "songs": "song(s)",
         "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
@@ -942,7 +937,6 @@
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
       "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**You can get a free badge for [up-voting Mantaro on discordbots.org](https://discordbots.org/bot/mantaro)!** (It might take some minutes to process)\n\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s",
@@ -978,11 +972,6 @@
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
       "success": "%1$sI choose `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$sYou need to specify a word.",
-      "header": "Definition for %1$s",
-      "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
@@ -1233,39 +1222,6 @@
       "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
-    },
-    "about": {
-      "title": "About Mantaro",
-      "description": {
-        "1": "Hello, I'm **Mantaro**! I'm here to make your life a little easier. To get started, type `~>help`!",
-        "2": "Some of my features include:",
-        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-        "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
-        "5": "**First quality music**, check out `~>music`!.",
-        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheck ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
-      },
-      "credits": {
-        "main_dev": "Main developer",
-        "dev": "Developer",
-        "docs": "Documentation",
-        "translators": "Translators",
-        "community_admin": "Community Admin",
-        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
-        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
-      },
-      "version": "MantaroBot Version",
-      "uptime": "Uptime",
-      "shards": "Shards",
-      "threads": "Threads",
-      "guilds": "Servers",
-      "users": "Users (Unique)",
-      "tc": "Text Channels",
-      "vc": "Voice Channels",
-      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$,d)"
     },
     "pet": {
       "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
