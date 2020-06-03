@@ -187,11 +187,6 @@
       "error": "%1$sFehler beim Kicken %2$s: (Ich benötige die Rechte: %3$s)",
       "unknown_error": "%1$sHuh, ich habe einen unbekannten Fehler beim Kicken entdeckt %2$s"
     },
-    "tempban": {
-      "no_time": "%1$sSie können niemanden temporär bannen, ohne eine Zeit anzugeben!",
-      "no_reason": "%2$sSie können nicht ohne einen Grund temporär bannen!",
-      "success": "%1$s%2$s (%3$s wurde temporär gebannt)"
-    },
     "music_usage": {
       "1": "*Wie benutze ich Mantaros Musik?*",
       "2": "- Um **Songs von YouTube oder SoundCloud hinzuzufügen** nutze `~>play` Zum Beispiel: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Es wird automatisch dem Kanal in dem du dich befindest beitreten*",
@@ -942,7 +937,6 @@
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
       "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
       "info_notice": "Verwende `~>badges info <Abzeichenname>`, um mehr Information über ein Abzeichen zu erhalten. [Du kannst auch ins Wiki schauen.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**Du kannst ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n\n",
       "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s",
@@ -978,11 +972,6 @@
     "choose": {
       "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose Anime Manga`)",
       "success": "%1$sIch wähle `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$s Du musst ein Wort angeben.",
-      "header": "Definition für %1$s",
-      "description": "**Wortart:** `%1$s`\n**Stichwort:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sAn was könnte ich dich erinnern, wenn du mir nichts gibst, an das ich dich erinnern soll? Oh! Lass mich dich daran erinnern, eine Erinnerung zu setzen!",
@@ -1233,39 +1222,6 @@
       "rule34_notice": "Wenn du den Inhalt dieses Befehls nicht magst, kannst du ~>yandere verwenden.",
       "yandere_nsfw_notice": "%1$sDie Yande.re und Gelbooru Befehle können nur in NSFW-Kanälen verwendet werden, da er zahlreiche explizite Bilder sendet, die auf der Seite als sicher gekennzeichnet sind.\nDu kannst stattdessen `~>konachan` verwenden!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
-    },
-    "about": {
-      "title": "Über Mantaro",
-      "description": {
-        "1": "Hallo, ich bin **Mantaro**! Ich bin hier, um dir das Leben ein wenig zu erleichtern. Um zu beginnen, tippe `~>help`!",
-        "2": "Einige meiner Funktionen umfassen:",
-        "3": "**Moderation leicht gemacht** (`Massenkick/bann, Nachrichten löschen, Protokolle und mehr!`)",
-        "4": "**Lustige und nützliche Befehle**, siehe `~>help remindme` oder `~>help hug` zum Beispiel.",
-        "5": "**Erstklassige Musik**, siehe `~>music`!.",
-        "support": "**[Support-Server](https://discordapp.com/invite/cMTmuPa)! | [Unterstütze die Mantaro-Entwicklung!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sSiehe ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Mantaros Patreon Unterstützer**"
-      },
-      "credits": {
-        "main_dev": "Hauptentwickler",
-        "dev": "Entwickler",
-        "docs": "Dokumentation",
-        "translators": "Übersetzer",
-        "community_admin": "Community-Administrator",
-        "special_mentions": "Danke an bots.discord.pw, Carbonitex und discordbots.org für die Erhöhung der Sichtbarkeit des Bots.",
-        "thank_note": "Vielen Dank an alle, die Mantaro dabei unterstützt haben, besser zu werden!"
-      },
-      "version": "MantaroBot Version",
-      "uptime": "Betriebszeit",
-      "shards": "Shards",
-      "threads": "Threads",
-      "guilds": "Server",
-      "users": "User (Einzigartig)",
-      "tc": "Text-Kanäle",
-      "vc": "Sprach-Kanäle",
-      "invite": "Invite-link: http://is.gd/mantaro (Befehle diese Sitzung: %1$s | Aktueller Shard: %2$s)"
     },
     "pet": {
       "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
