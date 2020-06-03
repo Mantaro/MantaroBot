@@ -65,37 +65,21 @@ public enum ProfileComponent {
             return data.getBirthday().substring(0, 5);
     }, true, false),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
-        Player player = holder.getPlayer();
-        PlayerData playerData = player.getData();
-        //LEGACY SUPPORT
-        User marriedTo = (playerData.getMarriedWith() == null || playerData.getMarriedWith().isEmpty()) ? null :
-                MantaroBot.getInstance().getShardManager().getUserById(playerData.getMarriedWith());
-
         //New marriage support.
         UserData userData = holder.getDbUser().getData();
         Marriage currentMarriage = userData.getMarriage();
-        User marriedToNew = null;
-        boolean isNewMarriage = false;
+        User marriedTo = null;
 
         //Expecting save to work in PlayerCmds, not here, just handle this here.
         if (currentMarriage != null) {
             String marriedToId = currentMarriage.getOtherPlayer(holder.getUser().getId());
-            if (marriedToId != null) {
-                marriedToNew = MantaroBot.getInstance().getShardManager().getUserById(marriedToId);
-                playerData.setMarriedWith(null); //delete old marriage
-                marriedTo = null;
-                isNewMarriage = true;
-            }
+            if (marriedToId != null)
+                marriedTo = MantaroBot.getInstance().getShardManager().getUserById(marriedToId);
         }
 
-        if (marriedTo == null && marriedToNew == null) {
+        if (marriedTo == null) {
             return i18nContext.get("commands.profile.nobody");
-        } else if (isNewMarriage) {
-            if (userData.isPrivateTag())
-                return String.format("%s", marriedToNew.getName());
-            else
-                return String.format("%s#%s", marriedToNew.getName(), marriedToNew.getDiscriminator());
-        } else { //is this still needed?
+        } else {
             if (userData.isPrivateTag())
                 return String.format("%s", marriedTo.getName());
             else
