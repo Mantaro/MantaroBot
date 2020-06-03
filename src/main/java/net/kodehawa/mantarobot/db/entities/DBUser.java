@@ -138,7 +138,7 @@ public class DBUser implements ManagedObject {
             isActive = key.getData().getLinkedTo() == null || (pledgeInfo != null ? pledgeInfo.getLeft() : true); //default to true if no link
         }
 
-        if (!isActive && key != null) {
+        if (!isActive && key != null && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
             //Handle this so we don't go over this check again. Remove premium key from user object.
             key.delete();
             removePremiumKey();
