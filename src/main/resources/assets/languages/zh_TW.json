@@ -195,23 +195,23 @@
     "music_usage": {
       "1": "*如何使用Mantaro的音樂功能?*",
       "2": "- **加入YouTube或SoundCloud的歌曲到播放清單** 使用`~>play` 範例: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *我會自動連接到你所在的語音頻道*",
-      "3": "- **搜尋YouTube上的歌曲** 使用 `~>play <關鍵詞>` (不包含<和>) 範例: `~>play see you again` (然後你需要選擇歌曲號碼，只要在選擇結果出現後*輸入那個號碼*就好了!)",
-      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `~>queue`",
-      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `~>pause`",
-      "8": "- To **stop the music and unbind the player** use `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
-      "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
-      "12": "Enjoy your music and thanks for using Mantaro!"
+      "3": "- **搜尋YouTube上的歌曲** 使用 `~>play <關鍵詞>` (不包含<>) 範例: `~>play see you again` (然後你需要選擇歌曲號碼，只要在選擇結果出現後*輸入那個號碼*就好了!)",
+      "4": "- **搜尋SoundCloud上的歌曲** 使用 `~>play soundcloud <關鍵詞>` 範例: `~>play soundcloud 鄧麗君`",
+      "5": "- **檢查目前播放清單** `~>queue`",
+      "6": "- **從播放清單中移除歌曲** 使用 `~>removetrack` 加上歌曲的排序序號 (使用~>queue來檢查)",
+      "7": "- **暫停或繼續播放** `~>pause`",
+      "8": "- **停止播放並退出語音頻道** `~>stop`",
+      "9": "- **隨機播放目前清單** `~>shuffle`",
+      "10": "- 最後 **重複播放某首歌曲** 使用 `~>repeat`，**重複播放目前清單** 使用 `~>repeat queue`。在重複播放開啟的時後使用 `~>repeat` 來關閉它\n",
+      "11": "要取得更多資訊請使用 `~>help <指令名稱>` (不包含<>)",
+      "12": "謝謝使用Mantaro，享受你的音樂吧!"
     },
     "lang": {
-      "info": "%1$sYou can change the server language (if applicable) using `~>opts language set <language code>`. Your personal language preferences can be changed using `~>profile lang <language code>`.\n**Available languages:** `%2$s`\nIf your language is not here and you want to help, feel free to join the support server and join the translation effort!"
+      "info": "%1$s你可以更改綁定到這個伺服器的語言 (如果適合的話) 使用 `~>opts language set <語言代碼>`，或是使用 `~>profile lang <語言代碼>` 來改變你的偏好語言。\n**可用語言:** `%2$s`\n如果我沒有你想要的語言，歡迎加入我們的翻譯團隊並參與翻譯工作!"
     },
     "season": {
-      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲譽排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使遊戲更加有趣 (金錢在之前是非常無用的)\n您可以使用`-season`訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
+      "info_2": "\n\n目前賽季是**%1$s**，且已經有**%2$s**個玩家在參與了!\n\n有趣的來了，記得檢查`~>leaderboard money -season` `~>leaderboard rep -season` 和 `~>leaderboard games -season`\n開始遊戲吧! <3\n感謝使用Mantaro。"
     },
     "music_general": {
       "music_error": {
