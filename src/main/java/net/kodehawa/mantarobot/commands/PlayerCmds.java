@@ -372,7 +372,6 @@ public class PlayerCmds {
                         embed.setFooter(languageContext.get("commands.badges.footer"), null);
 
                         String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
-                                ((r.nextInt(3) == 0 && !playerData.hasBadge(Badge.UPVOTER) ? languageContext.get("commands.badges.upvote_notice") : "\n")) +
                                 ((r.nextInt(2) == 0 && !dbUser.isPremium() ? languageContext.get("commands.badges.donate_notice") : "\n") +
                                         String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
                         if (hasReactionPerms) {

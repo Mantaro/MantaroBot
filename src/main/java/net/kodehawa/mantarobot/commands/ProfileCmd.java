@@ -100,7 +100,7 @@ public class ProfileCmd {
 
                         if(!content.isEmpty()) {
                             List<Member> found = FinderUtil.findMembers(content, ctx.getGuild());
-                            if(found != null) {
+                            if(found != null && !found.isEmpty()) {
                                 userLooked = found.get(0).getUser();
                                 memberLooked = found.get(0);
 

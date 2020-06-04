@@ -33,6 +33,8 @@ import net.kodehawa.mantarobot.utils.Pair;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -87,7 +89,7 @@ public class DBGuild implements ManagedObject {
         //Key validation check (is it still active? delete otherwise)
         if (key != null) {
             boolean isKeyActive = currentTimeMillis() < key.getExpiration();
-            if (!isKeyActive) {
+            if (!isKeyActive && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
                 DBUser owner = MantaroData.db().getUser(key.getOwner());
                 UserData ownerData = owner.getData();
                 ownerData.getKeysClaimed().remove(getId());

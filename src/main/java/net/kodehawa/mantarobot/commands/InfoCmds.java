@@ -507,7 +507,7 @@ public class InfoCmds {
                                             "**Machine Memory**: %s\n",
                                     Utils.formatDuration(nodeData.getLong("uptime")),
                                     nodeData.getLong("available_processors"),
-                                    String.format("%.2f", nodeData.getDouble("process_cpu_usage")) + "%",
+                                    String.format("%.2f", nodeData.getDouble("cpu_usage")) + "%",
                                     Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
                                     nodeData.getLong("thread_count"),
                                     nodeData.getString("shard_slice"),
