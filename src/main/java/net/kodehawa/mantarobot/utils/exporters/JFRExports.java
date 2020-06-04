@@ -116,6 +116,11 @@ public class JFRExports {
          * https://github.com/openjdk/jdk/blob/6fd44901ec8b10e30dd7e25fb7024eb75d1e6042/src/hotspot/share/runtime/safepoint.cpp
          *
          * void SafepointSynchronize::begin() {
+         *   EventSafepointBegin begin_event;
+         *   SafepointTracing::begin(VMThread::vm_op_type());
+         *   Universe::heap()->safepoint_synchronize_begin();
+         *   Threads_lock->lock();
+         *   int nof_threads = Threads::number_of_threads();
          *   <snip>
          *   EventSafepointStateSynchronization sync_event;
          *   arm_safepoint();
@@ -134,8 +139,19 @@ public class JFRExports {
          *   post_safepoint_end_event(event, safepoint_id());
          * }
          *
-         * The actual paused time is between `arm_safepoint()` and `disarm_safepoint()`,
-         * or between SafepointStateSynchronization startTime and SafepointEnd endTime.
+         * https://github.com/openjdk/jdk/blob/9f334a16401a0a4ae0a06d342f19750f694487cb/src/hotspot/share/gc/shared/collectedHeap.hpp#L202
+         *
+         *   // Stop and resume concurrent GC threads interfering with safepoint operations
+         *   virtual void safepoint_synchronize_begin() {}
+         *   virtual void safepoint_synchronize_end() {}
+         */
+        /*
+         * EventSafepointStateSynchronization starts at roughly the same time java threads
+         * start getting paused (by arm_safepoint()), while EventSafepointBegin also includes
+         * time to stop concurrent gc threads and acquire Threads_lock.
+         *
+         * EventSafepointEnd start is roughly the time java threads *start* getting resumed,
+         * but it's end is after java threads are done being resumed.
          */
 
         var safepointBuffer = new LongLongRingBuffer(16);
@@ -149,6 +165,7 @@ public class JFRExports {
          *   jniCriticalThreadCount = 0
          * }
          */
+        // use SafepointStateSynchronization instead (see above for why)
 //        event(rs, "jdk.SafepointBegin", e ->
 //            safepointBuffer.add(e.getLong("safepointId"), nanoTime(e.getStartTime()))
 //        );
