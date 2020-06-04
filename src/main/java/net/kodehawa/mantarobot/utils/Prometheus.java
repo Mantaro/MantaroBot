@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.utils;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.*;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.exporters.DiscordLatencyExports;
 import net.kodehawa.mantarobot.utils.exporters.JFRExports;
 import net.kodehawa.mantarobot.utils.exporters.ThreadPoolCollector;
 
@@ -56,6 +57,7 @@ public class Prometheus {
             //replaced by jfr
             //new SafepointExports().register();
             JFRExports.register();
+            DiscordLatencyExports.register();
             server = new HTTPServer(MantaroData.config().get().prometheusPort);
             STATE.set(State.ENABLED);
         }
