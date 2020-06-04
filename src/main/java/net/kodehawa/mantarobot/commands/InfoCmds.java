@@ -82,7 +82,7 @@ public class InfoCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.sendLocalized("commands.donate.beg", EmoteReference.HEART,
-                        String.format(ctx.getLanguageContext().get("commands.donate.methods"), "https://patreon.com/mantaro", "https://paypal.me/mantarobot")
+                        String.format(ctx.getLanguageContext().get("commands.donate.methods"), "https://patreon.com/mantaro", "https://paypal.me/kodemantaro")
                 );
             }
 

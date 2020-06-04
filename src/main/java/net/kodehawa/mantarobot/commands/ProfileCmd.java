@@ -81,7 +81,6 @@ public class ProfileCmd {
         final LinkedList<ProfileComponent> defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
 
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(Category.CURRENCY) {
-
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
