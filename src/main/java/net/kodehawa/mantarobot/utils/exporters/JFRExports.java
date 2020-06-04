@@ -8,17 +8,22 @@ import jdk.jfr.consumer.RecordedEvent;
 import jdk.jfr.consumer.RecordedObject;
 import jdk.jfr.consumer.RecordingStream;
 import net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class JFRExports {
+    private static final Logger log = LoggerFactory.getLogger(JFRExports.class);
     private static final Duration PERIOD = Duration.ofSeconds(3);
 
     private static final AtomicBoolean REGISTERED = new AtomicBoolean(false);
     private static final double NANOSECONDS_PER_SECOND = 1E9;
-    //jdk.SafepointBegin
+    //jdk.SafepointBegin, jdk.SafepointStateSynchronization, jdk.SafepointEnd
     private static final Histogram SAFEPOINTS = Histogram.build()
             .name("jvm_safepoint_pauses_seconds")
             .help("Safepoint pauses by buckets")
@@ -106,6 +111,35 @@ public class JFRExports {
         var rs = new RecordingStream();
         rs.setReuse(true);
 
+        //////////////////////// HOTSPOT INTERNALS ////////////////////////
+        /*
+         * https://github.com/openjdk/jdk/blob/6fd44901ec8b10e30dd7e25fb7024eb75d1e6042/src/hotspot/share/runtime/safepoint.cpp
+         *
+         * void SafepointSynchronize::begin() {
+         *   <snip>
+         *   EventSafepointStateSynchronization sync_event;
+         *   arm_safepoint();
+         *   <snip>
+         * }
+         *
+         * void SafepointSynchronize::end() {
+         *   EventSafepointEnd event;
+         *
+         *   disarm_safepoint();
+         *
+         *   Universe::heap()->safepoint_synchronize_end();
+         *
+         *   SafepointTracing::end();
+         *
+         *   post_safepoint_end_event(event, safepoint_id());
+         * }
+         *
+         * The actual paused time is between `arm_safepoint()` and `disarm_safepoint()`,
+         * or between SafepointStateSynchronization startTime and SafepointEnd endTime.
+         */
+
+        var safepointBuffer = new LongLongRingBuffer(16);
+
         /*
          * jdk.SafepointBegin {
          *   startTime = 23:18:00.149
@@ -115,8 +149,42 @@ public class JFRExports {
          *   jniCriticalThreadCount = 0
          * }
          */
-        event(rs, "jdk.SafepointBegin", e -> SAFEPOINTS
-                .observe(e.getDuration().toNanos() / NANOSECONDS_PER_SECOND));
+//        event(rs, "jdk.SafepointBegin", e ->
+//            safepointBuffer.add(e.getLong("safepointId"), nanoTime(e.getStartTime()))
+//        );
+
+        /*
+         * jdk.SafepointStateSynchronization {
+         *   startTime = 16:11:44.439
+         *   duration = 0,0155 ms
+         *   safepointId = 6
+         *   initialThreadCount = 0
+         *   runningThreadCount = 0
+         *   iterations = 1
+         * }
+         */
+        event(rs, "jdk.SafepointStateSynchronization", e ->
+                safepointBuffer.add(e.getLong("safepointId"), nanoTime(e.getStartTime())));
+
+        /*
+         * jdk.SafepointEnd {
+         *   startTime = 16:05:45.797
+         *   duration = 0,00428 ms
+         *   safepointId = 21
+         * }
+         */
+        event(rs, "jdk.SafepointEnd", e -> {
+            var time = safepointBuffer.remove(e.getLong("safepointId"));
+            if(time == -1) {
+                //safepoint lost, buffer overwrote it
+                //this shouldn't happen unless we get a
+                //massive amount of safepoints at once
+                log.error("Safepoint with id {} lost", e.getLong("safepointId"));
+            } else {
+                var elapsed = nanoTime(e.getEndTime()) - time;
+                SAFEPOINTS.observe(elapsed / NANOSECONDS_PER_SECOND);
+            }
+        });
 
         /*
          * jdk.GarbageCollection {
@@ -276,14 +344,52 @@ public class JFRExports {
         rs.startAsync();
     }
 
-    private static long getNestedUsed(RecordedEvent event, String field) {
-        return event.<RecordedObject>getValue(field).getLong("used");
-    }
-
     private static EventSettings event(RecordingStream rs, String name, Consumer<RecordedEvent> c) {
         //default to no stacktrace
         var s = rs.enable(name).withoutStackTrace();
         rs.onEvent(name, c);
         return s;
+    }
+
+    private static long nanoTime(Instant instant) {
+        return instant.toEpochMilli() * 1_000_000L + instant.getNano();
+    }
+
+    private static long getNestedUsed(RecordedEvent event, String field) {
+        return event.<RecordedObject>getValue(field).getLong("used");
+    }
+
+    private static class LongLongRingBuffer {
+        private final long[] table;
+        private final int size;
+        private int index = -1;
+
+        LongLongRingBuffer(int size) {
+            this.table = new long[size * 2];
+            this.size = size;
+            Arrays.fill(table, -1);
+        }
+
+        private static int inc(int i, int modulus) {
+            if (++i >= modulus) i = 0;
+            return i;
+        }
+
+        void add(long id, long value) {
+            var idx = (index = inc(index, size)) * 2;
+            table[idx] = id;
+            table[idx + 1] = value;
+        }
+
+        long remove(long id) {
+            for(var i = 0; i < size; i++) {
+                var idx = i * 2;
+                if(table[idx] == id) {
+                    table[idx] = -1;
+                    return table[idx + 1];
+                }
+            }
+            return -1;
+        }
     }
 }
