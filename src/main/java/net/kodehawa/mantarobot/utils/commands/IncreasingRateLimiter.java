@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-public class  IncreasingRateLimiter {
+public class IncreasingRateLimiter {
     private static final String SCRIPT;
 
     static {

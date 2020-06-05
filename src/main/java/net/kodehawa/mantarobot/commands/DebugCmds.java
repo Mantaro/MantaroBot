@@ -21,7 +21,6 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
-import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;

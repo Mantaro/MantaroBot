@@ -108,14 +108,11 @@ public class PremiumKey implements ManagedObject {
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(data.getLinkedTo());
             if (pledgeInfo != null && pledgeInfo.getLeft()) {
                 switch (type) {
-                    case 1: //user
-                        this.activate(365);
-                        break;
-                    case 2: //server
-                        this.activate(180);
-                        break;
-                    default:
-                        this.activate(60);
+                    //user
+                    case 1 -> this.activate(365);
+                    //server
+                    case 2 -> this.activate(180);
+                    default -> this.activate(60);
                 }
 
                 return true;

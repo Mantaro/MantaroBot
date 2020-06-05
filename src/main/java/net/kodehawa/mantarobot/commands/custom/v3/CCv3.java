@@ -193,14 +193,11 @@ public class CCv3 {
                 return "{Not: missing required parameter <value>}";
             }
             String s = args.get(0).evaluate();
-            switch (s) {
-                case "true":
-                    return "false";
-                case "false":
-                    return "true";
-                default:
-                    return "{Not: value " + s + " is not a boolean}";
-            }
+            return switch (s) {
+                case "true" -> "false";
+                case "false" -> "true";
+                default -> "{Not: value " + s + " is not a boolean}";
+            };
         });
 
         //@{not-empty[;arg]+?}

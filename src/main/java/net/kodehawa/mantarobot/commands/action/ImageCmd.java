@@ -106,13 +106,13 @@ public class ImageCmd extends NoArgsCommand {
 
         if (!noMentions) {
             List<User> users = ctx.getMentionedUsers();
-            String names = "";
-            names = users.stream().distinct().map(user -> {
-                if (ctx.getGuild().getMember(user) == null) {
+            var names = users.stream().distinct().map(user -> {
+                var member = ctx.getGuild().getMember(user);
+                if (member == null) {
                     return "unknown";
                 }
 
-                return ctx.getGuild().getMember(user).getEffectiveName();
+                return member.getEffectiveName();
             }).collect(Collectors.joining(", "));
             if (!names.isEmpty())
                 builder.append("**").append(names).append("**, ");

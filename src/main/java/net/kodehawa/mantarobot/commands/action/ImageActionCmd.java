@@ -38,8 +38,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
-
 public class ImageActionCmd extends NoArgsCommand {
     private final String desc;
     private final String format;

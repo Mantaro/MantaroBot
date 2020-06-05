@@ -181,14 +181,16 @@ public class DiscordUtils {
             if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
             switch (e.getReactionEmote().getName()) {
-                case "\u2b05": //left arrow
+                //left arrow
+                case "\u2b05" -> {
                     if (index.get() == 0) break;
                     m.editMessage(embeds.get(index.decrementAndGet())).queue();
-                    break;
-                case "\u27a1": //right arrow
+                }
+                //right arrow
+                case "\u27a1" -> {
                     if (index.get() + 1 >= embeds.size()) break;
                     m.editMessage(embeds.get(index.incrementAndGet())).queue();
-                    break;
+                }
             }
             if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
@@ -305,21 +307,18 @@ public class DiscordUtils {
                 return Operation.IGNORED;
 
             switch (e.getReactionEmote().getName()) {
-                case "\u2b05": //left arrow
+                //left arrow
+                case "\u2b05" -> {
                     if (index.get() == 0) break;
                     m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-                    break;
-
-                case "\u27a1": //right arrow
+                }
+                //right arrow
+                case "\u27a1" -> {
                     if (index.get() + 1 >= parts.size())
                         break;
-
                     m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
-                    break;
-
-                case "\u274c":
-                    m.delete().queue();
-                    break;
+                }
+                case "\u274c" -> m.delete().queue();
             }
 
             if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
@@ -350,23 +349,22 @@ public class DiscordUtils {
                 return Operation.IGNORED;
 
             switch (e.getReactionEmote().getName()) {
-                case "\u2b05": //left arrow
+                //left arrow
+                case "\u2b05" -> {
                     if (index.get() == 0)
                         break;
-
                     EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
                     toSend.setFooter("Current page: " + (index.get() + 1), event.getAuthor().getEffectiveAvatarUrl());
                     m.editMessage(toSend.build()).queue();
-                    break;
-
-                case "\u27a1": //right arrow
+                }
+                //right arrow
+                case "\u27a1" -> {
                     if (index.get() + 1 >= parts.size())
                         break;
-
                     EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
                     toSend1.setFooter("Current page: " + (index.get() + 1), event.getAuthor().getEffectiveAvatarUrl());
                     m.editMessage(toSend1.build()).queue();
-                    break;
+                }
             }
 
             if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {

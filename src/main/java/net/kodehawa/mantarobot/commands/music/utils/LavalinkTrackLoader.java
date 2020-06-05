@@ -103,17 +103,11 @@ public class LavalinkTrackLoader {
                     }
                     JSONObject json = new JSONObject(new JSONTokener(body.byteStream()));
                     switch (json.getString("loadType")) {
-                        case "LOAD_FAILED": {
-                            future.completeExceptionally(new IllegalArgumentException(
-                                    json.getJSONObject("exception").getString("message")
-                            ));
-                            break;
-                        }
-                        case "NO_MATCHES": {
-                            future.complete(handler::noMatches);
-                            break;
-                        }
-                        case "TRACK_LOADED": {
+                        case "LOAD_FAILED" -> future.completeExceptionally(new IllegalArgumentException(
+                                json.getJSONObject("exception").getString("message")
+                        ));
+                        case "NO_MATCHES" -> future.complete(handler::noMatches);
+                        case "TRACK_LOADED" -> {
                             String track = json.getJSONArray("tracks").getJSONObject(0).getString("track");
                             try {
                                 AudioTrack t = decode(manager, track);
@@ -121,10 +115,8 @@ public class LavalinkTrackLoader {
                             } catch (Exception e) {
                                 future.completeExceptionally(e);
                             }
-                            break;
                         }
-                        case "PLAYLIST_LOADED":
-                        case "SEARCH_RESULT": {
+                        case "PLAYLIST_LOADED", "SEARCH_RESULT" -> {
                             List<AudioTrack> decoded = new ArrayList<>();
                             JSONArray tracks = json.getJSONArray("tracks");
                             for (int i = 0; i < tracks.length(); i++) {
@@ -143,12 +135,8 @@ public class LavalinkTrackLoader {
                                     json.getString("loadType").equals("SEARCH_RESULT")
                             );
                             future.complete(() -> handler.playlistLoaded(playlist));
-                            break;
                         }
-                        default: {
-                            future.completeExceptionally(new IllegalArgumentException("Unexpected loadType " + json.getString("loadType")));
-                            break;
-                        }
+                        default -> future.completeExceptionally(new IllegalArgumentException("Unexpected loadType " + json.getString("loadType")));
                     }
                 } catch (Exception e) {
                     future.completeExceptionally(e);

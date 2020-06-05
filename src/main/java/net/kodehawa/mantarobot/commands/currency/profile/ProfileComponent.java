@@ -30,7 +30,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;

@@ -30,20 +30,17 @@ public class Parser {
             while (stack.size() > 0 && it.hasNext()) {
                 t = it.next();
                 switch (t.type()) {
-                    case LITERAL: {
+                    case LITERAL -> {
                         count(t, stack, '(');
                         get(TokenType.LITERAL).apply(it, name, t);
-                        break;
                     }
-                    case RIGHT_PAREN: {
+                    case RIGHT_PAREN -> {
                         stack.pop();
                         if (stack.size() > 0) {
                             get(TokenType.LITERAL).apply(it, name, t);
                         }
-                        break;
                     }
-                    default:
-                        get(t.type()).apply(it, name, t);
+                    default -> get(t.type()).apply(it, name, t);
                 }
             }
             if (stack.size() > 0) {
@@ -61,19 +58,17 @@ public class Parser {
             while (stack.size() > 0 && it.hasNext()) {
                 t = it.next();
                 switch (t.type()) {
-                    case LITERAL: {
+                    case LITERAL -> {
                         count(t, stack, '{');
                         get(TokenType.LITERAL).apply(it, current, t);
-                        break;
                     }
-                    case RIGHT_BRACE: {
+                    case RIGHT_BRACE -> {
                         stack.pop();
                         if (stack.size() > 0) {
                             get(TokenType.LITERAL).apply(it, current, t);
                         }
-                        break;
                     }
-                    case SEMICOLON: {
+                    case SEMICOLON -> {
                         if (!hasName) {
                             name = current;
                         } else {
@@ -81,10 +76,8 @@ public class Parser {
                         }
                         current = new ArrayList<>();
                         hasName = true;
-                        break;
                     }
-                    default:
-                        get(t.type()).apply(it, current, t);
+                    default -> get(t.type()).apply(it, current, t);
                 }
             }
             if (stack.size() > 0) {
@@ -132,13 +125,12 @@ public class Parser {
         int column = (p.end() < 0 ? p.column() : p.end() + 1);
         String line = iterator.source().split("\n")[p.line() - 1];
         String str = line.substring(Math.max(column - 11, 0), Math.min(column + 10, line.length()));
-        StringBuilder sb = new StringBuilder();
-        sb.append("Unclosed ").append(unclosed).append(" at line ")
-                .append(p.line()).append(", column ").append(column).append('\n');
-        sb.append(str).append('\n');
-        sb.append(" ".repeat(Math.max(0, Math.min(10, column - 1))));
-        sb.append('^');
-        throw new SyntaxException(sb.toString());
+        String sb = "Unclosed " + unclosed + " at line " +
+                p.line() + ", column " + column + '\n' +
+                str + '\n' +
+                " ".repeat(Math.max(0, Math.min(10, column - 1))) +
+                '^';
+        throw new SyntaxException(sb);
     }
 
     public Node parse() {

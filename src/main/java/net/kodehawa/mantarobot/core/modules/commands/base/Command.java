@@ -37,7 +37,7 @@ public interface Command {
     /**
      * Invokes the command to be executed.
      *
-     * @param event       the event that triggered the command
+     * @param context     the context of the event that triggered the command
      * @param commandName the command name that was used
      * @param content     the arguments of the command
      */

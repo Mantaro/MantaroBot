@@ -466,22 +466,12 @@ public class Utils {
         long[] time = {0};
         iterate(pattern.matcher(s)).forEach(string -> {
             String l = string.substring(0, string.length() - 1);
-            TimeUnit unit;
-            switch (string.charAt(string.length() - 1)) {
-                case 'm':
-                    unit = TimeUnit.MINUTES;
-                    break;
-                case 'h':
-                    unit = TimeUnit.HOURS;
-                    break;
-                case 'd':
-                    unit = TimeUnit.DAYS;
-                    break;
-                case 's':
-                default:
-                    unit = TimeUnit.SECONDS;
-                    break;
-            }
+            TimeUnit unit = switch (string.charAt(string.length() - 1)) {
+                case 'm' -> TimeUnit.MINUTES;
+                case 'h' -> TimeUnit.HOURS;
+                case 'd' -> TimeUnit.DAYS;
+                default -> TimeUnit.SECONDS;
+            };
             time[0] += unit.toMillis(Long.parseLong(l));
         });
         return time[0];

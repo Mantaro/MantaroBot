@@ -69,6 +69,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class UtilsCmds {
     private static final Logger log = LoggerFactory.getLogger(UtilsCmds.class);
+    @SuppressWarnings("Annotator")
     private static final Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     private static final Random random = new Random();
 

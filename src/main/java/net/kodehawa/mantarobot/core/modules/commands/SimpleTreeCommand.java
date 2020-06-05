@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -43,7 +42,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
     /**
      * Invokes the command to be executed.
      *
-     * @param event       the event that triggered the command
+     * @param context     the context of the event that triggered the command
      * @param commandName the command name that was used
      * @param content     the arguments of the command
      */
@@ -121,7 +120,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
     /**
      * Handling for when the Sub-Command isn't found.
      *
-     * @param event       the Event
+     * @param ctx         the context of the event that triggered the command
      * @param commandName the Name of the not-found command.
      */
     public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {

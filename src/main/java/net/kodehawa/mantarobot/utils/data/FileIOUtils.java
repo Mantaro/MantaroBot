@@ -30,6 +30,6 @@ public class FileIOUtils {
     }
 
     public static void write(Path path, String contents) throws IOException {
-        Files.write(path, contents.getBytes(UTF8));
+        Files.writeString(path, contents, UTF8);
     }
 }

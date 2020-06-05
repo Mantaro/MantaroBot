@@ -38,14 +38,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @SuppressWarnings("WeakerAccess")
 public class Items {
@@ -191,7 +188,6 @@ public class Items {
     private static final Logger log = LoggerFactory.getLogger(Items.class);
 
     public static void setItemActions() {
-        final SecureRandom random = new SecureRandom();
         log.info("Registering item actions...");
         final ManagedDatabase managedDatabase = MantaroData.db();
 

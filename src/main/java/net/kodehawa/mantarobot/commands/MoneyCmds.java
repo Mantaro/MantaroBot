@@ -326,30 +326,29 @@ public class MoneyCmds {
                 int luck;
                 try {
                     switch (content) {
-                        case "all":
-                        case "everything":
+                        case "all", "everything" -> {
                             i = player.getMoney();
                             multiplier = 1.3d + (r.nextInt(1350) / 1000d);
                             luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
-                            break;
-                        case "half":
+                        }
+                        case "half" -> {
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
                             multiplier = 1.2d + (r.nextInt(1350) / 1000d);
                             luck = 18 + (int) (multiplier * 13) + r.nextInt(18);
-                            break;
-                        case "quarter":
+                        }
+                        case "quarter" -> {
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
                             multiplier = 1.1d + (r.nextInt(1250) / 1000d);
                             luck = 18 + (int) (multiplier * 12) + r.nextInt(18);
-                            break;
-                        default:
+                        }
+                        default -> {
                             i = content.endsWith("%")
                                     ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
                                     : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
                             if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
                             multiplier = 1.1d + (i / ((double) player.getMoney()) * r.nextInt(1300) / 1000d);
                             luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
-                            break;
+                        }
                     }
                 } catch (NumberFormatException | NullPointerException e) {
                     ctx.sendLocalized("commands.gamble.invalid_money_or_modifier", EmoteReference.ERROR);

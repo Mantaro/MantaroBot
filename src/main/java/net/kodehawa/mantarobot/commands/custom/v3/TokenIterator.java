@@ -94,7 +94,7 @@ public class TokenIterator implements Iterator<Token> {
         public List<Token> tokenize() {
             for (; i < source.length(); i++) {
                 switch (source.charAt(i)) {
-                    case '$': {
+                    case '$' -> {
                         if (i < source.length() - 1 && source.charAt(i + 1) == '(') {
                             pushCurrentLiteral();
                             i++;
@@ -102,9 +102,8 @@ public class TokenIterator implements Iterator<Token> {
                         } else {
                             current.append('$');
                         }
-                        break;
                     }
-                    case '@': {
+                    case '@' -> {
                         if (i < source.length() - 1 && source.charAt(i + 1) == '{') {
                             pushCurrentLiteral();
                             i++;
@@ -112,23 +111,11 @@ public class TokenIterator implements Iterator<Token> {
                         } else {
                             current.append('@');
                         }
-                        break;
                     }
-                    case ')': {
-                        push(TokenType.RIGHT_PAREN);
-                        break;
-                    }
-                    case '}': {
-                        push(TokenType.RIGHT_BRACE);
-                        break;
-                    }
-                    case ';': {
-                        push(TokenType.SEMICOLON);
-                        break;
-                    }
-                    default: {
-                        current.append(source.charAt(i));
-                    }
+                    case ')' -> push(TokenType.RIGHT_PAREN);
+                    case '}' -> push(TokenType.RIGHT_BRACE);
+                    case ';' -> push(TokenType.SEMICOLON);
+                    default -> current.append(source.charAt(i));
                 }
             }
             pushCurrentLiteral();

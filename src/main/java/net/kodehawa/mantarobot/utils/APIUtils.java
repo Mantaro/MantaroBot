@@ -22,8 +22,8 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -52,11 +52,15 @@ public class APIUtils {
                     ))
                     .build();
 
-            Response response = httpClient.newCall(request).execute();
-            String body = response.body().string();
-            response.close();
-
-            return Badge.lookupFromString(new JSONObject(body).getString("hush"));
+            try(var response = httpClient.newCall(request).execute()) {
+                var body = response.body();
+                if(body == null) {
+                    throw new IllegalStateException("Body is null");
+                }
+                return Badge.lookupFromString(new JSONObject(new JSONTokener(
+                        body.byteStream()
+                )).getString("hush"));
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -71,11 +75,13 @@ public class APIUtils {
                 .get()
                 .build();
 
-        Response response = httpClient.newCall(request).execute();
-        String body = response.body().string();
-        response.close();
-
-        return body;
+        try(var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
+            if(body == null) {
+                throw new IllegalStateException("Body is null");
+            }
+            return body.string();
+        }
     }
 
     public static Pair<Boolean, String> getPledgeInformation(String user) {
@@ -96,13 +102,16 @@ public class APIUtils {
                     ))
                     .build();
 
-            Response response = httpClient.newCall(request).execute();
-            String body = response.body().string();
-            response.close();
+            try(var response = httpClient.newCall(request).execute()) {
+                var body = response.body();
+                if(body == null) {
+                    throw new IllegalStateException("Body is null");
+                }
+                JSONObject reply = new JSONObject(new JSONTokener(body.byteStream()));
 
-            JSONObject reply = new JSONObject(body);
+                return new Pair<>(reply.getBoolean("active"), reply.getString("amount"));
+            }
 
-            return new Pair<>(reply.getBoolean("active"), reply.getString("amount"));
         } catch (Exception ex) {
             //don't disable premium if the api is wonky, no need to be a meanie.
             ex.printStackTrace();

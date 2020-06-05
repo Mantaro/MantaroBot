@@ -361,7 +361,6 @@ public class ItemCmds {
                         Map<String, String> t = ctx.getOptionalArguments();
                         boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
 
-                        content = Utils.replaceArguments(t, content, "season", "s");
                         String[] args = ctx.getArguments();
 
                         //Get the necessary entities.

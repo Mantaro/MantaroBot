@@ -94,7 +94,7 @@ public class GameLobby extends Lobby {
                 else
                     gamesToPlay.removeFirst();
 
-                if (gamesToPlay.isEmpty() || !success) {
+                if (gamesToPlay.isEmpty()) {
                     LOBBYS.remove(getChannel().getIdLong());
                     return;
                 }

@@ -291,6 +291,7 @@ public class MantaroBot {
 
     public String getShardSlice() {
         if(ExtraRuntimeOptions.SHARD_SUBSET) {
+            //noinspection OptionalGetWithoutIsPresent
             return ExtraRuntimeOptions.FROM_SHARD.getAsInt() + " to " + ExtraRuntimeOptions.TO_SHARD.getAsInt();
         } else {
             return "0 to " + getShardManager().getShardsTotal();

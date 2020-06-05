@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
 
 import java.util.function.Consumer;
 

@@ -51,8 +51,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
-
 @Module
 public class MarketCmd {
     @Subscribe

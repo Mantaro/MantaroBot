@@ -37,17 +37,14 @@ public class MultiNode implements Node {
 
     @Override
     public Node simplify() {
-        switch (children.size()) {
-            case 0:
-                return new LiteralNode("");
-            case 1:
-                return children.get(0).simplify();
-            default:
-                return new MultiNode(
-                        children.stream()
-                                .map(Node::simplify)
-                                .collect(Collectors.toList())
-                );
-        }
+        return switch (children.size()) {
+            case 0 -> new LiteralNode("");
+            case 1 -> children.get(0).simplify();
+            default -> new MultiNode(
+                    children.stream()
+                            .map(Node::simplify)
+                            .collect(Collectors.toList())
+            );
+        };
     }
 }

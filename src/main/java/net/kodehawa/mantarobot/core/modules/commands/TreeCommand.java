@@ -16,10 +16,7 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.utils.TriPredicate;
 
 import java.util.HashMap;
 import java.util.Map;

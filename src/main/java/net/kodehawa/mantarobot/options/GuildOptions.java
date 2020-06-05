@@ -871,19 +871,17 @@ public class GuildOptions extends OptionHandler {
             String mode = args[0];
 
             switch (mode) {
-                case "12h":
+                case "12h" -> {
                     event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.12h"), EmoteReference.CORRECT).queue();
                     guildData.setTimeDisplay(1);
                     dbGuild.save();
-                    break;
-                case "24h":
+                }
+                case "24h" -> {
                     event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.24h"), EmoteReference.CORRECT).queue();
                     guildData.setTimeDisplay(0);
                     dbGuild.save();
-                    break;
-                default:
-                    event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.invalid"), EmoteReference.ERROR).queue();
-                    break;
+                }
+                default -> event.getChannel().sendMessageFormat(lang.get("options.timedisplay_set.invalid"), EmoteReference.ERROR).queue();
             }
         });
 

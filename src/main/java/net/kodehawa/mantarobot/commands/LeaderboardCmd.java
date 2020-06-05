@@ -50,7 +50,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class LeaderboardCmd {

@@ -572,10 +572,10 @@ public class MantaroListener implements EventListener {
                     TextChannel channel = (TextChannel) guild.getChannels().stream()
                             .filter(guildChannel -> guildChannel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk())
                             .findFirst()
-                            .get();
+                            .orElse(null);
 
                     //Basically same code as above, but w/e.
-                    if(!dbGuild.getData().hasReceivedGreet()) {
+                    if(channel != null && !dbGuild.getData().hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
                         dbGuild.save();

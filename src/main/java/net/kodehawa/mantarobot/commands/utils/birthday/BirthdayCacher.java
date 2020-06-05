@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.model.OptArgs;
-import com.rethinkdb.net.Result;
 import com.rethinkdb.utils.Types;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Prometheus;
@@ -27,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -28,7 +28,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -41,7 +40,6 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
 
 import java.awt.*;
 import java.util.List;
@@ -146,7 +144,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         String title = trackInfo.title;
         long length = trackInfo.length;
 
-        long queueLimit = !Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).isPresent() ? MAX_QUEUE_LENGTH :
+        long queueLimit = Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).isEmpty() ? MAX_QUEUE_LENGTH :
                 dbGuild.getData().getMusicQueueSizeLimit();
         int fqSize = guildData.getMaxFairQueue();
 

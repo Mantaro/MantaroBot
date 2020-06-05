@@ -56,7 +56,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 @SuppressWarnings("unused")

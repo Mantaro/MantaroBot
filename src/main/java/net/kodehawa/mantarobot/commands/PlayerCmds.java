@@ -62,8 +62,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
-
 @Module
 @SuppressWarnings("unused")
 public class PlayerCmds {

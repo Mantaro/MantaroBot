@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands.game.core;
 
 import java.util.List;
-import java.util.Objects;
 
 public class PokemonGameData {
     private String name;

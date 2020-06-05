@@ -24,7 +24,7 @@ public interface DataManager<T> extends Supplier<T>, Closeable {
     void save();
 
     @Override
-    default void close() throws IOException {
+    default void close() {
         save();
     }
 }

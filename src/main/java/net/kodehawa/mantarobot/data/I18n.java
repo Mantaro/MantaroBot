@@ -124,7 +124,7 @@ public class I18n {
                 index++;
             } else {
                 if (language.equals("en_US") || recursion)
-                    throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+                    throw new LanguageKeyNotFoundException("Missing i18n key " + String.join(".", parts));
                 return get(LANGUAGE_MAP.get("en_US").map, parts, true);
             }
         }
@@ -140,7 +140,7 @@ public class I18n {
                     .orElseThrow(AssertionError::new);
         }
         if (language.equals("en_US") || recursion)
-            throw new LanguageKeyNotFoundException("Missing i18n key " + Arrays.stream(parts).collect(Collectors.joining(".")));
+            throw new LanguageKeyNotFoundException("Missing i18n key " + String.join(".", parts));
 
         return get(LANGUAGE_MAP.get("en_US").map, parts, true);
     }

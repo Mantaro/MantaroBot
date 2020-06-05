@@ -54,17 +54,10 @@ import java.util.stream.Collectors;
 public class InvestigateCmd {
     public static void investigate(GuildMessageReceivedEvent event, Type type, String id, boolean file) {
         switch (type) {
-            case GUILD:
-                investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
-                return;
-            case USER:
-                investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
-                return;
-            case CHANNEL:
-                investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
-                return;
-            default:
-                throw new AssertionError();
+            case GUILD -> investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
+            case USER -> investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
+            case CHANNEL -> investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
+            default -> throw new AssertionError();
         }
     }
 

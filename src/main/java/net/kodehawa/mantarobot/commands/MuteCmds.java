@@ -50,7 +50,9 @@ import java.util.regex.Pattern;
 @Module
 @SuppressWarnings("unused")
 public class MuteCmds {
+    @SuppressWarnings("Annotator")
     private static final Pattern timePattern = Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    @SuppressWarnings("Annotator")
     private static final Pattern muteTimePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     @Subscribe

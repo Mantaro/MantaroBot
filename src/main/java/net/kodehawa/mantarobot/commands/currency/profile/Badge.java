@@ -505,6 +505,7 @@ public enum Badge {
                         this.icon = new byte[0];
                     } else {
                         //apply placeholder image
+                        //noinspection ConstantConditions
                         this.icon = IOUtil.readFully(getClass().getClassLoader().getResourceAsStream("badges/missing_image.png"));
                     }
                 } else {

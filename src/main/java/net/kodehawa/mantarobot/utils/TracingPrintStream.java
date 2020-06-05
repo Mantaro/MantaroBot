@@ -105,6 +105,7 @@ public class TracingPrintStream extends PrintStream {
         super.print(obj);
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     public void println() {
         super.println();
