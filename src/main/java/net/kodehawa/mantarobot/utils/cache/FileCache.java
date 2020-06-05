@@ -35,12 +35,10 @@ public class FileCache {
                     @Override
                     public byte[] load(@NotNull File key) throws Exception {
                         if (!key.isFile()) throw new IllegalArgumentException(key + ": not a file");
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        FileInputStream fis = new FileInputStream(key);
-                        byte[] buffer = new byte[1024];
-                        int read;
-                        while ((read = fis.read(buffer)) != -1) baos.write(buffer, 0, read);
-                        fis.close();
+                        var baos = new ByteArrayOutputStream();
+                        try(var fis = new FileInputStream(key)) {
+                            fis.transferTo(baos);
+                        }
                         return baos.toByteArray();
                     }
                 });
@@ -50,19 +48,15 @@ public class FileCache {
         this(maxSize, 10);
     }
 
-    public byte[] get(File file) {
-        return get(file, true);
-    }
-
-    private byte[] get(File file, boolean copy) {
+    private byte[] get(File file) {
         try {
-            return copy ? cache.get(file).clone() : cache.get(file);
+            return cache.get(file);
         } catch (ExecutionException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     public InputStream input(File file) {
-        return new ByteArrayInputStream(get(file, false));
+        return new ByteArrayInputStream(get(file));
     }
 }

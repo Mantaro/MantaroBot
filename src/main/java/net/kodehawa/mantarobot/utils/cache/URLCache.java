@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.base.Preconditions;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import okhttp3.OkHttpClient;
+import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -30,7 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class URLCache {
     public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
     private static final Map<String, File> saved = new ConcurrentHashMap<>();
-    private static final OkHttpClient okHttp = new OkHttpClient();
     private final FileCache cache;
     private File cacheDir;
 
@@ -53,12 +52,6 @@ public class URLCache {
         this(DEFAULT_CACHE_DIR, cacheSize);
     }
 
-    public void changeCacheDir(File newDir) {
-        if (newDir == null) throw new NullPointerException("newDir");
-        if (!newDir.isDirectory()) throw new IllegalArgumentException("Not a directory: " + newDir);
-        cacheDir = newDir;
-    }
-
     public File getFile(String url) {
         File cachedFile = saved.get(Preconditions.checkNotNull(url, "url"));
         if (cachedFile != null) return cachedFile;
@@ -69,7 +62,7 @@ public class URLCache {
                     .url(url)
                     .build();
 
-            try (Response response = okHttp.newCall(r).execute();
+            try (Response response = Utils.httpClient.newCall(r).execute();
                  FileOutputStream fos = new FileOutputStream(file)) {
                 var body = response.body();
                 if (body == null) {
@@ -89,7 +82,7 @@ public class URLCache {
             }
             e.printStackTrace();
             SentryHelper.captureExceptionContext("Error caching", e, this.getClass(), "Cacher");
-            throw new InternalError();
+            throw new IllegalStateException();
         }
     }
 

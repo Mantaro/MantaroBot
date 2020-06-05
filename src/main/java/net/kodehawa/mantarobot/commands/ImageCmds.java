@@ -31,7 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Random;
@@ -60,8 +59,6 @@ public class ImageCmds {
     @Subscribe
     public void cat(CommandRegistry cr) {
         cr.register("cat", new SimpleCommand(Category.IMAGE) {
-            final OkHttpClient httpClient = new OkHttpClient();
-
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {

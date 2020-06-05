@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
@@ -40,7 +39,6 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import okhttp3.OkHttpClient;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +50,6 @@ import java.util.stream.Collectors;
 @Module
 @SuppressWarnings("all" /* NO IT WONT FUCKING NPE */)
 public class AnimeCmds {
-    private final static OkHttpClient client = new OkHttpClient();
     private static final Logger log = LoggerFactory.getLogger(AnimeCmds.class);
     private final Config config = MantaroData.config().get();
 
