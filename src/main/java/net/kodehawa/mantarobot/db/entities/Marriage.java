@@ -88,6 +88,7 @@ public class Marriage implements ManagedObject {
         return this.player2;
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }

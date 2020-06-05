@@ -33,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -87,12 +88,12 @@ public class LavalinkTrackLoader {
                 .build()
         ).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@Nonnull Call call, @Nonnull IOException e) {
                 future.completeExceptionally(e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(@Nonnull Call call, @Nonnull Response response) {
                 try (Response r = response) {
                     ResponseBody body = r.body();
                     if (body == null) {

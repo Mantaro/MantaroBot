@@ -168,6 +168,7 @@ public class DBUser implements ManagedObject {
         return this.data;
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }

@@ -26,6 +26,7 @@ import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
 
+import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -110,6 +111,7 @@ public final class ReactionOperations {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
 
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
+        if(f == null) return null;
 
         if (defaultReactions.length > 0) {
             AtomicInteger index = new AtomicInteger();
@@ -124,9 +126,7 @@ public final class ReactionOperations {
 
                 int i = index.incrementAndGet();
                 if (i < defaultReactions.length) {
-                    if (message.getGuild() != null && message.getGuild().getSelfMember() != null) {
-                        message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
-                    }
+                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
                 }
             });
 
@@ -168,7 +168,7 @@ public final class ReactionOperations {
 
     public static class ReactionListener implements EventListener {
         @Override
-        public void onEvent(GenericEvent e) {
+        public void onEvent(@Nonnull GenericEvent e) {
 
             if (e instanceof MessageReactionAddEvent) {
                 MessageReactionAddEvent event = (MessageReactionAddEvent) e;

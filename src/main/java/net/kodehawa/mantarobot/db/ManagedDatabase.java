@@ -196,9 +196,9 @@ public class ManagedDatabase {
         return getPlayerForSeason(member.getUser(), season);
     }
 
-    @Nonnull
     @CheckReturnValue
     public long getAmountSeasonalPlayers() {
+        //noinspection ConstantConditions
         return r.table(SeasonPlayer.DB_TABLE).count().run(conn, OptArgs.of("read_mode", "outdated"), Long.class).single();
     }
 

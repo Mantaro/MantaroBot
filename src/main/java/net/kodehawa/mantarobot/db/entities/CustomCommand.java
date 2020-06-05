@@ -74,6 +74,7 @@ public class CustomCommand implements ManagedObject {
         return values;
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }

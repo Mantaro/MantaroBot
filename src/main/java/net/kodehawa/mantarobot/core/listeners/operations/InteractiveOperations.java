@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.utils.Prometheus;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
@@ -136,7 +137,7 @@ public class InteractiveOperations {
      */
     public static class InteractiveListener implements EventListener {
         @Override
-        public void onEvent(GenericEvent e) {
+        public void onEvent(@Nonnull GenericEvent e) {
             if (!(e instanceof GuildMessageReceivedEvent))
                 return;
 

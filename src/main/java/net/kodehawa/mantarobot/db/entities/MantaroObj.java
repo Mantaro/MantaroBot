@@ -57,6 +57,7 @@ public class MantaroObj implements ManagedObject {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new ConcurrentHashMap<>());
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }

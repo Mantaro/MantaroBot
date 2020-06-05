@@ -80,6 +80,7 @@ public class PlayerStats implements ManagedObject {
         this.slotsWinAmount += amount;
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }

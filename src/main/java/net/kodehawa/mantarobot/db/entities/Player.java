@@ -169,6 +169,7 @@ public class Player implements ManagedObject {
         return this.data;
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }

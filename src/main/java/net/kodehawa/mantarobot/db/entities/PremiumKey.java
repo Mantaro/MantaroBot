@@ -134,6 +134,7 @@ public class PremiumKey implements ManagedObject {
         return this.expiration;
     }
 
+    @Nonnull
     public String getId() {
         return this.id;
     }
