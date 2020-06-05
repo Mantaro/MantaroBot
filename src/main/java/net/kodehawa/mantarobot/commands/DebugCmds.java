@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -68,6 +67,7 @@ public class DebugCmds {
                 var totalMemory = 0L;
                 var queueSize = 0L;
                 var totalThreadCount = 0L;
+                var totalCommandCount = 0L;
 
                 try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
@@ -83,6 +83,7 @@ public class DebugCmds {
                         totalMemory += json.getLong("used_memory");
                         queueSize += json.getLong("queue_size");
                         totalThreadCount += json.getLong("thread_count");
+                        totalCommandCount += json.getLong("commands_ran");
                     }
 
                     clusterTotal = clusters.size();
@@ -120,7 +121,7 @@ public class DebugCmds {
                         + "Users: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " [Current: " + ctx.getJDA().getShardInfo().getShardId() + "]" + "\n"
                         + "Threads: " + String.format("%,d [Local: %,d]", totalThreadCount, Thread.activeCount()) + "\n"
-                        + "Executed Commands: " + String.format("%,d", CommandListener.getCommandTotalInt()) + "\n"
+                        + "Executed Commands: " + String.format("%,d", totalCommandCount) + "\n"
                         + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
                         + "Memory: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory()) + " (Total: " +  Utils.formatMemoryAmount(totalMemory) + ")\n"

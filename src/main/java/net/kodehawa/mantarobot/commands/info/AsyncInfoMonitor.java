@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.JFRExports;
@@ -134,6 +135,7 @@ public class AsyncInfoMonitor {
                                 .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
                                 .put("shard_slice", MantaroBot.getInstance().getShardSlice())
                                 .put("queue_size", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
+                                .put("commands_ran", CommandListener.getCommandTotalInt())
                                 .toString()
                 );
             }
