@@ -22,7 +22,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import javax.annotation.Nonnull;
 
 public interface ManagedObject {
-    @SuppressWarnings("NullableProblems")
     @Nonnull
     String getId();
 
