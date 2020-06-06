@@ -644,7 +644,6 @@ public class UtilsCmds {
                 .addSubCommand("tos", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's ToS please visit:** https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service"))
                 .addSubCommand("usermessage", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial"))
                 .addSubCommand("premium", (ctx, s) -> ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks"))
-                .addSubCommand("items", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a list of all collectable (non-purchaseable) items please visit:** https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items"))
                 .addSubCommand("currency", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Currency-101"))
                 .addSubCommand("collectibles", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a list of collectables, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items"))
     }
