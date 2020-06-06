@@ -76,17 +76,17 @@ dependencies {
     compile 'com.sedmelluq:lavaplayer:1.3.49'
     compile 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
-    compile 'io.github.classgraph:classgraph:4.6.3'
+    compile 'io.github.classgraph:classgraph:4.8.81'
     compile 'ch.qos.logback:logback-classic:1.2.3'
 
-    compile 'com.google.guava:guava:27.0.1-jre'
-    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.guava:guava:29.0-jre'
+    compile 'com.google.code.gson:gson:2.8.6'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.7'
 
     compile 'com.rethinkdb:rethinkdb-driver:2.4.2'
     compile 'redis.clients:jedis:2.9.0'
 
-    compile 'io.sentry:sentry:1.7.10'
+    compile 'io.sentry:sentry:1.7.30'
 
     compile 'net.jodah:expiringmap:0.5.9'
     compile 'org.apache.commons:commons-lang3:3.8.1'
@@ -99,9 +99,9 @@ dependencies {
     //Basically for FinderUtil
     compile 'com.jagrosh:jda-utilities:3.0.1'
 
-    compile 'io.prometheus:simpleclient:0.5.0'
-    compile 'io.prometheus:simpleclient_hotspot:0.5.0'
-    compile 'io.prometheus:simpleclient_httpserver:0.5.0'
+    compile 'io.prometheus:simpleclient:0.9.0'
+    compile 'io.prometheus:simpleclient_hotspot:0.9.0'
+    compile 'io.prometheus:simpleclient_httpserver:0.9.0'
 
     compile 'net.sf.trove4j:trove4j:3.0.3'
 
