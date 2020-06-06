@@ -631,8 +631,7 @@ public class UtilsCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Shows a bunch of things related to Mantaro's wiki.\n" +
-                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers`, `tos`, `usermessage`, `premium`, `items`")
+                        .setDescription("Shows a bunch of things related to Mantaro's wiki.")
                         .build();
             }//addSubCommand meme incoming...
         }.addSubCommand("opts", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** https://github.com/Mantaro/MantaroBot/wiki/Configuration"))
@@ -645,6 +644,6 @@ public class UtilsCmds {
                 .addSubCommand("usermessage", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial"))
                 .addSubCommand("premium", (ctx, s) -> ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks"))
                 .addSubCommand("currency", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Currency-101"))
-                .addSubCommand("collectibles", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a list of collectables, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items"))
+                .addSubCommand("collectibles", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a list of collectables, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items")));
     }
 }
