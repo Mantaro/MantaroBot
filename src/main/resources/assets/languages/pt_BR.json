@@ -402,7 +402,7 @@
       "raw": {
         "no_command": "%1$sVocê precisa me dizer o comando que você quer ver.",
         "header": "Comando \"%1$s\":",
-        "amount": "(Mostrando %1$d resposta de %2$d)",
+        "amount": "(Mostrando %1$d respostas de %2$d)",
         "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
