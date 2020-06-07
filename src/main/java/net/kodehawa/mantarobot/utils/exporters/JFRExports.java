@@ -27,6 +27,7 @@ public class JFRExports {
     private static final Histogram SAFEPOINTS = Histogram.build()
             .name("jvm_safepoint_pauses_seconds")
             .help("Safepoint pauses by buckets")
+            .labelNames("type") // ttsp, operation
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
     //jdk.GarbageCollection
@@ -154,7 +155,9 @@ public class JFRExports {
          * but it's end is after java threads are done being resumed.
          */
 
-        var safepointBuffer = new LongLongRingBuffer(16);
+        // time to safepoint
+        var ttsp = new LongLongRingBuffer(16);
+        var safepointDuration = new LongLongRingBuffer(16);
 
         /*
          * jdk.SafepointBegin {
@@ -165,10 +168,9 @@ public class JFRExports {
          *   jniCriticalThreadCount = 0
          * }
          */
-        // use SafepointStateSynchronization instead (see above for why)
-//        event(rs, "jdk.SafepointBegin", e ->
-//            safepointBuffer.add(e.getLong("safepointId"), nanoTime(e.getStartTime()))
-//        );
+        event(rs, "jdk.SafepointBegin", e ->
+            ttsp.add(e.getLong("safepointId"), nanoTime(e.getStartTime()))
+        );
 
         /*
          * jdk.SafepointStateSynchronization {
@@ -180,8 +182,10 @@ public class JFRExports {
          *   iterations = 1
          * }
          */
-        event(rs, "jdk.SafepointStateSynchronization", e ->
-                safepointBuffer.add(e.getLong("safepointId"), nanoTime(e.getStartTime())));
+        event(rs, "jdk.SafepointStateSynchronization", e -> {
+            safepointDuration.add(e.getLong("safepointId"), nanoTime(e.getStartTime()));
+            logSafepoint(ttsp, e, "ttsp");
+        });
 
         /*
          * jdk.SafepointEnd {
@@ -191,16 +195,7 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.SafepointEnd", e -> {
-            var time = safepointBuffer.remove(e.getLong("safepointId"));
-            if(time == -1) {
-                //safepoint lost, buffer overwrote it
-                //this shouldn't happen unless we get a
-                //massive amount of safepoints at once
-                log.error("Safepoint with id {} lost", e.getLong("safepointId"));
-            } else {
-                var elapsed = nanoTime(e.getEndTime()) - time;
-                SAFEPOINTS.observe(elapsed / NANOSECONDS_PER_SECOND);
-            }
+            logSafepoint(safepointDuration, e, "operation");
         });
 
         /*
@@ -374,6 +369,19 @@ public class JFRExports {
 
     private static long getNestedUsed(RecordedEvent event, String field) {
         return event.<RecordedObject>getValue(field).getLong("used");
+    }
+
+    private static void logSafepoint(LongLongRingBuffer buffer, RecordedEvent event, String label) {
+        var time = buffer.remove(event.getLong("safepointId"));
+        if(time == -1) {
+            //safepoint lost, buffer overwrote it
+            //this shouldn't happen unless we get a
+            //massive amount of safepoints at once
+            log.error("Safepoint with id {} lost", event.getLong("safepointId"));
+        } else {
+            var elapsed = nanoTime(event.getEndTime()) - time;
+            SAFEPOINTS.labels(label).observe(elapsed / NANOSECONDS_PER_SECOND);
+        }
     }
 
     private static class LongLongRingBuffer {
