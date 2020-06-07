@@ -42,6 +42,7 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.exporters.DiscordLatencyExports;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -181,6 +182,8 @@ public class MantaroBot {
             log.error("Cannot continue! Exiting program...");
             System.exit(FATAL_FAILURE);
         }
+        //must be registered after MantaroBot.instance is set
+        DiscordLatencyExports.register();
     }
 
     public static boolean isDebug() {

@@ -57,7 +57,7 @@ public class Prometheus {
             //replaced by jfr
             //new SafepointExports().register();
             JFRExports.register();
-            DiscordLatencyExports.register();
+            //DiscordLatencyExports.register();
             server = new HTTPServer(MantaroData.config().get().prometheusPort);
             STATE.set(State.ENABLED);
         }
