@@ -363,7 +363,7 @@ public class Items {
         List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.BROKEN_MINE_COMMON);
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.BROKEN_FISHING_COMMON);
 
-        List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE ||
+        List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE || i.getItemType() == ItemType.MINE_PICK ||
                 i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.MINE_RARE_PICK || i.getItemType() == ItemType.BROKEN_COMMON || i.getItemType() == ItemType.BROKEN);
         List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.CAST_FISH ||
                 i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE || i.getItemType() == ItemType.BROKEN_FISHING_COMMON || i.getItemType() == ItemType.BROKEN_FISHING);
