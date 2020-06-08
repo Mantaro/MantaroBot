@@ -241,30 +241,30 @@
         "footer": "總頁數: %1$d%2$s 目前頁數: %3$d",
         "multiple_pages": " -> 使用 ~>queue <頁數> 改變頁數",
         "page_react": " -> 反應以更改頁數",
-        "no_channel": "No channel :(",
-        "songs": "song(s)",
-        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
+        "no_channel": "沒有頻道 :(",
+        "songs": "曲目",
+        "clear_error": "%1$s你目前尚未連接到任何語音頻道，或者你不是DJ",
+        "clear_success": "%1$s成功清除播放清單，大小為%2$s"
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$s成功連接到**%2$s**!",
+        "full_channel": "%1$s頻道人數已滿!",
+        "non_existent_channel": "%1$s頻道不存在，可能是被你主動刪除了。\n 我順便幫你重設了音樂頻道，試著再次播播看。",
+        "user_no_vc": "%1$s**請先進入一個語音頻道**",
+        "missing_permissions_connect": "%1$s我需要權限(%2$s)才能連接到這個頻道。",
+        "missing_permission_speak": "%1$s我需要權限(%2$s)才能播放音樂。",
+        "channel_locked": "%1$s我只能在**%2$s**裡播放。",
+        "already_connected": "%1$s我已經在**%2$s**裡面了! (使用`move`指令來移動我)",
+        "attempting_to_connect": "%1$s我正在連接到**%2$s**! (使用`move`指令來移動我)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$s我被靜音了，暫停播放中 :(",
+        "resumed": "%1$s有人加入了! 繼續播放中",
+        "left_alone": "%1$s孤單的我會在2分鐘內離開**%2$s** :(",
+        "leave": "%1$s我決定離開**%2$s**因為現在只剩我一人 :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
+        "over_limit": "%1$s你加入的清單大小超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
         "error_loading": "%1$sError while fetching music: %2$s",
