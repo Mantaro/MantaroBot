@@ -114,6 +114,7 @@ public class JFRExports {
         MEMORY_USAGE.register();
         var rs = new RecordingStream();
         rs.setReuse(true);
+        rs.setOrdered(true);
 
         //////////////////////// HOTSPOT INTERNALS ////////////////////////
         /*
@@ -128,6 +129,11 @@ public class JFRExports {
          *   <snip>
          *   EventSafepointStateSynchronization sync_event;
          *   arm_safepoint();
+         *   int iterations = synchronize_threads(...);
+         *   <snip>
+         *   post_safepoint_synchronize_event(...);
+         *   <snip>
+         *   post_safepoint_begin_event(...);
          *   <snip>
          * }
          *
@@ -171,9 +177,7 @@ public class JFRExports {
          *   jniCriticalThreadCount = 0
          * }
          */
-        event(rs, "jdk.SafepointBegin", e ->
-            ttsp.add(e.getLong("safepointId"), nanoTime(e.getStartTime()))
-        );
+        event(rs, "jdk.SafepointBegin", e -> logTTSP(ttsp, e));
 
         /*
          * jdk.SafepointStateSynchronization {
@@ -185,9 +189,12 @@ public class JFRExports {
          *   iterations = 1
          * }
          */
+        //jdk.SafepointStateSynchronization starts after jdk.SafepointBegin,
+        //but gets posted before, so add to the buffer here and flip the order
+        //of the subtraction when calculating the time diff
         event(rs, "jdk.SafepointStateSynchronization", e -> {
+            ttsp.add(e.getLong("safepointId"), nanoTime(e.getStartTime()));
             safepointDuration.add(e.getLong("safepointId"), nanoTime(e.getStartTime()));
-            logSafepoint(ttsp, e, SAFEPOINTS_TTSP);
         });
 
         /*
@@ -198,7 +205,7 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.SafepointEnd", e -> {
-            logSafepoint(safepointDuration, e, SAFEPOINTS_OPERATION);
+            logSafepointOperation(safepointDuration, e);
         });
 
         /*
@@ -374,16 +381,34 @@ public class JFRExports {
         return event.<RecordedObject>getValue(field).getLong("used");
     }
 
-    private static void logSafepoint(LongLongRingBuffer buffer, RecordedEvent event, Histogram.Child metric) {
-        var time = buffer.remove(event.getLong("safepointId"));
+    private static void logTTSP(LongLongRingBuffer buffer, RecordedEvent event) {
+        var id = event.getLong("safepointId");
+        var time = buffer.remove(id);
         if(time == -1) {
             //safepoint lost, buffer overwrote it
             //this shouldn't happen unless we get a
             //massive amount of safepoints at once
-            log.error("Safepoint with id {} lost", event.getLong("safepointId"));
+            log.error("Safepoint with id {} lost", id);
+        } else {
+            //the buffer contains the time of the synchronize event,
+            //because that's what gets posted first, but the start event
+            //stats before
+            var elapsed = time - nanoTime(event.getStartTime());
+            SAFEPOINTS_TTSP.observe(elapsed / NANOSECONDS_PER_SECOND);
+        }
+    }
+
+    private static void logSafepointOperation(LongLongRingBuffer buffer, RecordedEvent event) {
+        var id = event.getLong("safepointId");
+        var time = buffer.remove(id);
+        if(time == -1) {
+            //safepoint lost, buffer overwrote it
+            //this shouldn't happen unless we get a
+            //massive amount of safepoints at once
+            log.error("Safepoint with id {} lost", id);
         } else {
             var elapsed = nanoTime(event.getEndTime()) - time;
-            metric.observe(elapsed / NANOSECONDS_PER_SECOND);
+            SAFEPOINTS_OPERATION.observe(elapsed / NANOSECONDS_PER_SECOND);
         }
     }
 
