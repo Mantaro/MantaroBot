@@ -42,7 +42,7 @@ import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.exporters.DiscordLatencyExports;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -236,7 +236,7 @@ public class MantaroBot {
 
     public void startCheckingBirthdays() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build());
-        Prometheus.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
+        Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
 
         //How much until tomorrow? That's the initial delay, then run it once a day.
         ZoneId z = ZoneId.of("America/Chicago");

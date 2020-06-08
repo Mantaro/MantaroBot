@@ -21,7 +21,6 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import io.prometheus.client.Counter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -40,6 +39,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.awt.*;
 import java.util.List;
@@ -47,10 +47,6 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class AudioLoader implements AudioLoadResultHandler {
-    private static final Counter trackEvents = Counter.build()
-            .name("track_event").help("Music Track Events (failed/loaded/searched)")
-            .labelNames("type")
-            .register();
 
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
@@ -130,7 +126,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
             event.getChannel().sendMessage(String.format(language.get("commands.music_general.loader.error_fetching"), EmoteReference.ERROR, exception.getMessage())).queue();
         } else {
-            trackEvents.labels("tracks_failed").inc();
+            Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
         }
     }
 
@@ -187,7 +183,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                     .sendTo(event.getChannel()).queue();
         }
 
-        trackEvents.labels("tracks_load").inc();
+        Metrics.TRACK_EVENTS.labels("tracks_load").inc();
     }
 
     private void onSearch(AudioPlaylist playlist) {
@@ -201,6 +197,6 @@ public class AudioLoader implements AudioLoadResultHandler {
                 selected -> loadSingle(selected, false)
         );
 
-        trackEvents.labels("tracks_search").inc();
+        Metrics.TRACK_EVENTS.labels("tracks_search").inc();
     }
 }

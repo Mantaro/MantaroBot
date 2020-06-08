@@ -23,7 +23,7 @@ import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class GameLobby extends Lobby {
     );
 
     static {
-        Prometheus.THREAD_POOL_COLLECTOR.add("game-lobbies", executorService);
+        Metrics.THREAD_POOL_COLLECTOR.add("game-lobbies", executorService);
     }
 
     public boolean gameLoaded = false;

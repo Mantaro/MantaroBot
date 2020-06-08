@@ -17,8 +17,6 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import io.prometheus.client.Counter;
-import io.prometheus.client.Histogram;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -45,6 +43,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,18 +55,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class CommandRegistry {
-    //Wiki says they should always be static?
-    private static final Histogram commandLatency = Histogram.build()
-            .name("command_latency").help("Time it takes for a command to process.")
-            .register();
-    private static final Counter commandCounter = Counter.build()
-            .name("commands").help("Amounts of commands ran (name, userId, guildId:channelId")
-            .labelNames("name")
-            .register();
-    private static final Counter categoryCounter = Counter.build()
-            .name("categories").help("Amounts of categories ran (name, userId, guildId")
-            .labelNames("name")
-            .register();
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
 
     private final Map<String, Command> commands;
@@ -231,7 +218,7 @@ public class CommandRegistry {
 
         //COMMAND LOGGING
         long end = System.currentTimeMillis();
-        commandCounter.labels(cmdName.toLowerCase()).inc();
+        Metrics.COMMAND_COUNTER.labels(cmdName.toLowerCase()).inc();
 
         if (logCommands) {
             log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{}",
@@ -250,14 +237,14 @@ public class CommandRegistry {
         //Logging
         if (cmd.category() != null) {
             if (!cmd.category().name().isEmpty()) {
-                categoryCounter.labels(cmd.category().name().toLowerCase()).inc();
+                Metrics.CATEGORY_COUNTER.labels(cmd.category().name().toLowerCase()).inc();
 
                 CommandStatsManager.log(cmdName);
                 CategoryStatsManager.log(cmd.category().name().toLowerCase());
             }
         }
 
-        commandLatency.observe(end - start);
+        Metrics.COMMAND_LATENCY.observe(end - start);
         return true;
     }
 

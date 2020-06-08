@@ -52,10 +52,10 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -99,7 +99,7 @@ public class MantaroCore {
         this.useBanner = useBanner;
         this.useSentry = useSentry;
         this.isDebug = isDebug;
-        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
+        Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
 
     public static boolean hasLoadedCompletely() {

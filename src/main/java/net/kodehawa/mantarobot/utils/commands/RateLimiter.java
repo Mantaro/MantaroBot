@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.utils.commands;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -43,7 +43,7 @@ public class RateLimiter {
     private static final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
 
     static {
-        Prometheus.THREAD_POOL_COLLECTOR.add("rate-limiter", ses);
+        Metrics.THREAD_POOL_COLLECTOR.add("rate-limiter", ses);
     }
 
     private final long max;

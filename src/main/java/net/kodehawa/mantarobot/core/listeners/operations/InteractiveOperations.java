@@ -22,7 +22,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -48,7 +48,7 @@ public class InteractiveOperations {
             return t;
         });
 
-        Prometheus.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
+        Metrics.THREAD_POOL_COLLECTOR.add("interactive-operations-timeout", s);
 
         s.scheduleAtFixedRate(() -> OPS.values().removeIf(list -> {
             list.removeIf(RunningOperation::isTimedOut);

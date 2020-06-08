@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
-import io.prometheus.client.Counter;
 import io.sentry.Sentry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -26,6 +25,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +36,6 @@ import java.util.stream.Collectors;
 
 public class BirthdayTask {
     private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
-    private static final Counter birthdayCounter = Counter.build()
-            .name("birthdays_logged").help("Logged birthdays")
-            .register();
     private static final FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
     private static final String modLogMessage = "Birthday assigner." +
             " If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable";
@@ -138,7 +135,7 @@ public class BirthdayTask {
                                                                     Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE
                                                             ).sendTo(channel)
                                                             .queue();
-                                                    birthdayCounter.inc();
+                                                    Metrics.BIRTHDAY_COUNTER.inc();
                                                 });
 
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());

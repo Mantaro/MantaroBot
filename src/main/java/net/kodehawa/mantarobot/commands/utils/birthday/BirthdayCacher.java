@@ -20,7 +20,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.utils.Types;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,7 @@ public class BirthdayCacher {
     public volatile boolean isDone;
 
     public BirthdayCacher() {
-        Prometheus.THREAD_POOL_COLLECTOR.add("birthday-cacher", executorService);
+        Metrics.THREAD_POOL_COLLECTOR.add("birthday-cacher", executorService);
         log.info("Caching birthdays...");
         cache();
     }

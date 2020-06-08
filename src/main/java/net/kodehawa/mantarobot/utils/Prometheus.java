@@ -16,6 +16,8 @@
 
 package net.kodehawa.mantarobot.utils;
 
+import io.prometheus.client.Counter;
+import io.prometheus.client.Histogram;
 import io.prometheus.client.exporter.HTTPServer;
 import io.prometheus.client.hotspot.*;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -29,7 +31,6 @@ import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Prometheus {
-    public static final ThreadPoolCollector THREAD_POOL_COLLECTOR = new ThreadPoolCollector().register();
     public static final Duration UPDATE_PERIOD = Duration.ofSeconds(3);
 
     private static final AtomicReference<State> STATE = new AtomicReference<>(State.DISABLED);

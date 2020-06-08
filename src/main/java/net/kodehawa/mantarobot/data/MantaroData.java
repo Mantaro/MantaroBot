@@ -19,8 +19,8 @@ package net.kodehawa.mantarobot.data;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.utils.Prometheus;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
@@ -41,7 +41,7 @@ public class MantaroData {
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
 
     static {
-        Prometheus.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
+        Metrics.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
     }
 
     public static GsonDataManager<Config> config() {
