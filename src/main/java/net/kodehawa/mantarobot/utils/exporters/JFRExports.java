@@ -30,6 +30,8 @@ public class JFRExports {
             .labelNames("type") // ttsp, operation
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
+    private static final Histogram.Child SAFEPOINTS_TTSP = SAFEPOINTS.labels("ttsp");
+    private static final Histogram.Child SAFEPOINTS_OPERATION = SAFEPOINTS.labels("operation");
     //jdk.GarbageCollection
     private static final Histogram GC_PAUSES = Histogram.build()
             .name("jvm_gc_pauses_seconds")
@@ -93,6 +95,8 @@ public class JFRExports {
             .help("Bytes of memory used by the JVM")
             .labelNames("area") //heap, nonheap
             .create();
+    private static final Gauge.Child MEMORY_USAGE_HEAP = MEMORY_USAGE.labels("heap");
+    private static final Gauge.Child MEMORY_USAGE_NONHEAP = MEMORY_USAGE.labels("nonheap");
 
     public static void register() {
         if(!REGISTERED.compareAndSet(false, true)) return;
@@ -184,7 +188,7 @@ public class JFRExports {
          */
         event(rs, "jdk.SafepointStateSynchronization", e -> {
             safepointDuration.add(e.getLong("safepointId"), nanoTime(e.getStartTime()));
-            logSafepoint(ttsp, e, "ttsp");
+            logSafepoint(ttsp, e, SAFEPOINTS_TTSP);
         });
 
         /*
@@ -195,7 +199,7 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.SafepointEnd", e -> {
-            logSafepoint(safepointDuration, e, "operation");
+            logSafepoint(safepointDuration, e, SAFEPOINTS_OPERATION);
         });
 
         /*
@@ -307,7 +311,7 @@ public class JFRExports {
          * }
          */
         event(rs, "jdk.GCHeapSummary", e -> {
-            MEMORY_USAGE.labels("heap").set(e.getLong("heapUsed"));
+            MEMORY_USAGE_HEAP.set(e.getLong("heapUsed"));
         });
 
         /*
@@ -337,7 +341,7 @@ public class JFRExports {
             var amt = getNestedUsed(e, "metaspace")
                     + getNestedUsed(e, "dataSpace")
                     + getNestedUsed(e, "classSpace");
-            MEMORY_USAGE.labels("nonheap").set(amt);
+            MEMORY_USAGE_NONHEAP.set(amt);
         }).withPeriod(PERIOD);
         
         //start AsyncInfoMonitor data collection
@@ -371,7 +375,7 @@ public class JFRExports {
         return event.<RecordedObject>getValue(field).getLong("used");
     }
 
-    private static void logSafepoint(LongLongRingBuffer buffer, RecordedEvent event, String label) {
+    private static void logSafepoint(LongLongRingBuffer buffer, RecordedEvent event, Histogram.Child metric) {
         var time = buffer.remove(event.getLong("safepointId"));
         if(time == -1) {
             //safepoint lost, buffer overwrote it
@@ -380,7 +384,7 @@ public class JFRExports {
             log.error("Safepoint with id {} lost", event.getLong("safepointId"));
         } else {
             var elapsed = nanoTime(event.getEndTime()) - time;
-            SAFEPOINTS.labels(label).observe(elapsed / NANOSECONDS_PER_SECOND);
+            metric.observe(elapsed / NANOSECONDS_PER_SECOND);
         }
     }
 
