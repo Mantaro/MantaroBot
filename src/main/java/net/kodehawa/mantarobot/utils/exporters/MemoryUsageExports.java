@@ -3,14 +3,18 @@ package net.kodehawa.mantarobot.utils.exporters;
 import io.prometheus.client.Gauge;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.utils.Prometheus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class MemoryUsageExports {
+    private static final Logger log = LoggerFactory.getLogger(MemoryUsageExports.class);
     private static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
     private static final Path SMAPS_ROLLUP = Path.of("/proc/self/smaps_rollup");
     private static final Gauge MEMORY_USAGE = Gauge.build()
@@ -20,6 +24,7 @@ public class MemoryUsageExports {
             .create();
     private static final Gauge.Child PSS = MEMORY_USAGE.labels("PSS");
     private static final Gauge.Child RSS = MEMORY_USAGE.labels("RSS");
+    private static volatile ScheduledFuture<?> task;
 
     public static void register() {
         MEMORY_USAGE.register();
@@ -28,7 +33,7 @@ public class MemoryUsageExports {
             RSS.set(-1);
             return;
         }
-        MantaroBot.getInstance().getExecutorService().scheduleAtFixedRate(
+        task = MantaroBot.getInstance().getExecutorService().scheduleAtFixedRate(
                 MemoryUsageExports::collect, 0,
                 Prometheus.UPDATE_PERIOD.toMillis(), TimeUnit.MILLISECONDS
         );
@@ -63,7 +68,12 @@ public class MemoryUsageExports {
                     PSS.set(parse(line));
                 }
             });
-        } catch (IOException ignored) {}
+        } catch (IOException e) {
+            RSS.set(-1);
+            PSS.set(-1);
+            log.error("Error reading smaps_rollup", e);
+            task.cancel(false);
+        }
     }
 
     private static long parse(String line) {
