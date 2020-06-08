@@ -883,6 +883,7 @@
         "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, rod`(pioche, canne à pêche).",
         "invalid_type": "%1$sLes types d'objets valides sont `pick, rod` pioche et canne à pêche en anglais.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
