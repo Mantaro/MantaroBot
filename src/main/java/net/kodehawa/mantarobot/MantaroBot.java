@@ -183,7 +183,7 @@ public class MantaroBot {
             System.exit(FATAL_FAILURE);
         }
         //must be registered after MantaroBot.instance is set
-        DiscordLatencyExports.register();
+        Prometheus.registerPostStartup();
     }
 
     public static boolean isDebug() {

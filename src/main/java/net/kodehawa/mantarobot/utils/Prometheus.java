@@ -21,19 +21,27 @@ import io.prometheus.client.hotspot.*;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.DiscordLatencyExports;
 import net.kodehawa.mantarobot.utils.exporters.JFRExports;
+import net.kodehawa.mantarobot.utils.exporters.MemoryUsageExports;
 import net.kodehawa.mantarobot.utils.exporters.ThreadPoolCollector;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Prometheus {
     public static final ThreadPoolCollector THREAD_POOL_COLLECTOR = new ThreadPoolCollector().register();
+    public static final Duration UPDATE_PERIOD = Duration.ofSeconds(3);
 
     private static final AtomicReference<State> STATE = new AtomicReference<>(State.DISABLED);
     private static volatile HTTPServer server;
 
     public static State currentState() {
         return STATE.get();
+    }
+
+    public static void registerPostStartup() {
+        DiscordLatencyExports.register();
+        MemoryUsageExports.register();
     }
 
     public static void enable() throws IOException {

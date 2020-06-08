@@ -8,19 +8,18 @@ import jdk.jfr.consumer.RecordedEvent;
 import jdk.jfr.consumer.RecordedObject;
 import jdk.jfr.consumer.RecordingStream;
 import net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor;
+import net.kodehawa.mantarobot.utils.Prometheus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class JFRExports {
-    private static final Logger log = LoggerFactory.getLogger(JFRExports.class);
-    private static final Duration PERIOD = Duration.ofSeconds(3);
 
+    private static final Logger log = LoggerFactory.getLogger(JFRExports.class);
     private static final AtomicBoolean REGISTERED = new AtomicBoolean(false);
     private static final double NANOSECONDS_PER_SECOND = 1E9;
     //jdk.SafepointBegin, jdk.SafepointStateSynchronization, jdk.SafepointEnd
@@ -258,7 +257,7 @@ public class JFRExports {
             if(itf == null) itf = "N/A";
             NETWORK_READ.labels(itf).set(e.getLong("readRate"));
             NETWORK_WRITE.labels(itf).set(e.getLong("writeRate"));
-        }).withPeriod(PERIOD);
+        }).withPeriod(Prometheus.UPDATE_PERIOD);
 
         /*
          * jdk.JavaThreadStatistics {
@@ -274,7 +273,7 @@ public class JFRExports {
             THREADS_CURRENT.set(count);
             THREADS_DAEMON.set(e.getLong("daemonCount"));
             AsyncInfoMonitor.setThreadCount(count);
-        }).withPeriod(PERIOD);
+        }).withPeriod(Prometheus.UPDATE_PERIOD);
 
         /*
          * jdk.CPULoad {
@@ -293,7 +292,7 @@ public class JFRExports {
             CPU_MACHINE.set(machine);
             AsyncInfoMonitor.setProcessCpuUsage(user + system);
             AsyncInfoMonitor.setMachineCPUUsage(machine);
-        }).withPeriod(PERIOD);
+        }).withPeriod(Prometheus.UPDATE_PERIOD);
 
         /*
          * jdk.GCHeapSummary {
@@ -342,7 +341,7 @@ public class JFRExports {
                     + getNestedUsed(e, "dataSpace")
                     + getNestedUsed(e, "classSpace");
             MEMORY_USAGE_NONHEAP.set(amt);
-        }).withPeriod(PERIOD);
+        }).withPeriod(Prometheus.UPDATE_PERIOD);
         
         //start AsyncInfoMonitor data collection
 
@@ -355,7 +354,7 @@ public class JFRExports {
          */
         event(rs, "jdk.PhysicalMemory", e -> {
             AsyncInfoMonitor.setMachineMemoryUsage(e.getLong("usedSize"), e.getLong("totalSize"));
-        }).withPeriod(PERIOD);
+        }).withPeriod(Prometheus.UPDATE_PERIOD);
 
         rs.startAsync();
     }

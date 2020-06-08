@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.utils.exporters;
 
 import io.prometheus.client.Gauge;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.utils.Prometheus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +34,6 @@ public class DiscordLatencyExports {
             });
             shards.iterator().next().getRestPing().queue(ping ->
                     REST_LATENCY.set(ping / MILLISECONDS_PER_SECOND));
-        }, 0, 3, TimeUnit.SECONDS);
+        }, 0, Prometheus.UPDATE_PERIOD.toMillis(), TimeUnit.MILLISECONDS);
     }
 }
