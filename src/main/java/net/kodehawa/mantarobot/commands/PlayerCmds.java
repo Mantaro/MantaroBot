@@ -263,7 +263,14 @@ public class PlayerCmds {
 
                 String part = ""; //Start as an empty string.
                 if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
-                    Item equippedItem = Items.fromId(equipment.getEquipment().get(type));
+                    //This is part of a Map value, so it's actually nullable (therefore it's not a primitive).
+                    Integer equipped = equipment.getEquipment().get(type);
+                    if(equipped == null) {
+                        ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    Item equippedItem = Items.fromId(equipped);
 
                     if(equippedItem == null) {
                         ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);

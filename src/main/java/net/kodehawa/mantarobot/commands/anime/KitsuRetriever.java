@@ -49,10 +49,9 @@ public class KitsuRetriever {
             String body = response.body().string();
             response.close();
 
-            Type collectionType = new TypeToken<List<CharacterData>>() {
-            }.getType();
+            Type collectionType = new TypeToken<List<CharacterData>>() { }.getType();
 
-            JsonObject json = new JsonParser().parse(body).getAsJsonObject();
+            JsonObject json = JsonParser.parseString(body).getAsJsonObject();
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
             return gson.fromJson(jarr, collectionType);
         } catch (IOException e) {
@@ -72,10 +71,9 @@ public class KitsuRetriever {
             String body = response.body().string();
             response.close();
 
-            Type collectionType = new TypeToken<List<AnimeData>>() {
-            }.getType();
+            Type collectionType = new TypeToken<List<AnimeData>>() { }.getType();
 
-            JsonObject json = new JsonParser().parse(body).getAsJsonObject();
+            JsonObject json = JsonParser.parseString(body).getAsJsonObject();
             JsonArray jarr = json.getAsJsonObject().getAsJsonArray("data");
             return gson.fromJson(jarr, collectionType);
         } catch (IOException e) {

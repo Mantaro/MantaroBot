@@ -282,7 +282,7 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 50, false
     ),
 
-    WASTER("Waster", "", "Dump way too many items.", 91, 92,
+    WASTER("Waster", "\uD83D\uDDD1", "Dump way too many items.", 91, 92,
             (player, dbUser) -> false, false
     ),
 
