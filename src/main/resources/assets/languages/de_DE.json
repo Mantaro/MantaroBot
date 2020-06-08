@@ -883,6 +883,7 @@
         "already_equipped": "%1$sDu hast bereits einen Gegenstand dieser Art ausgerüstet! Versiche `~>unequip <art>` (Art kann entweder `rod` oder `pick` sein), wenn du ihn ablegen willst."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sDu musst ein Werkzeug zum Ablegen angeben, entweder `pick` oder `rod`.",
         "invalid_type": "%1$sUngültige Art. Mögliche Arten sind: `pick` und `rod`.",
         "success": "%1$sDein Gegnestand im %2$s-Slot wurde erfolgreich abgelegt.",
