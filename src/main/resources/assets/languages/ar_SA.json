@@ -883,6 +883,7 @@
         "already_equipped": "لديك بالفعل عنصر من هذا النوع مجهز! جرب `~>unequip <type>` (النوع يمكن أن يكون rod/سنارة أو pick/فأس) إذا كنت ترغب في عدم تجهيزه ذلك."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sتحتاج لتحديد نوع الأداة لإلغاء تركيبه، `إما pick أو rod`",
         "invalid_type": "%1$sنوع غير صحيح، الأنواع الصحيحة هي `pick, rod`",
         "success": "%1$sتم بنجاح إلغاء تركيب %2$s بفتحتك الخاصة",
