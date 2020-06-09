@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -108,8 +109,8 @@ public class DBUser implements ManagedObject {
                 }
 
                 //Handle this so we don't go over this check again. Remove premium key from user object.
+                removePremiumKey(key.getId());
                 key.delete();
-                removePremiumKey();
 
                 //User is not premium.
                 return false;
@@ -140,8 +141,8 @@ public class DBUser implements ManagedObject {
 
         if (!isActive && key != null && LocalDate.now(ZoneId.of("America/Chicago")).getDayOfMonth() > 5) {
             //Handle this so we don't go over this check again. Remove premium key from user object.
+            removePremiumKey(key.getId());
             key.delete();
-            removePremiumKey();
         }
 
         return key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER) && isActive;
@@ -158,8 +159,9 @@ public class DBUser implements ManagedObject {
     }
 
     @JsonIgnore
-    public void removePremiumKey() {
+    public void removePremiumKey(String originalKey) {
         data.setPremiumKey(null);
+        data.getKeysClaimed().remove(Utils.getKeyByValue(data.getKeysClaimed(), originalKey));
         data.setHasReceivedFirstKey(false);
         save();
     }

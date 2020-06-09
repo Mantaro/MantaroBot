@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PremiumKeyData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
@@ -95,6 +96,7 @@ public class DBGuild implements ManagedObject {
                 ownerData.getKeysClaimed().remove(getId());
                 owner.save();
 
+                removePremiumKey(key.getOwner(), key.getId());
                 key.delete();
                 return false;
             }
@@ -146,8 +148,13 @@ public class DBGuild implements ManagedObject {
     }
 
     @JsonIgnore
-    public void removePremiumKey() {
+    public void removePremiumKey(String keyOwner, String originalKey) {
         data.setPremiumKey(null);
+
+        DBUser dbUser = MantaroData.db().getUser(keyOwner);
+        dbUser.getData().getKeysClaimed().remove(Utils.getKeyByValue(dbUser.getData().getKeysClaimed(), originalKey));
+        dbUser.save();
+
         saveAsync();
     }
 
