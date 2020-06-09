@@ -3,7 +3,7 @@
 - Get into contact with Kodehawa#3457 on Discord to get started
 
   + Tell him which language you want to contribute to
-  + Afterwards he'll set you up on the server, so that you've access to #contributers
+  + Afterwards he'll set you up on the server, so that you've access to #contributors
   + He'll also add you to your language on crowdin
     + Or set the language up, in case it isn't present yet
 
