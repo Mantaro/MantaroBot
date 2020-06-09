@@ -883,7 +883,7 @@
         "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara ou picareta) se você quiser desequipar."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
+        "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
         "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, rod`",
         "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, rod`",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
