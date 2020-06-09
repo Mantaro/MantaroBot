@@ -34,7 +34,14 @@ public class JFRExports {
     //jdk.GarbageCollection
     private static final Histogram GC_PAUSES = Histogram.build()
             .name("jvm_gc_pauses_seconds")
-            .help("Garbage collection pauses by buckets")
+            .help("Longest garbage collection pause per collection")
+            .labelNames("name", "cause")
+            .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
+            .create();
+    //jdk.GarbageCollection
+    private static final Histogram GC_PAUSES_SUM = Histogram.build()
+            .name("jvm_gc_sum_of_pauses_seconds")
+            .help("Sum of garbage collection pauses per collection")
             .labelNames("name", "cause")
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
@@ -102,6 +109,7 @@ public class JFRExports {
         
         SAFEPOINTS.register();
         GC_PAUSES.register();
+        GC_PAUSES_SUM.register();
         REFERENCE_STATISTICS.register();
         VM_OPERATIONS.register();
         NETWORK_READ.register();
@@ -222,6 +230,8 @@ public class JFRExports {
         event(rs, "jdk.GarbageCollection", e -> {
             GC_PAUSES.labels(e.getString("name"), e.getString("cause"))
                     .observe(e.getDuration("longestPause").toNanos() / NANOSECONDS_PER_SECOND);
+            GC_PAUSES_SUM.labels(e.getString("name"), e.getString("cause"))
+                    .observe(e.getDuration("sumOfPauses").toNanos() / NANOSECONDS_PER_SECOND);
         });
 
         /*
