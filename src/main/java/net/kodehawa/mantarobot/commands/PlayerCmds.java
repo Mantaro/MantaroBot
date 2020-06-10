@@ -349,6 +349,8 @@ public class PlayerCmds {
                                             .map(Badge::getDisplay)
                                             .collect(Collectors.joining(", "))
                             );
+
+                            return;
                         }
 
                         List<Badge> badges = playerData.getBadges();

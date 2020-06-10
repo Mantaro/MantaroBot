@@ -47,7 +47,7 @@ public class DBUser implements ManagedObject {
     private long premiumUntil;
 
     @JsonIgnore
-    private Config config = MantaroData.config().get();
+    private final Config config = MantaroData.config().get();
 
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
