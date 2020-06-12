@@ -41,7 +41,7 @@ public abstract class NewCommand {
         }
         var p = clazz.getAnnotation(Permission.class);
         if(p == null) {
-            this.permission = CommandPermission.OWNER;
+            this.permission = CommandPermission.INHERIT;
         } else {
             this.permission = p.value();
         }
@@ -79,7 +79,13 @@ public abstract class NewCommand {
     }
 
     public CommandPermission permission() {
-        return permission;
+        if(permission != CommandPermission.INHERIT) {
+            return permission;
+        }
+        if(parent == null) {
+            return CommandPermission.OWNER;
+        }
+        return parent.permission();
     }
 
     public boolean guildOnly() {

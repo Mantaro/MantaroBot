@@ -40,6 +40,12 @@ public enum CommandPermission {
         public boolean test(Member member) {
             return MantaroData.config().get().isOwner(member);
         }
+    },
+    INHERIT() {
+        @Override
+        public boolean test(Member member) {
+            throw new UnsupportedOperationException("Used by NewCommand to inherit from parent");
+        }
     };
 
     public abstract boolean test(Member member);
