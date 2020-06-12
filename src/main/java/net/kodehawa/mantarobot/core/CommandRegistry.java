@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.command.CommandManager;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -246,8 +247,25 @@ public class CommandRegistry {
             );
         }
 
-        if(!newCommands.execute(new NewContext(event.getMessage(),
-                event.getMessage().getContentRaw().substring(prefix.length())))) {
+        boolean executedNew;
+        try {
+            executedNew = newCommands.execute(new NewContext(event.getMessage(),
+                    new I18nContext(guildData, userData),
+                    event.getMessage().getContentRaw().substring(prefix.length())));
+        } catch (ArgumentParseError e) {
+            if(e.getMessage() != null) {
+                event.getChannel().sendMessage(
+                        EmoteReference.ERROR + e.getMessage()
+                ).queue();
+            } else {
+                e.printStackTrace();
+                event.getChannel().sendMessage(
+                        EmoteReference.ERROR + "There was an error parsing the arguments for this command. Please report this to the developers"
+                ).queue();
+            }
+            return true;
+        }
+        if(!executedNew) {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
         }
 

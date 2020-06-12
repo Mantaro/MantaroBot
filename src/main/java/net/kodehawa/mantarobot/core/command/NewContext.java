@@ -1,11 +1,15 @@
 package net.kodehawa.mantarobot.core.command;
 
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.argument.Arguments;
 import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
 import net.kodehawa.mantarobot.core.command.argument.Parser;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -18,15 +22,17 @@ public class NewContext {
     private static final StringSplitter SPLITTER = new StringSplitter();
 
     private final Message message;
+    private final I18nContext i18n;
     private final Arguments args;
 
-    private NewContext(@Nonnull Message message, @Nonnull Arguments args) {
+    private NewContext(@Nonnull Message message, @Nonnull I18nContext i18n, @Nonnull Arguments args) {
         this.message = message;
+        this.i18n = i18n;
         this.args = args;
     }
 
-    public NewContext(@Nonnull Message message, @Nonnull String contentAfterPrefix) {
-        this(message, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
+    public NewContext(@Nonnull Message message, @Nonnull I18nContext i18n, @Nonnull String contentAfterPrefix) {
+        this(message, i18n, new Arguments(SPLITTER.split(contentAfterPrefix), 0));
     }
 
     public Arguments arguments() {
@@ -34,7 +40,7 @@ public class NewContext {
     }
 
     public NewContext snapshot() {
-        return new NewContext(message, args.snapshot());
+        return new NewContext(message, i18n, args.snapshot());
     }
 
     /**
@@ -74,10 +80,31 @@ public class NewContext {
     @Nonnull
     @CheckReturnValue
     public <T> T argument(@Nonnull Parser<T> parser, @Nullable String failureMessage) {
+        return argument(parser, "Missing argument", failureMessage);
+    }
+
+    /**
+     * Attempts to parse an argument with the provided {@link Parser parser}.
+     * <br>If the parser returns {@link java.util.Optional#empty() nothing} or there are
+     * no more arguments to read, an exception is thrown.
+     *
+     * @param parser Parser to use.
+     * @param failureMessage Message to provide to the {@link net.kodehawa.mantarobot.core.command.argument.ArgumentParseError error}
+     *                       thrown on parse failure.
+     * @param <T> Type of the object returned by the parser.
+     *
+     * @return The parsed object.
+     *
+     * @throws ArgumentParseError If there are no more arguments to read or the parser
+     *                            returned nothing.
+     */
+    @Nonnull
+    @CheckReturnValue
+    public <T> T argument(@Nonnull Parser<T> parser, @Nullable String missingMessage, @Nullable String failureMessage) {
         int offset = args.getOffset();
         Optional<T> optional;
         if(!args.hasNext()) {
-            optional = Optional.empty();
+            throw new ArgumentParseError(missingMessage, this, parser, args.snapshot());
         } else {
             optional = parser.parse(this);
         }
@@ -190,5 +217,47 @@ public class NewContext {
             }
         }
         return list;
+    }
+
+    public MessageChannel getChannel() {
+        return message.getChannel();
+    }
+
+    public void send(Message message) {
+        getChannel().sendMessage(message).queue();
+    }
+
+    public void send(String message) {
+        getChannel().sendMessage(message).queue();
+    }
+
+    public void sendFormat(String message, Object... format) {
+        getChannel().sendMessageFormat(message, format).queue();
+    }
+
+    public void send(MessageEmbed embed) {
+        getChannel().sendMessage(embed).queue();
+    }
+
+    public void sendLocalized(String localizedMessage, Object... args) {
+        getChannel().sendMessageFormat(i18n.get(localizedMessage), args).queue();
+    }
+
+    public void sendLocalized(String localizedMessage) {
+        getChannel().sendMessage(i18n.get(localizedMessage)).queue();
+    }
+
+    public void sendStripped(String message) {
+        new MessageBuilder().setContent(message)
+                .stripMentions(this.message.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
+                .sendTo(getChannel())
+                .queue();
+    }
+
+    public void sendStrippedLocalized(String localizedMessage, Object... args) {
+        new MessageBuilder().setContent(String.format(i18n.get(localizedMessage), args))
+                .stripMentions(this.message.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
+                .sendTo(getChannel())
+                .queue();
     }
 }

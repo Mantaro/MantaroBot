@@ -29,6 +29,9 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.NewCommand;
+import net.kodehawa.mantarobot.core.command.NewContext;
+import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -156,35 +159,61 @@ public class OwnerCmd {
         });
     }
 
+    public static class RestoreStreak extends NewCommand {
+        @Override
+        protected void process(NewContext ctx) {
+            var id = ctx.argument(Parsers.strictLong()
+                    .map(String::valueOf), "Invalid id");
+            var amount = ctx.argument(Parsers.strictLong(), "Invalid amount");
+
+            User u = MantaroBot.getInstance().getShardManager().getUserById(id);
+
+            if (u == null) {
+                ctx.send("Can't find user");
+                return;
+            }
+
+            Player p = MantaroData.db().getPlayer(id);
+            PlayerData pd = p.getData();
+            pd.setLastDailyAt(System.currentTimeMillis());
+            pd.setDailyStreak(amount);
+
+            p.save();
+
+            ctx.send("Done, new streak is " + amount);
+        }
+    }
+
     @Subscribe
     public void restoreStreak(CommandRegistry cr) {
-        cr.register("restorestreak", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length < 2) {
-                    ctx.send("You need to provide the id and the amount");
-                    return;
-                }
-
-                String id = args[0];
-                long amount = Long.parseLong(args[1]);
-                User u = MantaroBot.getInstance().getShardManager().getUserById(id);
-
-                if (u == null) {
-                    ctx.send("Can't find user");
-                    return;
-                }
-
-                Player p = MantaroData.db().getPlayer(id);
-                PlayerData pd = p.getData();
-                pd.setLastDailyAt(System.currentTimeMillis());
-                pd.setDailyStreak(amount);
-
-                p.save();
-
-                ctx.send("Done, new streak is " + amount);
-            }
-        });
+        cr.register(RestoreStreak.class);
+//        cr.register("restorestreak", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+//            @Override
+//            protected void call(Context ctx, String content, String[] args) {
+//                if (args.length < 2) {
+//                    ctx.send("You need to provide the id and the amount");
+//                    return;
+//                }
+//
+//                String id = args[0];
+//                long amount = Long.parseLong(args[1]);
+//                User u = MantaroBot.getInstance().getShardManager().getUserById(id);
+//
+//                if (u == null) {
+//                    ctx.send("Can't find user");
+//                    return;
+//                }
+//
+//                Player p = MantaroData.db().getPlayer(id);
+//                PlayerData pd = p.getData();
+//                pd.setLastDailyAt(System.currentTimeMillis());
+//                pd.setDailyStreak(amount);
+//
+//                p.save();
+//
+//                ctx.send("Done, new streak is " + amount);
+//            }
+//        });
     }
 
     //This is for testing lol
