@@ -35,7 +35,7 @@ public class CommandManager {
     public boolean execute(@Nonnull NewContext ctx) {
         var args = ctx.arguments();
         if(args.hasNext()) {
-            var name = args.next().getValue();
+            var name = args.next().getValue().toLowerCase();
             var child = commands.get(name);
             if(child == null) {
                 child = commands.get(aliases.getOrDefault(name, ""));

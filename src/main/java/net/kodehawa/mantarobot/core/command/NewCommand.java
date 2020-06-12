@@ -45,7 +45,7 @@ public abstract class NewCommand {
     public final void execute(NewContext ctx) {
         var args = ctx.arguments();
         if(args.hasNext()) {
-            var name = args.next().getValue();
+            var name = args.next().getValue().toLowerCase();
             var child = children.get(name);
             if(child == null) {
                 child = children.get(childrenAliases.getOrDefault(name, ""));
