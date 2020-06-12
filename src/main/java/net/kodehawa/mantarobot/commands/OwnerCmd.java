@@ -32,11 +32,13 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
+import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -83,7 +85,7 @@ public class OwnerCmd {
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {
-        cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("blacklist", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 MantaroObj obj = ctx.db().getMantaroData();
@@ -159,6 +161,8 @@ public class OwnerCmd {
         });
     }
 
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
     public static class RestoreStreak extends NewCommand {
         @Override
         protected void process(NewContext ctx) {
@@ -187,39 +191,12 @@ public class OwnerCmd {
     @Subscribe
     public void restoreStreak(CommandRegistry cr) {
         cr.register(RestoreStreak.class);
-//        cr.register("restorestreak", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
-//            @Override
-//            protected void call(Context ctx, String content, String[] args) {
-//                if (args.length < 2) {
-//                    ctx.send("You need to provide the id and the amount");
-//                    return;
-//                }
-//
-//                String id = args[0];
-//                long amount = Long.parseLong(args[1]);
-//                User u = MantaroBot.getInstance().getShardManager().getUserById(id);
-//
-//                if (u == null) {
-//                    ctx.send("Can't find user");
-//                    return;
-//                }
-//
-//                Player p = MantaroData.db().getPlayer(id);
-//                PlayerData pd = p.getData();
-//                pd.setLastDailyAt(System.currentTimeMillis());
-//                pd.setDailyStreak(amount);
-//
-//                p.save();
-//
-//                ctx.send("Done, new streak is " + amount);
-//            }
-//        });
     }
 
     //This is for testing lol
     @Subscribe
     public void giveItem(CommandRegistry cr) {
-        cr.register("giveitem", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("giveitem", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -250,7 +227,7 @@ public class OwnerCmd {
 
     @Subscribe
     public void transferPlayer(CommandRegistry cr) {
-        cr.register("transferplayer", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("transferplayer", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty() || args.length < 2) {
@@ -306,7 +283,7 @@ public class OwnerCmd {
 
     @Subscribe
     public void badge(CommandRegistry cr) {
-        cr.register("addbadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("addbadge", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length != 2) {
@@ -337,7 +314,7 @@ public class OwnerCmd {
             }
         });
 
-        cr.register("removebadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("removebadge", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 List<User> users = ctx.getMentionedUsers();
@@ -421,7 +398,7 @@ public class OwnerCmd {
             }
         });
 
-        cr.register("eval", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("eval", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Evaluator evaluator = evals.get(args[0]);
@@ -467,7 +444,7 @@ public class OwnerCmd {
 
     @Subscribe
     public void link(CommandRegistry cr) {
-        cr.register("link", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("link", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 final Config config = ctx.getConfig();
@@ -527,7 +504,7 @@ public class OwnerCmd {
 
     @Subscribe
     public void addOwnerPremium(CommandRegistry cr) {
-        cr.register("addownerpremium", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("addownerpremium", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!MantaroData.config().get().isPremiumBot()) {
@@ -567,7 +544,7 @@ public class OwnerCmd {
 
     @Subscribe
     public void refreshPledges(CommandRegistry cr) {
-        cr.register("refreshpledges", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("refreshpledges", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {

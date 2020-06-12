@@ -31,11 +31,11 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     //By default let all commands pass.
     private Predicate<Context> predicate = event -> true;
 
-    public TreeCommand(Category category) {
+    public TreeCommand(CommandCategory category) {
         super(category);
     }
 
-    public TreeCommand(Category category, CommandPermission permission) {
+    public TreeCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
 

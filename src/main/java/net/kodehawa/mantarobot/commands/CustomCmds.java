@@ -33,7 +33,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -173,7 +173,7 @@ public class CustomCmds {
                 .prefix("custom")
                 .build();
 
-        SimpleTreeCommand customCommand = (SimpleTreeCommand) cr.register("custom", new SimpleTreeCommand(Category.UTILS) {
+        SimpleTreeCommand customCommand = (SimpleTreeCommand) cr.register("custom", new SimpleTreeCommand(CommandCategory.UTILS) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()

@@ -26,11 +26,11 @@ import java.util.List;
  */
 public interface Command {
     /**
-     * The Command's {@link Category}
+     * The Command's {@link CommandCategory}
      *
-     * @return a Nullable {@link Category}. Null means that the command should be hidden from Help.
+     * @return a Nullable {@link CommandCategory}. Null means that the command should be hidden from Help.
      */
-    Category category();
+    CommandCategory category();
 
     CommandPermission permission();
 

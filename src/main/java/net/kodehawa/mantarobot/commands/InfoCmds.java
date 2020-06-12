@@ -34,7 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -77,7 +77,7 @@ public class InfoCmds {
 
     @Subscribe
     public void donate(CommandRegistry cr) {
-        cr.register("donate", new SimpleCommand(Category.INFO) {
+        cr.register("donate", new SimpleCommand(CommandCategory.INFO) {
 
             @Override
             protected void call(Context ctx, String content, String[] args) {
@@ -97,7 +97,7 @@ public class InfoCmds {
 
     @Subscribe
     public void language(CommandRegistry cr) {
-        cr.register("lang", new SimpleCommand(Category.INFO) {
+        cr.register("lang", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.sendLocalized("commands.lang.info", EmoteReference.ZAP, String.join(", ", I18n.LANGUAGES).replace(".json", ""));
@@ -116,7 +116,7 @@ public class InfoCmds {
 
     @Subscribe
     public void avatar(CommandRegistry cr) {
-        cr.register("avatar", new SimpleCommand(Category.INFO) {
+        cr.register("avatar", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
@@ -140,7 +140,7 @@ public class InfoCmds {
 
     @Subscribe
     public void guildinfo(CommandRegistry cr) {
-        cr.register("serverinfo", new SimpleCommand(Category.INFO) {
+        cr.register("serverinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
@@ -192,7 +192,7 @@ public class InfoCmds {
         cr.registerAlias("serverinfo", "guildinfo");
     }
 
-    private void buildHelp(Context ctx, Category category) {
+    private void buildHelp(Context ctx, CommandCategory category) {
         DBGuild dbGuild = ctx.getDBGuild();
         String defaultPrefix = ctx.getConfig().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
         String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
@@ -222,14 +222,14 @@ public class InfoCmds {
                 .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
                         DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
 
-        Arrays.stream(Category.values())
+        Arrays.stream(CommandCategory.values())
                 .filter(c -> {
                     if (category != null)
                         return c == category;
                     else
                         return true;
                 })
-                .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(ctx.getMember()))
+                .filter(c -> c != CommandCategory.OWNER || CommandPermission.OWNER.test(ctx.getMember()))
                 .filter(c -> !DefaultCommandProcessor.REGISTRY.getCommandsForCategory(c).isEmpty())
                 .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") + ":",
                         forType(ctx.getChannel(), guildData, c), false)
@@ -262,7 +262,7 @@ public class InfoCmds {
                 "The help you might need."
         );
 
-        cr.register("help", new SimpleCommand(Category.INFO) {
+        cr.register("help", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
@@ -270,14 +270,14 @@ public class InfoCmds {
 
                 if (content.isEmpty()) {
                     buildHelp(ctx, null);
-                } else if (Category.lookupFromString(content) != null) {
-                    Category category = Category.lookupFromString(content);
+                } else if (CommandCategory.lookupFromString(content) != null) {
+                    CommandCategory category = CommandCategory.lookupFromString(content);
                     buildHelp(ctx, category);
                 } else {
                     Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
                     if (command != null) {
-                        if (command.category() == Category.OWNER && !CommandPermission.OWNER.test(ctx.getMember())) {
+                        if (command.category() == CommandCategory.OWNER && !CommandPermission.OWNER.test(ctx.getMember())) {
                             ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
                             return;
                         }
@@ -374,7 +374,7 @@ public class InfoCmds {
 
     @Subscribe
     public void invite(CommandRegistry cr) {
-        cr.register("invite", new SimpleCommand(Category.INFO) {
+        cr.register("invite", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 var languageContext = ctx.getLanguageContext();
@@ -404,7 +404,7 @@ public class InfoCmds {
 
     @Subscribe
     public void prefix(CommandRegistry cr) {
-        cr.register("prefix", new SimpleCommand(Category.INFO) {
+        cr.register("prefix", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 DBGuild dbGuild = ctx.getDBGuild();
@@ -426,7 +426,7 @@ public class InfoCmds {
 
     @Subscribe
     public void stats(CommandRegistry cr) {
-        SimpleTreeCommand statsCommand = (SimpleTreeCommand) cr.register("stats", new SimpleTreeCommand(Category.INFO) {
+        SimpleTreeCommand statsCommand = (SimpleTreeCommand) cr.register("stats", new SimpleTreeCommand(CommandCategory.INFO) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
@@ -671,7 +671,7 @@ public class InfoCmds {
 
     @Subscribe
     public void userinfo(CommandRegistry cr) {
-        cr.register("userinfo", new SimpleCommand(Category.INFO) {
+        cr.register("userinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
@@ -738,7 +738,7 @@ public class InfoCmds {
 
     @Subscribe
     public void season(CommandRegistry registry) {
-        registry.register("season", new SimpleCommand(Category.INFO) {
+        registry.register("season", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
@@ -760,7 +760,7 @@ public class InfoCmds {
 
     @Subscribe
     public void support(CommandRegistry registry) {
-        registry.register("support", new SimpleCommand(Category.INFO) {
+        registry.register("support", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.sendLocalized("commands.support.info", EmoteReference.POPPER);
@@ -770,7 +770,7 @@ public class InfoCmds {
 
     @Subscribe
     public void roleinfo(CommandRegistry cr) {
-        cr.register("roleinfo", new SimpleCommand(Category.INFO) {
+        cr.register("roleinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Role r = Utils.findRole(ctx.getEvent(), content);

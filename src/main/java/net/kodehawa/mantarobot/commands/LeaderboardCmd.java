@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -68,7 +68,7 @@ public class LeaderboardCmd {
                 .prefix("leaderboard")
                 .build();
 
-        TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(Category.CURRENCY) {
+        TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context context, String commandName, String content) {
                 return new SubCommand() {

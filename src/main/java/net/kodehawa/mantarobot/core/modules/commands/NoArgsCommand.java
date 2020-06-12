@@ -17,16 +17,16 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 
 public abstract class NoArgsCommand extends AbstractCommand {
-    public NoArgsCommand(Category category) {
+    public NoArgsCommand(CommandCategory category) {
         super(category);
     }
 
-    public NoArgsCommand(Category category, CommandPermission permission) {
+    public NoArgsCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
 

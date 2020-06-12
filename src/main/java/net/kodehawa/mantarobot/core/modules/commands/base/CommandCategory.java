@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum Category {
+public enum CommandCategory {
     MUSIC(CommandPermission.USER, "categories.music", "Audio"),
     ACTION(CommandPermission.USER, "categories.action", "Action"),
     CURRENCY(CommandPermission.USER, "categories.currency", "Currency"),
@@ -41,7 +41,7 @@ public enum Category {
     private final String s;
     private final String qualifiedName;
 
-    Category(CommandPermission p, String s, String name) {
+    CommandCategory(CommandPermission p, String s, String name) {
         this.permission = p;
         this.s = s;
         this.qualifiedName = name;
@@ -54,8 +54,8 @@ public enum Category {
      * @param name The String value to match
      * @return The category, or null if nothing is found.
      */
-    public static Category lookupFromString(String name) {
-        for (Category cat : Category.values()) {
+    public static CommandCategory lookupFromString(String name) {
+        for (CommandCategory cat : CommandCategory.values()) {
             if (cat.qualifiedName.equalsIgnoreCase(name)) {
                 return cat;
             }
@@ -67,14 +67,14 @@ public enum Category {
      * @return The name of the category.
      */
     public static List<String> getAllNames() {
-        return Stream.of(Category.values()).map(category -> Utils.capitalize(category.qualifiedName.toLowerCase())).collect(Collectors.toList());
+        return Stream.of(CommandCategory.values()).map(category -> Utils.capitalize(category.qualifiedName.toLowerCase())).collect(Collectors.toList());
     }
 
     /**
      * @return All categories as a List. You could do Category#values anyway, this is just for my convenience.
      */
-    public static List<Category> getAllCategories() {
-        return Arrays.asList(Category.values());
+    public static List<CommandCategory> getAllCategories() {
+        return Arrays.asList(CommandCategory.values());
     }
 
     @Override

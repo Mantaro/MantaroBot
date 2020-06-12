@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.moderation.WarnAction;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
 
@@ -39,7 +39,7 @@ public class GuildData {
     @ConfigName("Mod action counter")
     private long cases = 0L;
     @ConfigName("Categories disabled in channels")
-    private HashMap<String, List<Category>> channelSpecificDisabledCategories = new HashMap<>();
+    private HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Commands disabled in channels")
     private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
 
@@ -47,7 +47,7 @@ public class GuildData {
     private boolean customAdminLock = false;
 
     @ConfigName("Disabled Categories")
-    private Set<Category> disabledCategories = new HashSet<>();
+    private Set<CommandCategory> disabledCategories = new HashSet<>();
     @ConfigName("Disabled Channels")
     private Set<String> disabledChannels = new HashSet<>();
     @ConfigName("Disabled Commands")
@@ -165,7 +165,7 @@ public class GuildData {
     @ConfigName("Link Protection ignore (users)")
     private Set<String> linkProtectionAllowedUsers = new HashSet<>();
     @ConfigName("Disabled Categories for Role (id)")
-    private HashMap<String, List<Category>> roleSpecificDisabledCategories = new HashMap<>();
+    private HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories = new HashMap<>();
     @ConfigName("Disabled Commands for Role (id)")
     private HashMap<String, List<String>> roleSpecificDisabledCommands = new HashMap<>();
     @ConfigName("Server language")
@@ -271,11 +271,11 @@ public class GuildData {
         this.hasReceivedGreet = hasReceivedGreet;
     }
 
-    public HashMap<String, List<Category>> getChannelSpecificDisabledCategories() {
+    public HashMap<String, List<CommandCategory>> getChannelSpecificDisabledCategories() {
         return this.channelSpecificDisabledCategories;
     }
 
-    public void setChannelSpecificDisabledCategories(HashMap<String, List<Category>> channelSpecificDisabledCategories) {
+    public void setChannelSpecificDisabledCategories(HashMap<String, List<CommandCategory>> channelSpecificDisabledCategories) {
         this.channelSpecificDisabledCategories = channelSpecificDisabledCategories;
     }
 
@@ -295,11 +295,11 @@ public class GuildData {
         this.customAdminLock = customAdminLock;
     }
 
-    public Set<Category> getDisabledCategories() {
+    public Set<CommandCategory> getDisabledCategories() {
         return this.disabledCategories;
     }
 
-    public void setDisabledCategories(Set<Category> disabledCategories) {
+    public void setDisabledCategories(Set<CommandCategory> disabledCategories) {
         this.disabledCategories = disabledCategories;
     }
 
@@ -695,11 +695,11 @@ public class GuildData {
         this.linkProtectionAllowedUsers = linkProtectionAllowedUsers;
     }
 
-    public HashMap<String, List<Category>> getRoleSpecificDisabledCategories() {
+    public HashMap<String, List<CommandCategory>> getRoleSpecificDisabledCategories() {
         return this.roleSpecificDisabledCategories;
     }
 
-    public void setRoleSpecificDisabledCategories(HashMap<String, List<Category>> roleSpecificDisabledCategories) {
+    public void setRoleSpecificDisabledCategories(HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories) {
         this.roleSpecificDisabledCategories = roleSpecificDisabledCategories;
     }
 

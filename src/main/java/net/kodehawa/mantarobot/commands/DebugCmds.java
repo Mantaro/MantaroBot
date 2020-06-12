@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -55,7 +55,7 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 public class DebugCmds {
     @Subscribe
     public void info(CommandRegistry cr) {
-        cr.register("info", new SimpleCommand(Category.INFO) {
+        cr.register("info", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 var config = ctx.getConfig();
@@ -143,7 +143,7 @@ public class DebugCmds {
 
     @Subscribe
     public void shard(CommandRegistry cr) {
-        cr.register("shard", new SimpleCommand(Category.INFO) {
+        cr.register("shard", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 long nodeAmount;
@@ -175,7 +175,7 @@ public class DebugCmds {
                 .prefix("ping")
                 .build();
 
-        cr.register("ping", new SimpleCommand(Category.INFO) {
+        cr.register("ping", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
@@ -205,7 +205,7 @@ public class DebugCmds {
 
     @Subscribe
     public void shardinfo(CommandRegistry cr) {
-        cr.register("shardinfo", new SimpleCommand(Category.INFO) {
+        cr.register("shardinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();

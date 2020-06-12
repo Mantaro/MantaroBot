@@ -37,7 +37,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
@@ -67,7 +67,7 @@ import java.util.stream.Collectors;
 public class PlayerCmds {
     @Subscribe
     public void rep(CommandRegistry cr) {
-        cr.register("rep", new SimpleCommand(Category.CURRENCY) {
+        cr.register("rep", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .limit(1)
                     .cooldown(12, TimeUnit.HOURS)
@@ -166,7 +166,7 @@ public class PlayerCmds {
 
     @Subscribe
     public void equip(CommandRegistry cr) {
-        cr.register("equip", new SimpleCommand(Category.CURRENCY) {
+        cr.register("equip", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -234,7 +234,7 @@ public class PlayerCmds {
 
     @Subscribe
     public void unequip(CommandRegistry cr) {
-        cr.register("unequip", new SimpleCommand(Category.CURRENCY) {
+        cr.register("unequip", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -323,7 +323,7 @@ public class PlayerCmds {
     @Subscribe
     public void badges(CommandRegistry cr) {
         final Random r = new Random();
-        ITreeCommand badgeCommand = (ITreeCommand) cr.register("badges", new TreeCommand(Category.CURRENCY) {
+        ITreeCommand badgeCommand = (ITreeCommand) cr.register("badges", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

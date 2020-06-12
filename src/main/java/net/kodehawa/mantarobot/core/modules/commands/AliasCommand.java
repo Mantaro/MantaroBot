@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -38,7 +38,7 @@ public class AliasCommand implements Command {
         this.aliases = command.getAliases();
     }
 
-    public Category parentCategory() {
+    public CommandCategory parentCategory() {
         return command.category();
     }
 
@@ -47,7 +47,7 @@ public class AliasCommand implements Command {
     }
 
     @Override
-    public Category category() {
+    public CommandCategory category() {
         return null; //Alias Commands are hidden
     }
 

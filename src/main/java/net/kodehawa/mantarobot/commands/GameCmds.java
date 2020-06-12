@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -78,7 +78,7 @@ public class GameCmds {
         games.put("character", (d) -> new Character());
         games.put("trivia", Trivia::new);
 
-        SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
+        SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(CommandCategory.GAMES) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
@@ -306,7 +306,7 @@ public class GameCmds {
 
     @Subscribe
     public void trivia(CommandRegistry cr) {
-        cr.register("trivia", new SimpleCommand(Category.GAMES) {
+        cr.register("trivia", new SimpleCommand(CommandCategory.GAMES) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(1)
                     .limit(1)

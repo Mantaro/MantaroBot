@@ -32,7 +32,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -90,7 +90,7 @@ public class MoneyCmds {
                 .build();
 
         Random r = new Random();
-        cr.register("daily", new SimpleCommand(Category.CURRENCY) {
+        cr.register("daily", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
@@ -293,7 +293,7 @@ public class MoneyCmds {
 
     @Subscribe
     public void gamble(CommandRegistry cr) {
-        cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
+        cr.register("gamble", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(3)
                     .limit(1)
@@ -432,7 +432,7 @@ public class MoneyCmds {
 
     @Subscribe
     public void loot(CommandRegistry cr) {
-        cr.register("loot", new SimpleCommand(Category.CURRENCY) {
+        cr.register("loot", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .limit(1)
                     .spamTolerance(2)
@@ -539,7 +539,7 @@ public class MoneyCmds {
 
     @Subscribe
     public void balance(CommandRegistry cr) {
-        cr.register("balance", new SimpleCommand(Category.CURRENCY) {
+        cr.register("balance", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = ctx.getOptionalArguments();
@@ -610,7 +610,7 @@ public class MoneyCmds {
             winCombinations.add(emote + emote + emote);
         }
 
-        cr.register("slots", new SimpleCommand(Category.CURRENCY) {
+        cr.register("slots", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> opts = ctx.getOptionalArguments();

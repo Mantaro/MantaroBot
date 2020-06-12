@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class MessageCmds {
     @Subscribe
     public void prune(CommandRegistry cr) {
-        var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(Category.MODERATION) {
+        var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(CommandCategory.MODERATION) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {

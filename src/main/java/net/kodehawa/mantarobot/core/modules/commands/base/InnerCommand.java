@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface InnerCommand extends Command {
     @Override
-    default Category category() {
+    default CommandCategory category() {
         return null;
     }
 

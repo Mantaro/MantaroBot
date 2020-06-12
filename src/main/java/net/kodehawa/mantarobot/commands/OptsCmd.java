@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -60,7 +60,7 @@ public class OptsCmd {
 
     @Subscribe
     public void register(CommandRegistry registry) {
-        registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
+        registry.register("opts", optsCmd = new SimpleCommand(CommandCategory.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {

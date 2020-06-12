@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -64,7 +64,7 @@ public class PremiumCmds {
 
     @Subscribe
     public void comprevip(CommandRegistry cr) {
-        cr.register("activatekey", new SimpleCommand(Category.UTILS) {
+        cr.register("activatekey", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 final ManagedDatabase db = ctx.db();
@@ -178,7 +178,7 @@ public class PremiumCmds {
                 .prefix("claimkey")
                 .build();
 
-        cr.register("claimkey", new SimpleCommand(Category.UTILS) {
+        cr.register("claimkey", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (config.isPremiumBot()) {
@@ -251,7 +251,7 @@ public class PremiumCmds {
     public void vipstatus(CommandRegistry cr) {
         final ManagedDatabase db = MantaroData.db();
 
-        TreeCommand vipstatusCmd = (TreeCommand) cr.register("vipstatus", new TreeCommand(Category.INFO) {
+        TreeCommand vipstatusCmd = (TreeCommand) cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -427,7 +427,7 @@ public class PremiumCmds {
     //Won't translate this. Owner command.
     @Subscribe
     public void invalidatekey(CommandRegistry cr) {
-        cr.register("invalidatekey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("invalidatekey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if(args.length == 0) {
@@ -456,7 +456,7 @@ public class PremiumCmds {
     //Won't translate this. Owner command.
     @Subscribe
     public void createkey(CommandRegistry cr) {
-        cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("createkey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = ctx.getOptionalArguments();

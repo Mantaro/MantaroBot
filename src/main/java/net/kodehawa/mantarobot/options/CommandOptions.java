@@ -20,7 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.CustomCmds;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -250,12 +250,12 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    Category toDisable = Category.lookupFromString(args[0]);
+                    CommandCategory toDisable = CommandCategory.lookupFromString(args[0]);
 
                     if (toDisable == null) {
                         AtomicInteger at = new AtomicInteger();
                         event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
-                                EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                                EmoteReference.ERROR, CommandCategory.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
                                         .collect(Collectors.joining("\n"))
                         ).queue();
                         return;
@@ -266,7 +266,7 @@ public class CommandOptions extends OptionHandler {
                         return;
                     }
 
-                    if (toDisable == Category.MODERATION) {
+                    if (toDisable == CommandCategory.MODERATION) {
                         event.getChannel().sendMessageFormat(lang.get("options.category_disable.moderation_notice"), EmoteReference.WARNING).queue();
                         return;
                     }
@@ -288,12 +288,12 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    Category toEnable = Category.lookupFromString(args[0]);
+                    CommandCategory toEnable = CommandCategory.lookupFromString(args[0]);
 
                     if (toEnable == null) {
                         AtomicInteger at = new AtomicInteger();
                         event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
-                                EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                                EmoteReference.ERROR, CommandCategory.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
                                         .collect(Collectors.joining("\n"))
                         ).queue();
                         return;
@@ -316,14 +316,14 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    Category toDisable = Category.lookupFromString(args[0]);
+                    CommandCategory toDisable = CommandCategory.lookupFromString(args[0]);
 
                     String channelName = args[1];
                     Consumer<TextChannel> consumer = selectedChannel -> {
                         if (toDisable == null) {
                             AtomicInteger at = new AtomicInteger();
                             event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
-                                    EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                                    EmoteReference.ERROR, CommandCategory.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
                                             .collect(Collectors.joining("\n"))
                             ).queue();
                             return;
@@ -336,7 +336,7 @@ public class CommandOptions extends OptionHandler {
                             return;
                         }
 
-                        if (toDisable == Category.MODERATION) {
+                        if (toDisable == CommandCategory.MODERATION) {
                             event.getChannel().sendMessageFormat(lang.get("options.category_specific_disable.moderation_notice"), EmoteReference.WARNING).queue();
                             return;
                         }
@@ -367,14 +367,14 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    Category toEnable = Category.lookupFromString(args[0]);
+                    CommandCategory toEnable = CommandCategory.lookupFromString(args[0]);
                     String channelName = args[1];
 
                     Consumer<TextChannel> consumer = selectedChannel -> {
                         if (toEnable == null) {
                             AtomicInteger at = new AtomicInteger();
                             event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
-                                    EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                                    EmoteReference.ERROR, CommandCategory.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
                                             .collect(Collectors.joining("\n"))
                             ).queue();
                             return;
@@ -529,14 +529,14 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-            Category toDisable = Category.lookupFromString(args[0]);
+            CommandCategory toDisable = CommandCategory.lookupFromString(args[0]);
 
             String roleName = args[1];
             Consumer<Role> consumer = role -> {
                 if (toDisable == null) {
                     AtomicInteger at = new AtomicInteger();
                     event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
-                            EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                            EmoteReference.ERROR, CommandCategory.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
                                     .collect(Collectors.joining("\n"))
                     ).queue();
                     return;
@@ -560,7 +560,7 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                if (toDisable == Category.MODERATION) {
+                if (toDisable == CommandCategory.MODERATION) {
                     event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.moderation_notice"), EmoteReference.WARNING).queue();
                     return;
                 }
@@ -587,14 +587,14 @@ public class CommandOptions extends OptionHandler {
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-            Category toEnable = Category.lookupFromString(args[0]);
+            CommandCategory toEnable = CommandCategory.lookupFromString(args[0]);
             String roleName = args[1];
 
             Consumer<Role> consumer = role -> {
                 if (toEnable == null) {
                     AtomicInteger at = new AtomicInteger();
                     event.getChannel().sendMessageFormat(lang.get("options.invalid_category"),
-                            EmoteReference.ERROR, Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
+                            EmoteReference.ERROR, CommandCategory.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name)
                                     .collect(Collectors.joining("\n"))
                     ).queue();
                     return;

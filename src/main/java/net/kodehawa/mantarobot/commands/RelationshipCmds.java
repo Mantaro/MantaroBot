@@ -33,7 +33,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
@@ -122,7 +122,7 @@ public class RelationshipCmds {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        ITreeCommand marryCommand = (ITreeCommand) cr.register("marry", new TreeCommand(Category.FUN) {
+        ITreeCommand marryCommand = (ITreeCommand) cr.register("marry", new TreeCommand(CommandCategory.FUN) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -527,7 +527,7 @@ public class RelationshipCmds {
 
     @Subscribe
     public void divorce(CommandRegistry cr) {
-        cr.register("divorce", new SimpleCommand(Category.FUN) {
+        cr.register("divorce", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 final Player divorceePlayer = ctx.getPlayer();
@@ -588,7 +588,7 @@ public class RelationshipCmds {
                 .build();
 
 
-        TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(Category.FUN) {
+        TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(CommandCategory.FUN) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

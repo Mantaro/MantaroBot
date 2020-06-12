@@ -30,7 +30,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -124,7 +124,7 @@ public class InvestigateCmd {
 
     @Subscribe
     public void investigate(CommandRegistry cr) {
-        cr.register("investigate", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+        cr.register("investigate", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {

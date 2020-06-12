@@ -31,7 +31,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -72,7 +72,7 @@ public class ItemCmds {
 
         final SecureRandom random = new SecureRandom();
 
-        TreeCommand castCommand = (TreeCommand) cr.register("cast", new TreeCommand(Category.CURRENCY) {
+        TreeCommand castCommand = (TreeCommand) cr.register("cast", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -344,7 +344,7 @@ public class ItemCmds {
         final SecureRandom random = new SecureRandom();
 
         //The contents of this command are -mostly- taken from the cast command, so they'll look similar.
-        TreeCommand rp = (TreeCommand) registry.register("repair", new TreeCommand(Category.CURRENCY) {
+        TreeCommand rp = (TreeCommand) registry.register("repair", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String commandName, String content) {
                 return new SubCommand() {
@@ -559,7 +559,7 @@ public class ItemCmds {
 
     @Subscribe
     public void iteminfo(CommandRegistry registry) {
-        registry.register("iteminfo", new SimpleCommand(Category.CURRENCY) {
+        registry.register("iteminfo", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {

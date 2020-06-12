@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -55,7 +55,7 @@ public class AnimeCmds {
 
     @Subscribe
     public void anime(CommandRegistry cr) {
-        cr.register("anime", new SimpleCommand(Category.FUN) {
+        cr.register("anime", new SimpleCommand(CommandCategory.FUN) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 try {
@@ -110,7 +110,7 @@ public class AnimeCmds {
 
     @Subscribe
     public void character(CommandRegistry cr) {
-        cr.register("character", new SimpleCommand(Category.FUN) {
+        cr.register("character", new SimpleCommand(CommandCategory.FUN) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 try {

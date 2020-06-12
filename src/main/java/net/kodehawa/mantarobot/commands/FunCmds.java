@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -55,7 +55,7 @@ public class FunCmds {
 
     @Subscribe
     public void coinflip(CommandRegistry cr) {
-        cr.register("coinflip", new SimpleCommand(Category.FUN) {
+        cr.register("coinflip", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 int times;
@@ -97,7 +97,7 @@ public class FunCmds {
 
     @Subscribe
     public void ratewaifu(CommandRegistry cr) {
-        cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
+        cr.register("ratewaifu", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {
@@ -139,7 +139,7 @@ public class FunCmds {
                 .prefix("roll")
                 .build();
 
-        registry.register("roll", new SimpleCommand(Category.FUN) {
+        registry.register("roll", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
@@ -194,7 +194,7 @@ public class FunCmds {
     @Subscribe
     public void love(CommandRegistry registry) {
         final SecureRandom random = new SecureRandom();
-        registry.register("love", new SimpleCommand(Category.FUN) {
+        registry.register("love", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 List<User> mentioned = ctx.getMentionedUsers();

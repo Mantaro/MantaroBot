@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -57,7 +57,7 @@ public class MuteCmds {
 
     @Subscribe
     public void mute(CommandRegistry registry) {
-        Command mute = registry.register("mute", new SimpleCommand(Category.MODERATION) {
+        Command mute = registry.register("mute", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {
@@ -275,7 +275,7 @@ public class MuteCmds {
 
     @Subscribe
     public void unmute(CommandRegistry commandRegistry) {
-        commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION) {
+        commandRegistry.register("unmute", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!ctx.getMember().hasPermission(Permission.KICK_MEMBERS) || !ctx.getMember().hasPermission(Permission.KICK_MEMBERS)) {

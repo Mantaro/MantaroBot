@@ -32,7 +32,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
@@ -90,7 +90,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void birthday(CommandRegistry registry) {
-        TreeCommand birthdayCommand = (TreeCommand) registry.register("birthday", new TreeCommand(Category.UTILS) {
+        TreeCommand birthdayCommand = (TreeCommand) registry.register("birthday", new TreeCommand(CommandCategory.UTILS) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -326,7 +326,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void choose(CommandRegistry registry) {
-        registry.register("choose", new SimpleCommand(Category.UTILS) {
+        registry.register("choose", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 if (args.length < 1) {
@@ -357,7 +357,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void remindme(CommandRegistry registry) {
-        ITreeCommand remindme = (ITreeCommand) registry.register("remindme", new TreeCommand(Category.UTILS) {
+        ITreeCommand remindme = (ITreeCommand) registry.register("remindme", new TreeCommand(CommandCategory.UTILS) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -520,7 +520,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void time(CommandRegistry registry) {
-        registry.register("time", new SimpleCommand(Category.UTILS) {
+        registry.register("time", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
@@ -552,7 +552,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void urban(CommandRegistry registry) {
-        registry.register("urban", new SimpleCommand(Category.UTILS) {
+        registry.register("urban", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -617,7 +617,7 @@ public class UtilsCmds {
     //Won't translate
     @Subscribe
     public void wiki(CommandRegistry registry) {
-        registry.register("wiki", new TreeCommand(Category.UTILS) {
+        registry.register("wiki", new TreeCommand(CommandCategory.UTILS) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

@@ -26,7 +26,7 @@ import net.kodehawa.mantarobot.commands.image.ImageRequestType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
@@ -58,7 +58,7 @@ public class ImageCmds {
 
     @Subscribe
     public void cat(CommandRegistry cr) {
-        cr.register("cat", new SimpleCommand(Category.IMAGE) {
+        cr.register("cat", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
@@ -86,7 +86,7 @@ public class ImageCmds {
 
     @Subscribe
     public void catgirls(CommandRegistry cr) {
-        cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
+        cr.register("catgirl", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
@@ -122,7 +122,7 @@ public class ImageCmds {
 
     @Subscribe
     public void e621(CommandRegistry cr) {
-        cr.register("e621", new SimpleCommand(Category.IMAGE) {
+        cr.register("e621", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!ctx.getChannel().isNSFW()) {
@@ -148,7 +148,7 @@ public class ImageCmds {
 
     @Subscribe
     public void kona(CommandRegistry cr) {
-        cr.register("konachan", new SimpleCommand(Category.IMAGE) {
+        cr.register("konachan", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 sendImage(ctx, konachan, false, "konachan", content, args);
@@ -170,7 +170,7 @@ public class ImageCmds {
 
     @Subscribe
     public void safebooru(CommandRegistry cr) {
-        cr.register("safebooru", new SimpleCommand(Category.IMAGE) {
+        cr.register("safebooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 sendImage(ctx, safebooru, false, "safebooru", content, args);
@@ -190,7 +190,7 @@ public class ImageCmds {
 
     @Subscribe
     public void danbooru(CommandRegistry cr) {
-        cr.register("danbooru", new SimpleCommand(Category.IMAGE) {
+        cr.register("danbooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 sendImage(ctx, danbooru, false, "danbooru", content, args);
@@ -212,7 +212,7 @@ public class ImageCmds {
 
     @Subscribe
     public void rule34(CommandRegistry cr) {
-        cr.register("rule34", new SimpleCommand(Category.IMAGE) {
+        cr.register("rule34", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 sendImage(ctx, rule34, true, "rule34", content, args);
@@ -233,7 +233,7 @@ public class ImageCmds {
 
     @Subscribe
     public void yandere(CommandRegistry cr) {
-        cr.register("yandere", new SimpleCommand(Category.IMAGE) {
+        cr.register("yandere", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!ctx.getChannel().isNSFW()) {
@@ -261,7 +261,7 @@ public class ImageCmds {
 
     @Subscribe
     public void gelbooru(CommandRegistry cr) {
-        cr.register("gelbooru", new SimpleCommand(Category.IMAGE) {
+        cr.register("gelbooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!ctx.getChannel().isNSFW()) {

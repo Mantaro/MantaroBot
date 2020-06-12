@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerD
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -61,7 +61,7 @@ public class CurrencyActionCmds {
 
     @Subscribe
     public void mine(CommandRegistry cr) {
-        cr.register("mine", new SimpleCommand(Category.CURRENCY) {
+        cr.register("mine", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .limit(1)
                     .spamTolerance(2)
@@ -256,7 +256,7 @@ public class CurrencyActionCmds {
                 .premiumAware(true)
                 .build();
 
-        cr.register("fish", new SimpleCommand(Category.CURRENCY) {
+        cr.register("fish", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = ctx.getOptionalArguments();

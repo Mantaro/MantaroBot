@@ -40,7 +40,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -76,7 +76,7 @@ public class MusicCmds {
 
     @Subscribe
     public void forceskip(CommandRegistry cr) {
-        cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
+        cr.register("forceskip", new SimpleCommand(CommandCategory.MUSIC, CommandPermission.ADMIN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -102,7 +102,7 @@ public class MusicCmds {
 
     @Subscribe
     public void move(CommandRegistry cr) {
-        cr.register("move", new SimpleCommand(Category.MUSIC) {
+        cr.register("move", new SimpleCommand(CommandCategory.MUSIC) {
             final IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
                     .limit(1)
                     .spamTolerance(2)
@@ -171,7 +171,7 @@ public class MusicCmds {
 
     @Subscribe
     public void playnow(CommandRegistry cr) {
-        cr.register("playnow", new SimpleCommand(Category.MUSIC) {
+        cr.register("playnow", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (isDJ(ctx.getMember())) {
@@ -216,7 +216,7 @@ public class MusicCmds {
 
     @Subscribe
     public void np(CommandRegistry cr) {
-        cr.register("np", new SimpleCommand(Category.MUSIC) {
+        cr.register("np", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 final GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -259,7 +259,7 @@ public class MusicCmds {
 
     @Subscribe
     public void pause(CommandRegistry cr) {
-        cr.register("pause", new SimpleCommand(Category.MUSIC) {
+        cr.register("pause", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -295,7 +295,7 @@ public class MusicCmds {
     public void play(CommandRegistry cr) {
         RateLimiter warningRatelimiter = new RateLimiter(TimeUnit.MINUTES, 3);
 
-        cr.register("play", new SimpleCommand(Category.MUSIC) {
+        cr.register("play", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.trim().isEmpty()) {
@@ -335,7 +335,7 @@ public class MusicCmds {
 
     @Subscribe
     public void forceplay(CommandRegistry cr) {
-        cr.register("forceplay", new SimpleCommand(Category.MUSIC) {
+        cr.register("forceplay", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.trim().isEmpty()) {
@@ -370,7 +370,7 @@ public class MusicCmds {
 
     @Subscribe
     public void rewind(CommandRegistry cr) {
-        cr.register("rewind", new SimpleCommand(Category.MUSIC) {
+        cr.register("rewind", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {
@@ -422,7 +422,7 @@ public class MusicCmds {
 
     @Subscribe
     public void reset(CommandRegistry cr) {
-        cr.register("restartsong", new SimpleCommand(Category.MUSIC) {
+        cr.register("restartsong", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -452,7 +452,7 @@ public class MusicCmds {
 
     @Subscribe
     public void skipahead(CommandRegistry cr) {
-        cr.register("forward", new SimpleCommand(Category.MUSIC) {
+        cr.register("forward", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (args.length == 0) {
@@ -510,7 +510,7 @@ public class MusicCmds {
 
     @Subscribe
     public void queue(CommandRegistry cr) {
-        TreeCommand queueCommand = (TreeCommand) cr.register("queue", new TreeCommand(Category.MUSIC) {
+        TreeCommand queueCommand = (TreeCommand) cr.register("queue", new TreeCommand(CommandCategory.MUSIC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -571,7 +571,7 @@ public class MusicCmds {
 
     @Subscribe
     public void removetrack(CommandRegistry cr) {
-        cr.register("removetrack", new SimpleCommand(Category.MUSIC) {
+        cr.register("removetrack", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -664,7 +664,7 @@ public class MusicCmds {
 
     @Subscribe
     public void repeat(CommandRegistry cr) {
-        cr.register("repeat", new SimpleCommand(Category.MUSIC) {
+        cr.register("repeat", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -712,7 +712,7 @@ public class MusicCmds {
 
     @Subscribe
     public void nextSong(CommandRegistry cr) {
-        cr.register("ns", new SimpleCommand(Category.MUSIC) {
+        cr.register("ns", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -742,7 +742,7 @@ public class MusicCmds {
 
     @Subscribe
     public void shuffle(CommandRegistry cr) {
-        cr.register("shuffle", new SimpleCommand(Category.MUSIC) {
+        cr.register("shuffle", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
@@ -766,7 +766,7 @@ public class MusicCmds {
 
     @Subscribe
     public void skip(CommandRegistry cr) {
-        cr.register("skip", new SimpleCommand(Category.MUSIC) {
+        cr.register("skip", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
@@ -824,7 +824,7 @@ public class MusicCmds {
 
     @Subscribe
     public void stop(CommandRegistry cr) {
-        cr.register("stop", new SimpleCommand(Category.MUSIC) {
+        cr.register("stop", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
@@ -879,7 +879,7 @@ public class MusicCmds {
 
     @Subscribe
     public void volume(CommandRegistry cr) {
-        TreeCommand volumeCommand = (TreeCommand) cr.register("volume", new TreeCommand(Category.MUSIC) {
+        TreeCommand volumeCommand = (TreeCommand) cr.register("volume", new TreeCommand(CommandCategory.MUSIC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -947,7 +947,7 @@ public class MusicCmds {
 
     @Subscribe
     public void music(CommandRegistry cr) {
-        cr.register("music", new SimpleCommand(Category.INFO) {
+        cr.register("music", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
@@ -981,7 +981,7 @@ public class MusicCmds {
 
     @Subscribe
     public void lyrics(CommandRegistry cr) {
-        cr.register("lyrics", new SimpleCommand(Category.MUSIC) {
+        cr.register("lyrics", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 String search = content.trim();

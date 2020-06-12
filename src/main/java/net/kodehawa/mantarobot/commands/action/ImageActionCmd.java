@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -53,7 +53,7 @@ public class ImageActionCmd extends NoArgsCommand {
     private final String botLine;
 
     public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -66,7 +66,7 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, String type, String lonelyLine, String botLine) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.format = format;
@@ -79,7 +79,7 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, String type, String lonelyLine, String botLine, boolean swap) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.format = format;

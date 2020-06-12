@@ -34,7 +34,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -169,7 +169,7 @@ public class CurrencyCmds {
     @Subscribe
     public void inventory(CommandRegistry cr) {
         final Random r = new Random();
-        cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
+        cr.register("inventory", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = ctx.getOptionalArguments();
@@ -269,7 +269,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void level(CommandRegistry cr) {
-        cr.register("level", new SimpleCommand(Category.CURRENCY) {
+        cr.register("level", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
@@ -308,7 +308,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void transferItems(CommandRegistry cr) {
-        cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
+        cr.register("itemtransfer", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(2)
                     .limit(1)
@@ -441,7 +441,7 @@ public class CurrencyCmds {
     @Subscribe
     //Should be called return land tbh, what the fuck.
     public void transfer(CommandRegistry cr) {
-        cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
+        cr.register("transfer", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(2)
                     .limit(1)
@@ -567,7 +567,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void lootcrate(CommandRegistry registry) {
-        registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
+        registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 //Argument parsing.
@@ -625,7 +625,7 @@ public class CurrencyCmds {
                 .build();
 
         SecureRandom random = new SecureRandom();
-        cr.register("dailycrate", new SimpleCommand(Category.CURRENCY) {
+        cr.register("dailycrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!ctx.getDBUser().isPremium()) {
@@ -664,7 +664,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void useItem(CommandRegistry cr) {
-        TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(Category.CURRENCY) {
+        TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

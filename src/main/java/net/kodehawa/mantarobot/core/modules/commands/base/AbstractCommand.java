@@ -22,21 +22,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractCommand implements AssistedCommand {
-    private final Category category;
+    private final CommandCategory category;
     private final CommandPermission permission;
     public List<String> aliases = new ArrayList<>();
 
-    public AbstractCommand(Category category) {
+    public AbstractCommand(CommandCategory category) {
         this(category, CommandPermission.USER);
     }
 
-    public AbstractCommand(Category category, CommandPermission permission) {
+    public AbstractCommand(CommandCategory category, CommandPermission permission) {
         this.category = category;
         this.permission = permission;
     }
 
     @Override
-    public Category category() {
+    public CommandCategory category() {
         return category;
     }
 

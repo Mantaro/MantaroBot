@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.kodehawa.mantarobot.core.command.meta.*;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
@@ -17,7 +17,7 @@ public abstract class NewCommand {
     private final Map<String, String> childrenAliases = new HashMap<>();
     private final String name;
     private final List<String> aliases;
-    private final Category category;
+    private final CommandCategory category;
     private final CommandPermission permission;
     private final boolean guildOnly;
     private final HelpContent help;
@@ -74,7 +74,7 @@ public abstract class NewCommand {
         return aliases;
     }
 
-    public Category category() {
+    public CommandCategory category() {
         return category;
     }
 

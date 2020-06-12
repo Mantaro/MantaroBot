@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -48,7 +48,7 @@ public class ModerationCmds {
 
     @Subscribe
     public void softban(CommandRegistry cr) {
-        cr.register("softban", new SimpleCommand(Category.MODERATION) {
+        cr.register("softban", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
@@ -167,7 +167,7 @@ public class ModerationCmds {
 
     @Subscribe
     public void ban(CommandRegistry cr) {
-        cr.register("ban", new SimpleCommand(Category.MODERATION) {
+        cr.register("ban", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
@@ -271,7 +271,7 @@ public class ModerationCmds {
 
     @Subscribe
     public void kick(CommandRegistry cr) {
-        cr.register("kick", new SimpleCommand(Category.MODERATION) {
+        cr.register("kick", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();

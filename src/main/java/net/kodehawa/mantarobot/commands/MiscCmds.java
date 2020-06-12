@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -142,7 +142,7 @@ public class MiscCmds {
 
     @Subscribe
     public void eightBall(CommandRegistry cr) {
-        cr.register("8ball", new SimpleCommand(Category.MISC) {
+        cr.register("8ball", new SimpleCommand(CommandCategory.MISC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -177,7 +177,7 @@ public class MiscCmds {
 
     @Subscribe
     public void iam(CommandRegistry cr) {
-        TreeCommand iamCommand = (TreeCommand) cr.register("iam", new TreeCommand(Category.MISC) {
+        TreeCommand iamCommand = (TreeCommand) cr.register("iam", new TreeCommand(CommandCategory.MISC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -282,7 +282,7 @@ public class MiscCmds {
 
     @Subscribe
     public void iamnot(CommandRegistry cr) {
-        cr.register("iamnot", new SimpleCommand(Category.MISC) {
+        cr.register("iamnot", new SimpleCommand(CommandCategory.MISC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -306,7 +306,7 @@ public class MiscCmds {
 
     @Subscribe
     public void randomFact(CommandRegistry cr) {
-        cr.register("randomfact", new SimpleCommand(Category.MISC) {
+        cr.register("randomfact", new SimpleCommand(CommandCategory.MISC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.send(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1)));
@@ -325,7 +325,7 @@ public class MiscCmds {
 
     @Subscribe
     public void createPoll(CommandRegistry registry) {
-        registry.register("createpoll", new SimpleCommand(Category.MISC) {
+        registry.register("createpoll", new SimpleCommand(CommandCategory.MISC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Map<String, String> opts = ctx.getOptionalArguments();

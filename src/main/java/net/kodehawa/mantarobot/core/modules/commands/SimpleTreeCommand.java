@@ -31,11 +31,11 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
     private final Map<String, SubCommand> subCommands = new HashMap<>();
     private Predicate<Context> predicate = event -> true;
 
-    public SimpleTreeCommand(Category category) {
+    public SimpleTreeCommand(CommandCategory category) {
         super(category);
     }
 
-    public SimpleTreeCommand(Category category, CommandPermission permission) {
+    public SimpleTreeCommand(CommandCategory category, CommandPermission permission) {
         super(category, permission);
     }
 

@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.commands.action;
 
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
@@ -34,7 +34,7 @@ public class TextActionCmd extends NoArgsCommand {
     private final Random rand = new Random();
 
     public TextActionCmd(String name, String desc, Color color, String format, List<String> strings) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.color = color;

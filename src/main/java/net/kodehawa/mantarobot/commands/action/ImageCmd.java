@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.action;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
@@ -45,7 +45,7 @@ public class ImageCmd extends NoArgsCommand {
     private String type;
 
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.imageName = imageName;
@@ -54,7 +54,7 @@ public class ImageCmd extends NoArgsCommand {
     }
 
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend, boolean noMentions) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.imageName = imageName;
@@ -64,7 +64,7 @@ public class ImageCmd extends NoArgsCommand {
     }
 
     public ImageCmd(String name, String desc, String imageName, String type, String toSend) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.imageName = imageName;
@@ -74,7 +74,7 @@ public class ImageCmd extends NoArgsCommand {
     }
 
     public ImageCmd(String name, String desc, String imageName, String type, String toSend, boolean noMentions) {
-        super(Category.ACTION);
+        super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
         this.imageName = imageName;

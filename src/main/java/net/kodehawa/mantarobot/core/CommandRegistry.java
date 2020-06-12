@@ -31,7 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -82,7 +82,7 @@ public class CommandRegistry {
         return commands;
     }
 
-    public Map<String, Command> getCommandsForCategory(Category category) {
+    public Map<String, Command> getCommandsForCategory(CommandCategory category) {
         return commands.entrySet().stream()
                 .filter(cmd -> cmd.getValue().category() == category)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -141,7 +141,7 @@ public class CommandRegistry {
             return false;
         }
 
-        if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (root(cmd).category() != Category.MODERATION)) {
+        if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (root(cmd).category() != CommandCategory.MODERATION)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
             return false;
         }
@@ -180,7 +180,7 @@ public class CommandRegistry {
             return false;
         }
 
-        HashMap<String, List<Category>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
+        HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>())
                 .contains(root(cmd).category())) && !isAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
@@ -355,7 +355,7 @@ public class CommandRegistry {
         }
 
         @Override
-        public Category category() {
+        public CommandCategory category() {
             return c.category();
         }
 
@@ -394,7 +394,7 @@ public class CommandRegistry {
         }
 
         @Override
-        public Category category() {
+        public CommandCategory category() {
             return null;
         }
     }
