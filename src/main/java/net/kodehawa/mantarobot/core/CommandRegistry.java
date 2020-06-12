@@ -246,7 +246,8 @@ public class CommandRegistry {
             );
         }
 
-        if(!newCommands.execute(new NewContext(event.getMessage(), content))) {
+        if(!newCommands.execute(new NewContext(event.getMessage(),
+                event.getMessage().getContentRaw().substring(prefix.length())))) {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
         }
 
