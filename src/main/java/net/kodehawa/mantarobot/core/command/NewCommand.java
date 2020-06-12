@@ -83,7 +83,7 @@ public abstract class NewCommand {
             return permission;
         }
         if(parent == null) {
-            return CommandPermission.OWNER;
+            return category == null ? CommandPermission.OWNER : category.permission;
         }
         return parent.permission();
     }
