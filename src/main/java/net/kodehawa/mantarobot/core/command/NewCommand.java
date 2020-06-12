@@ -108,8 +108,8 @@ public abstract class NewCommand {
                 child.execute(ctx);
                 return;
             }
+            args.back();
         }
-        args.back();
         process(ctx);
     }
 
