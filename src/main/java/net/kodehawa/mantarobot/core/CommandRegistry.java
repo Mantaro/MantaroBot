@@ -23,6 +23,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.core.command.CommandManager;
+import net.kodehawa.mantarobot.core.command.NewCommand;
+import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -31,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,6 +44,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -61,6 +66,7 @@ public class CommandRegistry {
     private final Config conf = MantaroData.config().get();
     private boolean logCommands = false;
 
+    private final CommandManager newCommands = new CommandManager();
     private final RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
 
     public CommandRegistry(Map<String, Command> commands) {
@@ -79,6 +85,13 @@ public class CommandRegistry {
         return commands.entrySet().stream()
                 .filter(cmd -> cmd.getValue().category() == category)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public void register(Class<? extends NewCommand> clazz) {
+        var cmd = newCommands.register(clazz);
+        var p = new ProxyCommand(cmd);
+        commands.put(cmd.name(), p);
+        cmd.aliases().forEach(a -> commands.put(a, new AliasProxyCommand(p)));
     }
 
     //BEWARE OF INSTANCEOF CALLS
@@ -111,13 +124,13 @@ public class CommandRegistry {
         //Variable used in lambda expression should be final or effectively final...
         final Command cmd = command;
 
-        if (guildData.getDisabledCommands().contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName.toLowerCase())) {
+        if (guildData.getDisabledCommands().contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND);
             return false;
         }
 
         List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
-        if (channelDisabledCommands != null && channelDisabledCommands.contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName.toLowerCase())) {
+        if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);
             return false;
         }
@@ -127,21 +140,20 @@ public class CommandRegistry {
             return false;
         }
 
-        if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() != Category.MODERATION : cmd.category() != Category.MODERATION)) {
+        if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (root(cmd).category() != Category.MODERATION)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
             return false;
         }
 
         if (guildData.getDisabledCategories().contains(
-                cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category()
+                root(cmd).category()
         ) && !cmdName.toLowerCase().equals("opts")) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CATEGORY);
             return false;
         }
 
         if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
-                new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() :
-                cmd.category())
+                new ArrayList<>()).contains(root(cmd).category())
                 && !cmdName.toLowerCase().equals("opts")) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_CATEGORY);
             return false;
@@ -161,13 +173,15 @@ public class CommandRegistry {
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
-        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).getOriginalName() : cmdName)) && !isAdmin(event.getMember())) {
+        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>())
+                .contains(name(cmd, cmdName))) && !isAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
             return false;
         }
 
         HashMap<String, List<Category>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
-        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmd instanceof AliasCommand ? ((AliasCommand) cmd).parentCategory() : cmd.category())) && !isAdmin(event.getMember())) {
+        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>())
+                .contains(root(cmd).category())) && !isAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
             return false;
         }
@@ -218,7 +232,7 @@ public class CommandRegistry {
 
         //COMMAND LOGGING
         long end = System.currentTimeMillis();
-        Metrics.COMMAND_COUNTER.labels(cmdName.toLowerCase()).inc();
+        Metrics.COMMAND_COUNTER.labels(name(cmd, cmdName)).inc();
 
         if (logCommands) {
             log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{}",
@@ -232,15 +246,17 @@ public class CommandRegistry {
             );
         }
 
-        cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
+        if(!newCommands.execute(new NewContext(event.getMessage(), content))) {
+            cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
+        }
 
         //Logging
-        if (cmd.category() != null) {
-            if (!cmd.category().name().isEmpty()) {
-                Metrics.CATEGORY_COUNTER.labels(cmd.category().name().toLowerCase()).inc();
+        if (root(cmd).category() != null) {
+            if (!root(cmd).category().name().isEmpty()) {
+                Metrics.CATEGORY_COUNTER.labels(root(cmd).category().name().toLowerCase()).inc();
 
-                CommandStatsManager.log(cmdName);
-                CategoryStatsManager.log(cmd.category().name().toLowerCase());
+                CommandStatsManager.log(name(cmd, cmdName));
+                CategoryStatsManager.log(root(cmd).category().name().toLowerCase());
             }
         }
 
@@ -260,6 +276,9 @@ public class CommandRegistry {
         }
 
         Command parent = commands.get(command);
+        if(parent instanceof ProxyCommand) {
+            throw new IllegalArgumentException("Use @Alias instead");
+        }
         parent.getAliases().add(alias);
 
         register(alias, new AliasCommand(alias, command, parent));
@@ -287,6 +306,78 @@ public class CommandRegistry {
 
     public void setLogCommands(boolean logCommands) {
         this.logCommands = logCommands;
+    }
+
+    private static String name(Command c, String userInput) {
+        if(c instanceof AliasCommand) {
+            return ((AliasCommand) c).getCommandName();
+        }
+        if(c instanceof ProxyCommand) {
+            return ((ProxyCommand) c).c.name();
+        }
+        return userInput.toLowerCase();
+    }
+
+    private Command root(Command c) {
+        if(c instanceof AliasCommand) {
+            return commands.get(((AliasCommand) c).parentName());
+        }
+        if(c instanceof AliasProxyCommand) {
+            return ((AliasProxyCommand) c).p;
+        }
+        return c;
+    }
+
+    private static class ProxyCommand implements Command {
+        private final NewCommand c;
+
+        private ProxyCommand(NewCommand c) {
+            this.c = c;
+        }
+
+        @Override
+        public Category category() {
+            return c.category();
+        }
+
+        @Override
+        public CommandPermission permission() {
+            return c.permission();
+        }
+
+        @Override
+        public void run(Context context, String commandName, String content) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public HelpContent help() {
+            return c.help();
+        }
+
+        @Override
+        public Command addOption(String call, Option option) {
+            Option.addOption(call, option);
+            return this;
+        }
+
+        @Override
+        public List<String> getAliases() {
+            return c.aliases();
+        }
+    }
+
+    private static class AliasProxyCommand extends ProxyCommand {
+        private final ProxyCommand p;
+        private AliasProxyCommand(ProxyCommand p) {
+            super(p.c);
+            this.p = p;
+        }
+
+        @Override
+        public Category category() {
+            return null;
+        }
     }
 
     //lol @ this

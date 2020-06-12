@@ -1,6 +1,9 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.kodehawa.mantarobot.core.command.meta.*;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +17,10 @@ public abstract class NewCommand {
     private final Map<String, String> childrenAliases = new HashMap<>();
     private final String name;
     private final List<String> aliases;
+    private final Category category;
+    private final CommandPermission permission;
     private final boolean guildOnly;
+    private final HelpContent help;
     private NewCommand parent;
 
     public NewCommand() {
@@ -27,7 +33,37 @@ public abstract class NewCommand {
         this.aliases = Arrays.stream(clazz.getAnnotationsByType(Alias.class))
                 .map(Alias::value)
                 .collect(Collectors.toUnmodifiableList());
-        this.guildOnly = getClass().getAnnotation(GuildOnly.class) != null;
+        var c = clazz.getAnnotation(net.kodehawa.mantarobot.core.command.meta.Category.class);
+        if(c == null) {
+            this.category = null;
+        } else {
+            this.category = c.value();
+        }
+        var p = clazz.getAnnotation(Permission.class);
+        if(p == null) {
+            this.permission = CommandPermission.OWNER;
+        } else {
+            this.permission = p.value();
+        }
+        this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
+        var h = clazz.getAnnotation(Help.class);
+        if(h == null) {
+            this.help = new HelpContent.Builder().build();
+        } else {
+            var builder = new HelpContent.Builder()
+                    .setDescription(h.description())
+                    .setUsage(h.usage())
+                    .setRelated(Arrays.asList(h.related()))
+                    .setSeasonal(h.seasonal());
+            for(var param : h.parameters()) {
+                if(param.optional()) {
+                    builder.addParameterOptional(param.name(), param.description());
+                } else {
+                    builder.addParameter(param.name(), param.description());
+                }
+            }
+            this.help = builder.build();
+        }
     }
 
     public String name() {
@@ -38,8 +74,20 @@ public abstract class NewCommand {
         return aliases;
     }
 
+    public Category category() {
+        return category;
+    }
+
+    public CommandPermission permission() {
+        return permission;
+    }
+
     public boolean guildOnly() {
         return guildOnly || (parent != null && parent.guildOnly());
+    }
+
+    public HelpContent help() {
+        return help;
     }
 
     public final void execute(NewContext ctx) {

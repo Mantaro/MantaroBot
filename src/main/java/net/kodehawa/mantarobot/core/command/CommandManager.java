@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.core.command;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,11 +10,15 @@ public class CommandManager {
     private final Map<String, NewCommand> commands = new HashMap<>();
     private final Map<String, String> aliases = new HashMap<>();
 
-    public void register(@Nonnull Class<? extends NewCommand> clazz) {
-        register(instantiate(clazz));
+    public Map<String, NewCommand> commands() {
+        return Collections.unmodifiableMap(commands);
     }
 
-    public void register(@Nonnull NewCommand command) {
+    public <T extends NewCommand> T register(@Nonnull Class<T> clazz) {
+        return register(instantiate(clazz));
+    }
+
+    public <T extends NewCommand> T register(@Nonnull T command) {
         if(commands.putIfAbsent(command.name(), command) != null) {
             throw new IllegalArgumentException("Duplicate command " + command.name());
         }
@@ -30,6 +35,7 @@ public class CommandManager {
             var sub = (NewCommand)instantiate(inner);
             sub.registerParent(command);
         }
+        return command;
     }
 
     public boolean execute(@Nonnull NewContext ctx) {
