@@ -155,7 +155,7 @@ public class CommandListener implements EventListener {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessage(EmoteReference.ERROR +
                     String.format(
-                            "Your query returned no results or you used the incorrect arguments, seemingly (Error ID: %s). Just in case, check command help!",
+                            "Your query returned no results or you used the incorrect arguments, seemingly (Error ID: `%s`). Just in case, check command help!",
                             id
                     )
             ).queue();
