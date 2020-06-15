@@ -273,7 +273,7 @@
         "fair_queue_limit_reached": "%1$s**공정한 대기열 %2$d 레벨을 초과했어요 (정확히 동일한 노래가 너무 많아요)**",
         "loaded_song": "%1$s대기열에 추가했어요 -> **%2$s** **(%3$s)**",
         "selection_text": "노래를 선택하세요. 음악 번호를 입력해서 계속하세요.",
-        "timeout_text": "30초 후에 타임아웃되요. 취소하려면 &cancel을 입력하세요."
+        "timeout_text": "30초 후에 시간 초과가 돼요. 취소하려면 &cancel을 입력하세요."
       },
       "premium_beg": "%1$s저를 좋아하신다면 <https://patreon.com/mantaro>에 기부하는 것을 고려해 보세요, 작은 기부라도 봇의 살리는데 도움이 될 거예요.(자세한 정보는`~>donate`를 참고하세요!).",
       "closed_connection": "%1$s오디오 연결을 멈추고 플레이어를 언바인딩합니다..."
@@ -477,7 +477,7 @@
       "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "default_time_too_long": "%1$s기본 채팅 금지 시간 초과, 시간이 너무 길어요 (최대: 10일)...",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
