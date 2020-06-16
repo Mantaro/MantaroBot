@@ -1134,7 +1134,7 @@
         "category": "Kategorie"
       },
       "number": {
-        "start": "%1$sRate die Nummer! **Sie haben 5 Versuche und 30 Sekunden. Die Zahl liegt zwischen 0 und 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sDas ist nicht einmal eine Nummer...",
         "ended_game": "%1$sBeendetes Spiel. Die Nummer war: %2$d",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Die Nummer war: %2$d",
