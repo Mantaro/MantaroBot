@@ -1134,7 +1134,7 @@
         "category": "Catégorie"
       },
       "number": {
-        "start": "%1$sDevine ! **Tu as 5 essais et 30 secondes. Le nombre est entre 0 et 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sCe n'est même pas un nombre...",
         "ended_game": "%1$sPartie terminée, le nombre était: %2$d",
         "all_attempts_used": "%1$sTu n'as plus d'essais. Le nombre était : %2$d",
