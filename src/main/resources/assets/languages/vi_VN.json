@@ -1134,7 +1134,7 @@
         "category": "Phân loại"
       },
       "number": {
-        "start": "%1$sHãy đoán một số! **Bạn có 5 lượt đoán với 30 giây. Con số này nằm trong đoạn từ 0 đến 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sĐó còn không phải là một con số...",
         "ended_game": "%1$sĐã kết thúc trò chơi. Đáp án đúng là: %2$d",
         "all_attempts_used": "%1$sĐã dùng hết lượt chơi, đang kết thúc. Đáp án đúng là: %2$d",
