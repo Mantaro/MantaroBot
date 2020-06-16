@@ -1134,7 +1134,7 @@
         "category": "Categorie"
       },
       "number": {
-        "start": "%1$sRaad het nummer! **Je hebt 5 pogingen en 30 seconden. Het aantal ligt tussen 0 en 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sDat is niet eens een nummer ...",
         "ended_game": "%1$sSpel beëindigd. Het nummer was: %2$d",
         "all_attempts_used": "%1$sAlle pogingen zijn verbruikt, het spel wordt beëindigd. Het nummer was: %2$d",
