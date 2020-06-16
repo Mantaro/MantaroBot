@@ -1134,7 +1134,7 @@
         "category": "الفئة"
       },
       "number": {
-        "start": "%1$sخَمن الرقم! **لديك 5 محاولات و 30 ثانية لتخمين الرقم الصحيح. الرقم بين ال 0 و 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sهذا ليس رقم...",
         "ended_game": "%1$sنهاية اللعبة. الرقم الصحيح هو: %2$d",
         "all_attempts_used": "%1$sتم إستخدام جميع المحاولات، نهاية اللعبة. الرقم الصحيح هو: %2$d",
