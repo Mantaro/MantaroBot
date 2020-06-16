@@ -1134,7 +1134,7 @@
         "category": "Category"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sThat's not even a number...",
         "ended_game": "%1$sEnded game. The number was: %2$d",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
