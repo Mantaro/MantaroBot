@@ -1134,7 +1134,7 @@
         "category": "Categoría"
       },
       "number": {
-        "start": "%1$s¡Adivina el número! **Tienes 5 intentos y 30 segundos. El número es entre 0 y 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sEso no es un número...",
         "ended_game": "%1$sJuego terminado, el número era: %2$d",
         "all_attempts_used": "%1$sUsaste todos los intentos, terminando el juego. El número era: %2$d",
