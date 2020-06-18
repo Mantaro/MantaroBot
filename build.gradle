@@ -65,7 +65,7 @@ task generateLanguageList {
 
 dependencies {
     //remember to update this 3 all the time lul
-    compile 'net.dv8tion:JDA:4.1.1_154'
+    compile 'net.dv8tion:JDA:4.1.1_165'
     compile 'club.minnced:discord-webhooks:0.3.0'
 
     //Music
@@ -73,7 +73,7 @@ dependencies {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     }
 
-    compile 'com.sedmelluq:lavaplayer:1.3.49'
+    compile 'com.sedmelluq:lavaplayer:1.3.50'
     compile 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     compile 'io.github.classgraph:classgraph:4.8.81'
