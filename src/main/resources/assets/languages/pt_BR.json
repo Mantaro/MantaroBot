@@ -30,7 +30,7 @@
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
-      "not_found": "Não foi possível encontrar itens relacionados com sua pesquisa. Se você está perdido, tente usar um nome curto, por exemplo para `Bebida Energética`, use `bebida`. Ou envolva o nome entre aspas.",
+      "not_found": "Não foi possível encontrar itens relacionados com sua pesquisa. Se você está perdido, tente usar um nome curto, por exemplo para `Energy Beverage`, use `energy`. Ou envolva o nome entre aspas.",
       "claim_key": "Você não pode transferir uma chave de reivindicação."
     },
     "misc_item_usage": {
