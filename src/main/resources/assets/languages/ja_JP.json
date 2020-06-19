@@ -21,7 +21,7 @@
     "example": "例",
     "definition": "定義",
     "name": "名前",
-    "description": "概要",
+    "description": "説明",
     "options": "オプション",
     "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
     "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n**Members found:** %2$s",
