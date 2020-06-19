@@ -358,7 +358,7 @@ public class CCv3 {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
                     .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
-                    .append("`Command Preview Requested By: ")
+                    .append("`Command preview requested by: ")
                     .append(ctx.getAuthor().getName())
                     .append("#")
                     .append(ctx.getAuthor().getDiscriminator())
@@ -366,6 +366,7 @@ public class CCv3 {
         }
 
         builder.setEmbed(embed == null ? null : embed.gen(ctx.getMember()))
+                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
                 .sendTo(ctx.getChannel()).queue();
     }
 }
