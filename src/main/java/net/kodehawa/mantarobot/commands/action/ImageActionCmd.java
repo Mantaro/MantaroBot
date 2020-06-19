@@ -137,14 +137,14 @@ public class ImageActionCmd extends NoArgsCommand {
             MessageBuilder toSend = new MessageBuilder()
                     .append(String.format(emoji + languageContext.get(format), "**" + noMentions(ctx)
                             + "**", "**" + ctx.getMember().getEffectiveName() + "**")
-                    ).stripMentions(ctx.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
+                    );
 
 
             if (swapNames) {
                 toSend = new MessageBuilder()
                         .append(String.format(emoji + languageContext.get(format), "**" + ctx.getMember().getEffectiveName()
                                 + "**", "**" + noMentions(ctx) + "**")
-                        ).stripMentions(ctx.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
+                        );
             }
 
             if (isLonely(ctx)) {

@@ -60,6 +60,7 @@ task generateLanguageList {
             out.println(it.getName())
         }
     }
+
     out.close()
 }
 

@@ -69,7 +69,6 @@ public class GuildOptions extends OptionHandler {
 
             if (!I18n.isValidLanguage(language)) {
                 new MessageBuilder().append(String.format("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language))
-                        .stripMentions(event.getJDA())
                         .sendTo(event.getChannel()).queue();
                 return;
             }
@@ -131,7 +130,6 @@ public class GuildOptions extends OptionHandler {
 
             event.getGuild().addRoleToMember(m, birthdayRole).queue(success ->
                     new MessageBuilder(finalMessage)
-                            .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE)
                             .sendTo(birthdayChannel).queue(s ->
                             event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
                                     EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
@@ -249,7 +247,6 @@ public class GuildOptions extends OptionHandler {
             dbGuild.save();
 
             new MessageBuilder().append(String.format(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix))
-                    .stripMentions(event.getJDA())
                     .sendTo(event.getChannel()).queue();
         });//endregion
 

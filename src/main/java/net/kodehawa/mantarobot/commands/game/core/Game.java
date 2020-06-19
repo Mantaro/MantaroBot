@@ -107,7 +107,6 @@ public abstract class Game<T> {
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                 new MessageBuilder().setContent(String.format(languageContext.get("commands.game.lobby.won_game"),
                         EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
-                        .stripMentions(e.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                         .sendTo(channel)
                         .queue();
 

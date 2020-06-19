@@ -220,14 +220,14 @@ public class Context {
 
     public void sendStripped(String message) {
         new MessageBuilder().setContent(message)
-                .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
+                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
                 .sendTo(getChannel())
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
         new MessageBuilder().setContent(String.format(languageContext.get(localizedMessage), args))
-                .stripMentions(event.getGuild(), Message.MentionType.HERE, Message.MentionType.EVERYONE, Message.MentionType.USER)
+                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
                 .sendTo(getChannel())
                 .queue();
     }

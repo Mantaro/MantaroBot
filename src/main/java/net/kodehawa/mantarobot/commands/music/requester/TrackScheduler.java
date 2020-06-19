@@ -143,7 +143,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                             String.format(language.get("general.requested_by"),
                                                     String.format("**%s#%s**", user.getName(), user.getDiscriminator()))
                                             : ""))
-                                    .stripMentions(getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                                     .build()
                     ).queue(message -> {
                         lastMessageSentAt = System.currentTimeMillis();

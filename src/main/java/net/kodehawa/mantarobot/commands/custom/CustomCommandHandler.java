@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,11 +157,10 @@ public class CustomCommandHandler {
                     .append(ctx.getAuthor().getName())
                     .append("#")
                     .append(ctx.getAuthor().getDiscriminator())
-                    .append("`")
-                    .stripMentions(ctx.getJDA());
+                    .append("`");
         }
 
-        builder.stripMentions(ctx.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE).sendTo(ctx.getChannel()).queue();
+        builder.sendTo(ctx.getChannel()).queue();
     }
 
     public void handle() {

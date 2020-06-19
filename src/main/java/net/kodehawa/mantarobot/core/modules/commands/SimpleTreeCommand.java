@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -130,7 +131,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
 
         new MessageBuilder()
                 .append(String.format("%1$sNo subcommand `%2$s` found in the `%3$s` command!. Check `~>help %3$s` for available subcommands", EmoteReference.ERROR, commandName, mainCommand))
-                .stripMentions(ctx.getJDA())
+                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
                 .sendTo(ctx.getChannel())
                 .queue();
 

@@ -179,7 +179,6 @@ public class AudioLoader implements AudioLoadResultHandler {
 
             new MessageBuilder().append(
                     String.format(language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, AudioUtils.getLength(length)))
-                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                     .sendTo(event.getChannel()).queue();
         }
 

@@ -130,11 +130,7 @@ public class BirthdayTask {
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason(modLogMessage)
                                                 .queue(s -> {
-                                                    new MessageBuilder().setContent(birthdayMessage)
-                                                            .stripMentions(guild,
-                                                                    Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE
-                                                            ).sendTo(channel)
-                                                            .queue();
+                                                    channel.sendMessage(birthdayMessage).queue();
                                                     Metrics.BIRTHDAY_COUNTER.inc();
                                                 });
 

@@ -329,11 +329,16 @@ public class CommandRegistry {
 
     private static String name(Command c, String userInput) {
         if(c instanceof AliasCommand) {
-            return ((AliasCommand) c).getCommandName();
+            //Return the original command name here for all intents and purposes.
+            //This is because in the check for command disable (which is what this is used for), the
+            //command disabled will be the original command, and the check expects that.
+            return ((AliasCommand) c).getOriginalName();
         }
+
         if(c instanceof ProxyCommand) {
             return ((ProxyCommand) c).c.name();
         }
+
         return userInput.toLowerCase();
     }
 
@@ -341,6 +346,7 @@ public class CommandRegistry {
         if(c instanceof AliasCommand) {
             return commands.get(((AliasCommand) c).parentName());
         }
+
         if(c instanceof AliasProxyCommand) {
             return ((AliasProxyCommand) c).p;
         }

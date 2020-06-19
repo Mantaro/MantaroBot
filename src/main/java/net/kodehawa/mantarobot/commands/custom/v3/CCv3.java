@@ -362,12 +362,10 @@ public class CCv3 {
                     .append(ctx.getAuthor().getName())
                     .append("#")
                     .append(ctx.getAuthor().getDiscriminator())
-                    .append("`")
-                    .stripMentions(ctx.getJDA());
+                    .append("`");
         }
 
         builder.setEmbed(embed == null ? null : embed.gen(ctx.getMember()))
-                .stripMentions(ctx.getJDA(), Message.MentionType.HERE, Message.MentionType.EVERYONE)
                 .sendTo(ctx.getChannel()).queue();
     }
 }
