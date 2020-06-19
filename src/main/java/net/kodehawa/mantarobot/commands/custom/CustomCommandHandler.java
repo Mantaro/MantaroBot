@@ -32,10 +32,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class CustomCommandHandler {
@@ -153,14 +150,13 @@ public class CustomCommandHandler {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
                     .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
-                    .append("`Command Preview Requested By: ")
-                    .append(ctx.getAuthor().getName())
-                    .append("#")
-                    .append(ctx.getAuthor().getDiscriminator())
+                    .append("`Command preview requested by: ")
+                    .append(ctx.getAuthor().getAsTag())
                     .append("`");
         }
 
-        builder.sendTo(ctx.getChannel()).queue();
+        builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+        ctx.send(builder.build());
     }
 
     public void handle() {

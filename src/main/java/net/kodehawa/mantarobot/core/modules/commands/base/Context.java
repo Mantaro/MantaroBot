@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import redis.clients.jedis.JedisPool;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -219,16 +220,14 @@ public class Context {
     }
 
     public void sendStripped(String message) {
-        new MessageBuilder().setContent(message)
-                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
-                .sendTo(getChannel())
+        getChannel().sendMessageFormat(message)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
-        new MessageBuilder().setContent(String.format(languageContext.get(localizedMessage), args))
-                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
-                .sendTo(getChannel())
+        getChannel().sendMessageFormat(languageContext.get(localizedMessage), args)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 

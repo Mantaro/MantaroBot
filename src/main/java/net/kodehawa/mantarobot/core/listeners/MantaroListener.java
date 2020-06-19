@@ -794,10 +794,9 @@ public class MantaroListener implements EventListener {
                         if (!r.isEmpty())
                             builder.append(r);
 
-                        builder.sendTo(tc)
-                                .queue(success -> { },
-                                        error -> tc.sendMessage("Failed to send join/leave message.").queue()
-                                );
+                        tc.sendMessage(builder.build()).queue(success -> { },
+                                error -> tc.sendMessage("Failed to send join/leave message.").queue()
+                        );
 
                         return;
                     }

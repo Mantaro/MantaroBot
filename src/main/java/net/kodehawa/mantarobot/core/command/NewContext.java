@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.command;
 
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -15,6 +14,7 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -248,16 +248,14 @@ public class NewContext {
     }
 
     public void sendStripped(String message) {
-        new MessageBuilder().setContent(message)
-                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
-                .sendTo(getChannel())
+        getChannel().sendMessageFormat(message)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
-        new MessageBuilder().setContent(String.format(i18n.get(localizedMessage), args))
-                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
-                .sendTo(getChannel())
+        getChannel().sendMessageFormat(i18n.get(localizedMessage), args)
+                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 }

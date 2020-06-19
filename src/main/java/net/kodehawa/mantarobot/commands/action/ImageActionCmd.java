@@ -156,7 +156,7 @@ public class ImageActionCmd extends NoArgsCommand {
             }
 
             toSend.setEmbed(new EmbedBuilder().setColor(Color.DARK_GRAY).setImage(random).build());
-            toSend.sendTo(ctx.getChannel()).queue();
+            ctx.getChannel().sendMessage(toSend.build()).queue();
         } catch (Exception e) {
             e.printStackTrace();
             ctx.sendLocalized("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);

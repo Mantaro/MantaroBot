@@ -35,6 +35,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
@@ -359,14 +360,13 @@ public class CCv3 {
                     .append(EmoteReference.WARNING)
                     .append("**This is a preview of how a CC with this content would look like, ALL MENTIONS ARE DISABLED ON THIS MODE.**\n")
                     .append("`Command preview requested by: ")
-                    .append(ctx.getAuthor().getName())
-                    .append("#")
-                    .append(ctx.getAuthor().getDiscriminator())
+                    .append(ctx.getAuthor().getAsTag())
                     .append("`");
         }
 
         builder.setEmbed(embed == null ? null : embed.gen(ctx.getMember()))
-                .denyMentions(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.USER, Message.MentionType.ROLE)
-                .sendTo(ctx.getChannel()).queue();
+                .denyMentions(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+
+        ctx.send(builder.build());
     }
 }

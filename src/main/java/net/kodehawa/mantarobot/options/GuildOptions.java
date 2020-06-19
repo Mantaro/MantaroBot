@@ -68,8 +68,9 @@ public class GuildOptions extends OptionHandler {
             String language = args[0];
 
             if (!I18n.isValidLanguage(language)) {
-                new MessageBuilder().append(String.format("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language))
-                        .sendTo(event.getChannel()).queue();
+                event.getChannel().sendMessageFormat(
+                        "%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language
+                ).queue();
                 return;
             }
 
@@ -129,15 +130,14 @@ public class GuildOptions extends OptionHandler {
             final String finalMessage = message;
 
             event.getGuild().addRoleToMember(m, birthdayRole).queue(success ->
-                    new MessageBuilder(finalMessage)
-                            .sendTo(birthdayChannel).queue(s ->
+                    birthdayChannel.sendMessage(finalMessage).queue(s ->
                             event.getChannel().sendMessageFormat(lang.get("options.birthday_test.success"),
                                     EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
                             ).queue(), error ->
                             event.getChannel().sendMessageFormat(lang.get("options.birthday_test.error"),
                                     EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()
-                            ).queue())
-            );
+                            ).queue()
+                    ));
         });
 
         registerOption("birthday:enable", "Birthday Monitoring enable",
@@ -246,8 +246,7 @@ public class GuildOptions extends OptionHandler {
             guildData.setGuildCustomPrefix(prefix);
             dbGuild.save();
 
-            new MessageBuilder().append(String.format(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix))
-                    .sendTo(event.getChannel()).queue();
+            event.getChannel().sendMessageFormat(lang.get("options.prefix_set.success"), EmoteReference.MEGA, prefix).queue();
         });//endregion
 
         //region clear

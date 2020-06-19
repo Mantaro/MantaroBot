@@ -111,10 +111,10 @@ public class GuessTheNumber extends Game<Object> {
                         unifiedPlayer.save();
 
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                        new MessageBuilder().setContent(String.format(languageContext.get("commands.game.lobby.won_game"),
-                                EmoteReference.MEGA, e.getMember().getEffectiveName(), gains))
-                                .sendTo(channel)
-                                .queue();
+                        channel.sendMessageFormat(languageContext.get("commands.game.lobby.won_game"),
+                                EmoteReference.MEGA, e.getMember().getEffectiveName(), gains
+                        ).queue();
+
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }

@@ -177,9 +177,9 @@ public class AudioLoader implements AudioLoadResultHandler {
                 player.save();
             }
 
-            new MessageBuilder().append(
-                    String.format(language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, AudioUtils.getLength(length)))
-                    .sendTo(event.getChannel()).queue();
+            event.getChannel().sendMessageFormat(
+                    language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, AudioUtils.getLength(length)
+            ).queue();
         }
 
         Metrics.TRACK_EVENTS.labels("tracks_load").inc();
