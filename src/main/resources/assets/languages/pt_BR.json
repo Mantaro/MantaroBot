@@ -741,7 +741,7 @@
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
       "item_transfer": "%1$sVocê não pode transferir items usando transfer, use o comando  `transferitems` em vez disso.",
-      "party": "Você só pode transferir para a mesma pessoa(%1$s) uma vez a cada 4 minutos."
+      "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 4 minutos."
     },
     "useitem": {
       "ls": {
@@ -1548,7 +1548,7 @@
         "below_minimum": "%1$sO valor mínimo é 25 créditos",
         "no_tickets": "%1$sVocê tentou usar tickets mas você não tem nenhum :<",
         "no_amount": "%1$sVocê não especificou a quantidade!",
-        "no_valid_amount": "%1$sIsso não é uma quantia válida de dinheiro! (Exemplo de quantias válidas: 1000, 1M, 1.8, 14000, 2 Milhões)"
+        "no_valid_amount": "%1$sIsso não é uma quantia válida de dinheiro! (Exemplo de quantias válidas: 1000, 1k, 14000, 2M)"
       },
       "roll": "%1$s**Você usou %2$s e rolou o caça-níquel**\n",
       "win": "E você ganhou **%1$d** créditos e pode ficar com o que você apostou (%2$d créditos)! Sortudo!",
@@ -2141,7 +2141,7 @@
     "crab": "Caranguejo",
     "squid": "Lula",
     "shrimp": "Camarão",
-    "moon": "Runa da lua",
+    "moon": "Runa da Lua",
     "flake": "Floco de neve",
     "broken_comet_pick": "Picareta de Cometa Quebrada",
     "broken_sparkle_pick": "Picareta Brilhante Quebrada",
@@ -2233,7 +2233,7 @@
       "crab": "Um caranguejo. Ele dança, talvez.",
       "squid": "Não confundir com Lula Molusco.",
       "shrimp": "Material rosado. Eu acho.",
-      "moon": "Runa da lua. Necessário para fundir algumas coisas.",
+      "moon": "Runa da Lua. Necessário para fundir algumas coisas.",
       "flake": "Floco de neve. Geralmente usado como ingrediente de fusão.",
       "broken_comet_pick": "Uma picareta de cometa que quebrou durante a mineração. Ainda recuperável.",
       "broken_sparkle_pick": "Uma picareta brilhante que quebrou durante a mineração. Ainda recuperável.",
