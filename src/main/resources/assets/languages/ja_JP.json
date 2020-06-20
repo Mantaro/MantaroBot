@@ -2,8 +2,8 @@
   "general": {
     "invalid_number": "%1$sこれは有効な数値ではありません！",
     "requested_by": "申請者: %1$s。",
-    "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
-    "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
+    "operation_timed_out": "%1$s応答時間が切れました。",
+    "too_many_users_found": "%1$sたくさんのユーザーが見つかりました。検索を改善してみてはどうですか？（例：ユーザー名#区別番号）\n**検索結果：** %2$s",
     "search_no_result": "%1$sYour search yielded no results :(",
     "unknown": "不明",
     "days": "日",
