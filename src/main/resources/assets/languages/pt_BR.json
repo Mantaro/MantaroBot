@@ -206,7 +206,7 @@
     },
     "season": {
       "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
-      "info_2": "\n\nA temporada atual é **%1$s** e **%2$s** jogadores estão atualmente participando!\n\nA diversão começa, cheque `~>leaderboard money -season`; `~>leaderboard rep -season` e `~>leaderboard games -season`.\nGame on! <3\nObrigado por desfrutar da Mantaro."
+      "info_2": "\n\nA temporada atual é **%1$s** e **%2$s** jogadores estão atualmente participando!\n\nA diversão começa, cheque `~>leaderboard money -season`; `~>leaderboard rep -season` e `~>leaderboard games -season`.\nGame on! <3\nObrigado por usar a Mantaro."
     },
     "music_general": {
       "music_error": {
