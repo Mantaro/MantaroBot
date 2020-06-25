@@ -632,6 +632,17 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if (args.length > 0 && args[0].equalsIgnoreCase("-check")) {
+                    long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
+
+                    ctx.sendLocalized("commands.dailycrate.check", EmoteReference.TALKING,
+                            (rl) > 0 ? Utils.formatDuration(rl) :
+                                    //Yes, this is intended to be daily.about_now, just reusing strings.
+                                    ctx.getLanguageContext().get("commands.daily.about_now")
+                    );
+                    return;
+                }
+
                 Player p = ctx.getPlayer();
                 Inventory inventory = p.getInventory();
                 I18nContext languageContext = ctx.getLanguageContext();
@@ -655,7 +666,8 @@ public class CurrencyCmds {
                 return new HelpContent.Builder()
                         .setDescription("Opens a daily premium loot crate.")
                         .setUsage("`~>dailycrate` - Opens daily premium loot crate.\n" +
-                                "You need a crate key to open any crate.")
+                                "You need a crate key to open any crate. " +
+                                "Use `-check` to check when you can claim it.")
                         .build();
             }
         });
