@@ -616,7 +616,6 @@ public class CurrencyCmds {
     public void openPremiumCrate(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
-                .spamTolerance(2)
                 .cooldown(24, TimeUnit.HOURS)
                 .maxCooldown(24, TimeUnit.HOURS)
                 .randomIncrement(false)
