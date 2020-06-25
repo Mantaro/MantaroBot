@@ -1173,6 +1173,7 @@
       "not_crate": "%1$sDas ist keine gültige Truhe."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sDu brauchst einen Truhenschlüssel, um das zu benutzen! Bitte kaufe einen und versuch es erneut!",
       "not_premium": "%1$sDu hast kein Premium!\nDu kannst eine täglich Premium-Truhe öffnen, wenn du Premium hast, sie hat eine hohe Chance für gute Items! Für mehr schaue bitte hier: <https://patreon.com/mantaro>.\nDies kann alle 24 Stunden genutzt werden.",
       "success": "%1$sDu hast eine **%2$s** erhalten! Komme in 24 Stunden zurück, um eine weitere zu erhalten! Du kannst sie mit `~>opencrate <crate name>` öffnen. Du musst einen Truhenschlüssel kaufen, um sie zu öffnen."
