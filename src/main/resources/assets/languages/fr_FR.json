@@ -1173,6 +1173,7 @@
       "not_crate": "%1$sCe n'est pas un coffre valide."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sTu as besoin d'une clé pour ouvrir ce coffre! Achètes-en une et reviens me voir!",
       "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures.",
       "success": "%1$sTu as obtenu un **%2$s**! Reviens dans 24h pour en avoir un autre! Tu peux l'ouvrir grâce à la commande `~>opencrate <nom du coffre>` et surtout tu as besoin d'acheter une clé pour l'ouvrir."
