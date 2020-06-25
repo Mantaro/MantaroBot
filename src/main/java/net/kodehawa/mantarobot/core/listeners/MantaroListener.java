@@ -71,10 +71,8 @@ import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -810,8 +808,9 @@ public class MantaroListener implements EventListener {
                 }
             }
 
-            tc.sendMessage(message).queue(success -> {
-            }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
+            tc.sendMessage(message)
+                    .allowedMentions(EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
+                    .queue(success -> { }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
         }
     }
 
