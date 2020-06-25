@@ -203,8 +203,10 @@ public class Items {
 
             event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
             playerInventory.process(new ItemStack(MOP, -1));
-            playerData.setTimesMopped(playerData.getTimesMopped() + 1);
-            p.save();
+            if(dbUser.getData().getDustLevel() > 5) {
+                playerData.setTimesMopped(playerData.getTimesMopped() + 1);
+                p.save();
+            }
 
             dbUser.getData().setDustLevel(0);
             dbUser.save();
