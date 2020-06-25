@@ -1173,6 +1173,7 @@
       "not_crate": "%1$sIsso não é um caixote de saque válido."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sVocê precisa de uma chave do caixote para usar isso! Por favor compre uma e tente novamente!",
       "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber items bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
       "success": "%1$sVocê ganhou uma **%2$s**! Venha novamente em 24 horas para receber outra! Você pode abrir isso usando `~>opencrate <nome do caixote>`. Você precisa comprar uma chave do caixote pra abri-la."
