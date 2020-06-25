@@ -1173,6 +1173,7 @@
       "not_crate": "%1$sĐó không phải là một hòm hợp lệ."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sBạn cần chìa khoá hòm để mở! Hãy mua một cái rồi thử lại!",
       "not_premium": "%1$stài khoản của bạn không phải là cao cấp!\nBạn có thể mở hòm cao cấp hàng ngày với một cơ hội trúng được đồ tốt cao hơn bằng cách dùng tài khoản cao cấp! Hãy xem thêm tại <https://patreon.com/mantaro>.\nLệnh này có thể được chạy mỗi 24 tiếng.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
