@@ -1173,6 +1173,7 @@
       "not_crate": "%1$sEsa no es una loot crate válida."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sNecesitas una llave de crate para hacer esto! Por favor compra una y inténtalo de nuevo!",
       "not_premium": "%1$sNo eres premium!\nPuedes abrir una premium crate diariamente con un alto chance de encontrar buenos ítems con premium! Por favor revisa más en <https://patreon.com/mantaro>.\nEste comando puede ser usado cada 24 horas.",
       "success": "%1$s¡Acabas de conseguir un **%2$s**! ¡Vuelve en 24 horas para conseguir otra! Puedes abrir esto usando `~>opencrate <crate name>`. Necesitas comprar una crate key para abrirla."
