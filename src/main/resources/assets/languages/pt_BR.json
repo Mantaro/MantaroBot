@@ -647,7 +647,7 @@
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
       "brief": "**Inventário de %1$s:** %2$s\n\n*Se você quiser uma versão mas detalhada sobre isso, use `~>inventory -info`. Aprecie seu dia!*",
-      "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus items forem vendidos.",
+      "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sEsse inventário está vazio! :(",
@@ -655,7 +655,7 @@
     },
     "cast": {
       "no_item_found": "%1$sEu não achei nenhum item correspondente.",
-      "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de items que podem ser fundidos.",
+      "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de itens que podem ser fundidos. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
       "not_enough_items": "%1$sVocê não tem o suficiente do item *%2$s* para prosseguir. **(Necessário: %3$s, Atual: %4$s)**",
@@ -663,13 +663,13 @@
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
       "item_broke": "\nInfelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
       "too_many": "%1$sVocê teria mais de 5000 desse item se você prosseguir. Talvez tentar fundir menos deste objeto?",
-      "low_tier": "%1$sVocê precisa de pelo uma chave inglesa de tier 2 (pelo menos uma Chave Inglesa de Cometa) pra fundir mais item por chamada. Você atualmente tem uma chave inglesa de tier %2$s.",
+      "low_tier": "%1$sVocê precisa de pelo uma chave inglesa de tier 2 (pelo menos uma Chave Inglesa de Cometa) pra fundir mais itens por chamada. Você atualmente tem uma chave inglesa de tier %2$s.",
       "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para fundir este item. Talvez tentar especificar uma mais poderosa? *Nível da chave inglesa: %2$s, Nível necessário: %3$s*. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sVocê não pode fundir isso tudo de item ao mesmo tempo! Limite: %2$s, Tentativa: %3$s. Uma chave inglesa brilhante faz com que o limite duplique! A menos que você já esteja usando uma.",
       "ls": {
         "header": "Lista de Item Fundíveis",
         "cost": "Custo da Fusão: ",
-        "desc": "Essa é uma lista de items que você pode fundir usando `~>cast`. Você tem que usar o nome completo ou um nome menor para fundir (exemplo: `~>cast diamond pickaxe` ou `~>cast diamond p` funciona)\n**A Fundição tem um custo da metade do preço do item. O preço da fundição será mostrado abaixo.**"
+        "desc": "Essa é uma lista de itens que você pode fundir usando `~>cast`. Você tem que usar o nome completo ou um nome menor para fundir (exemplo: `~>cast diamond pickaxe` ou `~>cast diamond p` funciona)\n**A Fundição tem um custo da metade do preço do item. O preço da fundição será mostrado abaixo.**.\nChave inglesa tier 2 e 3 são de cometa e brilhante, respectivamente."
       },
       "dust": "%1$sVocê não pode fundir com um inventário sujo! *(Nível de poeira: %2$s%%)*. Por que não limpa usando `~>useitem mop`?",
       "wrench_multiple_use": "Dica: *Você não pode usar uma chave inglesa que você está tentando fundir como ingrediente!*"
@@ -691,21 +691,21 @@
       },
       "sell": {
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
-        "invalid": "%1$sNão é um número válido de items para vender.",
+        "invalid": "%1$sNão é um número válido de itens para vender.",
         "all": {
-          "confirmation": "%1$sVocê tem *certeza* que deseja vender **todos** os seus items? Isso irá apagar *todo* o seu inventário. Se você quiser vender items individualmente por favor especifique a quantidade. Digite *yes* para confirmar e *no* para cancelar",
-          "success": "%1$sVocê vendeu todos os items do seu inventário e ganhou %2$,d créditos!",
+          "confirmation": "%1$sVocê tem *certeza* que deseja vender **todos** os seus itens? Isso irá apagar *todo* o seu inventário. Se você quiser vender itens individualmente por favor especifique a quantidade. Digite *yes* para confirmar e *no* para cancelar",
+          "success": "%1$sVocê vendeu todos os itens do seu inventário e ganhou %2$,d créditos!",
           "cancelled": "%1$sCancelado com sucesso."
         },
         "non_existent": "%1$sVocê não pode vender um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
         "no_sell_price": "%1$sVocê não pode vender um item que não pode ser vendido. (Mas você pode usar `~>market dump` nele)",
         "no_item_player": "%1$sVocê não pode vender um item que você não tem.",
-        "more_items_than_player": "%1$sVocê não pode vender mais items do que você tem.",
+        "more_items_than_player": "%1$sVocê não pode vender mais itens do que você tem.",
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
-        "invalid": "%1$sNão é um número válido de items para comprar.",
+        "invalid": "%1$sNão é um número válido de itens para comprar.",
         "non_existent": "%1$sVocê não pode comprar um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
         "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
         "item_limit_reached": "%1$sVocê não pode comprar mais desse objeto.",
@@ -713,18 +713,18 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar este item."
       },
       "header": "Mercado da Mantaro",
-      "reference": "\nVocê pode comprar e vender items usando `~>market buy <item>` e `~>market sell <item>`. Cheque `~>help market` para mais informações.",
+      "reference": "\nVocê pode comprar e vender itens usando `~>market buy <item>` e `~>market sell <item>`. Cheque `~>help market` para mais informações.",
       "sell_price": "-**Preço de Venda:**",
       "buy_price": "-**Preço de Compra:**"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sVocê não pode transferir items para si mesmo.",
-      "bot_notice": "%1$sVocê não pode transferir items para um bot.",
-      "locked_notice": "%1$sVocê não pode transferir items agora. (O jogador está bloqueado)",
+      "transfer_yourself_note": "%1$sVocê não pode transferir itens para si mesmo.",
+      "bot_notice": "%1$sVocê não pode transferir itens para um bot.",
+      "locked_notice": "%1$sVocê não pode transferir itens agora. (O jogador está bloqueado)",
       "hidden_item": "%1$sVocê não pode transferir esse item!",
       "overflow": "%1$sEsse jogador tem a quantidade máxima possível de item (5000).",
       "success": "%1$s%2$s deu **%3$s** **%4$s** para %5$s",
-      "multiple_items_error": "%1$sVocê não tem nenhum desses items no seu inventário",
+      "multiple_items_error": "%1$sVocê não tem nenhum desses itens no seu inventário",
       "error": "%1$sVocê não tem o suficiente deste item em seu inventário para fazer isso!",
       "no_item_mention": "%1$sVocê precisa especificar a pessoa para transferir o item e o item a ser transferido."
     },
@@ -740,7 +740,7 @@
       "receipt_locked_notice": "1$sEsse usuário não pode receber dinheiro agora.",
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
-      "item_transfer": "%1$sVocê não pode transferir items usando transfer, use o comando  `transferitems` em vez disso.",
+      "item_transfer": "%1$sVocê não pode transferir itens usando transfer, use o comando `transferitems` em vez disso.",
       "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 4 minutos."
     },
     "useitem": {
@@ -1175,7 +1175,7 @@
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu caixote diário em: **%2$s.**",
       "key": "%1$sVocê precisa de uma chave do caixote para usar isso! Por favor compre uma e tente novamente!",
-      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber items bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
+      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber itens bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
       "success": "%1$sVocê ganhou uma **%2$s**! Venha novamente em 24 horas para receber outra! Você pode abrir isso usando `~>opencrate <nome do caixote>`. Você precisa comprar uma chave do caixote pra abri-la."
     },
     "prune": {
@@ -1393,7 +1393,7 @@
       "no_item": "%1$sVocê não especificou um item para consertar. Lembre-se de usar aspas se o nome contém espaços.",
       "no_item_found": "%1$sNão consegui encontrar esse item. Lembre-se de usar aspas se o nome contém espaços.",
       "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
-      "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar items quebrados.",
+      "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
       "no_tool": "%1$sVocê precisa de uma Tier 2 (pelo menos uma Chave Inglesa de Cometa) ou uma chave inglesa superior para consertar esse item. Certifique-se de que você tem ela e se você especificou a chave inglesa correta caso você tenha especificado ela. Lembre-se de usar aspas se o nome conter espaços.",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
@@ -1406,7 +1406,7 @@
       "ls": {
         "header": "Lista de Itens reparáveis ",
         "cost": "Custo de reparo: ",
-        "desc": "Essa é uma lista de items que você pode consertar usando `~>repair`.\nVocê pode usar o nome completo ou um nome curto, ou um emoji.\nConsertar tem um mínimo custo de ⅓ do custo do item. O preço será mostrado abaixo, ao lado dos materiais necessários."
+        "desc": "Essa é uma lista de itens que você pode consertar usando `~>repair`.\nVocê pode usar o nome completo ou um nome curto, ou um emoji.\nConsertar tem um mínimo custo de ⅓ do custo do item. O preço será mostrado abaixo, ao lado dos materiais necessários."
       }
     },
     "anime": {
@@ -1495,7 +1495,7 @@
     },
     "loot": {
       "player_locked": "%1$sVocê não pode saquear agora.",
-      "item_overflow": "Mas você já tinha muitos items, então você decidiu jogar fora o excesso.",
+      "item_overflow": "Mas você já tinha muitos itens, então você decidiu jogar fora o excesso.",
       "with_item": {
         "found": "%1$sCavando através das mensagens, você encontrou %2$s, junto com **$%3$d créditos!** %4$s",
         "found_but_overflow": "%1$sCavando através das mensagens, você encontrou %2$s, junto com **$%3$d créditos.**%4$sMas você já tinha muitos créditos, então eu doei o excesso.",
