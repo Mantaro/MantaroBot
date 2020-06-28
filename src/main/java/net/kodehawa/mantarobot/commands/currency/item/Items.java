@@ -181,7 +181,7 @@ public class Items {
             // ---------------------------------- 5.3 BROKEN ITEMS END HERE ----------------------------------
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
-            WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true, true),
+            WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, false, false),
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false)
 
     };
