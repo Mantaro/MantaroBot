@@ -195,7 +195,7 @@
       "5": "- Para **checar a fila** apenas escreva `~>queue`",
       "6": "- Para **remover uma música da fila** Você só precisa usar `~>removetrack` Isso toma como argumento a posição em que a música está na fila (você pode checar na fila)",
       "7": "- Para **pausar ou despausar** apenas use `~>pause`",
-      "8": "- Para **parar a música e desencarregar do jogador** use `~>stop`",
+      "8": "- Para **parar a música e desvincular do player** use `~>stop`",
       "9": "- Para **embaralhar a fila** apenas use `~>shuffle`",
       "10": "- E por último, para **repetir uma música** use `~>repeat` e para **repetir a fila** use `~>repeat queue`. Usando `~>repeat` enquanto a repetição está ligada, irá desliga-la\n",
       "11": "Para mais informações por favor use `~>help <nome do comando>` (sem as <> e troque nome do comando pelo nome do comando que você quer)",
@@ -218,7 +218,7 @@
       "not_playing": "%1$sAtualmente não estou tocando nada",
       "dj_only": "%1$sVocê tem que ser o DJ para usar esse comando!",
       "enjoy_note": "Aprecie a música! <3",
-      "no_player": "%1$sEu não consigo achar nenhum tocador de música aqui...",
+      "no_player": "%1$sEu não consigo achar nenhum player de música aqui... (tente tocar algo novamente?)",
       "not_connected": "%1$sVocê não está conectado no canal de voz no qual estou tocando atualmente! (Se você acha que isso é um erro, por favor reporte no servidor de suporte)",
       "np_message": "%1$s Agora tocando **%2$s** (%3$s) no **%4$s** | %5$s",
       "track_error": "%1$sOuch, alguma coisa deu errado enquanto tocava essa música! Desculpe pelo inconveniente, Eu vou tentar tocar a próxima se tiver uma disponível.",
@@ -258,7 +258,7 @@
         "attempting_to_connect": "%1$sEu já estou tentando me conectar ao canal **%2$s**! (Use o comando `move` para me mover para outro canal)"
       },
       "listener": {
-        "paused": "%1$sPausando a música porque eu fui mutada :(",
+        "paused": "%1$sPausando o player porque eu fui mutada :(",
         "resumed": "%1$sVoltando a tocar porque alguém entrou!",
         "left_alone": "%1$sIrei sair do **%2$s** em 2 minutos porque fiquei sozinha :(",
         "leave": "%1$sEu decidi sair do **%2$s** porque eu fiquei sozinha :("
@@ -276,7 +276,7 @@
         "timeout_text": "Isso esgota em 30 segundos. Digite &cancel para cancelar."
       },
       "premium_beg": "%1$sConsidere doar no <https://patreon.com/mantaro> se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé (Cheque `~>donate` para mais informações!)",
-      "closed_connection": "%1$sConexão de áudio fechada, desvinculado do jogador..."
+      "closed_connection": "%1$sConexão de áudio fechada, desvinculado do player..."
     },
     "forceskip": {
       "success": "%1$sUm administrador ou Comandante do Bot decidiu pular essa música."
@@ -286,8 +286,8 @@
       "header": "Agora Tocando"
     },
     "pause": {
-      "paused": "Jogador pausou. *(O jogador despausou anteriormente)*",
-      "unpaused": "Jogador despausou *(O jogador pausou anteriormente)*."
+      "paused": "Player pausado. *(O player foi despausado anteriormente)*",
+      "unpaused": "Player despausado *(O player foi pausado anteriormente)*."
     },
     "rewind": {
       "no_time": "%1$sVocê tem que me dizer o quanto você quer voltar a música. *(Exemplo: `~>rewind 1m45s` irá retornar 1 minuto e 45 segundos da música)*",
@@ -357,8 +357,8 @@
         "submit": "%1$s**Seu voto foi submetido** Você precisa de mais %2$d voto(s) para pular!",
         "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
-      "success": "%1$sMeta de votos alcançada, parando o jogador...",
-      "no_player": "%1$sNão tem jogador para parar, então eu não posso fazer nada...",
+      "success": "%1$sMeta de votos alcançada, parando o player...",
+      "no_player": "%1$sNão tem player para parar, então eu não posso fazer nada...",
       "cleanup": "%1$sRemovendo **%2$d músicas** da fila."
     },
     "volume": {
@@ -1173,7 +1173,7 @@
       "not_crate": "%1$sIsso não é um caixote de saque válido."
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
+      "check": "%1$sVocê poderá reivindicar seu caixote diário em: **%2$s.**",
       "key": "%1$sVocê precisa de uma chave do caixote para usar isso! Por favor compre uma e tente novamente!",
       "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber items bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
       "success": "%1$sVocê ganhou uma **%2$s**! Venha novamente em 24 horas para receber outra! Você pode abrir isso usando `~>opencrate <nome do caixote>`. Você precisa comprar uma chave do caixote pra abri-la."
