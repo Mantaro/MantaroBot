@@ -187,11 +187,6 @@
       "error": "%1$sLỗi đá %2$s: (Không được cấp quyền: %3$s)",
       "unknown_error": "%1$sLỗi không xác định khi cố gắng đá %2$s"
     },
-    "tempban": {
-      "no_time": "%1$sBạn sẽ không thể tạm thời cấm một ai đó nếu không cho tôi thời gian cụ thể.",
-      "no_reason": "%2$sBạn không thể tạm thời cấm một ai đó nếu không có lý do.",
-      "success": "%1$s%2$s (%3$s bị cấm tạm thời)"
-    },
     "music_usage": {
       "1": "*Làm thế nào để sử dụng chức năng âm nhạc trong Mantaro?*",
       "2": "- Để **nghe những bài hát từ youtube hay soundcloud** dùng lệnh `~>play`. Ví dụ: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs`*Nó sẽ tự động kết nối với kênh thoại mà bạn đang tham gia*",
@@ -317,7 +312,7 @@
       "vc_not_found": "%1$sKhông tìm thấy kênh thoại hoặc bạn không chỉ định một kênh!"
     },
     "shard": {
-      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -888,6 +883,7 @@
         "already_equipped": "%1$sBạn đã được trang bị sẵn đồ thuộc loại này! Hãy thử `~>unequip <loại đồ>` (Có thể là cần câu hoặc cuốc) nếu bạn muốn tháo trang bị."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sBạn cần nói rõ loại đồ bạn muốn tháo trang bị, có thể là `pick, rod`",
         "invalid_type": "%1$sLoại đồ không hợp lệ. Những loiaj đồ hợp lệ là `pick, rod`",
         "success": "%1$sĐã tháo trang bị thành công %2$s.",
@@ -942,7 +938,6 @@
       "brief_success": "**Huy hiệu của %1$s:**\n%2$s",
       "profile_notice": "Nếu bạn nghĩ mình đã đạt được một huy hiệu mới nhưng nó không xuất hiện ở đây, hãy dùng `~>profile` rồi sau đó dùng lại lệnh này.\n",
       "info_notice": "Dùng `~>badges info <tên huy hiệu>` để biết thêm thông tin của một huy hiệu. [Bạn cũng có thể xem tại wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**Bạn có thể nhận được huy hiệu cho việc [bình chọn Mantaro trên discordbot.org](https://discordbots.org/bot/mantaro)!** (Việc nhận huy hiệu có thể sẽ mất chút thời gian)\n\n",
       "donate_notice": "**Bạn có thể nhận được huy hiệu cho việc [hỗ trợ phát triển Mantaro!](https://patreon.com/mantaro)!** (Việc nhận huy hiệu có thể sẽ mất chút thời gian)\n\n",
       "no_badges": "Không có huy hiệu để xem (hoặc chưa có!)",
       "header": "Thành tích huy hiệu của %1$s",
@@ -978,11 +973,6 @@
     "choose": {
       "nothing_to": "%1$sBạn cần cho tôi một trường từ để chọn. (ví dụ: `~>choose anime manga`)",
       "success": "%1$sTôi chọn `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$sBạn cần đưa ra một từ.",
-      "header": "Định nghĩa cho %1$s",
-      "description": "**Part of speech:** `%1$s`\n**Headword:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sTôi có thể nhắc bạn điều gì nếu bạn không cho tôi một lời nhắc? À, phải rồi! Để tôi nhắc bạn đặt một lời nhắc chăng!",
@@ -1144,7 +1134,7 @@
         "category": "Phân loại"
       },
       "number": {
-        "start": "%1$sHãy đoán một số! **Bạn có 5 lượt đoán với 30 giây. Con số này nằm trong đoạn từ 0 đến 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sĐó còn không phải là một con số...",
         "ended_game": "%1$sĐã kết thúc trò chơi. Đáp án đúng là: %2$d",
         "all_attempts_used": "%1$sĐã dùng hết lượt chơi, đang kết thúc. Đáp án đúng là: %2$d",
@@ -1183,6 +1173,7 @@
       "not_crate": "%1$sĐó không phải là một hòm hợp lệ."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sBạn cần chìa khoá hòm để mở! Hãy mua một cái rồi thử lại!",
       "not_premium": "%1$stài khoản của bạn không phải là cao cấp!\nBạn có thể mở hòm cao cấp hàng ngày với một cơ hội trúng được đồ tốt cao hơn bằng cách dùng tài khoản cao cấp! Hãy xem thêm tại <https://patreon.com/mantaro>.\nLệnh này có thể được chạy mỗi 24 tiếng.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
@@ -1190,6 +1181,7 @@
     "prune": {
       "no_messages_specified": "%1$sBạn chưa nói bạn muốn xoá tin nhắn nào.",
       "no_permissions": "%1$sTôi không thể xoá tin nhắn vì tôi không được cấp quyền Quản lý tin nhắn.",
+      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
       "bot_no_messages": "%1$sKhông có tin nhắn của bot hoặc lệnh gọi bot ở đây.",
       "no_pins_no_messages": "%1$sKhông có tin nhắn không ghim ở đây...",
       "mention_no_messages": "%1$sKhông có tin nhắn từ người dùng bạn đề cập đến ở đây.",
@@ -1232,39 +1224,6 @@
       "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
-    },
-    "about": {
-      "title": "Về Mantaro",
-      "description": {
-        "1": "Xin chào, tôi là **Mantaro**! Tôi tới đây để giúp cho cuộc sống của bạn trở nên dễ dàng hơn. Để bắt đầu, hãy gõ `~>help`!",
-        "2": "Some of my features include:",
-        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-        "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
-        "5": "**First quality music**, check out `~>music`!.",
-        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheck ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
-      },
-      "credits": {
-        "main_dev": "Người lập trình chính",
-        "dev": "Người lập trình",
-        "docs": "Tài Liệu",
-        "translators": "Người phiên dịch",
-        "community_admin": "Cộng đồng quản trị",
-        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
-        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
-      },
-      "version": "MantaroBot Phiên bản",
-      "uptime": "Thời gian hoạt động",
-      "shards": "Shards",
-      "threads": "Threads",
-      "guilds": "Máy chủ",
-      "users": "Users (Unique)",
-      "tc": "Kênh văn bản",
-      "vc": "Kênh thoại",
-      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$,d)"
     },
     "pet": {
       "no_content": "%1$sBạn cần phải nói rõ thú nuôi bạn muốn xem thống kê (và người dùng thú nuôi bạn muốn tra, nếu như nó không phải của bạn. Hãy chắc chắn cho tên vào trong ngoặc kép trong trường hợp này!).",

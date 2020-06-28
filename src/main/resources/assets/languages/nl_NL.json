@@ -187,11 +187,6 @@
       "error": "%1$sFoutmelding tijdens het kicken %2$s: (Ik heb eerst toestemming nodig: %3$s)",
       "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het kicken %2$s"
     },
-    "tempban": {
-      "no_time": "%1$sJe kunt een gebruiker niet tijdelijk bannen zonder de lengte van de ban aan te geven.",
-      "no_reason": "%2$sJe kunt een gebruiker niet tijdelijk bannen zonder een reden op te geven.",
-      "success": "%1$s%2$s (%3$s is tijdelijk verbannen)"
-    },
     "music_usage": {
       "1": "*Hoe gebruik je de muziekfunctie in Mantaro?*",
       "2": "- Om **nummers van youtube of soundcloud in de afspeellijst te plaatsen** gebruik `~>play` Bijvoorbeeld: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *De bot joint direct het spraak-kanaal waar jij je in bevindt*",
@@ -317,7 +312,7 @@
       "vc_not_found": "%1$sHet spraak-kanaal is niet gevonden of je hebt geen naam opgegeven!"
     },
     "shard": {
-      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -888,6 +883,7 @@
         "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
@@ -942,7 +938,6 @@
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "Als je denkt dat je een nieuwe badge hebt gekregen maar deze verschijnt niet, probeer dan eerst het commando `~>profile` te gebruiken en daarna dit commando\n",
       "info_notice": "Gebruik `~>badges info <badge naam>` om meer informatie te krijgen over een badge.\n",
-      "upvote_notice": "**Je kunt een gratis badge ontvangen voor het [up-voten van Mantaro op discordbots.org](https://discordbots.org/bot/mantaro)!** (Het kan even duren voordat je de badge ontvangt)\n\n",
       "donate_notice": "**Je kunt een badge krijgen door het [supporten van de development van Mantaro!](https://patreon.com/mantaro)!** (Het kan even duren voordat je de badge ontvangt)\n\n",
       "no_badges": "(Nog!) geen badges om te laten zien",
       "header": "Badges behaald door %1$s",
@@ -978,11 +973,6 @@
     "choose": {
       "nothing_to": "%1$sJe moet me vertellen waar ik tussen moet kiezen. (bijvoorbeeld: `~>choose anime manga`)",
       "success": "%1$sI kies `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$sJe moet een woord opgeven.",
-      "header": "Definitie voor %1$s",
-      "description": "**Woordsoort:** `%1$s`\n**Trefwoord:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sHoe kan ik je herinneren als je me niet verteld waar ik je aan moet herinneren? Ow! Ik kan je er aan herinneren om een herinnering in te stellen!",
@@ -1144,7 +1134,7 @@
         "category": "Categorie"
       },
       "number": {
-        "start": "%1$sRaad het nummer! **Je hebt 5 pogingen en 30 seconden. Het aantal ligt tussen 0 en 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sDat is niet eens een nummer ...",
         "ended_game": "%1$sSpel beëindigd. Het nummer was: %2$d",
         "all_attempts_used": "%1$sAlle pogingen zijn verbruikt, het spel wordt beëindigd. Het nummer was: %2$d",
@@ -1183,6 +1173,7 @@
       "not_crate": "%1$sThat is not a valid loot crate."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
@@ -1190,6 +1181,7 @@
     "prune": {
       "no_messages_specified": "%1$sJe hebt geen berichten opgegeven om te verwijderen.",
       "no_permissions": "%1$sIk kan geen berichten verwijderen op deze server omdat ik niet over de machtiging 'Manage messages' beschik.",
+      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
       "bot_no_messages": "%1$sEr zijn hier geen berichten van bots of botoproepen.",
       "no_pins_no_messages": "%1$sEr zijn hier geen berichten die niet gepind zijn ...",
       "mention_no_messages": "%1$sEr zijn geen berichten van gebruikers die je hier hebt genoemd.",
@@ -1232,39 +1224,6 @@
       "rule34_notice": "Als je de inhoud van deze opdracht niet bevalt, kun je dit commando gebruiken ~>yandere",
       "yandere_nsfw_notice": "%1$sHet commando Yandere kan alleen in NSFW-kanalen worden gebruikt vanwege verschillende rapporten waarin expliciete afbeeldingen worden verzonden die als veilig zijn gemarkeerd.\nJe kan proberen om `~>konachan` te gebruiken!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
-    },
-    "about": {
-      "title": "Over Mantaro",
-      "description": {
-        "1": "Hallo, Ik ben **Mantaro**! Ik ben hier om je leven een beetje makkelijker te maken. Al je wilt starten, type `~>help`!",
-        "2": "Sommige van mijn functies omvatten:",
-        "3": "**Een mod zijn is nu erg gemakkelijk!** (`Massaal kicken/ban, commando's om berichten te verwijderen, logboeken en meer!`)",
-        "4": "**Grappige en nuttige commando's**, zoals `~>help remindme` of `~>help hug` bijvoorbeeld.",
-        "5": "**Beste kwaliteit muziek**, check `~>music`!.",
-        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Steun het ontwikkelen van Mantaro!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheck ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
-      },
-      "credits": {
-        "main_dev": "Hoofd developer",
-        "dev": "Developer",
-        "docs": "Documentatie",
-        "translators": "Vertalers",
-        "community_admin": "Community Admin",
-        "special_mentions": "Shout out naar bots.discord.pw, Carbonitex en discordbots.org met het helpen om de zichtbaarheid van de bot te vergroten.",
-        "thank_note": "Hartelijk dank aan iedereen hierboven voor het helpen verbeteren van Mantaro!"
-      },
-      "version": "MantaroBot Versie",
-      "uptime": "Tijd online",
-      "shards": "Shards",
-      "threads": "Threads",
-      "guilds": "Servers",
-      "users": "Gebruikers (Uniek)",
-      "tc": "Tekst kanalen",
-      "vc": "Spraak kanalen",
-      "invite": "Invite link: http://is.gd/mantaro (Commando voor deze sessie: %1$,d | Huidige shard: %2$d)"
     },
     "pet": {
       "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",

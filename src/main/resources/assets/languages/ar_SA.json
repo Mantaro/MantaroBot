@@ -187,11 +187,6 @@
       "error": "%1$soخطأ في الطرد [%2$s]: (لم أحصل على صلاحية: %3$s)",
       "unknown_error": "%1$sخطأ غير معروف في محاولة طرد %2$s"
     },
-    "tempban": {
-      "no_time": "%1$sلايمكنك محاولة حظر عضو بدون إعطائي الوقت!",
-      "no_reason": "%2$sلايمكنك حظر عضو بدون سبب!",
-      "success": "%1$s%2$s (%3$s حصل على حظر مؤقت)"
-    },
     "music_usage": {
       "1": "*كيف يمكن إستخدام الموسيقى في مونتارو؟*",
       "2": "- اذا اردت **وضع الأغاني في قائمة الانتظار من يوتيوب أو soundcloud** `~>play`مثال: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *سيتم توصيله تلقائيًا بالقناة الصوتية الذي تتواجد فيها*",
@@ -317,7 +312,7 @@
       "vc_not_found": "%1$sلايمكن إيجاد القناة الصوتية أو لم تحدد واحدة!"
     },
     "shard": {
-      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -888,6 +883,7 @@
         "already_equipped": "لديك بالفعل عنصر من هذا النوع مجهز! جرب `~>unequip <type>` (النوع يمكن أن يكون rod/سنارة أو pick/فأس) إذا كنت ترغب في عدم تجهيزه ذلك."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sتحتاج لتحديد نوع الأداة لإلغاء تركيبه، `إما pick أو rod`",
         "invalid_type": "%1$sنوع غير صحيح، الأنواع الصحيحة هي `pick, rod`",
         "success": "%1$sتم بنجاح إلغاء تركيب %2$s بفتحتك الخاصة",
@@ -942,7 +938,6 @@
       "brief_success": "**ميداليات %1$s.**\n%2$s",
       "profile_notice": "إذا إعتقدت أنك حصلت على ميدالية جديدة ولم تظهر هُنا، إستخدم أمر `~>profile` وبعدها إستخدم الأمر مرة أخرى. ",
       "info_notice": "استخدم `~>badges info <اسم الميدالية>` لمعرفة المزيد عن الميدالية، يمكنك ايضاً التحقق من ال wiki :\n(https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)",
-      "upvote_notice": "**يمكنك الحصول على ميدالية ببلاش عن طريق التصويت لمونتارو على  [discordbots.org] (https://discordbots.org/bot/mantaro)!**\n(يمكن أن يأخذ بعض الدقائق للتصويت).",
       "donate_notice": "**يمكنك الحصول على ميدالية لدعم تطوير مونتارو! (https://patreon.com/mantaro)!**\n(من الممكن أن يأخذ بعض الدقائق)",
       "no_badges": "لايوجد ميداليات لعرضها (بَعد:)!)",
       "header": "الميداليات التي تحققت من قبل %1$s",
@@ -978,11 +973,6 @@
     "choose": {
       "nothing_to": "%1$sيجب أن تخبرني ما الذي أختار هُنا. (مثال: `~>choose anime manga`)",
       "success": "%1$sأنا أختار `%2$s` :)"
-    },
-    "dictionary": {
-      "no_word": "%1$sيجب أن تُحدد كلمة.",
-      "header": "التعريف ل %1$s",
-      "description": "**جزء من الكلام:** `%1$s`\n**كلمة رأس:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sما الذي يمكنني أن أذكرك به إذا لم تعطني ما أذكرك؟ اوه! اجعلني أُذكرك بوضع تذكير!",
@@ -1144,7 +1134,7 @@
         "category": "الفئة"
       },
       "number": {
-        "start": "%1$sخَمن الرقم! **لديك 5 محاولات و 30 ثانية لتخمين الرقم الصحيح. الرقم بين ال 0 و 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sهذا ليس رقم...",
         "ended_game": "%1$sنهاية اللعبة. الرقم الصحيح هو: %2$d",
         "all_attempts_used": "%1$sتم إستخدام جميع المحاولات، نهاية اللعبة. الرقم الصحيح هو: %2$d",
@@ -1183,6 +1173,7 @@
       "not_crate": "%1$sThat is not a valid loot crate."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
@@ -1190,6 +1181,7 @@
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
       "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
+      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
       "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
       "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
       "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
@@ -1232,39 +1224,6 @@
       "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
-    },
-    "about": {
-      "title": "About Mantaro",
-      "description": {
-        "1": "Hello, I'm **Mantaro**! I'm here to make your life a little easier. To get started, type `~>help`!",
-        "2": "Some of my features include:",
-        "3": "**Moderation made easy** (`Mass kick/ban, prune commands, logs and more!`)",
-        "4": "**Funny and useful commands**, see `~>help remindme` or `~>help hug` for examples.",
-        "5": "**First quality music**, check out `~>music`!.",
-        "support": "**[Support server](https://discordapp.com/invite/cMTmuPa)! | [Support Mantaro development!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheck ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Mantaro's Patreon Pledgers**"
-      },
-      "credits": {
-        "main_dev": "Main developer",
-        "dev": "Developer",
-        "docs": "Documentation",
-        "translators": "Translators",
-        "community_admin": "Community Admin",
-        "special_mentions": "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.",
-        "thank_note": "Much thanks to everyone above for helping make Mantaro better!"
-      },
-      "version": "MantaroBot Version",
-      "uptime": "Uptime",
-      "shards": "Shards",
-      "threads": "Threads",
-      "guilds": "Servers",
-      "users": "Users (Unique)",
-      "tc": "Text Channels",
-      "vc": "Voice Channels",
-      "invite": "Invite link: http://is.gd/mantaro (Commands this session: %1$,d | Current shard: %2$,d)"
     },
     "pet": {
       "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",

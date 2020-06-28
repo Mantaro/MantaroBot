@@ -11,7 +11,7 @@
     "now": "Jetzt",
     "hourly": "Stündlich",
     "daily": "Täglich",
-    "total": "Total",
+    "total": "Gesamt",
     "arrow_react": "Verwende die Pfeilreaktionen, um die Seite zu wechseln.",
     "text_menu": "Verwenden Sie &page >> und &page <<, um Seiten zu wechseln oder &cancel, um die Aktion zu beenden.",
     "not_found": "Nicht(s) gefunden.",
@@ -73,8 +73,8 @@
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
       "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut :( *Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!*",
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_3": "\nWäre es nicht besser, wenn du ein wenig rausgehen würdest?",
+      "spam_4": "\nIst das Ding überhaupt an?"
     },
     "generic_error": "Wenn du willst, tritt unserem **Support Server** bei (Link auf `support.mantaro.site` zu finden), oder schau auf unserer GitHub Seite nach (`https://github.com/Kodehawa/MantaroBot`). Bitte sag denen, dass sie aufhören sollen mich hochzujagen und bitte vergiss nicht die Fehler-ID beim Melden eines Fehlers!",
     "boom_quotes": [
@@ -119,7 +119,7 @@
     "games": "Spiel-",
     "info": "Info-",
     "currency": "Währungs-",
-    "pet": "Pet"
+    "pet": "Begleiter"
   },
   "commands": {
     "fish": {
@@ -186,11 +186,6 @@
       "success": "%1$s%2$s (%3$s wurde gekickt)",
       "error": "%1$sFehler beim Kicken %2$s: (Ich benötige die Rechte: %3$s)",
       "unknown_error": "%1$sHuh, ich habe einen unbekannten Fehler beim Kicken entdeckt %2$s"
-    },
-    "tempban": {
-      "no_time": "%1$sSie können niemanden temporär bannen, ohne eine Zeit anzugeben!",
-      "no_reason": "%2$sSie können nicht ohne einen Grund temporär bannen!",
-      "success": "%1$s%2$s (%3$s wurde temporär gebannt)"
     },
     "music_usage": {
       "1": "*Wie benutze ich Mantaros Musik?*",
@@ -317,7 +312,7 @@
       "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "Ich bin in Shard %1$d (Node %2$d/%3$d)! Wenn du mehr Hilfe brauchst, schau hier: <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -529,7 +524,7 @@
         "Pung.",
         "Peng.",
         "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "U-uhm... H-hi."
       ],
       "text": "%1$s*%2$s* - Meine Latenz: %3$s ms (%4$s) `Websocket:%5$sms`"
     },
@@ -620,11 +615,11 @@
         "too_many": "%1$sDu hast bereits zu viele Plätze!"
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `yes` or `no`. Typing yes will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "notice": "%1$sDu hast dich dagegen entschieden, das Waiu-System zu nutzen, daher kannst du es nicht nutzen.",
+        "warning": "%1$sWillst du dich wirklich dagegen entscheiden das Waifu-System zu nutzen? DIE ENTSCHEIDUNG IST ENDGÜLTIG UND KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN.\nWenn du nur nicht neu beansprucht werden willst und das Waifu-System sonst wie üblich nutzen möchtest, benutze stattdessen `~>profile claimlock`.\nDu wirst niemanden mehr beanspruchen und auch nicht mehr beansprucht werden können, und alle Beanspruchungen auf dich werden entfernt.\nGebe `yes` (Ja) oder `no` (Nein) ein. Ja wird dich ausschließen, Nein bricht diesen Befehl ab.",
+        "success": "%1$sDu hast dich erfolgreich gegen das Waifu-System entschieden.",
+        "cancelled": "%1$sEntscheidung abgebrochen.",
+        "claim_notice": "%1$sDer Nutzer, den du versuchst zu beanspruchen, hat sich gegen das Waifu-System entschieden."
       },
       "header": "Waifu-Liste",
       "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$s Waifus haben.*\n\nWenn du deine eigenen Waifu-Werte anschauen möchtest, nutze `~>waifu stats`\n\n",
@@ -668,7 +663,7 @@
       "no_tool": "%1$sDu musst %2$s haben, um die Herstellung durchführen zu können!",
       "item_broke": "\nLeider brach dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
       "too_many": "%1$sDu hättest mehr als 5000 von diesem Gegenstand, wenn du fortfährst. Versuche weniger von diesem Gegenstand herzustellen?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sDu brauchst mindestens einen Stufe 2 Schraubenschlüssel (mindestens einen Kometenschraubenschlüssel), um mehrere Gegenstände auf einmal herzustellen. Du hast aktuell einen Stufe %2$s Schraubenschlüssel.",
       "not_enough_wrench_level": "%1$sDein Schraubenschlüssel reicht nicht aus, um diesen Gegenstand herzustellen. Gib vielleicht einen besseren an? *Schraubenschlüssellevel: %2$s, Benötigtes Level: %3$s*. Beispiel: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sDu kannst nicht so viel von dem Gegenstand auf einmal herstellen! Limit: %2$s, Versucht: %3$s. Ein glitzernder Schraubenschlüssel verdoppelt das Limit! Außer du benutzt bereits einen.",
       "ls": {
@@ -695,32 +690,32 @@
         "success": "%1$sDer Kaufpreis für %2$s**%3$s** ist %4$s Credits und du erhälst %5$s Credits, wenn du ihn verkaufst."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sDu musst den Gegenstand und die Anzahl (außer bei einem einzelnen Gegenstand) zum Verkaufen angeben.",
+        "invalid": "%1$sUngültige Anzahl zu verkaufender Gegenstände.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
+          "confirmation": "%1$sBist du *sicher*, dass du **alle** deine Gegenstände verkaufen willst? Gebe *yes* ein, um zu bestätigen und *no*, um abzubrechen.",
           "success": "%1$sDu hast alle deine Gegenstände verkauft und %2$s Credits erhalten!",
-          "cancelled": "%1$sCancelled successfully."
+          "cancelled": "%1$sErfolgreich abgebrochen."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sDu kannst keinen nicht vorhandenen Gegenstand verkaufen. Wenn du nicht weiter weißt kannst du versuchen die Kurzform des Namens zu verwenden, oder ihn in Anführungsstriche setzen.",
+        "no_sell_price": "%1$sDu kannst keinen Gegenstand verkaufen, der nicht verkauft werden kann. (Aber du kannst ihn mit `~>market dump` wegwerfen.)",
+        "no_item_player": "%1$sDu kannst keinen Gegenstand verkaufen, den du nicht besitzt.",
+        "more_items_than_player": "%1$sDu kannst nicht mehr verkaufen, als du hast.",
+        "success": "%1$sDu hast %2$s **%3$s** verkauft und erhältst %4$s Credits!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sDu musst den Gegenstand und die Anzahl (außer bei einem einzelnen Gegenstand) zum Kaufen angeben.",
+        "invalid": "%1$sUngültige Anzahl zu kaufender Gegenstände.",
+        "non_existent": "%1$sDu kannst einen nicht existierenden Gegenstand nicht kaufen. Wenn du nicht weiter weißt kannst du versuchen die Kurzform des Namens zu verwenden, oder ihn in Anführungsstriche setzen.",
+        "no_buy_price": "%1$sDu kannst einen Gegenstand, der nicht gekauft werden kann, nicht kaufen.",
+        "item_limit_reached": "%1$sDu kannst nicht noch mehr von diesem Gegenstand kaufen.",
+        "success": "%1$sDu hast %2$s %3$s für %4$s Credits gekauft. Du hast nun %5$s Credits.",
+        "not_enough_money": "%1$sDu hast nicht genügend Credits, um diesen Gegenstand zu kaufen."
       },
       "header": "Mantaros Markt",
       "reference": "\nDu kannst Gegenstände über `~>market buy <item>` kaufen und über `~>market sell <item>` verkaufen. Schau unter `~>help market` für mehr Informationen.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "sell_price": "- **Verkaufspreis:**",
+      "buy_price": "- **Kaufpreis:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sDu kannst keinen Gegenstand an dich selbst senden!",
@@ -855,11 +850,11 @@
         "buff": "Verbesserung",
         "buff_type": "Verbesserungsart",
         "experience": "Erfahrung",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "mine_xp": "Bergbauerfahrung",
+        "fish_xp": "Angelerfahrung",
+        "sharks_caught": "Haie geangelt",
+        "crates_open": "Truhen geöffnet",
+        "times_mop": "Male gewischt",
         "daily": "Tägliche Strähne",
         "daily_at": "Letzte Strähne",
         "waifu_claimed": "Beanspruchte Waifus",
@@ -870,13 +865,13 @@
         "times": "Mal(e)",
         "days": "Tag(e)",
         "times_used": "Anzahl der Nutzungen",
-        "equipment": "Equipment",
+        "equipment": "Ausrüstung",
         "seasonal_equipment": "Saisons-Equipment",
         "autoequip": "Automatisches Ausrüsten",
         "never": "Nie"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sTag-Sichtbarkeit gesetzt auf: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sDu musst den auszurüstenden Gegenstand angeben!",
@@ -884,10 +879,11 @@
         "not_owned": "%1$sDu besitzt diesen Gegenstand nicht!",
         "success": "%1$sDu hast erfolgreich %2$s *%3$s* ausgerüstet, was beim nächsten Ausführen des zugehörigen Befehls beachtet wird.",
         "not_suitable": "%1$sDu kannst das nicht ausrüsten.",
-        "not_equipped": "%1$sYou don't have this equipped.",
+        "not_equipped": "%1$sDu hast das nicht ausgerüstet.",
         "already_equipped": "%1$sDu hast bereits einen Gegenstand dieser Art ausgerüstet! Versiche `~>unequip <art>` (Art kann entweder `rod` oder `pick` sein), wenn du ihn ablegen willst."
       },
       "unequip": {
+        "not_equipped": "%1$sDu hast nichts von dieser Art ausgerüstet.",
         "no_content": "%1$sDu musst ein Werkzeug zum Ablegen angeben, entweder `pick` oder `rod`.",
         "invalid_type": "%1$sUngültige Art. Mögliche Arten sind: `pick` und `rod`.",
         "success": "%1$sDein Gegnestand im %2$s-Slot wurde erfolgreich abgelegt.",
@@ -942,7 +938,6 @@
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
       "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
       "info_notice": "Verwende `~>badges info <Abzeichenname>`, um mehr Information über ein Abzeichen zu erhalten. [Du kannst auch ins Wiki schauen.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**Du kannst ein kostenloses Abzeichen für das [Up-Voten von Mantaro auf discordbots.org](https://discordbots.org/bot/mantaro) erhalten!** (Die Verarbeitung kann einige Minuten dauern)\n\n\n",
       "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s",
@@ -978,11 +973,6 @@
     "choose": {
       "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose Anime Manga`)",
       "success": "%1$sIch wähle `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$s Du musst ein Wort angeben.",
-      "header": "Definition für %1$s",
-      "description": "**Wortart:** `%1$s`\n**Stichwort:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sAn was könnte ich dich erinnern, wenn du mir nichts gibst, an das ich dich erinnern soll? Oh! Lass mich dich daran erinnern, eine Erinnerung zu setzen!",
@@ -1120,10 +1110,10 @@
       "cuddle": "%1$s du wurdest von %2$s geknuddelt.",
       "nuzzle": "%1$s knuddelt %2$s.",
       "bloodsuck": "%1$s saugt am Blut von %2$s!",
-      "nom": "Yummy.",
+      "nom": "Lecker.",
       "facedesk": "*facedesks*",
       "lewd": "D-Du unanständiger!",
-      "meow": "Meow."
+      "meow": "Miau."
     },
     "game": {
       "won_games": "%1$s%2$s hat **%3$s Spiele** gewonnen!",
@@ -1144,7 +1134,7 @@
         "category": "Kategorie"
       },
       "number": {
-        "start": "%1$sRate die Nummer! **Sie haben 5 Versuche und 30 Sekunden. Die Zahl liegt zwischen 0 und 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sDas ist nicht einmal eine Nummer...",
         "ended_game": "%1$sBeendetes Spiel. Die Nummer war: %2$d",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Die Nummer war: %2$d",
@@ -1166,7 +1156,7 @@
         "ended_lobby": "%1$sBeendete Lobby! Danke fürs Spielen!",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Mögliche Antworten waren: %2$s",
         "incorrect_answer": "%1$sDas ist es nicht, Sie haben %2$d Versuche übrig.",
-        "won_game": "%1$s**%2$s** hat $%3$s Credits gewonnen, dank eine richtigen Antwort!"
+        "won_game": "%1$s**%2$s** hat durch's korrekte Beantworten %3$s Credits gewonnen!"
       },
       "lobby_time_out": "%1$sDie Zeit ist abgelaufen! Die richtige Antwort ist: %2$s",
       "end_footer": "Du hast 5 Versuche und 60 Sekunden. (Schreibe end, um das Spiel zu beenden)",
@@ -1176,13 +1166,14 @@
       "character_request_error": "%1$sFehler beim Anfordern des Charakters von Kitsus API.",
       "character_start": "Rate den Charakter",
       "too_many_games": "%1$sDu kannst maximal 4 Spiele auf einmal mit lobby starten. (Mit Premium: 8)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "disabled_multiple": "%1$sDieser Server hat \"game multiple/lobby\" deaktiviert."
     },
     "opencrate": {
       "no_crate": "%1$sDu hast keine Truhe (%2$s), dieser Art. :( (Wenn du versuchst eine spezielle Truhe zu öffnen, verwende den Namen nach dem Befehl. Wenn du das Sasions-Inventar verwenden willst, hänge `-s` an)",
       "not_crate": "%1$sDas ist keine gültige Truhe."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sDu brauchst einen Truhenschlüssel, um das zu benutzen! Bitte kaufe einen und versuch es erneut!",
       "not_premium": "%1$sDu hast kein Premium!\nDu kannst eine täglich Premium-Truhe öffnen, wenn du Premium hast, sie hat eine hohe Chance für gute Items! Für mehr schaue bitte hier: <https://patreon.com/mantaro>.\nDies kann alle 24 Stunden genutzt werden.",
       "success": "%1$sDu hast eine **%2$s** erhalten! Komme in 24 Stunden zurück, um eine weitere zu erhalten! Du kannst sie mit `~>opencrate <crate name>` öffnen. Du musst einen Truhenschlüssel kaufen, um sie zu öffnen."
@@ -1190,6 +1181,7 @@
     "prune": {
       "no_messages_specified": "%1$sDu hast keine zu löschenden Nachrichten angegeben.",
       "no_permissions": "%1$sIch kann diesen Server nichts löschen, da ich nicht über die Berechtigung zum Verwalten von Nachrichten verfüge.",
+      "no_permissions_user": "%1$sIch kann diesen Server nichts löschen, da du nicht über die Berechtigung zum Verwalten von Nachrichten verfügst.",
       "bot_no_messages": "%1$sHier gibt es keine Nachrichten von Bots oder Bot-Aufrufen.",
       "no_pins_no_messages": "%1$sEs gibt hier keine nicht gepinnten Nachrichten...",
       "mention_no_messages": "%1$sEs gibt hier keine Nachrichten von Benutzern, die Sie hier erwähnt haben.",
@@ -1231,105 +1223,72 @@
       "load_notice": "Wenn das Bild nicht geladen wird, klicke den Titel.",
       "rule34_notice": "Wenn du den Inhalt dieses Befehls nicht magst, kannst du ~>yandere verwenden.",
       "yandere_nsfw_notice": "%1$sDie Yande.re und Gelbooru Befehle können nur in NSFW-Kanälen verwendet werden, da er zahlreiche explizite Bilder sendet, die auf der Seite als sicher gekennzeichnet sind.\nDu kannst stattdessen `~>konachan` verwenden!",
-      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
-    },
-    "about": {
-      "title": "Über Mantaro",
-      "description": {
-        "1": "Hallo, ich bin **Mantaro**! Ich bin hier, um dir das Leben ein wenig zu erleichtern. Um zu beginnen, tippe `~>help`!",
-        "2": "Einige meiner Funktionen umfassen:",
-        "3": "**Moderation leicht gemacht** (`Massenkick/bann, Nachrichten löschen, Protokolle und mehr!`)",
-        "4": "**Lustige und nützliche Befehle**, siehe `~>help remindme` oder `~>help hug` zum Beispiel.",
-        "5": "**Erstklassige Musik**, siehe `~>music`!.",
-        "support": "**[Support-Server](https://discordapp.com/invite/cMTmuPa)! | [Unterstütze die Mantaro-Entwicklung!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sSiehe ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Mantaros Patreon Unterstützer**"
-      },
-      "credits": {
-        "main_dev": "Hauptentwickler",
-        "dev": "Entwickler",
-        "docs": "Dokumentation",
-        "translators": "Übersetzer",
-        "community_admin": "Community-Administrator",
-        "special_mentions": "Danke an bots.discord.pw, Carbonitex und discordbots.org für die Erhöhung der Sichtbarkeit des Bots.",
-        "thank_note": "Vielen Dank an alle, die Mantaro dabei unterstützt haben, besser zu werden!"
-      },
-      "version": "MantaroBot Version",
-      "uptime": "Betriebszeit",
-      "shards": "Shards",
-      "threads": "Threads",
-      "guilds": "Server",
-      "users": "User (Einzigartig)",
-      "tc": "Text-Kanäle",
-      "vc": "Sprach-Kanäle",
-      "invite": "Invite-link: http://is.gd/mantaro (Befehle diese Sitzung: %1$s | Aktueller Shard: %2$s)"
+      "e621_nsfw_notice": "%1$sDer e621-Befehl kann nur in NSFW Kanälen benutzt werden."
     },
     "pet": {
-      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
-      "not_specified": "%1$sYou didn't specify the pet name.",
-      "not_found": "%1$sI didn't find a pet with the provided name.",
-      "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
-      "overview": "Pet Overview and Statistics",
+      "no_content": "%1$sDu musst angeben, von welchem Begleiter du die Werte anschauen willst (und den Nutzer, dessen Begleiter du anschauen willst, wenn's nicht deiner ist. Vergiss nicht Anführungszeichen um den Namen zu setzen!).",
+      "not_specified": "%1$sDu hast den Begleiternamen nicht angegeben.",
+      "not_found": "%1$sIch habe keinen Begleiter mit dem angegebenen Namen gefunden.",
+      "character_not_allowed": "%1$sDieser Buchstabe ist in Begleiternamen nicht erlaubt. Versuche einen anderen Namen?",
+      "overview": "Begleiterübersicht und Statistiken",
       "name": "Name",
-      "tier": "Tier",
+      "tier": "Stufe",
       "element": "Element",
-      "owner": "Owner",
-      "created": "Created At",
-      "affection": "Affection",
-      "stamina": "Current Stamina",
-      "hp": "Current HP",
-      "fly": "Fly",
-      "venom": "Venom",
-      "inventory": "Inventory",
-      "id": "Pet ID: %1$s",
+      "owner": "Besitzer",
+      "created": "Erstellt am",
+      "affection": "Zuneigung",
+      "stamina": "Aktuelle Ausdauer",
+      "hp": "Aktuelle LP",
+      "fly": "Fliegen",
+      "venom": "Gift",
+      "inventory": "Inventar",
+      "id": "Begleiter ID: %1$s",
       "hunger": "Hunger",
       "hydration": "Hydration"
     },
     "petactions": {
-      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
+      "general": "Begleiter begleiten dich bei der Nutzung des Währungssystems! **Du kannst sie trainieren, streicheln, füttern oder gegen Begleiter von anderen kämpfen lassen!** Um einen Begleiter zu erstellen, brauchst du einen Inkubator, welchen du aus Milch, einem alten Getränl und Diamanten herstellen kannst, das erlaubt dir dann einen Begleiter auszubrüten, wofür du ihm aber noch einen Namen geben musst.\n\nBegleiter können in PetBattle kömpfen, was ein (mehr oder weniger) rundenbasiertes Kampfsystem ist, in welchem du pro Runde einen Zug hast, wobei es einen Notfallzug gibt, sollte die LP-Differenz zwischen den Begleitern zu groß sein, was dir erlauben würde, deine Strategie zu ändern.\n\nUm im Wettkampf mithalten zu können, musst du verschiedene Fähigkeiten nutzen, welche verschiedenen Elementen und Typen angehören werden. Du wählst sie am Anfang deines Zuges, oder Notfallzuges.\nFähigkeiten sind deine größte Waffe! Aber Begleiter können auch eine Hauptwaffe, basierend auf ihrem Typ und ihrer Zuneigung, ausgerüstet haben. Der Waffenladen ist über `~>petaction shop` verfügbar und du kannst Waffen über `~>petaction weapon` ausrüsten, Waffen erhöhen den Schaden *nicht* per se, aber sie können die Effektivität einiger Attacken und Fähigkeiten erhöhen, wodurch es keine physischen Waffen gibt, da aller Schaden in einem PetBattle rein auf dem Willen basiert und nicht auf dem tatsächlichen Leben.",
       "incubate": {
-        "no_name": "%1$sYou need to specify a name to give to your pet.",
-        "only_letters": "%1$sThe name can only contain letters from a to z.",
-        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
-        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
-        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
-        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+        "no_name": "%1$sDu musst einen Namen für deinen Begleiter angeben.",
+        "only_letters": "%1$sDer Name kann nur Buchstaben von A bis Z beinhalten.",
+        "no_egg": "%1$sDu hast kein Inkubatorei in deinem Inventar.",
+        "not_enough_slots": "%1$sDu hast nicht genug Begleiterslots übrig. (Gesamt: %2$s, Genutzt: %3$s)",
+        "no_money": "%1$sDu hast nicht genug Geld, um dieses Ei auszubrüten. (Benötigt: **%2$s** Credits)",
+        "success": "%1$sDein Begleiterei wurde erfolgreich ausgebrütet! Dein neuer Begleiter %2$s `(ID: %3$s)` ist jetzt bereit. Nutze `~>pet <Name>`, um die Statuswerte deines Begleiters zu prüfen."
       },
       "rename": {
-        "not_enough_args": "%1$sYou need to specify the current name and the new name.",
-        "new_name_exists": "%1$sYou already have a pet with this name.",
-        "not_enough_money": "%1$sYou don't have enough money for this. **(Required: %2$s)**",
-        "confirmation": "%1$sDo you really want to rename **%2$s** to **%3$s**? Type *yes* to confirm and *no* to cancel.",
-        "success": "%1$sSuccessfully renamed **%2$s** to **%3$s** (ID: %4$s). Cost: %5$s"
+        "not_enough_args": "%1$sDu musst den aktuellen und den neuen Namen angeben.",
+        "new_name_exists": "%1$sDu hast bereits einen Begleiter mit diesem Namen.",
+        "not_enough_money": "%1$sDu hast nicht genug Geld dafür. **(Benötigt: %2$s)**",
+        "confirmation": "%1$sWillst du wirklich **%2$s** zu **%3$s** umbenennen? Antworte mit *yes* (Ja), um zu bestätigen, oder *no* (Nein) zum abbrechen.",
+        "success": "%1$s**%2$s** wurde erfolgreich zu **%3$s** umbenannt (ID: %4$s). Kosten: %5$s"
       },
       "ls": {
-        "experience": "XP",
-        "age": "Age",
-        "no_pets": "%1$sYou have no pets.",
-        "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
-        "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
+        "experience": "EP",
+        "age": "Alter",
+        "no_pets": "%1$sDu hast keine Begleiter.",
+        "header": "Das ist eine Liste deiner aktuellen Begleiter.\nBegleiter begleiten dich bei der Nutzung des Währungssystems! **Du kannst sie trainieren, streicheln, füttern oder gegen Begleiter von anderen kämpfen lassen!** Um einen Begleiter zu erstellen, brauchst du einen Inkubator, welchen du aus Milch, einem alten Getränl und Diamanten herstellen kannst, das erlaubt dir dann einen Begleiter auszubrüten, wofür du ihm aber noch einen Namen geben musst.",
+        "pages": "**Seiten:** %1$s \nNutze die Reaktionen, um zwischen den Seiten zu wechseln.\n\n"
       },
       "train": {
-        "success": "%1$sSuccessfully trained skill **%2$s**. Experience gained: %3$s. Current skill experience: %4$s. (Cost: %5$s)"
+        "success": "%1$s**%2$s** wurde erfolgreich trainiert. %3$s Erfahrung erhalten. Aktuelle Fähigkeitserfahrung: %4$s. (Kosten: %5$s)"
       },
       "pet": {
-        "no_pet": "%1$sI can't find a pet with the name you specified.",
-        "pet": "%1$sAww! T-Thanks. (Affection: %2$s, Total pets: %3$s)"
+        "no_pet": "%1$sIch kann keinen Begleiter mit diesem Namen finden.",
+        "pet": "%1$sAww! D-Danke. (Zuneigung: %2$s, Begleiter insgesamt: %3$s)"
       },
       "feed": {
-        "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
-        "no_item": "%1$sI can't find that item.",
-        "not_food": "%1$sThe specified item is not food.",
-        "full": "%1$sYour pet is currently full and can't eat more.",
-        "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
+        "fire_type": "%1$sDu kannst keinen Feuerbegleiter verfüttern... Außer du willst Kohle herstellen.",
+        "no_item": "%1$sIch kann den Gegenstand nicht finden.",
+        "not_food": "%1$sDer angegebene Gegenstand ist kein Essen.",
+        "full": "%1$sDein Begleiter ist aktuell satt und kann nicht noch mehr essen.",
+        "success": "%1$sDu hast deinen Begleiter %2$s erfolgreich gefüttert. (Aktuelles Hungerlevel: %3$s. Sättigung: %4$s)"
       },
       "hydrate": {
-        "fire_type": "%1$sYou can't really hydrate a fire type pet... unless you wanna put them off.",
-        "not_water": "%1$sThis pet isn't a water type pet.",
-        "no_water": "%1$sYou don't have a water bottle in your inventory",
-        "success": "%1$sSuccessfully hydrated your pet. (Current hydration level: %2$s)"
+        "fire_type": "%1$sDu kannst deinem Feuerbegleiter nicht wirklich Wasser zu trinken geben... außer du willst es löschen.",
+        "not_water": "%1$sDieser Begleiter ist nicht vom Typ Wasser.",
+        "no_water": "%1$sDu hast keine Wasserflasche im Inventar.",
+        "success": "%1$sDu hast deinem Begleiter erfolgreich Wasser gegeben. (Aktueller ???level: %2$s)"
       }
     },
     "invite": {
@@ -1388,7 +1347,7 @@
     "userinfo": {
       "header": "Nutzerinfo für %1$s#%2$s",
       "roles": "Rollen: [%1$s]",
-      "id": "User ID",
+      "id": "Benutzer-ID",
       "join_date": "Beitrittsdatum",
       "created": "Account erstellt",
       "account_age": "Account Alter",
@@ -1417,9 +1376,9 @@
     },
     "help": {
       "title": "Mantaro-Hilfe",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
+      "base_category": "Befehlsliste für Kategorie %1$s. Für eine detaillierte Anleitung zur Benutzung von Mantaro, schau bitte ins [Wiki](https://github.com/Mantaro/MantaroBot/wiki). [Währungsanleitung](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Vollständige Befehlsliste**. Für eine detailierte Hilfe, schau dir bitte das [Wiki](https://github.com/Mantaro/MantaroBot/wiki) an.\nAnleitungen: [Währung](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Benutzerdefinierte Befehle](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Willkommensnachrichten](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[Tritt dem Support-Server bei, falsl du Hilfe brauchst](https://support.mantaro.site). [Du kannst mir auch für Neuigkeiten auf Twitter folgen.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
       "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
@@ -1435,7 +1394,7 @@
       "no_item_found": "%1$sIch kann den Gegenstand nicht finden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "no_main_item": "%1$sDu hast nicht den benötigten Gegenstand, um das zu reparieren.",
       "cant_repair": "%1$s**%2$s** ist kein reparierbarer Gegenstand. Du kannst nur kaputte Gegenstände reparieren.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sDu brauchst einen Stufe 2 Schraubenschlüssel (mindestens einen Kometenschraubenschlüssel) oder höher, um diesen Gegenstand zu reparieren. Prüfe, ob du den richtigen Schraubenschlüssel angegeben hast, im Falle dessen, dass du einen angegeben hast. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "dust": "%1$sDein Inventar ist zu verstaubt, um eine Reparatur durchzuführen. Staublevel: %2$s",
       "not_wrench": "%1$sDu kannst das nicht als Schraubenschlüssel verwenden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "not_enough_level": "%1$sDu brauchst einen besseren Schraubenschlüssel, um diese Reparatur durchzuführen.",
@@ -1459,7 +1418,7 @@
       "error": "%1$s**Ich schwöre, ich habe deinen Lieblingsanime nicht fallen lassen!**\nIch habe einen ``%2$s`` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
       "information_header": "Anime Informationen für %1$s",
       "information_notice": "Informationen bereitgestellt durch AniList. Klicke auf den Titel, um auf die AniList Seite des Animes zu gelangen.",
-      "airing": "Airing",
+      "airing": "Am Laufen",
       "release_date": "Veröffentlichungsdatum",
       "favorite_count": "Favoritenanzahl",
       "end_date": "Enddatum",
@@ -1493,7 +1452,7 @@
         "bot": "%1$sDu kannst deine täglichen Credits nicht an einen Bot transferieren.",
         "receipt_locked": "Dieser Nutzer kann jetzt keine täglichen Credits erhalten.",
         "own_locked": "Du kannst jetzt nicht deine täglichen Credits erhalten.",
-        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
+        "same_user": "%1$sBenutze daily ohne dich zu erwähnen, wenn du dich selbst erwähnen würdest :P"
       },
       "streak": {
         "up": "Tägliche Strähne verlängert! Aktuell: `%1$sx`",
@@ -1627,7 +1586,7 @@
     "iteminfo": {
       "no_content": "%1$sDu hast kein Item zum Suchen angegeben!",
       "no_item": "%1$sEs gibt kein Item, das zu deiner Suchanfrage passt.",
-      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
+      "success": "%1$s**Gegenstandsinfo für** %2$s **%3$s** (%4$s) (Typ: %5$s): *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots haben kein Level.",
@@ -2025,22 +1984,22 @@
     "logs_editmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht bearbeitet!",
       "success": "%1$s\"Nachricht bearbeitet\"-Nachricht gesetzt auf: `%2$s`",
-      "reset_success": "%1$sReset logs edit message."
+      "reset_success": "%1$sBearbeitungs-Lognachricht zurückgesetzt."
     },
     "logs_deletemessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand eine Nachricht löscht!",
       "success": "%1$s\"Nachricht gelöscht\"-Nachricht gesetzt auf: `%2$s`",
-      "reset_success": "%1$sReset logs delete message."
+      "reset_success": "%1$sLöschungs-Lognachricht zurückgesetzt."
     },
     "logs_banmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand gebannt wird!",
       "success": "%1$sBannachricht gesetzt auf: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
+      "reset_success": "%1$sBann-Lognachricht zurückgesetzt."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sDu musst angeben, welche Nachricht ich ausgeben soll, wenn jemand entbannt wird!",
       "success": "%1$sEntbannnachricht gesetzt auf: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
+      "reset_success": "%1$sEntbann-Lognachricht zurückgesetzt."
     },
     "showdisablewarning": {
       "success": "%1$sWarnung bei deaktivierten Befehlen ist gesetzt auf: %2$s"
@@ -2056,11 +2015,11 @@
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$s\"game lobby/multiple\" erfolgreich deaktiviert."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$s\"game lobby/multiple\" ist auf diesem Server nicht deaktiviert.",
+        "success": "%1$s\"game lobby/multiple\" wurde erfolgreich aktiviert. (Falls es vorher deaktiviert war)"
       }
     },
     "invalid_category": "%1$sDu hast eine ungültige Kategorie eingegeben. Eine Liste gültiger Kategorien zum deaktivieren (Groß- und Kleinschreibung beachten) wird unten angezeigt```md\n%2$s```",
@@ -2099,14 +2058,14 @@
     "manage_permissions": "Rechte verwalten",
     "manage_webhooks": "Webhooks verwalten",
     "manage_emotes": "Emojis verwalten",
-    "priority_speaker": "Priority Speaker"
+    "priority_speaker": "Very Important Speaker"
   },
   "items": {
     "headphones": "Kopfhörer",
     "ban_hammer": "Bannhammer",
     "die": "Würfel",
     "kick_boot": "Kickstiefel",
-    "floppy": "Floppy Disk",
+    "floppy": "Diskette",
     "maths": "Meine Matheaufgaben",
     "racket": "Ping-Pong-Schläger",
     "loaded_die": "Geladener Würfel",
@@ -2130,7 +2089,7 @@
     "chocolate": "Schokolade",
     "cookie": "Keks",
     "die_2": "Spezieller geladener Würfel",
-    "booster": "Booster",
+    "booster": "Verstärker",
     "berserk": "Berserker",
     "Companion": "Begleiter",
     "special_ring": "Spezieller Ring",
@@ -2182,7 +2141,7 @@
     "shark": "Hai",
     "crab": "Krabbe",
     "squid": "Tintenfisch",
-    "shrimp": "Shrimp",
+    "shrimp": "Garnele",
     "moon": "Mondrune",
     "flake": "Schneeflocke",
     "broken_comet_pick": "Kaputte Kometenspitzhacke",
@@ -2238,7 +2197,7 @@
       "pants": "Quasi das was du an deinen Beinen trägst. Hoffentlich...",
       "haste": "Ermöglicht es dir mehr Zeug durch ausbeutbare Befehle für 2 Versuch zu erhalten.",
       "milky": "Entfernt alle Trankeffekte.",
-      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Sorgt dafür, dass eine Spitzhacke oder Angelrute weniger Haltparkeit per Nutzung verliert. Hält nur 3 Abbau/Fisch-Sessions.",
       "rod": "Lässt dich fischen. (40 Punkte Haltbarkeit)",
       "fish": "Fisch. Beim Fischen gefangen.",
       "tropical_fish": "Ein sehr tropischer Fisch. Beim Fischen gefangen.",
@@ -2283,8 +2242,8 @@
       "broken_comet_rod": "Eine Kometenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_sparkle_rod": "Eine glitzernde Angel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_star_rod": "Eine Sternenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
-      "incubator_egg": "TBD",
-      "water_bottle": "TBD",
+      "incubator_egg": "NOCH FESTZULEGEN",
+      "water_bottle": "NOCH FESTZULEGEN",
       "magic_watch": "Eine magische Uhr, die die Zeit verlangsamt, wenn du es nötig hast. Sie wird automatisch genutzt, um deine tägliche Strähne zu sichern."
     }
   },
