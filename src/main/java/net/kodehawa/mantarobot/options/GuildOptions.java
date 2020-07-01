@@ -162,7 +162,9 @@ public class GuildOptions extends OptionHandler {
 
                 String channelId = channelObj.getId();
 
-                Role roleObj = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0);
+                Role roleObj = Utils.findRole(event, role);
+                if (channelObj == null)
+                    return;
 
                 if (roleObj.isPublicRole()) {
                     event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.public_role"), EmoteReference.ERROR).queue();
