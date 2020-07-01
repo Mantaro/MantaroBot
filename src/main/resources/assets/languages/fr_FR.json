@@ -187,11 +187,6 @@
       "error": "%1$sErreur lors de l'expulsion %2$s: (J'ai besoin de la permission: %3$s)",
       "unknown_error": "%1$sErreur inconnue lors de l'expulsion %2$s"
     },
-    "tempban": {
-      "no_time": "%1$sTu ne peux pas bannir temporairement un utilisateur sans me donner de durée.",
-      "no_reason": "%2$sTu ne peux pas bannir temporairement un utilisateur sans raison.",
-      "success": "%1$s%2$s (%3$s s'est fait bannir temporairement)"
-    },
     "music_usage": {
       "1": "*Comment utiliser la musique avec Mantaro?*",
       "2": "- Pour **ajouter une musique de YouTube ou de Soundcloud dans la file de lecture ** utilises `~>play` Par exemple: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Mantaro se connectera automatiquement au le salon vocal dans lequel tu te trouves*",
@@ -317,7 +312,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -888,6 +883,7 @@
         "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
       },
       "unequip": {
+        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, rod`(pioche, canne à pêche).",
         "invalid_type": "%1$sLes types d'objets valides sont `pick, rod` pioche et canne à pêche en anglais.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
@@ -942,7 +938,6 @@
       "brief_success": "**Badges de %1$s:**\n%2$s",
       "profile_notice": "Si tu penses avoir eu un nouveau badge mais qu'il n'apparait pas ici, utilise `~>profile` puis refais cette commande.\n",
       "info_notice": "Utilise `~>badges info <nom du badge>` pour avoir plus d'infos sur un badge. [Tu peux aussi aller voir sur le wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**Tu peux obtenir un badge gratuit en [votant pour Mantaro sur discordbots.org](https://discordbots.org/bot/mantaro)!** (Ça peut prendre quelques minutes)\n\n",
       "donate_notice": "**Tu peux obtenir un badge en [aidant au développement de Mantaro!](https://patreon.com/mantaro)!** (Ça peut prendre quelques minutes)\n\n",
       "no_badges": "Aucun badge à afficher (pour le moment!)",
       "header": "Badges obtenus par %1$s",
@@ -978,11 +973,6 @@
     "choose": {
       "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (Exemple : `~>choose anime manga`)",
       "success": "%1$sJe choisis `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$sTu dois me donner un mot.",
-      "header": "Définition de %1$s",
-      "description": "**Partie de discours:** `%1$s`\n**Adresse au lecteur:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sComment pourrais-je te rappeler quoique ce soit si tu ne me dis pas ce que je dois te rappeler? Oh ! Lemme souviens toi de mettre un rappel !",
@@ -1144,7 +1134,7 @@
         "category": "Catégorie"
       },
       "number": {
-        "start": "%1$sDevine ! **Tu as 5 essais et 30 secondes. Le nombre est entre 0 et 150**",
+        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
         "nan": "%1$sCe n'est même pas un nombre...",
         "ended_game": "%1$sPartie terminée, le nombre était: %2$d",
         "all_attempts_used": "%1$sTu n'as plus d'essais. Le nombre était : %2$d",
@@ -1183,6 +1173,7 @@
       "not_crate": "%1$sCe n'est pas un coffre valide."
     },
     "dailycrate": {
+      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sTu as besoin d'une clé pour ouvrir ce coffre! Achètes-en une et reviens me voir!",
       "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures.",
       "success": "%1$sTu as obtenu un **%2$s**! Reviens dans 24h pour en avoir un autre! Tu peux l'ouvrir grâce à la commande `~>opencrate <nom du coffre>` et surtout tu as besoin d'acheter une clé pour l'ouvrir."
@@ -1190,6 +1181,7 @@
     "prune": {
       "no_messages_specified": "%1$sVous n'avez spécifié aucun message à effacer.",
       "no_permissions": "%1$sJe ne peux pas purger ce serveur car je n'ai pas la permission Gérer les messages.",
+      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
       "bot_no_messages": "%1$sIl n'y a aucun messages de bots ici.",
       "no_pins_no_messages": "%1$sIl n'y a aucun message non-épinglé ici...",
       "mention_no_messages": "%1$sIl n'y a aucun message de l'utilisateur mentionné ici.",
@@ -1232,39 +1224,6 @@
       "rule34_notice": "Si tu n'est pas satisfait du contenu de cette commande, tu peux utiliser ~>yandere",
       "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!",
       "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW."
-    },
-    "about": {
-      "title": "A propos de Mantaro",
-      "description": {
-        "1": "Salut, je suis **Mantaro**! Je suis là pour te faciliter la vie. Pour commencer, écris `~>help`!",
-        "2": "Certaines de mes fonctionnalités comprennent:",
-        "3": "**Modération plus simple** (`Kick/ban en masse, logs et plus!`)",
-        "4": "**Commandes marrantes et utiles**, voir `~>help remindme` ou `~>help hug` pour des exemples.",
-        "5": "**Musique de qualité**, voir `~>music`!.",
-        "support": "**[Serveur support](https://discordapp.com/invite/cMTmuPa)! | [Supporter le développement](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sVoir ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Patrons Mantaro**"
-      },
-      "credits": {
-        "main_dev": "Développeur principal",
-        "dev": "Développeur",
-        "docs": "Documentation",
-        "translators": "Traducteurs",
-        "community_admin": "Admin communautaire",
-        "special_mentions": "Merci à bots.discord.pw, Carbonitex et discordbots.org d'aider le bot à se faire connaitre.",
-        "thank_note": "Merci beaucoup à tous les gens cité ci-dessus de rendre Mantaro meilleur."
-      },
-      "version": "Version MantaroBot",
-      "uptime": "Durée de fonctionnement",
-      "shards": "Partitions",
-      "threads": "Coeurs",
-      "guilds": "Serveurs",
-      "users": "Utilisateurs (Uniques)",
-      "tc": "Canaux textuels",
-      "vc": "Canaux vocaux",
-      "invite": "Lien d'invitation: http://is.gd/mantaro (Commandes cette session: %1$,d | Partition actuelle: %2$d)"
     },
     "pet": {
       "no_content": "%1$sTu dois me dire de quel animal de compagnie tu veux consulter les stats (ainsi que l'utilisateur à qui il appartient, si ce n'est pas le tien. Assure-toi d'avoir mis le nom entre guillemets !).",

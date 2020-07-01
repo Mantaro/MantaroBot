@@ -30,7 +30,7 @@
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
-      "not_found": "Não foi possível encontrar itens relacionados com sua pesquisa. Se você está perdido, tente usar um nome curto, por exemplo para `Bebida Energética`, use `bebida`. Ou envolva o nome entre aspas.",
+      "not_found": "Não foi possível encontrar itens relacionados com sua pesquisa. Se você está perdido, tente usar um nome curto, por exemplo para `Energy Beverage`, use `energy`. Ou envolva o nome entre aspas.",
       "claim_key": "Você não pode transferir uma chave de reivindicação."
     },
     "misc_item_usage": {
@@ -91,7 +91,7 @@
       "Não seja ganancioso!",
       "V-Você está me chamando tão rápido estou ficando tonta...",
       "Pera lá amigo!",
-      "Espere apenas mais um poquiiiinho uwu",
+      "Espere só mais um pouquiiiinho uwu",
       "Parece que vamos ser multados se continuarmos rápido!",
       "Eu quero fazer isso... mas pare um pouco por favor.",
       "Ei, espere, Eu não terminei o meu intervalo ainda!",
@@ -103,7 +103,7 @@
       "A bota foi lançada!",
       "Você vai fazer falta... na verdade não",
       "Eu espero ter feito a coisa certa...",
-      "Ué, os mods falaram!",
+      "Ué, os mods pediram!",
       "U-Uh... b-bem, alguém acabou de passar pela porta."
     ]
   },
@@ -187,11 +187,6 @@
       "error": "%1$sErro expulsando %2$s: (Sem permissão fornecida: %3$s)",
       "unknown_error": "%1$sErro desconhecido ao tentar expulsar %2$s"
     },
-    "tempban": {
-      "no_time": "%1$sVocê não pode banir temporariamente um usuário sem me dar um tempo.",
-      "no_reason": "%2$sVocê não pode banir temporariamente alguém sem razão.",
-      "success": "%1$s%2$s (%3$s foi banido temporariamente)"
-    },
     "music_usage": {
       "1": "*Como usar música na Mantaro?*",
       "2": "- Para **fazer filas com youtube ou soundcloud** use `~>play` Por exemplo: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Ele se conectará automaticamente ao canal de voz em que você está*",
@@ -200,7 +195,7 @@
       "5": "- Para **checar a fila** apenas escreva `~>queue`",
       "6": "- Para **remover uma música da fila** Você só precisa usar `~>removetrack` Isso toma como argumento a posição em que a música está na fila (você pode checar na fila)",
       "7": "- Para **pausar ou despausar** apenas use `~>pause`",
-      "8": "- Para **parar a música e desencarregar do jogador** use `~>stop`",
+      "8": "- Para **parar a música e desvincular do player** use `~>stop`",
       "9": "- Para **embaralhar a fila** apenas use `~>shuffle`",
       "10": "- E por último, para **repetir uma música** use `~>repeat` e para **repetir a fila** use `~>repeat queue`. Usando `~>repeat` enquanto a repetição está ligada, irá desliga-la\n",
       "11": "Para mais informações por favor use `~>help <nome do comando>` (sem as <> e troque nome do comando pelo nome do comando que você quer)",
@@ -211,7 +206,7 @@
     },
     "season": {
       "info": "Uma *temporada* é um período de tempo, de geralmente 6 meses em que jogadores competem pelas 10 melhores posições no dinheiro ou no ranking de reputação. Os vencedores irão ganhar insígnias e recompensas baseado no desempenho sazonal.\nIsso é para ter um quadro mais competitivo (antes, o dinheiro era praticamente obsoleto) e para deixar o jogo um pouco mais divertido. \nVocê pode acessar as coisas sazonais usando `-season`. Comandos como profile, mine, fish e balance exigirá isso, enquanto games, loot, daily e reputation irão dar dinheiro/representação para seu perfil global e sazonal.",
-      "info_2": "\n\nA temporada atual é **%1$s** e **%2$s** jogadores estão atualmente participando!\n\nA diversão começa, cheque `~>leaderboard money -season`; `~>leaderboard rep -season` e `~>leaderboard games -season`.\nGame on! <3\nObrigado por desfrutar da Mantaro."
+      "info_2": "\n\nA temporada atual é **%1$s** e **%2$s** jogadores estão atualmente participando!\n\nA diversão começa, cheque `~>leaderboard money -season`; `~>leaderboard rep -season` e `~>leaderboard games -season`.\nGame on! <3\nObrigado por usar a Mantaro."
     },
     "music_general": {
       "music_error": {
@@ -223,7 +218,7 @@
       "not_playing": "%1$sAtualmente não estou tocando nada",
       "dj_only": "%1$sVocê tem que ser o DJ para usar esse comando!",
       "enjoy_note": "Aprecie a música! <3",
-      "no_player": "%1$sEu não consigo achar nenhum tocador de música aqui...",
+      "no_player": "%1$sEu não consigo achar nenhum player de música aqui... (tente tocar algo novamente?)",
       "not_connected": "%1$sVocê não está conectado no canal de voz no qual estou tocando atualmente! (Se você acha que isso é um erro, por favor reporte no servidor de suporte)",
       "np_message": "%1$s Agora tocando **%2$s** (%3$s) no **%4$s** | %5$s",
       "track_error": "%1$sOuch, alguma coisa deu errado enquanto tocava essa música! Desculpe pelo inconveniente, Eu vou tentar tocar a próxima se tiver uma disponível.",
@@ -263,7 +258,7 @@
         "attempting_to_connect": "%1$sEu já estou tentando me conectar ao canal **%2$s**! (Use o comando `move` para me mover para outro canal)"
       },
       "listener": {
-        "paused": "%1$sPausando a música porque eu fui mutada :(",
+        "paused": "%1$sPausando o player porque eu fui mutada :(",
         "resumed": "%1$sVoltando a tocar porque alguém entrou!",
         "left_alone": "%1$sIrei sair do **%2$s** em 2 minutos porque fiquei sozinha :(",
         "leave": "%1$sEu decidi sair do **%2$s** porque eu fiquei sozinha :("
@@ -281,7 +276,7 @@
         "timeout_text": "Isso esgota em 30 segundos. Digite &cancel para cancelar."
       },
       "premium_beg": "%1$sConsidere doar no <https://patreon.com/mantaro> se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé (Cheque `~>donate` para mais informações!)",
-      "closed_connection": "%1$sConexão de áudio fechada, desvinculado do jogador..."
+      "closed_connection": "%1$sConexão de áudio fechada, desvinculado do player..."
     },
     "forceskip": {
       "success": "%1$sUm administrador ou Comandante do Bot decidiu pular essa música."
@@ -291,8 +286,8 @@
       "header": "Agora Tocando"
     },
     "pause": {
-      "paused": "Jogador pausou. *(O jogador despausou anteriormente)*",
-      "unpaused": "Jogador despausou *(O jogador pausou anteriormente)*."
+      "paused": "Player pausado. *(O player foi despausado anteriormente)*",
+      "unpaused": "Player despausado *(O player foi pausado anteriormente)*."
     },
     "rewind": {
       "no_time": "%1$sVocê tem que me dizer o quanto você quer voltar a música. *(Exemplo: `~>rewind 1m45s` irá retornar 1 minuto e 45 segundos da música)*",
@@ -317,7 +312,7 @@
       "vc_not_found": "%1$sCanal de voz não encontrado ou você não especificou um!"
     },
     "shard": {
-      "info": "I'm in shard %1$d *(Node %2$d/%3$d)*! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "Estou na shard %1$d (Node %2$d/%3$d)! Se você precisar de ajuda, por favor vá para <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -362,8 +357,8 @@
         "submit": "%1$s**Seu voto foi submetido** Você precisa de mais %2$d voto(s) para pular!",
         "remove": "%1$s**Seu voto foi removido** Você precisa de mais %2$d voto(s) para pular!"
       },
-      "success": "%1$sMeta de votos alcançada, parando o jogador...",
-      "no_player": "%1$sNão tem jogador para parar, então eu não posso fazer nada...",
+      "success": "%1$sMeta de votos alcançada, parando o player...",
+      "no_player": "%1$sNão tem player para parar, então eu não posso fazer nada...",
       "cleanup": "%1$sRemovendo **%2$d músicas** da fila."
     },
     "volume": {
@@ -407,7 +402,7 @@
       "raw": {
         "no_command": "%1$sVocê precisa me dizer o comando que você quer ver.",
         "header": "Comando \"%1$s\":",
-        "amount": "(Mostrando %1$d resposta de %2$d)",
+        "amount": "(Mostrando %1$d respostas de %2$d)",
         "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
@@ -574,7 +569,7 @@
       "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
-      "denied": "%1$sProposta negada de **%2$s**"
+      "denied": "%1$sProposta de **%2$s** negada"
     },
     "divorce": {
       "not_married": "%1$sVocê não é casado com ninguém, por que você não acha aquele alguém especial?",
@@ -746,7 +741,7 @@
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
       "item_transfer": "%1$sVocê não pode transferir items usando transfer, use o comando  `transferitems` em vez disso.",
-      "party": "Você só pode transferir para a mesma pessoa(%1$s) uma vez a cada 4 minutos."
+      "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 4 minutos."
     },
     "useitem": {
       "ls": {
@@ -815,7 +810,7 @@
       "thank_note": "Obrigado pelo seu voto",
       "results": "Resultados",
       "cancelled": "%1$sEnquete cancelada",
-      "incorrect_time_format": "%1$sFormato de tempo incorreto. Lembre-se, o formato de hora adequado é um número seguido por `h, m ou s` (horas, minutos ou segundos). Exemplo: `-time 40m`"
+      "incorrect_time_format": "%1$sFormato de tempo incorreto. Lembre-se, o formato de tempo adequado é um número seguido por `h, m ou s` (horas, minutos ou segundos). Exemplo: `-time 40m`"
     },
     "profile": {
       "timezone": {
@@ -888,6 +883,7 @@
         "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara ou picareta) se você quiser desequipar."
       },
       "unequip": {
+        "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
         "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, rod`",
         "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, rod`",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
@@ -942,7 +938,6 @@
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
       "info_notice": "Use `~>badges info <nome da insígnia>` para ter mais informações sobre uma insígnia. [Você também pode checar a wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "upvote_notice": "**Você pode ganhar uma insígnia de graça por [votar na Mantaro no discordbots.org](https://discordbots.org/bot/mantaro)!** (Isso pode levar alguns minutos para processar)\n\n",
       "donate_notice": "**Você pode ganhar uma insígnia por [apoiar o desenvolvimento da Mantaro!](https://patreon.com/mantaro)!** (Isso pode levar alguns minutos para processar)\n\n",
       "no_badges": "Sem insígnias para mostrar (ainda!)",
       "header": "Insígnias obtidas por %1$s",
@@ -978,11 +973,6 @@
     "choose": {
       "nothing_to": "%1$sVocê precisa me dizer o que escolher entre. (exemplo: `~>choose anime mangá`)",
       "success": "%1$sEu escolho `%2$s`"
-    },
-    "dictionary": {
-      "no_word": "%1$sVocê tem que especificar uma palavra.",
-      "header": "Definição para %1$s",
-      "description": "**Parte do discurso:** `%1$s`\n**Headword:** `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sO que eu poderia te lembrar se você não me der o que é pra te lembrar? Oh! Deixe-me lembrá-lo de definir um lembrete!",
@@ -1144,7 +1134,7 @@
         "category": "Categoria"
       },
       "number": {
-        "start": "%1$sAdivinhe o número! **Você tem 5 tentativas e 30 segundos. O número é entre 0 e 150**",
+        "start": "%1$sAdivinhe o número! **Você tem 5 tentativas e 1 minutos. O número é entre 0 e 150**",
         "nan": "%1$sIsso não é nem mesmo um número...",
         "ended_game": "%1$sFim de jogo. O número era: %2$d",
         "all_attempts_used": "%1$sAcabou as tentativas, terminando jogo. O número era: %2$d",
@@ -1183,6 +1173,7 @@
       "not_crate": "%1$sIsso não é um caixote de saque válido."
     },
     "dailycrate": {
+      "check": "%1$sVocê poderá reivindicar seu caixote diário em: **%2$s.**",
       "key": "%1$sVocê precisa de uma chave do caixote para usar isso! Por favor compre uma e tente novamente!",
       "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber items bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
       "success": "%1$sVocê ganhou uma **%2$s**! Venha novamente em 24 horas para receber outra! Você pode abrir isso usando `~>opencrate <nome do caixote>`. Você precisa comprar uma chave do caixote pra abri-la."
@@ -1190,6 +1181,7 @@
     "prune": {
       "no_messages_specified": "%1$sVocê não especificou as mensagens para excluir.",
       "no_permissions": "%1$sEu não posso excluir mensagens nesse servidor pois eu não tenho a permissão de Gerenciar Mensagens.",
+      "no_permissions_user": "%1$sEu não posso punir nesse servidor pois você não tem a permissão de Gerenciar Mensagens.",
       "bot_no_messages": "%1$sNão tem mensagens de bots ou calls de bot aqui.",
       "no_pins_no_messages": "%1$sNão tem nenhuma mensagem fixada aqui...",
       "mention_no_messages": "%1$sNão tem mensagens de usuários que você mencionou aqui.",
@@ -1232,39 +1224,6 @@
       "rule34_notice": "Se você não gosta do conteúdo desse comando, você pode usar ~>yandere",
       "yandere_nsfw_notice": "%1$sComando Yande.re só pode ser usado em canal NSFW devido a inúmeros relatos dele enviando imagens explícitas que estão marcados como seguros ao seu lado.\nVocê pode tentar usar`~>konachan` ao invés disso!",
       "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW."
-    },
-    "about": {
-      "title": "Sobre a Mantaro",
-      "description": {
-        "1": "Olá, Eu sou a **Mantaro**! Estou aqui para tornar sua vida um pouco mais fácil. Para começar, digite `~>help`!",
-        "2": "Alguns dos meus recursos incluem:",
-        "3": "**Moderação facilitada** (`kick/ban em massa, comandos de excluir, logs e mais!`)",
-        "4": "**Comandos engraçados e úteis**, veja `~>help remindme` ou `~>help hug` por exemplo.",
-        "5": "**Música de primeira qualidade**, Confira `~>music`!.",
-        "support": "**[Servidor de suporte](https://discordapp.com/invite/cMTmuPa)! | [Apoie o desenvolvimento da Mantaro!](https://www.patreon.com/mantaro)**",
-        "credits": "%1$sCheque ~>about credits!"
-      },
-      "patreon": {
-        "header": "**Promessas do Patreon da Mantaro**"
-      },
-      "credits": {
-        "main_dev": "Principal desenvolvedor",
-        "dev": "Desenvolvedor",
-        "docs": "Documentação",
-        "translators": "Tradutores",
-        "community_admin": "Administrador da Comunidade",
-        "special_mentions": "Agradecimentos a bots.discord.pw, Carbonitex e discordbots.org por nos ajudar a aumentar a visibilidade do bot.",
-        "thank_note": "Muito obrigado a todos acima por ajudar a tornar Mantaro melhor!"
-      },
-      "version": "MantaroBot Versão",
-      "uptime": "Tempo de Atividade",
-      "shards": "Fragmentos",
-      "threads": "Tópicos",
-      "guilds": "Servidores",
-      "users": "Usuários (Único)",
-      "tc": "Canais de Texto",
-      "vc": "Canais de Voz",
-      "invite": "Link de Convite: http://is.gd/mantaro (Comandos nesta sessão: %1$,d | Shard atual: %2$d)"
     },
     "pet": {
       "no_content": "%1$sVocê tem que especificar o pet para ver os status (e o usuário que você quer ver o pet, se não é você. Certifique-se de citar o nome neste caso!).",
@@ -1590,7 +1549,7 @@
         "below_minimum": "%1$sO valor mínimo é 25 créditos",
         "no_tickets": "%1$sVocê tentou usar tickets mas você não tem nenhum :<",
         "no_amount": "%1$sVocê não especificou a quantidade!",
-        "no_valid_amount": "%1$sIsso não é uma quantia válida de dinheiro! (Exemplo de quantias válidas: 1000, 1M, 1.8, 14000, 2 Milhões)"
+        "no_valid_amount": "%1$sIsso não é uma quantia válida de dinheiro! (Exemplo de quantias válidas: 1000, 1k, 14000, 2M)"
       },
       "roll": "%1$s**Você usou %2$s e rolou o caça-níquel**\n",
       "win": "E você ganhou **%1$d** créditos e pode ficar com o que você apostou (%2$d créditos)! Sortudo!",
@@ -1637,7 +1596,7 @@
   },
   "options": {
     "options": "Opções da Mantaro",
-    "error_general": "%1$sUso incorreto ou argumentos ausentes.\nSe você está perdido ou quer ajuda para usar as opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. Se você tiver algum problema depois de ler a wiki, vá até  <https://support.mantaro.site>",
+    "error_general": "%1$sUso incorreto ou argumentos ausentes.\nSe você está perdido ou quer ajuda para usar as opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar o opts. Se você tiver algum problema depois de ler a wiki, vá até <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sNão é possível recuperar valores. Coisa esquisita...",
       "header": "Opções definidas para o servidor **%1$s**.",
@@ -2183,7 +2142,7 @@
     "crab": "Caranguejo",
     "squid": "Lula",
     "shrimp": "Camarão",
-    "moon": "Runa da lua",
+    "moon": "Runa da Lua",
     "flake": "Floco de neve",
     "broken_comet_pick": "Picareta de Cometa Quebrada",
     "broken_sparkle_pick": "Picareta Brilhante Quebrada",
@@ -2204,7 +2163,7 @@
       "loaded_die": "Roubado do comando `~>roll`.",
       "forgotten": "Nunca Baixada. Provavelmente foi protegido por direitos autorais.",
       "pencil": "Nós temos muitos desses!",
-      "moneybag": "O quê mais?",
+      "moneybag": "O que mais?",
       "pick": "Aquele cara gostava muito de Minecraft (40 de durabilidade). (ferramenta de `~>mine`)",
       "milk": "Talvez seja bom ter algum.",
       "beverage": "Realmente faz coisas estranhas em grandes quantidades. Bem, depende de que tipo ;)",
@@ -2275,7 +2234,7 @@
       "crab": "Um caranguejo. Ele dança, talvez.",
       "squid": "Não confundir com Lula Molusco.",
       "shrimp": "Material rosado. Eu acho.",
-      "moon": "Runa da lua. Necessário para fundir algumas coisas.",
+      "moon": "Runa da Lua. Necessário para fundir algumas coisas.",
       "flake": "Floco de neve. Geralmente usado como ingrediente de fusão.",
       "broken_comet_pick": "Uma picareta de cometa que quebrou durante a mineração. Ainda recuperável.",
       "broken_sparkle_pick": "Uma picareta brilhante que quebrou durante a mineração. Ainda recuperável.",
