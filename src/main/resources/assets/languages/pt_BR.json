@@ -149,7 +149,7 @@
       "shark_success": "%1$sDe alguma forma, você conseguiu pegar um tubarão. Que vara maravilhosa, hein?",
       "fossil_success": "%1$sVocê pegou um fóssil enquanto tentava achar um peixe. Isso pode valer um pouco ou ser usada para fundição, Eu acredito.",
       "bait": "O peixe comeu sua isca no processo!",
-      "missing_equipped": "%1$sVocê tinha equipado uma %2$s vara, mas você não tem mais desse tipo no seu invetário! Vara equipada foi resetada.",
+      "missing_equipped": "%1$sVocê tinha equipado uma %2$s vara, mas você não tem mais desse tipo no seu inventário! Vara equipada foi resetada.",
       "broken_drop": "%1$sSua vara quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
       "no_rod_equipped": "%1$sVocê não tem uma vara equipada. Para equipar uma você tem que usar `~>equip <nome da vara>` para começar sua aventura!"
     },
