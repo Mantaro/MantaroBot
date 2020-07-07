@@ -616,7 +616,7 @@
       },
       "optout": {
         "notice": "%1$sBạn đã chọn bỏ toàn bộ hệ thống waifu, nên bạn không thể dùng nó.",
-        "warning": "%1$sBạn có muốn chặn hoàn toàn hệ thống waifu? QUÁ TRÌNH NÀY LÀ MÃI MÃI VÀ SẼ KHÔNG THỂ BỊ ĐẢO NGƯỢC. \nNếu bạn chỉ muốn chặn bị nhận làm waifu và dùng các lệnh khác của hệ thống này như thường lệ, hãy dùng `~>profile claimlock`.\nBạn sẽ không thể nhận hoặc bị nhận làm waifu, và tất cả những người nhận bạn sẽ được gỡ bỏ.\nGõ `yes` hoặc `no`. Gõ yes để chặn, no để huỷ lệnh.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing yes will opt you out, no will cancel it.",
         "success": "%1$sBạn đã bỏ thành công toàn bộ hệ thống waifu.",
         "cancelled": "%1$sĐã huỷ lệnh bỏ hệ thống.",
         "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống."
