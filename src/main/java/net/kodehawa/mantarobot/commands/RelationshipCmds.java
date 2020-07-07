@@ -732,7 +732,7 @@ public class RelationshipCmds {
 
                     String c = e.getMessage().getContentRaw();
 
-                    if (c.equalsIgnoreCase("yes")) {
+                    if (c.equalsIgnoreCase("Yes, I want to opt out of the waifu system completely and irreversibly")) {
                         player.getData().setWaifuout(true);
                         ctx.sendLocalized("commands.waifu.optout.success", EmoteReference.CORRECT);
                         player.saveAsync();
