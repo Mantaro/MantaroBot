@@ -964,11 +964,12 @@
       "error": "%1$sحصل شئ خطأ ما بينما كنت تحاول الحصول على عيدميلاد (خطأ داخلي) :(.",
       "header": "**ميلاد %1$s ل %2$s** ",
       "full_header": "**أعياد ميلاد %1$s**\n%2$s",
-      "invalid_date": "%1$sتاريخ غير صحيح أو غير صالح. تذكر تسلسل التاريخ `dd-mm-yyyy` (اليوم-الشهر-السنة)",
-      "error_date": "%1$s%2$sإما تاريخ غير صالح أو لايمكنني تحليل هذا بشكل صحيح. أرجوك جرب التسلسل الصحيح. تذكر أن تاريخ الميلاد يشمل السنة، وأيضا يمكنك إضافة أي سنة لن يؤثر. \nالتسلسل الصحيح: `dd/mm/yyyy`",
-      "added_birthdate": "%1$sتم بنجاح إضافة تاريخ الميلاد. تاريخ الميلاد الجديد %2$s *(التسلسل dd/mm/yyyy)* [يوم-شهر-سنة]",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
-      "no_content": "%1$sتحتاج إلى تحديد ميلادك. لإعادة تعيين ميلادك إستخدم الأمر `remove` أو `month` للتحقق من لستة أعياد الميلاد لهذا الشهر. "
+      "no_content": "%1$sتحتاج إلى تحديد ميلادك. لإعادة تعيين ميلادك إستخدم الأمر `remove` أو `month` للتحقق من لستة أعياد الميلاد لهذا الشهر. ",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
     },
     "choose": {
       "nothing_to": "%1$sيجب أن تخبرني ما الذي أختار هُنا. (مثال: `~>choose anime manga`)",
