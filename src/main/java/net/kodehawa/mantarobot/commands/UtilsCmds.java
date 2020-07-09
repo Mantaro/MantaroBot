@@ -101,31 +101,46 @@ public class UtilsCmds {
                             return;
                         }
 
-                        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-                        Date bd1;
+                        //Twice. Yep.
+                        SimpleDateFormat parseFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM");
+                        Date birthdayDate;
 
+                        //This code hurts to read, lol.
                         try {
-                            String bd;
-                            bd = content.replace("/", "-");
-                            String[] parts = bd.split("-");
-                            if (Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000) {
+                            String birthday;
+                            birthday = content.replace("/", "-");
+                            var parts = new ArrayList<>(Arrays.asList(birthday.split("-"))); //Cursed.
+
+                            if (Integer.parseInt(parts.get(0)) > 31 || Integer.parseInt(parts.get(1)) > 12) {
                                 ctx.sendLocalized("commands.birthday.invalid_date", EmoteReference.ERROR);
                                 return;
                             }
 
-                            bd1 = format1.parse(bd);
+                            if(parts.size() > 2) {
+                                ctx.sendLocalized("commands.birthday.new_format", EmoteReference.ERROR);
+                                return;
+                            }
+
+                            //Add a year so it parses and saves using the old format. Yes, this is also cursed.
+                            parts.add("2037");
+
+                            var date = String.join("-", parts);
+                            birthdayDate = parseFormat.parse(date);
                         } catch (Exception e) {
                             ctx.sendStrippedLocalized("commands.birthday.error_date", "\u274C", content);
                             return;
                         }
 
-                        String birthdayFormat = format1.format(bd1);
+                        String birthdayFormat = parseFormat.format(birthdayDate);
 
+                        //Actually save it to the user's profile.
                         DBUser dbUser = ctx.getDBUser();
                         dbUser.getData().setBirthday(birthdayFormat);
                         dbUser.save();
 
-                        ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, birthdayFormat);
+                        //Yes, very.
+                        ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, displayFormat.format(birthdayDate));
                     }
                 };
             }
@@ -135,7 +150,7 @@ public class UtilsCmds {
                 return new HelpContent.Builder()
                         .setDescription("Sets your birthday date. Only useful if the server has enabled this functionality")
                         .setUsage("`~>birthday <date>`")
-                        .addParameter("date", "A date in dd-mm-yyyy format (13-02-1998 for example). Check subcommands for more options.")
+                        .addParameter("date", "A date in dd-mm format (13-02 for example). Check subcommands for more options.")
                         .build();
             }
         });
@@ -190,7 +205,10 @@ public class UtilsCmds {
                         String birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .filter(entry -> guild.getMemberById(entry.getKey()) != null)
-                                .map((entry) -> String.format("+ %-20s : %s ", guild.getMemberById(entry.getKey()).getEffectiveName(), entry.getValue().getBirthday()))
+                                .map((entry) -> {
+                                    var birthday = entry.getValue().getBirthday().split("-");
+                                    return String.format("+ %-20s : %s ", guild.getMemberById(entry.getKey()).getEffectiveName(), birthday[0] + "-" + birthday[1]);
+                                })
                                 .collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
@@ -292,10 +310,10 @@ public class UtilsCmds {
                         //Build the message.
                         String birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
-                                .map((entry) -> String.format("+ %-20s : %s ",
-                                        ctx.getGuild().getMemberById(entry.getKey()).getEffectiveName(),
-                                        entry.getValue().getBirthday())
-                                ).collect(Collectors.joining("\n"));
+                                .map((entry) -> {
+                                    var birthday = entry.getValue().getBirthday().split("-");
+                                    return String.format("+ %-20s : %s ", ctx.getGuild().getMemberById(entry.getKey()).getEffectiveName(), birthday[0] + "-" + birthday[1]);
+                                }).collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
                         I18nContext languageContext = ctx.getLanguageContext();
