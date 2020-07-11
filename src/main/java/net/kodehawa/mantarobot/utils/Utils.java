@@ -249,7 +249,7 @@ public class Utils {
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\"-").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\"").queue();
             return null;
         }
 
@@ -270,7 +270,7 @@ public class Utils {
     public static Role findRoleSelect(GuildMessageReceivedEvent event, String content, Consumer<Role> consumer) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :( -if the role has spaces try wrapping it in quotes \"like this\"-").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :( -if the role has spaces try wrapping it in quotes \"like this\"").queue();
             return null;
         }
 
