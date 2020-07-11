@@ -163,7 +163,7 @@ public class GuildOptions extends OptionHandler {
                 String channelId = channelObj.getId();
 
                 Role roleObj = Utils.findRole(event, role);
-                if (channelObj == null)
+                if (roleObj == null)
                     return;
 
                 if (roleObj.isPublicRole()) {
