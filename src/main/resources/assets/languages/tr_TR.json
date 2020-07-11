@@ -71,7 +71,7 @@
     "space_notice": "Arada bir bosluk varsa ismi tırnak içine alın \"tırnak içine\"",
     "ratelimit": {
       "header": "%1$s%2$s (cooldown)\n **%3$s saniye içinde tekrar bu komutu kullanabileceksin.**",
-      "spam_1": "Lütfen dinlenin, bu senin sağlığın açısından iyi! :( *Cooldown git gide yükseliyor sen böyle denedikçe, sakin ... sakin!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nBiraz duraklamak en iyi seçenek olacaktır...",
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
