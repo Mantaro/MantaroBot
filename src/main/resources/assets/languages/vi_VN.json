@@ -71,7 +71,7 @@
     "space_notice": "Nếu tên của nó chứa dấu cách, hãy thử \"cho trong ngoặc kép\"",
     "ratelimit": {
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n**Bạn có thể sử dụng lệnh này sau %3$s.**",
-      "spam_1": "Nghỉ ngơi đi, nó sẽ tốt cho sức khỏe của bạn. :( *Nhớ rằng thời gian chờ sẽ tăng nếu bạn cố thử lại trước khi nó về 0!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nTôi nghĩ rằng dừng lại là lựa chọn tốt nhất bây giờ...",
       "spam_3": "\nLiệu có tốt hơn không nếu bạn ra ngoài một chút?",
       "spam_4": "\nCái này còn bật được không đấy?"
