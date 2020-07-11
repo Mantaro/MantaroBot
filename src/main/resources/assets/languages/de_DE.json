@@ -71,7 +71,7 @@
     "space_notice": "Sollte der Name Leerzeichen beinhalten, versuche \"ihn in Anführungszeichen zu schreiben.\"",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
-      "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut :( *Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option...",
       "spam_3": "\nWäre es nicht besser, wenn du ein wenig rausgehen würdest?",
       "spam_4": "\nIst das Ding überhaupt an?"
