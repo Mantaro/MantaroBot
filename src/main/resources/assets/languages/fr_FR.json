@@ -71,7 +71,7 @@
     "space_notice": "Si le nom de celui-ci contient des espaces, essaie \"de le placer entre guillemets\"",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
-      "spam_1": "S'il te plait repose toi, c'est bon pour ta santé :( *N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment...",
       "spam_3": "\nCe serait pas mieux si tu sortais un peu?",
       "spam_4": "\nEst-ce que ce truc est allumé au moins?"
