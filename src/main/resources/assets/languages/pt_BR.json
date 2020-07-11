@@ -71,7 +71,7 @@
     "space_notice": "Se o nome disso contém espaços, tente \"envolve-lo em aspas\"",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
-      "spam_1": "Por favor descanse, faz bem pra saúde :( *Lembre-se que o Limite de taxa irá continuar aumentando se você tentar antes do tempo acabar!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nEu acho que parar é a melhor opção por enquanto...",
       "spam_3": "\nNão seria melhor se você fosse pra fora um pouco?",
       "spam_4": "\nEssa coisa está ligada?"
@@ -616,7 +616,7 @@
       },
       "optout": {
         "notice": "%1$sVocê optou por sair de todo o sistema de waifu, então você não pode usar isso.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing yes will opt you out, no will cancel it.",
+        "warning": "%1$sVocê deseja sair do sistema de waifu? ISSO É PERMANENTE E NÃO PODE SER REVERTIDO. \nSe você quer apenas sair de novas reivindicações e quer usar o sistema de waifu como sempre, por favor use `~>profile claimlock` ao invés disso.\nVocê não será capaz de reivindicar ou ser reivindicado, e todas as reivindicações sobre você serão removidas.\nDigite `Yes, I want to opt out of the waifu system completely and irreversibly` ou `no`.\nDigitando yes você irá sair, no irá cancelar.",
         "success": "%1$sVocê saiu com sucesso do sistema de waifu.",
         "cancelled": "%1$sOperação de saída cancelada.",
         "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu."
@@ -964,11 +964,12 @@
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**Aniversário de %1$s para %2$s**\n",
       "full_header": "**Aniversário de %1$s**\n%2$s",
-      "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se de que o formato da data é `dd-mm-aaaa`",
-      "error_date": "%1$s%2$s não é uma data válida ou não posso analisá-lo corretamente. Por favor, tente com a formatação correta. Lembre-se de incluir o ano, embora você possa colocar qualquer ano e isso não afetará nada.\nLembre-se de que o formato da data é `dd/mm/aaaa`",
-      "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de aniversário: %2$s *(Formato: dd-MM-aaaa)*",
+      "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se de que o formato da data é `dd-mm` (dia-mês)",
+      "error_date": "%1$s%2$s ou não é uma data válida ou eu não posso analisar corretamente. Por favor tente com a formatação correta.\nLembre-se que o formato da data é `dd/mm`",
+      "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de aniversário: %2$s *(Formato: dd-MM)* [day-month]",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
-      "no_content": "%1$sVocê precisa especificar seu aniversário, `remove` para resetar seu aniversário ou `month` para verificar a lista de meses de aniversários."
+      "no_content": "%1$sVocê precisa especificar seu aniversário, `remove` para resetar seu aniversário ou `month` para verificar a lista de meses de aniversários.",
+      "new_format": "%1$sO novo formato de data é apenas `dd-mm` (dia-mês, por exemplo 20-10 para 20 de Outubro). Não precisa mais colocar seu ano, então você pode esquecer essa parte."
     },
     "choose": {
       "nothing_to": "%1$sVocê precisa me dizer o que escolher entre. (exemplo: `~>choose anime mangá`)",

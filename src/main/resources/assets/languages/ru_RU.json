@@ -71,7 +71,7 @@
     "space_notice": "Если имя содержит пробелы, попробуйте \"заключить его в кавычки\"",
     "ratelimit": {
       "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова в %3$s.**",
-      "spam_1": "Остынь, выпей водички, дыши глубже :( *Время запроса продолжит увеличиваться, если ты продолжишь спамить!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nЯ думаю тебе лучше остановиться сейчас...",
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
@@ -964,11 +964,12 @@
       "error": "%1$sПри получении дат дней рождения что-то пошло не так (внутренняя ошибка) :(",
       "header": "**%1$s's Дни рождения %2$s**\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
-      "invalid_date": "%1$sНеверная дата или неверный формат.\nПравильный формат `дд-мм-гггг`",
-      "error_date": "%1$s%2$s недействительная дата или вы написали ее не правильно. Попробуйте снова. Не забудьте указать год, вы можете указать любой - это ни на что не повлияет.\nПравильный формат это: `дд/мм/гггг`",
-      "added_birthdate": "%1$sУспешно добавлена дата дня рождения. Новая дата: %2$s *(Формат: дд-мм-гггг)*",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sНеправильно указан номер месяца (цифра от 1 до 12)",
-      "no_content": "%1$sВы не указали дату дня рождения."
+      "no_content": "%1$sВы не указали дату дня рождения.",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
     },
     "choose": {
       "nothing_to": "%1$sВы должны указать что выбрать. (К примеру: `~>choose anime manga`)",

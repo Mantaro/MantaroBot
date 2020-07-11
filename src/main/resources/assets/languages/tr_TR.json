@@ -71,7 +71,7 @@
     "space_notice": "Arada bir bosluk varsa ismi tırnak içine alın \"tırnak içine\"",
     "ratelimit": {
       "header": "%1$s%2$s (cooldown)\n **%3$s saniye içinde tekrar bu komutu kullanabileceksin.**",
-      "spam_1": "Lütfen dinlenin, bu senin sağlığın açısından iyi! :( *Cooldown git gide yükseliyor sen böyle denedikçe, sakin ... sakin!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nBiraz duraklamak en iyi seçenek olacaktır...",
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
@@ -964,11 +964,12 @@
       "error": "%1$sDoğum günlerini alırken bir hata oldu. (içsel bir hata) :(",
       "header": "**%1$s adlı kişinin doğum günü: %2$s**\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
-      "invalid_date": "%1$sGeçerli bir tarih değil veya geçerli formatta değil.\nUnutmayın doğru format `gg-aa-yyyy` (gün-ay-yıl)",
-      "error_date": "%1$s%2$s geçerli bir tarih değil veya doğru girilmedi. Doğru format ile tekrar deneyin. Lütfen yılı da ekleyin, herhangi bir yıl koyabilmenize rağmen bir şeyi etkilemeyecektir.\nDoğru format `gg/aa/yyyy`",
-      "added_birthdate": "%1$sBaşarıyla doğum günü eklendi: %2$s *(Format: gg-AA-yyyy)* [Gün-ay-yıl]",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sGeçerli bir ay değil! (Geçerli aylar 1 ve 12 arasındadır.)",
-      "no_content": "%1$sDoğum gününü girmelisin, `remove` kullanarak silebilir veya `month` kullanarak o ayki doğum günlerini görebilirsin."
+      "no_content": "%1$sDoğum gününü girmelisin, `remove` kullanarak silebilir veya `month` kullanarak o ayki doğum günlerini görebilirsin.",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
     },
     "choose": {
       "nothing_to": "%1$sBana ne hakkında seçim yapmam gerektiğini söylemelisin. (örnek: `~>choose anime manga`)",

@@ -71,7 +71,7 @@
     "space_notice": "Si le nom de celui-ci contient des espaces, essaie \"de le placer entre guillemets\"",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
-      "spam_1": "S'il te plait repose toi, c'est bon pour ta santé :( *N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment...",
       "spam_3": "\nCe serait pas mieux si tu sortais un peu?",
       "spam_4": "\nEst-ce que ce truc est allumé au moins?"
@@ -616,7 +616,7 @@
       },
       "optout": {
         "notice": "%1$sTu as été complètement enlevé.e du système de Waifu, tu ne peux donc pas l'utiliser.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing yes will opt you out, no will cancel it.",
+        "warning": "%1$sVeux-tu vraiment être enlevé.e du système de Waifu? C'EST PERMANENT ET IRRÉVERSIBLE!\nSi tu veux simplement éviter d'être acheté.e et que tu veux utiliser le système de Waifu comme d'habitude, utilise la commande `~>profile claimlock` à la place.\nTu ne pourras plus acheter de Waifus ni être acheté.e et tout tes achats seront annulés.\nEnvoie `yes` ou `no`. Le yes t'enlèveras du système tandis que le `no` annulera ta demande.",
         "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
         "cancelled": "%1$sOpération d'extraction annulée avec succès.",
         "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système."
@@ -883,7 +883,7 @@
         "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
+        "not_equipped": "%1$sTu n'as rien d'équipé à cet emplacement.",
         "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, rod`(pioche, canne à pêche).",
         "invalid_type": "%1$sLes types d'objets valides sont `pick, rod` pioche et canne à pêche en anglais.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
@@ -964,11 +964,12 @@
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
       "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
       "full_header": "**Anniversaires du serveur %1$s**\n%2$s",
-      "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm-aaaa`",
-      "error_date": "%1$s%2$s n'est peut-être pas une date valide. En tous cas je ne peux pas la séparer proprement. Essaie avec le bon format s'il te plait. Tu n'es pas obligé.e de mettre la vraie année, n'importe laquelle fera l'affaire.\nPour rappel, le bon format est: `jj-mm-aaaa`",
-      "added_birthdate": "%1$sDate de naissance bien ajoutée. Nouvelle date de naissance : %2$s *(Format: jj-mm-aaaa)*",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sCe n'est pas un numéro de mois valide! (Les nombres valides de mois vont de 01 à 12)",
-      "no_content": "%1$sTu dois spécifier ta date de naissance, `remove` pour réinitialiser ta date de naissance `month` pour voir les anniversaire du mois."
+      "no_content": "%1$sTu dois spécifier ta date de naissance, `remove` pour réinitialiser ta date de naissance `month` pour voir les anniversaire du mois.",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
     },
     "choose": {
       "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (Exemple : `~>choose anime manga`)",
@@ -1134,7 +1135,7 @@
         "category": "Catégorie"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
+        "start": "%1$sDevine le nombre! **Tu as 5 chances et 1 minute pour trouver ce nombre entre 0 et 150.**",
         "nan": "%1$sCe n'est même pas un nombre...",
         "ended_game": "%1$sPartie terminée, le nombre était: %2$d",
         "all_attempts_used": "%1$sTu n'as plus d'essais. Le nombre était : %2$d",
@@ -1173,7 +1174,7 @@
       "not_crate": "%1$sCe n'est pas un coffre valide."
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
+      "check": "%1$sTu pourras réclamer ton coffre quotidien à: **%2$s.**",
       "key": "%1$sTu as besoin d'une clé pour ouvrir ce coffre! Achètes-en une et reviens me voir!",
       "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures.",
       "success": "%1$sTu as obtenu un **%2$s**! Reviens dans 24h pour en avoir un autre! Tu peux l'ouvrir grâce à la commande `~>opencrate <nom du coffre>` et surtout tu as besoin d'acheter une clé pour l'ouvrir."
@@ -1181,7 +1182,7 @@
     "prune": {
       "no_messages_specified": "%1$sVous n'avez spécifié aucun message à effacer.",
       "no_permissions": "%1$sJe ne peux pas purger ce serveur car je n'ai pas la permission Gérer les messages.",
-      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
+      "no_permissions_user": "%1$sJe ne peux pas supprimer de messages sur ce serveur puisque tu ne m'as pas donné la permission de gérer les messages.",
       "bot_no_messages": "%1$sIl n'y a aucun messages de bots ici.",
       "no_pins_no_messages": "%1$sIl n'y a aucun message non-épinglé ici...",
       "mention_no_messages": "%1$sIl n'y a aucun message de l'utilisateur mentionné ici.",
@@ -1984,22 +1985,22 @@
     "logs_editmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un édite un message!",
       "success": "%1$sMessage d'édition de message réglé sur: `%2$s`",
-      "reset_success": "%1$sReset logs edit message."
+      "reset_success": "%1$sRéinitialisation des logs d'édition de message."
     },
     "logs_deletemessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un supprime un message!",
       "success": "%1$sMessage de suppression de message réglé sur: `%2$s`",
-      "reset_success": "%1$sReset logs delete message."
+      "reset_success": "%1$sRéinitialisation des logs de suppression de message."
     },
     "logs_banmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est bannis!",
       "success": "%1$sMessage de ban réglé sur: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
+      "reset_success": "%1$sRéinitialisation des logs de message de ban."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sTu dois me dire ce que je dois dire quand quelqu'un est grâcié!",
       "success": "%1$sMessage de grâce réglé sur: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
+      "reset_success": "%1$sRéinitialisation des logs de message de grâce."
     },
     "showdisablewarning": {
       "success": "%1$sMessage d'alerte lors de la désactivation d'une commande défini sur: %2$s"
