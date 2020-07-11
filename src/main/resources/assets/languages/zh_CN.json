@@ -71,7 +71,7 @@
     "space_notice": "如果物品名称有空格，试着把他 \"用引号包起来\"",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能够在 %3$s 秒内再次使用这个指令**",
-      "spam_1": "休息一下拜託！别忘记照顾你的身体 :( *记得时间会持续增加如果你在冷却结束前一直尝试!*",
+      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\n我觉得你真的该停了...",
       "spam_3": "\n你是不是应该出去放鬆一下了?",
       "spam_4": "\n你确定我还活着吗?"
