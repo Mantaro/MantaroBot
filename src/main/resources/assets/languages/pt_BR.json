@@ -71,7 +71,7 @@
     "space_notice": "Se o nome disso contém espaços, tente \"envolve-lo em aspas\"",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "Por favor descanse, faz bem pra saúde. **Lembre-se que o limite de taxa irá continuar aumentando se você tentar antes do tempo resetar!**",
       "spam_2": "\nEu acho que parar é a melhor opção por enquanto...",
       "spam_3": "\nNão seria melhor se você fosse pra fora um pouco?",
       "spam_4": "\nEssa coisa está ligada?"
