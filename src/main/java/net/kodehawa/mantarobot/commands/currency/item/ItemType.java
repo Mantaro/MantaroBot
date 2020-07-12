@@ -50,8 +50,6 @@ public enum ItemType {
     BROKEN(false),
     BROKEN_COMMON(false),
     BROKEN_FISHING(false),
-    BROKEN_MINE_COMMON(false), //This is to drop broken picks on the fish crate.
-    BROKEN_FISHING_COMMON(false), //This is to drop broken rods on the fish crate.
     WAIFU(false), //So it doesn't drop on a loot crate, lol
 
     //Pet items don't appear in the normal market.

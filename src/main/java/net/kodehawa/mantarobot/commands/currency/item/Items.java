@@ -46,6 +46,8 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("WeakerAccess")
 public class Items {
+    private static final Logger log = LoggerFactory.getLogger(Items.class);
+
     //quite a lot of items if you ask me
     public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
             LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, MILK, ALCOHOL, LEWD_MAGAZINE, RING,
@@ -174,9 +176,9 @@ public class Items {
             // ---------------------------------- 5.3 BROKEN ITEMS START HERE ----------------------------------
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pickaxe", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pickaxe", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
-            BROKEN_STAR_PICK = new Broken(ItemType.BROKEN_MINE_COMMON, 62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pickaxe", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
+            BROKEN_STAR_PICK = new Broken(62, EmoteReference.BROKEN_STAR_PICK.getDiscordNotation(), "Broken Star Pickaxe", "items.broken_star_pick", "items.description.broken_star_pick", 40, "1,49;3,84;3,50"),
             BROKEN_SPARKLE_ROD = new Broken(75, EmoteReference.BROKEN_SPARKLE_ROD.getDiscordNotation(), "Broken Sparkle Rod", "items.broken_sparkle_rod", "items.description.broken_sparkle_rod", 90, "1,74;4,84;2,50"),
-            BROKEN_COMET_ROD = new Broken(ItemType.BROKEN_FISHING_COMMON, 70, EmoteReference.BROKEN_COMET_ROD.getDiscordNotation(), "Broken Comet Rod", "items.broken_comet_rod", "items.description.broken_comet_rod", 30, "1,48;3,84;2,50"),
+            BROKEN_COMET_ROD = new Broken(70, EmoteReference.BROKEN_COMET_ROD.getDiscordNotation(), "Broken Comet Rod", "items.broken_comet_rod", "items.description.broken_comet_rod", 30, "1,48;3,84;2,50"),
             BROKEN_STAR_ROD = new Broken(71, EmoteReference.BROKEN_STAR_ROD.getDiscordNotation(), "Broken Star Rod", "items.broken_star_rod", "items.description.broken_star_rod", 30, "1,49;3,84;3,50"),
             // ---------------------------------- 5.3 BROKEN ITEMS END HERE ----------------------------------
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
@@ -185,7 +187,6 @@ public class Items {
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false)
 
     };
-    private static final Logger log = LoggerFactory.getLogger(Items.class);
 
     public static void setItemActions() {
         log.info("Registering item actions...");
