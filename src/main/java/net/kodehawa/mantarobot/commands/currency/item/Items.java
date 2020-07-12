@@ -362,13 +362,13 @@ public class Items {
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
         List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
 
-        List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.BROKEN_MINE_COMMON);
-        List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.BROKEN_FISHING_COMMON);
+        List<Item> mine = handleItemDrop(i -> i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.CAST_OBTAINABLE);
+        List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING);
 
         List<Item> premiumMine = handleItemDrop(i -> i.getItemType() == ItemType.CAST_MINE || i.getItemType() == ItemType.MINE_PICK ||
-                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.MINE_RARE_PICK || i.getItemType() == ItemType.BROKEN_COMMON || i.getItemType() == ItemType.BROKEN);
+                i.getItemType() == ItemType.MINE || i.getItemType() == ItemType.MINE_RARE || i.getItemType() == ItemType.CAST_OBTAINABLE || i.getItemType() == ItemType.MINE_RARE_PICK);
         List<Item> premiumFish = handleItemDrop(i -> i.getItemType() == ItemType.CAST_FISH ||
-                i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE || i.getItemType() == ItemType.BROKEN_FISHING_COMMON || i.getItemType() == ItemType.BROKEN_FISHING);
+                i.getItemType() == ItemType.FISHING || i.getItemType() == ItemType.FISHING_RARE);
 
         RandomCollection<Item> items = new RandomCollection<>();
 
