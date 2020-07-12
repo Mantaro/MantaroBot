@@ -114,7 +114,7 @@
     "moderation": "중재",
     "owner": "소유자",
     "image": "이미지",
-    "utils": "유용한 것",
+    "utils": "유용한",
     "fun": "재미",
     "games": "게임",
     "info": "정보",
@@ -1384,7 +1384,7 @@
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
-      "commands": "Commands",
+      "commands": "명령어",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
         "not_found": "%1$sA command with this name doesn't exist"
