@@ -53,21 +53,20 @@ public class ImageboardUtils {
     public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, Context ctx) {
         Rating rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
+
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
-        if(type == ImageRequestType.RANDOM)
-            list.remove("random"); // remove "random" declaration.
 
         boolean needRating = list.size() >= 2;
         if (needRating && !nsfwOnly) {
-            rating = Rating.lookupFromString(list.get(1));
+            rating = lookupRating(list.get(1));
         } else if (!needRating && !list.isEmpty()) {
             //Attempt to get from the tags instead.
-            rating = Rating.lookupFromString(list.get(0));
+            rating = lookupRating(list.get(0));
         }
 
         if (rating == null && needRating) {
             //Try with short name
-            rating = Rating.lookupFromStringShort(list.get(1));
+            rating = lookupShortRating(list.get(1));
 
             if (rating != null)
                 list.remove(rating.getShortName());
@@ -75,10 +74,14 @@ public class ImageboardUtils {
 
         //Allow for more tags after declaration.
         Rating finalRating = rating;
-        if (finalRating != null)
+        if (finalRating != null) {
             list.remove(rating.getLongName());
-        else
+            list.remove("random"); // remove "random" declaration.
+            list.remove("r"); //Remove short-hand random declaration.
+
+        } else {
             finalRating = Rating.SAFE;
+        }
 
         if (!nsfwCheck(ctx, nsfwOnly, false, finalRating)) {
             ctx.sendLocalized("commands.imageboard.nsfw_no_nsfw", EmoteReference.ERROR);
@@ -195,7 +198,8 @@ public class ImageboardUtils {
     }
 
     private static boolean foundMinorTags(Context ctx, String tags, Rating rating) {
-        boolean trigger = (tags.contains("loli") || tags.contains("shota") ||
+        boolean trigger = (
+                (tags.contains("loli") || tags.contains("shota") ||
                 tags.contains("lolicon") || tags.contains("shotacon") ||
                 //lol @ e621
                 tags.contains("child") || tags.contains("young")) ||
@@ -205,7 +209,7 @@ public class ImageboardUtils {
                 tags.contains("underage") || tags.contains("under_age")
                 //lol @ rule34 / @ e621
                 || tags.contains("cub")
-                && !rating.equals(Rating.SAFE);
+        ) && !rating.equals(Rating.SAFE);
 
         if (!trigger) {
             return false;
@@ -238,5 +242,25 @@ public class ImageboardUtils {
                 );
 
         channel.sendMessage(builder.build()).queue();
+    }
+
+    //This is so random is a valid rating.
+    private static Rating lookupRating(String rating) {
+        if(rating.equalsIgnoreCase("random")) {
+            Rating[] values = Rating.values();
+            return values[r.nextInt(values.length)];
+        } else {
+            return Rating.lookupFromString(rating);
+        }
+    }
+
+    //This is so random (R) is a valid rating.
+    private static Rating lookupShortRating(String shortRating) {
+        if(shortRating.equalsIgnoreCase("r")) {
+            Rating[] values = Rating.values();
+            return values[r.nextInt(values.length)];
+        } else {
+            return Rating.lookupFromStringShort(shortRating);
+        }
     }
 }
