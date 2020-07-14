@@ -635,7 +635,8 @@ public class RelationshipCmds {
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         for (String waifu : userData.getWaifus().keySet()) {
-                            User user = MantaroBot.getInstance().getShardManager().getUserById(waifu);
+                            //Complete again, yes. This fixes the issue of cross-node waifus not appearing.
+                            User user = MantaroBot.getInstance().getShardManager().retrieveUserById(waifu).complete();
                             if (user == null) {
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
                                         languageContext.get("commands.waifu.value_format") + " unknown\n" +
