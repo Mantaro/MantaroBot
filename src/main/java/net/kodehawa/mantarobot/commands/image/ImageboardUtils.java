@@ -51,8 +51,7 @@ public class ImageboardUtils {
             DefaultImageBoards.E621, false
     );
 
-    @SuppressWarnings("unchecked")
-    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, Context ctx) {
+    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, Context ctx) {
         Rating rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
 
@@ -172,7 +171,8 @@ public class ImageboardUtils {
     private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
-        if (foundMinorTags(ctx, image.getTags()) && image.getRating() != Rating.SAFE) {
+        if (containsMinorTags(image.getTags()) && image.getRating() != Rating.SAFE) {
+            ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
 
@@ -227,15 +227,6 @@ public class ImageboardUtils {
                         tags.contains("underage") || tags.contains("under_age")
                         //lol @ rule34 / @ e621
                         || tags.contains("cub");
-    }
-
-    private static boolean foundMinorTags(Context ctx, List<String> tags) {
-        if (containsMinorTags(tags)) {
-            ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     private static boolean isListNull(List<?> l, Context ctx) {

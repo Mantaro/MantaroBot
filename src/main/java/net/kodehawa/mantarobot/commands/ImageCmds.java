@@ -130,7 +130,7 @@ public class ImageCmds {
                     return;
                 }
 
-                sendImage(ctx, e621, true, "e621", content, args);
+                sendImage(ctx, e621, true, "e621", args);
             }
 
             @Override
@@ -151,7 +151,7 @@ public class ImageCmds {
         cr.register("konachan", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                sendImage(ctx, konachan, false, "konachan", content, args);
+                sendImage(ctx, konachan, false, "konachan", args);
             }
 
             @Override
@@ -174,7 +174,7 @@ public class ImageCmds {
         cr.register("safebooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                sendImage(ctx, safebooru, false, "safebooru", content, args);
+                sendImage(ctx, safebooru, false, "safebooru", args);
             }
 
             @Override
@@ -194,7 +194,7 @@ public class ImageCmds {
         cr.register("danbooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                sendImage(ctx, danbooru, false, "danbooru", content, args);
+                sendImage(ctx, danbooru, false, "danbooru", args);
             }
 
             @Override
@@ -217,7 +217,7 @@ public class ImageCmds {
         cr.register("rule34", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                sendImage(ctx, rule34, true, "rule34", content, args);
+                sendImage(ctx, rule34, true, "rule34", args);
             }
 
             @Override
@@ -243,7 +243,7 @@ public class ImageCmds {
                     return;
                 }
 
-                sendImage(ctx, yandere, false, "yandere", content, args);
+                sendImage(ctx, yandere, false, "yandere", args);
             }
 
             @Override
@@ -272,7 +272,7 @@ public class ImageCmds {
                     return;
                 }
 
-                sendImage(ctx, gelbooru, false, "gelbooru", content, args);
+                sendImage(ctx, gelbooru, false, "gelbooru", args);
             }
 
             @Override
@@ -284,18 +284,17 @@ public class ImageCmds {
                         .setUsage("`~>gelbooru` - Retrieves a random image.\n" +
                                 "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on gelbooru's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. " +
-                                "You can also use this in place of the tags. Rating can be random if you specify it as random, in case you want to play a roulette.")
+                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });
     }
 
-    private void sendImage(Context ctx, ImageBoard<?> image, boolean nsfwOnly, String name, String content, String[] args) {
+    private void sendImage(Context ctx, ImageBoard<?> image, boolean nsfwOnly, String name, String[] args) {
         String firstArg = args.length == 0 ? "" : args[0];
-        if(firstArg.isEmpty() || firstArg.equalsIgnoreCase("random"))
-            getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, args, content, ctx);
+        if(firstArg.isEmpty())
+            getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, args, ctx);
         else
-            getImage(image, ImageRequestType.TAGS, nsfwOnly, name, args, content, ctx);
+            getImage(image, ImageRequestType.TAGS, nsfwOnly, name, args, ctx);
     }
 }
