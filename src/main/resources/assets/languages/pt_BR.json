@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sVocê especificou muitas tags para o imageboard atual! Imageboard %2$s aceita um máximo de %3$d tags.",
       "invalid_rating": "%1$sVocê forneceu uma classificação inválida (Tipos disponíveis: questionável, explícito, salvo)",
       "nsfw_no_nsfw": "%1$sEu não posso enviar imagem NSFW em um canal não-nsfw :(",
-      "no_images": "%1$sNão existem imagens correspondentes aos seus critérios de pesquisa...",
+      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**Não existem mais imagens ou nenhum resultado encontrado**! Por favor, tente com um número menor ou outra pesquisa.",
       "error": "%1$sHouve um erro ao procurar uma imagem...",
       "wrong_argument": "%1$sTipo de argumento errado. Cheque ~>help %2$s",
