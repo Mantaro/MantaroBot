@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sYou provided an invalid rating (Available types: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sI cannot send a NSFW image in a non-nsfw channel :(",
-      "no_images": "%1$sKhông có hình ảnh nào khớp với trường tìm kiếm của bạn...",
+      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**There aren't any more images or no results found**! Please try with a lower number or another search.",
       "error": "%1$sThere was an error while looking for an image...",
       "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
