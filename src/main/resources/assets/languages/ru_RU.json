@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sВы указали слишком много тегов для доски изображения! Доска изображений %2$s принимает максимум %3$d тегов.",
       "invalid_rating": "%1$sВы указали неверный рейтинг (Доступные типы: сомнительный, явный, безопасный)",
       "nsfw_no_nsfw": "%1$sЯ не могу отправлять NSFW сообщения не в NSFW канал :(",
-      "no_images": "%1$sПо вашим критериям не надейно картинок...",
+      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**Больше нет изображений или не найдено результатов **! Пожалуйста, попробуйте с меньшим номером или другим поиском.",
       "error": "%1$sПри поиске изображения произошла ошибка...",
       "wrong_argument": "%1$sОшибка в типе аргумента. Проверьте ~>help %2$s",
