@@ -24,6 +24,7 @@ import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -33,6 +34,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ImageboardUtils {
     private static final Random r = new Random();
@@ -60,24 +62,24 @@ public class ImageboardUtils {
         if (needRating && !nsfwOnly) {
             rating = lookupRating(list.get(1));
         } else if (!needRating && !list.isEmpty()) {
-            //Attempt to get from the tags instead.
+            // Attempt to get from the tags instead.
             rating = lookupRating(list.get(0));
         }
 
         if (rating == null && needRating) {
-            //Try with short name
+            // Try with short name
             rating = lookupShortRating(list.get(1));
 
             if (rating != null)
                 list.remove(rating.getShortName());
         }
 
-        //Allow for more tags after declaration.
+        // Allow for more tags after declaration.
         Rating finalRating = rating;
         if (finalRating != null) {
             list.remove(rating.getLongName());
             list.remove("random"); // remove "random" declaration.
-            list.remove("r"); //Remove short-hand random declaration.
+            list.remove("r"); // Remove short-hand random declaration.
 
         } else {
             finalRating = Rating.SAFE;
@@ -109,20 +111,26 @@ public class ImageboardUtils {
                 }
 
                 api.search(list, finalRating).async(requestedImages -> {
-                    //account for this
+                    // Account for this, somehow this happens sometimes.
                     if (isListNull(requestedImages, ctx))
                         return;
 
                     try {
-                        List<BoardImage> filter = (List<BoardImage>) requestedImages;
+                        // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
+                        // This is more of a quality-of-life improvement, don't make them search again if random happened
+                        // to pick undesirable lewd content.
+                        // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
+                        List<BoardImage> filter = requestedImages.stream()
+                                .filter(img -> !containsMinorTags(img.getTags()))
+                                .collect(Collectors.toList());
+
                         if (filter.isEmpty()) {
                             ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
                             return;
                         }
 
                         BoardImage image = filter.get(r.nextInt(filter.size()));
-                        String imageTags = String.join(", ", image.getTags());
-                        sendImage(ctx, imageTags, imageboard, image, dbGuild);
+                        sendImage(ctx, imageboard, image, dbGuild);
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                     }
@@ -138,7 +146,14 @@ public class ImageboardUtils {
                     if (isListNull(requestedImages, ctx))
                         return;
 
-                    List<BoardImage> filter = (List<BoardImage>) requestedImages;
+                    // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
+                    // This is more of a quality-of-life improvement, don't make them search again if random happened
+                    // to pick undesirable lewd content.
+                    // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
+                    List<BoardImage> filter = requestedImages.stream()
+                            .filter(img -> !containsMinorTags(img.getTags()))
+                            .collect(Collectors.toList());
+
                     if (filter.isEmpty()) {
                         ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
                         return;
@@ -146,9 +161,7 @@ public class ImageboardUtils {
 
                     int number = r.nextInt(filter.size());
                     BoardImage image = filter.get(number);
-                    String tags = String.join(", ", image.getTags());
-
-                    sendImage(ctx, tags, imageboard, image, ctx.getDBGuild());
+                    sendImage(ctx, imageboard, image, ctx.getDBGuild());
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
                 }
@@ -156,8 +169,10 @@ public class ImageboardUtils {
         }
     }
 
-    private static void sendImage(Context ctx, String imageTags, String imageboard, BoardImage image, DBGuild dbGuild) {
-        if (foundMinorTags(ctx, imageTags, image.getRating())) {
+    private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
+        // This is the last line of defense. It should filter *all* minor tags from all sort of images on
+        // the method that calls this.
+        if (foundMinorTags(ctx, image.getTags()) && image.getRating() != Rating.SAFE) {
             return;
         }
 
@@ -165,6 +180,9 @@ public class ImageboardUtils {
             ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
+
+        // Format the tags output so it's actually human-readable.
+        String imageTags = String.join(", ", image.getTags());
 
         imageEmbed(
                 ctx.getLanguageContext(), image.getURL(), String.valueOf(image.getWidth()),
@@ -176,7 +194,8 @@ public class ImageboardUtils {
             if (player.getData().addBadgeIfAbsent(Badge.LEWDIE))
                 player.saveAsync();
 
-            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(13, 3);
+            // Drop a lewd magazine.
+            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(Items.LEWD_MAGAZINE, 4);
         }
     }
 
@@ -197,26 +216,26 @@ public class ImageboardUtils {
         return true;
     }
 
-    private static boolean foundMinorTags(Context ctx, String tags, Rating rating) {
-        boolean trigger = (
-                (tags.contains("loli") || tags.contains("shota") ||
-                tags.contains("lolicon") || tags.contains("shotacon") ||
-                //lol @ e621
-                tags.contains("child") || tags.contains("young")) ||
-                //lol @ danbooru
-                tags.contains("younger") ||
-                //lol @ rule34
-                tags.contains("underage") || tags.contains("under_age")
-                //lol @ rule34 / @ e621
-                || tags.contains("cub")
-        ) && !rating.equals(Rating.SAFE);
+    private static boolean containsMinorTags(List<String> tags) {
+        return tags.contains("loli") || tags.contains("shota") ||
+                        tags.contains("lolicon") || tags.contains("shotacon") ||
+                        //lol @ e621
+                        tags.contains("child") || tags.contains("young") ||
+                        //lol @ danbooru
+                        tags.contains("younger") ||
+                        //lol @ rule34
+                        tags.contains("underage") || tags.contains("under_age")
+                        //lol @ rule34 / @ e621
+                        || tags.contains("cub");
+    }
 
-        if (!trigger) {
+    private static boolean foundMinorTags(Context ctx, List<String> tags) {
+        if (containsMinorTags(tags)) {
+            ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
+            return true;
+        } else {
             return false;
         }
-
-        ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
-        return true;
     }
 
     private static boolean isListNull(List<?> l, Context ctx) {
