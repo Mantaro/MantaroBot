@@ -73,7 +73,8 @@ public enum ProfileComponent {
         if (currentMarriage != null) {
             String marriedToId = currentMarriage.getOtherPlayer(holder.getUser().getId());
             if (marriedToId != null)
-                marriedTo = MantaroBot.getInstance().getShardManager().getUserById(marriedToId);
+                //Yes, this uses complete, not like we have many options.
+                marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(marriedToId).complete();
         }
 
         if (marriedTo == null) {
