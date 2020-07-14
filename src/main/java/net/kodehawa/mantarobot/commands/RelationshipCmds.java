@@ -373,11 +373,6 @@ public class RelationshipCmds {
                         return;
                     }
 
-                    if (!author.getId().equals(currentMarriage.getPlayer1())) {
-                        ctx.sendLocalized("commands.marry.loveletter.not_proposing_player", EmoteReference.ERROR);
-                        return;
-                    }
-
                     if (currentMarriage.getData().getLoveLetter() != null) {
                         ctx.sendLocalized("commands.marry.loveletter.already_done", EmoteReference.ERROR);
                         return;
