@@ -108,9 +108,10 @@ public class CurrencyCmds {
             }
 
             PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
-            //This used to only check for getMaxUses. The issue with this was that there could be one potion that was fully used, but there was another potion
+            var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
+            //This used to only check for activePotion. The issue with this was that there could be one potion that was fully used, but there was another potion
             //waiting to be used. In that case the potion would get overidden. In case you have more than a potion equipped, we'll just stack the rest as necessary.
-            if (equippedItems.isEffectActive(type, ((Potion) item).getMaxUses()) || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
+            if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
                 //Currently has a potion equipped, but wants to stack a potion of other type.
                 if (currentPotion.getPotion() != Items.idOf(item)) {
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
@@ -121,7 +122,7 @@ public class CurrencyCmds {
 
                 //Currently has a potion equipped, and is of the same type.
                 if (currentPotion.getAmountEquipped() + amount < 10) {
-                    currentPotion.equip(amount);
+                    currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
                 } else {
