@@ -265,7 +265,7 @@
       },
       "loader": {
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
+        "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
         "error_loading": "%1$sError while fetching music: %2$s",
         "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
