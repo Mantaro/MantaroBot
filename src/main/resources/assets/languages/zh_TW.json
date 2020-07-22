@@ -266,47 +266,47 @@
       "loader": {
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用`~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
+        "error_loading": "%1$s取得歌曲時出錯: %2$s",
+        "over_queue_limit": "%1$s無法加入%2$s: 清單長度超過限制 (%3$s)!",
+        "over_32_minutes": "%1$s無法加入 %2$s: 歌曲長度大於32分鐘! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
+        "loaded_song": "%1$s已加入清單 -> **%2$s** **(%3$s)**",
+        "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
+        "timeout_text": "這將在30秒內超時。輸入&cancel以取消。"
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$s如果你喜歡我，請考慮在 <https://patreon.com/mantaro> 贊助我，即使是微小的贊助也能讓我持續開發!\n(Check `~>donate` for more info!)",
+      "closed_connection": "%1$s已關閉音訊連接，取消綁定播放器中..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$s一位管理員決定跳過了這首歌。"
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$s這裡看起來沒有任何曲目正在播放，試著播放一首歌",
+      "header": "現正播放"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused *(Player was paused previously)*."
+      "paused": "已暫停播放. *(原本狀態為播放中)*",
+      "unpaused": "已回復播放 *(原本狀態為暫停中)*."
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive integers only",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$s你需要告訴我你想倒轉的長度 *(範例: `~>rewind 1m45s`將會倒轉1分45秒)*",
+      "negative": "%1$s僅限正整數",
+      "before_beginning": "%1$s你無法倒轉至歌曲開頭之前",
+      "success": "%1$s倒轉歌曲至: %2$s。"
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$s已重新播放目前歌曲。"
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$s你需要告訴我你想快轉的長度 *(範例: `~>skipahead 1m45s`將會從所在位置跳過1分45秒)*",
+      "past_duration": "%1$s你無法快轉超過歌曲長度",
+      "success": "%1$s已跳至%2$s。"
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
+      "attempt": "%1$s我會試著移至你所在的頻道",
+      "error_moving": "%1$s切換頻道失敗。",
+      "cannot_connect": "%1$s無法連接: 我沒有說話或移動成員的權限。",
       "non_existent_channel": "%1$sI can't move to a non-existent channel!",
       "success": "%1$sMoved bot to channel `%2$s`",
       "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
