@@ -348,7 +348,7 @@
       "no_track": "%1$sNão tem nenhuma música nessa posição `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) Uma das variedades não é um número válido!",
       "invalid_number_range": "%1$s`%2$s` não é um número válido de variedade!",
-      "success": "%1$sRemovendo **%2$d** música(s) removidas da fila.",
+      "success": "%1$sRemovendo **%2$d** música(s) da fila.",
       "not_dj": "%1$sVocê tem que ser o DJ para executar esta ação."
     },
     "stop": {
