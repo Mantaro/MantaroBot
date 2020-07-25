@@ -397,8 +397,9 @@ public class UtilsCmds {
                         User user = ctx.getUser();
                         long time = Utils.parseTime(optionalArguments.get("time"));
                         DBUser dbUser = ctx.getDBUser();
+                        List<ReminderObject> rems = getReminders(dbUser.getData().getReminders());
 
-                        if (dbUser.getData().getReminders().size() > 25) {
+                        if (rems.size() > 25) {
                             //Max amount of reminders reached
                             ctx.sendLocalized("commands.remindme.too_many_reminders", EmoteReference.ERROR);
                             return;
@@ -455,7 +456,7 @@ public class UtilsCmds {
                 List<String> reminders = ctx.getDBUser().getData().getReminders();
                 List<ReminderObject> rms = getReminders(reminders);
 
-                if (reminders.isEmpty()) {
+                if (rms.isEmpty()) {
                     ctx.sendLocalized("commands.remindme.no_reminders", EmoteReference.ERROR);
                     return;
                 }
