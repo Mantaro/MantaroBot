@@ -71,7 +71,7 @@
     "space_notice": "如果物品名稱有空格，試著把他 \"用引號包起來\"",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 秒內再次使用這個指令**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前不斷嘗試，速率限制是會持續增加喔！**",
       "spam_2": "\n我覺得你真的該停了...",
       "spam_3": "\n你是不是應該出去放鬆一下了?",
       "spam_4": "\n你確定我還活著嗎?"
@@ -307,79 +307,79 @@
       "attempt": "%1$s我會試著移至你所在的頻道",
       "error_moving": "%1$s切換頻道失敗。",
       "cannot_connect": "%1$s無法連接: 我沒有說話或移動成員的權限。",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "non_existent_channel": "%1$s我無法移動到一個不存在的頻道！",
+      "success": "%1$s已把機器人移動去頻道 `%2$s` 了。",
+      "vc_not_found": "%1$s無法找到語音頻道或者你沒有指明一個！"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "我在 shard %1$d (Node %2$d/%3$d)! 如果你需要任何協助，請去 <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$s伺服器的DJ選擇了去清空佇列！",
+        "success": "%1$s已從佇列中移除了 **%2$d 首歌曲**",
+        "error": "%1$s你目前尚未連接到任何語音頻道，或者你不是DJ。"
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_cancel": "%1$s正在播放目前的佇列。",
+      "queue_repeat": "%1$s正在重覆播放目前的佇列。",
+      "song_cancel": "%1$s正在跟著目前的佇列繼續播放。",
+      "song_repeat": "%1$s正在重覆播放目前的歌曲，再次執行此命令來停止重覆播放。"
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$s哎，之後沒有任何歌曲了。",
+      "format": "%1$s隊列的下一首歌曲是: **%2$s** (%3$s) | * 隊列中總共有: %4$,d 首歌曲*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$s隨機地把目前的佇列中的次序打亂了。"
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sDJ選擇了去跳過此歌曲。",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**你已成功投票了** 你需要多%2$d的票才能跳過！",
+        "remove": "%1$s**你的投票已被刪除** 你需要多%2$d的票才能跳過！"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$s已達到了需要的票數，正在跳過歌曲...",
+      "no_track": "%1$s看起來沒有歌曲可以跳過，所以我甚麼也做不了..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s` 不是一個有效的範圍。",
+      "no_track": "%1$s在位置`%2$d`那裏並沒有一首在佇列中的歌曲！",
+      "invalid_number": "(%1$s`%2$s`) 其中一個範圍不是一個有效的數字！",
+      "invalid_number_range": "%1$s`%2$s` 不是一個有效的數字或範圍！",
+      "success": "%1$s已從佇列中移除了 **%2$d** 首歌曲。",
+      "not_dj": "%1$s你需要成為一個DJ以使用此指令。"
     },
     "stop": {
       "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**你已成功投票** 你需要多 %2$d 的票才能停止歌曲！",
+        "remove": "%1$s**你的投票已被刪除** 你需要多%2$d的票才能停止！"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$s已達到了需要的票數，正在停止歌曲...",
+      "no_player": "%1$s看起來沒有在播放中的歌曲可以停止，所以我甚麼也做不了...",
+      "cleanup": "%1$s已從佇列中移除了 **%2$d 首歌曲**"
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "check": "%1$s這一節的音量是: %2$d \n\n%3$s",
+      "success": "%1$s音量設置為 %2$d\n\n%3$s",
+      "no_args": "%1$s你需要告訴我你想我設置音量為多少。(5至 100)",
+      "premium_only": "%1$s這是僅限高級用戶的功能。為了獲得像這個的高級功能，你可以贊助我們的 Patreon (https://www.patreon.com/mantaro) 感謝您的理解哦！\n高級功能可以綁定到一位用戶或一個伺服器上。如果你贊助了我們，請加入Mantaro的伺服器來領取。"
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$s現在並沒有任何播放中的歌曲！",
+      "error_searching": "%1$s 搜尋此歌曲時發生了錯誤，或是沒有此歌曲的結果。",
+      "header": "%1$s %2$s 的歌詞",
+      "footer": "感謝使用Mantaro呀！頁數: %1$d, 總頁數:%2$d"
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$s 我默認的指令詞頭是 %2$s。 (用哪個都是OK的！) 此伺服器的自訂的指令詞頭是 `%3$s`。 (只可以在這伺服器上使用) 你可以訂造一個新的詞頭通過輸入 `~>opts prefix set <prefix>`，記得不要輸入那兩個<>唷。\n有任何疑問的話，你可以加入<https://support.mantaro.site> 看看。",
+      "none": "此伺服器暫時沒有自訂的指令詞頭。"
     },
     "custom": {
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "no_args": "%1$s你需要說明你用此指令想做些甚麼。運行指令 help 來看更多資訊！",
+      "incorrect_args": "%1$s你輸入了錯誤的參數。看看 `~>help custom` 或https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands 來獲取如何使用這指令的資訊。如果在閱讀Wiki之後還有其他問題，請參考<https://support.mantaro.site>",
       "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
       "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
       "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
