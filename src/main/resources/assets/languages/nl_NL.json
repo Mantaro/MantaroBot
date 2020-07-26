@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sYou specified too many tags for the current imageboard! Imageboard %2$s accepts a maximum of %3$d tags.",
       "invalid_rating": "%1$sJe hebt een ongeldige beoordeling opgegeven (beschikbare beoordelingen: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sIk kan geen NSFW-afbeelding verzenden in een niet-nsfw-kanaal :(",
-      "no_images": "%1$sEr zijn geen afbeeldingen gevonden die voldoen aan uw zoekcriteria ...",
+      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**Er zijn geen afbeeldingen meer of geen resultaten gevonden**! Probeer het met een lager nummer of een andere zoekopdracht.",
       "error": "%1$sEr is een fout opgetreden tijdens het zoeken naar een afbeelding...",
       "wrong_argument": "%1$sVerkeerd argument type. Check ~>help %2$s",

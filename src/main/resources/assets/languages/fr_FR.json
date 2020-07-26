@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sTu as spécifié trop de tags pour l'imageboard! L'imageboard %2$s n'accepte qu'un maximum de %3$d tags.",
       "invalid_rating": "%1$sTu as spécifié un argument invalide (Arguments disponibles: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sJe ne peux pas envoyer du NSFW dans un salon qui n'est pas NSFW :(",
-      "no_images": "%1$sIl n'y a pas d'image répondant à vos critères...",
+      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**Aucune image ou résultat trouvé**! Merci d'essayer un autre nom ou un nombre plus bas.",
       "error": "%1$sUne erreur s'est produite en cherchant une image...",
       "wrong_argument": "%1$sMauvais type d'argument. Fait ~>help %2$s",

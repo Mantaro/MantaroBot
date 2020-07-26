@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sEspecificaste muchas etiquetas para el booru actual! El booru %2$s acepta un máximo de %3$d etiquetas.",
       "invalid_rating": "%1$sMe diste un rating invalido... (Ratings válidos: questionable, explicit, safe)!",
       "nsfw_no_nsfw": "%1$sNo puedo enviar una imagen NSFW en un canal que no este marcado como tal :(",
-      "no_images": "%1$sNo encontré ninguna imagen con los términos que me diste...",
+      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
       "no_results": "%1$s**No hay mas imagenes por aquí o no encontré ninguna**! Por favor intenta con una página menor u otro término de busqueda.",
       "error": "%1$sEncontré un error mientras intentaba buscarte una imagen...",
       "wrong_argument": "%1$sArgumento inválido. Revisa ~>help %2$s",

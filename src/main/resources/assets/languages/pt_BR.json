@@ -71,7 +71,7 @@
     "space_notice": "Se o nome disso contém espaços, tente \"envolve-lo em aspas\"",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "Por favor descanse, faz bem pra saúde. **Lembre-se que o limite de taxa irá continuar aumentando se você tentar antes do tempo resetar!**",
       "spam_2": "\nEu acho que parar é a melhor opção por enquanto...",
       "spam_3": "\nNão seria melhor se você fosse pra fora um pouco?",
       "spam_4": "\nEssa coisa está ligada?"
@@ -348,7 +348,7 @@
       "no_track": "%1$sNão tem nenhuma música nessa posição `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) Uma das variedades não é um número válido!",
       "invalid_number_range": "%1$s`%2$s` não é um número válido de variedade!",
-      "success": "%1$sRemovendo **%2$d** música(s) removidas da fila.",
+      "success": "%1$sRemovendo **%2$d** música(s) da fila.",
       "not_dj": "%1$sVocê tem que ser o DJ para executar esta ação."
     },
     "stop": {
@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sVocê especificou muitas tags para o imageboard atual! Imageboard %2$s aceita um máximo de %3$d tags.",
       "invalid_rating": "%1$sVocê forneceu uma classificação inválida (Tipos disponíveis: questionável, explícito, salvo)",
       "nsfw_no_nsfw": "%1$sEu não posso enviar imagem NSFW em um canal não-nsfw :(",
-      "no_images": "%1$sNão existem imagens correspondentes aos seus critérios de pesquisa...",
+      "no_images": "%1$sNão há imagens correspondentes ao seu critério de busca. Isso pode acontecer porque o serviço de imagem não retornou nada, nada útil, ou você procurou por tag proibidas.",
       "no_results": "%1$s**Não existem mais imagens ou nenhum resultado encontrado**! Por favor, tente com um número menor ou outra pesquisa.",
       "error": "%1$sHouve um erro ao procurar uma imagem...",
       "wrong_argument": "%1$sTipo de argumento errado. Cheque ~>help %2$s",
