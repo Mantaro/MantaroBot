@@ -124,7 +124,7 @@ public class CurrencyCmds {
                 if (currentPotion.getAmountEquipped() + amount < 10) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
-                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()).queue();
+                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1).queue();
                 } else {
                     //Too many stacked (max: 10).
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
