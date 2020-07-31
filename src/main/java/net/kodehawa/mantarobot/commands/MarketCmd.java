@@ -226,9 +226,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
-                Item item = Items.fromAny(itemName).orElse(null);
+                Item item = Items.fromAny(content).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.price.non_existent", EmoteReference.ERROR);
