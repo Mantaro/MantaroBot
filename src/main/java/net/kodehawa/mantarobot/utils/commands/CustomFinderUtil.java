@@ -42,13 +42,11 @@ public class CustomFinderUtil {
         // Mention
         Matcher userMention = USER_MENTION.matcher(query);
         if (userMention.matches()) {
-            System.out.println("mention");
             return ctx.getGuild().retrieveMemberById(userMention.replaceAll("$1")).complete();
         }
 
         // Id
         if (DISCORD_ID.matcher(query).matches()) {
-            System.out.println("id");
             return ctx.getGuild().retrieveMemberById(query).complete();
         }
 
@@ -200,6 +198,7 @@ public class CustomFinderUtil {
         return Collections.unmodifiableList(contains);
     }
 
+    // This whole thing is hacky as FUCK
     public static Task<List<Member>> retrieveMembersByPrefix(Guild guild, String query) {
         if(query.trim().isEmpty()) {
             // This is next-level hacky, LMAO.
