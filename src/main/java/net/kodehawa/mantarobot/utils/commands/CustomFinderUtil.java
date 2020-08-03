@@ -37,6 +37,40 @@ public class CustomFinderUtil {
      * @return The member found. Returns null if nothing was found.
      */
     public static Member findMember(String query, List<Member> result, Context ctx) {
+        System.out.println(query);
+
+        // Mention
+        Matcher userMention = USER_MENTION.matcher(query);
+        if (userMention.matches()) {
+            System.out.println("mention");
+            return ctx.getGuild().retrieveMemberById(userMention.replaceAll("$1")).complete();
+        }
+
+        // Id
+        if (DISCORD_ID.matcher(query).matches()) {
+            System.out.println("id");
+            return ctx.getGuild().retrieveMemberById(query).complete();
+        }
+
+        // User#Dis
+        Matcher fullRefMatch = FULL_USER_REF.matcher(query);
+        if (fullRefMatch.matches()) {
+            // We handle name elsewhere.
+            String disc = fullRefMatch.replaceAll("$2");
+            if (result.isEmpty()) {
+                ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+                return null;
+            }
+
+            for(Member member : result) {
+                if(member.getUser().getDiscriminator().equals(disc))
+                    return member;
+            }
+
+            ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+            return null;
+        }
+
         // This is technically a safeguard, shouldn't be needed, but since we handle no results by giving this an empty list, it should be done.
         // If you want to handle it differently, there's findMemberDefault to return a default member.
         if(result.isEmpty()) {
@@ -94,7 +128,7 @@ public class CustomFinderUtil {
     }
 
     public static Member findMemberDefault(String query, List<Member> result, Context ctx, Member member) {
-        if(query.isEmpty() || result.isEmpty()) {
+        if(query.isEmpty()) {
             return member;
         } else {
             return findMember(query, result, ctx);
@@ -175,6 +209,12 @@ public class CustomFinderUtil {
             return new GatewayTask<>(result, () -> {});
         }
 
-        return guild.retrieveMembersByPrefix(query, 10);
+        Matcher fullRefMatch = FULL_USER_REF.matcher(query);
+        if (fullRefMatch.matches()) {
+            String name = fullRefMatch.replaceAll("$1");
+            return guild.retrieveMembersByPrefix(name, 10);
+        } else {
+            return guild.retrieveMembersByPrefix(query, 10);
+        }
     }
 }

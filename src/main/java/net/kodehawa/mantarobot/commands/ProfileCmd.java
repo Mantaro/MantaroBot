@@ -91,94 +91,101 @@ public class ProfileCmd {
                         content = Utils.replaceArguments(t, content, "season", "s").trim();
                         boolean isSeasonal = ctx.isSeasonal();
 
-                        User userLooked = ctx.getAuthor();
-                        Member memberLooked = ctx.getMember();
 
-                        Player player = ctx.getPlayer();
-                        SeasonPlayer seasonalPlayer = null;
-                        DBUser dbUser = ctx.getDBUser();
+                        var finalContent = content;
+                        ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                            User userLooked = ctx.getAuthor();
+                            Member memberLooked = ctx.getMember();
 
-                        if(!content.isEmpty()) {
-                            List<Member> found = FinderUtil.findMembers(content, ctx.getGuild());
-                            if(found != null && !found.isEmpty()) {
-                                userLooked = found.get(0).getUser();
-                                memberLooked = found.get(0);
+                            Player player = ctx.getPlayer();
+                            SeasonPlayer seasonalPlayer = null;
+                            DBUser dbUser = ctx.getDBUser();
 
-                                if (userLooked.isBot()) {
-                                    ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                            if(!finalContent.isEmpty()) {
+                                Member found = CustomFinderUtil.findMember(finalContent, members, ctx);
+                                if(found != null) {
+                                    userLooked = found.getUser();
+                                    memberLooked = found;
+
+                                    if (userLooked.isBot()) {
+                                        ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                                        return;
+                                    }
+
+                                    //Re-assign.
+                                    dbUser = ctx.getDBUser(userLooked);
+                                    player = ctx.getPlayer(userLooked);
+                                } else {
                                     return;
                                 }
-
-                                //Re-assign.
-                                dbUser = ctx.getDBUser(userLooked);
-                                player = ctx.getPlayer(userLooked);
                             }
-                        }
 
-                        PlayerData playerData = player.getData();
-                        UserData userData = dbUser.getData();
-                        Inventory inv = player.getInventory();
+                            PlayerData playerData = player.getData();
+                            UserData userData = dbUser.getData();
+                            Inventory inv = player.getInventory();
 
-                        //Cache waifu value.
-                        playerData.setWaifuCachedValue(RelationshipCmds.calculateWaifuValue(userLooked).getFinalValue());
+                            //Cache waifu value.
+                            playerData.setWaifuCachedValue(RelationshipCmds.calculateWaifuValue(userLooked).getFinalValue());
 
-                        //start of badge assigning
-                        Guild mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                        Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
+                            //start of badge assigning
+                            Guild mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
+                            Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
 
-                        //Badge assigning code
-                        Badge.assignBadges(player, dbUser);
+                            //Badge assigning code
+                            Badge.assignBadges(player, dbUser);
 
-                        //Manual badges
-                        if (MantaroData.config().get().isOwner(userLooked))
-                            playerData.addBadgeIfAbsent(Badge.DEVELOPER);
-                        if (inv.asList().stream()
-                                .anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) ||
-                                        stack.getItem().equals(Items.BELL_SPECIAL)))
-                            playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
-                        if (mhMember != null &&
-                                mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
-                            playerData.addBadgeIfAbsent(Badge.HELPER_2);
-                        if (mhMember != null &&
-                                mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L ||
-                                        r.getIdLong() == 290902183300431872L))
-                            playerData.addBadgeIfAbsent(Badge.DONATOR_2);
-                        //end of badge assigning
+                            //Manual badges
+                            if (MantaroData.config().get().isOwner(userLooked))
+                                playerData.addBadgeIfAbsent(Badge.DEVELOPER);
+                            if (inv.asList().stream()
+                                    .anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) ||
+                                            stack.getItem().equals(Items.BELL_SPECIAL)))
+                                playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
+                            if (mhMember != null &&
+                                    mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
+                                playerData.addBadgeIfAbsent(Badge.HELPER_2);
+                            if (mhMember != null &&
+                                    mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L ||
+                                            r.getIdLong() == 290902183300431872L))
+                                playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+                            //end of badge assigning
 
-                        List<Badge> badges = playerData.getBadges();
-                        Collections.sort(badges);
+                            List<Badge> badges = playerData.getBadges();
+                            Collections.sort(badges);
 
-                        if (isSeasonal)
-                            seasonalPlayer = ctx.getSeasonPlayer(userLooked);
+                            if (isSeasonal)
+                                seasonalPlayer = ctx.getSeasonPlayer(userLooked);
 
-                        boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
-                        ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
-                        I18nContext languageContext = ctx.getLanguageContext();
+                            boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
+                            ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
+                            I18nContext languageContext = ctx.getLanguageContext();
 
-                        EmbedBuilder profileBuilder = new EmbedBuilder();
-                        profileBuilder.setAuthor((ringHolder ? EmoteReference.RING : "") +
-                                String.format(languageContext.get("commands.profile.header"),
-                                        memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl()
-                                ).setDescription(player.getData().getDescription() == null ?
-                                        languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
-                                ).setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
+                            EmbedBuilder profileBuilder = new EmbedBuilder();
+                            profileBuilder.setAuthor((ringHolder ? EmoteReference.RING : "") +
+                                    String.format(languageContext.get("commands.profile.header"),
+                                            memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl()
+                            ).setDescription(player.getData().getDescription() == null ?
+                                    languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
+                            ).setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
-                        boolean hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
-                        List<ProfileComponent> usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+                            boolean hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
+                            List<ProfileComponent> usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
 
-                        for (ProfileComponent component : usedOrder) {
-                            profileBuilder.addField(
-                                    component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline()
+                            for (ProfileComponent component : usedOrder) {
+                                profileBuilder.addField(
+                                        component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline()
+                                );
+                            }
+
+                            applyBadge(ctx.getChannel(),
+                                    badges.isEmpty() ? null :
+                                            (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()),
+                                    userLooked, profileBuilder
                             );
-                        }
 
-                        applyBadge(ctx.getChannel(),
-                                badges.isEmpty() ? null :
-                                        (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()),
-                                userLooked, profileBuilder
-                        );
+                            player.saveAsync();
+                        });
 
-                        player.saveAsync();
                     }
                 };
             }

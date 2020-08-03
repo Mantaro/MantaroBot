@@ -27,8 +27,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -266,20 +266,17 @@ public class PremiumCmds {
                         I18nContext languageContext = ctx.getLanguageContext();
 
                         ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
-                            User toCheck = ctx.getAuthor();
                             Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                             if(member == null)
                                 return;
 
-                            boolean isLookup = !members.isEmpty();
-                            if (isLookup)
-                                toCheck = member.getUser();
-
+                            User toCheck = member.getUser();
                             DBUser dbUser = db.getUser(toCheck);
                             UserData data = dbUser.getData();
+                            boolean isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
 
                             if(!dbUser.isPremium()) {
-                                ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR);
+                                ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
                                 return;
                             }
 
@@ -291,7 +288,7 @@ public class PremiumCmds {
                             PremiumKey currentKey = db.getPremiumKey(data.getPremiumKey());
 
                             if(currentKey == null || currentKey.validFor() < 1) {
-                                ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR);
+                                ctx.sendLocalized("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
                                 return;
                             }
 
