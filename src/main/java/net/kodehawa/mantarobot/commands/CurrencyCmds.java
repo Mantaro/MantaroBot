@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -175,82 +176,86 @@ public class CurrencyCmds {
             public void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full", "season", "s");
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
+                //Lambda memes lol
+                var finalContent = content;
 
-                if (member == null)
-                    return;
+                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
 
-                if (member.getUser().isBot()) {
-                    ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                Player player = ctx.getPlayer(member);
-                DBUser user = ctx.getDBUser(member);
-                SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(member);
-                Inventory playerInventory = player.getInventory();
-                final List<ItemStack> inventoryList = playerInventory.asList();
-                I18nContext languageContext = ctx.getLanguageContext();
-
-                if (ctx.isSeasonal()) {
-                    playerInventory = seasonPlayer.getInventory();
-                }
-
-                if (t.containsKey("calculate") || t.containsKey("calc") || t.containsKey("c")) {
-                    long all = playerInventory.asList().stream()
-                            .filter(item -> item.getItem().isSellable())
-                            .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-                            .sum();
-
-                    ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getUser().getName(), all);
-                    return;
-                }
-
-                if (inventoryList.isEmpty()) {
-                    ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
-                    return;
-                }
-
-                if (t.containsKey("info") || t.containsKey("full")) {
-                    EmbedBuilder builder = baseEmbed(ctx,
-                            String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl()
-                    );
-
-                    List<MessageEmbed.Field> fields = new LinkedList<>();
-                    if (inventoryList.isEmpty())
-                        builder.setDescription(languageContext.get("general.dust"));
-                    else {
-                        playerInventory.asList().forEach(stack -> {
-                            long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                            long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                            fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
-                                    String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
-                        });
+                    if (member.getUser().isBot()) {
+                        ctx.sendLocalized("commands.inventory.bot_notice", EmoteReference.ERROR);
+                        return;
                     }
 
-                    List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                    boolean hasReactionPerms = ctx.hasReactionPerms();
+                    Player player = ctx.getPlayer(member);
+                    DBUser user = ctx.getDBUser(member);
+                    SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(member);
+                    Inventory playerInventory = player.getInventory();
+                    final List<ItemStack> inventoryList = playerInventory.asList();
+                    I18nContext languageContext = ctx.getLanguageContext();
 
-                    if (hasReactionPerms) {
-                        if (builder.getDescriptionBuilder().length() == 0) {
-                            builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : ""));
-                        }
-                        DiscordUtils.list(ctx.getEvent(), 100, false, builder, splitFields);
-                    } else {
-                        if (builder.getDescriptionBuilder().length() == 0) {
-                            builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                    String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                    + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : ""));
-                        }
-                        DiscordUtils.listText(ctx.getEvent(), 100, false, builder, splitFields);
+                    if (ctx.isSeasonal()) {
+                        playerInventory = seasonPlayer.getInventory();
                     }
 
-                    return;
-                }
+                    if (t.containsKey("calculate") || t.containsKey("calc") || t.containsKey("c")) {
+                        long all = playerInventory.asList().stream()
+                                .filter(item -> item.getItem().isSellable())
+                                .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                .sum();
 
-                ctx.sendStrippedLocalized("commands.inventory.brief", member.getEffectiveName(), ItemStack.toString(playerInventory.asList()));
+                        ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getUser().getName(), all);
+                        return;
+                    }
+
+                    if (inventoryList.isEmpty()) {
+                        ctx.sendLocalized("commands.inventory.empty", EmoteReference.WARNING);
+                        return;
+                    }
+
+                    if (t.containsKey("info") || t.containsKey("full")) {
+                        EmbedBuilder builder = baseEmbed(ctx,
+                                String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl()
+                        );
+
+                        List<MessageEmbed.Field> fields = new LinkedList<>();
+                        if (inventoryList.isEmpty())
+                            builder.setDescription(languageContext.get("general.dust"));
+                        else {
+                            playerInventory.asList().forEach(stack -> {
+                                long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
+                                long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
+                                fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
+                                        String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
+                            });
+                        }
+
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                        boolean hasReactionPerms = ctx.hasReactionPerms();
+
+                        if (hasReactionPerms) {
+                            if (builder.getDescriptionBuilder().length() == 0) {
+                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                        + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : ""));
+                            }
+                            DiscordUtils.list(ctx.getEvent(), 100, false, builder, splitFields);
+                        } else {
+                            if (builder.getDescriptionBuilder().length() == 0) {
+                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
+                                        + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : ""));
+                            }
+                            DiscordUtils.listText(ctx.getEvent(), 100, false, builder, splitFields);
+                        }
+
+                        return;
+                    }
+
+                    ctx.sendStrippedLocalized("commands.inventory.brief", member.getEffectiveName(), ItemStack.toString(playerInventory.asList()));
+                });
             }
 
             @Override
@@ -273,27 +278,29 @@ public class CurrencyCmds {
         cr.register("level", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
+                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMember(content, members, ctx);
+                    if (member == null)
+                        return;
 
-                if (member.getUser().isBot()) {
-                    ctx.sendLocalized("commands.level.bot_notice", EmoteReference.ERROR);
-                    return;
-                }
+                    if (member.getUser().isBot()) {
+                        ctx.sendLocalized("commands.level.bot_notice", EmoteReference.ERROR);
+                        return;
+                    }
 
-                Player player = MantaroData.db().getPlayer(member);
-                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
+                    Player player = MantaroData.db().getPlayer(member);
+                    long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
-                if (member.getUser().getIdLong() == ctx.getAuthor().getIdLong()) {
-                    ctx.sendLocalized("commands.level.own_success",
-                            EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
-                    );
-                } else {
-                    ctx.sendLocalized("commands.level.success_other",
-                            EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
-                    );
-                }
+                    if (member.getUser().getIdLong() == ctx.getAuthor().getIdLong()) {
+                        ctx.sendLocalized("commands.level.own_success",
+                                EmoteReference.ZAP, player.getLevel(), player.getData().getExperience(), experienceNext
+                        );
+                    } else {
+                        ctx.sendLocalized("commands.level.success_other",
+                                EmoteReference.ZAP, member.getUser().getAsTag(), player.getLevel(), player.getData().getExperience(), experienceNext
+                        );
+                    }
+                });
             }
 
             @Override

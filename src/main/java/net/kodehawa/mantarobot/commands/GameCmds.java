@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import org.slf4j.Logger;
@@ -131,13 +132,15 @@ public class GameCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
+                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
 
-                ctx.sendStrippedLocalized("commands.game.won_games",
-                        EmoteReference.POPPER, member.getEffectiveName(), db.getPlayer(member).getData().getGamesWon()
-                );
+                    ctx.sendStrippedLocalized("commands.game.won_games",
+                            EmoteReference.POPPER, member.getEffectiveName(), db.getPlayer(member).getData().getGamesWon()
+                    );
+                });
             }
         });
 
