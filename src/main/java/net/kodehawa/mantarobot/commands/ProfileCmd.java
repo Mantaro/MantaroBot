@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import okhttp3.Request;
@@ -482,169 +483,171 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
+                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
 
-                User toLookup = member.getUser();
+                    User toLookup = member.getUser();
 
-                Player player = ctx.getPlayer(toLookup);
-                DBUser dbUser = ctx.getDBUser(toLookup);
-                UserData data = dbUser.getData();
-                PlayerData playerData = player.getData();
-                PlayerStats playerStats = ctx.db().getPlayerStats(toLookup);
-                SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(toLookup);
+                    Player player = ctx.getPlayer(toLookup);
+                    DBUser dbUser = ctx.getDBUser(toLookup);
+                    UserData data = dbUser.getData();
+                    PlayerData playerData = player.getData();
+                    PlayerStats playerStats = ctx.db().getPlayerStats(toLookup);
+                    SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(toLookup);
 
-                PlayerEquipment equippedItems = data.getEquippedItems();
-                PlayerEquipment seasonalEquippedItems = seasonPlayer.getData().getEquippedItems();
+                    PlayerEquipment equippedItems = data.getEquippedItems();
+                    PlayerEquipment seasonalEquippedItems = seasonPlayer.getData().getEquippedItems();
 
-                Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
-                Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
-                PotionEffect potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
-                PotionEffect buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
+                    Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
+                    Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
+                    PotionEffect potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
+                    PotionEffect buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
 
-                boolean isPotionActive =
-                        potion != null && 
-                        (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ||
-                                potionEffect.getAmountEquipped() > 1);
-                boolean isBuffActive = 
-                        buff != null && 
-                        (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ||
-                                buffEffect.getAmountEquipped() > 1);
+                    boolean isPotionActive =
+                            potion != null &&
+                                    (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ||
+                                            potionEffect.getAmountEquipped() > 1);
+                    boolean isBuffActive =
+                            buff != null &&
+                                    (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ||
+                                            buffEffect.getAmountEquipped() > 1);
 
-                long potionEquipped = 0;
-                long buffEquipped = 0;
+                    long potionEquipped = 0;
+                    long buffEquipped = 0;
 
-                if (potion != null)
-                    potionEquipped = 
-                            equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ? 
-                            potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
-                if (buff != null)
-                    buffEquipped = 
-                            equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ? 
-                            buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
+                    if (potion != null)
+                        potionEquipped =
+                                equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ?
+                                        potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
+                    if (buff != null)
+                        buffEquipped =
+                                equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ?
+                                        buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
 
-                //no need for decimals
-                long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) +
-                        (50 * player.getLevel() / 2);
+                    //no need for decimals
+                    long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) +
+                            (50 * player.getLevel() / 2);
 
-                boolean noPotion = potion == null || !isPotionActive;
-                boolean noBuff = buff == null || !isBuffActive;
+                    boolean noPotion = potion == null || !isPotionActive;
+                    boolean noBuff = buff == null || !isBuffActive;
 
-                String equipment = parsePlayerEquipment(equippedItems);
-                String seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
+                    String equipment = parsePlayerEquipment(equippedItems);
+                    String seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                    I18nContext languageContext = ctx.getLanguageContext();
 
-                //This whole thing is a massive mess, lmfao.
-                //This is definitely painful and goes on for 100 lines lol
-                String s = String.join("\n",
-                        prettyDisplay(languageContext.get("commands.profile.stats.market"),
-                                playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times")
-                        ),
+                    //This whole thing is a massive mess, lmfao.
+                    //This is definitely painful and goes on for 100 lines lol
+                    String s = String.join("\n",
+                            prettyDisplay(languageContext.get("commands.profile.stats.market"),
+                                    playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times")
+                            ),
 
-                        //Potion display
-                        prettyDisplay(languageContext.get("commands.profile.stats.potion"),
-                                noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)
-                        ),
+                            //Potion display
+                            prettyDisplay(languageContext.get("commands.profile.stats.potion"),
+                                    noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)
+                            ),
 
-                        "\u3000 " +
-                                EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
-                                (noPotion ? "Not equipped" :
-                                        potionEffect.getTimesUsed() + " " +
-                                        languageContext.get("commands.profile.stats.times")),
+                            "\u3000 " +
+                                    EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
+                                    (noPotion ? "Not equipped" :
+                                            potionEffect.getTimesUsed() + " " +
+                                                    languageContext.get("commands.profile.stats.times")),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.buff"), noBuff ? "None" :
-                                String.format("%s (%dx)", buff.getName(), buffEquipped)
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.buff"), noBuff ? "None" :
+                                    String.format("%s (%dx)", buff.getName(), buffEquipped)
+                            ),
 
-                        "\u3000 " +
-                                EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
-                                (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " +
-                                        languageContext.get("commands.profile.stats.times")),
-                        //End of potion display
+                            "\u3000 " +
+                                    EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
+                                    (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " +
+                                            languageContext.get("commands.profile.stats.times")),
+                            //End of potion display
 
-                        prettyDisplayLine(languageContext.get("commands.profile.stats.equipment"),
-                                equipment
-                        ),
+                            prettyDisplayLine(languageContext.get("commands.profile.stats.equipment"),
+                                    equipment
+                            ),
 
-                        prettyDisplayLine(languageContext.get("commands.profile.stats.seasonal_equipment"),
-                                seasonalEquipment
-                        ),
+                            prettyDisplayLine(languageContext.get("commands.profile.stats.seasonal_equipment"),
+                                    seasonalEquipment
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.autoequip"),
-                                String.valueOf(data.isAutoEquip())
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.autoequip"),
+                                    String.valueOf(data.isAutoEquip())
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.experience"),
-                                playerData.getExperience() + "/" + experienceNext + " XP"
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.experience"),
+                                    playerData.getExperience() + "/" + experienceNext + " XP"
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.mine_xp"),
-                                playerData.getMiningExperience() + " XP"
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.mine_xp"),
+                                    playerData.getMiningExperience() + " XP"
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
-                                playerData.getFishingExperience() + " XP"
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
+                                    playerData.getFishingExperience() + " XP"
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.sharks_caught"),
-                                String.valueOf(playerData.getSharksCaught())
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.sharks_caught"),
+                                    String.valueOf(playerData.getSharksCaught())
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.crates_open"),
-                                String.valueOf(playerData.getCratesOpened())
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.crates_open"),
+                                    String.valueOf(playerData.getCratesOpened())
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.times_mop"),
-                                String.valueOf(playerData.getTimesMopped())
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.times_mop"),
+                                    String.valueOf(playerData.getTimesMopped())
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.daily"),
-                                playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days")
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.daily"),
+                                    playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days")
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.daily_at"),
-                                playerData.getLastDailyAt() == 0 ?
-                                        languageContext.get("commands.profile.stats.never") :
-                                        new Date(playerData.getLastDailyAt()).toString()
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.daily_at"),
+                                    playerData.getLastDailyAt() == 0 ?
+                                            languageContext.get("commands.profile.stats.never") :
+                                            new Date(playerData.getLastDailyAt()).toString()
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.waifu_claimed"),
-                                data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times")
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.waifu_claimed"),
+                                    data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times")
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.waifu_locked"),
-                                String.valueOf(playerData.isClaimLocked())
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.waifu_locked"),
+                                    String.valueOf(playerData.isClaimLocked())
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.dust"),
-                                data.getDustLevel() + "%"
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.dust"),
+                                    data.getDustLevel() + "%"
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.reminders"),
-                                data.getRemindedTimes() + " " + languageContext.get("commands.profile.stats.times")
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.reminders"),
+                                    data.getRemindedTimes() + " " + languageContext.get("commands.profile.stats.times")
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.lang"),
-                                (data.getLang() == null ? "en_US" : data.getLang())
-                        ),
+                            prettyDisplay(languageContext.get("commands.profile.stats.lang"),
+                                    (data.getLang() == null ? "en_US" : data.getLang())
+                            ),
 
-                        prettyDisplay(languageContext.get("commands.profile.stats.wins"),
-                                String.format("\n\u3000\u2009\u2009\u2009\u2009" +
-                                        "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)",
-                                        EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
-                        )
-                );
+                            prettyDisplay(languageContext.get("commands.profile.stats.wins"),
+                                    String.format("\n\u3000\u2009\u2009\u2009\u2009" +
+                                                    "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)",
+                                            EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
+                            )
+                    );
 
 
-                ctx.send(new EmbedBuilder()
-                        .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                        .setAuthor(String.format(languageContext.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
-                        .setDescription("\n" + s)
-                        .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
-                        .build()
-                );
+                    ctx.send(new EmbedBuilder()
+                            .setThumbnail(toLookup.getEffectiveAvatarUrl())
+                            .setAuthor(String.format(languageContext.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
+                            .setDescription("\n" + s)
+                            .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
+                            .build()
+                    );
+                });
             }
         });
 

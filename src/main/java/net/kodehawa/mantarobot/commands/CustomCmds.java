@@ -502,7 +502,7 @@ public class CustomCmds {
 
                 CustomCommand command = ctx.db().getCustomCommand(ctx.getGuild(), content);
                 String owner = command.getData().getOwner();
-                User user = owner.isEmpty() ? null : ctx.getShardManager().getUserCache().getElementById(owner);
+                User user = owner.isEmpty() ? null : ctx.getShardManager().retrieveUserById(owner).complete();
                 
                 ctx.send(new EmbedBuilder()
                         .setAuthor("Custom Command Information for " + content, null, ctx.getAuthor().getEffectiveAvatarUrl())

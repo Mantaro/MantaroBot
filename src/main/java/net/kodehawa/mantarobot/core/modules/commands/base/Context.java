@@ -22,6 +22,8 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.concurrent.Task;
+import net.dv8tion.jda.internal.utils.concurrent.task.GatewayTask;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -33,11 +35,14 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class Context {
     private final MantaroBot bot = MantaroBot.getInstance();
@@ -229,6 +234,10 @@ public class Context {
         getChannel().sendMessageFormat(languageContext.get(localizedMessage), args)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
+    }
+
+    public Task<List<Member>> retrieveMembersByPrefix(String query) {
+        return CustomFinderUtil.retrieveMembersByPrefix(getGuild(), query);
     }
 
     public JedisPool getJedisPool() {

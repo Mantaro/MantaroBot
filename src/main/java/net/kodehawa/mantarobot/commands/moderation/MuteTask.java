@@ -55,15 +55,14 @@ public class MuteTask {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();
+                    final Member memberById = guild.retrieveMemberById(id).complete();
 
-                    if (guild.getMemberById(id) == null) {
+                    if (memberById == null) {
                         data.getMutes().remove(id);
                         data.saveAsync();
                         log.debug("Removed {} because member == null", id);
                         continue;
                     }
-
-                    final Member memberById = guild.getMemberById(id);
 
                     //I spent an entire month trying to figure out why this didn't work to then come to the conclusion that I'm completely stupid.
                     //I was checking against `id` instead of against the mute role id because I probably was high or something when I did this
@@ -81,7 +80,7 @@ public class MuteTask {
                             data.save();
                             Role roleById = guild.getRoleById(guildData.getMutedRole());
 
-                            if (memberById != null && roleById != null)
+                            if (roleById != null)
                                 guild.removeRoleFromMember(memberById, roleById).queue();
 
                             guildData.setCases(guildData.getCases() + 1);
