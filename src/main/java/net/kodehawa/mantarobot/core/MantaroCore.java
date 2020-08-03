@@ -196,7 +196,6 @@ public class MantaroCore {
             DefaultShardManagerBuilder builder;
 
             builder = DefaultShardManagerBuilder.create(config.token,
-                    GatewayIntent.GUILD_PRESENCES, //This one is so we can have lazy loading
                     GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
                     GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)

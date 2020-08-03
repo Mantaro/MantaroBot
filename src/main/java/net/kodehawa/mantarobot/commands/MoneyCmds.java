@@ -553,9 +553,13 @@ public class MoneyCmds {
                 ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
                     User user = ctx.getAuthor();
                     boolean isExternal = false;
+                    System.out.println(members.size());
 
                     Member found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
-                    if(found != null && !members.isEmpty()) {
+                    if(found == null) {
+                        return;
+                    } else if (!finalContent.isEmpty()) {
+                        user = found.getUser();
                         isExternal = true;
                     }
 
