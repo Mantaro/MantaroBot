@@ -86,7 +86,7 @@ public class MuteTask {
                             guildData.setCases(guildData.getCases() + 1);
                             dbGuild.saveAsync();
                             ModLog.log(guild.getSelfMember(),
-                                    MantaroBot.getInstance().getShardManager().getUserById(id),
+                                    memberById.getUser(),
                                     "Mute timeout expired", "none",
                                     ModLog.ModAction.UNMUTE,
                                     guildData.getCases()

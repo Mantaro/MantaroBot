@@ -131,7 +131,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 User user = null;
                 if (getCurrentTrack().getUserData() != null) {
                     user = MantaroBot.getInstance().getShardManager()
-                            .getUserById(String.valueOf(getCurrentTrack().getUserData()));
+                            .retrieveUserById(String.valueOf(getCurrentTrack().getUserData())).complete();
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.

@@ -43,7 +43,7 @@ public class AudioUtils {
             );
 
             User dj = audioTrack.getUserData() != null ? MantaroBot.getInstance().getShardManager()
-                    .getUserById(String.valueOf(audioTrack.getUserData())) : null;
+                    .retrieveUserById(String.valueOf(audioTrack.getUserData())).complete() : null;
 
             sb.append("**")
                     .append(n)

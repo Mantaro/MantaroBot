@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -94,7 +93,7 @@ public class GuildOptions extends OptionHandler {
             String query = String.join(" ", args);
             // TODO: HACKY, VERY HACKY. FIX WHEN CONTEXT COMES TO OPTS
             Context ctx = new Context(event, lang, query);
-            ctx.retrieveMembersByPrefix(query).onSuccess(members -> {
+            ctx.findMember(query).onSuccess(members -> {
                 Member m = CustomFinderUtil.findMemberDefault(query, members, ctx, ctx.getMember());
                 if (m == null)
                     return;
@@ -1243,7 +1242,7 @@ public class GuildOptions extends OptionHandler {
             String content = String.join(" ", args);
             // TODO: HACKY, VERY HACKY. FIX WHEN CONTEXT COMES TO OPTS
             Context ctx = new Context(event, lang, content);
-            ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+            ctx.findMember(content).onSuccess(members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if(member == null)
                     return;
@@ -1265,7 +1264,7 @@ public class GuildOptions extends OptionHandler {
             String content = String.join(" ", args);
             // TODO: HACKY, VERY HACKY. FIX WHEN CONTEXT COMES TO OPTS
             Context ctx = new Context(event, lang, content);
-            ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+            ctx.findMember(content).onSuccess(members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if(member == null)
                     return;

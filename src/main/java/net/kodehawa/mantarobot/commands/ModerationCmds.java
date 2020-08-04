@@ -34,7 +34,6 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.StringUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -309,7 +308,7 @@ public class ModerationCmds {
                 final String finalReason = String.format("Kicked by %#s: %s", ctx.getAuthor(), reason);
                 String memberRaw = args[0];
 
-                ctx.getGuild().retrieveMembersByPrefix(memberRaw, 10).onSuccess(members -> {
+                ctx.findMember(memberRaw).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMember(memberRaw, members, ctx);
                     if (member == null)
                         return;

@@ -29,8 +29,8 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -93,7 +93,7 @@ public class LeaderboardCmd {
                                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                                         .addField("Gamble", lb1.stream()
                                                 .map(map -> Pair.of(MantaroBot.getInstance().getShardManager().
-                                                        getUserById(map.get("id").toString().split(":")[0]),
+                                                        retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                                         map.get("gambleWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
@@ -102,7 +102,8 @@ public class LeaderboardCmd {
                                                 ).collect(Collectors.joining("\n")), true)
                                         .addField("Slots", lb2.stream()
                                                 .map(map -> Pair.of(MantaroBot.getInstance().getShardManager()
-                                                        .getUserById(map.get("id").toString().split(":")[0]), map.get("slotsWinAmount").toString())
+                                                        .retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
+                                                        map.get("slotsWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
                                                         EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
@@ -142,7 +143,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                                 String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY), "commands.leaderboard.gamble", c,
-                                map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                map -> Pair.of(MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
                                 .build()
                 );
@@ -166,7 +167,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY), "commands.leaderboard.slots", c,
-                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                 map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
                         .build()
                 );
@@ -194,7 +195,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
-                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
                         .build()
                 );
@@ -223,7 +224,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var experience = ((Map<String, Object>) map.get("data")).get("experience");
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                     map.get("level").toString() + "\n -" +
                                             languageContext.get("commands.leaderboard.inner.experience") + ":** " +
                                             experience + "**");
@@ -253,7 +254,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP), "commands.leaderboard.reputation", c,
-                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
                         .build()
                 );
@@ -282,7 +283,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                     strike
                             );
                         }, "%s**%s#%s** - %sx", false)
@@ -316,7 +317,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                     waifuValue
                             );
                         }, "%s**%s#%s** - $%,d", seasonal)
@@ -346,7 +347,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                     timesClaimed
                             );
                         }, "%s**%s#%s** - %,d", false)
@@ -380,7 +381,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    MantaroBot.getInstance().getShardManager().retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
                                     gamesWon
                             );
                         }, "%s**%s#%s** - %,d", seasonal)

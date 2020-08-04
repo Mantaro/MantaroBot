@@ -179,7 +179,7 @@ public class CurrencyCmds {
                 //Lambda memes lol
                 var finalContent = content;
 
-                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
@@ -278,7 +278,7 @@ public class CurrencyCmds {
         cr.register("level", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMember(content, members, ctx);
                     if (member == null)
                         return;
