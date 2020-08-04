@@ -550,7 +550,7 @@ public class MoneyCmds {
 
                 // Values on lambdas should be final or effectively final part 9999.
                 final var finalContent = content;
-                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     User user = ctx.getAuthor();
                     boolean isExternal = false;
                     System.out.println(members.size());

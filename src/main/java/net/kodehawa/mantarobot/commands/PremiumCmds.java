@@ -265,7 +265,7 @@ public class PremiumCmds {
 
                         I18nContext languageContext = ctx.getLanguageContext();
 
-                        ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                        ctx.findMember(content).onSuccess(members -> {
                             Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                             if(member == null)
                                 return;
@@ -292,7 +292,7 @@ public class PremiumCmds {
                                 return;
                             }
 
-                            User owner = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
+                            User owner = MantaroBot.getInstance().getShardManager().retrieveUserById(currentKey.getOwner()).complete();
                             boolean marked = false;
                             if (owner == null) {
                                 marked = true;
@@ -341,7 +341,7 @@ public class PremiumCmds {
                             } catch (Exception ignored) { }
 
                             if (linkedTo != null) {
-                                User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
+                                User linkedUser = MantaroBot.getInstance().getShardManager().retrieveUserById(currentKey.getOwner()).complete();
                                 if(linkedUser != null)
                                     embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() +
                                             "#" + linkedUser.getDiscriminator(), true);
@@ -388,7 +388,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                User owner = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
+                User owner = MantaroBot.getInstance().getShardManager().retrieveUserById(currentKey.getOwner()).complete();
                 if (owner == null)
                     owner = Objects.requireNonNull(ctx.getGuild().getOwner()).getUser();
 
@@ -404,7 +404,7 @@ public class PremiumCmds {
                         .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
 
                 if (linkedTo != null) {
-                    User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
+                    User linkedUser = MantaroBot.getInstance().getShardManager().retrieveUserById(currentKey.getOwner()).complete();
                     if(linkedUser != null)
                         embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName()  + "#" +
                                 linkedUser.getDiscriminator(), false);

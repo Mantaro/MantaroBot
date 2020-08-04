@@ -500,7 +500,7 @@ public class Utils {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
-                User user = MantaroBot.getInstance().getShardManager().getUserById(u);
+                User user = MantaroBot.getInstance().getShardManager().retrieveUserById(u).complete();
                 String guildId = event.getGuild().getId();
                 String channelId = event.getChannel().getId();
                 String messageId = event.getMessage().getId();

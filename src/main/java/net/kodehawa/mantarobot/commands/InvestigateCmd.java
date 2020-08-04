@@ -55,7 +55,7 @@ public class InvestigateCmd {
     public static void investigate(GuildMessageReceivedEvent event, Type type, String id, boolean file) {
         switch (type) {
             case GUILD -> investigateGuild(event, MantaroBot.getInstance().getShardManager().getGuildById(id), file);
-            case USER -> investigateUser(event, MantaroBot.getInstance().getShardManager().getUserById(id), file);
+            case USER -> investigateUser(event, MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete(), file);
             case CHANNEL -> investigateChannel(event, MantaroBot.getInstance().getShardManager().getTextChannelById(id), file);
             default -> throw new AssertionError();
         }

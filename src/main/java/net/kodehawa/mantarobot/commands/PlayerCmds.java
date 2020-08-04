@@ -102,7 +102,7 @@ public class PlayerCmds {
                 }
 
 
-                ctx.getGuild().retrieveMembersByPrefix(content, 10).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMember(content, members, ctx);
                     if (member == null)
                         return;
@@ -338,7 +338,7 @@ public class PlayerCmds {
                         // Lambdas strike again.
                         var contentFinal = content;
 
-                        ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                        ctx.findMember(content).onSuccess(members -> {
                             Member member = CustomFinderUtil.findMemberDefault(contentFinal, members, ctx, ctx.getMember());
                             if (member == null)
                                 return;

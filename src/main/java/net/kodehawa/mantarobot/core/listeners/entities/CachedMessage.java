@@ -29,7 +29,7 @@ public class CachedMessage {
     }
 
     public User getAuthor() {
-        return MantaroBot.getInstance().getShardManager().getUserById(author);
+        return MantaroBot.getInstance().getShardManager().retrieveUserById(author).complete();
     }
 
     public String getContent() {

@@ -132,7 +132,7 @@ public class GameCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;

@@ -72,7 +72,7 @@ public class PlayerData {
     //LEGACY SUPPORT
     //Marriage UUID data is on UserData now!
     public boolean isMarried() {
-        return marriedWith != null && MantaroBot.getInstance().getShardManager().getUserById(marriedWith) != null;
+        return marriedWith != null && MantaroBot.getInstance().getShardManager().retrieveUserById(marriedWith).complete() != null;
     }
 
     @JsonIgnore

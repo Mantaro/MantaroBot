@@ -390,7 +390,7 @@ public class RelationshipCmds {
                     }
 
                     //Can we find the user this is married to?
-                    final User marriedTo = MantaroBot.getInstance().getShardManager().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                    final User marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(currentMarriage.getOtherPlayer(author.getId())).complete();
                     if (marriedTo == null) {
                         ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                         return;
@@ -484,7 +484,7 @@ public class RelationshipCmds {
                 }
 
                 //Can we find the user this is married to?
-                final User marriedTo = MantaroBot.getInstance().getShardManager().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                final User marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(currentMarriage.getOtherPlayer(author.getId())).complete();
                 if (marriedTo == null) {
                     ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                     return;
@@ -758,7 +758,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
@@ -929,14 +929,14 @@ public class RelationshipCmds {
                 var lookup = isId ? "" : content;
                 // Lambdas strike again.
                 var finalContent = content;
-                ctx.retrieveMembersByPrefix(lookup).onSuccess(members -> {
+                ctx.findMember(lookup).onSuccess(members -> {
                     // This is hacky again, but search *will* fail if we pass a empty list to this method.
                     Member member = isId ? null : CustomFinderUtil.findMember(lookup, members, ctx);
                     if(member == null && !isId) {
                         return;
                     }
 
-                    User toLookup = isId ? MantaroBot.getInstance().getShardManager().getUserById(finalContent) : member.getUser();
+                    User toLookup = isId ? MantaroBot.getInstance().getShardManager().retrieveUserById(finalContent).complete() : member.getUser();
                     boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
                     if (toLookup == null && !isUnknown) {
                         ctx.sendLocalized("commands.waifu.unclaim.not_found", EmoteReference.ERROR);

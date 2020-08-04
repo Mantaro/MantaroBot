@@ -104,7 +104,7 @@ public class MuteCmds {
                 final String finalReason = muteTimePattern.matcher(reason).replaceAll("");
 
                 MantaroObj data = db.getMantaroData();
-                ctx.retrieveMembersByPrefix(affected).onSuccess(members -> {
+                ctx.findMember(affected).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMember(affected, members, ctx);
                     if (member == null)
                         return;

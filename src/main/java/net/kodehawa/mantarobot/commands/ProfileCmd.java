@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
@@ -93,7 +92,7 @@ public class ProfileCmd {
 
 
                         var finalContent = content;
-                        ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                        ctx.findMember(content).onSuccess(members -> {
                             User userLooked = ctx.getAuthor();
                             Member memberLooked = ctx.getMember();
 
@@ -129,7 +128,7 @@ public class ProfileCmd {
 
                             //start of badge assigning
                             Guild mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                            Member mhMember = mh == null ? null : mh.getMemberById(memberLooked.getUser().getId());
+                            Member mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId(), false).complete();
 
                             //Badge assigning code
                             Badge.assignBadges(player, dbUser);
@@ -490,7 +489,7 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                ctx.retrieveMembersByPrefix(content).onSuccess(members -> {
+                ctx.findMember(content).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;

@@ -37,17 +37,15 @@ public class CustomFinderUtil {
      * @return The member found. Returns null if nothing was found.
      */
     public static Member findMember(String query, List<Member> result, Context ctx) {
-        System.out.println(query);
-
         // Mention
         Matcher userMention = USER_MENTION.matcher(query);
         if (userMention.matches()) {
-            return ctx.getGuild().retrieveMemberById(userMention.replaceAll("$1")).complete();
+            return ctx.getGuild().retrieveMemberById(userMention.replaceAll("$1"), false).complete();
         }
 
         // Id
         if (DISCORD_ID.matcher(query).matches()) {
-            return ctx.getGuild().retrieveMemberById(query).complete();
+            return ctx.getGuild().retrieveMemberById(query, false).complete();
         }
 
         // User#Dis
@@ -144,12 +142,14 @@ public class CustomFinderUtil {
         // Mention
         Matcher userMention = USER_MENTION.matcher(query);
         if (userMention.matches()) {
-            return Collections.singletonList(guild.retrieveMemberById(userMention.replaceAll("$1")).complete());
+            return Collections.singletonList(guild.retrieveMemberById(userMention.replaceAll("$1"), false).complete());
         }
+
         // Id
         if (DISCORD_ID.matcher(query).matches()) {
-            return Collections.singletonList(guild.retrieveMemberById(query).complete());
+            return Collections.singletonList(guild.retrieveMemberById(query, false).complete());
         }
+
         // User#Dis
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
         if (fullRefMatch.matches()) {
