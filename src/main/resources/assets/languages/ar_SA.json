@@ -1280,8 +1280,8 @@
       },
       "feed": {
         "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
-        "no_item": "%1$sI can't find that item.",
-        "not_food": "%1$sThe specified item is not food.",
+        "no_item": "%1$s لا استطيع ايجاد الغرض.",
+        "not_food": "%1$sالعنصر المحدد ليس طعامًا.",
         "full": "%1$sYour pet is currently full and can't eat more.",
         "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
       },
