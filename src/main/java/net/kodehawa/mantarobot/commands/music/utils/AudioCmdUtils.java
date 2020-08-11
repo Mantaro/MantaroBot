@@ -215,6 +215,9 @@ public class AudioCmdUtils {
 
         //This is where we call LL.
         JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(guild).getLavaLink();
+
+        //Cursed lavalink issues tracker.
+        boolean cursed = false;
         if (guildMusicChannel != null) {
             //If the channel is not the set one, reject this connect.
             if (!userChannel.equals(guildMusicChannel)) {
@@ -235,19 +238,38 @@ public class AudioCmdUtils {
         //Assume last channel it's the one it was attempting to connect to? (on the one below this too)
         //If the link is CONNECTED and the lastChannel is not the one it's already connected to, reject connection
         if (link.getState() == Link.State.CONNECTED && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
-            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, guild.getVoiceChannelById(link.getLastChannel()).getName()).queue();
-            return completedFuture(false);
+            VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
+
+            //Workaround for a bug in lavalink that gives us Link.State.CONNECTED and a channel that doesn't exist anymore.
+            //This is a little cursed.
+            if(vc != null) {
+                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, vc.getName()).queue();
+                return completedFuture(false);
+            } else {
+                cursed = true;
+            }
         }
 
         //If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
-        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
-            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, guild.getVoiceChannelById(link.getLastChannel()).getName()).queue();
-            return completedFuture(false);
+        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {            VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
+            VoiceChannel vc1 = guild.getVoiceChannelById(link.getLastChannel());
+
+            //Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
+            //This is a little cursed.
+            if(vc1 != null) {
+                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, vc1.getName()).queue();
+                return completedFuture(false);
+            } else {
+                cursed = true;
+            }
         }
 
         //If the link is not currently connected or connecting, accept connection and call openAudioConnection
-        if (link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
+        if ((link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) || cursed) {
             log.debug("Connected to voice channel {}. Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel", userChannel.getId());
+            if(cursed)
+                log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", link.getState());
+
             return openAudioConnection(event, link, userChannel, lang).thenApply(__ -> true);
         }
 

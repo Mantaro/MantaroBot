@@ -108,12 +108,23 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         }
 
         if (MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
-            VoiceChannel voiceChannel = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState().getChannel();
+            var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
+
+            //What kind of massive meme is this? part 2
+            if(voiceState == null) {
+                this.getAudioPlayer().disconnect();
+                return;
+            }
+
+            var voiceChannel = voiceState.getChannel();
 
             //What kind of massive meme is this?
             //It's called mantaro
-            if (voiceChannel == null)
+            if (voiceChannel == null) {
+                this.getAudioPlayer().disconnect();
+                this.getAudioPlayer().destroy();
                 return;
+            }
 
             //Force it in case it keeps going all the time?
             if (errorCount > 20) {
@@ -231,17 +242,17 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         }
 
         boolean premium = MantaroData.db().getGuild(g).isPremium();
+
         try {
             TextChannel ch = getRequestedTextChannel();
             if (ch != null && ch.canTalk()) {
                 ch.sendMessageFormat(
                         language.get("commands.music_general.queue_finished"),
-                        EmoteReference.MEGA, premium ? "" :
-                                String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
+                        EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch (Exception e) {
-            Sentry.capture(e);
+            e.printStackTrace();
         }
 
         requestedChannel = 0;
@@ -252,7 +263,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         previousTrack = null;
 
         //Disconnect this audio player.
-        this.getAudioPlayer().disconnect();
+        MantaroBot.getInstance().getAudioManager().resetMusicManagerFor(guildId);
     }
 
     public ConcurrentLinkedDeque<AudioTrack> getQueue() {

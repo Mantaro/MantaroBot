@@ -45,17 +45,22 @@ public class GuildMusicManager {
     private void leave() {
         Guild guild = trackScheduler.getGuild();
 
-        if (guild == null) return;
+        if (guild == null) {
+            getLavaLink().disconnect();
+            getLavaLink().destroy();
+            return;
+        }
 
         isAwaitingDeath = false;
-        trackScheduler.getQueue().clear();
+
         if (trackScheduler.getRequestedTextChannel() != null) {
             trackScheduler.getRequestedTextChannel().sendMessageFormat(trackScheduler.getLanguage().get("commands.music_general.listener.leave"),
                     EmoteReference.SAD, guild.getSelfMember().getVoiceState().getChannel().getName()
             ).queue();
         }
 
-        trackScheduler.nextTrack(true, true);
+        //This should destroy it.
+        trackScheduler.stop();
     }
 
     public void scheduleLeave() {
@@ -79,6 +84,13 @@ public class GuildMusicManager {
 
     public TrackScheduler getTrackScheduler() {
         return this.trackScheduler;
+    }
+
+    public void onDestroy() {
+        getLavaLink().getPlayer().removeListener(trackScheduler);
+        getLavaLink().resetPlayer();
+        getLavaLink().disconnect();
+        getLavaLink().destroy();
     }
 
     public boolean isAwaitingDeath() {

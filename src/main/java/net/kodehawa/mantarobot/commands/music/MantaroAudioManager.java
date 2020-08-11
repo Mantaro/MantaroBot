@@ -117,6 +117,13 @@ public class MantaroAudioManager {
         return musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(guild.getId()));
     }
 
+    public void resetMusicManagerFor(String id) {
+        var previousManager = musicManagers.get(id);
+        previousManager.onDestroy();
+
+        musicManagers.remove(id);
+    }
+
     public long getTotalQueueSize() {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
