@@ -203,9 +203,9 @@ public class MantaroListener implements EventListener {
             //Destroy this link. Avoid creating a new one by checking if we actually do have an audio manager here.
             var manager = instance.getAudioManager().getMusicManagers().get(guild.getId());
             if(manager != null) {
-                instance.getAudioManager().getMusicManagers().remove(guild.getId());
                 manager.getLavaLink().resetPlayer();
                 manager.getLavaLink().destroy();
+                instance.getAudioManager().getMusicManagers().remove(guild.getId());
             }
 
 
