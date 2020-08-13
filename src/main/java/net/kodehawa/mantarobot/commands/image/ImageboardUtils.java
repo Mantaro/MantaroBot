@@ -216,17 +216,11 @@ public class ImageboardUtils {
         return true;
     }
 
+    //This code is a little cursed, but there's really not much of a better filter here.
     private static boolean containsMinorTags(List<String> tags) {
-        return tags.contains("loli") || tags.contains("shota") ||
-                        tags.contains("lolicon") || tags.contains("shotacon") ||
-                        //lol @ e621
-                        tags.contains("child") || tags.contains("young") ||
-                        //lol @ danbooru
-                        tags.contains("younger") ||
-                        //lol @ rule34
-                        tags.contains("underage") || tags.contains("under_age")
-                        //lol @ rule34 / @ e621
-                        || tags.contains("cub");
+        return tags.contains("loli") || tags.contains("shota") || tags.contains("lolicon") || tags.contains("shotacon") ||
+                tags.contains("child") || tags.contains("young") || tags.contains("younger") ||
+                tags.contains("underage") || tags.contains("under_age") || tags.contains("cub");
     }
 
     private static boolean isListNull(List<?> l, Context ctx) {

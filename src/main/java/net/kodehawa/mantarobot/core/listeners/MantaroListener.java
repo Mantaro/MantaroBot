@@ -202,8 +202,12 @@ public class MantaroListener implements EventListener {
             var guild = ((GuildLeaveEvent) event).getGuild();
             //Destroy this link. Avoid creating a new one by checking if we actually do have an audio manager here.
             var manager = instance.getAudioManager().getMusicManagers().get(guild.getId());
-            if(manager != null)
+            if(manager != null) {
+                instance.getAudioManager().getMusicManagers().remove(guild.getId());
+                manager.getLavaLink().resetPlayer();
                 manager.getLavaLink().destroy();
+            }
+
 
             if (MantaroCore.hasLoadedCompletely()) {
                 Metrics.GUILD_COUNT.set(instance.getShardManager().getGuildCache().size());
