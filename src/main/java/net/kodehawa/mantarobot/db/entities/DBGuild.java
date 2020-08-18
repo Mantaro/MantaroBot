@@ -126,8 +126,8 @@ public class DBGuild implements ManagedObject {
         String linkedTo = getData().getMpLinkedTo();
         if (config.isPremiumBot() && linkedTo != null && key == null) { //Key should always be null in MP anyway.
             Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(linkedTo);
-            // The API returned an exception, return true anyway. (Pledge = false, amount = 4 is basically impossible)
-            if(pledgeInfo != null && !pledgeInfo.getLeft() && pledgeInfo.getRight().equals("4")) {
+            // The API returned an exception, return true anyway. (Pledge = false, amount = 100000 is basically impossible)
+            if(pledgeInfo != null && !pledgeInfo.getLeft() && pledgeInfo.getRight().equals("100000")) {
                 return true;
             }
 

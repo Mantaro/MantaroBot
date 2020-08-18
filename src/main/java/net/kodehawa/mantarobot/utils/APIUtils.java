@@ -121,7 +121,7 @@ public class APIUtils {
             if(config.isPremiumBot()) {
                 // Same as above, but send pledge = false but an amount of 4. This is to signal the
                 // handler that we have a wrong reply.
-                return Pair.of(false, "4");
+                return Pair.of(false, "100000");
             } else {
                 return null;
             }
