@@ -80,6 +80,7 @@ public class APIUtils {
             if(body == null) {
                 throw new IllegalStateException("Body is null");
             }
+
             return body.string();
         }
     }
@@ -115,7 +116,14 @@ public class APIUtils {
         } catch (Exception ex) {
             //don't disable premium if the api is wonky, no need to be a meanie.
             ex.printStackTrace();
-            return null;
+
+            if(config.isPremiumBot()) {
+                // Same as above, but send pledge = false but an amount of 4. This is to signal the
+                // handler that we have a wrong reply.
+                return Pair.of(false, "4");
+            } else {
+                return null;
+            }
         }
     }
 }
