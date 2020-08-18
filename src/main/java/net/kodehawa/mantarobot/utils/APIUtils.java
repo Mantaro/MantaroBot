@@ -20,6 +20,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.json.JSONObject;
@@ -28,10 +29,10 @@ import org.json.JSONTokener;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class APIUtils {
     private static final Config config = MantaroData.config().get();
+    private static final OkHttpClient httpClient = new OkHttpClient();
 
     @Nullable
     public static Badge getHushBadge(String name, Utils.HushType type) {
