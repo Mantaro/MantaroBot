@@ -962,7 +962,7 @@
       "no_guild_month_birthdays": "%1$sNo hay ningún cumpleaños para este mes (%2$s) por aquí :(\n%3$sSi acabas de configurar el anunciador de cumpleaños, porfavor espera un día para revisar denuevo. (La cache se refresca cada 23 horas)",
       "cache_not_running": "%1$sEl cache de cumpleaños no parece estar funcionando (error interno) :(",
       "error": "%1$sAlgo salió muy mal intentando buscar los cumpleaños (error interno) :(",
-      "header": "**Cumpleaños del servidor %1$s para el mes de %2$s**\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.",
       "full_header": "**Cumpleaños de %1$s**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
