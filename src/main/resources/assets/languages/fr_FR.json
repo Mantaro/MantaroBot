@@ -71,7 +71,7 @@
     "space_notice": "Si le nom de celui-ci contient des espaces, essaie \"de le placer entre guillemets\"",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "S'il te plait repose toi, c'est bon pour ta santé. **N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!**",
       "spam_2": "\nJe pense que s'arrêter est la meilleure option pour le moment...",
       "spam_3": "\nCe serait pas mieux si tu sortais un peu?",
       "spam_4": "\nEst-ce que ce truc est allumé au moins?"
@@ -616,7 +616,7 @@
       },
       "optout": {
         "notice": "%1$sTu as été complètement enlevé.e du système de Waifu, tu ne peux donc pas l'utiliser.",
-        "warning": "%1$sVeux-tu vraiment être enlevé.e du système de Waifu? C'EST PERMANENT ET IRRÉVERSIBLE!\nSi tu veux simplement éviter d'être acheté.e et que tu veux utiliser le système de Waifu comme d'habitude, utilise la commande `~>profile claimlock` à la place.\nTu ne pourras plus acheter de Waifus ni être acheté.e et tout tes achats seront annulés.\nEnvoie `yes` ou `no`. Le yes t'enlèveras du système tandis que le `no` annulera ta demande.",
+        "warning": "%1$sVeux-tu vraiment être enlevé.e du système de Waifu? C'EST PERMANENT ET IRRÉVERSIBLE!\nSi tu veux simplement éviter d'être acheté.e et que tu veux utiliser le système de Waifu comme d'habitude, utilise la commande `~>profile claimlock` à la place.\nTu ne pourras plus acheter de Waifus ni être acheté.e et tout tes achats seront annulés.\nEnvoie `Yes, I want to be opt out of the waifu system completely and irreversibly` ou `no`. Le `yes I want...` t'enlèvera du système tandis que le `no` annulera ta demande.",
         "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
         "cancelled": "%1$sOpération d'extraction annulée avec succès.",
         "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système."
@@ -964,12 +964,12 @@
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
       "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
       "full_header": "**Anniversaires du serveur %1$s**\n%2$s",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm` (14-02 par exemple)",
+      "error_date": "%1$s%2$s n'est soit pas au bon format soit je ne peux pas la séparer correctement. Réessaie avec le bon format s'il te plait.\nPour rappel, le bon format est: `jj-mm` (14-02 par exemple)",
+      "added_birthdate": "%1$sDate de naissance bien ajoutée. Nouvelle date de naissance : %2$s *(Format: jj-mm)* [day-month]",
       "invalid_month": "%1$sCe n'est pas un numéro de mois valide! (Les nombres valides de mois vont de 01 à 12)",
       "no_content": "%1$sTu dois spécifier ta date de naissance, `remove` pour réinitialiser ta date de naissance `month` pour voir les anniversaire du mois.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "new_format": "%1$sLe nouveau format est juste `jj-mm` (jour-mois, par exemple 20-10 pour le 20 octobre). Plus besoin d'entrer l'année maintenant, donc tu peux omettre cette partie!"
     },
     "choose": {
       "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (Exemple : `~>choose anime manga`)",
@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sTu as spécifié trop de tags pour l'imageboard! L'imageboard %2$s n'accepte qu'un maximum de %3$d tags.",
       "invalid_rating": "%1$sTu as spécifié un argument invalide (Arguments disponibles: questionable, explicit, safe)",
       "nsfw_no_nsfw": "%1$sJe ne peux pas envoyer du NSFW dans un salon qui n'est pas NSFW :(",
-      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
+      "no_images": "%1$sIl n'y a pas d'image correspondant à tes critères de recherche. Ça peut arriver car le service d'image n'a rien renvoyé, rien de pertinent ou a détecté des mots-clés interdits dans ta recherche.",
       "no_results": "%1$s**Aucune image ou résultat trouvé**! Merci d'essayer un autre nom ou un nombre plus bas.",
       "error": "%1$sUne erreur s'est produite en cherchant une image...",
       "wrong_argument": "%1$sMauvais type d'argument. Fait ~>help %2$s",

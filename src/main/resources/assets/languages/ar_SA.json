@@ -1216,13 +1216,13 @@
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
       "loli_content_disallow": "%1$sI cannot display images that allegedly contain `loli` or `shota` (or related tags) lewd/NSFW content because discord prohibits it. Try again with other tags?",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
-      "found_image": "Found an image",
+      "found_image": "تم العثور على صورة",
       "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
-      "width": "Width",
+      "width": "العرض",
       "height": "Height",
-      "tags": "Tags",
-      "load_notice": "If the image doesn't load, click the title.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
+      "tags": "العلامات",
+      "load_notice": "إذا لم يتم تحميل الصورة ، فانقر على العنوان.",
+      "rule34_notice": "إذا لم يعجبك المحتوى الموجود في هذا الأمر ، فيمكنك استخدام ~>yandere",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
@@ -1231,20 +1231,20 @@
       "not_specified": "%1$sYou didn't specify the pet name.",
       "not_found": "%1$sI didn't find a pet with the provided name.",
       "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
-      "overview": "Pet Overview and Statistics",
-      "name": "Name",
-      "tier": "Tier",
-      "element": "Element",
-      "owner": "Owner",
-      "created": "Created At",
-      "affection": "Affection",
-      "stamina": "Current Stamina",
-      "hp": "Current HP",
-      "fly": "Fly",
-      "venom": "Venom",
-      "inventory": "Inventory",
-      "id": "Pet ID: %1$s",
-      "hunger": "Hunger",
+      "overview": "النظرة العامة واحصائيات ال pet",
+      "name": "إسم",
+      "tier": "مستوى",
+      "element": "عنصر",
+      "owner": "مالك",
+      "created": "أنشئت في",
+      "affection": "مودة",
+      "stamina": "قدرة التحمل الحالية",
+      "hp": "HP الحالي ",
+      "fly": "طيران",
+      "venom": "سم",
+      "inventory": "مخزون",
+      "id": "هوية ال pet : %1$s",
+      "hunger": "الجوع",
       "hydration": "Hydration"
     },
     "petactions": {
@@ -1266,7 +1266,7 @@
       },
       "ls": {
         "experience": "XP",
-        "age": "Age",
+        "age": "العمر",
         "no_pets": "%1$sYou have no pets.",
         "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
         "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
@@ -1280,8 +1280,8 @@
       },
       "feed": {
         "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
-        "no_item": "%1$sI can't find that item.",
-        "not_food": "%1$sThe specified item is not food.",
+        "no_item": "%1$s لا استطيع ايجاد الغرض.",
+        "not_food": "%1$sالعنصر المحدد ليس طعامًا.",
         "full": "%1$sYour pet is currently full and can't eat more.",
         "success": "%1$sSuccessfully fed your pet %2$s. (Current hunger level: %3$s. Saturation: %4$s)"
       },
@@ -1306,7 +1306,7 @@
     },
     "stats": {
       "header": "Mantaro Statistics",
-      "description": "Well... I did my math!",
+      "description": "حسنًا... لقد قمت بحساباتي!",
       "usage": {
         "header": "Mantaro's usage information",
         "description": "Hardware and usage information.",
@@ -1355,7 +1355,7 @@
       "mutual_guilds": "Mutual Guilds",
       "vc": "Voice Channel",
       "color": "Color",
-      "status": "Status",
+      "status": "الحالة",
       "nothing": "Nothing",
       "default": "Default"
     },
@@ -1364,7 +1364,7 @@
       "id": "Role ID",
       "created": "Role Created",
       "age": "Role Age",
-      "color": "Color",
+      "color": "اللون",
       "members": "Members",
       "position": "Position",
       "hoisted": "Hoisted",
@@ -1384,7 +1384,7 @@
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
-      "commands": "Commands",
+      "commands": "أوامر",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
         "not_found": "%1$sA command with this name doesn't exist"
@@ -1424,35 +1424,35 @@
       "favorite_count": "Favorite Count",
       "end_date": "End Date",
       "average_score": "Average Score",
-      "type": "Type",
-      "episodes": "Episodes",
-      "episode_duration": "Episode Duration",
-      "genres": "Genres",
-      "minutes": "minutes",
-      "description": "Description"
+      "type": "النوع",
+      "episodes": "الحلقات",
+      "episode_duration": "مدة الحلقة",
+      "genres": "التصنيف",
+      "minutes": "دقائق",
+      "description": "الوصف"
     },
     "character": {
-      "no_args": "%1$sYou need to tell me what character you want to look for.",
+      "no_args": "%1$sعليك أن تخبرني ما الشخصية التي تريد البحث عنها.",
       "selection_start": "Type the number of the character you want to select.",
       "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (internal error)",
-      "information_header": "Character information for %1$s",
-      "information": "Information",
-      "no_aliases": "No aliases",
-      "alias_start": "Also known as:",
-      "no_info": "No info."
+      "information_header": "معلومات الشخصية لـ%1$s",
+      "information": "المعلومات",
+      "no_aliases": "لا توجد أسماء مستعارة",
+      "alias_start": "يُعرف أيضًا باسم:",
+      "no_info": "لاتوجد معلومات."
     },
     "balance": {
-      "bot_notice": "%1$sBots cannot have money.",
-      "external_balance": "%1$s's balance is **$%2$,d credits.**",
-      "own_balance": "Your balance is **$%1$,d credits.**"
+      "bot_notice": "%1$sلا يمكن أن تمتلك البوتات المال.",
+      "external_balance": "رصيد %1$s هو **%2.**",
+      "own_balance": "رصيد حسابك هو **%1.**"
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
+      "about_now": "تقريبا الآن",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now.",
+        "own_locked": "لايمكنك ان تستلم مكافئتك اليومية الآن.",
         "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
@@ -1473,7 +1473,7 @@
       "credits": "%1$sYou got **$%2$,d** daily credits.",
       "sellout": {
         "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
-        "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+        "already_premium": "شكرا لدعمك مانتارو. بدون مساعدة من أشخاص مثلك لم نتمكن من إبقاء مانتارو على قيد الحياة :heart:"
       },
       "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
       "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
