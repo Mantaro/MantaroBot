@@ -962,7 +962,7 @@
       "no_guild_month_birthdays": "%1$sIl n'y a pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens juste de programmer l'annonceur d'anniversaires, attends un peu avant de refaire cette commande. (Le cache est rafraichi toutes les 23 heures)",
       "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
-      "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.",
       "full_header": "**Anniversaires du serveur %1$s**\n%2$s",
       "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm` (14-02 par exemple)",
       "error_date": "%1$s%2$s n'est soit pas au bon format soit je ne peux pas la séparer correctement. Réessaie avec le bon format s'il te plait.\nPour rappel, le bon format est: `jj-mm` (14-02 par exemple)",
