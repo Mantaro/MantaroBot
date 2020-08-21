@@ -962,7 +962,7 @@
       "no_guild_month_birthdays": "%1$sلا توجد أعياد ميلاد لهذا الشهر (%2$s) هنا :(\n%3$sإذا قمت بإعداد مذيع عيد ميلاد فقط، يرجى الانتظار قليلا حتى استخدام هذا الأمر مرة أخرى. (ذاكرة التخزين المؤقت تحديث كل 23h)",
       "cache_not_running": "%1$sيبدو أن ميلاد ساشير لايمكن إستخدامه (خطأ داخلي) :(.",
       "error": "%1$sحصل شئ خطأ ما بينما كنت تحاول الحصول على عيدميلاد (خطأ داخلي) :(.",
-      "header": "**ميلاد %1$s ل %2$s** ",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.",
       "full_header": "**أعياد ميلاد %1$s**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
