@@ -962,7 +962,7 @@
       "no_guild_month_birthdays": "%1$sВ этом месяце нет дней рождения (%2$s):(\n%3$sЕсли вы настроили оповещения о днях рождения, подождите пока оно не запустится снова. (Кэш обновляется каждые 23 часа)",
       "cache_not_running": "%1$sКажется Кэш дней рождения не работает (внутренняя ошибка) :(",
       "error": "%1$sПри получении дат дней рождения что-то пошло не так (внутренняя ошибка) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
