@@ -964,7 +964,7 @@
       "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**%1$ss Geburtstage**\n%2$s",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
+      "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-MM` (Tag-Monat)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
@@ -1135,7 +1135,7 @@
         "category": "Kategorie"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
+        "start": "%1$sRate die Nummer! **Sie haben 5 Versuche und 1 Minute. Die Zahl liegt zwischen 0 und 150**",
         "nan": "%1$sDas ist nicht einmal eine Nummer...",
         "ended_game": "%1$sBeendetes Spiel. Die Nummer war: %2$d",
         "all_attempts_used": "%1$sBereits alle Versuche genutzt, Spiel beendet. Die Nummer war: %2$d",
@@ -1174,7 +1174,7 @@
       "not_crate": "%1$sDas ist keine gültige Truhe."
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
+      "check": "%1$s`Du kannst deine täglichen Kiste in **%2$s** abholen.",
       "key": "%1$sDu brauchst einen Truhenschlüssel, um das zu benutzen! Bitte kaufe einen und versuch es erneut!",
       "not_premium": "%1$sDu hast kein Premium!\nDu kannst eine täglich Premium-Truhe öffnen, wenn du Premium hast, sie hat eine hohe Chance für gute Items! Für mehr schaue bitte hier: <https://patreon.com/mantaro>.\nDies kann alle 24 Stunden genutzt werden.",
       "success": "%1$sDu hast eine **%2$s** erhalten! Komme in 24 Stunden zurück, um eine weitere zu erhalten! Du kannst sie mit `~>opencrate <crate name>` öffnen. Du musst einen Truhenschlüssel kaufen, um sie zu öffnen."
@@ -1206,7 +1206,7 @@
       "too_many_tags": "%1$sDu hast zu viele Tags für das aktuelle Imageboard! Imageboard %2$s akzeptiert höchstens %3$d Tags.",
       "invalid_rating": "%1$sSie haben eine ungültige Bewertung angegeben (Verfügbare Arten: questionable (fraglich), explicit (explizit), safe (sicher))!",
       "nsfw_no_nsfw": "%1$sEs kann kein NSFW-Bild in einem Nicht-Nsfw-Kanal gesendet werden :(",
-      "no_images": "%1$sThere are no images matching your search criteria. This could happen because the image service returned nothing, nothing useful, or you looked up prohibited tags.",
+      "no_images": "%1$sEs gibt keine Bilder, die zu deiner Suchanfrage passen. Dies kann passieren, da der Bilderservice nichts bzw. nichts nützliches bereitgestellt hat, oder da du verbotene Tags verwendet hast.",
       "no_results": "%1$s**Es wurden keine weiteren Bilder oder keine Ergebnisse gefunden**! PBitte versuch es mit einer niedrigeren Nummer oder einer anderen Suche.",
       "error": "%1$sBeim Suchen nach einem Bild ist ein Fehler aufgetreten...",
       "wrong_argument": "%1$sFalscher Argumenttyp. Überprüfe ~>help %2$s",
