@@ -92,7 +92,7 @@ public class ProfileCmd {
 
 
                         var finalContent = content;
-                        ctx.findMember(content).onSuccess(members -> {
+                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                             User userLooked = ctx.getAuthor();
                             Member memberLooked = ctx.getMember();
 
@@ -489,7 +489,7 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                ctx.findMember(content).onSuccess(members -> {
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;

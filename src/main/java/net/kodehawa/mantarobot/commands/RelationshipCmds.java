@@ -758,7 +758,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                ctx.findMember(content).onSuccess(members -> {
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
@@ -929,7 +929,7 @@ public class RelationshipCmds {
                 var lookup = isId ? "" : content;
                 // Lambdas strike again.
                 var finalContent = content;
-                ctx.findMember(lookup).onSuccess(members -> {
+                ctx.findMember(lookup, ctx.getMessage()).onSuccess(members -> {
                     // This is hacky again, but search *will* fail if we pass a empty list to this method.
                     Member member = isId ? null : CustomFinderUtil.findMember(lookup, members, ctx);
                     if(member == null && !isId) {

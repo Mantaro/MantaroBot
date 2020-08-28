@@ -308,7 +308,7 @@ public class ModerationCmds {
                 final String finalReason = String.format("Kicked by %#s: %s", ctx.getAuthor(), reason);
                 String memberRaw = args[0];
 
-                ctx.findMember(memberRaw).onSuccess(members -> {
+                ctx.findMember(memberRaw, ctx.getMessage()).onSuccess(members -> {
                     Member member = CustomFinderUtil.findMember(memberRaw, members, ctx);
                     if (member == null)
                         return;

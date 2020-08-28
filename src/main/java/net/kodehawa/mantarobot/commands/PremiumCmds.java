@@ -265,7 +265,7 @@ public class PremiumCmds {
 
                         I18nContext languageContext = ctx.getLanguageContext();
 
-                        ctx.findMember(content).onSuccess(members -> {
+                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                             Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                             if(member == null)
                                 return;

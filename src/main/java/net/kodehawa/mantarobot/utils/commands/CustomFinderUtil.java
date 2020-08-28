@@ -38,17 +38,19 @@ public class CustomFinderUtil {
      */
     public static Member findMember(String query, List<Member> result, Context ctx) {
         // Mention
+        // On mention, due to the handler before this we're only gonna get ONE result, as the handler makes sure we do get it properly.
+        // If there's no result, well, heck.
         Matcher userMention = USER_MENTION.matcher(query);
-        if (userMention.matches()) {
-            return ctx.getGuild().retrieveMemberById(userMention.replaceAll("$1"), false).complete();
+        if (userMention.matches() && ctx.getMentionedMembers().size() > 0) {
+            return result.get(0);
         }
 
-        // Id
+        // User ID
         if (DISCORD_ID.matcher(query).matches()) {
             return ctx.getGuild().retrieveMemberById(query, false).complete();
         }
 
-        // User#Dis
+        // user#discriminator
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
         if (fullRefMatch.matches()) {
             // We handle name elsewhere.
@@ -138,19 +140,13 @@ public class CustomFinderUtil {
      * @param guild The guild where we want to look for the Member on.
      * @return A list of Members we found.
      */
-    public static List<Member> findMembersSync(String query, Guild guild) {
-        // Mention
-        Matcher userMention = USER_MENTION.matcher(query);
-        if (userMention.matches()) {
-            return Collections.singletonList(guild.retrieveMemberById(userMention.replaceAll("$1"), false).complete());
-        }
-
-        // Id
+    public static List<Member> findMembersSync(String query, Message message, Guild guild) {
+        // User ID
         if (DISCORD_ID.matcher(query).matches()) {
             return Collections.singletonList(guild.retrieveMemberById(query, false).complete());
         }
 
-        // User#Dis
+        // username#discriminator (Test#0001)
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
         if (fullRefMatch.matches()) {
             String name = fullRefMatch.replaceAll("$1");
@@ -167,7 +163,7 @@ public class CustomFinderUtil {
             }
         }
 
-        List<Member> members = retrieveMembersByPrefix(guild, query).get();
+        List<Member> members = retrieveMembersByPrefix(guild, message, query).get();
 
         ArrayList<Member> exact = new ArrayList<>();
         ArrayList<Member> wrongcase = new ArrayList<>();
@@ -199,21 +195,42 @@ public class CustomFinderUtil {
     }
 
     // This whole thing is hacky as FUCK
-    public static Task<List<Member>> retrieveMembersByPrefix(Guild guild, String query) {
+    public static Task<List<Member>> retrieveMembersByPrefix(Guild guild, Message message, Context context, String query) {
         if(query.trim().isEmpty()) {
             // This is next-level hacky, LMAO.
             // Basically we handle giving an empty value to this, and just return an empty list in that case.
+            return emptyMemberTask();
+        }
+
+        // Handle user mentions.
+        Matcher userMention = USER_MENTION.matcher(query);
+
+        if(userMention.matches() && message.getMentionedMembers().size() > 0) {
+            if(message.getMentionedMembers().size() > 1) {
+                context.sendLocalized("general.too_many_mentions", EmoteReference.ERROR);
+                return emptyMemberTask();
+            }
+
+            // This is next-level hacky, part 2.
+            // If we get a user mention we actually DO get a "fake" member and can use it.
             CompletableFuture<List<Member>> result = new CompletableFuture<>();
-            result.complete(Collections.emptyList());
+            result.complete(Collections.singletonList(message.getMentionedMembers().get(0)));
             return new GatewayTask<>(result, () -> {});
         }
 
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
+
         if (fullRefMatch.matches()) {
             String name = fullRefMatch.replaceAll("$1");
             return guild.retrieveMembersByPrefix(name, 10);
         } else {
             return guild.retrieveMembersByPrefix(query, 10);
         }
+    }
+
+    private static Task<List<Member>> emptyMemberTask() {
+        CompletableFuture<List<Member>> result = new CompletableFuture<>();
+        result.complete(Collections.emptyList());
+        return new GatewayTask<>(result, () -> {});
     }
 }

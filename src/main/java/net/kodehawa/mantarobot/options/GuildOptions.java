@@ -93,7 +93,7 @@ public class GuildOptions extends OptionHandler {
             String query = String.join(" ", args);
             // TODO: HACKY, VERY HACKY. FIX WHEN CONTEXT COMES TO OPTS
             Context ctx = new Context(event, lang, query);
-            ctx.findMember(query).onSuccess(members -> {
+            ctx.findMember(query, ctx.getMessage()).onSuccess(members -> {
                 Member m = CustomFinderUtil.findMemberDefault(query, members, ctx, ctx.getMember());
                 if (m == null)
                     return;
@@ -1242,7 +1242,7 @@ public class GuildOptions extends OptionHandler {
             String content = String.join(" ", args);
             // TODO: HACKY, VERY HACKY. FIX WHEN CONTEXT COMES TO OPTS
             Context ctx = new Context(event, lang, content);
-            ctx.findMember(content).onSuccess(members -> {
+            ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if(member == null)
                     return;
@@ -1264,7 +1264,7 @@ public class GuildOptions extends OptionHandler {
             String content = String.join(" ", args);
             // TODO: HACKY, VERY HACKY. FIX WHEN CONTEXT COMES TO OPTS
             Context ctx = new Context(event, lang, content);
-            ctx.findMember(content).onSuccess(members -> {
+            ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if(member == null)
                     return;

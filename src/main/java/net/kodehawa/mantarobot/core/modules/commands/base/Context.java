@@ -236,8 +236,8 @@ public class Context {
                 .queue();
     }
 
-    public Task<List<Member>> findMember(String query) {
-        return CustomFinderUtil.retrieveMembersByPrefix(getGuild(), query);
+    public Task<List<Member>> findMember(String query, Message message) {
+        return CustomFinderUtil.retrieveMembersByPrefix(getGuild(), message,this, query);
     }
 
     public JedisPool getJedisPool() {

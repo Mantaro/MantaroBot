@@ -56,7 +56,8 @@
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
+      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it.",
+      "too_many_mentions": "%1$sPlease only mention one person on member lookup."
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
