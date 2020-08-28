@@ -41,7 +41,7 @@ public class MuteTask {
             log.debug("Checking mutes... data size {}", mutes.size());
             for (Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet()) {
                 try {
-                    log.trace("Iteration");
+                    log.trace("Iteration: Mute check");
                     Long id = entry.getKey();
                     Pair<String, Long> pair = entry.getValue();
                     String guildId = pair.getLeft();
@@ -55,9 +55,9 @@ public class MuteTask {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();
-                    final Member memberById = guild.retrieveMemberById(id).complete();
+                    final Member member = guild.retrieveMemberById(id).complete();
 
-                    if (memberById == null) {
+                    if (member == null) {
                         data.getMutes().remove(id);
                         data.saveAsync();
                         log.debug("Removed {} because member == null", id);
@@ -81,12 +81,12 @@ public class MuteTask {
                             Role roleById = guild.getRoleById(guildData.getMutedRole());
 
                             if (roleById != null)
-                                guild.removeRoleFromMember(memberById, roleById).queue();
+                                guild.removeRoleFromMember(member, roleById).queue();
 
                             guildData.setCases(guildData.getCases() + 1);
                             dbGuild.saveAsync();
                             ModLog.log(guild.getSelfMember(),
-                                    memberById.getUser(),
+                                    member.getUser(),
                                     "Mute timeout expired", "none",
                                     ModLog.ModAction.UNMUTE,
                                     guildData.getCases()

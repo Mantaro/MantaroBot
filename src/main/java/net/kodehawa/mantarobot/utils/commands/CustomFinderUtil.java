@@ -37,6 +37,13 @@ public class CustomFinderUtil {
      * @return The member found. Returns null if nothing was found.
      */
     public static Member findMember(String query, List<Member> result, Context ctx) {
+        // This is technically a safeguard, shouldn't be needed, but since we handle no results by giving this an empty list, it should be done.
+        // If you want to handle it differently, there's findMemberDefault to return a default member.
+        if(result.isEmpty()) {
+            ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
+            return null;
+        }
+
         // Mention
         // On mention, due to the handler before this we're only gonna get ONE result, as the handler makes sure we do get it properly.
         // If there's no result, well, heck.
@@ -65,13 +72,6 @@ public class CustomFinderUtil {
                     return member;
             }
 
-            ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
-            return null;
-        }
-
-        // This is technically a safeguard, shouldn't be needed, but since we handle no results by giving this an empty list, it should be done.
-        // If you want to handle it differently, there's findMemberDefault to return a default member.
-        if(result.isEmpty()) {
             ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
             return null;
         }
