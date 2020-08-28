@@ -76,36 +76,7 @@ public class CustomFinderUtil {
             return null;
         }
 
-        ArrayList<Member> exact = new ArrayList<>();
-        ArrayList<Member> wrongcase = new ArrayList<>();
-        ArrayList<Member> startswith = new ArrayList<>();
-        ArrayList<Member> contains = new ArrayList<>();
-        String lowerquery = query.toLowerCase();
-
-        result.forEach(member -> {
-            String name = member.getUser().getName();
-            String effName = member.getEffectiveName();
-            if(name.equals(query) || effName.equals(query))
-                exact.add(member);
-            else if((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty())
-                wrongcase.add(member);
-            else if((name.toLowerCase().startsWith(lowerquery) || effName.toLowerCase().startsWith(lowerquery)) && wrongcase.isEmpty())
-                startswith.add(member);
-            else if((name.toLowerCase().contains(lowerquery) || effName.toLowerCase().contains(lowerquery)) && startswith.isEmpty())
-                contains.add(member);
-        });
-
-        List<Member> found;
-
-        // Slowly becoming insane.png
-        if(!exact.isEmpty())
-            found = Collections.unmodifiableList(exact);
-        else if(!wrongcase.isEmpty())
-            found = Collections.unmodifiableList(wrongcase);
-        else if(!startswith.isEmpty())
-            found = Collections.unmodifiableList(startswith);
-        else
-            found = Collections.unmodifiableList(contains);
+        List<Member> found = filterMemberResults(result, query);
 
         if (found.isEmpty()) {
             ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
@@ -125,6 +96,41 @@ public class CustomFinderUtil {
         return found.get(0);
     }
 
+    private static List<Member> filterMemberResults(List<Member> result, String query) {
+        ArrayList<Member> exact = new ArrayList<>();
+        ArrayList<Member> wrongCase = new ArrayList<>();
+        ArrayList<Member> startsWith = new ArrayList<>();
+        ArrayList<Member> contains = new ArrayList<>();
+        String lowerQuery = query.toLowerCase();
+
+        result.forEach(member -> {
+            String name = member.getUser().getName();
+            String effName = member.getEffectiveName();
+            if(name.equals(query) || effName.equals(query))
+                exact.add(member);
+            else if((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty())
+                wrongCase.add(member);
+            else if((name.toLowerCase().startsWith(lowerQuery) || effName.toLowerCase().startsWith(lowerQuery)) && wrongCase.isEmpty())
+                startsWith.add(member);
+            else if((name.toLowerCase().contains(lowerQuery) || effName.toLowerCase().contains(lowerQuery)) && startsWith.isEmpty())
+                contains.add(member);
+        });
+
+        List<Member> found;
+
+        // Slowly becoming insane.png
+        if(!exact.isEmpty())
+            found = Collections.unmodifiableList(exact);
+        else if(!wrongCase.isEmpty())
+            found = Collections.unmodifiableList(wrongCase);
+        else if(!startsWith.isEmpty())
+            found = Collections.unmodifiableList(startsWith);
+        else
+            found = Collections.unmodifiableList(contains);
+
+        return found;
+    }
+
     public static Member findMemberDefault(String query, List<Member> result, Context ctx, Member member) {
         if(query.isEmpty()) {
             return member;
@@ -141,6 +147,12 @@ public class CustomFinderUtil {
      * @return A list of Members we found.
      */
     public static List<Member> findMembersSync(String query, Context ctx, Message message, Guild guild) {
+        // Handle user mentions.
+        Matcher userMention = USER_MENTION.matcher(query);
+        if(userMention.matches() && message.getMentionedMembers().size() > 0) {
+            return Collections.singletonList(message.getMentionedMembers().get(0));
+        }
+
         // User ID
         if (DISCORD_ID.matcher(query).matches()) {
             return Collections.singletonList(guild.retrieveMemberById(query, false).complete());
@@ -164,34 +176,7 @@ public class CustomFinderUtil {
         }
 
         List<Member> members = retrieveMembersByPrefix(guild, message, ctx, query).get();
-
-        ArrayList<Member> exact = new ArrayList<>();
-        ArrayList<Member> wrongcase = new ArrayList<>();
-        ArrayList<Member> startswith = new ArrayList<>();
-        ArrayList<Member> contains = new ArrayList<>();
-        String lowerquery = query.toLowerCase();
-
-        members.forEach(member -> {
-            String name = member.getUser().getName();
-            String effName = member.getEffectiveName();
-            if(name.equals(query) || effName.equals(query))
-                exact.add(member);
-            else if((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty())
-                wrongcase.add(member);
-            else if((name.toLowerCase().startsWith(lowerquery) || effName.toLowerCase().startsWith(lowerquery)) && wrongcase.isEmpty())
-                startswith.add(member);
-            else if((name.toLowerCase().contains(lowerquery) || effName.toLowerCase().contains(lowerquery)) && startswith.isEmpty())
-                contains.add(member);
-        });
-
-        if(!exact.isEmpty())
-            return Collections.unmodifiableList(exact);
-        if(!wrongcase.isEmpty())
-            return Collections.unmodifiableList(wrongcase);
-        if(!startswith.isEmpty())
-            return Collections.unmodifiableList(startswith);
-
-        return Collections.unmodifiableList(contains);
+        return filterMemberResults(members, query);
     }
 
     // This whole thing is hacky as FUCK
