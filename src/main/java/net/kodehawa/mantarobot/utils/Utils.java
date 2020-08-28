@@ -210,8 +210,8 @@ public class Utils {
     }
 
     // Hopefully we never need this.
-    public static Member findMemberSync(GuildMessageReceivedEvent event, Message message, String content) {
-        List<Member> found = CustomFinderUtil.findMembersSync(content, message, event.getGuild());
+    public static Member findMemberSync(GuildMessageReceivedEvent event, Context ctx, Message message, String content) {
+        List<Member> found = CustomFinderUtil.findMembersSync(content, ctx, message, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any member with that name :(").queue();
             return null;
@@ -229,11 +229,11 @@ public class Utils {
     }
 
     // Hopefully we never need this, electric boogaloo.
-    public static Member findMemberSyncDefault(GuildMessageReceivedEvent event, Message message, String content, Member member) {
+    public static Member findMemberSyncDefault(GuildMessageReceivedEvent event, Context ctx, Message message, String content, Member member) {
         if(content.isEmpty()) {
             return member;
         } else {
-            return findMemberSync(event, message, content);
+            return findMemberSync(event, ctx, message, content);
         }
     }
 

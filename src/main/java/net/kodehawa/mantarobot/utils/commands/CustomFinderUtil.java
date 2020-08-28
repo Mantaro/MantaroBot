@@ -140,7 +140,7 @@ public class CustomFinderUtil {
      * @param guild The guild where we want to look for the Member on.
      * @return A list of Members we found.
      */
-    public static List<Member> findMembersSync(String query, Message message, Guild guild) {
+    public static List<Member> findMembersSync(String query, Context ctx, Message message, Guild guild) {
         // User ID
         if (DISCORD_ID.matcher(query).matches()) {
             return Collections.singletonList(guild.retrieveMemberById(query, false).complete());
@@ -163,7 +163,7 @@ public class CustomFinderUtil {
             }
         }
 
-        List<Member> members = retrieveMembersByPrefix(guild, message, query).get();
+        List<Member> members = retrieveMembersByPrefix(guild, message, ctx, query).get();
 
         ArrayList<Member> exact = new ArrayList<>();
         ArrayList<Member> wrongcase = new ArrayList<>();
