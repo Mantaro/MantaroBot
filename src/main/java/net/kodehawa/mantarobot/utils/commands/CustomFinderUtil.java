@@ -198,9 +198,7 @@ public class CustomFinderUtil {
         }
 
         // Handle user mentions.
-        Matcher userMention = USER_MENTION.matcher(query);
-
-        if(userMention.matches() && message.getMentionedMembers().size() > 0) {
+        if(USER_MENTION.matcher(query).matches() && message.getMentionedMembers().size() > 0) {
             if(message.getMentionedMembers().size() > 1) {
                 context.sendLocalized("general.too_many_mentions", EmoteReference.ERROR);
                 return emptyMemberTask();
@@ -217,10 +215,10 @@ public class CustomFinderUtil {
         if (DISCORD_ID.matcher(query).matches()) {
             // If we get a user ID we can actually look it up *once* instead of sending two requests to discord.
             // Using getMemberByPrefix with an ID will actually cause it to do two API requests, reduce this to just one.
-            CompletableFuture<List<Member>> result = new CompletableFuture<>();
             // The member can actually be cached and TTL'd by JDA when the member leaves (having GUILD_MEMBERS intent),
             // so this result could and probably will be from the cache,
             // or the lookup will only happen once, which is very cheap and good.
+            CompletableFuture<List<Member>> result = new CompletableFuture<>();
             result.complete(Collections.singletonList(context.getGuild().retrieveMemberById(query, false).complete()));
             return new GatewayTask<>(result, () -> {});
         }
@@ -237,7 +235,6 @@ public class CustomFinderUtil {
 
         // username#discriminator regex matcher.
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
-
         if (fullRefMatch.matches()) {
             // Retrieve just the name, as there will be no result with discriminator, we need to filter that later.
             String name = fullRefMatch.replaceAll("$1");
