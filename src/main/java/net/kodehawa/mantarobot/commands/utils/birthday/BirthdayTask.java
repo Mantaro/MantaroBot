@@ -103,7 +103,7 @@ public class BirthdayTask {
 
                         for (Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
                             // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
-                            Member member = guild.retrieveMemberById(data.getKey()).complete();
+                            Member member = guild.retrieveMemberById(data.getKey(), false).complete();
                             String birthday = data.getValue().birthday;
 
                             //shut up warnings

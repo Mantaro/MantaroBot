@@ -44,11 +44,9 @@ public class ReminderTask {
             for (String rem : reminders) {
                 try {
                     JSONObject data = new JSONObject(rem);
-
                     long fireAt = data.getLong("at");
-                    //If the time has passed...
-                    //System.out.println("time: " + System.currentTimeMillis() + ", expected: " + fireAt);
 
+                    //If the time has passed...
                     if (System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
                         String userId = data.getString("user");

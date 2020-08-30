@@ -19,10 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.ISnowflake;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
@@ -502,13 +499,13 @@ public class CustomCmds {
 
                 CustomCommand command = ctx.db().getCustomCommand(ctx.getGuild(), content);
                 String owner = command.getData().getOwner();
-                User user = owner.isEmpty() ? null : ctx.getShardManager().retrieveUserById(owner).complete();
+                Member member = owner.isEmpty() ? null : ctx.getGuild().retrieveMemberById(owner, false).complete();
                 
                 ctx.send(new EmbedBuilder()
                         .setAuthor("Custom Command Information for " + content, null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(
-                                EmoteReference.BLUE_SMALL_MARKER + "**Owner:** " + (user == null ? "Nobody" : user.getName() + "#" + user.getDiscriminator()) + "\n" +
-                                        EmoteReference.BLUE_SMALL_MARKER + "**Owner ID:** " + (user == null ? "None" : user.getId()) + "\n" +
+                                EmoteReference.BLUE_SMALL_MARKER + "**Owner:** " + (member == null ? "Nobody" : member.getUser().getAsTag()) + "\n" +
+                                        EmoteReference.BLUE_SMALL_MARKER + "**Owner ID:** " + (member == null ? "None" : member.getId()) + "\n" +
                                         EmoteReference.BLUE_SMALL_MARKER + "**NSFW:** " + command.getData().isNsfw() + "\n" +
                                         EmoteReference.BLUE_SMALL_MARKER + "**Responses:** " + command.getValues().size() + "\n"
                         )

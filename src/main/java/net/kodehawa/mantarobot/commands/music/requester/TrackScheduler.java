@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
@@ -107,7 +108,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             return;
         }
 
-        if (MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
+        Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+        DBGuild dbGuild = MantaroData.db().getGuild(guildId);
+
+        if (dbGuild.getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
 
             //What kind of massive meme is this? part 2
@@ -139,10 +143,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 String title = information.title;
                 long trackLength = information.length;
 
-                User user = null;
-                if (getCurrentTrack().getUserData() != null) {
-                    user = MantaroBot.getInstance().getShardManager()
-                            .retrieveUserById(String.valueOf(getCurrentTrack().getUserData())).complete();
+                Member user = null;
+                if (getCurrentTrack().getUserData() != null && guild != null) {
+                    // Retrieve member instead of user, so it gets cached.
+                    user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false).complete();
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.
@@ -152,7 +156,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                     "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength),
                                     voiceChannel.getName(), user != null ?
                                             String.format(language.get("general.requested_by"),
-                                                    String.format("**%s#%s**", user.getName(), user.getDiscriminator()))
+                                                    String.format("**%s#%s**", user.getUser().getAsTag()))
                                             : ""))
                                     .build()
                     ).queue(message -> {

@@ -95,8 +95,7 @@ public class LeaderboardCmd {
                                                 "The old money leaderboard is avaliable on `~>leaderboard money`")
                                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                                         .addField("Gamble", lb1.stream()
-                                                .map(map -> Pair.of(MantaroBot.getInstance().getShardManager().
-                                                        retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
+                                                .map(map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
                                                         map.get("gambleWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
@@ -104,8 +103,7 @@ public class LeaderboardCmd {
                                                         Long.parseLong(p.getValue()))
                                                 ).collect(Collectors.joining("\n")), true)
                                         .addField("Slots", lb2.stream()
-                                                .map(map -> Pair.of(MantaroBot.getInstance().getShardManager()
-                                                        .retrieveUserById(map.get("id").toString().split(":")[0]).complete(),
+                                                .map(map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
                                                         map.get("slotsWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",

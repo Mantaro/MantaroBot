@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.interaction.polls;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -111,15 +112,16 @@ public class Poll extends Lobby {
                 toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
             }
 
-            User author = MantaroBot.getInstance().getShardManager().retrieveUserById(owner).complete();
+            Member author = getGuild().retrieveMemberById(owner, false).complete();
+            User user = author.getUser();
 
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
-                    data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
+                    data.getRanPolls(), user.getName()), null, user.getAvatarUrl())
                     .setDescription(String.format(languageContext.get("commands.poll.success"), name))
                     .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
                     .setColor(Color.CYAN)
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), author.getAvatarUrl());
+                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), user.getAvatarUrl());
 
 
             if (image != null && EmbedBuilder.URL_PATTERN.asPredicate().test(image))
@@ -175,10 +177,12 @@ public class Poll extends Lobby {
                 if (getChannel() == null)
                     return;
 
+                Member author = getGuild().retrieveMemberById(owner, false).complete();
+                User user = author.getUser();
+
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setTitle(languageContext.get("commands.poll.result_header"))
-                        .setDescription(String.format(languageContext.get("commands.poll.result_screen"),
-                                MantaroBot.getInstance().getShardManager().retrieveUserById(owner).complete().getName(), name))
+                        .setDescription(String.format(languageContext.get("commands.poll.result_screen"), user.getName(), name))
                         .setFooter(languageContext.get("commands.poll.thank_note"), null);
 
                 AtomicInteger react = new AtomicInteger(0);

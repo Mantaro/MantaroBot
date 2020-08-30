@@ -55,7 +55,7 @@ public class MuteTask {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();
-                    final Member member = guild.retrieveMemberById(id).complete();
+                    final Member member = guild.retrieveMemberById(id, false).complete();
 
                     if (member == null) {
                         data.getMutes().remove(id);

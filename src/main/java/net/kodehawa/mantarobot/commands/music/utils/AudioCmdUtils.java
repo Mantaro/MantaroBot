@@ -52,7 +52,7 @@ public class AudioCmdUtils {
 
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
-        final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue());
+        final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue(), musicManager);
         final Guild guild = event.getGuild();
         String nowPlaying = trackScheduler.getMusicPlayer().getPlayingTrack() != null ?
                 "**[" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().title
