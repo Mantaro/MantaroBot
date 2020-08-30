@@ -87,11 +87,18 @@ public class BirthdayTask {
                         if (birthdayRole.isManaged())
                             continue; //This was meant to be a bot role?
 
-                        Map<String, BirthdayCacher.BirthdayData> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
-                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        // Guild map is now created from allowed birthdays. This is a little hacky, but we don't really care.
+                        // The other solution would have been just disabling this completely, which would have been worse.
+                        Map<String, BirthdayCacher.BirthdayData> guildMap =
+                                cached.entrySet().stream().filter(map -> tempGuildData.getAllowedBirthdays().contains(map.getKey()))
+                                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+                        MessageBuilder birthdayAnnouncerText = new MessageBuilder();
+                        birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
 
                         for (Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
-                            Member member = guild.getMemberById(data.getKey());
+                            // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
+                            Member member = guild.retrieveMemberById(data.getKey()).complete();
                             String birthday = data.getValue().birthday;
 
                             //shut up warnings
@@ -130,7 +137,7 @@ public class BirthdayTask {
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason(modLogMessage)
                                                 .queue(s -> {
-                                                    channel.sendMessage(birthdayMessage).queue();
+                                                    birthdayAnnouncerText.append(birthdayMessage).append("\n");
                                                     Metrics.BIRTHDAY_COUNTER.inc();
                                                 });
 
@@ -157,6 +164,10 @@ public class BirthdayTask {
                                 }
                             }
                         }
+
+                        // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
+                        // This is to avoid spamming calls to Discord.
+                        birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
                     }
                 }
             }
