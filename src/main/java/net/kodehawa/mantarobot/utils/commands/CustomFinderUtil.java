@@ -185,12 +185,12 @@ public class CustomFinderUtil {
             }
         }
 
-        List<Member> members = retrieveMembersByPrefix(guild, message, ctx, query).get();
+        List<Member> members = lookupMember(guild, message, ctx, query).get();
         return filterMemberResults(members, query);
     }
 
     // This whole thing is hacky as FUCK
-    public static Task<List<Member>> retrieveMembersByPrefix(Guild guild, Message message, Context context, String query) {
+    public static Task<List<Member>> lookupMember(Guild guild, Message message, Context context, String query) {
         if(query.trim().isEmpty()) {
             // This is next-level hacky, LMAO.
             // Basically we handle giving an empty value to this, and just return an empty list in that case.
