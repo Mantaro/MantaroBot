@@ -753,6 +753,11 @@ public class MantaroListener implements EventListener {
             log.error("Failed to send leave message!", e);
         }
 
+        if(data.getAllowedBirthdays().contains(event.getUser().getId())) {
+            data.getAllowedBirthdays().remove(event.getUser().getId());
+            dbg.saveAsync();
+        }
+
         this.postStats(event.getJDA());
     }
 

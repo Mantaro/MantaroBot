@@ -862,8 +862,4 @@ public class GuildData {
     public List<String> getAllowedBirthdays() {
         return allowedBirthdays;
     }
-
-    public void addMemberToAllowedBirthdays(String id) {
-        allowedBirthdays.add(id);
-    }
 }
