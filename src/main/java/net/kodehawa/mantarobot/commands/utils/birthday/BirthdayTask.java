@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -30,7 +31,9 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -69,18 +72,19 @@ public class BirthdayTask {
 
             //For all current -cached- guilds.
             for (Guild guild : guilds) {
-                GuildData tempGuildData = MantaroData.db().getGuild(guild).getData();
+                DBGuild dbGuild = MantaroData.db().getGuild(guild);
+                GuildData guildData = dbGuild.getData();
                 //If we have a birthday guild and channel here, continue
-                if (tempGuildData.getBirthdayChannel() != null && tempGuildData.getBirthdayRole() != null) {
-                    Role birthdayRole = guild.getRoleById(tempGuildData.getBirthdayRole());
-                    TextChannel channel = guild.getTextChannelById(tempGuildData.getBirthdayChannel());
+                if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
+                    Role birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
+                    TextChannel channel = guild.getTextChannelById(guildData.getBirthdayChannel());
 
                     if (channel != null && birthdayRole != null) {
                         if (!guild.getSelfMember().canInteract(birthdayRole))
                             continue; //Go to next guild...
                         if (!channel.canTalk())
                             continue; //cannot talk here...
-                        if (tempGuildData.getGuildAutoRole() != null && birthdayRole.getId().equals(tempGuildData.getGuildAutoRole()))
+                        if (guildData.getGuildAutoRole() != null && birthdayRole.getId().equals(guildData.getGuildAutoRole()))
                             continue; //Birthday role is autorole role
                         if (birthdayRole.isPublicRole())
                             continue; //Birthday role is public role
@@ -90,11 +94,12 @@ public class BirthdayTask {
                         // Guild map is now created from allowed birthdays. This is a little hacky, but we don't really care.
                         // The other solution would have been just disabling this completely, which would have been worse.
                         Map<String, BirthdayCacher.BirthdayData> guildMap =
-                                cached.entrySet().stream().filter(map -> tempGuildData.getAllowedBirthdays().contains(map.getKey()))
+                                cached.entrySet().stream().filter(map -> guildData.getAllowedBirthdays().contains(map.getKey()))
                                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
                         MessageBuilder birthdayAnnouncerText = new MessageBuilder();
                         birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
+                        List<String> nullMembers = new ArrayList<>();
 
                         for (Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
                             // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
@@ -102,9 +107,11 @@ public class BirthdayTask {
                             String birthday = data.getValue().birthday;
 
                             //shut up warnings
-                            if (member == null)
+                            if (member == null) {
+                                nullMembers.add(data.getKey());
                                 continue;
-                            if(tempGuildData.getBirthdayBlockedIds().contains(member.getId()))
+                            }
+                            if(guildData.getBirthdayBlockedIds().contains(member.getId()))
                                 continue;
 
                             if (birthday == null) {
@@ -124,8 +131,8 @@ public class BirthdayTask {
                                 String tempBirthdayMessage = String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                         member.getEffectiveName());
 
-                                if (tempGuildData.getBirthdayMessage() != null) {
-                                    tempBirthdayMessage = tempGuildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName())
+                                if (guildData.getBirthdayMessage() != null) {
+                                    tempBirthdayMessage = guildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName())
                                             .replace("$(usermention)", member.getAsMention());
                                 }
 
@@ -168,6 +175,10 @@ public class BirthdayTask {
                         // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
                         // This is to avoid spamming calls to Discord.
                         birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
+                        if(!nullMembers.isEmpty()) {
+                            guildData.getAllowedBirthdays().removeAll(nullMembers);
+                            dbGuild.saveAsync();
+                        }
                     }
                 }
             }
