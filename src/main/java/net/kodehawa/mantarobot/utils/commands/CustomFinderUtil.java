@@ -45,7 +45,7 @@ public class CustomFinderUtil {
         }
 
         // Mention
-        // On mention, due to the handler before this we're only gonna get ONE result, as the handler makes sure we do get it properly.
+        // On mention, due to the handler implementation we're only gonna get ONE result, as the handler makes sure we do get it properly.
         // If there's no result, well, heck.
         Matcher userMention = USER_MENTION.matcher(query);
         if (userMention.matches() && ctx.getMentionedMembers().size() > 0) {
@@ -53,11 +53,16 @@ public class CustomFinderUtil {
         }
 
         // User ID
+        // On user id, due to the handler implementation we're only gonna get ONE result, so use it.
+        // This is to avoid multiple requests to discord.
         if (DISCORD_ID.matcher(query).matches()) {
-            return ctx.getGuild().retrieveMemberById(query, false).complete();
+            return result.get(0);
         }
 
-        // user#discriminator
+        // For user#discriminator searches and username searches we actually do need to send a request to get the members by
+        // prefix to discord, without any consideration to cache. This is a little expensive but should be fine.
+
+        // user#discriminator search
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
         if (fullRefMatch.matches()) {
             // We handle name elsewhere.
@@ -75,14 +80,18 @@ public class CustomFinderUtil {
             ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
             return null;
         }
+        // end of user#discriminator search
 
+        // Filter member results: usually we just want exact search, but partial matches are possible and allowed.
         List<Member> found = filterMemberResults(result, query);
 
+        // We didn't find anything *after* filtering.
         if (found.isEmpty()) {
             ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
             return null;
         }
 
+        // Too many results, display results and move on.
         if (found.size() > 1) {
             ctx.sendFormat("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
                     EmoteReference.THINKING,
@@ -93,6 +102,7 @@ public class CustomFinderUtil {
             return null;
         }
 
+        // Return the first object. In this case it would be the only one, and that is the search result.
         return found.get(0);
     }
 
@@ -196,20 +206,44 @@ public class CustomFinderUtil {
                 return emptyMemberTask();
             }
 
-            // This is next-level hacky, part 2.
             // If we get a user mention we actually DO get a "fake" member and can use it.
+            // This avoids sending a new request to discord completely.
             CompletableFuture<List<Member>> result = new CompletableFuture<>();
             result.complete(Collections.singletonList(message.getMentionedMembers().get(0)));
             return new GatewayTask<>(result, () -> {});
         }
 
+        // User ID
+        if (DISCORD_ID.matcher(query).matches()) {
+            // If we get a user ID we can actually look it up *once* instead of sending two requests to discord.
+            // Using getMemberByPrefix with an ID will actually cause it to do two API requests, reduce this to just one.
+            CompletableFuture<List<Member>> result = new CompletableFuture<>();
+            // The member can actually be cached and TTL'd by JDA when the member leaves (having GUILD_MEMBERS intent),
+            // so this result could and probably will be from the cache,
+            // or the lookup will only happen once, which is very cheap and good.
+            result.complete(Collections.singletonList(context.getGuild().retrieveMemberById(query, false).complete()));
+            return new GatewayTask<>(result, () -> {});
+        }
+
+        // Usually people like to mess with results by searching for stuff like "a" and "tu", stuff like that.
+        // This just makes sure we don't send a request to discord for useless searches.
+        if(query.length() < 4) {
+            context.sendLocalized("general.query_too_small", EmoteReference.ERROR);
+            return emptyMemberTask();
+        }
+
+        // The only two cases where we actually need to send retrieveMembersByPrefix to discord is when we get either a
+        // username search or a username#discriminator search. This isn't exactly cheap, but we can work with it, I guess.
+
+        // username#discriminator regex matcher.
         Matcher fullRefMatch = FULL_USER_REF.matcher(query);
 
         if (fullRefMatch.matches()) {
+            // Retrieve just the name, as there will be no result with discriminator, we need to filter that later.
             String name = fullRefMatch.replaceAll("$1");
-            return guild.retrieveMembersByPrefix(name, 10);
+            return guild.retrieveMembersByPrefix(name, 5);
         } else {
-            return guild.retrieveMembersByPrefix(query, 10);
+            return guild.retrieveMembersByPrefix(query, 5);
         }
     }
 
