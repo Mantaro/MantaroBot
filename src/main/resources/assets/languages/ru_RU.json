@@ -1405,7 +1405,7 @@
       "item_broke": "К несчастью, ваш ключ сломался в процессе, но вы всё равно получили результат!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
-        "header": "Repair-able Items List",
+        "header": "Лист предметов доступных для починки",
         "cost": "Стоимость ремонта: ",
         "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
       }
@@ -1469,7 +1469,7 @@
         },
         "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "given_credits": "%1$sЯ отдала %3$s ваш дневной бонус в размере **$%2$,2**",
       "credits": "%1$sВы получили **$%2$s** ежедневных кредитов.",
       "sellout": {
         "get_premium": "Нам нужна ваша помощь в поддержке жизни Мантаро! Посмотрите <https://patreon.com/mantaro> для подробностей.",
@@ -1533,7 +1533,7 @@
         "success": "Вы нашли %1$s **%2$s** во время раскопок, и взяли его с собой. Идите и откройте его командой `~>opencrate <название ящика>`. Вам нужен ключ ящика с добычей!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$sАвтоматически экипирована **%2$s** в слот для кирки."
       },
       "item_broke": "%1$sВаша %2$s сломалась при использовании её :( %3$s",
       "item_broke_autoequip": "*Подсказка: Вы можете использовать `~>profile autoequip` и мы автоматически будем экипировать предмет за вас, если же он у вас есть.*",
