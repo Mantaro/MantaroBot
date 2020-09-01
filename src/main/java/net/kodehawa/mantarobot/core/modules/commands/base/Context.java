@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -234,6 +235,33 @@ public class Context {
 
     public Task<List<Member>> findMember(String query, Message message) {
         return CustomFinderUtil.lookupMember(getGuild(), message,this, query);
+    }
+
+    public User retrieveUserById(String id) {
+        User user = null;
+        try {
+            user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
+        } catch (ErrorResponseException ignored) { }
+
+        return user;
+    }
+
+    public Member retrieveMemberById(Guild guild, String id, boolean update) {
+        Member member = null;
+        try {
+            member = guild.retrieveMemberById(id).complete();
+        } catch (ErrorResponseException ignored) { }
+
+        return member;
+    }
+
+    public Member retrieveMemberById(String id, boolean update) {
+        Member member = null;
+        try {
+            member = getGuild().retrieveMemberById(id, update).complete();
+        } catch (ErrorResponseException ignored) { }
+
+        return member;
     }
 
     public JedisPool getJedisPool() {

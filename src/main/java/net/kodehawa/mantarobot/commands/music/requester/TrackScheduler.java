@@ -26,6 +26,7 @@ import lavalink.client.player.LavalinkPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
@@ -146,7 +147,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 Member user = null;
                 if (getCurrentTrack().getUserData() != null && guild != null) {
                     // Retrieve member instead of user, so it gets cached.
-                    user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false).complete();
+                    try {
+                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false).complete();
+                    } catch (ErrorResponseException ignored) {}
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.
@@ -156,7 +159,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                     "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength),
                                     voiceChannel.getName(), user != null ?
                                             String.format(language.get("general.requested_by"),
-                                                    String.format("**%s#%s**", user.getUser().getAsTag()))
+                                                    String.format("**%s**", user.getUser().getAsTag()))
                                             : ""))
                                     .build()
                     ).queue(message -> {

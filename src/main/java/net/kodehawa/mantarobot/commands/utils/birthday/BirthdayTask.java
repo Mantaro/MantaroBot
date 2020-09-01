@@ -20,6 +20,7 @@ import io.sentry.Sentry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -103,7 +104,11 @@ public class BirthdayTask {
 
                         for (Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
                             // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
-                            Member member = guild.retrieveMemberById(data.getKey(), false).complete();
+                            Member member = null;
+                            try {
+                                member = guild.retrieveMemberById(data.getKey(), false).complete();
+                            } catch (ErrorResponseException ignored) { }
+
                             String birthday = data.getValue().birthday;
 
                             //shut up warnings

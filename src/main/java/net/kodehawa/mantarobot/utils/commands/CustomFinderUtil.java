@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.dv8tion.jda.internal.utils.concurrent.task.GatewayTask;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -165,7 +166,12 @@ public class CustomFinderUtil {
 
         // User ID
         if (DISCORD_ID.matcher(query).matches()) {
-            return Collections.singletonList(guild.retrieveMemberById(query, false).complete());
+            Member member = ctx.retrieveMemberById(query, false);
+            if(member == null) {
+                return Collections.emptyList();
+            }
+
+            return Collections.singletonList(member);
         }
 
         // username#discriminator (Test#0001)
@@ -219,7 +225,13 @@ public class CustomFinderUtil {
             // so this result could and probably will be from the cache,
             // or the lookup will only happen once, which is very cheap and good.
             CompletableFuture<List<Member>> result = new CompletableFuture<>();
-            result.complete(Collections.singletonList(context.getGuild().retrieveMemberById(query, false).complete()));
+
+            Member member = context.retrieveMemberById(query, false);
+            if(member == null) {
+                return emptyMemberTask();
+            }
+
+            result.complete(Collections.singletonList(member));
             return new GatewayTask<>(result, () -> {});
         }
 

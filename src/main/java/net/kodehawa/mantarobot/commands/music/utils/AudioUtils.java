@@ -20,6 +20,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -45,9 +46,12 @@ public class AudioUtils {
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );
 
-            Member dj = audioTrack.getUserData() != null ?
-                    manager.getTrackScheduler().getGuild()
-                            .retrieveMemberById(String.valueOf(audioTrack.getUserData()), false).complete() : null;
+            Member dj = null;
+            if (audioTrack.getUserData() != null) {
+                try {
+                    dj = manager.getTrackScheduler().getGuild().retrieveMemberById(String.valueOf(audioTrack.getUserData()), false).complete();
+                } catch (ErrorResponseException ignore) { }
+            }
 
             sb.append("**")
                     .append(n)

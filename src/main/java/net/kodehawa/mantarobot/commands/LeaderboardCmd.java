@@ -23,7 +23,6 @@ import com.rethinkdb.net.Connection;
 import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -95,7 +94,7 @@ public class LeaderboardCmd {
                                                 "The old money leaderboard is avaliable on `~>leaderboard money`")
                                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                                         .addField("Gamble", lb1.stream()
-                                                .map(map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
+                                                .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                                         map.get("gambleWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
@@ -103,7 +102,7 @@ public class LeaderboardCmd {
                                                         Long.parseLong(p.getValue()))
                                                 ).collect(Collectors.joining("\n")), true)
                                         .addField("Slots", lb2.stream()
-                                                .map(map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
+                                                .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                                         map.get("slotsWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
@@ -144,7 +143,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                                 String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY), "commands.leaderboard.gamble", c,
-                                map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
                                 .build()
                 );
@@ -168,7 +167,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY), "commands.leaderboard.slots", c,
-                        map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
                         .build()
                 );
@@ -196,7 +195,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
-                        map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
                         .build()
                 );
@@ -225,7 +224,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var experience = ((Map<String, Object>) map.get("data")).get("experience");
                             return Pair.of(
-                                    getMember(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     map.get("level").toString() + "\n -" +
                                             languageContext.get("commands.leaderboard.inner.experience") + ":** " +
                                             experience + "**");
@@ -255,7 +254,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP), "commands.leaderboard.reputation", c,
-                        map -> Pair.of(getMember(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
                         .build()
                 );
@@ -284,7 +283,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
                             return Pair.of(
-                                    getMember(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     strike
                             );
                         }, "%s**%s#%s** - %sx", false)
@@ -318,7 +317,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
                             return Pair.of(
-                                    getMember(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     waifuValue
                             );
                         }, "%s**%s#%s** - $%,d", seasonal)
@@ -348,7 +347,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
                             return Pair.of(
-                                    getMember(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     timesClaimed
                             );
                         }, "%s**%s#%s** - %,d", false)
@@ -382,7 +381,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
                             return Pair.of(
-                                    getMember(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     gamesWon
                             );
                         }, "%s**%s#%s** - %,d", seasonal)
@@ -456,26 +455,36 @@ public class LeaderboardCmd {
      * @param id The id of the user.
      * @return A instance of CachedLeaderboardMember. This can either be retrieved from Redis or cached on the spot if the cache didn't exist for it.
      */
-    private CachedLeaderboardMember getMember(String id) {
+    private CachedLeaderboardMember getMember(Context ctx, String id) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-            String json = jedis.get("cachedlbuser:" + id);
+            String savedTo = "cachedlbuser:" + id;
+            String missed = "birthdaymiss:" + id;
+
+            String json = jedis.get(savedTo);
             if(json == null) {
+                // No need to keep trying missed entries for a while. Entry should have a TTL of 12 hours.
+                if(jedis.get(missed) == null) {
+                    return null;
+                }
+
                 // Sadly a .complete() call for an User won't fill the internal cache, as JDA has no way to TTL it, instead, we will add it
                 // to our own cache in Redis, and expire it in 48 hours to avoid it filling up endlessly.
                 // This is to avoid having to do calls to discord all the time a leaderboard is retrieved, and only do the calls whenever
                 // it's absolutely needed, or when we need to re-populate the cache.
-                User user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
+                User user = ctx.retrieveUserById(id);
 
                 // If no user was found, we need to return null. This is later handled on generateLeaderboardEmbed.
                 if(user == null) {
+                    jedis.set(missed, "1");
+                    jedis.expire(missed, (int) TimeUnit.HOURS.toSeconds(12));
                     return null;
                 }
 
                 CachedLeaderboardMember cached = new CachedLeaderboardMember(user.getIdLong(), user.getName(), user.getDiscriminator(), System.currentTimeMillis());
-                jedis.set("cachedlbuser:" + id, GsonDataManager.GSON_UNPRETTY.toJson(cached));
+                jedis.set(savedTo, GsonDataManager.GSON_UNPRETTY.toJson(cached));
 
                 // Set the value to expire in 48 hours.
-                jedis.expire("cachedlbuser:" + id, (int) TimeUnit.HOURS.toSeconds(48));
+                jedis.expire(savedTo, (int) TimeUnit.HOURS.toSeconds(48));
                 return cached;
             } else {
                 return GsonDataManager.GSON_UNPRETTY.fromJson(json, CachedLeaderboardMember.class);

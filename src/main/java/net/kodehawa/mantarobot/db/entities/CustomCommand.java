@@ -86,6 +86,7 @@ public class CustomCommand implements ManagedObject {
         return DB_TABLE;
     }
 
+    @Nonnull
     public CustomCommandData getData() {
         return this.data;
     }

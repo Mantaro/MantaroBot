@@ -498,8 +498,13 @@ public class CustomCmds {
                 }
 
                 CustomCommand command = ctx.db().getCustomCommand(ctx.getGuild(), content);
+                if(command == null) {
+                    ctx.sendLocalized("commands.custom.raw.not_found", EmoteReference.ERROR);
+                    return;
+                }
+
                 String owner = command.getData().getOwner();
-                Member member = owner.isEmpty() ? null : ctx.getGuild().retrieveMemberById(owner, false).complete();
+                Member member = owner.isEmpty() ? null : ctx.retrieveMemberById(owner, false);
                 
                 ctx.send(new EmbedBuilder()
                         .setAuthor("Custom Command Information for " + content, null, ctx.getAuthor().getEffectiveAvatarUrl())

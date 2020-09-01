@@ -403,6 +403,7 @@
       },
       "raw": {
         "no_command": "%1$sYou need to tell me what command you want to look at.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Raw Custom Command: %1$s",
         "amount": "(Showing %1$d responses of %2$d)",
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."

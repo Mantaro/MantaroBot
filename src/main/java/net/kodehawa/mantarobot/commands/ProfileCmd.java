@@ -128,7 +128,7 @@ public class ProfileCmd {
 
                             //start of badge assigning
                             Guild mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                            Member mhMember = mh == null ? null : mh.retrieveMemberById(memberLooked.getUser().getId(), false).complete();
+                            Member mhMember = mh == null ? null : ctx.retrieveMemberById(memberLooked.getUser().getId(), false);
 
                             //Badge assigning code
                             Badge.assignBadges(player, dbUser);

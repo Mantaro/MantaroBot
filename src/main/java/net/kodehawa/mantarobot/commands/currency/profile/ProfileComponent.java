@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.currency.profile;
 
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -74,7 +75,9 @@ public enum ProfileComponent {
             String marriedToId = currentMarriage.getOtherPlayer(holder.getUser().getId());
             if (marriedToId != null)
                 //Yes, this uses complete, not like we have many options.
-                marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(marriedToId).complete();
+                try {
+                    marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(marriedToId).complete();
+                } catch (ErrorResponseException ignored) { }
         }
 
         if (marriedTo == null) {

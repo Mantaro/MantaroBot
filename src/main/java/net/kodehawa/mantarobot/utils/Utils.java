@@ -20,6 +20,7 @@ import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -500,7 +501,15 @@ public class Utils {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
-                User user = MantaroBot.getInstance().getShardManager().retrieveUserById(u).complete();
+                User user;
+
+                try {
+                    user = MantaroBot.getInstance().getShardManager().retrieveUserById(u).complete();
+                } catch (ErrorResponseException e) {
+                    log.error("Got a exception while trying to fetch a user that was just spamming?", e);
+                    return false;
+                }
+
                 String guildId = event.getGuild().getId();
                 String channelId = event.getChannel().getId();
                 String messageId = event.getMessage().getId();

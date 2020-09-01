@@ -120,7 +120,7 @@ public class OwnerCmd {
                 }
 
                 if (context.equals("user")) {
-                    User user = MantaroBot.getInstance().getShardManager().retrieveUserById(args[2]).complete();
+                    User user = ctx.retrieveUserById(args[2]);
                     if (action.equals("add")) {
                         if (user == null) {
                             ctx.send("Can't find user.");

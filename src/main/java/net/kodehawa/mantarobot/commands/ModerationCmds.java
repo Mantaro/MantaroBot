@@ -225,13 +225,16 @@ public class ModerationCmds {
 
                     final DBGuild db = MantaroData.db().getGuild(ctx.getGuild());
 
-                    guild.ban(member, 7).reason(finalReason).queue(
-                            success -> user.openPrivateChannel().queue(privateChannel -> {
-                                if (!user.isBot()) {
-                                    privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
-                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), ctx.getGuild().getName(), finalReason)).queue();
-                                }
+                    // DM's before success, because it might be the last mutual guild.
+                    user.openPrivateChannel().queue(privateChannel -> {
+                        if (!user.isBot()) {
+                            privateChannel.sendMessage(String.format("%sYou were **kicked** by %s with reason: %s on server **%s**.",
+                                    EmoteReference.MEGA, author.getAsTag(), finalReason, ctx.getGuild().getName())).queue();
+                        }
+                    });
 
+                    guild.ban(member, 7).reason(finalReason).queue(
+                            success -> {
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
 
@@ -240,7 +243,7 @@ public class ModerationCmds {
 
                                 ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.BAN, db.getData().getCases());
                                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(1, 2);
-                            }),
+                            },
                             error ->
                             {
                                 if (error instanceof PermissionException) {
@@ -330,18 +333,19 @@ public class ModerationCmds {
                         ctx.sendLocalized("commands.kick.self_hierarchy_conflict", EmoteReference.ERROR2, user.getName());
                         return;
                     }
+
                     final DBGuild db = MantaroData.db().getGuild(ctx.getGuild());
+
+                    if (!user.isBot()) {
+                        user.openPrivateChannel()
+                                .flatMap(privateChannel ->
+                                        privateChannel.sendMessage(String.format("%sYou were **kicked** by %s with reason: %s on server **%s**.",
+                                                EmoteReference.MEGA, ctx.getAuthor().getAsTag(), finalReason, ctx.getGuild().getName()))
+                                ).queue();
+                    }
 
                     guild.kick(member).reason(finalReason).queue(
                             success -> {
-                                if (!user.isBot()) {
-                                    user.openPrivateChannel()
-                                            .flatMap(privateChannel ->
-                                                    privateChannel.sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s on server **%s**.",
-                                                            EmoteReference.MEGA, ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator(), finalReason, ctx.getGuild().getName()))
-                                            ).queue();
-                                }
-
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
 

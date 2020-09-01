@@ -390,7 +390,7 @@ public class RelationshipCmds {
                     }
 
                     //Can we find the user this is married to?
-                    final User marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(currentMarriage.getOtherPlayer(author.getId())).complete();
+                    final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                     if (marriedTo == null) {
                         ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                         return;
@@ -484,7 +484,7 @@ public class RelationshipCmds {
                 }
 
                 //Can we find the user this is married to?
-                final User marriedTo = MantaroBot.getInstance().getShardManager().retrieveUserById(currentMarriage.getOtherPlayer(author.getId())).complete();
+                final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if (marriedTo == null) {
                     ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                     return;
@@ -636,8 +636,8 @@ public class RelationshipCmds {
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         for (String waifu : userData.getWaifus().keySet()) {
-                            //Complete again, yes. This fixes the issue of cross-node waifus not appearing.
-                            User user = MantaroBot.getInstance().getShardManager().retrieveUserById(waifu).complete();
+                            //This fixes the issue of cross-node waifus not appearing.
+                            User user = ctx.retrieveUserById(waifu);
                             if (user == null) {
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
                                         languageContext.get("commands.waifu.value_format") + " unknown\n" +
@@ -936,7 +936,7 @@ public class RelationshipCmds {
                         return;
                     }
 
-                    User toLookup = isId ? MantaroBot.getInstance().getShardManager().retrieveUserById(finalContent).complete() : member.getUser();
+                    User toLookup = isId ? ctx.retrieveUserById(finalContent) : member.getUser();
                     boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
                     if (toLookup == null && !isUnknown) {
                         ctx.sendLocalized("commands.waifu.unclaim.not_found", EmoteReference.ERROR);
