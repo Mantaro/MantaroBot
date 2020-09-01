@@ -458,7 +458,7 @@ public class LeaderboardCmd {
     private CachedLeaderboardMember getMember(Context ctx, String id) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
             String savedTo = "cachedlbuser:" + id;
-            String missed = "birthdaymiss:" + id;
+            String missed = "lbmiss:" + id;
 
             String json = jedis.get(savedTo);
             if(json == null) {
