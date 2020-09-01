@@ -155,6 +155,45 @@ public class UtilsCmds {
             }
         });
 
+        birthdayCommand.addSubCommand("allowserver", new SubCommand() {
+            public String description() {
+                return "Allows the server where you send this command to announce your birthday.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData guildData = dbGuild.getData();
+
+                guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
+                dbGuild.save();
+
+                ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
+            }
+        });
+
+        birthdayCommand.addSubCommand("denyserver", new SubCommand() {
+            public String description() {
+                return "Denies the server where you send this command to announce your birthday.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData guildData = dbGuild.getData();
+
+                if(guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
+                    ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
+                    return;
+                }
+
+                guildData.getAllowedBirthdays().remove(ctx.getAuthor().getId());
+                dbGuild.save();
+
+                ctx.sendLocalized("commands.birthday.denied_server", EmoteReference.CORRECT);
+            }
+        });
+
         birthdayCommand.addSubCommand("remove", new SubCommand() {
             @Override
             public String description() {
