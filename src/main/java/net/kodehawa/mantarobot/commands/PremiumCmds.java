@@ -366,6 +366,8 @@ public class PremiumCmds {
             }
         });
 
+        cr.registerAlias("vipstatus", "premium");
+
         vipstatusCmd.addSubCommand("guild", new SubCommand() {
             @Override
             protected void call(Context ctx, String content) {
@@ -416,7 +418,7 @@ public class PremiumCmds {
 
                 ctx.send(embedBuilder.build());
             }
-        });
+        }).createSubCommandAlias("guild", "server");
     }
 
     //Won't translate this. Owner command.
