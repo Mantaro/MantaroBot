@@ -21,7 +21,6 @@ import com.rethinkdb.net.Connection;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -504,7 +503,8 @@ public class Utils {
                 User user;
 
                 try {
-                    user = MantaroBot.getInstance().getShardManager().retrieveUserById(u).complete();
+                    Member member = event.getGuild().retrieveMemberById(u).complete();
+                    user = member.getUser();
                 } catch (ErrorResponseException e) {
                     log.error("Got a exception while trying to fetch a user that was just spamming?", e);
                     return false;
@@ -515,7 +515,7 @@ public class Utils {
                 String messageId = event.getMessage().getId();
 
                 //Why would ANYONE go over 20 attempts?
-                if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedAttemptUsers.contains(user.getId())) {
+                if (rateLimit.getSpamAttempts() > 20 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
                     loggedAttemptUsers.add(user.getId());
                     LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.OVER_SPAM_LIMIT);
                 }

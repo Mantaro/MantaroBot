@@ -171,7 +171,7 @@ public class OwnerCmd {
                     .map(String::valueOf), "Invalid id");
             var amount = ctx.argument(Parsers.strictLong(), "Invalid amount");
 
-            User u = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
+            User u = ctx.retrieveUserById(id);
 
             if (u == null) {
                 ctx.send("Can't find user");
@@ -293,7 +293,7 @@ public class OwnerCmd {
                 }
 
                 String b = args[1];
-                User user = MantaroBot.getInstance().getShardManager().retrieveUserById(args[0]).complete();
+                User user = ctx.retrieveUserById(args[0]);
 
                 if (user == null) {
                     ctx.send(EmoteReference.ERROR + "User not found.");
@@ -463,7 +463,7 @@ public class OwnerCmd {
                 String userString = args[0];
                 String guildString = args[1];
                 Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildString);
-                User user = MantaroBot.getInstance().getShardManager().retrieveUserById(userString).complete();
+                User user = ctx.retrieveUserById(userString);
                 if (guild == null || user == null) {
                     ctx.send("User or guild not found.");
                     return;

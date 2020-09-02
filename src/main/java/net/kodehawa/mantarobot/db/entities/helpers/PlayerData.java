@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -66,14 +65,6 @@ public class PlayerData {
     private Map<String, Pet> pets = new HashMap<>();
 
     public PlayerData() { }
-
-    @JsonIgnore
-    @Deprecated
-    //LEGACY SUPPORT
-    //Marriage UUID data is on UserData now!
-    public boolean isMarried() {
-        return marriedWith != null && MantaroBot.getInstance().getShardManager().retrieveUserById(marriedWith).complete() != null;
-    }
 
     @JsonIgnore
     public boolean hasBadge(Badge b) {
