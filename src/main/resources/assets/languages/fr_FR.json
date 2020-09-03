@@ -197,7 +197,7 @@
       "7": "- Pour **faire pause et continuer** utilises `~>pause`",
       "8": "- Pour **arrêter la musique ** utilises `~>stop`",
       "9": "- Pour **mélanger la liste de lecture** utilises `~>shuffle`",
-      "10": "- Et enfin, pour **répéter une chanson** utilises `~>repeat` et pour **répéter la liste de lecture** utilises `~>repeat queue`. Utilise `~>repeat` pendant que la répétition est en cours pour annuler la répétition\n",
+      "10": "- Et enfin, pour **répéter une chanson** utilise `~>repeat` et pour **répéter la liste de lecture** utilises `~>repeat queue`. Utilise `~>repeat` pendant que la répétition est en cours pour annuler la répétition\n",
       "11": "Pour plus d'info, utilises `~>help <nom de la commande>` (sans les <> et remplace nom de la commande par la commande que tu souhaites)",
       "12": "Profites bien de ta musique et merci d'utiliser Mantaro!"
     },
@@ -312,7 +312,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "Je suis dans le fragment %1$d (Nœud %2$d /%3$d)! Si tu as besoin d'aide, rends-toi sur <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
