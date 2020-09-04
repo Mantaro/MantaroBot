@@ -1085,20 +1085,24 @@ public class MusicCmds {
         GuildVoiceState voiceState = ctx.getMember().getVoiceState();
 
         try {
+            // Maybe?
+            if (isDJ(ctx.getMember())) {
+                return true;
+            }
+
+            // We can't do anything if voiceChannel is null, so send not connected.
             if(voiceState == null || voiceState.getChannel() == null) {
                 sendNotConnectedToMyChannel(ctx.getChannel(), ctx.getLanguageContext());
                 return false; //No player to stop/change?
             }
 
+            // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
             if (!voiceState.inVoiceChannel() || !voiceState.getChannel().getId().equals(player.getChannel())) {
-                if (isDJ(ctx.getMember())) {
-                    return true;
-                }
-
                 sendNotConnectedToMyChannel(ctx.getChannel(), ctx.getLanguageContext());
                 return false;
             }
 
+            // No self voice state?
             if(selfVoiceState == null) {
                 ctx.sendLocalized("commands.music_general.no_player", EmoteReference.ERROR);
                 return false; //No player to stop/change?
