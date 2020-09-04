@@ -19,14 +19,14 @@ package net.kodehawa.mantarobot.commands.music.requester;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import io.sentry.Sentry;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
@@ -149,7 +149,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                     // Retrieve member instead of user, so it gets cached.
                     try {
                         user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false).complete();
-                    } catch (ErrorResponseException ignored) {}
+                    } catch (Exception ignored) {}
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.

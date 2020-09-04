@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.moderation;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -59,7 +58,7 @@ public class MuteTask {
                     Member member = null;
                     try {
                         member = guild.retrieveMemberById(id, false).complete();
-                    } catch (ErrorResponseException ignored) { }
+                    } catch (Exception ignored) { }
 
                     if (member == null) {
                         data.getMutes().remove(id);

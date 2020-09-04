@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.argument.Arguments;
@@ -267,7 +266,7 @@ public class NewContext {
         User user = null;
         try {
             user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
-        } catch (ErrorResponseException ignored) { }
+        } catch (Exception ignored) { }
 
         return user;
     }
@@ -276,7 +275,7 @@ public class NewContext {
         Member member = null;
         try {
             member = guild.retrieveMemberById(id).complete();
-        } catch (ErrorResponseException ignored) { }
+        } catch (Exception ignored) { }
 
         return member;
     }
@@ -285,7 +284,7 @@ public class NewContext {
         Member member = null;
         try {
             member = getGuild().retrieveMemberById(id, update).complete();
-        } catch (ErrorResponseException ignored) { }
+        } catch (Exception ignored) { }
 
         return member;
     }
