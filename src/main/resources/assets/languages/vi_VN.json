@@ -25,6 +25,8 @@
     "options": "Tuỳ chọn",
     "find_members_failure": "%1$sKhông tìm thấy thành viên nào với tiêu chí tìm kiếm của bạn :(",
     "too_many_members": "%1$s Tìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**số người được tìm thấy:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "Ở đây chỉ có bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
     "item_lookup": {
@@ -401,6 +403,7 @@
       },
       "raw": {
         "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xem lệnh nào.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Lệnh tùy chỉnh thô: %1$s",
         "amount": "(Hiển thị phản hồi %1$d của %2$d)",
         "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng thô (những gì bạn đưa vào lệnh)."
@@ -969,7 +972,10 @@
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sĐó không phải là một số tháng hợp lệ! (Số tháng hợp lệ trong khoảng từ 1 đến 12)",
       "no_content": "%1$sBạn cần nói rõ ngày sinh nhật của bạn, thêm `remove` để đặt lại ngày sinh hoặc thêm `month` để xem ngày sinh nhật trong tháng.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sBạn cần cho tôi một trường từ để chọn. (ví dụ: `~>choose anime manga`)",
@@ -1026,7 +1032,7 @@
       "user": {
         "header": "Thông tin tài khoản cao cấp của bạn",
         "header_other": "Thông tin tài khoản cao cấp của %1$s",
-        "not_premium": "%1$sTài khoản của bạn không phải là cao cấp :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Người dùng cao cấp! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
