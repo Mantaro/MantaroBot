@@ -248,7 +248,7 @@ public class Context {
     public Member retrieveMemberById(Guild guild, String id, boolean update) {
         Member member = null;
         try {
-            member = guild.retrieveMemberById(id).complete();
+            member = guild.retrieveMemberById(id, update).complete();
         } catch (Exception ignored) { }
 
         return member;

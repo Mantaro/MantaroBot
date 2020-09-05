@@ -502,7 +502,7 @@ public class Utils {
                 User user;
 
                 try {
-                    Member member = event.getGuild().retrieveMemberById(u).complete();
+                    Member member = event.getGuild().retrieveMemberById(u, false).complete();
                     user = member.getUser();
                 } catch (Exception e) {
                     log.error("Got a exception while trying to fetch a user that was just spamming?", e);
