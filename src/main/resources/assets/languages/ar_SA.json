@@ -25,6 +25,8 @@
     "options": "الخيارات",
     "find_members_failure": "%1$sلم يتم العثور على أي عضو بمعايير البحث الخاصة بك :(",
     "too_many_members": "\"%1$sتم العثور على العديد من الأعضاء, ربما يمكنك حصر بحثك؟ (مثال. استخدم name#discriminator)\\n**Members found:** %2$s\",",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "هناك غبار فقط هنا.",
     "invalid_syntax": "بناء جملة غير صالح.",
     "item_lookup": {
@@ -401,6 +403,7 @@
       },
       "raw": {
         "no_command": "%1$sعليك أن تخبرني ما الأمر الذي تريد أن تنظر إليه.",
+        "not_found": "%1$sI can't find that command.",
         "header": "أمر مخصص خام: %1$s",
         "amount": "(عرض %1$d الردود في %2$d)",
         "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
@@ -969,7 +972,10 @@
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
       "no_content": "%1$sتحتاج إلى تحديد ميلادك. لإعادة تعيين ميلادك إستخدم الأمر `remove` أو `month` للتحقق من لستة أعياد الميلاد لهذا الشهر. ",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sيجب أن تخبرني ما الذي أختار هُنا. (مثال: `~>choose anime manga`)",
@@ -1026,7 +1032,7 @@
       "user": {
         "header": "حالة البريميوم الخاصة بك",
         "header_other": "حالة %1$s البريميوم",
-        "not_premium": "%1$sأنت لست بريميوم :(",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**عضو بريميوم! 3>**",
         "old_system": "**عضو بريميوم تحت النظام القديم! لا تقلق ، أنت عضو بريميوم والفوائد الخاصة بك سوف تعمل بشكل صحيح!**"
       },
