@@ -25,6 +25,8 @@
     "options": "Optionen",
     "find_members_failure": "%1$sKein Mitglied mit deinen Suchkriterien gefunden. :(",
     "too_many_members": "%1$sZu viele Mitglieder gefunden, versuche es vielleicht etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültige Syntax",
     "item_lookup": {
@@ -401,6 +403,7 @@
       },
       "raw": {
         "no_command": "%1$sDu musst mir sagen, welchen Befehl du dir anschauen willst.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Befehl: %1$s",
         "amount": "(Zeige %1$d Antworten von %2$d)",
         "description": "Dies ist eine Liste aller Antworten dieses Befehls im Rohformat (Das, was du beim Befehl eigegeben hast)."
@@ -969,7 +972,10 @@
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
       "no_content": "%1$sDu musst deinen Geburtstag angeben, `remove`, um deinen Geburtstag zu entfernen oder `month`, um die Monatsliste zu prüfen.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose Anime Manga`)",
@@ -1026,7 +1032,7 @@
       "user": {
         "header": "Dein Premium Status",
         "header_other": "%1$ss Premium Status",
-        "not_premium": "%1$sDu bist nicht Premium. :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Premiumnutzer! <3**",
         "old_system": "**Premium-Benutzer unter dem alten System! Mach dir keine Sorgen, du bist Premium und deine Vorteile werden richtig funktionieren!**"
       },
