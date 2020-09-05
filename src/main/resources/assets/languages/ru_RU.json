@@ -25,6 +25,8 @@
     "options": "Настройки",
     "find_members_failure": "%1$sПо вашему запросу не найдено ни одного участника :(",
     "too_many_members": "%1$sНайдено слишком много участников, попробуйте изменить ваш запрос? (ex. use name#discriminator)\n**Найденные участники:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "Здесь только пыль.",
     "invalid_syntax": "Неверный синтаксис.",
     "item_lookup": {
@@ -401,6 +403,7 @@
       },
       "raw": {
         "no_command": "%1$sВы должны сказать мне, какую команду желаете проверить.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Команда \"%1$s\":",
         "amount": "(Информация по %1$d запросил %2$d)",
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
@@ -969,7 +972,10 @@
       "added_birthdate": "%1$sУспешно добавлена дата дня рождения. Новая дата: %2$s *(Формат: дд-мм-)* [day-month]",
       "invalid_month": "%1$sНеправильно указан номер месяца (цифра от 1 до 12)",
       "no_content": "%1$sВы не указали дату дня рождения.",
-      "new_format": "%1$sНовый формат даты это просто `дд-мм` (день-месяц, для примера 20-10 это 20-ое Октября). Теперь не надо вписывать год, вы можете пропустить эту часть."
+      "new_format": "%1$sНовый формат даты это просто `дд-мм` (день-месяц, для примера 20-10 это 20-ое Октября). Теперь не надо вписывать год, вы можете пропустить эту часть.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sВы должны указать что выбрать. (К примеру: `~>choose anime manga`)",
@@ -1026,7 +1032,7 @@
       "user": {
         "header": "Твой премиум статус",
         "header_other": "%1$s's Премиум статус",
-        "not_premium": "%1$sВы не премиум :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Премиум пользователь! <3**",
         "old_system": "**Вы премиум пользователь старой системы! Не переживайте, все функции работают исправно!**"
       },
