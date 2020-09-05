@@ -23,14 +23,14 @@ import com.rethinkdb.net.Connection;
 import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -39,8 +39,10 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 import java.util.Map;
@@ -92,8 +94,7 @@ public class LeaderboardCmd {
                                                 "The old money leaderboard is avaliable on `~>leaderboard money`")
                                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                                         .addField("Gamble", lb1.stream()
-                                                .map(map -> Pair.of(MantaroBot.getInstance().getShardManager().
-                                                        getUserById(map.get("id").toString().split(":")[0]),
+                                                .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                                         map.get("gambleWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
@@ -101,8 +102,8 @@ public class LeaderboardCmd {
                                                         Long.parseLong(p.getValue()))
                                                 ).collect(Collectors.joining("\n")), true)
                                         .addField("Slots", lb2.stream()
-                                                .map(map -> Pair.of(MantaroBot.getInstance().getShardManager()
-                                                        .getUserById(map.get("id").toString().split(":")[0]), map.get("slotsWinAmount").toString())
+                                                .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                                        map.get("slotsWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
                                                 .map(p -> String.format("%s**%s#%s** - $%,d",
                                                         EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
@@ -142,7 +143,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                                 String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY), "commands.leaderboard.gamble", c,
-                                map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
                                 .build()
                 );
@@ -166,7 +167,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY), "commands.leaderboard.slots", c,
-                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
                         .build()
                 );
@@ -194,7 +195,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
-                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
                         .build()
                 );
@@ -223,7 +224,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var experience = ((Map<String, Object>) map.get("data")).get("experience");
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     map.get("level").toString() + "\n -" +
                                             languageContext.get("commands.leaderboard.inner.experience") + ":** " +
                                             experience + "**");
@@ -253,7 +254,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP), "commands.leaderboard.reputation", c,
-                        map -> Pair.of(MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
                         .build()
                 );
@@ -282,7 +283,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     strike
                             );
                         }, "%s**%s#%s** - %sx", false)
@@ -316,7 +317,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     waifuValue
                             );
                         }, "%s**%s#%s** - $%,d", seasonal)
@@ -346,7 +347,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     timesClaimed
                             );
                         }, "%s**%s#%s** - %,d", false)
@@ -380,7 +381,7 @@ public class LeaderboardCmd {
                             @SuppressWarnings("unchecked")
                             var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
                             return Pair.of(
-                                    MantaroBot.getInstance().getShardManager().getUserById(map.get("id").toString().split(":")[0]),
+                                    getMember(ctx, map.get("id").toString().split(":")[0]),
                                     gamesWon
                             );
                         }, "%s**%s#%s** - %,d", seasonal)
@@ -414,7 +415,7 @@ public class LeaderboardCmd {
                 .toList();
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(Context ctx, String description, String leaderboardKey, List<Map<String, Object>> lb, Function<Map<?, ?>, Pair<User, String>> mapFunction, String format, boolean isSeasonal) {
+    private EmbedBuilder generateLeaderboardEmbed(Context ctx, String description, String leaderboardKey, List<Map<String, Object>> lb, Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction, String format, boolean isSeasonal) {
         I18nContext languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(isSeasonal ?
@@ -426,7 +427,7 @@ public class LeaderboardCmd {
                         .filter(p -> Objects.nonNull(p.getKey()))
                         .map(p -> {
                             //This is... an interesting place to do it lol
-                            if(p.getKey().getIdLong() == ctx.getAuthor().getIdLong()) {
+                            if(p.getKey().getId() == ctx.getAuthor().getIdLong()) {
                                 var player = MantaroData.db().getPlayer(ctx.getAuthor());
                                 if(player.getData().addBadgeIfAbsent(Badge.CHAMPION))
                                     player.saveAsync();
@@ -439,5 +440,55 @@ public class LeaderboardCmd {
                         }).collect(Collectors.joining("\n")), false)
                 .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getAuthor().getName()), null)
                 .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl());
+    }
+
+    /**
+     * Caches an user in redis if they're in the leaderboard. This speeds up User lookup times tenfold.
+     * The key will expire after 48 hours in the set, then we will just re-cache it as needed.
+     * This should also take care of username changes.
+     *
+     * This value is saved in Redis so it can be used cross-node. This also fixes leaderboards being incomplete in some nodes.
+     *
+     * This method is necessary to avoid calling Discord every single time we call a leaderboard, since this might create hundreds of API requests
+     * in a few seconds, causing some nice 429s.
+     *
+     * @param id The id of the user.
+     * @return A instance of CachedLeaderboardMember. This can either be retrieved from Redis or cached on the spot if the cache didn't exist for it.
+     */
+    private CachedLeaderboardMember getMember(Context ctx, String id) {
+        try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            String savedTo = "cachedlbuser:" + id;
+            String missed = "lbmiss:" + id;
+
+            String json = jedis.get(savedTo);
+            if(json == null) {
+                // No need to keep trying missed entries for a while. Entry should have a TTL of 12 hours.
+                if(jedis.get(missed) == null) {
+                    return null;
+                }
+
+                // Sadly a .complete() call for an User won't fill the internal cache, as JDA has no way to TTL it, instead, we will add it
+                // to our own cache in Redis, and expire it in 48 hours to avoid it filling up endlessly.
+                // This is to avoid having to do calls to discord all the time a leaderboard is retrieved, and only do the calls whenever
+                // it's absolutely needed, or when we need to re-populate the cache.
+                User user = ctx.retrieveUserById(id);
+
+                // If no user was found, we need to return null. This is later handled on generateLeaderboardEmbed.
+                if(user == null) {
+                    jedis.set(missed, "1");
+                    jedis.expire(missed, (int) TimeUnit.HOURS.toSeconds(12));
+                    return null;
+                }
+
+                CachedLeaderboardMember cached = new CachedLeaderboardMember(user.getIdLong(), user.getName(), user.getDiscriminator(), System.currentTimeMillis());
+                jedis.set(savedTo, GsonDataManager.GSON_UNPRETTY.toJson(cached));
+
+                // Set the value to expire in 48 hours.
+                jedis.expire(savedTo, (int) TimeUnit.HOURS.toSeconds(48));
+                return cached;
+            } else {
+                return GsonDataManager.GSON_UNPRETTY.fromJson(json, CachedLeaderboardMember.class);
+            }
+        }
     }
 }

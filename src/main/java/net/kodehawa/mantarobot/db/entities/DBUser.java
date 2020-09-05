@@ -63,12 +63,12 @@ public class DBUser implements ManagedObject {
 
     @JsonIgnore
     public User getUser(JDA jda) {
-        return jda.getUserById(getId());
+        return jda.retrieveUserById(getId()).complete();
     }
 
     @JsonIgnore
     public User getUser() {
-        return MantaroBot.getInstance().getShardManager().getUserById(getId());
+        return MantaroBot.getInstance().getShardManager().retrieveUserById(getId()).complete();
     }
 
     @JsonIgnore

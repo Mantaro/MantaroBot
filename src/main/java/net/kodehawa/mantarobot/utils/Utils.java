@@ -20,7 +20,6 @@ import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -30,6 +29,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimit;
@@ -208,8 +208,9 @@ public class Utils {
         }
     }
 
-    public static Member findMember(GuildMessageReceivedEvent event, Member first, String content) {
-        List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+    // Hopefully we never need this.
+    public static Member findMemberSync(GuildMessageReceivedEvent event, Context ctx, Message message, String content) {
+        List<Member> found = CustomFinderUtil.findMembersSync(content, ctx, message, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any member with that name :(").queue();
             return null;
@@ -223,27 +224,16 @@ public class Utils {
             return null;
         }
 
-        if (found.size() == 1) {
-            return found.get(0);
-        }
-
-        return first;
+        return found.get(0);
     }
 
-    //Localized + no default.
-    public static Member findMember(GuildMessageReceivedEvent event, I18nContext lang, String content) {
-        List<Member> members = FinderUtil.findMembers(content, event.getGuild());
-        if (members.isEmpty()) {
-            event.getChannel().sendMessageFormat(lang.get("general.find_members_failure"), EmoteReference.ERROR).queue();
-            return null;
+    // Hopefully we never need this, electric boogaloo.
+    public static Member findMemberSyncDefault(GuildMessageReceivedEvent event, Context ctx, Message message, String content, Member member) {
+        if(content.isEmpty()) {
+            return member;
+        } else {
+            return findMemberSync(event, ctx, message, content);
         }
-
-        if (members.size() > 1) {
-            event.getChannel().sendMessageFormat(lang.get("general.too_many_members"), EmoteReference.THINKING, members.stream().limit(7).map(m -> String.format("%s#%s", m.getUser().getName(), m.getUser().getDiscriminator())).collect(Collectors.joining(", "))).queue();
-            return null;
-        }
-
-        return members.get(0);
     }
 
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
@@ -509,13 +499,22 @@ public class Utils {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 Long.parseUnsignedLong(u);
-                User user = MantaroBot.getInstance().getShardManager().getUserById(u);
+                User user;
+
+                try {
+                    Member member = event.getGuild().retrieveMemberById(u, false).complete();
+                    user = member.getUser();
+                } catch (Exception e) {
+                    log.error("Got a exception while trying to fetch a user that was just spamming?", e);
+                    return false;
+                }
+
                 String guildId = event.getGuild().getId();
                 String channelId = event.getChannel().getId();
                 String messageId = event.getMessage().getId();
 
                 //Why would ANYONE go over 20 attempts?
-                if (rateLimit.getSpamAttempts() > 20 && spamAware && user != null && !loggedAttemptUsers.contains(user.getId())) {
+                if (rateLimit.getSpamAttempts() > 20 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
                     loggedAttemptUsers.add(user.getId());
                     LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.OVER_SPAM_LIMIT);
                 }

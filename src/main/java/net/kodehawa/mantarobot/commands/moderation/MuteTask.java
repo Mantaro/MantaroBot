@@ -41,7 +41,7 @@ public class MuteTask {
             log.debug("Checking mutes... data size {}", mutes.size());
             for (Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet()) {
                 try {
-                    log.trace("Iteration");
+                    log.trace("Iteration: Mute check");
                     Long id = entry.getKey();
                     Pair<String, Long> pair = entry.getValue();
                     String guildId = pair.getLeft();
@@ -55,15 +55,17 @@ public class MuteTask {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();
+                    Member member = null;
+                    try {
+                        member = guild.retrieveMemberById(id, false).complete();
+                    } catch (Exception ignored) { }
 
-                    if (guild.getMemberById(id) == null) {
+                    if (member == null) {
                         data.getMutes().remove(id);
                         data.saveAsync();
                         log.debug("Removed {} because member == null", id);
                         continue;
                     }
-
-                    final Member memberById = guild.getMemberById(id);
 
                     //I spent an entire month trying to figure out why this didn't work to then come to the conclusion that I'm completely stupid.
                     //I was checking against `id` instead of against the mute role id because I probably was high or something when I did this
@@ -81,13 +83,13 @@ public class MuteTask {
                             data.save();
                             Role roleById = guild.getRoleById(guildData.getMutedRole());
 
-                            if (memberById != null && roleById != null)
-                                guild.removeRoleFromMember(memberById, roleById).queue();
+                            if (roleById != null)
+                                guild.removeRoleFromMember(member, roleById).queue();
 
                             guildData.setCases(guildData.getCases() + 1);
                             dbGuild.saveAsync();
                             ModLog.log(guild.getSelfMember(),
-                                    MantaroBot.getInstance().getShardManager().getUserById(id),
+                                    member.getUser(),
                                     "Mute timeout expired", "none",
                                     ModLog.ModAction.UNMUTE,
                                     guildData.getCases()

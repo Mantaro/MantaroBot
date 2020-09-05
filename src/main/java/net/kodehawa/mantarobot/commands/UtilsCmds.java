@@ -32,8 +32,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -152,6 +152,45 @@ public class UtilsCmds {
                         .setUsage("`~>birthday <date>`")
                         .addParameter("date", "A date in dd-mm format (13-02 for example). Check subcommands for more options.")
                         .build();
+            }
+        });
+
+        birthdayCommand.addSubCommand("allowserver", new SubCommand() {
+            public String description() {
+                return "Allows the server where you send this command to announce your birthday.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData guildData = dbGuild.getData();
+
+                guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
+                dbGuild.save();
+
+                ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
+            }
+        });
+
+        birthdayCommand.addSubCommand("denyserver", new SubCommand() {
+            public String description() {
+                return "Denies the server where you send this command to announce your birthday.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                DBGuild dbGuild = ctx.getDBGuild();
+                GuildData guildData = dbGuild.getData();
+
+                if(guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
+                    ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
+                    return;
+                }
+
+                guildData.getAllowedBirthdays().remove(ctx.getAuthor().getId());
+                dbGuild.save();
+
+                ctx.sendLocalized("commands.birthday.denied_server", EmoteReference.CORRECT);
             }
         });
 

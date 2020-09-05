@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.commands.music.utils;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.MantaroBot;
+import net.dv8tion.jda.api.entities.Member;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.utils.StringUtils;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -32,7 +32,7 @@ public class AudioUtils {
         );
     }
 
-    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue) {
+    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue, GuildMusicManager manager) {
         StringBuilder sb = new StringBuilder();
         int n = 1;
         for (AudioTrack audioTrack : queue) {
@@ -42,8 +42,12 @@ public class AudioUtils {
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );
 
-            User dj = audioTrack.getUserData() != null ? MantaroBot.getInstance().getShardManager()
-                    .getUserById(String.valueOf(audioTrack.getUserData())) : null;
+            Member dj = null;
+            if (audioTrack.getUserData() != null) {
+                try {
+                    dj = manager.getTrackScheduler().getGuild().retrieveMemberById(String.valueOf(audioTrack.getUserData()), false).complete();
+                } catch (Exception ignored) { }
+            }
 
             sb.append("**")
                     .append(n)
@@ -54,7 +58,7 @@ public class AudioUtils {
                     .append(")** (")
                     .append(duration)
                     .append(")")
-                    .append(dj != null ? " **[" + dj.getName() + "]**" : "")
+                    .append(dj != null ? " **[" + dj.getUser().getName() + "]**" : "")
                     .append("\n");
             n++;
         }

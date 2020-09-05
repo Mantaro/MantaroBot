@@ -34,7 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.StringUtils;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -225,13 +225,16 @@ public class ModerationCmds {
 
                     final DBGuild db = MantaroData.db().getGuild(ctx.getGuild());
 
-                    guild.ban(member, 7).reason(finalReason).queue(
-                            success -> user.openPrivateChannel().queue(privateChannel -> {
-                                if (!user.isBot()) {
-                                    privateChannel.sendMessage(String.format("%sYou were **banned** by %s#%s on server **%s**. Reason: %s.",
-                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), ctx.getGuild().getName(), finalReason)).queue();
-                                }
+                    // DM's before success, because it might be the last mutual guild.
+                    user.openPrivateChannel().queue(privateChannel -> {
+                        if (!user.isBot()) {
+                            privateChannel.sendMessage(String.format("%sYou were **kicked** by %s with reason: %s on server **%s**.",
+                                    EmoteReference.MEGA, author.getAsTag(), finalReason, ctx.getGuild().getName())).queue();
+                        }
+                    });
 
+                    guild.ban(member, 7).reason(finalReason).queue(
+                            success -> {
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
 
@@ -240,7 +243,7 @@ public class ModerationCmds {
 
                                 ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.BAN, db.getData().getCases());
                                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(1, 2);
-                            }),
+                            },
                             error ->
                             {
                                 if (error instanceof PermissionException) {
@@ -306,55 +309,60 @@ public class ModerationCmds {
                 }
 
                 final String finalReason = String.format("Kicked by %#s: %s", ctx.getAuthor(), reason);
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), args[0]);
-                if (member == null)
-                    return;
+                String memberRaw = args[0];
 
-                User user = member.getUser();
+                ctx.findMember(memberRaw, ctx.getMessage()).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMember(memberRaw, members, ctx);
+                    if (member == null)
+                        return;
 
-                if (!ctx.getMember().canInteract(member)) {
-                    ctx.sendLocalized("commands.kick.hierarchy_conflict", EmoteReference.ERROR);
-                    return;
-                }
+                    User user = member.getUser();
 
-                if (ctx.getAuthor().getId().equals(user.getId())) {
-                    ctx.sendLocalized("commands.kick.yourself_note", EmoteReference.ERROR);
-                    return;
-                }
+                    if (!ctx.getMember().canInteract(member)) {
+                        ctx.sendLocalized("commands.kick.hierarchy_conflict", EmoteReference.ERROR);
+                        return;
+                    }
 
-                //If one of them is in a higher hierarchy than the bot, cannot kick.
-                if (!selfMember.canInteract(member)) {
-                    ctx.sendLocalized("commands.kick.self_hierarchy_conflict", EmoteReference.ERROR2, user.getName());
-                    return;
-                }
-                final DBGuild db = MantaroData.db().getGuild(ctx.getGuild());
+                    if (ctx.getAuthor().getId().equals(user.getId())) {
+                        ctx.sendLocalized("commands.kick.yourself_note", EmoteReference.ERROR);
+                        return;
+                    }
 
-                guild.kick(member).reason(finalReason).queue(
-                        success -> {
-                            if (!user.isBot()) {
-                                user.openPrivateChannel()
-                                        .flatMap(privateChannel ->
-                                                privateChannel.sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s on server **%s**.",
-                                                EmoteReference.MEGA, ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator(), finalReason, ctx.getGuild().getName()))
-                                        ).queue();
+                    //If one of them is in a higher hierarchy than the bot, cannot kick.
+                    if (!selfMember.canInteract(member)) {
+                        ctx.sendLocalized("commands.kick.self_hierarchy_conflict", EmoteReference.ERROR2, user.getName());
+                        return;
+                    }
+
+                    final DBGuild db = MantaroData.db().getGuild(ctx.getGuild());
+
+                    if (!user.isBot()) {
+                        user.openPrivateChannel()
+                                .flatMap(privateChannel ->
+                                        privateChannel.sendMessage(String.format("%sYou were **kicked** by %s with reason: %s on server **%s**.",
+                                                EmoteReference.MEGA, ctx.getAuthor().getAsTag(), finalReason, ctx.getGuild().getName()))
+                                ).queue();
+                    }
+
+                    guild.kick(member).reason(finalReason).queue(
+                            success -> {
+                                db.getData().setCases(db.getData().getCases() + 1);
+                                db.saveAsync();
+
+                                ctx.sendLocalized("commands.kick.success", EmoteReference.ZAP, ctx.getLanguageContext().get("general.mod_quotes"), user.getName());
+                                ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
+                                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(2, 2);
+                            },
+                            error -> {
+                                if (error instanceof PermissionException) {
+                                    ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission().getName());
+                                } else {
+                                    ctx.sendLocalized("commands.kick.unknown_error", EmoteReference.ERROR, user.getName());
+                                    log.warn("Unexpected error while kicking someone.", error);
+                                }
                             }
-
-                            db.getData().setCases(db.getData().getCases() + 1);
-                            db.saveAsync();
-
-                            ctx.sendLocalized("commands.kick.success", EmoteReference.ZAP, ctx.getLanguageContext().get("general.mod_quotes"), user.getName());
-                            ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
-                            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(2, 2);
-                        },
-                        error -> {
-                            if (error instanceof PermissionException) {
-                                ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission().getName());
-                            } else {
-                                ctx.sendLocalized("commands.kick.unknown_error", EmoteReference.ERROR, user.getName());
-                                log.warn("Unexpected error while kicking someone.", error);
-                            }
-                        }
-                );
+                    );
+                });
             }
 
             @Override

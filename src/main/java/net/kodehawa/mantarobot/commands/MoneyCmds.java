@@ -45,6 +45,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
@@ -547,31 +548,33 @@ public class MoneyCmds {
                 boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                User user = ctx.getAuthor();
-                boolean isExternal = false;
+                // Values on lambdas should be final or effectively final part 9999.
+                final var finalContent = content;
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                    User user = ctx.getAuthor();
+                    boolean isExternal = false;
 
-                if(!content.isEmpty()) {
-                    Member found = Utils.findMember(ctx.getEvent(), languageContext, content);
-
-                    if (found != null) {
+                    Member found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                    if(found == null) {
+                        return;
+                    } else if (!finalContent.isEmpty()) {
                         user = found.getUser();
                         isExternal = true;
-                    } else {
+                    }
+
+                    if (user.isBot()) {
+                        ctx.sendLocalized("commands.balance.bot_notice", EmoteReference.ERROR);
                         return;
                     }
-                }
 
-                if (user.isBot()) {
-                    ctx.sendLocalized("commands.balance.bot_notice", EmoteReference.ERROR);
-                    return;
-                }
+                    long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getMoney();
 
-                long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getMoney();
+                    ctx.send(EmoteReference.DIAMOND + (isExternal ?
+                            String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
+                            String.format(languageContext.withRoot("commands", "balance.own_balance"), balance))
+                    );
 
-                ctx.send(EmoteReference.DIAMOND + (isExternal ?
-                        String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
-                        String.format(languageContext.withRoot("commands", "balance.own_balance"), balance))
-                );
+                });
             }
 
             @Override

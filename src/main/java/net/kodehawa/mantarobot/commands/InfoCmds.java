@@ -34,7 +34,6 @@ import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -46,6 +45,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -119,12 +119,14 @@ public class InfoCmds {
         cr.register("avatar", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
 
-                User u = member.getUser();
-                ctx.sendLocalized("commands.avatar.result", EmoteReference.OK, u.getName(), u.getEffectiveAvatarUrl() + "?size=1024");
+                    User u = member.getUser();
+                    ctx.sendLocalized("commands.avatar.result", EmoteReference.OK, u.getName(), u.getEffectiveAvatarUrl() + "?size=1024");
+                });
             }
 
             @Override
@@ -674,55 +676,57 @@ public class InfoCmds {
         cr.register("userinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
 
-                User user = member.getUser();
+                    User user = member.getUser();
 
-                String roles = member.getRoles().stream()
-                        .map(Role::getName)
-                        .collect(Collectors.joining(", "));
+                    String roles = member.getRoles().stream()
+                            .map(Role::getName)
+                            .collect(Collectors.joining(", "));
 
-                var languageContext = ctx.getLanguageContext();
-                String s = String.join("\n",
-                        prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
-                        prettyDisplay(languageContext.get("commands.userinfo.join_date"),
-                                member.getTimeJoined().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
-                        ),
-                        prettyDisplay(languageContext.get("commands.userinfo.created"),
-                                user.getTimeCreated().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
-                        ),
-                        prettyDisplay(languageContext.get("commands.userinfo.account_age"),
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
-                                        + " " + languageContext.get("general.days")
-                        ),
-                        prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance()
-                                .getShardManager()
-                                .getMutualGuilds(ctx.getAuthor()).size())
-                        ),
-                        prettyDisplay(languageContext.get("commands.userinfo.vc"),
-                                member.getVoiceState().getChannel() != null ?
-                                        member.getVoiceState().getChannel().getName() :
-                                        languageContext.get("general.none")
-                        ),
-                        prettyDisplay(languageContext.get("commands.userinfo.color"),
-                                member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" +
-                                        Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()
-                        ),
-                        prettyDisplay(languageContext.get("commands.userinfo.status"), Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
-                );
+                    var languageContext = ctx.getLanguageContext();
+                    String s = String.join("\n",
+                            prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
+                            prettyDisplay(languageContext.get("commands.userinfo.join_date"),
+                                    member.getTimeJoined().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
+                            ),
+                            prettyDisplay(languageContext.get("commands.userinfo.created"),
+                                    user.getTimeCreated().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
+                            ),
+                            prettyDisplay(languageContext.get("commands.userinfo.account_age"),
+                                    TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
+                                            + " " + languageContext.get("general.days")
+                            ),
+                            prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance()
+                                    .getShardManager()
+                                    .getMutualGuilds(ctx.getAuthor()).size())
+                            ),
+                            prettyDisplay(languageContext.get("commands.userinfo.vc"),
+                                    member.getVoiceState().getChannel() != null ?
+                                            member.getVoiceState().getChannel().getName() :
+                                            languageContext.get("general.none")
+                            ),
+                            prettyDisplay(languageContext.get("commands.userinfo.color"),
+                                    member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" +
+                                            Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()
+                            ),
+                            prettyDisplay(languageContext.get("commands.userinfo.status"), Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
+                    );
 
-                ctx.send(new EmbedBuilder()
-                        .setColor(member.getColor())
-                        .setAuthor(String.format(languageContext.get("commands.userinfo.header"),
-                                user.getName(), user.getDiscriminator()), null, ctx.getAuthor().getEffectiveAvatarUrl()
-                        ).setThumbnail(user.getEffectiveAvatarUrl())
-                        .setDescription(s)
-                        .addField(String.format(languageContext.get("commands.userinfo.roles"),
-                                member.getRoles().size()), StringUtils.limit(roles, 900), true
-                        ).build()
-                );
+                    ctx.send(new EmbedBuilder()
+                            .setColor(member.getColor())
+                            .setAuthor(String.format(languageContext.get("commands.userinfo.header"),
+                                    user.getName(), user.getDiscriminator()), null, ctx.getAuthor().getEffectiveAvatarUrl()
+                            ).setThumbnail(user.getEffectiveAvatarUrl())
+                            .setDescription(s)
+                            .addField(String.format(languageContext.get("commands.userinfo.roles"),
+                                    member.getRoles().size()), StringUtils.limit(roles, 900), true
+                            ).build()
+                    );
+                });
             }
 
             @Override

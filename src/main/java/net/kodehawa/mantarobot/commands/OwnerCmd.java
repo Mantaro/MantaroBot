@@ -120,14 +120,15 @@ public class OwnerCmd {
                 }
 
                 if (context.equals("user")) {
+                    User user = ctx.retrieveUserById(args[2]);
                     if (action.equals("add")) {
-                        if (MantaroBot.getInstance().getShardManager().getUserById(args[2]) == null) {
+                        if (user == null) {
                             ctx.send("Can't find user.");
                             return;
                         }
 
                         obj.getBlackListedUsers().add(args[2]);
-                        ctx.send(EmoteReference.CORRECT + "Blacklisted User: " + MantaroBot.getInstance().getShardManager().getUserById(args[2]));
+                        ctx.send(EmoteReference.CORRECT + "Blacklisted User: " + user.getAsTag() + " - " + user.getIdLong());
                         obj.saveAsync();
 
                         return;
@@ -138,7 +139,7 @@ public class OwnerCmd {
                         }
 
                         obj.getBlackListedUsers().remove(args[2]);
-                        ctx.send(EmoteReference.CORRECT + "Unblacklisted User: " + MantaroBot.getInstance().getShardManager().getUserById(args[2]));
+                        ctx.send(EmoteReference.CORRECT + "Unblacklisted User: " + user.getAsTag() + " - " + user.getIdLong());
                         obj.saveAsync();
 
                         return;
@@ -170,7 +171,7 @@ public class OwnerCmd {
                     .map(String::valueOf), "Invalid id");
             var amount = ctx.argument(Parsers.strictLong(), "Invalid amount");
 
-            User u = MantaroBot.getInstance().getShardManager().getUserById(id);
+            User u = ctx.retrieveUserById(id);
 
             if (u == null) {
                 ctx.send("Can't find user");
@@ -292,7 +293,7 @@ public class OwnerCmd {
                 }
 
                 String b = args[1];
-                User user = MantaroBot.getInstance().getShardManager().getUserById(args[0]);
+                User user = ctx.retrieveUserById(args[0]);
 
                 if (user == null) {
                     ctx.send(EmoteReference.ERROR + "User not found.");
@@ -462,7 +463,7 @@ public class OwnerCmd {
                 String userString = args[0];
                 String guildString = args[1];
                 Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildString);
-                User user = MantaroBot.getInstance().getShardManager().getUserById(userString);
+                User user = ctx.retrieveUserById(userString);
                 if (guild == null || user == null) {
                     ctx.send("User or guild not found.");
                     return;

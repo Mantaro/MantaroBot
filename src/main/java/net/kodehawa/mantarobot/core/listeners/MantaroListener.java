@@ -71,8 +71,8 @@ import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -392,7 +392,9 @@ public class MantaroListener implements EventListener {
 
                 if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
                     //Update message in cache in any case.
-                    messageCache.put(event.getMessage().getIdLong(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentDisplay())));
+                    messageCache.put(event.getMessage().getIdLong(), Optional.of(
+                            new CachedMessage(event.getGuild().getIdLong(), event.getAuthor().getIdLong(), event.getMessage().getContentDisplay()))
+                    );
 
                     if (guildData.getLogExcludedChannels().contains(event.getChannel().getId())) {
                         return;
@@ -751,6 +753,11 @@ public class MantaroListener implements EventListener {
         } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send user leave message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send leave message!", e);
+        }
+
+        if(data.getAllowedBirthdays().contains(event.getUser().getId())) {
+            data.getAllowedBirthdays().remove(event.getUser().getId());
+            dbg.saveAsync();
         }
 
         this.postStats(event.getJDA());

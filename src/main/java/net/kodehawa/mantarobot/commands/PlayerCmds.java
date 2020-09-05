@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
@@ -100,54 +101,57 @@ public class PlayerCmds {
                     return;
                 }
 
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
 
-                user = member.getUser();
-                User author = ctx.getAuthor();
-                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMember(content, members, ctx);
+                    if (member == null)
+                        return;
 
-                //Didn't want to repeat the code twice, lol.
-                if (!oldEnough.test(user)) {
-                    ctx.sendLocalized("commands.rep.new_account_notice", EmoteReference.ERROR);
-                    return;
-                }
+                    User usr = member.getUser();
+                    User author = ctx.getAuthor();
+                    Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
 
-                if (!oldEnough.test(author)) {
-                    ctx.sendLocalized("commands.rep.new_account_notice", EmoteReference.ERROR);
-                    return;
-                }
+                    //Didn't want to repeat the code twice, lol.
+                    if (!oldEnough.test(usr)) {
+                        ctx.sendLocalized("commands.rep.new_account_notice", EmoteReference.ERROR);
+                        return;
+                    }
 
-                if (user.isBot()) {
-                    ctx.send(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
-                            (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(rl))
-                                    : languageContext.get("commands.rep.cooldown.pass"))
-                            )
-                    );
+                    if (!oldEnough.test(author)) {
+                        ctx.sendLocalized("commands.rep.new_account_notice", EmoteReference.ERROR);
+                        return;
+                    }
 
-                    return;
-                }
+                    if (usr.isBot()) {
+                        ctx.send(String.format(languageContext.get("commands.rep.rep_bot"), EmoteReference.THINKING,
+                                (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(rl))
+                                        : languageContext.get("commands.rep.cooldown.pass"))
+                                )
+                        );
 
-                if (user.equals(ctx.getAuthor())) {
-                    ctx.send(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
-                            (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(rl))
-                                    : languageContext.get("commands.rep.cooldown.pass"))
-                            )
-                    );
+                        return;
+                    }
 
-                    return;
-                }
+                    if (usr.equals(ctx.getAuthor())) {
+                        ctx.send(String.format(languageContext.get("commands.rep.rep_yourself"), EmoteReference.THINKING,
+                                (rl > 0 ? String.format(languageContext.get("commands.rep.cooldown.waiting"), Utils.formatDuration(rl))
+                                        : languageContext.get("commands.rep.cooldown.pass"))
+                                )
+                        );
 
-                //Check for RL.
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
-                    return;
+                        return;
+                    }
 
-                UnifiedPlayer player = UnifiedPlayer.of(user, ctx.getConfig().getCurrentSeason());
-                player.addReputation(1L);
-                player.save();
+                    //Check for RL.
+                    if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                        return;
 
-                ctx.sendStrippedLocalized("commands.rep.success", EmoteReference.CORRECT, member.getEffectiveName());
+                    UnifiedPlayer player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());
+                    player.addReputation(1L);
+                    player.save();
+
+                    ctx.sendStrippedLocalized("commands.rep.success", EmoteReference.CORRECT, member.getEffectiveName());
+                });
             }
 
             @Override
@@ -331,63 +335,69 @@ public class PlayerCmds {
                     protected void call(Context ctx, String content) {
                         Map<String, String> optionalArguments = ctx.getOptionalArguments();
                         content = Utils.replaceArguments(optionalArguments, content, "brief");
-                        Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                        if (member == null) return;
+                        // Lambdas strike again.
+                        var contentFinal = content;
 
-                        User toLookup = member.getUser();
+                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                            Member member = CustomFinderUtil.findMemberDefault(contentFinal, members, ctx, ctx.getMember());
+                            if (member == null)
+                                return;
 
-                        Player player = ctx.getPlayer(toLookup);
-                        PlayerData playerData = player.getData();
-                        DBUser dbUser = ctx.getDBUser();
+                            User toLookup = member.getUser();
 
-                        I18nContext languageContext = ctx.getLanguageContext();
+                            Player player = ctx.getPlayer(toLookup);
+                            PlayerData playerData = player.getData();
+                            DBUser dbUser = ctx.getDBUser();
 
-                        if (!optionalArguments.isEmpty() && optionalArguments.containsKey("brief")) {
-                            ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),
-                                    playerData.getBadges().stream()
-                                            .sorted()
-                                            .map(Badge::getDisplay)
-                                            .collect(Collectors.joining(", "))
-                            );
+                            I18nContext languageContext = ctx.getLanguageContext();
 
-                            return;
-                        }
+                            if (!optionalArguments.isEmpty() && optionalArguments.containsKey("brief")) {
+                                ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),
+                                        playerData.getBadges().stream()
+                                                .sorted()
+                                                .map(Badge::getDisplay)
+                                                .collect(Collectors.joining(", "))
+                                );
 
-                        List<Badge> badges = playerData.getBadges();
-                        Collections.sort(badges);
+                                return;
+                            }
 
-                        EmbedBuilder embed = new EmbedBuilder()
-                                .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
-                                .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
-                                .setThumbnail(toLookup.getEffectiveAvatarUrl());
-                        List<MessageEmbed.Field> fields = new LinkedList<>();
+                            List<Badge> badges = playerData.getBadges();
+                            Collections.sort(badges);
 
-                        for (Badge b : badges) {
-                            //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
-                            fields.add(new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false));
-                        }
+                            EmbedBuilder embed = new EmbedBuilder()
+                                    .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
+                                    .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
+                                    .setThumbnail(toLookup.getEffectiveAvatarUrl());
+                            List<MessageEmbed.Field> fields = new LinkedList<>();
 
-                        if (badges.isEmpty()) {
-                            embed.setDescription(languageContext.get("commands.badges.no_badges"));
-                            ctx.send(embed.build());
-                            return;
-                        }
+                            for (Badge b : badges) {
+                                //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
+                                fields.add(new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false));
+                            }
 
-                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                        boolean hasReactionPerms = ctx.hasReactionPerms();
+                            if (badges.isEmpty()) {
+                                embed.setDescription(languageContext.get("commands.badges.no_badges"));
+                                ctx.send(embed.build());
+                                return;
+                            }
 
-                        embed.setFooter(languageContext.get("commands.badges.footer"), null);
+                            List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                            boolean hasReactionPerms = ctx.hasReactionPerms();
 
-                        String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
-                                ((r.nextInt(2) == 0 && !dbUser.isPremium() ? languageContext.get("commands.badges.donate_notice") : "\n") +
-                                        String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
-                        if (hasReactionPerms) {
-                            embed.setDescription(languageContext.get("general.arrow_react") + "\n" + common);
-                            DiscordUtils.list(ctx.getEvent(), 60, false, embed, splitFields);
-                        } else {
-                            embed.setDescription(languageContext.get("general.text_menu") + "\n" + common);
-                            DiscordUtils.listText(ctx.getEvent(), 60, false, embed, splitFields);
-                        }
+                            embed.setFooter(languageContext.get("commands.badges.footer"), null);
+
+                            String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
+                                    ((r.nextInt(2) == 0 && !dbUser.isPremium() ? languageContext.get("commands.badges.donate_notice") : "\n") +
+                                            String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
+                            if (hasReactionPerms) {
+                                embed.setDescription(languageContext.get("general.arrow_react") + "\n" + common);
+                                DiscordUtils.list(ctx.getEvent(), 60, false, embed, splitFields);
+                            } else {
+                                embed.setDescription(languageContext.get("general.text_menu") + "\n" + common);
+                                DiscordUtils.listText(ctx.getEvent(), 60, false, embed, splitFields);
+                            }
+                        });
                     }
                 };
             }

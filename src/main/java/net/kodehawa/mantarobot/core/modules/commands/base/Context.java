@@ -17,11 +17,11 @@
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import redis.clients.jedis.JedisPool;
 
 import java.util.EnumSet;
@@ -229,6 +230,37 @@ public class Context {
         getChannel().sendMessageFormat(languageContext.get(localizedMessage), args)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
+    }
+
+    public Task<List<Member>> findMember(String query, Message message) {
+        return CustomFinderUtil.lookupMember(getGuild(), message,this, query);
+    }
+
+    public User retrieveUserById(String id) {
+        User user = null;
+        try {
+            user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
+        } catch (Exception ignored) { }
+
+        return user;
+    }
+
+    public Member retrieveMemberById(Guild guild, String id, boolean update) {
+        Member member = null;
+        try {
+            member = guild.retrieveMemberById(id, update).complete();
+        } catch (Exception ignored) { }
+
+        return member;
+    }
+
+    public Member retrieveMemberById(String id, boolean update) {
+        Member member = null;
+        try {
+            member = getGuild().retrieveMemberById(id, update).complete();
+        } catch (Exception ignored) { }
+
+        return member;
     }
 
     public JedisPool getJedisPool() {

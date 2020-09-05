@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
@@ -389,7 +390,7 @@ public class RelationshipCmds {
                     }
 
                     //Can we find the user this is married to?
-                    final User marriedTo = MantaroBot.getInstance().getShardManager().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                    final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                     if (marriedTo == null) {
                         ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                         return;
@@ -483,7 +484,7 @@ public class RelationshipCmds {
                 }
 
                 //Can we find the user this is married to?
-                final User marriedTo = MantaroBot.getInstance().getShardManager().getUserById(currentMarriage.getOtherPlayer(author.getId()));
+                final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if (marriedTo == null) {
                     ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                     return;
@@ -635,8 +636,8 @@ public class RelationshipCmds {
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         for (String waifu : userData.getWaifus().keySet()) {
-                            //Complete again, yes. This fixes the issue of cross-node waifus not appearing.
-                            User user = MantaroBot.getInstance().getShardManager().retrieveUserById(waifu).complete();
+                            //This fixes the issue of cross-node waifus not appearing.
+                            User user = ctx.retrieveUserById(waifu);
                             if (user == null) {
                                 fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
                                         languageContext.get("commands.waifu.value_format") + " unknown\n" +
@@ -757,36 +758,38 @@ public class RelationshipCmds {
                     return;
                 }
 
-                Member member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                if (member == null)
-                    return;
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null)
+                        return;
 
-                User toLookup = member.getUser();
-                if (toLookup.isBot()) {
-                    ctx.sendLocalized("commands.waifu.bot", EmoteReference.ERROR);
-                    return;
-                }
+                    User toLookup = member.getUser();
+                    if (toLookup.isBot()) {
+                        ctx.sendLocalized("commands.waifu.bot", EmoteReference.ERROR);
+                        return;
+                    }
 
-                Waifu waifuStats = calculateWaifuValue(toLookup);
-                I18nContext languageContext = ctx.getLanguageContext();
+                    Waifu waifuStats = calculateWaifuValue(toLookup);
+                    I18nContext languageContext = ctx.getLanguageContext();
 
-                EmbedBuilder statsBuilder = new EmbedBuilder()
-                        .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                        .setAuthor(toLookup == ctx.getAuthor() ?
-                                        languageContext.get("commands.waifu.stats.header") :
-                                        String.format(languageContext.get("commands.waifu.stats.header_other"), toLookup.getName()),
-                                null, toLookup.getEffectiveAvatarUrl()
-                        ).setColor(Color.PINK)
-                        .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
-                                EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(),
-                                waifuStats.getExperienceValue(), waifuStats.getClaimValue(), waifuStats.getReputationMultiplier())
-                        ).addField(languageContext.get("commands.waifu.stats.performance"),
-                                EmoteReference.ZAP.toString() + waifuStats.getPerformance() + "wp", true
-                        ).addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY +
-                                String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false
-                        ).setFooter(languageContext.get("commands.waifu.notice"), null);
+                    EmbedBuilder statsBuilder = new EmbedBuilder()
+                            .setThumbnail(toLookup.getEffectiveAvatarUrl())
+                            .setAuthor(toLookup == ctx.getAuthor() ?
+                                            languageContext.get("commands.waifu.stats.header") :
+                                            String.format(languageContext.get("commands.waifu.stats.header_other"), toLookup.getName()),
+                                    null, toLookup.getEffectiveAvatarUrl()
+                            ).setColor(Color.PINK)
+                            .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
+                                    EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(),
+                                    waifuStats.getExperienceValue(), waifuStats.getClaimValue(), waifuStats.getReputationMultiplier())
+                            ).addField(languageContext.get("commands.waifu.stats.performance"),
+                                    EmoteReference.ZAP.toString() + waifuStats.getPerformance() + "wp", true
+                            ).addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY +
+                                    String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false
+                            ).setFooter(languageContext.get("commands.waifu.notice"), null);
 
-                ctx.send(statsBuilder.build());
+                    ctx.send(statsBuilder.build());
+                });
             }
         });
 
@@ -922,91 +925,95 @@ public class RelationshipCmds {
                     return;
                 }
 
-                //We don't look this up if it's by-id.
-                Member member = null;
-                if (!isId) {
-                    member = Utils.findMember(ctx.getEvent(), ctx.getMember(), content);
-                    if (member == null)
+                // This is hacky as heck, but assures us we get an empty result on id lookup.
+                var lookup = isId ? "" : content;
+                // Lambdas strike again.
+                var finalContent = content;
+                ctx.findMember(lookup, ctx.getMessage()).onSuccess(members -> {
+                    // This is hacky again, but search *will* fail if we pass a empty list to this method.
+                    Member member = isId ? null : CustomFinderUtil.findMember(lookup, members, ctx);
+                    if(member == null && !isId) {
                         return;
-                }
+                    }
 
-                User toLookup = isId ? MantaroBot.getInstance().getShardManager().getUserById(content) : member.getUser();
-                boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
-                if (toLookup == null && !isUnknown) {
-                    ctx.sendLocalized("commands.waifu.unclaim.not_found", EmoteReference.ERROR);
-                    return;
-                }
+                    User toLookup = isId ? ctx.retrieveUserById(finalContent) : member.getUser();
+                    boolean isUnknown = isId && t.containsKey("unknown") && toLookup == null;
+                    if (toLookup == null && !isUnknown) {
+                        ctx.sendLocalized("commands.waifu.unclaim.not_found", EmoteReference.ERROR);
+                        return;
+                    }
 
-                //It'll only be null if -unknown is passed with an unknown ID. This is unclaim, so this check is a bit irrelevant though.
-                if (!isUnknown && toLookup.isBot()) {
-                    ctx.sendLocalized("commands.waifu.bot", EmoteReference.ERROR);
-                    return;
-                }
+                    //It'll only be null if -unknown is passed with an unknown ID. This is unclaim, so this check is a bit irrelevant though.
+                    if (!isUnknown && toLookup.isBot()) {
+                        ctx.sendLocalized("commands.waifu.bot", EmoteReference.ERROR);
+                        return;
+                    }
 
-                String userId = isUnknown ? content : toLookup.getId();
-                String name = isUnknown ? "Unknown User" : toLookup.getName();
-                final DBUser claimerUser = ctx.getDBUser();
-                final UserData data = claimerUser.getData();
+                    String userId = isUnknown ? finalContent : toLookup.getId();
+                    String name = isUnknown ? "Unknown User" : toLookup.getName();
+                    final DBUser claimerUser = ctx.getDBUser();
+                    final UserData data = claimerUser.getData();
 
-                Long value = data.getWaifus().get(userId);
+                    Long value = data.getWaifus().get(userId);
 
-                if (value == null) {
-                    ctx.sendLocalized("commands.waifu.not_claimed", EmoteReference.ERROR);
-                    return;
-                }
+                    if (value == null) {
+                        ctx.sendLocalized("commands.waifu.not_claimed", EmoteReference.ERROR);
+                        return;
+                    }
 
-                long valuePayment = (long) (value * 0.15);
+                    long valuePayment = (long) (value * 0.15);
 
-                //Send confirmation message.
-                ctx.sendLocalized("commands.waifu.unclaim.confirmation", EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH);
+                    //Send confirmation message.
+                    ctx.sendLocalized("commands.waifu.unclaim.confirmation", EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH);
 
-                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, (ie) -> {
-                    if (!ie.getAuthor().getId().equals(ctx.getAuthor().getId())) {
+                    InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, (ie) -> {
+                        if (!ie.getAuthor().getId().equals(ctx.getAuthor().getId())) {
+                            return Operation.IGNORED;
+                        }
+
+                        //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                        String c = ie.getMessage().getContentRaw();
+                        for (String s : ctx.getConfig().prefix) {
+                            if (c.toLowerCase().startsWith(s)) {
+                                c = c.substring(s.length());
+                            }
+                        }
+
+                        String guildCustomPrefix = ctx.getDBGuild().getData().getGuildCustomPrefix();
+                        if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
+                            c = c.substring(guildCustomPrefix.length());
+                        }
+                        //End of prefix replacing.
+
+                        if (c.equalsIgnoreCase("yes")) {
+                            Player p = ctx.getPlayer();
+                            final DBUser user = ctx.getDBUser();
+                            final UserData userData = user.getData();
+
+                            if (p.getMoney() < valuePayment) {
+                                ctx.sendLocalized("commands.waifu.unclaim.not_enough_money", EmoteReference.ERROR);
+                                return Operation.COMPLETED;
+                            }
+
+                            if (p.isLocked()) {
+                                ctx.sendLocalized("commands.waifu.unclaim.player_locked", EmoteReference.ERROR);
+                                return Operation.COMPLETED;
+                            }
+
+                            p.removeMoney(valuePayment);
+                            userData.getWaifus().remove(userId);
+                            user.save();
+                            p.save();
+
+                            ctx.sendLocalized("commands.waifu.unclaim.success", EmoteReference.CORRECT, name, valuePayment);
+                            return Operation.COMPLETED;
+                        } else if (c.equalsIgnoreCase("no")) {
+                            ctx.sendLocalized("commands.waifu.unclaim.scrapped", EmoteReference.CORRECT);
+                            return Operation.COMPLETED;
+                        }
+
                         return Operation.IGNORED;
-                    }
-
-                    //Replace prefix because people seem to think you have to add the prefix before saying yes.
-                    String c = ie.getMessage().getContentRaw();
-                    for (String s : ctx.getConfig().prefix) {
-                        if (c.toLowerCase().startsWith(s)) {
-                            c = c.substring(s.length());
-                        }
-                    }
-
-                    String guildCustomPrefix = ctx.getDBGuild().getData().getGuildCustomPrefix();
-                    if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && c.toLowerCase().startsWith(guildCustomPrefix)) {
-                        c = c.substring(guildCustomPrefix.length());
-                    }
-                    //End of prefix replacing.
-
-                    if (c.equalsIgnoreCase("yes")) {
-                        Player p = ctx.getPlayer();
-                        final DBUser user = ctx.getDBUser();
-                        final UserData userData = user.getData();
-
-                        if (p.getMoney() < valuePayment) {
-                            ctx.sendLocalized("commands.waifu.unclaim.not_enough_money", EmoteReference.ERROR);
-                            return Operation.COMPLETED;
-                        }
-
-                        if (p.isLocked()) {
-                            ctx.sendLocalized("commands.waifu.unclaim.player_locked", EmoteReference.ERROR);
-                            return Operation.COMPLETED;
-                        }
-
-                        p.removeMoney(valuePayment);
-                        userData.getWaifus().remove(userId);
-                        user.save();
-                        p.save();
-
-                        ctx.sendLocalized("commands.waifu.unclaim.success", EmoteReference.CORRECT, name, valuePayment);
-                        return Operation.COMPLETED;
-                    } else if (c.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.waifu.unclaim.scrapped", EmoteReference.CORRECT);
-                        return Operation.COMPLETED;
-                    }
-
-                    return Operation.IGNORED;
+                    });
                 });
             }
         });

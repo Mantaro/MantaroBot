@@ -19,17 +19,19 @@ package net.kodehawa.mantarobot.commands.music.requester;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import io.sentry.Sentry;
 import lavalink.client.io.Link;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
 import lavalink.client.player.event.PlayerEventListenerAdapter;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
@@ -107,7 +109,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             return;
         }
 
-        if (MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
+        Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+        DBGuild dbGuild = MantaroData.db().getGuild(guildId);
+
+        if (dbGuild.getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
 
             //What kind of massive meme is this? part 2
@@ -139,10 +144,12 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 String title = information.title;
                 long trackLength = information.length;
 
-                User user = null;
-                if (getCurrentTrack().getUserData() != null) {
-                    user = MantaroBot.getInstance().getShardManager()
-                            .getUserById(String.valueOf(getCurrentTrack().getUserData()));
+                Member user = null;
+                if (getCurrentTrack().getUserData() != null && guild != null) {
+                    // Retrieve member instead of user, so it gets cached.
+                    try {
+                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false).complete();
+                    } catch (Exception ignored) {}
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.
@@ -152,7 +159,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                     "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength),
                                     voiceChannel.getName(), user != null ?
                                             String.format(language.get("general.requested_by"),
-                                                    String.format("**%s#%s**", user.getName(), user.getDiscriminator()))
+                                                    String.format("**%s**", user.getUser().getAsTag()))
                                             : ""))
                                     .build()
                     ).queue(message -> {

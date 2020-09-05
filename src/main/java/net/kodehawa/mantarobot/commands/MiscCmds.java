@@ -365,7 +365,7 @@ public class MiscCmds {
                         .setOptions(options)
                         .setLanguage(ctx.getLanguageContext())
                         .build()
-                        .startPoll();
+                        .startPoll(ctx);
             }
 
             @Override

@@ -22,12 +22,12 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -53,8 +53,8 @@ public class Poll extends Lobby {
     private final String image;
     private Future<Void> runningPoll;
     private boolean isCompliant = true;
-    private String name;
-    private String owner;
+    private final String name;
+    private final String owner;
 
     public Poll(String id, String guildId, String channelId, String ownerId, String name, long timeout, I18nContext languageContext, String image, String... options) {
         super(guildId, channelId);
@@ -79,7 +79,7 @@ public class Poll extends Lobby {
         return new PollBuilder();
     }
 
-    public void startPoll() {
+    public void startPoll(Context ctx) {
         try {
             if (!isCompliant) {
                 getChannel().sendMessageFormat(languageContext.get("commands.poll.invalid"), EmoteReference.WARNING).queue();
@@ -111,21 +111,21 @@ public class Poll extends Lobby {
                 toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
             }
 
-            User author = MantaroBot.getInstance().getShardManager().getUserById(owner);
+            User user = ctx.getAuthor();
 
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
-                    data.getRanPolls(), author.getName()), null, author.getAvatarUrl())
+                    data.getRanPolls(), user.getName()), null, user.getAvatarUrl())
                     .setDescription(String.format(languageContext.get("commands.poll.success"), name))
                     .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
                     .setColor(Color.CYAN)
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), author.getAvatarUrl());
+                    .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), user.getAvatarUrl());
 
 
             if (image != null && EmbedBuilder.URL_PATTERN.asPredicate().test(image))
                 builder.setImage(image);
 
-            getChannel().sendMessage(builder.build()).queue(message -> createPoll(message, languageContext));
+            getChannel().sendMessage(builder.build()).queue(message -> createPoll(ctx, message, languageContext));
 
             InteractiveOperations.create(getChannel(), Long.parseLong(owner), timeout, e -> {
                 if (e.getAuthor().getId().equals(owner)) {
@@ -162,7 +162,7 @@ public class Poll extends Lobby {
         return r;
     }
 
-    private Future<Void> createPoll(Message message, I18nContext languageContext) {
+    private Future<Void> createPoll(Context ctx, Message message, I18nContext languageContext) {
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
             public int add(MessageReactionAddEvent e) {
@@ -175,10 +175,10 @@ public class Poll extends Lobby {
                 if (getChannel() == null)
                     return;
 
+                User user = ctx.getAuthor();
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setTitle(languageContext.get("commands.poll.result_header"))
-                        .setDescription(String.format(languageContext.get("commands.poll.result_screen"),
-                                MantaroBot.getInstance().getShardManager().getUserById(owner).getName(), name))
+                        .setDescription(String.format(languageContext.get("commands.poll.result_screen"), user.getName(), name))
                         .setFooter(languageContext.get("commands.poll.thank_note"), null);
 
                 AtomicInteger react = new AtomicInteger(0);

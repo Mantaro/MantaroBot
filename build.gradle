@@ -98,7 +98,7 @@ dependencies {
     compile 'com.github.natanbc:usage-tracker:0.1.1'
 
     //Basically for FinderUtil
-    compile 'com.jagrosh:jda-utilities:3.0.4'
+    compile 'com.jagrosh:jda-utilities-commons:3.0.4'
 
     compile 'io.prometheus:simpleclient:0.9.0'
     compile 'io.prometheus:simpleclient_hotspot:0.9.0'

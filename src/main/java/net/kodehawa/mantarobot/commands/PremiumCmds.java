@@ -27,8 +27,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -45,6 +45,7 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
 
@@ -262,101 +263,95 @@ public class PremiumCmds {
                             return;
                         }
 
-                        Member member = null;
-                        User toCheck = ctx.getAuthor();
                         I18nContext languageContext = ctx.getLanguageContext();
 
-                        if(!content.isEmpty()) {
-                            member = Utils.findMember(ctx.getEvent(), languageContext, content);
-                            //Search failed, return.
-                            if (member == null) {
+                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                            Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                            if(member == null)
+                                return;
+
+                            User toCheck = member.getUser();
+                            DBUser dbUser = db.getUser(toCheck);
+                            UserData data = dbUser.getData();
+                            boolean isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
+
+                            if(!dbUser.isPremium()) {
+                                ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
                                 return;
                             }
-                        }
 
-                        boolean isLookup = member != null;
-                        if (isLookup)
-                            toCheck = member.getUser();
-
-                        DBUser dbUser = db.getUser(toCheck);
-                        UserData data = dbUser.getData();
-
-                        if(!dbUser.isPremium()) {
-                            ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        EmbedBuilder embedBuilder = new EmbedBuilder()
-                                .setAuthor(isLookup ? String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName())
-                                        : languageContext.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
-                                );
-
-                        PremiumKey currentKey = db.getPremiumKey(data.getPremiumKey());
-
-                        if(currentKey == null || currentKey.validFor() < 1) {
-                            ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        User owner = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
-                        boolean marked = false;
-                        if (owner == null) {
-                            marked = true;
-                            owner = ctx.getAuthor();
-                        }
-
-                        //Give the badge to the key owner, I'd guess?
-                        if(!marked && isLookup) {
-                            Player p = db.getPlayer(owner);
-                            if (p.getData().addBadgeIfAbsent(Badge.DONATOR_2))
-                                p.saveAsync();
-                        }
-
-                        Pair<Boolean, String> patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                        String linkedTo = currentKey.getData().getLinkedTo();
-                        int amountClaimed = data.getKeysClaimed().size();
-
-                        embedBuilder.setColor(Color.CYAN)
-                                .setThumbnail(toCheck.getEffectiveAvatarUrl())
-                                .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"))
-                                .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
-                                .addField(languageContext.get("commands.vipstatus.patreon"),
-                                        patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
-                                .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
-                                .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
-                                .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
-
-                        try {
-                            //User has more keys than what the system would allow. Warn.
-                            if (patreonInformation != null && patreonInformation.getLeft()) {
-                                double patreonAmount = Double.parseDouble(patreonInformation.getRight());
-
-                                if((patreonAmount / 2) - amountClaimed < 0) {
-                                    LogUtils.log(
-                                            String.format(
-                                                    "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
-                                                    Utils.paste(
-                                                            data.getKeysClaimed().entrySet().stream().map(entry ->
-                                                                    "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n")
-                                                            )
-                                                    ), patreonAmount, amountClaimed, (patreonAmount / 2)
-                                            )
+                            EmbedBuilder embedBuilder = new EmbedBuilder()
+                                    .setAuthor(isLookup ? String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName())
+                                            : languageContext.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
                                     );
-                                }
+
+                            PremiumKey currentKey = db.getPremiumKey(data.getPremiumKey());
+
+                            if(currentKey == null || currentKey.validFor() < 1) {
+                                ctx.sendLocalized("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
+                                return;
                             }
-                        } catch (Exception ignored) { }
 
-                        if (linkedTo != null) {
-                            User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
-                            if(linkedUser != null)
-                                embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() +
-                                        "#" + linkedUser.getDiscriminator(), true);
-                        } else {
-                            embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
-                                    .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
-                        }
+                            User owner = ctx.retrieveUserById(currentKey.getOwner());
+                            boolean marked = false;
+                            if (owner == null) {
+                                marked = true;
+                                owner = ctx.getAuthor();
+                            }
 
-                        ctx.send(embedBuilder.build());
+                            //Give the badge to the key owner, I'd guess?
+                            if(!marked && isLookup) {
+                                Player p = db.getPlayer(owner);
+                                if (p.getData().addBadgeIfAbsent(Badge.DONATOR_2))
+                                    p.saveAsync();
+                            }
+
+                            Pair<Boolean, String> patreonInformation = APIUtils.getPledgeInformation(owner.getId());
+                            String linkedTo = currentKey.getData().getLinkedTo();
+                            int amountClaimed = data.getKeysClaimed().size();
+
+                            embedBuilder.setColor(Color.CYAN)
+                                    .setThumbnail(toCheck.getEffectiveAvatarUrl())
+                                    .setDescription(languageContext.get("commands.vipstatus.user.premium") + "\n" + languageContext.get("commands.vipstatus.description"))
+                                    .addField(languageContext.get("commands.vipstatus.key_owner"), owner.getName() + "#" + owner.getDiscriminator(), true)
+                                    .addField(languageContext.get("commands.vipstatus.patreon"),
+                                            patreonInformation == null ? "Error" : String.valueOf(patreonInformation.getLeft()), true)
+                                    .addField(languageContext.get("commands.vipstatus.keys_claimed"), String.valueOf(amountClaimed), false)
+                                    .addField(languageContext.get("commands.vipstatus.linked"), String.valueOf(linkedTo != null), false)
+                                    .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
+
+                            try {
+                                //User has more keys than what the system would allow. Warn.
+                                if (patreonInformation != null && patreonInformation.getLeft()) {
+                                    double patreonAmount = Double.parseDouble(patreonInformation.getRight());
+
+                                    if((patreonAmount / 2) - amountClaimed < 0) {
+                                        LogUtils.log(
+                                                String.format(
+                                                        "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
+                                                        Utils.paste(
+                                                                data.getKeysClaimed().entrySet().stream().map(entry ->
+                                                                        "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n")
+                                                                )
+                                                        ), patreonAmount, amountClaimed, (patreonAmount / 2)
+                                                )
+                                        );
+                                    }
+                                }
+                            } catch (Exception ignored) { }
+
+                            if (linkedTo != null) {
+                                User linkedUser = ctx.retrieveUserById(currentKey.getOwner());
+                                if(linkedUser != null)
+                                    embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() +
+                                            "#" + linkedUser.getDiscriminator(), true);
+                            } else {
+                                embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
+                                        .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
+                            }
+
+                            ctx.send(embedBuilder.build());
+                        });
                     }
                 };
             }
@@ -370,6 +365,8 @@ public class PremiumCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("vipstatus", "premium");
 
         vipstatusCmd.addSubCommand("guild", new SubCommand() {
             @Override
@@ -393,7 +390,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                User owner = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
+                User owner = ctx.retrieveUserById(currentKey.getOwner());
                 if (owner == null)
                     owner = Objects.requireNonNull(ctx.getGuild().getOwner()).getUser();
 
@@ -409,7 +406,7 @@ public class PremiumCmds {
                         .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
 
                 if (linkedTo != null) {
-                    User linkedUser = MantaroBot.getInstance().getShardManager().getUserById(currentKey.getOwner());
+                    User linkedUser = ctx.retrieveUserById(currentKey.getOwner());
                     if(linkedUser != null)
                         embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName()  + "#" +
                                 linkedUser.getDiscriminator(), false);
@@ -421,7 +418,7 @@ public class PremiumCmds {
 
                 ctx.send(embedBuilder.build());
             }
-        });
+        }).createSubCommandAlias("guild", "server");
     }
 
     //Won't translate this. Owner command.

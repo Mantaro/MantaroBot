@@ -836,7 +836,7 @@ public class MusicCmds {
 
                     if (isDJ(ctx.getMember())) {
                         ctx.sendLocalized("commands.stop.dj_stop", EmoteReference.CORRECT);
-                        stop(ctx);
+                        stopCurrent(ctx);
                         return;
                     }
 
@@ -845,7 +845,7 @@ public class MusicCmds {
 
                     if (!guildData.isMusicVote()) {
                         ctx.sendLocalized("commands.stop.success", EmoteReference.CORRECT);
-                        stop(ctx);
+                        stopCurrent(ctx);
                     } else {
                         List<String> stopVotes = scheduler.getVoteStop();
                         int requiredVotes = scheduler.getRequiredVotes();
@@ -856,7 +856,7 @@ public class MusicCmds {
                             stopVotes.add(author.getId());
                             if (stopVotes.size() >= requiredVotes) {
                                 ctx.sendLocalized("commands.stop.success", EmoteReference.CORRECT);
-                                stop(ctx);
+                                stopCurrent(ctx);
                                 return;
                             }
 
@@ -1055,7 +1055,7 @@ public class MusicCmds {
      *
      * @param ctx The command context
      */
-    private void stop(Context ctx) {
+    private void stopCurrent(Context ctx) {
         try {
             GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
             TrackScheduler trackScheduler = musicManager.getTrackScheduler();
@@ -1081,23 +1081,42 @@ public class MusicCmds {
     }
 
     private boolean isInConditionTo(Context ctx, JdaLink player) {
-        try {
-            if (!ctx.getMember().getVoiceState().inVoiceChannel() || !ctx.getMember().getVoiceState().getChannel().getId().equalsIgnoreCase(player.getChannel())) {
-                if (isDJ(ctx.getMember())) {
-                    return true;
-                }
+        GuildVoiceState selfVoiceState = ctx.getSelfMember().getVoiceState();
+        GuildVoiceState voiceState = ctx.getMember().getVoiceState();
 
+        try {
+            // Maybe?
+            if (isDJ(ctx.getMember())) {
+                return true;
+            }
+
+            // We can't do anything if voiceChannel is null, so send not connected.
+            if(voiceState == null || voiceState.getChannel() == null) {
+                sendNotConnectedToMyChannel(ctx.getChannel(), ctx.getLanguageContext());
+                return false; //No player to stop/change?
+            }
+
+            // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
+            if (!voiceState.inVoiceChannel() || !voiceState.getChannel().getId().equals(player.getChannel())) {
                 sendNotConnectedToMyChannel(ctx.getChannel(), ctx.getLanguageContext());
                 return false;
             }
 
+            // No self voice state?
+            if(selfVoiceState == null) {
+                ctx.sendLocalized("commands.music_general.no_player", EmoteReference.ERROR);
+                return false; //No player to stop/change?
+            }
+
             return true;
-        } catch (NullPointerException e) {
-            if (ctx.getSelfMember().getVoiceState().inVoiceChannel())
+        } catch (NullPointerException e) { // Maybe a little harder to reach this?
+            // Ironically before we checked for this without checking if selfVoiceState was null
+            // therefore we threw a NPE when catching a NPE...
+            if (selfVoiceState != null && selfVoiceState.inVoiceChannel())
                 log.error("Possible bug? No player even though bot is connected to a channel!", e);
 
             ctx.sendLocalized("commands.music_general.no_player", EmoteReference.ERROR);
-            return false; //No player to stop/change?
+            return false; // No player to stop/change?
         }
     }
 }

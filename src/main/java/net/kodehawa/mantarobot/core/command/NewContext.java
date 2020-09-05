@@ -1,8 +1,7 @@
 package net.kodehawa.mantarobot.core.command;
 
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.*;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.argument.Arguments;
 import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
@@ -223,6 +222,10 @@ public class NewContext {
         return message.getChannel();
     }
 
+    public Guild getGuild() {
+        return message.getGuild();
+    }
+
     public void send(Message message) {
         getChannel().sendMessage(message).queue();
     }
@@ -257,5 +260,32 @@ public class NewContext {
         getChannel().sendMessageFormat(i18n.get(localizedMessage), args)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
+    }
+
+    public User retrieveUserById(String id) {
+        User user = null;
+        try {
+            user = MantaroBot.getInstance().getShardManager().retrieveUserById(id).complete();
+        } catch (Exception ignored) { }
+
+        return user;
+    }
+
+    public Member retrieveMemberById(Guild guild, String id, boolean update) {
+        Member member = null;
+        try {
+            member = guild.retrieveMemberById(id, update).complete();
+        } catch (Exception ignored) { }
+
+        return member;
+    }
+
+    public Member retrieveMemberById(String id, boolean update) {
+        Member member = null;
+        try {
+            member = getGuild().retrieveMemberById(id, update).complete();
+        } catch (Exception ignored) { }
+
+        return member;
     }
 }
