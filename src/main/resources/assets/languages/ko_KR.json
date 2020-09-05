@@ -25,6 +25,8 @@
     "options": "옵션",
     "find_members_failure": "%1$s검색 조건을 가진 멤버를 찾지 못했어요 ㅠㅠ",
     "too_many_members": "%1$s너무 많은 멤버를 찾았는데 검색을 개선해 주실 수 있나요? (ex. example#0000)\n**유저 찾음:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "여기는 먼지밖에 없네요.",
     "invalid_syntax": "올바르지 않은 구문 구조.",
     "item_lookup": {
@@ -401,6 +403,7 @@
       },
       "raw": {
         "no_command": "%1$s어떤 명령어를 보고 싶은지 말해주세요.",
+        "not_found": "%1$sI can't find that command.",
         "header": "원초적 사용자 정의 명령어: %1$s",
         "amount": "(%1$d 응답 %2$d 표시)",
         "description": "이 명령은 원초적 형식(명령어에 입력하는 내용)으로 모든 응답의 목록이에요."
@@ -969,7 +972,10 @@
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
@@ -1026,7 +1032,7 @@
       "user": {
         "header": "Your Premium Status",
         "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Premium user! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
