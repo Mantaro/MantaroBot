@@ -78,7 +78,7 @@ public class CurrencyCmds {
             Map<String, Pet> profilePets = p.getData().getPets();
             final TextChannel channel = event.getChannel();
 
-            //Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
+            // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
             // NumberFormatException?
             int amount = 1;
             if(arguments.containsKey("amount")) {
@@ -111,8 +111,8 @@ public class CurrencyCmds {
 
             PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
             var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
-            //This used to only check for activePotion. The issue with this was that there could be one potion that was fully used, but there was another potion
-            //waiting to be used. In that case the potion would get overidden. In case you have more than a potion equipped, we'll just stack the rest as necessary.
+            // This used to only check for activePotion. The issue with this was that there could be one potion that was fully used, but there was another potion
+            // waiting to be used. In that case the potion would get overridden. In case you have more than a potion equipped, we'll just stack the rest as necessary.
             if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
                 //Currently has a potion equipped, but wants to stack a potion of other type.
                 if (currentPotion.getPotion() != Items.idOf(item)) {
@@ -122,32 +122,32 @@ public class CurrencyCmds {
                     return;
                 }
 
-                //Currently has a potion equipped, and is of the same type.
+                // Currently has a potion equipped, and is of the same type.
                 if (currentPotion.getAmountEquipped() + amount < 10) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1).queue();
                 } else {
-                    //Too many stacked (max: 10).
+                    // Too many stacked (max: 10).
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
                     return;
                 }
             } else {
-                //No potion stacked.
+                // No potion stacked.
                 PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
 
-                //If there's more than 1, proceed to equip the stacks.
-
-                if (amount>=10) {
+                // If there's more than 1, proceed to equip the stacks.
+                if (amount >= 10) {
                     //Too many stacked (max: 10).
                     channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
                     return;
                 }
+
                 if (amount > 1)
                     effect.equip(amount - 1); //Amount - 1 because we're technically using one.
 
 
-                //Apply the effect.
+                // Apply the effect.
                 equippedItems.applyEffect(effect);
                 channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
                         EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
@@ -157,7 +157,7 @@ public class CurrencyCmds {
             if(amount == 9)
                 p.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
 
-            //Default: 1
+            // Default: 1
             p.getInventory().process(new ItemStack(item, -amount));
             p.save();
             dbUser.save();
@@ -177,7 +177,7 @@ public class CurrencyCmds {
             public void call(Context ctx, String content, String[] args) {
                 Map<String, String> t = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(t, content, "brief", "calculate", "calc", "c", "info", "full", "season", "s");
-                //Lambda memes lol
+                // Lambda memes lol
                 var finalContent = content;
 
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {

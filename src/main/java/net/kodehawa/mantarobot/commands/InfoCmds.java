@@ -78,7 +78,6 @@ public class InfoCmds {
     @Subscribe
     public void donate(CommandRegistry cr) {
         cr.register("donate", new SimpleCommand(CommandCategory.INFO) {
-
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.sendLocalized("commands.donate.beg", EmoteReference.HEART,
@@ -164,7 +163,7 @@ public class InfoCmds {
                         .setDescription(String.format(languageContext.get("commands.serverinfo.description"), guild.getName()))
                         .setThumbnail(guild.getIconUrl())
                         .addField(languageContext.get("commands.serverinfo.users"),
-                                (int) guild.getMembers().stream().filter(u ->
+                                (int) guild.getMemberCache().stream().filter(u ->
                                         !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
                         .addField(languageContext.get("commands.serverinfo.created"),
                                 guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME)

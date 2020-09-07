@@ -219,34 +219,38 @@ public class UtilsCmds {
             @Override
             protected void call(Context ctx, String content) {
                 BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
-
                 try {
-                    //Why would this happen is out of my understanding.
+                    // Why would this happen is out of my understanding.
                     if (cacher != null) {
-                        //same as above unless testing?
+                        // same as above unless testing?
                         if (cacher.cachedBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
 
-                        //O(1) lookups. Probably.
+                        // O(1) lookups. Probably.
                         Guild guild = ctx.getGuild();
-                        HashSet<String> ids = guild.getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toCollection(HashSet::new));
+                        GuildData data = ctx.getDBGuild().getData();
+
+                        List<String> ids = data.getAllowedBirthdays();
                         Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = cacher.cachedBirthdays;
 
-                        //No birthdays to be seen here? (This month)
+                        // No birthdays to be seen here? (This month)
                         if (guildCurrentBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
-                        //Build the message. This is duplicated on birthday month with a lil different.
+                        // Build the message. This is duplicated on birthday month with a lil different.
                         String birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .filter(entry -> guild.getMemberById(entry.getKey()) != null)
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
-                                    return String.format("+ %-20s : %s ", guild.getMemberById(entry.getKey()).getEffectiveName(), birthday[0] + "-" + birthday[1]);
+                                    return String.format("+ %-20s : %s ",
+                                            guild.retrieveMemberById(entry.getKey(), false).complete().getEffectiveName(),
+                                            birthday[0] + "-" + birthday[1]
+                                    );
                                 })
                                 .collect(Collectors.joining("\n"));
 
@@ -261,8 +265,8 @@ public class UtilsCmds {
                                             String.format("```diff\n%s```", s1)));
                         }
 
-                        //Show the message.
-                        //Probably a p big one tbh.
+                        // Show the message.
+                        // Probably a p big one tbh.
                         if (hasReactionPerms)
                             DiscordUtils.list(ctx.getEvent(), 45, false, messages);
                         else
@@ -322,8 +326,8 @@ public class UtilsCmds {
                             return;
                         }
 
-                        //O(1) lookups. Probably.
-                        HashSet<String> ids = ctx.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toCollection(HashSet::new));
+                        GuildData data = ctx.getDBGuild().getData();
+                        List<String> ids = data.getAllowedBirthdays();
                         Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new HashMap<>();
 
                         //Try not to die. I mean get calendar month and sum 1.
@@ -351,7 +355,10 @@ public class UtilsCmds {
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
-                                    return String.format("+ %-20s : %s ", ctx.getGuild().getMemberById(entry.getKey()).getEffectiveName(), birthday[0] + "-" + birthday[1]);
+                                    return String.format("+ %-20s : %s ",
+                                            ctx.getGuild().retrieveMemberById(entry.getKey(), false).complete().getEffectiveName(),
+                                            birthday[0] + "-" + birthday[1]
+                                    );
                                 }).collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
