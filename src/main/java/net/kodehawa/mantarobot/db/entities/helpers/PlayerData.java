@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -55,6 +56,7 @@ public class PlayerData {
     private long cratesOpened;
     private long sharksCaught;
     private boolean waifuout;
+    private int lastCrateGiven = 69;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -307,6 +309,14 @@ public class PlayerData {
         this.waifuout = waifuout;
     }
 
+    public int getLastCrateGiven() {
+        return lastCrateGiven;
+    }
+
+    public void setLastCrateGiven(int lastCrateGiven) {
+        this.lastCrateGiven = lastCrateGiven;
+    }
+
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + random.nextInt(5);
@@ -316,4 +326,5 @@ public class PlayerData {
     public void incrementFishingExperience(Random random) {
         this.fishingExperience = fishingExperience + random.nextInt(5);
     }
+
 }

@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -652,18 +653,23 @@ public class CurrencyCmds {
                 }
 
                 Player p = ctx.getPlayer();
+                PlayerData playerData = p.getData();
                 Inventory inventory = p.getInventory();
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
-                Item randomCrate = random.nextBoolean() ? Items.MINE_PREMIUM_CRATE : Items.FISH_PREMIUM_CRATE;
+                // Alternate between mine and fish crates instead of doing so at random, since at random
+                // it might seem like it only gives one sort of crate.
+                Item crate = playerData.getLastCrateGiven() == Items.idOf(Items.MINE_PREMIUM_CRATE) ?
+                        Items.FISH_PREMIUM_CRATE : Items.MINE_PREMIUM_CRATE;
 
-                inventory.process(new ItemStack(randomCrate, 1));
+                inventory.process(new ItemStack(crate, 1));
+                playerData.setLastCrateGiven(Items.idOf(crate));
                 p.save();
 
-                var successMessage = String.format(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, randomCrate.getName()) +
+                var successMessage = String.format(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, crate.getName()) +
                         "\n" + languageContext.get("commands.daily.sellout.already_premium");
 
                 ctx.send(successMessage);
