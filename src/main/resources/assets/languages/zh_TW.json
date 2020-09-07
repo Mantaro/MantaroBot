@@ -354,7 +354,7 @@
       "not_dj": "%1$s你需要成為一個DJ以使用此指令。"
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$s伺服器的DJ已清除目前佇列。",
       "vote": {
         "submit": "%1$s**你已成功投票** 你需要多 %2$d 的票才能停止歌曲！",
         "remove": "%1$s**你的投票已被刪除** 你需要多%2$d的票才能停止！"
