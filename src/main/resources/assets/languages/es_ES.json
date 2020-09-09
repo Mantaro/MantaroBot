@@ -1841,6 +1841,12 @@
       "no_message": "%1$sNecesitas decirme que mensaje quieres que diga cuando alguien deje el servidor!",
       "success": "%1$sEl mensaje de salida del servidor ahora es: %2$s"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
     "autoroles_add": {
       "no_args": "%1$sNecesitas especificar el nombre del iam y el nombre del rol que desees agregar a los roles auto-asignables.",
       "no_role_found": "%1$sNo encontré un rol con ese nombre!",
