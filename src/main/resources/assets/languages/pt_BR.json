@@ -1841,6 +1841,12 @@
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém sair!",
       "success": "%1$sMensagem de saída do servidor definida para: `%2$s`"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
     "autoroles_add": {
       "no_args": "%1$sVocê tem que especificar o nome do iam e o nome do cargo.",
       "no_role_found": "%1$sEu não achei um cargo com esse nome!\nSe o nome do cargoSe o nome do cargoo tiver espaços, coloque-o entre aspas tipo assim: \"Nome do Cargo\"",
