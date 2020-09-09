@@ -472,10 +472,24 @@ public class GuildOptions extends OptionHandler {
         });//endregion
         addOptionAlias("usermessage:joinmessage", "joinmessage");
 
+
+        //region joinmessage
+        registerOption("usermessage:joinmessage:reset", "Reset join message",
+                "Resets the join message", "Sets the join message.", (event, args, lang) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    guildData.setJoinMessage(null);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_reset.success"), EmoteReference.CORRECT).queue();
+                });//endregion
+        addOptionAlias("usermessage:joinmessage:reset", "joinmessage:reset");
+
+
         //region leavemessage
         registerOption("usermessage:leavemessage", "User leave message",
                 "Sets the leave message.\n" +
-                        "**Example:** `~>opts usermessage leavemessage Sad to see you depart, $(event.user.name)`",
+                        "**Example:** `~>opts leavemessage Sad to see you depart, $(event.user.name)`",
                 "Sets the leave message.", (event, args, lang) -> {
             if (args.length == 0) {
                 event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.no_message"), EmoteReference.ERROR).queue();
@@ -491,6 +505,19 @@ public class GuildOptions extends OptionHandler {
             event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage.success"), EmoteReference.CORRECT, leaveMessage).queue();
         });//endregion
         addOptionAlias("usermessage:leavemessage", "leavemessage");
+
+        //region joinmessage
+        registerOption("usermessage:leavemessage:reset", "Reset leave message",
+                "Resets the leave message","Sets the leave message.", (event, args, lang) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    guildData.setLeaveMessage(null);
+                    dbGuild.save();
+                    event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_reset.success"), EmoteReference.CORRECT).queue();
+                });//endregion
+        addOptionAlias("usermessage:leavemessage:reset", "leavemessage:reset");
+
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`", "Adds a new join message", ((event, args, lang) -> {

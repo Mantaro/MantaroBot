@@ -185,7 +185,9 @@ public class BirthdayTask {
                         if(birthdayNumber != 0) {
                             // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
                             // This is to avoid spamming calls to Discord.
-                            birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
+                            birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
+                                    .forEach(message -> channel.sendMessage(message).queue());
+
                         } else {
                             if(!guildData.isNotifiedFromBirthdayChange()) {
                                 birthdayAnnouncerText.append("\n")
@@ -198,7 +200,8 @@ public class BirthdayTask {
                                 guildData.setNotifiedFromBirthdayChange(true);
                                 dbGuild.save();
 
-                                birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
+                                birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
+                                        .forEach(message -> channel.sendMessage(message).queue());
                             } //If it was notified, no need.
                         }
 

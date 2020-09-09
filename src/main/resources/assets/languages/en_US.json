@@ -1841,6 +1841,13 @@
       "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sServer leave message set to: `%2$s`"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
+
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
       "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
