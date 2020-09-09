@@ -1841,6 +1841,12 @@
       "no_message": "%1$sJe moet opgeven welk bericht je wilt dat ik zeg wanneer er iemand de server verlaat!",
       "success": "%1$sHet bericht dat gebruikers te zien krijgen als ze de server verlaten is nu ingesteld op: %2$s"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
     "autoroles_add": {
       "no_args": "%1$sJe moet de naam van de iam en de naam van de rol opgeven.",
       "no_role_found": "%1$sIk kon geen rol vinden met die naam!",
