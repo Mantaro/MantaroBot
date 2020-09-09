@@ -1841,6 +1841,12 @@
       "no_message": "%1$sВам нужно указать сообщение, которое будет отправляться при уходе с сервера!",
       "success": "%1$sСообщение, которе отправляется при уходе с сервера: `%2$s`"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
     "autoroles_add": {
       "no_args": "%1$sВы должны указать имя iam и имя роли..",
       "no_role_found": "%1$sЯ не нашел роль с этим именем!\nЕсли в имени роли есть пробелы, заключите его в кавычки следующим образом:\"Имя роли\"",
