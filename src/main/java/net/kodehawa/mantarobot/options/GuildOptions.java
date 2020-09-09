@@ -475,7 +475,7 @@ public class GuildOptions extends OptionHandler {
 
         //region joinmessage
         registerOption("usermessage:joinmessage:reset", "Reset join message",
-                "Resets the join message", "Sets the join message.", (event, args, lang) -> {
+                "Resets the join message", "Resets the join message.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
@@ -508,7 +508,7 @@ public class GuildOptions extends OptionHandler {
 
         //region joinmessage
         registerOption("usermessage:leavemessage:reset", "Reset leave message",
-                "Resets the leave message","Sets the leave message.", (event, args, lang) -> {
+                "Resets the leave message","Resets the leave message.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
