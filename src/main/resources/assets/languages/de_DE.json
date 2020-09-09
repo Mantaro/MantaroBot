@@ -1841,6 +1841,12 @@
       "no_message": "%1$sDu musst mir eine Nachricht angeben!",
       "success": "%1$sServeraustrittsnachricht geändert zu: `%2$s`"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
     "autoroles_add": {
       "no_args": "%1$sdu musst mir den Namen und die Rolle für das iam angeben.",
       "no_role_found": "%1$sIch habe keine Rolle mit dem Namen gefunden!\nWenn der Rollenname Leerzeichen enthält, verwende Anführungszeichen: \"Rollenname\"",
