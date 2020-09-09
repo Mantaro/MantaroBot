@@ -197,6 +197,8 @@ public class BirthdayTask {
 
                                 guildData.setNotifiedFromBirthdayChange(true);
                                 dbGuild.save();
+
+                                birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
                             } //If it was notified, no need.
                         }
 
