@@ -1841,6 +1841,12 @@
       "no_message": "%1$sTu dois me donner le message que tu veux que j'envoie lorsque quelqu'un nous quitte!",
       "success": "%1$sLe message de départ est défini sur: %2$s"
     },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
+    },
     "autoroles_add": {
       "no_args": "%1$sTu dois me donner le nom de l'iam et du rôle.",
       "no_role_found": "%1$sJe n'ai pas trouvé de rôle de ce nom. S'il contient des espaces essaie de le mettre entre guillemets.",
