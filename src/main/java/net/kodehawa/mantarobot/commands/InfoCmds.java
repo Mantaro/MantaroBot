@@ -313,7 +313,7 @@ public class InfoCmds {
                                 builder.addField("Seasonal", "This command allows the usage of the `-season` (or `-s`) argument.", false);
                             }
 
-                            builder.addField("Still lost?", "[Get support here.](https://support.mantaro.site)",  false);
+                            builder.addField("Still lost?", "[Get support here!](https://support.mantaro.site)",  false);
 
                             //Ensure sub-commands show in help.
                             //Only god shall help me now with all of this casting lol.

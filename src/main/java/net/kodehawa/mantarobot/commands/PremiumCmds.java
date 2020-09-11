@@ -138,7 +138,7 @@ public class PremiumCmds {
                     }
 
                     if (ctx.getAuthor().getId().equals(key.getOwner())) {
-                        player.getData().addBadgeIfAbsent(Badge.DONATOR);
+                        player.getData().addBadgeIfAbsent(Badge.DONATOR_2);
                         player.saveAsync();
                     }
 
