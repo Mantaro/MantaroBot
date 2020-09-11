@@ -609,7 +609,7 @@
         "player_locked": "%1$sVocê não pode fazer isso no momento.",
         "scrapped": "%1$sDesvinculação cancelada.",
         "success": "%1$sDesvinculado com sucesso `%2$s` com um custo de **%3$s créditos**.",
-        "not_found": "%1$sNão consigo encontrar nenhum usuário com essa consulta. Se você precisa desvincular um usuário desconhecido, use seu ID e acresente `-unknown` no final."
+        "not_found": "%1$sEu não consigo encontrar nenhum usuário com essa consulta. Se você precisa desvincular um usuário desconhecido, use seu ID e acrescente `-unknown` no final."
       },
       "buyslot": {
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
@@ -1776,7 +1776,7 @@
     },
     "birthday_enable": {
       "no_args": "%1$sVocê tem que especificar o nome do canal e o nome do cargo.",
-      "public_role": "%1$sVocê não pode definir o cargo everyone role como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
+      "public_role": "%1$sVocê não pode definir o cargo everyone como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "autorole": "%1$sVocê não pode definir o cargo autorole como um cargo de aniversário! Lembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.",
       "warning": "%1$sLembre-se que o cargo de aniversário é um cargo que é atribuído para a pessoa quando o aniversário dela vem, e é removido quando o dia passa.Se você tem alguma dúvida sobre como configurá-lo, você pode sempre entrar no nosso servidor de suporte e perguntar. Você também pode checar `~>opts help birthday enable` por exemplo.",
       "warning_1": "Isso é como o atribuídor de aniversário funciona: Atribui um cargo temporário à pessoa que está fazendo aniversário, e remove quando o dia do aniversário passa. **Isso significa que todos com o cargo de aniversário terão o cargo removido no dia em que o aniversário passar**. Por favor, tome cuidado ao escolher o cargo a ser usado, comoum erro de configuração pode fazer coisas ruins acontecerem (realmente)!",
@@ -1997,22 +1997,22 @@
     "logs_editmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem que você quer que eu diga quando alguém editar uma mensagem!",
       "success": "%1$sMensagem de edição de mensagem definida para: `%2$s`",
-      "reset_success": "%1$sReseta registros de mensagens editadas."
+      "reset_success": "%1$sRegistros de mensagem editada resetado."
     },
     "logs_deletemessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém deletar uma mensagem!",
       "success": "%1$sMensagem de mensagem deletada definida para: `%2$s`",
-      "reset_success": "%1$sReseta registros de mensagens deletadas."
+      "reset_success": "%1$sRegistros de mensagem deletada resetado."
     },
     "logs_banmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for banido!",
       "success": "%1$sMensagem de banimento definida para: `%2$s`",
-      "reset_success": "%1$sReseta registros de mensagens de banimentos."
+      "reset_success": "%1$sRegistros de mensagens de banimentos resetado."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sVocê precisa especificar qual mensagem você quer que eu diga quando alguém for desbanido!",
       "success": "%1$sMensagem de desbanimento definida para: `%2$s`",
-      "reset_success": "%1$sReseta registros de mensagens de desbanimentos."
+      "reset_success": "%1$sRegistros de mensagem de desbanimento resetado."
     },
     "showdisablewarning": {
       "success": "%1$sAviso de exibição em comandos desativados definido para: %2$s"
