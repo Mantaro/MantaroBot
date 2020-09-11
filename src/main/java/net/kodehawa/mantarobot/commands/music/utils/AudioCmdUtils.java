@@ -251,13 +251,13 @@ public class AudioCmdUtils {
         }
 
         //If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
-        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {            VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
-            VoiceChannel vc1 = guild.getVoiceChannelById(link.getLastChannel());
+        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
+            VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
 
             //Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
             //This is a little cursed.
-            if(vc1 != null) {
-                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, vc1.getName()).queue();
+            if(vc != null) {
+                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, vc.getName()).queue();
                 return completedFuture(false);
             } else {
                 cursed = true;

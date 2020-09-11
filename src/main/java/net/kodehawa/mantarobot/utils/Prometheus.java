@@ -16,15 +16,14 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import io.prometheus.client.Counter;
-import io.prometheus.client.Histogram;
 import io.prometheus.client.exporter.HTTPServer;
-import io.prometheus.client.hotspot.*;
+import io.prometheus.client.hotspot.BufferPoolsExports;
+import io.prometheus.client.hotspot.MemoryPoolsExports;
+import io.prometheus.client.hotspot.StandardExports;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.DiscordLatencyExports;
 import net.kodehawa.mantarobot.utils.exporters.JFRExports;
 import net.kodehawa.mantarobot.utils.exporters.MemoryUsageExports;
-import net.kodehawa.mantarobot.utils.exporters.ThreadPoolCollector;
 
 import java.io.IOException;
 import java.time.Duration;

@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -42,7 +41,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Module
-@SuppressWarnings("unused")
 public class ModerationCmds {
     private static final Logger log = LoggerFactory.getLogger(ModerationCmds.class);
 
@@ -53,8 +51,6 @@ public class ModerationCmds {
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
                 User author = ctx.getAuthor();
-
-                Message receivedMessage = ctx.getMessage();
                 String reason = content;
 
                 if (ctx.getMentionedUsers().isEmpty()) {
@@ -172,8 +168,6 @@ public class ModerationCmds {
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
                 User author = ctx.getAuthor();
-
-                Message receivedMessage = ctx.getMessage();
                 String reason = content;
                 List<Member> mentionedMembers = ctx.getMentionedMembers();
 
@@ -278,9 +272,6 @@ public class ModerationCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
-                User author = ctx.getAuthor();
-
-                Message receivedMessage = ctx.getMessage();
                 String reason = content;
 
                 if (args.length == 0) {

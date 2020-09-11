@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
@@ -41,7 +40,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Module
-@SuppressWarnings("unused")
 public class MessageCmds {
     @Subscribe
     public void prune(CommandRegistry cr) {
@@ -76,7 +74,7 @@ public class MessageCmds {
                             List<Long> users = mentionedUsers.stream().map(User::getIdLong).collect(Collectors.toList());
                             ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
                                     messageHistory -> getMessageHistory(
-                                            ctx, ctx.getChannel(), messageHistory, "commands.prune.mention_no_messages",
+                                            ctx, messageHistory, "commands.prune.mention_no_messages",
                                             message -> users.contains(message.getAuthor().getIdLong())
                                     ), error -> {
                                         ctx.sendLocalized("commands.prune.error_retrieving",
@@ -138,7 +136,7 @@ public class MessageCmds {
                 ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
                         messageHistory -> {
                             String prefix = MantaroData.db().getGuild(ctx.getGuild()).getData().getGuildCustomPrefix();
-                            getMessageHistory(ctx, ctx.getChannel(), messageHistory, "commands.prune.bots_no_messages",
+                            getMessageHistory(ctx, messageHistory, "commands.prune.bots_no_messages",
                                     message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
                         }, error -> {
                             ctx.sendLocalized("commands.prune.error_retrieving",
@@ -173,7 +171,7 @@ public class MessageCmds {
                 }
 
                 ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
-                        messageHistory -> getMessageHistory(ctx, ctx.getChannel(), messageHistory,
+                        messageHistory -> getMessageHistory(ctx, messageHistory,
                                 "commands.prune.no_pins_no_messages", message -> !message.isPinned()
                         ), error -> {
                             ctx.sendLocalized("commands.prune.error_retrieving",
@@ -202,7 +200,7 @@ public class MessageCmds {
         });
     }
 
-    private void getMessageHistory(Context ctx, TextChannel channel, List<Message> messageHistory, String i18n, Predicate<Message> predicate) {
+    private void getMessageHistory(Context ctx, List<Message> messageHistory, String i18n, Predicate<Message> predicate) {
         messageHistory = messageHistory.stream().filter(predicate).collect(Collectors.toList());
 
         if (messageHistory.isEmpty()) {

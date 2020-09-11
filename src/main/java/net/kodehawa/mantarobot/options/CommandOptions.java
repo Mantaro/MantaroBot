@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -58,7 +58,7 @@ public class CommandOptions extends OptionHandler {
 
                     String commandName = args[0];
                     //Check for CCs too
-                    boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                    boolean noCommand = CommandProcessor.REGISTRY.commands().get(commandName) == null &&
                             CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
                     if (noCommand) {
                         event.getChannel().sendMessageFormat(lang.get("options.no_command"), EmoteReference.ERROR, commandName).queue();
@@ -90,7 +90,7 @@ public class CommandOptions extends OptionHandler {
                     String commandName = args[0];
 
                     //Check for CCs too
-                    boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                    boolean noCommand = CommandProcessor.REGISTRY.commands().get(commandName) == null &&
                             CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
 
                     if (noCommand) {
@@ -118,7 +118,7 @@ public class CommandOptions extends OptionHandler {
                     String commandName = args[1];
 
                     //Check for CCs too
-                    boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                    boolean noCommand = CommandProcessor.REGISTRY.commands().get(commandName) == null &&
                             CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
 
                     if (noCommand) {
@@ -158,7 +158,7 @@ public class CommandOptions extends OptionHandler {
                     String channelName = args[0];
                     String commandName = args[1];
                     //Check for CCs too
-                    boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandName) == null &&
+                    boolean noCommand = CommandProcessor.REGISTRY.commands().get(commandName) == null &&
                             CustomCmds.getCustomCommand(event.getGuild().getId(), commandName) == null;
 
                     if (noCommand) {
@@ -433,7 +433,7 @@ public class CommandOptions extends OptionHandler {
                 GuildData guildData = dbGuild.getData();
 
                 //Check for CCs too
-                boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandDisallow) == null &&
+                boolean noCommand = CommandProcessor.REGISTRY.commands().get(commandDisallow) == null &&
                         CustomCmds.getCustomCommand(event.getGuild().getId(), commandDisallow) == null;
 
                 if (noCommand) {
@@ -490,7 +490,7 @@ public class CommandOptions extends OptionHandler {
                 GuildData guildData = dbGuild.getData();
 
                 //Check for CCs too
-                boolean noCommand = DefaultCommandProcessor.REGISTRY.commands().get(commandAllow) == null &&
+                boolean noCommand = CommandProcessor.REGISTRY.commands().get(commandAllow) == null &&
                         CustomCmds.getCustomCommand(event.getGuild().getId(), commandAllow) == null;
 
                 if (noCommand) {

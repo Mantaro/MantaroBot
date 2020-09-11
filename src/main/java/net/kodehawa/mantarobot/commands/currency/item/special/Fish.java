@@ -18,13 +18,10 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 
 public class Fish extends Item {
     public boolean isEdible;
     private int level;
-    //wink wink
-    private PotionEffect effect;
 
     public Fish(ItemType type, int level, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, false, recipe, recipeTypes);
@@ -43,10 +40,6 @@ public class Fish extends Item {
 
     public int getLevel() {
         return this.level;
-    }
-
-    public PotionEffect getEffect() {
-        return this.effect;
     }
 
     public boolean isEdible() {

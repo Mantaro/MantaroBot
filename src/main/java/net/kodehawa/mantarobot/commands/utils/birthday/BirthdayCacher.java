@@ -87,8 +87,6 @@ public class BirthdayCacher {
             this.month = month;
         }
 
-        public BirthdayData() { }
-
         public String getBirthday() {
             return this.birthday;
         }

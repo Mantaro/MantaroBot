@@ -49,7 +49,6 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 @Module
-@SuppressWarnings("unused")
 public class MuteCmds {
     @SuppressWarnings("Annotator")
     private static final Pattern timePattern = Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
@@ -77,7 +76,7 @@ public class MuteCmds {
                 DBGuild dbGuild = ctx.getDBGuild();
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";
-                Map<String, String> opts = StringUtils.parse(args);
+                Map<String, String> opts = ctx.getOptionalArguments();
 
                 if (guildData.getMutedRole() == null) {
                     ctx.sendLocalized("commands.mute.no_mute_role", EmoteReference.ERROR);
@@ -286,7 +285,6 @@ public class MuteCmds {
                     return;
                 }
 
-                ManagedDatabase db = MantaroData.db();
                 DBGuild dbGuild = ctx.getDBGuild();
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";

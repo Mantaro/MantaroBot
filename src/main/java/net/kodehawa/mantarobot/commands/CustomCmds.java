@@ -19,7 +19,10 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.ISnowflake;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
@@ -35,7 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
@@ -45,7 +48,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +65,6 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 
 @Module
-@SuppressWarnings("unused")
 public class CustomCmds {
     public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
@@ -120,7 +122,7 @@ public class CustomCmds {
     //Lazy-load custom commands into cache.
     public static CustomCommand getCustomCommand(String id, String name) {
         //lol
-        if (DefaultCommandProcessor.REGISTRY.commands().containsKey(name)) {
+        if (CommandProcessor.REGISTRY.commands().containsKey(name)) {
             return null;
         }
 
@@ -142,7 +144,7 @@ public class CustomCmds {
             custom.saveAsync();
         }
 
-        if (DefaultCommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
+        if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
             custom.deleteAsync();
             custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
             custom.saveAsync();
@@ -201,7 +203,6 @@ public class CustomCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                String filter = ctx.getGuild().getId() + ":";
                 List<String> commands = ctx.db().getCustomCommands(ctx.getGuild())
                         .stream()
                         .map(CustomCommand::getName)
@@ -391,7 +392,7 @@ public class CustomCmds {
                 }
 
                 //hint: always check for this
-                if (DefaultCommandProcessor.REGISTRY.commands().containsKey(content)) {
+                if (CommandProcessor.REGISTRY.commands().containsKey(content)) {
                     ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR, content);
                     return;
                 }
@@ -672,7 +673,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if (DefaultCommandProcessor.REGISTRY.commands().containsKey(value)) {
+                if (CommandProcessor.REGISTRY.commands().containsKey(value)) {
                     ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR);
                     return;
                 }
@@ -755,7 +756,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if (DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
+                if (CommandProcessor.REGISTRY.commands().containsKey(cmd)) {
                     ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR, cmd);
                     return;
                 }

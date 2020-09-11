@@ -45,8 +45,7 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
@@ -92,7 +91,7 @@ public class MantaroCore {
     private final boolean useSentry;
     private String commandsPackage;
     private String optsPackage;
-    private final ICommandProcessor commandProcessor = new DefaultCommandProcessor();
+    private final CommandProcessor commandProcessor = new CommandProcessor();
     private EventBus shardEventBus;
     private ShardManager shardManager;
 
@@ -340,7 +339,7 @@ public class MantaroCore {
             //For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
             //Registers all commands
-            shardEventBus.post(DefaultCommandProcessor.REGISTRY);
+            shardEventBus.post(CommandProcessor.REGISTRY);
             //Registers all options
             shardEventBus.post(new OptionRegistryEvent());
         }, "Mantaro EventBus-Post").start();
@@ -385,7 +384,7 @@ public class MantaroCore {
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard(String.format("Loaded all %d (out of %d) shards and %d commands.\nTook %s.\nCross-node shard count is %d.", shardManager.getShardsRunning(),
-                bot.getManagedShards(), DefaultCommandProcessor.REGISTRY.commands().size(),
+                bot.getManagedShards(), CommandProcessor.REGISTRY.commands().size(),
                 Utils.formatDuration(elapsed), shardManager.getShardsTotal())
         );
         log.info("Loaded all shards successfully! Status: {}.", MantaroCore.getLoadState());

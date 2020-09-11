@@ -217,8 +217,7 @@ public class MantaroBot {
     public JDA getShardGuild(long guildId) {
         return getShardManager().getShardById((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
-
-    public int getShardIdGuild(long guildId) {
+    public int getShardIdForGuild(long guildId) {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
     }
 

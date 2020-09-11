@@ -66,7 +66,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Module
-@SuppressWarnings("unused")
 public class UtilsCmds {
     private static final Logger log = LoggerFactory.getLogger(UtilsCmds.class);
     @SuppressWarnings("Annotator")
@@ -244,7 +243,7 @@ public class UtilsCmds {
                         // Build the message. This is duplicated on birthday month with a lil different.
                         String birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
-                                .filter(entry -> guild.getMemberById(entry.getKey()) != null)
+                                .filter(entry -> ids.contains(entry))
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
                                     return String.format("+ %-20s : %s ",

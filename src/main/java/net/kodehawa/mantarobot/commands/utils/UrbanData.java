@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class UrbanData {
 
-    public ArrayList<List> list = null;
+    public ArrayList<List> list = new ArrayList<>();
 
     public UrbanData() { }
 
@@ -36,8 +36,7 @@ public class UrbanData {
         public String thumbs_down;
         public String thumbs_up;
 
-        public List() {
-        }
+        public List() { }
 
         public String getAuthor() {
             return this.author;

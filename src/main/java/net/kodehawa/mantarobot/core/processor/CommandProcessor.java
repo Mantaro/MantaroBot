@@ -19,18 +19,16 @@ package net.kodehawa.mantarobot.core.processor;
 import io.prometheus.client.Histogram;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
-public class DefaultCommandProcessor implements ICommandProcessor {
+public class CommandProcessor {
     public static final CommandRegistry REGISTRY = new CommandRegistry();
     private static final Histogram commandTime = Histogram.build()
             .name("command_time").help("Time it takes for a command to be ran.")
             .register();
 
-    @Override
     public boolean run(GuildMessageReceivedEvent event) {
         //When did we start processing this command?...
         long start = System.currentTimeMillis();

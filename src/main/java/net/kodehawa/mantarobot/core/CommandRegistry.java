@@ -28,11 +28,8 @@ import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -48,7 +45,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -301,14 +298,6 @@ public class CommandRegistry {
         parent.getAliases().add(alias);
 
         register(alias, new AliasCommand(alias, command, parent));
-    }
-
-    public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand) {
-        command.addSubCommand(name, subCommand);
-    }
-
-    public void addSubCommandTo(SimpleTreeCommand command, String name, SubCommand subCommand) {
-        command.addSubCommand(name, subCommand);
     }
 
     private boolean isAdmin(Member member) {

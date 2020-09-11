@@ -1,7 +1,8 @@
 package net.kodehawa.mantarobot.utils.commands;
 
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.dv8tion.jda.internal.utils.concurrent.task.GatewayTask;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;

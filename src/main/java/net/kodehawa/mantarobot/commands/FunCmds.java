@@ -31,13 +31,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -48,10 +47,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
-@SuppressWarnings("unused")
 public class FunCmds {
     private final Random r = new Random();
-    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void coinflip(CommandRegistry cr) {
@@ -145,7 +142,7 @@ public class FunCmds {
                 if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
                     return;
 
-                Map<String, String> opts = StringUtils.parse(args);
+                Map<String, String> opts = ctx.getOptionalArguments();
                 int size = 6, amount = 1;
 
                 if (opts.containsKey("size")) {

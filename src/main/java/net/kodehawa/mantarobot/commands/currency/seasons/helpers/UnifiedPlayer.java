@@ -30,8 +30,7 @@ public class UnifiedPlayer {
     public Player player;
     public SeasonPlayer seasonalPlayer;
 
-    private UnifiedPlayer() {
-    }
+    private UnifiedPlayer() { }
 
     private UnifiedPlayer(Player player, SeasonPlayer seasonalPlayer) {
         this.player = player;

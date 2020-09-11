@@ -47,7 +47,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
 import java.text.NumberFormat;
@@ -65,7 +65,6 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
-@SuppressWarnings("unused")
 public class MoneyCmds {
     private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
         final NumberFormat format = NumberFormat.getPercentInstance();
@@ -73,11 +72,11 @@ public class MoneyCmds {
         return format;
     });
 
-    private final Random random = new Random();
+    private final SecureRandom random = new SecureRandom();
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
     private final long GAMBLE_MAX_MONEY = 275_000_000;
-    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().dailyMaxPeriodMilliseconds;
+    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -151,7 +150,7 @@ public class MoneyCmds {
                     UserData userData = user.getData();
 
                     DBUser mentionedDBUser = ctx.getDBUser(otherUser.getId());
-                    UserData mentionedUserData = user.getData();
+                    UserData mentionedUserData = mentionedDBUser.getData();
 
                     //Marriage bonus
                     Marriage marriage = userData.getMarriage();

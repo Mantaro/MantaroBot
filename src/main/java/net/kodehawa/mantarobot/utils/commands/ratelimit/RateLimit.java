@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.utils.commands;
+package net.kodehawa.mantarobot.utils.commands.ratelimit;
 
 public class RateLimit {
     private final long timestamp;

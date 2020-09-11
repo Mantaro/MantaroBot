@@ -70,8 +70,7 @@ public class ReminderObject {
         private String userId;
         private String guildId;
 
-        ReminderObjectBuilder() {
-        }
+        ReminderObjectBuilder() { }
 
         public ReminderObject.ReminderObjectBuilder id(String id) {
             this.id = id;

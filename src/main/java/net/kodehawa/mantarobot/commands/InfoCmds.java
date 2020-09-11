@@ -27,7 +27,8 @@ import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.stats.manager.*;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
@@ -37,7 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -47,8 +48,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -65,15 +65,8 @@ import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.utils.Utils.prettyDisplay;
 
 @Module
-@SuppressWarnings("unused")
 public class InfoCmds {
     private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
-    private final CommandStatsManager commandStatsManager = new CommandStatsManager();
-    private final CustomCommandStatsManager customCommandStatsManager = new CustomCommandStatsManager();
-    private final GameStatsManager gameStatsManager = new GameStatsManager();
-    private final GuildStatsManager guildStatsManager = new GuildStatsManager();
-    private final List<String> tips = new SimpleFileDataManager("assets/mantaro/texts/tips.txt").get();
-    Random rand = new Random();
 
     @Subscribe
     public void donate(CommandRegistry cr) {
@@ -221,7 +214,7 @@ public class InfoCmds {
 
                 )
                 .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
-                        DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
+                        CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
 
         Arrays.stream(CommandCategory.values())
                 .filter(c -> {
@@ -231,7 +224,7 @@ public class InfoCmds {
                         return true;
                 })
                 .filter(c -> c != CommandCategory.OWNER || CommandPermission.OWNER.test(ctx.getMember()))
-                .filter(c -> !DefaultCommandProcessor.REGISTRY.getCommandsForCategory(c).isEmpty())
+                .filter(c -> !CommandProcessor.REGISTRY.getCommandsForCategory(c).isEmpty())
                 .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") + ":",
                         forType(ctx.getChannel(), guildData, c), false)
                 );
@@ -275,7 +268,7 @@ public class InfoCmds {
                     CommandCategory category = CommandCategory.lookupFromString(content);
                     buildHelp(ctx, category);
                 } else {
-                    Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
+                    Command command = CommandProcessor.REGISTRY.commands().get(content);
 
                     if (command != null) {
                         if (command.category() == CommandCategory.OWNER && !CommandPermission.OWNER.test(ctx.getMember())) {

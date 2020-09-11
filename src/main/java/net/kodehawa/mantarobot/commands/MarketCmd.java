@@ -43,7 +43,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -166,7 +166,6 @@ public class MarketCmd {
                 Map<String, String> t = ctx.getOptionalArguments();
                 boolean isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
-                I18nContext languageContext = ctx.getLanguageContext();
 
                 String[] args = content.split(" ");
                 String itemName = content;

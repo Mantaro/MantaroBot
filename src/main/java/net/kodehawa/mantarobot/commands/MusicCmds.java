@@ -47,13 +47,11 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +68,6 @@ import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
-@SuppressWarnings("unused")
 public class MusicCmds {
     private static final Logger log = LoggerFactory.getLogger(MusicCmds.class);
 
@@ -293,8 +290,6 @@ public class MusicCmds {
 
     @Subscribe
     public void play(CommandRegistry cr) {
-        RateLimiter warningRatelimiter = new RateLimiter(TimeUnit.MINUTES, 3);
-
         cr.register("play", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
@@ -885,8 +880,6 @@ public class MusicCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {
-                        final ManagedDatabase db = MantaroData.db();
-
                         if (ctx.getDBUser().isPremium() || ctx.getDBGuild().isPremium() || ctx.getConfig().getOwners().contains(ctx.getAuthor().getId())) {
                             GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 

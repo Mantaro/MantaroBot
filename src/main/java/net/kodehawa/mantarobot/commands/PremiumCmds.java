@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -47,7 +46,7 @@ import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.util.Map;
@@ -59,7 +58,6 @@ import java.util.stream.Collectors;
 import static java.lang.System.currentTimeMillis;
 
 @Module
-@SuppressWarnings("unused")
 public class PremiumCmds {
     private final Config config = MantaroData.config().get();
 
@@ -130,8 +128,6 @@ public class PremiumCmds {
                     DBUser dbUser = ctx.getDBUser();
                     Player player = ctx.getPlayer();
 
-                    PremiumKey currentUserKey = db.getPremiumKey(dbUser.getData().getPremiumKey());
-
                     if (dbUser.isPremium()) {
                         ctx.sendLocalized("commands.activatekey.user_already_premium", EmoteReference.POPPER);
                         return;
@@ -187,7 +183,6 @@ public class PremiumCmds {
                     return;
                 }
 
-                String type = "";
                 PremiumKey.Type scopeParsed = PremiumKey.Type.USER;
                 if (args.length > 0) {
                     try {
@@ -197,7 +192,6 @@ public class PremiumCmds {
                     }
                 }
 
-                final ManagedDatabase db = MantaroData.db();
                 final User author = ctx.getAuthor();
                 DBUser dbUser = ctx.getDBUser();
 

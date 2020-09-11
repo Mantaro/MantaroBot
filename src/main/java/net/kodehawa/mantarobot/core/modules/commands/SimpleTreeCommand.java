@@ -16,8 +16,6 @@
 
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 

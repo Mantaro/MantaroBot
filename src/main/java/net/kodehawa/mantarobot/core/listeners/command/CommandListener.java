@@ -30,7 +30,7 @@ import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -41,7 +41,7 @@ import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -58,11 +58,11 @@ public class CommandListener implements EventListener {
     //Commands ran this session.
     private static int commandTotal = 0;
     private final Random random = new Random();
-    private final ICommandProcessor commandProcessor;
+    private final CommandProcessor commandProcessor;
     private final ExecutorService threadPool;
     private final Cache<Long, Optional<CachedMessage>> messageCache;
 
-    public CommandListener(ICommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
+    public CommandListener(CommandProcessor processor, ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
         this.commandProcessor = processor;
         this.threadPool = threadPool;
         this.messageCache = messageCache;

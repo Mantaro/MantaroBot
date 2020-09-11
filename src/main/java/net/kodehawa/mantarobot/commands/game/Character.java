@@ -33,14 +33,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Character extends ImageGame {
     private static final Logger log = LoggerFactory.getLogger("Game [Character]");
     private final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
-    private Random random = new Random();
 
     public Character() {
         super(10);
