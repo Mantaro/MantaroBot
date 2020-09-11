@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.core.processor;
+package net.kodehawa.mantarobot.core.command.processor;
 
 import io.prometheus.client.Histogram;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

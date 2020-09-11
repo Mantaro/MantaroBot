@@ -28,9 +28,9 @@ import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
@@ -180,7 +179,6 @@ public class CommandListener implements EventListener {
         } catch (ReqlError e) {
             //So much just went wrong...
             e.printStackTrace();
-            SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
         } catch (Exception e) {
             I18n context = I18n.of(event.getGuild());
 
@@ -193,7 +191,6 @@ public class CommandListener implements EventListener {
             if (player.getData().addBadgeIfAbsent(Badge.FIRE))
                 player.saveAsync();
 
-            SentryHelper.captureException(String.format("Unexpected Exception on Command: %s (Error ID: %s)", event.getMessage().getContentRaw(), id), e, this.getClass());
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
     }

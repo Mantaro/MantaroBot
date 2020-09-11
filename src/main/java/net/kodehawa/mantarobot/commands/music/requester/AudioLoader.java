@@ -34,7 +34,6 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -109,7 +108,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                     EmoteReference.CORRECT, i, playlist.getName(), Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
             ).queue();
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext("Cannot load playlist. I guess something broke pretty hard. Please check", e, this.getClass(), "Music Loader");
+            e.printStackTrace();
         }
     }
 

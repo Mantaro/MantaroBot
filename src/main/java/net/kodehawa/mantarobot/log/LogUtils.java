@@ -21,7 +21,6 @@ import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +75,6 @@ public class LogUtils {
                     new ArrayList<>()));
         } catch (Exception e) {
             e.printStackTrace();
-            SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
@@ -93,7 +91,6 @@ public class LogUtils {
                     new ArrayList<>()));
         } catch (Exception e) {
             e.printStackTrace();
-            SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
@@ -110,7 +107,6 @@ public class LogUtils {
                     new ArrayList<>()));
         } catch (Exception e) {
             e.printStackTrace();
-            SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
@@ -122,7 +118,6 @@ public class LogUtils {
             LOGBACK_WEBHOOK.send(message);
         } catch (Exception e) {
             e.printStackTrace();
-            SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
@@ -134,7 +129,6 @@ public class LogUtils {
             SHARD_WEBHOOK.send(message);
         } catch (Exception e) {
             e.printStackTrace();
-            SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
@@ -163,7 +157,6 @@ public class LogUtils {
                     null, new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
                     new WebhookEmbed.EmbedTitle("Possible spambot detected", null), null, fields));
         } catch (Exception e) {
-            SentryHelper.captureException("Cannot post to spambot webhook", e, LogUtils.class);
             e.printStackTrace();
         }
     }

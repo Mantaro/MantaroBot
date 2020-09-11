@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
-import io.sentry.Sentry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -221,7 +220,6 @@ public class BirthdayTask {
             log.info(toSend);
         } catch (Exception e) {
             e.printStackTrace();
-            Sentry.capture(e);
         }
     }
 }

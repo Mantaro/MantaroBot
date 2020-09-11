@@ -39,7 +39,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Prometheus;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -134,7 +133,7 @@ public class MantaroBot {
         //Choose the server with the lowest player amount
         lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
-        core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
+        core = new MantaroCore(config, true, ExtraRuntimeOptions.DEBUG);
 
         audioManager = new MantaroAudioManager();
         Items.setItemActions();
@@ -171,13 +170,11 @@ public class MantaroBot {
         try {
             Prometheus.enable();
         } catch (Exception e) {
-            SentryHelper.captureException("Unable to start prometheus client", e, MantaroBot.class);
             log.error("Unable to start prometheus client!", e);
         }
         try {
             new MantaroBot();
         } catch (Exception e) {
-            SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
             log.error("Could not complete Main Thread routine!", e);
             log.error("Cannot continue! Exiting program...");
             System.exit(FATAL_FAILURE);
@@ -217,6 +214,7 @@ public class MantaroBot {
     public JDA getShardGuild(long guildId) {
         return getShardManager().getShardById((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
     }
+
     public int getShardIdForGuild(long guildId) {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
     }

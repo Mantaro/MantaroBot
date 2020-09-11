@@ -20,7 +20,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
-import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -38,6 +37,7 @@ import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -45,7 +45,6 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
@@ -53,7 +52,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -88,17 +86,15 @@ public class MantaroCore {
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
-    private final boolean useSentry;
     private String commandsPackage;
     private String optsPackage;
     private final CommandProcessor commandProcessor = new CommandProcessor();
     private EventBus shardEventBus;
     private ShardManager shardManager;
 
-    public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
+    public MantaroCore(Config config, boolean useBanner, boolean isDebug) {
         this.config = config;
         this.useBanner = useBanner;
-        this.useSentry = useSentry;
         this.isDebug = isDebug;
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
@@ -141,9 +137,6 @@ public class MantaroCore {
             }
 
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext(
-                    "Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
-            );
             log.error("Unable to fetch shard count", e);
             System.exit(SHARD_FETCH_FAILURE);
         }
@@ -303,8 +296,6 @@ public class MantaroCore {
         if (config == null)
             throw new IllegalArgumentException("Config cannot be null!");
 
-        if (useSentry)
-            Sentry.init(config.sentryDSN);
         if (useBanner)
             new BannerPrinter(1).printBanner();
 
