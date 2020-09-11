@@ -165,7 +165,9 @@ public class CurrencyActionCmds {
                     } else {
                         inventory.process(selectedGem);
                         message += "\n" + EmoteReference.MEGA +
-                                String.format(languageContext.withRoot("commands", "mine.gem.success"), itemGem.getEmoji() + " x" + selectedGem.getAmount());
+                                String.format(languageContext.withRoot("commands", "mine.gem.success"),
+                                        itemGem.getEmoji() + " x" + selectedGem.getAmount()
+                                );
                     }
 
                     if (waifuHelp)
@@ -183,7 +185,8 @@ public class CurrencyActionCmds {
                         money += gem.getValue() * 0.9;
                     } else {
                         inventory.process(new ItemStack(gem, 1));
-                        message += "\n" + EmoteReference.MEGA + String.format(languageContext.withRoot("commands", "mine.sparkle.success"), gem.getEmoji());
+                        message += "\n" + EmoteReference.MEGA +
+                                String.format(languageContext.withRoot("commands", "mine.sparkle.success"), gem.getEmoji());
                     }
 
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
@@ -236,7 +239,8 @@ public class CurrencyActionCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
-                        .setUsage("`~>mine` - Mines. You can gain minerals or mineral fragments by mining. This can used later on to cast rods or picks for better chances.")
+                        .setUsage("`~>mine` - Mines. You can gain minerals or mineral fragments by mining. " +
+                                "This can used later on to cast rods or picks for better chances.")
                         .setSeasonal(true)
                         .build();
             }
@@ -352,7 +356,8 @@ public class CurrencyActionCmds {
                             extraMessage += "\n" + languageContext.get("commands.fish.crate.overflow");
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
-                            extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
+                            extraMessage += "\n" + EmoteReference.MEGA +
+                                    String.format(languageContext.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
                         }
                     }
                     //END OF FISH LOOT CRATE HANDLING
@@ -448,7 +453,8 @@ public class CurrencyActionCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Starts a fishing session.")
-                        .setUsage("`~>fish` - Starts fishing. You can gain credits and fish items by fishing, which can be used later on for casting.")
+                        .setUsage("`~>fish` - Starts fishing." +
+                                " You can gain credits and fish items by fishing, which can be used later on for casting.")
                         .setSeasonal(true)
                         .build();
             }

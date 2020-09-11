@@ -240,14 +240,16 @@ public class MiscCmds {
                         }
 
                         if (roleString.length() > 0)
-                            fields.add(new MessageEmbed.Field(cat, languageContext.get("commands.iam.list.role") + " `" + roleString + "`", false));
+                            fields.add(new MessageEmbed.Field(cat, languageContext.get("commands.iam.list.role")
+                                    + " `" + roleString + "`", false));
                     });
 
                     autoroles.forEach((name, roleId) -> {
                         if (!categorizedRoles.contains(roleId)) {
                             Role role = ctx.getGuild().getRoleById(roleId);
                             if (role != null) {
-                                fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role") + " `" + role.getName() + "`", false));
+                                fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role")
+                                        + " `" + role.getName() + "`", false));
                             }
                         }
                     });
@@ -368,8 +370,11 @@ public class MiscCmds {
                         .setUsage("`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`\n" +
                                 "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.\n" +
                                 "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"`")
-                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
-                        .addParameter("time", "The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.")
+                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. " +
+                                "For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` " +
+                                "(Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
+                        .addParameter("time", "The time the operation is gonna take. " +
+                                "The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.")
                         .addParameter("-name", "The name of the poll.")
                         .addParameter("-image", "The image to embed to the poll.")
                         .build();

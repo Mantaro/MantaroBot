@@ -79,7 +79,9 @@ public class OptsCmd {
                     List<String> messages = new LinkedList<>();
                     for (String s1 : m) {
                         messages.add(String.format(languageContext.get("commands.opts.list.header"),
-                                ctx.hasReactionPerms() ? languageContext.get("general.text_menu") + " " : languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1)));
+                                ctx.hasReactionPerms() ? languageContext.get("general.text_menu") + " " :
+                                        languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1))
+                        );
                     }
 
                     if (ctx.hasReactionPerms()) {
@@ -143,7 +145,9 @@ public class OptsCmd {
                             else
                                 a = new String[0];
 
-                            callable.accept(ctx.getEvent(), a, new I18nContext(MantaroData.db().getGuild(ctx.getGuild()).getData(), MantaroData.db().getUser(ctx.getAuthor().getId()).getData()));
+                            callable.accept(ctx.getEvent(), a,
+                                    new I18nContext(MantaroData.db().getGuild(ctx.getGuild()).getData(), MantaroData.db().getUser(ctx.getAuthor().getId()).getData())
+                            );
                             Player p = MantaroData.db().getPlayer(ctx.getAuthor());
 
                             if (p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
@@ -196,8 +200,9 @@ public class OptsCmd {
 
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     embedBuilder.setAuthor("Option Debug", null, event.getAuthor().getEffectiveAvatarUrl())
-                            .setDescription(String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"), event.getGuild().getName()))
-                            .setThumbnail(event.getGuild().getIconUrl())
+                            .setDescription(String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"),
+                                    event.getGuild().getName())
+                            ).setThumbnail(event.getGuild().getIconUrl())
                             .setFooter(lang.get("options.check_data.footer"), null);
                     List<MessageEmbed.Field> fields = new LinkedList<>();
 

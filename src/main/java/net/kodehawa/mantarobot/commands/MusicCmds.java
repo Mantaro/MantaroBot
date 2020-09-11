@@ -237,8 +237,9 @@ public class MusicCmds {
                                 .getInfo().title + "]"
                                 + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
                                 .getInfo().uri + ")** "
-                                + String.format("`(%s/%s)`", Utils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : Utils.getDurationMinutes(total)))
-                        .setFooter("Enjoy the music! <3. Use `~>lyrics current` to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
+                                + String.format("`(%s/%s)`",
+                                Utils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : Utils.getDurationMinutes(total))
+                        ).setFooter("Enjoy the music! <3. Use `~>lyrics current` to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
 
                 ctx.send(npEmbed.build());
                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
@@ -319,11 +320,14 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Play songs! This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
-                                "no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
+                                "no song playing currently and Mantaro isn't bound to any channel. " +
+                                "Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
                                 "You can use `~>play soundcloud <search>` to search in soundcloud's library.")
                         .setUsage("~>play <song>")
-                        .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result (Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)")
-                        .build();
+                        .addParameter("song",
+                                "The song to play. Can be a youtube or soundcloud URL, or a search result " +
+                                        "(Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)"
+                        ).build();
             }
         });
     }
@@ -353,12 +357,15 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("**This command doesn't put the song at the start of the queue, for that use `~>playnow`!**\n" +
-                                "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
-                                "no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
+                                "Play the first song I find in your search. " +
+                                "This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
+                                "no song playing currently and Mantaro isn't bound to any channel. " +
+                                "Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
                                 "You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.")
                         .setUsage("~>forceplay <song>")
-                        .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result (Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)")
-                        .build();
+                        .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result " +
+                                "(Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)"
+                        ).build();
             }
         });
     }
@@ -409,8 +416,9 @@ public class MusicCmds {
                 return new HelpContent.Builder()
                         .setDescription("Rewind the current song a specified amount of time.")
                         .setUsage("~>rewind <time>")
-                        .addParameter("time", "The amount of minutes to rewind. Time is in this format: 1m29s (1 minute and 29s), for example.")
-                        .build();
+                        .addParameter("time", "The amount of minutes to rewind. " +
+                                "Time is in this format: 1m29s (1 minute and 29s), for example."
+                        ).build();
             }
         });
     }
@@ -494,8 +502,9 @@ public class MusicCmds {
                 return new HelpContent.Builder()
                         .setDescription("Fast forwards the current song a specified amount of time.")
                         .setUsage("~>forward <time>")
-                        .addParameter("time", "The amount of minutes to rewind. Time is in this format: 1m29s (1 minute and 29s), for example.")
-                        .build();
+                        .addParameter("time",
+                                "The amount of minutes to rewind. Time is in this format: 1m29s (1 minute and 29s), for example."
+                        ).build();
             }
         });
 
@@ -648,7 +657,8 @@ public class MusicCmds {
                 return new HelpContent.Builder()
                         .setDescription("Remove the specified track from the queue.")
                         .setUsage("`~>removetrack <track number/first/next/last>` (Any of them, only one at a time)")
-                        .addParameter("track number", "The position of the track in the current queue. You can also specify a range (1-10, for example) to delete the first 10 tracks of the queue.")
+                        .addParameter("track number", "The position of the track in the current queue. " +
+                                "You can also specify a range (1-10, for example) to delete the first 10 tracks of the queue.")
                         .addParameter("first", "The first track of the queue.")
                         .addParameter("next", "The next track of the queue.")
                         .addParameter("last", "The last track of the queue.")
@@ -697,8 +707,9 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Repeats a song, or disables repeat. This command is a toggle. It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off.")
-                        .setUsage("`~>repeat [queue]`")
+                        .setDescription("Repeats a song, or disables repeat. This command is a toggle. " +
+                                "It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off."
+                        ).setUsage("`~>repeat [queue]`")
                         .addParameterOptional("queue", "Add this if you want to repeat the queue (`~>repeat queue`)")
                         .build();
             }
@@ -966,8 +977,9 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Tells you how to use music. Yes, this is only a guide. If you need to see the actual music commands, do `~>help audio`")
-                        .build();
+                        .setDescription("Tells you how to use music. " +
+                                "Yes, this is only a guide. If you need to see the actual music commands, do `~>help audio`"
+                        ).build();
             }
         });
     }

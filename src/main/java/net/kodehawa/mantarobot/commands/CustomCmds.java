@@ -176,7 +176,9 @@ public class CustomCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Manages the Custom Commands of the Guild. If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)")
+                        .setDescription("Manages the Custom Commands of the Guild. " +
+                                "If you wish to allow normal people to make custom commands, " +
+                                "run `~>opts admincustom false` (it's locked to admins by default)")
                         .setUsage("`~>custom <sub command>`")
                         .build();
             }
@@ -364,7 +366,9 @@ public class CustomCmds {
                 } catch (SyntaxException e) {
                     ctx.sendStrippedLocalized("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
                 } catch (Exception e) {
-                    ctx.sendStrippedLocalized("commands.custom.eval.error", EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")");
+                    ctx.sendStrippedLocalized("commands.custom.eval.error",
+                            EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")"
+                    );
                 }
             }
         }).createSubCommandAlias("eval", "evl");
@@ -463,8 +467,9 @@ public class CustomCmds {
 
                 DiscordUtils.selectList(
                         ctx.getEvent(), filtered,
-                        pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()),
-                        s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
+                        pair -> String.format(languageContext.get("commands.custom.import.header"),
+                                pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()
+                        ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
                                 .setFooter(
                                         languageContext.get("commands.custom.import.note"),
                                         null

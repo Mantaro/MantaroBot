@@ -144,7 +144,8 @@ public class GameCmds {
             @Override
             public String description() {
                 return "Starts a game lobby. For example `~>game lobby pokemon, trivia` will start pokemon and then trivia\n" +
-                        "If you want to specify the difficulty of trivia, you can use the `-diff` parameter. Example: `~>game lobby pokemon, trivia -diff hard`";
+                        "If you want to specify the difficulty of trivia, you can use the `-diff` parameter. " +
+                        "Example: `~>game lobby pokemon, trivia -diff hard`";
             }
 
             @Override
@@ -392,7 +393,10 @@ public class GameCmds {
         }
 
         if (games.size() > 1) {
-            ctx.sendLocalized("commands.game.lobby_started", EmoteReference.CORRECT, games.stream().map(Game::name).collect(Collectors.joining(", ")));
+            ctx.sendLocalized("commands.game.lobby_started", EmoteReference.CORRECT, games.stream()
+                    .map(Game::name)
+                    .collect(Collectors.joining(", "))
+            );
         }
 
         GameLobby lobby = new GameLobby(ctx.getEvent(), ctx.getLanguageContext(), players, games);

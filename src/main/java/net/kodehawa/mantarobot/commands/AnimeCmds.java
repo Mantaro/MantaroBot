@@ -31,7 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.APIUtils;
@@ -40,19 +39,13 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.text.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Module
-@SuppressWarnings("all" /* NO IT WONT FUCKING NPE */)
 public class AnimeCmds {
-    private static final Logger log = LoggerFactory.getLogger(AnimeCmds.class);
-    private final Config config = MantaroData.config().get();
-
     @Subscribe
     public void anime(CommandRegistry cr) {
         cr.register("anime", new SimpleCommand(CommandCategory.FUN) {
@@ -213,7 +206,8 @@ public class AnimeCmds {
             final String charName = attributes.getName();
             final String imageUrl = attributes.getImage().getOriginal();
 
-            final String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n").replaceAll("\\<.*?>", "")); //This is silly.
+            final String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n")
+                    .replaceAll("\\<.*?>", "")); //This is silly.
 
             final String charDescription = attributes.getDescription() == null || attributes.getDescription().isEmpty() ? lang.get("commands.character.no_info")
                     : StringUtils.limit(characterDescription, 1016);
@@ -234,7 +228,7 @@ public class AnimeCmds {
                     .setFooter(lang.get("commands.anime.information_notice"), null);
 
             event.getChannel().sendMessage(embed.build()).queue(success -> {
-            }, failure -> failure.printStackTrace());
+            }, Throwable::printStackTrace);
         } catch (Exception e) {
             e.printStackTrace();
         }

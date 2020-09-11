@@ -204,8 +204,14 @@ public class MoneyCmds {
                         returnMessage.add(languageContext.withRoot("commands", "daily.streak.first_time"));
                     } else {
                         if (amountStreaksavers > 0){
-                            returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), streak));
-                            authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH) * -1));
+                            returnMessage.add(
+                                    String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), streak)
+                            );
+
+                            authorPlayer.getInventory().process(
+                                    new ItemStack(Items.MAGIC_WATCH, authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH) * -1)
+                            );
+
                         } else{
                             returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.normal"), streak));
                         }
@@ -280,7 +286,8 @@ public class MoneyCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). Maximum amount it can give is ~2000 credits (a bit more for shared dailies)\n" +
+                        .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). " +
+                                "Maximum amount it can give is ~2000 credits (a bit more for shared dailies)\n" +
                                 "This command gives a reward for claiming it every day (daily streak)")
                         .setUsage("`~>daily [@user]`")
                         .addParameter("@user", "The user to give your daily to. This is optional, without this it gives it to yourself.")
@@ -422,8 +429,10 @@ public class MoneyCmds {
                 return new HelpContent.Builder()
                         .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
                         .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
-                        .addParameter("amount", "How much money you want to gamble. You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
-                        .addParameter("all/half/quarter", "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
+                        .addParameter("amount", "How much money you want to gamble. " +
+                                "You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
+                        .addParameter("all/half/quarter",
+                                "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
                         .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
                         .build();
             }
@@ -727,7 +736,9 @@ public class MoneyCmds {
 
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                StringBuilder message = new StringBuilder(String.format(languageContext.withRoot("commands", "slots.roll"), EmoteReference.DICE, coinSelect ? amountN + " " + languageContext.get("commands.slots.tickets") : money + " " + languageContext.get("commands.slots.credits")));
+                StringBuilder message = new StringBuilder(String.format(languageContext.withRoot("commands", "slots.roll"),
+                        EmoteReference.DICE, coinSelect ? amountN + " " + languageContext.get("commands.slots.tickets") : money + " "
+                                + languageContext.get("commands.slots.credits")));
                 StringBuilder builder = new StringBuilder();
 
                 for (int i = 0; i < 9; i++) {

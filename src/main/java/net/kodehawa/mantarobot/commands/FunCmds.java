@@ -171,7 +171,10 @@ public class FunCmds {
                     p.saveAsync();
                 }
 
-                ctx.sendLocalized("commands.roll.success", EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount)));
+                ctx.sendLocalized("commands.roll.success",
+                        EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))
+                );
+
                 TextChannelGround.of(ctx.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
             }
 
@@ -239,7 +242,8 @@ public class FunCmds {
                 }
 
                 MessageEmbed loveEmbed = new EmbedBuilder()
-                        .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null, ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null,
+                                ctx.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setDescription("\n**" + toDisplay + "**\n\n" +
                                 percentage + "% **\\|\\|**  " +

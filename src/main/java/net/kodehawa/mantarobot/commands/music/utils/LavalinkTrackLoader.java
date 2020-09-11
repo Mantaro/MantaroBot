@@ -43,7 +43,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.function.Function;
 
 public class LavalinkTrackLoader {
     public static void load(AudioPlayerManager manager, Lavalink<?> lavalink, String query,
@@ -57,18 +56,7 @@ public class LavalinkTrackLoader {
         CompletionStage<Runnable> last = tryLoad(manager, sockets.next().getRemoteUri(), query, handler);
         while (sockets.hasNext()) {
             URI uri = sockets.next().getRemoteUri();
-            //TODO: java 12 replace this with the line commented below
-            var cf = new CompletableFuture<Runnable>();
-            last.thenApply(CompletableFuture::completedStage)
-                    .exceptionally(e -> tryLoad(manager, uri, query, handler))
-                    .thenCompose(Function.identity())
-                    .thenAccept(cf::complete)
-                    .exceptionally(e -> {
-                        cf.completeExceptionally(e);
-                        return null;
-                    });
-            last = cf;
-            //last = last.exceptionallyCompose(e -> tryLoad(manager, uri, query, handler));
+            last = last.exceptionallyCompose(e -> tryLoad(manager, uri, query, handler));
         }
         last.whenComplete((ok, oof) -> {
             if (oof != null) {

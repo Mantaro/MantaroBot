@@ -85,7 +85,8 @@ public class MarketCmd {
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
                                 fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
-                                        (languageContext.getContextLanguage().equals("en_US") ? "" : " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
+                                        (languageContext.getContextLanguage().equals("en_US") ? "" :
+                                                " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
                                                 languageContext.get(item.getDesc()) + "\n" +
                                                 languageContext.get("commands.market.buy_price") + " " + buyValue + "\n" +
                                                 languageContext.get("commands.market.sell_price") + " " + sellValue,
@@ -436,7 +437,8 @@ public class MarketCmd {
                         return;
                     }
 
-                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) : player.removeMoney(itemToBuy.getValue() * itemNumber);
+                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) :
+                            player.removeMoney(itemToBuy.getValue() * itemNumber);
 
                     if (removedMoney) {
                         playerInventory.process(new ItemStack(itemToBuy, itemNumber));
@@ -452,7 +454,8 @@ public class MarketCmd {
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
 
                         ctx.sendLocalized("commands.market.buy.success",
-                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, playerMoney
+                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
+                                playerMoney
                         );
                     } else {
                         ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP);

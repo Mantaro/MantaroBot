@@ -151,7 +151,8 @@ public class ModerationCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Softban the mentioned user and clears their messages from the past week. (You need the Ban Members permission, so does the bot)♥n" +
+                        .setDescription("Softban the mentioned user and clears their messages from the past week. " +
+                                "(You need the Ban Members permission, so does the bot)♥n" +
                                 "A soft ban is a ban & instant unban, usually useful to kick and clear messages.")
                         .setUsage("`~>softban <@user> [reason]`")
                         .addParameter("@user", "The user to softban.")
@@ -346,7 +347,9 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if (error instanceof PermissionException) {
-                                    ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission().getName());
+                                    ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(),
+                                            ((PermissionException) error).getPermission().getName()
+                                    );
                                 } else {
                                     ctx.sendLocalized("commands.kick.unknown_error", EmoteReference.ERROR, user.getName());
                                     log.warn("Unexpected error while kicking someone.", error);
