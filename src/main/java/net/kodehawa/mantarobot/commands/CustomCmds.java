@@ -333,7 +333,7 @@ public class CustomCmds {
                 }
 
                 int size = customCommands.size();
-                customCommands.forEach(CustomCommand::deleteAsync);
+                customCommands.stream().filter(cmd -> !cmd.getData().isLocked()).forEach(CustomCommand::deleteAsync);
                 customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
                 ctx.sendLocalized("commands.custom.clear.success", EmoteReference.PENCIL, size);
             }
@@ -862,6 +862,11 @@ public class CustomCmds {
                 CustomCommand c = ctx.db().getCustomCommand(ctx.getEvent(), cmd);
 
                 if (c != null) {
+                    if(custom.getData().isLocked()) {
+                        ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                        return;
+                    }
+
                     custom.getValues().addAll(c.getValues());
                 } else {
                     //Are the first two checks redundant?
