@@ -578,7 +578,9 @@ public class Utils {
     // lol
     public static boolean isValidZoneId(final String zoneId) {
         try {
-            final ZoneId id = ZoneId.of(zoneId);
+            // This throws on an invalid or not found ZoneId instead of return null,
+            // so if we ever get to "return true", it's valid.
+            ZoneId.of(zoneId);
             return true;
         } catch (Exception e) {
             return false;
