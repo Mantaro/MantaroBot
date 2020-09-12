@@ -300,7 +300,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                if (!Utils.isValidTimeZone(timezone)) {
+                if (!Utils.isValidTimeZone(timezone) && !Utils.isValidZoneId(timezone)) {
                     ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
