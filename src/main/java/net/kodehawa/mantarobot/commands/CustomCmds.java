@@ -669,7 +669,8 @@ public class CustomCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!adminPredicate.test(ctx.getEvent())) {
+                if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
                     return;
                 }
 
@@ -699,9 +700,11 @@ public class CustomCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!adminPredicate.test(ctx.getEvent())) {
+                if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
                     return;
                 }
+
 
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.custom.lockcommand.no_command", EmoteReference.ERROR);
