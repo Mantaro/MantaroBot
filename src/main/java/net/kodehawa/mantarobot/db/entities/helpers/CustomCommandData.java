@@ -19,9 +19,9 @@ package net.kodehawa.mantarobot.db.entities.helpers;
 public class CustomCommandData {
     private String owner = "";
     private boolean nsfw = false;
+    private boolean locked = false;
 
-    public CustomCommandData() {
-    }
+    public CustomCommandData() { }
 
     public String getOwner() {
         return this.owner;
@@ -37,5 +37,13 @@ public class CustomCommandData {
 
     public void setNsfw(boolean nsfw) {
         this.nsfw = nsfw;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

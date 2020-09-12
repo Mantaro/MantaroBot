@@ -407,6 +407,11 @@ public class CustomCmds {
                     return;
                 }
 
+                if(custom.getData().isLocked()) {
+                    ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                    return;
+                }
+
                 //delete at DB
                 custom.deleteAsync();
 
@@ -558,6 +563,11 @@ public class CustomCmds {
                     return;
                 }
 
+                if(custom.getData().isLocked()) {
+                    ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                    return;
+                }
+
                 int where;
                 String index = args[1];
                 //replace first occurrence and second argument: custom command and index.
@@ -622,6 +632,11 @@ public class CustomCmds {
                     return;
                 }
 
+                if(custom.getData().isLocked()) {
+                    ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                    return;
+                }
+
                 int where;
                 String index = args[1];
                 try {
@@ -645,6 +660,72 @@ public class CustomCmds {
                 ctx.sendLocalized("commands.custom.deleteresponse.success", EmoteReference.CORRECT, where, custom.getName());
             }
         }).createSubCommandAlias("deleteresponse", "dlr");
+
+        customCommand.addSubCommand("lockcommand", new SubCommand() {
+            @Override
+            public String description() {
+                return "Looks a command for further edits until unlocked.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_command", EmoteReference.ERROR);
+                    return;
+                }
+
+                var cmd = ctx.db().getCustomCommand(ctx.getGuild(), content);
+                if(cmd == null) {
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR, content);
+                    return;
+                }
+
+                cmd.getData().setLocked(true);
+                cmd.save();
+
+                ctx.sendLocalized("commands.custom.lockcommand.success", EmoteReference.CORRECT, content);
+            }
+        });
+
+        customCommand.addSubCommand("unlockcommand", new SubCommand() {
+            @Override
+            public String description() {
+                return "Unlocks a command to do further edits.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                if (!adminPredicate.test(ctx.getEvent())) {
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_command", EmoteReference.ERROR);
+                    return;
+                }
+
+                var cmd = ctx.db().getCustomCommand(ctx.getGuild(), content);
+                if(cmd == null) {
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR, content);
+                    return;
+                }
+
+                var data = cmd.getData();
+                if(!data.isLocked()) {
+                    ctx.sendLocalized("commands.custom.unlockcommand.not_locked", EmoteReference.ERROR, content);
+                    return;
+                }
+
+                data.setLocked(false);
+                cmd.save();
+
+                ctx.sendLocalized("commands.custom.unlockcommand.success", EmoteReference.CORRECT, content);
+            }
+        });
 
         customCommand.addSubCommand("rename", new SubCommand() {
             @Override
