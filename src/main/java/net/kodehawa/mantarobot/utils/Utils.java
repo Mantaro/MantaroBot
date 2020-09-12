@@ -565,12 +565,11 @@ public class Utils {
     }
 
     public static boolean isValidTimeZone(final String timeZone) {
-        final String DEFAULT_GMT_TIMEZONE = "GMT";
-        if (timeZone.equals(DEFAULT_GMT_TIMEZONE)) {
+        if (timeZone.equals("GMT")) {
             return true;
         } else {
             String id = TimeZone.getTimeZone(timeZone).getID();
-            return !id.equals(DEFAULT_GMT_TIMEZONE);
+            return !id.equals("GMT");
         }
     }
 

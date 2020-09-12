@@ -57,6 +57,7 @@ import okhttp3.ResponseBody;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
@@ -65,6 +66,8 @@ import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @Module
 public class ProfileCmd {
+    private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+
     @Subscribe
     public void profile(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -292,7 +295,7 @@ public class ProfileCmd {
                 }
 
                 String timezone = content;
-                if(content.contains("UTC") || content.contains("GMT")) // Avoid replacing valid zone IDs / uppercasing them.
+                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
                     timezone = content.replace("UTC", "GMT").toUpperCase();
 
                 if (timezone.equalsIgnoreCase("reset")) {

@@ -584,12 +584,13 @@ public class UtilsCmds {
 
     @Subscribe
     public void time(CommandRegistry registry) {
+        final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
         registry.register("time", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    if(content.contains("UTC") || content.contains("GMT")) // Avoid replacing valid zone IDs / uppercasing them.
-                        content = content.replace("UTC", "GMT").toUpperCase();
+                    if(offsetRegex.matcher(content).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                        content = content.toUpperCase().replace("UTC", "GMT");
 
                     DBUser dbUser = ctx.getDBUser();
                     String timezone = dbUser.getData().getTimezone() != null ? (content.isEmpty() ? dbUser.getData().getTimezone() : content) : content;
