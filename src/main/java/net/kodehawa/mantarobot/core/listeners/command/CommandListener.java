@@ -185,7 +185,7 @@ public class CommandListener implements EventListener {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             Player player = MantaroData.db().getPlayer(event.getAuthor());
             event.getChannel().sendMessageFormat(
-                    "%s%s\n(Error ID: `%s`)\n" + context.get("general.generic_error"), EmoteReference.ERROR, context.get("general.boom_quotes"), id
+                    "%s%s (Unexpected error, ID: `%s`)\n" + context.get("general.generic_error"), EmoteReference.ERROR, context.get("general.boom_quotes"), id
             ).queue();
 
             if (player.getData().addBadgeIfAbsent(Badge.FIRE))
