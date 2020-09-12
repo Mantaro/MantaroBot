@@ -955,7 +955,7 @@
       "rep_yourself": "%1$sVocê não pode dar rep para si mesmo.\n%2$s",
       "cooldown": {
         "waiting": "**Você poderá usar esse comando novamente em %1$s**",
-        "pass": "Você dar rep para alguém agora."
+        "pass": "Você pode dar rep para alguém agora."
       },
       "success": "%1$sReputação adicionada para **%2$s**"
     },
