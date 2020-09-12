@@ -20,8 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
@@ -37,9 +35,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -55,10 +51,8 @@ import redis.clients.jedis.Jedis;
 import java.awt.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Queue;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,11 +67,11 @@ public class UtilsCmds {
     private static final Random random = new Random();
 
     protected static String dateGMT(Guild guild, String tz) {
-        DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-        Date date = new Date();
+        var format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        var date = new Date();
 
-        DBGuild dbGuild = MantaroData.db().getGuild(guild.getId());
-        GuildData guildData = dbGuild.getData();
+        var dbGuild = MantaroData.db().getGuild(guild.getId());
+        var guildData = dbGuild.getData();
 
         if (guildData.getTimeDisplay() == 1) {
             format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
@@ -101,8 +95,8 @@ public class UtilsCmds {
                         }
 
                         //Twice. Yep.
-                        SimpleDateFormat parseFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM");
+                        var parseFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        var displayFormat = new SimpleDateFormat("dd-MM");
                         Date birthdayDate;
 
                         //This code hurts to read, lol.
@@ -131,7 +125,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        String birthdayFormat = parseFormat.format(birthdayDate);
+                        var birthdayFormat = parseFormat.format(birthdayDate);
 
                         //Actually save it to the user's profile.
                         DBUser dbUser = ctx.getDBUser();
@@ -161,8 +155,8 @@ public class UtilsCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                DBGuild dbGuild = ctx.getDBGuild();
-                GuildData guildData = dbGuild.getData();
+                var dbGuild = ctx.getDBGuild();
+                var guildData = dbGuild.getData();
 
                 guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
                 dbGuild.save();
@@ -178,8 +172,8 @@ public class UtilsCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                DBGuild dbGuild = ctx.getDBGuild();
-                GuildData guildData = dbGuild.getData();
+                var dbGuild = ctx.getDBGuild();
+                var guildData = dbGuild.getData();
 
                 if(guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
                     ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
@@ -201,7 +195,7 @@ public class UtilsCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                DBUser user = ctx.getDBUser();
+                var user = ctx.getDBUser();
                 user.getData().setBirthday(null);
                 user.save();
 
@@ -228,8 +222,8 @@ public class UtilsCmds {
                         }
 
                         // O(1) lookups. Probably.
-                        Guild guild = ctx.getGuild();
-                        GuildData data = ctx.getDBGuild().getData();
+                        var guild = ctx.getGuild();
+                        var data = ctx.getDBGuild().getData();
 
                         List<String> ids = data.getAllowedBirthdays();
                         Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = cacher.cachedBirthdays;
@@ -241,9 +235,9 @@ public class UtilsCmds {
                         }
 
                         // Build the message. This is duplicated on birthday month with a lil different.
-                        String birthdays = guildCurrentBirthdays.entrySet().stream()
+                        var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
-                                .filter(entry -> ids.contains(entry))
+                                .filter(ids::contains)
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
                                     return String.format("+ %-20s : %s ",
@@ -253,11 +247,11 @@ public class UtilsCmds {
                                 })
                                 .collect(Collectors.joining("\n"));
 
-                        List<String> parts = DiscordUtils.divideString(1000, birthdays);
-                        boolean hasReactionPerms = ctx.hasReactionPerms();
+                        var parts = DiscordUtils.divideString(1000, birthdays);
+                        var hasReactionPerms = ctx.hasReactionPerms();
 
                         List<String> messages = new LinkedList<>();
-                        I18nContext languageContext = ctx.getLanguageContext();
+                        var languageContext = ctx.getLanguageContext();
                         for (String s1 : parts) {
                             messages.add(String.format(languageContext.get("commands.birthday.full_header"), guild.getName(),
                                     (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
@@ -289,8 +283,8 @@ public class UtilsCmds {
             @Override
             protected void call(Context ctx, String content) {
                 String[] args = ctx.getArguments();
-                BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
-                Calendar calendar = Calendar.getInstance();
+                var cacher = MantaroBot.getInstance().getBirthdayCacher();
+                var calendar = Calendar.getInstance();
                 int month = calendar.get(Calendar.MONTH);
 
                 String m1 = "";
@@ -330,8 +324,9 @@ public class UtilsCmds {
                         Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new HashMap<>();
 
                         //Try not to die. I mean get calendar month and sum 1.
-                        String calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-                        String currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
+                        var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+                        var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
+                        var languageContext = ctx.getLanguageContext();
 
                         //~100k repetitions rip
                         for (Map.Entry<String, BirthdayCacher.BirthdayData> birthdays : cacher.cachedBirthdays.entrySet()) {
@@ -350,7 +345,7 @@ public class UtilsCmds {
                         }
 
                         //Build the message.
-                        String birthdays = guildCurrentBirthdays.entrySet().stream()
+                        var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
@@ -361,7 +356,6 @@ public class UtilsCmds {
                                 }).collect(Collectors.joining("\n"));
 
                         List<String> parts = DiscordUtils.divideString(1000, birthdays);
-                        I18nContext languageContext = ctx.getLanguageContext();
                         List<String> messages = new LinkedList<>();
                         for (String s1 : parts) {
                             messages.add(String.format(languageContext.get("commands.birthday.header"), ctx.getGuild().getName(),
@@ -397,7 +391,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                String send = Utils.DISCORD_INVITE.matcher(args[random.nextInt(args.length)]).replaceAll("-inv link-");
+                var send = Utils.DISCORD_INVITE.matcher(args[random.nextInt(args.length)]).replaceAll("-inv link-");
                 send = Utils.DISCORD_INVITE_2.matcher(send).replaceAll("-inv link-");
                 ctx.sendStrippedLocalized("commands.choose.success", EmoteReference.EYES, send);
             }
@@ -426,7 +420,7 @@ public class UtilsCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {
-                        Map<String, String> optionalArguments = ctx.getOptionalArguments();
+                        var optionalArguments = ctx.getOptionalArguments();
 
                         if (!optionalArguments.containsKey("time")) {
                             ctx.sendLocalized("commands.remindme.no_time", EmoteReference.ERROR);
@@ -438,11 +432,11 @@ public class UtilsCmds {
                             return;
                         }
 
-                        String toRemind = timePattern.matcher(content).replaceAll("");
-                        User user = ctx.getUser();
+                        var toRemind = timePattern.matcher(content).replaceAll("");
+                        var user = ctx.getUser();
                         long time = Utils.parseTime(optionalArguments.get("time"));
-                        DBUser dbUser = ctx.getDBUser();
-                        List<ReminderObject> rems = getReminders(dbUser.getData().getReminders());
+                        var dbUser = ctx.getDBUser();
+                        var rems = getReminders(dbUser.getData().getReminders());
 
                         if (rems.size() > 25) {
                             //Max amount of reminders reached
@@ -460,7 +454,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        String displayRemind = Utils.DISCORD_INVITE.matcher(toRemind).replaceAll("discord invite link");
+                        var displayRemind = Utils.DISCORD_INVITE.matcher(toRemind).replaceAll("discord invite link");
                         displayRemind = Utils.DISCORD_INVITE_2.matcher(displayRemind).replaceAll("discord invite link");
 
                         ctx.sendStrippedLocalized("commands.remindme.success", EmoteReference.CORRECT, ctx.getUser().getName(),
@@ -498,22 +492,22 @@ public class UtilsCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                List<String> reminders = ctx.getDBUser().getData().getReminders();
-                List<ReminderObject> rms = getReminders(reminders);
+                var reminders = ctx.getDBUser().getData().getReminders();
+                var rms = getReminders(reminders);
 
                 if (rms.isEmpty()) {
                     ctx.sendLocalized("commands.remindme.no_reminders", EmoteReference.ERROR);
                     return;
                 }
 
-                StringBuilder builder = new StringBuilder();
-                AtomicInteger i = new AtomicInteger();
+                var builder = new StringBuilder();
+                var i = new AtomicInteger();
                 for (ReminderObject rems : rms) {
                     builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
                             .append(Utils.formatDuration(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
                 }
 
-                Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                var toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
                 toSend.forEach(ctx::send);
             }
         });
@@ -530,7 +524,7 @@ public class UtilsCmds {
             @Override
             protected void call(Context ctx, String content) {
                 try {
-                    List<String> reminders = ctx.getDBUser().getData().getReminders();
+                    var reminders = ctx.getDBUser().getData().getReminders();
 
                     if (reminders.isEmpty()) {
                         ctx.sendLocalized("commands.remindme.no_reminders", EmoteReference.ERROR);
@@ -564,9 +558,9 @@ public class UtilsCmds {
         try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
             List<ReminderObject> rems = new ArrayList<>();
             for (String s : reminders) {
-                String rem = j.hget("reminder", s);
+                var rem = j.hget("reminder", s);
                 if (rem != null) {
-                    JSONObject json = new JSONObject(rem);
+                    var json = new JSONObject(rem);
                     rems.add(ReminderObject.builder()
                             .id(s.split(":")[0])
                             .userId(json.getString("user"))
@@ -588,30 +582,40 @@ public class UtilsCmds {
         registry.register("time", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                try {
-                    if(offsetRegex.matcher(content).matches()) // Avoid replacing valid zone IDs / uppercasing them.
-                        content = content.toUpperCase().replace("UTC", "GMT");
+                var mentions = ctx.getMentionedMembers();
+                var isMention = !mentions.isEmpty();
+                var timezone = content.isEmpty() ? "" : args[0]; // Array out of bounds lol
 
-                    DBUser dbUser = ctx.getDBUser();
-                    String timezone = dbUser.getData().getTimezone() != null ? (content.isEmpty() ? dbUser.getData().getTimezone() : content) : content;
+                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                    timezone = timezone.toUpperCase().replace("UTC", "GMT");
 
-                    if (!Utils.isValidTimeZone(timezone)) {
-                        ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
-                        return;
-                    }
+                var dbUser = !isMention ? ctx.getDBUser() : ctx.getDBUser(mentions.get(0));
+                var userData = dbUser.getData();
 
-                    ctx.sendLocalized("commands.time.success", EmoteReference.MEGA, dateGMT(ctx.getGuild(), timezone), timezone);
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.time.error", EmoteReference.ERROR);
+                if(isMention && userData.getTimezone() == null) {
+                    ctx.sendLocalized("commands.time.user_no_timezone", EmoteReference.ERROR);
+                    return;
                 }
+
+                if(userData.getTimezone() != null && (content.isEmpty() || isMention)) {
+                    timezone = userData.getTimezone();
+                }
+
+                if (!Utils.isValidTimeZone(timezone)) {
+                    ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
+                    return;
+                }
+
+                ctx.sendLocalized("commands.time.success", EmoteReference.MEGA, dateGMT(ctx.getGuild(), timezone), timezone);
             }
 
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Get the time in a specific timezone (GMT).")
-                        .setUsage("`~>time <timezone>`")
+                        .setUsage("`~>time <timezone> [@user]`")
                         .addParameter("timezone", "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)")
+                        .addParameter("@user", "The user to see the timezone of. Has to be a mention.")
                         .build();
             }
         });
@@ -650,9 +654,7 @@ public class UtilsCmds {
                 }
 
                 var definitionNumber = commandArguments.length > 1 ? (Integer.parseInt(commandArguments[1]) - 1) : 0;
-                var header = commandArguments[0];
-
-                UrbanData.List urbanData = data.getList().get(definitionNumber);
+                var urbanData = data.getList().get(definitionNumber);
                 var definition = urbanData.getDefinition();
 
                 ctx.send(new EmbedBuilder()
