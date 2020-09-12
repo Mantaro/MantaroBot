@@ -296,7 +296,7 @@ public class ProfileCmd {
 
                 String timezone = content;
                 if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
-                    timezone = content.replace("UTC", "GMT").toUpperCase();
+                    timezone = content.toUpperCase().replace("UTC", "GMT");
 
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
