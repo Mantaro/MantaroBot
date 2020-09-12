@@ -48,6 +48,10 @@ repositories {
     maven { url 'https://dl.bintray.com/natanbc/maven' }
     maven { url 'https://maven.notfab.net/Hosted' }
     maven { url 'https://jitpack.io' }
+
+    maven {
+        url 'https://dl.bintray.com/sedmelluq/com.sedmelluq'
+    }
 }
 
 task generateLanguageList {

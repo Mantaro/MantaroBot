@@ -592,7 +592,7 @@ public class UtilsCmds {
                     DBUser dbUser = ctx.getDBUser();
                     String timezone = dbUser.getData().getTimezone() != null ? (content.isEmpty() ? dbUser.getData().getTimezone() : content) : content;
 
-                    if (!Utils.isValidTimeZone(timezone)) {
+                    if (!Utils.isValidTimeZone(timezone) && !Utils.isValidZoneId(timezone)) {
                         ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
                         return;
                     }
@@ -608,7 +608,7 @@ public class UtilsCmds {
                 return new HelpContent.Builder()
                         .setDescription("Get the time in a specific timezone (GMT).")
                         .setUsage("`~>time <timezone>`")
-                        .addParameter("timezone", "The timezone in GMT or UTC offset (Example: GMT-3)")
+                        .addParameter("timezone", "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)")
                         .build();
             }
         });
