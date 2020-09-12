@@ -162,11 +162,10 @@ public class Poll extends Lobby {
         return r;
     }
 
-    private Future<Void> createPoll(Context ctx, Message message, I18nContext languageContext) {
+    private void createPoll(Context ctx, Message message, I18nContext languageContext) {
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
             public int add(MessageReactionAddEvent e) {
-                int i = e.getReactionEmote().getName().charAt(0) - '\u0030';
                 return Operation.IGNORED; //always return false anyway lul
             }
 
@@ -204,8 +203,6 @@ public class Poll extends Lobby {
             }
 
         }, reactions(options.length));
-
-        return runningPoll;
     }
 
     public String getId() {

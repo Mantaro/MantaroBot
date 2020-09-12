@@ -34,8 +34,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -50,12 +50,11 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
-import java.security.SecureRandom;
 import java.text.ParsePosition;
 import java.util.List;
 import java.util.*;
@@ -66,7 +65,6 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
-@SuppressWarnings("unused")
 public class CurrencyCmds {
     private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 4; //around 536m
 
@@ -632,7 +630,6 @@ public class CurrencyCmds {
                 .prefix("dailycrate")
                 .build();
 
-        SecureRandom random = new SecureRandom();
         cr.register("dailycrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {

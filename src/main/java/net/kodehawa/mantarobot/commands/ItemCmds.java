@@ -36,7 +36,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -44,7 +43,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.security.SecureRandom;
@@ -262,8 +261,10 @@ public class ItemCmds {
                 return new HelpContent.Builder()
                         .setDescription("Allows you to cast any castable item given you have the necessary elements.\n" +
                                 "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
-                                "Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.\n" +
-                                "If you specify the item and the wrench, you can use amount without -amount. Example: `~>cast \"diamond pickaxe\" \"sparkle wrench\" 10`")
+                                "Cast-able items are only able to be acquired by this command. " +
+                                "They're non-buyable items, though you can sell them for a profit.\n" +
+                                "If you specify the item and the wrench, you can use amount without -amount. " +
+                                "Example: `~>cast \"diamond pickaxe\" \"sparkle wrench\" 10`")
                         .setUsage("`~>cast <item> [wrench] [-amount <amount>]` - Casts the item you provide.")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .addParameterOptional("wrench", "The wrench name or emoji. If the name contains spaces \"wrap it in quotes\"")
@@ -316,10 +317,14 @@ public class ItemCmds {
 
                 List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
                 if (ctx.hasReactionPerms()) {
-                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
+                            splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc"))
+                    );
                     DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
                 } else {
-                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")));
+                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
+                            splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc"))
+                    );
                     DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
                 }
             }
@@ -354,8 +359,6 @@ public class ItemCmds {
                             ctx.sendLocalized("commands.repair.no_item", EmoteReference.ERROR);
                             return;
                         }
-
-                        ManagedDatabase db = MantaroData.db();
 
                         //Argument parsing.
                         Map<String, String> t = ctx.getOptionalArguments();

@@ -43,7 +43,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -85,7 +85,8 @@ public class MarketCmd {
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
                                 fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
-                                        (languageContext.getContextLanguage().equals("en_US") ? "" : " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
+                                        (languageContext.getContextLanguage().equals("en_US") ? "" :
+                                                " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
                                                 languageContext.get(item.getDesc()) + "\n" +
                                                 languageContext.get("commands.market.buy_price") + " " + buyValue + "\n" +
                                                 languageContext.get("commands.market.sell_price") + " " + sellValue,
@@ -166,7 +167,6 @@ public class MarketCmd {
                 Map<String, String> t = ctx.getOptionalArguments();
                 boolean isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(t, content, "season", "s").trim();
-                I18nContext languageContext = ctx.getLanguageContext();
 
                 String[] args = content.split(" ");
                 String itemName = content;
@@ -437,7 +437,8 @@ public class MarketCmd {
                         return;
                     }
 
-                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) : player.removeMoney(itemToBuy.getValue() * itemNumber);
+                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) :
+                            player.removeMoney(itemToBuy.getValue() * itemNumber);
 
                     if (removedMoney) {
                         playerInventory.process(new ItemStack(itemToBuy, itemNumber));
@@ -453,7 +454,8 @@ public class MarketCmd {
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
 
                         ctx.sendLocalized("commands.market.buy.success",
-                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, playerMoney
+                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
+                                playerMoney
                         );
                     } else {
                         ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP);

@@ -31,13 +31,13 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -51,7 +51,6 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 
 @Module
-@SuppressWarnings("unused")
 public class DebugCmds {
     @Subscribe
     public void info(CommandRegistry cr) {
@@ -107,7 +106,7 @@ public class DebugCmds {
 
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
-                        + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
+                        + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
                         + "Bot Version: " + MantaroInfo.VERSION + " [" + MantaroInfo.GIT_REVISION + "]\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
@@ -209,7 +208,6 @@ public class DebugCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
-                int connecting = 0;
                 Map<String, String> stats;
 
                 try(Jedis jedis = ctx.getJedisPool().getResource()) {

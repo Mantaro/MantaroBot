@@ -29,7 +29,6 @@ import org.json.JSONTokener;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
-
 public class APIUtils {
     private static final Config config = MantaroData.config().get();
     private static final OkHttpClient httpClient = new OkHttpClient();

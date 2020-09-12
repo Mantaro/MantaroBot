@@ -36,7 +36,6 @@ public class Config {
     public boolean isPremiumBot = false;
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
-    public String sentryDSN;
     public String shardWebhookUrl;
     public String token;
     public int totalShards = 0;
@@ -123,10 +122,6 @@ public class Config {
 
     public void setPrefix(String[] prefix) {
         this.prefix = prefix;
-    }
-
-    public String getSentryDSN() {
-        return this.sentryDSN;
     }
 
     public String getShardWebhookUrl() {

@@ -41,9 +41,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -54,9 +52,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 
 @Module
-@SuppressWarnings("unused")
 public class GameCmds {
-    private static final Logger log = LoggerFactory.getLogger(GameCmds.class);
     private final Map<String, Function<TriviaDifficulty, Game<?>>> games = new HashMap<>();
 
     @Subscribe
@@ -148,7 +144,8 @@ public class GameCmds {
             @Override
             public String description() {
                 return "Starts a game lobby. For example `~>game lobby pokemon, trivia` will start pokemon and then trivia\n" +
-                        "If you want to specify the difficulty of trivia, you can use the `-diff` parameter. Example: `~>game lobby pokemon, trivia -diff hard`";
+                        "If you want to specify the difficulty of trivia, you can use the `-diff` parameter. " +
+                        "Example: `~>game lobby pokemon, trivia -diff hard`";
             }
 
             @Override
@@ -160,7 +157,6 @@ public class GameCmds {
                     return;
                 }
 
-                String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
                 Map<String, String> t = ctx.getOptionalArguments();
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
@@ -235,7 +231,6 @@ public class GameCmds {
                     return;
                 }
 
-                String[] args = net.kodehawa.mantarobot.utils.StringUtils.advancedSplitArgs(content, 0);
                 Map<String, String> t = ctx.getOptionalArguments();
                 String difficultyArgument = "diff";
                 content = Utils.replaceArguments(t, content, difficultyArgument);
@@ -398,7 +393,10 @@ public class GameCmds {
         }
 
         if (games.size() > 1) {
-            ctx.sendLocalized("commands.game.lobby_started", EmoteReference.CORRECT, games.stream().map(Game::name).collect(Collectors.joining(", ")));
+            ctx.sendLocalized("commands.game.lobby_started", EmoteReference.CORRECT, games.stream()
+                    .map(Game::name)
+                    .collect(Collectors.joining(", "))
+            );
         }
 
         GameLobby lobby = new GameLobby(ctx.getEvent(), ctx.getLanguageContext(), players, games);

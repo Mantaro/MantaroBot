@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -42,7 +41,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Module
-@SuppressWarnings("unused")
 public class ModerationCmds {
     private static final Logger log = LoggerFactory.getLogger(ModerationCmds.class);
 
@@ -53,8 +51,6 @@ public class ModerationCmds {
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
                 User author = ctx.getAuthor();
-
-                Message receivedMessage = ctx.getMessage();
                 String reason = content;
 
                 if (ctx.getMentionedUsers().isEmpty()) {
@@ -155,7 +151,8 @@ public class ModerationCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Softban the mentioned user and clears their messages from the past week. (You need the Ban Members permission, so does the bot)♥n" +
+                        .setDescription("Softban the mentioned user and clears their messages from the past week. " +
+                                "(You need the Ban Members permission, so does the bot)♥n" +
                                 "A soft ban is a ban & instant unban, usually useful to kick and clear messages.")
                         .setUsage("`~>softban <@user> [reason]`")
                         .addParameter("@user", "The user to softban.")
@@ -172,8 +169,6 @@ public class ModerationCmds {
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
                 User author = ctx.getAuthor();
-
-                Message receivedMessage = ctx.getMessage();
                 String reason = content;
                 List<Member> mentionedMembers = ctx.getMentionedMembers();
 
@@ -278,9 +273,6 @@ public class ModerationCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
-                User author = ctx.getAuthor();
-
-                Message receivedMessage = ctx.getMessage();
                 String reason = content;
 
                 if (args.length == 0) {
@@ -355,7 +347,9 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if (error instanceof PermissionException) {
-                                    ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission().getName());
+                                    ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(),
+                                            ((PermissionException) error).getPermission().getName()
+                                    );
                                 } else {
                                     ctx.sendLocalized("commands.kick.unknown_error", EmoteReference.ERROR, user.getName());
                                     log.warn("Unexpected error while kicking someone.", error);

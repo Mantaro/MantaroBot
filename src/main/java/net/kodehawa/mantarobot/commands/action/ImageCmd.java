@@ -36,7 +36,6 @@ public class ImageCmd extends NoArgsCommand {
 
     private final String desc;
     private final String imageName;
-    private final String name;
     private final String toSend;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private final Random rand = new Random();
@@ -44,18 +43,16 @@ public class ImageCmd extends NoArgsCommand {
     private boolean noMentions = false;
     private String type;
 
-    public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
+    public ImageCmd(String desc, String imageName, List<String> images, String toSend) {
         super(CommandCategory.ACTION);
-        this.name = name;
         this.desc = desc;
         this.imageName = imageName;
         this.images = images;
         this.toSend = toSend;
     }
 
-    public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend, boolean noMentions) {
+    public ImageCmd(String desc, String imageName, List<String> images, String toSend, boolean noMentions) {
         super(CommandCategory.ACTION);
-        this.name = name;
         this.desc = desc;
         this.imageName = imageName;
         this.images = images;
@@ -63,9 +60,8 @@ public class ImageCmd extends NoArgsCommand {
         this.noMentions = noMentions;
     }
 
-    public ImageCmd(String name, String desc, String imageName, String type, String toSend) {
+    public ImageCmd(String desc, String imageName, String type, String toSend) {
         super(CommandCategory.ACTION);
-        this.name = name;
         this.desc = desc;
         this.imageName = imageName;
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null).getKey());
@@ -73,9 +69,8 @@ public class ImageCmd extends NoArgsCommand {
         this.type = type;
     }
 
-    public ImageCmd(String name, String desc, String imageName, String type, String toSend, boolean noMentions) {
+    public ImageCmd(String desc, String imageName, String type, String toSend, boolean noMentions) {
         super(CommandCategory.ACTION);
-        this.name = name;
         this.desc = desc;
         this.imageName = imageName;
         this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null).getKey());

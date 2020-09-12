@@ -37,8 +37,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -52,7 +52,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.time.OffsetDateTime;
@@ -64,7 +64,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Module
-@SuppressWarnings("unused")
 public class PlayerCmds {
     @Subscribe
     public void rep(CommandRegistry cr) {
@@ -81,8 +80,6 @@ public class PlayerCmds {
             @Override
             public void call(Context ctx, String content, String[] args) {
                 long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
-
-                User user;
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 if (content.isEmpty()) {

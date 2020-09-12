@@ -120,7 +120,6 @@ public class ConditionalCustoms {
             return string;
 
         return GETTER_MODIFIER.matcher(string).replaceAll(r -> {
-            //TODO: this might NOT be group.
             String s = r.group();
 
             s = s.substring(1, s.length() - 1);

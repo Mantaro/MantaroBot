@@ -19,7 +19,10 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.ISnowflake;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
@@ -35,7 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.CustomCommand;
@@ -45,7 +48,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +65,6 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 
 @Module
-@SuppressWarnings("unused")
 public class CustomCmds {
     public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
@@ -120,7 +122,7 @@ public class CustomCmds {
     //Lazy-load custom commands into cache.
     public static CustomCommand getCustomCommand(String id, String name) {
         //lol
-        if (DefaultCommandProcessor.REGISTRY.commands().containsKey(name)) {
+        if (CommandProcessor.REGISTRY.commands().containsKey(name)) {
             return null;
         }
 
@@ -142,7 +144,7 @@ public class CustomCmds {
             custom.saveAsync();
         }
 
-        if (DefaultCommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
+        if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
             custom.deleteAsync();
             custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
             custom.saveAsync();
@@ -174,7 +176,9 @@ public class CustomCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Manages the Custom Commands of the Guild. If you wish to allow normal people to make custom commands, run `~>opts admincustom false` (it's locked to admins by default)")
+                        .setDescription("Manages the Custom Commands of the Guild. " +
+                                "If you wish to allow normal people to make custom commands, " +
+                                "run `~>opts admincustom false` (it's locked to admins by default)")
                         .setUsage("`~>custom <sub command>`")
                         .build();
             }
@@ -201,7 +205,6 @@ public class CustomCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                String filter = ctx.getGuild().getId() + ":";
                 List<String> commands = ctx.db().getCustomCommands(ctx.getGuild())
                         .stream()
                         .map(CustomCommand::getName)
@@ -330,7 +333,7 @@ public class CustomCmds {
                 }
 
                 int size = customCommands.size();
-                customCommands.forEach(CustomCommand::deleteAsync);
+                customCommands.stream().filter(cmd -> !cmd.getData().isLocked()).forEach(CustomCommand::deleteAsync);
                 customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
                 ctx.sendLocalized("commands.custom.clear.success", EmoteReference.PENCIL, size);
             }
@@ -363,7 +366,9 @@ public class CustomCmds {
                 } catch (SyntaxException e) {
                     ctx.sendStrippedLocalized("commands.custom.eval.new_error", EmoteReference.ERROR, e.getMessage());
                 } catch (Exception e) {
-                    ctx.sendStrippedLocalized("commands.custom.eval.error", EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")");
+                    ctx.sendStrippedLocalized("commands.custom.eval.error",
+                            EmoteReference.ERROR, e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")"
+                    );
                 }
             }
         }).createSubCommandAlias("eval", "evl");
@@ -391,7 +396,7 @@ public class CustomCmds {
                 }
 
                 //hint: always check for this
-                if (DefaultCommandProcessor.REGISTRY.commands().containsKey(content)) {
+                if (CommandProcessor.REGISTRY.commands().containsKey(content)) {
                     ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR, content);
                     return;
                 }
@@ -399,6 +404,11 @@ public class CustomCmds {
                 CustomCommand custom = getCustomCommand(ctx.getGuild().getId(), content);
                 if (custom == null) {
                     ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR2, content);
+                    return;
+                }
+
+                if(custom.getData().isLocked()) {
+                    ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
                     return;
                 }
 
@@ -462,8 +472,9 @@ public class CustomCmds {
 
                 DiscordUtils.selectList(
                         ctx.getEvent(), filtered,
-                        pair -> String.format(languageContext.get("commands.custom.import.header"), pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()),
-                        s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
+                        pair -> String.format(languageContext.get("commands.custom.import.header"),
+                                pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()
+                        ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
                                 .setFooter(
                                         languageContext.get("commands.custom.import.note"),
                                         null
@@ -552,6 +563,11 @@ public class CustomCmds {
                     return;
                 }
 
+                if(custom.getData().isLocked()) {
+                    ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                    return;
+                }
+
                 int where;
                 String index = args[1];
                 //replace first occurrence and second argument: custom command and index.
@@ -616,6 +632,11 @@ public class CustomCmds {
                     return;
                 }
 
+                if(custom.getData().isLocked()) {
+                    ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                    return;
+                }
+
                 int where;
                 String index = args[1];
                 try {
@@ -639,6 +660,75 @@ public class CustomCmds {
                 ctx.sendLocalized("commands.custom.deleteresponse.success", EmoteReference.CORRECT, where, custom.getName());
             }
         }).createSubCommandAlias("deleteresponse", "dlr");
+
+        customCommand.addSubCommand("lockcommand", new SubCommand() {
+            @Override
+            public String description() {
+                return "Looks a command for further edits until unlocked.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_command", EmoteReference.ERROR);
+                    return;
+                }
+
+                var cmd = ctx.db().getCustomCommand(ctx.getGuild(), content);
+                if(cmd == null) {
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR, content);
+                    return;
+                }
+
+                cmd.getData().setLocked(true);
+                cmd.save();
+
+                ctx.sendLocalized("commands.custom.lockcommand.success", EmoteReference.CORRECT, content);
+            }
+        });
+
+        customCommand.addSubCommand("unlockcommand", new SubCommand() {
+            @Override
+            public String description() {
+                return "Unlocks a command to do further edits.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
+                    return;
+                }
+
+
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.custom.lockcommand.no_command", EmoteReference.ERROR);
+                    return;
+                }
+
+                var cmd = ctx.db().getCustomCommand(ctx.getGuild(), content);
+                if(cmd == null) {
+                    ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR, content);
+                    return;
+                }
+
+                var data = cmd.getData();
+                if(!data.isLocked()) {
+                    ctx.sendLocalized("commands.custom.unlockcommand.not_locked", EmoteReference.ERROR, content);
+                    return;
+                }
+
+                data.setLocked(false);
+                cmd.save();
+
+                ctx.sendLocalized("commands.custom.unlockcommand.success", EmoteReference.CORRECT, content);
+            }
+        });
 
         customCommand.addSubCommand("rename", new SubCommand() {
             @Override
@@ -672,7 +762,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if (DefaultCommandProcessor.REGISTRY.commands().containsKey(value)) {
+                if (CommandProcessor.REGISTRY.commands().containsKey(value)) {
                     ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR);
                     return;
                 }
@@ -755,7 +845,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if (DefaultCommandProcessor.REGISTRY.commands().containsKey(cmd)) {
+                if (CommandProcessor.REGISTRY.commands().containsKey(cmd)) {
                     ctx.sendLocalized("commands.custom.already_exists", EmoteReference.ERROR, cmd);
                     return;
                 }
@@ -775,6 +865,11 @@ public class CustomCmds {
                 CustomCommand c = ctx.db().getCustomCommand(ctx.getEvent(), cmd);
 
                 if (c != null) {
+                    if(custom.getData().isLocked()) {
+                        ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
+                        return;
+                    }
+
                     custom.getValues().addAll(c.getValues());
                 } else {
                     //Are the first two checks redundant?

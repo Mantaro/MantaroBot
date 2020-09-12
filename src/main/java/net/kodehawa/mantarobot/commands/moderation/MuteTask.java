@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 public class MuteTask {
-
     private static final Logger log = LoggerFactory.getLogger(MuteTask.class);
 
     public static void handle() {

@@ -31,13 +31,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -48,10 +47,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
-@SuppressWarnings("unused")
 public class FunCmds {
     private final Random r = new Random();
-    private final Config config = MantaroData.config().get();
 
     @Subscribe
     public void coinflip(CommandRegistry cr) {
@@ -145,7 +142,7 @@ public class FunCmds {
                 if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
                     return;
 
-                Map<String, String> opts = StringUtils.parse(args);
+                Map<String, String> opts = ctx.getOptionalArguments();
                 int size = 6, amount = 1;
 
                 if (opts.containsKey("size")) {
@@ -174,7 +171,10 @@ public class FunCmds {
                     p.saveAsync();
                 }
 
-                ctx.sendLocalized("commands.roll.success", EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount)));
+                ctx.sendLocalized("commands.roll.success",
+                        EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))
+                );
+
                 TextChannelGround.of(ctx.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
             }
 
@@ -242,7 +242,8 @@ public class FunCmds {
                 }
 
                 MessageEmbed loveEmbed = new EmbedBuilder()
-                        .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null, ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null,
+                                ctx.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setDescription("\n**" + toDisplay + "**\n\n" +
                                 percentage + "% **\\|\\|**  " +

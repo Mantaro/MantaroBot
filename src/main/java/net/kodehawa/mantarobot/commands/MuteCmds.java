@@ -49,7 +49,6 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 @Module
-@SuppressWarnings("unused")
 public class MuteCmds {
     @SuppressWarnings("Annotator")
     private static final Pattern timePattern = Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
@@ -77,7 +76,7 @@ public class MuteCmds {
                 DBGuild dbGuild = ctx.getDBGuild();
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";
-                Map<String, String> opts = StringUtils.parse(args);
+                Map<String, String> opts = ctx.getOptionalArguments();
 
                 if (guildData.getMutedRole() == null) {
                     ctx.sendLocalized("commands.mute.no_mute_role", EmoteReference.ERROR);
@@ -165,10 +164,13 @@ public class MuteCmds {
                     }
 
                     ctx.getGuild().addRoleToMember(member, mutedRole)
-                            .reason(String.format("Muted by %#s for %s: %s", ctx.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
-                            .queue();
+                            .reason(String.format("Muted by %#s for %s: %s", ctx.getAuthor(),
+                                    Utils.formatDuration(time - System.currentTimeMillis()), finalReason)
+                            ).queue();
 
-                    ctx.sendLocalized("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(), Utils.formatDuration(time - System.currentTimeMillis()));
+                    ctx.sendLocalized("commands.mute.success", EmoteReference.CORRECT, member.getEffectiveName(),
+                            Utils.formatDuration(time - System.currentTimeMillis())
+                    );
 
                     dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
                     dbGuild.saveAsync();
@@ -286,7 +288,6 @@ public class MuteCmds {
                     return;
                 }
 
-                ManagedDatabase db = MantaroData.db();
                 DBGuild dbGuild = ctx.getDBGuild();
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";

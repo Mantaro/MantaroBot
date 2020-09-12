@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.base.Preconditions;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -81,7 +80,6 @@ public class URLCache {
                 }
             }
             e.printStackTrace();
-            SentryHelper.captureExceptionContext("Error caching", e, this.getClass(), "Cacher");
             throw new IllegalStateException();
         }
     }

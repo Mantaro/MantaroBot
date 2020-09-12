@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.core;
 
 public enum LoadState {
-    PRELOAD("PreLoad"), LOADING("Load"), LOADING_SHARDS("Shards Loading"), LOADED("Loaded"), POSTLOAD("Ready");
+    PRELOAD("Pre Load"), LOADING("Load"), LOADING_SHARDS("Shards Loading"), LOADED("Loaded"), POSTLOAD("Ready");
 
     private final String s;
 

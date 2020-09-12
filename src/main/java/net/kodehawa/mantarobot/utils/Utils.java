@@ -31,8 +31,8 @@ import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.RateLimit;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimit;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -565,14 +565,12 @@ public class Utils {
     }
 
     public static boolean isValidTimeZone(final String timeZone) {
-        final String DEFAULT_GMT_TIMEZONE = "GMT";
-        if (timeZone.equals(DEFAULT_GMT_TIMEZONE)) {
+        if (timeZone.equals("GMT")) {
             return true;
         } else {
             String id = TimeZone.getTimeZone(timeZone).getID();
-            return !id.equals(DEFAULT_GMT_TIMEZONE);
+            return !id.equals("GMT");
         }
-
     }
 
     public static String prettyDisplay(String header, String body) {

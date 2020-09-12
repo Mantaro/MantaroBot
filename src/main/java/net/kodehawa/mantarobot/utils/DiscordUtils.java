@@ -478,10 +478,6 @@ public class DiscordUtils {
         return m;
     }
 
-    public static List<String> divideString(String s) {
-        return divideString(1750, new StringBuilder(s));
-    }
-
     public static List<String> divideString(int max, String s) {
         return divideString(max, new StringBuilder(s));
     }

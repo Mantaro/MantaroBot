@@ -38,7 +38,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -142,7 +142,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                                String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY), "commands.leaderboard.gamble", c,
+                                String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),
+                                "commands.leaderboard.gamble", c,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
                                 .build()
@@ -166,7 +167,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY), "commands.leaderboard.slots", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),
+                                "commands.leaderboard.slots", c,
                         map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
                         .build()
@@ -194,7 +196,9 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") : languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY), "commands.leaderboard.money", c,
+                        String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
+                                languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
+                                "commands.leaderboard.money", c,
                         map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
                         .build()
@@ -219,7 +223,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.lvl"), EmoteReference.ZAP), "commands.leaderboard.level", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.lvl"), EmoteReference.ZAP),
+                                "commands.leaderboard.level", c,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var experience = ((Map<String, Object>) map.get("data")).get("experience");
@@ -253,7 +258,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP), "commands.leaderboard.reputation", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP),
+                                "commands.leaderboard.reputation", c,
                         map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
                         .build()
@@ -278,7 +284,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.streak"), EmoteReference.POPPER), "commands.leaderboard.daily", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.streak"), EmoteReference.POPPER),
+                                "commands.leaderboard.daily", c,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
@@ -312,7 +319,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.waifu"), EmoteReference.MONEY), "commands.leaderboard.waifu", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.waifu"), EmoteReference.MONEY),
+                                "commands.leaderboard.waifu", c,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
@@ -342,7 +350,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.claim"), EmoteReference.HEART), "commands.leaderboard.claim", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.claim"), EmoteReference.HEART),
+                                "commands.leaderboard.claim", c,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
@@ -376,7 +385,8 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.game"), EmoteReference.ZAP), "commands.leaderboard.game", c,
+                        String.format(languageContext.get("commands.leaderboard.inner.game"), EmoteReference.ZAP),
+                                "commands.leaderboard.game", c,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();

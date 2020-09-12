@@ -217,9 +217,11 @@ public class GuildData {
     @JsonProperty("gameMultipleDisabled")
     private boolean gameMultipleDisabled = false;
 
-    @ConfigName("Allowed birthday members")
     @UnusedConfig // It's not unused, but this hides it from opts check data lol
     private List<String> allowedBirthdays = new ArrayList<>();
+
+    @UnusedConfig // It's not unused, but this hides it from opts check data lol
+    private boolean notifiedFromBirthdayChange = false;
 
     public GuildData() { }
 
@@ -857,6 +859,14 @@ public class GuildData {
 
     public void setGameMultipleDisabled(boolean gameMultipleDisabled) {
         this.gameMultipleDisabled = gameMultipleDisabled;
+    }
+
+    public boolean isNotifiedFromBirthdayChange() {
+        return notifiedFromBirthdayChange;
+    }
+
+    public void setNotifiedFromBirthdayChange(boolean notifiedFromBirthdayChange) {
+        this.notifiedFromBirthdayChange = notifiedFromBirthdayChange;
     }
 
     public List<String> getAllowedBirthdays() {

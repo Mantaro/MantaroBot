@@ -63,7 +63,8 @@ public class AudioCmdUtils {
         if (toSend.isEmpty()) {
             event.getChannel().sendMessage(new EmbedBuilder()
                     .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
-                    .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.nothing_playing") + "\n\n" + lang.get("commands.music_general.queue.nothing_playing_2"))
+                    .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.nothing_playing") + "\n\n"
+                            + lang.get("commands.music_general.queue.nothing_playing_2"))
                     .addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             return;
@@ -111,7 +112,8 @@ public class AudioCmdUtils {
             if (line == null || page > total) {
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
-                        .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.page_overflow") + "\n" + lang.get("commands.music_general.queue.page_overflow_2"))
+                        .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.page_overflow") + "\n"
+                                + lang.get("commands.music_general.queue.page_overflow_2"))
                         .addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             } else {
@@ -128,10 +130,12 @@ public class AudioCmdUtils {
                         .addField(lang.get("commands.music_general.queue.total_size"),
                                 String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                         .addField(lang.get("commands.music_general.queue.togglers"),
-                                String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" : trackScheduler.getRepeatMode(), trackScheduler.getMusicPlayer().isPaused()), true)
+                                String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
+                                        trackScheduler.getRepeatMode(), trackScheduler.getMusicPlayer().isPaused()), true)
                         .addField(lang.get("commands.music_general.queue.playing_in"),
                                 vch == null ? lang.get("commands.music_general.queue.no_channel") : "`" + vch.getName() + "`", true)
-                        .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total, total == 1 ? "" : lang.get("commands.music_general.queue.multiple_pages"), page), guild.getIconUrl());
+                        .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total,
+                                total == 1 ? "" : lang.get("commands.music_general.queue.multiple_pages"), page), guild.getIconUrl());
                 event.getChannel().sendMessage(builder.setDescription(line).build()).queue();
             }
             return;
@@ -155,13 +159,15 @@ public class AudioCmdUtils {
                                     trackScheduler.getRepeatMode(), trackScheduler.getMusicPlayer().isPaused()), true)
                     .addField(lang.get("commands.music_general.queue.playing_in"),
                             vch == null ? lang.get("commands.music_general.queue.no_channel") : "`" + vch.getName() + "`", true)
-                    .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total, total == 1 ? "" : lang.get("commands.music_general.queue.page_react"), p), guild.getIconUrl());
+                    .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total, total == 1 ? "" :
+                            lang.get("commands.music_general.queue.page_react"), p), guild.getIconUrl());
             return builder;
         }, lines);
     }
 
     public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, JdaLink link, VoiceChannel userChannel, I18nContext lang) {
-        if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
+        if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 &&
+                !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.full_channel"), EmoteReference.ERROR).queue();
             return completedFuture(null);
         }
@@ -198,13 +204,15 @@ public class AudioCmdUtils {
 
         //Can't connect to this channel
         if (!guild.getSelfMember().hasPermission(userChannel, Permission.VOICE_CONNECT)) {
-            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_connect"), EmoteReference.ERROR, lang.get("discord_permissions.voice_connect")).queue();
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_connect"), EmoteReference.ERROR,
+                    lang.get("discord_permissions.voice_connect")).queue();
             return completedFuture(false);
         }
 
         //Can't speak on this channel
         if (!guild.getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
-            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR, lang.get("discord_permissions.voice_speak")).queue();
+            textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR,
+                    lang.get("discord_permissions.voice_speak")).queue();
             return completedFuture(false);
         }
 
@@ -227,7 +235,11 @@ public class AudioCmdUtils {
 
             //If the link is not currently connected or connecting, accept connection and call openAudioConnection
             if (link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
-                log.debug("Connected to channel {}. Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel (custom music channel)", userChannel.getId());
+                log.debug("Connected to channel {}." +
+                        " Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel (custom music channel)",
+                        userChannel.getId()
+                );
+
                 return openAudioConnection(event, link, userChannel, lang).thenApply(__ -> true);
             }
 
@@ -251,13 +263,13 @@ public class AudioCmdUtils {
         }
 
         //If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
-        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {            VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
-            VoiceChannel vc1 = guild.getVoiceChannelById(link.getLastChannel());
+        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
+            VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
 
             //Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
             //This is a little cursed.
-            if(vc1 != null) {
-                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, vc1.getName()).queue();
+            if(vc != null) {
+                textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, vc.getName()).queue();
                 return completedFuture(false);
             } else {
                 cursed = true;
@@ -266,7 +278,11 @@ public class AudioCmdUtils {
 
         //If the link is not currently connected or connecting, accept connection and call openAudioConnection
         if ((link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) || cursed) {
-            log.debug("Connected to voice channel {}. Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel", userChannel.getId());
+            log.debug("Connected to voice channel {}. " +
+                    "Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel",
+                    userChannel.getId()
+            );
+
             if(cursed)
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", link.getState());
 

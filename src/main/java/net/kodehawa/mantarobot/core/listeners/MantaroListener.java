@@ -56,7 +56,6 @@ import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -369,7 +368,8 @@ public class MantaroListener implements EventListener {
                 }
             }
         } catch (Exception e) {
-            if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException) && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
+            if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)
+                    && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
                 log.warn("Unexpected exception while logging a deleted message.", e);
             }
         }
@@ -438,7 +438,8 @@ public class MantaroListener implements EventListener {
                 }
             }
         } catch (Exception e) {
-            if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
+            if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) &&
+                    !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
                 log.warn("Unexpected error while logging a edit.", e);
             }
         }
@@ -500,7 +501,7 @@ public class MantaroListener implements EventListener {
 
     private void onException(ExceptionEvent event) {
         if (!event.isLogged()) {
-            SentryHelper.captureException("Exception captured in un-logged trace", event.getCause(), this.getClass());
+            log.error("Exception captured in un-logged trace ({})", event.getCause().getMessage());
         }
     }
 
@@ -566,7 +567,7 @@ public class MantaroListener implements EventListener {
             GuildStatsManager.log(LoggedEvent.JOIN);
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                SentryHelper.captureException("Unexpected error while logging an event", e, this.getClass());
+                log.error("Unexpected error while logging an event", e);
             }
         }
     }
@@ -590,13 +591,13 @@ public class MantaroListener implements EventListener {
             GuildStatsManager.log(LoggedEvent.LEAVE);
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                SentryHelper.captureException("Unexpected error while logging an event", e, this.getClass());
+                log.error("Unexpected error while logging an event", e);
             }
         }
     }
 
     private void onMessage(GuildMessageReceivedEvent event) {
-        if (event.isWebhookMessage() || event.getMember() == null)
+        if (event.isWebhookMessage() || event.getMember() == null || event.getAuthor().isBot())
             return;
 
         //Moderation features
@@ -677,7 +678,7 @@ public class MantaroListener implements EventListener {
                 }
             }
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext("Failed to process log join message!", e, MantaroListener.class, "Join Handler");
+            log.error("Failed to process log join message!", e);
         }
 
         try {
@@ -699,7 +700,6 @@ public class MantaroListener implements EventListener {
 
             Metrics.ACTIONS.labels("join_messages").inc();
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext("Failed to send user join message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send join message!", e);
         }
 
@@ -729,7 +729,7 @@ public class MantaroListener implements EventListener {
                 }
             }
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext("Failed to process log leave message!", e, MantaroListener.class, "Join Handler");
+            log.error("Failed to process log leave message!", e);
         }
 
         try {
@@ -751,7 +751,6 @@ public class MantaroListener implements EventListener {
 
             Metrics.ACTIONS.labels("leave_messages").inc();
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext("Failed to send user leave message!", e, MantaroListener.class, "Join Handler");
             log.error("Failed to send leave message!", e);
         }
 

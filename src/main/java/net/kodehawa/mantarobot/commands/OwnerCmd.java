@@ -51,8 +51,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.List;
@@ -63,7 +61,6 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
-@SuppressWarnings("unused")
 public class OwnerCmd {
     private static final String JAVA_EVAL_IMPORTS = "" +
             "import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;\n" +
@@ -81,7 +78,6 @@ public class OwnerCmd {
             "import java.util.function.*;\n" +
             "import java.lang.reflect.*;\n" +
             "import java.lang.management.*;\n";
-    private static final Logger log = LoggerFactory.getLogger(OwnerCmd.class);
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {

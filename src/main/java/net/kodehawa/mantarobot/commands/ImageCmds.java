@@ -161,7 +161,8 @@ public class ImageCmds {
                                 "If the rating is explicit/questionable this command can be only used in NSFW channels.")
                         .setUsage("`~>konachan` - Retrieves a random image.\n" +
                                 "`~>konachan <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
-                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on konachan's website.")
+                        .addParameter("tag", "The image tag you're looking for. " +
+                                "You can see a list of valid tags on konachan's website.")
                         .addParameter("rating", "The image rating, can be either safe, questionable or explicit. " +
                                 "You can also use this in place of the tags. Rating can be random if you specify it as random, in case you want to play a roulette.")
                         .build();
@@ -183,7 +184,8 @@ public class ImageCmds {
                         .setDescription("Retrieves images from the Safebooru image board.")
                         .setUsage("`~>safebooru` - Retrieves a random image.\n" +
                                 "`~>safebooru <tag>` - Fetches an image with the respective tag and specified parameters.")
-                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on safebooru's website.")
+                        .addParameter("tag", "The image tag you're looking for. " +
+                                "You can see a list of valid tags on safebooru's website.")
                         .build();
             }
         });
@@ -283,8 +285,10 @@ public class ImageCmds {
                                 "(because we're not sure if it'll really put safe images all the time, rating is still left to the user).")
                         .setUsage("`~>gelbooru` - Retrieves a random image.\n" +
                                 "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
-                        .addParameter("tag", "The image tag you're looking for. You can see a list of valid tags on gelbooru's website.")
-                        .addParameter("rating", "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
+                        .addParameter("tag", "The image tag you're looking for. " +
+                                "You can see a list of valid tags on gelbooru's website.")
+                        .addParameter("rating",
+                                "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
                         .build();
             }
         });

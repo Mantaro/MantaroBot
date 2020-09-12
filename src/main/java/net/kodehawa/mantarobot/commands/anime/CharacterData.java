@@ -44,9 +44,7 @@ public class CharacterData {
     public static class Attributes {
         private Names names;
         private String name;
-
         private String description;
-
         private Image image;
 
         public Names getNames() {

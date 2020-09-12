@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
-import io.sentry.Sentry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -102,6 +101,8 @@ public class BirthdayTask {
 
                         MessageBuilder birthdayAnnouncerText = new MessageBuilder();
                         birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
+                        int birthdayNumber = 0;
+
                         List<String> nullMembers = new ArrayList<>();
 
                         for (Map.Entry<String, BirthdayCacher.BirthdayData> data : guildMap.entrySet()) {
@@ -157,6 +158,7 @@ public class BirthdayTask {
 
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         membersAssigned++;
+                                        birthdayNumber++;
                                         //Something went boom, ignore and continue
                                     } catch (Exception e) {
                                         log.debug("Something went boom while assigning a birthday role?...", e);
@@ -179,12 +181,32 @@ public class BirthdayTask {
                             }
                         }
 
-                        // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
-                        // This is to avoid spamming calls to Discord.
-                        birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
+                        if(birthdayNumber != 0) {
+                            // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
+                            // This is to avoid spamming calls to Discord.
+                            birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
+                                    .forEach(message -> channel.sendMessage(message).queue());
+
+                        } else {
+                            if(!guildData.isNotifiedFromBirthdayChange()) {
+                                birthdayAnnouncerText.append("\n")
+                                        .append("No birthdays? We've just changed how the birthday system works!")
+                                        .append("Give the changes a read on: https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system ")
+                                        .append("and if you don't understand, join the support server at <https://support.mantaro.site> and ask in #support.")
+                                        .append("\n")
+                                        .append("Thanks for using Mantaro! If you don't remember setting up birthday announcements, you can disable them.");
+
+                                guildData.setNotifiedFromBirthdayChange(true);
+                                dbGuild.save();
+
+                                birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
+                                        .forEach(message -> channel.sendMessage(message).queue());
+                            } //If it was notified, no need.
+                        }
+
                         if(!nullMembers.isEmpty()) {
                             guildData.getAllowedBirthdays().removeAll(nullMembers);
-                            dbGuild.saveAsync();
+                            dbGuild.save();
                         }
                     }
                 }
@@ -198,7 +220,6 @@ public class BirthdayTask {
             log.info(toSend);
         } catch (Exception e) {
             e.printStackTrace();
-            Sentry.capture(e);
         }
     }
 }

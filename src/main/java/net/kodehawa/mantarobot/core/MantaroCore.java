@@ -20,7 +20,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
-import io.sentry.Sentry;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -38,6 +37,7 @@ import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -45,8 +45,6 @@ import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
@@ -54,7 +52,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -89,17 +86,15 @@ public class MantaroCore {
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
-    private final boolean useSentry;
     private String commandsPackage;
     private String optsPackage;
-    private final ICommandProcessor commandProcessor = new DefaultCommandProcessor();
+    private final CommandProcessor commandProcessor = new CommandProcessor();
     private EventBus shardEventBus;
     private ShardManager shardManager;
 
-    public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
+    public MantaroCore(Config config, boolean useBanner, boolean isDebug) {
         this.config = config;
         this.useBanner = useBanner;
-        this.useSentry = useSentry;
         this.isDebug = isDebug;
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
@@ -137,14 +132,12 @@ public class MantaroCore {
                 if (body == null) {
                     throw new IllegalStateException("Error requesting shard count: " + response.code() + " " + response.message());
                 }
+
                 var shardObject = new JSONObject(body.string());
                 return shardObject.getInt("shards");
             }
 
         } catch (Exception e) {
-            SentryHelper.captureExceptionContext(
-                    "Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
-            );
             log.error("Unable to fetch shard count", e);
             System.exit(SHARD_FETCH_FAILURE);
         }
@@ -166,7 +159,8 @@ public class MantaroCore {
 
         SessionController controller;
         if (isDebug) {
-            //bucketed controller still prioritizes home guild and reconnecting shards
+            // Bucketed controller still prioritizes home guild and reconnecting shards.
+            // Only really useful in the node that actually contains the guild, but worth keeping.
             controller = new BucketedController(1, 213468583252983809L);
         } else {
             var bucketFactor = config.getBucketFactor();
@@ -189,16 +183,26 @@ public class MantaroCore {
                 .build();
 
         try {
+            // Don't allow mentioning @everyone, @here or @role (can be overriden in a per-command context, but we only ever re-enable role)
             EnumSet<Message.MentionType> deny = EnumSet.of(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE);
             MessageAction.setDefaultMentions(EnumSet.complementOf(deny));
 
-            var shardStartListener = new ShardStartListener();
-            DefaultShardManagerBuilder builder;
+            // Gateway Intents to enable.
+            // We used to have GUILD_PRESENCES here for caching before, since chunking wasn't possible, but we needed to remove it.
+            // So we have no permanent cache anymore.
+            GatewayIntent[] toEnable = { GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
+                    GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
+                    GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
+                    GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
+                    GatewayIntent.GUILD_BANS // Receive guild bans, needed for moderation stuff.
+            };
 
-            builder = DefaultShardManagerBuilder.create(config.token,
-                    GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
-                    GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_BANS)
+            // This is used so we can fire PostLoadEvent properly.
+            var shardStartListener = new ShardStartListener();
+
+            DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    // Can't do chunking with Gateway Intents enabled, fun, but don't need it anymore.
                     .setChunkingFilter(ChunkingFilter.NONE)
                     .setSessionController(controller)
                     .addEventListeners(
@@ -212,9 +216,10 @@ public class MantaroCore {
                             id -> getShard(id).getListener()
                     ))
                     .setEventManagerProvider(id -> getShard(id).getManager())
+                    // Don't spam on mass-prune.
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
-                    .setLargeThreshold(100)
+                    // We technically don't need it, as we don't ask for either GUILD_PRESENCES nor GUILD_EMOJIS anymore.
                     .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
 
@@ -229,7 +234,7 @@ public class MantaroCore {
                 log.info("Debug instance, using {} shards", shardCount);
             } else {
                 int shardCount;
-                //Count specified in config.
+                // Count specified in config.
                 if(config.totalShards != 0) {
                     shardCount = config.totalShards;
                     builder.setShardsTotal(config.totalShards);
@@ -245,7 +250,7 @@ public class MantaroCore {
                     }
                 }
 
-                //Using a shard subset. FROM_SHARD is inclusive, TO_SHARD is exclusive (else 0 to 448 would start 449 shards)
+                // Using a shard subset. FROM_SHARD is inclusive, TO_SHARD is exclusive (else 0 to 448 would start 449 shards)
                 if (ExtraRuntimeOptions.SHARD_SUBSET) {
                     if (ExtraRuntimeOptions.SHARD_SUBSET_MISSING) {
                         throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
@@ -262,9 +267,9 @@ public class MantaroCore {
                     latchCount = shardCount;
                 }
     
-                //use latchCount instead of shardCount
-                //latchCount is the number of shards on this process
-                //shardCount is the total number of shards in all processes
+                // use latchCount instead of shardCount
+                // latchCount is the number of shards on this process
+                // shardCount is the total number of shards in all processes
                 var gatewayThreads = Math.max(1, latchCount / 16);
                 var rateLimitThreads = Math.max(2, latchCount * 5 / 4);
                 log.info("Gateway pool: {} threads", gatewayThreads);
@@ -304,8 +309,6 @@ public class MantaroCore {
         if (config == null)
             throw new IllegalArgumentException("Config cannot be null!");
 
-        if (useSentry)
-            Sentry.init(config.sentryDSN);
         if (useBanner)
             new BannerPrinter(1).printBanner();
 
@@ -340,7 +343,7 @@ public class MantaroCore {
             //For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
             //Registers all commands
-            shardEventBus.post(DefaultCommandProcessor.REGISTRY);
+            shardEventBus.post(CommandProcessor.REGISTRY);
             //Registers all options
             shardEventBus.post(new OptionRegistryEvent());
         }, "Mantaro EventBus-Post").start();
@@ -385,7 +388,7 @@ public class MantaroCore {
 
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard(String.format("Loaded all %d (out of %d) shards and %d commands.\nTook %s.\nCross-node shard count is %d.", shardManager.getShardsRunning(),
-                bot.getManagedShards(), DefaultCommandProcessor.REGISTRY.commands().size(),
+                bot.getManagedShards(), CommandProcessor.REGISTRY.commands().size(),
                 Utils.formatDuration(elapsed), shardManager.getShardsTotal())
         );
         log.info("Loaded all shards successfully! Status: {}.", MantaroCore.getLoadState());

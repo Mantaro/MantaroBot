@@ -67,12 +67,8 @@ public class TextChannelGround {
         return money.getAndSet(0);
     }
 
-    public TextChannelGround dropItem(Item item) {
-        return dropItems(new ItemStack(item, 1));
-    }
-
-    public TextChannelGround dropItem(int item) {
-        return dropItem(Items.ALL[item]);
+    public void dropItem(Item item) {
+        dropItems(new ItemStack(item, 1));
     }
 
     public boolean dropItemWithChance(Item item, int weight) {
@@ -95,17 +91,5 @@ public class TextChannelGround {
 
     public TextChannelGround dropItems(ItemStack... stacks) {
         return dropItems(Arrays.asList(stacks));
-    }
-
-    public void dropMoney(int money) {
-        this.money.addAndGet(money);
-    }
-
-    public boolean dropMoneyWithChance(int money, int weight) {
-        boolean doDrop = r.nextInt(weight) == 0;
-        if (doDrop)
-            dropMoney(money);
-
-        return doDrop;
     }
 }

@@ -16,5 +16,4 @@
 
 package net.kodehawa.mantarobot.options.event;
 
-public class OptionRegistryEvent {
-}
+public class OptionRegistryEvent { }

@@ -32,8 +32,8 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -49,7 +49,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -57,6 +57,7 @@ import okhttp3.ResponseBody;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent.*;
@@ -65,6 +66,8 @@ import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @Module
 public class ProfileCmd {
+    private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+
     @Subscribe
     public void profile(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -291,7 +294,9 @@ public class ProfileCmd {
                     return;
                 }
 
-                String timezone = args[0].replace("UTC", "GMT").toUpperCase();
+                String timezone = content;
+                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                    timezone = content.toUpperCase().replace("UTC", "GMT");
 
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
@@ -335,7 +340,6 @@ public class ProfileCmd {
                     return;
 
                 String[] args = content.split(" ");
-                User author = ctx.getAuthor();
                 Player player = ctx.getPlayer();
                 DBUser dbUser = ctx.getDBUser();
 

@@ -28,8 +28,8 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -41,21 +41,14 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Module
-@SuppressWarnings("unused")
 public class MiscCmds {
-    private static final Logger log = LoggerFactory.getLogger(MiscCmds.class);
-    private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final Random rand = new Random();
     private final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
@@ -247,14 +240,16 @@ public class MiscCmds {
                         }
 
                         if (roleString.length() > 0)
-                            fields.add(new MessageEmbed.Field(cat, languageContext.get("commands.iam.list.role") + " `" + roleString + "`", false));
+                            fields.add(new MessageEmbed.Field(cat, languageContext.get("commands.iam.list.role")
+                                    + " `" + roleString + "`", false));
                     });
 
                     autoroles.forEach((name, roleId) -> {
                         if (!categorizedRoles.contains(roleId)) {
                             Role role = ctx.getGuild().getRoleById(roleId);
                             if (role != null) {
-                                fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role") + " `" + role.getName() + "`", false));
+                                fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role")
+                                        + " `" + role.getName() + "`", false));
                             }
                         }
                     });
@@ -375,8 +370,11 @@ public class MiscCmds {
                         .setUsage("`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`\n" +
                                 "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.\n" +
                                 "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"`")
-                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` (Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
-                        .addParameter("time", "The time the operation is gonna take. The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.")
+                        .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. " +
+                                "For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` " +
+                                "(Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")
+                        .addParameter("time", "The time the operation is gonna take. " +
+                                "The format is as follows `1m29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.")
                         .addParameter("-name", "The name of the poll.")
                         .addParameter("-image", "The image to embed to the poll.")
                         .build();
@@ -384,12 +382,5 @@ public class MiscCmds {
         });
 
         registry.registerAlias("createpoll", "poll");
-    }
-
-    /**
-     * @return a random hex color.
-     */
-    private String randomColor() {
-        return IntStream.range(0, 6).mapToObj(i -> HEX_LETTERS[rand.nextInt(HEX_LETTERS.length)]).collect(Collectors.joining());
     }
 }

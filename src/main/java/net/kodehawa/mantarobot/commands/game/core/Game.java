@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -34,7 +33,6 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
