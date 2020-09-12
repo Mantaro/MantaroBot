@@ -291,7 +291,9 @@ public class ProfileCmd {
                     return;
                 }
 
-                String timezone = args[0].replace("UTC", "GMT").toUpperCase();
+                String timezone = content;
+                if(content.contains("UTC") || content.contains("GMT")) // Avoid replacing valid zone IDs / uppercasing them.
+                    timezone = content.replace("UTC", "GMT").toUpperCase();
 
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
@@ -300,7 +302,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                if (!Utils.isValidTimeZone(timezone) && !Utils.isValidZoneId(timezone)) {
+                if (!Utils.isValidTimeZone(timezone)) {
                     ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }

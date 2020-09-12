@@ -588,11 +588,13 @@ public class UtilsCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    content = content.replace("UTC", "GMT").toUpperCase();
+                    if(content.contains("UTC") || content.contains("GMT")) // Avoid replacing valid zone IDs / uppercasing them.
+                        content = content.replace("UTC", "GMT").toUpperCase();
+
                     DBUser dbUser = ctx.getDBUser();
                     String timezone = dbUser.getData().getTimezone() != null ? (content.isEmpty() ? dbUser.getData().getTimezone() : content) : content;
 
-                    if (!Utils.isValidTimeZone(timezone) && !Utils.isValidZoneId(timezone)) {
+                    if (!Utils.isValidTimeZone(timezone)) {
                         ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
                         return;
                     }

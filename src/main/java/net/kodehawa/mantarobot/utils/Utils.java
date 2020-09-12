@@ -44,7 +44,6 @@ import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -573,19 +572,6 @@ public class Utils {
             String id = TimeZone.getTimeZone(timeZone).getID();
             return !id.equals(DEFAULT_GMT_TIMEZONE);
         }
-    }
-
-    // lol
-    public static boolean isValidZoneId(final String zoneId) {
-        try {
-            // This throws on an invalid or not found ZoneId instead of return null,
-            // so if we ever get to "return true", it's valid.
-            ZoneId.of(zoneId);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-
     }
 
     public static String prettyDisplay(String header, String body) {
