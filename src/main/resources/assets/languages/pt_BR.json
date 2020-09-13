@@ -409,7 +409,7 @@
         "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
-        "success": "%1$s**%2$d Comandos Personalizados removidos**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sComeçada **\"Criação do Comando Personalizado `%2$s`\"**!\nEnvie `&~>stop` para parar a criação **sem salvar**.\nEnvie `&~>save` para parar a criação e **salvar novo Comando**. Envie qualquer texto começando com `&` para ser adicionado nas Respostas do Comando. Use `~>nsfw` para marcar esse comando como NSFW e `~>sfw` para reverter.\nEssa Operação Interativa termina sem salvar depois de 60 segundo de inatividade.",
@@ -460,6 +460,16 @@
         "success": "%1$sSalvo no comando `%2$s`",
         "too_many_commands": "%1%sHá muitos comandos nesse servidor, então você não pode adicionar mais (+100). Isso pode ser ignorado em guildas premium (Cheque <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sEste caractere não é permitido em nomes de comandos personalizados.",
       "already_exists": "%1$sO comando `%2$s` já existe e é um comando padrão do bot.",
       "name_too_long": "%1$sNome é muito longo.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sEsse comando contém uma imagem inválida, por favor conserte...",
       "invalid_string": "%1$sA cadeia de caracteres `{%2$s}` não é válida, ou a saída tem mais de 2000 caracteres.",
       "invalid_json": "%1$sA cadeia de caracteres `{%2$s}` não é um JSON válido.",
-      "invalid_link": "%1$sA cadeia de caracteres `%2$s` não é um link válido."
+      "invalid_link": "%1$sA cadeia de caracteres `%2$s` não é um link válido.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sVocê precisa ter permissão para banir ou expulsar membros para silenciar.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sIsso não é um fuso horário válido.",
       "success": "%1$sÉ %2$s no fuso horário %3$s.",
-      "error": "%1$sEu encontrei um erro ao procurar o fuso horário no grande livro ali... ou pode ser inválido."
+      "error": "%1$sEu encontrei um erro ao procurar o fuso horário no grande livro ali... ou pode ser inválido.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sVocê precisa me dizer que termo procurar no Dicionário Urbano.",
