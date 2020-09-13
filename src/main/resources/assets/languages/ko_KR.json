@@ -409,7 +409,7 @@
         "description": "이 명령은 원초적 형식(명령어에 입력하는 내용)으로 모든 응답의 목록이에요."
       },
       "clear": {
-        "success": "%1$s**%2$d 사용자 정의 명령어**를 삭제했어요"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$s**\"사용자 정의 명령어 `%2$s`을(를) 생성\"**을 시작했어요**!\n**저장하지 않고** 생성을 중지하려면 `&~>stop`을 보내세요.\n**새 명령어 저장**을 중지하려면 `&~>save`를 보내세요. 명령어 응답을 추가하려면 `&`로 아무 문자나 보내세요. 이 명령어을 연령 제한으로 표시하려면 `~>nsfw`를 사용하고 되돌리려면 `~sfw`를 사용하세요.",
@@ -460,6 +460,16 @@
         "success": "%1$s`%2$s` 명령어를 저장했어요",
         "too_many_commands": "%1이 서버에 명령어가 너무 많아서 더 이상 추가할 수 없어요(+100개). 프리미엄 길드에서 우회할 수 있어요(클릭<https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$s이 문자는 사용자 정의 명령어의 이름에 사용할 수 없어요.",
       "already_exists": "%1$s`%2$s` 명령어는 이미 있어요. 기본적 봇 명령어예요.",
       "name_too_long": "%1$s이름이 너무 길어요.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$s`{%2$s}` 문자열은 유효한 JSON이 아니에요.",
-      "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요."
+      "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sThat's not a valid timezone.",
       "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
