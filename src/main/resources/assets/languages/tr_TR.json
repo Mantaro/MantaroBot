@@ -409,7 +409,7 @@
         "description": "Bu, bu komutun tüm yanıtlarının ham halindeki (komuta ne girdiyseniz) bir listesidir."
       },
       "clear": {
-        "success": "%1$s**%2$d temizlendi Özel Komutlar**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sBaşlatıldı **\"Özel komut oluşturma `%2$s`\"**!\n`&~>stop` kullanarak durdurabilirsin **bu komutu kayıt etmez**.\n`&~>save` kullanarak durduabilirsin. **ancak bu yeni komutu kayıt eder**. `&` ile başlayan herhangi bir cevap gönderirseniz bu komutlara eklenir. `~>nsfw` kullanırsanız bu NSFW olarak işaretlenir ve `~>sfw` yaparsanız bunu geri alırsınız.\nBu interaktif aktivite 60 saniye sonra sona erecektir.",
@@ -460,6 +460,16 @@
         "success": "%1$s`%2$s` komutu kaydedildi",
         "too_many_commands": "%1%sBu sunucuda çok fazla komut var, bu yüzden daha fazlasını ekleyemezsiniz (+100).  Bu kısıtlama premium sunucuları etkilemez.(<https://patreon.com/mantaro> adresini kontrol edin)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sÖzel komut oluştururken bu karakteri kullanamazsınız.",
       "already_exists": "%1$s`%2$s` zaten varsayılan bot komutu.",
       "name_too_long": "%1$sİsim çok uzun.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sGeçerli bir zamandilimi değil.",
       "success": "%1$s%3$s zaman diliminde saat %2$s.",
-      "error": "%1$sZaman dilimini araştırırken bir hatayla karşılaştım... ya da sadece geçersiz bir zaman dilimi."
+      "error": "%1$sZaman dilimini araştırırken bir hatayla karşılaştım... ya da sadece geçersiz bir zaman dilimi.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
