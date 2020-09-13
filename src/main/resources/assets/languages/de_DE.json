@@ -409,7 +409,7 @@
         "description": "Dies ist eine Liste aller Antworten dieses Befehls im Rohformat (Das, was du beim Befehl eigegeben hast)."
       },
       "clear": {
-        "success": "%1$s**%2$d benutzerdefinierte Befehle** gelöscht!"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$s**\"Erstellung vom benutzerdefinierten Befehl `%2$s`\"** gestartet!\nSchreibe `&~>stop` um die Erstellung **ohne zu speichern** abzubrechen.\nSchreibe `&~>save` um die Erstellung abzubrechen **und den Befehl zu speichern**. Beginne jeden Text, den du als Antwort für diesen Befehl hinzufügen möchtest, mit `&`. Nutze `~>nsfw`, um diesen Befehl als NSFW zu markieren, und `~>sfw`, um dies rückgängig zu machen.\nDiese interaktive Aktion endet nach 60 Sekunden, wenn inaktiv.",
@@ -460,6 +460,16 @@
         "success": "%1$sBefehl `%2$s` gespeichert!",
         "too_many_commands": "%1%sEs gibt zu viele Befehle auf diesem Server, daher kannst du keine weiteren hinzufügen (+100). Dies kann von Premium-Servern umgangen werden (Check <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
       "already_exists": "%1$sDer Befehl `%2$s` existiert bereits und es ist ein Standard-Bot-Befehl!",
       "name_too_long": "%1$sDer Name ist zu lang.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sDieser Befehl enthält ein ungültiges Bild, bitte beheben...",
       "invalid_string": "%1$sDer String `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
       "invalid_json": "%1$sDer String `{%2$s}` ist eine ungültige JSON.",
-      "invalid_link": "%1$sDer String `%2$s` ist kein gültiger Link."
+      "invalid_link": "%1$sDer String `%2$s` ist kein gültiger Link.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sDu benötigst entweder Bann oder Kick Rechte, um Mitglieder zu muten!",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sDas ist keine gültige Zeitzone!",
       "success": "%1$sEs ist %2$s in der %3$s Zeitzone",
-      "error": "%1$sFehler beim Abrufen der Zeitzone oder sie ist ungültig"
+      "error": "%1$sFehler beim Abrufen der Zeitzone oder sie ist ungültig",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sDu musst mir einen Begriff zum Nachschlagen geben.",
