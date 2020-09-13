@@ -409,7 +409,7 @@
         "description": "Đây là danh sách tất cả các phản hồi của lệnh này ở định dạng thô (những gì bạn đưa vào lệnh)."
       },
       "clear": {
-        "success": "%1$sĐã xóa **%2$d lệnh tùy chỉnh**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sBắt đầu **\"Tạo lệnh tùy chỉnh `%2$s`\"**!\nNhắn `&~>stop`để ngừng tạo **nhưng không lưu **.\nNhắn `&~>save` để ngừng tạo **lưu lệnh mới**. Nhắn bất kỳ tin nào bắt đầu với `&` để thêm vào phản hồi của lệnh. Dùng `~>nsfw`để đanh dấu lệnh này là NSFW và `~>sfw` để ngược lại.\nHoạt động tương tác này sẽ kết thúc và không được lưu sau 60 giây không hoạt động.",
@@ -460,6 +460,16 @@
         "success": "%1$sĐã lưu lệnh `%2$s`",
         "too_many_commands": "%1%sĐã có quá nhiều lệnh ở máy chủ này, nên bạn không thể tạo thêm được nữa (+100). Điều này có thể được bỏ qua với máy chủ cao cấp (Chi tiết tại <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sKý tự này không được phép có ở tên của lệnh tùy chỉnh.",
       "already_exists": "%1$sLệnh `%2$s` đã tồn tại và nó là lệnh mặc định của bot.",
       "name_too_long": "%1$sTên quá dài.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sLệnh này bao gồm hình ảnh không tồn tại, hãy sửa lại...",
       "invalid_string": "%1$sChuỗi `{%2$s}` không hợp lệ hoặc đầu ra dài hơn 2000 ký tự.",
       "invalid_json": "%1$sChuỗi `{%2$s}` không phải là một JSON hợp lệ.",
-      "invalid_link": "%1$sChuỗi `%2$s` không phải là một đường dẫn hợp lệ."
+      "invalid_link": "%1$sChuỗi `%2$s` không phải là một đường dẫn hợp lệ.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sBạn cần có quyền cấm hoặc quyền đá thành viên để tắt tiếng.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sĐó không phải là một múi giờ hợp lệ.",
       "success": "%1$s%2$s đang ở múi giờ của %3$s.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
