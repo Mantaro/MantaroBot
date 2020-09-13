@@ -409,7 +409,7 @@
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
-        "success": "%1$sIšvalytos **%2$d pasirinktinės komandos**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sPradėtas **\"`%2$s` pasirinktinės komandos kūrimas\"**!\nParašyk `&~>stop`, kad sustabdytum kūrimą **neišsaugojant duomenų**.\nParašyk `&~>save`, kad sustabdytum kūrimą ir **išsaugotum naują komandą**. Išsiųsk bet kokį tekstą, prasidedantį `&`, kad pridėtum **naują komandos atsakymą**. Naudok `~>nsfw`, kad pažymėtum šią komandą kaip NDA ir atvirkštiniam variantui - `~>sfw`.\nŠis interaktyvus procesas pasibaigs po 60 sekundžių neaktyvumo neišsaugojant duomenų.",
@@ -460,6 +460,16 @@
         "success": "%1$sIšsaugota komandoje `%2$s`",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sŠis simbolis neleistinas pasirinktinių komandų pavadinimuose.",
       "already_exists": "%1$sKomanda `%2$s` jau egzistuoja.",
       "name_too_long": "%1$sPavadinimas per ilgas.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sŠioje komandoje egzistuoja neveikianti nuotrauka, prašome pataisyti...",
       "invalid_string": "%1$sString'as `{%2$s}` nėra teisingas, arba atsakymas yra ilgesnis negu 2000 simbolių.",
       "invalid_json": "%1$sString'as `{%2$s}` nėra teisingas JSON.",
-      "invalid_link": "%1$sString'as `%2$s` nėra teisinga nuoroda."
+      "invalid_link": "%1$sString'as `%2$s` nėra teisinga nuoroda.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sTau reikia \"Išmesti narius\" arba \"Užblokuoti narius\" leidimo, kad galėtum nutildyti narius.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sThat's not a valid timezone.",
       "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sTuri nurodyti man, kokios frazės man paieškoti Urban žodyne.",
