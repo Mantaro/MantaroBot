@@ -409,7 +409,7 @@
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
-        "success": "%1$s**%2$d Eigen Commando's verwijderd**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sGestart met het **\"maken van Eigen Commando `%2$s`\"**!\nTyp `&~>stop` om het af te sluiten **zonder het commando op te slaan**.\nTyp `&~>save` om het af te sluiten en **het nieuwe commando op te slaan**. Typ een tekst die begint met `&` om deze toe ge voegen aan de Commando Antwoorden. Typ `~>nsfw` om het commando als NSFW te markeren en `~>sfw` om dit terug te draaien.\nDeze interactieve bewerking eindigt na 60 seconden inactiviteit zonder dat er iets wordt opgeslagen.",
@@ -460,6 +460,16 @@
         "success": "%1$sOpgeslagen aan commando `%2$s`",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een eigen commando.",
       "already_exists": "%1$sHet commando `%2$s` bestaat al en is een standaard bot commando.",
       "name_too_long": "%1$sNaam is te lang.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sDit commando bevat een ongeldige afbeelding, probeer dit aan te passen...",
       "invalid_string": "%1$sDe string `{%2$s}` is niet geldig, of de uitvoer is langer dan 2000 karakters.",
       "invalid_json": "%1$sDe string `{%2$s}` is geen geldig JSON.",
-      "invalid_link": "%1$sDe string `%2$s` is geen geldige link."
+      "invalid_link": "%1$sDe string `%2$s` is geen geldige link.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sJe moet de machtiging 'ban' of 'kick members' hebben om iemand te kunnen muten.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sDat is geen geldige tijdzone.",
       "success": "%1$sHet is %2$s in de %3$s tijdzone.",
-      "error": "%1$sIk heb een fout gevonden bij het zoeken naar de tijdzone in het grote boek ... of het kan ongeldig zijn."
+      "error": "%1$sIk heb een fout gevonden bij het zoeken naar de tijdzone in het grote boek ... of het kan ongeldig zijn.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sJe moet me vertellen in welke term ik moet zoeken in Urban Dictionary.",
