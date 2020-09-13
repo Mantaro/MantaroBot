@@ -409,7 +409,7 @@
         "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
       },
       "clear": {
-        "success": "%1$sتم مسح **%2$d أوامر مخصصه**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
@@ -460,6 +460,16 @@
         "success": "%1$sتم الحفظ في الأمر `%2$s`.",
         "too_many_commands": "%1%sيوجد الكثير من الأوامر في هذا الخادم، لايمكنك إضافة أكثر من 100 أمر. يمكنك تجاوز هذا اذا كان لديك premium guilds. (تفقد <https://patreon.com/mantaro> )."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sلايسمح بإستخدام هذا الحرف في أوامر الأسماء المخصصه. ",
       "already_exists": "%1$sهذا الأمر `%2$s` موجود بالفعل وانه أمر البوت الإفتراضي. ",
       "name_too_long": "%1$sاسم طويل جداً",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sهذا الأمر يحتوي على صورة غير صالحة، أرجو الإصلاح....",
       "invalid_string": "%1$sالسلسلة `{%2$s}` غير صالحة أو الإخراج أطول من 2000 حرف. ",
       "invalid_json": "%1$sالسلسلة `{%2$s}` JSON غير صالح.",
-      "invalid_link": "%1$sالسلسلة `{%2$s}` ليست رابط صالح ."
+      "invalid_link": "%1$sالسلسلة `{%2$s}` ليست رابط صالح .",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لإسكات عضو.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sمنطقة زمنية غير صحيحة. ",
       "success": "%1$sانه %2$s في %3$s المنطقة الزمنية. ",
-      "error": "%1$sوجدت خطأ اثناء النظر في المنطقة الزمنية في الكتاب الكبير... أو يمكنه ان يكون غير صالح. "
+      "error": "%1$sوجدت خطأ اثناء النظر في المنطقة الزمنية في الكتاب الكبير... أو يمكنه ان يكون غير صالح. ",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sتحتاج إلى أن تقول لي ما هو المصطلح للبحث عنه في القاموس الحضري.",
