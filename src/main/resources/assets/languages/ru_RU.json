@@ -409,7 +409,7 @@
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
-        "success": "%1$sОчищено **%2$d кастомных команд**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sНачинаю **\"Создания кастомной команды `%2$s`\"**!\nОтправь `&~>stop для отмены создания **без сохранения**.\nОтправь `&~>save` отмены создания **сохранив новую команду**. Отправь текст после `&` для добавления ответа, когда эта команда будет запрошена. Используй `~>nsfw` чтобы пометить эту команду как NSFW и `~>sfw` для отмены.\nЭта команда завершится без сохранения через 60 секунд бездействия.",
@@ -460,6 +460,16 @@
         "success": "%1$sСохранено для команды `%2$s`",
         "too_many_commands": "%1%sНа этом сервере слишком много команд, поэтому вы не можете добавить больше (+100). Премиум-гильдии могут обойти это (см. <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sЭтот символ не разрешен для пользовательских команд.",
       "already_exists": "%1$sКоманда `%2$s` уже существует - это команда бота по умолчанию.",
       "name_too_long": "%1$sИмя слишком большое.",
@@ -469,7 +479,8 @@
       "invalid_image": "%1$sДанная команда содержит недопустимое изображение, смените его...",
       "invalid_string": "%1$sСтрока `{%2$s}` недопустима или имеет объем более 2000 символов.",
       "invalid_json": "%1$sСтрока содержит `{%2$s}` недопустимый код JSON.",
-      "invalid_link": "%1$sСтрока содержит `%2$s` недопустимую ссылку."
+      "invalid_link": "%1$sСтрока содержит `%2$s` недопустимую ссылку.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sВы должны иметь права на мут или бан чтобы кикнуть пользователя.",
@@ -997,7 +1008,8 @@
     "time": {
       "invalid_timezone": "%1$sНеверный часовой пояс.",
       "success": "%1$sЭто %2$s в %3$s часовом поясе.",
-      "error": "%1$sОшибка при поиске часового пояса... или он недействительный."
+      "error": "%1$sОшибка при поиске часового пояса... или он недействительный.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sВы должны указать термин, который нужно найти в городоском словаре.",
