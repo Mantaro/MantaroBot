@@ -473,7 +473,7 @@ public class LeaderboardCmd {
             String json = jedis.get(savedTo);
             if(json == null) {
                 // No need to keep trying missed entries for a while. Entry should have a TTL of 12 hours.
-                if(jedis.get(missed) == null) {
+                if(jedis.get(missed) != null) {
                     return null;
                 }
 
