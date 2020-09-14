@@ -972,8 +972,8 @@
     },
     "birthday": {
       "reset": "%1$sDate d'anniversaire correctement réinitialisée.",
-      "no_global_birthdays": "%1$sIl y a de l'écho par ici tant c'est vide...",
-      "no_guild_month_birthdays": "%1$sIl n'y a pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens juste de programmer l'annonceur d'anniversaires, attends un peu avant de refaire cette commande. (Le cache est rafraichi toutes les 23 heures)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
