@@ -237,7 +237,7 @@ public class UtilsCmds {
                         // Build the message. This is duplicated on birthday month with a lil different.
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
-                                .filter(ids::contains)
+                                .filter(birthday -> ids.contains(birthday.getKey()))
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
                                     return String.format("+ %-20s : %s ",
@@ -256,6 +256,11 @@ public class UtilsCmds {
                             messages.add(String.format(languageContext.get("commands.birthday.full_header"), guild.getName(),
                                     (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
                                             String.format("```diff\n%s```", s1)));
+                        }
+
+                        if(parts.isEmpty()) {
+                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+                            return;
                         }
 
                         // Show the message.
