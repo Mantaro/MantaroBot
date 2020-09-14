@@ -251,6 +251,17 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.prefix_set.empty_prefix"), EmoteReference.ERROR).queue();
                 return;
             }
+            if(prefix.equals("/tts")) {
+                var tts = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_TTS);
+                event.getChannel().sendMessage("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                        .tts(tts)
+                        .queue();
+                return;
+            }
+            if(prefix.equals("/shrug")) {
+                event.getChannel().sendMessage("¯\\_(ツ)_/¯").queue();
+                return;
+            }
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
