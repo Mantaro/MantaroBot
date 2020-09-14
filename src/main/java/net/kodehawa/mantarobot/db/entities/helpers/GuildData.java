@@ -25,7 +25,8 @@ import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-//UnusedConfig annotation is used to not interfere with serialization of old configs: backwards compatibility. The annotation only takes effect on check data.
+// The HiddenConfig annotation is used to not interfere with serialization of old configs: backwards compatibility.
+// It just hides the config value from opts check data.
 public class GuildData {
     @HiddenConfig //nobody used it, ended up getting removed in early 4.x
     private boolean antiSpam = false;

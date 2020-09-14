@@ -194,7 +194,7 @@ public class BirthdayTask {
                                         .append("Give the changes a read on: https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system ")
                                         .append("and if you don't understand, join the support server at <https://support.mantaro.site> and ask in #support.\n")
                                         .append("Thanks for using Mantaro! If you don't remember setting up birthday announcements, you can disable them.\n")
-                                        .append("This message will only appear once.");
+                                        .append("This warning message will only appear once.");
 
                                 guildData.setNotifiedFromBirthdayChange(true);
                                 dbGuild.save();
