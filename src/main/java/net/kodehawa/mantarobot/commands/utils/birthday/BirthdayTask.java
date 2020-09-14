@@ -190,7 +190,7 @@ public class BirthdayTask {
                         } else {
                             if(!guildData.isNotifiedFromBirthdayChange()) {
                                 birthdayAnnouncerText.append("\n")
-                                        .append("No birthdays? We've just changed how the birthday system works!")
+                                        .append("**No birthdays? We've just changed how the birthday system works!**\n")
                                         .append("Give the changes a read on: https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system ")
                                         .append("and if you don't understand, join the support server at <https://support.mantaro.site> and ask in #support.")
                                         .append("\n")

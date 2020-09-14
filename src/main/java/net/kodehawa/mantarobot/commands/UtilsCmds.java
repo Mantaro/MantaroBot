@@ -254,7 +254,8 @@ public class UtilsCmds {
                         var languageContext = ctx.getLanguageContext();
                         for (String s1 : parts) {
                             messages.add(String.format(languageContext.get("commands.birthday.full_header"), guild.getName(),
-                                    (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
+                                    (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") :
+                                            languageContext.get("general.text_menu")) : "") +
                                             String.format("```diff\n%s```", s1)));
                         }
 
