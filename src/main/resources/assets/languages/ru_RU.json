@@ -972,8 +972,8 @@
     },
     "birthday": {
       "reset": "%1$sДата успешно сброшена.",
-      "no_global_birthdays": "%1$sЗдесь немного пусто...",
-      "no_guild_month_birthdays": "%1$sВ этом месяце нет дней рождения (%2$s):(\n%3$sЕсли вы настроили оповещения о днях рождения, подождите пока оно не запустится снова. (Кэш обновляется каждые 23 часа)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sКажется Кэш дней рождения не работает (внутренняя ошибка) :(",
       "error": "%1$sПри получении дат дней рождения что-то пошло не так (внутренняя ошибка) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
