@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
-import net.kodehawa.mantarobot.utils.annotations.UnusedConfig;
+import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -389,7 +389,7 @@ public class Utils {
                 valueObjField.setAccessible(true);
                 Object newObj = valueObjField.get(valueObj);
 
-                if (valueObjField.getAnnotation(UnusedConfig.class) != null) {
+                if (valueObjField.getAnnotation(HiddenConfig.class) != null) {
                     continue;
                 }
 
