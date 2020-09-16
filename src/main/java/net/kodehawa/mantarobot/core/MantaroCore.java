@@ -369,7 +369,7 @@ public class MantaroCore {
 
     private Set<Class<?>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
         return new ClassGraph()
-                .whitelistPackages(packageName)
+                .acceptPackages(packageName)
                 .enableAnnotationInfo()
                 .scan(2)
                 .getAllClasses().stream().filter(classInfo -> classInfo.hasAnnotation(annotation.getName())).map(ClassInfo::loadClass)
