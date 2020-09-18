@@ -37,7 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sYou have (maybe) cleaned all of the dust you have accumulated over all of those mining sessions.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%, so mopping wouldn't be too useful.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sCleared potion effects.",
       "stamina": "%1$sActivated stamina for 3 mining sessions.",
       "stamina_used": "%1$sYou already have an active stamina effect!",
