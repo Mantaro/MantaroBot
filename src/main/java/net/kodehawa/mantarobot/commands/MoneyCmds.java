@@ -73,9 +73,9 @@ public class MoneyCmds {
     });
 
     private final SecureRandom random = new SecureRandom();
-    private final int SLOTS_MAX_MONEY = 175_000_000;
-    private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
-    private final long GAMBLE_MAX_MONEY = 275_000_000;
+    private final int SLOTS_MAX_MONEY = 50_000;
+    private final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
+    private final long GAMBLE_MAX_MONEY = 10_000;
     private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
 
     @Subscribe
@@ -430,7 +430,7 @@ public class MoneyCmds {
                         .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
                         .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
                         .addParameter("amount", "How much money you want to gamble. " +
-                                "You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
+                                "You can also express this on K (10k is 10000, for example). The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + " credits.")
                         .addParameter("all/half/quarter",
                                 "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
                         .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
