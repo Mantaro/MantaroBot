@@ -40,17 +40,19 @@ import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.uns
 public class Player implements ManagedObject {
     private static final Config config = MantaroData.config().get();
     public static final String DB_TABLE = "players";
+    @JsonProperty("data")
     private final PlayerData data;
+    @JsonProperty("id")
     private final String id;
 
     @JsonIgnore
     private final transient Inventory inventory = new Inventory();
 
+    @JsonProperty("level")
     private Long level;
-
     @JsonProperty("money")
     private Long oldMoney;
-
+    @JsonProperty("reputation")
     private Long reputation;
 
     @JsonCreator
