@@ -145,8 +145,8 @@ public class LeaderboardCmd {
                                 String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", c,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
-                                .build()
+                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false
+                        ).build()
                 );
             }
         });
@@ -167,11 +167,39 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),
+                                String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),
                                 "commands.leaderboard.slots", c,
-                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
-                        .build()
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                        map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false
+                        ).build()
+                );
+            }
+        });
+
+        leaderboards.addSubCommand("oldmoney", new SubCommand() {
+            @Override
+            public String description() {
+                return "Returns the (old) pre-reset money leaderboard";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                String tableName = "players";
+
+                List<Map<String, Object>> c = getLeaderboard(tableName, "money",
+                        player -> player.g("id"),
+                        player -> player.pluck("id", "money"), 10
+                );
+
+                I18nContext languageContext = ctx.getLanguageContext();
+
+                ctx.send(
+                        generateLeaderboardEmbed(ctx,
+                                String.format(languageContext.get("commands.leaderboard.inner.money_old"), EmoteReference.MONEY),
+                                "commands.leaderboard.money", c,
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                map.get("money").toString()), "%s**%s#%s** - $%,d", false
+                        ).build()
                 );
             }
         });
@@ -186,8 +214,9 @@ public class LeaderboardCmd {
             protected void call(Context ctx, String content) {
                 boolean seasonal = ctx.isSeasonal();
                 String tableName = seasonal ? "seasonalplayers" : "players";
+                String indexName = seasonal ? "money" : "newMoney";
 
-                List<Map<String, Object>> c = getLeaderboard(tableName, "money",
+                List<Map<String, Object>> c = getLeaderboard(tableName, indexName,
                         player -> player.g("id"),
                         player -> player.pluck("id", "money"), 10
                 );
@@ -195,13 +224,14 @@ public class LeaderboardCmd {
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 ctx.send(
-                        generateLeaderboardEmbed(ctx,
-                        String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
-                                languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
+                        generateLeaderboardEmbed(
+                                ctx,
+                                String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
+                                        languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
                                 "commands.leaderboard.money", c,
-                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
-                        .build()
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                        map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
+                        ).build()
                 );
             }
         });
