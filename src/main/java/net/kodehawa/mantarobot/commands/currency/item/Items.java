@@ -202,15 +202,20 @@ public class Items {
             if (!playerInventory.containsItem(MOP))
                 return false;
 
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
-            playerInventory.process(new ItemStack(MOP, -1));
             if(dbUser.getData().getDustLevel() > 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
                 p.save();
+
+                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
+                playerInventory.process(new ItemStack(MOP, -1));
+
+                dbUser.getData().setDustLevel(0);
+                dbUser.save();
+            } else {
+                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop_not_enough"), EmoteReference.DUST).queue();
+                return false;
             }
 
-            dbUser.getData().setDustLevel(0);
-            dbUser.save();
             return true;
         }));
 
