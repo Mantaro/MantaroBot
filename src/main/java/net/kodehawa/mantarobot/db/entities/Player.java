@@ -164,16 +164,6 @@ public class Player implements ManagedObject {
         return true;
     }
 
-    @JsonIgnore
-    public long getOldMoney() {
-        return oldMoney;
-    }
-
-    @JsonIgnore
-    public void setOldMoney(long newAmount) {
-        this.oldMoney = newAmount;
-    }
-
     //it's 3am and i cba to replace usages of this so whatever
     @JsonIgnore
     public boolean isLocked() {
@@ -208,39 +198,43 @@ public class Player implements ManagedObject {
         return getUserId();
     }
 
-    @JsonIgnore
     public Long getLevel() {
         return this.level;
     }
 
-    @JsonIgnore
     public Player setLevel(long level) {
         this.level = level;
         return this;
     }
 
     @JsonIgnore
-    public Long getMoney() {
+    public Long getCurrentMoney() {
         return config.isPremiumBot() ? this.oldMoney : data.newMoney;
     }
 
     @JsonIgnore
-    public Player setMoney(long money) {
+    public void setCurrentMoney(long money) {
         if(config.isPremiumBot) {
             this.oldMoney = money < 0 ? 0 : money;
         } else {
             data.setNewMoney(money < 0 ? 0 : money);
         }
-
-        return this;
     }
 
-    @JsonIgnore
+    // So it doesn't fail to de-serialize it. Blame JacksonXML.
+    public long getOldMoney() {
+        return oldMoney;
+    }
+
+    // So it doesn't fail to de-serialize it. Blame JacksonXML.
+    public void setOldMoney(long newAmount) {
+        this.oldMoney = newAmount;
+    }
+
     public Long getReputation() {
         return this.reputation;
     }
 
-    @JsonIgnore
     public void setReputation(Long reputation) {
         this.reputation = reputation;
     }

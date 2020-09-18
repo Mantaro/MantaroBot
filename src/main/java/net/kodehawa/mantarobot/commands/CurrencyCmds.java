@@ -529,7 +529,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (transferPlayer.getMoney() < toSend) {
+                if (transferPlayer.getCurrentMoney() < toSend) {
                     ctx.sendLocalized("commands.transfer.no_money_notice", EmoteReference.ERROR);
                     return;
                 }
@@ -539,7 +539,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (toTransfer.getMoney() > (long) TRANSFER_LIMIT * 18) {
+                if (toTransfer.getCurrentMoney() > (long) TRANSFER_LIMIT * 18) {
                     ctx.sendLocalized("commands.transfer.receipt_over_limit", EmoteReference.ERROR);
                     return;
                 }

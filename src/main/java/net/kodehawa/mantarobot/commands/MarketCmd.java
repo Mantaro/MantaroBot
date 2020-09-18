@@ -451,7 +451,7 @@ public class MarketCmd {
                         if (isSeasonal)
                             seasonalPlayer.saveAsync();
 
-                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
                         ctx.sendLocalized("commands.market.buy.success",
                                 EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,

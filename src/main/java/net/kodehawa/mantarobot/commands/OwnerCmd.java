@@ -242,7 +242,7 @@ public class OwnerCmd {
                         Player transferred = MantaroData.db().getPlayer(args[0]);
                         Player transferTo = MantaroData.db().getPlayer(args[1]);
 
-                        transferTo.setMoney(transferred.getMoney());
+                        transferTo.setCurrentMoney(transferred.getCurrentMoney());
                         transferTo.setLevel(transferred.getLevel());
                         transferTo.setReputation(transferred.getReputation());
                         transferTo.getInventory().merge(transferred.getInventory().asList());

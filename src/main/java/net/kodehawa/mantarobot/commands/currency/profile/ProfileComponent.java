@@ -46,7 +46,7 @@ public enum ProfileComponent {
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, true, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
-            "$ " + holder.getPlayer().getMoney(),
+            "$ " + holder.getPlayer().getCurrentMoney(),
             true, false
     ),
     OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->

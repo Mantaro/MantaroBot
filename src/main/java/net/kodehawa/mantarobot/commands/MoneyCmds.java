@@ -318,12 +318,12 @@ public class MoneyCmds {
             public void call(Context ctx, String content, String[] args) {
                 Player player = ctx.getPlayer();
 
-                if (player.getMoney() <= 0) {
+                if (player.getCurrentMoney() <= 0) {
                     ctx.sendLocalized("commands.gamble.no_credits", EmoteReference.SAD);
                     return;
                 }
 
-                if (player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
+                if (player.getCurrentMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
                     ctx.sendLocalized("commands.gamble.too_much_money", EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY);
                     return;
                 }
@@ -334,26 +334,26 @@ public class MoneyCmds {
                 try {
                     switch (content) {
                         case "all", "everything" -> {
-                            i = player.getMoney();
+                            i = player.getCurrentMoney();
                             multiplier = 1.3d + (r.nextInt(1350) / 1000d);
                             luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
                         }
                         case "half" -> {
-                            i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
+                            i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 2;
                             multiplier = 1.2d + (r.nextInt(1350) / 1000d);
                             luck = 18 + (int) (multiplier * 13) + r.nextInt(18);
                         }
                         case "quarter" -> {
-                            i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
+                            i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 4;
                             multiplier = 1.1d + (r.nextInt(1250) / 1000d);
                             luck = 18 + (int) (multiplier * 12) + r.nextInt(18);
                         }
                         default -> {
                             i = content.endsWith("%")
-                                    ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
+                                    ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getCurrentMoney())
                                     : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
-                            if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
-                            multiplier = 1.1d + (i / ((double) player.getMoney()) * r.nextInt(1300) / 1000d);
+                            if (i > player.getCurrentMoney() || i < 0) throw new UnsupportedOperationException();
+                            multiplier = 1.1d + (i / ((double) player.getCurrentMoney()) * r.nextInt(1300) / 1000d);
                             luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
                         }
                     }
@@ -575,7 +575,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getMoney();
+                    long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getCurrentMoney();
 
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?
                             String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
@@ -701,7 +701,7 @@ public class MoneyCmds {
                     }
                 }
 
-                long playerMoney = season ? seasonalPlayer.getMoney() : player.getMoney();
+                long playerMoney = season ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
                 if (playerMoney < money && !coinSelect) {
                     ctx.sendLocalized("commands.slots.errors.not_enough_money", EmoteReference.SAD);
@@ -836,12 +836,12 @@ public class MoneyCmds {
                 data.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 
-            long oldMoney = player.getMoney();
-            player.setMoney(Math.max(0, player.getMoney() - i));
+            long oldMoney = player.getCurrentMoney();
+            player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
 
             stats.getData().incrementGambleLose();
             ctx.sendLocalized("commands.gamble.lose", EmoteReference.DICE,
-                    (player.getMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
+                    (player.getCurrentMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
                     EmoteReference.SAD
             );
         }

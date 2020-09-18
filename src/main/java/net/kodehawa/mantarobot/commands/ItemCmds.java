@@ -155,7 +155,7 @@ public class ItemCmds {
                         //How many parenthesis again?
                         long castCost = (long) (((castItem.getValue() / 2) * amountSpecified) * wrench.getMultiplierReduction());
 
-                        long money = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+                        long money = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
                         boolean isItemCastable = castItem instanceof Castable;
                         int wrenchLevelRequired = isItemCastable ? ((Castable) castItem).getCastLevelRequired() : 1;
 
@@ -423,7 +423,7 @@ public class ItemCmds {
                         Item repairedItem = Items.fromId(brokenItem.getMainItem());
                         long repairCost = repairedItem.getValue() / 3;
 
-                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
                         if (playerMoney < repairCost) {
                             ctx.sendLocalized("commands.repair.not_enough_money", EmoteReference.ERROR, playerMoney, repairCost);
                             return;

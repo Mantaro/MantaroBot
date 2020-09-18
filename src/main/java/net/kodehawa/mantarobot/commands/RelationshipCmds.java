@@ -80,7 +80,7 @@ public class RelationshipCmds {
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 135000)) * calculatePercentage(6));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getCurrentMoney() / 135000)) * calculatePercentage(6));
         //Badge calculation.
         long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17));
         //Experience calculator.
@@ -989,7 +989,7 @@ public class RelationshipCmds {
                             final DBUser user = ctx.getDBUser();
                             final UserData userData = user.getData();
 
-                            if (p.getMoney() < valuePayment) {
+                            if (p.getCurrentMoney() < valuePayment) {
                                 ctx.sendLocalized("commands.waifu.unclaim.not_enough_money", EmoteReference.ERROR);
                                 return Operation.COMPLETED;
                             }
@@ -1045,7 +1045,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if (player.getMoney() < finalValue) {
+                if (player.getCurrentMoney() < finalValue) {
                     ctx.sendLocalized("commands.waifu.buyslot.not_enough_money", EmoteReference.ERROR, finalValue);
                     return;
                 }

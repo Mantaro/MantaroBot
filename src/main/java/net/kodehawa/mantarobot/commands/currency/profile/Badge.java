@@ -76,7 +76,7 @@ public enum Badge {
 
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92,
-            ((player, dbUser) -> player.getMoney() > 7526527671L), false
+            ((player, dbUser) -> player.getCurrentMoney() > 7526527671L), false
     ),
 
     //Self-explanatory. (Description)
@@ -363,7 +363,7 @@ public enum Badge {
     ),
 
     NUMERIC_PATHWAY("Numeric Pathway", "\uD83D\uDD36", "A lucky and sad destiny with six equal people meeting, who slowly fade away as you spend.", 91, 92,
-            (player, dbUser) -> player.getMoney().toString().matches("([1-9])\\1{6,}"), true
+            (player, dbUser) -> player.getCurrentMoney().toString().matches("([1-9])\\1{6,}"), true
     ),
 
     DESTINY_REACHES("Destiny Reaches", "\uD83D\uDD36", "Good and bad luck meeting together, with a little gem as a mediator.", 91, 92,
