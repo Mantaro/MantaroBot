@@ -109,7 +109,13 @@ public class Player implements ManagedObject {
             return false;
 
         money = Math.addExact(money, toAdd);
-        data.setNewMoney(money);
+
+        if(config.isPremiumBot()) {
+            this.setOldMoney(money);
+        } else {
+            data.setNewMoney(money);
+        }
+
         return true;
     }
 
@@ -160,7 +166,13 @@ public class Player implements ManagedObject {
             return false;
 
         money -= toRemove;
-        data.setNewMoney(money);
+
+        if(config.isPremiumBot()) {
+            this.setOldMoney(money);
+        } else {
+            data.setNewMoney(money);
+        }
+
         return true;
     }
 
