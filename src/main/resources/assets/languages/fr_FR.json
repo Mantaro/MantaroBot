@@ -985,8 +985,8 @@
       "no_content": "%1$sTu dois spécifier ton anniversaire, `remove` pour le réinitialiser ou `month` pour vérifier la liste des anniversaire du mois. Maintenant, pour que ce serveur annonce ton anniversaire, lance `~>birthday allowserver`",
       "new_format": "%1$sLe nouveau format est juste `jj-mm` (jour-mois, par exemple 20-10 pour le 20 octobre). Plus besoin d'entrer l'année maintenant, donc tu peux omettre cette partie!",
       "allowed_server": "%1$sTu as autorisé ce serveur à annoncer ton anniversaire. Pour revenir en arrière lance simplement `~>birthday denyserver` sur ce serveur.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
+      "denied": "%1$sTu as interdit ce serveur d'annoncer ton anniversaire. Pour revenir en arrière lance simplement `~>birthday allowserver` sur ce serveur.",
+      "already_denied": "%1$sCe serveur ne peut pas annoncer ton anniversaire pour le moment. Si tu veux l'autoriser, lance `~>birthday allowserver` à la place. C'est le réglage par défaut."
     },
     "choose": {
       "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (Exemple : `~>choose anime manga`)",
@@ -1009,7 +1009,7 @@
       "invalid_timezone": "%1$sCe n'est pas un fuseau horaire valide.",
       "success": "%1$sC'est %2$s dans le %3$s fuseau horaire.",
       "error": "%1$sUne erreur s'est produite quand j'ai recherché votre fuseau horaire.. Il pourrait être invalide.",
-      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
+      "user_no_timezone": "%1$sL'utilisateur que tu mentionnes n'a pas défini de fuseau horaire."
     },
     "urban": {
       "no_args": "%1$sTu dois me spécifier ce que je dois rechercher sur UrbanDictionary.",
@@ -1044,7 +1044,7 @@
       "user": {
         "header": "Ton statut de joueur premium",
         "header_other": "Statut premium de %1$s",
-        "not_premium": "%1$s%2$s is not premium :c",
+        "not_premium": "%1$s%2$s n'est pas premium :c",
         "premium": "**Utilisateur Premium! <3**",
         "old_system": "**Utilisateur Premium de l'ancien système! Ne t'en fait pas, tu es Premium avec tout ce que ça implique ;) !**"
       },
@@ -1792,7 +1792,7 @@
       "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "warning": "%1$sN'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
       "warning_1": "C'est à cause du fonctionnement du rôle: Ça assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut dire qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "Le rôle *doit être un rôle nouvellement créé ou un rôle que tu n'utilises pour personne d'autre*. Il NE DOIT PAS être déjà attribué à qui que ce soit. Les utilisateurs doivent autoriser ce serveur à annoncer leur anniversaire en utilisant la commande `~>birthday allowserver` sinon il n'apparaitra pas! Lis <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> pour plus d'infos.",
       "warning_3": "En plus, le \"birthday cache\" (ce qui est utilisé pour les stocker) est seulement mis à jour toutes les 23 heures. Ce qui veut dire que si tu programmes l'annonceur la veille de ton anniversaire pour le tester **ça ne va pas** fonctionner.",
       "warning_4": "Envoie **yes** si tu es d’accord de mettre le rôle %2$s comme rôle anniversaire et **no** sinon. Tu as 45 secondes.",
       "success": "%1$sLe log des anniversaires a été activé sur ce serveur dans les paramètres -> Salon: `%2$s (%3$s)` et rôle: `%4$s (%5$s)`",
@@ -1854,10 +1854,10 @@
       "success": "%1$sLe message de départ est défini sur: %2$s"
     },
     "usermessage_joinmessage_reset": {
-      "success": "%1$sReset server join message."
+      "success": "%1$sLe message de bienvenue a été réinitialisé."
     },
     "usermessage_leavemessage_reset": {
-      "success": "%1$sReset server leave message."
+      "success": "%1$sLe message d' au revoir a été réinitialisé."
     },
     "autoroles_add": {
       "no_args": "%1$sTu dois me donner le nom de l'iam et du rôle.",
