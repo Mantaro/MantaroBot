@@ -16,12 +16,11 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.utils.TriPredicate;
-import org.apache.commons.lang3.tuple.Pair;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.function.BiPredicate;
 
 public class Item {
     private static final Logger log = LoggerFactory.getLogger(Item.class);
@@ -37,13 +36,13 @@ public class Item {
     private String recipe;
     private int[] recipeTypes;
     private long price;
-    private TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action;
+    private BiPredicate<Context, Boolean> action;
     private ItemType itemType;
     private String translatedName;
     private String alias;
     private boolean petOnly;
 
-    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action, String recipe, boolean petOnly, int... recipeTypes) {
+    public Item(ItemType type, String emoji, String name, String alias, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize, BiPredicate<Context, Boolean> action, String recipe, boolean petOnly, int... recipeTypes) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
@@ -99,15 +98,15 @@ public class Item {
         this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, hidden, 100, null, "", false);
     }
 
-    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action) {
+    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, BiPredicate<Context, Boolean> action) {
         this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, false, 100, action, "", false);
     }
 
-    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean buyable, TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action) {
+    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean buyable, BiPredicate<Context, Boolean> action) {
         this(type, emoji, name, null, translatedName, desc, value, true, buyable, false, 100, action, "", false);
     }
 
-    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action) {
+    public Item(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, boolean hidden, BiPredicate<Context, Boolean> action) {
         this(type, emoji, name, null, translatedName, desc, value, sellable, buyable, hidden, 100, action, "", false);
     }
 
@@ -184,11 +183,11 @@ public class Item {
         return this.recipeTypes;
     }
 
-    public TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> getAction() {
+    public BiPredicate<Context, Boolean> getAction() {
         return this.action;
     }
 
-    public void setAction(TriPredicate<GuildMessageReceivedEvent, Pair<I18nContext, String>, Boolean> action) {
+    public void setAction(BiPredicate<Context, Boolean> action) {
         this.action = action;
     }
 

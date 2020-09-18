@@ -20,9 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.pets.Pet;
@@ -40,7 +38,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -52,7 +49,6 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.text.ParsePosition;
@@ -68,13 +64,11 @@ import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 public class CurrencyCmds {
     private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 4; //around 536m
 
-    public static void applyPotionEffect(GuildMessageReceivedEvent event, Item item, Player p, Map<String, String> arguments, String content, boolean isPet, I18nContext languageContext) {
-        final ManagedDatabase db = MantaroData.db();
+    public static void applyPotionEffect(Context ctx, Item item, Player p, Map<String, String> arguments, String content, boolean isPet) {
         if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
-            DBUser dbUser = db.getUser(event.getAuthor());
+            DBUser dbUser = ctx.getDBUser();
             UserData userData = dbUser.getData();
             Map<String, Pet> profilePets = p.getData().getPets();
-            final TextChannel channel = event.getChannel();
 
             // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
             // NumberFormatException?
@@ -83,14 +77,14 @@ public class CurrencyCmds {
                 try {
                     amount = Integer.parseInt(arguments.get("amount"));
                 } catch (NumberFormatException e) {
-                    channel.sendMessageFormat(languageContext.get("commands.useitem.invalid_amount"), EmoteReference.WARNING).queue();
+                    ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
                     return;
                 }
             }
             String petName = isPet ? content : "";
 
             if (isPet && petName.isEmpty()) {
-                channel.sendMessageFormat(languageContext.get("commands.useitem.no_name"), EmoteReference.SAD).queue();
+                ctx.sendLocalized("commands.useitem.no_name", EmoteReference.SAD);
                 return;
             }
 
@@ -98,24 +92,27 @@ public class CurrencyCmds {
             PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
 
             if (amount < 1) {
-                channel.sendMessageFormat(languageContext.get("commands.useitem.too_little"), EmoteReference.SAD).queue();
+                ctx.sendLocalized("commands.useitem.too_little", EmoteReference.SAD);
                 return;
             }
 
             if (p.getInventory().getAmount(item) < amount) {
-                channel.sendMessageFormat(languageContext.get("commands.useitem.not_enough_items"), EmoteReference.SAD).queue();
+                ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
                 return;
             }
 
             PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
             var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
-            // This used to only check for activePotion. The issue with this was that there could be one potion that was fully used, but there was another potion
-            // waiting to be used. In that case the potion would get overridden. In case you have more than a potion equipped, we'll just stack the rest as necessary.
+            // This used to only check for activePotion.
+            // The issue with this was that there could be one potion that was fully used, but there was another potion
+            // waiting to be used. In that case the potion would get overridden.
+            // In case you have more than a potion equipped, we'll just stack the rest as necessary.
             if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
                 //Currently has a potion equipped, but wants to stack a potion of other type.
                 if (currentPotion.getPotion() != Items.idOf(item)) {
-                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.not_same_potion"),
-                            EmoteReference.ERROR, Items.fromId(currentPotion.getPotion()).getName(), item.getName()).queue();
+                    ctx.sendLocalized("general.misc_item_usage.not_same_potion",
+                            EmoteReference.ERROR, Items.fromId(currentPotion.getPotion()).getName(), item.getName()
+                    );
 
                     return;
                 }
@@ -123,11 +120,13 @@ public class CurrencyCmds {
                 // Currently has a potion equipped, and is of the same type.
                 if (currentPotion.getAmountEquipped() + amount < 10) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
-                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied_multiple"),
-                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1).queue();
+                    ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
+                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
+                            activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
+                    );
                 } else {
                     // Too many stacked (max: 10).
-                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size"), EmoteReference.ERROR, item.getName()).queue();
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName());
                     return;
                 }
             } else {
@@ -137,7 +136,7 @@ public class CurrencyCmds {
                 // If there's more than 1, proceed to equip the stacks.
                 if (amount >= 10) {
                     //Too many stacked (max: 10).
-                    channel.sendMessageFormat(languageContext.get("general.misc_item_usage.max_stack_size_2"), EmoteReference.ERROR, item.getName()).queue();
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName());
                     return;
                 }
 
@@ -147,8 +146,9 @@ public class CurrencyCmds {
 
                 // Apply the effect.
                 equippedItems.applyEffect(effect);
-                channel.sendMessageFormat(languageContext.get("general.misc_item_usage.potion_applied"),
-                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount).queue();
+                ctx.sendLocalized("general.misc_item_usage.potion_applied",
+                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount
+                );
             }
 
 
@@ -164,7 +164,7 @@ public class CurrencyCmds {
         }
 
         if (!isPet)
-            item.getAction().test(event, Pair.of(languageContext, content), false);
+            item.getAction().test(ctx, false);
     }
 
     @Subscribe
@@ -216,7 +216,8 @@ public class CurrencyCmds {
 
                     if (t.containsKey("info") || t.containsKey("full")) {
                         EmbedBuilder builder = baseEmbed(ctx,
-                                String.format(languageContext.get("commands.inventory.header"), member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl()
+                                String.format(languageContext.get("commands.inventory.header"),
+                                        member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl()
                         );
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
@@ -226,8 +227,11 @@ public class CurrencyCmds {
                             playerInventory.asList().forEach(stack -> {
                                 long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                                 long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                                fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(), stack.getItem().getName(), stack.getAmount()),
-                                        String.format(languageContext.get("commands.inventory.format"), buyValue, sellValue, languageContext.get(stack.getItem().getDesc())), false));
+                                fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(),
+                                        stack.getItem().getName(), stack.getAmount()),
+                                        String.format(languageContext.get("commands.inventory.format"), buyValue,
+                                                sellValue, languageContext.get(stack.getItem().getDesc())), false)
+                                );
                             });
                         }
 
@@ -237,15 +241,21 @@ public class CurrencyCmds {
                         if (hasReactionPerms) {
                             if (builder.getDescriptionBuilder().length() == 0) {
                                 builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                        + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : ""));
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"),
+                                                EmoteReference.BUY, EmoteReference.SELL))
+                                        + "\n" + languageContext.get("commands.inventory.brief_notice") +
+                                        (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "")
+                                );
                             }
                             DiscordUtils.list(ctx.getEvent(), 100, false, builder, splitFields);
                         } else {
                             if (builder.getDescriptionBuilder().length() == 0) {
                                 builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL))
-                                        + "\n" + languageContext.get("commands.inventory.brief_notice") + (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : ""));
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"),
+                                                EmoteReference.BUY, EmoteReference.SELL))
+                                        + "\n" + languageContext.get("commands.inventory.brief_notice") +
+                                        (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : "")
+                                );
                             }
                             DiscordUtils.listText(ctx.getEvent(), 100, false, builder, splitFields);
                         }
@@ -253,7 +263,9 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    ctx.sendStrippedLocalized("commands.inventory.brief", member.getEffectiveName(), ItemStack.toString(playerInventory.asList()));
+                    ctx.sendStrippedLocalized("commands.inventory.brief",
+                            member.getEffectiveName(), ItemStack.toString(playerInventory.asList())
+                    );
                 });
             }
 
@@ -603,7 +615,7 @@ public class CurrencyCmds {
 
                 //Ratelimit handled here
                 //Check Items.openLootCrate for implementation details.
-                item.getAction().test(ctx.getEvent(), Pair.of(ctx.getLanguageContext(), content), isSeasonal);
+                item.getAction().test(ctx, isSeasonal);
             }
 
             @Override
@@ -724,7 +736,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        applyPotionEffect(ctx.getEvent(), item, p, t, content, false, ctx.getLanguageContext());
+                        applyPotionEffect(ctx, item, p, t, content, false);
                     }
                 };
             }

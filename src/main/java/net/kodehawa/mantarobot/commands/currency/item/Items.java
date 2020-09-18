@@ -16,20 +16,18 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -72,7 +70,6 @@ public class Items {
             .premiumAware(true)
             .build();
 
-    private static final Config config = MantaroData.config().get();
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7", "Headphones", "items.headphones", "items.description.headphones", 5, true, false, false),
             BAN_HAMMER = new Item(ItemType.COLLECTABLE, "\uD83D\uDD28", "Ban Hammer", "items.ban_hammer", "items.description.ban_hammer", 15, false, false),
@@ -112,7 +109,7 @@ public class Items {
             STAR = new Item(ItemType.COLLECTABLE, "\uE335", "Prize", "items.prize", "items.description.prize", 0, false, false, true),
 
             // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
-            LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "items.crate", "items.description.crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3, season)),
+            LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "items.crate", "items.description.crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3, season)),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Consolation Prize", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F", "Slot ticket", "items.slot_ticket", "items.description.slot_ticket", 65, true, true),
             HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
@@ -153,11 +150,11 @@ public class Items {
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55", "Pizza", "items.pizza", "items.description.pizza", 15, true, false),
             OLD_SPARKLE_FRAGMENT = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf", "Old Sparkly Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
-            MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(), "Gem Crate", "items.mine_crate", "items.description.mine_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3, season)),
+            MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(), "Gem Crate", "items.mine_crate", "items.description.mine_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3, season)),
             // ---------------------------------- 5.0 FISH ITEMS START HERE ----------------------------------
-            FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(), "Fish Treasure", "items.fish_crate", "items.description.fish_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3, season)),
-            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(), "Fish Premium Treasure", "items.fish_premium_crate", "items.description.fish_premium_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5, season)),
-            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(), "Gem Premium Crate", "items.mine_premium_crate", "items.description.mine_premium_crate", 0, false, false, true, (event, context, season) -> openLootCrate(event, context.getLeft(), ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5, season)),
+            FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(), "Fish Treasure", "items.fish_crate", "items.description.fish_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3, season)),
+            FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(), "Fish Premium Treasure", "items.fish_premium_crate", "items.description.fish_premium_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5, season)),
+            MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(), "Gem Premium Crate", "items.mine_premium_crate", "items.description.mine_premium_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5, season)),
             COMET_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", 90, 44, 48),
             STAR_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", 130, 44, 49),
             OLD_SPARKLE_ROD = new FishRod(ItemType.COMMON, 3, -1, -1, "\uD83C\uDFA3", "Old Sparkly Rod", "general.deprecated", "general.deprecated", 65, "", 2),
@@ -190,47 +187,46 @@ public class Items {
 
     public static void setItemActions() {
         log.info("Registering item actions...");
-        final ManagedDatabase managedDatabase = MantaroData.db();
 
-        MOP.setAction(((event, ctx, season) -> {
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            PlayerData playerData = p.getData();
-            DBUser dbUser = managedDatabase.getUser(event.getAuthor());
-            I18nContext lang = ctx.getLeft();
+        MOP.setAction(((ctx, season) -> {
+            Player player = ctx.getPlayer();
+            PlayerData playerData = player.getData();
+            DBUser dbUser = ctx.getDBUser();
+            UserData userData = dbUser.getData();
+            Inventory playerInventory = player.getInventory();
 
-            Inventory playerInventory = p.getInventory();
             if (!playerInventory.containsItem(MOP))
                 return false;
 
             if(dbUser.getData().getDustLevel() > 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
-                p.save();
-
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop"), EmoteReference.DUST).queue();
+                player.save();
+                ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
                 playerInventory.process(new ItemStack(MOP, -1));
 
-                dbUser.getData().setDustLevel(0);
+                userData.setDustLevel(0);
                 dbUser.save();
             } else {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.mop_not_enough"), EmoteReference.DUST).queue();
+                ctx.sendLocalized("general.misc_item_usage.mop_not_enough", EmoteReference.DUST);
                 return false;
             }
 
             return true;
         }));
 
-        POTION_CLEAN.setAction((event, ctx, season) -> {
-            I18nContext lang = ctx.getLeft();
-            Player p = managedDatabase.getPlayer(event.getAuthor());
-            DBUser u = managedDatabase.getUser(event.getAuthor());
+        POTION_CLEAN.setAction((ctx, season) -> {
+            Player player = ctx.getPlayer();
+            DBUser dbUser = ctx.getDBUser();
+            UserData userData = dbUser.getData();
+            Inventory playerInventory = player.getInventory();
 
-            u.getData().getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
-            u.save();
+            userData.getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
+            dbUser.save();
 
-            p.getInventory().process(new ItemStack(POTION_CLEAN, -1));
-            p.save();
+            playerInventory.process(new ItemStack(POTION_CLEAN, -1));
+            player.save();
 
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.milk"), EmoteReference.CORRECT).queue();
+            ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
             return true;
         });
     }
@@ -296,18 +292,16 @@ public class Items {
         return Arrays.asList(ALL).indexOf(item);
     }
 
-    private static boolean openLootCrate(GuildMessageReceivedEvent event, I18nContext lang, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound, boolean season) {
-        ManagedDatabase managedDatabase = MantaroData.db();
-
-        Player player = managedDatabase.getPlayer(event.getAuthor());
-        SeasonPlayer seasonPlayer = managedDatabase.getPlayerForSeason(event.getAuthor(), config.getCurrentSeason());
+    private static boolean openLootCrate(Context ctx, ItemType.LootboxType type, int item, EmoteReference typeEmote, int bound, boolean season) {
+        Player player = ctx.getPlayer();
+        SeasonPlayer seasonPlayer = ctx.getSeasonPlayer();
         Inventory inventory = season ? seasonPlayer.getInventory() : player.getInventory();
 
         Item crate = fromId(item);
 
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!Utils.handleIncreasingRatelimit(lootCrateRatelimiter, event.getAuthor(), event, lang, false))
+                if(!Utils.handleIncreasingRatelimit(lootCrateRatelimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return false;
 
                 if(crate == LOOT_CRATE) {
@@ -315,19 +309,19 @@ public class Items {
                 }
 
                 //It saves the changes here.
-                openLootBox(event, player, seasonPlayer, lang, type, crate, typeEmote, bound, season);
+                openLootBox(ctx, player, seasonPlayer, type, crate, typeEmote, bound, season);
                 return true;
             } else {
-                event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_key"), EmoteReference.ERROR).queue();
+                ctx.sendLocalized("general.misc_item_usage.crate.no_key", EmoteReference.ERROR);
                 return false;
             }
         } else {
-            event.getChannel().sendMessageFormat(lang.get("general.misc_item_usage.crate.no_crate"), EmoteReference.ERROR).queue();
+            ctx.sendLocalized("general.misc_item_usage.crate.no_crate", EmoteReference.ERROR);
             return false;
         }
     }
 
-    private static void openLootBox(GuildMessageReceivedEvent event, Player player, SeasonPlayer seasonPlayer, I18nContext lang, ItemType.LootboxType type, Item crate, EmoteReference typeEmote, int bound, boolean seasonal) {
+    private static void openLootBox(Context ctx, Player player, SeasonPlayer seasonPlayer, ItemType.LootboxType type, Item crate, EmoteReference typeEmote, int bound, boolean seasonal) {
         List<Item> toAdd = selectItems(r.nextInt(bound) + bound, type);
 
         ArrayList<ItemStack> ita = new ArrayList<>();
@@ -356,9 +350,11 @@ public class Items {
         player.saveAsync();
         seasonPlayer.saveAsync();
 
-        event.getChannel().sendMessage(String.format(lang.get("general.misc_item_usage.crate.success"),
+        I18nContext lang = ctx.getLanguageContext();
+
+        ctx.sendFormat(lang.get("general.misc_item_usage.crate.success"),
                 typeEmote.getDiscordNotation() + " ", toAdd.stream().map(item -> item.getEmoji() + " " + item.getName()).collect(Collectors.joining(", ")),
-                overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "")).queue();
+                overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "");
     }
 
     //Maybe compact this a bit? works fine, just icks me a bit.
