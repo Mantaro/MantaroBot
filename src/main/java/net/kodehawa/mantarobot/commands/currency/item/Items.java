@@ -80,7 +80,7 @@ public class Items {
             LOADED_DICE = new Item(ItemType.COLLECTABLE, "\uD83C\uDFB2", "Loaded Die", "items.die", "items.description.loaded_die", 45, false, false),
             FORGOTTEN_MUSIC = new Item(ItemType.COLLECTABLE, "\uD83C\uDFB5", "Forgotten Music", "items.forgotten", "items.description.forgotten", 15, false, false),
             CC_PENCIL = new Item(ItemType.COLLECTABLE, "\u270f", "Pencil", "items.pencil", "items.description.pencil", 15, false, false),
-            OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0", "Moneybag", "items.moneybag", "items.description.moneybag", 95, true),
+            OVERFLOWED_BAG = new Item(ItemType.COLLECTABLE, "\uD83D\uDCB0", "Moneybag", "items.moneybag", "items.description.moneybag", 100, true),
             BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.19f, "\u26cf", "Brom's Pickaxe", "items.pick", "items.description.pick", 100, true, 40),
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(), "Milk", "items.milk", "items.description.milk", 25, true),
             ALCOHOL = new Item(ItemType.COMMON, EmoteReference.POTION2.getUnicode(), "Old Beverage", "items.beverage", "items.description.beverage", 25, true),
@@ -112,8 +112,8 @@ public class Items {
             LOOT_CRATE = new Item(ItemType.CRATE, EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "items.crate", "items.description.crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3, season)),
             STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Consolation Prize", "items.prize_2", "items.description.prize_2", 500, true, false, true),
             SLOT_COIN = new Item(ItemType.COMMON, "\uD83C\uDF9F", "Slot ticket", "items.slot_ticket", "items.description.slot_ticket", 65, true, true),
-            HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 5000, true, true),
-            CAR = new Item(ItemType.COMMON, "\uD83D\uDE97", "Car", "items.car", "items.description.car", 1000, true, true),
+            HOUSE = new Item(ItemType.COMMON, EmoteReference.HOUSE.getUnicode(), "House", "items.house", "items.description.house", 1500, true, true),
+            CAR = new Item(ItemType.COMMON, "\uD83D\uDE97", "Car", "items.car", "items.description.car", 300, true, true),
 
             // ---------------------------------- CHRISTMAS 2017 EVENT STARTS HERE ----------------------------------
             BELL_SPECIAL = new Item(ItemType.RARE, "\uD83D\uDD14", "Christmas bell", "items.bell", "items.description.bell", 0, false, false, true),
@@ -143,8 +143,7 @@ public class Items {
             DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 100, true, false, "1;2", 150, 10, 18),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA", "Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Wrench(ItemType.WRENCH, 65, 1, 1.0d, "\ud83d\udd27", "Wrench", "items.wrench", "items.description.wrench", 50, true),
-            //car is 1000 credits, so this is 350
-            MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD", "Motorcycle", "items.motorcycle", "items.description.motorcycle", 350, true),
+            MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD", "Motorcycle", "items.motorcycle", "items.description.motorcycle", 150, true),
             COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2", 160, 10, 48),
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", 210, 10, 49),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55", "Pizza", "items.pizza", "items.description.pizza", 15, true, false),
