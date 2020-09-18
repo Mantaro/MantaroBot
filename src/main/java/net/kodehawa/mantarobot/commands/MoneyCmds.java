@@ -74,6 +74,7 @@ public class MoneyCmds {
 
     private final SecureRandom random = new SecureRandom();
     private final int SLOTS_MAX_MONEY = 50_000;
+    private final int TICKETS_MAX_AMOUNT = 50;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
     private final long GAMBLE_MAX_MONEY = 10_000;
     private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
@@ -667,6 +668,11 @@ public class MoneyCmds {
                         return;
                     }
 
+                    if(amountN > TICKETS_MAX_AMOUNT) {
+                        ctx.sendLocalized("commands.slots.errors.too_many_tickets", EmoteReference.ERROR, TICKETS_MAX_AMOUNT);
+                        return;
+                    }
+
                     if (playerInventory.getAmount(Items.SLOT_COIN) < amountN) {
                         ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                         return;
@@ -805,7 +811,8 @@ public class MoneyCmds {
                         .setUsage("`~>slots` - Default one, 50 coins.\n" +
                                 "`~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
-                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)")
+                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`). " +
+                                "Using tickets increases your chance by 10%. Maximum amount of tickets allowed is 50.")
                         .build();
             }
         });
