@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -80,8 +81,15 @@ public class ProfileCmd {
                 .prefix("profile")
                 .build();
 
+        final Config config = MantaroData.config().get();
+
         //I actually do need this, sob.
-        final LinkedList<ProfileComponent> defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        LinkedList<ProfileComponent> defaultOrder;
+        if(config.isPremiumBot()) {
+            defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        } else {
+            defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        }
 
         ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
             @Override

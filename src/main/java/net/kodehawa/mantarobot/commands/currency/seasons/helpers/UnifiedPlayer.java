@@ -56,7 +56,9 @@ public class UnifiedPlayer {
      * @return pls dont overflow.
      */
     public boolean addMoney(long money) {
-        if (money < 0) return false;
+        if (money < 0)
+            return false;
+
         try {
             player.setMoney(Math.addExact(player.getMoney(), money));
             seasonalPlayer.setMoney(Math.addExact(seasonalPlayer.getMoney(), money));

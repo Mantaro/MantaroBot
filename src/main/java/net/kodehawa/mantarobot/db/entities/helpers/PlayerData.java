@@ -30,6 +30,7 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
     public long experience = 0;
+    public long newMoney = 0L;
     private List<Badge> badges = new ArrayList<>();
     //Fix massive misspelling fuck up.
     @JsonProperty("dailyStrike")
@@ -327,4 +328,11 @@ public class PlayerData {
         this.fishingExperience = fishingExperience + random.nextInt(5);
     }
 
+    public long getNewMoney() {
+        return newMoney;
+    }
+
+    public void setNewMoney(long newMoney) {
+        this.newMoney = newMoney;
+    }
 }

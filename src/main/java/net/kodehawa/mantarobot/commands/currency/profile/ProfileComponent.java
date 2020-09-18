@@ -49,6 +49,10 @@ public enum ProfileComponent {
             "$ " + holder.getPlayer().getMoney(),
             true, false
     ),
+    OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->
+            "$ " + holder.getPlayer().getOldMoney(),
+            true, false
+    ),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
             holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
     ),

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -38,6 +38,7 @@ import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.uns
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Player implements ManagedObject {
+    private static final Config config = MantaroData.config().get();
     public static final String DB_TABLE = "players";
     private final PlayerData data;
     private final String id;
@@ -46,15 +47,18 @@ public class Player implements ManagedObject {
     private final transient Inventory inventory = new Inventory();
 
     private Long level;
-    private Long money;
+
+    @JsonProperty("money")
+    private Long oldMoney;
+
     private Long reputation;
 
     @JsonCreator
     @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-    public Player(@JsonProperty("id") String id, @JsonProperty("level") Long level, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") PlayerData data) {
+    public Player(@JsonProperty("id") String id, @JsonProperty("level") Long level, @JsonProperty("money") Long oldMoney, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") PlayerData data) {
         this.id = id;
         this.level = level == null ? 0 : level;
-        this.money = money == null ? 0 : money;
+        this.oldMoney = oldMoney == null ? 0 : oldMoney;
         this.reputation = reputation == null ? 0 : reputation;
         this.data = data;
         this.inventory.replaceWith(unserialize(inventory));
@@ -96,16 +100,15 @@ public class Player implements ManagedObject {
      * @param money How much?
      * @return pls dont overflow.
      */
-    public boolean addMoney(long money) {
-        if (money < 0) return false;
-        try {
-            this.money = Math.addExact(this.money, money);
-            return true;
-        } catch (ArithmeticException ignored) {
-            this.money = 0L;
-            this.getInventory().process(new ItemStack(Items.STAR, 1));
+    @JsonIgnore
+    public boolean addMoney(long toAdd) {
+        long money = config.isPremiumBot() ? this.oldMoney : data.newMoney;
+        if (toAdd < 0)
             return false;
-        }
+
+        money = Math.addExact(money, toAdd);
+        data.setNewMoney(money);
+        return true;
     }
 
     /**
@@ -113,6 +116,7 @@ public class Player implements ManagedObject {
      *
      * @param rep how much?
      */
+    @JsonIgnore
     public void addReputation(long rep) {
         this.reputation += rep;
         this.setReputation(reputation);
@@ -148,10 +152,24 @@ public class Player implements ManagedObject {
      *
      * @param money How much?
      */
-    public boolean removeMoney(long money) {
-        if (this.money - money < 0) return false;
-        this.money -= money;
+    public boolean removeMoney(long toRemove) {
+        long money = config.isPremiumBot() ? this.oldMoney : data.newMoney;
+        if (money - toRemove < 0)
+            return false;
+
+        money -= toRemove;
+        data.setNewMoney(money);
         return true;
+    }
+
+    @JsonIgnore
+    public long getOldMoney() {
+        return oldMoney;
+    }
+
+    @JsonIgnore
+    public void setOldMoney(long newAmount) {
+        this.oldMoney = newAmount;
     }
 
     //it's 3am and i cba to replace usages of this so whatever
@@ -188,28 +206,39 @@ public class Player implements ManagedObject {
         return getUserId();
     }
 
+    @JsonIgnore
     public Long getLevel() {
         return this.level;
     }
 
+    @JsonIgnore
     public Player setLevel(long level) {
         this.level = level;
         return this;
     }
 
+    @JsonIgnore
     public Long getMoney() {
-        return this.money;
+        return config.isPremiumBot() ? this.oldMoney : data.newMoney;
     }
 
+    @JsonIgnore
     public Player setMoney(long money) {
-        this.money = money < 0 ? 0 : money;
+        if(config.isPremiumBot) {
+            this.oldMoney = money < 0 ? 0 : money;
+        } else {
+            data.setNewMoney(money < 0 ? 0 : money);
+        }
+
         return this;
     }
 
+    @JsonIgnore
     public Long getReputation() {
         return this.reputation;
     }
 
+    @JsonIgnore
     public void setReputation(Long reputation) {
         this.reputation = reputation;
     }
