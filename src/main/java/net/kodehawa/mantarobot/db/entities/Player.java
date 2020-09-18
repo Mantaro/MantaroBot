@@ -104,13 +104,14 @@ public class Player implements ManagedObject {
      */
     @JsonIgnore
     public boolean addMoney(long toAdd) {
-        long money = config.isPremiumBot() ? this.oldMoney : data.newMoney;
+        boolean useOld = config.isPremiumBot() || config.isSelfHost();
+        long money = useOld ? this.oldMoney : data.newMoney;
         if (toAdd < 0)
             return false;
 
         money = Math.addExact(money, toAdd);
 
-        if(config.isPremiumBot()) {
+        if(useOld) {
             this.setOldMoney(money);
         } else {
             data.setNewMoney(money);
@@ -161,13 +162,14 @@ public class Player implements ManagedObject {
      * @param money How much?
      */
     public boolean removeMoney(long toRemove) {
-        long money = config.isPremiumBot() ? this.oldMoney : data.newMoney;
+        boolean useOld = config.isPremiumBot() || config.isSelfHost();
+        long money = useOld ? this.oldMoney : data.newMoney;
         if (money - toRemove < 0)
             return false;
 
         money -= toRemove;
 
-        if(config.isPremiumBot()) {
+        if(useOld) {
             this.setOldMoney(money);
         } else {
             data.setNewMoney(money);
@@ -226,7 +228,8 @@ public class Player implements ManagedObject {
 
     @JsonIgnore
     public void setCurrentMoney(long money) {
-        if(config.isPremiumBot) {
+        boolean useOld = config.isPremiumBot() || config.isSelfHost();
+        if(useOld) {
             this.oldMoney = money < 0 ? 0 : money;
         } else {
             data.setNewMoney(money < 0 ? 0 : money);
