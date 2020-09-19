@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(Baka) nalinis mo na ang lahat na naipong alikabok na sanhi ng iyong pagmimina.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sTinanggal ang epekto ng mga potion.",
       "stamina": "%1$sInaktibeyt ang stamina para sa 3 sesyon ng pagmimina.",
       "stamina_used": "%1$sMeron ka nang aktibong stamina effect!",
