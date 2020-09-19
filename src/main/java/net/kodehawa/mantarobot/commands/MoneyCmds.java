@@ -66,18 +66,18 @@ import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
 
 @Module
 public class MoneyCmds {
-    private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
-        final NumberFormat format = NumberFormat.getPercentInstance();
-        format.setMinimumFractionDigits(1); // decimal support
-        return format;
-    });
-
     private final SecureRandom random = new SecureRandom();
     private final int SLOTS_MAX_MONEY = 50_000;
     private final int TICKETS_MAX_AMOUNT = 50;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
     private final long GAMBLE_MAX_MONEY = 10_000;
     private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
+
+    private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
+        final NumberFormat format = NumberFormat.getPercentInstance();
+        format.setMinimumFractionDigits(1); // decimal support
+        return format;
+    });
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -305,9 +305,9 @@ public class MoneyCmds {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(3)
                     .limit(1)
-                    .cooldown(30, TimeUnit.SECONDS)
+                    .cooldown(2, TimeUnit.MINUTES)
                     .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                    .maxCooldown(5, TimeUnit.MINUTES)
+                    .maxCooldown(10, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
                     .prefix("gamble")
                     .premiumAware(true)
@@ -606,7 +606,7 @@ public class MoneyCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(4)
                 .limit(1)
-                .cooldown(35, TimeUnit.SECONDS)
+                .cooldown(1, TimeUnit.MINUTES)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())

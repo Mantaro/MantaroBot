@@ -62,7 +62,7 @@ public class ItemCmds {
         final IncreasingRateLimiter ratelimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(3)
                 .limit(1)
-                .cooldown(10, TimeUnit.SECONDS)
+                .cooldown(5, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(2, TimeUnit.SECONDS)
                 .maxCooldown(2, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
