@@ -224,6 +224,9 @@ public class GuildData {
     @HiddenConfig // It's not unused, but this hides it from opts check data lol
     private boolean notifiedFromBirthdayChange = false;
 
+    @ConfigName("The custom DJ role.")
+    private String djRoleId;
+
     public GuildData() { }
 
     public boolean isHasReceivedGreet() {
@@ -872,5 +875,13 @@ public class GuildData {
 
     public List<String> getAllowedBirthdays() {
         return allowedBirthdays;
+    }
+
+    public String getDjRoleId() {
+        return djRoleId;
+    }
+
+    public void setDjRoleId(String djRoleId) {
+        this.djRoleId = djRoleId;
     }
 }
