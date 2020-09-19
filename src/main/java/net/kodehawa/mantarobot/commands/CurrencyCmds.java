@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.pets.Pet;
+import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
