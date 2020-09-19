@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sVocê (talvez) limpou todas as poeiras que você tinha acumulado sobre todas as sessões de mineração.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sEfeitos de poção removidos.",
       "stamina": "%1$sVigor ativado para 5 sessões de mineração.",
       "stamina_used": "%1$sVocê já tem um efeito de vigor usado!",
