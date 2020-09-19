@@ -828,10 +828,32 @@ public class RelationshipCmds {
         cr.registerAlias("pet", "pets");
         pet.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
 
+        pet.addSubCommand("pet", new SubCommand() {
+            @Override
+            public String description() {
+                return "Pets your pet. Usage: `~>pet pet`. Cute.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var pet = marriage.getData().getPet();
+
+                if(pet == null) {
+                    ctx.sendLocalized("commands.pet.pat.no_pet");
+                    return;
+                }
+
+                String message = pet.handlePat().getMessage();
+                ctx.sendLocalized(message, pet.getType().getEmoji());
+            }
+        });
+
         pet.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys a pet to have adventures with. You need to buy a pet house in market first. Usage: `~>marry buypet <type> <name>`";
+                return "Buys a pet to have adventures with. You need to buy a pet house in market first. Usage: `~>pet buy <type> <name>`";
             }
 
             @Override
@@ -861,6 +883,7 @@ public class RelationshipCmds {
                     return;
                 }
 
+                // TODO: Multiple pets.
                 if(marriage.getData().getPet() != null) {
                     ctx.sendLocalized("commands.pet.buy.already_has_pet", EmoteReference.ERROR);
                     return;
@@ -926,7 +949,7 @@ public class RelationshipCmds {
         pet.addSubCommand("feed", new SubCommand() {
             @Override
             public String description() {
-                return "Feeds your pet. Types of food may vary per pet. Usage: `~>marry feedpet <food>`";
+                return "Feeds your pet. Types of food may vary per pet. Usage: `~>pet feed <food>`";
             }
 
             @Override
@@ -970,6 +993,8 @@ public class RelationshipCmds {
                 }
 
                 var food = (Food) itemObject;
+
+                //TODO: food types per pet (this has to be there before release)
 
                 pet.increaseHunger(food.getHungerLevel());
                 pet.increaseHealth();

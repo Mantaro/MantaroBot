@@ -29,6 +29,19 @@ public enum HousePetType {
         FISH, CATCH, CHEER
     }
 
+    public static enum PatReaction {
+        CHEER("commands.pet.pet_reactions.cheer"), SCARE("commands.pet.pet_reactions.scare"), CUTE("commands.pet.pet_reactions.cute");
+
+        String message;
+        PatReaction(String i18n) {
+            this.message = i18n;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
     private EmoteReference emoji;
     private String name;
     private List<HousePetAbility> abilities;
@@ -58,7 +71,6 @@ public enum HousePetType {
     public int getCost() {
         return cost;
     }
-
 
     public int getMaxCoinBuildup() {
         return maxCoinBuildup;

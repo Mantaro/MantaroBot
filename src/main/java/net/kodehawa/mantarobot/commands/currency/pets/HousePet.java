@@ -16,12 +16,17 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 public class HousePet {
+    @JsonIgnore
+    private static SecureRandom random = new SecureRandom();
+
     private String name;
     private HousePetType type;
     private int stamina = 100;
@@ -152,6 +157,15 @@ public class HousePet {
     public String buildMessage(ActivityResult result, I18nContext language) {
         return String.format(language.get(result.getLanguageString()), getType().getEmoji(), getType().getName(), getName());
     }
+
+    public HousePetType.PatReaction handlePat() {
+        if(getType() == HousePetType.CAT) {
+            return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;
+        }
+
+        return HousePetType.PatReaction.CUTE;
+    }
+
 
     public static enum ActivityResult {
         LOW_STAMINA(false, "general.pets.activity.low_stamina"),
