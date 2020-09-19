@@ -472,6 +472,11 @@ public class RelationshipCmds {
 
         marryCommand.addSubCommand("buyhouse", new SubCommand() {
             @Override
+            public String description() {
+                return "Buys a house to live in. You need to buy a house in market first. Usage: `~>marry buyhouse <name>`";
+            }
+
+            @Override
             protected void call(Context ctx, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
@@ -546,6 +551,11 @@ public class RelationshipCmds {
 
         marryCommand.addSubCommand("buycar", new SubCommand() {
             @Override
+            public String description() {
+                return "Buys a car to travel in. You need to buy a cat in market first. Usage: `~>marry buycar <name>`";
+            }
+
+            @Override
             protected void call(Context ctx, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
@@ -619,24 +629,34 @@ public class RelationshipCmds {
 
         marryCommand.addSubCommand("buypet", new SubCommand() {
             @Override
+            public String description() {
+                return "Buys a pet to have adventures with. You need to buy a pet house in market first. Usage: `~>marry buypet <type> <name>`";
+            }
+
+            @Override
             protected void call(Context ctx, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
+                var args = ctx.getArguments();
+
                 if(marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
                 }
 
-                if(!playerInventory.containsItem(Items.PET_HOUSE)) {
-                    ctx.sendLocalized("commands.marry.buypet.no_house", EmoteReference.ERROR);
+                if(args.length < 2) {
+                    ctx.sendLocalized("commands.marry.buypet.not_enough_arguments", EmoteReference.ERROR);
                     return;
                 }
 
-                if(content.isEmpty()) {
-                    ctx.sendLocalized("commands.marry.buypet.no_type", EmoteReference.ERROR);
+                var name = args[0];
+                var type = args[1];
+
+                if(!playerInventory.containsItem(Items.PET_HOUSE)) {
+                    ctx.sendLocalized("commands.marry.buypet.no_house", EmoteReference.ERROR);
                     return;
                 }
 
@@ -645,9 +665,11 @@ public class RelationshipCmds {
                     return;
                 }
 
-                HousePetType toBuy = HousePetType.lookupFromString(content);
+                HousePetType toBuy = HousePetType.lookupFromString(type);
                 if(toBuy == null) {
-                    ctx.sendLocalized("commands.marry.buypet.nothing_found", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.marry.buypet.nothing_found", EmoteReference.ERROR,
+                            Arrays.stream(HousePetType.values()).map(HousePetType::getName).collect(Collectors.joining(", "))
+                    );
                     return;
                 }
 
@@ -657,7 +679,7 @@ public class RelationshipCmds {
                 }
 
 
-                ctx.sendLocalized("commands.marry.buypet.confirm", EmoteReference.WARNING, content, toBuy.getCost());
+                ctx.sendLocalized("commands.marry.buypet.confirm", EmoteReference.WARNING, name, type, toBuy.getCost());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
@@ -683,7 +705,7 @@ public class RelationshipCmds {
                         playerInventoryConfirmed.process(new ItemStack(Items.PET_HOUSE, -1));
                         playerConfirmed.save();
 
-                        marriageConfirmed.getData().setPet(new HousePet(content, toBuy));
+                        marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
                         marriageConfirmed.save();
 
                         ctx.sendLocalized("commands.marry.buypet.success", EmoteReference.POPPER, toBuy.getEmoji(), content, toBuy.getCost());
@@ -701,6 +723,11 @@ public class RelationshipCmds {
         });
 
         marryCommand.addSubCommand("feedpet", new SubCommand() {
+            @Override
+            public String description() {
+                return "Feeds your pet. Types of food may vary per pet. Usage: `~>marry feedpet <food>`";
+            }
+
             @Override
             protected void call(Context ctx, String content) {
                 var player = ctx.getPlayer();
@@ -757,6 +784,11 @@ public class RelationshipCmds {
 
         marryCommand.addSubCommand("waterpet", new SubCommand() {
             @Override
+            public String description() {
+                return "Waters your pet.";
+            }
+
+            @Override
             protected void call(Context ctx, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
@@ -798,6 +830,11 @@ public class RelationshipCmds {
         });
 
         marryCommand.addSubCommand("timezone", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets the timezone for your marriage. Useful for pet sleep times.";
+            }
+
             @Override
             protected void call(Context ctx, String content) {
                 var dbUser = ctx.getDBUser();

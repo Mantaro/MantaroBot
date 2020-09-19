@@ -75,6 +75,10 @@ public enum HousePetType {
             if (b.name().equalsIgnoreCase(name)) {
                 return b;
             }
+
+            if (b.getName().equalsIgnoreCase(name)) {
+                return b;
+            }
         }
 
         return null;
