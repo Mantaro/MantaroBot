@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -562,10 +563,109 @@ public class ItemCmds {
 
     @Subscribe
     public void salvage(CommandRegistry cr) {
+        final var random = new SecureRandom();
+
         cr.register("salvage", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
-            protected void call(Context context, String content, String[] args) {
+            protected void call(Context ctx, String content, String[] args) {
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.salvage.no_item", EmoteReference.ERROR);
+                    return;
+                }
 
+                //Argument parsing.
+                final Map<String, String> t = ctx.getOptionalArguments();
+                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                //Get the necessary entities.
+                final var seasonalPlayer = ctx.getSeasonPlayer();
+                final var player = ctx.getPlayer();
+                final var user = ctx.getDBUser();
+
+                final var itemString = args[0];
+                final var item = Items.fromAnyNoId(itemString).orElse(null);
+                final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                var wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
+
+                if (args.length > 1) {
+                    wrench = Items.fromAnyNoId(args[1]).orElse(null);
+                }
+
+                if (item == null) {
+                    ctx.sendLocalized("commands.salvage.no_item_found", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!(item instanceof Salvageable)) {
+                    ctx.sendLocalized("commands.salvage.cant_salvage", EmoteReference.ERROR, item.getName());
+                    return;
+                }
+
+                if (!(wrench instanceof Wrench)) {
+                    ctx.sendLocalized("commands.salvage.not_wrench", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (((Wrench) wrench).getLevel() < 2) {
+                    ctx.sendLocalized("commands.salvage.not_enough_level", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!playerInventory.containsItem(item)) {
+                    ctx.sendLocalized("commands.salvage.no_main_item", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!playerInventory.containsItem(wrench)) {
+                    ctx.sendLocalized("commands.salvage.no_tool", EmoteReference.ERROR, wrench.getName());
+                    return;
+                }
+
+                int dust = user.getData().getDustLevel();
+                if (dust > 95) {
+                    ctx.sendLocalized("commands.salvage.dust", EmoteReference.ERROR, dust);
+                    return;
+                }
+
+                final var salvageable = (Salvageable) item;
+                List<Item> returns = salvageable.getReturns().stream().map(Items::fromId).collect(Collectors.toList());
+
+                if(returns.isEmpty()) {
+                    ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
+                    return;
+                }
+
+                var message = "";
+                if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
+                    playerInventory.process(new ItemStack(wrench, -1));
+                    message += ctx.getLanguageContext().get("commands.repair.item_broke");
+                }
+
+                var salvageCost = item.getValue() / 8;
+                var toReturn = returns.get(random.nextInt(returns.size()));
+                playerInventory.process(new ItemStack(toReturn, 1));
+
+                user.getData().increaseDustLevel(3);
+                user.save();
+
+                if (isSeasonal) {
+                    seasonalPlayer.removeMoney(salvageCost);
+                    seasonalPlayer.save();
+                } else {
+                    player.removeMoney(salvageCost);
+                    player.save();
+                }
+
+                ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, message);
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Salvages an item. Useful when you can't repair it but wanna get something back. The cost is 1/8th of the item price.")
+                        .setUsage("`~>salvage <item> [wrench]` - Salvages an item.")
+                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("wrench", "The wrench to use.")
+                        .build();
             }
         });
     }
