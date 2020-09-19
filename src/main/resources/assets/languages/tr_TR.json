@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sSanirim tum o maden girisimlerinizde topladigin tozlari temizledin lol.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sTum iksir etkileri temizlendi.",
       "stamina": "%1$s3 maden girismi icin dayaniklik iksirini aktive ettin.",
       "stamina_used": "%1$sDayaniklik iksirini zaten icmissin (yan etkisi olur)!",
