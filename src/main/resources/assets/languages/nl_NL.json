@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sAl het stof in je kamer is opgeruimd. Yay.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sHet potion effect is opgeheven.",
       "stamina": "%1$sStamina is geactiveerd voor 5 mining sessies.",
       "stamina_used": "%1$s Je hebt al een actief uithoudingsvermogen effect!",
