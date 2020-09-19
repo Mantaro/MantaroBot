@@ -709,6 +709,8 @@ public class RelationshipCmds {
                 Date marriageDate = new Date(currentMarriage.getData().getMarriageCreationMillis());
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
+                var pet = currentMarriage.getData().getPet();
+
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
@@ -719,6 +721,21 @@ public class RelationshipCmds {
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
+                if(currentMarriage.getData().hasHouse())
+                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), currentMarriage.getData().getHouseName(), false);
+
+                if(currentMarriage.getData().hasCar())
+                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), currentMarriage.getData().getCarName(), false);
+
+                if(pet != null) {
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet"), pet.getType().getEmoji() + pet.getName(), false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet_type"), pet.getType().getName(), false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet_cost"), String.valueOf(pet.getType().getCost()), false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet_health"), String.valueOf(pet.getHealth()) + " / 100", false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet_stamina"), String.valueOf(pet.getStamina()) + " / 100", false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet_hunger"), String.valueOf(pet.getHunger()) + " / 100", false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet_thrist"), String.valueOf(pet.getThirst()) + " / 100", false);
+                }
 
                 ctx.send(embedBuilder.build());
             }
