@@ -67,7 +67,7 @@ import java.util.stream.Collectors;
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
-    private static final long waifuBaseValue = 1300L;
+    private static final long waifuBaseValue = 1000L;
     private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
     static Waifu calculateWaifuValue(User user) {
@@ -102,7 +102,7 @@ public class RelationshipCmds {
         //At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
         //to implement later: Reputation scaling is capped at 3.9k. Then at 6.5k the multiplier is applied.
         long reputation = waifuPlayer.getReputation();
-        double reputationScaling = (reputation / 4.5) / 20;
+        double reputationScaling = (reputation / 4.5) / 30;
         long finalValue = (long) (
                 Math.min (
                         Integer.MAX_VALUE,
@@ -110,8 +110,7 @@ public class RelationshipCmds {
                 )
         );
 
-        //waifu pp, yes btmcLewd
-        int divide = (int) (moneyValue / 1348);
+        int divide = (int) (moneyValue / 1300);
         performance = ((waifuValue - (waifuBaseValue + 450)) + (long) ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
         //possible?
         if (performance < 0)
