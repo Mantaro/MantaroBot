@@ -55,7 +55,7 @@ public class Items {
             TELEVISION, WRENCH, MOTORCYCLE, COMET_PICKAXE, STAR_PICKAXE, PIZZA, OLD_SPARKLE_FRAGMENT, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
             FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, COMET_ROD, STAR_ROD, OLD_SPARKLE_ROD, SPARKLE_PICKAXE, SPARKLE_FRAGMENT, SPARKLE_ROD, SHELL,
             SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
-            BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH;
+            BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH, PET_HOUSE;
 
     private static final Random r = new Random();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -178,9 +178,10 @@ public class Items {
             // ---------------------------------- 5.3 BROKEN ITEMS END HERE ----------------------------------
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
-            WATER_BOTTLE = new Item(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, false, false),
-            MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false)
-
+            WATER_BOTTLE = new Water(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true),
+            MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false),
+            // TODO: change emoji
+            PET_HOUSE = new Item(ItemType.PET, EmoteReference.HOUSE.getUnicode(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
     };
 
     public static void setItemActions() {
@@ -235,8 +236,7 @@ public class Items {
 
             if (item != null)
                 return Optional.of(item);
-        } catch (NumberFormatException ignored) {
-        }
+        } catch (NumberFormatException ignored) { }
 
         return fromAnyNoId(any);
     }

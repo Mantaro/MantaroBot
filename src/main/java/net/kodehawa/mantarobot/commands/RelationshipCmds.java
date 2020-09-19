@@ -24,6 +24,9 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.Food;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -58,11 +61,14 @@ import java.time.Instant;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
     private static final long waifuBaseValue = 1300L;
+    private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
     static Waifu calculateWaifuValue(User user) {
         final ManagedDatabase db = MantaroData.db();
@@ -461,6 +467,372 @@ public class RelationshipCmds {
                 } else {
                     ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
                 }
+            }
+        });
+
+        marryCommand.addSubCommand("buyhouse", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var housePrice = 5000;
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!playerInventory.containsItem(Items.HOUSE)) {
+                    ctx.sendLocalized("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(player.getCurrentMoney() < housePrice) {
+                    ctx.sendLocalized("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.buyhouse.no_name", EmoteReference.ERROR);
+                    return;
+                }
+
+                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, content);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
+                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if(!playerInventoryConfirmed.containsItem(Items.HOUSE)) {
+                            ctx.sendLocalized("commands.marry.buyhouse.no_house");
+                            return Operation.COMPLETED;
+                        }
+
+                        if(playerConfirmed.getCurrentMoney() < housePrice) {
+                            ctx.sendLocalized("commands.marry.buyhouse.not_enough_money");
+                            return Operation.COMPLETED;
+                        }
+
+                        playerInventoryConfirmed.process(new ItemStack(Items.HOUSE, -1));
+                        playerConfirmed.removeMoney(housePrice);
+
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setHasHouse(true);
+                        marriageConfirmed.getData().setHouseName(content);
+                        marriageConfirmed.save();
+
+                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.marry.buyhouse.cancel_success", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+        });
+
+        marryCommand.addSubCommand("buycar", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var carPrice = 1000;
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!playerInventory.containsItem(Items.CAR)) {
+                    ctx.sendLocalized("commands.marry.buycar.no_house", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(player.getCurrentMoney() < carPrice) {
+                    ctx.sendLocalized("commands.marry.buycar.not_enough_money", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.buycar.no_name", EmoteReference.ERROR);
+                    return;
+                }
+
+                ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, content);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
+                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if(!playerInventoryConfirmed.containsItem(Items.CAR)) {
+                            ctx.sendLocalized("commands.marry.buycar.no_car");
+                            return Operation.COMPLETED;
+                        }
+
+                        if(playerConfirmed.getCurrentMoney() < carPrice) {
+                            ctx.sendLocalized("commands.marry.buycar.not_enough_money");
+                            return Operation.COMPLETED;
+                        }
+
+                        playerInventoryConfirmed.process(new ItemStack(Items.CAR, -1));
+                        playerConfirmed.removeMoney(carPrice);
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setHasCar(true);
+                        marriageConfirmed.getData().setCarName(content);
+                        marriageConfirmed.save();
+
+                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.marry.buycar.cancel_success", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+        });
+
+        marryCommand.addSubCommand("buypet", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!playerInventory.containsItem(Items.PET_HOUSE)) {
+                    ctx.sendLocalized("commands.marry.buypet.no_house", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.buypet.no_type", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(marriage.getData().getPet() != null) {
+                    ctx.sendLocalized("commands.marry.buypet.already_has_pet", EmoteReference.ERROR);
+                    return;
+                }
+
+                HousePetType toBuy = HousePetType.lookupFromString(content);
+                if(toBuy == null) {
+                    ctx.sendLocalized("commands.marry.buypet.nothing_found", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(player.getCurrentMoney() < toBuy.getCost()) {
+                    ctx.sendLocalized("commands.marry.buypet.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
+                    return;
+                }
+
+
+                ctx.sendLocalized("commands.marry.buypet.confirm", EmoteReference.WARNING, content, toBuy.getCost());
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
+                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if(!playerInventory.containsItem(Items.PET_HOUSE)) {
+                            ctx.sendLocalized("commands.marry.buypet.no_house", EmoteReference.ERROR);
+                            return Operation.COMPLETED;
+                        }
+
+                        if(player.getCurrentMoney() < toBuy.getCost()) {
+                            ctx.sendLocalized("commands.marry.buypet.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
+                            return Operation.COMPLETED;
+                        }
+
+                        playerConfirmed.removeMoney(toBuy.getCost());
+                        playerInventoryConfirmed.process(new ItemStack(Items.PET_HOUSE, -1));
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setPet(new HousePet(content, toBuy));
+                        marriageConfirmed.save();
+
+                        ctx.sendLocalized("commands.marry.buypet.success", EmoteReference.POPPER, toBuy.getEmoji(), content, toBuy.getCost());
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.marry.buycar.cancel_success", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+        });
+
+        marryCommand.addSubCommand("feedpet", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var pet = marriage.getData().getPet();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(pet == null) {
+                    ctx.sendLocalized("commands.marry.feedpet.no_pet", EmoteReference.ERROR);
+                    return;
+                }
+
+                var item = Items.fromAnyNoId(content);
+                if(item.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.feedpet.no_item", EmoteReference.ERROR);
+                    return;
+                }
+
+                var itemObject = item.get();
+                if(!(itemObject instanceof Food)) {
+                    ctx.sendLocalized("commands.marry.feedpet.not_food", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(pet.getHunger() > 90) {
+                    ctx.sendLocalized("commands.marry.feedpet.no_need", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(playerInventory.containsItem(itemObject)) {
+                    ctx.sendLocalized("commands.marry.feedpet.not_inventory", EmoteReference.ERROR);
+                    return;
+                }
+
+                var food = (Food) itemObject;
+
+                pet.increaseHunger(food.getHungerLevel());
+                pet.increaseHealth();
+                pet.increaseStamina();
+
+                playerInventory.process(new ItemStack(itemObject, -1));
+                player.save();
+
+                marriage.save();
+                ctx.sendLocalized("commands.marry.feedpet.success", EmoteReference.ERROR, food.getHungerLevel(), pet.getHunger());
+            }
+        });
+
+        marryCommand.addSubCommand("waterpet", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var pet = marriage.getData().getPet();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(pet == null) {
+                    ctx.sendLocalized("commands.marry.waterpet.no_pet", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(pet.getThirst() > 90) {
+                    ctx.sendLocalized("commands.marry.waterpet.no_need", EmoteReference.ERROR);
+                    return;
+                }
+
+                var item = Items.WATER_BOTTLE;
+                if(playerInventory.containsItem(item)) {
+                    ctx.sendLocalized("commands.marry.waterpet.not_inventory", EmoteReference.ERROR);
+                    return;
+                }
+
+                pet.increaseThirst();
+                pet.increaseHealth();
+                pet.increaseStamina();
+
+                playerInventory.process(new ItemStack(item, -1));
+                player.save();
+
+                marriage.save();
+                ctx.sendLocalized("commands.marry.waterpet.success", EmoteReference.ERROR, pet.getThirst());
+            }
+        });
+
+        marryCommand.addSubCommand("timezone", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.timezone.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                String timezone = content;
+                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                    timezone = content.toUpperCase().replace("UTC", "GMT");
+
+                if (!Utils.isValidTimeZone(timezone)) {
+                    ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
+                    return;
+                }
+
+                try {
+                    UtilsCmds.dateGMT(ctx.getGuild(), timezone);
+                } catch (Exception e) {
+                    ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
+                    return;
+                }
+
+                marriage.getData().setTimezone(timezone);
+                marriage.save();
+                dbUser.save();
+                ctx.sendLocalized("commands.marry.timezone.success", EmoteReference.CORRECT, timezone);
             }
         });
 

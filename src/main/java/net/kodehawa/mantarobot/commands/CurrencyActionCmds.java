@@ -21,6 +21,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
@@ -34,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -90,6 +93,7 @@ public class CurrencyActionCmds {
 
                 final DBUser dbUser = ctx.getDBUser();
                 final UserData userData = dbUser.getData();
+                final Marriage marriage = userData.getMarriage();
 
                 final Inventory inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
@@ -128,6 +132,16 @@ public class CurrencyActionCmds {
                 String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
                 boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
+
+                HousePet pet = marriage.getData().getPet();
+                HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
+                if(ability.passed()) {
+                    hasPotion = true;
+                    money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                    message += "\n" + pet.buildMessage(ability, languageContext);
+                } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                    message += "\n" + pet.buildMessage(ability, languageContext);
+                }
 
                 //Diamond find
                 if (random.nextInt(400) > (hasPotion ? 290 : 350)) {
@@ -214,6 +228,7 @@ public class CurrencyActionCmds {
 
                 //Due to badges.
                 player.save();
+                marriage.save();
 
                 //Pick broke
                 //The same player gets thrown around here and there to avoid race conditions.
@@ -270,6 +285,7 @@ public class CurrencyActionCmds {
                 Player player = ctx.getPlayer();
                 SeasonPlayer seasonPlayer = ctx.getSeasonPlayer();
                 DBUser dbUser = ctx.getDBUser();
+                Marriage marriage = dbUser.getData().getMarriage();
                 Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
                 FishRod item;
 
@@ -327,6 +343,7 @@ public class CurrencyActionCmds {
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
+
                     int money = 0;
                     boolean buff = Items.handleEffect(PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), Items.FISHING_BAIT, dbUser);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
@@ -334,6 +351,16 @@ public class CurrencyActionCmds {
                         amount += random.nextInt(4);
 
                     fish.forEach((i1) -> fishItems.add(3, i1));
+
+                    HousePet pet = marriage.getData().getPet();
+                    HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
+                    if(ability.passed()) {
+                        buff = true; // Set hasPotion to true.
+                        money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                        extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                    } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                        extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                    }
 
                     //Basically more chance if you have a better rod.
                     if (select > (75 - nominalLevel))
@@ -416,6 +443,7 @@ public class CurrencyActionCmds {
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.fossil_success"), Items.SHELL.getEmoji());
                     }
 
+
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.
                     if (money == 0 && !foundFish) {
@@ -444,6 +472,8 @@ public class CurrencyActionCmds {
                 player.save();
                 if (isSeasonal)
                     seasonPlayer.save();
+
+                marriage.save(); // Save pet stats.
 
                 handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
             }
