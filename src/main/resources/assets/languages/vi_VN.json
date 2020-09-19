@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s Bạn đã (có thể) dọn sạch toàn bộ bụi bạn tích lũy từ các lần khai thác trước.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s Đã xóa bỏ hiệu ứng thuốc.",
       "stamina": "%1$s Kích hoạt thể lực cho 3 phiên khai thác.",
       "stamina_used": "%1$s Bạn đã bật hiệu ứng thể lực!",
