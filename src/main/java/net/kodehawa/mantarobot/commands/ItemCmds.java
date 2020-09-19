@@ -561,6 +561,16 @@ public class ItemCmds {
     }
 
     @Subscribe
+    public void salvage(CommandRegistry cr) {
+        cr.register("salvage", new SimpleCommand(CommandCategory.CURRENCY) {
+            @Override
+            protected void call(Context context, String content, String[] args) {
+
+            }
+        });
+    }
+
+    @Subscribe
     public void iteminfo(CommandRegistry registry) {
         registry.register("iteminfo", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
