@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sDu hast all der Staub, den du während deinen Minengängen gesammelt hast, weggewischt.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sTrankeffekte entfernt.",
       "stamina": "%1$sAusdauer für 3 Bergbaurunden aktiviert.",
       "stamina_used": "%1$sDu hast bereits den Ausdauereffekt aktiv!",
