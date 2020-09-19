@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s（恐らく）全ての埃を拭き取りました。",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s全てのポーション効果を解除しました。",
       "stamina": "%1$sActivated stamina for 3 mining sessions.",
       "stamina_used": "%1$sスタミナはすでに有効化されています。",
