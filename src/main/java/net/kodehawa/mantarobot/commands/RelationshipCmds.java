@@ -862,6 +862,7 @@ public class RelationshipCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
+                var marriageData = marriage.getData();
 
                 var args = ctx.getArguments();
 
@@ -878,13 +879,18 @@ public class RelationshipCmds {
                 var name = args[0];
                 var type = args[1];
 
+                if(!marriageData.hasCar() || !marriageData.hasHouse()) {
+                    ctx.sendLocalized("commands.pet.buy.no_requirements", EmoteReference.ERROR, marriageData.hasHouse(), marriageData.hasCar());
+                    return;
+                }
+
                 if(!playerInventory.containsItem(Items.PET_HOUSE)) {
                     ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                     return;
                 }
 
                 // TODO: Multiple pets.
-                if(marriage.getData().getPet() != null) {
+                if(marriageData.getPet() != null) {
                     ctx.sendLocalized("commands.pet.buy.already_has_pet", EmoteReference.ERROR);
                     return;
                 }
