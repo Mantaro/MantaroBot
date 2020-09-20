@@ -62,6 +62,9 @@ public class Utils {
     public static final Map<Long, AtomicInteger> ratelimitedUsers = new ConcurrentHashMap<>();
     public static final OkHttpClient httpClient = new OkHttpClient();
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
+    private final static String BLOCK_INACTIVE = "\u25AC";
+    private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
+    private static final int TOTAL_BLOCKS = 10;
 
     //The regex to filter discord invites.
     public static final Pattern DISCORD_INVITE = Pattern.compile(
@@ -688,6 +691,15 @@ public class Utils {
         }
 
         return null;
+    }
+
+    public static String getProgressBar(long now, long total) {
+        int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < TOTAL_BLOCKS; i++)
+            builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+
+        return builder.append(BLOCK_INACTIVE).toString();
     }
 
     public enum HushType {

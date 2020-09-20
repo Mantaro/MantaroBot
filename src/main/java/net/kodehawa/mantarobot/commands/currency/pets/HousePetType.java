@@ -16,9 +16,11 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum HousePetType {
     DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200),
@@ -26,7 +28,7 @@ public enum HousePetType {
     RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 4000, 30);
 
     public static enum HousePetAbility {
-        FISH, CATCH, CHEER
+        FISH, CATCH, CHEER;
     }
 
     public static enum PatReaction {
@@ -74,6 +76,10 @@ public enum HousePetType {
 
     public int getMaxCoinBuildup() {
         return maxCoinBuildup;
+    }
+
+    public String getStringAbilities() {
+        return getAbilities().stream().map(ability -> Utils.capitalize(ability.toString().toLowerCase())).collect(Collectors.joining(", "));
     }
 
     /**

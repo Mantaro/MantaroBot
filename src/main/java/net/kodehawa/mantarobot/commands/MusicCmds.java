@@ -232,7 +232,7 @@ public class MusicCmds {
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                        .setDescription("\n\u23ef " + AudioCmdUtils.getProgressBar(now, total) + "\n\n" +
+                        .setDescription("\n\u23ef " + Utils.getProgressBar(now, total) + "\n\n" +
                                 "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
                                 .getInfo().title + "]"
                                 + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()

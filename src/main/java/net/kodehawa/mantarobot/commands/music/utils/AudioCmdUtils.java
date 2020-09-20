@@ -45,9 +45,6 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
-    private final static String BLOCK_INACTIVE = "\u25AC";
-    private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
-    private static final int TOTAL_BLOCKS = 10;
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
 
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
@@ -291,15 +288,6 @@ public class AudioCmdUtils {
 
         //Nothing to connect to, but pass true so we can load the song (for example, it's already connected)
         return completedFuture(true);
-    }
-
-    public static String getProgressBar(long now, long total) {
-        int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < TOTAL_BLOCKS; i++)
-            builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
-
-        return builder.append(BLOCK_INACTIVE).toString();
     }
 
     private static void joinVoiceChannel(JdaLink manager, VoiceChannel channel) {

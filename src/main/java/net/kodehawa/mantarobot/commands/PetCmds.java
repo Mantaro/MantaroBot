@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
@@ -77,6 +78,62 @@ public class PetCmds {
 
         cr.registerAlias("pet", "pets");
         pet.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+
+        pet.addSubCommand("status", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows the status of your current pet.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var pet = marriage.getData().getPet();
+
+                if(marriage == null || pet == null) {
+                    ctx.sendLocalized("commands.pet.status.no_pet_or_marriage");
+                    return;
+                }
+
+                var language = ctx.getLanguageContext();
+
+                EmbedBuilder status = new EmbedBuilder()
+                        .setAuthor(String.format(language.get("commands.pet.status.header"), pet.getName()), ctx.getUser().getEffectiveAvatarUrl())
+                        .setDescription(language.get("commands.pet.status.description"))
+                        .addField(EmoteReference.MONEY + "commands.pet.status.cost",
+                                String.valueOf(pet.getType().getCost()), true
+                        )
+                        .addField(EmoteReference.ZAP + "commands.pet.status.type",
+                                pet.getType().getEmoji() + pet.getType().getName(), true
+                        )
+                        .addField(EmoteReference.WRENCH + "commands.pet.status.abilities",
+                                pet.getType().getStringAbilities(), false
+                        )
+                        .addField(language.get(EmoteReference.ZAP + "commands.pet.status.level"),
+                                pet.getLevel() + "(XP: " + pet.getExperience() + ")\n" +
+                                        Utils.getProgressBar(pet.getExperience(), (long) pet.experienceToNextLevel()), true
+                        )
+                        .addField(language.get(EmoteReference.HEART + "commands.pet.status.health"),
+                                pet.getHealth() + " / 100\n" +
+                                        Utils.getProgressBar(pet.getHealth(), 100), false
+                        )
+                        .addField(language.get(EmoteReference.DROPLET + "commands.pet.status.thrist"),
+                                pet.getThirst() + " / 100\n" +
+                                        Utils.getProgressBar(pet.getThirst(), 100), false
+                        )
+                        .addField(language.get(EmoteReference.CHOCOLATE + "commands.pet.status.hunger"),
+                                pet.getHunger() + " / 100\n" +
+                                        Utils.getProgressBar(pet.getHealth(), 100), false
+                        )
+                        .addField(language.get(EmoteReference.BLUE_HEART + "commands.pet.status.pet"),
+                                String.valueOf(pet.getPatCounter()), false
+                        )
+                        .setFooter(language.get("commands.pet.status.footer"));
+
+                ctx.send(status.build());
+            }
+        });
 
         pet.addSubCommand("pet", new SubCommand() {
             @Override
