@@ -874,6 +874,7 @@ public class RelationshipCmds {
 
                 var args = ctx.getArguments();
 
+                // TODO: personal pets?
                 if(marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
@@ -957,6 +958,49 @@ public class RelationshipCmds {
 
                     return Operation.IGNORED;
                 });
+            }
+        });
+
+        pet.addSubCommand("rename", new SubCommand() {
+            @Override
+            public String description() {
+                return "Renames your pet. Usage: `~>pet rename <name>`";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var pet = marriage.getData().getPet();
+                var cost = 3000;
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(pet == null) {
+                    ctx.sendLocalized("commands.pet.rename.no_pet", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.pet.rename.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(player.getCurrentMoney() < cost) {
+                    ctx.sendLocalized("commands.pet.rename.not_enough_money", EmoteReference.ERROR, cost, player.getCurrentMoney());
+                    return;
+                }
+
+                var oldName = pet.getName();
+                pet.setName(content);
+                marriage.save();
+                player.save();
+
+                ctx.sendLocalized("commands.pet.rename.success", EmoteReference.POPPER, oldName, content, cost);
             }
         });
 
