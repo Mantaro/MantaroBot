@@ -37,6 +37,8 @@ import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.cache.EvictingCachePolicy;
+import net.kodehawa.mantarobot.core.cache.EvictionStrategy;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -71,6 +73,7 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.core.cache.EvictionStrategy.leastRecentlyUsed;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
@@ -201,7 +204,7 @@ public class MantaroCore {
             var shardStartListener = new ShardStartListener();
 
             DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
-                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setMemberCachePolicy(new EvictingCachePolicy(leastRecentlyUsed(config.memberCacheSize)))
                     // Can't do chunking with Gateway Intents enabled, fun, but don't need it anymore.
                     .setChunkingFilter(ChunkingFilter.NONE)
                     .setSessionController(controller)

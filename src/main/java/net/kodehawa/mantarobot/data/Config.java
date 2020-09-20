@@ -57,6 +57,7 @@ public class Config {
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean lazyLoading = false;
+    public int memberCacheSize = 1_000_000;
 
     public Config() { }
 
