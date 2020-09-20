@@ -34,6 +34,8 @@ public class HousePet {
     private int hunger = 100;
     private int thirst = 100;
     private int patCounter;
+    private long experience;
+    private long level = 1;
 
     public HousePet(String name, HousePetType type) {
         this.name = name;
@@ -128,6 +130,29 @@ public class HousePet {
         this.patCounter += 1;
     }
 
+    public long getExperience() {
+        return experience;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+
+    public long getLevel() {
+        return level;
+    }
+
+    public void setLevel(long level) {
+        this.level = level;
+    }
+
+    public void increaseExperience() {
+        this.experience += random.nextInt(15);
+        var toNextLevel = (getLevel() * Math.log10(getLevel()) * 1000) + (50 * getLevel() / 2D);
+        if (experience > toNextLevel)
+            level += 1;
+    }
+
     public boolean isSleepy(String timezone) {
         var format = new SimpleDateFormat("HH");
         var tz = TimeZone.getTimeZone(timezone);
@@ -159,6 +184,7 @@ public class HousePet {
         decreaseHealth();
         decreaseHunger();
         decreaseThirst();
+        increaseExperience();
 
         return ActivityResult.PASS;
     }
