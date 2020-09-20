@@ -282,10 +282,12 @@ public class MantaroCore {
                 builder.setGatewayPool(Executors.newScheduledThreadPool(gatewayThreads, gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(rateLimitThreads, requesterThreadFactory), true);
             }
+
             //if this isn't true we have a big problem
             if(shardIds.size() != latchCount) {
                 throw new IllegalStateException("Shard ids list must have the same size as latch count");
             }
+
             builder.setMemberCachePolicy(new EvictingCachePolicy(
                     shardIds, () -> leastRecentlyUsed(config.memberCacheSize)
             ));
