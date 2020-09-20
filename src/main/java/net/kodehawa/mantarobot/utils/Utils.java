@@ -702,6 +702,16 @@ public class Utils {
         return builder.append(BLOCK_INACTIVE).toString();
     }
 
+    public static String getProgressBar(long now, long total, long blocks) {
+        int activeBlocks = (int) ((float) now / total * blocks);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < blocks; i++)
+            builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+
+        return builder.append(BLOCK_INACTIVE).toString();
+    }
+
+
     public enum HushType {
         ANIME, CHARACTER, MUSIC
     }

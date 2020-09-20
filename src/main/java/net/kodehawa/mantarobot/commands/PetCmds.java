@@ -101,33 +101,46 @@ public class PetCmds {
                 EmbedBuilder status = new EmbedBuilder()
                         .setAuthor(String.format(language.get("commands.pet.status.header"), pet.getName()), ctx.getUser().getEffectiveAvatarUrl())
                         .setDescription(language.get("commands.pet.status.description"))
-                        .addField(EmoteReference.MONEY + "commands.pet.status.cost",
-                                String.valueOf(pet.getType().getCost()), true
+                        .addField(
+                                EmoteReference.MONEY + "commands.pet.status.cost",
+                                String.valueOf(pet.getType().getCost()),
+                                true
                         )
-                        .addField(EmoteReference.ZAP + "commands.pet.status.type",
-                                pet.getType().getEmoji() + pet.getType().getName(), true
+                        .addField(
+                                EmoteReference.ZAP + "commands.pet.status.type",
+                                pet.getType().getEmoji() + pet.getType().getName(),
+                                true
                         )
-                        .addField(EmoteReference.WRENCH + "commands.pet.status.abilities",
-                                pet.getType().getStringAbilities(), false
+                        .addField(
+                                EmoteReference.WRENCH + "commands.pet.status.abilities",
+                                pet.getType().getStringAbilities(),
+                                false
                         )
-                        .addField(language.get(EmoteReference.ZAP + "commands.pet.status.level"),
+                        .addField(
+                                language.get(EmoteReference.ZAP + "commands.pet.status.level"),
                                 pet.getLevel() + "(XP: " + pet.getExperience() + ")\n" +
-                                        Utils.getProgressBar(pet.getExperience(), (long) pet.experienceToNextLevel()), true
+                                        Utils.getProgressBar(pet.getExperience(), (long) pet.experienceToNextLevel(), 5),
+                                true
                         )
-                        .addField(language.get(EmoteReference.HEART + "commands.pet.status.health"),
-                                pet.getHealth() + " / 100\n" +
-                                        Utils.getProgressBar(pet.getHealth(), 100), false
+                        .addField(
+                                language.get(EmoteReference.HEART + "commands.pet.status.health"),
+                                pet.getHealth() + " / 100\n" + Utils.getProgressBar(pet.getHealth(), 100, 5),
+                                false
                         )
-                        .addField(language.get(EmoteReference.DROPLET + "commands.pet.status.thrist"),
-                                pet.getThirst() + " / 100\n" +
-                                        Utils.getProgressBar(pet.getThirst(), 100), false
+                        .addField(
+                                language.get(EmoteReference.DROPLET + "commands.pet.status.thrist"),
+                                pet.getThirst() + " / 100\n" + Utils.getProgressBar(pet.getThirst(), 100, 5),
+                                false
                         )
-                        .addField(language.get(EmoteReference.CHOCOLATE + "commands.pet.status.hunger"),
-                                pet.getHunger() + " / 100\n" +
-                                        Utils.getProgressBar(pet.getHealth(), 100), false
+                        .addField(
+                                language.get(EmoteReference.CHOCOLATE + "commands.pet.status.hunger"),
+                                pet.getHunger() + " / 100\n" + Utils.getProgressBar(pet.getHealth(), 100, 5),
+                                false
                         )
-                        .addField(language.get(EmoteReference.BLUE_HEART + "commands.pet.status.pet"),
-                                String.valueOf(pet.getPatCounter()), false
+                        .addField(
+                                language.get(EmoteReference.BLUE_HEART + "commands.pet.status.pet"),
+                                String.valueOf(pet.getPatCounter()),
+                                false
                         )
                         .setFooter(language.get("commands.pet.status.footer"));
 
