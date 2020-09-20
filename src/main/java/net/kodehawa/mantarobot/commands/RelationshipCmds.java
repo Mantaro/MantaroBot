@@ -626,6 +626,17 @@ public class RelationshipCmds {
             }
         });
 
+        IncreasingRateLimiter tzRatelimit = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(2, TimeUnit.DAYS)
+                .maxCooldown(2, TimeUnit.DAYS)
+                .randomIncrement(false)
+                .premiumAware(false)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("marriage-tz")
+                .build();
+
         marryCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             public String description() {
@@ -660,6 +671,10 @@ public class RelationshipCmds {
                     UtilsCmds.dateGMT(ctx.getGuild(), timezone);
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!Utils.handleIncreasingRatelimit(tzRatelimit, ctx.getAuthor(), ctx)) {
                     return;
                 }
 

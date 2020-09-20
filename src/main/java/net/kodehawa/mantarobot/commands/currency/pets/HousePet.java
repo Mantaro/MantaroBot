@@ -146,6 +146,7 @@ public class HousePet {
         this.level = level;
     }
 
+    @JsonIgnore
     public void increaseExperience() {
         this.experience += random.nextInt(15);
         var toNextLevel = (getLevel() * Math.log10(getLevel()) * 1000) + (50 * getLevel() / 2D);
@@ -153,6 +154,7 @@ public class HousePet {
             level += 1;
     }
 
+    @JsonIgnore
     public boolean isSleepy(String timezone) {
         var format = new SimpleDateFormat("HH");
         var tz = TimeZone.getTimeZone(timezone);
@@ -161,6 +163,7 @@ public class HousePet {
         return Integer.parseInt(format.toString()) > 23 || Integer.parseInt(format.toString()) < 6;
     }
 
+    @JsonIgnore
     public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility, String marriageTz) {
         if(!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
@@ -189,10 +192,12 @@ public class HousePet {
         return ActivityResult.PASS;
     }
 
+    @JsonIgnore
     public String buildMessage(ActivityResult result, I18nContext language) {
         return String.format(language.get(result.getLanguageString()), getType().getEmoji(), getType().getName(), getName());
     }
 
+    @JsonIgnore
     public HousePetType.PatReaction handlePat() {
         if(getType() == HousePetType.CAT) {
             return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;
@@ -200,7 +205,6 @@ public class HousePet {
 
         return HousePetType.PatReaction.CUTE;
     }
-
 
     public static enum ActivityResult {
         LOW_STAMINA(false, "commands.pet.activity.low_stamina"),
