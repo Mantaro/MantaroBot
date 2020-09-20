@@ -574,6 +574,12 @@
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership"
       },
+      "timezone": {
+        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
+        "not_married": "%1$sYou're not married.",
+        "invalid": "%1$sNot a valid timezone or Zone ID.",
+        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+      },
       "no_mention": "%1$sMention the user you want to marry.",
       "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
       "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
