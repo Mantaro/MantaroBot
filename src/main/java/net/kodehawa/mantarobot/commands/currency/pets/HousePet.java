@@ -168,13 +168,13 @@ public class HousePet {
 
 
     public static enum ActivityResult {
-        LOW_STAMINA(false, "general.pets.activity.low_stamina"),
-        LOW_HEALTH(false, "general.pets.activity.low_health"),
-        LOW_HUNGER(false, "general.pets.activity.low_hunger"),
-        LOW_THRIST(false, "general.pets.activity.low_thrist"),
-        SLEEPY(false, "general.pets.activity.sleepy"),
+        LOW_STAMINA(false, "commands.pet.activity.low_stamina"),
+        LOW_HEALTH(false, "commands.pet.activity.low_health"),
+        LOW_HUNGER(false, "commands.pet.activity.low_hunger"),
+        LOW_THRIST(false, "commands.pet.activity.low_thrist"),
+        SLEEPY(false, "commands.pet.activity.sleepy"),
         NO_ABILITY(false, ""), // No need, as it'll just be skipped.
-        PASS(true, "general.pets.activity.success");
+        PASS(true, "commands.pet.activity.success");
 
         boolean pass;
         String i18n;

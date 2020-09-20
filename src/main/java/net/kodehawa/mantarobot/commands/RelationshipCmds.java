@@ -904,7 +904,7 @@ public class RelationshipCmds {
                 }
 
                 if(player.getCurrentMoney() < toBuy.getCost()) {
-                    ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
+                    ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost(), player.getCurrentMoney());
                     return;
                 }
 
@@ -938,7 +938,7 @@ public class RelationshipCmds {
                         marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.pet.buy.success", EmoteReference.POPPER, toBuy.getEmoji(), content, toBuy.getCost());
+                        ctx.sendLocalized("commands.pet.buy.success", EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), content, toBuy.getCost());
                         return Operation.COMPLETED;
                     }
 
@@ -976,6 +976,11 @@ public class RelationshipCmds {
                     return;
                 }
 
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.pet.feed.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
                 var item = Items.fromAnyNoId(content);
                 if(item.isEmpty()) {
                     ctx.sendLocalized("commands.pet.feed.no_item", EmoteReference.ERROR);
@@ -1010,7 +1015,7 @@ public class RelationshipCmds {
                 player.save();
 
                 marriage.save();
-                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.ERROR, food.getHungerLevel(), pet.getHunger());
+                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.ERROR, food.getName(), food.getHungerLevel(), pet.getHunger());
             }
         });
 
@@ -1057,7 +1062,7 @@ public class RelationshipCmds {
                 player.save();
 
                 marriage.save();
-                ctx.sendLocalized("commands.pet.water.success", EmoteReference.ERROR, pet.getThirst());
+                ctx.sendLocalized("commands.pet.water.success", EmoteReference.ERROR, 15, pet.getThirst());
             }
         });
     }
