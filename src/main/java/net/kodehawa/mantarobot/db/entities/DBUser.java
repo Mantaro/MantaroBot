@@ -111,6 +111,9 @@ public class DBUser implements ManagedObject {
                 //Handle this so we don't go over this check again. Remove premium key from user object.
                 removePremiumKey(key.getId());
 
+                // Send a message if the user was premium but the key expired.
+                // This has a 5-day leeway. This means it won't kill your key if the day of the month is before or the 5th of X month.
+                // This is because Patreon can take up to the 5th to process pledges.
                 if(key.getOwner().equals(getId())) {
                     MantaroBot.getInstance().getShardManager()
                             .retrieveUserById(key.getOwner())
@@ -126,8 +129,10 @@ public class DBUser implements ManagedObject {
 
                 }
 
+                // Delete key.
                 key.delete();
-                //User is not premium.
+
+                // User is not premium.
                 return false;
             }
 
