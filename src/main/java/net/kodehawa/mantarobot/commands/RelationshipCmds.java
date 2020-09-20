@@ -846,7 +846,15 @@ public class RelationshipCmds {
                 }
 
                 String message = pet.handlePat().getMessage();
-                ctx.sendLocalized(message, pet.getType().getEmoji());
+                String extraMessage = "";
+                if(pet.getPatCounter() > 100) {
+                    extraMessage += "\n" + ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100");
+                }
+
+                pet.increasePats();
+                marriage.save();
+
+                ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getPatCounter() + extraMessage);
             }
         });
 

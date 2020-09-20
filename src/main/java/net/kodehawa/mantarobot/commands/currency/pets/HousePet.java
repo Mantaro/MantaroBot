@@ -33,6 +33,7 @@ public class HousePet {
     private int health = 100;
     private int hunger = 100;
     private int thirst = 100;
+    private int patCounter;
 
     public HousePet(String name, HousePetType type) {
         this.name = name;
@@ -117,6 +118,14 @@ public class HousePet {
 
     public void setThirst(int thirst) {
         this.thirst = thirst;
+    }
+
+    public int getPatCounter() {
+        return patCounter;
+    }
+
+    public void increasePats() {
+        this.patCounter += 1;
     }
 
     public boolean isSleepy(String timezone) {

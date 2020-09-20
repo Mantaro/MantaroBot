@@ -1258,9 +1258,10 @@
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
-        "cute": "%1$sYour pet happily wags their tail as you caress their head.",
-        "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up.",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden?"
+        "cute": "%1$sYour pet happily wags their tail as you caress their head. Pat counter: %2$s.%3$s",
+        "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. Pat counter: %2$s.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? Pat counter: %2$s.%3$s",
+        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
