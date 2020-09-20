@@ -56,7 +56,7 @@ public class Config {
     public String excludeAddress = "";
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
-    public boolean lazyLoading = false;
+    public boolean isSelfHost = false;
     public int memberCacheSize = 100_000;
 
     public Config() { }
@@ -209,7 +209,11 @@ public class Config {
         return this.dailyMaxPeriodMilliseconds;
     }
 
-    public boolean isLazyLoading() {
-        return lazyLoading;
+    public boolean isSelfHost() {
+        return isSelfHost;
+    }
+
+    public void setSelfHost(boolean selfHost) {
+        isSelfHost = selfHost;
     }
 }
