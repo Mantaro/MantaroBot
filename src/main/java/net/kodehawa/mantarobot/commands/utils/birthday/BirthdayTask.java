@@ -149,14 +149,12 @@ public class BirthdayTask {
 
                                 if (!member.getRoles().contains(birthdayRole)) {
                                     try {
+                                        log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason(modLogMessage)
-                                                .queue(s -> {
-                                                    birthdayAnnouncerText.append(birthdayMessage).append("\n");
-                                                    Metrics.BIRTHDAY_COUNTER.inc();
-                                                });
+                                                .queue(s -> Metrics.BIRTHDAY_COUNTER.inc());
 
-                                        log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
+                                        birthdayAnnouncerText.append(birthdayMessage).append("\n");
                                         membersAssigned++;
                                         birthdayNumber++;
                                         //Something went boom, ignore and continue
@@ -172,6 +170,7 @@ public class BirthdayTask {
                                         guild.removeRoleFromMember(member, birthdayRole)
                                                 .reason(modLogMessage)
                                                 .queue();
+
                                         membersDivested++;
                                         //Something went boom, ignore and continue
                                     } catch (Exception e) {
@@ -199,8 +198,7 @@ public class BirthdayTask {
                                 guildData.setNotifiedFromBirthdayChange(true);
                                 dbGuild.save();
 
-                                birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
-                                        .forEach(message -> channel.sendMessage(message).queue());
+                                birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
                             } //If it was notified, no need.
                         }
 
