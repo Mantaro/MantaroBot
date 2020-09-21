@@ -48,10 +48,10 @@ public class BirthdayTask {
     public static void handle(int shardId) {
         try {
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
-            //There's no cache to be seen here
+            // There's no cache to be seen here
             if (cache == null)
                 return;
-            //We haven't finished caching all members, somehow?
+            // We haven't finished caching all members, somehow?
             if (!cache.isDone)
                 return;
 
@@ -59,7 +59,7 @@ public class BirthdayTask {
             int membersDivested = 0;
 
             JDA jda = MantaroBot.getInstance().getShardManager().getShardById(shardId);
-            if(jda == null) //To be fair, this shouldn't be possible as it only starts it with the shards it knows...
+            if(jda == null) // To be fair, this shouldn't be possible as it only starts it with the shards it knows...
                 return;
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
@@ -72,11 +72,11 @@ public class BirthdayTask {
             Map<String, BirthdayCacher.BirthdayData> cached = cache.cachedBirthdays;
             SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
 
-            //For all current -cached- guilds.
+            // For all current -cached- guilds.
             for (Guild guild : guilds) {
                 DBGuild dbGuild = MantaroData.db().getGuild(guild);
                 GuildData guildData = dbGuild.getData();
-                //If we have a birthday guild and channel here, continue
+                // If we have a birthday guild and channel here, continue
                 if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
                     Role birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
                     TextChannel channel = guild.getTextChannelById(guildData.getBirthdayChannel());
@@ -114,11 +114,12 @@ public class BirthdayTask {
 
                             String birthday = data.getValue().birthday;
 
-                            //shut up warnings
+                            // shut up warnings
                             if (member == null) {
                                 nullMembers.add(data.getKey());
                                 continue;
                             }
+
                             if(guildData.getBirthdayBlockedIds().contains(member.getId()))
                                 continue;
 
@@ -140,8 +141,10 @@ public class BirthdayTask {
                                         member.getEffectiveName());
 
                                 if (guildData.getBirthdayMessage() != null) {
-                                    tempBirthdayMessage = guildData.getBirthdayMessage().replace("$(user)", member.getEffectiveName())
-                                            .replace("$(usermention)", member.getAsMention());
+                                    tempBirthdayMessage = guildData.getBirthdayMessage()
+                                            .replace("$(user)", member.getEffectiveName())
+                                            .replace("$(usermention)", member.getAsMention())
+                                            .replace("$(tag)", member.getUser().getAsTag());
                                 }
 
                                 //Variable used in lambda expression should be final or effectively final...
@@ -158,8 +161,7 @@ public class BirthdayTask {
                                         birthdayAnnouncerText.append(birthdayMessage).append("\n");
                                         membersAssigned++;
                                         birthdayNumber++;
-                                        //Something went boom, ignore and continue
-                                    } catch (Exception e) {
+                                    } catch (Exception e) { //Something went boom, ignore and continue
                                         log.debug("Something went boom while assigning a birthday role?...", e);
                                     }
                                 }
@@ -173,8 +175,7 @@ public class BirthdayTask {
                                                 .queue();
 
                                         membersDivested++;
-                                        //Something went boom, ignore and continue
-                                    } catch (Exception e) {
+                                    } catch (Exception e) { //Something went boom, ignore and continue
                                         log.debug("Something went boom while removing a birthday role?...", e);
                                     }
                                 }
@@ -201,6 +202,7 @@ public class BirthdayTask {
                             } //If it was notified, no need.
                         }
 
+                        // If any of the member lookups to discord returned null, remove them.
                         if(!nullMembers.isEmpty()) {
                             guildData.getAllowedBirthdays().removeAll(nullMembers);
                             dbGuild.save();
