@@ -488,7 +488,7 @@ public class GuildOptions extends OptionHandler {
 
 
         //region joinmessage
-        registerOption("usermessage:joinmessage:reset", "Reset join message",
+        registerOption("usermessage:resetjoinmessage", "Reset join message",
                 "Resets the join message", "Resets the join message.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
@@ -497,7 +497,7 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_joinmessage_reset.success"), EmoteReference.CORRECT).queue();
                 });//endregion
-        addOptionAlias("usermessage:joinmessage:reset", "joinmessage:reset");
+        addOptionAlias("usermessage:resetjoinmessage", "resetjoinmessage");
 
 
         //region leavemessage
@@ -521,7 +521,7 @@ public class GuildOptions extends OptionHandler {
         addOptionAlias("usermessage:leavemessage", "leavemessage");
 
         //region joinmessage
-        registerOption("usermessage:leavemessage:reset", "Reset leave message",
+        registerOption("usermessage:resetleavemessage", "Reset leave message",
                 "Resets the leave message","Resets the leave message.", (event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
@@ -530,7 +530,7 @@ public class GuildOptions extends OptionHandler {
                     dbGuild.save();
                     event.getChannel().sendMessageFormat(lang.get("options.usermessage_leavemessage_reset.success"), EmoteReference.CORRECT).queue();
                 });//endregion
-        addOptionAlias("usermessage:leavemessage:reset", "leavemessage:reset");
+        addOptionAlias("usermessage:resetleavemessage", "resetleavemessage");
 
 
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
