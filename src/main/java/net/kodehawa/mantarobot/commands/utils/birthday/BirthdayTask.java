@@ -152,8 +152,9 @@ public class BirthdayTask {
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         guild.addRoleToMember(member, birthdayRole)
                                                 .reason(modLogMessage)
-                                                .queue(s -> Metrics.BIRTHDAY_COUNTER.inc());
+                                                .queue();
 
+                                        Metrics.BIRTHDAY_COUNTER.inc();
                                         birthdayAnnouncerText.append(birthdayMessage).append("\n");
                                         membersAssigned++;
                                         birthdayNumber++;
@@ -183,9 +184,7 @@ public class BirthdayTask {
                         if(birthdayNumber != 0) {
                             // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
                             // This is to avoid spamming calls to Discord.
-                            birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
-                                    .forEach(message -> channel.sendMessage(message).queue());
-
+                            birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
                         } else {
                             if(!guildData.isNotifiedFromBirthdayChange()) {
                                 birthdayAnnouncerText.append("\n")
