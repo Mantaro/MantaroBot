@@ -185,7 +185,7 @@ public class Items {
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false),
             // ---------------------------------- 5.7 PET ITEMS START HERE ----------------------------------
             // TODO: change emojis
-            PET_HOUSE = new Item(ItemType.PET, EmoteReference.HOUSE.getUnicode(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
+            PET_HOUSE = new Item(ItemType.PET, "", "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
             STEAK = new Food(10, "", "Steak", "items.steak", "items.description.steak", 170, true),
             CHICKEN = new Food(10, "", "Chicken", "items.chicken", "items.description.chicken", 130, true),
             MILK_2 = new Food(10, "", "Milk Bottle", "items.milk_bottle", "items.description.milk_bottle", 97, true),
@@ -204,7 +204,7 @@ public class Items {
             //TODO: recipe
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.00001f, 3, 1, "", "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe", 15000, true, false, "1;3;2;10", Collections.emptyList(), 450, 10, 83, 18, 101),
             MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3, 4, "", "Moon Rod", "items.moon_rod", "items.description.moon_rod", 800, "1;3;1;3", List.of(44, 18), 250, 44, 74, 18, 101),
-            HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 450, 18, 48, 70, 49, 71, 74, 75, 101, 76),
+            HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, "", "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 450, 18, 48, 70, 49, 71, 74, 75, 101, 76),
     };
 
     public static void setItemActions() {
