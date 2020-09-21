@@ -492,6 +492,16 @@ public class CurrencyActionCmds {
         });
     }
 
+    @Subscribe
+    public void chop(CommandRegistry cr) {
+        cr.register("chop", new SimpleCommand(CommandCategory.CURRENCY) {
+            @Override
+            protected void call(Context context, String content, String[] args) {
+
+            }
+        });
+    }
+
     private void handleRodBreak(Item item, Context ctx, Player p, DBUser u, SeasonPlayer sp, boolean isSeasonal) {
         Pair<Boolean, Player> breakage = handleDurability(ctx, item, p, u, sp, isSeasonal);
         if (!breakage.getKey())

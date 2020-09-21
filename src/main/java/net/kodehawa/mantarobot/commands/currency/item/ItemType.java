@@ -54,7 +54,12 @@ public enum ItemType {
 
     //Pet items don't appear in the normal market.
     PET(true),
-    PET_FOOD(false);
+    PET_FOOD(false),
+
+    FOOD(false),
+
+    CHOP_AXE(true),
+    CHOP_RARE_AXE(true);
 
     private boolean cast;
 

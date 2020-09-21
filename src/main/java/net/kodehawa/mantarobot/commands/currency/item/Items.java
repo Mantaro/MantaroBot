@@ -55,7 +55,9 @@ public class Items {
             TELEVISION, WRENCH, MOTORCYCLE, COMET_PICKAXE, STAR_PICKAXE, PIZZA, OLD_SPARKLE_FRAGMENT, GEM5_PICKAXE, MINE_CRATE, FISH_CRATE,
             FISH_PREMIUM_CRATE, MINE_PREMIUM_CRATE, COMET_ROD, STAR_ROD, OLD_SPARKLE_ROD, SPARKLE_PICKAXE, SPARKLE_FRAGMENT, SPARKLE_ROD, SHELL,
             SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
-            BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH, PET_HOUSE;
+            BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH, STEAK,
+            CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
+            MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE;
 
     private static final Random r = new Random();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -139,12 +141,12 @@ public class Items {
             COFFEE = new Item(ItemType.COMMON, "\u2615", "Coffee", "items.coffee", "items.description.coffee", 10, true),
             WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a", "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill", 670, true),
             FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B", "Fishing Bait", "items.bait", "items.description.bait", 15, true),
-            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 100, true, false, "1;2", Collections.singletonList(18), 150, 10, 18),
+            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f, 1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(), "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick", 100, true, false, "1;3;7", Collections.singletonList(18), 150, 10, 18, 101),
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA", "Television", "items.tv", "items.description.tv", 45, true),
             WRENCH = new Wrench(ItemType.WRENCH, 65, 1, 1.0d, "\ud83d\udd27", "Wrench", "items.wrench", "items.description.wrench", 50, true),
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD", "Motorcycle", "items.motorcycle", "items.description.motorcycle", 150, true),
-            COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2", Collections.singletonList(48), 160, 10, 48),
-            STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2", Collections.singletonList(49), 210, 10, 49),
+            COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2;7", Collections.singletonList(48), 160, 10, 48, 101),
+            STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2;7", Collections.singletonList(49), 210, 10, 49, 101),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55", "Pizza", "items.pizza", "items.description.pizza", 15, true, false),
             OLD_SPARKLE_FRAGMENT = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
             GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf", "Old Sparkly Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
@@ -153,12 +155,12 @@ public class Items {
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(), "Fish Treasure", "items.fish_crate", "items.description.fish_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3, season)),
             FISH_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_FISH_CRATE.getDiscordNotation(), "Fish Premium Treasure", "items.fish_premium_crate", "items.description.fish_premium_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.FISH_PREMIUM, 68, EmoteReference.PREMIUM_FISH_CRATE, 5, season)),
             MINE_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_MINE_CRATE.getDiscordNotation(), "Gem Premium Crate", "items.mine_premium_crate", "items.description.mine_premium_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5, season)),
-            COMET_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3", List.of(90, 44), 90, 44, 48),
-            STAR_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3", List.of(130, 44), 130, 44, 49),
+            COMET_ROD = new FishRod(ItemType.CAST_FISH, 6, 1, 15, EmoteReference.COMET_ROD.getDiscordNotation(), "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod", 150, "1;3;3", List.of(90, 44, 101), 90, 44, 48, 101),
+            STAR_ROD = new FishRod(ItemType.CAST_FISH, 9, 2, 10, EmoteReference.STAR_ROD.getDiscordNotation(), "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod", 250, "1;3;3", List.of(130, 44, 101), 130, 44, 49, 101),
             OLD_SPARKLE_ROD = new FishRod(ItemType.COMMON, 3, -1, -1, "\uD83C\uDFA3", "Old Sparkly Rod", "general.deprecated", "general.deprecated", 65, "", Collections.emptyList(), 2),
-            SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1", List.of(74, 10), 450, 10, 74, 18),
+            SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f, 3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(), "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick", 1200, true, false, "1;3;1;7", List.of(74, 10), 450, 10, 74, 18, 101),
             SPARKLE_FRAGMENT = new Item(ItemType.MINE_RARE, "\u2728", "Sparkle Fragment", "items.sparkle", "items.description.sparkle", 605, false),
-            SPARKLE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1", List.of(44, 18), 250, 44, 74, 18),
+            SPARKLE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod", 800, "1;3;1;3", List.of(44, 18, 101), 250, 44, 74, 18, 101),
             SHELL = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A", "Shell", "items.shell", "items.description.shell", 1150, false),
             SHARK = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88", "Shark", "items.shark", "items.description.shark", 600, false),
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 90, 3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(), "Comet Wrench", "items.star_wrench", "items.description.star_wrench", 200, true, false, "1;2;2",  List.of(48, 83), 59, 48, 83),
@@ -179,9 +181,30 @@ public class Items {
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
             WATER_BOTTLE = new Water(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true),
+            // ---------------------------------- 5.7 PET ITEMS END HERE ----------------------------------
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false),
-            // TODO: change emoji
+            // ---------------------------------- 5.7 PET ITEMS START HERE ----------------------------------
+            // TODO: change emojis
             PET_HOUSE = new Item(ItemType.PET, EmoteReference.HOUSE.getUnicode(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
+            STEAK = new Food(10, "", "Steak", "items.steak", "items.description.steak", 170, true),
+            CHICKEN = new Food(10, "", "Chicken", "items.chicken", "items.description.chicken", 130, true),
+            MILK_2 = new Food(10, "", "Milk Bottle", "items.milk_bottle", "items.description.milk_bottle", 97, true),
+            DOG_FOOD = new Food(10, "", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
+            CAT_FOOD = new Food(10, "", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
+            HAMSTER_FOOD = new Food(10, "", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
+            // ---------------------------------- 5.7 ITEMS START HERE ----------------------------------
+            WOOD = new Item(ItemType.COMMON, "", "Wood", "items.wood", "items.description.wood", 10, true),
+            MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f, 3, 7, "", "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;5;10", List.of(74, 10, 101), 450, 10, 83, 18, 76, 101),
+            HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.00001f, 3, 1, "", "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick", 15000, true, false, "999;1;175;1;175;1;50;1;35;50", Collections.emptyList(), 450, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76),
+            AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93", "Axe", "items.axe", "items.description.axe", 100, true, 35),
+            COMET_AXE = new Axe(ItemType.CHOP_AXE, 0.13f, 1, 10, "", "Comet Axe", "items.comet_axe", "items.description.comet_axe", 290, true, false, "1;3;8", List.of(48, 101), 160, 10, 48, 101),
+            STAR_AXE = new Axe(ItemType.CHOP_AXE, 0.09f, 1, 10, "", "Star Axe", "items.star_pick", "items.description.star_axe", 350, true, false, "1;3;7", List.of(49, 101), 210, 10, 49, 101),
+            SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.04f, 3, 5, "", "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe", 1200, true, false, "1;3;2;8", List.of(74, 10, 101), 450, 10, 74, 18, 101),
+            MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f, 3, 7, "", "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;10", List.of(74, 10, 101), 450, 10, 83, 18, 101),
+            //TODO: recipe
+            HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.00001f, 3, 1, "", "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe", 15000, true, false, "1;3;2;10", Collections.emptyList(), 450, 10, 83, 18, 101),
+            MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3, 4, "", "Moon Rod", "items.moon_rod", "items.description.moon_rod", 800, "1;3;1;3", List.of(44, 18), 250, 44, 74, 18, 101),
+            HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(), "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 450, 18, 48, 70, 49, 71, 74, 75, 101, 76),
     };
 
     public static void setItemActions() {

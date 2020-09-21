@@ -20,17 +20,11 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Food extends Item {
-    private float saturation;
     private int hungerLevel;
 
-    public Food(ItemType type, float saturation, int hungerLevel, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
-        super(type, emoji, name, translatedName, desc, value, true, buyable);
-        this.saturation = saturation;
+    public Food(int hungerLevel, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+        super(ItemType.FOOD, emoji, name, translatedName, desc, value, true, buyable);
         this.hungerLevel = hungerLevel;
-    }
-
-    public float getSaturation() {
-        return this.saturation;
     }
 
     public int getHungerLevel() {
