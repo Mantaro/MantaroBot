@@ -71,7 +71,7 @@ public class PetCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         // TODO: wiki page.
-                        .setDescription("Pet commands. For an explanation of the pet system see [here]().")
+                        .setDescription("Pet commands. For a better explanation of the pet system see [here]().")
                         .build();
             }
         });

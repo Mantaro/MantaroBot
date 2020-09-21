@@ -132,11 +132,12 @@ public class CurrencyActionCmds {
                 String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
                 boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
+                boolean petHelp = false;
 
                 HousePet pet = marriage.getData().getPet();
                 HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
                 if(ability.passed()) {
-                    hasPotion = true;
+                    petHelp = true;
                     money += random.nextInt(pet.getType().getMaxCoinBuildup());
                     message += "\n" + pet.buildMessage(ability, languageContext);
                 } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
@@ -144,7 +145,7 @@ public class CurrencyActionCmds {
                 }
 
                 //Diamond find
-                if (random.nextInt(400) > (hasPotion ? 290 : 350)) {
+                if (random.nextInt(400) > (hasPotion || petHelp ? 290 : 350)) {
                     if (inventory.getAmount(Items.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += Items.DIAMOND.getValue() * 0.9;
@@ -165,7 +166,7 @@ public class CurrencyActionCmds {
                 }
 
                 //Gem find
-                if (random.nextInt(400) > (hasPotion ? 278 : 325)) {
+                if (random.nextInt(400) > (hasPotion ? 278 : (petHelp ? 250 : 325))) {
                     List<Item> gem = Stream.of(Items.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -355,7 +356,7 @@ public class CurrencyActionCmds {
                     HousePet pet = marriage.getData().getPet();
                     HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
                     if(ability.passed()) {
-                        buff = true; // Set hasPotion to true.
+                        amount += Math.max(1, random.nextInt(4));
                         money += random.nextInt(pet.getType().getMaxCoinBuildup());
                         extraMessage += "\n" + pet.buildMessage(ability, languageContext);
                     } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
