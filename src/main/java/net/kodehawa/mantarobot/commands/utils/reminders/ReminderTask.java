@@ -20,6 +20,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -74,6 +76,11 @@ public class ReminderTask {
                                     log.debug("Reminded {}. Removing from remind database", fullId);
                                     //Remove reminder from our database.
                                     Reminder.cancel(userId, fullId);
+
+                                    DBUser user = MantaroData.db().getUser(userId);
+                                    UserData userData = user.getData();
+                                    userData.incrementReminders();
+                                    user.save();
                                 }, err -> Reminder.cancel(userId, fullId)
                         );
                     }

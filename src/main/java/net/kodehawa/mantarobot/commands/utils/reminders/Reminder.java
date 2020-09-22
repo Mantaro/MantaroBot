@@ -49,11 +49,6 @@ public class Reminder {
         this.reminder = reminder;
         this.time = time;
         this.scheduledAtMillis = scheduledAt;
-
-        DBUser user = db.getUser(userId);
-        UserData data = user.getData();
-        data.setRemindedTimes(user.getData().getRemindedTimes() + 1);
-        user.saveAsync();
     }
 
     //This is more useful now
