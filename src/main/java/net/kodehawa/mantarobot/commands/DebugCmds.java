@@ -117,7 +117,7 @@ public class DebugCmds {
                         + "Shard Info: " + ctx.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"
-                        + "Users: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
+                        + "User Cache: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " [Current: " + ctx.getJDA().getShardInfo().getShardId() + "]" + "\n"
                         + "Threads: " + String.format("%,d [Local: %,d]", totalThreadCount, Thread.activeCount()) + "\n"
                         + "Executed Commands: " + String.format("%,d", totalCommandCount) + "\n"

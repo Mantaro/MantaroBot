@@ -513,7 +513,7 @@ public class InfoCmds {
                                             "**Threads**: %,d\n" +
                                             "**Shards**: %s\n" +
                                             "**Guilds**: %,d\n" +
-                                            "**Users**: %,d\n" +
+                                            "**User Cache**: %,d\n" +
                                             "**Machine Memory**: %s\n",
                                     Utils.formatDuration(nodeData.getLong("uptime")),
                                     nodeData.getLong("available_processors"),

@@ -83,7 +83,6 @@ import static net.kodehawa.mantarobot.utils.Utils.*;
 
 public class MantaroListener implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
-
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
             .maximumSize(5500)
             .build();
@@ -131,7 +130,7 @@ public class MantaroListener implements EventListener {
     @Override
     public void onEvent(@NotNull GenericEvent event) {
         if(event instanceof ReadyEvent) {
-            this.postStats(event.getJDA());
+            this.updateStats(event.getJDA());
         }
 
         if (event instanceof GuildMessageReceivedEvent) {
@@ -462,7 +461,7 @@ public class MantaroListener implements EventListener {
             log.debug("Shard #{}: Changed from {} to {}", shardId, event.getOldStatus(), event.getNewStatus());
         }
 
-        this.postStats(event.getJDA());
+        this.updateStats(event.getJDA());
     }
 
     private void logUnban(GuildUnbanEvent event) {
@@ -564,7 +563,7 @@ public class MantaroListener implements EventListener {
             }
 
             //Post bot statistics to the main API.
-            this.postStats(jda);
+            this.updateStats(jda);
 
             Metrics.GUILD_ACTIONS.labels("join").inc();
             GuildStatsManager.log(LoggedEvent.JOIN);
@@ -587,7 +586,7 @@ public class MantaroListener implements EventListener {
             }
 
             //Post bot statistics to the main API.
-            this.postStats(jda);
+            this.updateStats(jda);
 
             Metrics.GUILD_ACTIONS.labels("leave").inc();
             MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
@@ -706,7 +705,7 @@ public class MantaroListener implements EventListener {
             log.error("Failed to send join message!", e);
         }
 
-        this.postStats(event.getJDA());
+        this.updateStats(event.getJDA());
     }
 
     private void onUserLeave(GuildMemberRemoveEvent event) {
@@ -762,7 +761,7 @@ public class MantaroListener implements EventListener {
             dbg.saveAsync();
         }
 
-        this.postStats(event.getJDA());
+        this.updateStats(event.getJDA());
     }
 
     private void sendJoinLeaveMessage(User user, Guild guild, TextChannel tc, List<String> extraMessages, String msg) {
@@ -831,7 +830,7 @@ public class MantaroListener implements EventListener {
         }
     }
 
-    private void postStats(JDA jda) {
+    private void updateStats(JDA jda) {
         if(jda.getStatus() == JDA.Status.INITIALIZED)
             return;
 
