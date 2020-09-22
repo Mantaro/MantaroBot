@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.cache;
 
+import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +26,11 @@ public class EvictingCachePolicy implements MemberCachePolicy {
     
     @Override
     public boolean cacheMember(@NotNull Member member) {
+        GuildVoiceState voiceState = member.getVoiceState();
+        if(voiceState != null && voiceState.getChannel() != null) {
+            return true;
+        }
+
         long evict;
         //this can be called from ws threads or requester threads
         var shard = member.getJDA().getShardInfo().getShardId();
