@@ -29,7 +29,7 @@ public class AliasCommand implements Command {
     private final Command command;
     private final String commandName;
     private final String originalName;
-    private List<String> aliases;
+    private final List<String> aliases;
 
     public AliasCommand(String commandName, String originalName, Command command) {
         this.commandName = commandName;

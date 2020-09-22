@@ -71,16 +71,14 @@ public class TextChannelGround {
         dropItems(new ItemStack(item, 1));
     }
 
-    public boolean dropItemWithChance(Item item, int weight) {
+    public void dropItemWithChance(Item item, int weight) {
         boolean doDrop = r.nextInt(weight) == 0;
         if (doDrop)
             dropItem(item);
-
-        return doDrop;
     }
 
-    public boolean dropItemWithChance(int item, int weight) {
-        return dropItemWithChance(Items.fromId(item), weight);
+    public void dropItemWithChance(int item, int weight) {
+        dropItemWithChance(Items.fromId(item), weight);
     }
 
     public TextChannelGround dropItems(List<ItemStack> stacks) {

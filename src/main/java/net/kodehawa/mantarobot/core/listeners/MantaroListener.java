@@ -81,6 +81,7 @@ import java.util.regex.Pattern;
 
 import static net.kodehawa.mantarobot.utils.Utils.*;
 
+@SuppressWarnings("CatchMayIgnoreException")
 public class MantaroListener implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()

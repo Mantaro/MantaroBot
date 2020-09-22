@@ -320,7 +320,7 @@ public class MantaroCore {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    public MantaroCore start() {
+    public void start() {
         if (config == null)
             throw new IllegalArgumentException("Config cannot be null!");
 
@@ -362,8 +362,6 @@ public class MantaroCore {
             //Registers all options
             shardEventBus.post(new OptionRegistryEvent());
         }, "Mantaro EventBus-Post").start();
-
-        return this;
     }
 
     public void markAsReady() {
