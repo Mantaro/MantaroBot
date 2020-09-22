@@ -279,7 +279,7 @@ public class MantaroBot {
 
     private void postStats(ShardManager manager) {
         for(JDA jda : manager.getShards()) {
-            if(jda.getStatus() == JDA.Status.INITIALIZED)
+            if(jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN)
                 return;
 
             try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
