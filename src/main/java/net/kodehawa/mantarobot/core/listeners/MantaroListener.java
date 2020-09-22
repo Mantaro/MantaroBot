@@ -643,6 +643,8 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserJoin(GuildMemberJoinEvent event) {
+        this.updateStats(event.getJDA());
+
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
         final User user = event.getUser();
@@ -704,11 +706,11 @@ public class MantaroListener implements EventListener {
         } catch (Exception e) {
             log.error("Failed to send join message!", e);
         }
-
-        this.updateStats(event.getJDA());
     }
 
     private void onUserLeave(GuildMemberRemoveEvent event) {
+        this.updateStats(event.getJDA());
+
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
 
@@ -760,8 +762,6 @@ public class MantaroListener implements EventListener {
             data.getAllowedBirthdays().remove(event.getUser().getId());
             dbg.saveAsync();
         }
-
-        this.updateStats(event.getJDA());
     }
 
     private void sendJoinLeaveMessage(User user, Guild guild, TextChannel tc, List<String> extraMessages, String msg) {
