@@ -643,8 +643,6 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserJoin(GuildMemberJoinEvent event) {
-        this.updateStats(event.getJDA());
-
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
         final User user = event.getUser();
@@ -709,8 +707,6 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserLeave(GuildMemberRemoveEvent event) {
-        this.updateStats(event.getJDA());
-
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
 
