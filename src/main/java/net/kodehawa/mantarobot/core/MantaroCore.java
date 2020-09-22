@@ -192,7 +192,8 @@ public class MantaroCore {
             // Gateway Intents to enable.
             // We used to have GUILD_PRESENCES here for caching before, since chunking wasn't possible, but we needed to remove it.
             // So we have no permanent cache anymore.
-            GatewayIntent[] toEnable = { GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
+            GatewayIntent[] toEnable = {
+                    GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
                     GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.

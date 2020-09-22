@@ -21,7 +21,9 @@ public interface EvictionStrategy {
     @Nonnull
     @CheckReturnValue
     static EvictionStrategy leastRecentlyUsed(@Nonnegative int size) {
-        if(size < 1) throw new IllegalArgumentException("Size must be at least 1");
+        if(size < 1)
+            throw new IllegalArgumentException("Size must be at least 1");
+
         return new EvictionStrategy() {
             private final long[] ids = new long[size];
             private int index;

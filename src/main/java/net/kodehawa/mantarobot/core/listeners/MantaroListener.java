@@ -36,6 +36,7 @@ import net.dv8tion.jda.api.events.http.HttpRequestEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -369,7 +370,8 @@ public class MantaroListener implements EventListener {
             }
         } catch (Exception e) {
             if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)
-                    && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
+                    && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException) &&
+                    !(e instanceof ErrorResponseException)) {
                 log.warn("Unexpected exception while logging a deleted message.", e);
             }
         }
@@ -439,7 +441,8 @@ public class MantaroListener implements EventListener {
             }
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) &&
-                    !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
+                    !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException) &&
+                    !(e instanceof ErrorResponseException)) { // Also ignore unknown users.
                 log.warn("Unexpected error while logging a edit.", e);
             }
         }

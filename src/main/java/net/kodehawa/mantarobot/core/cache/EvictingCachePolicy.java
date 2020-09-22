@@ -35,19 +35,23 @@ public class EvictingCachePolicy implements MemberCachePolicy {
         //this can be called from ws threads or requester threads
         var shard = member.getJDA().getShardInfo().getShardId();
         var strategy = strategies[shard];
+
         if(strategy == null) {
             log.error("Null strategy for shard {}", shard);
             return true;
         }
+
         //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized(strategy) {
             evict = strategy.cache(member.getIdLong());
         }
+
         //the strategy contains only members that were added to this shard
         //so removing shouldn't fail
         if(evict != EvictionStrategy.NO_REMOVAL_NEEDED) {
             member.getJDA().unloadUser(evict);
         }
+
         return true;
     }
 }
