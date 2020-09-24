@@ -21,6 +21,7 @@ public class EvictingCachePolicy implements MemberCachePolicy {
         for(var id : shardIds) {
             s[id] = strategySupplier.get();
         }
+
         this.strategies = s;
     }
     
@@ -49,7 +50,16 @@ public class EvictingCachePolicy implements MemberCachePolicy {
         //the strategy contains only members that were added to this shard
         //so removing shouldn't fail
         if(evict != EvictionStrategy.NO_REMOVAL_NEEDED) {
-            member.getJDA().unloadUser(evict);
+            member.getJDA().getGuildCache().forEach(g -> {
+                var m = g.getMemberById(evict);
+                if(m == null)
+                    return;
+
+                // Only remove if voice state is null, or channel in the voice state is null.
+                if(m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
+                    g.unloadMember(evict);
+                }
+            });
         }
 
         return true;

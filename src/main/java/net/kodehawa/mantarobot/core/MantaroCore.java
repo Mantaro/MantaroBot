@@ -30,6 +30,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -262,7 +263,6 @@ public class MantaroCore {
                     }
                     var from = ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
                     var to = ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1;
-    
                     shardIds = IntStream.rangeClosed(from, to).boxed().collect(Collectors.toList());
                     latchCount = to - from + 1;
 
@@ -289,9 +289,7 @@ public class MantaroCore {
                 throw new IllegalStateException("Shard ids list must have the same size as latch count");
             }
 
-            builder.setMemberCachePolicy(new EvictingCachePolicy(
-                    shardIds, () -> leastRecentlyUsed(config.memberCacheSize)
-            ));
+            builder.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
     
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning {} shards...", latchCount);
