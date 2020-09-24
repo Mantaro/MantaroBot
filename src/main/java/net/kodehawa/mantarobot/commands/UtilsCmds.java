@@ -537,6 +537,7 @@ public class UtilsCmds {
                         return;
                     }
 
+
                     if (reminders.size() == 1) {
                         Reminder.cancel(ctx.getUser().getId(), reminders.get(0), Reminder.CancelReason.CANCEL); //Cancel first reminder.
                         ctx.sendLocalized("commands.remindme.cancel.success", EmoteReference.CORRECT);
