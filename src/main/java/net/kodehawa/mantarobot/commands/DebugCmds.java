@@ -21,6 +21,7 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -150,7 +151,13 @@ public class DebugCmds {
                     nodeAmount = jedis.hlen("node-stats-" + ctx.getConfig().getClientId());
                 }
 
-                ctx.sendLocalized("commands.shard.info", ctx.getJDA().getShardInfo().getShardId(), ctx.getBot().getNodeNumber(), nodeAmount);
+                var jda = ctx.getJDA();
+
+                ctx.sendLocalized("commands.shard.info",
+                        jda.getShardInfo().getShardId(), MantaroBot.getInstance().getShardManager().getShardsTotal(),
+                        ctx.getBot().getNodeNumber(), nodeAmount,
+                        jda.getGuildCache().size(), jda.getUserCache().size()
+                );
             }
 
             @Override
