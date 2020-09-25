@@ -253,7 +253,7 @@
         "success": "%1$sConectada com sucesso no canal **%2$s**!",
         "full_channel": "%1$sEu não consigo conectar nesse canal porque está cheio!",
         "non_existent_channel": "%1$sEu recebi um canal inexistente como resposta. Se você definiu um canal de voz e depois apagou, essa pode ser a causa.\n Nós redefinimos seu canal de música para você, tente reproduzir a música novamente.",
-        "user_no_vc": "%1$s**Por favor entre em um canal de voz**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sNão consigo me conectar a este canal devido à falta de permissões (%2$s).",
         "missing_permission_speak": "%1$sNão posso falar neste canal devido à falta de permissões (%2$s).",
         "channel_locked": "%1$sEu só posso tocar música no canal **%2$s**.",
