@@ -253,7 +253,7 @@
         "success": "%1$sУспешно подключен к каналу **%2$s**!",
         "full_channel": "%1$sЯ не могу подключиться к вашему каналу потому что он полный!",
         "non_existent_channel": "%1$sВы указали несуществующий канал. Скорее всего вы создали голосовой канал и удалили его. \n Мы сбросили ваш голосовой канал, попробуйте ещё раз.",
-        "user_no_vc": "%1$s**Пожалуйста, подключитесь к голосовому каналу**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sУ меня нет прав для того, чтобы подключиться к этому каналу (%2$s).",
         "missing_permission_speak": "%1$sУ меня нет разрешения на разговор в этом канале (%2$s).",
         "channel_locked": "%1$sЯ могу играть музыку только в канале **%2$s**.",
