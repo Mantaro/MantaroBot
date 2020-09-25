@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(ربما) قمت بتنظيف كل الغبار الذي تراكمت خلال كل جلسات الحفر.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sتم ازالة تأثير الجرع.",
       "stamina": "%1$sالقدرة على التحمل المنشط لمدة 3 جلسات حفر.",
       "stamina_used": "%1$sلديك بالفعل تأثير قوي على التحمل!",
@@ -252,7 +253,7 @@
         "success": "%1$sتم بنجاح الإتصال بالقناة **%2$s**!",
         "full_channel": "%1$sلايمكنني الإتصال بهذه القناة لانها ممتلئه! ",
         "non_existent_channel": "%1$sتلقيت قناة غير موجودة كرد فعل. إذا قمت بتعيين قناة صوتية ثم حذفها، فقد يكون هذا هو السبب.\nتم إعادة تعيين قناتك للموسيقى، جرب تشغيل الموسيقى مره أخرى. ",
-        "user_no_vc": "%1$s**أرجولك إتصل بقناة صوتيه**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sلايمكنني الإتصال بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "missing_permission_speak": "%1$sلايمكنني التكلم بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "channel_locked": "%1$sيمكنني تشغيل الموسيقى في القناة **%2$s** فقط. ",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sلايمكن إيجاد القناة الصوتية أو لم تحدد واحدة!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

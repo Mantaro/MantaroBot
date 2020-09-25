@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sSanirim tum o maden girisimlerinizde topladigin tozlari temizledin lol.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sTum iksir etkileri temizlendi.",
       "stamina": "%1$s3 maden girismi icin dayaniklik iksirini aktive ettin.",
       "stamina_used": "%1$sDayaniklik iksirini zaten icmissin (yan etkisi olur)!",
@@ -252,7 +253,7 @@
         "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
         "full_channel": "%1$sDolu olan bir kanala bağlanamıyorum!",
         "non_existent_channel": "%1$sOlmayan bir kanal mı? Bir ses kanalı kulup sildiyseniz sorunun sebebi bu olabiilr.\n Ben halletmeye çalıştım şimdi, komutu tekrar deneyebilirsin.",
-        "user_no_vc": "%1$s**Lütfen bir kanala katıl.**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sYeterli rütbeye sahip olmadığım için kanala katılamadım. (%2$s).",
         "missing_permission_speak": "%1$sYeterli rütbeye sahip olmadığım için müziği çalamıyorum. (%2$s).",
         "channel_locked": "%1$sSadece bir kanalda müzik çalabilirim **%2$s**.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sMüzik kanalı bulunamadı veya seçmedin!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

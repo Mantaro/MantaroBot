@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sIšvaliau visas dulkes iš tavo kambario. Yay.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sIšvaliau visus stebuklingo gėrimo efektus.",
       "stamina": "%1$sActivated stamina for 5 mining sessions.",
       "stamina_used": "%1$sYou already have an active stamina effect!",
@@ -252,7 +253,7 @@
         "success": "%1$sSėkmingai prisijungta prie **%2$s** kanalo!",
         "full_channel": "%1$sNegaliu prisijungti prie to kanalo, nes jis pilnas!",
         "non_existent_channel": "%1$sGavau neegzistuojantį kanalą kaip atsakymą. Jeigu tu nustatei balso kanalą, bet jį paskui ištrynei, tai galėtų būti priežastis.\n Mes atstatėme tau muzikos kanalą, pabandyk vėl sugroti muziką.",
-        "user_no_vc": "%1$s**Pirmiausia prisijunk prie balso kanalo!**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sAš negaliu prisijungti prie kanalo, nes neturiu leidimų (%2$s).",
         "missing_permission_speak": "%1$sAš negaliu kalbėti šiame kanale, nes neturiu leidimų (%2$s).",
         "channel_locked": "%1$sAš galiu groti muziką tik **%2$s** kanale.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sBalso kanalas nerastas arba tu jo nenurodei!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

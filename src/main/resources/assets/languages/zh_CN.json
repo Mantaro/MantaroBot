@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s你已经 (可能) 清理完了您家中的所有尘土。",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s药水效果已清除。",
       "stamina": "%1$s已激活耐力，持续三次採矿。",
       "stamina_used": "%1$s你目前已经有耐力效果了！",
@@ -252,7 +253,7 @@
         "success": "%1$s成功连接到**%2$s**!",
         "full_channel": "%1$s频道人数已满!",
         "non_existent_channel": "%1$s频道不存在，可能是被你主动删除了。\n 我顺便帮你重设了音乐频道，试着再次播播看。",
-        "user_no_vc": "%1$s**请先进入一个语音频道**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$s我需要权限(%2$s)才能连接到这个频道。",
         "missing_permission_speak": "%1$s我需要权限(%2$s)才能播放音乐。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$s无法找到语音频道或者你没有指明一个！"
     },
     "shard": {
-      "info": "我在 shard %1$d (Node %2$d/%3$d)! 如果你需要任何协助，请去 <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s（恐らく）全ての埃を拭き取りました。",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s全てのポーション効果を解除しました。",
       "stamina": "%1$sActivated stamina for 3 mining sessions.",
       "stamina_used": "%1$sスタミナはすでに有効化されています。",
@@ -252,7 +253,7 @@
         "success": "%1$sSuccessfully connected to channel **%2$s**!",
         "full_channel": "%1$sI can't connect to that channel because it is full!",
         "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
         "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
         "channel_locked": "%1$sI can only play music on channel **%2$s**.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
