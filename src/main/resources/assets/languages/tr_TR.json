@@ -253,7 +253,7 @@
         "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
         "full_channel": "%1$sDolu olan bir kanala bağlanamıyorum!",
         "non_existent_channel": "%1$sOlmayan bir kanal mı? Bir ses kanalı kulup sildiyseniz sorunun sebebi bu olabiilr.\n Ben halletmeye çalıştım şimdi, komutu tekrar deneyebilirsin.",
-        "user_no_vc": "%1$s**Lütfen bir kanala katıl.**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sYeterli rütbeye sahip olmadığım için kanala katılamadım. (%2$s).",
         "missing_permission_speak": "%1$sYeterli rütbeye sahip olmadığım için müziği çalamıyorum. (%2$s).",
         "channel_locked": "%1$sSadece bir kanalda müzik çalabilirim **%2$s**.",
