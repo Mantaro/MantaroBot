@@ -253,7 +253,7 @@
         "success": "%1$s成功连接到**%2$s**!",
         "full_channel": "%1$s频道人数已满!",
         "non_existent_channel": "%1$s频道不存在，可能是被你主动删除了。\n 我顺便帮你重设了音乐频道，试着再次播播看。",
-        "user_no_vc": "%1$s**请先进入一个语音频道**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$s我需要权限(%2$s)才能连接到这个频道。",
         "missing_permission_speak": "%1$s我需要权限(%2$s)才能播放音乐。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
