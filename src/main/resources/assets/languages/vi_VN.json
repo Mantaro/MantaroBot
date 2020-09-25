@@ -253,7 +253,7 @@
         "success": "%1$sKết nối thành công vào kênh **%2$s**!",
         "full_channel": "%1$sTôi không thể vào được kênh đó vì nó đã đầy người!",
         "non_existent_channel": "%1$sTôi nhận được phản hồi là kênh này không tồn tại. Nếu bạn tạo một kênh thoại và xóa nó đi thì điều này có thể là lý do. Chúng tôi đã cài đặt lại kênh nhạc cho bạn, hãy thử bật lại nhạc.",
-        "user_no_vc": "%1$s**Hãy tham gia vào một kênh thoại**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sTôi không thể kết nối vào kênh này vì thiếu sợ cho phép (%2$s).",
         "missing_permission_speak": "%1$sTôi không thể phát âm thanh trong kênh này vì thiếu sự cho phép (%2$s).",
         "channel_locked": "%1$sTôi chỉ có thể chơi nhạc ở kênh này **%2$s**.",
