@@ -54,7 +54,9 @@ public enum ItemType {
 
     //Pet items don't appear in the normal market.
     PET(true),
-    PET_FOOD(false);
+    PET_FOOD(false),
+    
+    DEPRECATED(false);
 
     private boolean cast;
 
