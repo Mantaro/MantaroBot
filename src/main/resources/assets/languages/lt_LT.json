@@ -253,7 +253,7 @@
         "success": "%1$sSėkmingai prisijungta prie **%2$s** kanalo!",
         "full_channel": "%1$sNegaliu prisijungti prie to kanalo, nes jis pilnas!",
         "non_existent_channel": "%1$sGavau neegzistuojantį kanalą kaip atsakymą. Jeigu tu nustatei balso kanalą, bet jį paskui ištrynei, tai galėtų būti priežastis.\n Mes atstatėme tau muzikos kanalą, pabandyk vėl sugroti muziką.",
-        "user_no_vc": "%1$s**Pirmiausia prisijunk prie balso kanalo!**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sAš negaliu prisijungti prie kanalo, nes neturiu leidimų (%2$s).",
         "missing_permission_speak": "%1$sAš negaliu kalbėti šiame kanale, nes neturiu leidimų (%2$s).",
         "channel_locked": "%1$sAš galiu groti muziką tik **%2$s** kanale.",
