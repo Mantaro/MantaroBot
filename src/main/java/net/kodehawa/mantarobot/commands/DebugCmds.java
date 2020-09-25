@@ -95,7 +95,7 @@ public class DebugCmds {
                         players += lavaLink.getStats().getPlayingPlayers();
                 }
 
-                var responseTotal = bot.getShardManager().getShards()
+                var responseTotal = bot.getShardManager().getShardCache()
                         .stream()
                         .mapToLong(JDA::getResponseTotal)
                         .sum();

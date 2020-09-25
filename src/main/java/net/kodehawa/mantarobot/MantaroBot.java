@@ -278,7 +278,7 @@ public class MantaroBot {
     }
 
     private void postStats(ShardManager manager) {
-        for(JDA jda : manager.getShards()) {
+        for(JDA jda : manager.getShardCache()) {
             if(jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN)
                 return;
 
