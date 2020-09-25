@@ -253,7 +253,7 @@
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
         "full_channel": "%1$sIk kan geen verbinding maken met dit kanaal omdat hij vol is!",
         "non_existent_channel": "%1$sIk krijg terug dat dit kanaal niet bestaat. Het kan zijn dat je een spraak-kanaal hebt aangemaakt en daarna weer verwijderd.\n Ik heb het muziek-kanaal gereset dus probeer nogmaals om muziek af te spelen.",
-        "user_no_vc": "%1$s**Zou je een spraak-kanaal kunnen joinen? **",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sIk kan geen verbinding maken met dit kanaal omdat ik daar geen toestemming voor heb (%2$s).",
         "missing_permission_speak": "%1$sIk kan geen geluid laten horen omdat ik daar geen toestemming voor heb (%2$s).",
         "channel_locked": "%1$sIk kan maar muziek afspelen in één kanaal **%2$s**.",
