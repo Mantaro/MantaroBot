@@ -253,7 +253,7 @@
         "success": "%1$sتم بنجاح الإتصال بالقناة **%2$s**!",
         "full_channel": "%1$sلايمكنني الإتصال بهذه القناة لانها ممتلئه! ",
         "non_existent_channel": "%1$sتلقيت قناة غير موجودة كرد فعل. إذا قمت بتعيين قناة صوتية ثم حذفها، فقد يكون هذا هو السبب.\nتم إعادة تعيين قناتك للموسيقى، جرب تشغيل الموسيقى مره أخرى. ",
-        "user_no_vc": "%1$s**أرجولك إتصل بقناة صوتيه**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sلايمكنني الإتصال بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "missing_permission_speak": "%1$sلايمكنني التكلم بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "channel_locked": "%1$sيمكنني تشغيل الموسيقى في القناة **%2$s** فقط. ",
