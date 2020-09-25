@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s你已經 (可能) 清理完了您家中的所有塵土。",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s藥水效果已清除。",
       "stamina": "%1$s已激活耐力，持續三次採礦。",
       "stamina_used": "%1$s你目前已經有耐力效果了！",
@@ -129,7 +130,7 @@
       "no_rod": "%1$s你沒有釣魚竿怎麼釣魚! (試著使用另一種釣竿)",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
-        "success": "%1$s全神貫注的釣完魚之後，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
+        "success": "%1$s你全神貫注的釣完魚，釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
       },
       "tier3": {
         "extra": "然後你也幸運的找到了%1$s!"
@@ -142,9 +143,9 @@
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把它們丟回水裡...",
-      "success": "%1$s在全神貫注的釣完魚之後，你找到了%2$s且把它們放到水桶裡了。",
-      "success_money": "%1$s在全神貫注的釣完魚之後，你找到了%2$s和**$%3$d**且把它們放到口袋裡了。%4$s",
-      "success_money_noitem": "%1$s在全神貫注的釣完魚之後，你找到了**$%2$d**且把它們放到口袋裡了。",
+      "success": "%1$s你全神貫注的釣完魚，找到了%2$s且把它們放到水桶裡了。",
+      "success_money": "%1$s你全神貫注的釣完魚，找到了%2$s和**$%3$d**且把它們放到口袋裡了。%4$s",
+      "success_money_noitem": "%1$s你全神貫注的釣完魚，找到了**$%2$d**且把它們放到口袋裡了。",
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
@@ -252,7 +253,7 @@
         "success": "%1$s成功連接到**%2$s**!",
         "full_channel": "%1$s頻道人數已滿!",
         "non_existent_channel": "%1$s頻道不存在，可能是被你主動刪除了。\n 我順便幫你重設了音樂頻道，試著再次播播看。",
-        "user_no_vc": "%1$s**請先進入一個語音頻道**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$s我需要權限(%2$s)才能連接到這個頻道。",
         "missing_permission_speak": "%1$s我需要權限(%2$s)才能播放音樂。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$s無法找到語音頻道或者你沒有指明一個！"
     },
     "shard": {
-      "info": "我在 shard %1$d (Node %2$d/%3$d)! 如果你需要任何協助，請去 <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

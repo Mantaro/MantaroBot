@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sВы (возможно) почистили всю пыль, накопленную за всё время.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sСнялись все эффекты зелий.",
       "stamina": "%1$sАктивирована выносливость на 3 сессии добычи полезных ископаемых.",
       "stamina_used": "%1$sУ вас уже активировано зелье выносливости!",
@@ -252,7 +253,7 @@
         "success": "%1$sУспешно подключен к каналу **%2$s**!",
         "full_channel": "%1$sЯ не могу подключиться к вашему каналу потому что он полный!",
         "non_existent_channel": "%1$sВы указали несуществующий канал. Скорее всего вы создали голосовой канал и удалили его. \n Мы сбросили ваш голосовой канал, попробуйте ещё раз.",
-        "user_no_vc": "%1$s**Пожалуйста, подключитесь к голосовому каналу**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sУ меня нет прав для того, чтобы подключиться к этому каналу (%2$s).",
         "missing_permission_speak": "%1$sУ меня нет разрешения на разговор в этом канале (%2$s).",
         "channel_locked": "%1$sЯ могу играть музыку только в канале **%2$s**.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sГолосовой канал не найден или вы его попросту не указали!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sVocê (talvez) limpou todas as poeiras que você tinha acumulado sobre todas as sessões de mineração.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sEfeitos de poção removidos.",
       "stamina": "%1$sVigor ativado para 5 sessões de mineração.",
       "stamina_used": "%1$sVocê já tem um efeito de vigor usado!",
@@ -252,7 +253,7 @@
         "success": "%1$sConectada com sucesso no canal **%2$s**!",
         "full_channel": "%1$sEu não consigo conectar nesse canal porque está cheio!",
         "non_existent_channel": "%1$sEu recebi um canal inexistente como resposta. Se você definiu um canal de voz e depois apagou, essa pode ser a causa.\n Nós redefinimos seu canal de música para você, tente reproduzir a música novamente.",
-        "user_no_vc": "%1$s**Por favor entre em um canal de voz**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sNão consigo me conectar a este canal devido à falta de permissões (%2$s).",
         "missing_permission_speak": "%1$sNão posso falar neste canal devido à falta de permissões (%2$s).",
         "channel_locked": "%1$sEu só posso tocar música no canal **%2$s**.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sCanal de voz não encontrado ou você não especificou um!"
     },
     "shard": {
-      "info": "Estou na shard %1$d (Node %2$d/%3$d)! Se você precisar de ajuda, por favor vá para <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

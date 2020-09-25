@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(아마도)채굴 기간 동안 쌓인 먼지를 모두 청소했어요.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s물약의 효과가 제거되었어요.",
       "stamina": "%1$s3번 채굴의 기간 위한 체력이 활성화되었어요.",
       "stamina_used": "%1$s이미 체력 효과가 있어요!",
@@ -252,7 +253,7 @@
         "success": "%1$s성공적으로 **%2$s** 채널에 연결했어요!",
         "full_channel": "%1$s채널이 꽉 차서 제가 연결이 안 돼요!",
         "non_existent_channel": "%1$s존재하지 않는 채널을 응답으로 받았어요. 음성 채널을 설정한 다음 삭제하면 그 원인이 될 수 있어요.\n 음악 채널을 다시 설정했어요. 음악을 재생해 보세요.",
-        "user_no_vc": "%1$s**음성 채널에 들어와주세요**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$s권한이 부족해서 이 채널에 연결할 수 없어요 (%2$s).",
         "missing_permission_speak": "%1$s권한이 부족해서 이 채널에서 말할 수 없어요 (%2$s).",
         "channel_locked": "%1$s**%2$s**에서만 오직 음악을 재생할 수 있어요.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$s음성 채널을 찾을 수 없거나 지정하지 않았어요!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

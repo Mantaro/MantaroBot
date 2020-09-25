@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sAl het stof in je kamer is opgeruimd. Yay.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sHet potion effect is opgeheven.",
       "stamina": "%1$sStamina is geactiveerd voor 5 mining sessies.",
       "stamina_used": "%1$s Je hebt al een actief uithoudingsvermogen effect!",
@@ -252,7 +253,7 @@
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
         "full_channel": "%1$sIk kan geen verbinding maken met dit kanaal omdat hij vol is!",
         "non_existent_channel": "%1$sIk krijg terug dat dit kanaal niet bestaat. Het kan zijn dat je een spraak-kanaal hebt aangemaakt en daarna weer verwijderd.\n Ik heb het muziek-kanaal gereset dus probeer nogmaals om muziek af te spelen.",
-        "user_no_vc": "%1$s**Zou je een spraak-kanaal kunnen joinen? **",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sIk kan geen verbinding maken met dit kanaal omdat ik daar geen toestemming voor heb (%2$s).",
         "missing_permission_speak": "%1$sIk kan geen geluid laten horen omdat ik daar geen toestemming voor heb (%2$s).",
         "channel_locked": "%1$sIk kan maar muziek afspelen in één kanaal **%2$s**.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sHet spraak-kanaal is niet gevonden of je hebt geen naam opgegeven!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {

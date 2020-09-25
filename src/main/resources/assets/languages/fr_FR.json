@@ -37,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sTu as(peut-être) nettoyé toute la poussière que tu as accumulée au cours de toutes ces sessions minière.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sEffets de la potion annulés.",
       "stamina": "%1$sEndurance activée pour 5 sessions minières.",
       "stamina_used": "%1$sTu as déjà un effet d'endurance actif!",
@@ -252,7 +253,7 @@
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
         "full_channel": "%1$sJe ne peux pas me connecter à ce salon vocal car il est plein!!",
         "non_existent_channel": "%1$sSalon vocal inexistant. Si tu configures un salon vocal et que tu le supprimes, cela peut en être la cause.\n J'ai réinitialisé ton salon musical pour toi, essaies de jouer la musique de nouveau.",
-        "user_no_vc": "%1$s**S'il te plait rejoins un salon vocal**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sJe ne peux pas me connecter à ce salon vocal car je n'ai pas la permission de le faire (%2$s).",
         "missing_permission_speak": "%1$sJe ne peux pas parler dans ce salon vocal car je n'ai pas la permission de le faire  (%2$s).",
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
@@ -314,7 +315,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "Je suis dans le fragment %1$d (Nœud %2$d /%3$d)! Si tu as besoin d'aide, rends-toi sur <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / 2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
