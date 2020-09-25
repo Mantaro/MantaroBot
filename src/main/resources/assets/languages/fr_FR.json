@@ -253,7 +253,7 @@
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
         "full_channel": "%1$sJe ne peux pas me connecter à ce salon vocal car il est plein!!",
         "non_existent_channel": "%1$sSalon vocal inexistant. Si tu configures un salon vocal et que tu le supprimes, cela peut en être la cause.\n J'ai réinitialisé ton salon musical pour toi, essaies de jouer la musique de nouveau.",
-        "user_no_vc": "%1$s**S'il te plait rejoins un salon vocal**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sJe ne peux pas me connecter à ce salon vocal car je n'ai pas la permission de le faire (%2$s).",
         "missing_permission_speak": "%1$sJe ne peux pas parler dans ce salon vocal car je n'ai pas la permission de le faire  (%2$s).",
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
