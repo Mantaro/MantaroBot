@@ -156,7 +156,7 @@ public class DebugCmds {
                 ctx.sendLocalized("commands.shard.info",
                         jda.getShardInfo().getShardId(), MantaroBot.getInstance().getShardManager().getShardsTotal(),
                         ctx.getBot().getNodeNumber(), nodeAmount,
-                        jda.getGuildCache().size(), jda.getUserCache().size()
+                        jda.getUserCache().size(), jda.getGuildCache().size()
                 );
             }
 
