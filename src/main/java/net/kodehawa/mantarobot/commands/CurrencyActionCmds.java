@@ -191,6 +191,10 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
+                if(dbUser.isPremium()) {
+                    money += random.nextInt((int) money);
+                }
+
                 //Sparkle find
                 if ((random.nextInt(400) > 395 && item == Items.COMET_PICKAXE) ||
                         (random.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE))) {
@@ -217,6 +221,11 @@ public class CurrencyActionCmds {
                         message += "\n" + EmoteReference.MEGA +
                                 String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji(), crate.getName());
                     }
+                }
+
+                if (player.getData().shouldSeeCampaign()) {
+                    message += dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
+                            languageContext.get("general.sellout_campaign.generic_sellout");
                 }
 
                 if (isSeasonal) {
@@ -312,6 +321,11 @@ public class CurrencyActionCmds {
                 String extraMessage = "";
 
                 int select = random.nextInt(100);
+
+                if (player.getData().shouldSeeCampaign()) {
+                    extraMessage += dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
+                            languageContext.get("general.sellout_campaign.generic_sellout");
+                }
 
                 if (select < 10) {
                     //Here your fish rod got dusty. Yes, on the sea.
@@ -444,6 +458,10 @@ public class CurrencyActionCmds {
                         extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.fossil_success"), Items.SHELL.getEmoji());
                     }
 
+
+                    if(dbUser.isPremium()) {
+                        money += random.nextInt(money);
+                    }
 
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.

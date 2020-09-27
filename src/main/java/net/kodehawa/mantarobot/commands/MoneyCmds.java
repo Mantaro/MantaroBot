@@ -115,7 +115,8 @@ public class MoneyCmds {
                 User author = ctx.getAuthor();
                 Player authorPlayer = ctx.getPlayer();
                 PlayerData authorPlayerData = authorPlayer.getData();
-                DBUser user = ctx.getDBUser();
+                DBUser authorDBUser = ctx.getDBUser();
+                UserData authorUserData = authorDBUser.getData();
 
                 if(authorPlayer.isLocked()){
                     ctx.sendLocalized("commands.daily.errors.own_locked");
@@ -128,7 +129,7 @@ public class MoneyCmds {
                 boolean targetOther = !mentionedUsers.isEmpty();
                 if(targetOther){
                     otherUser = mentionedUsers.get(0);
-                    // Bot check mentioned user
+                    // Bot check mentioned authorDBUser
                     if(otherUser.isBot()){
                         ctx.sendLocalized("commands.daily.errors.bot", EmoteReference.ERROR);
                         return;
@@ -148,21 +149,19 @@ public class MoneyCmds {
                     // Why this is here I have no clue;;;
                     dailyMoney += r.nextInt(90);
 
-                    UserData userData = user.getData();
-
                     DBUser mentionedDBUser = ctx.getDBUser(otherUser.getId());
                     UserData mentionedUserData = mentionedDBUser.getData();
 
                     //Marriage bonus
-                    Marriage marriage = userData.getMarriage();
+                    Marriage marriage = authorUserData.getMarriage();
                     if(marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                             playerOtherUser.getInventory().containsItem(Items.RING)) {
                         dailyMoney += Math.max(10, r.nextInt(100));
                     }
 
                     //Mutual waifu status.
-                    if (userData.getWaifus().containsKey(playerOtherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
-                        dailyMoney +=Math.max(5, r.nextInt(70));
+                    if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
+                        dailyMoney +=Math.max(5, r.nextInt(100));
                     }
 
                     toAddMoneyTo = UnifiedPlayer.of(otherUser, ctx.getConfig().getCurrentSeason());
@@ -251,12 +250,18 @@ public class MoneyCmds {
                     else
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus));
                     dailyMoney += bonus;
-
                 }
+
+                // If authorDBUser is premium, make daily double.
+                if(authorDBUser.isPremium()) {
+                    dailyMoney *=2;
+                }
+
                 // Careful not to overwrite yourself ;P
                 // Save streak and items
                 authorPlayerData.setLastDailyAt(currentTime);
                 authorPlayerData.setDailyStreak(streak);
+
                 // Critical not to call if author != mentioned because in this case
                 // toAdd is the unified player as referenced
                 if(targetOther)
@@ -266,9 +271,10 @@ public class MoneyCmds {
 
                 // Sellout
                 if(random.nextBoolean()){
-                    returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
+                    returnMessage.add(authorDBUser.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
                             languageContext.get("commands.daily.sellout.get_premium"));
                 }
+
                 // Build Message
                 StringBuilder toSend = new StringBuilder((targetOther ?
                         String.format(languageContext.withRoot("commands", "daily.given_credits"),
@@ -533,6 +539,7 @@ public class MoneyCmds {
                         ctx.send(EmoteReference.SAD + msg);
                     }
                 }
+
 
                 unifiedPlayer.saveAsync();
             }

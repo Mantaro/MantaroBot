@@ -233,6 +233,12 @@ public class ItemCmds {
                         playerInventory.process(new ItemStack(castItem, amountSpecified));
 
                         String message = "";
+
+                        if (player.getData().shouldSeeCampaign()) {
+                            message += user.isPremium() ? ctx.getLanguageContext().get("general.sellout_campaign.thanks_message") :
+                                    ctx.getLanguageContext().get("general.sellout_campaign.generic_sellout");
+                        }
+
                         //The higher the chance, the lower it's the chance to break. Yes, I know.
                         if (random.nextInt(100) > wrench.getChance()) {
                             playerInventory.process(new ItemStack(wrenchItem, -1));

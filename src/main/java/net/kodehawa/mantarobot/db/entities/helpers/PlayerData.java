@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
@@ -57,6 +58,7 @@ public class PlayerData {
     private long sharksCaught;
     private boolean waifuout;
     private int lastCrateGiven = 69;
+    private long lastSeenCampaign;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -333,5 +335,17 @@ public class PlayerData {
 
     public void setNewMoney(long newMoney) {
         this.newMoney = newMoney;
+    }
+
+    public long isLastSeenCampaign() {
+        return lastSeenCampaign;
+    }
+
+    public void setLastSeenCampaign(long lastSeenCampaign) {
+        this.lastSeenCampaign = lastSeenCampaign;
+    }
+
+    public boolean shouldSeeCampaign() {
+        return (lastSeenCampaign + TimeUnit.DAYS.toMillis(1)) > System.currentTimeMillis();
     }
 }

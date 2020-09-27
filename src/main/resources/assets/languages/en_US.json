@@ -61,6 +61,10 @@
       "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
+    "sellout_campaign": {
+      "generic_sellout": "You can get amazing perks and up to double the coins with Mantaro Premium! Memberships start at $1 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>",
+      "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+    },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
     "invalid_action": "You cannot do that, silly.",
@@ -1486,7 +1490,7 @@
       "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
       "credits": "%1$sYou got **$%2$,d** daily credits.",
       "sellout": {
-        "get_premium" : "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
+        "get_premium" : "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $1/month, the price of cheap snack!",
         "already_premium" : "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
       },
       "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
