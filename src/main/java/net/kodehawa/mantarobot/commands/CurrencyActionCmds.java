@@ -224,8 +224,8 @@ public class CurrencyActionCmds {
                 }
 
                 if (player.getData().shouldSeeCampaign()) {
-                    message += dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
-                            languageContext.get("general.sellout_campaign.generic_sellout");
+                    message += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
+                            languageContext.get("general.sellout_campaign.generic_sellout"));
                 }
 
                 if (isSeasonal) {
@@ -321,11 +321,6 @@ public class CurrencyActionCmds {
                 String extraMessage = "";
 
                 int select = random.nextInt(100);
-
-                if (player.getData().shouldSeeCampaign()) {
-                    extraMessage += dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
-                            languageContext.get("general.sellout_campaign.generic_sellout");
-                }
 
                 if (select < 10) {
                     //Here your fish rod got dusty. Yes, on the sea.
@@ -462,6 +457,12 @@ public class CurrencyActionCmds {
                     if(dbUser.isPremium()) {
                         money += random.nextInt(money);
                     }
+
+                    if (player.getData().shouldSeeCampaign()) {
+                        extraMessage += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
+                                languageContext.get("general.sellout_campaign.generic_sellout"));
+                    }
+
 
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.

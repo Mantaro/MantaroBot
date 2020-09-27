@@ -257,6 +257,12 @@ public class MoneyCmds {
                     dailyMoney *=2;
                 }
 
+                // Sellout
+                if(authorPlayerData.shouldSeeCampaign()){
+                    returnMessage.add(authorDBUser.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
+                            languageContext.get("commands.daily.sellout.get_premium"));
+                }
+
                 // Careful not to overwrite yourself ;P
                 // Save streak and items
                 authorPlayerData.setLastDailyAt(currentTime);
@@ -266,14 +272,10 @@ public class MoneyCmds {
                 // toAdd is the unified player as referenced
                 if(targetOther)
                     authorPlayer.save();
+
                 toAddMoneyTo.addMoney(dailyMoney);
                 toAddMoneyTo.save();
 
-                // Sellout
-                if(random.nextBoolean()){
-                    returnMessage.add(authorDBUser.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
-                            languageContext.get("commands.daily.sellout.get_premium"));
-                }
 
                 // Build Message
                 StringBuilder toSend = new StringBuilder((targetOther ?
@@ -469,7 +471,6 @@ public class MoneyCmds {
 
                 Player player = unifiedPlayer.getPlayer();
                 DBUser dbUser = ctx.getDBUser();
-                Member member = ctx.getMember();
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 if (player.isLocked()) {
@@ -499,31 +500,38 @@ public class MoneyCmds {
                 List<ItemStack> loot = ground.collectItems();
                 int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
 
-                if (MantaroData.db().getUser(member).isPremium() && moneyFound > 0) {
-                    moneyFound = moneyFound + random.nextInt(moneyFound);
+                if (dbUser.isPremium() && moneyFound > 0) {
+                    moneyFound += random.nextInt(moneyFound);
+                }
+
+                String extraMessage = "";
+
+                // Sellout
+                if(player.getData().shouldSeeCampaign()){
+                    extraMessage += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
+                            languageContext.get("general.sellout_campaign.generic_sellout"));
                 }
 
                 if (!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
-                    String overflow = "";
 
                     if (player.getInventory().merge(loot))
-                        overflow = languageContext.withRoot("commands", "loot.item_overflow");
+                        extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
 
                     if (moneyFound != 0) {
                         if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, s, moneyFound, overflow);
+                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, s, moneyFound, extraMessage);
                         } else {
-                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, s, moneyFound, overflow);
+                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, s, moneyFound, extraMessage);
                         }
                     } else {
-                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, s, overflow);
+                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, s, extraMessage);
                     }
 
                 } else {
                     if (moneyFound != 0) {
                         if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.without_item.found", EmoteReference.POPPER, moneyFound);
+                            ctx.sendLocalized("commands.loot.without_item.found", EmoteReference.POPPER, moneyFound, extraMessage);
                         } else {
                             ctx.sendLocalized("commands.loot.without_item.found_but_overflow", EmoteReference.POPPER, moneyFound);
                         }

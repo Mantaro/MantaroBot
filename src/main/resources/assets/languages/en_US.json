@@ -1521,7 +1521,7 @@
         "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**",
+        "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
         "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$,d credits.** But you already had too many credits, so I donated the excess."
       },
       "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",

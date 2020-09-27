@@ -235,8 +235,8 @@ public class ItemCmds {
                         String message = "";
 
                         if (player.getData().shouldSeeCampaign()) {
-                            message += user.isPremium() ? ctx.getLanguageContext().get("general.sellout_campaign.thanks_message") :
-                                    ctx.getLanguageContext().get("general.sellout_campaign.generic_sellout");
+                            message += "\n" + (user.isPremium() ? ctx.getLanguageContext().get("general.sellout_campaign.thanks_message") :
+                                    ctx.getLanguageContext().get("general.sellout_campaign.generic_sellout"));
                         }
 
                         //The higher the chance, the lower it's the chance to break. Yes, I know.
