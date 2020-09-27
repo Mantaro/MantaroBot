@@ -5,6 +5,7 @@ import net.kodehawa.mantarobot.core.command.NewContext;
 /**
  * Thrown when an argument cannot be parsed on methods that must return a valid parsed argument.
  */
+@SuppressWarnings("rawtypes")
 public class ArgumentParseError extends RuntimeException {
     private final NewContext context;
     private final Parser<?> parser;

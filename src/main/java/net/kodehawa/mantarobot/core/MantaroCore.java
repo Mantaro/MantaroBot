@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.cache.EvictingCachePolicy;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -69,8 +70,10 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.core.cache.EvictionStrategy.leastRecentlyUsed;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
@@ -190,7 +193,8 @@ public class MantaroCore {
             // Gateway Intents to enable.
             // We used to have GUILD_PRESENCES here for caching before, since chunking wasn't possible, but we needed to remove it.
             // So we have no permanent cache anymore.
-            GatewayIntent[] toEnable = { GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
+            GatewayIntent[] toEnable = {
+                    GatewayIntent.GUILD_MESSAGES, // Recieve guild messages, needed to, well operate at all.
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
                     GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
@@ -201,7 +205,6 @@ public class MantaroCore {
             var shardStartListener = new ShardStartListener();
 
             DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
-                    .setMemberCachePolicy(MemberCachePolicy.ALL)
                     // Can't do chunking with Gateway Intents enabled, fun, but don't need it anymore.
                     .setChunkingFilter(ChunkingFilter.NONE)
                     .setSessionController(controller)
@@ -222,11 +225,13 @@ public class MantaroCore {
                     // We technically don't need it, as we don't ask for either GUILD_PRESENCES nor GUILD_EMOJIS anymore.
                     .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
-
-
+            
+            /* only create eviction strategies that will get used */
+            List<Integer> shardIds;
             int latchCount;
             if (isDebug) {
                 var shardCount = 2;
+                shardIds = List.of(0, 1);
                 latchCount = shardCount;
                 builder.setShardsTotal(shardCount)
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
@@ -258,12 +263,13 @@ public class MantaroCore {
                     }
                     var from = ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
                     var to = ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1;
-                    
+                    shardIds = IntStream.rangeClosed(from, to).boxed().collect(Collectors.toList());
                     latchCount = to - from + 1;
 
                     log.info("Using shard range {}-{}", from, to);
                     builder.setShards(from, to);
                 } else {
+                    shardIds = IntStream.range(0, shardCount).boxed().collect(Collectors.toList());
                     latchCount = shardCount;
                 }
     
@@ -278,6 +284,13 @@ public class MantaroCore {
                         .setRateLimitPool(Executors.newScheduledThreadPool(rateLimitThreads, requesterThreadFactory), true);
             }
 
+            //if this isn't true we have a big problem
+            if(shardIds.size() != latchCount) {
+                throw new IllegalStateException("Shard ids list must have the same size as latch count");
+            }
+
+            builder.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
+    
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning {} shards...", latchCount);
             var start = System.currentTimeMillis();
@@ -305,7 +318,7 @@ public class MantaroCore {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    public MantaroCore start() {
+    public void start() {
         if (config == null)
             throw new IllegalArgumentException("Config cannot be null!");
 
@@ -347,8 +360,6 @@ public class MantaroCore {
             //Registers all options
             shardEventBus.post(new OptionRegistryEvent());
         }, "Mantaro EventBus-Post").start();
-
-        return this;
     }
 
     public void markAsReady() {

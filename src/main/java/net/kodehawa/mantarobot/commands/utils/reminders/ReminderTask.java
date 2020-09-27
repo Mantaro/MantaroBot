@@ -20,6 +20,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -56,7 +58,7 @@ public class ReminderTask {
 
                         //1 day passed already, assuming it's a stale reminder: Done because ReminderTask wasn't working.
                         if(System.currentTimeMillis() - fireAt > TimeUnit.DAYS.toMillis(1)) {
-                            Reminder.cancel(userId, fullId);
+                            Reminder.cancel(userId, fullId, Reminder.CancelReason.CANCEL);
                             return;
                         }
 
@@ -73,8 +75,8 @@ public class ReminderTask {
                                     //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
                                     log.debug("Reminded {}. Removing from remind database", fullId);
                                     //Remove reminder from our database.
-                                    Reminder.cancel(userId, fullId);
-                                }, err -> Reminder.cancel(userId, fullId)
+                                    Reminder.cancel(userId, fullId, Reminder.CancelReason.REMINDED);
+                                }, err -> Reminder.cancel(userId, fullId, Reminder.CancelReason.ERROR_DELIVERING)
                         );
                     }
                 } catch (Exception e) {

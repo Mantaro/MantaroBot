@@ -25,6 +25,8 @@
     "options": "Secenekler",
     "find_members_failure": "%1$sarama kriterlerinize gore bir kullanici bulunamadi :(",
     "too_many_members": "%1$sCok fazla uye bulundu, belki aramanizi detaylandirabilrsiniz? (orn. nick#numara kullanabilirsiniz)\n**Bulunan Uyeler:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "Burada sadece toz var.",
     "invalid_syntax": "Gecersiz ek.",
     "item_lookup": {
@@ -35,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sSanirim tum o maden girisimlerinizde topladigin tozlari temizledin lol.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sTum iksir etkileri temizlendi.",
       "stamina": "%1$s3 maden girismi icin dayaniklik iksirini aktive ettin.",
       "stamina_used": "%1$sDayaniklik iksirini zaten icmissin (yan etkisi olur)!",
@@ -76,7 +79,7 @@
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
     },
-    "generic_error": "Isterseniz, bizim **destek sunucumuza** katılın (Link `support.mantaro.site`), veya GitHub sayfasını kontrol edin (`https://github.com/Kodehawa/MantaroBot`). Lütfen beni pis pis kullanmalarına izin verme ve ERROR ID'yi bug raporlarına eklemeyi unutma!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
       "Görünüşe göre Magumin kalemizi işgal etmiş...",
       "Of sanırım, benim efendim sıfırlar veya birleri koymayı unutmuş :<",
@@ -250,7 +253,7 @@
         "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
         "full_channel": "%1$sDolu olan bir kanala bağlanamıyorum!",
         "non_existent_channel": "%1$sOlmayan bir kanal mı? Bir ses kanalı kulup sildiyseniz sorunun sebebi bu olabiilr.\n Ben halletmeye çalıştım şimdi, komutu tekrar deneyebilirsin.",
-        "user_no_vc": "%1$s**Lütfen bir kanala katıl.**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sYeterli rütbeye sahip olmadığım için kanala katılamadım. (%2$s).",
         "missing_permission_speak": "%1$sYeterli rütbeye sahip olmadığım için müziği çalamıyorum. (%2$s).",
         "channel_locked": "%1$sSadece bir kanalda müzik çalabilirim **%2$s**.",
@@ -312,7 +315,7 @@
       "vc_not_found": "%1$sMüzik kanalı bulunamadı veya seçmedin!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -401,12 +404,13 @@
       },
       "raw": {
         "no_command": "%1$sBana hangi komuta bakmak istediğini belirtmelisin.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Komut \"%1$s\":",
         "amount": "(%1$d kişisine %2$d cevapları gösteriliyor)",
         "description": "Bu, bu komutun tüm yanıtlarının ham halindeki (komuta ne girdiyseniz) bir listesidir."
       },
       "clear": {
-        "success": "%1$s**%2$d temizlendi Özel Komutlar**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sBaşlatıldı **\"Özel komut oluşturma `%2$s`\"**!\n`&~>stop` kullanarak durdurabilirsin **bu komutu kayıt etmez**.\n`&~>save` kullanarak durduabilirsin. **ancak bu yeni komutu kayıt eder**. `&` ile başlayan herhangi bir cevap gönderirseniz bu komutlara eklenir. `~>nsfw` kullanırsanız bu NSFW olarak işaretlenir ve `~>sfw` yaparsanız bunu geri alırsınız.\nBu interaktif aktivite 60 saniye sonra sona erecektir.",
@@ -457,6 +461,16 @@
         "success": "%1$s`%2$s` komutu kaydedildi",
         "too_many_commands": "%1%sBu sunucuda çok fazla komut var, bu yüzden daha fazlasını ekleyemezsiniz (+100).  Bu kısıtlama premium sunucuları etkilemez.(<https://patreon.com/mantaro> adresini kontrol edin)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sÖzel komut oluştururken bu karakteri kullanamazsınız.",
       "already_exists": "%1$s`%2$s` zaten varsayılan bot komutu.",
       "name_too_long": "%1$sİsim çok uzun.",
@@ -466,7 +480,8 @@
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sDoğum tarihini yeniledin!",
-      "no_global_birthdays": "%1$sBuralar biraz boş görünüyor...",
-      "no_guild_month_birthdays": "%1$sBu ay için herhangi bir doğum günü yok (%2$s) (\n%3$sDoğum günü sözcüsünü yeni kurduysan biraz beklemen gerekebilir. (Cache her 23s de bir yenilenir.)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sDoğum günü cacheleri çalışmıyor. (içsel bir hata) :(",
       "error": "%1$sDoğum günlerini alırken bir hata oldu. (içsel bir hata) :(",
-      "header": "**%1$s adlı kişinin doğum günü: %2$s**\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sGeçerli bir ay değil! (Geçerli aylar 1 ve 12 arasındadır.)",
-      "no_content": "%1$sDoğum gününü girmelisin, `remove` kullanarak silebilir veya `month` kullanarak o ayki doğum günlerini görebilirsin.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sBana ne hakkında seçim yapmam gerektiğini söylemelisin. (örnek: `~>choose anime manga`)",
@@ -991,7 +1009,8 @@
     "time": {
       "invalid_timezone": "%1$sGeçerli bir zamandilimi değil.",
       "success": "%1$s%3$s zaman diliminde saat %2$s.",
-      "error": "%1$sZaman dilimini araştırırken bir hatayla karşılaştım... ya da sadece geçersiz bir zaman dilimi."
+      "error": "%1$sZaman dilimini araştırırken bir hatayla karşılaştım... ya da sadece geçersiz bir zaman dilimi.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "Your Premium Status",
         "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Premium user! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
       "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
       "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sServer leave message set to: `%2$s`"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",

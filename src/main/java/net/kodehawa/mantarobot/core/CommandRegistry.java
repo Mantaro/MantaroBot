@@ -409,7 +409,7 @@ public class CommandRegistry {
         CHANNEL("Disabled channel"),
         USER("Disabled user");
 
-        String name;
+        final String name;
 
         CommandDisableLevel(String name) {
             this.name = name;

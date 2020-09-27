@@ -73,9 +73,8 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         return this;
     }
 
-    public ITreeCommand setPredicate(Predicate<Context> predicate) {
+    public void setPredicate(Predicate<Context> predicate) {
         this.predicate = predicate;
-        return this;
     }
 
     @Override

@@ -115,6 +115,11 @@ public class UserData {
         return this.remindedTimes;
     }
 
+    @JsonIgnore
+    public void incrementReminders() {
+        remindedTimes += 1;
+    }
+
     public void setRemindedTimes(int remindedTimes) {
         this.remindedTimes = remindedTimes;
     }

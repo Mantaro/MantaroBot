@@ -66,9 +66,8 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         command.run(new Context(context.getEvent(), context.getLanguageContext(), args[1]), commandName + " " + args[0], args[1]);
     }
 
-    public ITreeCommand setPredicate(Predicate<Context> predicate) {
+    public void setPredicate(Predicate<Context> predicate) {
         this.predicate = predicate;
-        return this;
     }
 
     public SimpleTreeCommand addSubCommand(String name, String description, BiConsumer<Context, String> command) {

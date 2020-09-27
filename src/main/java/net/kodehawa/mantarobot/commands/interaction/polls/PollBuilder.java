@@ -21,6 +21,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.UUID;
 
+@SuppressWarnings("UnusedReturnValue")
 public class PollBuilder {
     private GuildMessageReceivedEvent event;
     private String name = "";

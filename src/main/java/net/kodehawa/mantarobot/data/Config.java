@@ -57,6 +57,7 @@ public class Config {
     public int bucketFactor = 4;
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean isSelfHost = false;
+    public int memberCacheSize = 10_000;
 
     public Config() { }
 
@@ -212,7 +213,7 @@ public class Config {
         return isSelfHost;
     }
 
-    public void setSelfHost(boolean selfhost) {
-        isSelfHost = selfhost;
+    public void setSelfHost(boolean selfHost) {
+        isSelfHost = selfHost;
     }
 }

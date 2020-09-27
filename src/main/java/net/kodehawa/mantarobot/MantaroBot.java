@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderTask;
 import net.kodehawa.mantarobot.core.MantaroCore;
+import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -44,8 +45,10 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import java.net.ConnectException;
 import java.net.URI;
@@ -67,7 +70,7 @@ public class MantaroBot {
     private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
     private static MantaroBot instance;
 
-    //just in case
+    // Just in case
     static {
         if (ExtraRuntimeOptions.VERBOSE) {
             System.setOut(new TracingPrintStream(System.out));
@@ -90,16 +93,18 @@ public class MantaroBot {
     private final MantaroAudioManager audioManager;
     private final MantaroCore core;
     private final JdaLavalink lavaLink;
+    private final Config config = MantaroData.config().get();
 
     private final BirthdayCacher birthdayCacher;
-    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build());
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(
+            3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build()
+    );
 
     private MantaroBot() throws Exception {
         if(ExtraRuntimeOptions.PRINT_VARIABLES || ExtraRuntimeOptions.DEBUG)
             printStartVariables();
 
         instance = this;
-        Config config = MantaroData.config().get();
 
         if (config.needApi) {
             try {
@@ -120,7 +125,7 @@ public class MantaroBot {
             }
         }
 
-        //Lavalink stuff.
+        // Lavalink stuff.
         lavaLink = new LessAnnoyingJdaLavalink(
                 config.clientId,
                 ExtraRuntimeOptions.SHARD_COUNT.orElse(config.totalShards),
@@ -130,7 +135,7 @@ public class MantaroBot {
         for (String node : config.getLavalinkNodes())
             lavaLink.addNode(new URI(node), config.lavalinkPass);
 
-        //Choose the server with the lowest player amount
+        // Choose the server with the lowest player amount
         lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
         core = new MantaroCore(config, true, ExtraRuntimeOptions.DEBUG);
@@ -151,19 +156,34 @@ public class MantaroBot {
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
         MantaroData.config().save();
 
-        //Handle the removal of mutes.
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mute Handler"))
-                .scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
+        // Handle the removal of mutes.
+        ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor(
+                new ThreadFactoryBuilder().setNameFormat("Mantaro-MuteTask").build()
+        );
 
-        //Handle the delivery of reminders, assuming this is the master node.
+        muteExecutor.scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
+
+        // Handle the delivery of reminders, assuming this is the master node.
         if(isMasterNode()) {
-            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Reminder Handler"))
-                    .scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
+            ScheduledExecutorService reminderExecutor = Executors.newSingleThreadScheduledExecutor(
+                    new ThreadFactoryBuilder().setNameFormat("Mantaro-Reminder-Handler").build()
+            );
+
+            reminderExecutor.scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
         }
 
-        //Yes, this is needed.
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Ratelimit Map Handler"))
-                .scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 36, TimeUnit.HOURS);
+        // Yes, this is needed.
+        ScheduledExecutorService ratelimitMapExecutor = Executors.newSingleThreadScheduledExecutor(
+                new ThreadFactoryBuilder().setNameFormat("Mantaro-Ratelimit-Clean").build()
+        );
+
+        ratelimitMapExecutor.scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 36, TimeUnit.HOURS);
+
+        // Handle posting statistics.
+        ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(
+                new ThreadFactoryBuilder().setNameFormat("Mantaro-StatPosting").build()
+        );
+        postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
     }
 
     public static void main(String[] args) {
@@ -255,6 +275,27 @@ public class MantaroBot {
 
         //Start the birthday cacher.
         executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
+    }
+
+    private void postStats(ShardManager manager) {
+        for(JDA jda : manager.getShardCache()) {
+            if(jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN)
+                return;
+
+            try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                var json = new JSONObject()
+                        .put("guild_count", jda.getGuildCache().size())
+                        .put("cached_users", jda.getUserCache().size())
+                        .put("gateway_ping", jda.getGatewayPing())
+                        .put("shard_status", jda.getStatus())
+                        .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff())
+                        .put("node_number", MantaroBot.getInstance().getNodeNumber())
+                        .toString();
+
+                jedis.hset("shardstats-" + config.getClientId(), String.valueOf(jda.getShardInfo().getShardId()), json);
+                log.debug("Sent process shard stats to Redis (Global) [Running Shards: {}] -> {}", manager.getShardsRunning(), json);
+            }
+        }
     }
 
     public void forceRestartShardFromGuild(String guildId) {

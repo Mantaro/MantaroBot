@@ -1,9 +1,9 @@
 {
   "general": {
     "invalid_number": "%1$sНекорректное число!",
-    "requested_by": "Запросил %1$s.",
+    "requested_by": "Запросил(а) %1$s.",
     "operation_timed_out": "%1$sВремя ожидания ответа истекло.",
-    "too_many_users_found": "%1$sПо вашему запросу найдено слишком много пользователей, попробуйте повторить поиск? (ex. use name#discriminator)\n**Пользователь найден:** %2$s",
+    "too_many_users_found": "%1$sПо вашему запросу найдено слишком много пользователей, попробуйте повторить поиск? (ex. use name#discriminator)\n**Пользователей найдено:** %2$s",
     "search_no_result": "%1$sВаш поиск не дал результатов :(",
     "unknown": "Неизвестно",
     "days": "Дней",
@@ -23,25 +23,28 @@
     "name": "Имя",
     "description": "Описание",
     "options": "Настройки",
-    "find_members_failure": "%1$sПо вашему запросу не найдено ни одного участника:(",
-    "too_many_members": "%1$sНайдено слишком много участников, попробуйте повторить поиск? (ex. use name#discriminator)\n**Участник найден:** %2$s",
+    "find_members_failure": "%1$sПо вашему запросу не найдено ни одного участника :(",
+    "too_many_members": "%1$sНайдено слишком много участников, попробуйте изменить ваш запрос? (ex. use name#discriminator)\n**Найденные участники:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "Здесь только пыль.",
     "invalid_syntax": "Неверный синтаксис.",
     "item_lookup": {
       "no_item_emoji": "Нет предмета связанного с этим эмодзи.",
       "no_item_name": "Нет предмета связанного с этим именем.",
-      "not_found": "Не удалось найти запрашиваемый вами предмет. Попробуйте использовать сокращенное название, к примеру не `Energy Beverage`, а `energy` или заключите название в кавычки",
-      "claim_key": "Вы не можете передать ключ неприкосновенности."
+      "not_found": "Не удалось найти запрашиваемый вами предмет. Попробуйте использовать сокращенное название, к примеру не `Energy Beverage`, а `energy` или заключите название в кавычки.",
+      "claim_key": "Вы не можете передать вайфу ключ."
     },
     "misc_item_usage": {
-      "mop": "%1$sВозможно вы почистили всю пыль, накопленную за все раскопки.",
-      "milk": "%1$sСнимает все эффекты от зелий.",
-      "stamina": "%1$sАктивирует выносливость на 5 раскопок.",
-      "stamina_used": "%1$sВы активировали зелье выносливости!",
+      "mop": "%1$sВы (возможно) почистили всю пыль, накопленную за всё время.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
+      "milk": "%1$sСнялись все эффекты зелий.",
+      "stamina": "%1$sАктивирована выносливость на 3 сессии добычи полезных ископаемых.",
+      "stamina_used": "%1$sУ вас уже активировано зелье выносливости!",
       "haste": "%1$sАктивирует ускорение на 2 действия.",
       "haste_used": "%1$sВы активировали зелье ускорения!",
       "bait": "%1$sНаживка на крючке, удачной рыбалки! (Активно на 1 использование)",
-      "bait_used": "%1$sВы уже активировали приманку!",
+      "bait_used": "%1$sУ вас уже активирована приманка!",
       "pill": "%1$sВы использовали пилюлю вайфу! (Активно на 5 действий)",
       "pill_used": "%1$sВы уже активировали пилюлю вайфу!",
       "crate": {
@@ -70,13 +73,13 @@
     "deprecated": "Больше не используется",
     "space_notice": "Если имя содержит пробелы, попробуйте \"заключить его в кавычки\"",
     "ratelimit": {
-      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова в %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова через %3$s.**",
+      "spam_1": "Остановитесь и отдохните, это полезно для вашего здоровья. **Время запроса продолжит увеличиваться, если вы продолжишь спамить!**",
       "spam_2": "\nЯ думаю тебе лучше остановиться сейчас...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_3": "\nПочему бы тебе немного не прогуляться на улице?",
+      "spam_4": "\nЭта штука вообще работает?"
     },
-    "generic_error": "Если ты хочешь вступить, на наш **сервер поддержки** (Перейди по ссылке `support.mantaro.site`), или перейди через страницу на GitHub (`https://github.com/Kodehawa/MantaroBot`). Если у вас появилась проблема, не забывайте отправлять ID ошибки при обращении!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
       "Казалось бы, Мегумин взорвала наш замок...",
       "Охх, похоже, что мой хозяин забыл несколько нулей и единиц на полу :<",
@@ -137,7 +140,7 @@
         "success": "Вы нашли %1$s **%2$s** во время рыбалки и вы решили забрать его с собой. Скорее открой его, для этого используй: `~>opencrate <crate name>`. Тебе нужен ключ от сундука!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$sАвтоматически экипирована **%2$s** в слот для рыбы."
       },
       "overflow": "%1$sВы поймали много рыбы, но ваш инвентарь был немного переполнен, поэтому нам пришлось выбросить часть обратно в воду...",
       "success": "%1$sВо время рыбалки вы поймали %2$s и отправили ее в ведро с уловом.",
@@ -224,8 +227,8 @@
       "track_error": "%1$sУпс, что-то пошло не так и я не могу проиграть этот трек, я попробую сыграть следующий из очереди, если он там есть.",
       "queue_finished": "%1$sЗавершено воспроизведение текущего плей-листа, надеюсь вам понравилось.\n%2$s",
       "soundcloud_no_args": "%1$sЯ не умею читать мысли, поэтому дайте мне название трека, который нужно воспроизвести :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "too_many_errors": "%1$sСлишком много ошибок в данной сессии, прекращаю работу...",
+      "no_vc_found": "%1$sЯ не подключена ни к единому голосовому чату, а должна ли? Попробуйте снова.",
       "queue": {
         "no_track_found_np": "По вашему запросу ничего не найдено (название/тайминг)",
         "header": "В очереди %1$s",
@@ -250,7 +253,7 @@
         "success": "%1$sУспешно подключен к каналу **%2$s**!",
         "full_channel": "%1$sЯ не могу подключиться к вашему каналу потому что он полный!",
         "non_existent_channel": "%1$sВы указали несуществующий канал. Скорее всего вы создали голосовой канал и удалили его. \n Мы сбросили ваш голосовой канал, попробуйте ещё раз.",
-        "user_no_vc": "%1$s**Пожалуйста, подключитесь к голосовому каналу**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sУ меня нет прав для того, чтобы подключиться к этому каналу (%2$s).",
         "missing_permission_speak": "%1$sУ меня нет разрешения на разговор в этом канале (%2$s).",
         "channel_locked": "%1$sЯ могу играть музыку только в канале **%2$s**.",
@@ -312,7 +315,7 @@
       "vc_not_found": "%1$sГолосовой канал не найден или вы его попросту не указали!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -368,10 +371,10 @@
       "premium_only": "%1$sФункция доступна только для премиумов. Чтобы получить доступ к командам премиума посетите наш patreon (https://www.patreon.com/mantaro). Благодарим за понимание.\nКупленный премиум можно привязать к серверу или на личный аккаунт, пожалуйста, если вы задонатили, посетите сервер поддержки и уточните."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
+      "no_current_track": "%1$sВ данный момент на сервере не играет музыка!",
+      "error_searching": "%1$sПри поиске этого трека произошла ошибка или результаты не были найдены.",
       "header": "%1$sТекст песни для %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "footer": "Спасибо что используете Мантаро! Страница: %1$d, Всего: %2$d."
     },
     "prefix": {
       "header": "%1$sПрефиксы по умолчанию %2$s (Я отвечаю на любой из них!). Серверный префикс `%3$s` (Работает только на этом сервере). Вы можете установить нужный вам префикс командой: `~>opts prefix set <prefix>`",
@@ -401,12 +404,13 @@
       },
       "raw": {
         "no_command": "%1$sВы должны сказать мне, какую команду желаете проверить.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Команда \"%1$s\":",
         "amount": "(Информация по %1$d запросил %2$d)",
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
-        "success": "%1$sОчищено **%2$d кастомных команд**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sНачинаю **\"Создания кастомной команды `%2$s`\"**!\nОтправь `&~>stop для отмены создания **без сохранения**.\nОтправь `&~>save` отмены создания **сохранив новую команду**. Отправь текст после `&` для добавления ответа, когда эта команда будет запрошена. Используй `~>nsfw` чтобы пометить эту команду как NSFW и `~>sfw` для отмены.\nЭта команда завершится без сохранения через 60 секунд бездействия.",
@@ -421,11 +425,11 @@
         "error": "%1$sПроизошла ошибка при оценке этой команды!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
+        "no_command": "%1$sВам нужно сказать мне, какую команду вы хотите удалить.",
         "success": "%1$sУдалена кастомная команда `%2$s`."
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
+        "no_command": "%1$sВам нужно сказать мне, какую команду вы хотите импортировать.",
         "not_found": "%1$sЗдесь нет кастомных команд соответствующих вашему поисковому запросу.",
         "header": "`%1$s` (Responses: %2$s) - Сервер: `%3$s`",
         "selection": "Выберите команду:",
@@ -433,29 +437,39 @@
         "success": "Импортирована кастомная команда `%1$s` с сервера `%2$s` в общей сложности %3$d ответ(ов)."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
+        "no_command": "%1$sВам нужно указать, какую команду вы хотите отредактировать.",
         "invalid_number": "%1$sВам нужно указать правильный номер для изменения.",
         "no_index": "%1$sВы не можете редактировать несуществующий индекс.",
         "empty_response": "%1$sНевозможно отредактировать пустой запрос",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
+        "not_enough_args": "%1$sВам нужно указать команду, индекс и новый ответ",
         "success": "%1$sОтредактирован запрос **#%2$d** команды `%3$s` правильно"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sВам нужно указать команду, из которой вы хотите удалить ответ.",
+        "invalid_number": "%1$sВам нужно указать правильный номер для изменения.",
+        "no_index": "%1$sВы не можете удалить несуществующий индекс.",
+        "not_enough_args": "%1$sВам необходимо указать команду и индекс, который вы хотите удалить.",
+        "success": "%1$sУспешно удалён ответ **#%2$d** для команды `%3$s`"
       },
       "rename": {
         "success": "%1$sПереименована команда с `%2$s` на `%3$s`"
       },
       "add": {
         "no_command": "%1$sВам нужно указать команду, которую вы хотите добавить.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
+        "not_enough_args": "%1$sВам нужно указать имя команды и ответ для команды, которую вы хотите добавить.",
         "empty_content": "%1$sВам необходимо указать содержимое этой пользовательской команды",
         "success": "%1$sСохранено для команды `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "too_many_commands": "%1%sНа этом сервере слишком много команд, поэтому вы не можете добавить больше (+100). Премиум-гильдии могут обойти это (см. <https://patreon.com/mantaro>)."
+      },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sЭтот символ не разрешен для пользовательских команд.",
       "already_exists": "%1$sКоманда `%2$s` уже существует - это команда бота по умолчанию.",
@@ -466,7 +480,8 @@
       "invalid_image": "%1$sДанная команда содержит недопустимое изображение, смените его...",
       "invalid_string": "%1$sСтрока `{%2$s}` недопустима или имеет объем более 2000 символов.",
       "invalid_json": "%1$sСтрока содержит `{%2$s}` недопустимый код JSON.",
-      "invalid_link": "%1$sСтрока содержит `%2$s` недопустимую ссылку."
+      "invalid_link": "%1$sСтрока содержит `%2$s` недопустимую ссылку.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sВы должны иметь права на мут или бан чтобы кикнуть пользователя.",
@@ -584,7 +599,7 @@
         "header_other": "%1$s's cтатистика вайфу",
         "format": "%1$s **Вклад количества денег в общую сумму:** %2$,d\n%1$s **Общая стоимость бейджей:** %3$,d\n%1$s **Стоимость от опыта:** %4$,d\n%1$s **Стоимость от общей суммы:** %5$,d\n%1$s **Бонус от репутации:** %6$.2fx",
         "value": "Общая стоимость вайфу",
-        "credits": "%1$,d credits",
+        "credits": "%1$,d Кредитов",
         "performance": "Опыт вайфу"
       },
       "claim": {
@@ -603,7 +618,7 @@
         "not_claimed": "%1$sЭтот пользователь не ваша вайфу!",
         "confirmation": "%1$sВы *уверены* что желаете убрать %2$s? Цена для этого действия **%3$s кредитов**. Напишите *yes* чтобы подтвердить или *no* для отмены\n%4$sУ вас есть 1 минута.",
         "not_enough_money": "%1$sУ вас недостаточно денег чтобы убрать вайфу!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
+        "player_locked": "%1$sВы не можете этого сделать в данный момент.",
         "scrapped": "%1$sОтмена удаления вайфу.",
         "success": "%1$sУспешно удален(а) `%2$s` сумма **%3$s credits**.",
         "not_found": "%1$sЯ не могу найти не одного пользователя по этому запросу. Если пользователя нет на сервере, попробуйте использовать его ID и добавьте в конце `-unknown`."
@@ -615,11 +630,11 @@
         "too_many": "%1$sУ вас и так много слотов!"
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing yes will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "notice": "%1$sВы отказались от всей системы вайфу, поэтому не можете это использовать.",
+        "warning": "%1$sВы хотите отказаться от системы Вайфу? ЭТО ПОСТОЯННО И ОТМЕНИТЬ НЕВОЗМОЖНО.\nЕсли вы хотите отказаться от новых заявок и хотите использовать систему вайфу как обычно, используйте вместо этого `~>profileclaimlock`.\nВы не сможете быть чьим-то вайфу или взять других, отношения с вами будут удалены.\nВведите `Yes, I want to opt out of the waifu system completely and irreversibly` или `no`. При вводе первого вы откажетесь от участия, второго - отмените заявку.",
+        "success": "%1$sВы успешно отказались от вайфу системы.",
+        "cancelled": "%1$sОтменена заявка на отказ.",
+        "claim_notice": "%1$sПользователь которого вы пытаетесь взять отказался от вайфу системы."
       },
       "header": "Вайфу лист",
       "description_header": "Это список ваших вайфу, отстортированных по дате обновления.\n*Сейчас вы можете иметь максимум %1$d вайфу.*\n\nЕсли вы желаете проверить свою статистику, используйте команду: `~>waifu stats`\n\n",
@@ -663,7 +678,7 @@
       "no_tool": "%1$sВы должны иметь %2$s чтобы создать предмет!",
       "item_broke": "\nПечально, ваш гаечный ключ был сломан в процессе, но предмет вы создали!",
       "too_many": "%1$sУ вас будет более 5000 предметов после этого действия. Попробуйте создать чуть меньше?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench.",
+      "low_tier": "%1$sВам нужен как минимум гаечный ключ 2 уровня (как минимум Comet Wrench), чтобы сотворить больше предметов за сообщение. В настоящее время у вас есть гаечный ключ %2$s уровня.",
       "not_enough_wrench_level": "%1$sВы не можете использовать обычный гаечный ключ. Может использовать ключик получше? *Уровень гаечного ключа: %2$s, Требуемый уровень: %3$s*",
       "too_many_amount": "%1$sВы не можете создать столько единиц этого предмета за один раз! Лимит: %2$s, Попыток: %3$s. Sparkle Wrench удвоит этот лимит! Если вы его еще не используете.",
       "ls": {
@@ -672,7 +687,7 @@
         "desc": "Это список предметов, которые вы можете создать используя `~>cast`.\nВы можете использовать полное или краткое имя для этого (к примеру: `~>cast diamond pickaxe` или `~>cast diamond p`)\n**Создание имеет минимальную стоимость в половину цены предмета. Цена создания указана ниже.**"
       },
       "dust": "%1$sВы не можете создать это с таким пыльным инвентарем! *(Уровень пыли: %2$s%%)*. Почему бы не почистить его используя `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "wrench_multiple_use": "Подсказка: *Вы не можете использовать ключ который вы уже используете как ингредиент!*"
     },
     "market": {
       "dump": {
@@ -690,32 +705,32 @@
         "success": "%1$sЦена в магазине на %2$s**%3$s** составляет %4$s кредитов, вы получите %5$s в случае продажи."
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете продать.",
+        "invalid": "%1$sНедопустимое количество предметов для продажи.",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$sВы *уверены* что хотите продать **все** свои предметы? Это отчистит *весь* ваш инвентарь. Если вы хотите продать индивидуальны предметы, тогда пожалуйста используйте количество. Введите **yes** для подтверждения продажи или **no** для отмены",
+          "success": "%1$sВы продали все предметы из вашего инвентаря и заработали %2$,d кредитов!",
+          "cancelled": "%1$sУспешно отменено."
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$sВы не можете продать несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
+        "no_sell_price": "%1$sВы не можете продать этот предмет. (Но вы можете использовать это `~>market dump`)",
+        "no_item_player": "%1$sВы не можете продать предмет, которого у вас нет.",
+        "more_items_than_player": "%1$sВы не можете продать больше предметов, чем у вас имеется.",
+        "success": "%1$sВы продали %2$,d **%3$s** и получили %4$,d кредитов!"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
+        "invalid": "%1$sНедопустимое количество предметов для покупки.",
+        "non_existent": "%1$sВы не можете купить несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
+        "no_buy_price": "%1$sВы не можете купить этот предмет.",
+        "item_limit_reached": "%1$sВы не можете купить больше этого объекта.",
+        "success": "%1$sУспешно куплены %2$,d %3$s за %4$,d кредитов. У вас осталось %5$,d кредитов.",
+        "not_enough_money": "%1$sУ вас не хватает денег для покупки этого предмета."
       },
       "header": "Магазин Mantaro",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "reference": "\nВы можете покупать и продавать предметы, используя `~>market buy <item>` и `~>market sell <item>`. Смотрите `~>help market` для подробной информации.",
+      "sell_price": "- **Цена Продажи:**",
+      "buy_price": "- **Цена Покупки:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sВы не можете передать предмет себе.",
@@ -754,8 +769,8 @@
       "interactive_no_action": "%1$sЭто юзабельный предмет, но вы не указали действие...",
       "no_item": "%1$sВ вашем инвентаре нет этого предмета...",
       "not_enough_items": "%1$sУ вас не хватет этого.",
-      "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
+      "too_little": "%1$sВы не можете использовать меньше одного предмета.",
+      "invalid_amount": "%1$sКоличество должно быть действительным числом от «1» до «9»!"
     },
     "opts": {
       "note": "%1$sХей, проверь <https://github.com/Mantaro/MantaroBot/wiki/Configuration> там есть вся нужна информация по opts.\nЗаметка: Только администраторы или люди с ролью Bot Commander могут использовать эту команду!",
@@ -850,15 +865,15 @@
         "buff": "Бафф",
         "buff_type": "Тип баффа",
         "experience": "Опыт",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "mine_xp": "Опыт Шахтёрства",
+        "fish_xp": "Опыт Рыбалки",
+        "sharks_caught": "Акул Поймано",
+        "crates_open": "Контейнеров Открыто",
+        "times_mop": "Раз Вытерто",
         "daily": "Бонусный ежедневный стрик",
         "daily_at": "Дата последнего полученного ежедневного бонуса",
         "waifu_claimed": "Покупал(а) вайфу",
-        "waifu_locked": "Waifu Lock",
+        "waifu_locked": "Вайфу Замок",
         "dust": "Уровень пыли",
         "lang": "Отображаемый язык",
         "reminders": "Напомнил",
@@ -866,8 +881,8 @@
         "days": "дней",
         "times_used": "Использовано раз",
         "equipment": "Экипировано",
-        "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip",
+        "seasonal_equipment": "Сезонное Оборудование",
+        "autoequip": "Авто-эквипировка",
         "never": "Никогда"
       },
       "hide_tag": {
@@ -879,17 +894,17 @@
         "not_owned": "%1$sУ вас нет этого предмета!",
         "success": "%1$sВы успешно экипировали %2$s *%3$s*, он будет использован в следующий раз при использовании команды автоматически.",
         "not_suitable": "%1$sВы не можете это экипировать.",
-        "not_equipped": "%1$sYou don't have this equipped.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+        "not_equipped": "%1$sУ вас этого нет.",
+        "already_equipped": "%1$sУ вас уже экипирован предмет этого типа! Попробуйте `~>unequip <type>` (Типом может быть удочка или кирка) если хотите снять его."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
-        "success": "%1$sSuccessfully unequipped your %2$s slot.",
+        "not_equipped": "%1$sУ вас ничего не экипировано в данном слоте.",
+        "no_content": "%1$sВам надо уточнить тип прибора чтобы его снять, им могут быть одно из `pick, rod`",
+        "invalid_type": "%1$sНеверный тип. Допустимые типы: `pick, rod`",
+        "success": "%1$sУспешно снят ваш %2$s слот.",
         "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
-        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
-        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back."
+        "broken_equipment_recover": "\nВаша экипировка уже была использована, но вы получили %1$s назад, вы можете починить это если вам понадобится позже!",
+        "broken_equipment_recover_none": "\nЭтот тип экипировки уже был использован и не может быть отремонтирован, поэтому он исчез в пустоту, но вы получили %1$s кредитов взамен."
       },
       "display": {
         "not_premium": "%1$sПерсонализация профильного виджета доступна только для премиум-пользователей.",
@@ -900,13 +915,13 @@
         "example": "\nК примеру: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Любой из них работает и вы можете включить их отображение в вашем профиле*"
       },
       "claimlock": {
-        "removed": "%1$sSuccesfully reset your claim lock status.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
-        "no_key": "%1$sYou don't have a claim key to do this."
+        "removed": "%1$sУспешно сброшен статус вашего вайфу замка.",
+        "success": "%1$sВы больше не можете стать чьим-то вайфу. На это был потрачен ключ.",
+        "no_key": "%1$sУ вас нет вайфу ключа чтобы сделать это."
       },
       "autoequip": {
-        "disable": "%1$sSuccesfully disabled auto-equip.",
-        "success": "%1$sEnabled auto-equip."
+        "disable": "%1$sУспешно отключёна авто-экипировка.",
+        "success": "%1$sВключена авто-экипировка."
       },
       "badge_header": "%1$sОтображаемые значки",
       "bot_notice": "%1$sУ ботов нет профиля.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sДата успешно сброшена.",
-      "no_global_birthdays": "%1$sЗдесь немного пусто...",
-      "no_guild_month_birthdays": "%1$sВ этом месяце нет дней рождения (%2$s):(\n%3$sЕсли вы настроили оповещения о днях рождения, подождите пока оно не запустится снова. (Кэш обновляется каждые 23 часа)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sКажется Кэш дней рождения не работает (внутренняя ошибка) :(",
       "error": "%1$sПри получении дат дней рождения что-то пошло не так (внутренняя ошибка) :(",
-      "header": "**%1$s's Дни рождения %2$s**\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
+      "full_header": "**%1$s День рождения**\n%2$s",
+      "invalid_date": "%1$sНе действительная дата или её формат.\nПомните что формат даты это `дд-мм` (день-месяц)",
+      "error_date": "%1$s%2$s не является действительной датой или я не могу это разобрать. Пожалуйста попробуйте с правильной формировкой даты. Помните что правильный формат для даты это `дд/мм`",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sНеправильно указан номер месяца (цифра от 1 до 12)",
-      "no_content": "%1$sВы не указали дату дня рождения.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "new_format": "%1$sНовый формат даты это просто `дд-мм` (день-месяц, для примера 20-10 это 20-ое Октября). Теперь не надо вписывать год, вы можете пропустить эту часть.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sВы должны указать что выбрать. (К примеру: `~>choose anime manga`)",
@@ -986,12 +1004,13 @@
       "too_little_time": "%1$sСлишком мало времени (Минимум: 10 секунд)",
       "too_long": "Слишком много времени... (Максимум: 3 месяца)",
       "success": "%1$sЯ напомню тебе (%2$s#%3$s) об этом: `%4$s` в %5$s",
-      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
+      "too_many_reminders": "%1$sУ вас слишком много напоминаний! Попробуйте отменить несколько?"
     },
     "time": {
       "invalid_timezone": "%1$sНеверный часовой пояс.",
       "success": "%1$sЭто %2$s в %3$s часовом поясе.",
-      "error": "%1$sОшибка при поиске часового пояса... или он недействительный."
+      "error": "%1$sОшибка при поиске часового пояса... или он недействительный.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sВы должны указать термин, который нужно найти в городоском словаре.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "Твой премиум статус",
         "header_other": "%1$s's Премиум статус",
-        "not_premium": "%1$sВы не премиум :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Премиум пользователь! <3**",
         "old_system": "**Вы премиум пользователь старой системы! Не переживайте, все функции работают исправно!**"
       },
@@ -1050,7 +1069,7 @@
       "keys_claimed": "Ключей активировано"
     },
     "support": {
-      "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
+      "info": "%1$sЕсли вам нужна поддержка, то пожалуйста зайдите на наш сервер поддержки на <https://support.mantaro.site> и задайте ваш вопрос в канале #support !"
     },
     "action": {
       "no_mention": "%1$sВы не упомянули пользователя",
@@ -1070,9 +1089,9 @@
         "teehee": "*дразнит тебя*",
         "smile": "*улыбается тебя*",
         "stare": "*смотрит на тебя*",
-        "holdhands": "*holds your hand*",
-        "cuddle": "*cuddles you*",
-        "nuzzle": "*nuzzles you*",
+        "holdhands": "*держит вашу ручку*",
+        "cuddle": "*нежно обнимает*",
+        "nuzzle": "*прикасается щекой*",
         "bloodsuck": "К-как я это... Ох хорошо.. *высасываю твою кровь*"
       },
       "self": {
@@ -1135,7 +1154,7 @@
         "category": "Категория"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
+        "start": "%1$sУгадай число! **У вас 5 попыток и 1 минута. Загаданное число находится между 0 и 150**",
         "nan": "%1$sЭто даже не число...",
         "ended_game": "%1$sКонец игры. Загаданное число это - %2$d",
         "all_attempts_used": "%1$sИспользованы все попытки, конец игры. Загаданное число это - %2$d",
@@ -1232,23 +1251,23 @@
       "not_found": "%1$sI didn't find a pet with the provided name.",
       "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
       "overview": "Pet Overview and Statistics",
-      "name": "Name",
-      "tier": "Tier",
-      "element": "Element",
-      "owner": "Owner",
-      "created": "Created At",
-      "affection": "Affection",
-      "stamina": "Current Stamina",
-      "hp": "Current HP",
+      "name": "Имя",
+      "tier": "Этап",
+      "element": "Элемент",
+      "owner": "Владелец",
+      "created": "Создан в",
+      "affection": "Привязанность",
+      "stamina": "Текущая Стамина",
+      "hp": "Текущее Здоровье",
       "fly": "Fly",
       "venom": "Venom",
       "inventory": "Inventory",
-      "id": "Pet ID: %1$s",
+      "id": "ID Питомца: %1$s",
       "hunger": "Hunger",
       "hydration": "Hydration"
     },
     "petactions": {
-      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
+      "general": "Питомцы - это, ваш компаньон в использовании валюты! **Вы можете дрессировать их, гладить, кормить или устраивать битвы между другими вашими питомцами или с питомцами других людей!** Чтобы создать питомца, вам понадобится инкубатор, который вы можете смастерить из молока, старого напитка и алмазов, это позволит высиживать питомца, для чего вам потребуется дать ему имя.\n\nПитомцы могут сражаться в PetBattle, которая представляет собой пошаговую (наподобие) систему боя, основанную на одноходовой стратегии, с аварийным разворотом на пол-оборота, если разница в здоровье между питомцами слишком велика, что позволит вам измените свою стратегию.\n\nДля соревнований вам нужно использовать разные навыки, которые подходят для разных элементов и типов. Вы выбрали их в начале своего хода или на пол-оборота.\nНавыки - ваше главное оружие! Но у питомцев может быть и основное оружие, в зависимости от их типа и привязанности. Магазин оружия доступен в `~>petaction shop`, и вы можете оборудовать его с помощью `~> petaction weapon`, оружие *не имеет* множителя урона само по себе, но оно может повысить эффективность некоторых атак и навыков, например из-за этого нет оружия ближнего боя, так как весь урон в PetBattle наносится на основе их воли, а не их реальной жизни.\n\nВыполните `~>help petaction`, чтобы получить список команд, которые вы можете использовать с вашим питомцем.",
       "incubate": {
         "no_name": "%1$sYou need to specify a name to give to your pet.",
         "only_letters": "%1$sThe name can only contain letters from a to z.",
@@ -1265,10 +1284,10 @@
         "success": "%1$sSuccessfully renamed **%2$s** to **%3$s** (ID: %4$s). Cost: %5$s"
       },
       "ls": {
-        "experience": "XP",
-        "age": "Age",
-        "no_pets": "%1$sYou have no pets.",
-        "header": "This is a list of the pets you currently own.\nPets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.",
+        "experience": "ОП",
+        "age": "Возраст",
+        "no_pets": "%1$sУ вас нет питомцев.",
+        "header": "Это список питомцев, которыми вы владеете.\nПитомцы - это ваши компаньоны по использованию валюты! ** Вы можете тренировать их, ласкать их, кормить их или же сражаться между вашими питомцами или питомцами других людей!** Чтобы создать питомца, вам нужен инкубатор, который вы можете смастерить из молока, старого напитка и алмазов, это позволит вам инкубировать животное, которое потребует от вас дать ему имя.",
         "pages": "**Total pages:** %1$s \nUse the message reaction to move between pages.\n\n"
       },
       "train": {
@@ -1378,8 +1397,8 @@
     "help": {
       "title": "Помощь Мантаро",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
+      "base": "**Полный лист команд**. Чтобы увидеть детальный гайд, пожалуйста посмотрите [wiki](https://github.com/Mantaro/MantaroBot/wiki). Гайды: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
+      "support": "[За помощью вы можете присоединиться к серверу поддержки](https://support.mantaro.site). [Вы можете следить за обновлениями в моём Твитере.](https://twitter.com/mantarodiscord)\n",
       "patreon": "[**Нам нужна ваша помощь, чтобы сохранить Мантаро онлайн! Нажмите здесь для получения дополнительной информации.**](https://www.patreon.com/mantaro)",
       "disabled_commands": "Отображаются только не отключенные команды. Всего отключенных команд: %1$s",
       "channel_specific_disabled_commands": "\nТолько отображаются не отключенные команды. Всего отключенных команд, связанных с каналом: %1$s",
@@ -1391,22 +1410,22 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
-      "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
-      "no_main_item": "%1$sYou don't have the item you need to repair this!",
+      "no_item": "%1$sВы не указали никакого предмета для починки. Пожалуйста помните использовать кавычки если в предмете есть пробелы.",
+      "no_item_found": "%1$sЯ не могу найти этот предмет. Используйте кавычки если имя имеет пробелы.",
+      "no_main_item": "%1$sУ вас нету нужного предмета чтобы починить это!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
-      "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
-      "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item.",
-      "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
-      "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
+      "no_tool": "%1$sВам нужен ключ 2-го уровня (как минимум Кометный Ключ) или уровня выше, чтобы починить данный предмет. Проверьте что вы имеете его и что вы уточнили верный ключ если вы вписывали его. Помните использовать кавычки если предмет имеет пробелы.",
+      "dust": "%1$sВаш инвентарь слишком пыльный для того чтобы провести починку. Уровень пыли: %2$s",
+      "not_wrench": "%1$sВы не можете использовать это как ключ. Помните использовать кавычки если в имени предмета есть пробелы.",
+      "not_enough_level": "%1$sВам нужен ключ выше уровня чтобы провести эту починку.",
+      "not_enough_money": "%1$sУ вас не хватает денег для починки этого предмета.",
+      "no_item_recipe": "%1$sУ вас нету нужных *%2$s* чтобы провести эту починку.",
+      "not_enough_items": "%1$sУ вас не хватает *%2$s* чтобы провести эту починку. **(Нужно: %3$s, У вас: %4$s)**",
+      "item_broke": "К несчастью, ваш ключ сломался в процессе, но вы всё равно получили результат!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
-        "header": "Repair-able Items List",
-        "cost": "Repair Cost: ",
+        "header": "Лист предметов доступных для починки",
+        "cost": "Стоимость ремонта: ",
         "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
       }
     },
@@ -1459,7 +1478,7 @@
         "up": "Ежедневная запись! Текущая продолжительность ежедневной записи: `%1$sx`",
         "first_time": "Впервые получаешь ежедневные кредиты, повеселись! (Возвращайся завтра!)",
         "lost_streak": {
-          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+          "normal": "2+ дней прошло с вашего последнего ежедневного бонуса, поэтому ваша серия состоящая из `%1$dx` дней сброшена :(",
           "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
         },
         "bonus": "\nВы выиграли бонус в размере $%1$s за то, что вы претендовали на свою ежедневную выплату в течение 5 дней подряд или более! (Включено в указанные деньги!)",
@@ -1469,13 +1488,13 @@
         },
         "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
+      "given_credits": "%1$sЯ отдала %3$s ваш дневной бонус в размере **$%2$,2**",
       "credits": "%1$sВы получили **$%2$s** ежедневных кредитов.",
       "sellout": {
-        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info.",
+        "get_premium": "Нам нужна ваша помощь в поддержке жизни Мантаро! Посмотрите <https://patreon.com/mantaro> для подробностей.",
         "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
       },
-      "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
+      "crate": "Вы получили кейс потому-что ваш ежедневная серия делится на 20! Наслаждайтесь.",
       "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
     },
     "gamble": {
@@ -1510,7 +1529,7 @@
       "easter": "\nКажется, у вас слишком много пыли... Возможно, вы хотите убрать её, пока её не стало слишком много?"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
+      "not_equipped": "%1$sУ вас не экипирована никакая кирка. Используйте `~>equip <pick name>` чтобы экипировать одну и начать ваше приключение!",
       "no_pick": "%1$sУ вас нет кирки для раскопок. Если вы хотите использовать какую-то другую кирку, то пишите `~>mine <название кирки>`",
       "not_suitable": "%1$sЭто не та кирка, которую вы можете использовать для раскопок!",
       "not_in_inventory": "%1$sУ вас нет выбора кирки, поэтому переключается на выбор по-умолчанию.",
@@ -1533,13 +1552,13 @@
         "success": "Вы нашли %1$s **%2$s** во время раскопок, и взяли его с собой. Идите и откройте его командой `~>opencrate <название ящика>`. Вам нужен ключ ящика с добычей!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$sАвтоматически экипирована **%2$s** в слот для кирки."
       },
-      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
-      "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
+      "item_broke": "%1$sВаша %2$s сломалась при использовании её :( %3$s",
+      "item_broke_autoequip": "*Подсказка: Вы можете использовать `~>profile autoequip` и мы автоматически будем экипировать предмет за вас, если же он у вас есть.*",
       "waifu_help": "Ваша вайфу пришла и присоединилась к вашим раскопкам, и вы оба получили большой улов",
       "missing_equipped": "%1$sУ вас была экипирована кирка %2$s, но у вас в инвентаре такой больше нет! Экипированная кирка была сброшена.",
-      "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
+      "broken_drop": "%1$sВаш прибор сломался, но вы можете его починить. Получили сломанный предмет: %2$s *%3$s*"
     },
     "slots": {
       "errors": {
@@ -1575,7 +1594,7 @@
         "game": "%1sНа ​​этой странице показаны 10 лучших людей, которые выиграли большие всего игр..\n\nВведите `~> help game` или `~> help trivia` для получения подробной информации о том, как работают игры!",
         "claim": "%1sНа этой странице показаны 10 лучших людей, которых делали своей вайфу больше всего раз.\n\nВведите `~>help waifu`, чтобы узнать больше о системе вайфу.",
         "money": "%1$sНа этой странице показаны 10 самых богатых людей у Мантаро.\nЭта таблица лидеров была устаревшей некоторое время, но никогда не сдавалась!",
-        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
+        "seasonal_money": "%1$sЭта страница показывает топ 10 богатых людей в Мантаро этого сезона.",
         "rep": "%1sНа этой странице показаны 10 людей с самым большим количеством репутации.",
         "streak": "%1sНа этой странице показаны 10 людей с самым большим количеством ежедневных записей.\n\nВведите `~>help daily`, чтобы узнать больше о ежедневных записях",
         "lvl": "%1sНа этой странице показаны 10 людей с самым большим уровнем.\n\nУровень зарабатывается во время разговоров. Использование команд не даёт опыт, опыт имеет время восстановления - 30 секунд.",
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sВы не можете установить роль autorole в качестве роли дня рождения! Помните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит.",
       "warning": "%1$sПомните, что роль дня рождения - это роль, которая назначается человеку, когда наступает день рождения, а затем удаляется, когда день проходит. Если у вас есть какие-либо сомнения относительно его настройки, вы всегда можете присоединяйтесь к нашему серверу поддержки и спросить. Вы также можете проверить `~> opts help birthday enable` для примера.",
       "warning_1": "Это происходит из-за того, как работает присваиватель дня рождения: он назначает временную роль человеку, у которого день рождения, и отменяет её назначение по истечению дня рождения. **Это означает, что каждый, у кого есть роль дня рождения, будет иметь роль в день, когда проходит его день рождения**. Пожалуйста, будьте осторожны при выборе роли для использования, так как неправильная конфигурация может привести к (на самом деле) плохим вещам!",
-      "warning_2": "Роль *должна быть вновь созданной ролью или ролью, которую вы никогда не используете*. Она НЕ ДОЛЖНА быть ролью, которую вы уже назначили для своих пользователей.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
       "warning_3": "Кроме того, кэш дня рождения (что используется для их хранения) обновляется только каждые 23 часа. То есть, если вы установите свой день рождения сегодня на завтра, чтобы протестировать этот извещатель, он **не будет** работать",
       "warning_4": "Введите **да**, если вы согласны установить роль%2$s как роль дня рождения, а **нет** - отменить. Это время ожидания через 45 секунд.",
       "success": "%1$sНа этом сервере включено ведение журнала дня рождения с параметрами -> Канал: `%2$s (%3$s)` и роль: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sВам нужно указать сообщение, которое будет отправляться при уходе с сервера!",
       "success": "%1$sСообщение, которе отправляется при уходе с сервера: `%2$s`"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
       "no_args": "%1$sВы должны указать имя iam и имя роли..",
@@ -2145,13 +2170,13 @@
     "shrimp": "Креветка",
     "moon": "Лунная руна",
     "flake": "Снежинка",
-    "broken_comet_pick": "Broken Comet Pick",
-    "broken_sparkle_pick": "Broken Sparkle Pick",
-    "broken_star_pick": "Broken Star Pick",
-    "broken_comet_rod": "Broken Comet Rod",
-    "broken_sparkle_rod": "Broken Sparkle Rod",
-    "broken_star_rod": "Broken Star Rod",
-    "incubator_egg": "Incubator Egg",
+    "broken_comet_pick": "Сломанная Кометная Кирка",
+    "broken_sparkle_pick": "Сломанная Искристая Кирка",
+    "broken_star_pick": "Сломанная Звёздная Кирка",
+    "broken_comet_rod": "Сломанная Кометная Удочка",
+    "broken_sparkle_rod": "Сломанная Искристая Удочка",
+    "broken_star_rod": "Сломанная Звёздная Удочка",
+    "incubator_egg": "Яйцо для Инкубатора",
     "water_bottle": "Water Bottle",
     "magic_watch": "Magical Watch",
     "description": {
@@ -2198,7 +2223,7 @@
       "pants": "По идее, ты носишь это на ногах... обнадёживающе.",
       "haste": "Позволяет получать больше вещей от раскопок на 2 действия.",
       "milky": "Убирает все негативные эффекты.",
-      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Заставляет кирку или удочку терять меньше прочности. Держится только 3 сессии добычи/рыбалки.",
       "rod": "Позволяет ловить рыбу. (20% шанс поломки)",
       "fish": "Рыба. Поймана на рыбалке.",
       "tropical_fish": "Очень тропическая рыба. Поймана на рыбалке.",
@@ -2208,7 +2233,7 @@
       "cobweb": "Что-то, оставленное пауком, в пещере. Удивлюсь, если это имеент хоть какую-то ценность.",
       "fragment": "Фрагмент древнего драгоценного камня. Полезен для отливки.",
       "mop": "Замечательный способ убрать всю пыль в округе. Бьюсю об заклад, её много.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
+      "claim_key": "Этот предмет позволяет перестать вам быть заключёнными как вайфу если использовать `~>profile claimlock`.",
       "coffee": "Замечательный способ начать свой день.",
       "waifu_pill": "Даёт вам существенное преимущество в раскопках и рыбалке, если одна из ваших вайфу стоит больше, чем 10 миллионов. На последующие 5 действий.",
       "bait": "Повышает твой шанс выловить рыбу.",
@@ -2237,14 +2262,14 @@
       "shrimp": "Розоватая штука. Я думаю.",
       "moon": "Лунная руна. Нужна, чтобы вылить некоторые вещи.",
       "flake": "Снежинка. Обычно используется в качестве литого ингредиента.",
-      "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
-      "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
-      "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
-      "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
-      "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
-      "incubator_egg": "TBD",
-      "water_bottle": "TBD",
+      "broken_comet_pick": "Кометная кирка которая сломалась при добычи. Ещё можно починить.",
+      "broken_sparkle_pick": "Искристая кирка которая сломалась при добычи. Ещё можно починить.",
+      "broken_star_pick": "Звёздная кирка которая сломалась при добычи. Ещё можно починить.",
+      "broken_comet_rod": "Кометная удочка которая сломалась при рыбалке. Ещё можно починить.",
+      "broken_sparkle_rod": "Искристая удочка которая сломалась при рыбалке. Ещё можно починить.",
+      "broken_star_rod": "Звёздная удочка которая сломалась при рыбалке. Ещё можно починить.",
+      "incubator_egg": "В разработке",
+      "water_bottle": "В разработке",
       "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!"
     }
   },

@@ -25,6 +25,8 @@
     "options": "Options",
     "find_members_failure": "%1$sAucun membre trouvé avec tes critères de recherche :(",
     "too_many_members": "%1$sTrop de membres trouvés, essaies d'affiner ta recherche peut-être? (ex. utilises le name#discriminator)\n**Membres trouvés:** %2$s",
+    "too_many_mentions": "%1$sMentionne une personne à la fois s'il te plait.",
+    "query_too_small": "%1$sTon champ de recherche est trop petit. Assure-toi qu'il fasse au moins 4 caractère. Si le nom d'utilisateur est trop petit, tu ferais mieux d'utiliser le format pseudo#discriminant ou l'ID de l'utilisateur.",
     "dust": "Il n'y a que de la poussière ici.",
     "invalid_syntax": "Syntaxe invalide.",
     "item_lookup": {
@@ -35,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sTu as(peut-être) nettoyé toute la poussière que tu as accumulée au cours de toutes ces sessions minière.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sEffets de la potion annulés.",
       "stamina": "%1$sEndurance activée pour 5 sessions minières.",
       "stamina_used": "%1$sTu as déjà un effet d'endurance actif!",
@@ -76,7 +79,7 @@
       "spam_3": "\nCe serait pas mieux si tu sortais un peu?",
       "spam_4": "\nEst-ce que ce truc est allumé au moins?"
     },
-    "generic_error": "Si tu veux, tu peux rejoindre notre **serveur de support** (Lien sur `support.mantaro.site`), et consulter notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). S’il te plait dis leur d'arrêter de m'exploiter, et stp n'oublies pas le code de l'erreur en rapportant le problème !",
+    "generic_error": "Si tu veux, tu peux rejoindre notre **serveur de support** (Lien sur `https://support.mantaro.site`), ou consulter notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). Je t'en prie dis leur d'arrêter de m'exploiter, et s'il te plait n'oublie pas le code de l'erreur en rapportant le problème !",
     "boom_quotes": [
       "Apparemment, Megumin a fait exploser notre château ... ",
       " Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol :<",
@@ -197,7 +200,7 @@
       "7": "- Pour **faire pause et continuer** utilises `~>pause`",
       "8": "- Pour **arrêter la musique ** utilises `~>stop`",
       "9": "- Pour **mélanger la liste de lecture** utilises `~>shuffle`",
-      "10": "- Et enfin, pour **répéter une chanson** utilises `~>repeat` et pour **répéter la liste de lecture** utilises `~>repeat queue`. Utilise `~>repeat` pendant que la répétition est en cours pour annuler la répétition\n",
+      "10": "- Et enfin, pour **répéter une chanson** utilise `~>repeat` et pour **répéter la liste de lecture** utilises `~>repeat queue`. Utilise `~>repeat` pendant que la répétition est en cours pour annuler la répétition\n",
       "11": "Pour plus d'info, utilises `~>help <nom de la commande>` (sans les <> et remplace nom de la commande par la commande que tu souhaites)",
       "12": "Profites bien de ta musique et merci d'utiliser Mantaro!"
     },
@@ -250,7 +253,7 @@
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
         "full_channel": "%1$sJe ne peux pas me connecter à ce salon vocal car il est plein!!",
         "non_existent_channel": "%1$sSalon vocal inexistant. Si tu configures un salon vocal et que tu le supprimes, cela peut en être la cause.\n J'ai réinitialisé ton salon musical pour toi, essaies de jouer la musique de nouveau.",
-        "user_no_vc": "%1$s**S'il te plait rejoins un salon vocal**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sJe ne peux pas me connecter à ce salon vocal car je n'ai pas la permission de le faire (%2$s).",
         "missing_permission_speak": "%1$sJe ne peux pas parler dans ce salon vocal car je n'ai pas la permission de le faire  (%2$s).",
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
@@ -312,7 +315,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -401,12 +404,13 @@
       },
       "raw": {
         "no_command": "%1$sTu dois me dire quelle commande tu veux regarder.",
+        "not_found": "%1$sJe ne trouve pas cette commande.",
         "header": "Commande \"%1$s\":",
         "amount": "(Affichage de %1$d réponse sur %2$d)",
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
-        "success": "%1$s**%2$d commandes personnalisées** effacées"
+        "success": "%1$s**%2$d commandes personnalisées ont été effacées**. Exception faite des commandes verrouillées/épinglées, débloque-les d'abord si tu souhaites les supprimer."
       },
       "make": {
         "start_text": "%1$sDémarrage **\"Création de la commande personnalisée `%2$s`\"**!\nÉcris `&~>stop` pour arrêter la création **sans sauvegarder**.\nÉcris `&~>save` pour arrêter la création et **sauvegarder la nouvelle commande**. Ecris n'importe quel texte commençant par `&` pour l'ajouter aux réponses de commande. Utilise `~>nsfw` pour identifier cette commande comme étant NSFW et `~>sfw` pour l'annuler.\nCette opération interactive se termine sans sauvegarder après 60 secondes d'inactivité.",
@@ -457,6 +461,16 @@
         "success": "%1$sCommande `%2$s` sauvegardée",
         "too_many_commands": "%1%sIl y a déjà trop de commande personnalisées sur ce serveur(+100), donc tu ne peux plus en ajouter. Sauf si tu deviens premium (Va sur <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sTu as besoin de la permission Gérer le serveur pour verrouiller et déverrouiller les commandes.",
+        "no_command": "%1$sTu dois spécifier la commande que tu veux verrouiller.",
+        "success": "%1$sTu as verrouillé la commande `%2$s` avec succès. Tu devras la déverrouiller pour tes éditions futures."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sTu dois spécifier la commande que tu veux déverrouiller.",
+        "not_locked": "%1$sCette commande n'est pas verrouillée.",
+        "success": "%1$sTu as déverrouillé la commande `%2$s` avec succès. Tu devras la verrouiller à nouveau si tu veux éviter de futures éditions."
+      },
       "character_not_allowed": "%1$sCe caractère n'est pas autorisé pour les noms de commandes personnalisées.",
       "already_exists": "%1$sLa commande `%2$s` existe déjà.",
       "name_too_long": "%1$sLe nom est trop long.",
@@ -466,7 +480,8 @@
       "invalid_image": "%1$sCette commande contient une image invalide, merci de corriger ...",
       "invalid_string": "%1$sLa chaîne `{%2$s}` n'est pas valide ou la sortie contient plus de 2000 caractères.",
       "invalid_json": "%1$sLa chaîne `{%2$s}` n'est pas un JSON valide.",
-      "invalid_link": "%1$sLa chaîne `%2$s` n'est pas un lien valide."
+      "invalid_link": "%1$sLa chaîne `%2$s` n'est pas un lien valide.",
+      "locked_command": "%1$sTu ne peux pas éditer ou supprimer cette commande tant qu'elle est verrouillée, utilise `~>custom unlockcommand <command name>` pour la déverrouiller s'il te plait."
     },
     "mute": {
       "no_permissions": "%1$sTu dois avoir l'autorisation de bannir ou d'expulser les membres pour rendre les gens muets.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sDate d'anniversaire correctement réinitialisée.",
-      "no_global_birthdays": "%1$sIl y a de l'écho par ici tant c'est vide...",
-      "no_guild_month_birthdays": "%1$sIl n'y a pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens juste de programmer l'annonceur d'anniversaires, attends un peu avant de refaire cette commande. (Le cache est rafraichi toutes les 23 heures)",
+      "no_guild_birthdays": "%1$sLes choses semblent vides ici.\nSouviens-toi que le cache se rafraichit toutes les 23h et que maintenant les gens doivent utiliser `~>birthday allowserver` pour autoriser le serveur à annoncer leur anniversaire.",
+      "no_guild_month_birthdays": "%1$sIl n'y à pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens de configurer l'annonceur d'anniversaires, attend un peu s'il te plait avant de réessayer. (Le cache se rafraichit toutes les 23h)\nSouviens-toi également que les gens doivent utiliser la commande `~>birthday allowserver` pour autoriser ce serveur à annoncer leur anniversaire.",
       "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
-      "header": "**Les anniversaires de %1$s du mois de %2$s**\n",
+      "header": "**Les anniversaires du mois de %1$s pour %2$s**\nLe cache des anniversaires se met à jour toutes les 23h, donc si ton anniversaire n'apparait pas ici, ne panique pas.\n",
       "full_header": "**Anniversaires du serveur %1$s**\n%2$s",
       "invalid_date": "%1$sCe n'est pas une date valide ou ce n'est pas le bon format.\nPour rappel, le bon format est: `jj-mm` (14-02 par exemple)",
       "error_date": "%1$s%2$s n'est soit pas au bon format soit je ne peux pas la séparer correctement. Réessaie avec le bon format s'il te plait.\nPour rappel, le bon format est: `jj-mm` (14-02 par exemple)",
-      "added_birthdate": "%1$sDate de naissance bien ajoutée. Nouvelle date de naissance : %2$s *(Format: jj-mm)* [day-month]",
+      "added_birthdate": "%1$sTu as ajouté ta date d'anniversaire avec succès. Nouvelle date d'anniversaire: %2$s *(Format: jj-MM)* [day-month]. Pour que ce serveur annonce ton anniversaire , tu dois lancer la commande `~>birthday allowserver`",
       "invalid_month": "%1$sCe n'est pas un numéro de mois valide! (Les nombres valides de mois vont de 01 à 12)",
-      "no_content": "%1$sTu dois spécifier ta date de naissance, `remove` pour réinitialiser ta date de naissance `month` pour voir les anniversaire du mois.",
-      "new_format": "%1$sLe nouveau format est juste `jj-mm` (jour-mois, par exemple 20-10 pour le 20 octobre). Plus besoin d'entrer l'année maintenant, donc tu peux omettre cette partie!"
+      "no_content": "%1$sTu dois spécifier ton anniversaire, `remove` pour le réinitialiser ou `month` pour vérifier la liste des anniversaire du mois. Maintenant, pour que ce serveur annonce ton anniversaire, lance `~>birthday allowserver`",
+      "new_format": "%1$sLe nouveau format est juste `jj-mm` (jour-mois, par exemple 20-10 pour le 20 octobre). Plus besoin d'entrer l'année maintenant, donc tu peux omettre cette partie!",
+      "allowed_server": "%1$sTu as autorisé ce serveur à annoncer ton anniversaire. Pour revenir en arrière lance simplement `~>birthday denyserver` sur ce serveur.",
+      "denied": "%1$sTu as interdit ce serveur d'annoncer ton anniversaire. Pour revenir en arrière lance simplement `~>birthday allowserver` sur ce serveur.",
+      "already_denied": "%1$sCe serveur ne peut pas annoncer ton anniversaire pour le moment. Si tu veux l'autoriser, lance `~>birthday allowserver` à la place. C'est le réglage par défaut."
     },
     "choose": {
       "nothing_to": "%1$sTu dois me donner 2 élément pour faire un choix. (Exemple : `~>choose anime manga`)",
@@ -991,7 +1009,8 @@
     "time": {
       "invalid_timezone": "%1$sCe n'est pas un fuseau horaire valide.",
       "success": "%1$sC'est %2$s dans le %3$s fuseau horaire.",
-      "error": "%1$sUne erreur s'est produite quand j'ai recherché votre fuseau horaire.. Il pourrait être invalide."
+      "error": "%1$sUne erreur s'est produite quand j'ai recherché votre fuseau horaire.. Il pourrait être invalide.",
+      "user_no_timezone": "%1$sL'utilisateur que tu mentionnes n'a pas défini de fuseau horaire."
     },
     "urban": {
       "no_args": "%1$sTu dois me spécifier ce que je dois rechercher sur UrbanDictionary.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "Ton statut de joueur premium",
         "header_other": "Statut premium de %1$s",
-        "not_premium": "%1$sTu n'es pas premium :c",
+        "not_premium": "%1$s%2$s n'est pas premium :c",
         "premium": "**Utilisateur Premium! <3**",
         "old_system": "**Utilisateur Premium de l'ancien système! Ne t'en fait pas, tu es Premium avec tout ce que ça implique ;) !**"
       },
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sTu ne peux pas assigner un autorôle comme rôle d'anniversaire. N'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé.",
       "warning": "%1$sN'oublie pas qu'il s'agit d’un rôle ajouté à ceux dont l'anniversaire approche et qui lui est enlevé quand le grand jour est passé. Si tu as le moindre doute sur la configuration, n'hésite pas à rejoindre le serveur de support et à demander. Tu peux aussi regarder `~>opts help birthday enable` par exemple.",
       "warning_1": "C'est à cause du fonctionnement du rôle: Ça assigne un rôle temporaire à ceux dont l'anniversaire arrive et leur enlève une fois le jour passé. **Ce qui veut dire qu'il leur sera enlevé une fois le jour passé**. Fais bien attention à ce que tu fais, la moindre erreur de configuration peut avoir de terribles conséquences (vraiment) !",
-      "warning_2": "Le rôle *doit être un rôle nouvellement créé ou inutilisé*. Il NE DOIT PAS être attribué.",
+      "warning_2": "Le rôle *doit être un rôle nouvellement créé ou un rôle que tu n'utilises pour personne d'autre*. Il NE DOIT PAS être déjà attribué à qui que ce soit. Les utilisateurs doivent autoriser ce serveur à annoncer leur anniversaire en utilisant la commande `~>birthday allowserver` sinon il n'apparaitra pas! Lis <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> pour plus d'infos.",
       "warning_3": "En plus, le \"birthday cache\" (ce qui est utilisé pour les stocker) est seulement mis à jour toutes les 23 heures. Ce qui veut dire que si tu programmes l'annonceur la veille de ton anniversaire pour le tester **ça ne va pas** fonctionner.",
       "warning_4": "Envoie **yes** si tu es d’accord de mettre le rôle %2$s comme rôle anniversaire et **no** sinon. Tu as 45 secondes.",
       "success": "%1$sLe log des anniversaires a été activé sur ce serveur dans les paramètres -> Salon: `%2$s (%3$s)` et rôle: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sTu dois me donner le message que tu veux que j'envoie lorsque quelqu'un nous quitte!",
       "success": "%1$sLe message de départ est défini sur: %2$s"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sLe message de bienvenue a été réinitialisé."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sLe message d' au revoir a été réinitialisé."
     },
     "autoroles_add": {
       "no_args": "%1$sTu dois me donner le nom de l'iam et du rôle.",

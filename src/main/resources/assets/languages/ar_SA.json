@@ -25,6 +25,8 @@
     "options": "الخيارات",
     "find_members_failure": "%1$sلم يتم العثور على أي عضو بمعايير البحث الخاصة بك :(",
     "too_many_members": "\"%1$sتم العثور على العديد من الأعضاء, ربما يمكنك حصر بحثك؟ (مثال. استخدم name#discriminator)\\n**Members found:** %2$s\",",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "هناك غبار فقط هنا.",
     "invalid_syntax": "بناء جملة غير صالح.",
     "item_lookup": {
@@ -35,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(ربما) قمت بتنظيف كل الغبار الذي تراكمت خلال كل جلسات الحفر.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sتم ازالة تأثير الجرع.",
       "stamina": "%1$sالقدرة على التحمل المنشط لمدة 3 جلسات حفر.",
       "stamina_used": "%1$sلديك بالفعل تأثير قوي على التحمل!",
@@ -76,7 +79,7 @@
       "spam_3": "ألن يكون من الأفضل أن تخرج قليلاً؟",
       "spam_4": "هل هذا الشيء حتى على؟"
     },
-    "generic_error": "إذا أردت الدخول الى **فريق الدعم** ادخل رابط (`support.mantaro.site`), أو تحقق من صفحتنا في GitHub (`https://github.com/Kodehawa/MantaroBot`). من فضلك قل لهم أن يتوقفو عن ازعاجي والرجاء لا تنسى اي دي الخطأ عند الإبلاغ!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
       "على ما يبدو ميغومين فجر قلعتنا...",
       "أوه, على ما يبدو أن سيدي نسي بعض الأصفار و احاد على الأرض :<",
@@ -250,7 +253,7 @@
         "success": "%1$sتم بنجاح الإتصال بالقناة **%2$s**!",
         "full_channel": "%1$sلايمكنني الإتصال بهذه القناة لانها ممتلئه! ",
         "non_existent_channel": "%1$sتلقيت قناة غير موجودة كرد فعل. إذا قمت بتعيين قناة صوتية ثم حذفها، فقد يكون هذا هو السبب.\nتم إعادة تعيين قناتك للموسيقى، جرب تشغيل الموسيقى مره أخرى. ",
-        "user_no_vc": "%1$s**أرجولك إتصل بقناة صوتيه**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sلايمكنني الإتصال بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "missing_permission_speak": "%1$sلايمكنني التكلم بهذه القناه، لأنني لا أملك الصلاحية (%2$s).",
         "channel_locked": "%1$sيمكنني تشغيل الموسيقى في القناة **%2$s** فقط. ",
@@ -312,7 +315,7 @@
       "vc_not_found": "%1$sلايمكن إيجاد القناة الصوتية أو لم تحدد واحدة!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -401,12 +404,13 @@
       },
       "raw": {
         "no_command": "%1$sعليك أن تخبرني ما الأمر الذي تريد أن تنظر إليه.",
+        "not_found": "%1$sI can't find that command.",
         "header": "أمر مخصص خام: %1$s",
         "amount": "(عرض %1$d الردود في %2$d)",
         "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
       },
       "clear": {
-        "success": "%1$sتم مسح **%2$d أوامر مخصصه**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
@@ -457,6 +461,16 @@
         "success": "%1$sتم الحفظ في الأمر `%2$s`.",
         "too_many_commands": "%1%sيوجد الكثير من الأوامر في هذا الخادم، لايمكنك إضافة أكثر من 100 أمر. يمكنك تجاوز هذا اذا كان لديك premium guilds. (تفقد <https://patreon.com/mantaro> )."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sلايسمح بإستخدام هذا الحرف في أوامر الأسماء المخصصه. ",
       "already_exists": "%1$sهذا الأمر `%2$s` موجود بالفعل وانه أمر البوت الإفتراضي. ",
       "name_too_long": "%1$sاسم طويل جداً",
@@ -466,7 +480,8 @@
       "invalid_image": "%1$sهذا الأمر يحتوي على صورة غير صالحة، أرجو الإصلاح....",
       "invalid_string": "%1$sالسلسلة `{%2$s}` غير صالحة أو الإخراج أطول من 2000 حرف. ",
       "invalid_json": "%1$sالسلسلة `{%2$s}` JSON غير صالح.",
-      "invalid_link": "%1$sالسلسلة `{%2$s}` ليست رابط صالح ."
+      "invalid_link": "%1$sالسلسلة `{%2$s}` ليست رابط صالح .",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لإسكات عضو.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sتم بنجاح إعادة تعيين تاريخ ميلادك.",
-      "no_global_birthdays": "%1$sالأشياء تبدو فارغة قليلاً هنا...",
-      "no_guild_month_birthdays": "%1$sلا توجد أعياد ميلاد لهذا الشهر (%2$s) هنا :(\n%3$sإذا قمت بإعداد مذيع عيد ميلاد فقط، يرجى الانتظار قليلا حتى استخدام هذا الأمر مرة أخرى. (ذاكرة التخزين المؤقت تحديث كل 23h)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sيبدو أن ميلاد ساشير لايمكن إستخدامه (خطأ داخلي) :(.",
       "error": "%1$sحصل شئ خطأ ما بينما كنت تحاول الحصول على عيدميلاد (خطأ داخلي) :(.",
-      "header": "**ميلاد %1$s ل %2$s** ",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**أعياد ميلاد %1$s**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
-      "no_content": "%1$sتحتاج إلى تحديد ميلادك. لإعادة تعيين ميلادك إستخدم الأمر `remove` أو `month` للتحقق من لستة أعياد الميلاد لهذا الشهر. ",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sيجب أن تخبرني ما الذي أختار هُنا. (مثال: `~>choose anime manga`)",
@@ -991,7 +1009,8 @@
     "time": {
       "invalid_timezone": "%1$sمنطقة زمنية غير صحيحة. ",
       "success": "%1$sانه %2$s في %3$s المنطقة الزمنية. ",
-      "error": "%1$sوجدت خطأ اثناء النظر في المنطقة الزمنية في الكتاب الكبير... أو يمكنه ان يكون غير صالح. "
+      "error": "%1$sوجدت خطأ اثناء النظر في المنطقة الزمنية في الكتاب الكبير... أو يمكنه ان يكون غير صالح. ",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sتحتاج إلى أن تقول لي ما هو المصطلح للبحث عنه في القاموس الحضري.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "حالة البريميوم الخاصة بك",
         "header_other": "حالة %1$s البريميوم",
-        "not_premium": "%1$sأنت لست بريميوم :(",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**عضو بريميوم! 3>**",
         "old_system": "**عضو بريميوم تحت النظام القديم! لا تقلق ، أنت عضو بريميوم والفوائد الخاصة بك سوف تعمل بشكل صحيح!**"
       },
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
       "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
       "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sServer leave message set to: `%2$s`"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",

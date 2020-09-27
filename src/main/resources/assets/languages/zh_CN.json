@@ -25,6 +25,8 @@
     "options": "选项",
     "find_members_failure": "%1$s找不到符合你搜索条件的成员 :(",
     "too_many_members": "%1$s找到太多成员了，试着改进你的搜索条件? (举例: 名字#判别数)\n**找到成员:** %2$s",
+    "too_many_mentions": "%1$s查询用户时只能Mention一个人。",
+    "query_too_small": "%1$s搜寻关键字过少。请至少输入四个字母。如果用户名称过短，使用 名称#判别数 或用户ID会是更好的选择。",
     "dust": "这裡只有尘土。",
     "invalid_syntax": "无效语法。",
     "item_lookup": {
@@ -35,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s你已经 (可能) 清理完了您家中的所有尘土。",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s药水效果已清除。",
       "stamina": "%1$s已激活耐力，持续三次採矿。",
       "stamina_used": "%1$s你目前已经有耐力效果了！",
@@ -46,17 +49,17 @@
       "pill_used": "%1$s你目前已经有waifu药丸了!",
       "crate": {
         "no_key": "%1$s你需要一个宝箱钥匙才能开启宝箱。他们都是锁住的!",
-        "no_crate": "%1$s你目前没有宝箱! 不然你要怎麽使用宝箱钥匙 >.>",
+        "no_crate": "%1$s你目前没有宝箱! 不然你要怎么使用宝箱钥匙 >.>",
         "success": "%1$s你开启了一个宝箱且得到了: %2$s%3$s。恭喜!",
         "overflow": "但是你已经有太多了，所以你决定将多出来的丢掉"
       },
       "potion_active": "%1$s你目前已经有最高数量的 **%2$s** 效果了!",
       "potion_not_found": "%1$s找不到这种药水或装备类型!",
       "potion_applied": "%1$s成功应用类型为 *%3$s* (%4$dx) 的 **%2$s** 效果。使用 `~>profile stats` 来查看你的新效果",
-      "potion_applied_multiple": "%1$s成功应用类型为 *%3$s* 的 **%2$s** 效果。\n但你已经有这种效果了，所以我们将它堆叠起来。当前堆叠数量: %4$s",
-      "max_stack_size": "%1$s你已经堆叠满 %2$s 了。",
-      "max_stack_size_2": "%1$s你不能一次堆叠那麽多的 %2$s。",
-      "not_same_potion": "%1$s你已经有堆叠种类为 %2$s 的药水且处于使用中，所以你不能再次堆叠种类 %3$s 的药水上去。"
+      "potion_applied_multiple": "%1$s成功应用类型为 *%3$s* 的 **%2$s** 效果。\n但你已经有这种效果了，所以我们将它堆迭起来。当前堆迭数量: %4$s",
+      "max_stack_size": "%1$s你已经堆迭满 %2$s 了。",
+      "max_stack_size_2": "%1$s你不能一次堆迭那么多的 %2$s。",
+      "not_same_potion": "%1$s你已经有堆迭种类为 %2$s 的药水且处于使用中，所以你不能再次堆迭种类 %3$s 的药水上去。"
     },
     "mention_user_required": "%1$s请ping一位用户",
     "invalid_character": "%1$s无效的字符。",
@@ -71,19 +74,19 @@
     "space_notice": "如果物品名称有空格，试着把他 \"用引号包起来\"",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能够在 %3$s 秒内再次使用这个指令**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "拜託休息一下！这对你的健康是很好的。**记得如果在冷却结束前不断尝试，速率限制是会持续增加喔！**",
       "spam_2": "\n我觉得你真的该停了...",
       "spam_3": "\n你是不是应该出去放鬆一下了?",
       "spam_4": "\n你确定我还活着吗?"
     },
-    "generic_error": "你可以考虑回报到我们的 **支援中心** (`support.mantaro.site`)，或是我们的GitHub页面 (`https://github.com/Kodehawa/MantaroBot`)。别忘记一同回报错误ID，顺便拜託作者停止霸凌我!",
+    "generic_error": "你可以考虑加入我们的**帮助伺服器** (`https://support.mantaro.site`)，或是我们的GitHub页面 (`https://github.com/Kodehawa/MantaroBot`)。别忘记回报错误ID！然后不要再霸凌我了！",
     "boom_quotes": [
       "看似惠惠把我们的城堡炸掉了...",
       "Uh oh... 我的主人好像把一些0和1留在桌上了 :<",
-      "等...等一下，怎麽回事?!",
+      "等...等一下，怎么回事?!",
       "我...我觉得这裡好像失火了... 你可能得请我主人来看一下",
       "我已经掌握了製造爆炸的技术，看到了吗?",
-      "也许什麽变数出错了，不过...啊...哈哈，我会把他修好的！",
+      "也许什么变数出错了，不过...啊...哈哈，我会把他修好的！",
       "Uhhh...蛤? 你要干嘛?"
     ],
     "ratelimit_quotes": [
@@ -92,7 +95,7 @@
       "你...你慢一点拜託...我已经头晕了...",
       "在这休息一下 同学!",
       "就再等一下下 úwù",
-      "如果我们持续那麽快的话可能要被开罚单了!",
+      "如果我们持续那么快的话可能要被开罚单了!",
       "我也想这样做... 不过拜託先休息一下",
       "嘿 等一下! 我还没吃完饭!",
       "可以请你慢一点吗?"
@@ -124,7 +127,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s时机已经过了，你的桶子只有粉尘。(粉尘高度 %2$s%%)",
-      "no_rod": "%1$s你没有钓鱼竿怎麽钓鱼! (试着使用另一种钓竿)",
+      "no_rod": "%1$s你没有钓鱼竿怎么钓鱼! (试着使用另一种钓竿)",
       "trash": {
         "overflow": "%1$s你在钓鱼的时候钓到了一些垃圾，但是你的背包是满的，所以只能把它们丢回水裡...",
         "success": "%1$s全神贯注的钓完鱼之后，你钓到了漂浮中的%2$s，但那看起来一点都不值钱 :("
@@ -141,15 +144,15 @@
       },
       "overflow": "%1$s你钓到了一些鱼，但是你的背包有一部分是满的，所以你只能把它们丢回水裡...",
       "success": "%1$s在全神贯注的钓完鱼之后，你找到了%2$s且把它们放到水桶裡了。",
-      "success_money": "%1$s在全神贯注的钓完鱼之后，你找到了%2$s和**$%3$d元**且把它们放到口袋裡了。%4$s",
-      "success_money_noitem": "%1$s在全神贯注的钓完鱼之后，你找到了**%2$d元**且把它们放到口袋裡了。",
+      "success_money": "%1$s在全神贯注的钓完鱼之后，你找到了%2$s和**$%3$d**且把它们放到口袋裡了。%4$s",
+      "success_money_noitem": "%1$s在全神贯注的钓完鱼之后，你找到了**$%2$d**且把它们放到口袋裡了。",
       "rod_broke": "%1$s你在钓鱼的时候把鱼竿弄坏了 :(",
       "waifu_help": "你的waifu加入了你的钓鱼冒险，你们都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用这个钓鱼。",
       "shark_success": "%1$s你设法钓到了一隻大鲨鱼，你的鱼竿看起来挺坚固的嘛",
-      "fossil_success": "%1$s你在钓鱼时顺便钓到了化石，看起来像是铸造的材料，我相信可能非常值钱。",
+      "fossil_success": "%1$s你在钓鱼时顺便钓到了化石，看起来像是铸造的材料，我相信这可能非常值钱。",
       "bait": "有隻鱼在过程中把你的鱼饵吃掉了!",
-      "missing_equipped": "%1$s你原本有支已装备的%2$s，但是你已经把库存都用光了! 已装备鱼竿已经被重设了。",
+      "missing_equipped": "%1$s你原本有支已装备的%2$s，但是你已经把库存都用光了! 已装备鱼竿已重设。",
       "broken_drop": "%1$s你的鱼竿坏掉了，但是你还可以修理它。得到损坏物品: %2$s *%3$s*",
       "no_rod_equipped": "%1$s你目前没有已装备的鱼竿。使用 `~>equip <rod name>` 来装备一支新的鱼竿!"
     },
@@ -158,7 +161,7 @@
       "no_permission_self": "%1$s对不起! 我没有驱逐成员的权限。",
       "no_users": "%1$s别忘了告知我你想soft ban(软驱逐)的成员。",
       "hierarchy_conflict": "%1$s你无法soft ban(软驱逐)一个身分组比你高的用户",
-      "yourself_note": "%1$s你怎麽会想试着soft ban(软驱逐)你自己?",
+      "yourself_note": "%1$s你怎么会想试着soft ban(软驱逐)你自己?",
       "self_hierarchy_conflict": "%1$s无法soft ban(软驱逐)成员: %2$s，他的身分组跟我一样或比我高!",
       "success": "%1$s%2$s. **%3$s 被soft ban(软驱逐)了**",
       "error": "%1$ssoft ban(软驱逐)错误 [%2$s]: (没有权限: %3$s)",
@@ -169,7 +172,7 @@
       "no_users": "%1$s你需要给我你想驱逐的成员。",
       "no_permission_self": "%1$s抱歉! 我没有驱逐成员的权限。",
       "hierarchy_conflict": "%1$s你无法驱逐一个身分组比你高的成员! 想的美 %2$s",
-      "yourself_note": "%1$s为什麽你会想要驱逐你自己? 真愚蠢。",
+      "yourself_note": "%1$s为什么你会想要驱逐你自己? 真愚蠢。",
       "self_hierarchy_conflict": "%1$s无法驱逐成员: %2$s，他的身分组跟我一样或比我高!",
       "success": "%1$s%2$s (%3$s 被驱逐了)",
       "success_multiple": "%1$s%2$s (%3$s 都被驱逐了)",
@@ -181,7 +184,7 @@
       "no_users": "%1$s你需要给我你想踢出的成员。",
       "no_permission_self": "%1$s抱歉! 我没有踢出成员的权限。",
       "hierarchy_conflict": "%1$s你无法踢出一个身分组比你高的用户",
-      "yourself_note": "%1$s为什麽你会想要踢出你自己? 真愚蠢。",
+      "yourself_note": "%1$s为什么你会想要踢出你自己? 真愚蠢。",
       "self_hierarchy_conflict": "%1$s无法踢出成员: %2$s，他的身分组跟我一样或比我高!",
       "success": "%1$s%2$s (%3$s 被踢出了)",
       "error": "%1$s踢出错误 [%2$s]: (没有权限: %3$s)",
@@ -215,11 +218,11 @@
       },
       "not_working": "%1$s由于YouTube阻止了许多大型伺服器的访问，因此Mantaro音乐功能目前无法正常运作。我们的Mantaro Patreon还能正常运行，如果你想试试看的话，请考虑每月贊助我们4元美金，同时帮助我们维持Mantaro的正常运作及硬体更新。\n访问 <https://patreon.com/mantaro> 取得更多资讯\n\n我们非常抱歉造成你的不便。别忘了还能使用SoundCloud搜寻! `(~>play soundcloud <关键词>)`",
       "no_song": "%1$s你需要告诉我你想播的音乐! *(支援网址及关键字: YouTube, SoundCloud, Twitch)*",
-      "not_playing": "%1$s我目前不在播放任何音乐。如果你相信这是错误的话，请在<https://support.mantaro.site>回报",
+      "not_playing": "%1$s我目前不在播放任何音乐。如果你觉得这是错误的话，请回报至<https://support.mantaro.site>",
       "dj_only": "%1$s你需要成为DJ才能使用这个指令。",
       "enjoy_note": "享受音乐吧 <3",
       "no_player": "%1$s目前没有任何音乐正在播放... (先播一首试试看?)",
-      "not_connected": "%1$s你还没进入到我目前正在播放的语音频道! (如果你相信这是错误的话，请在<https://support.mantaro.site>回报)",
+      "not_connected": "%1$s你还没进入到我目前正在播放的语音频道! (如果你觉得这是错误的话，请回报至<https://support.mantaro.site>)",
       "np_message": "%1$s 现正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放这首曲目时發生了些问题! 不便之处敬请见谅，如果还有的话我会先播放下一首的。",
       "queue_finished": "%1$s目前清单已播放完毕! 希望你用得开心，如果需要任何帮助，请加入<https://support.mantaro.site>\n%2$s",
@@ -242,181 +245,182 @@
         "multiple_pages": " -> 使用 ~>queue <页数> 改变页数",
         "page_react": " -> 反应以更改页数",
         "no_channel": "没有频道 :(",
-        "songs": "song(s)",
-        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
+        "songs": "曲目",
+        "clear_error": "%1$s你目前尚未连接到任何语音频道，或者你不是DJ",
+        "clear_success": "%1$s成功清除播放清单，大小为%2$s"
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$s成功连接到**%2$s**!",
+        "full_channel": "%1$s频道人数已满!",
+        "non_existent_channel": "%1$s频道不存在，可能是被你主动删除了。\n 我顺便帮你重设了音乐频道，试着再次播播看。",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
+        "missing_permissions_connect": "%1$s我需要权限(%2$s)才能连接到这个频道。",
+        "missing_permission_speak": "%1$s我需要权限(%2$s)才能播放音乐。",
+        "channel_locked": "%1$s我只能在**%2$s**裡播放。",
+        "already_connected": "%1$s我已经在**%2$s**裡面了! (使用`move`指令来移动我)",
+        "attempting_to_connect": "%1$s我正在连接到**%2$s**! (使用`move`指令来移动我)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$s我被静音了，暂停播放中 :(",
+        "resumed": "%1$s有人加入了! 继续播放中",
+        "left_alone": "%1$s孤单的我会在2分钟内离开**%2$s** :(",
+        "leave": "%1$s我决定离开**%2$s**因为现在只剩我一人 :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s",
-        "over_queue_limit": "%1$sCould not queue %2$s: Surpassed queue song limit (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than 32 minutes! (%3$s)",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** **(%3$s)**",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$s你加入的清单含有超过%2$d首歌曲，所以我将忽略多馀的歌曲。",
+        "loaded_playlist": "%1$s已加入**%2$d首歌曲**进入播放清单:**%3$s** *(%4$s)*",
+        "no_matches": "%1$s你的搜索没有结果。如果你搜索的*每首歌曲*都發生此讯息，请先暂时使用`~>play soundcloud <关键字>`，你也可以直接贴上YouTube连结。",
+        "error_loading": "%1$s取得歌曲时出错: %2$s",
+        "over_queue_limit": "%1$s无法加入%2$s: 清单长度超过限制 (%3$s)!",
+        "over_32_minutes": "%1$s无法加入 %2$s: 歌曲长度大于32分钟! (%3$s)",
+        "fair_queue_limit_reached": "%1$s**超出公平播放数量%2$d (相同歌曲数目过多)**",
+        "loaded_song": "%1$s已加入清单 -> **%2$s** **(%3$s)**",
+        "selection_text": "歌曲选择，输入歌曲编号以继续。",
+        "timeout_text": "这将在30秒内超时。输入&cancel以取消。"
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$s如果你喜欢我，请考虑在 <https://patreon.com/mantaro> 贊助我，即使是微小的贊助也能让我持续开發!\n(Check `~>donate` for more info!)",
+      "closed_connection": "%1$s已关闭音讯连接，取消绑定播放器中..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$s一位管理员决定跳过了这首歌。"
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$s这裡看起来没有任何曲目正在播放，试着播放一首歌",
+      "header": "现正播放"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused *(Player was paused previously)*."
+      "paused": "已暂停播放. *(原本状态为播放中)*",
+      "unpaused": "已回復播放 *(原本状态为暂停中)*."
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive integers only",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$s你需要告诉我你想倒转的长度 *(范例: `~>rewind 1m45s`将会倒转1分45秒)*",
+      "negative": "%1$s仅限正整数",
+      "before_beginning": "%1$s你无法倒转至歌曲开头之前",
+      "success": "%1$s倒转歌曲至: %2$s。"
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$s已重新播放目前歌曲。"
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$s你需要告诉我你想快转的长度 *(范例: `~>skipahead 1m45s`将会从所在位置跳过1分45秒)*",
+      "past_duration": "%1$s你无法快转超过歌曲长度",
+      "success": "%1$s已跳至%2$s。"
     },
     "move": {
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "attempt": "%1$s我会试着移至你所在的频道",
+      "error_moving": "%1$s切换频道失败。",
+      "cannot_connect": "%1$s无法连接: 我没有说话或移动成员的权限。",
+      "non_existent_channel": "%1$s我无法移动到一个不存在的频道！",
+      "success": "%1$s已把机器人移动去频道 `%2$s` 了。",
+      "vc_not_found": "%1$s无法找到语音频道或者你没有指明一个！"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$s伺服器的DJ选择了去清空伫列！",
+        "success": "%1$s已从伫列中移除了 **%2$d 首歌曲**",
+        "error": "%1$s你目前尚未连接到任何语音频道，或者你不是DJ。"
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_cancel": "%1$s正在播放目前的伫列。",
+      "queue_repeat": "%1$s正在重复播放目前的伫列。",
+      "song_cancel": "%1$s正在跟着目前的伫列继续播放。",
+      "song_repeat": "%1$s正在重复播放目前的歌曲，再次执行此命令来停止重复播放。"
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$s哎，之后没有任何歌曲了。",
+      "format": "%1$s队列的下一首歌曲是: **%2$s** (%3$s) | * 队列中总共有: %4$,d 首歌曲*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$s随机地把目前的伫列中的次序打乱了。"
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sDJ选择了去跳过此歌曲。",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**你已成功投票了** 你需要多%2$d的票才能跳过！",
+        "remove": "%1$s**你的投票已被删除** 你需要多%2$d的票才能跳过！"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$s已达到了需要的票数，正在跳过歌曲...",
+      "no_track": "%1$s看起来没有歌曲可以跳过，所以我甚么也做不了..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s` 不是一个有效的范围。",
+      "no_track": "%1$s在位置`%2$d`那裏并没有一首在伫列中的歌曲！",
+      "invalid_number": "(%1$s`%2$s`) 其中一个范围不是一个有效的数字！",
+      "invalid_number_range": "%1$s`%2$s` 不是一个有效的数字或范围！",
+      "success": "%1$s已从伫列中移除了 **%2$d** 首歌曲。",
+      "not_dj": "%1$s你需要成为一个DJ以使用此指令。"
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$s伺服器的DJ已清除目前伫列。",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**你已成功投票** 你需要多 %2$d 的票才能停止歌曲！",
+        "remove": "%1$s**你的投票已被删除** 你需要多%2$d的票才能停止！"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$s已达到了需要的票数，正在停止歌曲...",
+      "no_player": "%1$s看起来没有在播放中的歌曲可以停止，所以我甚么也做不了...",
+      "cleanup": "%1$s已从伫列中移除了 **%2$d 首歌曲**"
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "check": "%1$s这一节的音量是: %2$d \n\n%3$s",
+      "success": "%1$s音量设置为 %2$d\n\n%3$s",
+      "no_args": "%1$s你需要告诉我你想我设置音量为多少。(5至 100)",
+      "premium_only": "%1$s这是仅限高级用户的功能。为了获得像这个的高级功能，你可以贊助我们的 Patreon (https://www.patreon.com/mantaro) 感谢您的理解哦！\n高级功能可以绑定到一位用户或一个伺服器上。如果你贊助了我们，请加入Mantaro的伺服器来领取。"
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$s现在并没有任何播放中的歌曲！",
+      "error_searching": "%1$s 搜寻此歌曲时發生了错误，或是没有此歌曲的结果。",
+      "header": "%1$s %2$s 的歌词",
+      "footer": "感谢使用Mantaro呀！页数: %1$d, 总页数:%2$d"
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s (I respond to any of those!). The server prefix is `%3$s` (Only works on this server). You can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$s 我默认的指令词头是 %2$s。 (用哪个都是OK的！) 此伺服器的自订的指令词头是 `%3$s`。 (只可以在这伺服器上使用) 你可以订造一个新的词头通过输入 `~>opts prefix set <prefix>`，记得不要输入那两个<>唷。\n有任何疑问的话，你可以加入<https://support.mantaro.site> 看看。",
+      "none": "此伺服器暂时没有自订的指令词头。"
     },
     "custom": {
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "no_args": "%1$s你需要说明你用此指令想做些甚么。运行指令 help 来看更多资讯！",
+      "incorrect_args": "%1$s你输入了错误的参数。看看 `~>help custom` 或https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands 来获取如何使用这指令的资讯。如果在阅读Wiki之后还有其他问题，请参考<https://support.mantaro.site>",
+      "error_running": "%1$s执行自订指令时發生错误... 请检查回应内容及长度 (无法超过2000字元)",
+      "error_running_new": "%1$s执行自订指令时發生错误。请检查回应内容及长度。\n**错误:**\n```%2$s```",
+      "not_loaded": "我还没有完全载入完成... 自定义指令将会马上开放使用!",
+      "nsfw_enabled": "%1$s此指令已成功标记为NSFW。",
+      "nsfw_disabled": "%1$s此指令已成功标记为SFW。",
+      "nsfw_not_nsfw": "%1$s此指令已被标记为NSFW，只能被使用于NSFW频道裡。",
+      "new_error": "%1$s你正在新增的自订指令有错误 (v3，检查内容)。\n**错误:**\n```%2$s```",
       "ls": {
-        "header": "Commands for this server.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
-        "footer": "Total custom commands on this server: %1$s"
+        "header": "此伺服的自订指令。",
+        "description": "**这裡会显示此伺服的所有自定义指令。**这裡的每个指令都跟Mantaro自身没有任何关联。\n\n自定义指令为用户(通常是管理员)能够因应各种场合自己创造的指令。\n如需更多资讯，请参与我们的Wiki页面。(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**清单：**",
+        "footer": "此伺服器的自定义指令数量: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Check command help (`help custom`).",
+      "invalid": "%1$s无效指令选择范围。检查指令帮助 (`help custom`)",
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here.",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$s你需要指出指令名称及回应编号！",
+        "not_found": "%1$s这裡没有同样名称的自定义指令。",
+        "less_than_specified": "%1$s这个指令的反应数量少于你指定的号码...",
+        "success": "**自定义指令 `%2$s` 的回应 `%1$d`：**\n```\n%3$s```"
       },
       "raw": {
-        "no_command": "%1$sYou need to tell me what command you want to look at.",
-        "header": "Raw Custom Command: %1$s",
-        "amount": "(Showing %1$d responses of %2$d)",
+        "no_command": "%1$s你需要指出你想查看的指令名称。",
+        "not_found": "%1$s我找不到该指令。",
+        "header": "原始自定义指令：%1$s",
+        "amount": "(包含%1$d个中的%2$d个)",
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
-        "success": "%1$sCleared **%2$d Custom Commands**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sCommand Creation canceled.",
         "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
         "success": "%1$sSaved to command `%2$s`.",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "no_name_specified": "%1$s你尚未输入你所要创建的自定义指令名称！"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
+        "not_specified": "你并没有指出任何要eval的字符串。",
         "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
         "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
       },
@@ -433,29 +437,39 @@
         "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
+        "no_command": "%1$s你需要指出你想编辑的自定义指令名称。",
+        "invalid_number": "%1$s你需要指出你想编辑的回应编号。",
         "no_index": "%1$sYou cannot edit a non-existent index.",
         "empty_response": "%1$sCannot edit to an empty response",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
+        "not_enough_args": "%1$s你需要指出指令名称，回应编号及新的回应。",
         "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
+        "no_command": "%1$s你需要指出你想移除回应的指令名称。",
+        "invalid_number": "%1$s你需要指出你想删除的回应编号。",
         "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
+        "not_enough_args": "%1$s你需要指出你想删除的指令名称及回应编号。",
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
         "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
-        "empty_content": "%1$sYou need to specify the content of this custom command",
+        "no_command": "%1$s你需要指出你想创建的指令名称。",
+        "not_enough_args": "%1$s你需要指出你想新增的指令名称及回应。",
+        "empty_content": "%1$s你需要指出这个自定义指令的内容。",
         "success": "%1$sSaved to command `%2$s`",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+      },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
       "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
@@ -466,7 +480,8 @@
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link."
+      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sCorrectly reset birthday date.",
-      "no_global_birthdays": "%1$sThings seems a bit empty here...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
@@ -991,7 +1009,8 @@
     "time": {
       "invalid_timezone": "%1$sThat's not a valid timezone.",
       "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "Your Premium Status",
         "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Premium user! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
       "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
       "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sServer leave message set to: `%2$s`"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",

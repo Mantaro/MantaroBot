@@ -59,7 +59,9 @@ public enum ItemType {
     FOOD(false),
 
     CHOP_AXE(true),
-    CHOP_RARE_AXE(true);
+    CHOP_RARE_AXE(true),
+
+    DEPRECATED(false);
 
     private boolean cast;
 

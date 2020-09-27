@@ -212,9 +212,7 @@ public class JFRExports {
          *   safepointId = 21
          * }
          */
-        event(rs, "jdk.SafepointEnd", e -> {
-            logSafepointOperation(safepointDuration, e);
-        });
+        event(rs, "jdk.SafepointEnd", e -> logSafepointOperation(safepointDuration, e));
 
         /*
          * jdk.GarbageCollection {
@@ -242,9 +240,7 @@ public class JFRExports {
          *   count = 91
          * }
          */
-        event(rs, "jdk.GCReferenceStatistics", e -> {
-            REFERENCE_STATISTICS.labels(e.getString("type")).inc(e.getLong("count"));
-        });
+        event(rs, "jdk.GCReferenceStatistics", e -> REFERENCE_STATISTICS.labels(e.getString("type")).inc(e.getLong("count")));
 
         /*
          * jdk.ExecuteVMOperation {
@@ -257,9 +253,7 @@ public class JFRExports {
          *   safepointId = 18
          * }
          */
-        event(rs, "jdk.ExecuteVMOperation", e -> {
-            VM_OPERATIONS.labels(e.getString("operation"), String.valueOf(e.getBoolean("safepoint"))).inc();
-        });
+        event(rs, "jdk.ExecuteVMOperation", e -> VM_OPERATIONS.labels(e.getString("operation"), String.valueOf(e.getBoolean("safepoint"))).inc());
 
         /*
          * jdk.NetworkUtilization {
@@ -326,9 +320,7 @@ public class JFRExports {
          *   heapUsed = 6,3 MB
          * }
          */
-        event(rs, "jdk.GCHeapSummary", e -> {
-            MEMORY_USAGE_HEAP.set(e.getLong("heapUsed"));
-        });
+        event(rs, "jdk.GCHeapSummary", e -> MEMORY_USAGE_HEAP.set(e.getLong("heapUsed")));
 
         /*
          * jdk.MetaspaceSummary {
@@ -369,9 +361,9 @@ public class JFRExports {
          *   usedSize = 10,9 GB
          * }
          */
-        event(rs, "jdk.PhysicalMemory", e -> {
-            AsyncInfoMonitor.setMachineMemoryUsage(e.getLong("usedSize"), e.getLong("totalSize"));
-        }).withPeriod(Prometheus.UPDATE_PERIOD);
+        event(rs, "jdk.PhysicalMemory", e ->
+                AsyncInfoMonitor.setMachineMemoryUsage(e.getLong("usedSize"), e.getLong("totalSize"))).withPeriod(Prometheus.UPDATE_PERIOD
+        );
 
         rs.startAsync();
     }

@@ -49,16 +49,11 @@ public class Reminder {
         this.reminder = reminder;
         this.time = time;
         this.scheduledAtMillis = scheduledAt;
-
-        DBUser user = db.getUser(userId);
-        UserData data = user.getData();
-        data.setRemindedTimes(user.getData().getRemindedTimes() + 1);
-        user.saveAsync();
     }
 
     //This is more useful now
     //Id here contains the full id aka UUID:userId, unlike in the other methods
-    public static void cancel(String userId, String fullId) {
+    public static void cancel(String userId, String fullId, CancelReason reason) {
         try (Jedis redis = pool.getResource()) {
             String data = redis.hget(table, fullId);
 
@@ -69,7 +64,10 @@ public class Reminder {
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
         data.getReminders().remove(fullId);
-        user.saveAsync();
+        if(reason == CancelReason.REMINDED)
+            data.incrementReminders();
+
+        user.save();
     }
 
     public void schedule() {
@@ -90,7 +88,7 @@ public class Reminder {
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
         data.getReminders().add(id + ":" + userId);
-        user.saveAsync();
+        user.save();
     }
 
     public static class Builder {
@@ -140,5 +138,9 @@ public class Reminder {
 
             return new Reminder(UUID.randomUUID().toString(), userId, guildId, reminder, current, time);
         }
+    }
+
+    public static enum CancelReason {
+        CANCEL, REMINDED, ERROR_DELIVERING
     }
 }

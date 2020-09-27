@@ -25,6 +25,8 @@
     "options": "옵션",
     "find_members_failure": "%1$s검색 조건을 가진 멤버를 찾지 못했어요 ㅠㅠ",
     "too_many_members": "%1$s너무 많은 멤버를 찾았는데 검색을 개선해 주실 수 있나요? (ex. example#0000)\n**유저 찾음:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "여기는 먼지밖에 없네요.",
     "invalid_syntax": "올바르지 않은 구문 구조.",
     "item_lookup": {
@@ -35,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(아마도)채굴 기간 동안 쌓인 먼지를 모두 청소했어요.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$s물약의 효과가 제거되었어요.",
       "stamina": "%1$s3번 채굴의 기간 위한 체력이 활성화되었어요.",
       "stamina_used": "%1$s이미 체력 효과가 있어요!",
@@ -76,7 +79,7 @@
       "spam_3": "\n잠깐 밖에 나가 있는 게 낫지 않을까요?",
       "spam_4": "\n이거 켜는 거 맞나요?"
     },
-    "generic_error": "만약 원한다면 저희 **고객 지원 서버**(`support.mantaro.site`)나 저희 GitHub 페이지(`https://github.com/Kodehawa/MantaroBot`)를 확인해주세요. 제발 저를 폭파시키지 말라고 말해줘요. 그리고 신고할 때 오류 ID를 잊지 말아줘요!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
       "메구밍이 우리성을 폭발 시킨 것처럼 보이네요..",
       "으어, 보아하니 저의 주인은 바닥에 있는 0과 1을 잊었어요 :<",
@@ -87,9 +90,9 @@
       "으,,음.. 뭘 원했어요?"
     ],
     "ratelimit_quotes": [
-      "와... 너무 빨리 전화하시네요... 제가 얼빠질지도 몰라요!",
+      "와... 너무 빨리 저를 부르시네요... 제가 얼빠질지도 몰라요!",
       "욕심 부리지 마세요!",
-      "ㄴ..너무 빨리 전화하셔서 어지러워요...",
+      "ㄴ..너무 빨리 저를 부르셔서 어지러워요...",
       "거기있는 친구 멈춰요!",
       "쪼~금만 더 기다려줘요 uwu",
       "계속 이렇게 빨리 가면 속도위반 딱지를 떼일 것 같아요!",
@@ -146,12 +149,12 @@
       "rod_broke": "%1$s낚싯대가 물고기를 잡으려고 하다가 부러졌어요. ㅠㅠ",
       "waifu_help": "와이프가 와서 낚시 모험에 참여했고 여러분 둘 다 더 많은 것을 얻어요!",
       "not_suitable": "%1$s이걸로 낚시를 할 수는 없어요.",
-      "shark_success": "%1$s어떻게든 상어를 잡았군요. 정말 멋진 막대기군요, 그렇죠?",
+      "shark_success": "%1$s어떻게든 상어를 잡았네요. 정말 멋진 막대기군요, 그렇죠?",
       "fossil_success": "%1$s당신은 물고기를 찾으려고 하다가 화석을 잡았어요. 이것은 상당한 가치가 있거나 캐스팅에 사용될 수 있다고 믿어요.",
       "bait": "이 과정에서 물고기가 미끼를 먹었어요!",
       "missing_equipped": "%1$s%2$s 막대기가 장착되어 있지만 보관함에 더 이상 이러한 막대기가 없네요! 장착할 막대기가 재설정되었어요.",
       "broken_drop": "%1$s막대기가 부러졌지만 고칠 수 있어요. 파손된 아이템이 있어요: %2$s *%3$s*",
-      "no_rod_equipped": "%1$s막대기가 장착되어 있지 않군요. 모험을 시작하기 위해 하나의 장비를 갖추려면 `~>equip <막대기 이름>`을 실행해야 해요!"
+      "no_rod_equipped": "%1$s막대기가 장착되어 있지 않네요. 모험을 시작하기 위해 하나의 장비를 갖추려면 `~>equip <막대기 이름>`을 실행해야 해요!"
     },
     "softban": {
       "no_permission": "%1$s소프트 차단을 할 수 없어요: 멤버 차단 권한이 없네요.",
@@ -250,7 +253,7 @@
         "success": "%1$s성공적으로 **%2$s** 채널에 연결했어요!",
         "full_channel": "%1$s채널이 꽉 차서 제가 연결이 안 돼요!",
         "non_existent_channel": "%1$s존재하지 않는 채널을 응답으로 받았어요. 음성 채널을 설정한 다음 삭제하면 그 원인이 될 수 있어요.\n 음악 채널을 다시 설정했어요. 음악을 재생해 보세요.",
-        "user_no_vc": "%1$s**음성 채널에 들어와주세요**",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$s권한이 부족해서 이 채널에 연결할 수 없어요 (%2$s).",
         "missing_permission_speak": "%1$s권한이 부족해서 이 채널에서 말할 수 없어요 (%2$s).",
         "channel_locked": "%1$s**%2$s**에서만 오직 음악을 재생할 수 있어요.",
@@ -312,7 +315,7 @@
       "vc_not_found": "%1$s음성 채널을 찾을 수 없거나 지정하지 않았어요!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -401,12 +404,13 @@
       },
       "raw": {
         "no_command": "%1$s어떤 명령어를 보고 싶은지 말해주세요.",
+        "not_found": "%1$sI can't find that command.",
         "header": "원초적 사용자 정의 명령어: %1$s",
         "amount": "(%1$d 응답 %2$d 표시)",
         "description": "이 명령은 원초적 형식(명령어에 입력하는 내용)으로 모든 응답의 목록이에요."
       },
       "clear": {
-        "success": "%1$s**%2$d 사용자 정의 명령어**를 삭제했어요"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$s**\"사용자 정의 명령어 `%2$s`을(를) 생성\"**을 시작했어요**!\n**저장하지 않고** 생성을 중지하려면 `&~>stop`을 보내세요.\n**새 명령어 저장**을 중지하려면 `&~>save`를 보내세요. 명령어 응답을 추가하려면 `&`로 아무 문자나 보내세요. 이 명령어을 연령 제한으로 표시하려면 `~>nsfw`를 사용하고 되돌리려면 `~sfw`를 사용하세요.",
@@ -457,16 +461,27 @@
         "success": "%1$s`%2$s` 명령어를 저장했어요",
         "too_many_commands": "%1이 서버에 명령어가 너무 많아서 더 이상 추가할 수 없어요(+100개). 프리미엄 길드에서 우회할 수 있어요(클릭<https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$s이 문자는 사용자 정의 명령어의 이름에 사용할 수 없어요.",
       "already_exists": "%1$s`%2$s` 명령어는 이미 있어요. 기본적 봇 명령어예요.",
       "name_too_long": "%1$s이름이 너무 길어요.",
-      "no_cc": "%1$s이 길드에 등록된 사용자 정의 명령어가 없네요. 약간의 먼지만 있군요.",
+      "no_cc": "%1$s이 길드에 등록된 사용자 정의 명령어가 없네요. 약간의 먼지만 있어요.",
       "admin_only": "이 길드는 관리자로부터 사용자 지정 명령 작성, 편집, 가져오기 및 평가만 허용해요.\n**이제 디폴트(DEFAULT) 설정이에요.**\n- 모든 사용자에게 이 작업을 허용하고 싶다면 관리자(Bot Commander 역할 또는 서버 관리 권한)인 경우 `~>opts admincustom false`를 실행하세요.",
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$s`{%2$s}` 문자열은 유효한 JSON이 아니에요.",
-      "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요."
+      "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sCorrectly reset birthday date.",
-      "no_global_birthdays": "%1$sThings seems a bit empty here...",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
@@ -991,7 +1009,8 @@
     "time": {
       "invalid_timezone": "%1$sThat's not a valid timezone.",
       "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid."
+      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "Your Premium Status",
         "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sYou aren't premium :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Premium user! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.",
       "warning": "%1$sRemember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.",
       "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
       "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
       "warning_4": "Type **yes** if you agree to set the role %2$s as a birthday role, and **no** to cancel. This timeouts in 45 seconds.",
       "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
       "success": "%1$sServer leave message set to: `%2$s`"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",

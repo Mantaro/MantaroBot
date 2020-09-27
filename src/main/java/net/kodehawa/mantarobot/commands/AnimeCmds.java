@@ -207,7 +207,7 @@ public class AnimeCmds {
             final String imageUrl = attributes.getImage().getOriginal();
 
             final String characterDescription = StringEscapeUtils.unescapeHtml4(attributes.getDescription().replace("<br>", "\n")
-                    .replaceAll("\\<.*?>", "")); //This is silly.
+                    .replaceAll("<.*?>", "")); //This is silly.
 
             final String charDescription = attributes.getDescription() == null || attributes.getDescription().isEmpty() ? lang.get("commands.character.no_info")
                     : StringUtils.limit(characterDescription, 1016);

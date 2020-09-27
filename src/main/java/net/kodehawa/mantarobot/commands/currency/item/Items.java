@@ -148,8 +148,8 @@ public class Items {
             COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f, 1, 10, EmoteReference.COMET_PICK.getDiscordNotation(), "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick", 290, true, false, "1;2;7", Collections.singletonList(48), 160, 10, 48, 101),
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f, 1, 10, EmoteReference.STAR_PICK.getDiscordNotation(), "Star Pickaxe", "items.star_pick", "items.description.star_pick", 350, true, false, "1;2;7", Collections.singletonList(49), 210, 10, 49, 101),
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55", "Pizza", "items.pizza", "items.description.pizza", 15, true, false),
-            OLD_SPARKLE_FRAGMENT = new Item(ItemType.COMMON, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
-            GEM5_PICKAXE = new Item(ItemType.COMMON, "\u26cf", "Old Sparkly Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
+            OLD_SPARKLE_FRAGMENT = new Item(ItemType.DEPRECATED, "\u200B", "Old Sparkle Fragment", "general.deprecated", "general.deprecated", 0, false, false),
+            GEM5_PICKAXE = new Item(ItemType.DEPRECATED, "\u26cf", "Old Sparkly Pickaxe", "general.deprecated", "general.deprecated", 550, true, false),
             MINE_CRATE = new Item(ItemType.CRATE, EmoteReference.MINE_CRATE.getDiscordNotation(), "Gem Crate", "items.mine_crate", "items.description.mine_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.MINE, 66, EmoteReference.MINE_CRATE, 3, season)),
             // ---------------------------------- 5.0 FISH ITEMS START HERE ----------------------------------
             FISH_CRATE = new Item(ItemType.CRATE, EmoteReference.FISH_CRATE.getDiscordNotation(), "Fish Treasure", "items.fish_crate", "items.description.fish_crate", 0, false, false, true, (ctx, season) -> openLootCrate(ctx, ItemType.LootboxType.FISH, 67, EmoteReference.FISH_CRATE, 3, season)),

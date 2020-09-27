@@ -189,25 +189,25 @@ public class AudioCmdUtils {
     }
 
     public static CompletionStage<Boolean> connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
-        VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
+        VoiceChannel voiceChannel = event.getMember().getVoiceState().getChannel();
         Guild guild = event.getGuild();
         TextChannel textChannel = event.getChannel();
 
         //I can't see you in any VC here?
-        if (userChannel == null) {
+        if (voiceChannel == null) {
             textChannel.sendMessageFormat(lang.get("commands.music_general.connect.user_no_vc"), EmoteReference.ERROR).queue();
             return completedFuture(false);
         }
 
         //Can't connect to this channel
-        if (!guild.getSelfMember().hasPermission(userChannel, Permission.VOICE_CONNECT)) {
+        if (!guild.getSelfMember().hasPermission(voiceChannel, Permission.VOICE_CONNECT)) {
             textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permissions_connect"), EmoteReference.ERROR,
                     lang.get("discord_permissions.voice_connect")).queue();
             return completedFuture(false);
         }
 
         //Can't speak on this channel
-        if (!guild.getSelfMember().hasPermission(userChannel, Permission.VOICE_SPEAK)) {
+        if (!guild.getSelfMember().hasPermission(voiceChannel, Permission.VOICE_SPEAK)) {
             textChannel.sendMessageFormat(lang.get("commands.music_general.connect.missing_permission_speak"), EmoteReference.ERROR,
                     lang.get("discord_permissions.voice_speak")).queue();
             return completedFuture(false);
@@ -225,7 +225,7 @@ public class AudioCmdUtils {
         boolean cursed = false;
         if (guildMusicChannel != null) {
             //If the channel is not the set one, reject this connect.
-            if (!userChannel.equals(guildMusicChannel)) {
+            if (!voiceChannel.equals(guildMusicChannel)) {
                 textChannel.sendMessageFormat(lang.get("commands.music_general.connect.channel_locked"), EmoteReference.ERROR, guildMusicChannel.getName()).queue();
                 return completedFuture(false);
             }
@@ -234,10 +234,10 @@ public class AudioCmdUtils {
             if (link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) {
                 log.debug("Connected to channel {}." +
                         " Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel (custom music channel)",
-                        userChannel.getId()
+                        voiceChannel.getId()
                 );
 
-                return openAudioConnection(event, link, userChannel, lang).thenApply(__ -> true);
+                return openAudioConnection(event, link, voiceChannel, lang).thenApply(__ -> true);
             }
 
             //Nothing to connect to, but pass true so we can load the song (for example, it's already connected)
@@ -246,7 +246,7 @@ public class AudioCmdUtils {
 
         //Assume last channel it's the one it was attempting to connect to? (on the one below this too)
         //If the link is CONNECTED and the lastChannel is not the one it's already connected to, reject connection
-        if (link.getState() == Link.State.CONNECTED && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
+        if (link.getState() == Link.State.CONNECTED && link.getLastChannel() != null && !link.getLastChannel().equals(voiceChannel.getId())) {
             VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
 
             //Workaround for a bug in lavalink that gives us Link.State.CONNECTED and a channel that doesn't exist anymore.
@@ -260,7 +260,7 @@ public class AudioCmdUtils {
         }
 
         //If the link is CONNECTING and the lastChannel is not the one it's already connected to, reject connection
-        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(userChannel.getId())) {
+        if (link.getState() == Link.State.CONNECTING && link.getLastChannel() != null && !link.getLastChannel().equals(voiceChannel.getId())) {
             VoiceChannel vc = guild.getVoiceChannelById(link.getLastChannel());
 
             //Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
@@ -277,13 +277,13 @@ public class AudioCmdUtils {
         if ((link.getState() != Link.State.CONNECTED && link.getState() != Link.State.CONNECTING) || cursed) {
             log.debug("Connected to voice channel {}. " +
                     "Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel",
-                    userChannel.getId()
+                    voiceChannel.getId()
             );
 
             if(cursed)
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", link.getState());
 
-            return openAudioConnection(event, link, userChannel, lang).thenApply(__ -> true);
+            return openAudioConnection(event, link, voiceChannel, lang).thenApply(__ -> true);
         }
 
         //Nothing to connect to, but pass true so we can load the song (for example, it's already connected)

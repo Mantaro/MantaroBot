@@ -537,8 +537,9 @@ public class UtilsCmds {
                         return;
                     }
 
+
                     if (reminders.size() == 1) {
-                        Reminder.cancel(ctx.getUser().getId(), reminders.get(0)); //Cancel first reminder.
+                        Reminder.cancel(ctx.getUser().getId(), reminders.get(0), Reminder.CancelReason.CANCEL); //Cancel first reminder.
                         ctx.sendLocalized("commands.remindme.cancel.success", EmoteReference.CORRECT);
                     } else {
                         List<ReminderObject> rems = getReminders(reminders);
@@ -549,7 +550,7 @@ public class UtilsCmds {
                                         .setDescription(r1)
                                         .setFooter(String.format(ctx.getLanguageContext().get("general.timeout"), 10), null).build(),
                                 sr -> {
-                                    Reminder.cancel(ctx.getUser().getId(), sr.id + ":" + sr.getUserId());
+                                    Reminder.cancel(ctx.getUser().getId(), sr.id + ":" + sr.getUserId(), Reminder.CancelReason.CANCEL);
                                     ctx.send(EmoteReference.CORRECT + "Cancelled your reminder");
                                 });
                     }

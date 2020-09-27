@@ -30,7 +30,7 @@ public class URLCache {
     public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
     private static final Map<String, File> saved = new ConcurrentHashMap<>();
     private final FileCache cache;
-    private File cacheDir;
+    private final File cacheDir;
 
     public URLCache(File cacheDir, int cacheSize) {
         this.cacheDir = cacheDir;

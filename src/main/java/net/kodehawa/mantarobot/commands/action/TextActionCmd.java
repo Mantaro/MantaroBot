@@ -21,7 +21,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Random;
 

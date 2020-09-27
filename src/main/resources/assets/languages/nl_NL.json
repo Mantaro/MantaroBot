@@ -25,6 +25,8 @@
     "options": "Opties",
     "find_members_failure": "%1$sGeen gebruikers gevonden met jouw zoekcriteria :(",
     "too_many_members": "%1$sTe veel gebruikers gevonden, probeer specifieker te zijn (bijv. gebruik naam#discriminator)\n**Gebruikers gevonden:** %2$s",
+    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
+    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
     "dust": "Er is hier niets te vinden",
     "invalid_syntax": "Ongeldige syntax.",
     "item_lookup": {
@@ -35,6 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sAl het stof in je kamer is opgeruimd. Yay.",
+      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sHet potion effect is opgeheven.",
       "stamina": "%1$sStamina is geactiveerd voor 5 mining sessies.",
       "stamina_used": "%1$s Je hebt al een actief uithoudingsvermogen effect!",
@@ -76,7 +79,7 @@
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
     },
-    "generic_error": "If you want, join our **support server** (Link at `support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
     "boom_quotes": [
       "Schijnbaar ontplofte Megumin ons kasteel...",
       "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
@@ -250,7 +253,7 @@
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
         "full_channel": "%1$sIk kan geen verbinding maken met dit kanaal omdat hij vol is!",
         "non_existent_channel": "%1$sIk krijg terug dat dit kanaal niet bestaat. Het kan zijn dat je een spraak-kanaal hebt aangemaakt en daarna weer verwijderd.\n Ik heb het muziek-kanaal gereset dus probeer nogmaals om muziek af te spelen.",
-        "user_no_vc": "%1$s**Zou je een spraak-kanaal kunnen joinen? **",
+        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sIk kan geen verbinding maken met dit kanaal omdat ik daar geen toestemming voor heb (%2$s).",
         "missing_permission_speak": "%1$sIk kan geen geluid laten horen omdat ik daar geen toestemming voor heb (%2$s).",
         "channel_locked": "%1$sIk kan maar muziek afspelen in één kanaal **%2$s**.",
@@ -312,7 +315,7 @@
       "vc_not_found": "%1$sHet spraak-kanaal is niet gevonden of je hebt geen naam opgegeven!"
     },
     "shard": {
-      "info": "I'm in shard %1$d (Node %2$d/%3$d)! If you need any help, please head to <https://support.mantaro.site>"
+      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -401,12 +404,13 @@
       },
       "raw": {
         "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt bekijken.",
+        "not_found": "%1$sI can't find that command.",
         "header": "Commando \"%1$s\":",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
-        "success": "%1$s**%2$d Eigen Commando's verwijderd**"
+        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
       },
       "make": {
         "start_text": "%1$sGestart met het **\"maken van Eigen Commando `%2$s`\"**!\nTyp `&~>stop` om het af te sluiten **zonder het commando op te slaan**.\nTyp `&~>save` om het af te sluiten en **het nieuwe commando op te slaan**. Typ een tekst die begint met `&` om deze toe ge voegen aan de Commando Antwoorden. Typ `~>nsfw` om het commando als NSFW te markeren en `~>sfw` om dit terug te draaien.\nDeze interactieve bewerking eindigt na 60 seconden inactiviteit zonder dat er iets wordt opgeslagen.",
@@ -457,6 +461,16 @@
         "success": "%1$sOpgeslagen aan commando `%2$s`",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
+      "lockcommand": {
+        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
+        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+      },
+      "unlockcommand": {
+        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "not_locked": "%1$sThis command isn't locked.",
+        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+      },
       "character_not_allowed": "%1$sDit karakter is niet toegestaan in de naam van een eigen commando.",
       "already_exists": "%1$sHet commando `%2$s` bestaat al en is een standaard bot commando.",
       "name_too_long": "%1$sNaam is te lang.",
@@ -466,7 +480,8 @@
       "invalid_image": "%1$sDit commando bevat een ongeldige afbeelding, probeer dit aan te passen...",
       "invalid_string": "%1$sDe string `{%2$s}` is niet geldig, of de uitvoer is langer dan 2000 karakters.",
       "invalid_json": "%1$sDe string `{%2$s}` is geen geldig JSON.",
-      "invalid_link": "%1$sDe string `%2$s` is geen geldige link."
+      "invalid_link": "%1$sDe string `%2$s` is geen geldige link.",
+      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
       "no_permissions": "%1$sJe moet de machtiging 'ban' of 'kick members' hebben om iemand te kunnen muten.",
@@ -958,18 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sVerjaardag succesvol gereset",
-      "no_global_birthdays": "%1$sHet ziet er hier een beetje leeg uit...",
-      "no_guild_month_birthdays": "%1$sEr zijn hier geen verjaardagen deze maand (%2$s) :(\n%3$sAls je de verjaardagsaankondiging net hebt ingesteld dan moet je even wachten om dit commando te gebruiken. (Cache vernieuwt elke 23 uur)",
+      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sDe Verjaardag cacher lijkt niet te werken (internal error) :(",
       "error": "%1$sEr is iets misgegaan tijdens het opvragen van verjaardagen (internal error) :(",
-      "header": "**%1$s's verjaardag voor %2$s**\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sDat is geen geldige maand! (Geldige maanden zijn nummers van 01 tot 12)",
-      "no_content": "%1$sJe moet je geboortedatum opgeven. Gebruik `remove` om je verjaardag te resetten, of `month` om de lijst met verjaardagen van deze maand te controleren.",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part."
+      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
+      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
+      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
     },
     "choose": {
       "nothing_to": "%1$sJe moet me vertellen waar ik tussen moet kiezen. (bijvoorbeeld: `~>choose anime manga`)",
@@ -991,7 +1009,8 @@
     "time": {
       "invalid_timezone": "%1$sDat is geen geldige tijdzone.",
       "success": "%1$sHet is %2$s in de %3$s tijdzone.",
-      "error": "%1$sIk heb een fout gevonden bij het zoeken naar de tijdzone in het grote boek ... of het kan ongeldig zijn."
+      "error": "%1$sIk heb een fout gevonden bij het zoeken naar de tijdzone in het grote boek ... of het kan ongeldig zijn.",
+      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
       "no_args": "%1$sJe moet me vertellen in welke term ik moet zoeken in Urban Dictionary.",
@@ -1026,7 +1045,7 @@
       "user": {
         "header": "Je Premium Status",
         "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$sJe bent geen premium :c",
+        "not_premium": "%1$s%2$s is not premium :c",
         "premium": "**Premium gebruiker! <3**",
         "old_system": "**Premium user van het oude systeem! Maak je geen zorgen, je bent premium en je voordelen zullen nog steeds werken!**"
       },
@@ -1774,7 +1793,7 @@
       "autorole": "%1$sYou cannot set the autorole role as a birthday role! Vergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is..",
       "warning": "%1$sVergeet niet dat de verjaardagsrol een rol is die wordt toegewezen aan de persoon wanneer de verjaardag is en wordt verwijderd wanneer de dag voorbij is. Als je twijfels hebt over hoe je het kunt configureren, kun je altijd lid worden van onze support Discord en  daar je vraag stellen. Je kunt ook `~>opts help birthday enable` checken om een voorbeeld te zien.",
       "warning_1": "Dit komt door de manier waarop de verjaardagstoewijzer werkt: Het kent een tijdelijke rol toe aan de persoon die jarig is, en maakt de toewijzing ongedaan wanneer de verjaardag is verstreken. **Dit betekent dat iedereen met de verjaardagsrol de rol weer verwijderd krijgt op de dag dat de verjaardag is afgelopen**. Wees voorzichtig bij het kiezen van de te gebruiken rol, want een verkeerde configuratie kan slechte dingen veroorzaken (echt waar)!",
-      "warning_2": "De rol *moet een nieuw gecreëerde rol zijn of een rol die je niet voor iemand anders gebruikt*. Het MOET GEEN rol zijn die al gebruikt wordt voor je gebruikers.",
+      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
       "warning_3": "Alsook de verjaardags cache (Wat we gebruiken om ze op te slaan) past maar om de 23 uur aan. Dit wil zeggen als je je verjaardag van vandaag naar morgen zet om de berichtgever te testen, deze **niet** zal werken.",
       "warning_4": "Typ **yes** als je ermee instemt om de rol %2$s in te stellen als verjaardagsrol, en **no** om te annuleren. Deze actie verloopt over 45 seconden.",
       "success": "%1$sVerjaardagsregistratie ingeschakeld op deze server met parameters -> Kanaal: `%2$s (%3$s)` en rol: `%4$s (%5$s)`",
@@ -1834,6 +1853,12 @@
     "usermessage_leavemessage": {
       "no_message": "%1$sJe moet opgeven welk bericht je wilt dat ik zeg wanneer er iemand de server verlaat!",
       "success": "%1$sHet bericht dat gebruikers te zien krijgen als ze de server verlaten is nu ingesteld op: %2$s"
+    },
+    "usermessage_joinmessage_reset": {
+      "success": "%1$sReset server join message."
+    },
+    "usermessage_leavemessage_reset": {
+      "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
       "no_args": "%1$sJe moet de naam van de iam en de naam van de rol opgeven.",
