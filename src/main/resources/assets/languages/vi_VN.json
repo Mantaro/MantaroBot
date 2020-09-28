@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
       "main_def": "Định nghĩa chính.",
       "footer": "Thông tin được cung cấp bởi Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
+      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
