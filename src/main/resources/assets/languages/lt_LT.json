@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sPer daug argumentų! Puslapio formatas yra `name->page number`",
       "main_def": "Pagrindinė reikšmė.",
       "footer": "Informaciją pateikė Urban Dictionary",
-      "nsfw_notice": "%1$sŠi komanda gali būti naudojama tik NDA kanaluose dėl rezultatų naturalumo."
+      "nsfw_notice": "%1$sŠi komanda gali būti naudojama tik NDA kanaluose dėl rezultatų naturalumo.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
