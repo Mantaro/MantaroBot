@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sالكثير من الحجج! تنسيق الصفحة هو \n`name->page number`\n",
       "main_def": "التعريف الرئيسي.",
       "footer": "معلومات حسب القاموس الحضري",
-      "nsfw_notice": "%1$sيمكن استخدام هذا الأمر فقط في روم NSFW نظرًا لطبيعة نتائجه."
+      "nsfw_notice": "%1$sيمكن استخدام هذا الأمر فقط في روم NSFW نظرًا لطبيعة نتائجه.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
