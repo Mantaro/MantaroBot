@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sTe veel argumenten! Het pagina formaat is `naam->pagina nummer`",
       "main_def": "Hoofddefinitie.",
       "footer": "Informatie komt uit Urban Dictionary",
-      "nsfw_notice": "%1$sDit commando kan alleen gebruikt worden in channels met de NSFW tag in verband met het soort resultaten."
+      "nsfw_notice": "%1$sDit commando kan alleen gebruikt worden in channels met de NSFW tag in verband met het soort resultaten.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
