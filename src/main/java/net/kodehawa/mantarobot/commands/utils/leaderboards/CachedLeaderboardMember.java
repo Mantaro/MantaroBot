@@ -18,15 +18,19 @@ package net.kodehawa.mantarobot.commands.utils.leaderboards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.ConstructorProperties;
 import java.util.concurrent.TimeUnit;
 
 public class CachedLeaderboardMember {
+    @JsonProperty("id")
     private long id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("discriminator")
     private String disriminator;
-
+    @JsonProperty("lastCachedAt")
     private long lastCachedAt;
 
     @JsonCreator
