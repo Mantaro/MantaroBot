@@ -92,7 +92,7 @@ public class DebugCmds {
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
                 for(var lavaLink : lavaLinkSockets) {
                     if(lavaLink.isAvailable())
-                        players += lavaLink.getStats().getPlayingPlayers();
+                        players += lavaLink.getStats().getPlayers();
                 }
 
                 var responseTotal = bot.getShardManager().getShardCache()

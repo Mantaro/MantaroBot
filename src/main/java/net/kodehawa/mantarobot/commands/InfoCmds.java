@@ -159,7 +159,7 @@ public class InfoCmds {
                         .addField(languageContext.get("commands.serverinfo.users"),
                                 String.valueOf(guild.getMemberCount()), true)
                         .addField(languageContext.get("commands.serverinfo.created"),
-                                guild.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)), true)
+                                guild.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)), false)
                         .addField(languageContext.get("commands.serverinfo.channels"),
                                 guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                         .addField(languageContext.get("commands.serverinfo.owner"),
