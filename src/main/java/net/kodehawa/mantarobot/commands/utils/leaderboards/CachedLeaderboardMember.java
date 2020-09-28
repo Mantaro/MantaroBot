@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.utils.leaderboards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.beans.ConstructorProperties;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 public class CachedLeaderboardMember {
     private long id;
     private String name;
-    private String tag;
     private String disriminator;
 
     private long lastCachedAt;
@@ -35,7 +35,6 @@ public class CachedLeaderboardMember {
         this.id = id;
         this.name = name;
         this.disriminator = discriminator;
-        this.tag = name + discriminator;
         this.lastCachedAt = lastCachedAt;
     }
 
@@ -45,10 +44,6 @@ public class CachedLeaderboardMember {
 
     public String getName() {
         return name;
-    }
-
-    public String getTag() {
-        return tag;
     }
 
     public String getDiscriminator() {
@@ -61,5 +56,10 @@ public class CachedLeaderboardMember {
 
     public long getLastCachedAtHours() {
         return TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - lastCachedAt);
+    }
+
+    @JsonIgnore
+    public String getTag() {
+        return getName() + getDiscriminator();
     }
 }
