@@ -67,8 +67,8 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    compile 'net.dv8tion:JDA:4.2.0_204'
-    compile 'club.minnced:discord-webhooks:0.4.1'
+    compile 'net.dv8tion:JDA:4.2.0_205'
+    compile 'club.minnced:discord-webhooks:0.5.0'
 
     // Music
     compile ('com.github.FredBoat:Lavalink-Client:c2aeb28233') { exclude group: 'com.sedmelluq', module: 'lavaplayer' }
@@ -81,7 +81,7 @@ dependencies {
     compile 'com.google.guava:guava:29.0-jre'
 
     // Database
-    compile 'com.rethinkdb:rethinkdb-driver:2.4.2'
+    compile 'com.rethinkdb:rethinkdb-driver:2.4.4'
     compile 'redis.clients:jedis:3.3.0'
 
     // Utilities
@@ -218,7 +218,7 @@ tasks.withType(JavaCompile) {
 build.dependsOn shadowJar
 
 shadowJar {
-    classifier = null
+    archiveClassifier.set(null)
     exclude 'module-info.class'
 }
 
@@ -227,6 +227,5 @@ class Version {
 
     String toString() {
         "${major}.${minor}.${revision}"
-
     }
 }

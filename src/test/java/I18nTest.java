@@ -16,7 +16,6 @@
 
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;

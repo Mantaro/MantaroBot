@@ -321,14 +321,13 @@ public class MantaroCore {
     public void start() {
         if (config == null)
             throw new IllegalArgumentException("Config cannot be null!");
-
-        if (useBanner)
-            new BannerPrinter(1).printBanner();
-
         if (commandsPackage == null)
             throw new IllegalArgumentException("Cannot look for commands if you don't specify where!");
         if (optsPackage == null)
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
+
+        if (useBanner)
+            new BannerPrinter(1).printBanner();
 
         Set<Class<?>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
         Set<Class<?>> options = lookForAnnotatedOn(optsPackage, Option.class);
@@ -336,28 +335,28 @@ public class MantaroCore {
 
         startShardedInstance();
 
-        for (Class<?> aClass : commands) {
+        for (Class<?> commandClass : commands) {
             try {
-                shardEventBus.register(aClass.getDeclaredConstructor().newInstance());
+                shardEventBus.register(commandClass.getDeclaredConstructor().newInstance());
             } catch (Exception e) {
-                log.error("Invalid module: no zero arg public constructor found for " + aClass);
+                log.error("Invalid module: no zero arg public constructor found for " + commandClass);
             }
         }
 
-        for (Class<?> clazz : options) {
+        for (Class<?> optionClass : options) {
             try {
-                shardEventBus.register(clazz.getDeclaredConstructor().newInstance());
+                shardEventBus.register(optionClass.getDeclaredConstructor().newInstance());
             } catch (Exception e) {
-                log.error("Invalid module: no zero arg public constructor found for " + clazz);
+                log.error("Invalid module: no zero arg public constructor found for " + optionClass);
             }
         }
 
         new Thread(() -> {
-            //For now, only used by AsyncInfoMonitor startup and Anime Login Task.
+            // For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
-            //Registers all commands
+            // Registers all commands
             shardEventBus.post(CommandProcessor.REGISTRY);
-            //Registers all options
+            // Registers all options
             shardEventBus.post(new OptionRegistryEvent());
         }, "Mantaro EventBus-Post").start();
     }

@@ -61,7 +61,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         log("Requesting custom command {}:{} from rethink", guildId, name);
-        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class).single();
+        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).runAtom(conn, CustomCommand.class);
     }
 
     @Nullable
@@ -126,7 +126,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull String guildId) {
         log("Requesting guild {} from rethink", guildId);
-        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class).single();
+        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).runAtom(conn, DBGuild.class);
         return guild == null ? DBGuild.of(guildId) : guild;
     }
 
@@ -152,7 +152,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public MantaroObj getMantaroData() {
         log("Requesting MantaroObj from rethink");
-        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class).single();
+        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").runAtom(conn, MantaroObj.class);
         return obj == null ? MantaroObj.create() : obj;
     }
 
@@ -160,7 +160,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
         log("Requesting player {} from rethink", userId);
-        Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class).single();
+        Player player = r.table(Player.DB_TABLE).get(userId + ":g").runAtom(conn, Player.class);
         return player == null ? Player.of(userId) : player;
     }
 
@@ -180,7 +180,7 @@ public class ManagedDatabase {
     @CheckReturnValue
     public SeasonPlayer getPlayerForSeason(@Nonnull String userId, Season season) {
         log("Requesting player {} (season {}) from rethink", userId, season);
-        SeasonPlayer player = r.table(SeasonPlayer.DB_TABLE).get(userId + ":" + season).run(conn, SeasonPlayer.class).single();
+        SeasonPlayer player = r.table(SeasonPlayer.DB_TABLE).get(userId + ":" + season).runAtom(conn, SeasonPlayer.class);
         return player == null ? SeasonPlayer.of(userId, season) : player;
     }
 
@@ -199,14 +199,14 @@ public class ManagedDatabase {
     @CheckReturnValue
     public long getAmountSeasonalPlayers() {
         //noinspection ConstantConditions
-        return r.table(SeasonPlayer.DB_TABLE).count().run(conn, OptArgs.of("read_mode", "outdated"), Long.class).single();
+        return r.table(SeasonPlayer.DB_TABLE).count().runAtom(conn, OptArgs.of("read_mode", "outdated"), Long.class);
     }
 
     @Nonnull
     @CheckReturnValue
     public PlayerStats getPlayerStats(@Nonnull String userId) {
         log("Requesting player STATS {} from rethink", userId);
-        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).run(conn, PlayerStats.class).single();
+        PlayerStats playerStats = r.table(PlayerStats.DB_TABLE).get(userId).runAtom(conn, PlayerStats.class);
         return playerStats == null ? PlayerStats.of(userId) : playerStats;
     }
 
@@ -236,7 +236,7 @@ public class ManagedDatabase {
         if (marriageId == null)
             return null;
         log("Requesting marriage {} from rethink", marriageId);
-        return r.table(Marriage.DB_TABLE).get(marriageId).run(conn, Marriage.class).single();
+        return r.table(Marriage.DB_TABLE).get(marriageId).runAtom(conn, Marriage.class);
     }
 
     @Nonnull
@@ -261,14 +261,14 @@ public class ManagedDatabase {
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Requesting premium key {} from rethink", id);
         if (id == null) return null;
-        return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class).single();
+        return r.table(PremiumKey.DB_TABLE).get(id).runAtom(conn, PremiumKey.class);
     }
 
     @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
         log("Requesting user {} from rethink", userId);
-        DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class).single();
+        DBUser user = r.table(DBUser.DB_TABLE).get(userId).runAtom(conn, DBUser.class);
         return user == null ? DBUser.of(userId) : user;
     }
 
