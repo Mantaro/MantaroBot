@@ -16,6 +16,9 @@
 
 package net.kodehawa.mantarobot.commands.utils.leaderboards;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import java.beans.ConstructorProperties;
 import java.util.concurrent.TimeUnit;
 
 public class CachedLeaderboardMember {
@@ -26,6 +29,8 @@ public class CachedLeaderboardMember {
 
     private long lastCachedAt;
 
+    @JsonCreator
+    @ConstructorProperties({"id", "name", "discriminator", "lastCachedAt"})
     public CachedLeaderboardMember(long id, String name, String discriminator, long lastCachedAt) {
         this.id = id;
         this.name = name;
