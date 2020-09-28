@@ -87,8 +87,8 @@ public class JsonDataManager<T> implements DataManager<T> {
         return mapper.readValue(json, clazz);
     }
 
-    public static <T> T fromJson(String json, TypeReference<T> clazz) throws JsonProcessingException {
-        return mapper.readValue(json, clazz);
+    public static <T> T fromJson(String json, TypeReference<T> type) throws JsonProcessingException {
+        return mapper.readValue(json, type);
     }
 
 }
