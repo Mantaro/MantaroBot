@@ -18,8 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.hash.TIntHashSet;
 import lavalink.client.io.jda.JdaLink;
 import lavalink.client.player.IPlayer;
 import lavalink.client.player.LavalinkPlayer;
@@ -59,8 +57,10 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
@@ -590,7 +590,7 @@ public class MusicCmds {
 
                 ctx.getAudioManager().getMusicManager(ctx.getGuild()).getTrackScheduler()
                         .getQueueAsList(list -> {
-                            TIntHashSet selected = new TIntHashSet();
+                            HashSet<Integer> selected = new HashSet<>();
                             String last = Integer.toString(list.size() - 1);
 
                             for (String param : args) {
@@ -621,7 +621,7 @@ public class MusicCmds {
                                             return;
                                         }
 
-                                        selected.addAll(IntStream.rangeClosed(iStart, iEnd).toArray());
+                                        selected.addAll(IntStream.rangeClosed(iStart, iEnd).boxed().collect(Collectors.toList()));
                                     } catch (NumberFormatException ex) {
                                         ctx.sendLocalized("commands.removetrack.invalid_number", EmoteReference.ERROR, param);
                                         return;
@@ -643,9 +643,8 @@ public class MusicCmds {
                                 }
                             }
 
-                            TIntIterator i = selected.iterator();
-                            while (i.hasNext())
-                                list.remove(i.next());
+                            for (Integer integer : selected)
+                                list.remove(integer);
 
                             ctx.sendLocalized("commands.removetrack.success", EmoteReference.CORRECT, selected.size());
                             TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
