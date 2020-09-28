@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sMuitos argumentos! Formato de página é `nome->número da página`",
       "main_def": "Definição principal.",
       "footer": "Informação por Dicionário Urbano",
-      "nsfw_notice": "%1$sEste comando só pode ser usado em canais NSFW devido à natureza de seus resultados."
+      "nsfw_notice": "%1$sEste comando só pode ser usado em canais NSFW devido à natureza de seus resultados.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
