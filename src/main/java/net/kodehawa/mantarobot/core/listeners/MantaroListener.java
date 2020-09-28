@@ -58,7 +58,7 @@ import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -792,7 +792,7 @@ public class MantaroListener implements EventListener {
                     if (m.equals("embed")) {
                         EmbedJSON embed;
                         try {
-                            embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+                            embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
                         } catch (Exception ignored) {
                             tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
                             return;

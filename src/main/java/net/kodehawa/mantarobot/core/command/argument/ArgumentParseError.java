@@ -10,6 +10,7 @@ public class ArgumentParseError extends RuntimeException {
     private final NewContext context;
     private final Parser<?> parser;
     private final Arguments readArguments;
+    static final long serialVersionUID = 1L;
 
     public ArgumentParseError(String message, NewContext context, Parser<?> parser, Arguments readArguments) {
         super(messageString(message, parser, readArguments));

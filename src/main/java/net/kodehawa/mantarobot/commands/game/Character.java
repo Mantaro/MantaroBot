@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import com.google.gson.JsonSyntaxException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.AnimeGameData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
@@ -27,7 +27,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +73,7 @@ public class Character extends ImageGame {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
             GameStatsManager.log(name());
-            AnimeGameData data = GsonDataManager.GSON_PRETTY.fromJson(APIUtils.getFrom("/mantaroapi/bot/character"), AnimeGameData.class);
+            AnimeGameData data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/character"), AnimeGameData.class);
 
             GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
@@ -91,7 +91,8 @@ public class Character extends ImageGame {
                     .setFooter(languageContext.get("commands.game.end_footer"), null)
             ).queue(success -> lobby.setGameLoaded(true));
             return true;
-        } catch (JsonSyntaxException ex) {
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
             return false;
         } catch (Exception e) {

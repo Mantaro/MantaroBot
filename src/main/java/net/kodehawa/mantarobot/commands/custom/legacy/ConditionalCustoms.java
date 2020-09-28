@@ -16,7 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
-import com.google.gson.JsonPrimitive;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
 import java.util.HashMap;
@@ -108,7 +108,7 @@ public class ConditionalCustoms {
 
         //@jsonescape
         functions.put("jsonescape", args -> {
-            String s = new JsonPrimitive(String.join(";", args)).toString();
+            String s = JsonStringEncoder.getInstance().quoteAsString(String.join(";", args)).toString();
             return s.substring(1, s.length() - 1);
         });
     }

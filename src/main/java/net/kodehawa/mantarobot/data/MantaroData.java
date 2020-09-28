@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.data;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ import static com.rethinkdb.RethinkDB.r;
 public class MantaroData {
     private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build());
     private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
-    private static GsonDataManager<Config> config;
+    private static JsonDataManager<Config> config;
     private static Connection conn;
     private static ManagedDatabase db;
 
@@ -44,9 +44,9 @@ public class MantaroData {
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-data", exec);
     }
 
-    public static GsonDataManager<Config> config() {
+    public static JsonDataManager<Config> config() {
         if (config == null)
-            config = new GsonDataManager<>(Config.class, "config.json", Config::new);
+            config = new JsonDataManager<>(Config.class, "config.json", Config::new);
 
         return config;
     }
