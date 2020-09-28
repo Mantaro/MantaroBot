@@ -101,8 +101,6 @@ dependencies {
     compile 'io.prometheus:simpleclient_hotspot:0.9.0'
     compile 'io.prometheus:simpleclient_httpserver:0.9.0'
 
-    compile 'net.sf.trove4j:trove4j:3.0.3'
-
     //Unit tests
     testCompile 'junit:junit:4.13'
 }
