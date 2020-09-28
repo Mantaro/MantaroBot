@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sZu viele Argumente! Seitenformat ist `name->page number`",
       "main_def": "Haupt-Definition.",
       "footer": "Information von Urban Dictionary",
-      "nsfw_notice": "%1$sDieser Befehl kann, aufgrund der Art der Ergebnisse, nur in NSFW-Kanälen genutzt werden."
+      "nsfw_notice": "%1$sDieser Befehl kann, aufgrund der Art der Ergebnisse, nur in NSFW-Kanälen genutzt werden.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
