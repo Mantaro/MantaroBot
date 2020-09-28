@@ -16,8 +16,11 @@
 
 package net.kodehawa.mantarobot.utils.data;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,23 +30,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
 
-public class GsonDataManager<T> implements DataManager<T> {
-    public static final Gson GSON_PRETTY = new GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
-    private static final Logger log = LoggerFactory.getLogger(GsonDataManager.class);
+public class JsonDataManager<T> implements DataManager<T> {
+    private static ObjectMapper mapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false) // Anime / Character lookup.
+            .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true); // Custom commands.
+    private static final Logger log = LoggerFactory.getLogger(JsonDataManager.class);
     private final Path configPath;
     private final T data;
 
-    public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
+    public JsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
         this.configPath = Paths.get(file);
         if (!configPath.toFile().exists()) {
             log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
             try {
                 if (configPath.toFile().createNewFile()) {
                     log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
-                    FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
+                    FileIOUtils.write(configPath, mapper.writeValueAsString(constructor.get()));
                     log.info("Please, fill the file with valid properties.");
                 } else {
                     log.warn("Could not create config file at " + file);
@@ -52,18 +54,15 @@ public class GsonDataManager<T> implements DataManager<T> {
                 e.printStackTrace();
                 System.exit(1);
             }
+
             System.exit(0);
         }
 
         try {
-            this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
+            this.data = fromJson(FileIOUtils.read(configPath), clazz);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-    }
-
-    public static Gson gson(boolean pretty) {
-        return pretty ? GSON_PRETTY : GSON_UNPRETTY;
     }
 
     @Override
@@ -74,9 +73,22 @@ public class GsonDataManager<T> implements DataManager<T> {
     @Override
     public void save() {
         try {
-            FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
+            FileIOUtils.write(configPath, mapper.writeValueAsString(data));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
+
+    public static <T> String toJson(T object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
+    }
+
+    public static <T> T fromJson(String json, Class<T> clazz) throws JsonProcessingException {
+        return mapper.readValue(json, clazz);
+    }
+
+    public static <T> T fromJson(String json, TypeReference<T> clazz) throws JsonProcessingException {
+        return mapper.readValue(json, clazz);
+    }
+
 }

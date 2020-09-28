@@ -16,8 +16,8 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
-import com.google.gson.JsonSyntaxException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
@@ -78,7 +78,8 @@ public class AnimeCmds {
                                     .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                     .build(),
                             anime -> animeData(ctx.getEvent(), languageContext, anime));
-                } catch (JsonSyntaxException jsonException) {
+                } catch (JsonProcessingException jsonException) {
+                    jsonException.printStackTrace();
                     ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                 } catch (NullPointerException nullException) {
                     nullException.printStackTrace();
@@ -133,7 +134,7 @@ public class AnimeCmds {
                                     .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                     .build(),
                             character -> characterData(ctx.getEvent(), languageContext, character));
-                } catch (JsonSyntaxException jsonException) {
+                } catch (JsonProcessingException jsonException) {
                     ctx.sendLocalized("commands.anime.no_results", EmoteReference.ERROR);
                 } catch (NullPointerException nullException) {
                     nullException.printStackTrace();

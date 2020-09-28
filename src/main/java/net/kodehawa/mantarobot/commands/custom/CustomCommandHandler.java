@@ -29,10 +29,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.net.URL;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class CustomCommandHandler {
@@ -72,8 +74,7 @@ public class CustomCommandHandler {
 
         specialHandlers.put("embed", (ctx, value, args) -> {
             try {
-                EmbedJSON embed = GsonDataManager.gson(false)
-                        .fromJson('{' + value + '}', EmbedJSON.class);
+                EmbedJSON embed = JsonDataManager.fromJson('{' + value + '}', EmbedJSON.class);
 
                 ctx.send(embed.gen(ctx.getMember()));
             } catch (IllegalArgumentException invalid) {
@@ -82,7 +83,8 @@ public class CustomCommandHandler {
                 } else {
                     ctx.sendLocalized("commands.custom.invalid_string", EmoteReference.ERROR2, value);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 ctx.sendLocalized("commands.custom.invalid_json", EmoteReference.ERROR2, value);
             }
         });

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
 import com.rethinkdb.gen.ast.ReqlFunction1;
 import com.rethinkdb.model.OptArgs;
@@ -39,7 +40,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import redis.clients.jedis.Jedis;
@@ -491,14 +492,17 @@ public class LeaderboardCmd {
                 }
 
                 CachedLeaderboardMember cached = new CachedLeaderboardMember(user.getIdLong(), user.getName(), user.getDiscriminator(), System.currentTimeMillis());
-                jedis.set(savedTo, GsonDataManager.GSON_UNPRETTY.toJson(cached));
+                jedis.set(savedTo, JsonDataManager.toJson(cached));
 
                 // Set the value to expire in 48 hours.
                 jedis.expire(savedTo, (int) TimeUnit.HOURS.toSeconds(48));
                 return cached;
             } else {
-                return GsonDataManager.GSON_UNPRETTY.fromJson(json, CachedLeaderboardMember.class);
+                return JsonDataManager.fromJson(json, CachedLeaderboardMember.class);
             }
+        } catch (JsonProcessingException e) { // This would be odd, really.
+            e.printStackTrace();
+            return null;
         }
     }
 }

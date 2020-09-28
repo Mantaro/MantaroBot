@@ -41,7 +41,7 @@ import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -217,7 +217,7 @@ public class CommandListener implements EventListener {
             if (m.equals("embed")) {
                 EmbedJSON embed;
                 try {
-                    embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+                    embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
                 } catch (Exception ignored) {
                     tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
                     return;

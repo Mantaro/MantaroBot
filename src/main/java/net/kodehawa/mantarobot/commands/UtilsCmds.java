@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -42,7 +43,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -648,7 +649,14 @@ public class UtilsCmds {
 
                 var url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
                 var json = Utils.wget(url);
-                var data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
+                UrbanData data = null;
+                try {
+                    data = JsonDataManager.fromJson(json, UrbanData.class);
+                } catch (JsonProcessingException e) {
+                    ctx.sendLocalized("commands.urban.error", EmoteReference.ERROR);
+                    e.printStackTrace();
+                    return;
+                }
 
                 if (commandArguments.length > 2) {
                     ctx.sendLocalized("commands.urban.too_many_args", EmoteReference.ERROR);

@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.commands.custom.v3.interpreter.InterpreterVisitor
 import net.kodehawa.mantarobot.commands.custom.v3.interpreter.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.time.DateTimeException;
 import java.time.OffsetDateTime;
@@ -224,8 +224,7 @@ public class CCv3 {
 
         DEFAULT_OPERATIONS.put("embed", (interpreter, args) -> {
             try {
-                EmbedJSON embed = GsonDataManager.gson(false)
-                        .fromJson('{' +
+                EmbedJSON embed = JsonDataManager.fromJson('{' +
                                 args.stream()
                                         .map(Operation.Argument::evaluate)
                                         .collect(Collectors.joining(";"))

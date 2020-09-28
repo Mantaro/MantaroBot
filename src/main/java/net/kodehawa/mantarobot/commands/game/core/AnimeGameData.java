@@ -16,10 +16,16 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import java.beans.ConstructorProperties;
+
 public class AnimeGameData {
     private String name;
     private String image;
 
+    @JsonCreator
+    @ConstructorProperties({"name", "image"})
     public AnimeGameData(String name, String image) {
         this.name = name;
         this.image = image;
