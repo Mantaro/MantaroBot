@@ -62,7 +62,7 @@
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
     "sellout_campaign": {
-      "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and up to double the coins with Mantaro Premium! Memberships start at $1 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+      "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **up to double the coins with Mantaro Premium**! Memberships start at $1 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
       "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
     },
     "mention_user_required": "%1$sYou need to mention one user.",
