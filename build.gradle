@@ -23,11 +23,9 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
-    //Tell me when smth is outdated
-    id 'com.github.ben-manes.versions' version '0.28.0'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     //Builds docker images
-    id 'com.palantir.docker' version '0.22.1'
+    id 'com.palantir.docker' version '0.25.0'
 }
 
 //Define the Main Class
