@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$s¡Muchos argumentos! El formato es `nombre->página`",
       "main_def": "Definición principal.",
       "footer": "Información por Urban Dictionary",
-      "nsfw_notice": "%1$sEste comando solo puede usar en canales NSFW debido a la naturaleza de sus resultados."
+      "nsfw_notice": "%1$sEste comando solo puede usar en canales NSFW debido a la naturaleza de sus resultados.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
