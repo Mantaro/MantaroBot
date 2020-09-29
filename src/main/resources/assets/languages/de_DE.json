@@ -1357,7 +1357,7 @@
     "serverinfo": {
       "header": "Server Informationen",
       "description": "Server informationen für %1$s",
-      "users": "Nutzer (Online/Einzigartig)",
+      "users": "Users",
       "created": "Erstellungsdatum",
       "channels": "Sprach-/Textkanäle",
       "owner": "Besitzer",
