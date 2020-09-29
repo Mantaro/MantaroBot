@@ -1357,7 +1357,7 @@
     "serverinfo": {
       "header": "Server Information",
       "description": "Thông tin cho máy chủ %1$s",
-      "users": "Users (Online/Unique)",
+      "users": "Users",
       "created": "Ngày tạo",
       "channels": "Kênh thoại/Văn Bản",
       "owner": "Chủ sở hữu",
