@@ -524,7 +524,7 @@
         "default": "lento pra crl. :dizzy_face:"
       },
       "display": [
-        "E-Eu fui rápida o  suficiente?",
+        "E-Eu fui rápida o suficiente?",
         "O que você está fazendo?",
         "O-O que você está olhando?!",
         "Huh.",
@@ -1357,7 +1357,7 @@
     "serverinfo": {
       "header": "Informação do Servidor",
       "description": "Informações do Servidor %1$s",
-      "users": "Usuários (Online/Únicos)",
+      "users": "Users",
       "created": "Data de Criação",
       "channels": "Canais de Voz/Texto",
       "owner": "Criador",
