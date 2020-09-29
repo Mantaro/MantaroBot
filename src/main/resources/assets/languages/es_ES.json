@@ -1357,7 +1357,7 @@
     "serverinfo": {
       "header": "Información del Servidor",
       "description": "Información de %1$s",
-      "users": "Usuarios (Conectados/Totales)",
+      "users": "Users",
       "created": "Fecha de Creación",
       "channels": "Canales de voz/texto",
       "owner": "Dueño",
