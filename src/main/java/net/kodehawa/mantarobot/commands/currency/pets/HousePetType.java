@@ -25,7 +25,8 @@ import java.util.stream.Collectors;
 public enum HousePetType {
     DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200),
     CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 30000, 100),
-    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 4000, 30);
+    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 4000, 30),
+    KODE(EmoteReference.DEV, "Kodehawa", List.of(HousePetAbility.CHEER, HousePetAbility.FISH), 3000000, 300);
 
     public static enum HousePetAbility {
         FISH, CATCH, CHEER;
