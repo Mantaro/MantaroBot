@@ -37,7 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$sTu as(peut-être) nettoyé toute la poussière que tu as accumulée au cours de toutes ces sessions minière.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
+      "mop_not_enough": "%1$sTon niveau de poussière est inférieur à 5%%, donc nettoyer ça ne sera pas très productif.",
       "milk": "%1$sEffets de la potion annulés.",
       "stamina": "%1$sEndurance activée pour 5 sessions minières.",
       "stamina_used": "%1$sTu as déjà un effet d'endurance actif!",
@@ -253,7 +253,7 @@
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
         "full_channel": "%1$sJe ne peux pas me connecter à ce salon vocal car il est plein!!",
         "non_existent_channel": "%1$sSalon vocal inexistant. Si tu configures un salon vocal et que tu le supprimes, cela peut en être la cause.\n J'ai réinitialisé ton salon musical pour toi, essaies de jouer la musique de nouveau.",
-        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
+        "user_no_vc": "%1$s**Rejoins un salon vocal s'il te plait**. Si tu es dans un salon vocal et que le bot vient de se déconnecter, re-rejoins le salon à la place.",
         "missing_permissions_connect": "%1$sJe ne peux pas me connecter à ce salon vocal car je n'ai pas la permission de le faire (%2$s).",
         "missing_permission_speak": "%1$sJe ne peux pas parler dans ce salon vocal car je n'ai pas la permission de le faire  (%2$s).",
         "channel_locked": "%1$sJe peux uniquement jouer de la musique dans ce salon vocal **%2$s**.",
@@ -315,7 +315,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
+      "info": "Je suis dans la partition %1$d/%2$d (Node %3$d / %4$d)!\nUtilisateurs mis en cache: %5$,d\nPartitions de la guilde: %6$,d\nSi tu as besoin d'aide, va sur <https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -1019,7 +1019,7 @@
       "main_def": "Définition principale",
       "footer": "Information par Urban Dictionary",
       "nsfw_notice": "%1$sCette commande ne peut être utilisée que dans les channels NSFW dû à ses résultats.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
+      "error": "%1$sIl y a eu une erreur lors du calcul de la réponse du dictionnaire. Essaie à nouveau?"
     },
     "activatekey": {
       "check": {
@@ -1357,7 +1357,7 @@
     "serverinfo": {
       "header": "Informations du serveur",
       "description": "Infos pour %1$s",
-      "users": "Users",
+      "users": "Utilisateurs",
       "created": "Date de création",
       "channels": "Canaux vocaux/textuels",
       "owner": "Propriétaire",
