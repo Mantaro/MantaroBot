@@ -519,6 +519,12 @@ public class Utils {
                     LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.OVER_SPAM_LIMIT);
                 }
 
+                // If they go over 50 in one attempt, flag as blatant.
+                if (rateLimit.getSpamAttempts() > 50 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
+                    loggedAttemptUsers.add(user.getId());
+                    LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
+                }
+
                 onRateLimit(user, guildId, channelId, messageId);
             } catch (Exception ignored) {}
 
