@@ -1255,7 +1255,7 @@
       "height": "Height",
       "tags": "Tags",
       "load_notice": "If the image doesn't load, click the title.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
+      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
