@@ -89,7 +89,8 @@ public enum EmoteReference {
     WHITE_CIRCLE(":white_circle:", "\u25CB"),
     MUSICAL_NOTE(":musical_note", "\uD83C\uDFB5"),
     DROPLET(":droplet:", "\uD83D\uDCA7"),
-    //Custom emotes.
+
+    // Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),
     FISH_CRATE("<:fish_lootbox:556992254770937876>", null),
@@ -109,7 +110,22 @@ public enum EmoteReference {
     BROKEN_STAR_PICK("<:broken_star_pickaxe:557349870726414347>", null),
     BROKEN_SPARKLE_ROD("<:broken_sparkle_rod:560885907562037248>", null),
     BROKEN_COMET_ROD("<:broken_comet_rod:560885907004325889>", null),
-    BROKEN_STAR_ROD("<:broken_star_rod:560885906857263116>", null);
+    BROKEN_STAR_ROD("<:broken_star_rod:560885906857263116>", null),
+    MOON_PICK("<:moon_pick:762027644697968683>", null),
+    HELLFIRE_PICK("<:hellfire_pick:762027645004808202>", null),
+    MOON_ROD("<:moon_rod:762027644845686795>", null),
+    HELLFIRE_ROD("<:hellfire_rod:762027645054615602>", null),
+    COMET_AXE("<:comet_axe:762027646439129169>", null),
+    MOON_AXE("<:moon_axe:762027644941369345>", null),
+    DIAMOND_AXE("<:diamond_axe:762027644937306142>", null),
+    STAR_AXE("<:star_axe:762027644996157451>", null),
+    SPARKLE_AXE("<:sparkle_axe:762027645155541002>", null),
+    HELLFIRE_AXE("<:broken_comet_rod:560885907004325889>", null),
+    BROKEN_SPARKLE_AXE("<:sparkle_axe_broken:762027645105864714>", null),
+    BROKEN_COMET_AXE("<:comet_axe_broken:762027644791291935>", null),
+    BROKEN_MOON_AXE("<:moon_axe_broken:762027645025386546>", null),
+    BROKEN_STAR_AXE("<:star_axe_broken:762027644874915845>", null),
+    BROKEN_MOON_ROD("<:moon_rod_broken:762027645054484510>", null);
 
     final String discordNotation;
     final String unicode;

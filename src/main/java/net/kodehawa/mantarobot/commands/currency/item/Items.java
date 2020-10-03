@@ -193,18 +193,18 @@ public class Items {
             CAT_FOOD = new Food(10, "", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
             HAMSTER_FOOD = new Food(10, "", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
             // ---------------------------------- 5.7 ITEMS START HERE ----------------------------------
-            WOOD = new Item(ItemType.COMMON, "", "Wood", "items.wood", "items.description.wood", 10, true),
-            MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f, 3, 7, "", "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;5;10", List.of(74, 10, 101), 450, 10, 83, 18, 76, 101),
-            HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.00001f, 3, 1, "", "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick", 15000, true, false, "999;1;175;1;175;1;50;1;35;50", Collections.emptyList(), 2500, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76),
+            WOOD = new Item(ItemType.COMMON, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 10, true),
+            MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f, 3, 7, EmoteReference.MOON_PICK.getDiscordNotation(), "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;5;10", List.of(74, 10, 101), 450, 10, 83, 18, 76, 101),
+            HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.00001f, 3, 1, EmoteReference.HELLFIRE_PICK.getDiscordNotation(), "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick", 15000, true, false, "999;1;175;1;175;1;50;1;35;50", Collections.emptyList(), 2500, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76),
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93", "Axe", "items.axe", "items.description.axe", 100, true, 35),
-            COMET_AXE = new Axe(ItemType.CHOP_AXE, 0.13f, 1, 10, "", "Comet Axe", "items.comet_axe", "items.description.comet_axe", 290, true, false, "1;3;8", List.of(48, 101), 170, 10, 48, 101),
-            STAR_AXE = new Axe(ItemType.CHOP_AXE, 0.09f, 1, 10, "", "Star Axe", "items.star_pick", "items.description.star_axe", 350, true, false, "1;3;7", List.of(49, 101), 220, 10, 49, 101),
-            SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.04f, 3, 5, "", "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe", 1200, true, false, "1;3;2;8", List.of(74, 10, 101), 460, 10, 74, 18, 101),
-            MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f, 3, 7, "", "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;10", List.of(74, 10, 101), 480, 10, 83, 18, 101),
+            COMET_AXE = new Axe(ItemType.CHOP_AXE, 0.13f, 1, 10, EmoteReference.COMET_AXE.getDiscordNotation(), "Comet Axe", "items.comet_axe", "items.description.comet_axe", 290, true, false, "1;3;8", List.of(48, 101), 170, 10, 48, 101),
+            STAR_AXE = new Axe(ItemType.CHOP_AXE, 0.09f, 1, 10, EmoteReference.STAR_AXE.getDiscordNotation(), "Star Axe", "items.star_pick", "items.description.star_axe", 350, true, false, "1;3;7", List.of(49, 101), 220, 10, 49, 101),
+            SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.04f, 3, 5, EmoteReference.SPARKLE_AXE.getDiscordNotation(), "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe", 1200, true, false, "1;3;2;8", List.of(74, 10, 101), 460, 10, 74, 18, 101),
+            MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f, 3, 7, EmoteReference.MOON_PICK.getDiscordNotation(), "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;10", List.of(74, 10, 101), 480, 10, 83, 18, 101),
             //TODO: recipe
-            HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.00001f, 3, 1, "", "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe", 15000, true, false, "1;3;2;10", Collections.emptyList(), 2800, 10, 83, 18, 101),
-            MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3, 4, "", "Moon Rod", "items.moon_rod", "items.description.moon_rod", 800, "1;3;1;3", List.of(44, 18), 350, 44, 74, 18, 101),
-            HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, "", "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 1950, 18, 48, 70, 49, 71, 74, 75, 101, 76),
+            HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.00001f, 3, 1, EmoteReference.HELLFIRE_AXE.getDiscordNotation(), "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe", 15000, true, false, "1;3;2;10", Collections.emptyList(), 2800, 10, 83, 18, 101),
+            MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3, 4, EmoteReference.MOON_ROD.getDiscordNotation(), "Moon Rod", "items.moon_rod", "items.description.moon_rod", 800, "1;3;1;3", List.of(44, 18), 350, 44, 74, 18, 101),
+            HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(), "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 1950, 18, 48, 70, 49, 71, 74, 75, 101, 76),
     };
 
     public static void setItemActions() {
