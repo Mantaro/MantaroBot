@@ -171,6 +171,11 @@ public class ItemCmds {
                         }
 
                         int limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
+
+                        // Limit is double with sparkle wrench
+                        if(wrench == Items.WRENCH_SPARKLE)
+                            limit *= 2;
+
                         if (amountSpecified > limit) {
                             ctx.sendLocalized("commands.cast.too_many_amount", EmoteReference.ERROR, limit, amountSpecified);
                             return;
