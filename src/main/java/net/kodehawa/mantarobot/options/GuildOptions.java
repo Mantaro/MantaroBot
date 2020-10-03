@@ -437,7 +437,7 @@ public class GuildOptions extends OptionHandler {
             dbGuild.saveAsync();
             event.getChannel().sendMessageFormat(lang.get("options.usermessage_leave_resetchannel.success"), EmoteReference.CORRECT).queue();
         });
-        addOptionAlias("usermessage:join:resetchannel", "resetleavechannel");
+        addOptionAlias("usermessage:leave:resetchannel", "resetleavechannel");
 
         registerOption("usermessage:channel", "Set message channel",
                 "Sets the join/leave message channel. You need the channel **name**\n" +
