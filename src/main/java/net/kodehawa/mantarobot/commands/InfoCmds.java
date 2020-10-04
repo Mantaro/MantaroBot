@@ -161,7 +161,7 @@ public class InfoCmds {
                         .addField(languageContext.get("commands.serverinfo.channels"),
                                 guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                         .addField(languageContext.get("commands.serverinfo.owner"),
-                                owner.getUser().getName() + "#" + owner.getUser().getDiscriminator(), false)
+                                owner.getUser().getAsTag(), false)
                         .addField(languageContext.get("commands.serverinfo.region"),
                                 guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") :
                                         guild.getRegion().getName(), true)
