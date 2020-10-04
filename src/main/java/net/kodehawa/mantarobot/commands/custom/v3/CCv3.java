@@ -49,6 +49,7 @@ public class CCv3 {
     private static final Pattern USER_MENTION_PATTERN = Pattern.compile("(?:<@!?)?(\\d{1,20})>?");
     private static final Map<String, Operation> DEFAULT_OPERATIONS = new HashMap<>();
     private static final Pattern FILTER = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
+    private static final Pattern ESCAPE = Pattern.compile("\\\\");
     private static final DateTimeFormatter DEFAULT_TIMESTAMP_FORMATTER = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
             .append(ISO_LOCAL_DATE)
@@ -227,6 +228,7 @@ public class CCv3 {
                 EmbedJSON embed = JsonDataManager.fromJson('{' +
                                 args.stream()
                                         .map(Operation.Argument::evaluate)
+                                        .map(s -> ESCAPE.matcher(s).replaceAll("\\\\\\\\"))
                                         .collect(Collectors.joining(";"))
                                 + '}', EmbedJSON.class);
                 interpreter.set("embed", embed);

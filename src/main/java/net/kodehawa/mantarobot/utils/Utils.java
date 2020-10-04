@@ -516,10 +516,10 @@ public class Utils {
                 String channelId = event.getChannel().getId();
                 String messageId = event.getMessage().getId();
 
-                //Why would ANYONE go over 20 attempts?
-                if (rateLimit.getSpamAttempts() > 20 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
+                // If they go over 50 in one attempt, flag as blatant.
+                if (rateLimit.getSpamAttempts() > 50 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
                     loggedAttemptUsers.add(user.getId());
-                    LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.OVER_SPAM_LIMIT);
+                    LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
                 }
 
                 onRateLimit(user, guildId, channelId, messageId);
@@ -545,7 +545,7 @@ public class Utils {
 
     private static void onRateLimit(User user, String guildId, String channelId, String messageId) {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
-        if (ratelimitedTimes > 800 && !loggedSpambotUsers.contains(user.getId())) {
+        if (ratelimitedTimes > 700 && !loggedSpambotUsers.contains(user.getId())) {
             loggedSpambotUsers.add(user.getId());
             LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
         }

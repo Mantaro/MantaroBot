@@ -177,7 +177,7 @@ public class MantaroBot {
                 new ThreadFactoryBuilder().setNameFormat("Mantaro-Ratelimit-Clean").build()
         );
 
-        ratelimitMapExecutor.scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 36, TimeUnit.HOURS);
+        ratelimitMapExecutor.scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
 
         // Handle posting statistics.
         ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(
