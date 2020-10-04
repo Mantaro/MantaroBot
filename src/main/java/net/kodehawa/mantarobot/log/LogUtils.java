@@ -21,6 +21,7 @@ import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,10 +153,21 @@ public class LogUtils {
             ).collect(Collectors.joining("\n"))));
             fields.add(new WebhookEmbed.EmbedField(false, "Type", type.toString()));
 
+            if(type == SpamType.BLATANT) {
+                MantaroObj mantaroData = MantaroData.db().getMantaroData();
+                mantaroData.getBlackListedUsers().add(user.getId());
+                mantaroData.save();
+
+                fields.add(new WebhookEmbed.EmbedField(false, "Info", "User has been blacklisted automatically. " +
+                        "For more information use the investigate command.")
+                );
+            }
+
             SPAMBOT_WEBHOOK.send(new WebhookEmbed(null, Color.PINK.getRGB(),
                     null, user.getEffectiveAvatarUrl(),
                     null, new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
                     new WebhookEmbed.EmbedTitle("Possible spambot detected", null), null, fields));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
