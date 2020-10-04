@@ -28,8 +28,12 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.LocaleUtils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -58,10 +62,39 @@ public enum ProfileComponent {
     }),
     BIRTHDAY(EmoteReference.POPPER, i18nContext -> i18nContext.get("commands.profile.birthday"), (holder, i18nContext) -> {
         UserData data = holder.getDbUser().getData();
-        if (data.getBirthday() == null)
+
+        try {
+            if (data.getBirthday() == null)
+                return i18nContext.get("commands.profile.not_specified");
+            else {
+                // This goes through two Formatter calls since it has to first format the stuff birthdays use.
+                var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                var parsed = LocalDate.parse(data.getBirthday(), formatter);
+
+                // Then format it back to a readable format for a human. A little annoying, but works.
+                DateTimeFormatter readable;
+
+                // Parse the user's language settings to attempt to get the locale.
+                Locale locale = null;
+                try {
+                    locale = LocaleUtils.toLocale(data.getLang());
+                } catch (IllegalArgumentException ignore) { }
+
+                // We got a valid locale, so attempt to use (for example es_ES.json should give us es_ES, and that in turn
+                // gives us the Locale.SPANISH locale, which we can use in DateTimeFormatter.
+                if(locale != null) {
+                    readable = DateTimeFormatter.ofPattern("MMM d", LocaleUtils.toLocale(data.getLang()));
+                } else {
+                    readable = DateTimeFormatter.ofPattern("MMM d");
+                }
+
+                // Finally...
+                return String.format("%s (%s)", readable.format(parsed), data.getBirthday().substring(0, 5));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return i18nContext.get("commands.profile.not_specified");
-        else
-            return data.getBirthday().substring(0, 5);
+        }
     }, true, false),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
         //New marriage support.
