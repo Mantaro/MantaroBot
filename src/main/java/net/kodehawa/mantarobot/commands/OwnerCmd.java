@@ -57,6 +57,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.awt.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -214,9 +215,13 @@ public class OwnerCmd {
                 var jsonUser = JsonDataManager.toJson(dbUser);
                 var jsonSeason = JsonDataManager.toJson(seasonalPlayerData);
 
-                ctx.send("Done, data: " + Utils.paste(String.format("Player:\n%s\n ---- \nUser:\n%s\n ---- \nSeason:\n%s",
-                        jsonPlayer, jsonUser, jsonSeason))
-                );
+                var total = String.format("Player:\n%s\n ---- \nUser:\n%s\n ---- \nSeason:\n%s", jsonPlayer, jsonUser, jsonSeason);
+                byte[] bytes = total.getBytes(StandardCharsets.UTF_8);
+                if (bytes.length > 7_800_000) {
+                    ctx.send("Result too big!");
+                } else {
+                    ctx.sendFile(bytes, "result.json");
+                }
             } catch (Exception e) {
                 ctx.send("Error. Check logs. " + e.getMessage());
                 e.printStackTrace();

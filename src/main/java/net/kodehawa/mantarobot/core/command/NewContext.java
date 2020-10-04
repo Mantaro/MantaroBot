@@ -234,6 +234,10 @@ public class NewContext {
         getChannel().sendMessage(message).queue();
     }
 
+    public void sendFile(byte[] bytes, String name) {
+        getChannel().sendFile(bytes, name);
+    }
+
     public void sendFormat(String message, Object... format) {
         getChannel().sendMessageFormat(message, format).queue();
     }
