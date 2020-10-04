@@ -33,6 +33,7 @@ public class Config {
     public String dbotsorgToken;
     public String botsOnDiscordToken;
     public String discordBoatsToken;
+    public String dblToken;
     public boolean isPremiumBot = false;
     public List<String> owners = new ArrayList<>();
     public String[] prefix = {"~>", "->"};
@@ -107,6 +108,10 @@ public class Config {
 
     public String getDiscordBoatsToken() {
         return discordBoatsToken;
+    }
+
+    public String getDblToken() {
+        return dblToken;
     }
 
     public boolean isPremiumBot() {

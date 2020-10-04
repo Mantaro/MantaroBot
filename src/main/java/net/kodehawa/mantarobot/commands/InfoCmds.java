@@ -161,14 +161,14 @@ public class InfoCmds {
                         .addField(languageContext.get("commands.serverinfo.channels"),
                                 guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                         .addField(languageContext.get("commands.serverinfo.owner"),
-                                owner.getUser().getName() + "#" + owner.getUser().getDiscriminator(), true)
+                                owner.getUser().getAsTag(), false)
                         .addField(languageContext.get("commands.serverinfo.region"),
                                 guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") :
                                         guild.getRegion().getName(), true)
                         .addField(languageContext.get("commands.serverinfo.created"),
                                 guild.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)), false)
                         .addField(String.format(languageContext.get("commands.serverinfo.roles"),
-                                guild.getRoles().size()), StringUtils.limit(roles, 1016), false)
+                                guild.getRoles().size()), StringUtils.limit(roles, 500), false)
                         .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
                         .build()
                 );

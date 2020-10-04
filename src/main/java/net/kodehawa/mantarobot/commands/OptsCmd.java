@@ -173,7 +173,7 @@ public class OptsCmd {
                         .build();
             }
         }).addOption("check:data", new Option("Data check.",
-                "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**", OptionType.GENERAL)
+                "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**. If you wanna send this to the support server, use -print at the end.", OptionType.GENERAL)
                 .setActionLang((event, args, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
@@ -217,9 +217,9 @@ public class OptsCmd {
                     boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
                     if (hasReactionPerms)
-                        DiscordUtils.list(event, 100, false, embedBuilder, splitFields);
+                        DiscordUtils.list(event, 200, false, embedBuilder, splitFields);
                     else
-                        DiscordUtils.listText(event, 100, false, embedBuilder, splitFields);
+                        DiscordUtils.listText(event, 200, false, embedBuilder, splitFields);
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL)

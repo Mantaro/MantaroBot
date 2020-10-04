@@ -32,7 +32,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 5, minor: 7, revision: "0a")
+def ver = new Version(major: 5, minor: 6, revision: 1)
 version ver.toString()
 
 sourceCompatibility = 14
@@ -70,7 +70,7 @@ dependencies {
 
     // Music
     implementation ('com.github.FredBoat:Lavalink-Client:c2aeb28233') { exclude group: 'com.sedmelluq', module: 'lavaplayer' }
-    implementation 'com.github.Devoxin:lavaplayer:1.3.53'
+    implementation 'com.github.Devoxin:lavaplayer:1.3.54.3'
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // Core
