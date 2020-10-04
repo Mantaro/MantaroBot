@@ -253,16 +253,13 @@ public class MoneyCmds {
                     dailyMoney += bonus;
                 }
 
-                // If authorDBUser is premium, make daily double.
+                // If the author is premium, make daily double.
                 if(authorDBUser.isPremium()) {
                     dailyMoney *=2;
                 }
 
-                // Sellout
-                if(authorPlayerData.shouldSeeCampaign()){
-                    returnMessage.add(Campaign.PREMIUM.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
-                    authorPlayerData.markCampaignAsSeen();
-                }
+                // Sellout + this is always a day apart, so we can just send campaign.
+                returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
 
                 // Careful not to overwrite yourself ;P
                 // Save streak and items

@@ -64,6 +64,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **up to double the coins with Mantaro Premium**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "daily_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **double the daily coins**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
       }
     },
