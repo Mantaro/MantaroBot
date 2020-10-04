@@ -30,12 +30,10 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.SessionController;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.cache.EvictingCachePolicy;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
@@ -56,9 +54,8 @@ import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
-import okhttp3.MediaType;
+import net.kodehawa.mantarobot.utils.external.BotListPost;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +72,6 @@ import java.util.stream.IntStream;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 import static net.kodehawa.mantarobot.core.cache.EvictionStrategy.leastRecentlyUsed;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
-import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class MantaroCore {
     private static final Logger log = LoggerFactory.getLogger(MantaroCore.class);
@@ -413,68 +409,28 @@ public class MantaroCore {
     }
 
     private void startUpdaters() {
-        if (config.getDbotsorgToken() != null && config.getBotsOnDiscordToken() != null && config.getDiscordBoatsToken() != null) {
-            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
-                try {
-                    var serverCount = 0L;
-                    //Fetch actual guild count.
-                    try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                        var stats = jedis.hgetAll("shardstats-" + config.getClientId());
-                        for (var shards : stats.entrySet()) {
-                            var json = new JSONObject(shards.getValue());
-                            serverCount += json.getLong("guild_count");
-                        }
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
+            try {
+                var serverCount = 0L;
+                //Fetch actual guild count.
+                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+                    for (var shards : stats.entrySet()) {
+                        var json = new JSONObject(shards.getValue());
+                        serverCount += json.getLong("guild_count");
                     }
-
-                    //top.gg and discord.boats
-                    RequestBody post = RequestBody.create(MediaType.parse("application/json"),
-                            new JSONObject().put("server_count", serverCount)
-                                    .toString()
-                    );
-
-                    //top.gg request
-                    Request topgg = new Request.Builder()
-                            .url(String.format("https://top.gg/api/bots/%s/stats", config.getClientId()))
-                            .header("User-Agent", MantaroInfo.USER_AGENT)
-                            .header("Authorization", config.getDbotsorgToken())
-                            .header("Content-Type", "application/json")
-                            .post(post)
-                            .build();
-
-                    //bots.ondiscord.xyz
-                    RequestBody botsOnDiscordPost = RequestBody.create(MediaType.parse("application/json"),
-                            new JSONObject().put("guildCount", serverCount).toString()
-                    );
-
-                    Request botsOnDiscord = new Request.Builder()
-                            .url(String.format("https://bots.ondiscord.xyz/bot-api/bots/%s/guilds", config.getClientId()))
-                            .header("User-Agent", MantaroInfo.USER_AGENT)
-                            .header("Authorization", config.getBotsOnDiscordToken())
-                            .header("Content-Type", "application/json")
-                            .post(botsOnDiscordPost)
-                            .build();
-
-                    //discord.boats
-                    Request boats = new Request.Builder()
-                            .url(String.format("https://discord.boats/api/bot/%s", config.getClientId()))
-                            .header("User-Agent", MantaroInfo.USER_AGENT)
-                            .header("Authorization", config.getDiscordBoatsToken())
-                            .header("Content-Type", "application/json")
-                            .post(post)
-                            .build();
-
-                    //*Actually* post the stats.
-                    httpClient.newCall(topgg).execute().close();
-                    httpClient.newCall(botsOnDiscord).execute().close();
-                    httpClient.newCall(boats).execute().close();
-                    log.debug("Updated server count ({}) for all bot lists", serverCount);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
-            }, 0, 15, TimeUnit.MINUTES);
-        } else {
-            log.warn("discordbots.org/bots.ondiscord.xyz/discord.boats token not set in config, cannot start posting stats!");
-        }
+
+                // This will NOP if the token is null.
+                for(BotListPost listSites : BotListPost.values()) {
+                    listSites.createRequest(serverCount, config.clientId);
+                }
+
+                log.debug("Updated server count ({}) for all bot lists", serverCount);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }, 0, 10, TimeUnit.MINUTES);
     }
 
     private static class ShardStartListener implements EventListener {
