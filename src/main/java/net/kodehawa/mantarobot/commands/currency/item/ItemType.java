@@ -66,6 +66,8 @@ public enum ItemType {
     CHOP_RARE_AXE_NODROP(true),
     FISHING_RARE_NODROP(false),
 
+    CHOP_DROP(false),
+
     DEPRECATED(false);
 
     private boolean cast;
