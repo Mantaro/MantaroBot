@@ -42,6 +42,6 @@ public class Quest {
 
 
     static enum QuestType {
-        MINE, FISH, CHOP, PET
+        MINE, FISH, CHOP, PET, CRATE
     }
 }
