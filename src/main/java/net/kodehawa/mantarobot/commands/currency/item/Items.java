@@ -130,11 +130,13 @@ public class Items {
             FISH = new Fish(ItemType.FISHING, 1, "\uD83D\uDC1F", "Fish", "items.fish", "items.description.fish", 10, false),
             TROPICAL_FISH = new Fish(ItemType.FISHING, 2, "\uD83D\uDC20", "Tropical Fish", "items.tropical_fish", "items.description.tropical_fish", 30, false),
             BLOWFISH = new Fish(ItemType.FISHING, 3, "\uD83D\uDC21", "Blowfish", "items.blowfish", "items.description.blowfish", 15, false),
+
             // ---------------------------------- 5.0 MINING ITEMS START HERE ----------------------------------
             COMET_GEM = new Item(ItemType.CAST_OBTAINABLE, "\u2604", "Comet Gem", "items.comet_gem", "items.description.comet_gem", 40, true, false, "3;1", 51, 24),
             STAR_GEM = new Item(ItemType.CAST_OBTAINABLE, "\ud83c\udf1f", "Star Gem", "items.star_gem", "items.description.star_gem", 60, true, false, "4;1", 51, 25),
             COBWEB = new Item(ItemType.MINE, "\uD83D\uDD78", "Cobweb", "items.cobweb", "items.description.cobweb", 10, false),
             GEM_FRAGMENT = new Item(ItemType.MINE, "\uD83D\uDCAB", "Gem Fragment", "items.fragment", "items.description.fragment", 50, false),
+
             // ---------------------------------- 5.0 ITEMS START HERE (again lol) ----------------------------------
             MOP = new Item(ItemType.INTERACTIVE, "\uD83E\uDDF9", "Mop", "items.mop", "items.description.mop", 10, true),
             CLAIM_KEY = new Item(ItemType.WAIFU, "\uD83D\uDDDD", "Claim Key", "items.claim_key", "items.description.claim_key", 1, false, true),
@@ -170,6 +172,7 @@ public class Items {
             SHRIMP = new Fish(ItemType.FISHING, 3, "\uD83E\uDD90", "Shrimp", "items.shrimp", "items.description.shrimp", 35, false),
             MOON_RUNES = new Item(ItemType.MINE, "\uD83C\uDF19", "Moon Runes", "items.moon", "items.description.moon", 100, false),
             SNOWFLAKE = new Item(ItemType.MINE, "\u2744\uFE0F", "Snowflake", "items.flake", "items.description.flake", 25, true, false, "1;1", 51, 50),
+
             // ---------------------------------- 5.3 BROKEN ITEMS START HERE ----------------------------------
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(), "Broken Sparkle Pickaxe", "items.broken_sparkle_pick", "items.description.broken_sparkle_pick", 100, "1,74;4,84;2,50"),
             BROKEN_COMET_PICK = new Broken(61, EmoteReference.BROKEN_COMET_PICK.getDiscordNotation(), "Broken Comet Pickaxe", "items.broken_comet_pick", "items.description.broken_comet_pick", 40, "1,48;3,84;2,50"),
@@ -178,22 +181,25 @@ public class Items {
             BROKEN_COMET_ROD = new Broken(70, EmoteReference.BROKEN_COMET_ROD.getDiscordNotation(), "Broken Comet Rod", "items.broken_comet_rod", "items.description.broken_comet_rod", 30, "1,48;3,84;2,50"),
             BROKEN_STAR_ROD = new Broken(71, EmoteReference.BROKEN_STAR_ROD.getDiscordNotation(), "Broken Star Rod", "items.broken_star_rod", "items.description.broken_star_rod", 30, "1,49;3,84;3,50"),
             // ---------------------------------- 5.3 BROKEN ITEMS END HERE ----------------------------------
+
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
             WATER_BOTTLE = new Water(ItemType.PET, "", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 100, true),
             // ---------------------------------- 5.7 PET ITEMS END HERE ----------------------------------
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false),
+
             // ---------------------------------- 5.7 PET ITEMS START HERE ----------------------------------
-            // TODO: change emojis
+            // TODO: Pet house emoji? I wonder what we could use.
             PET_HOUSE = new Item(ItemType.PET, "", "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
-            STEAK = new Food(10, "", "Steak", "items.steak", "items.description.steak", 170, true),
-            CHICKEN = new Food(10, "", "Chicken", "items.chicken", "items.description.chicken", 130, true),
-            MILK_2 = new Food(10, "", "Milk Bottle", "items.milk_bottle", "items.description.milk_bottle", 97, true),
-            DOG_FOOD = new Food(10, "", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
-            CAT_FOOD = new Food(10, "", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
-            HAMSTER_FOOD = new Food(10, "", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
+            STEAK = new Food(10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 170, true),
+            CHICKEN = new Food(10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 130, true),
+            MILK_2 = new Food(10, "\ud83e\udd5b", "Milk", "items.milk", "items.description.milk", 97, true),
+            DOG_FOOD = new Food(10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
+            CAT_FOOD = new Food(10, "\ud83e\udd6b", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
+            HAMSTER_FOOD = new Food(10, "\ud83c\udf31", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
+
             // ---------------------------------- 5.7 ITEMS START HERE ----------------------------------
-            WOOD = new Item(ItemType.COMMON, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 15, false),
+            WOOD = new Item(ItemType.COMMON, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 25, false),
             MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f, 3, 7, EmoteReference.MOON_PICK.getDiscordNotation(), "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;5;10", List.of(74, 10, 101), 450, 10, 83, 18, 76, 101),
             HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.00001f, 3, 1, EmoteReference.HELLFIRE_PICK.getDiscordNotation(), "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick", 15000, true, false, "999;1;175;1;175;1;50;1;35;50", Collections.emptyList(), 2500, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76),
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93", "Axe", "items.axe", "items.description.axe", 100, true, 35),
@@ -201,14 +207,14 @@ public class Items {
             STAR_AXE = new Axe(ItemType.CHOP_AXE, 0.09f, 1, 10, EmoteReference.STAR_AXE.getDiscordNotation(), "Star Axe", "items.star_pick", "items.description.star_axe", 350, true, false, "1;3;7", List.of(49, 101), 220, 10, 49, 101),
             SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.04f, 3, 5, EmoteReference.SPARKLE_AXE.getDiscordNotation(), "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe", 1200, true, false, "1;3;2;8", List.of(74, 10, 101), 460, 10, 74, 18, 101),
             MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f, 3, 7, EmoteReference.MOON_PICK.getDiscordNotation(), "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;10", List.of(74, 10, 101), 480, 10, 83, 18, 101),
-            //TODO: recipe
+            //TODO: Hellfire Axe recipe.
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.00001f, 3, 1, EmoteReference.HELLFIRE_AXE.getDiscordNotation(), "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe", 15000, true, false, "1;3;2;10", Collections.emptyList(), 2800, 10, 83, 18, 101),
             MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3, 4, EmoteReference.MOON_ROD.getDiscordNotation(), "Moon Rod", "items.moon_rod", "items.description.moon_rod", 800, "1;3;1;3", List.of(44, 18), 350, 44, 74, 18, 101),
             HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(), "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 1950, 18, 48, 70, 49, 71, 74, 75, 101, 76),
             LEAVES = new Item(ItemType.COMMON, "\ud83c\udf43", "Leaves", "items.leaves", "items.description.leaves", 5, false),
-            APPLE = new Item(ItemType.COMMON, "\ud83c\udf4e", "Apple", "items.apple", "items.description.apple", 7, false),
-            PEAR = new Item(ItemType.COMMON, "\ud83c\udf50", "Pear", "items.pear", "items.description.pear", 7, false),
-            CHERRY_BLOSSOM = new Item(ItemType.COMMON, "\ud83c\udf38", "Cherry Blossom", "items.cherry_blossom", "items.description.cherry_blossom", 3, false),
+            APPLE = new Item(ItemType.COMMON, "\ud83c\udf4e", "Apple", "items.apple", "items.description.apple", 10, false),
+            PEAR = new Item(ItemType.COMMON, "\ud83c\udf50", "Pear", "items.pear", "items.description.pear", 10, false),
+            CHERRY_BLOSSOM = new Item(ItemType.COMMON, "\ud83c\udf38", "Cherry Blossom", "items.cherry_blossom", "items.description.cherry_blossom", 5, false),
     };
 
     public static void setItemActions() {
