@@ -23,12 +23,17 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
+    @JsonIgnore
+    private static Config config = MantaroData.config().get();
+
     public long experience = 0;
     public long newMoney = 0L;
     private List<Badge> badges = new ArrayList<>();
@@ -345,7 +350,16 @@ public class PlayerData {
         this.lastSeenCampaign = lastSeenCampaign;
     }
 
+    @JsonIgnore
     public boolean shouldSeeCampaign() {
-        return (lastSeenCampaign + TimeUnit.DAYS.toMillis(1)) > System.currentTimeMillis();
+        if(config.isPremiumBot())
+            return false;
+
+        return System.currentTimeMillis() > (lastSeenCampaign + TimeUnit.DAYS.toMillis(1));
+    }
+
+    @JsonIgnore
+    public void markCampaignAsSeen() {
+        this.lastSeenCampaign = System.currentTimeMillis();
     }
 }

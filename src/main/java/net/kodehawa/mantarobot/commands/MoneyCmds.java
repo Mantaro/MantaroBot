@@ -261,6 +261,7 @@ public class MoneyCmds {
                 if(authorPlayerData.shouldSeeCampaign()){
                     returnMessage.add(authorDBUser.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
                             languageContext.get("commands.daily.sellout.get_premium"));
+                    authorPlayerData.markCampaignAsSeen();
                 }
 
                 // Careful not to overwrite yourself ;P
@@ -470,6 +471,7 @@ public class MoneyCmds {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(ctx.getAuthor(), ctx.getConfig().getCurrentSeason());
 
                 Player player = unifiedPlayer.getPlayer();
+                PlayerData playerData = player.getData();
                 DBUser dbUser = ctx.getDBUser();
                 I18nContext languageContext = ctx.getLanguageContext();
 
@@ -493,7 +495,7 @@ public class MoneyCmds {
 
                 if (r.nextInt(100) > 95) {
                     ground.dropItem(Items.LOOT_CRATE);
-                    if (player.getData().addBadgeIfAbsent(Badge.LUCKY))
+                    if (playerData.addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
                 }
 
@@ -501,15 +503,17 @@ public class MoneyCmds {
                 int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
 
                 if (dbUser.isPremium() && moneyFound > 0) {
-                    moneyFound += random.nextInt(moneyFound);
+                    int extra = (int) (moneyFound * 1.5);
+                    moneyFound += random.nextInt(extra);
                 }
 
                 String extraMessage = "";
 
                 // Sellout
-                if(player.getData().shouldSeeCampaign()){
+                if(playerData.shouldSeeCampaign()){
                     extraMessage += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
                             languageContext.get("general.sellout_campaign.generic_sellout"));
+                    playerData.markCampaignAsSeen();
                 }
 
                 if (!loot.isEmpty()) {

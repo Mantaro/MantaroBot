@@ -40,6 +40,8 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -95,7 +97,9 @@ public class ItemCmds {
                         //Get the necessary entities.
                         SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
                         Player player = ctx.getPlayer();
+                        PlayerData playerData = player.getData();
                         DBUser user = ctx.getDBUser();
+                        UserData userData = user.getData();
 
                         //Why
                         Optional<Item> toCast = Items.fromAnyNoId(arguments[0]);
@@ -188,7 +192,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        int dust = user.getData().getDustLevel();
+                        int dust = userData.getDustLevel();
                         if (dust > 95) {
                             ctx.sendLocalized("commands.cast.dust", EmoteReference.ERROR, dust);
                             return;
@@ -239,9 +243,10 @@ public class ItemCmds {
 
                         String message = "";
 
-                        if (player.getData().shouldSeeCampaign()) {
+                        if (playerData.shouldSeeCampaign()) {
                             message += "\n" + (user.isPremium() ? ctx.getLanguageContext().get("general.sellout_campaign.thanks_message") :
                                     ctx.getLanguageContext().get("general.sellout_campaign.generic_sellout"));
+                            playerData.markCampaignAsSeen();
                         }
 
                         //The higher the chance, the lower it's the chance to break. Yes, I know.
@@ -250,7 +255,7 @@ public class ItemCmds {
                             message += ctx.getLanguageContext().get("commands.cast.item_broke");
                         }
 
-                        user.getData().increaseDustLevel(3);
+                        userData.increaseDustLevel(3);
                         user.save();
 
                         if (isSeasonal) {

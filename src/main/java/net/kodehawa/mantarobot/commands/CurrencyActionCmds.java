@@ -223,9 +223,10 @@ public class CurrencyActionCmds {
                     }
                 }
 
-                if (player.getData().shouldSeeCampaign()) {
+                if (playerData.shouldSeeCampaign()) {
                     message += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
                             languageContext.get("general.sellout_campaign.generic_sellout"));
+                    playerData.markCampaignAsSeen();
                 }
 
                 if (isSeasonal) {
@@ -293,6 +294,8 @@ public class CurrencyActionCmds {
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 Player player = ctx.getPlayer();
+                PlayerData playerData = ctx.getPlayer().getData();
+
                 SeasonPlayer seasonPlayer = ctx.getSeasonPlayer();
                 DBUser dbUser = ctx.getDBUser();
                 Marriage marriage = dbUser.getData().getMarriage();
@@ -458,9 +461,10 @@ public class CurrencyActionCmds {
                         money += random.nextInt(money);
                     }
 
-                    if (player.getData().shouldSeeCampaign()) {
+                    if (playerData.shouldSeeCampaign()) {
                         extraMessage += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
                                 languageContext.get("general.sellout_campaign.generic_sellout"));
+                        playerData.markCampaignAsSeen();
                     }
 
 
