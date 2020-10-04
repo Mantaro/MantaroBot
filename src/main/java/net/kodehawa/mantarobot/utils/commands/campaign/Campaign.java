@@ -20,7 +20,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public enum Campaign {
     // At least we're sincere with names.
-    PREMIUM("general.sellout_campaign.thanks_message", "general.sellout_campaign.generic_sellout");
+    PREMIUM("general.campaigns.premium.thanks_message", "general.campaigns.premium.generic_sellout");
 
     final String premiumCampaign;
     final String campaign;
