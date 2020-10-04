@@ -24,8 +24,7 @@ public class PlayerStatsData {
     private long gambleLose;
     private long slotsLose;
 
-    public PlayerStatsData() {
-    }
+    public PlayerStatsData() { }
 
     @JsonIgnore
     public void incrementGambleLose() {
