@@ -57,7 +57,7 @@ public class Items {
             SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
             BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH, STEAK,
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
-            MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE;
+            MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM;
 
     private static final Random r = new Random();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -193,7 +193,7 @@ public class Items {
             CAT_FOOD = new Food(10, "", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
             HAMSTER_FOOD = new Food(10, "", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
             // ---------------------------------- 5.7 ITEMS START HERE ----------------------------------
-            WOOD = new Item(ItemType.COMMON, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 10, true),
+            WOOD = new Item(ItemType.COMMON, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 15, false),
             MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f, 3, 7, EmoteReference.MOON_PICK.getDiscordNotation(), "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick", 1000, true, false, "1;3;2;5;10", List.of(74, 10, 101), 450, 10, 83, 18, 76, 101),
             HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.00001f, 3, 1, EmoteReference.HELLFIRE_PICK.getDiscordNotation(), "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick", 15000, true, false, "999;1;175;1;175;1;50;1;35;50", Collections.emptyList(), 2500, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76),
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93", "Axe", "items.axe", "items.description.axe", 100, true, 35),
@@ -205,6 +205,10 @@ public class Items {
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.00001f, 3, 1, EmoteReference.HELLFIRE_AXE.getDiscordNotation(), "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe", 15000, true, false, "1;3;2;10", Collections.emptyList(), 2800, 10, 83, 18, 101),
             MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3, 4, EmoteReference.MOON_ROD.getDiscordNotation(), "Moon Rod", "items.moon_rod", "items.description.moon_rod", 800, "1;3;1;3", List.of(44, 18), 350, 44, 74, 18, 101),
             HELLFIRE_ROD = new FishRod(ItemType.CAST_FISH, 14, 3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(), "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod", 15000, "999;175;1;175;1;50;1;35;50", Collections.emptyList(), 1950, 18, 48, 70, 49, 71, 74, 75, 101, 76),
+            LEAVES = new Item(ItemType.COMMON, "\ud83c\udf43", "Leaves", "items.leaves", "items.description.leaves", 5, false),
+            APPLE = new Item(ItemType.COMMON, "\ud83c\udf4e", "Apple", "items.apple", "items.description.apple", 7, false),
+            PEAR = new Item(ItemType.COMMON, "\ud83c\udf50", "Pear", "items.pear", "items.description.pear", 7, false),
+            CHERRY_BLOSSOM = new Item(ItemType.COMMON, "\ud83c\udf38", "Cherry Blossom", "items.cherry_blossom", "items.description.cherry_blossom", 3, false),
     };
 
     public static void setItemActions() {
