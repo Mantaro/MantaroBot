@@ -52,7 +52,6 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
@@ -188,6 +187,11 @@ public class OwnerCmd {
 
             ctx.send("Done, new streak is " + amount);
         }
+    }
+
+    @Subscribe
+    public void dataRequest(CommandRegistry cr) {
+        cr.register(DataRequest.class);
     }
 
     @Permission(CommandPermission.OWNER)
