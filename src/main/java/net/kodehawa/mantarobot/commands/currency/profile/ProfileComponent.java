@@ -68,8 +68,7 @@ public enum ProfileComponent {
                 return i18nContext.get("commands.profile.not_specified");
             else {
                 // This goes through two Formatter calls since it has to first format the stuff birthdays use.
-                var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                var parsed = LocalDate.parse(data.getBirthday(), formatter);
+                var parsed = LocalDate.parse(data.getBirthday(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
                 // Then format it back to a readable format for a human. A little annoying, but works.
                 DateTimeFormatter readable;
