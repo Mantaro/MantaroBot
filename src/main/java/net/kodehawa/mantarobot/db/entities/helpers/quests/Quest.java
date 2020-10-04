@@ -17,13 +17,16 @@
 package net.kodehawa.mantarobot.db.entities.helpers.quests;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.beans.ConstructorProperties;
+import java.util.concurrent.TimeUnit;
 
 public class Quest {
     private final QuestType type;
-
     private final int amount;
+    private int currentAmount;
+    private long questTakenAt;
 
     @JsonCreator
     @ConstructorProperties({"type", "amount"})
@@ -40,8 +43,57 @@ public class Quest {
         return type;
     }
 
+    public int getCurrentAmount() {
+        return currentAmount;
+    }
 
-    static enum QuestType {
-        MINE, FISH, CHOP, PET, CRATE
+    public void setCurrentAmount(int currentAmount) {
+        this.currentAmount = currentAmount;
+    }
+
+    public long getQuestTakenAt() {
+        return questTakenAt;
+    }
+
+    public void setQuestTakenAt(long questTakenAt) {
+        this.questTakenAt = questTakenAt;
+    }
+
+    @JsonIgnore
+    public boolean isDone() {
+        if(currentAmount >= amount) {
+            return true;
+        }
+
+        currentAmount += 1;
+        return false;
+    }
+
+    @JsonIgnore
+    public boolean isActive() {
+        return getQuestTakenAt() + TimeUnit.DAYS.toMillis(1) >= System.currentTimeMillis();
+    }
+
+    @JsonIgnore
+    public String getProgress() {
+        return String.format("[ %s / %s ]", currentAmount, amount);
+    }
+
+    public static enum QuestType {
+        MINE("commands.profile.quests.mine"),
+        FISH("commands.profile.quests.fish"),
+        CHOP("commands.profile.quests.chop"),
+        PET("commands.profile.quests.pet"),
+        CRATE("commands.profile.quests.crate");
+
+        final String i18n;
+
+        QuestType(String i18n) {
+            this.i18n = i18n;
+        }
+
+        public String getI18n() {
+            return i18n;
+        }
     }
 }

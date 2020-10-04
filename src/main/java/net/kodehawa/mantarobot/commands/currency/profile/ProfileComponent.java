@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -104,6 +105,29 @@ public enum ProfileComponent {
         else
             return displayBadges;
     }, true, false),
+    QUESTS(EmoteReference.PENCIL, i18nContext -> i18nContext.get("commands.profile.quests.header"), (holder, i18nContext) -> {
+        var tracker = holder.getPlayer().getData().getQuest();
+        var quests = tracker.getCurrentActiveQuests();
+
+        var builder = new StringBuilder();
+
+        // Create a string for all active quests.
+        for(Quest quest : quests) {
+            if(quest.isActive()) {
+                builder.append(String.format(i18nContext.get(quest.getType().getI18n()), quest.getProgress()))
+                        .append("\n");
+            } else {
+                // This should get saved? Else we can just remove it when checking status.
+                tracker.removeQuest(quest);
+            }
+        }
+
+        if(builder.length() == 0) {
+            builder.append(i18nContext.get("commands.profile.quests.no_quests"));
+        }
+
+        return builder.toString();
+    }),
     FOOTER(null, null, (holder, i18nContext) -> {
         UserData userData = holder.getDbUser().getData();
         String timezone;

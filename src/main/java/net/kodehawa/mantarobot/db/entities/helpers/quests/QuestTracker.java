@@ -23,18 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestTracker {
-    private long questTakenAt;
     private List<Quest> currentActive = new ArrayList<>();
 
-    public long getQuestTakenAt() {
-        return questTakenAt;
-    }
-
-    public void setQuestTakenAt(long questTakenAt) {
-        this.questTakenAt = questTakenAt;
-    }
-
-    public List<Quest> getCurrentActive() {
+    public List<Quest> getCurrentActiveQuests() {
         return currentActive;
     }
 

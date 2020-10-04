@@ -400,7 +400,7 @@ public class PlayerData {
 
     @JsonIgnore
     public Quest startQuest(SecureRandom random) {
-        if(quest.getCurrentActive().size() > getQuestQuota()) {
+        if(quest.getCurrentActiveQuests().size() > getQuestQuota()) {
             return null;
         }
 
