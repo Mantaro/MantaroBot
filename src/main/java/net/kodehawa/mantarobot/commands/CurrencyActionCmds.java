@@ -135,14 +135,16 @@ public class CurrencyActionCmds {
                 boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
                 boolean petHelp = false;
 
-                HousePet pet = marriage.getData().getPet();
-                HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
-                if(ability.passed()) {
-                    petHelp = true;
-                    money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                    message += "\n" + pet.buildMessage(ability, languageContext);
-                } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                    message += "\n" + pet.buildMessage(ability, languageContext);
+                if(marriage != null) {
+                    HousePet pet = marriage.getData().getPet();
+                    HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
+                    if(ability.passed()) {
+                        petHelp = true;
+                        money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                        message += "\n" + pet.buildMessage(ability, languageContext);
+                    } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                        message += "\n" + pet.buildMessage(ability, languageContext);
+                    }
                 }
 
                 //Diamond find
@@ -239,7 +241,8 @@ public class CurrencyActionCmds {
 
                 //Due to badges.
                 player.save();
-                marriage.save();
+                if(marriage != null)
+                    marriage.save();
 
                 //Pick broke
                 //The same player gets thrown around here and there to avoid race conditions.
@@ -365,14 +368,16 @@ public class CurrencyActionCmds {
 
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
-                    HousePet pet = marriage.getData().getPet();
-                    HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
-                    if(ability.passed()) {
-                        amount += Math.max(1, random.nextInt(4));
-                        money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                        extraMessage += "\n" + pet.buildMessage(ability, languageContext);
-                    } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                        extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                    if(marriage != null) {
+                        HousePet pet = marriage.getData().getPet();
+                        HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
+                        if(ability.passed()) {
+                            amount += Math.max(1, random.nextInt(4));
+                            money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                            extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                            extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                        }
                     }
 
                     //Basically more chance if you have a better rod.
@@ -496,7 +501,9 @@ public class CurrencyActionCmds {
                 if (isSeasonal)
                     seasonPlayer.save();
 
-                marriage.save(); // Save pet stats.
+                // Save pet stats.
+                if(marriage != null)
+                    marriage.save();
 
                 handleRodBreak(item, ctx, player, dbUser, seasonPlayer, isSeasonal);
             }

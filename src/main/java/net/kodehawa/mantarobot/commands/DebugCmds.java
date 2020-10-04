@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import org.json.JSONException;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -103,7 +104,7 @@ public class DebugCmds {
                 var mApiRequests = 0;
                 try {
                     mApiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
-                } catch (IOException ignored) { }
+                } catch (IOException | JSONException ignored) { }
 
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
