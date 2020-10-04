@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
@@ -259,8 +260,7 @@ public class MoneyCmds {
 
                 // Sellout
                 if(authorPlayerData.shouldSeeCampaign()){
-                    returnMessage.add(authorDBUser.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
-                            languageContext.get("commands.daily.sellout.get_premium"));
+                    returnMessage.add(Campaign.PREMIUM.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
                     authorPlayerData.markCampaignAsSeen();
                 }
 
@@ -511,8 +511,7 @@ public class MoneyCmds {
 
                 // Sellout
                 if(playerData.shouldSeeCampaign()){
-                    extraMessage += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
-                            languageContext.get("general.sellout_campaign.generic_sellout"));
+                    extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
                     playerData.markCampaignAsSeen();
                 }
 

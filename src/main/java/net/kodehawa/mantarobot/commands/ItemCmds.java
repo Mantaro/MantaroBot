@@ -46,6 +46,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
@@ -244,8 +245,7 @@ public class ItemCmds {
                         String message = "";
 
                         if (playerData.shouldSeeCampaign()) {
-                            message += "\n" + (user.isPremium() ? ctx.getLanguageContext().get("general.sellout_campaign.thanks_message") :
-                                    ctx.getLanguageContext().get("general.sellout_campaign.generic_sellout"));
+                            message += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
                             playerData.markCampaignAsSeen();
                         }
 
