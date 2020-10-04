@@ -342,7 +342,7 @@ public class PlayerData {
         this.newMoney = newMoney;
     }
 
-    public long isLastSeenCampaign() {
+    public long getLastSeenCampaign() {
         return lastSeenCampaign;
     }
 
@@ -355,7 +355,7 @@ public class PlayerData {
         if(config.isPremiumBot())
             return false;
 
-        return System.currentTimeMillis() > (lastSeenCampaign + TimeUnit.DAYS.toMillis(1));
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.DAYS.toMillis(1));
     }
 
     @JsonIgnore
