@@ -58,6 +58,7 @@ public class PlayerData {
     private boolean isClaimLocked = false;
     private long miningExperience;
     private long fishingExperience;
+    private long chopExperience;
     private long timesMopped;
     private long cratesOpened;
     private long sharksCaught;
@@ -324,6 +325,14 @@ public class PlayerData {
         this.lastCrateGiven = lastCrateGiven;
     }
 
+    public long getChopExperience() {
+        return chopExperience;
+    }
+
+    public void setChopExperience(long chopExperience) {
+        this.chopExperience = chopExperience;
+    }
+
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + random.nextInt(5);
@@ -332,6 +341,11 @@ public class PlayerData {
     @JsonIgnore
     public void incrementFishingExperience(Random random) {
         this.fishingExperience = fishingExperience + random.nextInt(5);
+    }
+
+    @JsonIgnore
+    public void incrementChopExperience(Random random) {
+        this.chopExperience = chopExperience + random.nextInt(5);
     }
 
     public long getNewMoney() {

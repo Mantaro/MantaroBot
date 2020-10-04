@@ -590,8 +590,7 @@ public class ItemCmds {
                 }
 
                 //Argument parsing.
-                final Map<String, String> t = ctx.getOptionalArguments();
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                boolean isSeasonal = ctx.isSeasonal();
                 //Get the necessary entities.
                 final var seasonalPlayer = ctx.getSeasonPlayer();
                 final var player = ctx.getPlayer();

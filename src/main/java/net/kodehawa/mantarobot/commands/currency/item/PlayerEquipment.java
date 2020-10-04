@@ -19,7 +19,9 @@ package net.kodehawa.mantarobot.commands.currency.item;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.kodehawa.mantarobot.commands.currency.item.special.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 
 import java.beans.ConstructorProperties;
@@ -146,7 +148,8 @@ public class PlayerEquipment {
 
     public enum EquipmentType {
         ROD(FishRod.class::isInstance, 0),
-        PICK(item -> item.getItemType() == ItemType.MINE_PICK || item.getItemType() == ItemType.MINE_RARE_PICK, 0),
+        PICK(Pickaxe.class::isInstance, 0),
+        AXE(Axe.class::isInstance, 0),
         POTION(item -> item.getItemType() == ItemType.POTION, 1),
         BUFF(item -> item.getItemType() == ItemType.BUFF, 1);
 

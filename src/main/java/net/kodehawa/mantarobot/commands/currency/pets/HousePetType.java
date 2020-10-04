@@ -28,7 +28,7 @@ public enum HousePetType {
     RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 4000, 30);
 
     public static enum HousePetAbility {
-        FISH, CATCH, CHEER;
+        FISH, CATCH, CHOP, CHEER;
     }
 
     public static enum PatReaction {

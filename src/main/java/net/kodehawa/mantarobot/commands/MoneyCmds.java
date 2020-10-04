@@ -245,6 +245,7 @@ public class MoneyCmds {
                             }
                         }
                     }
+
                     // Cleaner using if
                     if(targetOther)
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus));
