@@ -75,7 +75,7 @@ public class JsonDataManager<T> implements DataManager<T> {
     @Override
     public void save() {
         try {
-            FileIOUtils.write(configPath, mapper.writeValueAsString(data));
+            FileIOUtils.write(configPath, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
