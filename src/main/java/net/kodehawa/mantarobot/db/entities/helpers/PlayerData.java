@@ -325,5 +325,4 @@ public class PlayerData {
     public void incrementFishingExperience(Random random) {
         this.fishingExperience = fishingExperience + random.nextInt(5);
     }
-
 }
