@@ -29,7 +29,7 @@ public enum HousePetType {
     KODE(EmoteReference.DEV, "Kodehawa", List.of(HousePetAbility.CHEER, HousePetAbility.FISH), 3000000, 300);
 
     public static enum HousePetAbility {
-        FISH, CATCH, CHEER;
+        FISH, CATCH, CHOP, CHEER;
     }
 
     public static enum PatReaction {

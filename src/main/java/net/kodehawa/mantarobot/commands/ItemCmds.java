@@ -40,10 +40,13 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
@@ -95,7 +98,9 @@ public class ItemCmds {
                         //Get the necessary entities.
                         SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
                         Player player = ctx.getPlayer();
+                        PlayerData playerData = player.getData();
                         DBUser user = ctx.getDBUser();
+                        UserData userData = user.getData();
 
                         //Why
                         Optional<Item> toCast = Items.fromAnyNoId(arguments[0]);
@@ -171,6 +176,11 @@ public class ItemCmds {
                         }
 
                         int limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
+
+                        // Limit is double with sparkle wrench
+                        if(wrench == Items.WRENCH_SPARKLE)
+                            limit *= 2;
+
                         if (amountSpecified > limit) {
                             ctx.sendLocalized("commands.cast.too_many_amount", EmoteReference.ERROR, limit, amountSpecified);
                             return;
@@ -183,7 +193,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        int dust = user.getData().getDustLevel();
+                        int dust = userData.getDustLevel();
                         if (dust > 95) {
                             ctx.sendLocalized("commands.cast.dust", EmoteReference.ERROR, dust);
                             return;
@@ -234,9 +244,9 @@ public class ItemCmds {
 
                         String message = "";
 
-                        if (player.getData().shouldSeeCampaign()) {
-                            message += "\n" + (user.isPremium() ? ctx.getLanguageContext().get("general.sellout_campaign.thanks_message") :
-                                    ctx.getLanguageContext().get("general.sellout_campaign.generic_sellout"));
+                        if (playerData.shouldSeeCampaign()) {
+                            message += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
+                            playerData.markCampaignAsSeen();
                         }
 
                         //The higher the chance, the lower it's the chance to break. Yes, I know.
@@ -245,7 +255,7 @@ public class ItemCmds {
                             message += ctx.getLanguageContext().get("commands.cast.item_broke");
                         }
 
-                        user.getData().increaseDustLevel(3);
+                        userData.increaseDustLevel(3);
                         user.save();
 
                         if (isSeasonal) {
@@ -580,8 +590,7 @@ public class ItemCmds {
                 }
 
                 //Argument parsing.
-                final Map<String, String> t = ctx.getOptionalArguments();
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
+                boolean isSeasonal = ctx.isSeasonal();
                 //Get the necessary entities.
                 final var seasonalPlayer = ctx.getSeasonPlayer();
                 final var player = ctx.getPlayer();

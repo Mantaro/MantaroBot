@@ -23,12 +23,20 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
+import net.kodehawa.mantarobot.db.entities.helpers.quests.QuestTracker;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
+    @JsonIgnore
+    private static Config config = MantaroData.config().get();
+
     public long experience = 0;
     public long newMoney = 0L;
     private List<Badge> badges = new ArrayList<>();
@@ -53,12 +61,15 @@ public class PlayerData {
     private boolean isClaimLocked = false;
     private long miningExperience;
     private long fishingExperience;
+    private long chopExperience;
     private long timesMopped;
     private long cratesOpened;
     private long sharksCaught;
     private boolean waifuout;
     private int lastCrateGiven = 69;
     private long lastSeenCampaign;
+    private QuestTracker quest = new QuestTracker();
+    private int questQuota = 3;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -319,6 +330,30 @@ public class PlayerData {
         this.lastCrateGiven = lastCrateGiven;
     }
 
+    public long getChopExperience() {
+        return chopExperience;
+    }
+
+    public void setChopExperience(long chopExperience) {
+        this.chopExperience = chopExperience;
+    }
+
+    public QuestTracker getQuest() {
+        return quest;
+    }
+
+    public void setQuest(QuestTracker quest) {
+        this.quest = quest;
+    }
+
+    public int getQuestQuota() {
+        return questQuota;
+    }
+
+    public void setQuestQuota(int questQuota) {
+        this.questQuota = questQuota;
+    }
+
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + random.nextInt(5);
@@ -329,6 +364,11 @@ public class PlayerData {
         this.fishingExperience = fishingExperience + random.nextInt(5);
     }
 
+    @JsonIgnore
+    public void incrementChopExperience(Random random) {
+        this.chopExperience = chopExperience + random.nextInt(5);
+    }
+
     public long getNewMoney() {
         return newMoney;
     }
@@ -337,7 +377,7 @@ public class PlayerData {
         this.newMoney = newMoney;
     }
 
-    public long isLastSeenCampaign() {
+    public long getLastSeenCampaign() {
         return lastSeenCampaign;
     }
 
@@ -345,7 +385,25 @@ public class PlayerData {
         this.lastSeenCampaign = lastSeenCampaign;
     }
 
+    @JsonIgnore
     public boolean shouldSeeCampaign() {
-        return (lastSeenCampaign + TimeUnit.DAYS.toMillis(1)) > System.currentTimeMillis();
+        if(config.isPremiumBot())
+            return false;
+
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.DAYS.toMillis(1));
+    }
+
+    @JsonIgnore
+    public void markCampaignAsSeen() {
+        this.lastSeenCampaign = System.currentTimeMillis();
+    }
+
+    @JsonIgnore
+    public Quest startQuest(SecureRandom random) {
+        if(quest.getCurrentActiveQuests().size() > getQuestQuota()) {
+            return null;
+        }
+
+        return quest.startRandomQuest(random);
     }
 }

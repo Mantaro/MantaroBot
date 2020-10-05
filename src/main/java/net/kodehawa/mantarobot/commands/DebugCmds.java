@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import org.json.JSONException;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -92,7 +93,7 @@ public class DebugCmds {
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
                 for(var lavaLink : lavaLinkSockets) {
                     if(lavaLink.isAvailable())
-                        players += lavaLink.getStats().getPlayingPlayers();
+                        players += lavaLink.getStats().getPlayers();
                 }
 
                 var responseTotal = bot.getShardManager().getShardCache()
@@ -103,7 +104,7 @@ public class DebugCmds {
                 var mApiRequests = 0;
                 try {
                     mApiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
-                } catch (IOException ignored) { }
+                } catch (IOException | JSONException ignored) { }
 
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"

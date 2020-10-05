@@ -61,9 +61,13 @@
       "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
-    "sellout_campaign": {
-      "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **up to double the coins with Mantaro Premium**! Memberships start at $1 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-      "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+    "campaigns": {
+      "premium": {
+        "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **up to double the coins with Mantaro Premium**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "daily_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **double the daily coins**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
+        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:. You also get double the coins as a bonus!"
+      }
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
@@ -83,7 +87,7 @@
       "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
       "spam_4": "\nIs this thing even on?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
     "boom_quotes": [
       "Seemingly Megumin exploded our castle...",
       "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
@@ -991,7 +995,7 @@
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s",
+      "full_header": "**%1$s's Birthdays**\n%2$s. Remember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1255,7 +1259,7 @@
       "height": "Height",
       "tags": "Tags",
       "load_notice": "If the image doesn't load, click the title.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere",
+      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
@@ -1356,7 +1360,7 @@
     "serverinfo": {
       "header": "Server Information",
       "description": "Server information for %1$s",
-      "users": "Users (Online/Unique)",
+      "users": "Users",
       "created": "Creation Date",
       "channels": "Voice/Text Channels",
       "owner": "Owner",
@@ -1491,7 +1495,7 @@
       "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
       "credits": "%1$sYou got **$%2$,d** daily credits.",
       "sellout": {
-        "get_premium" : "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $1/month, the price of cheap snack!",
+        "get_premium" : "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
         "already_premium" : "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
       },
       "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",

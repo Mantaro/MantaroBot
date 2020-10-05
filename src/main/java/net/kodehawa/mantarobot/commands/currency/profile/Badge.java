@@ -268,6 +268,11 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
+    //Chop a tree.
+    CHOPPER("Chopper", "\ud83e\udeb5", "Find wood while chopping. How couldn't you?.", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     //Find a fish.
     FISHER("Fisher", "\uD83D\uDC1F", "Find a fish while fishing. How calm.", 91, 92,
             (player, dbUser) -> false, false

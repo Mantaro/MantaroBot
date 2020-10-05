@@ -61,6 +61,13 @@ public enum ItemType {
     CHOP_AXE(true),
     CHOP_RARE_AXE(true),
 
+    // Don't drop from loot boxes.
+    MINE_RARE_PICK_NODROP(true),
+    CHOP_RARE_AXE_NODROP(true),
+    FISHING_RARE_NODROP(false),
+
+    CHOP_DROP(false),
+
     DEPRECATED(false);
 
     private boolean cast;

@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
@@ -244,6 +245,7 @@ public class MoneyCmds {
                             }
                         }
                     }
+
                     // Cleaner using if
                     if(targetOther)
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus));
@@ -252,16 +254,13 @@ public class MoneyCmds {
                     dailyMoney += bonus;
                 }
 
-                // If authorDBUser is premium, make daily double.
+                // If the author is premium, make daily double.
                 if(authorDBUser.isPremium()) {
                     dailyMoney *=2;
                 }
 
-                // Sellout
-                if(authorPlayerData.shouldSeeCampaign()){
-                    returnMessage.add(authorDBUser.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
-                            languageContext.get("commands.daily.sellout.get_premium"));
-                }
+                // Sellout + this is always a day apart, so we can just send campaign.
+                returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
 
                 // Careful not to overwrite yourself ;P
                 // Save streak and items
@@ -470,6 +469,7 @@ public class MoneyCmds {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(ctx.getAuthor(), ctx.getConfig().getCurrentSeason());
 
                 Player player = unifiedPlayer.getPlayer();
+                PlayerData playerData = player.getData();
                 DBUser dbUser = ctx.getDBUser();
                 I18nContext languageContext = ctx.getLanguageContext();
 
@@ -493,7 +493,7 @@ public class MoneyCmds {
 
                 if (r.nextInt(100) > 95) {
                     ground.dropItem(Items.LOOT_CRATE);
-                    if (player.getData().addBadgeIfAbsent(Badge.LUCKY))
+                    if (playerData.addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
                 }
 
@@ -501,15 +501,16 @@ public class MoneyCmds {
                 int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
 
                 if (dbUser.isPremium() && moneyFound > 0) {
-                    moneyFound += random.nextInt(moneyFound);
+                    int extra = (int) (moneyFound * 1.5);
+                    moneyFound += random.nextInt(extra);
                 }
 
                 String extraMessage = "";
 
                 // Sellout
-                if(player.getData().shouldSeeCampaign()){
-                    extraMessage += "\n" + (dbUser.isPremium() ? languageContext.get("general.sellout_campaign.thanks_message") :
-                            languageContext.get("general.sellout_campaign.generic_sellout"));
+                if(playerData.shouldSeeCampaign()){
+                    extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
+                    playerData.markCampaignAsSeen();
                 }
 
                 if (!loot.isEmpty()) {

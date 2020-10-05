@@ -21,7 +21,6 @@ import com.google.common.eventbus.Subscribe;
 import lavalink.client.io.LavalinkSocket;
 import lavalink.client.io.RemoteStats;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.*;
@@ -30,6 +29,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -54,6 +53,7 @@ import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -157,20 +157,18 @@ public class InfoCmds {
                         .setDescription(String.format(languageContext.get("commands.serverinfo.description"), guild.getName()))
                         .setThumbnail(guild.getIconUrl())
                         .addField(languageContext.get("commands.serverinfo.users"),
-                                (int) guild.getMemberCache().stream().filter(u ->
-                                        !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
-                        .addField(languageContext.get("commands.serverinfo.created"),
-                                guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME)
-                                        .replaceAll("[^0-9.:-]", " "), true)
+                                String.valueOf(guild.getMemberCount()), true)
                         .addField(languageContext.get("commands.serverinfo.channels"),
                                 guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                         .addField(languageContext.get("commands.serverinfo.owner"),
-                                owner.getUser().getName() + "#" + owner.getUser().getDiscriminator(), true)
+                                owner.getUser().getAsTag(), false)
                         .addField(languageContext.get("commands.serverinfo.region"),
                                 guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") :
                                         guild.getRegion().getName(), true)
+                        .addField(languageContext.get("commands.serverinfo.created"),
+                                guild.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)), false)
                         .addField(String.format(languageContext.get("commands.serverinfo.roles"),
-                                guild.getRoles().size()), StringUtils.limit(roles, 1016), false)
+                                guild.getRoles().size()), StringUtils.limit(roles, 500), false)
                         .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
                         .build()
                 );
@@ -699,10 +697,10 @@ public class InfoCmds {
                     String s = String.join("\n",
                             prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
                             prettyDisplay(languageContext.get("commands.userinfo.join_date"),
-                                    member.getTimeJoined().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
+                                    member.getTimeJoined().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.created"),
-                                    user.getTimeCreated().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
+                                    user.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.account_age"),
                                     TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
@@ -793,7 +791,7 @@ public class InfoCmds {
                 String s = String.join("\n",
                         prettyDisplay(languageContext.get("commands.roleinfo.id"), r.getId()),
                         prettyDisplay(languageContext.get("commands.roleinfo.created"),
-                                r.getTimeCreated().format(DateTimeFormatter.ISO_DATE).replace("Z", "")
+                                r.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                         ),
                         prettyDisplay(languageContext.get("commands.roleinfo.age"),
                                 TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getTimeCreated().toInstant().toEpochMilli()) +

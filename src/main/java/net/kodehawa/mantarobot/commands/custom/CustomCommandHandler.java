@@ -41,7 +41,8 @@ public class CustomCommandHandler {
     private static final Map<String, Func> specialHandlers = new LinkedHashMap<>();
     //there's no way in hell this would work but ok
     //actually p sure this is just to make me feel safer and serves no purpose whatsoever.
-    private static final Pattern filtered1 = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
+    private static final Pattern filtered = Pattern.compile("([a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-])\\w+");
+    private static final Pattern escape = Pattern.compile("\\\\");
     private final String args;
     private final Context ctx;
     private String response;
@@ -74,7 +75,9 @@ public class CustomCommandHandler {
 
         specialHandlers.put("embed", (ctx, value, args) -> {
             try {
-                EmbedJSON embed = JsonDataManager.fromJson('{' + value + '}', EmbedJSON.class);
+                // Matcher: Replace all \ with \\.
+                var json = escape.matcher(value).replaceAll("\\\\\\\\");
+                EmbedJSON embed = JsonDataManager.fromJson('{' + json + '}', EmbedJSON.class);
 
                 ctx.send(embed.gen(ctx.getMember()));
             } catch (IllegalArgumentException invalid) {
@@ -147,7 +150,7 @@ public class CustomCommandHandler {
             return;
         }
 
-        MessageBuilder builder = new MessageBuilder().setContent(filtered1.matcher(response).replaceAll("-filtered regex-"));
+        MessageBuilder builder = new MessageBuilder().setContent(filtered.matcher(response).replaceAll("-filtered regex-"));
         if (preview) {
             builder.append("\n\n")
                     .append(EmoteReference.WARNING)
