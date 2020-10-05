@@ -247,7 +247,7 @@ public class NewContext {
     }
 
     public void sendFile(byte[] bytes, String name) {
-        getChannel().sendFile(bytes, name);
+        getChannel().sendFile(bytes, name).queue();
     }
 
     public void sendFormat(String message, Object... format) {
