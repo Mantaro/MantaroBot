@@ -251,6 +251,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.prefix_set.empty_prefix"), EmoteReference.ERROR).queue();
                 return;
             }
+
             if(prefix.equals("/tts")) {
                 var tts = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_TTS);
                 event.getChannel().sendMessage("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
@@ -258,7 +259,8 @@ public class GuildOptions extends OptionHandler {
                         .queue();
                 return;
             }
-            if(prefix.equals("/shrug")) {
+
+            if(prefix.equals("/shrug") || prefix.equals("¯\\_(ツ)_/¯")) {
                 event.getChannel().sendMessage("¯\\_(ツ)_/¯").queue();
                 return;
             }
