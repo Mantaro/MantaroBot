@@ -670,7 +670,7 @@ public class CurrencyCmds {
                 Inventory inventory = p.getInventory();
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx, false))
                     return;
 
                 // Alternate between mine and fish crates instead of doing so at random, since at random

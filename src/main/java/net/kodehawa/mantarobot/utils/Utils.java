@@ -540,6 +540,10 @@ public class Utils {
         return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
     }
 
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, Context ctx, boolean spamAware) {
+        return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), spamAware);
+    }
+
     private static void onRateLimit(User user, String guildId, String channelId, String messageId) {
         int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
         if (ratelimitedTimes > 700 && !loggedSpambotUsers.contains(user.getId())) {
