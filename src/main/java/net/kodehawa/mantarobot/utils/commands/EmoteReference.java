@@ -125,7 +125,8 @@ public enum EmoteReference {
     BROKEN_COMET_AXE("<:comet_axe_broken:762027644791291935>", null),
     BROKEN_MOON_AXE("<:moon_axe_broken:762027645025386546>", null),
     BROKEN_STAR_AXE("<:star_axe_broken:762027644874915845>", null),
-    BROKEN_MOON_ROD("<:moon_rod_broken:762027645054484510>", null);
+    BROKEN_MOON_ROD("<:moon_rod_broken:762027645054484510>", null),
+    PET_HOUSE("<:dog_house:762425894857605150>", null);
 
     final String discordNotation;
     final String unicode;
