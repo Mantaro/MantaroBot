@@ -25,8 +25,8 @@
     "options": "Optionen",
     "find_members_failure": "%1$sKein Mitglied mit deinen Suchkriterien gefunden. :(",
     "too_many_members": "%1$sZu viele Mitglieder gefunden, versuche es vielleicht etwas genauer? (zum Beispiel: name#discriminator)\n**Gefundene Mitglieder:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sBitte erwähne nur eine Person bei der Mitgliedssuche.",
+    "query_too_small": "%1$sDeine Suchanfrage ist zu kurz. Such nach mindestens 4 Buchstaben. Sollte der Nutzername zu kurz sein, suche besser mit dem Format Nutzername#Tag oder nutze die Nutzer-ID.",
     "dust": "Hier ist nur Staub.",
     "invalid_syntax": "Ungültige Syntax",
     "item_lookup": {
@@ -74,7 +74,7 @@
     "space_notice": "Sollte der Name Leerzeichen beinhalten, versuche \"ihn in Anführungszeichen zu schreiben.\"",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut. **Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!**",
       "spam_2": "\nIch denke aufhören ist jetzt die beste Option...",
       "spam_3": "\nWäre es nicht besser, wenn du ein wenig rausgehen würdest?",
       "spam_4": "\nIst das Ding überhaupt an?"
@@ -253,7 +253,7 @@
         "success": "%1$sVerbunden mit Kanal **%2$s**!",
         "full_channel": "%1$sIch kann keine Verbindung zu diesem Kanal herstellen, da dieser voll ist!",
         "non_existent_channel": "%1$sIch habe einen nicht vorhandenen Kanal als Antwort erhalten. Wenn du einen Sprachkanal einstellst und ihn dann löschst, könnte das die Ursache sein.\n Ich setze deinen Musikkanal für dich zurück und versuche, die Musik erneut abzuspielen.",
-        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
+        "user_no_vc": "%1$s**Bitte betrete einen Sprachkanal**. Solltest du in einem Sprachkanal sein und der Bot gerade erst die Verbindung getrennt haben, bitte verbinde dich erneut mit dem Sprachkanal.",
         "missing_permissions_connect": "%1$sIch kann aufgrund fehlender Berechtigungen keine Verbindung zu diesem Kanal herstellen (%2$s).",
         "missing_permission_speak": "%1$sIch kann nicht in diesem Kanal sprechen, weil ich keine Erlaubnis habe (%2$s).",
         "channel_locked": "%1$sIch kann nur Musik in dem Kanal **%2$s** abspielen!",
@@ -315,7 +315,7 @@
       "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
+      "info": "Ich laufe auf Shard %1$d / %2$d (Node %3$d / %4$d)!\nNutzer im Cache: %5$,d\nShard Server: %6$,d\nWenn du Hilfe brauchst, schau bitte bei <https://support.mantaro.site> vorbei"
     },
     "queue": {
       "clear": {
@@ -467,9 +467,9 @@
         "success": "%1$sDer Befehl `%2$s` wurde erfolgreich gesperrt. Um ihn weiter zu bearbeiten, musst du ihn entsperren."
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "no_command": "%1$sDu musst den Befehl angeben, den du entsperren möchtest.",
         "not_locked": "%1$sDieser Befehl ist nicht gesperrt.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "success": "%1$sDer Befehl `%2$s` wurde erfolgreich entsperrt. Du musst ihn wieder sperren, um weitere Bearbeitungen zu verhindern."
       },
       "character_not_allowed": "%1$sDieses Zeichen ist in benutzerdefinierten Befehlen nicht erlaubt..",
       "already_exists": "%1$sDer Befehl `%2$s` existiert bereits und es ist ein Standard-Bot-Befehl!",
@@ -481,7 +481,7 @@
       "invalid_string": "%1$sDer String `{%2$s}`  ist nicht gültig oder die Ausgabe ist länger als 2000 Zeichen.",
       "invalid_json": "%1$sDer String `{%2$s}` ist eine ungültige JSON.",
       "invalid_link": "%1$sDer String `%2$s` ist kein gültiger Link.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$sDu kannst diesen Befehl weder Editieren, noch löschen, während er gesperrt ist, bitte nutze `~>custom unlockcommand <command name>`, um ihn zu entsperren."
     },
     "mute": {
       "no_permissions": "%1$sDu benötigst entweder Bann oder Kick Rechte, um Mitglieder zu muten!",
@@ -631,7 +631,7 @@
       },
       "optout": {
         "notice": "%1$sDu hast dich dagegen entschieden, das Waiu-System zu nutzen, daher kannst du es nicht nutzen.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing yes will opt you out, no will cancel it.",
+        "warning": "%1$sWillst du dich wirklich dagegen entscheiden das Waifu-System zu nutzen? DIE ENTSCHEIDUNG IST ENDGÜLTIG UND KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN.\nWenn du nur nicht neu beansprucht werden willst und das Waifu-System sonst wie üblich nutzen möchtest, benutze stattdessen `~>profile claimlock`.\nDu wirst niemanden mehr beanspruchen und auch nicht mehr beansprucht werden können, und alle Beanspruchungen auf dich werden entfernt.\nGebe `yes` (Ja) oder `no` (Nein) ein. Ja wird dich ausschließen, Nein bricht diesen Befehl ab.",
         "success": "%1$sDu hast dich erfolgreich gegen das Waifu-System entschieden.",
         "cancelled": "%1$sEntscheidung abgebrochen.",
         "claim_notice": "%1$sDer Nutzer, den du versuchst zu beanspruchen, hat sich gegen das Waifu-System entschieden."
@@ -973,21 +973,21 @@
     },
     "birthday": {
       "reset": "%1$sGeburtsdatum zurücksetzen.",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_birthdays": "%1$sEs ist ein bisschen leer hier.\nBeachte, dass der Cache alle 23 Stunden neugeladen wird und, dass Leute selbst den Befehl `~>birthday allowserver` ausführen müssen, damit ihre Geburtstage hier angekündigt werden.",
+      "no_guild_month_birthdays": "%1$sEs gibt offenbar keine Geburtstage für diesen Monat (%2$s) hier :(\n%3$sWenn du gerade erst die Geburtstagsankündigungen eingerichtet hast, warte bitte ein wenig, bevor du es nochmal versuchst. (Der Cache aktualisiert sich alle 23 Stunden)\nBeachte, dass Leute jetzt `~>birthday allowserver` eingeben müssen, damit ihr Geburtstag auf diesem Server verkündet wird.",
       "cache_not_running": "%1$sDer Geburtstags-Cacher scheint nicht zu laufen (internal error) :(",
       "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s. Remember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
+      "header": "**%1$ss Geburtstage für %2$s**\nDer Geburtstagscache wird alle 23 Stunden aktualisiert, sollte dein Geburtstag nicht auftauchen brauchst du dich also nicht zu erschrecken.\n",
+      "full_header": "**%1$ss Geburtstage**\n%2$s. Beachte, dass Geburtstage alle 23 Stunden gecached werden, und dass Nutzer den Befehl `~>birthday allowserver` ausführen müssen",
       "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-MM` (Tag-Monat)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "error_date": "%1$s%2$s ist entweder kein valides Datum, oder ich kann es nicht richtig verarbeiten. Bitte versuche es mit dem korrekten Format reneut.\nDas korrekte Format ist `tt-MM` (Tag-Monat)",
+      "added_birthdate": "%1$sGeburtsdatum wurde erfolgreich hinzugefügt. Neues Geburtsdatum: %2$s *(Format: tt-MM)* [Tag-Monat].\nDamit dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
-      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
+      "no_content": "%1$sDu musst deinen Geburtstag, `remove` zum Zurücksetzen oder `month` zum Überprüfen der Geburtstage des aktuellen Monats angeben. Damit dann dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
+      "new_format": "%1$sDas neue Datumsformat ist nur `tt-MM` (Tag-Monat, zum Beispiel 20-10 für den 20. Oktober). Das Jahr wird nicht benötigt, demnach kannst du den Teil weglassen.",
+      "allowed_server": "%1$sDer aktuelle Server darf jetzt deinen Geburtstag ankündigen. Um dies in der Zukunft zu verhindern, musst du `~>birthday denyserver` auf diesem Server ausführen.",
+      "denied": "%1$sDer aktuelle Server darf deinen Geburtstag nicht mehr ankündigen. Um dies in der Zukunft zu erlauben musst du `~>birthday allowserver` auf diesem Server ausführen.",
+      "already_denied": "%1$sDieser Server kann deinen Geburtstag nicht ankündigen. Um dies zu ändern, nutze `~>birthday allowserver`. Das ist der Standard."
     },
     "choose": {
       "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose Anime Manga`)",
@@ -1010,7 +1010,7 @@
       "invalid_timezone": "%1$sDas ist keine gültige Zeitzone!",
       "success": "%1$sEs ist %2$s in der %3$s Zeitzone",
       "error": "%1$sFehler beim Abrufen der Zeitzone oder sie ist ungültig",
-      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
+      "user_no_timezone": "%1$sDer erwähnte Nutzer hat keine Zeitzone in seinem Profil eingestellt."
     },
     "urban": {
       "no_args": "%1$sDu musst mir einen Begriff zum Nachschlagen geben.",
@@ -1019,7 +1019,7 @@
       "main_def": "Haupt-Definition.",
       "footer": "Information von Urban Dictionary",
       "nsfw_notice": "%1$sDieser Befehl kann, aufgrund der Art der Ergebnisse, nur in NSFW-Kanälen genutzt werden.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
+      "error": "%1$sEs gab einen Fehler beim Verarbeiten der Daten von UD. Versuche es erneut?"
     },
     "activatekey": {
       "check": {
@@ -1046,7 +1046,7 @@
       "user": {
         "header": "Dein Premium Status",
         "header_other": "%1$ss Premium Status",
-        "not_premium": "%1$s%2$s is not premium :c",
+        "not_premium": "%1$s%2$s hat kein Premium :c",
         "premium": "**Premiumnutzer! <3**",
         "old_system": "**Premium-Benutzer unter dem alten System! Mach dir keine Sorgen, du bist Premium und deine Vorteile werden richtig funktionieren!**"
       },
@@ -1357,7 +1357,7 @@
     "serverinfo": {
       "header": "Server Informationen",
       "description": "Server informationen für %1$s",
-      "users": "Users",
+      "users": "Benutzer",
       "created": "Erstellungsdatum",
       "channels": "Sprach-/Textkanäle",
       "owner": "Besitzer",
@@ -1794,7 +1794,7 @@
       "autorole": "%1$sDu kannst nicht die autorole-Rolle als Geburtstagsrolle setzen! Beachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird.",
       "warning": "%1$sBeachte, dass die Geburtstagsrolle eine Rolle ist, die den Personen, die Geburtstag haben zugeteilt wird und am Ende des Tages wieder entfernt wird. Wenn du Zweifel daran hast, wie du sie konfigurieren musst, kannst du immer dem Support-Server beitreten und fragen. Du kannst auch `~>opts help birthday enable` für ein Beispiel anschauen",
       "warning_1": "So funktioniert der Geburtstagsanzeiger: Er vergibt eine temporäre Rolle an die Personen, die Geburtstag haben und nimmt ihnen die Rolle ab, wenn der Tag endet. **Das bedeutet, dass jeder mit der Geburtstagrolle die Rolle verliert, wenn der Geburtstag endet**. Bitte sei vorsichtig, wenn du auswählst welche Rolle du nutzen willst, da eine Fehleinstellung böse Folgen haben kann (sehr böse)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
+      "warning_2": "Die Rolle *muss eine neu erstellte Rolle sein, oder eine, die für niemand anderes verwendet wird*. Es darf KEINE Rolle sein, die Nutzer bereits haben. Nutzer müssen diesem Server erlauben ihren Geburtstag ankündigen zu dürfen, indem sie `~>birthday allowserver` ausführen, andernfalls wird ihr Geburtstag nicht angezeigt! Lies <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> für mehr Informationen.",
       "warning_3": "Außerdem wird der Cache (das was benutzt wird um die Geburtstage zu speichern) nur alle 23 Stunden aktualisiert. Das bedeutet wenn du heute deinen Geburtstag auf Morgen setzt wird es **nicht** funktionieren",
       "warning_4": "Gebe **yes** ein, wenn du zustimmst, die Rolle %2$s als Geburtstagsrolle zu setzen, und **no** zum abbrechen. Diese Wahl endet in 45 Sekunden.",
       "success": "%1$sGeburtstagslogging auf diesem Server mit Parametern aktiviert -> Kanal `%2$s (%3$s)` und Rolle: `%4$s (%5$s)`",
@@ -1856,10 +1856,10 @@
       "success": "%1$sServeraustrittsnachricht geändert zu: `%2$s`"
     },
     "usermessage_joinmessage_reset": {
-      "success": "%1$sReset server join message."
+      "success": "%1$sServerbeitrittsnachricht zurückgesetzt."
     },
     "usermessage_leavemessage_reset": {
-      "success": "%1$sReset server leave message."
+      "success": "%1$sSerververlassnachricht zurückgesetzt."
     },
     "autoroles_add": {
       "no_args": "%1$sdu musst mir den Namen und die Rolle für das iam angeben.",
