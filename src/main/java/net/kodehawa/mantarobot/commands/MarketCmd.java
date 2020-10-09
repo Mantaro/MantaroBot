@@ -320,7 +320,7 @@ public class MarketCmd {
 
                     Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
-                    if(args[0].equals("allof")) {
+                    if(args[0].equalsIgnoreCase("allof")) {
                         itemName = content.replace("allof", "").trim();
                     }
 
