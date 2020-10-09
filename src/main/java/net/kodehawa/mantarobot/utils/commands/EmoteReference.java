@@ -89,8 +89,8 @@ public enum EmoteReference {
     WHITE_CIRCLE(":white_circle:", "\u25CB"),
     MUSICAL_NOTE(":musical_note", "\uD83C\uDFB5"),
     DROPLET(":droplet:", "\uD83D\uDCA7"),
-
-    // Custom emotes.
+    DEV(":desktop:", "\uD83D\uDDA5"),
+    //Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),
     FISH_CRATE("<:fish_lootbox:556992254770937876>", null),
