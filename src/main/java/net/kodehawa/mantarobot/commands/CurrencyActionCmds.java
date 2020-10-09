@@ -547,7 +547,7 @@ public class CurrencyActionCmds {
                         userData.getEquippedItems().of(PlayerEquipment.EquipmentType.AXE);
 
                 if (equipped == 0) {
-                    ctx.sendLocalized("commands.chop.no_axe_equipped", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.chop.not_equipped", EmoteReference.ERROR);
                     return;
                 }
 
@@ -623,7 +623,7 @@ public class CurrencyActionCmds {
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
 
                     if(money > 0 && !found) {
-                        ctx.sendFormat(languageContext.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money);
+                        ctx.sendFormat(languageContext.get("commands.chop.success_money_noitem") + extraMessage, item.getEmoji(), money);
                     } else if (found && money == 0) {
                         ctx.sendFormat(languageContext.get("commands.chop.success_only_item") + extraMessage, item.getEmoji(), itemDisplay);
                     } else {

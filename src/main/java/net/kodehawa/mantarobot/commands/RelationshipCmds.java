@@ -45,6 +45,7 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -64,6 +65,9 @@ import java.util.regex.Pattern;
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
     private static final long waifuBaseValue = 1000L;
+    private final long housePrice = 5000;
+    private final long carPrice = 1000;
+
     private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
     static Waifu calculateWaifuValue(User user) {
@@ -477,10 +481,9 @@ public class RelationshipCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var housePrice = 5000;
 
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.marry.buyhouse.not_married", EmoteReference.ERROR);
                     return;
                 }
 
@@ -490,7 +493,7 @@ public class RelationshipCmds {
                 }
 
                 if(player.getCurrentMoney() < housePrice) {
-                    ctx.sendLocalized("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR, housePrice);
                     return;
                 }
 
@@ -499,7 +502,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, content);
+                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, content);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
@@ -530,7 +533,7 @@ public class RelationshipCmds {
                         marriageConfirmed.getData().setHouseName(content);
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER);
+                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER, housePrice, content);
                         return Operation.COMPLETED;
                     }
 
@@ -556,7 +559,6 @@ public class RelationshipCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var carPrice = 1000;
 
                 if(marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
@@ -569,7 +571,7 @@ public class RelationshipCmds {
                 }
 
                 if(player.getCurrentMoney() < carPrice) {
-                    ctx.sendLocalized("commands.marry.buycar.not_enough_money", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.marry.buycar.not_enough_money", EmoteReference.ERROR, carPrice);
                     return;
                 }
 
@@ -578,7 +580,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, content);
+                ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, carPrice, content);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
@@ -747,10 +749,12 @@ public class RelationshipCmds {
         cr.register("divorce", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                final Player divorceePlayer = ctx.getPlayer();
+                final var divorceePlayer = ctx.getPlayer();
                 //Assume we're dealing with a new marriage?
-                final DBUser divorceeDBUser = ctx.getDBUser();
-                final Marriage marriage = divorceeDBUser.getData().getMarriage();
+                final var divorceeDBUser = ctx.getDBUser();
+                final var marriage = divorceeDBUser.getData().getMarriage();
+                final var marriageData = marriage.getData();
+                var moneySplit = 0L;
 
                 //We, indeed, have no marriage here.
                 if (marriage == null) {
@@ -759,8 +763,8 @@ public class RelationshipCmds {
                 }
 
                 //We do have a marriage, get rid of it.
-                DBUser marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
-                final Player marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
+                final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
+                final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
 
                 //Save the user of the person they were married with.
                 marriedWithDBUser.getData().setMarriageId(null);
@@ -772,15 +776,39 @@ public class RelationshipCmds {
 
                 //Add the heart broken badge to the user who divorced.
                 divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-                divorceePlayer.save();
 
                 //Add the heart broken badge to the user got dumped.
                 marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-                marriedWithPlayer.save();
+
+                if(marriageData.hasHouse()) {
+                    moneySplit += housePrice * 0.9;
+                }
+
+                if(marriageData.hasCar()) {
+                    moneySplit += carPrice * 0.9;
+                }
+
+                if(marriageData.getPet() != null) {
+                    moneySplit += marriageData.getPet().getType().getCost() * 0.7;
+                }
 
                 //Scrape this marriage.
                 marriage.delete();
-                ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT);
+
+                // Split the money between the two people.
+                var portion = moneySplit / 2;
+                divorceePlayer.addMoney(portion);
+                marriedWithPlayer.addMoney(portion);
+
+                divorceePlayer.save();
+                marriedWithPlayer.save();
+
+                var extra = "";
+                if(portion > 1) {
+                    extra = String.format(ctx.getLanguageContext().get("commands.divorce.split"), portion);
+                }
+
+                ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
             }
 
             @Override
