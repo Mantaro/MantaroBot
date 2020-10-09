@@ -24,8 +24,9 @@ import java.util.stream.Collectors;
 
 public enum HousePetType {
     DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200),
-    CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 30000, 100),
-    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 4000, 30);
+    CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 30000, 150),
+    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 5000, 30),
+    ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000);
 
     public static enum HousePetAbility {
         FISH, CATCH, CHOP, CHEER;
@@ -91,10 +92,16 @@ public enum HousePetType {
     public static HousePetType lookupFromString(String name) {
         for (HousePetType b : HousePetType.values()) {
             if (b.name().equalsIgnoreCase(name)) {
+                if(b == ALL)
+                    return null;
+
                 return b;
             }
 
             if (b.getName().equalsIgnoreCase(name)) {
+                if(b == ALL)
+                    return null;
+
                 return b;
             }
         }

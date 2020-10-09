@@ -377,7 +377,10 @@ public class PetCmds {
 
                 var food = (Food) itemObject;
 
-                //TODO: food types per pet (this has to be there before release)
+                if(food.getType().getApplicableType() != pet.getType()) {
+                    ctx.sendLocalized("commands.pet.feed.not_applicable", EmoteReference.ERROR);
+                    return;
+                }
 
                 pet.increaseHunger(food.getHungerLevel());
                 pet.increaseHealth();
