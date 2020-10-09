@@ -1770,12 +1770,12 @@
       "success": "%1$s%2$s kann nicht länger genutzt werden, um Discord-Einladungen zu senden."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sDu musst einen Nutzer angeben, der vom Einladungsprüfer ignoriert werden soll.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sDu musst einen Nutzer erwähnen, um ihn Einladungen posten zu lassen!",
       "success": "%1$sErfolgreich %2$s#%3$s die Erlaubnis gegeben, Discord-Einladungen zu posten."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sDu musst einen Nutzer angeben, der vom Einladungsprüfer nicht ignoriert werden soll. (Alle außer Admins standardmäßig.",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sDu musst einen Nutzer erwähnen, um ihm zu verbieten, Einladungen zu posten!",
       "not_whitelisted": "%1$sDieser Nutzer hat keine Erlaubnis Einladungen zu posten!",
       "success": "%1$sErfolgreich dem Nutzer %2$s#%3$s verboten Discord-Einladungen zu posten."
