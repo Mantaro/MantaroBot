@@ -1770,12 +1770,12 @@
       "success": "%1$s%2$s não pode mais ser usado para enviar convites do discord."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sVocê precisa especificar o usuário que deseja excluir do verificador de convite.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sVocê precisa mencionar o usuário à lista de permissões da postagem de convites!",
       "success": "%1$sColocado com sucesso %2$s#%3$s na lista branca de postar convites do discord."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sVocê precisa especificar qual usuário deseja incluir no verificador de convite. (Todos, exceto os administradores, incluídos por padrão)",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sVocê precisa mencionar o usuário à lista negra de postagem de convites!",
       "not_whitelisted": "%1$sEste usuário não está na lista branca de permissões de postagem de convite!",
       "success": "%1$sColocado com sucesso %2$s#%3$s na lista negra de postar convites do discord."
