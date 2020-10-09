@@ -1770,12 +1770,12 @@
       "success": "%1$s%2$s kan niet langer worden gebruikt om Discord uitnodigingen te verzenden."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sJe moet opgeven welk personen je wilt uitsluiten van de uitnodigingscontrole.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sJe moet de naam van de gebruiker noemen die je van de blacklist wilt afhalen voor het inviten van mensen!",
       "success": "%1$sHeeft de volgende gebruikers succesvol van de blacklist voor het inviten van mensen gehaald: %2$s#%3$s "
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sJe moet opgeven welk personen je wilt toevoegen aan de uitnodigingscontrole (Iedereen behalve beheerders wordt standaard toegevoegd)",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sJe moet de gebruiker vermelden die je op de blacklist voor het plaatsen van uitnodigingen wilt toevoegen!",
       "not_whitelisted": "%1$sDeze gebruiker staat niet op de invite posting whitelist!",
       "success": "%1$sHeeft de volgende gebruikers succesvol op de blacklist voor het posten van discord gezet: %2$s#%3$s "
