@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.utils.data;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +34,8 @@ import java.util.function.Supplier;
 public class JsonDataManager<T> implements DataManager<T> {
     private static ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false) // Anime / Character lookup.
-            .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true); // Custom commands.
+            .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true) // Custom commands.
+            .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true); // Allow newlines.
     private static final Logger log = LoggerFactory.getLogger(JsonDataManager.class);
     private final Path configPath;
     private final T data;
@@ -73,7 +75,7 @@ public class JsonDataManager<T> implements DataManager<T> {
     @Override
     public void save() {
         try {
-            FileIOUtils.write(configPath, mapper.writeValueAsString(data));
+            FileIOUtils.write(configPath, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

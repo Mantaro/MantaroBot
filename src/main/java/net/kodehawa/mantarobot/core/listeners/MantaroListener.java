@@ -793,8 +793,9 @@ public class MantaroListener implements EventListener {
                         EmbedJSON embed;
                         try {
                             embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
-                        } catch (Exception ignored) {
+                        } catch (Exception e) {
                             tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                            e.printStackTrace();
                             return;
                         }
 
