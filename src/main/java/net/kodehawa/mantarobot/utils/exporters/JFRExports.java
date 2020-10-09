@@ -96,7 +96,7 @@ public class JFRExports {
             .create();
     //jdk.GCHeapSummary, jdk.MetaspaceSummary
     private static final Gauge MEMORY_USAGE = Gauge.build()
-            //TODO: remove _jfr suffix if we remove the standard exports
+            // remove _jfr suffix if we remove the standard exports
             .name("jvm_memory_bytes_used_jfr")
             .help("Bytes of memory used by the JVM")
             .labelNames("area") //heap, nonheap

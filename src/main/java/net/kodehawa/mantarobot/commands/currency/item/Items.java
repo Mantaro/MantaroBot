@@ -58,7 +58,7 @@ public class Items {
             SHARK, WRENCH_COMET, WRENCH_SPARKLE, CRAB, SQUID, SHRIMP, MOON_RUNES, SNOWFLAKE, BROKEN_SPARKLE_PICK, BROKEN_COMET_PICK,
             BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH, STEAK,
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
-            MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM;
+            MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK;
 
     private static final Random r = new Random();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
@@ -190,14 +190,13 @@ public class Items {
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false),
 
             // ---------------------------------- 5.7 PET ITEMS START HERE ----------------------------------
-            // TODO: Pet house emoji? I wonder what we could use.
-            PET_HOUSE = new Item(ItemType.PET, "", "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
-            STEAK = new Food(10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 170, true),
-            CHICKEN = new Food(10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 130, true),
-            MILK_2 = new Food(10, "\ud83e\udd5b", "Milk", "items.milk", "items.description.milk", 97, true),
-            DOG_FOOD = new Food(10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
-            CAT_FOOD = new Food(10, "\ud83e\udd6b", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
-            HAMSTER_FOOD = new Food(10, "\ud83c\udf31", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
+            PET_HOUSE = new Item(ItemType.PET, EmoteReference.PET_HOUSE.getDiscordNotation(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
+            STEAK = new Food(Food.FoodType.DOG, 10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 170, true),
+            CHICKEN = new Food(Food.FoodType.CAT, 10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 130, true),
+            MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b", "Milk", "items.milk", "items.description.milk", 97, true),
+            DOG_FOOD = new Food(Food.FoodType.DOG, 10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
+            CAT_FOOD = new Food(Food.FoodType.CAT, 10, "\ud83e\udd6b", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
+            HAMSTER_FOOD = new Food(Food.FoodType.HAMSTER, 10, "\ud83c\udf31", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
 
             // ---------------------------------- 5.7 ITEMS START HERE ----------------------------------
             WOOD = new Item(ItemType.CHOP_DROP, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 25, false),
@@ -215,6 +214,7 @@ public class Items {
             APPLE = new Item(ItemType.CHOP_DROP, "\ud83c\udf4e", "Apple", "items.apple", "items.description.apple", 10, false),
             PEAR = new Item(ItemType.CHOP_DROP, "\ud83c\udf50", "Pear", "items.pear", "items.description.pear", 10, false),
             CHERRY_BLOSSOM = new Item(ItemType.CHOP_DROP, "\ud83c\udf38", "Cherry Blossom", "items.cherry_blossom", "items.description.cherry_blossom", 5, false),
+            ROCK = new Item(ItemType.MINE, "\ud83e\udea8", "Rock", "items.rock", "items.description.rock", 10, false),
     };
 
     public static void setItemActions() {

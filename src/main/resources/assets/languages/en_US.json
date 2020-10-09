@@ -64,7 +64,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **up to double the coins with Mantaro Premium**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **double the daily coins**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "daily_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **double the daily coins** and access to `~>dailycrate`! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:. You also get double the coins as a bonus!"
       }
@@ -580,7 +580,9 @@
         "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
         "date": "Marriage Date",
         "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership"
+        "waifus": "Waifu Ownership",
+        "house": "House Name",
+        "car": "Car Name"
       },
       "timezone": {
         "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
@@ -589,6 +591,23 @@
       },
       "general": {
         "not_married": "%1$sYou're not married."
+      },
+      "buyhouse": {
+        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
+        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
+        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d)",
+        "no_name": "%1$sYou need to give your house a name!",
+        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
+        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
+        "cancel_success": "%1$sCancelled operation."
+      },
+      "buycar": {
+        "no_house": "%1$sYou need to buy a house first! Check `~>marry buyhouse` and `~>help marry`",
+        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d)",
+        "no_name": "%1$sYou need to give your car a name!",
+        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
+        "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
+        "cancel_success": "%1$sCancelled operation."
       },
       "no_mention": "%1$sMention the user you want to marry.",
       "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
@@ -604,7 +623,8 @@
     },
     "divorce": {
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
-      "success": "%1$sNow you're single. That's nice I guess."
+      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
+      "split": "The money left was split between the two parties. Each one got **%1$d** credits on their wallet."
     },
     "waifu": {
       "bot": "%1$sA bot can't be a waifu, even if you want to...",
@@ -1265,6 +1285,19 @@
     },
     "pet": {
       "explanation": "placeholder",
+      "status": {
+        "header": "Status for Pet %1$s",
+        "description": "Pets are a useful companion in currency! They help you gain more money, loot more, find random stuff on mine and even catch fish!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)",
+        "cost": "Price",
+        "type": "Type",
+        "abilities": "Abilities",
+        "level": "Level",
+        "health": "Health",
+        "thrist": "Thrist",
+        "hunger": "Hunger",
+        "pet": "Pats",
+        "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
+      },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation."
       },
@@ -1292,6 +1325,7 @@
         "not_food": "%1$sWoah there! This isn't food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory.",
+        "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with %2$s and it recovered %3$s%% of their hunger. Their hunger is now at %4$s%%"
       },
       "water": {
@@ -1564,6 +1598,16 @@
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
     },
+    "chop": {
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure!",
+      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Current dust level: %2$d)",
+      "autoequip": {
+        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+      },
+      "success": "%1$sWhile chopping trees, you found %2$s on the floor and you proceed to save them into your inventory.",
+      "success_money": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and you proceed to save them into your inventory.%4$s",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and you proceed to save them into your pocket."
+    },
     "slots": {
       "errors": {
         "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
@@ -1775,12 +1819,12 @@
       "success": "%1$s%2$s cannot longer be used to send discord invites."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sYou need to specify what user you want to exclude from the invite checker.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
       "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
       "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
       "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."

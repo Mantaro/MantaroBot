@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
@@ -44,6 +45,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -51,8 +53,10 @@ import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.awt.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -184,6 +188,51 @@ public class OwnerCmd {
             ctx.send("Done, new streak is " + amount);
         }
     }
+
+    @Subscribe
+    public void dataRequest(CommandRegistry cr) {
+        cr.register(DataRequest.class);
+    }
+
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    public static class DataRequest extends NewCommand {
+        @Override
+        protected void process(NewContext ctx) {
+            ManagedDatabase db = MantaroData.db();
+            var id = ctx.argument(Parsers.strictLong()
+                    .map(String::valueOf), "Invalid id");
+
+            var user = ctx.retrieveUserById(id);
+
+            if (user == null) {
+                ctx.send("Can't find user");
+                return;
+            }
+
+            var player = db.getPlayer(user);
+            var dbUser = db.getUser(user);
+            var seasonalPlayerData = db.getPlayerForSeason(user, Season.SECOND);
+
+            try {
+                var jsonPlayer = JsonDataManager.toJson(player);
+                var jsonUser = JsonDataManager.toJson(dbUser);
+                var jsonSeason = JsonDataManager.toJson(seasonalPlayerData);
+
+                var total = String.format("Player:\n%s\n ---- \nUser:\n%s\n ---- \nSeason:\n%s", jsonPlayer, jsonUser, jsonSeason);
+                byte[] bytes = total.getBytes(StandardCharsets.UTF_8);
+                if (bytes.length > 7_800_000) {
+                    ctx.send("Result too big!");
+                } else {
+                    ctx.sendFile(bytes, "result.json");
+                }
+            } catch (Exception e) {
+                ctx.send("Error. Check logs. " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Subscribe
     public void restoreStreak(CommandRegistry cr) {

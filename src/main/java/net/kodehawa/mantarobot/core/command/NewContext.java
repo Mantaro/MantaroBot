@@ -1,13 +1,22 @@
 package net.kodehawa.mantarobot.core.command;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.command.argument.ArgumentParseError;
 import net.kodehawa.mantarobot.core.command.argument.Arguments;
 import net.kodehawa.mantarobot.core.command.argument.MarkedBlock;
 import net.kodehawa.mantarobot.core.command.argument.Parser;
 import net.kodehawa.mantarobot.core.command.argument.split.StringSplitter;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Player;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -18,6 +27,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class NewContext {
+    private final ManagedDatabase managedDatabase = MantaroData.db();
+    private final Config config = MantaroData.config().get();
+
     private static final StringSplitter SPLITTER = new StringSplitter();
 
     private final Message message;
@@ -234,6 +246,10 @@ public class NewContext {
         getChannel().sendMessage(message).queue();
     }
 
+    public void sendFile(byte[] bytes, String name) {
+        getChannel().sendFile(bytes, name).queue();
+    }
+
     public void sendFormat(String message, Object... format) {
         getChannel().sendMessageFormat(message, format).queue();
     }
@@ -287,5 +303,81 @@ public class NewContext {
         } catch (Exception ignored) { }
 
         return member;
+    }
+
+    public Member getMember() {
+        return message.getMember();
+    }
+
+    public User getUser() {
+        return message.getAuthor();
+    }
+
+    public SelfUser getSelfUser() {
+        return getChannel().getJDA().getSelfUser();
+    }
+
+    public Member getSelfMember() {
+        return getGuild().getSelfMember();
+    }
+
+    public MantaroAudioManager getAudioManager() {
+        return getBot().getAudioManager();
+    }
+
+    public ShardManager getShardManager() {
+        return getBot().getShardManager();
+    }
+
+    public DBGuild getDBGuild() {
+        return managedDatabase.getGuild(getGuild());
+    }
+
+    public DBUser getDBUser() {
+        return managedDatabase.getUser(getUser());
+    }
+
+    public DBUser getDBUser(User user) {
+        return managedDatabase.getUser(user);
+    }
+
+    public DBUser getDBUser(Member member) {
+        return managedDatabase.getUser(member);
+    }
+
+    public DBUser getDBUser(String id) {
+        return managedDatabase.getUser(id);
+    }
+
+    public Player getPlayer() {
+        return managedDatabase.getPlayer(getUser());
+    }
+
+    public Player getPlayer(User user) {
+        return managedDatabase.getPlayer(user);
+    }
+
+    public Player getPlayer(Member member) {
+        return managedDatabase.getPlayer(member);
+    }
+
+    public Player getPlayer(String id) {
+        return managedDatabase.getPlayer(id);
+    }
+
+    public SeasonPlayer getSeasonPlayer() {
+        return managedDatabase.getPlayerForSeason(getUser(), config.getCurrentSeason());
+    }
+
+    public SeasonPlayer getSeasonPlayer(User user) {
+        return managedDatabase.getPlayerForSeason(user, config.getCurrentSeason());
+    }
+
+    public SeasonPlayer getSeasonPlayer(Member member) {
+        return managedDatabase.getPlayerForSeason(member, config.getCurrentSeason());
+    }
+
+    public MantaroBot getBot() {
+        return MantaroBot.getInstance();
     }
 }

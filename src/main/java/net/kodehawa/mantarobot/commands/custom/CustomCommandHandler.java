@@ -158,9 +158,12 @@ public class CustomCommandHandler {
                     .append("`Command preview requested by: ")
                     .append(ctx.getAuthor().getAsTag())
                     .append("`");
+
+            builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+        } else {
+            builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
         }
 
-        builder.denyMentions(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
         ctx.send(builder.build());
     }
 

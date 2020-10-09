@@ -290,7 +290,11 @@ public class CurrencyCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = CustomFinderUtil.findMember(content, members, ctx);
+                    Member member = ctx.getMember();
+                    if(!content.isEmpty()) {
+                        member = CustomFinderUtil.findMember(content, members, ctx);
+                    }
+
                     if (member == null)
                         return;
 
@@ -666,7 +670,7 @@ public class CurrencyCmds {
                 Inventory inventory = p.getInventory();
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx, false))
                     return;
 
                 // Alternate between mine and fish crates instead of doing so at random, since at random

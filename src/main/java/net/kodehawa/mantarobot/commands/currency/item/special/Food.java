@@ -18,16 +18,37 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 
 public class Food extends Item {
-    private int hungerLevel;
+    private final int hungerLevel;
+    private final FoodType type;
 
-    public Food(int hungerLevel, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+    public Food(FoodType type, int hungerLevel, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
         super(ItemType.FOOD, emoji, name, translatedName, desc, value, true, buyable);
         this.hungerLevel = hungerLevel;
+        this.type = type;
     }
 
     public int getHungerLevel() {
         return this.hungerLevel;
+    }
+
+    public FoodType getType() {
+        return type;
+    }
+
+    public static enum FoodType {
+        CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), GENERAL(HousePetType.ALL);
+
+        HousePetType applicableType;
+
+        FoodType(HousePetType applicable) {
+            this.applicableType = applicable;
+        }
+
+        public HousePetType getApplicableType() {
+            return applicableType;
+        }
     }
 }
