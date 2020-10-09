@@ -253,7 +253,7 @@ public class MarketCmd {
             @Override
             public String description() {
                 return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount before the item.\n" +
-                        "Use `~>market sell all` to sell all of your items.";
+                        "Use `~>market sell all` to sell all of your items. Use `~>market sell allof <item>` to sell all of one item.";
             }
 
             @Override
@@ -319,6 +319,11 @@ public class MarketCmd {
                     }
 
                     Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+
+                    if(args[0].equals("allof")) {
+                        itemName = content.replace("allof", "").trim();
+                    }
+
                     Item toSell = Items.fromAny(itemName.replace("\"", "")).orElse(null);
 
                     if (toSell == null) {
@@ -334,6 +339,10 @@ public class MarketCmd {
                     if (playerInventory.getAmount(toSell) < 1) {
                         ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
                         return;
+                    }
+
+                    if(args[0].equalsIgnoreCase("allof")) {
+                        itemNumber = playerInventory.getAmount(toSell);
                     }
 
                     if (playerInventory.getAmount(toSell) < itemNumber) {
