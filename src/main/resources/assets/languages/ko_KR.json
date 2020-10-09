@@ -1770,12 +1770,12 @@
       "success": "%1$s%2$s cannot longer be used to send discord invites."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sYou need to specify what user you want to exclude from the invite checker.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
       "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
       "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
       "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."
