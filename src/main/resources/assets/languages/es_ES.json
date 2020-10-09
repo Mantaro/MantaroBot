@@ -1770,12 +1770,12 @@
       "success": "%1$s%2$s ya no puede recibir invitaciones de Discord."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sNecesitas especificar que usuarios deseas excluir del eliminador de invitaciones.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sNecesitas especificar que el usuario que deseas excluir del eliminador de invitaciones.",
       "success": "%1$sCorrectamente agregado a la whitelist a %2$s#%3$s para postear invitaciones a otros canales de Discord.\n"
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sNecesitas especificar que usuarios deseas incluir en el eliminador de invitaciones (Todos excepto los administradores por defecto).",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le prohiba publicar invitaciones!",
       "not_whitelisted": "%1$sA este usuario no está en la lista que le permite enviar invitaciones!",
       "success": "%1$sAl usuario %2$s#%3$s ahora se le prohibe publicar invitaciones."
