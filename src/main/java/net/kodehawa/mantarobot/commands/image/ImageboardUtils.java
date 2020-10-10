@@ -120,7 +120,7 @@ public class ImageboardUtils {
                         // to pick undesirable lewd content.
                         // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                         List<BoardImage> filter = requestedImages.stream()
-                                .filter(img -> !containsMinorTags(img.getTags()))
+                                .filter(img -> !containsExcludedTags(img.getTags()))
                                 .collect(Collectors.toList());
 
                         if (filter.isEmpty()) {
@@ -133,7 +133,10 @@ public class ImageboardUtils {
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                     }
-                }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
+                }, failure -> {
+                    ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
+                    failure.printStackTrace();
+                });
             } catch (NumberFormatException nex) {
                 ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
             } catch (Exception ex) {
@@ -150,7 +153,9 @@ public class ImageboardUtils {
                     // to pick undesirable lewd content.
                     // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                     List<BoardImage> filter = requestedImages.stream()
-                            .filter(img -> !containsMinorTags(img.getTags()))
+                            .filter(img -> img.getURL() != null) // Somehow Danbooru and e621 are returning null images when a image is deleted?
+                            .filter(img -> !containsExcludedTags(img.getTags()))
+                            .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
                             .collect(Collectors.toList());
 
                     if (filter.isEmpty()) {
@@ -163,15 +168,19 @@ public class ImageboardUtils {
                     sendImage(ctx, imageboard, image, ctx.getDBGuild());
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                    e.printStackTrace();
                 }
-            }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
+            }, failure -> {
+                ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                failure.printStackTrace();
+            });
         }
     }
 
     private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
-        if (containsMinorTags(image.getTags()) && image.getRating() != Rating.SAFE) {
+        if ((containsExcludedTags(image.getTags()) || image.hasChildren()) && image.getRating() != Rating.SAFE) {
             ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
@@ -216,11 +225,20 @@ public class ImageboardUtils {
         return true;
     }
 
-    //This code is a little cursed, but there's really not much of a better filter here.
-    private static boolean containsMinorTags(List<String> tags) {
-        return tags.contains("loli") || tags.contains("shota") || tags.contains("lolicon") || tags.contains("shotacon") ||
-                tags.contains("child") || tags.contains("young") || tags.contains("younger") ||
-                tags.contains("underage") || tags.contains("under_age") || tags.contains("cub");
+    // The list of tags to exclude from searches.
+    private final static String[] excludedTags = {
+            "loli", "shota", "lolicon", "shotacon", "child", "underage", "young", "younger",
+            "under_age", "cub", "tagme"
+    };
+
+    private static boolean containsExcludedTags(List<String> tags) {
+        for(String tag : excludedTags) {
+            if(tags.contains(tag)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static boolean isListNull(List<?> l, Context ctx) {

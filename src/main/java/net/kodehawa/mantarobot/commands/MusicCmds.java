@@ -239,7 +239,7 @@ public class MusicCmds {
                                 .getInfo().uri + ")** "
                                 + String.format("`(%s/%s)`",
                                 Utils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : Utils.getDurationMinutes(total))
-                        ).setFooter("Enjoy the music! <3. Use `~>lyrics current` to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
+                        ).setFooter("Enjoy the music! <3. Use ~>lyrics current to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
 
                 ctx.send(npEmbed.build());
                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);

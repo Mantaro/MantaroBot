@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 public class AudioLoader implements AudioLoadResultHandler {
 
     private static final int MAX_QUEUE_LENGTH = 350;
-    private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
+    private static final long MAX_SONG_LENGTH = TimeUnit.HOURS.toMillis(2);
     private final GuildMessageReceivedEvent event;
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;
@@ -151,7 +151,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (audioTrack.getInfo().length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_32_minutes"),
-                    EmoteReference.WARNING, title, AudioUtils.getLength(length)
+                    EmoteReference.WARNING, title, Utils.formatDuration(MAX_SONG_LENGTH), Utils.formatDuration(length)
             ).queue();
             return;
         }
@@ -175,7 +175,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             event.getChannel().sendMessageFormat(
-                    language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, AudioUtils.getLength(length)
+                    language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, Utils.formatDuration(length)
             ).queue();
         }
 
