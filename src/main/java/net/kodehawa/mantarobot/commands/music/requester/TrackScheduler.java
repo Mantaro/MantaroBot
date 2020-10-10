@@ -139,7 +139,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 return;
             }
 
-            if (getRequestedTextChannel().canTalk()) {
+            if (getRequestedTextChannel().canTalk() && repeatMode != Repeat.SONG) {
                 AudioTrackInfo information = currentTrack.getInfo();
                 String title = information.title;
                 long trackLength = information.length;
