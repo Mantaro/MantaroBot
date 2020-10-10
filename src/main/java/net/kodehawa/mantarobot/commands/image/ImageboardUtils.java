@@ -153,6 +153,7 @@ public class ImageboardUtils {
                     // to pick undesirable lewd content.
                     // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                     List<BoardImage> filter = requestedImages.stream()
+                            .filter(img -> img.getURL() != null) // Somehow Danbooru and e621 are returning null images when a image is deleted?
                             .filter(img -> !containsExcludedTags(img.getTags()))
                             .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
                             .collect(Collectors.toList());
