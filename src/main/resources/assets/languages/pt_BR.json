@@ -272,7 +272,7 @@
         "no_matches": "%1$sA pesquisa não teve resultados. Se isso aparecer para *todas as músicas* que você tenta procurar, você pode usar `~>play soundcloud <termo de pesquisa>` em vez disso no entretanto. Links diretos para o youtube devem funcionar também.",
         "error_loading": "%1$sErro ao buscar música: %2$s",
         "over_queue_limit": "%1$sNão foi possível colocar na fila %2$s: Limite de músicas da fila ultrapassado (%3$s)!",
-        "over_32_minutes": "%1$sNão foi possível colocar na fila %2$s: A música tem mais de 32 minutos! (%3$s)",
+        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than $3$s! (%4$s). You can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Ultrapassou o nível da fila de %2$d (Muitas músicas que são exatamente iguais)**",
         "loaded_song": "%1$sAdicionado a fila -> **%2$s** **(%3$s)**",
         "selection_text": "Seleção de música. Digite o número da música para continuar.",
