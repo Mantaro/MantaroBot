@@ -154,6 +154,7 @@ public class ImageboardUtils {
                     // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                     List<BoardImage> filter = requestedImages.stream()
                             .filter(img -> !containsExcludedTags(img.getTags()))
+                            .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
                             .collect(Collectors.toList());
 
                     if (filter.isEmpty()) {
@@ -178,7 +179,7 @@ public class ImageboardUtils {
     private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
-        if (containsExcludedTags(image.getTags()) && image.getRating() != Rating.SAFE) {
+        if ((containsExcludedTags(image.getTags()) || image.hasChildren()) && image.getRating() != Rating.SAFE) {
             ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
