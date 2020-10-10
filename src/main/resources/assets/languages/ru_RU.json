@@ -272,7 +272,7 @@
         "no_matches": "%1$sПоиск не дал результатов. Если такое происходит со *всеми треками* вы можете попробовать использовать поиск `~>play soundcloud <название>`. Прямые ссылки на youtube тоже должны работать.",
         "error_loading": "%1$sОшибка при загрузке музыки: %2$s",
         "over_queue_limit": "%1$sНе удалось воспроизвести трек %2$s: Превышено ограничение по количеству треков (%3$s)!",
-        "over_32_minutes": "%1$sНе удалось воспроизвести %2$s: Трек имеет продолжительность более 32 минут! (%3$s)",
+        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than $3$s! (%4$s). You can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Превышен уровень очереди %2$d (Слишком много однотипных треков)**",
         "loaded_song": "%1$sДобавлено в очередь -> **%2$s** **(%3$s)**",
         "selection_text": "Выбор песни. Напишите номер чтобы продолжить.",
