@@ -133,7 +133,10 @@ public class ImageboardUtils {
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                     }
-                }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
+                }, failure -> {
+                    ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
+                    failure.printStackTrace();
+                });
             } catch (NumberFormatException nex) {
                 ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
             } catch (Exception ex) {
@@ -163,8 +166,12 @@ public class ImageboardUtils {
                     sendImage(ctx, imageboard, image, ctx.getDBGuild());
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                    e.printStackTrace();
                 }
-            }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
+            }, failure -> {
+                ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                failure.printStackTrace();
+            });
         }
     }
 
