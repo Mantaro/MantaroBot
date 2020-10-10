@@ -272,7 +272,7 @@
         "no_matches": "%1$sArama herhangi bir sonuç vermedi. Eğer bu *tüm şarkılar* için çıkıyorsa, `~>play soundcloud <arama>` kullanmak isteyebilirsiniz. Direk youtubeden link vermek de işe yarayabilir.",
         "error_loading": "%1$sMüzik çekme de hata: %2$s",
         "over_queue_limit": "%1$sListeye ekleyemedik %2$s: Limiti aşmışız (%3$s)!",
-        "over_32_minutes": "%1$sListeye ekleyemedik %2$s: 32 dakikadan uzun bir şarkı olmaz olmaz! (%3$s)",
+        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than $3$s! (%4$s). You can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s** %2$d seviyesini geçmişiz (çok fazla aynı şarkıyı eklemişiz)**",
         "loaded_song": "%1$sListeye eklendi -> **%2$s** **(%3$s)**",
         "selection_text": "Şarkı seçimi. Şarkı numarasını yazarak devam edebilirsin.",
