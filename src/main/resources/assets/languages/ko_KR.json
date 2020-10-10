@@ -272,7 +272,7 @@
         "no_matches": "%1$s검색 결과는 나오지 않았어요. 만약 *모든 노래*의 검색이 이 메시지가 표시된다면, 그 대신 동안 `~>play soundcloud <검색 술어>`를 사용해는 것이 좋아요. YouTube에 대한 직접적인 링크도 작동해요.",
         "error_loading": "%1$s음악을 가져오는 동안 오류가 발생했어요: %2$s",
         "over_queue_limit": "%1$s%2$s을(를) 대기열에 넣을 수 없어요: 대기열 노래 한도(%3$s개)를 초과했어요!",
-        "over_32_minutes": "%1$s%2$s을(를) 대기열에 넣을 수 없어요: 트랙이 32분보다 길어요! (%3$s)",
+        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than $3$s! (%4$s). You can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**공정한 대기열 %2$d 레벨을 초과했어요 (정확히 동일한 노래가 너무 많아요)**",
         "loaded_song": "%1$s대기열에 추가했어요 -> **%2$s** **(%3$s)**",
         "selection_text": "노래를 선택하세요. 음악 번호를 입력해서 계속하세요.",
