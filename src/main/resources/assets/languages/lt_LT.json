@@ -271,10 +271,10 @@
         "loaded_playlist": "%1$sPridėtos **%2$d dainų** į grojaraštį: **%3$s** *(%4$s)*",
         "no_matches": "%1$sPaieška nepateikė jokių rezultatų. Jeigu tai atsiranda *visoms dainoms* kurių ieškai, turbūt tu norėsi panaudoti `~>play soundcloud <paieškos terminas>` kuriam laikui. Tiesioginės nuorodos į YouTube irgi veikia.",
         "error_loading": "%1$sKlaida apdorojant muziką: %2$s",
-        "over_queue_limit": "%1$sNeįmanoma pridėti dainų %2$s: Peržengtas dainų limitas (%3$s)!",
-        "over_32_minutes": "%1$sCould not queue %2$s: Track is longer than $3$s! (%4$s). You can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
+        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Peržengtas teisingo naudojimo dainų %2$d limitas (Per daug dainų, kurios yra visiškai vienodos)**",
-        "loaded_song": "%1$sPridėta į sąrašą -> **%2$s** **(%3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "Dainos pasirinkimas. Įrašyk dainos numerį, kad tęstum.",
         "timeout_text": "Tai nebegalios po 30 sekundžių. Parašyk &cancel kad atšauktum."
       },
