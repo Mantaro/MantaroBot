@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
@@ -241,8 +242,15 @@ public class UtilsCmds {
                                 .filter(birthday -> ids.contains(birthday.getKey()))
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
+                                    Member member = null;
+                                    try {
+                                        member = guild.retrieveMemberById(entry.getKey(), false).complete();
+                                    } catch (Exception e) {
+                                        return "Unknown Member : " + birthday[0] + "-" + birthday[1];
+                                    }
+
                                     return String.format("+ %-20s : %s ",
-                                            guild.retrieveMemberById(entry.getKey(), false).complete().getEffectiveName(),
+                                            member.getEffectiveName(),
                                             birthday[0] + "-" + birthday[1]
                                     );
                                 })
