@@ -114,8 +114,8 @@ Copyright (C) 2016-2020 **David Rubio Escares** / **Kodehawa**
 [The full license can be found here.](https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE)
 
 # License addendum
->You can follow the terms of the GPLv3 (not the AGPL, which means basically the same license minus clause 13) *if you run a private fork*: say, you only use it for testing, adding new features, something, etc.
->This also obviously applies for forks used in a single guild.
->If the fork is public (see: published under a bot list, made a public bot on in more than 10 servers), please follow the terms of the AGPL instead.
->This guarantees us the continuation of the Open Source collaboration as-is.
->Please follow the full license terms if you can, though.
+You can follow the terms of the GPLv3 (not the AGPL, which means basically the same license minus clause 13) *if you run a private fork*: say, you only use it for testing, adding new features, something, etc.
+This also obviously applies for forks used in a single guild.
+If the fork is public (see: published under a bot list, made a public bot on in more than 10 servers), please follow the terms of the AGPL instead.
+This guarantees us the continuation of the Open Source collaboration as-is.
+Please follow the full license terms if you can, though.
