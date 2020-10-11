@@ -2,16 +2,16 @@
  * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
+ *  it under the terms of the GNU Affero General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *  Mantaro is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
 package net.kodehawa.mantarobot.utils;
@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimit;
 import okhttp3.*;
+import org.apache.commons.lang3.LocaleUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -622,6 +623,25 @@ public class Utils {
 
     public static String formatMemoryUsage(long used, long total) {
         return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
+    }
+
+    public static Locale getLocaleFromLanguage(String language) {
+        // No need to pass it to LocaleUtils if we pass nothing to this.
+        if(language == null || language.isEmpty()) {
+            return Locale.ENGLISH;
+        }
+
+        // Parse the user's language settings to attempt to get the locale.
+        Locale locale = null;
+        try {
+            locale = LocaleUtils.toLocale(language);
+        } catch (IllegalArgumentException ignore) { }
+
+        if(locale == null) {
+            locale = Locale.ENGLISH;
+        }
+
+        return locale;
     }
     
     /**
