@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import org.apache.commons.lang3.LocaleUtils;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -139,6 +140,7 @@ public class InfoCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
+                GuildData guildData = ctx.getDBGuild().getData();
 
                 String roles = guild.getRoles().stream()
                         .filter(role -> !guild.getPublicRole().equals(role))
@@ -166,7 +168,10 @@ public class InfoCmds {
                                 guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") :
                                         guild.getRegion().getName(), true)
                         .addField(languageContext.get("commands.serverinfo.created"),
-                                guild.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)), false)
+                                guild.getTimeCreated().format(
+                                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                                .withLocale(Utils.getLocaleFromLanguage(guildData.getLang()))
+                                ), false)
                         .addField(String.format(languageContext.get("commands.serverinfo.roles"),
                                 guild.getRoles().size()), StringUtils.limit(roles, 500), false)
                         .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
@@ -683,24 +688,29 @@ public class InfoCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
-                    User user = member.getUser();
+                    var guildData = ctx.getDBGuild().getData();
+                    var user = member.getUser();
 
-                    String roles = member.getRoles().stream()
+                    var roles = member.getRoles().stream()
                             .map(Role::getName)
                             .collect(Collectors.joining(", "));
 
                     var languageContext = ctx.getLanguageContext();
-                    String s = String.join("\n",
+                    var s = String.join("\n",
                             prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
                             prettyDisplay(languageContext.get("commands.userinfo.join_date"),
-                                    member.getTimeJoined().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
+                                    member.getTimeJoined().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                            .withLocale(Utils.getLocaleFromLanguage(guildData.getLang()))
+                                    )
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.created"),
-                                    user.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
+                                    user.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                            .withLocale(Utils.getLocaleFromLanguage(guildData.getLang()))
+                                    )
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.account_age"),
                                     TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())

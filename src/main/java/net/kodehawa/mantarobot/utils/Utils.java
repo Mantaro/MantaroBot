@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimit;
 import okhttp3.*;
+import org.apache.commons.lang3.LocaleUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -619,6 +620,25 @@ public class Utils {
 
     public static String formatMemoryUsage(long used, long total) {
         return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
+    }
+
+    public static Locale getLocaleFromLanguage(String language) {
+        // No need to pass it to LocaleUtils if we pass nothing to this.
+        if(language == null || language.isEmpty()) {
+            return Locale.ENGLISH;
+        }
+
+        // Parse the user's language settings to attempt to get the locale.
+        Locale locale = null;
+        try {
+            locale = LocaleUtils.toLocale(language);
+        } catch (IllegalArgumentException ignore) { }
+
+        if(locale == null) {
+            locale = Locale.ENGLISH;
+        }
+
+        return locale;
     }
     
     /**

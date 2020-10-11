@@ -27,13 +27,12 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.lang3.LocaleUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -69,23 +68,8 @@ public enum ProfileComponent {
             else {
                 // This goes through two Formatter calls since it has to first format the stuff birthdays use.
                 var parsed = LocalDate.parse(data.getBirthday(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
                 // Then format it back to a readable format for a human. A little annoying, but works.
-                DateTimeFormatter readable;
-
-                // Parse the user's language settings to attempt to get the locale.
-                Locale locale = null;
-                try {
-                    locale = LocaleUtils.toLocale(data.getLang());
-                } catch (IllegalArgumentException ignore) { }
-
-                // We got a valid locale, so attempt to use (for example es_ES.json should give us es_ES, and that in turn
-                // gives us the Locale.SPANISH locale, which we can use in DateTimeFormatter.
-                if(locale != null) {
-                    readable = DateTimeFormatter.ofPattern("MMM d", LocaleUtils.toLocale(data.getLang()));
-                } else {
-                    readable = DateTimeFormatter.ofPattern("MMM d");
-                }
+                var readable = DateTimeFormatter.ofPattern("MMM d", Utils.getLocaleFromLanguage(data.getLang()));
 
                 // Finally...
                 return String.format("%s (%s)", readable.format(parsed), data.getBirthday().substring(0, 5));
