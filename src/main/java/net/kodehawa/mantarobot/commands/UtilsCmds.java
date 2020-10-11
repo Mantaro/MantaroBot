@@ -363,9 +363,17 @@ public class UtilsCmds {
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .map((entry) -> {
+                                    var guild = ctx.getGuild();
                                     var birthday = entry.getValue().getBirthday().split("-");
+                                    Member member = null;
+                                    try {
+                                        member = guild.retrieveMemberById(entry.getKey(), false).complete();
+                                    } catch (Exception e) {
+                                        return "Unknown Member : " + birthday[0] + "-" + birthday[1];
+                                    }
+
                                     return String.format("+ %-20s : %s ",
-                                            ctx.getGuild().retrieveMemberById(entry.getKey(), false).complete().getEffectiveName(),
+                                            member.getEffectiveName(),
                                             birthday[0] + "-" + birthday[1]
                                     );
                                 }).collect(Collectors.joining("\n"));
