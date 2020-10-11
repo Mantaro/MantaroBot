@@ -92,7 +92,7 @@ And a lot more people. Check the *[Contributors](https://github.com/Mantaro/Mant
 Want to contribute? Join our [server](https://support.mantaro.site) and ask in the support channel for what we need help with (you may need to wait with receiving an answer.).\
 Alternatively send us a Pull Request with what you see fit/think we need. However, this process may end in a rejected PR more easily.
 
-## Legal Stuff
+# Legal Stuff
 
 ## Using our code
 Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, **as it is** open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
