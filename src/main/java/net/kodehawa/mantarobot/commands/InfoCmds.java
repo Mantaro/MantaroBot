@@ -801,7 +801,9 @@ public class InfoCmds {
                 String s = String.join("\n",
                         prettyDisplay(languageContext.get("commands.roleinfo.id"), r.getId()),
                         prettyDisplay(languageContext.get("commands.roleinfo.created"),
-                                r.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
+                                r.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                                        .withLocale(Utils.getLocaleFromLanguage(ctx.getDBGuild().getData().getLang()))
+                                )
                         ),
                         prettyDisplay(languageContext.get("commands.roleinfo.age"),
                                 TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getTimeCreated().toInstant().toEpochMilli()) +
