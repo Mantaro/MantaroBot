@@ -1047,7 +1047,10 @@ public class MusicCmds {
     private boolean isDJ(Context ctx, Member member) {
         Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
         GuildData guildData = ctx.getDBGuild().getData();
-        Role customDjRole = member.getGuild().getRoleById(guildData.getDjRoleId());
+        Role customDjRole = null;
+        if(guildData.getDjRoleId() != null) {
+            customDjRole = member.getGuild().getRoleById(guildData.getDjRoleId());
+        }
 
         return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(Permission.ADMINISTRATOR) ||
                 (djRole != null && member.getRoles().contains(djRole)) || (customDjRole != null && member.getRoles().contains(customDjRole));
