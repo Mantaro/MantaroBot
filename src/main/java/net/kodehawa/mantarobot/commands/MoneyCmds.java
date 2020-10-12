@@ -260,10 +260,11 @@ public class MoneyCmds {
                 }
 
                 // Sellout + this is always a day apart, so we can just send campaign.
-                returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
-
-                if(random.nextBoolean()) // Send only if Random#nextBoolean == true. Twitter campaign.
+                if(random.nextBoolean()) {
                     returnMessage.add(Campaign.TWITTER.getStringFromCampaign(languageContext, true));
+                } else {
+                    returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
+                }
 
                 // Careful not to overwrite yourself ;P
                 // Save streak and items

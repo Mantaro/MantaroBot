@@ -26,6 +26,7 @@ public class LessAnnoyingLavalinkSocket extends LavalinkSocket {
             var name = json.optString("type");
             if(!KNOWN_EVENTS.contains(name)) return;
         }
+
         super.onMessage(message);
     }
 }

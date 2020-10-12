@@ -66,7 +66,7 @@
         "generic_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **up to double the coins with Mantaro Premium**! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
         "daily_sellout": "We need your help to keep Mantaro alive! Help us reach our next goal on the campaign to improve Mantaro's servers!\nYou can get amazing perks and **double the daily coins** and access to `~>dailycrate`! Memberships start at $2 per month, the price of a cheap snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:. You also get double the coins as a bonus!"
+        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:.\nYou also get double the coins as a bonus!"
       },
       "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
     },
@@ -1601,7 +1601,7 @@
     },
     "chop": {
       "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure!",
-      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Current dust level: %2$d)",
+      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Current dust level: %2$d%%)",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
