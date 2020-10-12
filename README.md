@@ -13,11 +13,11 @@ Our [webpage](https://mantaro.site) is hosted in [Github Pages](https://github.c
 # Building your own Mantaro
 
 ## ⚠ **Read before attempting**
-The owners of Mantaro do not recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all of the features are immediately added to upstream.\
-You will however sometimes see a legacy branch, a branch we create before publishing larger update containing working code, it is highly recommended to base your building process from the legacy branch, as the master branch will very likely contain broken and non-working code, at least in a case where a legacy branch exist.
+The owners of Mantaro do not recommend compiling Mantaro as it is not documented, and most builds here will be extremely unstable and (probably) untested, probably including unfinished features. There's no *stable* branch, all the features are immediately added to upstream.\
+You will however sometimes see a legacy branch, a branch we create before publishing larger update containing working code, it is highly recommended basing your building process from the legacy branch, as the master branch will very likely contain broken and non-working code, at least in a case where a legacy branch exist.
 
 **We will not provide any support whatsoever in selfhosting or building the bot by yourself.**
-The reason for this is because not only can the builds in here be highly unstable, but also there are very few people who could actually help with questions regarding this, most of which are busy and not available to answer said questions.
+The reason for this is that not only can the builds in here be highly unstable (probably they are!), but also there are very few people who could actually help with questions regarding this, most of which are busy and not available to answer said questions.
 
 ## Building the Bot
 
@@ -28,7 +28,6 @@ You will need the following to utilize all of Mantaro's features (items marked w
 * JDK
 * Redis
 * Wolke's Weeb API (For most of the action commands)*
-* Other unmentioned API keys*
 
 **We will not provide any support whatsoever in obtaining any of the above.**
 
@@ -39,17 +38,18 @@ Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You c
 Make sure you pay close attention to the [License](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
 
 ### Steps for building:
-<sub>Please do note that you will not receive any help whatsoever while trying to build your own Mantaro.</sub>
+<sub>Please do note that you will not receive any help whatsoever while trying to make your own Mantaro build.</sub>
+
 1.  Make sure you have the prerequisites installed and running.
 2.  Make sure your Java version is 14 or later.
 2.  Clone this repository (you can also fork this repo and clone your fork). 
-3.  Open a Terminal in the root folder.
+3.  Open a Terminal in the folder where you cloned this on.
 4.  Run `gradlew shadowJar`
 5.  Grab the jar from `build/libs`
 6.  Install `rethinkdb` and `redis`
 7.  Create the `mantaro` database with the following tables: mantaro, players, marriages, playerstats, users, guilds, keys, commands, seasonalplayers
-8.  Run it and prepare yourself to start filling in some config values (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).
-9.  In config.json, set the value needApi to false. (Or clone and run https://github.com/Kodehawa/mantaro-api)
+8.  Run it and prepare yourself to start filling in some config values (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill). You don't need to fill all values, though. The token and the user id are necessary to start up, you wanna set the owner IDs aswell.
+9.  In config.json, set the value needApi to false. (Or clone and run [the API](https://github.com/Kodehawa/mantaro-api))
 
 ### Extra runtime options:
 This are java arguments that Mantaro parses outside of config.json and that can be dynamically adjusted using a script or similar:
@@ -76,27 +76,26 @@ The above options can also be used as environment variables by removing `-D`, an
 *   [RethinkDB by the RethinkDB team](http://rethinkdb.com)
 *   [Redis by the redis team.](https://redis.io)
 *   [imageboard-api by Kodehawa](https://github.com/Kodehawa/imageboard-api)
+*   [java-eval by natanbc](https://github.com/natanbc/java-eval)
 *   And a lot more!
 
 ## Important Contributors
 Many thanks to
 
 * [@natanbc](https://github.com/natanbc) - A lot of backend improvements and developing. Active.
-* [@mrlar](https://github.com/mrlar) - Wrote most of the user-facing documentation (no longer maintaining it). Responsible for maintaining/running the Support-Server.
 * [@haxiz](https://github.com/Haxiz) - Responsible for maintaining user-facing documentation.
+* [@mrlar](https://github.com/mrlar) - Wrote most of the user-facing documentation (no longer maintaining it). Responsible for maintaining/running the Support-Server.
 * [@adriantodt](https://github.com/adriantodt) - Backend development on the early stages of the bot. Was crucial to the development and thanks to him this bot is what it is now. Inactive.
 
 And a lot more people. Check the *[Contributors](https://github.com/Mantaro/MantaroBot/graphs/contributors)* tab!
 
 Want to contribute? Join our [server](https://support.mantaro.site) and ask in the support channel for what we need help with (you may need to wait with receiving an answer.).\
-Alternatively send us a Pull Request with what you see fit/think we need. However this process may end in a rejected PR more easily.
+Alternatively send us a Pull Request with what you see fit/think we need. However, this process may end in a rejected PR more easily.
+
 # Legal Stuff
 
 ## Using our code
 Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, **as it is** open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
-
-### Why is your code of conduct non-existant / stupid / it offends me
-We shall bring no politics into OSS. Of course I pledge for everyone to treat themselves with respect and I *expect* them to do so. We'll take appropiate action if someone is *actually* being mean, but we don't care about politics and am not bringing them here. Please enjoy the code, contribute if you want and have a nice day.
 
 ## License
 
