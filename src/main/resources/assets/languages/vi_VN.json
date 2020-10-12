@@ -272,7 +272,7 @@
         "no_matches": "%1$sTìm kiếm không có kết quả. Nếu điều này xảy ra với *tất cả các bài hát* mà bạn cố tìm kiếm, bạn có thể muốn dùng `~>play soundcloud <tên bài hát>` để thay thế trong lúc này. Dẫn link trực tiếp từ youtube cũng sẽ hoạt động.",
         "error_loading": "%1$sLỗi khi tải nhạc: %2$s",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Vượt quá mức xếp hàng công bằng của %2$d (Quá nhiều bài hát giống hệt nhau)**",
         "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "Lựa chọn bài hát. Nhập số của bài hát để tiếp tục.",
