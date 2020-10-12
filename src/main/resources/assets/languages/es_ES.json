@@ -272,7 +272,7 @@
         "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `~>play soundcloud <término de busqueda>` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
         "error_loading": "%1$sError mientras estaba intentando reproducir la música: %2$s",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Sobrepasado el nivel de fair queue para %2$d (Muchas canciones que son exactamente iguales)**",
         "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "Cuadro de selección de canciones. Escribe el número que precede al nombre de la canción para continuar.",
