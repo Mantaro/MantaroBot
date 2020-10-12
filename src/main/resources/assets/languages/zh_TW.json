@@ -272,7 +272,7 @@
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用`~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
         "error_loading": "%1$s取得歌曲時出錯: %2$s",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit with premium! Check <https://patreon.com/mantaro> for more info.",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
         "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
