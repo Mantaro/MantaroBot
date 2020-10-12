@@ -271,10 +271,10 @@
         "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sA pesquisa não teve resultados. Se isso aparecer para *todas as músicas* que você tenta procurar, você pode usar `~>play soundcloud <termo de pesquisa>` em vez disso no entretanto. Links diretos para o youtube devem funcionar também.",
         "error_loading": "%1$sErro ao buscar música: %2$s",
-        "over_queue_limit": "%1$sNão foi possível colocar na fila %2$s: Limite de músicas da fila ultrapassado (%3$s)!",
-        "over_32_minutes": "%1$sNão foi possível colocar na fila %2$s: A música tem mais de 32 minutos! (%3$s)",
+        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Ultrapassou o nível da fila de %2$d (Muitas músicas que são exatamente iguais)**",
-        "loaded_song": "%1$sAdicionado a fila -> **%2$s** **(%3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "Seleção de música. Digite o número da música para continuar.",
         "timeout_text": "Isso esgota em 30 segundos. Digite &cancel para cancelar."
       },
@@ -524,7 +524,7 @@
         "default": "lento pra crl. :dizzy_face:"
       },
       "display": [
-        "E-Eu fui rápida o  suficiente?",
+        "E-Eu fui rápida o suficiente?",
         "O que você está fazendo?",
         "O-O que você está olhando?!",
         "Huh.",
@@ -978,7 +978,7 @@
       "cache_not_running": "%1$sO cacher de aniversário não parece estar funcionando (erro interno) :(",
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**%1$s Aniversários em %2$s**\nO cache de aniversário é atualizado a cada 23 horas, se o seu aniversário não aparecer aqui, não entre em pânico.\n",
-      "full_header": "**Aniversário de %1$s**\n%2$s",
+      "full_header": "**%1$s's Aniversários**\n%2$s. Lembre-se que os aniversários são armazenados em cache a cada 23 horas e que eles terão que executar `~>birthday allowserver`",
       "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se de que o formato da data é `dd-mm` (dia-mês)",
       "error_date": "%1$s%2$s ou não é uma data válida ou eu não posso analisar corretamente. Por favor tente com a formatação correta.\nLembre-se que o formato da data é `dd/mm`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sMuitos argumentos! Formato de página é `nome->número da página`",
       "main_def": "Definição principal.",
       "footer": "Informação por Dicionário Urbano",
-      "nsfw_notice": "%1$sEste comando só pode ser usado em canais NSFW devido à natureza de seus resultados."
+      "nsfw_notice": "%1$sEste comando só pode ser usado em canais NSFW devido à natureza de seus resultados.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
@@ -1356,7 +1357,7 @@
     "serverinfo": {
       "header": "Informação do Servidor",
       "description": "Informações do Servidor %1$s",
-      "users": "Usuários (Online/Únicos)",
+      "users": "Users",
       "created": "Data de Criação",
       "channels": "Canais de Voz/Texto",
       "owner": "Criador",
@@ -1769,12 +1770,12 @@
       "success": "%1$s%2$s não pode mais ser usado para enviar convites do discord."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sVocê precisa especificar o usuário que deseja excluir do verificador de convite.",
+      "no_user": "%1$sVocê precisa especificar que usuário você quer excluir do checador de convite.",
       "no_mentions": "%1$sVocê precisa mencionar o usuário à lista de permissões da postagem de convites!",
       "success": "%1$sColocado com sucesso %2$s#%3$s na lista branca de postar convites do discord."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sVocê precisa especificar qual usuário deseja incluir no verificador de convite. (Todos, exceto os administradores, incluídos por padrão)",
+      "no_user": "%1$sVocê precisa especificar qual usuário você quer incluir no checador de convite. (Todos exceto os administradores incluídos por padrão)",
       "no_mentions": "%1$sVocê precisa mencionar o usuário à lista negra de postagem de convites!",
       "not_whitelisted": "%1$sEste usuário não está na lista branca de permissões de postagem de convite!",
       "success": "%1$sColocado com sucesso %2$s#%3$s na lista negra de postar convites do discord."

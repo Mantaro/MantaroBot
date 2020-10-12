@@ -271,10 +271,10 @@
         "loaded_playlist": "%1$s**%2$d개 음악** 재생목록을 대기열에 추가했어요: **%3$s** *(%4$s)*",
         "no_matches": "%1$s검색 결과는 나오지 않았어요. 만약 *모든 노래*의 검색이 이 메시지가 표시된다면, 그 대신 동안 `~>play soundcloud <검색 술어>`를 사용해는 것이 좋아요. YouTube에 대한 직접적인 링크도 작동해요.",
         "error_loading": "%1$s음악을 가져오는 동안 오류가 발생했어요: %2$s",
-        "over_queue_limit": "%1$s%2$s을(를) 대기열에 넣을 수 없어요: 대기열 노래 한도(%3$s개)를 초과했어요!",
-        "over_32_minutes": "%1$s%2$s을(를) 대기열에 넣을 수 없어요: 트랙이 32분보다 길어요! (%3$s)",
+        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**공정한 대기열 %2$d 레벨을 초과했어요 (정확히 동일한 노래가 너무 많아요)**",
-        "loaded_song": "%1$s대기열에 추가했어요 -> **%2$s** **(%3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "노래를 선택하세요. 음악 번호를 입력해서 계속하세요.",
         "timeout_text": "30초 후에 시간 초과가 돼요. 취소하려면 &cancel을 입력하세요."
       },
@@ -978,7 +978,7 @@
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s",
+      "full_header": "**%1$s's Birthdays**\n%2$s. Remember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
       "main_def": "Main definition.",
       "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results."
+      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
@@ -1356,7 +1357,7 @@
     "serverinfo": {
       "header": "Server Information",
       "description": "Server information for %1$s",
-      "users": "Users (Online/Unique)",
+      "users": "Users",
       "created": "Creation Date",
       "channels": "Voice/Text Channels",
       "owner": "Owner",
@@ -1769,12 +1770,12 @@
       "success": "%1$s%2$s cannot longer be used to send discord invites."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sYou need to specify what user you want to exclude from the invite checker.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
       "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
       "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
       "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."
