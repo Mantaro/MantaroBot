@@ -561,7 +561,7 @@ public class CurrencyActionCmds {
                 if(hasPotion)
                     chance += 10;
 
-                if(chance < 30) {
+                if(chance < 10) {
                     // Found nothing.
                     int level = userData.increaseDustLevel(random.nextInt(5));
                     dbUser.save();
