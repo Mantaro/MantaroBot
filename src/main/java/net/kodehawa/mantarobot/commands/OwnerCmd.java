@@ -400,9 +400,7 @@ public class OwnerCmd {
     public void eval(CommandRegistry cr) {
         //has no state
         JavaEvaluator javaEvaluator = new JavaEvaluator();
-
-        Map<String, Evaluator> evals = new HashMap<>();
-        evals.put("java", (ctx, code) -> {
+        Evaluator eval = (ctx, code) -> {
             try {
                 CompilationResult r = javaEvaluator.compile()
                         .addCompilerOptions("-Xlint:unchecked")
@@ -442,26 +440,18 @@ public class OwnerCmd {
             } catch (Exception e) {
                 return e;
             }
-        });
+        };
 
         cr.register("eval", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Evaluator evaluator = evals.get(args[0]);
-                if (evaluator == null) {
-                    ctx.send("That's not a valid evaluator, silly.");
+                if (args.length < 1) {
+                    ctx.send("Give me something to eval.");
                     return;
                 }
 
-                String[] values = SPLIT_PATTERN.split(content, 2);
-                if (values.length < 2) {
-                    ctx.send("Not enough arguments.");
-                    return;
-                }
-
-                String v = values[1];
-
-                Object result = evaluator.eval(ctx, v);
+                // eval.eval, yes
+                Object result = eval.eval(ctx, content);
                 boolean errored = result instanceof Throwable;
 
                 ctx.send(new EmbedBuilder()
@@ -482,7 +472,7 @@ public class OwnerCmd {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Evaluates stuff (A: java).")
+                        .setDescription("Evaluates stuff.")
                         .build();
             }
         });
