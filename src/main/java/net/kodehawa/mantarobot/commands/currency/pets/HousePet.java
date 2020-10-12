@@ -16,11 +16,16 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
+import java.beans.ConstructorProperties;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.TimeZone;
 
 public class HousePet {
@@ -37,6 +42,8 @@ public class HousePet {
     private long experience;
     private long level = 1;
 
+    @JsonCreator
+    @ConstructorProperties({"name", "type"})
     public HousePet(String name, HousePetType type) {
         this.name = name;
         this.type = type;
@@ -161,11 +168,14 @@ public class HousePet {
 
     @JsonIgnore
     public boolean isSleepy(String timezone) {
-        var format = new SimpleDateFormat("HH");
-        var tz = TimeZone.getTimeZone(timezone);
-        format.setTimeZone(tz);
+        TimeZone tz = TimeZone.getDefault();
+        if(timezone != null) {
+            tz = TimeZone.getTimeZone(timezone);
+        }
 
-        return Integer.parseInt(format.toString()) > 23 || Integer.parseInt(format.toString()) < 6;
+        var time = LocalDateTime.now().atZone(tz.toZoneId());
+
+        return time.getHour() < 7;
     }
 
     @JsonIgnore

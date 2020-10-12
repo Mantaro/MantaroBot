@@ -610,7 +610,7 @@ public class RelationshipCmds {
                         marriageConfirmed.getData().setCarName(content);
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER);
+                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER, carPrice, content);
                         return Operation.COMPLETED;
                     }
 
@@ -694,12 +694,13 @@ public class RelationshipCmds {
                 final User author = ctx.getAuthor();
                 DBUser dbUser = ctx.getDBUser();
                 final Marriage currentMarriage = dbUser.getData().getMarriage();
-
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
                     ctx.sendLocalized("commands.marry.status.no_marriage", EmoteReference.SAD);
                     return;
                 }
+
+                MarriageData data = currentMarriage.getData();
 
                 //Can we find the user this is married to?
                 final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
@@ -709,7 +710,7 @@ public class RelationshipCmds {
                 }
 
                 //Get the current love letter.
-                String loveLetter = currentMarriage.getData().getLoveLetter();
+                String loveLetter = data.getLoveLetter();
                 if (loveLetter == null || loveLetter.isEmpty()) {
                     loveLetter = "None.";
                 }
@@ -718,7 +719,7 @@ public class RelationshipCmds {
                 DBUser marriedDBUser = ctx.getDBUser(marriedTo);
 
                 //This would be good if it was 2008. But it works.
-                Date marriageDate = new Date(currentMarriage.getData().getMarriageCreationMillis());
+                Date marriageDate = new Date(data.getMarriageCreationMillis());
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -731,11 +732,22 @@ public class RelationshipCmds {
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
-                if(currentMarriage.getData().hasHouse())
-                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), currentMarriage.getData().getHouseName(), false);
+                if(data.hasHouse()) {
+                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), data.getHouseName(), false);
+                }
 
-                if(currentMarriage.getData().hasCar())
-                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), currentMarriage.getData().getCarName(), false);
+                if(data.hasCar()) {
+                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), data.getCarName(), false);
+                }
+
+                if(data.getPet() != null) {
+                    var pet = data.getPet();
+                    var petType = data.getPet().getType();
+
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet"),
+                            pet.getName() + " (" + petType.getEmoji() + petType.getName() + ")", false
+                    );
+                }
 
                 ctx.send(embedBuilder.build());
             }

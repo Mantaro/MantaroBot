@@ -26,7 +26,11 @@ public enum HousePetType {
     DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200),
     CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 30000, 150),
     RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 5000, 30),
-    KODE(EmoteReference.DEV, "Kodehawa", List.of(HousePetAbility.CHEER, HousePetAbility.FISH), 3000000, 300),
+    KODE(EmoteReference.DEV, "Kodehawa",
+            // All of them?
+            List.of(HousePetAbility.CHEER, HousePetAbility.FISH, HousePetAbility.CATCH, HousePetAbility.CHOP),
+            3000000, 300
+    ),
     ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000);
 
     public static enum HousePetAbility {

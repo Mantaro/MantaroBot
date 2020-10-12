@@ -16,13 +16,16 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 
 public class MarriageData {
     private long marriageCreationMillis;
     private String loveLetter;
+    @JsonProperty("hasHouse")
     private boolean hasHouse;
     private String houseName;
+    @JsonProperty("hasCar")
     private boolean hasCar;
     private String carName;
     private HousePet pet;

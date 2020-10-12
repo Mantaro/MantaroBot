@@ -56,6 +56,16 @@ public class PetCmds {
                 .prefix("pet")
                 .build();
 
+        IncreasingRateLimiter patRatelimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(40, TimeUnit.SECONDS)
+                .maxCooldown(3, TimeUnit.MINUTES)
+                .randomIncrement(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("pet-pat")
+                .build();
+
         TreeCommand pet = (TreeCommand) cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
@@ -88,12 +98,18 @@ public class PetCmds {
             @Override
             protected void call(Context ctx, String content) {
                 var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
-                var pet = marriage.getData().getPet();
 
-                if(marriage == null || pet == null) {
+                var marriage = dbUser.getData().getMarriage();
+                if(marriage == null) {
                     ctx.sendLocalized("commands.pet.status.no_pet_or_marriage");
                     return;
+                }
+
+                var pet = marriage.getData().getPet();
+                if(pet == null) {
+                    ctx.sendLocalized("commands.pet.status.no_pet_or_marriage");
+                    return;
+
                 }
 
                 var language = ctx.getLanguageContext();
@@ -102,46 +118,51 @@ public class PetCmds {
                         .setAuthor(String.format(language.get("commands.pet.status.header"), pet.getName()), ctx.getUser().getEffectiveAvatarUrl())
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
-                                EmoteReference.MONEY + "commands.pet.status.cost",
+                                EmoteReference.MONEY + " " + language.get("commands.pet.status.cost"),
                                 String.valueOf(pet.getType().getCost()),
                                 true
                         )
+                        .addBlankField(true)
                         .addField(
-                                EmoteReference.ZAP + "commands.pet.status.type",
+                                EmoteReference.ZAP + " " + language.get("commands.pet.status.type"),
                                 pet.getType().getEmoji() + pet.getType().getName(),
                                 true
                         )
                         .addField(
-                                EmoteReference.WRENCH + "commands.pet.status.abilities",
+                                EmoteReference.WRENCH + language.get("commands.pet.status.abilities"),
                                 pet.getType().getStringAbilities(),
-                                false
+                                true
                         )
+                        .addBlankField(true)
                         .addField(
-                                language.get(EmoteReference.ZAP + "commands.pet.status.level"),
-                                pet.getLevel() + "(XP: " + pet.getExperience() + ")\n" +
-                                        Utils.getProgressBar(pet.getExperience(), (long) pet.experienceToNextLevel(), 5),
+                                EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
+                                String.valueOf(pet.getPatCounter()),
                                 true
                         )
                         .addField(
-                                language.get(EmoteReference.HEART + "commands.pet.status.health"),
-                                pet.getHealth() + " / 100\n" + Utils.getProgressBar(pet.getHealth(), 100, 5),
-                                false
+                                EmoteReference.ZAP + " "  + language.get("commands.pet.status.level"),
+                                pet.getLevel() + " (XP: " + pet.getExperience() + ")\n" +
+                                        Utils.getProgressBarEmoji(pet.getExperience(), (long) pet.experienceToNextLevel(), 8),
+                                true
+                        )
+                        .addBlankField(true)
+                        .addField(
+                                EmoteReference.HEART + " " + language.get("commands.pet.status.health"),
+                                pet.getHealth() + " / 100\n" + Utils.getProgressBarEmoji(pet.getHealth(), 100, 8),
+                                true
                         )
                         .addField(
-                                language.get(EmoteReference.DROPLET + "commands.pet.status.thrist"),
-                                pet.getThirst() + " / 100\n" + Utils.getProgressBar(pet.getThirst(), 100, 5),
-                                false
+                                EmoteReference.DROPLET + " " + language.get("commands.pet.status.thrist"),
+                                pet.getThirst() + " / 100\n" + Utils.getProgressBarEmoji(pet.getThirst(), 100, 8),
+                                true
                         )
+                        .addBlankField(true)
                         .addField(
-                                language.get(EmoteReference.CHOCOLATE + "commands.pet.status.hunger"),
-                                pet.getHunger() + " / 100\n" + Utils.getProgressBar(pet.getHealth(), 100, 5),
-                                false
+                                EmoteReference.CHOCOLATE + " " + language.get("commands.pet.status.hunger"),
+                                pet.getHunger() + " / 100\n" + Utils.getProgressBarEmoji(pet.getHealth(), 100, 8),
+                                true
                         )
-                        .addField(
-                                language.get(EmoteReference.BLUE_HEART + "commands.pet.status.pet"),
-                                String.valueOf(pet.getPatCounter()),
-                                false
-                        )
+                        .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .setFooter(language.get("commands.pet.status.footer"));
 
                 ctx.send(status.build());
@@ -158,12 +179,21 @@ public class PetCmds {
             protected void call(Context ctx, String content) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.pet.pat.no_marriage");
+                    return;
+                }
+
                 var pet = marriage.getData().getPet();
 
                 if(pet == null) {
                     ctx.sendLocalized("commands.pet.pat.no_pet");
                     return;
                 }
+
+                if(!Utils.handleIncreasingRatelimit(patRatelimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+                    return;
 
                 String message = pet.handlePat().getMessage();
                 String extraMessage = "";
@@ -174,7 +204,7 @@ public class PetCmds {
                 pet.increasePats();
                 marriage.save();
 
-                ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getPatCounter() + extraMessage);
+                ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getPatCounter(), extraMessage);
             }
         });
 
@@ -267,7 +297,7 @@ public class PetCmds {
                         marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.pet.buy.success", EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), content, toBuy.getCost());
+                        ctx.sendLocalized("commands.pet.buy.success", EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name, toBuy.getCost());
                         return Operation.COMPLETED;
                     }
 
@@ -292,7 +322,6 @@ public class PetCmds {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var pet = marriage.getData().getPet();
                 var cost = 3000;
 
                 if(marriage == null) {
@@ -300,6 +329,7 @@ public class PetCmds {
                     return;
                 }
 
+                var pet = marriage.getData().getPet();
                 if(pet == null) {
                     ctx.sendLocalized("commands.pet.rename.no_pet", EmoteReference.ERROR);
                     return;
@@ -336,13 +366,13 @@ public class PetCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var pet = marriage.getData().getPet();
 
                 if(marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
                 }
 
+                var pet = marriage.getData().getPet();
                 if(pet == null) {
                     ctx.sendLocalized("commands.pet.feed.no_pet", EmoteReference.ERROR);
                     return;
@@ -390,7 +420,7 @@ public class PetCmds {
                 player.save();
 
                 marriage.save();
-                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.ERROR, food.getName(), food.getHungerLevel(), pet.getHunger());
+                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.POPPER, food.getName(), food.getHungerLevel(), pet.getHunger());
             }
         });
 
@@ -406,12 +436,13 @@ public class PetCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var pet = marriage.getData().getPet();
 
                 if(marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
                 }
+
+                var pet = marriage.getData().getPet();
 
                 if(pet == null) {
                     ctx.sendLocalized("commands.pet.water.no_pet", EmoteReference.ERROR);
@@ -424,7 +455,7 @@ public class PetCmds {
                 }
 
                 var item = Items.WATER_BOTTLE;
-                if(playerInventory.containsItem(item)) {
+                if(!playerInventory.containsItem(item)) {
                     ctx.sendLocalized("commands.pet.water.not_inventory", EmoteReference.ERROR);
                     return;
                 }
@@ -437,7 +468,7 @@ public class PetCmds {
                 player.save();
 
                 marriage.save();
-                ctx.sendLocalized("commands.pet.water.success", EmoteReference.ERROR, 15, pet.getThirst());
+                ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, 15, pet.getThirst());
             }
         });
     }

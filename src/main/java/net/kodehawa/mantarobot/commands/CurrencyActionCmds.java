@@ -56,7 +56,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -196,7 +195,7 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                if(dbUser.isPremium()) {
+                if(dbUser.isPremium() && money > 0) {
                     money += random.nextInt((int) money);
                 }
 
@@ -449,7 +448,7 @@ public class CurrencyActionCmds {
                     }
 
 
-                    if(dbUser.isPremium()) {
+                    if(dbUser.isPremium() && money > 0) {
                         money += random.nextInt(money);
                     }
 
@@ -521,8 +520,7 @@ public class CurrencyActionCmds {
                 .prefix("chop")
                 .build();
 
-        // TODO: Loot crates.
-        // TODO: Rare items?
+        // TODO: Loot crates, Rare items
         cr.register("chop", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
@@ -566,11 +564,12 @@ public class CurrencyActionCmds {
                     int level = userData.increaseDustLevel(random.nextInt(5));
                     dbUser.save();
 
-                    ctx.sendLocalized("commands.chop.dust", EmoteReference.ERROR, level);
+                    ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
                     handleItemBreak(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
                 } else {
                     var money = chance > 50 ? random.nextInt(100) : 0;
-                    var amount = random.nextInt(10);
+                    var amount = random.nextInt(8);
+
                     // Actually got wood.
                     if (playerData.shouldSeeCampaign()) {
                         extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
@@ -602,10 +601,18 @@ public class CurrencyActionCmds {
                     }
 
                     ArrayList<ItemStack> ita = new ArrayList<>();
-                    list.forEach(it -> ita.add(new ItemStack(item, 1)));
-
-                    String itemDisplay = ItemStack.toString(ita);
+                    list.forEach(it -> ita.add(new ItemStack(it, 1)));
                     boolean found = !ita.isEmpty();
+
+                    // Make so it drops some decent amount of wood lol
+                    if(ita.stream().anyMatch(is -> is.getItem() == Items.WOOD)) {
+                        ita.add(new ItemStack(Items.WOOD, Math.max(1, random.nextInt(7))));
+                    } else if (found) {
+                        // Guarantee at least one wood.
+                        ita.add(new ItemStack(Items.WOOD, 1));
+                    }
+
+                    String itemDisplay = ItemStack.toString(ItemStack.reduce(ita));
                     // End of drop handling.
 
                     playerInventory.process(ita);
@@ -616,8 +623,8 @@ public class CurrencyActionCmds {
                         player.getData().incrementChopExperience(random);
                     }
 
-                    if(dbUser.isPremium())
-                        money += random.nextInt(money);;
+                    if(dbUser.isPremium() && money > 0)
+                        money += random.nextInt(money);
 
                     if(found)
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
@@ -626,8 +633,12 @@ public class CurrencyActionCmds {
                         ctx.sendFormat(languageContext.get("commands.chop.success_money_noitem") + extraMessage, item.getEmoji(), money);
                     } else if (found && money == 0) {
                         ctx.sendFormat(languageContext.get("commands.chop.success_only_item") + extraMessage, item.getEmoji(), itemDisplay);
+                    } else if (!found && money == 0) {
+                        // This doesn't actually increase the dust level, though.
+                        int level = userData.getDustLevel();
+                        ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
                     } else {
-                        ctx.sendFormat(languageContext.get("commands.chop.success") + extraMessage, item.getEmoji(), money, itemDisplay);
+                        ctx.sendFormat(languageContext.get("commands.chop.success") + extraMessage, item.getEmoji(), itemDisplay, money);
                     }
                 }
 

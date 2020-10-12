@@ -726,6 +726,19 @@ public class Utils {
         return builder.append(BLOCK_INACTIVE).toString();
     }
 
+    private static final String ACTIVE_BLOCK = "\ud83d\udfe9";
+    private static final String EMPTY_BLOCK = "\u2b1c";
+
+    public static String getProgressBarEmoji(long now, long total, long blocks) {
+        int activeBlocks = (int) ((float) now / total * blocks);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < blocks; i++)
+            builder.append(activeBlocks > i ? ACTIVE_BLOCK : EMPTY_BLOCK);
+
+        return builder.toString();
+    }
+
+
     public static String getProgressBar(long now, long total, long blocks) {
         int activeBlocks = (int) ((float) now / total * blocks);
         StringBuilder builder = new StringBuilder();
@@ -734,7 +747,6 @@ public class Utils {
 
         return builder.append(BLOCK_INACTIVE).toString();
     }
-
 
     public enum HushType {
         ANIME, CHARACTER, MUSIC
