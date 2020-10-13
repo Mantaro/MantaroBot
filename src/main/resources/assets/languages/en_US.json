@@ -626,7 +626,7 @@
     "divorce": {
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
       "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties. Each one got **%1$d** credits on their wallet."
+      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
     },
     "waifu": {
       "bot": "%1$sA bot can't be a waifu, even if you want to...",
@@ -1295,7 +1295,7 @@
         "abilities": "Abilities",
         "level": "Level",
         "health": "Health",
-        "thrist": "Thrist",
+        "thirst": "Thirst",
         "hunger": "Hunger",
         "pet": "Pats",
         "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
@@ -1333,15 +1333,15 @@
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
-        "no_need": "%1$sYour pet isn't thristy, so they don't want to drink right now.",
+        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
-        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thrist. Their thrist is now at %3$s%%"
+        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
         "low_stamina": "Your pet has a really low stamina. Let it rest or give it food/water to replenish.",
         "low_health": "The health of your pet is too low. Give it food and let it rest for a while to replenish",
         "low_hunger": "Your pet is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "Your pet is too thristy to do anything right now.",
+        "low_thirst": "Your pet is too thirsty to do anything right now.",
         "sleepy": "Your pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
         "success": "Your pet successfully helped you! You got a buff and extra credits thanks to the extra leg your pet was able to do for you!"
       },
@@ -1349,7 +1349,7 @@
         "no_pet": "%1$sYou don't have a pet to rename.",
         "no_content": "%1$sYou need to give me the new name of your pet.",
         "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from %2$s to %3$s. %4%s has been deducted from your wallet. Enjoy!"
+        "success": "%1$sSuccessfully renamed your pet from %2$s to %3$s. %4$s has been deducted from your wallet. Enjoy!"
       }
     },
     "invite": {
@@ -2363,15 +2363,15 @@
       "cat_food": "Food your cat might like a lot.",
       "hamster_food": "Food your hamster might enjoy.",
       "wood": "Common drop from trees. Useful for casting.",
-      "moon_pick": "A stronger pick. (350 durability)",
+      "moon_pick": "A stronger pick. (320 durability)",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
       "comet_axe": "A stronger axe (290 durability).",
-      "star_axe": "A stronger axe (350 durability).",
-      "moon_axe": "A stronger axe (420 durability).",
+      "star_axe": "A stronger axe (370 durability).",
+      "moon_axe": "A stronger axe (330 durability).",
       "sparkle_axe": "A way stronger axe (500 durability).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod. (180 durability)",
+      "moon_rod": "A stronger rod. (120 durability)",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",

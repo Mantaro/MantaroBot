@@ -153,7 +153,7 @@ public class PetCmds {
                                 true
                         )
                         .addField(
-                                EmoteReference.DROPLET + " " + language.get("commands.pet.status.thrist"),
+                                EmoteReference.DROPLET + " " + language.get("commands.pet.status.thirst"),
                                 pet.getThirst() + " / 100\n" + Utils.getProgressBarEmoji(pet.getThirst(), 100, 8),
                                 true
                         )
@@ -199,7 +199,7 @@ public class PetCmds {
                 String message = pet.handlePat().getMessage();
                 String extraMessage = "";
                 if(pet.getPatCounter() > 100) {
-                    extraMessage += "\n" + ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100");
+                    extraMessage += "\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
                 }
 
                 pet.increasePats();
@@ -348,6 +348,8 @@ public class PetCmds {
 
                 var oldName = pet.getName();
                 pet.setName(content);
+                player.removeMoney(cost);
+
                 marriage.save();
                 player.save();
 
@@ -425,10 +427,10 @@ public class PetCmds {
             }
         });
 
-        pet.addSubCommand("water", new SubCommand() {
+        pet.addSubCommand("hydrate", new SubCommand() {
             @Override
             public String description() {
-                return "Waters your pet.";
+                return "Hydrates your pet.";
             }
 
             @Override

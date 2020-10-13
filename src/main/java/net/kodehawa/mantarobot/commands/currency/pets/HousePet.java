@@ -22,10 +22,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.beans.ConstructorProperties;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.TimeZone;
 
 public class HousePet {
@@ -268,7 +265,7 @@ public class HousePet {
             return ActivityResult.LOW_HUNGER;
 
         if(getThirst() < 20)
-            return ActivityResult.LOW_THRIST;
+            return ActivityResult.LOW_THIRST;
 
         if(isSleepy(marriageTz))
             return ActivityResult.SLEEPY;
@@ -300,7 +297,7 @@ public class HousePet {
         LOW_STAMINA(false, "commands.pet.activity.low_stamina"),
         LOW_HEALTH(false, "commands.pet.activity.low_health"),
         LOW_HUNGER(false, "commands.pet.activity.low_hunger"),
-        LOW_THRIST(false, "commands.pet.activity.low_thrist"),
+        LOW_THIRST(false, "commands.pet.activity.low_thirst"),
         SLEEPY(false, "commands.pet.activity.sleepy"),
         NO_ABILITY(false, ""), // No need, as it'll just be skipped.
         PASS(true, "commands.pet.activity.success");
