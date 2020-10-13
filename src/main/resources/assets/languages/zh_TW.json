@@ -69,7 +69,7 @@
     "buy_sell_paged_text": "**總頁數: %1$d.**\n使用 **&p >>** 和 **&p <<** 來切換頁數。\n%2$s",
     "buy_sell_paged_reference": "**提示: %1$s買 %2$s 賣。**",
     "cancelled": "%1$s以取消請求。",
-    "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能讓我持續開發!",
+    "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "不再使用",
     "space_notice": "如果物品名稱有空格，試著把他 \"用引號包起來\"",
     "ratelimit": {
@@ -271,14 +271,14 @@
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用`~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
         "error_loading": "%1$s取得歌曲時出錯: %2$s",
-        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
+        "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
         "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
         "timeout_text": "這將在30秒內超時。輸入&cancel以取消。"
       },
-      "premium_beg": "%1$s如果你喜歡我，請考慮在 <https://patreon.com/mantaro> 贊助我，即使是微小的贊助也能讓我持續開發!\n(Check `~>donate` for more info!)",
+      "premium_beg": "%1$s如果你喜歡我，請考慮在 <https://patreon.com/mantaro> 贊助我，即使是微小的贊助也能給我更多動力!\n(Check `~>donate` for more info!)",
       "closed_connection": "%1$s已關閉音訊連接，取消綁定播放器中..."
     },
     "forceskip": {
