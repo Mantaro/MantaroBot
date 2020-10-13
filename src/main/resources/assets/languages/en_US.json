@@ -1343,7 +1343,7 @@
         "low_hunger": "Your pet is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "Your pet is too thirsty to do anything right now.",
         "sleepy": "Your pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
-        "success": "Your pet successfully helped you! You got a buff and extra credits thanks to the extra leg your pet was able to do for you!"
+        "success": "Your pet successfully helped you! You got a buff and extra credits thanks to the extra work your pet was able to do for you!"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename.",

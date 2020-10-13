@@ -119,48 +119,39 @@ public class PetCmds {
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
                                 EmoteReference.MONEY + " " + language.get("commands.pet.status.cost"),
-                                String.valueOf(pet.getType().getCost()),
-                                true
+                                String.valueOf(pet.getType().getCost()), true
                         )
                         .addBlankField(true)
                         .addField(
                                 EmoteReference.ZAP + " " + language.get("commands.pet.status.type"),
-                                pet.getType().getEmoji() + pet.getType().getName(),
-                                true
+                                pet.getType().getEmoji() + pet.getType().getName(), true
                         )
                         .addField(
                                 EmoteReference.WRENCH + language.get("commands.pet.status.abilities"),
-                                pet.getType().getStringAbilities(),
-                                true
+                                pet.getType().getStringAbilities(), true
                         )
                         .addBlankField(true)
                         .addField(
                                 EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
-                                String.valueOf(pet.getPatCounter()),
-                                true
+                                String.valueOf(pet.getPatCounter()), true
                         )
                         .addField(
                                 EmoteReference.ZAP + " "  + language.get("commands.pet.status.level"),
-                                pet.getLevel() + " (XP: " + pet.getExperience() + ")\n" +
-                                        Utils.getProgressBarEmoji(pet.getExperience(), (long) pet.experienceToNextLevel(), 8),
-                                true
+                                "**" + pet.getLevel() + " (XP: " + pet.getExperience() + ")**\n", true
                         )
                         .addBlankField(true)
                         .addField(
                                 EmoteReference.HEART + " " + language.get("commands.pet.status.health"),
-                                pet.getHealth() + " / 100\n" + Utils.getProgressBarEmoji(pet.getHealth(), 100, 8),
-                                true
+                                "**" + pet.getHealth() + " / 100**\n", true
                         )
                         .addField(
                                 EmoteReference.DROPLET + " " + language.get("commands.pet.status.thirst"),
-                                pet.getThirst() + " / 100\n" + Utils.getProgressBarEmoji(pet.getThirst(), 100, 8),
-                                true
+                                "**" + pet.getThirst() + " / 100**\n", true
                         )
                         .addBlankField(true)
                         .addField(
                                 EmoteReference.CHOCOLATE + " " + language.get("commands.pet.status.hunger"),
-                                pet.getHunger() + " / 100\n" + Utils.getProgressBarEmoji(pet.getHealth(), 100, 8),
-                                true
+                                "**" + pet.getHunger() + " / 100**\n", true
                         )
                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .setFooter(language.get("commands.pet.status.footer"));
