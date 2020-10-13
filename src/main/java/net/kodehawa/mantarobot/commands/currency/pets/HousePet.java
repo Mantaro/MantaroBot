@@ -135,6 +135,7 @@ public class HousePet {
 
     public void increaseHealth() {
         if(health >= 100) {
+            this.health = 100;
             return;
         }
 
@@ -148,6 +149,7 @@ public class HousePet {
 
     public void increaseStamina() {
         if(stamina >= 100) {
+            this.stamina = 100;
             return;
         }
 
@@ -161,6 +163,7 @@ public class HousePet {
 
     public void increaseHunger(int by) {
         if(hunger >= 100) {
+            this.hunger = 100;
             return;
         }
 
@@ -173,6 +176,7 @@ public class HousePet {
 
     public void increaseThirst() {
         if(thirst >= 100) {
+            this.thirst = 100;
             return;
         }
 

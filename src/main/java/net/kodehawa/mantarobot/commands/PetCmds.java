@@ -401,7 +401,7 @@ public class PetCmds {
                     return;
                 }
 
-                if(playerInventory.containsItem(itemObject)) {
+                if(!playerInventory.containsItem(itemObject)) {
                     ctx.sendLocalized("commands.pet.feed.not_inventory", EmoteReference.ERROR);
                     return;
                 }
