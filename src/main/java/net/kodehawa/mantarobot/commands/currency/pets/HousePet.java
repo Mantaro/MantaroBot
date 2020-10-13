@@ -82,19 +82,55 @@ public class HousePet {
     }
 
     public void decreaseHealth() {
-        this.health -= 1;
+        var defaultDecrease = 2;
+        if(health < 1) {
+            return;
+        }
+
+        if(health - defaultDecrease < 1) {
+            this.health = 1;
+        } else {
+            this.health -= defaultDecrease;
+        }
     }
 
     public void decreaseStamina() {
-        this.stamina -= 10;
+        var defaultDecrease = 10;
+        if(stamina < 1) {
+            return;
+        }
+
+        if(stamina - defaultDecrease < 1) {
+            this.stamina = 1;
+        } else {
+            this.stamina -= defaultDecrease;
+        }
     }
 
     public void decreaseHunger() {
-        this.hunger -= 10;
+        var defaultDecrease = 10;
+        if(hunger < 1) {
+            return;
+        }
+
+        if(hunger - defaultDecrease < 1) {
+            this.hunger = 1;
+        } else {
+            this.hunger -= defaultDecrease;
+        }
     }
 
     public void decreaseThirst() {
-        this.thirst -= 15;
+        var defaultDecrease = 15;
+        if(thirst < 1) {
+            return;
+        }
+
+        if(thirst - defaultDecrease < 1) {
+            this.thirst = 1;
+        } else {
+            this.thirst -= defaultDecrease;
+        }
     }
 
     public void increaseHealth() {
@@ -104,25 +140,23 @@ public class HousePet {
 
         var defaultIncrease = 10;
         if(health + defaultIncrease >= 100) {
-            this.health += defaultIncrease;
-        } else {
             this.health = 100;
+        } else {
+            this.health += defaultIncrease;
         }
     }
 
     public void increaseStamina() {
-        if(health >= 100) {
+        if(stamina >= 100) {
             return;
         }
 
-        var defaultIncrease = 10;
-        if(health + defaultIncrease >= 100) {
-            this.health = 100;
+        var defaultIncrease = 30;
+        if(stamina + defaultIncrease >= 100) {
+            this.stamina = 100;
         } else {
-            this.health += defaultIncrease;
+            this.stamina += defaultIncrease;
         }
-
-        this.stamina += 30;
     }
 
     public void increaseHunger(int by) {
