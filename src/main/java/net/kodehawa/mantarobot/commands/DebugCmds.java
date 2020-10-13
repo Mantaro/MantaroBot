@@ -92,7 +92,7 @@ public class DebugCmds {
 
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
                 for(var lavaLink : lavaLinkSockets) {
-                    if(lavaLink.isAvailable())
+                    if(lavaLink.isAvailable() && lavaLink.getStats() != null) // Andesite compatibility fix.
                         players += lavaLink.getStats().getPlayers();
                 }
 
