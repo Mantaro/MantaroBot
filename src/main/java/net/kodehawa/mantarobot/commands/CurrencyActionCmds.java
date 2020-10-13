@@ -563,8 +563,11 @@ public class CurrencyActionCmds {
                     // Found nothing.
                     int level = userData.increaseDustLevel(random.nextInt(5));
                     dbUser.save();
+                    // Process axe durability.
+                    handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
 
                     ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
+                    return;
                 } else {
                     var money = chance > 50 ? random.nextInt(100) : 0;
                     var amount = random.nextInt(8);
@@ -645,10 +648,11 @@ public class CurrencyActionCmds {
                     } else {
                         ctx.sendFormat(languageContext.get("commands.chop.success") + extraMessage, item.getEmoji(), itemDisplay, money);
                     }
+
+                    // Process axe durability.
+                    handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
                 }
 
-                // Process axe durability.
-                handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
                 player.save();
 
                 // Save pet stuff.
