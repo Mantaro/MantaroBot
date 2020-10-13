@@ -120,7 +120,7 @@ public enum EmoteReference {
     DIAMOND_AXE("<:diamond_axe:762027644937306142>", null),
     STAR_AXE("<:star_axe:762027644996157451>", null),
     SPARKLE_AXE("<:sparkle_axe:762027645155541002>", null),
-    HELLFIRE_AXE("<:hellfire_axe:762027644971253760>\n", null),
+    HELLFIRE_AXE("<:hellfire_axe:762027644971253760>", null),
     BROKEN_SPARKLE_AXE("<:sparkle_axe_broken:762027645105864714>", null),
     BROKEN_COMET_AXE("<:comet_axe_broken:762027644791291935>", null),
     BROKEN_MOON_AXE("<:moon_axe_broken:762027645025386546>", null),

@@ -81,7 +81,6 @@ public class PetCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        // TODO: wiki page.
                         .setDescription("Pet commands. For a better explanation of the pet system see [here]().")
                         .build();
             }
@@ -398,7 +397,7 @@ public class PetCmds {
                     return;
                 }
 
-                if(pet.getHunger() > 90) {
+                if(pet.getHunger() > 95) {
                     ctx.sendLocalized("commands.pet.feed.no_need", EmoteReference.ERROR);
                     return;
                 }
@@ -452,7 +451,7 @@ public class PetCmds {
                     return;
                 }
 
-                if(pet.getThirst() > 90) {
+                if(pet.getThirst() > 95) {
                     ctx.sendLocalized("commands.pet.water.no_need", EmoteReference.ERROR);
                     return;
                 }
