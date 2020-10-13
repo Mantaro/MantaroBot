@@ -1349,7 +1349,7 @@
         "no_pet": "%1$sYou don't have a pet to rename.",
         "no_content": "%1$sYou need to give me the new name of your pet.",
         "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from %2$s to %3$s. %4$s has been deducted from your wallet. Enjoy!"
+        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
       }
     },
     "invite": {
