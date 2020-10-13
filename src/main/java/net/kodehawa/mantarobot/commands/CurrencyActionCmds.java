@@ -44,7 +44,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -111,7 +111,7 @@ public class CurrencyActionCmds {
 
                 item = (Pickaxe) Items.fromId(equipped);
 
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
                     return;
 
                 long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
@@ -138,13 +138,15 @@ public class CurrencyActionCmds {
 
                 if(marriage != null) {
                     HousePet pet = marriage.getData().getPet();
-                    HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
-                    if(ability.passed()) {
-                        petHelp = true;
-                        money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                        message += "\n" + pet.buildMessage(ability, languageContext);
-                    } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                        message += "\n" + pet.buildMessage(ability, languageContext);
+                    if(pet != null) {
+                        HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
+                        if(ability.passed()) {
+                            petHelp = true;
+                            money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                            message += "\n" + pet.buildMessage(ability, languageContext);
+                        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                            message += "\n" + pet.buildMessage(ability, languageContext);
+                        }
                     }
                 }
 
@@ -304,7 +306,7 @@ public class CurrencyActionCmds {
                 //It can only be a rod, lol.
                 item = (FishRod) Items.fromId(equipped);
 
-                if (!Utils.handleIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 //Level but starting at 0.
@@ -355,13 +357,15 @@ public class CurrencyActionCmds {
 
                     if(marriage != null) {
                         HousePet pet = marriage.getData().getPet();
-                        HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
-                        if(ability.passed()) {
-                            amount += Math.max(1, random.nextInt(4));
-                            money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                            extraMessage += "\n" + pet.buildMessage(ability, languageContext);
-                        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                            extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                        if(pet != null) {
+                            HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
+                            if(ability.passed()) {
+                                amount += Math.max(1, random.nextInt(4));
+                                money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                            } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                            }
                         }
                     }
 
@@ -551,7 +555,7 @@ public class CurrencyActionCmds {
 
                 item = (Axe) Items.fromId(equipped);
 
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 var chance = random.nextInt(100);
@@ -567,26 +571,21 @@ public class CurrencyActionCmds {
                     handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
 
                     ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
-                    return;
                 } else {
                     var money = chance > 50 ? random.nextInt(100) : 0;
                     var amount = random.nextInt(8);
 
-                    // Actually got wood.
-                    if (playerData.shouldSeeCampaign()) {
-                        extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
-                        playerData.markCampaignAsSeen();
-                    }
-
                     if(marriage != null) {
                         HousePet pet = marriage.getData().getPet();
-                        HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CHOP, marriage.getData().getTimezone());
-                        if(ability.passed()) {
-                            amount += Math.max(1, random.nextInt(3));
-                            money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                            extraMessage += "\n" + pet.buildMessage(ability, languageContext);
-                        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                            extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                        if(pet != null) {
+                            HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CHOP, marriage.getData().getTimezone());
+                            if(ability.passed()) {
+                                amount += Math.max(1, random.nextInt(3));
+                                money += random.nextInt(pet.getType().getMaxCoinBuildup());
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                            } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                            }
                         }
                     }
 
@@ -636,6 +635,11 @@ public class CurrencyActionCmds {
                     if(found)
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
 
+                    if (playerData.shouldSeeCampaign()) {
+                        extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
+                        playerData.markCampaignAsSeen();
+                    }
+
                     // Show a message depending on the outcome.
                     if(money > 0 && !found) {
                         ctx.sendFormat(languageContext.get("commands.chop.success_money_noitem") + extraMessage, item.getEmoji(), money);
@@ -649,15 +653,15 @@ public class CurrencyActionCmds {
                         ctx.sendFormat(languageContext.get("commands.chop.success") + extraMessage, item.getEmoji(), itemDisplay, money);
                     }
 
+                    player.save();
+
+                    // Save pet stuff.
+                    if(marriage != null)
+                        marriage.save();
+
                     // Process axe durability.
                     handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
                 }
-
-                player.save();
-
-                // Save pet stuff.
-                if(marriage != null)
-                    marriage.save();
             }
 
             @Override

@@ -60,6 +60,8 @@ public class Config {
     public boolean isSelfHost = false;
     public int memberCacheSize = 10_000;
 
+    public boolean handleRatelimits = true;
+
     public Config() { }
 
     public boolean isOwner(Member member) {
@@ -220,5 +222,9 @@ public class Config {
 
     public void setSelfHost(boolean selfHost) {
         isSelfHost = selfHost;
+    }
+
+    public boolean isHandleRatelimits() {
+        return handleRatelimits;
     }
 }

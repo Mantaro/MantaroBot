@@ -64,7 +64,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module

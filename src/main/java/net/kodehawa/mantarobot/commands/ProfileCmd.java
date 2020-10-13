@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -344,7 +345,7 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 String[] args = content.split(" ");

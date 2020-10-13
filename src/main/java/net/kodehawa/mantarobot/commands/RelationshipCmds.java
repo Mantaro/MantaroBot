@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -672,7 +673,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(!Utils.handleIncreasingRatelimit(tzRatelimit, ctx.getAuthor(), ctx)) {
+                if(!RatelimitUtils.handleIncreasingRatelimit(tzRatelimit, ctx.getAuthor(), ctx)) {
                     return;
                 }
 
@@ -966,7 +967,7 @@ public class RelationshipCmds {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+        waifu.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
 
         waifu.addSubCommand("optout", new SubCommand() {
             @Override

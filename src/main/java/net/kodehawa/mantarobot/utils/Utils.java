@@ -23,16 +23,12 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimit;
 import okhttp3.*;
 import org.apache.commons.lang3.LocaleUtils;
 import org.jetbrains.annotations.NotNull;
@@ -46,9 +42,7 @@ import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,7 +54,8 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 public class Utils {
-    public static final Map<Long, AtomicInteger> ratelimitedUsers = new ConcurrentHashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(Utils.class);
+
     public static final OkHttpClient httpClient = new OkHttpClient();
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
     private final static String BLOCK_INACTIVE = "\u25AC";
@@ -83,11 +78,8 @@ public class Utils {
     private static final char BACKTICK = '`';
     private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
     private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
-    private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
     private static final Config config = MantaroData.config().get();
-    private static final Set<String> loggedSpambotUsers = ConcurrentHashMap.newKeySet();
-    private static final Set<String> loggedAttemptUsers = ConcurrentHashMap.newKeySet();
 
     /**
      * Capitalizes the first letter of a string.
@@ -479,81 +471,6 @@ public class Utils {
 
     public static Connection newDbConnection() {
         return r.connection().hostname(config.getDbHost()).port(config.getDbPort()).db(config.getDbDb()).user(config.getDbUser(), config.getDbPassword()).connect();
-    }
-
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
-        if (context == null) {
-            //en_US
-            context = new I18nContext();
-        }
-
-        RateLimit rateLimit = rateLimiter.limit(u);
-        if (rateLimit.getTriesLeft() < 1) {
-            event.getChannel().sendMessage(
-                    String.format(context.get("general.ratelimit.header"),
-                            EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),
-                            Utils.formatDuration(rateLimit.getCooldown()))
-                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
-                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ? context.get("general.ratelimit.spam_2") : "")
-                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ? context.get("general.ratelimit.spam_3") : "")
-                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ? context.get("general.ratelimit.spam_4") : "")
-            ).queue();
-
-            //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                Long.parseUnsignedLong(u);
-                User user;
-
-                try {
-                    Member member = event.getGuild().retrieveMemberById(u, false).complete();
-                    user = member.getUser();
-                } catch (Exception e) {
-                    log.error("Got a exception while trying to fetch a user that was just spamming?", e);
-                    return false;
-                }
-
-                String guildId = event.getGuild().getId();
-                String channelId = event.getChannel().getId();
-                String messageId = event.getMessage().getId();
-
-                // If they go over 50 in one attempt, flag as blatant.
-                if (rateLimit.getSpamAttempts() > 50 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
-                    loggedAttemptUsers.add(user.getId());
-                    LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
-                }
-
-                onRateLimit(user, guildId, channelId, messageId);
-            } catch (Exception ignored) {}
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
-        return handleIncreasingRatelimit(rateLimiter, u.getId(), event, context, spamAware);
-    }
-
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
-        return handleIncreasingRatelimit(rateLimiter, u.getId(), event, context, true);
-    }
-
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, Context ctx) {
-        return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), true);
-    }
-
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, Context ctx, boolean spamAware) {
-        return handleIncreasingRatelimit(rateLimiter, u.getId(), ctx.getEvent(), ctx.getLanguageContext(), spamAware);
-    }
-
-    private static void onRateLimit(User user, String guildId, String channelId, String messageId) {
-        int ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
-        if (ratelimitedTimes > 700 && !loggedSpambotUsers.contains(user.getId())) {
-            loggedSpambotUsers.add(user.getId());
-            LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
-        }
     }
 
     public static String replaceArguments(Map<String, ?> args, String content, String... toReplace) {

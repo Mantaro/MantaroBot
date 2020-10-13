@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.Prometheus;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.TracingPrintStream;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -177,7 +178,7 @@ public class MantaroBot {
                 new ThreadFactoryBuilder().setNameFormat("Mantaro-Ratelimit-Clean").build()
         );
 
-        ratelimitMapExecutor.scheduleAtFixedRate(Utils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
+        ratelimitMapExecutor.scheduleAtFixedRate(RatelimitUtils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
 
         // Handle posting statistics.
         ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(

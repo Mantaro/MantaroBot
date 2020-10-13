@@ -34,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -87,7 +88,7 @@ public class PetCmds {
         });
 
         cr.registerAlias("pet", "pets");
-        pet.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+        pet.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
 
         pet.addSubCommand("status", new SubCommand() {
             @Override
@@ -192,7 +193,7 @@ public class PetCmds {
                     return;
                 }
 
-                if(!Utils.handleIncreasingRatelimit(patRatelimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+                if(!RatelimitUtils.handleIncreasingRatelimit(patRatelimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
                     return;
 
                 String message = pet.handlePat().getMessage();

@@ -98,19 +98,56 @@ public class HousePet {
     }
 
     public void increaseHealth() {
-        this.health += 10;
+        if(health >= 100) {
+            return;
+        }
+
+        var defaultIncrease = 10;
+        if(health + defaultIncrease >= 100) {
+            this.health += defaultIncrease;
+        } else {
+            this.health = 100;
+        }
     }
 
     public void increaseStamina() {
+        if(health >= 100) {
+            return;
+        }
+
+        var defaultIncrease = 10;
+        if(health + defaultIncrease >= 100) {
+            this.health = 100;
+        } else {
+            this.health += defaultIncrease;
+        }
+
         this.stamina += 30;
     }
 
     public void increaseHunger(int by) {
-        this.hunger += by;
+        if(hunger >= 100) {
+            return;
+        }
+
+        if(hunger + by >= 100) {
+            this.hunger = 100;
+        } else {
+            this.hunger += by;
+        }
     }
 
     public void increaseThirst() {
-        this.thirst += 15;
+        if(thirst >= 100) {
+            return;
+        }
+
+        var defaultIncrease = 15;
+        if(thirst + defaultIncrease >= 100) {
+            this.thirst = 100;
+        } else {
+            this.thirst += defaultIncrease;
+        }
     }
 
     public int getHunger() {

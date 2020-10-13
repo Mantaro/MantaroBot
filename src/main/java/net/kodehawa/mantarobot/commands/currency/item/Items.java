@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RandomCollection;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
@@ -332,7 +332,7 @@ public class Items {
 
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(LOOT_CRATE_KEY)) {
-                if(!Utils.handleIncreasingRatelimit(lootCrateRatelimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if(!RatelimitUtils.handleIncreasingRatelimit(lootCrateRatelimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return false;
 
                 if(crate == LOOT_CRATE) {
