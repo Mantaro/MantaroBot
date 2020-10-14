@@ -232,7 +232,7 @@ public class HousePet {
 
     @JsonIgnore
     public void increaseExperience() {
-        this.experience += random.nextInt(15);
+        this.experience += Math.max(10, random.nextInt(50));
         var toNextLevel = experienceToNextLevel();
         if (experience > toNextLevel)
             level += 1;
@@ -280,8 +280,8 @@ public class HousePet {
     }
 
     @JsonIgnore
-    public String buildMessage(ActivityResult result, I18nContext language) {
-        return String.format(language.get(result.getLanguageString()), getType().getEmoji(), getType().getName(), getName());
+    public String buildMessage(ActivityResult result, I18nContext language, int money, int items) {
+        return String.format(language.get(result.getLanguageString()), getType().getEmoji(), money, items);
     }
 
     @JsonIgnore

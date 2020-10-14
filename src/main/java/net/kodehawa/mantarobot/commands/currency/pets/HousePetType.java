@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -80,8 +81,12 @@ public enum HousePetType {
         return cost;
     }
 
-    public int getMaxCoinBuildup() {
-        return maxCoinBuildup;
+    public int getMaxCoinBuildup(long level) {
+        return (int) (maxCoinBuildup + (4 * level));
+    }
+
+    public int getMaxItemBuildup(long level) {
+        return (int) (3 + (0.1 * level));
     }
 
     public String getStringAbilities() {

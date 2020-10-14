@@ -142,10 +142,11 @@ public class CurrencyActionCmds {
                         HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
                         if(ability.passed()) {
                             petHelp = true;
-                            money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                            message += "\n" + pet.buildMessage(ability, languageContext);
+                            var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
+                            money += moneyIncrease;
+                            message += "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, 0);
                         } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                            message += "\n" + pet.buildMessage(ability, languageContext);
+                            message += "\n" + pet.buildMessage(ability, languageContext, 0, 0);
                         }
                     }
                 }
@@ -360,11 +361,13 @@ public class CurrencyActionCmds {
                         if(pet != null) {
                             HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
                             if(ability.passed()) {
-                                amount += Math.max(1, random.nextInt(4));
-                                money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                                var amountIncrease = pet.getType().getMaxItemBuildup(pet.getLevel());
+                                amount += amountIncrease;
+                                var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
+                                money += moneyIncrease;
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, amountIncrease);
                             } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, 0, 0);
                             }
                         }
                     }
@@ -580,11 +583,13 @@ public class CurrencyActionCmds {
                         if(pet != null) {
                             HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CHOP, marriage.getData().getTimezone());
                             if(ability.passed()) {
-                                amount += Math.max(1, random.nextInt(3));
-                                money += random.nextInt(pet.getType().getMaxCoinBuildup());
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                                var amountIncrease = pet.getType().getMaxItemBuildup(pet.getLevel());
+                                amount += amountIncrease;
+                                var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
+                                money += moneyIncrease;
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, amountIncrease);
                             } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext);
+                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, 0, 0);
                             }
                         }
                     }

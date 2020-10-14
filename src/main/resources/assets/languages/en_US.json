@@ -1286,7 +1286,7 @@
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency! They help you gain more money, loot more, find random stuff on mine and even catch fish!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet`",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet`",
       "status": {
         "header": "Status for Pet %1$s",
         "description": "Remember to take care and love your pet :heart:. See `~>pet` for an explanation.",
@@ -1338,12 +1338,12 @@
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
-        "low_stamina": "Your pet has a really low stamina. Let it rest or give it food/water to replenish.",
-        "low_health": "The health of your pet is too low. Give it food and let it rest for a while to replenish",
-        "low_hunger": "Your pet is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "Your pet is too thirsty to do anything right now.",
-        "sleepy": "Your pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
-        "success": "Your pet successfully helped you! You got a buff and extra credits thanks to the extra work your pet was able to do for you!"
+        "low_stamina": "%1$sYour pet has a really low stamina. Let it rest or give it food/water to replenish.",
+        "low_health": "%1$sThe health of your pet is too low. Give it food and let it rest for a while to replenish",
+        "low_hunger": "%1$sYour pet is too hungry to do anything right now. *Fooood~*",
+        "low_thirst": "%1$sYour pet is too thirsty to do anything right now.",
+        "sleepy": "%1$sYour pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
+        "success": "%1$sYour pet successfully helped you! You got a buff and extra credits **(%2$s extra credits, %3$s extra items)** thanks to the extra work your pet was able to do for you!"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename.",
