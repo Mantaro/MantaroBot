@@ -158,7 +158,8 @@ public class PetCmds {
 
                 ctx.send(status.build());
             }
-        });
+        }).createSubCommandAlias("status", "stats");
+
 
         pet.addSubCommand("pet", new SubCommand() {
             @Override

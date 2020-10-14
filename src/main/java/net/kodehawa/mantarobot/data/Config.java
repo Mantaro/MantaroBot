@@ -59,7 +59,6 @@ public class Config {
     public long dailyMaxPeriodMilliseconds = TimeUnit.HOURS.toMillis(50);
     public boolean isSelfHost = false;
     public int memberCacheSize = 10_000;
-
     public boolean handleRatelimits = true;
 
     public Config() { }
