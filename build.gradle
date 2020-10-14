@@ -70,7 +70,7 @@ dependencies {
 
     // Music
     implementation ('com.github.FredBoat:Lavalink-Client:c2aeb28233') { exclude group: 'com.sedmelluq', module: 'lavaplayer' }
-    implementation 'com.github.Devoxin:lavaplayer:1.3.56'
+    implementation 'com.github.Devoxin:lavaplayer:1.3.58'
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // Core

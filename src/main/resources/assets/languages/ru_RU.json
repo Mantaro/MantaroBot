@@ -271,10 +271,10 @@
         "loaded_playlist": "%1$sДобавлено **%2$d треков** в очередь данного плейлиста: **%3$s** *(%4$s)*",
         "no_matches": "%1$sПоиск не дал результатов. Если такое происходит со *всеми треками* вы можете попробовать использовать поиск `~>play soundcloud <название>`. Прямые ссылки на youtube тоже должны работать.",
         "error_loading": "%1$sОшибка при загрузке музыки: %2$s",
-        "over_queue_limit": "%1$sНе удалось воспроизвести трек %2$s: Превышено ограничение по количеству треков (%3$s)!",
-        "over_32_minutes": "%1$sНе удалось воспроизвести %2$s: Трек имеет продолжительность более 32 минут! (%3$s)",
+        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Превышен уровень очереди %2$d (Слишком много однотипных треков)**",
-        "loaded_song": "%1$sДобавлено в очередь -> **%2$s** **(%3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "Выбор песни. Напишите номер чтобы продолжить.",
         "timeout_text": "У вас есть 30 секунд для того чтобы написать &cancel, для того чтобы отменить действие."
       },
@@ -978,7 +978,7 @@
       "cache_not_running": "%1$sКажется Кэш дней рождения не работает (внутренняя ошибка) :(",
       "error": "%1$sПри получении дат дней рождения что-то пошло не так (внутренняя ошибка) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
-      "full_header": "**%1$s День рождения**\n%2$s",
+      "full_header": "**%1$s's Birthdays**\n%2$s. Remember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
       "invalid_date": "%1$sНе действительная дата или её формат.\nПомните что формат даты это `дд-мм` (день-месяц)",
       "error_date": "%1$s%2$s не является действительной датой или я не могу это разобрать. Пожалуйста попробуйте с правильной формировкой даты. Помните что правильный формат для даты это `дд/мм`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$sСлишком много аргументов! Формат страницы `имя->номер страницы`",
       "main_def": "Основное определение.",
       "footer": "Информация из городского словаря",
-      "nsfw_notice": "%1$sЭто команда может быть использована только в NSFW каналах из-за ответа на ее запрос."
+      "nsfw_notice": "%1$sЭто команда может быть использована только в NSFW каналах из-за ответа на ее запрос.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
@@ -1356,7 +1357,7 @@
     "serverinfo": {
       "header": "Информация о сервере",
       "description": "Информация о сервере для %1$s",
-      "users": "Пользователи (Онлайн/Уникальные)",
+      "users": "Users",
       "created": "Дата создания",
       "channels": "Голосовые/Текстовые Каналы",
       "owner": "Владелец",
@@ -1769,12 +1770,12 @@
       "success": "%1$s%2$s больше не может использоваться для отправки приглашений на разногласия."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sВы должны указать, какого пользователя вы хотите исключить из проверки приглашения.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sВы должны добавить пользователя в белый список для публикации приглашений!",
       "success": "%1$sУспешно внесён в белый список %2$s#%3$s для публикации приглашений на другие сервера в дискорде."
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sВы должны указать, какого пользователя вы хотите включить в средство проверки приглашений. (Любого, кроме администраторов, включенных по умолчанию)",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sВы должны указать пользователя в черный список при публикации приглашений!",
       "not_whitelisted": "%1$sЭтого пользователя нет в белом списке публикации приглашений!",
       "success": "%1$sУспешно занесен в черный список %2$s#%3$ s после публикации приглашений на другой дискорд-сервер."

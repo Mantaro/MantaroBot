@@ -104,6 +104,7 @@ public class AsyncInfoMonitor {
             throw new IllegalStateException("Already Started.");
         //some stats are set by JFRExports
         JFRExports.register();
+        var bot = MantaroBot.getInstance();
 
         String nodeSetName = "node-stats-" + config.getClientId();
 
@@ -117,7 +118,7 @@ public class AsyncInfoMonitor {
 
             try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
                 j.hset(nodeSetName,
-                        "node-" + MantaroBot.getInstance().getNodeNumber(),
+                        "node-" + bot.getNodeNumber(),
                         new JSONObject()
                                 .put("uptime", ManagementFactory.getRuntimeMXBean().getUptime())
                                 .put("thread_count", threadCount)
@@ -131,10 +132,10 @@ public class AsyncInfoMonitor {
                                 .put("machine_free_memory", vpsFreeMemory)
                                 .put("machine_total_memory", vpsMaxMemory)
                                 .put("machine_used_memory", vpsMaxMemory - vpsFreeMemory)
-                                .put("guild_count", MantaroBot.getInstance().getShardManager().getGuildCache().size())
-                                .put("user_count", MantaroBot.getInstance().getShardManager().getUserCache().size())
-                                .put("shard_slice", MantaroBot.getInstance().getShardSlice())
-                                .put("queue_size", MantaroBot.getInstance().getAudioManager().getTotalQueueSize())
+                                .put("guild_count", bot.getShardManager().getGuildCache().size())
+                                .put("user_count", bot.getShardManager().getUserCache().size())
+                                .put("shard_slice", bot.getShardSlice())
+                                .put("queue_size", bot.getAudioManager().getTotalQueueSize())
                                 .put("commands_ran", CommandListener.getCommandTotalInt())
                                 .toString()
                 );

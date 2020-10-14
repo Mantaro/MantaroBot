@@ -271,10 +271,10 @@
         "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `~>play soundcloud <término de busqueda>` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
         "error_loading": "%1$sError mientras estaba intentando reproducir la música: %2$s",
-        "over_queue_limit": "%1$sNo pude agregar %2$s a la cola: Has sobrepasado el límite de canciones que se le puede agregar a la cola (%3$s)!",
-        "over_32_minutes": "%1$sNo pude agregar %2$s a la cola: La canción es más larga que el límite de 32 minutos por canción! (%3$s)",
+        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
+        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Sobrepasado el nivel de fair queue para %2$d (Muchas canciones que son exactamente iguales)**",
-        "loaded_song": "%1$sAñadí la canción **%2$s** a la cola! **(%3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
         "selection_text": "Cuadro de selección de canciones. Escribe el número que precede al nombre de la canción para continuar.",
         "timeout_text": "Esta operación expira en 30 segundos. Escribe &cancel para cancelar la operación."
       },
@@ -978,7 +978,7 @@
       "cache_not_running": "%1$sEl cache de cumpleaños no parece estar funcionando (error interno) :(",
       "error": "%1$sAlgo salió muy mal intentando buscar los cumpleaños (error interno) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
-      "full_header": "**Cumpleaños de %1$s**\n%2$s",
+      "full_header": "**%1$s's Birthdays**\n%2$s. Remember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1018,7 +1018,8 @@
       "too_many_args": "%1$s¡Muchos argumentos! El formato es `nombre->página`",
       "main_def": "Definición principal.",
       "footer": "Información por Urban Dictionary",
-      "nsfw_notice": "%1$sEste comando solo puede usar en canales NSFW debido a la naturaleza de sus resultados."
+      "nsfw_notice": "%1$sEste comando solo puede usar en canales NSFW debido a la naturaleza de sus resultados.",
+      "error": "%1$sThere was an error processing the response from UD. Try again?"
     },
     "activatekey": {
       "check": {
@@ -1356,7 +1357,7 @@
     "serverinfo": {
       "header": "Información del Servidor",
       "description": "Información de %1$s",
-      "users": "Usuarios (Conectados/Totales)",
+      "users": "Users",
       "created": "Fecha de Creación",
       "channels": "Canales de voz/texto",
       "owner": "Dueño",
@@ -1769,12 +1770,12 @@
       "success": "%1$s%2$s ya no puede recibir invitaciones de Discord."
     },
     "linkprotection_user_allow": {
-      "no_channel": "%1$sNecesitas especificar que usuarios deseas excluir del eliminador de invitaciones.",
+      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
       "no_mentions": "%1$sNecesitas especificar que el usuario que deseas excluir del eliminador de invitaciones.",
       "success": "%1$sCorrectamente agregado a la whitelist a %2$s#%3$s para postear invitaciones a otros canales de Discord.\n"
     },
     "linkprotection_user_disallow": {
-      "no_channel": "%1$sNecesitas especificar que usuarios deseas incluir en el eliminador de invitaciones (Todos excepto los administradores por defecto).",
+      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
       "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le prohiba publicar invitaciones!",
       "not_whitelisted": "%1$sA este usuario no está en la lista que le permite enviar invitaciones!",
       "success": "%1$sAl usuario %2$s#%3$s ahora se le prohibe publicar invitaciones."
