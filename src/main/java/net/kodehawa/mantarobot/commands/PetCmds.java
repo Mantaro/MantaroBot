@@ -35,7 +35,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
@@ -47,7 +46,7 @@ import java.util.stream.Collectors;
 public class PetCmds {
     @Subscribe
     public void pet(CommandRegistry cr) {
-        IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
+        var rl = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
                 .cooldown(5, TimeUnit.SECONDS)
@@ -57,7 +56,7 @@ public class PetCmds {
                 .prefix("pet")
                 .build();
 
-        IncreasingRateLimiter patRatelimiter = new IncreasingRateLimiter.Builder()
+        var patRatelimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
                 .cooldown(40, TimeUnit.SECONDS)
@@ -65,6 +64,16 @@ public class PetCmds {
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("pet-pat")
+                .build();
+
+        var petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(1, TimeUnit.HOURS)
+                .maxCooldown(2, TimeUnit.HOURS)
+                .randomIncrement(false)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("pet-remove")
                 .build();
 
         TreeCommand pet = (TreeCommand) cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
@@ -161,6 +170,67 @@ public class PetCmds {
         }).createSubCommandAlias("status", "stats");
 
 
+        pet.addSubCommand("remove", new SubCommand() {
+            @Override
+            public String description() {
+                return "Removes this pet. This will *reset all pet stats*. Just like buying a new tamagotchi.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
+                    return;
+                }
+
+                var pet = marriage.getData().getPet();
+
+                if(pet == null) {
+                    ctx.sendLocalized("commands.pet.remove.no_pet", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!RatelimitUtils.handleIncreasingRatelimit(petRemoveRatelimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+                    return;
+
+                var toRefund = pet.getType().getCost() / 2;
+                ctx.sendLocalized("commands.pet.remove.confirm", EmoteReference.WARNING, toRefund);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 50, (e) -> {
+                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        final var marriedWithPlayer = ctx.getPlayer(marriage.getOtherPlayer(ctx.getAuthor().getId()));
+                        final var marriedPlayer = ctx.getPlayer();
+                        var marriageConfirmed = dbUser.getData().getMarriage();
+
+                        marriageConfirmed.getData().setPet(null);
+                        marriageConfirmed.save();
+
+                        marriedWithPlayer.addMoney(toRefund);
+                        marriedPlayer.addMoney(toRefund);
+
+                        marriedPlayer.save();
+                        marriedWithPlayer.save();
+                        ctx.sendLocalized("commands.pet.remove.success", EmoteReference.POPPER, toRefund);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        // This is reusing the string, nothing wrong here.
+                        ctx.sendLocalized("commands.pet.buy.cancel_success", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+
+            }
+        });
+
         pet.addSubCommand("pet", new SubCommand() {
             @Override
             public String description() {
@@ -173,14 +243,14 @@ public class PetCmds {
                 var marriage = dbUser.getData().getMarriage();
 
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.pet.pat.no_marriage");
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 
                 var pet = marriage.getData().getPet();
 
                 if(pet == null) {
-                    ctx.sendLocalized("commands.pet.pat.no_pet");
+                    ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR);
                     return;
                 }
 
@@ -218,7 +288,7 @@ public class PetCmds {
 
                 // TODO: personal pets?
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 
@@ -317,7 +387,7 @@ public class PetCmds {
                 var cost = 3000;
 
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 
@@ -362,7 +432,7 @@ public class PetCmds {
                 var marriage = dbUser.getData().getMarriage();
 
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 
@@ -432,7 +502,7 @@ public class PetCmds {
                 var marriage = dbUser.getData().getMarriage();
 
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 

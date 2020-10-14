@@ -1287,6 +1287,7 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet`",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now.",
       "status": {
         "header": "Status for Pet %1$s",
         "description": "Remember to take care and love your pet :heart:.\nSee `~>pet` and `~>help pet` for an explanation.",
@@ -1301,7 +1302,6 @@
         "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
       },
       "pat": {
-        "no_marriage": "%1$sYou need to be married to have a pet. For now.",
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
@@ -1350,6 +1350,11 @@
         "no_content": "%1$sYou need to give me the new name of your pet.",
         "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
         "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+      },
+      "remove": {
+        "no_pet": "%1$sYou don't have a pet to remove",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
       }
     },
     "invite": {
