@@ -1364,6 +1364,24 @@
       },
       "footer": "We hope you have fun with the bot."
     },
+    "salvage": {
+      "no_item": "%1$sYou need to specify the item you want to salvage.",
+      "no_item_found": "%1$sI can't find the item you specified.",
+      "cant_salvage": "%1$sYou can't salvage this item.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item.",
+      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
+      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
+      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
+      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
+      "no_returnables": "%1$sThis item has no returnable salvage elements.",
+      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s.\n%5$s",
+      "ls": {
+        "header": "Salvageable Item List",
+        "cost": "Salvage Cost: ",
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>cast \"diamond p\"`, works)\n**Salvaging has a cost of 1/8th the price of the item. The salvage price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+      }
+    },
     "stats": {
       "header": "Mantaro Statistics",
       "description": "Well... I did my math!",

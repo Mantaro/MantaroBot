@@ -332,18 +332,9 @@ public class ItemCmds {
                     );
                 }
 
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                if (ctx.hasReactionPerms()) {
-                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
-                            splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc"))
-                    );
-                    DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
-                } else {
-                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
-                            splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc"))
-                    );
-                    DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
-                }
+                sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields),
+                        EmoteReference.TALKING + languageContext.get("commands.cast.ls.desc")
+                );
             }
         });
 
@@ -565,14 +556,9 @@ public class ItemCmds {
                                     repairCost + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe + "\n**Item: **" + mainItem.getEmoji() + " " + mainItem.getName(), true));
                 }
 
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                if (ctx.hasReactionPerms()) {
-                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")));
-                    DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
-                } else {
-                    builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), "\n" + EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")));
-                    DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
-                }
+                sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields),
+                        EmoteReference.TALKING + languageContext.get("commands.repair.ls.desc")
+                );
             }
         }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }
@@ -580,97 +566,115 @@ public class ItemCmds {
     @Subscribe
     public void salvage(CommandRegistry cr) {
         final var random = new SecureRandom();
+        final var ratelimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(3)
+                .limit(1)
+                .cooldown(5, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(2, TimeUnit.SECONDS)
+                .maxCooldown(2, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("repair")
+                .build();
 
-        cr.register("salvage", new SimpleCommand(CommandCategory.CURRENCY) {
+        TreeCommand sv = (TreeCommand) cr.register("salvage", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.salvage.no_item", EmoteReference.ERROR);
-                    return;
-                }
+            public Command defaultTrigger(Context context, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(Context ctx, String content) {
+                        if (content.isEmpty()) {
+                            ctx.sendLocalized("commands.salvage.no_item", EmoteReference.ERROR);
+                            return;
+                        }
 
-                //Argument parsing.
-                boolean isSeasonal = ctx.isSeasonal();
-                //Get the necessary entities.
-                final var seasonalPlayer = ctx.getSeasonPlayer();
-                final var player = ctx.getPlayer();
-                final var user = ctx.getDBUser();
+                        //Argument parsing.
+                        boolean isSeasonal = ctx.isSeasonal();
+                        //Get the necessary entities.
+                        final var seasonalPlayer = ctx.getSeasonPlayer();
+                        final var player = ctx.getPlayer();
+                        final var user = ctx.getDBUser();
 
-                final var itemString = args[0];
-                final var item = Items.fromAnyNoId(itemString).orElse(null);
-                final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                var wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
+                        final var args = ctx.getArguments();
+                        final var itemString = args[0];
+                        final var item = Items.fromAnyNoId(itemString).orElse(null);
+                        final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                        var wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
 
-                if (args.length > 1) {
-                    wrench = Items.fromAnyNoId(args[1]).orElse(null);
-                }
+                        if (args.length > 1) {
+                            wrench = Items.fromAnyNoId(args[1]).orElse(null);
+                        }
 
-                if (item == null) {
-                    ctx.sendLocalized("commands.salvage.no_item_found", EmoteReference.ERROR);
-                    return;
-                }
+                        if (item == null) {
+                            ctx.sendLocalized("commands.salvage.no_item_found", EmoteReference.ERROR);
+                            return;
+                        }
 
-                if (!(item instanceof Salvageable)) {
-                    ctx.sendLocalized("commands.salvage.cant_salvage", EmoteReference.ERROR, item.getName());
-                    return;
-                }
+                        if (!(item instanceof Salvageable)) {
+                            ctx.sendLocalized("commands.salvage.cant_salvage", EmoteReference.ERROR, item.getName());
+                            return;
+                        }
 
-                if (!(wrench instanceof Wrench)) {
-                    ctx.sendLocalized("commands.salvage.not_wrench", EmoteReference.ERROR);
-                    return;
-                }
+                        if (!(wrench instanceof Wrench)) {
+                            ctx.sendLocalized("commands.salvage.not_wrench", EmoteReference.ERROR);
+                            return;
+                        }
 
-                if (((Wrench) wrench).getLevel() < 2) {
-                    ctx.sendLocalized("commands.salvage.not_enough_level", EmoteReference.ERROR);
-                    return;
-                }
+                        if (((Wrench) wrench).getLevel() < 2) {
+                            ctx.sendLocalized("commands.salvage.not_enough_level", EmoteReference.ERROR);
+                            return;
+                        }
 
-                if (!playerInventory.containsItem(item)) {
-                    ctx.sendLocalized("commands.salvage.no_main_item", EmoteReference.ERROR);
-                    return;
-                }
+                        if (!playerInventory.containsItem(item)) {
+                            ctx.sendLocalized("commands.salvage.no_main_item", EmoteReference.ERROR);
+                            return;
+                        }
 
-                if (!playerInventory.containsItem(wrench)) {
-                    ctx.sendLocalized("commands.salvage.no_tool", EmoteReference.ERROR, wrench.getName());
-                    return;
-                }
+                        if (!playerInventory.containsItem(wrench)) {
+                            ctx.sendLocalized("commands.salvage.no_tool", EmoteReference.ERROR, wrench.getName());
+                            return;
+                        }
 
-                int dust = user.getData().getDustLevel();
-                if (dust > 95) {
-                    ctx.sendLocalized("commands.salvage.dust", EmoteReference.ERROR, dust);
-                    return;
-                }
+                        int dust = user.getData().getDustLevel();
+                        if (dust > 95) {
+                            ctx.sendLocalized("commands.salvage.dust", EmoteReference.ERROR, dust);
+                            return;
+                        }
 
-                final var salvageable = (Salvageable) item;
-                List<Item> returns = salvageable.getReturns().stream().map(Items::fromId).collect(Collectors.toList());
+                        if (!handleIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
+                            return;
 
-                if(returns.isEmpty()) {
-                    ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
-                    return;
-                }
+                        final var salvageable = (Salvageable) item;
+                        List<Item> returns = salvageable.getReturns().stream().map(Items::fromId).collect(Collectors.toList());
 
-                var message = "";
-                if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
-                    playerInventory.process(new ItemStack(wrench, -1));
-                    message += ctx.getLanguageContext().get("commands.repair.item_broke");
-                }
+                        if(returns.isEmpty()) {
+                            ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
+                            return;
+                        }
 
-                var salvageCost = item.getValue() / 8;
-                var toReturn = returns.get(random.nextInt(returns.size()));
-                playerInventory.process(new ItemStack(toReturn, 1));
+                        var message = "";
+                        if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
+                            playerInventory.process(new ItemStack(wrench, -1));
+                            message += ctx.getLanguageContext().get("commands.repair.item_broke");
+                        }
 
-                user.getData().increaseDustLevel(3);
-                user.save();
+                        var salvageCost = item.getValue() / 8;
+                        var toReturn = returns.get(random.nextInt(returns.size()));
+                        playerInventory.process(new ItemStack(toReturn, 1));
 
-                if (isSeasonal) {
-                    seasonalPlayer.removeMoney(salvageCost);
-                    seasonalPlayer.save();
-                } else {
-                    player.removeMoney(salvageCost);
-                    player.save();
-                }
+                        user.getData().increaseDustLevel(3);
+                        user.save();
 
-                ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, message);
+                        if (isSeasonal) {
+                            seasonalPlayer.removeMoney(salvageCost);
+                            seasonalPlayer.save();
+                        } else {
+                            player.removeMoney(salvageCost);
+                            player.save();
+                        }
+
+                        ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, item.getName(), toReturn, salvageCost, message);
+                    }
+                };
             }
 
             @Override
@@ -683,6 +687,55 @@ public class ItemCmds {
                         .build();
             }
         });
+
+        sv.addSubCommand("ls", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists all of the salvage-able items";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                List<Salvageable> salvageable = Arrays.stream(Items.ALL)
+                        .filter(Salvageable.class::isInstance)
+                        .map(Salvageable.class::cast)
+                        .collect(Collectors.toList());
+
+                var languageContext = ctx.getLanguageContext();
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.salvage.ls.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
+                        .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getMember().getEffectiveName()), null);
+
+                for (Salvageable item : salvageable) {
+                    if (item.getReturns().isEmpty())
+                        continue;
+
+                    var recipeString = new StringBuilder();
+                    var returns = item.getReturns();
+                    for(int id : returns) {
+                        Item rt = Items.fromId(id);
+                        recipeString.append(rt.getEmoji())
+                                .append(" ")
+                                .append(rt.getName());
+                        var salvageCost = rt.getValue() / 8;
+
+                        fields.add(new MessageEmbed.Field(rt.getEmoji() + " " + rt.getName(),
+                                languageContext.get(rt.getDesc()) + "\n**" +
+                                        languageContext.get("commands.salvage.ls.cost") + "**" +
+                                        salvageCost + " " + languageContext.get("commands.gamble.credits") +
+                                        ".\n**Returns: **" + recipeString.toString(), true
+                                )
+                        );
+                    }
+                }
+
+                sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields),
+                        EmoteReference.TALKING + languageContext.get("commands.salvage.ls.desc")
+                );
+            }
+        }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }
 
     @Subscribe
@@ -720,5 +773,26 @@ public class ItemCmds {
                         .build();
             }
         });
+    }
+
+    private void sendPaginatedEmbed(Context ctx, EmbedBuilder builder, List<List<MessageEmbed.Field>> splitFields, String str) {
+        var languageContext = ctx.getLanguageContext();
+        if (ctx.hasReactionPerms()) {
+            builder.setDescription(
+                    String.format(languageContext.get("general.buy_sell_paged_react"),
+                            splitFields.size(), "\n" + EmoteReference.TALKING + str
+                    )
+            );
+
+            DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
+        } else {
+            builder.setDescription(
+                    String.format(languageContext.get("general.buy_sell_paged_text"),
+                            splitFields.size(), "\n" + EmoteReference.TALKING + str
+                    )
+            );
+
+            DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
+        }
     }
 }
