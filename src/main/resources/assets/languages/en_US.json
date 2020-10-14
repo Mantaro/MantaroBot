@@ -1289,7 +1289,7 @@
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet`",
       "status": {
         "header": "Status for Pet %1$s",
-        "description": "Remember to take care and love your pet :heart:. See `~>pet` for an explanation.",
+        "description": "Remember to take care and love your pet :heart:.\nSee `~>pet` and `~>help pet` for an explanation.",
         "cost": "Price",
         "type": "Type",
         "abilities": "Abilities",
@@ -1305,9 +1305,9 @@
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
-        "cute": "%1$sYour pet happily wags their tail as you caress their head. Pat counter: %2$s.%3$s",
-        "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. Pat counter: %2$s.%3$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? Pat counter: %2$s.%3$s",
+        "cute": "%1$sYour pet happily wags their tail as you caress their head. **Pat counter: %2$s**.%3$s",
+        "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. **Pat counter: %2$s**.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %2$s**.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
@@ -1318,7 +1318,7 @@
         "nothing_found": "%1$sCan't find the type of pet you specified. Valid types: `%2$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$s, Wallet: %3$s",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$s. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a %2$s%3$s and they were named %4$s. The cost to buy this pet was %5$s.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$s.",
         "cancel_success": "%1$sCancelled operation."
       },
       "feed": {
@@ -1329,7 +1329,7 @@
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory.",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Succesfully fed your pet with %2$s and it recovered %3$s%% of their hunger. Their hunger is now at %4$s%%"
+        "success": "%1$sYay! Succesfully fed your pet with `%2$s` and it recovered %3$s%% of their hunger. Their hunger is now at %4$s%%"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
@@ -1338,7 +1338,7 @@
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
-        "low_stamina": "%1$sYour pet has a really low stamina. Let it rest or give it food/water to replenish.",
+        "low_stamina": "%1$sYour pet has a really low stamina. Give it food/water to replenish.",
         "low_health": "%1$sThe health of your pet is too low. Give it food and let it rest for a while to replenish",
         "low_hunger": "%1$sYour pet is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "%1$sYour pet is too thirsty to do anything right now.",
