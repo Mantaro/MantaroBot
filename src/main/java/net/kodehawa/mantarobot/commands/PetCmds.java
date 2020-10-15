@@ -273,7 +273,7 @@ public class PetCmds {
         pet.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys a pet to have adventures with. You need to buy a pet house in market first. Usage: `~>pet buy <type> <name>`";
+                return "Buys a pet to have adventures with. You need to buy a pet house in market first. Usage: `~>pet buy <name> <type>`";
             }
 
             @Override
@@ -318,8 +318,11 @@ public class PetCmds {
 
                 HousePetType toBuy = HousePetType.lookupFromString(type);
                 if(toBuy == null) {
-                    ctx.sendLocalized("commands.pet.buy.nothing_found", EmoteReference.ERROR,
-                            Arrays.stream(HousePetType.values()).map(HousePetType::getName).collect(Collectors.joining(", "))
+                    ctx.sendLocalized("commands.pet.buy.nothing_found", EmoteReference.ERROR, type,
+                            Arrays.stream(HousePetType.values())
+                                    .filter(HousePetType::isBuyable)
+                                    .map(HousePetType::getName)
+                                    .collect(Collectors.joining(", "))
                     );
                     return;
                 }

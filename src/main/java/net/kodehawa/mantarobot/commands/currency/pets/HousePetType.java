@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.currency.pets;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -24,15 +23,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum HousePetType {
-    DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200),
-    CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 30000, 150),
-    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 5000, 30),
+    DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200, true),
+    CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 30000, 150, true),
+    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHEER), 5000, 30, true),
     KODE(EmoteReference.DEV, "Kodehawa",
             // All of them?
             List.of(HousePetAbility.CHEER, HousePetAbility.FISH, HousePetAbility.CATCH, HousePetAbility.CHOP),
-            3000000, 300
+            3000000, 300, true
     ),
-    ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000);
+    ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, false);
 
     public static enum HousePetAbility {
         FISH, CATCH, CHOP, CHEER;
@@ -56,13 +55,15 @@ public enum HousePetType {
     private List<HousePetAbility> abilities;
     private int cost;
     private int maxCoinBuildup;
+    private boolean buyable;
 
-    HousePetType(EmoteReference emoji, String name, List<HousePetAbility> ability, int cost, int maxCoinBuildup) {
+    HousePetType(EmoteReference emoji, String name, List<HousePetAbility> ability, int cost, int maxCoinBuildup, boolean buyable) {
         this.emoji = emoji;
         this.name = name;
         this.abilities = ability;
         this.cost = cost;
         this.maxCoinBuildup = maxCoinBuildup;
+        this.buyable = buyable;
     }
 
     public EmoteReference getEmoji() {
@@ -93,6 +94,10 @@ public enum HousePetType {
         return getAbilities().stream().map(ability -> Utils.capitalize(ability.toString().toLowerCase())).collect(Collectors.joining(", "));
     }
 
+    public boolean isBuyable() {
+        return buyable;
+    }
+
     /**
      * Looks up the HousePet based on a String value, if nothing is found returns null.
      *
@@ -100,19 +105,13 @@ public enum HousePetType {
      * @return The pet, or null if nothing is found.
      */
     public static HousePetType lookupFromString(String name) {
-        for (HousePetType b : HousePetType.values()) {
-            if (b.name().equalsIgnoreCase(name)) {
-                if(b == ALL)
-                    return null;
-
-                return b;
+        for (HousePetType type : HousePetType.values()) {
+            if (type.name().equalsIgnoreCase(name)) {
+                return type.isBuyable() ? type : null;
             }
 
-            if (b.getName().equalsIgnoreCase(name)) {
-                if(b == ALL)
-                    return null;
-
-                return b;
+            if (type.getName().equalsIgnoreCase(name)) {
+                return type.isBuyable() ? type : null;
             }
         }
 

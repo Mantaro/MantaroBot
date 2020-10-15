@@ -22,9 +22,11 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
     private float chance;
@@ -35,14 +37,14 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
     private List<Integer> salvageReturns;
 
     public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName,
-                   String desc, long value, boolean sellable, boolean buyable, String recipe, List<Integer> salvageReturns,
+                   String desc, long value, boolean sellable, boolean buyable, String recipe,
                    int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
-        this.salvageReturns = salvageReturns;
+        this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
     }
 
     public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable, int maxDurability) {
