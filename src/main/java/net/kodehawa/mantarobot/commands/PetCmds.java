@@ -110,13 +110,13 @@ public class PetCmds {
 
                 var marriage = dbUser.getData().getMarriage();
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.pet.status.no_pet_or_marriage");
+                    ctx.sendLocalized("commands.pet.no_marriage");
                     return;
                 }
 
                 var pet = marriage.getData().getPet();
                 if(pet == null) {
-                    ctx.sendLocalized("commands.pet.status.no_pet_or_marriage");
+                    ctx.sendLocalized("commands.pet.status.no_pet");
                     return;
 
                 }
@@ -282,8 +282,6 @@ public class PetCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-                var marriageData = marriage.getData();
-
                 var args = ctx.getArguments();
 
                 // TODO: personal pets?
@@ -291,6 +289,8 @@ public class PetCmds {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
+
+                var marriageData = marriage.getData();
 
                 if(args.length < 2) {
                     ctx.sendLocalized("commands.pet.buy.not_enough_arguments", EmoteReference.ERROR);
