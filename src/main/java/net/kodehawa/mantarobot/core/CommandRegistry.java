@@ -280,7 +280,7 @@ public class CommandRegistry {
         return true;
     }
 
-    public Command register(String name, Command command) {
+    public <T extends Command> T register(String name, T command) {
         commands.putIfAbsent(name, command);
         log.debug("Registered command " + name);
         return command;

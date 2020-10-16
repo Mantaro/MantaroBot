@@ -247,7 +247,7 @@ public class PremiumCmds {
     public void vipstatus(CommandRegistry cr) {
         final ManagedDatabase db = MantaroData.db();
 
-        TreeCommand vipstatusCmd = (TreeCommand) cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
+        TreeCommand vipstatusCmd = cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

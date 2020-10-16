@@ -173,7 +173,7 @@ public class CustomCmds {
                 .prefix("custom")
                 .build();
 
-        SimpleTreeCommand customCommand = (SimpleTreeCommand) cr.register("custom", new SimpleTreeCommand(CommandCategory.UTILS) {
+        SimpleTreeCommand customCommand = cr.register("custom", new SimpleTreeCommand(CommandCategory.UTILS) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()

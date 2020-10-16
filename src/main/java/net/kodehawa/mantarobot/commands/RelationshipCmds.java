@@ -65,11 +65,11 @@ import java.util.regex.Pattern;
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
-    private static final long waifuBaseValue = 1000L;
-    private final long housePrice = 5000;
-    private final long carPrice = 1000;
+    private static final long WAIFU_BASE_VALUE = 1000L;
+    private static final long housePrice = 5000;
+    private static final long carPrice = 1000;
 
-    private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
     static Waifu calculateWaifuValue(User user) {
         final ManagedDatabase db = MantaroData.db();
@@ -77,7 +77,7 @@ public class RelationshipCmds {
         PlayerData waifuPlayerData = waifuPlayer.getData();
         UserData waifuUserData = db.getUser(user).getData();
 
-        long waifuValue = waifuBaseValue;
+        long waifuValue = WAIFU_BASE_VALUE;
         long performance;
         //For every 135000 money owned, it increases by 7% base value (base: 1300)
         //For every 3 badges, it increases by 17% base value.
@@ -112,7 +112,7 @@ public class RelationshipCmds {
         );
 
         int divide = (int) (moneyValue / 1300);
-        performance = ((waifuValue - (waifuBaseValue + 450)) + (long) ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
+        performance = ((waifuValue - (WAIFU_BASE_VALUE + 450)) + (long) ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
         //possible?
         if (performance < 0)
             performance = 0;
@@ -123,7 +123,7 @@ public class RelationshipCmds {
 
     //Yes, I had to do it, fuck.
     private static long calculatePercentage(long percentage) {
-        return (percentage * RelationshipCmds.waifuBaseValue) / 100;
+        return (percentage * RelationshipCmds.WAIFU_BASE_VALUE) / 100;
     }
 
     @Subscribe
@@ -846,7 +846,7 @@ public class RelationshipCmds {
                 .build();
 
 
-        TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(CommandCategory.FUN) {
+        TreeCommand waifu = cr.register("waifu", new TreeCommand(CommandCategory.FUN) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

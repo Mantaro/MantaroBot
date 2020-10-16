@@ -703,7 +703,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void useItem(CommandRegistry cr) {
-        TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand ui = cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

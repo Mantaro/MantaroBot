@@ -76,7 +76,7 @@ public class GameCmds {
         games.put("character", (d) -> new Character());
         games.put("trivia", Trivia::new);
 
-        SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(CommandCategory.GAMES) {
+        SimpleTreeCommand gameCommand = cr.register("game", new SimpleTreeCommand(CommandCategory.GAMES) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()

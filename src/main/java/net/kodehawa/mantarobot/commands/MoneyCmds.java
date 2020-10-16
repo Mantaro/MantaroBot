@@ -68,12 +68,12 @@ import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatel
 
 @Module
 public class MoneyCmds {
-    private final SecureRandom random = new SecureRandom();
-    private final int SLOTS_MAX_MONEY = 50_000;
-    private final int TICKETS_MAX_AMOUNT = 50;
-    private final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
-    private final long GAMBLE_MAX_MONEY = 10_000;
-    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
+    private static final SecureRandom random = new SecureRandom();
+    private static final int SLOTS_MAX_MONEY = 50_000;
+    private static final int TICKETS_MAX_AMOUNT = 50;
+    private static final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
+    private static final long GAMBLE_MAX_MONEY = 10_000;
+    private static final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
 
     private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
         final NumberFormat format = NumberFormat.getPercentInstance();
@@ -261,7 +261,7 @@ public class MoneyCmds {
                 }
 
                 // Sellout + this is always a day apart, so we can just send campaign.
-                if(random.nextBoolean()) {
+                if(r.nextBoolean()) {
                     returnMessage.add(Campaign.TWITTER.getStringFromCampaign(languageContext, true));
                 } else {
                     returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));

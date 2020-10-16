@@ -68,7 +68,7 @@ public class PlayerData {
     private boolean waifuout;
     private int lastCrateGiven = 69;
     private long lastSeenCampaign;
-    private QuestTracker quest = new QuestTracker();
+    private QuestTracker quests = new QuestTracker();
     private int questQuota = 3;
 
     //lol?
@@ -338,12 +338,12 @@ public class PlayerData {
         this.chopExperience = chopExperience;
     }
 
-    public QuestTracker getQuest() {
-        return quest;
+    public QuestTracker getQuests() {
+        return quests;
     }
 
-    public void setQuest(QuestTracker quest) {
-        this.quest = quest;
+    public void setQuests(QuestTracker quests) {
+        this.quests = quests;
     }
 
     public int getQuestQuota() {
@@ -400,10 +400,10 @@ public class PlayerData {
 
     @JsonIgnore
     public Quest startQuest(SecureRandom random) {
-        if(quest.getCurrentActiveQuests().size() > getQuestQuota()) {
+        if(quests.getCurrentActiveQuests().size() > getQuestQuota()) {
             return null;
         }
 
-        return quest.startRandomQuest(random);
+        return quests.startRandomQuest(random);
     }
 }

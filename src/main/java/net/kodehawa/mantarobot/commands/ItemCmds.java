@@ -75,7 +75,7 @@ public class ItemCmds {
 
         final SecureRandom random = new SecureRandom();
 
-        TreeCommand castCommand = (TreeCommand) cr.register("cast", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand castCommand = cr.register("cast", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -356,7 +356,7 @@ public class ItemCmds {
         final SecureRandom random = new SecureRandom();
 
         //The contents of this command are -mostly- taken from the cast command, so they'll look similar.
-        TreeCommand rp = (TreeCommand) registry.register("repair", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand rp = registry.register("repair", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String commandName, String content) {
                 return new SubCommand() {
@@ -576,7 +576,7 @@ public class ItemCmds {
                 .prefix("repair")
                 .build();
 
-        TreeCommand sv = (TreeCommand) cr.register("salvage", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand sv = cr.register("salvage", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {

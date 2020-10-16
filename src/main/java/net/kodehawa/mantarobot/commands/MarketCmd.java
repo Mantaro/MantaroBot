@@ -68,7 +68,7 @@ public class MarketCmd {
                 .build();
 
 
-        TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand marketCommand = cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

@@ -439,7 +439,7 @@ public class InfoCmds {
 
     @Subscribe
     public void stats(CommandRegistry cr) {
-        SimpleTreeCommand statsCommand = (SimpleTreeCommand) cr.register("stats", new SimpleTreeCommand(CommandCategory.INFO) {
+        SimpleTreeCommand statsCommand = cr.register("stats", new SimpleTreeCommand(CommandCategory.INFO) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()

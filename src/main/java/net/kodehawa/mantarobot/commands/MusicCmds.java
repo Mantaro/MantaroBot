@@ -514,7 +514,7 @@ public class MusicCmds {
 
     @Subscribe
     public void queue(CommandRegistry cr) {
-        TreeCommand queueCommand = (TreeCommand) cr.register("queue", new TreeCommand(CommandCategory.MUSIC) {
+        TreeCommand queueCommand = cr.register("queue", new TreeCommand(CommandCategory.MUSIC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -884,7 +884,7 @@ public class MusicCmds {
 
     @Subscribe
     public void volume(CommandRegistry cr) {
-        TreeCommand volumeCommand = (TreeCommand) cr.register("volume", new TreeCommand(CommandCategory.MUSIC) {
+        TreeCommand volumeCommand = cr.register("volume", new TreeCommand(CommandCategory.MUSIC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

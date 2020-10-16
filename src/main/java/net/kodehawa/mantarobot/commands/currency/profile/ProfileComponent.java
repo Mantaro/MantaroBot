@@ -122,7 +122,7 @@ public enum ProfileComponent {
             return displayBadges;
     }, true, false),
     QUESTS(EmoteReference.PENCIL, i18nContext -> i18nContext.get("commands.profile.quests.header"), (holder, i18nContext) -> {
-        var tracker = holder.getPlayer().getData().getQuest();
+        var tracker = holder.getPlayer().getData().getQuests();
         var quests = tracker.getCurrentActiveQuests();
 
         var builder = new StringBuilder();

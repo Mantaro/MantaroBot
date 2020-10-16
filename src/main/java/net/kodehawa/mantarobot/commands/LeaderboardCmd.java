@@ -72,7 +72,7 @@ public class LeaderboardCmd {
                 .prefix("leaderboard")
                 .build();
 
-        TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand leaderboards = cr.register("leaderboard", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context context, String commandName, String content) {
                 return new SubCommand() {

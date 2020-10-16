@@ -76,7 +76,7 @@ public class PetCmds {
                 .prefix("pet-remove")
                 .build();
 
-        TreeCommand pet = (TreeCommand) cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand pet = cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
