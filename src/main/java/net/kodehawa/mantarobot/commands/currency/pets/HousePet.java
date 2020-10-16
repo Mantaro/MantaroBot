@@ -84,11 +84,7 @@ public class HousePet {
             return;
         }
 
-        if(health - defaultDecrease < 1) {
-            this.health = 1;
-        } else {
-            this.health -= defaultDecrease;
-        }
+        this.health = Math.max(1, health - defaultDecrease);
     }
 
     public void decreaseStamina() {
@@ -97,11 +93,7 @@ public class HousePet {
             return;
         }
 
-        if(stamina - defaultDecrease < 1) {
-            this.stamina = 1;
-        } else {
-            this.stamina -= defaultDecrease;
-        }
+        this.stamina = Math.max(1, stamina - defaultDecrease);
     }
 
     public void decreaseHunger() {
@@ -110,11 +102,7 @@ public class HousePet {
             return;
         }
 
-        if(hunger - defaultDecrease < 1) {
-            this.hunger = 1;
-        } else {
-            this.hunger -= defaultDecrease;
-        }
+        this. hunger = Math.max(1, hunger - defaultDecrease);
     }
 
     public void decreaseThirst() {
@@ -123,11 +111,7 @@ public class HousePet {
             return;
         }
 
-        if(thirst - defaultDecrease < 1) {
-            this.thirst = 1;
-        } else {
-            this.thirst -= defaultDecrease;
-        }
+        this.thirst = Math.max(1, thirst - defaultDecrease);
     }
 
     public void increaseHealth() {
@@ -137,11 +121,7 @@ public class HousePet {
         }
 
         var defaultIncrease = 10;
-        if(health + defaultIncrease >= 100) {
-            this.health = 100;
-        } else {
-            this.health += defaultIncrease;
-        }
+        this.health = Math.min(100, health + defaultIncrease);
     }
 
     public void increaseStamina() {
@@ -151,11 +131,7 @@ public class HousePet {
         }
 
         var defaultIncrease = 30;
-        if(stamina + defaultIncrease >= 100) {
-            this.stamina = 100;
-        } else {
-            this.stamina += defaultIncrease;
-        }
+        this.stamina = Math.min(100, stamina + defaultIncrease);
     }
 
     public void increaseHunger(int by) {
@@ -164,11 +140,7 @@ public class HousePet {
             return;
         }
 
-        if(hunger + by >= 100) {
-            this.hunger = 100;
-        } else {
-            this.hunger += by;
-        }
+        this.hunger = Math.min(100, hunger + by);
     }
 
     public void increaseThirst() {
@@ -178,11 +150,7 @@ public class HousePet {
         }
 
         var defaultIncrease = 15;
-        if(thirst + defaultIncrease >= 100) {
-            this.thirst = 100;
-        } else {
-            this.thirst += defaultIncrease;
-        }
+        this.thirst = Math.min(100, thirst + defaultIncrease);
     }
 
     public int getHunger() {
