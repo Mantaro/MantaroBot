@@ -61,12 +61,12 @@ public class Quest {
 
     @JsonIgnore
     public boolean isDone() {
-        if(currentAmount >= amount) {
-            return true;
-        }
+        return currentAmount >= amount;
+    }
 
-        currentAmount += 1;
-        return false;
+    @JsonIgnore
+    public void increaseAmount() {
+        this.currentAmount += 1;
     }
 
     @JsonIgnore
