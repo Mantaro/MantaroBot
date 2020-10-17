@@ -462,6 +462,8 @@ public class CurrencyCmds {
         });
 
         cr.registerAlias("itemtransfer", "transferitems");
+        cr.registerAlias("itemtransfer", "transferitem");
+
     }
 
     @Subscribe
