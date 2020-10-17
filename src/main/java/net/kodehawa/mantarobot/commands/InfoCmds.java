@@ -319,7 +319,13 @@ public class InfoCmds {
                             }
 
                             if (command instanceof ITreeCommand) {
-                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands();
+                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands()
+                                        .entrySet()
+                                        .stream()
+                                        .sorted(Comparator.comparingInt(a ->
+                                                a.getValue().description() == null ? 0 : a.getValue().description().length())
+                                        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
                                 StringBuilder stringBuilder = new StringBuilder();
 
                                 for (Map.Entry<String, SubCommand> inners : subCommands.entrySet()) {

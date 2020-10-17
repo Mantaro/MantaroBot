@@ -119,6 +119,18 @@ public class MarketCmd {
             }
         });
 
+        marketCommand.addSubCommand("common", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all common items.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
+            }
+        });
+
         marketCommand.addSubCommand("tools", new SubCommand() {
             @Override
             public String description() {
@@ -131,17 +143,18 @@ public class MarketCmd {
             }
         });
 
-        marketCommand.addSubCommand("food", new SubCommand() {
+        marketCommand.addSubCommand("potions", new SubCommand() {
             @Override
             public String description() {
-                return "List all the food.";
+                return "List all current potions.";
             }
 
             @Override
             protected void call(Context ctx, String content) {
-                showMarket(ctx, (item) -> item instanceof Food || item instanceof Water);
+                showMarket(ctx, (item) -> item instanceof Potion);
             }
         });
+
 
         marketCommand.addSubCommand("buyable", new SubCommand() {
             @Override
