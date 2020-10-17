@@ -307,7 +307,11 @@ public class OwnerCmd {
                         transferToData.setMarketUsed(transferredData.getMarketUsed());
                         transferToData.setMainBadge(transferredData.getMainBadge());
                         transferToData.setGamesWon(transferredData.getGamesWon());
-
+                        transferToData.setMiningExperience(transferredData.getMiningExperience());
+                        transferToData.setSharksCaught(transferredData.getSharksCaught());
+                        transferToData.setFishingExperience(transferredData.getFishingExperience());
+                        transferToData.setCratesOpened(transferredData.getCratesOpened());
+                        transferToData.setTimesMopped(transferredData.getTimesMopped());
 
                         transferTo.save();
                         Player reset = Player.of(args[0]);

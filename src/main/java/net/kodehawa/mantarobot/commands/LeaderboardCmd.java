@@ -178,10 +178,48 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.addSubCommand("oldmoney", new SubCommand() {
+        if(!config.isPremiumBot) {
+            leaderboards.addSubCommand("money", new SubCommand() {
+                @Override
+                public String description() {
+                    return "Returns the money leaderboard";
+                }
+
+                @Override
+                protected void call(Context ctx, String content) {
+                    boolean seasonal = ctx.isSeasonal();
+                    String tableName = seasonal ? "seasonalplayers" : "players";
+                    String indexName = seasonal ? "money" : "newMoney";
+
+                    List<Map<String, Object>> c = getLeaderboard(tableName, indexName,
+                            player -> player.g("id"),
+                            player -> player.pluck("id", "money"), 10
+                    );
+
+                    I18nContext languageContext = ctx.getLanguageContext();
+
+                    ctx.send(
+                            generateLeaderboardEmbed(
+                                    ctx,
+                                    String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
+                                            languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
+                                    "commands.leaderboard.money", c,
+                                    map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
+                            ).build()
+                    );
+                }
+            });
+        }
+
+        leaderboards.addSubCommand(config.isPremiumBot ? "money" : "oldmoney", new SubCommand() {
             @Override
             public String description() {
-                return "Returns the (old) pre-reset money leaderboard";
+                if(config.isPremiumBot) {
+                    return "Returns the money leaderboard";
+                } else {
+                    return "Returns the (old) pre-reset money leaderboard";
+                }
             }
 
             @Override
@@ -206,37 +244,6 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.addSubCommand("money", new SubCommand() {
-            @Override
-            public String description() {
-                return "Returns the money leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, String content) {
-                boolean seasonal = ctx.isSeasonal();
-                String tableName = seasonal ? "seasonalplayers" : "players";
-                String indexName = seasonal ? "money" : "newMoney";
-
-                List<Map<String, Object>> c = getLeaderboard(tableName, indexName,
-                        player -> player.g("id"),
-                        player -> player.pluck("id", "money"), 10
-                );
-
-                I18nContext languageContext = ctx.getLanguageContext();
-
-                ctx.send(
-                        generateLeaderboardEmbed(
-                                ctx,
-                                String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
-                                        languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
-                                "commands.leaderboard.money", c,
-                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
-                        ).build()
-                );
-            }
-        });
 
         leaderboards.addSubCommand("lvl", new SubCommand() {
             @Override
