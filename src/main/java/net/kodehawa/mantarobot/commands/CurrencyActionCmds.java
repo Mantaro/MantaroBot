@@ -123,7 +123,7 @@ public class CurrencyActionCmds {
                 if (item == Items.SPARKLE_PICKAXE)
                     money += random.nextInt(300);
                 if (item == Items.HELLFIRE_PICK)
-                    money += random.nextInt(700);
+                    money += random.nextInt(900);
 
                 boolean waifuHelp = false;
                 if (Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
@@ -607,7 +607,7 @@ public class CurrencyActionCmds {
                     if (item == Items.SPARKLE_AXE)
                         money += random.nextInt(300);
                     if (item == Items.HELLFIRE_AXE)
-                        money += random.nextInt(700);
+                        money += random.nextInt(900);
 
 
                     // ---- Start of drop handling.
