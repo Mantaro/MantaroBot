@@ -64,7 +64,7 @@ public enum ItemType {
     // Don't drop from loot boxes.
     MINE_RARE_PICK_NODROP(true),
     CHOP_RARE_AXE_NODROP(true),
-    FISHING_RARE_NODROP(false),
+    FISHING_RARE_NODROP(true),
 
     CHOP_DROP(false),
 
