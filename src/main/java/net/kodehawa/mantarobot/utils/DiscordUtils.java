@@ -342,6 +342,8 @@ public class DiscordUtils {
             return null;
         }
 
+        base.setFooter("Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(base.build()).complete();
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
@@ -354,7 +356,7 @@ public class DiscordUtils {
                     if (index.get() == 0)
                         break;
                     EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: " + (index.get() + 1), event.getAuthor().getEffectiveAvatarUrl());
+                    toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                     m.editMessage(toSend.build()).queue();
                 }
                 //right arrow
@@ -362,7 +364,7 @@ public class DiscordUtils {
                     if (index.get() + 1 >= parts.size())
                         break;
                     EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: " + (index.get() + 1), event.getAuthor().getEffectiveAvatarUrl());
+                    toSend1.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                     m.editMessage(toSend1.build()).queue();
                 }
             }
@@ -400,14 +402,14 @@ public class DiscordUtils {
                     return Operation.IGNORED;
 
                 EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1), null);
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                 m.editMessage(toSend.build()).queue();
             } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
                 if (index.get() + 1 >= parts.size())
                     return Operation.IGNORED;
 
                 EmbedBuilder toSend = addAllFields(base, parts.get(index.incrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1), null);
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                 m.editMessage(toSend.build()).queue();
             }
 
@@ -441,11 +443,11 @@ public class DiscordUtils {
             if (contentRaw.equals("&p <<") || contentRaw.equals("&page <<")) {
                 if (index.get() == 0) return Operation.IGNORED;
 
-                m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+                m.editMessage(String.format("%s\n**Page: %d** | Total: %d**", parts.get(index.decrementAndGet()), index.get() + 1, parts.size())).queue();
             } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) return Operation.IGNORED;
 
-                m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+                m.editMessage(String.format("%s\n**Page: %d | Total: %d**", parts.get(index.incrementAndGet()), index.get() + 1, parts.size())).queue();
             }
 
             if (contentRaw.equals("&cancel")) {

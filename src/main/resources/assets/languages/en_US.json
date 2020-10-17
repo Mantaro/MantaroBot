@@ -74,8 +74,8 @@
     "invalid_character": "%1$sThat is not an allowed character.",
     "invalid_action": "You cannot do that, silly.",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
-    "buy_sell_paged_react": "**Total pages: %1$d.**\nUse the message reactions to move between pages.\n%2$s",
-    "buy_sell_paged_text": "**Total pages: %1$d.**\nUse **&p >>** and **&p <<** to move across pages.\n%2$s",
+    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
+    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
@@ -766,7 +766,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
       },
       "header": "Mantaro's Market",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info.",
+      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
       "sell_price": "- **Sell Price:**",
       "buy_price": "- **Buy Price:**"
     },
@@ -2391,7 +2391,7 @@
       "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
       "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
       "incubator_egg": "TBD",
-      "water_bottle": "TBD",
+      "water_bottle": "A item that magically heals your pet's thirst.",
       "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!",
       "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
       "steak": "Very yummy if you're not vegetarian.",

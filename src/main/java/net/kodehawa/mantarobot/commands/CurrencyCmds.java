@@ -241,20 +241,18 @@ public class CurrencyCmds {
 
                         if (hasReactionPerms) {
                             if (builder.getDescriptionBuilder().length() == 0) {
-                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                        String.format(languageContext.get("general.buy_sell_paged_reference"),
-                                                EmoteReference.BUY, EmoteReference.SELL))
-                                        + "\n" + languageContext.get("commands.inventory.brief_notice") +
+                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) +
+                                        "\n" + languageContext.get("commands.inventory.brief_notice") +
                                         (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "")
                                 );
                             }
                             DiscordUtils.list(ctx.getEvent(), 100, false, builder, splitFields);
                         } else {
                             if (builder.getDescriptionBuilder().length() == 0) {
-                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                        String.format(languageContext.get("general.buy_sell_paged_reference"),
-                                                EmoteReference.BUY, EmoteReference.SELL))
-                                        + "\n" + languageContext.get("commands.inventory.brief_notice") +
+                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) +
+                                        "\n" + languageContext.get("commands.inventory.brief_notice") +
                                         (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : "")
                                 );
                             }

@@ -115,7 +115,9 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET ||
+                        item.getItemType() == ItemType.PET_FOOD || item.getItemType() == ItemType.FOOD
+                );
             }
         });
 
@@ -530,10 +532,10 @@ public class MarketCmd {
 
         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
         boolean hasReactionPerms = ctx.hasReactionPerms();
+        embed.setAuthor("Mantaro's Market", ctx.getAuthor().getEffectiveAvatarUrl());
 
         if (hasReactionPerms) {
             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
-                    splitFields.size(),
                     String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
                             EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                     + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
@@ -542,7 +544,6 @@ public class MarketCmd {
             DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
         } else {
             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
-                    splitFields.size(),
                     String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
                             EmoteReference.BUY, EmoteReference.SELL)) + "\n"
                     + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")

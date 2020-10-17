@@ -186,18 +186,18 @@ public class Items {
 
             // ---------------------------------- 5.4 PET ITEMS START HERE ----------------------------------
             INCUBATOR_EGG = new Item(ItemType.PET, "\uD83E\uDD5A", "Incubator Egg", "items.incubator_egg", "items.description.incubator_egg", 300, false, false, "4;3;1", 11, 12, 18),
-            WATER_BOTTLE = new Water(ItemType.PET, "\ud83d\udeb0", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 35, true),
+            WATER_BOTTLE = new Water(ItemType.PET, "\ud83d\udeb0", "Water Bottle", "items.water_bottle", "items.description.water_bottle", 20, true),
             // ---------------------------------- 5.7 PET ITEMS END HERE ----------------------------------
             MAGIC_WATCH = new Item(ItemType.COLLECTABLE, "\u231A", "Magical Watch", "items.magic_watch", "items.description.magic_watch",0, false, false),
 
             // ---------------------------------- 5.7 PET ITEMS START HERE ----------------------------------
             PET_HOUSE = new Item(ItemType.PET, EmoteReference.PET_HOUSE.getDiscordNotation(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
-            STEAK = new Food(Food.FoodType.DOG, 10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 170, true),
-            CHICKEN = new Food(Food.FoodType.CAT, 10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 130, true),
-            MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b", "Milk Bottle", "items.milk_3", "items.description.milk_3", 97, true),
-            DOG_FOOD = new Food(Food.FoodType.DOG, 10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
-            CAT_FOOD = new Food(Food.FoodType.CAT, 10, "\ud83e\udd6b", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
-            HAMSTER_FOOD = new Food(Food.FoodType.HAMSTER, 10, "\ud83c\udf31", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),
+            STEAK = new Food(Food.FoodType.DOG, 10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 90, true),
+            CHICKEN = new Food(Food.FoodType.CAT, 10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 60, true),
+            MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b", "Milk Bottle", "items.milk_3", "items.description.milk_3", 40, true),
+            DOG_FOOD = new Food(Food.FoodType.DOG, 10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 75, true),
+            CAT_FOOD = new Food(Food.FoodType.CAT, 10, "\ud83e\udd6b", "Cat Food", "items.cat_food", "items.description.cat_food", 75, true),
+            HAMSTER_FOOD = new Food(Food.FoodType.HAMSTER, 10, "\ud83c\udf31", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 60, true),
 
             // ---------------------------------- 5.7 ITEMS START HERE ----------------------------------
             WOOD = new Item(ItemType.CHOP_DROP, "\ud83e\udeb5", "Wood", "items.wood", "items.description.wood", 25, false),
