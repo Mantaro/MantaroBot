@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -35,7 +36,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -115,9 +115,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET ||
-                        item.getItemType() == ItemType.PET_FOOD || item.getItemType() == ItemType.FOOD
-                );
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
             }
         });
 
@@ -129,12 +127,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                showMarket(ctx, (item) ->
-                        // Geez, needs more generic item types here.
-                        item.getItemType() == ItemType.MINE_PICK || item.getItemType() == ItemType.MINE_RARE ||
-                        item.getItemType() == ItemType.MINE_RARE_PICK_NODROP || item.getItemType() == ItemType.FISHING ||
-                        item.getItemType() == ItemType.FISHING_RARE || item.getItemType() == ItemType.FISHING_RARE_NODROP
-                );
+                showMarket(ctx, (item) -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
             }
         });
 
@@ -146,7 +139,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET_FOOD);
+                showMarket(ctx, (item) -> item instanceof Food || item instanceof Water);
             }
         });
 
@@ -511,28 +504,27 @@ public class MarketCmd {
         List<MessageEmbed.Field> fields = new LinkedList<>();
         Stream.of(Items.ALL)
                 .filter(predicate)
+                .filter(item -> !item.isHidden())
                 .forEach(item -> {
-            if (!item.isHidden()) {
-                String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
-                String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
+                    String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
+                    String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
-                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
-                                (languageContext.getContextLanguage().equals("en_US") ? "" :
-                                        " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
-                                        languageContext.get(item.getDesc()) + "\n" +
-                                        languageContext.get("commands.market.buy_price") + " " + buyValue + "\n" +
-                                        languageContext.get("commands.market.sell_price") + " " + sellValue,
-                                false
-                        )
-                );
-            }
-        });
+                    fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
+                                    (languageContext.getContextLanguage().equals("en_US") ? "" :
+                                            " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
+                                            languageContext.get(item.getDesc()) + "\n" +
+                                            languageContext.get("commands.market.buy_price") + " " + buyValue + "\n" +
+                                            languageContext.get("commands.market.sell_price") + " " + sellValue,
+                                    false
+                            )
+                    );
+                });
 
         DBUser user = ctx.getDBUser();
 
         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
         boolean hasReactionPerms = ctx.hasReactionPerms();
-        embed.setAuthor("Mantaro's Market", ctx.getAuthor().getEffectiveAvatarUrl());
+        embed.setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl());
 
         if (hasReactionPerms) {
             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
