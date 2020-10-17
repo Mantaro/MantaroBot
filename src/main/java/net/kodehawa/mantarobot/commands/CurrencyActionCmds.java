@@ -116,11 +116,14 @@ public class CurrencyActionCmds {
 
                 long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
 
-                //Add money buff to higher pickaxes.
+                // Add money buff to higher pickaxes.
+                // TODO: Do this automatically? (we do it on fish)
                 if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
                     money += random.nextInt(100);
                 if (item == Items.SPARKLE_PICKAXE)
                     money += random.nextInt(300);
+                if (item == Items.HELLFIRE_PICK)
+                    money += random.nextInt(700);
 
                 boolean waifuHelp = false;
                 if (Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
@@ -204,7 +207,7 @@ public class CurrencyActionCmds {
 
                 //Sparkle find
                 if ((random.nextInt(400) > 395 && item == Items.COMET_PICKAXE) ||
-                        (random.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE))) {
+                        (random.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE || item == Items.HELLFIRE_PICK))) {
                     Item gem = Items.SPARKLE_FRAGMENT;
                     if (inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
@@ -399,7 +402,7 @@ public class CurrencyActionCmds {
                     }
                     //END OF FISH LOOT CRATE HANDLING
 
-                    if (item == Items.SPARKLE_ROD && random.nextInt(30) > 20) {
+                    if ((item == Items.SPARKLE_ROD || item == Items.HELLFIRE_ROD) && random.nextInt(30) > 20) {
                         if (random.nextInt(100) > 96) {
                             fish.addAll(Stream.of(Items.ALL)
                                     .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
@@ -596,6 +599,16 @@ public class CurrencyActionCmds {
 
                     if(hasPotion)
                         amount += 3;
+
+                    // Add money buff to higher axes.
+                    // TODO: Do this automatically? (we do it on fish)
+                    if (item == Items.STAR_AXE || item == Items.COMET_AXE)
+                        money += random.nextInt(100);
+                    if (item == Items.SPARKLE_AXE)
+                        money += random.nextInt(300);
+                    if (item == Items.HELLFIRE_AXE)
+                        money += random.nextInt(700);
+
 
                     // ---- Start of drop handling.
                     RandomCollection<Item> items = new RandomCollection<>();
