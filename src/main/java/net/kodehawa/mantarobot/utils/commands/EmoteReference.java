@@ -66,7 +66,7 @@ public enum EmoteReference {
     KEY(":key:", "\uD83D\uDD11"),
     DOG(":dog:", "\uD83D\uDC36"),
     CAT(":cat:", "\uD83D\uDC31"),
-    HAMSTER(":hamster:", 	"\uDBB8\uDDCA"),
+    HAMSTER(":hamster:", 	"\ud83d\udc39"),
     DOOR(":door:", "\uD83D\uDEAA"),
     LOVE_LETTER(":love_letter:", "\uD83D\uDC8C"),
     NECKLACE(":prayer_beads:", "\uD83D\uDCFF"),

@@ -115,11 +115,13 @@ public class PetCmds {
                             var abilities = pet.getStringAbilities();
                             var value = pet.getCost();
 
-                            return String.format(ctx.getLanguageContext().get("commands.pet.list.summary"), emoji, name, abilities, value);
+                            return String.format(ctx.getLanguageContext().get("commands.pet.list.summary"),
+                                    emoji, name, abilities, value
+                            );
                         })
                         .collect(Collectors.joining("\n"));
 
-                ctx.sendLocalized("commands.pet.list.header", EmoteReference.TALKING, pets);
+                ctx.sendLocalized("commands.pet.list.header", EmoteReference.TALKING, pets, EmoteReference.PENCIL, ctx.getLanguageContext().get("commands.pet.list.abilities"));
             }
         });
 
