@@ -133,6 +133,9 @@ public enum Badge {
     EXPERT_FISHER("Expert Fisher", "<:sparkle_rod:492882143505154048>", "Get more than 100000 fishing experience.", 91, 92,
             ((player, dbUser) -> player.getData().getFishingExperience() > 100000), false),
 
+    EXPERT_CHOPPER("Expert Fisher", "<:sparkle_axe:762027645155541002>", "Get more than 100000 chopping experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getChopExperience() > 100000), false),
+
     //Self-explanatory. (Description)
     MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92,
             (player, dbUser) -> player.getLevel() >= 150, false

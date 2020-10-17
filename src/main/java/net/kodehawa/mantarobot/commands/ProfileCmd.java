@@ -605,6 +605,10 @@ public class ProfileCmd {
                                     playerData.getMiningExperience() + " XP"
                             ),
 
+                            prettyDisplay(languageContext.get("commands.profile.stats.chop_xp"),
+                                    playerData.getChopExperience() + " XP"
+                            ),
+
                             prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
                                     playerData.getFishingExperience() + " XP"
                             ),
