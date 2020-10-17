@@ -761,67 +761,81 @@ public class RelationshipCmds {
     public void divorce(CommandRegistry cr) {
         cr.register("divorce", new SimpleCommand(CommandCategory.FUN) {
             @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final var divorceePlayer = ctx.getPlayer();
-                //Assume we're dealing with a new marriage?
-                final var divorceeDBUser = ctx.getDBUser();
-                final var marriage = divorceeDBUser.getData().getMarriage();
-                final var marriageData = marriage.getData();
-                var moneySplit = 0L;
-
+            protected void call(Context ctx, String cn, String[] args) {
                 //We, indeed, have no marriage here.
-                if (marriage == null) {
+                if (ctx.getDBUser().getData().getMarriage() == null) {
                     ctx.sendLocalized("commands.divorce.not_married", EmoteReference.ERROR);
                     return;
                 }
 
-                //We do have a marriage, get rid of it.
-                final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
-                final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
+                ctx.sendLocalized("commands.divorce.confirm", EmoteReference.WARNING);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    String content = interactiveEvent.getMessage().getContentRaw();
 
-                //Save the user of the person they were married with.
-                marriedWithDBUser.getData().setMarriageId(null);
-                marriedWithDBUser.save();
+                    if (content.equalsIgnoreCase("yes")) {
+                        final var divorceeDBUser = ctx.getDBUser();
+                        final var marriage = divorceeDBUser.getData().getMarriage();
 
-                //Save the user of themselves.
-                divorceeDBUser.getData().setMarriageId(null);
-                divorceeDBUser.save();
+                        final var marriageData = marriage.getData();
 
-                //Add the heart broken badge to the user who divorced.
-                divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                        //We do have a marriage, get rid of it.
+                        final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
+                        final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
+                        final var divorceePlayer = ctx.getPlayer();
 
-                //Add the heart broken badge to the user got dumped.
-                marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+                        //Save the user of the person they were married with.
+                        marriedWithDBUser.getData().setMarriageId(null);
+                        marriedWithDBUser.save();
 
-                if(marriageData.hasHouse()) {
-                    moneySplit += housePrice * 0.9;
-                }
+                        //Save the user of themselves.
+                        divorceeDBUser.getData().setMarriageId(null);
+                        divorceeDBUser.save();
 
-                if(marriageData.hasCar()) {
-                    moneySplit += carPrice * 0.9;
-                }
+                        //Add the heart broken badge to the user who divorced.
+                        divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
 
-                if(marriageData.getPet() != null) {
-                    moneySplit += marriageData.getPet().getType().getCost() * 0.7;
-                }
+                        //Add the heart broken badge to the user got dumped.
+                        marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
 
-                //Scrape this marriage.
-                marriage.delete();
+                        var moneySplit = 0L;
 
-                // Split the money between the two people.
-                var portion = moneySplit / 2;
-                divorceePlayer.addMoney(portion);
-                marriedWithPlayer.addMoney(portion);
+                        if(marriageData.hasHouse()) {
+                            moneySplit += housePrice * 0.9;
+                        }
 
-                divorceePlayer.save();
-                marriedWithPlayer.save();
+                        if(marriageData.hasCar()) {
+                            moneySplit += carPrice * 0.9;
+                        }
 
-                var extra = "";
-                if(portion > 1) {
-                    extra = String.format(ctx.getLanguageContext().get("commands.divorce.split"), portion);
-                }
+                        if(marriageData.getPet() != null) {
+                            moneySplit += marriageData.getPet().getType().getCost() * 0.7;
+                        }
 
-                ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
+                        //Scrape this marriage.
+                        marriage.delete();
+
+                        // Split the money between the two people.
+                        var portion = moneySplit / 2;
+                        divorceePlayer.addMoney(portion);
+                        marriedWithPlayer.addMoney(portion);
+
+                        divorceePlayer.save();
+                        marriedWithPlayer.save();
+
+                        var extra = "";
+                        if(portion > 1) {
+                            extra = String.format(ctx.getLanguageContext().get("commands.divorce.split"), portion);
+                        }
+
+                        ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
+                        return Operation.COMPLETED;
+                    } else if (content.equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.divorce.cancelled");
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
             }
 
             @Override

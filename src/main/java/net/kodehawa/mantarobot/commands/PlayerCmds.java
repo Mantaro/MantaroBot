@@ -414,7 +414,7 @@ public class PlayerCmds {
         badgeCommand.addSubCommand("info", new SubCommand() {
             @Override
             public String description() {
-                return "Shows info about a badge. Usage: `~>badges info <name>`";
+                return "Shows info about a badge.";
             }
 
             @Override

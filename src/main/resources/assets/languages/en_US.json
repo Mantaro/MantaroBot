@@ -624,6 +624,8 @@
       "denied": "%1$sDenied proposal from **%2$s**"
     },
     "divorce": {
+      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel.",
+      "cancelled": "%1$sCancelled divorce.",
       "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
       "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
       "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
