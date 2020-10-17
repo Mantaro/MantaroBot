@@ -1303,6 +1303,10 @@
         "pet": "Pats",
         "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
       },
+      "list": {
+        "summary": "%1$s **Name:**: %2$s, **Value:** %3$s, **Type:** %4$s",
+        "header": "%1$s**Current available pets**\n%2$s"
+      },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation."
       },
@@ -2271,7 +2275,7 @@
     "pet_house": "Pet House",
     "steak": "Steak",
     "chicken": "Chicken",
-    "milk_3": "Milk",
+    "milk_3": "Milk Bottle",
     "dog_food": "Dog Food",
     "cat_food": "Cat Food",
     "hamster_food": "Hamster Food",

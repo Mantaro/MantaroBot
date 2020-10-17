@@ -551,7 +551,7 @@ public class RelationshipCmds {
         marryCommand.addSubCommand("buycar", new SubCommand() {
             @Override
             public String description() {
-                return "Buys a car to travel in. You need to buy a cat in market first. Usage: `~>marry buycar <name>`";
+                return "Buys a car to travel in. You need to buy a ~~cat~~ car in market first. Usage: `~>marry buycar <name>`";
             }
 
             @Override

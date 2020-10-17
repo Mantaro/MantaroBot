@@ -194,7 +194,7 @@ public class Items {
             PET_HOUSE = new Item(ItemType.PET, EmoteReference.PET_HOUSE.getDiscordNotation(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
             STEAK = new Food(Food.FoodType.DOG, 10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 170, true),
             CHICKEN = new Food(Food.FoodType.CAT, 10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 130, true),
-            MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b", "Milk", "items.milk_3", "items.description.milk_3", 97, true),
+            MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b", "Milk Bottle", "items.milk_3", "items.description.milk_3", 97, true),
             DOG_FOOD = new Food(Food.FoodType.DOG, 10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 130, true),
             CAT_FOOD = new Food(Food.FoodType.CAT, 10, "\ud83e\udd6b", "Cat Food", "items.cat_food", "items.description.cat_food", 130, true),
             HAMSTER_FOOD = new Food(Food.FoodType.HAMSTER, 10, "\ud83c\udf31", "Hamster Food", "items.hamster_food", "items.description.hamster_food", 75, true),

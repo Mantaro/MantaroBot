@@ -90,13 +90,38 @@ public class PetCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Pet commands. For a better explanation of the pet system see [here]().")
+                        // TODO: link to wiki once it's done
+                        .setDescription("Pet commands. For a better explanation of the pet system see [here](https://github.com/Mantaro/MantaroBot/wiki).")
                         .build();
             }
         });
 
-        cr.registerAlias("pet", "pets");
         pet.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+
+        pet.addSubCommand("list", new SubCommand() {
+            @Override
+            public String description() {
+                return "Lists the available pet types.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var pets = Arrays
+                        .stream(HousePetType.values())
+                        .filter(HousePetType::isBuyable)
+                        .map(pet -> {
+                            var emoji = pet.getEmoji();
+                            var name = pet.getName();
+                            var abilities = pet.getStringAbilities();
+                            var value = pet.getCost();
+
+                            return String.format(ctx.getLanguageContext().get("commands.pet.list.summary"), emoji, name, abilities, value);
+                        })
+                        .collect(Collectors.joining("\n"));
+
+                ctx.sendLocalized("commands.pet.list.header", EmoteReference.TALKING, pets);
+            }
+        });
 
         pet.addSubCommand("status", new SubCommand() {
             @Override
@@ -110,13 +135,13 @@ public class PetCmds {
 
                 var marriage = dbUser.getData().getMarriage();
                 if(marriage == null) {
-                    ctx.sendLocalized("commands.pet.no_marriage");
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 
                 var pet = marriage.getData().getPet();
                 if(pet == null) {
-                    ctx.sendLocalized("commands.pet.status.no_pet");
+                    ctx.sendLocalized("commands.pet.status.no_pet", EmoteReference.ERROR);
                     return;
 
                 }
@@ -168,7 +193,6 @@ public class PetCmds {
                 ctx.send(status.build());
             }
         }).createSubCommandAlias("status", "stats");
-
 
         pet.addSubCommand("remove", new SubCommand() {
             @Override
