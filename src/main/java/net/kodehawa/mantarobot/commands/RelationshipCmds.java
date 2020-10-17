@@ -57,6 +57,10 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -719,8 +723,11 @@ public class RelationshipCmds {
                 I18nContext languageContext = ctx.getLanguageContext();
                 DBUser marriedDBUser = ctx.getDBUser(marriedTo);
 
-                //This would be good if it was 2008. But it works.
-                Date marriageDate = new Date(data.getMarriageCreationMillis());
+                LocalDateTime marriageDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault());
+                String dateFormat = marriageDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .withLocale(Utils.getLocaleFromLanguage(dbUser.getData().getLang()))
+                );
+
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -728,7 +735,7 @@ public class RelationshipCmds {
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(String.format(languageContext.get("commands.marry.status.description_format"),
                                 EmoteReference.HEART, author.getName(), author.getDiscriminator(), marriedTo.getName(), marriedTo.getDiscriminator())
-                        ).addField(languageContext.get("commands.marry.status.date"), marriageDate.toString(), false)
+                        ).addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
