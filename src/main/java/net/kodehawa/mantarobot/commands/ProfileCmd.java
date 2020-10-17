@@ -290,7 +290,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             public String description() {
-                return "Sets the profile timezone. Usage: `~>profile timezone <tz>`";
+                return "Sets the profile timezone.";
             }
 
             @Override
@@ -339,8 +339,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile description. Usage: `~>profile description set <description>`\n" +
-                        "Reset with `~>profile description clear`";
+                return "Sets your profile description.";
             }
 
             @Override
@@ -398,7 +397,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile badge. Usage: `~>profile displaybadge <badge name>`\n" +
+                return "Sets your profile badge.\n" +
                         "Reset with `~>profile displaybadge reset`\n" +
                         "No badge: `~>profile displaybadge none`";
             }
@@ -462,7 +461,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("lang", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile language. Usage: `~>profile lang <lang>`. Available langs: `~>lang`";
+                return "Sets your profile language. Available langs: `~>lang`";
             }
 
             @Override
@@ -497,7 +496,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
             public String description() {
-                return "Checks profile statistics. Usage: `~>profile stats [@mention]`";
+                return "Checks profile statistics.";
             }
 
             @Override
@@ -677,7 +676,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("widgets", new SubCommand() {
             @Override
             public String description() {
-                return "Sets profile widgets and order. Usage: `~>profile widgets <widget/ls/reset>`";
+                return "Sets profile widgets and order. Arguments: widget, ls or reset";
             }
 
             @Override

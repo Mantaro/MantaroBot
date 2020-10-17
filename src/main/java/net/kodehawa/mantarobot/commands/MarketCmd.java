@@ -184,7 +184,7 @@ public class MarketCmd {
         marketCommand.addSubCommand("dump", new SubCommand() {
             @Override
             public String description() {
-                return "Dumps an item. Usage: `~>market dump <item>`";
+                return "Dumps an item.";
             }
 
             @Override
@@ -251,7 +251,7 @@ public class MarketCmd {
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
             public String description() {
-                return "Checks the price of any given item. Usage: `~>market price <item>`";
+                return "Checks the price of any given item.";
             }
 
             @Override
@@ -282,7 +282,7 @@ public class MarketCmd {
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
             public String description() {
-                return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount before the item.\n" +
+                return "Sells an item. You can sell multiple items if you put the amount before the item.\n" +
                         "Use `~>market sell all` to sell all of your items. Use `~>market sell allof <item>` to sell all of one item.";
             }
 
@@ -403,7 +403,7 @@ public class MarketCmd {
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys an item. Usage: `~>market buy <item>`. You can buy multiple items if you put the amount before the item. " +
+                return "Buys an item. You can buy multiple items if you put the amount before the item. " +
                         "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
             }
 

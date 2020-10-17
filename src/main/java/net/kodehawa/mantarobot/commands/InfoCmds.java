@@ -293,7 +293,8 @@ public class InfoCmds {
                                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                     .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "")
                                             + (descriptionList.isEmpty() ? newHelp.getDescription() : descriptionList.get(r.nextInt(descriptionList.size())))
-                                    ).setFooter("Don't include <> or [] on the command itself.", ctx.getAuthor().getEffectiveAvatarUrl());
+                                            + "\n" + "**Don't include <> or [] on the command itself.**"
+                                    );
 
                             if (newHelp.getUsage() != null) {
                                 builder.addField("Usage", newHelp.getUsage(), false);
@@ -309,8 +310,6 @@ public class InfoCmds {
                             if (newHelp.isSeasonal()) {
                                 builder.addField("Seasonal", "This command allows the usage of the `-season` (or `-s`) argument.", false);
                             }
-
-                            builder.addField("Still lost?", "[Get support here!](https://support.mantaro.site)",  false);
 
                             //Ensure sub-commands show in help.
                             //Only god shall help me now with all of this casting lol.
@@ -362,6 +361,10 @@ public class InfoCmds {
                                     builder.addField("Aliases", aliases, false);
                                 }
                             }
+
+                            builder.addField("Still lost?",
+                                    "[Check the wiki](https://wiki.mantaro.site) or [get support here!](https://support.mantaro.site)",  false
+                            ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());
 
                             ctx.send(builder.build());
                         } else {
