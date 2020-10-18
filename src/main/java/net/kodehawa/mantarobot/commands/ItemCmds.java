@@ -801,17 +801,13 @@ public class ItemCmds {
         var languageContext = ctx.getLanguageContext();
         if (ctx.hasReactionPerms()) {
             builder.setDescription(
-                    String.format(languageContext.get("general.buy_sell_paged_react"),
-                            splitFields.size(), "\n" + EmoteReference.TALKING + str
-                    )
+                    String.format(languageContext.get("general.buy_sell_paged_react"), "\n" + EmoteReference.TALKING + str)
             );
 
             DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
         } else {
             builder.setDescription(
-                    String.format(languageContext.get("general.buy_sell_paged_text"),
-                            splitFields.size(), "\n" + EmoteReference.TALKING + str
-                    )
+                    String.format(languageContext.get("general.buy_sell_paged_text"), "\n" + EmoteReference.TALKING + str)
             );
 
             DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
