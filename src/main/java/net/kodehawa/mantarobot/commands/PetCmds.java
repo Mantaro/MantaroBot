@@ -155,6 +155,7 @@ public class PetCmds {
 
                 EmbedBuilder status = new EmbedBuilder()
                         .setAuthor(String.format(language.get("commands.pet.status.header"), pet.getName()), ctx.getUser().getEffectiveAvatarUrl())
+                        .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(
                                 EmoteReference.MONEY + " " + language.get("commands.pet.status.cost"),
@@ -476,7 +477,9 @@ public class PetCmds {
                         amount = Integer.parseInt(args[1]);
                         // Only will go through if the amount parses properly :p
                         food = args[0];
-                    } catch (Exception ignored) { }
+                    } catch (Exception ignored) {
+                        food = content;
+                    }
                 }
 
                 var pet = marriage.getData().getPet();
@@ -485,12 +488,12 @@ public class PetCmds {
                     return;
                 }
 
-                if(content.isEmpty()) {
+                if(food.isEmpty()) {
                     ctx.sendLocalized("commands.pet.feed.no_content", EmoteReference.ERROR);
                     return;
                 }
 
-                var item = Items.fromAnyNoId(content);
+                var item = Items.fromAnyNoId(food);
                 if(item.isEmpty()) {
                     ctx.sendLocalized("commands.pet.feed.no_item", EmoteReference.ERROR);
                     return;
