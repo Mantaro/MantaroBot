@@ -46,6 +46,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -537,7 +538,7 @@ public class MarketCmd {
 
         List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
         boolean hasReactionPerms = ctx.hasReactionPerms();
-        embed.setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl());
+        embed.setColor(Color.MAGENTA).setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl());
 
         if (hasReactionPerms) {
             embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),

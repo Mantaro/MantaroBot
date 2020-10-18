@@ -18,8 +18,10 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
@@ -38,6 +40,7 @@ import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -123,7 +126,7 @@ public class PetCmds {
 
                 ctx.sendLocalized("commands.pet.list.header", EmoteReference.TALKING, pets, EmoteReference.PENCIL, ctx.getLanguageContext().get("commands.pet.list.abilities"));
             }
-        });
+        }).createSubCommandAlias("list", "ls");
 
         pet.addSubCommand("status", new SubCommand() {
             @Override
@@ -580,6 +583,50 @@ public class PetCmds {
 
                 marriage.save();
                 ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, 15, pet.getThirst());
+            }
+        });
+
+        pet.addSubCommand("info", new SubCommand() {
+            @Override
+            protected void call(Context ctx, String content) {
+                var lookup = HousePetType.lookupFromString(content);
+                var languageContext = ctx.getLanguageContext();
+                if (lookup == null) {
+                    ctx.sendLocalized("commands.pet.info.not_found", EmoteReference.ERROR);
+                    return;
+                }
+
+                var emoji = lookup.getEmoji();
+                var name = lookup.getName();
+                var cost = lookup.getCost();
+                var abilities = lookup.getStringAbilities();
+                var coinBuildup = lookup.getMaxCoinBuildup(1);
+                var coinBuildup100 = lookup.getMaxCoinBuildup(100);
+                var itemBuildup = lookup.getMaxItemBuildup(1);
+                var itemBuildup100 = lookup.getMaxItemBuildup(100);
+                var food = Arrays.stream(Items.ALL)
+                        .filter(Food.class::isInstance)
+                        .map(Food.class::cast)
+                        .filter(f -> f.getType().getApplicableType() == lookup)
+                        .map(Item::toDisplayString)
+                        .collect(Collectors.joining(", "));
+
+
+                var embed = new EmbedBuilder()
+                        .setAuthor(String.format(languageContext.get("commands.pet.info.author"), emoji, name))
+                        .setColor(Color.PINK)
+                        .addField(languageContext.get("commands.pet.info.name"), name, true)
+                        .addField(languageContext.get("commands.pet.info.cost"), cost + " credits", true)
+                        .addField(languageContext.get("commands.pet.info.abilities"), abilities, false)
+                        .addField(languageContext.get("commands.pet.info.food"), food, false)
+                        .addField(languageContext.get("commands.pet.info.coin_buildup"), coinBuildup + " credits", true)
+                        .addBlankField(true)
+                        .addField(languageContext.get("commands.pet.info.coin_buildup_100"), coinBuildup100 + " credits", true)
+                        .addField(languageContext.get("commands.pet.info.item_buildup"), itemBuildup + " items", true)
+                        .addBlankField(true)
+                        .addField(languageContext.get("commands.pet.info.item_buildup_100"), itemBuildup100 + " items", true);
+
+                ctx.send(embed.build());
             }
         });
     }

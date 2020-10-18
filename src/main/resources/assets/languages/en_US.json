@@ -1367,6 +1367,18 @@
         "no_pet": "%1$sYou don't have a pet to remove",
         "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+      },
+      "info": {
+        "not_found": "%1$sI can't find the pet type you're looking for.",
+        "author": "Pet information for type %1$s%2$s",
+        "name": "Pet Name",
+        "cost": "Pet Cost",
+        "abilities": "Abilities",
+        "food": "Edibles",
+        "coin_buildup": "Coin Buildup (Lvl. 1)",
+        "coin_buildup_100": "Coin Buildup (Lvl. 100)",
+        "item_buildup": "Item Buildup (Lvl. 1)",
+        "item_buildup_100": "Item Buildup (Lvl. 100)"
       }
     },
     "invite": {

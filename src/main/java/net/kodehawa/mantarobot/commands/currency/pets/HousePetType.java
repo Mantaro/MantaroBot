@@ -91,7 +91,9 @@ public enum HousePetType {
     }
 
     public String getStringAbilities() {
-        return getAbilities().stream().map(ability -> Utils.capitalize(ability.toString().toLowerCase())).collect(Collectors.joining(", "));
+        return getAbilities().stream()
+                .map(ability -> Utils.capitalize(ability.toString().toLowerCase()))
+                .collect(Collectors.joining(", "));
     }
 
     public boolean isBuyable() {

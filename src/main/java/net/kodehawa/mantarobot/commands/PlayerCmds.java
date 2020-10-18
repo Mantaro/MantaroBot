@@ -404,7 +404,9 @@ public class PlayerCmds {
 
                             for (Badge b : badges) {
                                 //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
-                                fields.add(new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false));
+                                fields.add(
+                                        new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false)
+                                );
                             }
 
                             if (badges.isEmpty()) {
@@ -472,8 +474,12 @@ public class PlayerCmds {
                         .setDescription(String.join("\n",
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.name") + ":** " + badge.display,
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.description") + ":** " + badge.description,
-                                EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("commands.badges.info.achieved") + ":** " + p.getData().getBadges().stream().anyMatch(b -> b == badge))
-                        ).setThumbnail("attachment://icon.png")
+                                EmoteReference.BLUE_SMALL_MARKER + "**" +
+                                        languageContext.get("commands.badges.info.achieved") + ":** " +
+                                        p.getData().getBadges().stream().anyMatch(b -> b == badge)
+                                )
+                        )
+                        .setThumbnail("attachment://icon.png")
                         .setColor(Color.CYAN)
                         .build()
                 ).build();
