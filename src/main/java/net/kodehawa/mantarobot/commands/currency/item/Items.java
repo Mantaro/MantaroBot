@@ -192,7 +192,7 @@ public class Items {
 
             // ---------------------------------- 5.7 PET ITEMS START HERE ----------------------------------
             PET_HOUSE = new Item(ItemType.PET, EmoteReference.PET_HOUSE.getDiscordNotation(), "Pet House", "items.pet_house", "items.description.pet_house", 170, true, true),
-            STEAK = new Food(Food.FoodType.DOG, 10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 90, true),
+            STEAK = new Food(Food.FoodType.GENERAL, 10, "\ud83e\udd69", "Steak", "items.steak", "items.description.steak", 90, true),
             CHICKEN = new Food(Food.FoodType.CAT, 10, "\ud83d\udc14", "Chicken", "items.chicken", "items.description.chicken", 60, true),
             MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b", "Milk Bottle", "items.milk_3", "items.description.milk_3", 40, true),
             DOG_FOOD = new Food(Food.FoodType.DOG, 10, "\ud83c\udf56", "Dog Food", "items.dog_food", "items.description.dog_food", 75, true),
