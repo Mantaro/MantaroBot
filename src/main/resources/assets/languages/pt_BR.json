@@ -126,7 +126,7 @@
   },
   "commands": {
     "fish": {
-      "dust": "%1$sO dia acabou, e seu balde de peixe só acumulou poeira. (Nível de poeira %2$s%%)",
+      "dust": "%1$sO dia acabou e seu balde de peixe só acumulou poeira. (Nível de poeira %2$s%%)",
       "no_rod": "%1$sVocê não tem nenhuma vara de pesca para pescar!",
       "trash": {
         "overflow": "%1$sVocê encontrou algum lixo enquanto pescava, mas seu inventário estava cheio, então tivemos que jogá-lo de volta na água...",
@@ -137,7 +137,7 @@
       },
       "crate": {
         "overflow": "Você encontrou um **%1$s** enquanto pescava, mas você já tinha muitos, então jogamos de volta no oceano...",
-        "success": "Você encontrou um %1$s **%2$s** enquanto pescava e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do caixote>`. Você precisa de uma chave do caixote!"
+        "success": "Você encontrou um %1$s **%2$s** enquanto pescava e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do baú>`. Você precisa de uma chave!"
       },
       "autoequip": {
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
