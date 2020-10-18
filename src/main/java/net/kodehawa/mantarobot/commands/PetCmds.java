@@ -450,7 +450,7 @@ public class PetCmds {
         pet.addSubCommand("feed", new SubCommand() {
             @Override
             public String description() {
-                return "Feeds your pet. Types of food may vary per pet. Usage: `~>pet feed <food>`";
+                return "Feeds your pet. Types of food may vary per pet. Usage: `~>pet feed <food> [<amount>]`";
             }
 
             @Override
@@ -459,10 +459,21 @@ public class PetCmds {
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
+                var args = ctx.getArguments();
+                var food = content;
+                var amount = 1;
 
                 if(marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
+                }
+
+                if(args.length > 1) {
+                    try {
+                        amount = Integer.parseInt(args[1]);
+                        // Only will go through if the amount parses properly :p
+                        food = args[0];
+                    } catch (Exception ignored) { }
                 }
 
                 var pet = marriage.getData().getPet();
@@ -493,27 +504,34 @@ public class PetCmds {
                     return;
                 }
 
-                if(!playerInventory.containsItem(itemObject)) {
-                    ctx.sendLocalized("commands.pet.feed.not_inventory", EmoteReference.ERROR);
+                if(!playerInventory.containsItem(itemObject) && playerInventory.getAmount(itemObject) >= amount) {
+                    ctx.sendLocalized("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
 
-                var food = (Food) itemObject;
+                var foodItem = (Food) itemObject;
 
-                if(food.getType().getApplicableType() != pet.getType()) {
+                if(foodItem.getType().getApplicableType() != pet.getType()) {
                     ctx.sendLocalized("commands.pet.feed.not_applicable", EmoteReference.ERROR);
                     return;
                 }
 
-                pet.increaseHunger(food.getHungerLevel());
+                var increase = foodItem.getHungerLevel() * amount;
+
+                if((pet.getHunger() + increase) > 100) {
+                    ctx.sendLocalized("commands.pet.feed.too_much", EmoteReference.ERROR);
+                    return;
+                }
+
+                pet.increaseHunger(increase);
                 pet.increaseHealth();
                 pet.increaseStamina();
 
-                playerInventory.process(new ItemStack(itemObject, -1));
+                playerInventory.process(new ItemStack(itemObject, -amount));
                 player.save();
 
                 marriage.save();
-                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.POPPER, food.getName(), food.getHungerLevel(), pet.getHunger());
+                ctx.sendLocalized("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
             }
         });
 
