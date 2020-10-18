@@ -33,6 +33,8 @@ import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -248,7 +250,6 @@ public class PlayerCmds {
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
                 DBUser dbUser = ctx.getDBUser();
-                Player player = ctx.getPlayer();
                 UserData data = dbUser.getData();
 
                 SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
@@ -261,52 +262,84 @@ public class PlayerCmds {
                     return;
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
-
-                String part = ""; //Start as an empty string.
-                if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
-                    //This is part of a Map value, so it's actually nullable (therefore it's not a primitive).
-                    Integer equipped = equipment.getEquipment().get(type);
-                    if(equipped == null) {
-                        ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    Item equippedItem = Items.fromId(equipped);
-
-                    if(equippedItem == null) {
-                        ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    Breakable item = (Breakable) equippedItem;
-
-                    float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
-                    if(percentage == 100) { //Basically never used
-                        player.getInventory().process(new ItemStack(equippedItem, 1));
-                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName());
-                    } else {
-                        Item brokenItem = Items.getBrokenItemFrom(equippedItem);
-                        if(brokenItem != null) {
-                            player.getInventory().process(new ItemStack(brokenItem, 1));
-                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName());
-                        } else {
-                            long money = equippedItem.getValue() / 2;
-                            //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
-                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money);
-                        }
-                    }
-
-                    player.save();
+                Integer equipped = equipment.getEquipment().get(type);
+                if(equipped == null) {
+                    ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                    return;
                 }
 
-                equipment.resetOfType(type);
-                if (isSeasonal)
-                    seasonalPlayer.save();
-                else
-                    dbUser.save();
+                Item equippedItem = Items.fromId(equipped);
 
-                ctx.sendFormat(languageContext.get("commands.profile.unequip.success") + part, EmoteReference.CORRECT, type.name().toLowerCase());
+                ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    String ct = interactiveEvent.getMessage().getContentRaw();
+                    SeasonPlayer seasonalPlayerFinal = ctx.getSeasonPlayer();
+                    DBUser dbUserFinal = ctx.getDBUser();
+                    Player playerFinal = ctx.getPlayer();
+
+                    if (ct.equalsIgnoreCase("yes")) {
+                        I18nContext languageContext = ctx.getLanguageContext();
+
+                        String part = ""; //Start as an empty string.
+                        if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
+
+                            // Gotta check again, just in case...
+                            Integer equippedFinal = equipment.getEquipment().get(type);
+                            if(equippedFinal == null) {
+                                ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                                return InteractiveOperation.COMPLETED;
+                            }
+
+                            if(equippedItem == null) {
+                                ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                                return InteractiveOperation.COMPLETED;
+                            }
+
+                            Breakable item = (Breakable) equippedItem;
+
+                            float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
+                            if(percentage == 100) { //Basically never used
+                                playerFinal.getInventory().process(new ItemStack(equippedItem, 1));
+                                part += String.format(
+                                        languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName()
+                                );
+                            } else {
+                                Item brokenItem = Items.getBrokenItemFrom(equippedItem);
+                                if(brokenItem != null) {
+                                    playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
+                                    part += String.format(
+                                            languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName()
+                                    );
+                                } else {
+                                    long money = equippedItem.getValue() / 2;
+                                    //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
+                                    part += String.format(
+                                            languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money
+                                    );
+                                }
+                            }
+
+                            playerFinal.save();
+                            return InteractiveOperation.COMPLETED;
+                        }
+
+                        equipment.resetOfType(type);
+                        if (isSeasonal)
+                            seasonalPlayerFinal.save();
+                        else
+                            dbUserFinal.save();
+
+                        ctx.sendFormat(languageContext.get("commands.profile.unequip.success") + part,
+                                EmoteReference.CORRECT, type.name().toLowerCase()
+                        );
+                    } else if (ct.equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.profile.unequip.cancelled", EmoteReference.WARNING);
+                        return InteractiveOperation.COMPLETED;
+                    }
+
+                    return InteractiveOperation.IGNORED;
+                });
+
             }
 
             @Override

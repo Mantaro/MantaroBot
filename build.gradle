@@ -28,10 +28,7 @@ plugins {
     id 'com.palantir.docker' version '0.25.0'
 }
 
-//Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
-
-//Use an unified versioning system
 def ver = new Version(major: 5, minor: 7, revision: "0_beta-2")
 version ver.toString()
 
