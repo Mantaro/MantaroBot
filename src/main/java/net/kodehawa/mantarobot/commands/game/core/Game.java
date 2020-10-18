@@ -90,7 +90,7 @@ public abstract class Game<T> {
                 SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
                 SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
 
-                int gains = 45 + extra;
+                int gains = 70 + extra;
                 unifiedPlayer.addMoney(gains);
 
                 if (data.getGamesWon() == 100)

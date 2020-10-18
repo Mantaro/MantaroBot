@@ -91,7 +91,7 @@ public class GuessTheNumber extends Game<Object> {
                         UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
                         Player player = unifiedPlayer.getPlayer();
                         SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
-                        int gains = 95;
+                        int gains = 140;
 
                         unifiedPlayer.addMoney(gains);
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
