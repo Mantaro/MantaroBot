@@ -235,9 +235,6 @@ public class HousePet {
         if(getThirst() < 20)
             return ActivityResult.LOW_THIRST;
 
-        if(isSleepy(marriageTz))
-            return ActivityResult.SLEEPY;
-
         decreaseStamina();
         decreaseHealth();
         decreaseHunger();
