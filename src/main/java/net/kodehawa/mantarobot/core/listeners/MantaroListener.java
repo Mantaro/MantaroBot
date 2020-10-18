@@ -673,9 +673,9 @@ public class MantaroListener implements EventListener {
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`",
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
                             hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())
+                            event.getGuild().getName(), event.getUser().getId())
                     ).queue();
                     logTotal++;
                 }
@@ -722,9 +722,9 @@ public class MantaroListener implements EventListener {
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(User #%d)`",
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(ID: %s)`",
                             hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            event.getGuild().getName(), event.getGuild().getMembers().size())
+                            event.getGuild().getName(), event.getUser().getId())
                     ).queue();
                     logTotal++;
                 }
