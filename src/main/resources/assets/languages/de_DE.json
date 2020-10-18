@@ -90,7 +90,7 @@
       "U-Uhh.. Was wolltest du?"
     ],
     "ratelimit_quotes": [
-      "Woah... Du rufst mich viel zu schnell... Mir wird ganz schwindlig.!",
+      "Woah... Du rufst mich viel zu schnell... Mir wird ganz schwindlig!",
       "Sei nicht gierig!",
       "D-Du rufst mich viel zu schnell... Mir ist schwindlig...",
       "Wart mal!",
@@ -1212,7 +1212,7 @@
       "not_valid": "%1$sDas ist keine gültige Anzahl zu löschender Nachrichten!",
       "less_than_five": "%1$sSie müssen mindestens 5 Nachrichten bereitstellen.",
       "messages_too_old": "%1$sEs gibt keine Nachrichten, die jünger als 2 Wochen sind, Discord lässt mich nicht löschen.",
-      "success": "%1$sLöschte erfolgreich %2$s nachrichten von diesem Kanal!",
+      "success": "%1$sIn diesem Kanal wurden %2$s Nachrichten erfolgreich gelöscht.",
       "lack_perms": "%1$sFehlende Erlaubnis zum Löschen von Nachrichten (Erlaubnis nicht zur Verfügung gestellt: %2$s)",
       "error_deleting": "%1$sUnbekannter Fehler beim Löschen von Nachrichten (Internal: %2$s %3$s). Sollte dies häufiger vorkommen, melde es bitte hier: <https://support.mantaro.site>"
     },
