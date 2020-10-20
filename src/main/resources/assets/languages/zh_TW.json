@@ -1,7 +1,7 @@
 {
   "general": {
     "invalid_number": "%1$s不是一個有效的數字!",
-    "requested_by": "被 %1$s要求。",
+    "requested_by": "%1$s請求。",
     "operation_timed_out": "%1$s回答此操作的時間已經用完。",
     "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件? (舉例: 名字#判別數)\n**找到用戶:** %2$s",
     "search_no_result": "%1$s你的搜索沒有結果 :(",
@@ -68,7 +68,7 @@
     "buy_sell_paged_react": "**總頁數: %1$d**\n使用回應來切換頁數。\n%2$s",
     "buy_sell_paged_text": "**總頁數: %1$d.**\n使用 **&p >>** 和 **&p <<** 來切換頁數。\n%2$s",
     "buy_sell_paged_reference": "**提示: %1$s買 %2$s 賣。**",
-    "cancelled": "%1$s以取消請求。",
+    "cancelled": "%1$s已取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "不再使用",
     "space_notice": "如果物品名稱有空格，試著把他 \"用引號包起來\"",
