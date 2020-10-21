@@ -351,7 +351,7 @@ public class PlayerCmds {
     @Subscribe
     public void badges(CommandRegistry cr) {
         final Random r = new Random();
-        ITreeCommand badgeCommand = (ITreeCommand) cr.register("badges", new TreeCommand(CommandCategory.CURRENCY) {
+        ITreeCommand badgeCommand = cr.register("badges", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
