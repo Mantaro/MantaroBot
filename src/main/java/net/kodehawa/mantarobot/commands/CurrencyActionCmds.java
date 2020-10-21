@@ -316,7 +316,6 @@ public class CurrencyActionCmds {
                 //Level but starting at 0.
                 int nominalLevel = item.getLevel() - 3;
                 String extraMessage = "";
-
                 int chance = random.nextInt(100);
 
                 if (chance < 10) {
@@ -349,7 +348,6 @@ public class CurrencyActionCmds {
                             .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
-
 
                     int money = 0;
                     boolean buff = Items.handleEffect(PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), Items.FISHING_BAIT, dbUser);
@@ -467,7 +465,6 @@ public class CurrencyActionCmds {
                         playerData.markCampaignAsSeen();
                     }
 
-
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.
                     if (money == 0 && !foundFish) {
@@ -503,7 +500,6 @@ public class CurrencyActionCmds {
 
                 handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
             }
-
 
             @Override
             public HelpContent help() {
@@ -631,7 +627,6 @@ public class CurrencyActionCmds {
                         ita.add(new ItemStack(Items.WOOD, 1));
                     }
                     // ---- End of drop handling.
-
 
                     // Reduce item stacks (aka join them) and process it.
                     List<ItemStack> reducedStack = ItemStack.reduce(ita);
