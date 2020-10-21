@@ -25,7 +25,6 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -51,10 +50,10 @@ import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 
 @Module
 public class OptsCmd {
-    public static Command optsCmd;
+    public static SimpleCommand optsCmd;
 
     public static SimpleCommand getOpts() {
-        return (SimpleCommand) optsCmd;
+        return optsCmd;
     }
 
     @Subscribe

@@ -754,7 +754,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
             } else {
                 DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                        role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:")
+                        role.getId(), role.getPosition()), s -> optsCmd.baseEmbed(event, "Select the Role:")
                                 .setDescription(s).build(),
                         role -> {
                             if (!event.getMember().canInteract(role)) {

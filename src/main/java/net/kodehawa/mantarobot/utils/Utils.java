@@ -273,7 +273,7 @@ public class Utils {
         } else {
             DiscordUtils.selectList(event, found,
                     role -> String.format("%s (ID: %s)", role.getName(), role.getId()),
-                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
+                    s -> optsCmd.baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
             );
         }
 
@@ -320,7 +320,7 @@ public class Utils {
         } else {
             DiscordUtils.selectList(event, found,
                     textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+                    s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
             );
         }
 
@@ -346,7 +346,7 @@ public class Utils {
         } else {
             DiscordUtils.selectList(event, found,
                     voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+                    s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
             );
         }
 
