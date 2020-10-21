@@ -437,7 +437,7 @@ public class UtilsCmds {
 
     @Subscribe
     public void remindme(CommandRegistry registry) {
-        ITreeCommand remindme = (ITreeCommand) registry.register("remindme", new TreeCommand(CommandCategory.UTILS) {
+        ITreeCommand remindme = registry.register("remindme", new TreeCommand(CommandCategory.UTILS) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {

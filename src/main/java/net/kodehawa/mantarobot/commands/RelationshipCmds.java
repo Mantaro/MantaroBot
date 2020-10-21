@@ -132,7 +132,7 @@ public class RelationshipCmds {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        ITreeCommand marryCommand = (ITreeCommand) cr.register("marry", new TreeCommand(CommandCategory.FUN) {
+        ITreeCommand marryCommand = cr.register("marry", new TreeCommand(CommandCategory.FUN) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
