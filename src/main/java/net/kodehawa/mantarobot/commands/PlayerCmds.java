@@ -249,13 +249,9 @@ public class PlayerCmds {
                 boolean isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
-                DBUser dbUser = ctx.getDBUser();
-                UserData data = dbUser.getData();
-
                 SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
-
-                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
+                DBUser dbUser = ctx.getDBUser();
+                PlayerEquipment equipment = isSeasonal ? seasonalPlayer.getData().getEquippedItems() : dbUser.getData().getEquippedItems();
                 PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
                 if (type == null) {
                     ctx.sendLocalized("commands.profile.unequip.invalid_type", EmoteReference.ERROR);
@@ -276,15 +272,16 @@ public class PlayerCmds {
                     SeasonPlayer seasonalPlayerFinal = ctx.getSeasonPlayer();
                     DBUser dbUserFinal = ctx.getDBUser();
                     Player playerFinal = ctx.getPlayer();
+                    UserData dbUserData = dbUserFinal.getData();
+                    PlayerEquipment equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
 
                     if (ct.equalsIgnoreCase("yes")) {
                         I18nContext languageContext = ctx.getLanguageContext();
 
                         String part = ""; //Start as an empty string.
-                        if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
-
+                        if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD ||type == PlayerEquipment.EquipmentType.AXE ) {
                             // Gotta check again, just in case...
-                            Integer equippedFinal = equipment.getEquipment().get(type);
+                            Integer equippedFinal = equipmentFinal.getEquipment().get(type);
                             if(equippedFinal == null) {
                                 ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                                 return InteractiveOperation.COMPLETED;
@@ -297,7 +294,7 @@ public class PlayerCmds {
 
                             Breakable item = (Breakable) equippedItem;
 
-                            float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
+                            float percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                             if(percentage == 100) { //Basically never used
                                 playerFinal.getInventory().process(new ItemStack(equippedItem, 1));
                                 part += String.format(
@@ -318,12 +315,9 @@ public class PlayerCmds {
                                     );
                                 }
                             }
-
-                            playerFinal.save();
-                            return InteractiveOperation.COMPLETED;
                         }
 
-                        equipment.resetOfType(type);
+                        equipmentFinal.resetOfType(type);
                         if (isSeasonal)
                             seasonalPlayerFinal.save();
                         else
@@ -339,7 +333,6 @@ public class PlayerCmds {
 
                     return InteractiveOperation.IGNORED;
                 });
-
             }
 
             @Override
