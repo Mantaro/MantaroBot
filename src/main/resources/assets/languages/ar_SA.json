@@ -61,12 +61,21 @@
       "max_stack_size_2": "%1$sلايمكنك تكديس هذه الكميه %2$s.",
       "not_same_potion": "%1$sلديك بالفعل جرعة من نوع %2$s مخزنه ومفعله, لذا لايمكنك تكديس جرعة من نوع %3$s به."
     },
+    "campaigns": {
+      "premium": {
+        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
+        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+      },
+      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+    },
     "mention_user_required": "%1$sتحتاج منشن لشخص.",
     "invalid_character": "%1$sهذا حرف غير مسموح به.",
     "invalid_action": "لايمكنك فعل ذلك, يا للسخف.",
     "interactive_running": "%1$sهناك بالفعل عملية مفعله (مملوكة من قبلك) على هذه القناة.",
-    "buy_sell_paged_react": "**الصفحات: %1$d.**\nاستخدم الرمز التعبيري الموجود أسفل الرسالة لتحريك الصفحات.\n%2$s",
-    "buy_sell_paged_text": "**الصفحات: %1$d.**\nإستخدم **&p >>** و **&p <<** للتحريك بين الصفحات.\n%2$s",
+    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
+    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
     "buy_sell_paged_reference": "**المرجع %1$s شراء %2$s بيع.**",
     "cancelled": "%1$sطلب ملغى.",
     "sellout": "فكر بالتبرع في [Patreon](https://www.patreon.com/mantaro) اذا اعجبتك. حتى تبرع صغير سيساعد البوت للبقاء على قيد الحياة!",
@@ -79,7 +88,7 @@
       "spam_3": "ألن يكون من الأفضل أن تخرج قليلاً؟",
       "spam_4": "هل هذا الشيء حتى على؟"
     },
-    "generic_error": "اذا أردت الدخول الى ** سيرفر الدعم الفن** الخاص بنا (`https://support.mantaro.site`), او تحقق من صفحتنا على قيت هب (`https://github.com/Kodehawa/MantaroBot`). من فضلك اخبرهم ان يتوقفوا عن ازعاجي ورجاءً لاتنسى ارسال ايدي الخطأ عند الابلاغ عنه!",
+    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
     "boom_quotes": [
       "على ما يبدو ميغومين فجر قلعتنا...",
       "أوه, على ما يبدو أن سيدي نسي بعض الأصفار و احاد على الأرض :<",
@@ -572,7 +581,35 @@
         "description_format": "%1$sحالة الزواج بين **%2$s#%3$s** و **%4$s#%5$s**",
         "date": "موعد الزواج",
         "love_letter": "رسالة الحب",
-        "waifus": "ملكية الوايفو"
+        "waifus": "ملكية الوايفو",
+        "house": "House Name",
+        "car": "Car Name",
+        "pet": "Pet Name (Type)"
+      },
+      "timezone": {
+        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
+        "invalid": "%1$sNot a valid timezone or Zone ID.",
+        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+      },
+      "general": {
+        "not_married": "%1$sYou're not married."
+      },
+      "buyhouse": {
+        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
+        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
+        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d)",
+        "no_name": "%1$sYou need to give your house a name!",
+        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
+        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
+        "cancel_success": "%1$sCancelled operation."
+      },
+      "buycar": {
+        "no_house": "%1$sYou need to buy a house first! Check `~>marry buyhouse` and `~>help marry`",
+        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d)",
+        "no_name": "%1$sYou need to give your car a name!",
+        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
+        "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
+        "cancel_success": "%1$sCancelled operation."
       },
       "no_mention": "%1$sاذكر الشخص الذي تريد ان تتزوجه.",
       "marry_yourself_notice": "%1$sلا تستطيع الزواج من نفسك, بقدر ما تريد.",
@@ -587,8 +624,11 @@
       "denied": "%1$sرفض اقتراح الزواج من **%2$s**"
     },
     "divorce": {
+      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel.",
+      "cancelled": "%1$sCancelled divorce.",
       "not_married": "%1$sأنت لست متزوج، لماذا لم تجد الشخص المميز؟ ",
-      "success": "%1$sالأن أنت غير مرتبط. أظن أن هذا جميل :)! "
+      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
+      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
     },
     "waifu": {
       "bot": "%1$sالبوت لايمكن أن يكون وايفو، حتى لو أردت ذلك...",
@@ -675,10 +715,10 @@
       "no_item": "%1$sلاتملك الغرض اللام *%2$s* للمضي قدماً في عملية الصب هذه. ",
       "not_enough_items": "%1$sلاتملك الغرض الكافي *%2$s* للمضي قدماً. \n**(تحتاج: %3$s، الحالي: %4$s)**",
       "success": "%1$sتم بنجاح صب * %2$s %3$s* مقابل %4$s مال *الصب المُستخدمه: %5$s* ",
-      "no_tool": "%1$sتحتاج أن تملك %2$s للمضي بعملية الصب!",
+      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "للأسف، المفك إنكسر بينما كنت تصب، ولكن حصلت على غرضك! ",
       "too_many": "%1$sسوف تملك أكثر من 5000 قطعة من نفس الغرض اذا تم المُضي. جرب صب أقل من هذا الغرض؟",
-      "low_tier": "%1$sتحتاج على الأقل مفك مستوى 2  (على الأقل مفك المُذنب comet wrench ) لصب أكثر من 1 عدد لنفس الغرض بنفس الأمر. الآن تملك مفك مستوى %2$s ",
+      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "not_enough_wrench_level": "%1$sمفكك غير قوي كفاية لصب هذا الغرض. ريما تحديد مفك أقوى؟  *مستوى المفك: %2$s, المستوى المطلوب: %3$s*. مثال: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sلايمكنك صب العديد من هذا الغرض مرة واحدة! الحد: %2$s، محاولة: %3$s. مفك البريق يجعل الحد مزدوج! إلا إذا كنت تستخدم واحد بالفعل. ",
       "ls": {
@@ -728,7 +768,7 @@
         "not_enough_money": "%1$sلاتملك المال الكافي لشراء هذا الغرض! "
       },
       "header": "سوق مونتارو ",
-      "reference": "يمكنك شراء و بيع غرض بإستخدام `~>market buy <item>` و `~>market sell <item>`. تحقق من  `~>help market` للمزيد من المعلومات.\n",
+      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
       "sell_price": "-**سعر البيع:**",
       "buy_price": "-**سعر الشراء:**"
     },
@@ -867,6 +907,7 @@
         "experience": "خبرة",
         "mine_xp": "خبرة الحفر ",
         "fish_xp": "خبرة صيد السمك",
+        "chop_xp": "Chopping Experience",
         "sharks_caught": "اصطدت قرش ",
         "crates_open": "فتح الصناديق ",
         "times_mop": "عدد مرات المسح",
@@ -901,10 +942,12 @@
         "not_equipped": "%1$sليس لديك اي شيء مُجهز في هذا المكان.",
         "no_content": "%1$sتحتاج لتحديد نوع الأداة لإلغاء تركيبه، `إما pick أو rod`",
         "invalid_type": "%1$sنوع غير صحيح، الأنواع الصحيحة هي `pick, rod`",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sتم بنجاح إلغاء تركيب %2$s بفتحتك الخاصة",
         "equipment_recover": "بما أنك لم تستخدم مُعداتك أبداً، حصلت على %1$s الخاص بك. ",
         "broken_equipment_recover": "تم استخدام المعدات الخاصة بك، ولكنك حصلت على %1$s ، يمكنك إصلاحه إذا كنت في حاجة إليها في وقت لاحق!",
-        "broken_equipment_recover_none": "هذا النوع من المعدات لم يكن لديه نوع مكسور للتعافي منه، وتم استخدامه، لذلك اختفى في الفراغ، ولكن حصلت على %1$s مال مرة أخرى."
+        "broken_equipment_recover_none": "هذا النوع من المعدات لم يكن لديه نوع مكسور للتعافي منه، وتم استخدامه، لذلك اختفى في الفراغ، ولكن حصلت على %1$s مال مرة أخرى.",
+        "cancelled": "%1$sCancelled operation."
       },
       "display": {
         "not_premium": "%1$sال profile widgets متوفر للأعضاء البريميوم فقط! ",
@@ -928,6 +971,7 @@
       "header": "صفحة %1$s الشخصية",
       "no_desc": "لم يتم وضع وصف",
       "credits": "مال",
+      "old_credits": "Legacy Credits",
       "level": "مستوى",
       "xp": "XP",
       "rep": "ريب",
@@ -1242,74 +1286,99 @@
       "height": "Height",
       "tags": "العلامات",
       "load_notice": "إذا لم يتم تحميل الصورة ، فانقر على العنوان.",
-      "rule34_notice": "إذا لم يعجبك المحتوى الموجود في هذا الأمر ، فيمكنك استخدام ~>yandere",
+      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "pet": {
-      "no_content": "%1$sYou need to specify the pet to look up the stats of (and the user you want to check the pet from, if it's not yours. Make sure to quote the name on this case!).",
-      "not_specified": "%1$sYou didn't specify the pet name.",
-      "not_found": "%1$sI didn't find a pet with the provided name.",
-      "character_not_allowed": "%1$sThis character isn't allowed in pet names. Try another name?",
-      "overview": "النظرة العامة واحصائيات ال pet",
-      "name": "إسم",
-      "tier": "مستوى",
-      "element": "عنصر",
-      "owner": "مالك",
-      "created": "أنشئت في",
-      "affection": "مودة",
-      "stamina": "قدرة التحمل الحالية",
-      "hp": "HP الحالي ",
-      "fly": "طيران",
-      "venom": "سم",
-      "inventory": "مخزون",
-      "id": "هوية ال pet : %1$s",
-      "hunger": "الجوع",
-      "hydration": "Hydration"
-    },
-    "petactions": {
-      "general": "Pets are your companion on the usage of currency! **You can train them, pet them, feed them or have fights between your own pets or pets from other people!** To create a pet you need an incubator, which you can cast from milk, old beverage and diamonds, this will allow you to incubate a pet, which will require you to give it a name.\n\nPets can fight in PetBattle, which is a turn-based (ish) fight system based in a one-turn strategy, with an emergency turn on the half-turn if the HP difference between the pets is too different, which would allow you to change your strategy.\n\nFor competition, you need to use different skills, which will cater to different elements and types. You chose them at the start of your turn or half-turn.\nSkills are the main weapon you have! But, pets can also have a main weapon equipped, based on their type and affection. The weapon shop is available at `~>petaction shop` and you can equip it using `~>petaction weapon`, weapons *do not* have damage multiplier by themselves, but they can improve the effectiveness of some attacks and skills, as the result of this, there are no melee weapons, as all damage on PetBattle is done based on their will, not on their actual life.\n\nDo `~>help petaction` to get a list of the commands you can use with your pet.",
-      "incubate": {
-        "no_name": "%1$sيجب انت تحدد اسم لاعطاءه لحيوانك الأليف.",
-        "only_letters": "%1$sالاسم يُمكن ان يحتوي على احرف من a-z فقط.",
-        "no_egg": "%1$sYou don't have an incubator egg on your inventory.",
-        "not_enough_slots": "%1$sYou don't have enough pet slots left. (Total: %2$s, Used: %3$s)",
-        "no_money": "%1$sYou don't have enough money to incubate this egg. (Required: **%2$s** credits)",
-        "success": "%1$sSuccessfully incubated your pet egg! Your new pet %2$s `(ID: %3$s)` is now ready. Check `~>pet <name>` to check pet stats."
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now.",
+      "status": {
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
+        "header": "Status for Pet %1$s",
+        "description": "Remember to take care and love your pet :heart:.\nSee `~>pet` and `~>help pet` for an explanation.",
+        "cost": "Price",
+        "type": "Type",
+        "abilities": "Abilities",
+        "level": "Level",
+        "health": "Health",
+        "thirst": "Thirst",
+        "hunger": "Hunger",
+        "pet": "Pats",
+        "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
       },
-      "rename": {
-        "not_enough_args": "%1$sيجب ان تحدد الاسم الحالي والاسم الجديد.",
-        "new_name_exists": "%1$s انت بالفعل تملك حيوان أليف ب هذا الاسم.",
-        "not_enough_money": "%1$sليس لديك المال الكافي لهذا. **(المطلوب: %2$s)**",
-        "confirmation": "%1$sهل انت فعلاً تريد اعادة تسمية **%2$s** ل **%3$s**؟ اكتب *yes* للتأكيد و *no* للالغاء.",
-        "success": "%1$sتم بنجاح اعادة تسمية **%2$s** الى **%3$s** (الايدي: %4$s). التكلفة: %5$s"
+      "list": {
+        "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
+        "abilities": "*Fish*: Useful for `~>fish`\n*Catch*: Useful for `~>mine`\n*Chop*: Useful for `~>chop`\n*Cheer*: Gives you a nice morale boost.",
+        "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
-      "ls": {
-        "experience": "XP",
-        "age": "العمر",
-        "no_pets": "%1$sليس لديك أي حيوانات أليفة.",
-        "header": "هذه قائمة بالحيوانات الأليفة التي تملكها حالياً.\nالحيوانات الأليفة هي شريكتك باستخدام العملة! **انت تستطيع تمرينهم, اللعب معهم, إطعامهم أو الحصول على قتالات بين الحيوانات التي تملكها أو حيوانات من أشخاص آخرين** لإنشاء حيوان أليف ، تحتاج إلى حاضنة ، والتي يمكنك صبها من الحليب والمشروبات القديمة والالماس ، وهذا سيسمح لك باحتضان حيوان أليف ، الأمر الذي سيتطلب منك تسميته.",
-        "pages": "**إجمالي الصفحات:** %1$s \nاستخدم الرياكشن أدنى الرسالة للتنقل بين الصفحات.\n\n"
+      "pat": {
+        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation."
       },
-      "train": {
-        "success": "%1$sمهارة تم تدريبها بنجاح **%2$s**. الخبرة المكتسبة: %3$s. خبرة المهارة الحالية: %4$s. (التكلفة: %5$s)"
+      "pet_reactions": {
+        "cute": "%1$sYour pet happily wags their tail as you caress their head. **Pat counter: %2$s**.%3$s",
+        "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. **Pat counter: %2$s**.%3$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %2$s**.%3$s",
+        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
-      "pet": {
-        "no_pet": "%1$sلم أستطع العثور على حيوان أليف بالاسم الذي ذكرته.",
-        "pet": "%1$sاوووه! شكراً. (التأثير: %2$s, إجمالي الحيوانات الألفية: %3$s)"
+      "buy": {
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
+        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s",
+        "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
+        "already_has_pet": "%1$sYou already have a pet.",
+        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$s.",
+        "cancel_success": "%1$sCancelled operation."
       },
       "feed": {
-        "fire_type": "%1$sYou can't really feed a fire type pet... unless you wanna make charcoal.",
-        "no_item": "%1$s لا استطيع ايجاد الغرض.",
-        "not_food": "%1$sالعنصر المحدد ليس طعامًا.",
-        "full": "%1$sحيوانك الأليف يشعر بالشبع حالياً ولا يمكنه أكل المزيد.",
-        "success": "%1$sتم تغذية حيوانك الأليف بنجاح %2$s. (مستوى الجوع الحالي: %3$s. الشبع: %4$s)"
+        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with.",
+        "no_item": "%1$sI didn't find the item you specified.",
+        "not_food": "%1$sWoah there! This isn't food!",
+        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
+        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
+        "not_applicable": "%1$sYou can't feed this food to your pet type.",
+        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
       },
-      "hydrate": {
-        "fire_type": "%1$sYou can't really hydrate a fire type pet... unless you wanna put them off.",
-        "not_water": "%1$sهذا الحيوان الأليف ليس من النوع المائي.",
-        "no_water": "%1$sليس لديك زجاجة ماء بالمخزن الخاص بك",
-        "success": "%1$sSuccessfully hydrated your pet. (Current hydration level: %2$s)"
+      "water": {
+        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
+        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
+        "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
+      },
+      "activity": {
+        "low_stamina": "%1$sYour pet has a really low stamina. Give it food/water to replenish.",
+        "low_health": "%1$sThe health of your pet is too low. Give it food and let it rest for a while to replenish",
+        "low_hunger": "%1$sYour pet is too hungry to do anything right now. *Fooood~*",
+        "low_thirst": "%1$sYour pet is too thirsty to do anything right now.",
+        "sleepy": "%1$sYour pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
+        "success": "%1$sYour pet successfully helped you! You got a buff and extra credits **(%2$s extra credits, %3$s extra items)** -included on what you got- thanks to the extra work your pet was able to do for you!"
+      },
+      "rename": {
+        "no_pet": "%1$sYou don't have a pet to rename.",
+        "no_content": "%1$sYou need to give me the new name of your pet.",
+        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
+        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+      },
+      "remove": {
+        "no_pet": "%1$sYou don't have a pet to remove",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+      },
+      "info": {
+        "not_found": "%1$sI can't find the pet type you're looking for.",
+        "author": "Pet information for type %1$s%2$s",
+        "name": "Pet Name",
+        "cost": "Pet Cost",
+        "abilities": "Abilities",
+        "food": "Edibles",
+        "coin_buildup": "Coin Buildup (Lvl. 1)",
+        "coin_buildup_100": "Coin Buildup (Lvl. 100)",
+        "item_buildup": "Item Buildup (Lvl. 1)",
+        "item_buildup_100": "Item Buildup (Lvl. 100)"
       }
     },
     "invite": {
@@ -1323,6 +1392,26 @@
         "4": "شكراً لك لاستخدامك البوت! ** 3> من المطورين وفريق مانتارو**"
       },
       "footer": "نتمنى أن تستمع مع البوت."
+    },
+    "salvage": {
+      "no_item": "%1$sYou need to specify the item you want to salvage.",
+      "no_item_found": "%1$sI can't find the item you specified.",
+      "cant_salvage": "%1$sYou can't salvage this item.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item.",
+      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
+      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
+      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
+      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
+      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
+      "no_returnables": "%1$sThis item has no returnable salvage elements.",
+      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "ls": {
+        "header": "Salvageable Item List",
+        "cost": "Salvage Cost: ",
+        "return": "Could Return: ",
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+      }
     },
     "stats": {
       "header": "إحصائيات مانتارو",
@@ -1492,7 +1581,7 @@
       "given_credits": "%1$sقمت بإعطاء **$%2$,d** الخاصة بمكآفأتك اليومية الى %3$s",
       "credits": "%1$sلقد حصلت على **$%2$,d** كمكآفأة يومية من الكردت.",
       "sellout": {
-        "get_premium": "نحن بحاجة الى مساعدتك لإبقاء مانتارو على قيد الحياة قم بمراجعة <https://patreon.com/mantaro> للمزيد من المعلومات.",
+        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
         "already_premium": "شكرا لدعمك مانتارو. بدون مساعدة من أشخاص مثلك لم نتمكن من إبقاء مانتارو على قيد الحياة :heart:"
       },
       "crate": "لقد فزت ب صندوق غنيمة لأن الستريك الخاص بك من مضاعفات ال 20! استمتع.",
@@ -1523,7 +1612,7 @@
         "found_only_item_but_overflow": "%1$sبالتنقيب في الرسائل, انت عثرت %2$s. %3$s"
       },
       "without_item": {
-        "found": "%1$sبالتنقيب في الرسائل, انت عثرت على **$%2$s كريدت!**",
+        "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
         "found_but_overflow_no_item": "%1$sبالتنقيب في الرسائل, انت عثرت على **$%2$,d كريدت.** لكنك بالفعل تملك الكثير من الكريدت, لذلك قمت بالتبرع بالفائض."
       },
       "dust": "بالتنقيب في الرسائل, لم تعثر على شيء سوا الغبار (مستوى الغبار %1$s%%)",
@@ -1561,6 +1650,16 @@
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
       "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
     },
+    "chop": {
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure!",
+      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
+      "autoequip": {
+        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+      },
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+    },
     "slots": {
       "errors": {
         "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
@@ -1570,7 +1669,8 @@
         "below_minimum": "%1$sالحد الأدنى هو 25 كريدت",
         "no_tickets": "%1$sأردت استخدام التذاكر لكنك لا تملك أي منها :<",
         "no_amount": "%1$sلم تحدد المبلغ!",
-        "no_valid_amount": "%1$sهذا ليس مبلغ صالح من المال! (مثال على المبالغ الصحيحة: 1000, 1k, 14000, 2M)"
+        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
+        "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
       },
       "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
       "win": "And you won **%1$,d** credits and got to keep what you bet (%2$,d credits)! Lucky!",
@@ -1594,7 +1694,8 @@
         "experience": "Experience",
         "game": "%1sتعرض هذه الصفحة أفضل 10 أشخاص فازوا بأكبر عدد من الألعاب.\n\nقم بمراجعة `~>help game`\n أو`~>help trivia`\n للحصول على تفاصيل حول كيفية عمل الألعاب!",
         "claim": "%1sتعرض هذه الصفحة أفضل 10 أشخاص تمت المطالبة بهم في نظام ال waifu.\n\nقم بمراجعة `~>help waifu`\n للحصول على تفاصيل حول كيفية عمل نظام ال waifu.",
-        "money": "%1$sتعرض هذه الصفحة اغنى 10 اشخاص في مانتارو.\nهذه القائمة قديمة لفترة, لكن لا تستسلم ابداً!",
+        "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
+        "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
         "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
         "rep": "%1sThis page shows the top 10 people with the most reputation.",
         "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
@@ -2028,6 +2129,14 @@
       "success": "%1$sUnban message set to: `%2$s`",
       "reset_success": "%1$sReset logs unban message."
     },
+    "djrole_set": {
+      "no_role": "%1$sYou need to give me a role to use as the DJ role.",
+      "success": "%1$sSuccessfully set the DJ role to %2$s."
+    },
+    "djrole_reset": {
+      "not_set": "%1$sYou have no custom DJ role set.",
+      "success": "%1$sSuccessfully reset the DJ role."
+    },
     "showdisablewarning": {
       "success": "%1$sDisplay warning on disabled command is set to: %2$s"
     },
@@ -2152,8 +2261,8 @@
     "star_wrench": "Star Wrench",
     "sparkle_wrench": "مفتاح فك متلألأ",
     "motorcycle": "Motorcycle",
-    "comet_pick": "Comet Gem Pickaxe",
-    "star_pick": "Star Gem Pickaxe",
+    "comet_pick": "Comet Pickaxe",
+    "star_pick": "Star Pickaxe",
     "sparkle": "Sparkle Matter",
     "sparkle_pick": "Sparkle Pickaxe",
     "pizza": "Pizza",
@@ -2180,6 +2289,35 @@
     "incubator_egg": "Incubator Egg",
     "water_bottle": "زجاجة ماء",
     "magic_watch": "ساعة سحرية",
+    "pet_house": "Pet House",
+    "steak": "Steak",
+    "chicken": "Chicken",
+    "milk_3": "Milk Bottle",
+    "dog_food": "Dog Food",
+    "cat_food": "Cat Food",
+    "hamster_food": "Hamster Food",
+    "wood": "Wood",
+    "moon_pick": "Moon Pickaxe",
+    "hellfire_pick": "Hellfire Pickaxe",
+    "axe": "Axe",
+    "comet_axe": "Comet Axe",
+    "star_axe": "Star Axe",
+    "sparkle_axe": "Sparkle Axe",
+    "moon_axe": "Moon Axe",
+    "hellfire_axe": "Hellfire Axe",
+    "moon_rod": "Moon Rod",
+    "hellfire_rod": "Hellfire Rod",
+    "leaves": "Leaves",
+    "apple": "Apple",
+    "pear": "Pear",
+    "cherry_blossom": "Cherry Blossom",
+    "rock": "Rock",
+    "broken_moon_pick": "Broken Moon Pick",
+    "broken_moon_axe": "Broken Moon Axe",
+    "broken_moon_rod": "Broken Moon Rod",
+    "broken_star_axe": "Broken Star Axe",
+    "broken_comet_axe": "Broken Comet Axe",
+    "broken_sparkle_axe": "Broken Sparkle Axe",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -2270,8 +2408,37 @@
       "broken_sparkle_rod": "العصى اللامعة انكسرت اثناء الصيد. لاتزال قابلة للإصلاح.",
       "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
       "incubator_egg": "TBD",
-      "water_bottle": "TBD",
-      "magic_watch": "ساعة سحرية تبطئ الوقت عندما تحتاجه. سيتم استهلاك هذا تلقائيًا لحفظ الستريك اليومي الخاص بك!"
+      "water_bottle": "A item that magically heals your pet's thirst.",
+      "magic_watch": "ساعة سحرية تبطئ الوقت عندما تحتاجه. سيتم استهلاك هذا تلقائيًا لحفظ الستريك اليومي الخاص بك!",
+      "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
+      "steak": "Very yummy if you're not vegetarian.",
+      "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
+      "milk_3": "Very good food for cats, I've heard.",
+      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
+      "cat_food": "Food your cat might like a lot.",
+      "hamster_food": "Food your hamster might enjoy.",
+      "wood": "Common drop from trees. Useful for casting.",
+      "moon_pick": "A stronger pick. (320 durability)",
+      "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
+      "axe": "A normal, middle-of-the-road axe (35 durability).",
+      "comet_axe": "A stronger axe (290 durability).",
+      "star_axe": "A stronger axe (370 durability).",
+      "moon_axe": "A stronger axe (330 durability).",
+      "sparkle_axe": "A way stronger axe (500 durability).",
+      "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
+      "moon_rod": "A stronger rod. (120 durability)",
+      "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
+      "leaves": "A slow drop from a tree you tried to chop.",
+      "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
+      "pear": "You happened to chop an apple tree and the pear fell on your head. Ouch.",
+      "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
+      "rock": "A rock. Yep. It's very hard, isn't it?",
+      "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
+      "broken_moon_axe": "A moon axe that broke while chopping. Still salvageable.",
+      "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
+      "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
+      "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
+      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable."
     }
   },
   "test": {
