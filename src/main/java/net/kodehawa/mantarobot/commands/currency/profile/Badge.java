@@ -76,7 +76,7 @@ public enum Badge {
 
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92,
-            ((player, dbUser) -> player.getMoney() > 7526527671L), false
+            ((player, dbUser) -> player.getCurrentMoney() > 7526527671L), false
     ),
 
     //Self-explanatory. (Description)
@@ -132,6 +132,9 @@ public enum Badge {
 
     EXPERT_FISHER("Expert Fisher", "<:sparkle_rod:492882143505154048>", "Get more than 100000 fishing experience.", 91, 92,
             ((player, dbUser) -> player.getData().getFishingExperience() > 100000), false),
+
+    EXPERT_CHOPPER("Expert Fisher", "<:sparkle_axe:762027645155541002>", "Get more than 100000 chopping experience.", 91, 92,
+            ((player, dbUser) -> player.getData().getChopExperience() > 100000), false),
 
     //Self-explanatory. (Description)
     MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96", "Get to level 150 in Mantaro.", 91, 92,
@@ -268,6 +271,11 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
+    //Chop a tree.
+    CHOPPER("Chopper", "\ud83e\udeb5", "Find wood while chopping. How couldn't you?.", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     //Find a fish.
     FISHER("Fisher", "\uD83D\uDC1F", "Find a fish while fishing. How calm.", 91, 92,
             (player, dbUser) -> false, false
@@ -363,7 +371,7 @@ public enum Badge {
     ),
 
     NUMERIC_PATHWAY("Numeric Pathway", "\uD83D\uDD36", "A lucky and sad destiny with six equal people meeting, who slowly fade away as you spend.", 91, 92,
-            (player, dbUser) -> player.getMoney().toString().matches("([1-9])\\1{6,}"), true
+            (player, dbUser) -> player.getCurrentMoney().toString().matches("([1-9])\\1{6,}"), true
     ),
 
     DESTINY_REACHES("Destiny Reaches", "\uD83D\uDD36", "Good and bad luck meeting together, with a little gem as a mediator.", 91, 92,

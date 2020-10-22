@@ -44,9 +44,11 @@ import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
@@ -62,21 +64,22 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
 
 @Module
 public class MoneyCmds {
+    private static final SecureRandom random = new SecureRandom();
+    private static final int SLOTS_MAX_MONEY = 50_000;
+    private static final int TICKETS_MAX_AMOUNT = 50;
+    private static final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
+    private static final long GAMBLE_MAX_MONEY = 10_000;
+    private static final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
+
     private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
         final NumberFormat format = NumberFormat.getPercentInstance();
         format.setMinimumFractionDigits(1); // decimal support
         return format;
     });
-
-    private final SecureRandom random = new SecureRandom();
-    private final int SLOTS_MAX_MONEY = 175_000_000;
-    private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
-    private final long GAMBLE_MAX_MONEY = 275_000_000;
-    private final long DAILY_VALID_PERIOD_MILLIS = MantaroData.config().get().getDailyMaxPeriodMilliseconds();
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -114,7 +117,8 @@ public class MoneyCmds {
                 User author = ctx.getAuthor();
                 Player authorPlayer = ctx.getPlayer();
                 PlayerData authorPlayerData = authorPlayer.getData();
-                DBUser user = ctx.getDBUser();
+                DBUser authorDBUser = ctx.getDBUser();
+                UserData authorUserData = authorDBUser.getData();
 
                 if(authorPlayer.isLocked()){
                     ctx.sendLocalized("commands.daily.errors.own_locked");
@@ -127,7 +131,7 @@ public class MoneyCmds {
                 boolean targetOther = !mentionedUsers.isEmpty();
                 if(targetOther){
                     otherUser = mentionedUsers.get(0);
-                    // Bot check mentioned user
+                    // Bot check mentioned authorDBUser
                     if(otherUser.isBot()){
                         ctx.sendLocalized("commands.daily.errors.bot", EmoteReference.ERROR);
                         return;
@@ -147,21 +151,19 @@ public class MoneyCmds {
                     // Why this is here I have no clue;;;
                     dailyMoney += r.nextInt(90);
 
-                    UserData userData = user.getData();
-
                     DBUser mentionedDBUser = ctx.getDBUser(otherUser.getId());
                     UserData mentionedUserData = mentionedDBUser.getData();
 
                     //Marriage bonus
-                    Marriage marriage = userData.getMarriage();
+                    Marriage marriage = authorUserData.getMarriage();
                     if(marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                             playerOtherUser.getInventory().containsItem(Items.RING)) {
                         dailyMoney += Math.max(10, r.nextInt(100));
                     }
 
                     //Mutual waifu status.
-                    if (userData.getWaifus().containsKey(playerOtherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
-                        dailyMoney +=Math.max(5, r.nextInt(70));
+                    if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
+                        dailyMoney +=Math.max(5, r.nextInt(100));
                     }
 
                     toAddMoneyTo = UnifiedPlayer.of(otherUser, ctx.getConfig().getCurrentSeason());
@@ -174,7 +176,7 @@ public class MoneyCmds {
                 }
 
                 // Check for rate limit
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return;
 
                 List<String> returnMessage = new ArrayList<>();
@@ -244,30 +246,41 @@ public class MoneyCmds {
                             }
                         }
                     }
+
                     // Cleaner using if
                     if(targetOther)
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus));
                     else
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus));
                     dailyMoney += bonus;
-
                 }
+
+                // If the author is premium, make daily double.
+                if(authorDBUser.isPremium()) {
+                    dailyMoney *=2;
+                }
+
+                // Sellout + this is always a day apart, so we can just send campaign.
+                if(r.nextBoolean()) {
+                    returnMessage.add(Campaign.TWITTER.getStringFromCampaign(languageContext, true));
+                } else {
+                    returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
+                }
+
                 // Careful not to overwrite yourself ;P
                 // Save streak and items
                 authorPlayerData.setLastDailyAt(currentTime);
                 authorPlayerData.setDailyStreak(streak);
+
                 // Critical not to call if author != mentioned because in this case
                 // toAdd is the unified player as referenced
                 if(targetOther)
                     authorPlayer.save();
+
                 toAddMoneyTo.addMoney(dailyMoney);
                 toAddMoneyTo.save();
 
-                // Sellout
-                if(random.nextBoolean()){
-                    returnMessage.add(user.isPremium() ? languageContext.get("commands.daily.sellout.already_premium") :
-                            languageContext.get("commands.daily.sellout.get_premium"));
-                }
+
                 // Build Message
                 StringBuilder toSend = new StringBuilder((targetOther ?
                         String.format(languageContext.withRoot("commands", "daily.given_credits"),
@@ -304,9 +317,9 @@ public class MoneyCmds {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(3)
                     .limit(1)
-                    .cooldown(30, TimeUnit.SECONDS)
+                    .cooldown(2, TimeUnit.MINUTES)
                     .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                    .maxCooldown(5, TimeUnit.MINUTES)
+                    .maxCooldown(10, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
                     .prefix("gamble")
                     .premiumAware(true)
@@ -318,12 +331,12 @@ public class MoneyCmds {
             public void call(Context ctx, String content, String[] args) {
                 Player player = ctx.getPlayer();
 
-                if (player.getMoney() <= 0) {
+                if (player.getCurrentMoney() <= 0) {
                     ctx.sendLocalized("commands.gamble.no_credits", EmoteReference.SAD);
                     return;
                 }
 
-                if (player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
+                if (player.getCurrentMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
                     ctx.sendLocalized("commands.gamble.too_much_money", EmoteReference.ERROR2, GAMBLE_ABSOLUTE_MAX_MONEY);
                     return;
                 }
@@ -334,26 +347,26 @@ public class MoneyCmds {
                 try {
                     switch (content) {
                         case "all", "everything" -> {
-                            i = player.getMoney();
+                            i = player.getCurrentMoney();
                             multiplier = 1.3d + (r.nextInt(1350) / 1000d);
                             luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
                         }
                         case "half" -> {
-                            i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
+                            i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 2;
                             multiplier = 1.2d + (r.nextInt(1350) / 1000d);
                             luck = 18 + (int) (multiplier * 13) + r.nextInt(18);
                         }
                         case "quarter" -> {
-                            i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
+                            i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 4;
                             multiplier = 1.1d + (r.nextInt(1250) / 1000d);
                             luck = 18 + (int) (multiplier * 12) + r.nextInt(18);
                         }
                         default -> {
                             i = content.endsWith("%")
-                                    ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
+                                    ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getCurrentMoney())
                                     : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
-                            if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
-                            multiplier = 1.1d + (i / ((double) player.getMoney()) * r.nextInt(1300) / 1000d);
+                            if (i > player.getCurrentMoney() || i < 0) throw new UnsupportedOperationException();
+                            multiplier = 1.1d + (i / ((double) player.getCurrentMoney()) * r.nextInt(1300) / 1000d);
                             luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
                         }
                     }
@@ -430,7 +443,7 @@ public class MoneyCmds {
                         .setDescription("Gambles your money away. It's like Vegas, but without real money and without the impending doom. Kinda.")
                         .setUsage("`~>gamble <all/half/quarter>` or `~>gamble <amount>` or `~>gamble <percentage>`")
                         .addParameter("amount", "How much money you want to gamble. " +
-                                "You can also express this on K or M (100K is 100000, 1M is 1000000, 100M is well, you know how it goes from here)")
+                                "You can also express this on K (10k is 10000, for example). The maximum amount you can gamble at once is " + GAMBLE_MAX_MONEY + " credits.")
                         .addParameter("all/half/quarter",
                                 "How much of your money you want to gamble, but if you're too lazy to type the number (half = 50% of all of your money)")
                         .addParameter("percentage", "The percentage of money you want to gamble. Works anywhere from 1% to 100%.")
@@ -461,8 +474,8 @@ public class MoneyCmds {
                 UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(ctx.getAuthor(), ctx.getConfig().getCurrentSeason());
 
                 Player player = unifiedPlayer.getPlayer();
+                PlayerData playerData = player.getData();
                 DBUser dbUser = ctx.getDBUser();
-                Member member = ctx.getMember();
                 I18nContext languageContext = ctx.getLanguageContext();
 
                 if (player.isLocked()) {
@@ -470,7 +483,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 LocalDate today = LocalDate.now(zoneId);
@@ -485,38 +498,46 @@ public class MoneyCmds {
 
                 if (r.nextInt(100) > 95) {
                     ground.dropItem(Items.LOOT_CRATE);
-                    if (player.getData().addBadgeIfAbsent(Badge.LUCKY))
+                    if (playerData.addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
                 }
 
                 List<ItemStack> loot = ground.collectItems();
                 int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
 
-                if (MantaroData.db().getUser(member).isPremium() && moneyFound > 0) {
-                    moneyFound = moneyFound + random.nextInt(moneyFound);
+                if (dbUser.isPremium() && moneyFound > 0) {
+                    int extra = (int) (moneyFound * 1.5);
+                    moneyFound += random.nextInt(extra);
+                }
+
+                String extraMessage = "";
+
+                // Sellout
+                if(playerData.shouldSeeCampaign()){
+                    extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
+                    playerData.markCampaignAsSeen();
                 }
 
                 if (!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
-                    String overflow = "";
 
                     if (player.getInventory().merge(loot))
-                        overflow = languageContext.withRoot("commands", "loot.item_overflow");
+                        extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
 
                     if (moneyFound != 0) {
                         if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, s, moneyFound, overflow);
+                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, s, moneyFound, extraMessage);
                         } else {
-                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, s, moneyFound, overflow);
+                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, s, moneyFound, extraMessage);
                         }
                     } else {
-                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, s, overflow);
+                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, s, extraMessage);
                     }
 
                 } else {
                     if (moneyFound != 0) {
                         if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.without_item.found", EmoteReference.POPPER, moneyFound);
+                            ctx.sendLocalized("commands.loot.without_item.found", EmoteReference.POPPER, moneyFound, extraMessage);
                         } else {
                             ctx.sendLocalized("commands.loot.without_item.found_but_overflow", EmoteReference.POPPER, moneyFound);
                         }
@@ -532,6 +553,7 @@ public class MoneyCmds {
                         ctx.send(EmoteReference.SAD + msg);
                     }
                 }
+
 
                 unifiedPlayer.saveAsync();
             }
@@ -575,7 +597,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getMoney();
+                    long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getCurrentMoney();
 
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?
                             String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
@@ -605,7 +627,7 @@ public class MoneyCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(4)
                 .limit(1)
-                .cooldown(35, TimeUnit.SECONDS)
+                .cooldown(1, TimeUnit.MINUTES)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
@@ -667,6 +689,11 @@ public class MoneyCmds {
                         return;
                     }
 
+                    if(amountN > TICKETS_MAX_AMOUNT) {
+                        ctx.sendLocalized("commands.slots.errors.too_many_tickets", EmoteReference.ERROR, TICKETS_MAX_AMOUNT);
+                        return;
+                    }
+
                     if (playerInventory.getAmount(Items.SLOT_COIN) < amountN) {
                         ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                         return;
@@ -701,7 +728,7 @@ public class MoneyCmds {
                     }
                 }
 
-                long playerMoney = season ? seasonalPlayer.getMoney() : player.getMoney();
+                long playerMoney = season ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
                 if (playerMoney < money && !coinSelect) {
                     ctx.sendLocalized("commands.slots.errors.not_enough_money", EmoteReference.SAD);
@@ -805,7 +832,8 @@ public class MoneyCmds {
                         .setUsage("`~>slots` - Default one, 50 coins.\n" +
                                 "`~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
-                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)")
+                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`). " +
+                                "Using tickets increases your chance by 10%. Maximum amount of tickets allowed is 50.")
                         .build();
             }
         });
@@ -836,12 +864,12 @@ public class MoneyCmds {
                 data.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 
-            long oldMoney = player.getMoney();
-            player.setMoney(Math.max(0, player.getMoney() - i));
+            long oldMoney = player.getCurrentMoney();
+            player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
 
             stats.getData().incrementGambleLose();
             ctx.sendLocalized("commands.gamble.lose", EmoteReference.DICE,
-                    (player.getMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
+                    (player.getCurrentMoney() == 0 ? ctx.getLanguageContext().get("commands.gamble.lose_all") + " " + oldMoney : i),
                     EmoteReference.SAD
             );
         }

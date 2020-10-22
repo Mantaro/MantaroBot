@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -35,20 +36,22 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @Module
@@ -58,8 +61,8 @@ public class MarketCmd {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(6, TimeUnit.SECONDS)
-                .maxCooldown(6, TimeUnit.SECONDS)
+                .cooldown(3, TimeUnit.SECONDS)
+                .maxCooldown(3, TimeUnit.SECONDS)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("market")
@@ -67,59 +70,13 @@ public class MarketCmd {
                 .build();
 
 
-        TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand marketCommand = cr.register("market", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {
-                        I18nContext languageContext = ctx.getLanguageContext();
-
-                        EmbedBuilder embed = baseEmbed(ctx, languageContext.get("commands.market.header"))
-                                .setThumbnail("https://i.imgur.com/GIHXZAH.png");
-
-                        List<MessageEmbed.Field> fields = new LinkedList<>();
-                        Stream.of(Items.ALL).forEach(item -> {
-                            if (!item.isPetOnly() && !item.isHidden() && item.getItemType() != ItemType.PET) {
-                                String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
-                                String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
-
-                                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
-                                        (languageContext.getContextLanguage().equals("en_US") ? "" :
-                                                " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
-                                                languageContext.get(item.getDesc()) + "\n" +
-                                                languageContext.get("commands.market.buy_price") + " " + buyValue + "\n" +
-                                                languageContext.get("commands.market.sell_price") + " " + sellValue,
-                                        false
-                                        )
-                                );
-                            }
-                        });
-
-                        DBUser user = ctx.getDBUser();
-
-                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                        boolean hasReactionPerms = ctx.hasReactionPerms();
-
-                        if (hasReactionPerms) {
-                            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
-                                    splitFields.size(),
-                                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
-                                            EmoteReference.BUY, EmoteReference.SELL)) + "\n"
-                                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
-                            );
-
-                            DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
-                        } else {
-                            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
-                                    splitFields.size(),
-                                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
-                                            EmoteReference.BUY, EmoteReference.SELL)) + "\n"
-                                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
-                            );
-
-                            DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
-                        }
+                        showMarket(ctx, (item) -> true);
                     }
                 };
             }
@@ -127,7 +84,7 @@ public class MarketCmd {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("List current items for buying and selling.")
+                        .setDescription("List current items for buying and selling. You can check more specific markets below.")
                         .setUsage("To buy an item do `~>market buy <item>`. It will subtract the value from your money and give you the item.\n" +
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item>` to sell the specified item.\n" +
                                 "If the item name contains spaces, \"wrap it in quotes\".\n" +
@@ -139,7 +96,7 @@ public class MarketCmd {
         });
 
         marketCommand.setPredicate((ctx) -> {
-            if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+            if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
                 return false;
 
             Player player = ctx.getPlayer();
@@ -151,10 +108,84 @@ public class MarketCmd {
             return true;
         });
 
+        marketCommand.addSubCommand("pet", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all current pet items.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
+            }
+        });
+
+        marketCommand.addSubCommand("common", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all common items.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, (item) -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
+            }
+        });
+
+        marketCommand.addSubCommand("tools", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all current tools.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, (item) -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
+            }
+        });
+
+        marketCommand.addSubCommand("potions", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all current potions.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, (item) -> item instanceof Potion);
+            }
+        });
+
+
+        marketCommand.addSubCommand("buyable", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all the buyable items.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, Item::isBuyable);
+            }
+        });
+
+        marketCommand.addSubCommand("sellable", new SubCommand() {
+            @Override
+            public String description() {
+                return "List all the sellable items.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                showMarket(ctx, Item::isSellable);
+            }
+        });
+
+
         marketCommand.addSubCommand("dump", new SubCommand() {
             @Override
             public String description() {
-                return "Dumps an item. Usage: `~>market dump <item>`";
+                return "Dumps an item.";
             }
 
             @Override
@@ -221,7 +252,7 @@ public class MarketCmd {
         marketCommand.addSubCommand("price", new SubCommand() {
             @Override
             public String description() {
-                return "Checks the price of any given item. Usage: `~>market price <item>`";
+                return "Checks the price of any given item.";
             }
 
             @Override
@@ -252,8 +283,8 @@ public class MarketCmd {
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
             public String description() {
-                return "Sells an item. Usage: `~>market sell <item>`. You can sell multiple items if you put the amount before the item.\n" +
-                        "Use `~>market sell all` to sell all of your items.";
+                return "Sells an item. You can sell multiple items if you put the amount before the item.\n" +
+                        "Use `~>market sell all` to sell all of your items. Use `~>market sell allof <item>` to sell all of one item.";
             }
 
             @Override
@@ -319,6 +350,11 @@ public class MarketCmd {
                     }
 
                     Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+
+                    if(args[0].equalsIgnoreCase("allof")) {
+                        itemName = content.replace("allof", "").trim();
+                    }
+
                     Item toSell = Items.fromAny(itemName.replace("\"", "")).orElse(null);
 
                     if (toSell == null) {
@@ -334,6 +370,10 @@ public class MarketCmd {
                     if (playerInventory.getAmount(toSell) < 1) {
                         ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
                         return;
+                    }
+
+                    if(args[0].equalsIgnoreCase("allof")) {
+                        itemNumber = playerInventory.getAmount(toSell);
                     }
 
                     if (playerInventory.getAmount(toSell) < itemNumber) {
@@ -364,7 +404,7 @@ public class MarketCmd {
         marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys an item. Usage: `~>market buy <item>`. You can buy multiple items if you put the amount before the item. " +
+                return "Buys an item. You can buy multiple items if you put the amount before the item. " +
                         "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
             }
 
@@ -451,7 +491,7 @@ public class MarketCmd {
                         if (isSeasonal)
                             seasonalPlayer.saveAsync();
 
-                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getMoney();
+                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
                         ctx.sendLocalized("commands.market.buy.success",
                                 EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
@@ -467,5 +507,55 @@ public class MarketCmd {
         });
 
         cr.registerAlias("market", "shop");
+    }
+
+    private void showMarket(Context ctx, Predicate<? super Item> predicate) {
+        var languageContext = ctx.getLanguageContext();
+        var embed = new EmbedBuilder()
+                .setDescription(languageContext.get("commands.market.header"))
+                .setThumbnail("https://i.imgur.com/GIHXZAH.png");
+
+        List<MessageEmbed.Field> fields = new LinkedList<>();
+        Stream.of(Items.ALL)
+                .filter(predicate)
+                .filter(item -> !item.isHidden())
+                .forEach(item -> {
+                    String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
+                    String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
+
+                    fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
+                                    (languageContext.getContextLanguage().equals("en_US") ? "" :
+                                            " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
+                                            languageContext.get(item.getDesc()) + "\n" +
+                                            languageContext.get("commands.market.buy_price") + " " + buyValue + "\n" +
+                                            languageContext.get("commands.market.sell_price") + " " + sellValue,
+                                    false
+                            )
+                    );
+                });
+
+        DBUser user = ctx.getDBUser();
+
+        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
+        boolean hasReactionPerms = ctx.hasReactionPerms();
+        embed.setColor(Color.MAGENTA).setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl());
+
+        if (hasReactionPerms) {
+            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
+                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
+                            EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
+            );
+
+            DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
+        } else {
+            embed.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
+                    String.format(String.format(languageContext.get("general.reaction_timeout"), 200),
+                            EmoteReference.BUY, EmoteReference.SELL)) + "\n"
+                    + (user.isPremium() ? "" : languageContext.get("general.sellout")) + languageContext.get("commands.market.reference")
+            );
+
+            DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
+        }
     }
 }

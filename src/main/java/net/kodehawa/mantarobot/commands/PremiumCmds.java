@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.Pair;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -211,7 +212,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                if(!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)) {
+                if(!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)) {
                     return;
                 }
 
@@ -246,7 +247,7 @@ public class PremiumCmds {
     public void vipstatus(CommandRegistry cr) {
         final ManagedDatabase db = MantaroData.db();
 
-        TreeCommand vipstatusCmd = (TreeCommand) cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
+        TreeCommand vipstatusCmd = cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

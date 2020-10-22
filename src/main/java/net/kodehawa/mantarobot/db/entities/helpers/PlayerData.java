@@ -20,15 +20,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
-import net.kodehawa.mantarobot.commands.currency.pets.Pet;
+import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
+import net.kodehawa.mantarobot.db.entities.helpers.quests.QuestTracker;
 
+import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
+    @JsonIgnore
+    private static Config config = MantaroData.config().get();
+
     public long experience = 0;
+    public long newMoney = 0L;
     private List<Badge> badges = new ArrayList<>();
     //Fix massive misspelling fuck up.
     @JsonProperty("dailyStrike")
@@ -51,11 +61,15 @@ public class PlayerData {
     private boolean isClaimLocked = false;
     private long miningExperience;
     private long fishingExperience;
+    private long chopExperience;
     private long timesMopped;
     private long cratesOpened;
     private long sharksCaught;
     private boolean waifuout;
     private int lastCrateGiven = 69;
+    private long lastSeenCampaign;
+    private QuestTracker quests = new QuestTracker();
+    private int questQuota = 3;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -316,6 +330,30 @@ public class PlayerData {
         this.lastCrateGiven = lastCrateGiven;
     }
 
+    public long getChopExperience() {
+        return chopExperience;
+    }
+
+    public void setChopExperience(long chopExperience) {
+        this.chopExperience = chopExperience;
+    }
+
+    public QuestTracker getQuests() {
+        return quests;
+    }
+
+    public void setQuests(QuestTracker quests) {
+        this.quests = quests;
+    }
+
+    public int getQuestQuota() {
+        return questQuota;
+    }
+
+    public void setQuestQuota(int questQuota) {
+        this.questQuota = questQuota;
+    }
+
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
         this.miningExperience = miningExperience + random.nextInt(5);
@@ -324,5 +362,48 @@ public class PlayerData {
     @JsonIgnore
     public void incrementFishingExperience(Random random) {
         this.fishingExperience = fishingExperience + random.nextInt(5);
+    }
+
+    @JsonIgnore
+    public void incrementChopExperience(Random random) {
+        this.chopExperience = chopExperience + random.nextInt(5);
+    }
+
+    public long getNewMoney() {
+        return newMoney;
+    }
+
+    public void setNewMoney(long newMoney) {
+        this.newMoney = newMoney;
+    }
+
+    public long getLastSeenCampaign() {
+        return lastSeenCampaign;
+    }
+
+    public void setLastSeenCampaign(long lastSeenCampaign) {
+        this.lastSeenCampaign = lastSeenCampaign;
+    }
+
+    @JsonIgnore
+    public boolean shouldSeeCampaign() {
+        if(config.isPremiumBot())
+            return false;
+
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.DAYS.toMillis(1));
+    }
+
+    @JsonIgnore
+    public void markCampaignAsSeen() {
+        this.lastSeenCampaign = System.currentTimeMillis();
+    }
+
+    @JsonIgnore
+    public Quest startQuest(SecureRandom random) {
+        if(quests.getCurrentActiveQuests().size() > getQuestQuota()) {
+            return null;
+        }
+
+        return quests.startRandomQuest(random);
     }
 }

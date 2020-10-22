@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -32,13 +33,14 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import org.json.JSONException;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -91,7 +93,7 @@ public class DebugCmds {
 
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
                 for(var lavaLink : lavaLinkSockets) {
-                    if(lavaLink.isAvailable())
+                    if(lavaLink.isAvailable() && lavaLink.getStats() != null) // Andesite compatibility fix.
                         players += lavaLink.getStats().getPlayers();
                 }
 
@@ -103,7 +105,7 @@ public class DebugCmds {
                 var mApiRequests = 0;
                 try {
                     mApiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
-                } catch (IOException ignored) { }
+                } catch (IOException | JSONException ignored) { }
 
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -174,8 +176,8 @@ public class DebugCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(10, TimeUnit.SECONDS)
-                .maxCooldown(10, TimeUnit.SECONDS)
+                .cooldown(2, TimeUnit.SECONDS)
+                .maxCooldown(30, TimeUnit.SECONDS)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("ping")
@@ -185,7 +187,7 @@ public class DebugCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 long start = System.currentTimeMillis();

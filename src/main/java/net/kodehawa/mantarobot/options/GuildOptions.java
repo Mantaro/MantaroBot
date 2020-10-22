@@ -754,7 +754,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.autoroles_add.success"), EmoteReference.OK, args[0], role.getName()).queue();
             } else {
                 DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                        role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:")
+                        role.getId(), role.getPosition()), s -> optsCmd.baseEmbed(event, "Select the Role:")
                                 .setDescription(s).build(),
                         role -> {
                             if (!event.getMember().canInteract(role)) {
@@ -1343,6 +1343,44 @@ public class GuildOptions extends OptionHandler {
 
             event.getChannel().sendMessageFormat(lang.get("options.lobby.enable.success"), EmoteReference.CORRECT).queue();
         });
+
+        registerOption("djrole:set", "Set a custom DJ role",
+                "Sets a custom DJ role. This role will be used to control music." +
+                        "**Example:** `~>opts djrole set DJ`, `~>opts djrole set \"Magic Role\"`",
+                "Sets the DJ role.", (event, args, lang) -> {
+            if (args.length == 0) {
+                event.getChannel().sendMessageFormat(lang.get("options.djrole_set.no_role"), EmoteReference.ERROR).queue();
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            Consumer<Role> consumer = (role) -> {
+                guildData.setDjRoleId(role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessageFormat(lang.get("options.djrole_set.success"), EmoteReference.CORRECT,
+                        role.getName(), role.getPosition()
+                ).queue();
+            };
+
+            Role role = Utils.findRoleSelect(event, String.join(" ", args), consumer);
+
+            if (role != null) {
+                consumer.accept(role);
+            }
+        });
+
+        registerOption("djrole:reset", "Resets the DJ role",
+                "Resets the DJ role", "Resets the DJ role.", (event, args, lang) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            guildData.setDjRoleId(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessageFormat(lang.get("options.djrole_reset.success"), EmoteReference.CORRECT).queue();
+        });
+
     }
 
     @Override

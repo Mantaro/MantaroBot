@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.pets.Pet;
+import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -58,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
 
 @Module
 public class CurrencyCmds {
@@ -240,20 +241,18 @@ public class CurrencyCmds {
 
                         if (hasReactionPerms) {
                             if (builder.getDescriptionBuilder().length() == 0) {
-                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(),
-                                        String.format(languageContext.get("general.buy_sell_paged_reference"),
-                                                EmoteReference.BUY, EmoteReference.SELL))
-                                        + "\n" + languageContext.get("commands.inventory.brief_notice") +
+                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_react"),
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) +
+                                        "\n" + languageContext.get("commands.inventory.brief_notice") +
                                         (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "")
                                 );
                             }
                             DiscordUtils.list(ctx.getEvent(), 100, false, builder, splitFields);
                         } else {
                             if (builder.getDescriptionBuilder().length() == 0) {
-                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(),
-                                        String.format(languageContext.get("general.buy_sell_paged_reference"),
-                                                EmoteReference.BUY, EmoteReference.SELL))
-                                        + "\n" + languageContext.get("commands.inventory.brief_notice") +
+                                builder.setDescription(String.format(languageContext.get("general.buy_sell_paged_text"),
+                                        String.format(languageContext.get("general.buy_sell_paged_reference"), EmoteReference.BUY, EmoteReference.SELL)) +
+                                        "\n" + languageContext.get("commands.inventory.brief_notice") +
                                         (r.nextInt(3) == 0  && !user.isPremium() ? languageContext.get("general.sellout") : "")
                                 );
                             }
@@ -371,78 +370,82 @@ public class CurrencyCmds {
 
                     Item item = Items.fromAnyNoId(args[1]).orElse(null);
                     if (item == null) {
-                        ctx.sendLocalized("general.item_lookup.no_item_emoji");
-                    } else {
-                        if (item == Items.CLAIM_KEY) {
-                            ctx.sendLocalized("general.item_lookup.claim_key");
+                        item = Items.fromAnyNoId(args[0]).orElse(null);
+                        if(item == null) {
+                            ctx.sendLocalized("general.item_lookup.no_item_emoji");
                             return;
                         }
+                    }
 
-                        Player player = ctx.getPlayer();
-                        Player giveToPlayer = ctx.getPlayer(giveTo);
+                    if (item == Items.CLAIM_KEY) {
+                        ctx.sendLocalized("general.item_lookup.claim_key");
+                        return;
+                    }
 
-                        if (player.isLocked()) {
-                            ctx.sendLocalized("commands.itemtransfer.locked_notice", EmoteReference.ERROR);
-                            return;
-                        }
+                    Player player = ctx.getPlayer();
+                    Player giveToPlayer = ctx.getPlayer(giveTo);
 
-                        if (args.length == 2) {
-                            if (player.getInventory().containsItem(item)) {
-                                if (item.isHidden()) {
-                                    ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                                    return;
-                                }
+                    if (player.isLocked()) {
+                        ctx.sendLocalized("commands.itemtransfer.locked_notice", EmoteReference.ERROR);
+                        return;
+                    }
 
-                                if (giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
-                                    ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                                    return;
-                                }
-
-                                player.getInventory().process(new ItemStack(item, -1));
-                                giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                                ctx.sendStrippedLocalized("commands.itemtransfer.success",
-                                        EmoteReference.OK, ctx.getMember().getEffectiveName(), 1, item.getName(), giveTo.getEffectiveName()
-                                );
-                            } else {
-                                ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
+                    if (args.length == 2) {
+                        if (player.getInventory().containsItem(item)) {
+                            if (item.isHidden()) {
+                                ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
+                                return;
                             }
 
-                            player.saveAsync();
-                            giveToPlayer.saveAsync();
-                            return;
-                        }
-
-                        try {
-                            int amount = Math.abs(Integer.parseInt(args[2]));
-                            if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
-                                if (item.isHidden()) {
-                                    ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                                    return;
-                                }
-
-                                if (giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
-                                    ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                                    return;
-                                }
-
-                                player.getInventory().process(new ItemStack(item, amount * -1));
-                                giveToPlayer.getInventory().process(new ItemStack(item, amount));
-
-                                ctx.sendStrippedLocalized("commands.itemtransfer.success", EmoteReference.OK,
-                                        ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getEffectiveName()
-                                );
-                            } else {
-                                ctx.sendLocalized("commands.itemtransfer.error", EmoteReference.ERROR);
+                            if (giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
+                                ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
+                                return;
                             }
-                        } catch (NumberFormatException nfe) {
-                            ctx.send(String.format(ctx.getLanguageContext().get("general.invalid_number") + " " +
-                                    ctx.getLanguageContext().get("general.space_notice"), EmoteReference.ERROR)
+
+                            player.getInventory().process(new ItemStack(item, -1));
+                            giveToPlayer.getInventory().process(new ItemStack(item, 1));
+                            ctx.sendStrippedLocalized("commands.itemtransfer.success",
+                                    EmoteReference.OK, ctx.getMember().getEffectiveName(), 1, item.getName(), giveTo.getEffectiveName()
                             );
+                        } else {
+                            ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
                         }
 
                         player.saveAsync();
                         giveToPlayer.saveAsync();
+                        return;
                     }
+
+                    try {
+                        int amount = Math.abs(Integer.parseInt(args[2]));
+                        if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
+                            if (item.isHidden()) {
+                                ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
+                                return;
+                            }
+
+                            if (giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
+                                ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
+                                return;
+                            }
+
+                            player.getInventory().process(new ItemStack(item, amount * -1));
+                            giveToPlayer.getInventory().process(new ItemStack(item, amount));
+
+                            ctx.sendStrippedLocalized("commands.itemtransfer.success", EmoteReference.OK,
+                                    ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getEffectiveName()
+                            );
+                        } else {
+                            ctx.sendLocalized("commands.itemtransfer.error", EmoteReference.ERROR);
+                        }
+                    } catch (NumberFormatException nfe) {
+                        ctx.send(String.format(ctx.getLanguageContext().get("general.invalid_number") + " " +
+                                ctx.getLanguageContext().get("general.space_notice"), EmoteReference.ERROR)
+                        );
+                    }
+
+                    player.saveAsync();
+                    giveToPlayer.saveAsync();
                 }
             }
 
@@ -450,7 +453,7 @@ public class CurrencyCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Transfers items from you to another player.")
-                        .setUsage("`~>itemtransfer <@user> <item> <amount>` - Transfers the item to a user.")
+                        .setUsage("`~>itemtransfer <@user> <item> <amount>` *or* `~>itemtransfer <item> <@user> <amount>` - Transfers the item to a user.")
                         .addParameter("@user", "User mention or name.")
                         .addParameter("item", "The item emoji or name. If the name contains spaces \"wrap it in quotes\"")
                         .addParameter("amount", "The amount of items you want to transfer. This is optional.")
@@ -459,6 +462,8 @@ public class CurrencyCmds {
         });
 
         cr.registerAlias("itemtransfer", "transferitems");
+        cr.registerAlias("itemtransfer", "transferitem");
+
     }
 
     @Subscribe
@@ -533,7 +538,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (transferPlayer.getMoney() < toSend) {
+                if (transferPlayer.getCurrentMoney() < toSend) {
                     ctx.sendLocalized("commands.transfer.no_money_notice", EmoteReference.ERROR);
                     return;
                 }
@@ -543,7 +548,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (toTransfer.getMoney() > (long) TRANSFER_LIMIT * 18) {
+                if (toTransfer.getCurrentMoney() > (long) TRANSFER_LIMIT * 18) {
                     ctx.sendLocalized("commands.transfer.receipt_over_limit", EmoteReference.ERROR);
                     return;
                 }
@@ -557,7 +562,7 @@ public class CurrencyCmds {
                                     + ".**"
                     ).queue();
 
-                    Utils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
+                    RatelimitUtils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
                     return;
                 }
 
@@ -702,7 +707,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void useItem(CommandRegistry cr) {
-        TreeCommand ui = (TreeCommand) cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand ui = cr.register("useitem", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

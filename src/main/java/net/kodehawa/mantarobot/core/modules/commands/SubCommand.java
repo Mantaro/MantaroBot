@@ -42,8 +42,8 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public static SubCommand copy(SubCommand original) {
         return new SubCommand(original.permission) {
             @Override
-            protected void call(Context context, String content) {
-                original.call(context, content);
+            protected void call(Context ctx, String content) {
+                original.call(ctx, content);
             }
 
             @Override
@@ -53,7 +53,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
         };
     }
 
-    protected abstract void call(Context context, String content);
+    protected abstract void call(Context ctx, String content);
 
     @Override
     public CommandPermission permission() {
@@ -61,8 +61,8 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     }
 
     @Override
-    public void run(Context context, String commandName, String content) {
-        call(context, content);
+    public void run(Context ctx, String commandName, String content) {
+        call(ctx, content);
     }
 
     public boolean isChild() {

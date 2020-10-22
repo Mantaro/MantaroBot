@@ -45,9 +45,11 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -55,14 +57,23 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 @Module
 //In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
-    private static final long waifuBaseValue = 1300L;
+    private static final long WAIFU_BASE_VALUE = 1000L;
+    private static final long housePrice = 5000;
+    private static final long carPrice = 1000;
+
+    private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
     static Waifu calculateWaifuValue(User user) {
         final ManagedDatabase db = MantaroData.db();
@@ -70,7 +81,7 @@ public class RelationshipCmds {
         PlayerData waifuPlayerData = waifuPlayer.getData();
         UserData waifuUserData = db.getUser(user).getData();
 
-        long waifuValue = waifuBaseValue;
+        long waifuValue = WAIFU_BASE_VALUE;
         long performance;
         //For every 135000 money owned, it increases by 7% base value (base: 1300)
         //For every 3 badges, it increases by 17% base value.
@@ -80,7 +91,7 @@ public class RelationshipCmds {
         //Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
-        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getMoney() / 135000)) * calculatePercentage(6));
+        long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getCurrentMoney() / 135000)) * calculatePercentage(6));
         //Badge calculation.
         long badgeValue = Math.round(Math.max(1, (waifuPlayerData.getBadges().size() / 3)) * calculatePercentage(17));
         //Experience calculator.
@@ -96,7 +107,7 @@ public class RelationshipCmds {
         //At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
         //to implement later: Reputation scaling is capped at 3.9k. Then at 6.5k the multiplier is applied.
         long reputation = waifuPlayer.getReputation();
-        double reputationScaling = (reputation / 4.5) / 20;
+        double reputationScaling = (reputation / 4.5) / 30;
         long finalValue = (long) (
                 Math.min (
                         Integer.MAX_VALUE,
@@ -104,9 +115,8 @@ public class RelationshipCmds {
                 )
         );
 
-        //waifu pp, yes btmcLewd
-        int divide = (int) (moneyValue / 1348);
-        performance = ((waifuValue - (waifuBaseValue + 450)) + (long) ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
+        int divide = (int) (moneyValue / 1300);
+        performance = ((waifuValue - (WAIFU_BASE_VALUE + 450)) + (long) ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
         //possible?
         if (performance < 0)
             performance = 0;
@@ -117,12 +127,12 @@ public class RelationshipCmds {
 
     //Yes, I had to do it, fuck.
     private static long calculatePercentage(long percentage) {
-        return (percentage * RelationshipCmds.waifuBaseValue) / 100;
+        return (percentage * RelationshipCmds.WAIFU_BASE_VALUE) / 100;
     }
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        ITreeCommand marryCommand = (ITreeCommand) cr.register("marry", new TreeCommand(CommandCategory.FUN) {
+        ITreeCommand marryCommand = cr.register("marry", new TreeCommand(CommandCategory.FUN) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -464,6 +474,220 @@ public class RelationshipCmds {
             }
         });
 
+        marryCommand.addSubCommand("buyhouse", new SubCommand() {
+            @Override
+            public String description() {
+                return "Buys a house to live in. You need to buy a house in market first. Usage: `~>marry buyhouse <name>`";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.buyhouse.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!playerInventory.containsItem(Items.HOUSE)) {
+                    ctx.sendLocalized("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(player.getCurrentMoney() < housePrice) {
+                    ctx.sendLocalized("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR, housePrice);
+                    return;
+                }
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.buyhouse.no_name", EmoteReference.ERROR);
+                    return;
+                }
+
+                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, content);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
+                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if(!playerInventoryConfirmed.containsItem(Items.HOUSE)) {
+                            ctx.sendLocalized("commands.marry.buyhouse.no_house");
+                            return Operation.COMPLETED;
+                        }
+
+                        if(playerConfirmed.getCurrentMoney() < housePrice) {
+                            ctx.sendLocalized("commands.marry.buyhouse.not_enough_money");
+                            return Operation.COMPLETED;
+                        }
+
+                        playerInventoryConfirmed.process(new ItemStack(Items.HOUSE, -1));
+                        playerConfirmed.removeMoney(housePrice);
+
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setHasHouse(true);
+                        marriageConfirmed.getData().setHouseName(content);
+                        marriageConfirmed.save();
+
+                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER, housePrice, content);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.marry.buyhouse.cancel_success", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+        });
+
+        marryCommand.addSubCommand("buycar", new SubCommand() {
+            @Override
+            public String description() {
+                return "Buys a car to travel in. You need to buy a ~~cat~~ car in market first. Usage: `~>marry buycar <name>`";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var player = ctx.getPlayer();
+                var playerInventory = player.getInventory();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!playerInventory.containsItem(Items.CAR)) {
+                    ctx.sendLocalized("commands.marry.buycar.no_house", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(player.getCurrentMoney() < carPrice) {
+                    ctx.sendLocalized("commands.marry.buycar.not_enough_money", EmoteReference.ERROR, carPrice);
+                    return;
+                }
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.buycar.no_name", EmoteReference.ERROR);
+                    return;
+                }
+
+                ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, carPrice, content);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
+                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                        return Operation.IGNORED;
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+
+                        // People like to mess around lol.
+                        if(!playerInventoryConfirmed.containsItem(Items.CAR)) {
+                            ctx.sendLocalized("commands.marry.buycar.no_car");
+                            return Operation.COMPLETED;
+                        }
+
+                        if(playerConfirmed.getCurrentMoney() < carPrice) {
+                            ctx.sendLocalized("commands.marry.buycar.not_enough_money");
+                            return Operation.COMPLETED;
+                        }
+
+                        playerInventoryConfirmed.process(new ItemStack(Items.CAR, -1));
+                        playerConfirmed.removeMoney(carPrice);
+                        playerConfirmed.save();
+
+                        marriageConfirmed.getData().setHasCar(true);
+                        marriageConfirmed.getData().setCarName(content);
+                        marriageConfirmed.save();
+
+                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER, carPrice, content);
+                        return Operation.COMPLETED;
+                    }
+
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.marry.buycar.cancel_success", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+            }
+        });
+
+        IncreasingRateLimiter tzRatelimit = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(2, TimeUnit.DAYS)
+                .maxCooldown(2, TimeUnit.DAYS)
+                .randomIncrement(false)
+                .premiumAware(false)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("marriage-tz")
+                .build();
+
+        marryCommand.addSubCommand("timezone", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets the timezone for your marriage. Useful for pet sleep times.";
+            }
+
+            @Override
+            protected void call(Context ctx, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                if(content.isEmpty()) {
+                    ctx.sendLocalized("commands.marry.timezone.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(marriage == null) {
+                    ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
+                    return;
+                }
+
+                String timezone = content;
+                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                    timezone = content.toUpperCase().replace("UTC", "GMT");
+
+                if (!Utils.isValidTimeZone(timezone)) {
+                    ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
+                    return;
+                }
+
+                try {
+                    UtilsCmds.dateGMT(ctx.getGuild(), timezone);
+                } catch (Exception e) {
+                    ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
+                    return;
+                }
+
+                if(!RatelimitUtils.handleIncreasingRatelimit(tzRatelimit, ctx.getAuthor(), ctx)) {
+                    return;
+                }
+
+                marriage.getData().setTimezone(timezone);
+                marriage.save();
+                dbUser.save();
+                ctx.sendLocalized("commands.marry.timezone.success", EmoteReference.CORRECT, timezone);
+            }
+        });
+
         marryCommand.addSubCommand("status", new SubCommand() {
             @Override
             public String description() {
@@ -475,12 +699,13 @@ public class RelationshipCmds {
                 final User author = ctx.getAuthor();
                 DBUser dbUser = ctx.getDBUser();
                 final Marriage currentMarriage = dbUser.getData().getMarriage();
-
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
                     ctx.sendLocalized("commands.marry.status.no_marriage", EmoteReference.SAD);
                     return;
                 }
+
+                MarriageData data = currentMarriage.getData();
 
                 //Can we find the user this is married to?
                 final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
@@ -490,7 +715,7 @@ public class RelationshipCmds {
                 }
 
                 //Get the current love letter.
-                String loveLetter = currentMarriage.getData().getLoveLetter();
+                String loveLetter = data.getLoveLetter();
                 if (loveLetter == null || loveLetter.isEmpty()) {
                     loveLetter = "None.";
                 }
@@ -498,8 +723,11 @@ public class RelationshipCmds {
                 I18nContext languageContext = ctx.getLanguageContext();
                 DBUser marriedDBUser = ctx.getDBUser(marriedTo);
 
-                //This would be good if it was 2008. But it works.
-                Date marriageDate = new Date(currentMarriage.getData().getMarriageCreationMillis());
+                LocalDateTime marriageDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault());
+                String dateFormat = marriageDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                        .withLocale(Utils.getLocaleFromLanguage(dbUser.getData().getLang()))
+                );
+
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
@@ -507,11 +735,27 @@ public class RelationshipCmds {
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(String.format(languageContext.get("commands.marry.status.description_format"),
                                 EmoteReference.HEART, author.getName(), author.getDiscriminator(), marriedTo.getName(), marriedTo.getDiscriminator())
-                        ).addField(languageContext.get("commands.marry.status.date"), marriageDate.toString(), false)
+                        ).addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
+                if(data.hasHouse()) {
+                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), data.getHouseName(), false);
+                }
+
+                if(data.hasCar()) {
+                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), data.getCarName(), false);
+                }
+
+                if(data.getPet() != null) {
+                    var pet = data.getPet();
+                    var petType = data.getPet().getType();
+
+                    embedBuilder.addField(languageContext.get("commands.marry.status.pet"),
+                            pet.getName() + " (" + petType.getEmoji() + petType.getName() + ")", false
+                    );
+                }
 
                 ctx.send(embedBuilder.build());
             }
@@ -524,41 +768,81 @@ public class RelationshipCmds {
     public void divorce(CommandRegistry cr) {
         cr.register("divorce", new SimpleCommand(CommandCategory.FUN) {
             @Override
-            protected void call(Context ctx, String content, String[] args) {
-                final Player divorceePlayer = ctx.getPlayer();
-                //Assume we're dealing with a new marriage?
-                final DBUser divorceeDBUser = ctx.getDBUser();
-                final Marriage marriage = divorceeDBUser.getData().getMarriage();
-
+            protected void call(Context ctx, String cn, String[] args) {
                 //We, indeed, have no marriage here.
-                if (marriage == null) {
+                if (ctx.getDBUser().getData().getMarriage() == null) {
                     ctx.sendLocalized("commands.divorce.not_married", EmoteReference.ERROR);
                     return;
                 }
 
-                //We do have a marriage, get rid of it.
-                DBUser marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
-                final Player marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
+                ctx.sendLocalized("commands.divorce.confirm", EmoteReference.WARNING);
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    String content = interactiveEvent.getMessage().getContentRaw();
 
-                //Save the user of the person they were married with.
-                marriedWithDBUser.getData().setMarriageId(null);
-                marriedWithDBUser.save();
+                    if (content.equalsIgnoreCase("yes")) {
+                        final var divorceeDBUser = ctx.getDBUser();
+                        final var marriage = divorceeDBUser.getData().getMarriage();
 
-                //Save the user of themselves.
-                divorceeDBUser.getData().setMarriageId(null);
-                divorceeDBUser.save();
+                        final var marriageData = marriage.getData();
 
-                //Add the heart broken badge to the user who divorced.
-                divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-                divorceePlayer.save();
+                        //We do have a marriage, get rid of it.
+                        final var marriedWithDBUser = ctx.getDBUser(marriage.getOtherPlayer(ctx.getAuthor().getId()));
+                        final var marriedWithPlayer = ctx.getPlayer(marriedWithDBUser.getId());
+                        final var divorceePlayer = ctx.getPlayer();
 
-                //Add the heart broken badge to the user got dumped.
-                marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
-                marriedWithPlayer.save();
+                        //Save the user of the person they were married with.
+                        marriedWithDBUser.getData().setMarriageId(null);
+                        marriedWithDBUser.save();
 
-                //Scrape this marriage.
-                marriage.delete();
-                ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT);
+                        //Save the user of themselves.
+                        divorceeDBUser.getData().setMarriageId(null);
+                        divorceeDBUser.save();
+
+                        //Add the heart broken badge to the user who divorced.
+                        divorceePlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+
+                        //Add the heart broken badge to the user got dumped.
+                        marriedWithPlayer.getData().addBadgeIfAbsent(Badge.HEART_BROKEN);
+
+                        var moneySplit = 0L;
+
+                        if(marriageData.hasHouse()) {
+                            moneySplit += housePrice * 0.9;
+                        }
+
+                        if(marriageData.hasCar()) {
+                            moneySplit += carPrice * 0.9;
+                        }
+
+                        if(marriageData.getPet() != null) {
+                            moneySplit += marriageData.getPet().getType().getCost() * 0.7;
+                        }
+
+                        //Scrape this marriage.
+                        marriage.delete();
+
+                        // Split the money between the two people.
+                        var portion = moneySplit / 2;
+                        divorceePlayer.addMoney(portion);
+                        marriedWithPlayer.addMoney(portion);
+
+                        divorceePlayer.save();
+                        marriedWithPlayer.save();
+
+                        var extra = "";
+                        if(portion > 1) {
+                            extra = String.format(ctx.getLanguageContext().get("commands.divorce.split"), portion);
+                        }
+
+                        ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
+                        return Operation.COMPLETED;
+                    } else if (content.equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.divorce.cancelled");
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
             }
 
             @Override
@@ -583,7 +867,7 @@ public class RelationshipCmds {
                 .build();
 
 
-        TreeCommand waifu = (TreeCommand) cr.register("waifu", new TreeCommand(CommandCategory.FUN) {
+        TreeCommand waifu = cr.register("waifu", new TreeCommand(CommandCategory.FUN) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -704,7 +988,7 @@ public class RelationshipCmds {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+        waifu.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
 
         waifu.addSubCommand("optout", new SubCommand() {
             @Override
@@ -989,7 +1273,7 @@ public class RelationshipCmds {
                             final DBUser user = ctx.getDBUser();
                             final UserData userData = user.getData();
 
-                            if (p.getMoney() < valuePayment) {
+                            if (p.getCurrentMoney() < valuePayment) {
                                 ctx.sendLocalized("commands.waifu.unclaim.not_enough_money", EmoteReference.ERROR);
                                 return Operation.COMPLETED;
                             }
@@ -1045,7 +1329,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if (player.getMoney() < finalValue) {
+                if (player.getCurrentMoney() < finalValue) {
                     ctx.sendLocalized("commands.waifu.buyslot.not_enough_money", EmoteReference.ERROR, finalValue);
                     return;
                 }

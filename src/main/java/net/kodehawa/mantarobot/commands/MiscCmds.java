@@ -170,7 +170,7 @@ public class MiscCmds {
 
     @Subscribe
     public void iam(CommandRegistry cr) {
-        TreeCommand iamCommand = (TreeCommand) cr.register("iam", new TreeCommand(CommandCategory.MISC) {
+        TreeCommand iamCommand = cr.register("iam", new TreeCommand(CommandCategory.MISC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

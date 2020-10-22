@@ -57,12 +57,12 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
 import java.awt.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class OwnerCmd {
@@ -293,7 +293,7 @@ public class OwnerCmd {
                         Player transferred = MantaroData.db().getPlayer(args[0]);
                         Player transferTo = MantaroData.db().getPlayer(args[1]);
 
-                        transferTo.setMoney(transferred.getMoney());
+                        transferTo.setCurrentMoney(transferred.getCurrentMoney());
                         transferTo.setLevel(transferred.getLevel());
                         transferTo.setReputation(transferred.getReputation());
                         transferTo.getInventory().merge(transferred.getInventory().asList());
@@ -307,7 +307,11 @@ public class OwnerCmd {
                         transferToData.setMarketUsed(transferredData.getMarketUsed());
                         transferToData.setMainBadge(transferredData.getMainBadge());
                         transferToData.setGamesWon(transferredData.getGamesWon());
-
+                        transferToData.setMiningExperience(transferredData.getMiningExperience());
+                        transferToData.setSharksCaught(transferredData.getSharksCaught());
+                        transferToData.setFishingExperience(transferredData.getFishingExperience());
+                        transferToData.setCratesOpened(transferredData.getCratesOpened());
+                        transferToData.setTimesMopped(transferredData.getTimesMopped());
 
                         transferTo.save();
                         Player reset = Player.of(args[0]);

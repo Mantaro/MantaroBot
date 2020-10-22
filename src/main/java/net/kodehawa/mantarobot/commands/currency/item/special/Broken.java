@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 
 public class Broken extends Item {
     //Repair cost it's usually Item value / 3
@@ -44,6 +45,10 @@ public class Broken extends Item {
 
     public int getMainItem() {
         return this.mainItem;
+    }
+
+    public Item getItem() {
+        return Items.fromId(mainItem);
     }
 
     public String getRecipe() {

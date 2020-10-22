@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -64,14 +65,14 @@ public class LeaderboardCmd {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(3)
                 .limit(1)
-                .cooldown(6, TimeUnit.SECONDS)
-                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .cooldown(2, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(20, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("leaderboard")
                 .build();
 
-        TreeCommand leaderboards = (TreeCommand) cr.register("leaderboard", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand leaderboards = cr.register("leaderboard", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context context, String commandName, String content) {
                 return new SubCommand() {
@@ -125,7 +126,7 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.setPredicate(ctx -> Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
+        leaderboards.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override
@@ -146,8 +147,8 @@ public class LeaderboardCmd {
                                 String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", c,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false)
-                                .build()
+                                        map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false
+                        ).build()
                 );
             }
         });
@@ -168,25 +169,62 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),
+                                String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),
                                 "commands.leaderboard.slots", c,
-                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false)
-                        .build()
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                        map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false
+                        ).build()
                 );
             }
         });
 
-        leaderboards.addSubCommand("money", new SubCommand() {
+        if(!config.isPremiumBot) {
+            leaderboards.addSubCommand("money", new SubCommand() {
+                @Override
+                public String description() {
+                    return "Returns the money leaderboard";
+                }
+
+                @Override
+                protected void call(Context ctx, String content) {
+                    boolean seasonal = ctx.isSeasonal();
+                    String tableName = seasonal ? "seasonalplayers" : "players";
+                    String indexName = seasonal ? "money" : "newMoney";
+
+                    List<Map<String, Object>> c = getLeaderboard(tableName, indexName,
+                            player -> player.g("id"),
+                            player -> player.pluck("id", "money"), 10
+                    );
+
+                    I18nContext languageContext = ctx.getLanguageContext();
+
+                    ctx.send(
+                            generateLeaderboardEmbed(
+                                    ctx,
+                                    String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
+                                            languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
+                                    "commands.leaderboard.money", c,
+                                    map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                            map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
+                            ).build()
+                    );
+                }
+            });
+        }
+
+        leaderboards.addSubCommand(config.isPremiumBot ? "money" : "oldmoney", new SubCommand() {
             @Override
             public String description() {
-                return "Returns the money leaderboard";
+                if(config.isPremiumBot) {
+                    return "Returns the money leaderboard";
+                } else {
+                    return "Returns the (old) pre-reset money leaderboard";
+                }
             }
 
             @Override
             protected void call(Context ctx, String content) {
-                boolean seasonal = ctx.isSeasonal();
-                String tableName = seasonal ? "seasonalplayers" : "players";
+                String tableName = "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
@@ -197,15 +235,15 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
-                                languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
+                                String.format(languageContext.get("commands.leaderboard.inner.money_old"), EmoteReference.MONEY),
                                 "commands.leaderboard.money", c,
-                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal)
-                        .build()
+                                map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
+                                map.get("money").toString()), "%s**%s#%s** - $%,d", false
+                        ).build()
                 );
             }
         });
+
 
         leaderboards.addSubCommand("lvl", new SubCommand() {
             @Override

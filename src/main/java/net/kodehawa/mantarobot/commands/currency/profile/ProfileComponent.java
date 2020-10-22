@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.LocalDate;
@@ -49,7 +50,11 @@ public enum ProfileComponent {
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, true, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
-            "$ " + holder.getPlayer().getMoney(),
+            "$ " + holder.getPlayer().getCurrentMoney(),
+            true, false
+    ),
+    OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->
+            "$ " + holder.getPlayer().getOldMoney(),
             true, false
     ),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
@@ -116,6 +121,29 @@ public enum ProfileComponent {
         else
             return displayBadges;
     }, true, false),
+    QUESTS(EmoteReference.PENCIL, i18nContext -> i18nContext.get("commands.profile.quests.header"), (holder, i18nContext) -> {
+        var tracker = holder.getPlayer().getData().getQuests();
+        var quests = tracker.getCurrentActiveQuests();
+
+        var builder = new StringBuilder();
+
+        // Create a string for all active quests.
+        for(Quest quest : quests) {
+            if(quest.isActive()) {
+                builder.append(String.format(i18nContext.get(quest.getType().getI18n()), quest.getProgress()))
+                        .append("\n");
+            } else {
+                // This should get saved? Else we can just remove it when checking status.
+                tracker.removeQuest(quest);
+            }
+        }
+
+        if(builder.length() == 0) {
+            builder.append(i18nContext.get("commands.profile.quests.no_quests"));
+        }
+
+        return builder.toString();
+    }),
     FOOTER(null, null, (holder, i18nContext) -> {
         UserData userData = holder.getDbUser().getData();
         String timezone;

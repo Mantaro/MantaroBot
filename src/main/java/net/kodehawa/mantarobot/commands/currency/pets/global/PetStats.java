@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency.pets;
+package net.kodehawa.mantarobot.commands.currency.pets.global;
 
 import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 

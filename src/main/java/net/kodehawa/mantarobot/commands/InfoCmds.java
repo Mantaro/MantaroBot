@@ -43,12 +43,12 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import org.apache.commons.lang3.LocaleUtils;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
@@ -263,7 +263,7 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return;
 
                 if (content.isEmpty()) {
@@ -293,7 +293,8 @@ public class InfoCmds {
                                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                     .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "")
                                             + (descriptionList.isEmpty() ? newHelp.getDescription() : descriptionList.get(r.nextInt(descriptionList.size())))
-                                    ).setFooter("Don't include <> or [] on the command itself.", ctx.getAuthor().getEffectiveAvatarUrl());
+                                            + "\n" + "**Don't include <> or [] on the command itself.**"
+                                    );
 
                             if (newHelp.getUsage() != null) {
                                 builder.addField("Usage", newHelp.getUsage(), false);
@@ -310,8 +311,6 @@ public class InfoCmds {
                                 builder.addField("Seasonal", "This command allows the usage of the `-season` (or `-s`) argument.", false);
                             }
 
-                            builder.addField("Still lost?", "[Get support here!](https://support.mantaro.site)",  false);
-
                             //Ensure sub-commands show in help.
                             //Only god shall help me now with all of this casting lol.
                             if (command instanceof AliasCommand) {
@@ -319,7 +318,13 @@ public class InfoCmds {
                             }
 
                             if (command instanceof ITreeCommand) {
-                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands();
+                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands()
+                                        .entrySet()
+                                        .stream()
+                                        .sorted(Comparator.comparingInt(a ->
+                                                a.getValue().description() == null ? 0 : a.getValue().description().length())
+                                        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
                                 StringBuilder stringBuilder = new StringBuilder();
 
                                 for (Map.Entry<String, SubCommand> inners : subCommands.entrySet()) {
@@ -356,6 +361,10 @@ public class InfoCmds {
                                     builder.addField("Aliases", aliases, false);
                                 }
                             }
+
+                            builder.addField("Still lost?",
+                                    "[Check the wiki](https://wiki.mantaro.site) or [get support here!](https://support.mantaro.site)",  false
+                            ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());
 
                             ctx.send(builder.build());
                         } else {
@@ -439,7 +448,7 @@ public class InfoCmds {
 
     @Subscribe
     public void stats(CommandRegistry cr) {
-        SimpleTreeCommand statsCommand = (SimpleTreeCommand) cr.register("stats", new SimpleTreeCommand(CommandCategory.INFO) {
+        SimpleTreeCommand statsCommand = cr.register("stats", new SimpleTreeCommand(CommandCategory.INFO) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()

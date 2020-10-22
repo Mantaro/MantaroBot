@@ -18,24 +18,37 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 
-public class Wrench extends Item {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Wrench extends Item implements Castable, Salvageable {
     private float chance;
     private int level;
     private double multiplierReduction;
+    private List<Integer> salvageReturns;
 
-    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name, String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe, int... recipeTypes) {
+    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
+                  String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe,
+                  int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
+        this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
     }
 
-    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+    public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
+                  String translatedName, String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
+        this.salvageReturns = Collections.emptyList();
     }
 
     public float getChance() {
@@ -48,5 +61,20 @@ public class Wrench extends Item {
 
     public double getMultiplierReduction() {
         return this.multiplierReduction;
+    }
+
+    @Override
+    public List<Integer> getReturns() {
+        return salvageReturns;
+    }
+
+    @Override
+    public int getCastLevelRequired() {
+        return 0;
+    }
+
+    @Override
+    public int getMaximumCastAmount() {
+        return 5000;
     }
 }

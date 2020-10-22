@@ -64,7 +64,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.utils.Utils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -171,7 +171,7 @@ public class MusicCmds {
         cr.register("playnow", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (isDJ(ctx.getMember())) {
+                if (isDJ(ctx, ctx.getMember())) {
                     if (content.trim().isEmpty()) {
                         ctx.sendLocalized("commands.music_general.no_song", EmoteReference.ERROR);
                         return;
@@ -232,7 +232,7 @@ public class MusicCmds {
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                        .setDescription("\n\u23ef " + AudioCmdUtils.getProgressBar(now, total) + "\n\n" +
+                        .setDescription("\n\u23ef " + Utils.getProgressBar(now, total) + "\n\n" +
                                 "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
                                 .getInfo().title + "]"
                                 + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
@@ -387,7 +387,7 @@ public class MusicCmds {
                     return;
                 }
 
-                if (isDJ(ctx.getMember())) {
+                if (isDJ(ctx, ctx.getMember())) {
                     try {
                         long amt = Utils.parseTime(args[0]);
                         if (amt < 0) {
@@ -436,7 +436,7 @@ public class MusicCmds {
                     return;
                 }
 
-                if (isDJ(ctx.getMember())) {
+                if (isDJ(ctx, ctx.getMember())) {
                     lavalinkPlayer.seekTo(1);
                     ctx.sendLocalized("commands.restartsong.success", EmoteReference.CORRECT);
                 } else {
@@ -471,7 +471,7 @@ public class MusicCmds {
                     return;
                 }
 
-                if (isDJ(ctx.getMember())) {
+                if (isDJ(ctx, ctx.getMember())) {
                     try {
                         long amt = Utils.parseTime(args[0]);
                         if (amt < 0) {
@@ -514,7 +514,7 @@ public class MusicCmds {
 
     @Subscribe
     public void queue(CommandRegistry cr) {
-        TreeCommand queueCommand = (TreeCommand) cr.register("queue", new TreeCommand(CommandCategory.MUSIC) {
+        TreeCommand queueCommand = cr.register("queue", new TreeCommand(CommandCategory.MUSIC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -557,7 +557,7 @@ public class MusicCmds {
                 if (!isInConditionTo(ctx, musicManager.getLavaLink()))
                     return;
 
-                if (isDJ(ctx.getMember())) {
+                if (isDJ(ctx, ctx.getMember())) {
                     musicManager.getLavaLink().getPlayer().stopTrack();
                     musicManager.getTrackScheduler().stop();
                     int tempLength = musicManager.getTrackScheduler().getQueue().size();
@@ -583,7 +583,7 @@ public class MusicCmds {
                 if (!isInConditionTo(ctx, musicManager.getLavaLink()))
                     return;
 
-                if (!isDJ(ctx.getMember())) {
+                if (!isDJ(ctx, ctx.getMember())) {
                     ctx.sendLocalized("commands.removetrack.not_dj", EmoteReference.ERROR);
                     return;
                 }
@@ -783,7 +783,7 @@ public class MusicCmds {
 
                     User author = ctx.getAuthor();
                     if (scheduler.getCurrentTrack().getUserData() != null &&
-                            String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId()) || isDJ(ctx.getMember())) {
+                            String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId()) || isDJ(ctx, ctx.getMember())) {
                         ctx.sendLocalized("commands.skip.dj_skip", EmoteReference.CORRECT);
                         scheduler.nextTrack(true, true);
                         return;
@@ -839,7 +839,7 @@ public class MusicCmds {
                     if (!isInConditionTo(ctx, musicManager.getLavaLink()))
                         return;
 
-                    if (isDJ(ctx.getMember())) {
+                    if (isDJ(ctx, ctx.getMember())) {
                         ctx.sendLocalized("commands.stop.dj_stop", EmoteReference.CORRECT);
                         stopCurrent(ctx);
                         return;
@@ -884,7 +884,7 @@ public class MusicCmds {
 
     @Subscribe
     public void volume(CommandRegistry cr) {
-        TreeCommand volumeCommand = (TreeCommand) cr.register("volume", new TreeCommand(CommandCategory.MUSIC) {
+        TreeCommand volumeCommand = cr.register("volume", new TreeCommand(CommandCategory.MUSIC) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -1044,10 +1044,16 @@ public class MusicCmds {
         });
     }
 
-    private boolean isDJ(Member member) {
+    private boolean isDJ(Context ctx, Member member) {
         Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
+        GuildData guildData = ctx.getDBGuild().getData();
+        Role customDjRole = null;
+        if(guildData.getDjRoleId() != null) {
+            customDjRole = member.getGuild().getRoleById(guildData.getDjRoleId());
+        }
+
         return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(Permission.ADMINISTRATOR) ||
-                (djRole != null && member.getRoles().contains(djRole));
+                (djRole != null && member.getRoles().contains(djRole)) || (customDjRole != null && member.getRoles().contains(customDjRole));
     }
 
     private void sendNotConnectedToMyChannel(TextChannel channel, I18nContext lang) {
@@ -1090,7 +1096,7 @@ public class MusicCmds {
 
         try {
             // Maybe?
-            if (isDJ(ctx.getMember())) {
+            if (isDJ(ctx, ctx.getMember())) {
                 return true;
             }
 

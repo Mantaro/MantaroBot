@@ -85,13 +85,6 @@ public class CommandRegistry {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public void register(Class<? extends NewCommand> clazz) {
-        var cmd = newCommands.register(clazz);
-        var p = new ProxyCommand(cmd);
-        commands.put(cmd.name(), p);
-        cmd.aliases().forEach(a -> commands.put(a, new AliasProxyCommand(p)));
-    }
-
     //BEWARE OF INSTANCEOF CALLS
     //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public boolean process(GuildMessageReceivedEvent event, String cmdName, String content, String prefix) {
@@ -280,7 +273,14 @@ public class CommandRegistry {
         return true;
     }
 
-    public Command register(String name, Command command) {
+    public void register(Class<? extends NewCommand> clazz) {
+        var cmd = newCommands.register(clazz);
+        var p = new ProxyCommand(cmd);
+        commands.put(cmd.name(), p);
+        cmd.aliases().forEach(a -> commands.put(a, new AliasProxyCommand(p)));
+    }
+
+    public <T extends Command> T register(String name, T command) {
         commands.putIfAbsent(name, command);
         log.debug("Registered command " + name);
         return command;

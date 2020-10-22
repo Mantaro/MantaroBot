@@ -287,7 +287,11 @@ public class MantaroListener implements EventListener {
                                 //Celebrate internally! \ o /
                                 LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
                             });
-                        }, failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+                        }, failure -> LogUtils.log(
+                                String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!",
+                                        user.getId(), user.getName(), user.getDiscriminator())
+                                )
+                        );
                     }
                 }
             });
@@ -309,7 +313,8 @@ public class MantaroListener implements EventListener {
                             .mapUser("event.user", event.getUser())
                             .resolve(data.getBannedMemberLog());
                 } else {
-                    message = EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.";
+                    message = EmoteReference.WARNING + "`[" + hour + "]` " +
+                            event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.";
                 }
                 tc.sendMessage(message).queue();
                 logTotal++;
@@ -332,7 +337,8 @@ public class MantaroListener implements EventListener {
                     return;
 
                 CachedMessage deletedMessage = messageCache.get(event.getMessageIdLong(), Optional::empty).orElse(null);
-                if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
+                if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)
+                        && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                     if (data.getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
                         return;
                     }
@@ -361,7 +367,10 @@ public class MantaroListener implements EventListener {
                                 .resolve(data.getDeleteMessageLog());
                     } else {
                         message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
-                                "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""));
+                                "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(),
+                                deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(),
+                                deletedMessage.getContent().replace("```", "")
+                        );
                     }
 
                     logTotal++;
@@ -430,8 +439,12 @@ public class MantaroListener implements EventListener {
                                 .mapMessage("event.message", event.getMessage())
                                 .resolve(guildData.getEditMessageLog());
                     } else {
-                        message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                                hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentDisplay().replace("```", ""));
+                        message = String.format(EmoteReference.WARNING +
+                                        "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
+                                hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(),
+                                event.getChannel().getName(), editedMessage.getContent().replace("```", ""),
+                                event.getMessage().getContentDisplay().replace("```", "")
+                        );
                     }
 
                     tc.sendMessage(message).queue();
@@ -481,7 +494,9 @@ public class MantaroListener implements EventListener {
                                 .mapUser("event.user", event.getUser())
                                 .resolve(data.getUnbannedMemberLog());
                     } else {
-                        message = String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator());
+                        message = String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour,
+                                event.getUser().getName(), event.getUser().getDiscriminator()
+                        );
                     }
                     tc.sendMessage(message).queue();
                     logTotal++;
@@ -496,9 +511,13 @@ public class MantaroListener implements EventListener {
 
     private void onDisconnect(DisconnectEvent event) {
         if (event.isClosedByServer()) {
-            log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n", event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()));
+            log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
+                    event.getServiceCloseFrame().getCloseCode(), event.getCloseCode())
+            );
         } else {
-            log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n", event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason()));
+            log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
+                    event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason())
+            );
         }
     }
 
@@ -514,7 +533,8 @@ public class MantaroListener implements EventListener {
         final MantaroObj mantaroData = MantaroData.db().getMantaroData();
 
         try {
-            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) || mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
+            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) ||
+                    mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
                 event.getGuild().leave().queue();
                 return;
             }
@@ -525,22 +545,32 @@ public class MantaroListener implements EventListener {
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail(jda.getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
-                        .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3\n" +
-                                "We have music, currency, games and way more stuff you can check out! Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!\n\n" +
-                                "If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. " +
+                        .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! " +
+                                "Thanks for adding me to your server, I highly appreciate it <3\n" +
+                                "We have music, currency, games and way more stuff you can check out! " +
+                                "Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!\n\n" +
+                                "If you're interested in supporting Mantaro," +
+                                " check out our Patreon page below, it'll greatly help to improve the bot. " +
                                 "This message will only be shown once.")
                         .addField("Important Links",
-                                "[Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.\n" +
-                                        "[Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.\n" +
-                                        "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!\n" +
-                                        "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - Great customizability for your server needs!\n" +
-                                        "[Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.\n" +
-                                        "[Official Website](https://mantaro.site) - A cool website.", true)
-                        .setFooter("We hope you enjoy using Mantaro! This will self-destruct in 1 minute.");
+                                "[Support Server](https://support.mantaro.site) - " +
+                                        "The place to check if you're lost or if there's an issue with the bot.\n" +
+                                        "[Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - " +
+                                        "Good place to check if you're lost.\n" +
+                                        "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - " +
+                                        "Great customizability for your server needs!\n" +
+                                        "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - " +
+                                        " customizability for your server needs!\n" +
+                                        "[Patreon](https://patreon.com/mantaro) - " +
+                                        "Help Mantaro's development directly by donating a small amount of money each month.\n" +
+                                        "[Official Website](https://mantaro.site) - " +
+                                        "A cool website.", true
+                        ).setFooter("We hope you enjoy using Mantaro! This will self-destruct in 1 minute.");
 
                 DBGuild dbGuild = db.getGuild(guild);
 
-                guild.getChannels().stream().filter(channel -> channel.getType() == ChannelType.TEXT && channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
+                guild.getChannels().stream().filter(channel -> channel.getType() == ChannelType.TEXT &&
+                        channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
                     TextChannel channel = (TextChannel) ch;
                     if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
@@ -633,9 +663,14 @@ public class MantaroListener implements EventListener {
 
                             //Yes, I know the check previously done is redundant, but in case someone decides to change the laws of nature, it should do	.
                             event.getMessage().delete().queue();
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "**You cannot advertise here.** Deleted invite link sent by **" + author.getName() + "#" + author.getDiscriminator() + "**.").queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR +
+                                    "**You cannot advertise here.** Deleted invite link sent by **" +
+                                    author.getName() + "#" + author.getDiscriminator() + "**."
+                            ).queue();
                         } else {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove the invite link because I don't have permission to delete messages!").queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR +
+                                    "I cannot remove the invite link because I don't have permission to delete messages!"
+                            ).queue();
                         }
                     }
                 });
@@ -673,9 +708,9 @@ public class MantaroListener implements EventListener {
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`",
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
                             hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())
+                            event.getGuild().getName(), event.getUser().getId())
                     ).queue();
                     logTotal++;
                 }
@@ -722,9 +757,9 @@ public class MantaroListener implements EventListener {
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(User #%d)`",
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(ID: %s)`",
                             hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            event.getGuild().getName(), event.getGuild().getMembers().size())
+                            event.getGuild().getName(), event.getUser().getId())
                     ).queue();
                     logTotal++;
                 }

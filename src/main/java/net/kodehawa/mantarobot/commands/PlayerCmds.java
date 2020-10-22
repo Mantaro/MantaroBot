@@ -33,6 +33,8 @@ import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -49,6 +51,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -140,7 +143,7 @@ public class PlayerCmds {
                     }
 
                     //Check for RL.
-                    if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                    if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                         return;
 
                     UnifiedPlayer player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());
@@ -246,66 +249,90 @@ public class PlayerCmds {
                 boolean isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
-                DBUser dbUser = ctx.getDBUser();
-                Player player = ctx.getPlayer();
-                UserData data = dbUser.getData();
-
                 SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
-
-                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
+                DBUser dbUser = ctx.getDBUser();
+                PlayerEquipment equipment = isSeasonal ? seasonalPlayer.getData().getEquippedItems() : dbUser.getData().getEquippedItems();
                 PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
                 if (type == null) {
                     ctx.sendLocalized("commands.profile.unequip.invalid_type", EmoteReference.ERROR);
                     return;
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
-
-                String part = ""; //Start as an empty string.
-                if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD) {
-                    //This is part of a Map value, so it's actually nullable (therefore it's not a primitive).
-                    Integer equipped = equipment.getEquipment().get(type);
-                    if(equipped == null) {
-                        ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    Item equippedItem = Items.fromId(equipped);
-
-                    if(equippedItem == null) {
-                        ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    Breakable item = (Breakable) equippedItem;
-
-                    float percentage = ((float) equipment.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
-                    if(percentage == 100) { //Basically never used
-                        player.getInventory().process(new ItemStack(equippedItem, 1));
-                        part += String.format(languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName());
-                    } else {
-                        Item brokenItem = Items.getBrokenItemFrom(equippedItem);
-                        if(brokenItem != null) {
-                            player.getInventory().process(new ItemStack(brokenItem, 1));
-                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName());
-                        } else {
-                            long money = equippedItem.getValue() / 2;
-                            //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
-                            part += String.format(languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money);
-                        }
-                    }
-
-                    player.save();
+                Integer equipped = equipment.getEquipment().get(type);
+                if(equipped == null) {
+                    ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                    return;
                 }
 
-                equipment.resetOfType(type);
-                if (isSeasonal)
-                    seasonalPlayer.save();
-                else
-                    dbUser.save();
+                Item equippedItem = Items.fromId(equipped);
 
-                ctx.sendFormat(languageContext.get("commands.profile.unequip.success") + part, EmoteReference.CORRECT, type.name().toLowerCase());
+                ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    String ct = interactiveEvent.getMessage().getContentRaw();
+                    SeasonPlayer seasonalPlayerFinal = ctx.getSeasonPlayer();
+                    DBUser dbUserFinal = ctx.getDBUser();
+                    Player playerFinal = ctx.getPlayer();
+                    UserData dbUserData = dbUserFinal.getData();
+                    PlayerEquipment equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
+
+                    if (ct.equalsIgnoreCase("yes")) {
+                        I18nContext languageContext = ctx.getLanguageContext();
+
+                        String part = ""; //Start as an empty string.
+                        if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD ||type == PlayerEquipment.EquipmentType.AXE ) {
+                            // Gotta check again, just in case...
+                            Integer equippedFinal = equipmentFinal.getEquipment().get(type);
+                            if(equippedFinal == null) {
+                                ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                                return InteractiveOperation.COMPLETED;
+                            }
+
+                            if(equippedItem == null) {
+                                ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                                return InteractiveOperation.COMPLETED;
+                            }
+
+                            Breakable item = (Breakable) equippedItem;
+
+                            float percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
+                            if(percentage == 100) { //Basically never used
+                                playerFinal.getInventory().process(new ItemStack(equippedItem, 1));
+                                part += String.format(
+                                        languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName()
+                                );
+                            } else {
+                                Item brokenItem = Items.getBrokenItemFrom(equippedItem);
+                                if(brokenItem != null) {
+                                    playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
+                                    part += String.format(
+                                            languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName()
+                                    );
+                                } else {
+                                    long money = equippedItem.getValue() / 2;
+                                    //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
+                                    part += String.format(
+                                            languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money
+                                    );
+                                }
+                            }
+                        }
+
+                        equipmentFinal.resetOfType(type);
+                        if (isSeasonal)
+                            seasonalPlayerFinal.save();
+                        else
+                            dbUserFinal.save();
+
+                        ctx.sendFormat(languageContext.get("commands.profile.unequip.success") + part,
+                                EmoteReference.CORRECT, type.name().toLowerCase()
+                        );
+                    } else if (ct.equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.profile.unequip.cancelled", EmoteReference.WARNING);
+                        return InteractiveOperation.COMPLETED;
+                    }
+
+                    return InteractiveOperation.IGNORED;
+                });
             }
 
             @Override
@@ -324,7 +351,7 @@ public class PlayerCmds {
     @Subscribe
     public void badges(CommandRegistry cr) {
         final Random r = new Random();
-        ITreeCommand badgeCommand = (ITreeCommand) cr.register("badges", new TreeCommand(CommandCategory.CURRENCY) {
+        ITreeCommand badgeCommand = cr.register("badges", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -370,7 +397,9 @@ public class PlayerCmds {
 
                             for (Badge b : badges) {
                                 //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
-                                fields.add(new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false));
+                                fields.add(
+                                        new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false)
+                                );
                             }
 
                             if (badges.isEmpty()) {
@@ -413,7 +442,7 @@ public class PlayerCmds {
         badgeCommand.addSubCommand("info", new SubCommand() {
             @Override
             public String description() {
-                return "Shows info about a badge. Usage: `~>badges info <name>`";
+                return "Shows info about a badge.";
             }
 
             @Override
@@ -438,8 +467,12 @@ public class PlayerCmds {
                         .setDescription(String.join("\n",
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.name") + ":** " + badge.display,
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.description") + ":** " + badge.description,
-                                EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("commands.badges.info.achieved") + ":** " + p.getData().getBadges().stream().anyMatch(b -> b == badge))
-                        ).setThumbnail("attachment://icon.png")
+                                EmoteReference.BLUE_SMALL_MARKER + "**" +
+                                        languageContext.get("commands.badges.info.achieved") + ":** " +
+                                        p.getData().getBadges().stream().anyMatch(b -> b == badge)
+                                )
+                        )
+                        .setThumbnail("attachment://icon.png")
                         .setColor(Color.CYAN)
                         .build()
                 ).build();

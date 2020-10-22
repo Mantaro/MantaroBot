@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -46,6 +47,7 @@ import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -80,10 +82,17 @@ public class ProfileCmd {
                 .prefix("profile")
                 .build();
 
-        //I actually do need this, sob.
-        final LinkedList<ProfileComponent> defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        final Config config = MantaroData.config().get();
 
-        ITreeCommand profileCommand = (TreeCommand) cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
+        //I actually do need this, sob.
+        LinkedList<ProfileComponent> defaultOrder;
+        if(config.isPremiumBot()) {
+            defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        } else {
+            defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        }
+
+        ITreeCommand profileCommand = cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -281,7 +290,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("timezone", new SubCommand() {
             @Override
             public String description() {
-                return "Sets the profile timezone. Usage: `~>profile timezone <tz>`";
+                return "Sets the profile timezone.";
             }
 
             @Override
@@ -330,13 +339,12 @@ public class ProfileCmd {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile description. Usage: `~>profile description set <description>`\n" +
-                        "Reset with `~>profile description clear`";
+                return "Sets your profile description.";
             }
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                     return;
 
                 String[] args = content.split(" ");
@@ -389,7 +397,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile badge. Usage: `~>profile displaybadge <badge name>`\n" +
+                return "Sets your profile badge.\n" +
                         "Reset with `~>profile displaybadge reset`\n" +
                         "No badge: `~>profile displaybadge none`";
             }
@@ -453,7 +461,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("lang", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile language. Usage: `~>profile lang <lang>`. Available langs: `~>lang`";
+                return "Sets your profile language. Available langs: `~>lang`";
             }
 
             @Override
@@ -488,7 +496,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
             public String description() {
-                return "Checks profile statistics. Usage: `~>profile stats [@mention]`";
+                return "Checks profile statistics.";
             }
 
             @Override
@@ -596,6 +604,10 @@ public class ProfileCmd {
                                     playerData.getMiningExperience() + " XP"
                             ),
 
+                            prettyDisplay(languageContext.get("commands.profile.stats.chop_xp"),
+                                    playerData.getChopExperience() + " XP"
+                            ),
+
                             prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
                                     playerData.getFishingExperience() + " XP"
                             ),
@@ -664,7 +676,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("widgets", new SubCommand() {
             @Override
             public String description() {
-                return "Sets profile widgets and order. Usage: `~>profile widgets <widget/ls/reset>`";
+                return "Sets profile widgets and order. Arguments: widget, ls or reset";
             }
 
             @Override

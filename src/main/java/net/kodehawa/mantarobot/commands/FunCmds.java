@@ -33,8 +33,9 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RPGDice;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.security.SecureRandom;
@@ -128,7 +129,7 @@ public class FunCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(10, TimeUnit.SECONDS)
+                .cooldown(4, TimeUnit.SECONDS)
                 .maxCooldown(1, TimeUnit.MINUTES)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
@@ -138,26 +139,32 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!Utils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
                     return;
 
                 Map<String, String> opts = ctx.getOptionalArguments();
                 int size = 6, amount = 1;
 
-                if (opts.containsKey("size")) {
-                    try {
-                        size = Integer.parseInt(opts.get("size"));
-                    } catch (Exception ignored) { }
-                }
+                RPGDice d20 = RPGDice.parse(content);
+                if(d20 != null) {
+                    size = d20.getFaces();
+                    amount = d20.getRolls();
+                } else { // Verbose format
+                    if (opts.containsKey("size")) {
+                        try {
+                            size = Integer.parseInt(opts.get("size"));
+                        } catch (Exception ignored) { }
+                    }
 
-                if (opts.containsKey("amount")) {
-                    try {
-                        amount = Integer.parseInt(opts.get("amount"));
-                    } catch (Exception ignored) { }
-                } else if (opts.containsKey(null)) { //Backwards Compatibility
-                    try {
-                        amount = Integer.parseInt(opts.get(null));
-                    } catch (Exception ignored) { }
+                    if (opts.containsKey("amount")) {
+                        try {
+                            amount = Integer.parseInt(opts.get("amount"));
+                        } catch (Exception ignored) { }
+                    } else if (opts.containsKey(null)) { //Backwards Compatibility
+                        try {
+                            amount = Integer.parseInt(opts.get(null));
+                        } catch (Exception ignored) { }
+                    }
                 }
 
                 if (amount >= 100)
@@ -181,10 +188,11 @@ public class FunCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Roll a any-sided dice a 1 or more times. By default, this command will roll a 6-sized dice 1 time.")
-                        .setUsage("`~>roll [-amount <number>] [-size <number>]`: Rolls a dice of the specified size the specified times.\n" +
-                                "D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1`")
+                        .setUsage("`~>roll [times] [-amount <number>] [-size <number>]`: Rolls a dice of the specified size the specified times.\n" +
+                                "D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1` or just `1d20`")
                         .addParameter("-amount", "The amount you want (example: -amount 20)")
                         .addParameter("-size", "The size of the dice (example: -size 7)")
+                        .addParameter("times", "The amount of times to roll the dice. Can also be D20 format.")
                         .build();
             }
         });

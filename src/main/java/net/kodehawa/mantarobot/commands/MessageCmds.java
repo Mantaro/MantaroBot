@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 public class MessageCmds {
     @Subscribe
     public void prune(CommandRegistry cr) {
-        var pruneCmd = (TreeCommand) cr.register("prune", new TreeCommand(CommandCategory.MODERATION) {
+        var pruneCmd = cr.register("prune", new TreeCommand(CommandCategory.MODERATION) {
             @Override
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
