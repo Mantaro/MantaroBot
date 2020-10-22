@@ -21,7 +21,6 @@ import com.rethinkdb.net.Connection;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -136,23 +135,6 @@ public class Utils {
             sb.replace(last, last + 2, " and ");
         }
         return sb.toString();
-    }
-
-    public static Iterable<String> iterate(Pattern pattern, String string) {
-        return () -> {
-            Matcher matcher = pattern.matcher(string);
-            return new Iterator<>() {
-                @Override
-                public boolean hasNext() {
-                    return matcher.find();
-                }
-
-                @Override
-                public String next() {
-                    return matcher.group();
-                }
-            };
-        };
     }
 
     public static String paste(String toSend) {
@@ -420,6 +402,23 @@ public class Utils {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
 
+    public static Iterable<String> iterate(Pattern pattern, String string) {
+        return () -> {
+            Matcher matcher = pattern.matcher(string);
+            return new Iterator<>() {
+                @Override
+                public boolean hasNext() {
+                    return matcher.find();
+                }
+
+                @Override
+                public String next() {
+                    return matcher.group();
+                }
+            };
+        };
+    }
+
     private static Iterable<String> iterate(Matcher matcher) {
         return new Iterable<>() {
             @NotNull
@@ -642,19 +641,6 @@ public class Utils {
 
         return builder.append(BLOCK_INACTIVE).toString();
     }
-
-    private static final String ACTIVE_BLOCK = "\ud83d\udfe9";
-    private static final String EMPTY_BLOCK = "\u2b1c";
-
-    public static String getProgressBarEmoji(long now, long total, long blocks) {
-        int activeBlocks = (int) ((float) now / total * blocks);
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < blocks; i++)
-            builder.append(activeBlocks > i ? ACTIVE_BLOCK : EMPTY_BLOCK);
-
-        return builder.toString();
-    }
-
 
     public static String getProgressBar(long now, long total, long blocks) {
         int activeBlocks = (int) ((float) now / total * blocks);

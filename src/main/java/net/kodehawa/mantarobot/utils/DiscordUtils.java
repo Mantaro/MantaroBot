@@ -56,7 +56,6 @@ public class DiscordUtils {
         return Pair.of(b.toString(), list.size());
     }
 
-
     public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
         return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, (e) -> {
             if (!e.getAuthor().equals(event.getAuthor()))
@@ -191,184 +190,8 @@ public class DiscordUtils {
                     if (index.get() + 1 >= embeds.size()) break;
                     m.editMessage(embeds.get(index.incrementAndGet())).queue();
                 }
+                default -> { } // Do nothing, but make codefactor happy lol
             }
-            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
-                e.getReaction().removeReaction(e.getUser()).queue();
-            }
-
-            return Operation.IGNORED;
-        }, "\u2b05", "\u27a1");
-    }
-
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int lenght, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-        if (parts.length == 0)
-            return null;
-
-        List<MessageEmbed> embeds = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-
-        int total;
-        {
-            int t = 0;
-            int c = 0;
-            for (String s : parts) {
-                if (s.length() + c + 1 > lenght) {
-                    t++;
-                    c = 0;
-                }
-                c += s.length() + 1;
-            }
-            if (c > 0) t++;
-            total = t;
-        }
-
-        for (String s : parts) {
-            int l = s.length() + 1;
-            if (l > MessageEmbed.TEXT_MAX_LENGTH)
-                throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-            if (sb.length() + l > lenght) {
-                EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
-                eb.setDescription(sb.toString());
-                embeds.add(eb.build());
-                sb = new StringBuilder();
-            }
-            sb.append(s).append('\n');
-        }
-
-        if (sb.length() > 0) {
-            EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
-            eb.setDescription(sb.toString());
-            embeds.add(eb.build());
-        }
-
-        if (embeds.size() == 1) {
-            event.getChannel().sendMessage(embeds.get(0)).queue();
-            return null;
-        }
-
-        AtomicInteger index = new AtomicInteger();
-        Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
-
-        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
-            if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
-                return Operation.IGNORED;
-
-            if (e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
-                if (index.get() == 0)
-                    return Operation.IGNORED;
-
-                m.editMessage(embeds.get(index.decrementAndGet())).queue();
-            } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
-                if (index.get() + 1 >= embeds.size())
-                    return Operation.IGNORED;
-
-                m.editMessage(embeds.get(index.incrementAndGet())).queue();
-            }
-
-            if (e.getMessage().getContentRaw().equals("&cancel")) {
-                m.delete().queue();
-                return Operation.COMPLETED;
-            }
-
-            return Operation.IGNORED;
-        });
-    }
-
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
-    }
-
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
-    }
-
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
-    }
-
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
-    }
-
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
-        if (parts.size() == 0)
-            return null;
-
-        if (parts.size() == 1) {
-            event.getChannel().sendMessage(parts.get(0)).queue();
-            return null;
-        }
-
-        AtomicInteger index = new AtomicInteger();
-        Message m = event.getChannel().sendMessage(parts.get(0)).complete();
-
-        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
-            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
-                return Operation.IGNORED;
-
-            switch (e.getReactionEmote().getName()) {
-                //left arrow
-                case "\u2b05" -> {
-                    if (index.get() == 0) break;
-                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-                }
-                //right arrow
-                case "\u27a1" -> {
-                    if (index.get() + 1 >= parts.size())
-                        break;
-                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
-                }
-                case "\u274c" -> m.delete().queue();
-            }
-
-            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
-                e.getReaction().removeReaction(e.getUser()).queue();
-            }
-
-            return Operation.IGNORED;
-        }, "\u2b05", "\u27a1", "\u274c");
-    }
-
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
-        if (parts.size() == 0)
-            return null;
-
-        for (MessageEmbed.Field f : parts.get(0)) {
-            base.addField(f);
-        }
-
-        if (parts.size() == 1) {
-            event.getChannel().sendMessage(base.build()).queue();
-            return null;
-        }
-
-        base.setFooter("Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
-
-        AtomicInteger index = new AtomicInteger();
-        Message m = event.getChannel().sendMessage(base.build()).complete();
-        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
-            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
-                return Operation.IGNORED;
-
-            switch (e.getReactionEmote().getName()) {
-                //left arrow
-                case "\u2b05" -> {
-                    if (index.get() == 0)
-                        break;
-                    EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
-                    m.editMessage(toSend.build()).queue();
-                }
-                //right arrow
-                case "\u27a1" -> {
-                    if (index.get() + 1 >= parts.size())
-                        break;
-                    EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
-                    m.editMessage(toSend1.build()).queue();
-                }
-            }
-
             if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
@@ -457,6 +280,186 @@ public class DiscordUtils {
 
             return Operation.IGNORED;
         });
+    }
+
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int lenght, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+        if (parts.length == 0)
+            return null;
+
+        List<MessageEmbed> embeds = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        int total;
+        {
+            int t = 0;
+            int c = 0;
+            for (String s : parts) {
+                if (s.length() + c + 1 > lenght) {
+                    t++;
+                    c = 0;
+                }
+                c += s.length() + 1;
+            }
+            if (c > 0) t++;
+            total = t;
+        }
+
+        for (String s : parts) {
+            int l = s.length() + 1;
+            if (l > MessageEmbed.TEXT_MAX_LENGTH)
+                throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
+            if (sb.length() + l > lenght) {
+                EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
+                eb.setDescription(sb.toString());
+                embeds.add(eb.build());
+                sb = new StringBuilder();
+            }
+            sb.append(s).append('\n');
+        }
+
+        if (sb.length() > 0) {
+            EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
+            eb.setDescription(sb.toString());
+            embeds.add(eb.build());
+        }
+
+        if (embeds.size() == 1) {
+            event.getChannel().sendMessage(embeds.get(0)).queue();
+            return null;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
+
+        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
+            if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+
+            if (e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
+                if (index.get() == 0)
+                    return Operation.IGNORED;
+
+                m.editMessage(embeds.get(index.decrementAndGet())).queue();
+            } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
+                if (index.get() + 1 >= embeds.size())
+                    return Operation.IGNORED;
+
+                m.editMessage(embeds.get(index.incrementAndGet())).queue();
+            }
+
+            if (e.getMessage().getContentRaw().equals("&cancel")) {
+                m.delete().queue();
+                return Operation.COMPLETED;
+            }
+
+            return Operation.IGNORED;
+        });
+    }
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
+    }
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
+    }
+
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
+        if (parts.size() == 0)
+            return null;
+
+        if (parts.size() == 1) {
+            event.getChannel().sendMessage(parts.get(0)).queue();
+            return null;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(parts.get(0)).complete();
+
+        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
+            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+
+            switch (e.getReactionEmote().getName()) {
+                //left arrow
+                case "\u2b05" -> {
+                    if (index.get() == 0) break;
+                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+                }
+                //right arrow
+                case "\u27a1" -> {
+                    if (index.get() + 1 >= parts.size())
+                        break;
+                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+                }
+                case "\u274c" -> m.delete().queue();
+                default -> { } // Do nothing, but make codefactor happy lol
+            }
+
+            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+                e.getReaction().removeReaction(e.getUser()).queue();
+            }
+
+            return Operation.IGNORED;
+        }, "\u2b05", "\u27a1", "\u274c");
+    }
+
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
+    }
+
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
+    }
+
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+        if (parts.size() == 0)
+            return null;
+
+        for (MessageEmbed.Field f : parts.get(0)) {
+            base.addField(f);
+        }
+
+        if (parts.size() == 1) {
+            event.getChannel().sendMessage(base.build()).queue();
+            return null;
+        }
+
+        base.setFooter("Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(base.build()).complete();
+        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
+            if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+
+            switch (e.getReactionEmote().getName()) {
+                //left arrow
+                case "\u2b05" -> {
+                    if (index.get() == 0)
+                        break;
+                    EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
+                    toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                    m.editMessage(toSend.build()).queue();
+                }
+                //right arrow
+                case "\u27a1" -> {
+                    if (index.get() + 1 >= parts.size())
+                        break;
+                    EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
+                    toSend1.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                    m.editMessage(toSend1.build()).queue();
+                }
+                default -> { } // Do nothing, but make codefactor happy lol
+            }
+
+            if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+                e.getReaction().removeReaction(e.getUser()).queue();
+            }
+
+            return Operation.IGNORED;
+        }, "\u2b05", "\u27a1");
     }
 
     public static List<String> divideString(int max, StringBuilder builder) {
