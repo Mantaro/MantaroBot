@@ -64,18 +64,18 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "daily_sellout": "Nós precisamos da sua ajuda para manter a Mantaro viva!\nVocê pode ganhar prêmios incríveis e **o dobro de créditos diários** e acesso ao `~>dailycrate`!\nMemberships começam em $2 por mês, cheque mais em <https://patreon.com/mantaro>.",
+        "thanks_message": "Obrigado por apoiar Mantaro. Sem a ajuda de pessoas como você, não poderíamos manter Mantaro viva :heart:",
+        "thanks_message_daily": "Obrigado por apoiar Mantaro. Sem a ajuda de pessoas como você, não poderíamos manter Mantaro viva :heart:\nVocê também ganha o dobro de créditos de bônus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Você sabia que a gente tem uma conta no Twitter? É nós temos! Nos siga em (em)mantarodiscord <https://twitter.com/mantarodiscord> para updates e coisas bobas."
     },
     "mention_user_required": "%1$sVocê precisa mencionar um usuário.",
     "invalid_character": "%1$sIsso não é um personagem permitido.",
     "invalid_action": "Você não pode fazer isso, bobo.",
     "interactive_running": "%1$sJá tem uma Operação Interativa (feita por você) nesse canal.",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_react": "Use as reações na mensagem para mover entre as páginas.\n%1$s",
+    "buy_sell_paged_text": "Use **&p >>** e **&p <<** para mover entre as páginas.\n%1$s",
     "buy_sell_paged_reference": "**Refêrencia %1$s Comprar %2$s Vender.**",
     "cancelled": "%1$sPedido cancelado.",
     "sellout": "Considere doar no [Patreon](https://www.patreon.com/mantaro) se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé!",
@@ -88,7 +88,7 @@
       "spam_3": "\nNão seria melhor se você fosse pra fora um pouco?",
       "spam_4": "\nEssa coisa está ligada?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Se você quiser, entre em nosso **servidor de suporte** (`https://support.mantaro.site`), ou cheque nossa página no GitHub (`https://github.com/Kodehawa/MantaroBot`). Por favor fale pra eles pararem de me explodir e por favor não se esqueça do Error ID, o comando que você usou e o node (veja em `~>shard`) quando reportar!",
     "boom_quotes": [
       "Aparentemente Megumin explodiu nosso castelo...",
       "Uh-oh, aparentemente meu mestre esqueceu alguns zeros e ums no chão :<",
@@ -582,25 +582,25 @@
         "date": "Data de casamento",
         "love_letter": "Carta de amor",
         "waifus": "Propriedade da Waifu",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "house": "Nome da Casa",
+        "car": "Nome do Carro",
+        "pet": "Nome do Pet (Tipo)"
       },
       "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+        "no_content": "%1$sVocê precisa especificar que fuso horário você quer colocar nessa track de casamento.",
+        "invalid": "%1$sNão é um fuso horário válido ou Zone ID.",
+        "success": "%1$sDefinido com sucesso o fuso horário do casamento para %2$s. O tempo do pet será mesmo que o fuso horário do casamento."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sVocê não é casado."
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d)",
-        "no_name": "%1$sYou need to give your house a name!",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
+        "not_married": "%1$sVocê só pode comprar uma casa enquanto estiver casado. Isso pode mudar no futuro.",
+        "no_house": "%1$sVocê precisa de um item de casa no seu inventário. Use `~>market buy house` para ter uma.",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar uma casa. (Preço atual da casa: %2$d)",
+        "no_name": "%1$sVocê precisa dar um nome para a casa!",
+        "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido de sua carteira é %2$d e o nome que você deu pra casa é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
+        "success": "%1$sVocê comprou com sucesso uma casa por %2$d. O nome da sua acolhedora casa é %3$s, aprecie!",
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
