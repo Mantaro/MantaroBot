@@ -39,7 +39,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ProfileComponent {
-    HEADER(null, i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
+    HEADER(null,
+            i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
         PlayerData playerData = holder.getPlayer().getData();
         if (holder.getBadges().isEmpty() || !playerData.isShowBadge())
             return "None";
@@ -166,7 +167,8 @@ public enum ProfileComponent {
     private boolean assignable;
     private boolean inline;
 
-    ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content, boolean isAssignable, boolean inline) {
+    ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title,
+                     BiFunction<Holder, I18nContext, String> content, boolean isAssignable, boolean inline) {
         this.emoji = emoji;
         this.title = title;
         this.content = content;
@@ -174,7 +176,8 @@ public enum ProfileComponent {
         this.inline = inline;
     }
 
-    ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content, boolean isAssignable) {
+    ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title,
+                     BiFunction<Holder, I18nContext, String> content, boolean isAssignable) {
         this.emoji = emoji;
         this.title = title;
         this.content = content;
@@ -182,7 +185,8 @@ public enum ProfileComponent {
         this.inline = true;
     }
 
-    ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title, BiFunction<Holder, I18nContext, String> content) {
+    ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title,
+                     BiFunction<Holder, I18nContext, String> content) {
         this.emoji = emoji;
         this.title = title;
         this.content = content;

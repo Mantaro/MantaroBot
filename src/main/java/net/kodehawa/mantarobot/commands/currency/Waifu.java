@@ -25,7 +25,8 @@ public class Waifu {
     private long finalValue;
     private long performance;
 
-    public Waifu(long moneyValue, long badgeValue, long experienceValue, double reputationMultiplier, long claimValue, long finalValue, long performance) {
+    public Waifu(long moneyValue, long badgeValue, long experienceValue,
+                 double reputationMultiplier, long claimValue, long finalValue, long performance) {
         this.moneyValue = moneyValue;
         this.badgeValue = badgeValue;
         this.experienceValue = experienceValue;

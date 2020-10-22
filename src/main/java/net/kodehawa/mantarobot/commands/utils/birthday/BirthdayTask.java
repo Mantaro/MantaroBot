@@ -137,7 +137,8 @@ public class BirthdayTask {
                             //:tada:!
                             if (birthday.substring(0, 5).equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
-                                String tempBirthdayMessage = String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
+                                String tempBirthdayMessage =
+                                        String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                         member.getEffectiveName());
 
                                 if (guildData.getBirthdayMessage() != null) {
@@ -190,9 +191,12 @@ public class BirthdayTask {
                             if(!guildData.isNotifiedFromBirthdayChange()) {
                                 birthdayAnnouncerText.append("\n")
                                         .append("**No birthdays? We've just changed how the birthday system works!**\n")
-                                        .append("Give the changes a read on: https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system ")
-                                        .append("and if you don't understand, join the support server at <https://support.mantaro.site> and ask in #support.\n")
-                                        .append("Thanks for using Mantaro! If you don't remember setting up birthday announcements, you can disable them.\n")
+                                        .append("Give the changes a read on:" +
+                                                " https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system ")
+                                        .append("and if you don't understand," +
+                                                " join the support server at <https://support.mantaro.site> and ask in #support.\n")
+                                        .append("Thanks for using Mantaro! " +
+                                                "If you don't remember setting up birthday announcements, you can disable them.\n")
                                         .append("This warning message will only appear once.");
 
                                 guildData.setNotifiedFromBirthdayChange(true);

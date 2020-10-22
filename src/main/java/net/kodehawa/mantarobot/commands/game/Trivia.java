@@ -20,7 +20,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -65,7 +64,11 @@ public class Trivia extends Game<String> {
                     return;
                 }
 
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, expectedAnswer.get(0)).queue();
+                lobby.getChannel().sendMessageFormat(
+                        lobby.getLanguageContext().get("commands.game.lobby_timed_out"),
+                        EmoteReference.ERROR, expectedAnswer.get(0)
+                ).queue();
+
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
@@ -87,13 +90,17 @@ public class Trivia extends Game<String> {
                 return false;
             }
 
-            GameStatsManager.log(name());
             EmbedBuilder eb = new EmbedBuilder();
             JSONObject ob = new JSONObject(json);
 
             JSONObject question = ob.getJSONArray("results").getJSONObject(0);
 
-            List<String> answers = question.getJSONArray("incorrect_answers").toList().stream().map(v -> fromB64(String.valueOf(v))).collect(Collectors.toList());
+            List<String> answers = question
+                    .getJSONArray("incorrect_answers")
+                    .toList()
+                    .stream()
+                    .map(v -> fromB64(String.valueOf(v)))
+                    .collect(Collectors.toList());
 
             String qu = fromB64(question.getString("question"));
             String category = fromB64(question.getString("category"));
@@ -122,7 +129,10 @@ public class Trivia extends Game<String> {
                     .addField(languageContext.get("commands.game.trivia.possibilities"), sb.toString(), false)
                     .addField(languageContext.get("commands.game.trivia.difficulty"), "`" + Utils.capitalize(diff) + "`", true)
                     .addField(languageContext.get("commands.game.trivia.category"), "`" + category + "`", true)
-                    .setFooter(String.format(languageContext.get("commands.game.trivia_end_footer"), isBool ? 1 : 2), lobby.getEvent().getAuthor().getAvatarUrl());
+                    .setFooter(String.format(
+                            languageContext.get("commands.game.trivia_end_footer"), isBool ? 1 : 2),
+                            lobby.getEvent().getAuthor().getAvatarUrl()
+                    );
 
             lobby.getChannel().sendMessage(eb.build()).queue(success -> lobby.setGameLoaded(true));
 

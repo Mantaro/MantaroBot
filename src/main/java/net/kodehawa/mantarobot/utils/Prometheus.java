@@ -54,18 +54,7 @@ public class Prometheus {
             new MemoryPoolsExports().register();
             //ig we can keep this one for now
             new BufferPoolsExports().register();
-            //replaced by jfr, jfr also has this as a histogram
-            //new GarbageCollectorExports().register();
-            //not needed
-            //new ClassLoadingExports().register();
-            //not needed
-            //new VersionInfoExports().register();
-            //replaced by jfr
-            //new MantaroThreadExports().register();
-            //replaced by jfr
-            //new SafepointExports().register();
             JFRExports.register();
-            //DiscordLatencyExports.register();
             server = new HTTPServer(MantaroData.config().get().prometheusPort);
             STATE.set(State.ENABLED);
         }

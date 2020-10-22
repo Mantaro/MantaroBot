@@ -26,7 +26,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextChannelGround {
-    //TODO: Move to redis as channel id -> int, int (item id, value)
     private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
     private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
     private static final Random r = new Random(System.currentTimeMillis());

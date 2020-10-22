@@ -115,11 +115,13 @@ public class ImageboardUtils {
                         return;
 
                     try {
-                        // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
-                        // This is more of a quality-of-life improvement, don't make them search again if random happened
-                        // to pick undesirable lewd content.
-                        // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                         List<BoardImage> filter = requestedImages.stream()
+                                // Somehow Danbooru and e621 are returning null images when a image is deleted?
+                                .filter(img -> img.getURL() != null)
+                                // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
+                                // This is more of a quality-of-life improvement, don't make them search again if random happened
+                                // to pick undesirable lewd content.
+                                // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                                 .filter(img -> !containsExcludedTags(img.getTags()))
                                 .collect(Collectors.toList());
 
@@ -148,12 +150,13 @@ public class ImageboardUtils {
                     if (isListNull(requestedImages, ctx))
                         return;
 
-                    // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
-                    // This is more of a quality-of-life improvement, don't make them search again if random happened
-                    // to pick undesirable lewd content.
-                    // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                     List<BoardImage> filter = requestedImages.stream()
-                            .filter(img -> img.getURL() != null) // Somehow Danbooru and e621 are returning null images when a image is deleted?
+                            // Somehow Danbooru and e621 are returning null images when a image is deleted?
+                            .filter(img -> img.getURL() != null)
+                            // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
+                            // This is more of a quality-of-life improvement, don't make them search again if random happened
+                            // to pick undesirable lewd content.
+                            // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                             .filter(img -> !containsExcludedTags(img.getTags()))
                             .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
                             .collect(Collectors.toList());
@@ -250,7 +253,8 @@ public class ImageboardUtils {
         return false;
     }
 
-    private static void imageEmbed(I18nContext languageContext, String url, String width, String height, String tags, Rating rating, String imageboard, TextChannel channel) {
+    private static void imageEmbed(I18nContext languageContext, String url, String width, String height,
+                                   String tags, Rating rating, String imageboard, TextChannel channel) {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
                 .setImage(url)

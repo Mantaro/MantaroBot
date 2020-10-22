@@ -43,7 +43,8 @@ public class RatelimitUtils {
     private static final Set<String> loggedAttemptUsers = ConcurrentHashMap.newKeySet();
     private static final Config config = MantaroData.config().get();
 
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, String u,
+                                                    GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
         if (context == null) {
             //en_US
             context = new I18nContext();
@@ -59,10 +60,14 @@ public class RatelimitUtils {
                     String.format(context.get("general.ratelimit.header"),
                             EmoteReference.STOPWATCH, context.get("general.ratelimit_quotes"),
                             Utils.formatDuration(rateLimit.getCooldown()))
-                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ? "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
-                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ? context.get("general.ratelimit.spam_2") : "")
-                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ? context.get("general.ratelimit.spam_3") : "")
-                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ? context.get("general.ratelimit.spam_4") : "")
+                            + ((rateLimit.getSpamAttempts() > 2 && spamAware) ?
+                            "\n\n" + EmoteReference.STOP + context.get("general.ratelimit.spam_1") : "")
+                            + ((rateLimit.getSpamAttempts() > 4 && spamAware) ?
+                            context.get("general.ratelimit.spam_2") : "")
+                            + ((rateLimit.getSpamAttempts() > 10 && spamAware) ?
+                            context.get("general.ratelimit.spam_3") : "")
+                            + ((rateLimit.getSpamAttempts() > 15 && spamAware) ?
+                            context.get("general.ratelimit.spam_4") : "")
             ).queue();
 
             //Assuming it's an user RL if it can parse a long since we use UUIDs for other RLs.
@@ -98,11 +103,13 @@ public class RatelimitUtils {
         return true;
     }
 
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u,
+                                                    GuildMessageReceivedEvent event, I18nContext context, boolean spamAware) {
         return handleIncreasingRatelimit(rateLimiter, u.getId(), event, context, spamAware);
     }
 
-    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event, I18nContext context) {
+    public static boolean handleIncreasingRatelimit(IncreasingRateLimiter rateLimiter, User u,
+                                                    GuildMessageReceivedEvent event, I18nContext context) {
         return handleIncreasingRatelimit(rateLimiter, u.getId(), event, context, true);
     }
 

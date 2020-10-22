@@ -114,7 +114,9 @@ public class ImageCmd extends NoArgsCommand {
         }
 
         builder.append(ctx.getLanguageContext().get(toSend));
-        ctx.getChannel().sendMessage(builder.build()).addFile(CACHE.getInput(random), imageName + "-" + id + "." + extension).queue();
+        ctx.getChannel().sendMessage(
+                builder.build()).addFile(CACHE.getInput(random), imageName + "-" + id + "." + extension
+        ).queue();
     }
 
     @Override

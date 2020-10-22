@@ -21,7 +21,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.AnimeGameData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -46,7 +45,8 @@ public class Character extends ImageGame {
 
     @Override
     public void call(GameLobby lobby, List<String> players) {
-        InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
+        InteractiveOperations
+                .create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
                 return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
@@ -57,7 +57,11 @@ public class Character extends ImageGame {
                 if (lobby.getChannel() == null)
                     return;
 
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(" ,", characterNameL)).queue();
+                lobby.getChannel().sendMessageFormat(
+                        lobby.getLanguageContext().get("commands.game.lobby_timed_out"),
+                        EmoteReference.ERROR, String.join(" ,", characterNameL)
+                ).queue();
+
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
@@ -72,10 +76,7 @@ public class Character extends ImageGame {
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
-            GameStatsManager.log(name());
             AnimeGameData data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/character"), AnimeGameData.class);
-
-            GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
             characterName = data.getName();
             String imageUrl = data.getImage();
@@ -93,7 +94,10 @@ public class Character extends ImageGame {
             return true;
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
-            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName).queue();
+            lobby.getChannel().sendMessageFormat(
+                    languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName
+            ).queue();
+
             return false;
         } catch (Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();

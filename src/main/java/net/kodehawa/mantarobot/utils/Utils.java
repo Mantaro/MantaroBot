@@ -195,9 +195,14 @@ public class Utils {
         }
 
         if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
-                    EmoteReference.THINKING, found.stream().limit(7).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
-                    .queue();
+            event.getChannel().sendMessage(
+                    String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
+                            EmoteReference.THINKING,
+                            found.stream()
+                                    .limit(7)
+                                    .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
+                                    .collect(Collectors.joining(", ")))
+            ).queue();
 
             return null;
         }
@@ -217,13 +222,20 @@ public class Utils {
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\"").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR +
+                    "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\""
+            ).queue();
             return null;
         }
 
         if (found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
-                    EmoteReference.THINKING, found.stream().limit(7).map(Role::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING,
+                    found.stream()
+                            .limit(5)
+                            .map(Role::getName)
+                            .collect(Collectors.joining(", ")))
+            ).queue();
 
             return null;
         }
@@ -238,14 +250,21 @@ public class Utils {
     public static Role findRoleSelect(GuildMessageReceivedEvent event, String content, Consumer<Role> consumer) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any roles with that name :( -if the role has spaces try wrapping it in quotes \"like this\"").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR +
+                    "Cannot find any roles with that name :( -if the role has spaces try wrapping it in quotes \"like this\""
+            ).queue();
             return null;
         }
 
         if (found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s\n" +
                             "If the role you're trying to search contain spaces, wrap it in quotes `\"like this\"`",
-                    EmoteReference.THINKING, found.stream().limit(7).map(Role::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING,
+                    found.stream()
+                            .limit(5)
+                            .map(Role::getName)
+                            .collect(Collectors.joining(", ")))
+            ).queue();
 
             return null;
         }
@@ -271,7 +290,12 @@ public class Utils {
 
         if (found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
-                    EmoteReference.THINKING, found.stream().map(TextChannel::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING,
+                    found.stream()
+                            .limit(5)
+                            .map(TextChannel::getName)
+                            .collect(Collectors.joining(", ")))
+            ).queue();
 
             return null;
         }
@@ -292,7 +316,12 @@ public class Utils {
 
         if (found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
-                    EmoteReference.THINKING, found.stream().map(TextChannel::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING,
+                    found.stream()
+                            .limit(5)
+                            .map(TextChannel::getName)
+                            .collect(Collectors.joining(", ")))
+            ).queue();
 
             return null;
         }
@@ -318,7 +347,12 @@ public class Utils {
 
         if (found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Voice Channels found:** %s",
-                    EmoteReference.THINKING, found.stream().limit(7).map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
+                    EmoteReference.THINKING,
+                    found.stream()
+                            .limit(5)
+                            .map(VoiceChannel::getName)
+                            .collect(Collectors.joining(", ")))
+            ).queue();
 
             return null;
         }
@@ -469,7 +503,12 @@ public class Utils {
     }
 
     public static Connection newDbConnection() {
-        return r.connection().hostname(config.getDbHost()).port(config.getDbPort()).db(config.getDbDb()).user(config.getDbUser(), config.getDbPassword()).connect();
+        return r.connection()
+                .hostname(config.getDbHost())
+                .port(config.getDbPort())
+                .db(config.getDbDb())
+                .user(config.getDbUser(), config.getDbPassword())
+                .connect();
     }
 
     public static String replaceArguments(Map<String, ?> args, String content, String... toReplace) {

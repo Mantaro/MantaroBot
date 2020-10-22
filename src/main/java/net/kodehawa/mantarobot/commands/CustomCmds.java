@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
 import net.kodehawa.mantarobot.commands.custom.v3.SyntaxException;
-import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.Module;

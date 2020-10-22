@@ -148,7 +148,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 if (getCurrentTrack().getUserData() != null && guild != null) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
-                        user = guild.retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false).complete();
+                        user = guild
+                                .retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false)
+                                .complete();
                     } catch (Exception ignored) {}
                 }
 
@@ -185,7 +187,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             //Avoid massive spam of when song error in mass.
             if ((lastErrorSentAt == 0 || lastErrorSentAt + 60000 < System.currentTimeMillis()) && errorCount < 10) {
                 lastErrorSentAt = System.currentTimeMillis();
-                getRequestedTextChannel().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
+                getRequestedTextChannel().sendMessageFormat(
+                        language.get("commands.music_general.track_error"), EmoteReference.SAD
+                ).queue();
             }
 
             errorCount++;
@@ -255,7 +259,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             if (ch != null && ch.canTalk()) {
                 ch.sendMessageFormat(
                         language.get("commands.music_general.queue_finished"),
-                        EmoteReference.MEGA, premium ? "" : String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART)
+                        EmoteReference.MEGA, premium ? "" :
+                                String.format(language.get("commands.music_general.premium_beg"),
+                                        EmoteReference.HEART
+                                )
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch (Exception e) {

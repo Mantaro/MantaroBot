@@ -70,6 +70,9 @@ public class PollBuilder {
         if (languageContext == null)
             throw new IllegalArgumentException("Cannot create a poll without a language context!");
 
-        return new Poll(UUID.randomUUID().toString(), event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), name, timeout, languageContext, image, options);
+        return new Poll(UUID.randomUUID().toString(),
+                event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(),
+                name, timeout, languageContext, image, options
+        );
     }
 }

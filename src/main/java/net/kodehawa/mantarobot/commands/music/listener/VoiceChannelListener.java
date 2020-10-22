@@ -84,7 +84,9 @@ public class VoiceChannelListener implements EventListener {
         if (validate(vs))
             return;
 
-        GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+        GuildMusicManager gmm = MantaroBot.getInstance()
+                .getAudioManager()
+                .getMusicManager(event.getGuild());
         if(gmm == null)
             return;
 
@@ -114,7 +116,9 @@ public class VoiceChannelListener implements EventListener {
             return;
 
         if (!isAlone(vc)) {
-            GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
+            GuildMusicManager gmm = MantaroBot.getInstance()
+                    .getAudioManager()
+                    .getMusicManager(vc.getGuild());
             if(gmm == null)
                 return;
 
@@ -124,7 +128,8 @@ public class VoiceChannelListener implements EventListener {
                     TextChannel tc = scheduler.getRequestedTextChannel();
                     if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
                         tc.sendMessageFormat(
-                                scheduler.getLanguage().get("commands.music_general.listener.resumed"), EmoteReference.POPPER
+                                scheduler.getLanguage().get("commands.music_general.listener.resumed"),
+                                EmoteReference.POPPER
                         ).queue();
                     }
                 }
@@ -142,7 +147,9 @@ public class VoiceChannelListener implements EventListener {
             return;
 
         if (isAlone(vc)) {
-            GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
+            GuildMusicManager gmm = MantaroBot.getInstance()
+                    .getAudioManager()
+                    .getMusicManager(vc.getGuild());
             if(gmm == null)
                 return;
 
@@ -151,7 +158,8 @@ public class VoiceChannelListener implements EventListener {
                 TextChannel tc = scheduler.getRequestedTextChannel();
                 if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
                     tc.sendMessageFormat(scheduler.getLanguage().get(
-                            "commands.music_general.listener.left_alone"), EmoteReference.THINKING, vc.getName()
+                            "commands.music_general.listener.left_alone"),
+                            EmoteReference.THINKING, vc.getName()
                     ).queue(m -> m.delete()
                             .queueAfter(30, TimeUnit.SECONDS)
                     );

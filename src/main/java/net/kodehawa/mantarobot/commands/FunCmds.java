@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;

@@ -45,7 +45,8 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
 
     @Override
     public boolean canProvide() {
-        boolean provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ? (lastFrame = audioPlayer.provide()) != null : audioPlayer.provide(frame);
+        boolean provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ?
+                (lastFrame = audioPlayer.provide()) != null : audioPlayer.provide(frame);
         if (!audioPlayer.isPaused()) {
             total++;
             if (!provided) lost++;

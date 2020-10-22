@@ -39,9 +39,6 @@ public class PotionEffect {
         this.type = type;
     }
 
-    public PotionEffect() {
-    }
-
     @JsonIgnore
     public boolean use() {
         long newAmount = amountEquipped - 1;

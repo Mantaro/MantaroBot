@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.stats.manager.StatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.StatsManager;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;

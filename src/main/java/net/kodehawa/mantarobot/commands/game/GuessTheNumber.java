@@ -25,7 +25,6 @@ import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -65,13 +64,19 @@ public class GuessTheNumber extends Game<Object> {
 
                 if (players.contains(e.getAuthor().getId())) {
                     if (contentRaw.equalsIgnoreCase("end")) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.number.ended_game"), EmoteReference.CORRECT, number).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.game.number.ended_game"),
+                                EmoteReference.CORRECT, number
+                        ).queue();
+
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
                     }
 
                     if (contentRaw.equalsIgnoreCase("endlobby")) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"), EmoteReference.CORRECT).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.game.lobby.ended_lobby"),
+                                EmoteReference.CORRECT
+                        ).queue();
+
                         lobby.getGamesToPlay().clear();
                         lobby.startNextGame(true);
                         return Operation.COMPLETED;
@@ -82,7 +87,10 @@ public class GuessTheNumber extends Game<Object> {
                     try {
                         parsedAnswer = Integer.parseInt(contentRaw);
                     } catch (NumberFormatException ex) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.number.nan"), EmoteReference.ERROR).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.game.number.nan"),
+                                EmoteReference.ERROR
+                        ).queue();
+
                         attempts = attempts + 1;
                         return Operation.IGNORED;
                     }
@@ -118,14 +126,20 @@ public class GuessTheNumber extends Game<Object> {
                     }
 
                     if (attempts >= maxAttempts) {
-                        channel.sendMessageFormat(languageContext.get("commands.game.number.all_attempts_used"), EmoteReference.ERROR, number).queue();
+                        channel.sendMessageFormat(languageContext.get("commands.game.number.all_attempts_used"),
+                                EmoteReference.ERROR, number
+                        ).queue();
+
                         lobby.startNextGame(true); //This should take care of removing the lobby, actually.
                         return Operation.COMPLETED;
                     }
 
                     channel.sendMessageFormat(languageContext.get("commands.game.lobby.incorrect_answer") + "\n" +
                             String.format(languageContext.get("commands.game.number.hint"),
-                                    (parsedAnswer < number ? languageContext.get("commands.game.number.higher") : languageContext.get("commands.game.number.lower"))
+                                    (parsedAnswer < number ? languageContext.get("commands.game.number.higher") :
+                                            languageContext.get("commands.game.number.lower")
+                                    )
+
                             ), EmoteReference.ERROR, (maxAttempts - attempts)
                     ).queue();
                     attempts = attempts + 1;
@@ -156,7 +170,6 @@ public class GuessTheNumber extends Game<Object> {
 
     @Override
     public boolean onStart(GameLobby lobby) {
-        GameStatsManager.log(name());
         number = r.nextInt(150);
         lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"),
                 EmoteReference.THINKING

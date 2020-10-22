@@ -68,13 +68,13 @@ public class ReminderTask {
                         bot.getShardManager().retrieveUserById(userId)
                                 .flatMap(User::openPrivateChannel)
                                 .flatMap(privateChannel -> privateChannel.sendMessage(
-                                            EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder +
-                                                    "\nAt: " + new Date(scheduledAt) + (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
+                                            EmoteReference.POPPER +
+                                                    "**Reminder!**\n" + "You asked me to remind you of: " + reminder +
+                                                    "\nAt: " +
+                                                    new Date(scheduledAt) + (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
                                         )
                                 ).queue(success -> {
-                                    //FYI: This only logs on debug the id data, no personal stuff. We don't see your personal data. I don't wanna see it either, lmao.
                                     log.debug("Reminded {}. Removing from remind database", fullId);
-                                    //Remove reminder from our database.
                                     Reminder.cancel(userId, fullId, Reminder.CancelReason.REMINDED);
                                 }, err -> Reminder.cancel(userId, fullId, Reminder.CancelReason.ERROR_DELIVERING)
                         );

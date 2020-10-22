@@ -54,7 +54,8 @@ public class GuildMusicManager {
         isAwaitingDeath = false;
 
         if (trackScheduler.getRequestedTextChannel() != null) {
-            trackScheduler.getRequestedTextChannel().sendMessageFormat(trackScheduler.getLanguage().get("commands.music_general.listener.leave"),
+            trackScheduler.getRequestedTextChannel().sendMessageFormat(
+                    trackScheduler.getLanguage().get("commands.music_general.listener.leave"),
                     EmoteReference.SAD, guild.getSelfMember().getVoiceState().getChannel().getName()
             ).queue();
         }

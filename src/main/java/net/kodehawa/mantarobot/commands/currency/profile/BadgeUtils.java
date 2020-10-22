@@ -71,6 +71,7 @@ public class BadgeUtils {
         } catch (IOException e) {
             throw new AssertionError(e);
         }
+
         return baos.toByteArray();
     }
 }

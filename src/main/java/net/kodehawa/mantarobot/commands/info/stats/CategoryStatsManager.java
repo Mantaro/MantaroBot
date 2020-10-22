@@ -11,10 +11,10 @@
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.info.stats.manager;
+package net.kodehawa.mantarobot.commands.info.stats;
 
 import net.jodah.expiringmap.ExpirationPolicy;
 import net.jodah.expiringmap.ExpiringMap;

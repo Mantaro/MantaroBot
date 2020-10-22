@@ -43,8 +43,6 @@ import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
@@ -597,7 +595,6 @@ public class MantaroListener implements EventListener {
             this.updateStats(jda);
 
             Metrics.GUILD_ACTIONS.labels("join").inc();
-            GuildStatsManager.log(LoggedEvent.JOIN);
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
                 log.error("Unexpected error while logging an event", e);
@@ -621,7 +618,6 @@ public class MantaroListener implements EventListener {
 
             Metrics.GUILD_ACTIONS.labels("leave").inc();
             MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
-            GuildStatsManager.log(LoggedEvent.LEAVE);
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
                 log.error("Unexpected error while logging an event", e);

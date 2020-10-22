@@ -86,7 +86,9 @@ public class MantaroAudioManager {
             else {
                 try {
                     InetAddress blacklistedGW = InetAddress.getByName(config.getExcludeAddress());
-                    planner = new RotatingNanoIpRoutePlanner(blocks, inetAddress -> !inetAddress.equals(blacklistedGW));
+                    planner = new RotatingNanoIpRoutePlanner(
+                            blocks, inetAddress -> !inetAddress.equals(blacklistedGW)
+                    );
                 } catch (Exception e) {
                     //Fallback: did I screw up putting the IP in? lmao
                     planner = new RotatingNanoIpRoutePlanner(blocks);
@@ -128,7 +130,8 @@ public class MantaroAudioManager {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
-    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection, boolean addFirst, I18nContext lang) {
+    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl,
+                            boolean skipSelection, boolean addFirst, I18nContext lang) {
         AudioCmdUtils.connectToVoiceChannel(event, lang).thenAcceptAsync(b -> {
             if (b) {
                 GuildMusicManager musicManager = getMusicManager(event.getGuild());

@@ -32,7 +32,8 @@ import net.kodehawa.mantarobot.utils.Utils;
 public class ModLog {
     private static ManagedDatabase db = MantaroData.db();
 
-    public static void log(Member author, User target, String reason, String channel, ModAction action, long caseNumber, int messagesDeleted) {
+    public static void log(Member author, User target, String reason,
+                           String channel, ModAction action, long caseNumber, int messagesDeleted) {
         DBGuild guildDB = db.getGuild(author.getGuild());
         Player player = db.getPlayer(author);
         PlayerData playerData = player.getData();
@@ -64,7 +65,10 @@ public class ModLog {
         }
 
         if (guildDB.getData().getGuildLogChannel() != null) {
-            TextChannel logChannel = MantaroBot.getInstance().getShardManager().getTextChannelById(guildDB.getData().getGuildLogChannel());
+            TextChannel logChannel = MantaroBot.getInstance()
+                    .getShardManager()
+                    .getTextChannelById(guildDB.getData().getGuildLogChannel());
+
             if (logChannel != null) {
                 logChannel.sendMessage(embedBuilder.build()).queue();
             }
@@ -72,7 +76,8 @@ public class ModLog {
     }
 
     //Overload
-    public static void log(Member author, User target, String reason, String channel, ModAction action, long caseNumber) {
+    public static void log(Member author, User target, String reason,
+                           String channel, ModAction action, long caseNumber) {
         log(author, target, reason, channel, action, caseNumber, 0);
     }
 

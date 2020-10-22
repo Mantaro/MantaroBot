@@ -56,7 +56,8 @@ public class Poll extends Lobby {
     private final String name;
     private final String owner;
 
-    public Poll(String id, String guildId, String channelId, String ownerId, String name, long timeout, I18nContext languageContext, String image, String... options) {
+    public Poll(String id, String guildId, String channelId, String ownerId,
+                String name, long timeout, I18nContext languageContext, String image, String... options) {
         super(guildId, channelId);
         this.id = id;
         this.options = options;
@@ -82,18 +83,25 @@ public class Poll extends Lobby {
     public void startPoll(Context ctx) {
         try {
             if (!isCompliant) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.invalid"), EmoteReference.WARNING).queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.invalid"),
+                        EmoteReference.WARNING
+                ).queue();
+
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
             if (isPollAlreadyRunning(getChannel())) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.other_poll_running"), EmoteReference.WARNING).queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.other_poll_running"),
+                        EmoteReference.WARNING
+                ).queue();
                 return;
             }
 
             if (!getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-                getChannel().sendMessageFormat(languageContext.get("commands.poll.no_reaction_perms"), EmoteReference.ERROR).queue();
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.no_reaction_perms"),
+                        EmoteReference.ERROR
+                ).queue();
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -105,7 +113,9 @@ public class Poll extends Lobby {
             data.setRanPolls(data.getRanPolls() + 1L);
             dbGuild.saveAsync();
 
-            String toShow = Stream.of(options).map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt)).collect(Collectors.joining("\n"));
+            String toShow = Stream.of(options)
+                    .map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt))
+                    .collect(Collectors.joining("\n"));
 
             if (toShow.length() > 1014) {
                 toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
@@ -186,7 +196,9 @@ public class Poll extends Lobby {
                 getChannel().retrieveMessageById(message.getIdLong()).queue(message -> {
                     String votes = message.getReactions().stream()
                             .filter(r -> react.getAndIncrement() <= options.length)
-                            .map(r -> String.format(languageContext.get("commands.poll.vote_results"), r.getCount() - 1, options[counter.getAndIncrement()]))
+                            .map(r -> String.format(languageContext.get("commands.poll.vote_results"),
+                                    r.getCount() - 1, options[counter.getAndIncrement()])
+                            )
                             .collect(Collectors.joining("\n"));
 
                     embedBuilder.addField(languageContext.get("commands.poll.results"), "```diff\n" + votes + "```", false);

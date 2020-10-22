@@ -105,9 +105,5 @@ public class ReminderObject {
         public ReminderObject build() {
             return new ReminderObject(id, reminder, time, scheduledAtMillis, userId, guildId);
         }
-
-        public String toString() {
-            return "ReminderObject.ReminderObjectBuilder(id=" + this.id + ", reminder=" + this.reminder + ", time=" + this.time + ", scheduledAtMillis=" + this.scheduledAtMillis + ", userId=" + this.userId + ", guildId=" + this.guildId + ")";
-        }
     }
 }

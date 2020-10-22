@@ -253,7 +253,10 @@ public class MantaroBot {
     }
 
     public void startCheckingBirthdays() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build());
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2,
+                new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build()
+        );
+
         Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
 
         //How much until tomorrow? That's the initial delay, then run it once a day.

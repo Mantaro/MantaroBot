@@ -51,7 +51,8 @@ public class ImageActionCmd extends NoArgsCommand {
     private final EmoteReference emoji;
     private final String botLine;
 
-    public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, EmoteReference emoji,
+                          String format, List<String> images, String lonelyLine, String botLine, boolean swap) {
         super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
@@ -64,7 +65,8 @@ public class ImageActionCmd extends NoArgsCommand {
         this.rateLimiter = buildRatelimiter(name);
     }
 
-    public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, String type, String lonelyLine, String botLine) {
+    public ImageActionCmd(String name, String desc, EmoteReference emoji,
+                          String format, String type, String lonelyLine, String botLine) {
         super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
@@ -77,7 +79,8 @@ public class ImageActionCmd extends NoArgsCommand {
         this.rateLimiter = buildRatelimiter(name);
     }
 
-    public ImageActionCmd(String name, String desc, EmoteReference emoji, String format, String type, String lonelyLine, String botLine, boolean swap) {
+    public ImageActionCmd(String name, String desc, EmoteReference emoji,
+                          String format, String type, String lonelyLine, String botLine, boolean swap) {
         super(CommandCategory.ACTION);
         this.name = name;
         this.desc = desc;
@@ -141,7 +144,8 @@ public class ImageActionCmd extends NoArgsCommand {
 
             if (swapNames) {
                 toSend = new MessageBuilder()
-                        .append(String.format(emoji + languageContext.get(format), "**" + ctx.getMember().getEffectiveName()
+                        .append(String.format(emoji + languageContext.get(format),
+                                "**" + ctx.getMember().getEffectiveName()
                                 + "**", "**" + noMentions(ctx) + "**")
                         );
             }

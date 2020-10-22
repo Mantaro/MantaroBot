@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.anime;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
@@ -28,7 +27,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import static net.kodehawa.mantarobot.utils.Utils.httpClient;
@@ -36,7 +34,11 @@ import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 public class KitsuRetriever {
     public static List<CharacterData> searchCharacters(String name) throws IOException {
         Request request = new Request.Builder()
-                .url(String.format("https://kitsu.io/api/edge/characters?filter[name]=%s", URLEncoder.encode(name, StandardCharsets.UTF_8)))
+                .url(
+                        String.format("https://kitsu.io/api/edge/characters?filter[name]=%s",
+                                URLEncoder.encode(name, StandardCharsets.UTF_8)
+                        )
+                )
                 .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                 .get()
                 .build();
@@ -52,7 +54,11 @@ public class KitsuRetriever {
 
     public static List<AnimeData> searchAnime(String name) throws IOException {
         Request request = new Request.Builder()
-                .url(String.format("https://kitsu.io/api/edge/anime?filter[text]=%s", URLEncoder.encode(name, StandardCharsets.UTF_8)))
+                .url(
+                        String.format("https://kitsu.io/api/edge/anime?filter[text]=%s",
+                                URLEncoder.encode(name, StandardCharsets.UTF_8)
+                        )
+                )
                 .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                 .get()
                 .build();

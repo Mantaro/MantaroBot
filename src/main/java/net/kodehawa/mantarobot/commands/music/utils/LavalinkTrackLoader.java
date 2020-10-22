@@ -125,7 +125,10 @@ public class LavalinkTrackLoader {
                             );
                             future.complete(() -> handler.playlistLoaded(playlist));
                         }
-                        default -> future.completeExceptionally(new IllegalArgumentException("Unexpected loadType " + json.getString("loadType")));
+                        default -> future.completeExceptionally(
+                                    new IllegalArgumentException("Unexpected loadType " + json.getString("loadType")
+                                )
+                        );
                     }
                 } catch (Exception e) {
                     future.completeExceptionally(e);

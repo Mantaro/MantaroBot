@@ -20,7 +20,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.game.core.PokemonGameData;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -56,7 +55,11 @@ public class Pokemon extends ImageGame {
                     return;
                 }
 
-                lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.lobby_timed_out"), EmoteReference.ERROR, String.join(", ", expectedAnswer)).queue();
+                lobby.getChannel().sendMessageFormat(
+                        lobby.getLanguageContext().get("commands.game.lobby_timed_out"),
+                        EmoteReference.ERROR, String.join(", ", expectedAnswer)
+                ).queue();
+
                 GameLobby.LOBBYS.remove(lobby.getChannel().getIdLong());
             }
 
@@ -71,7 +74,6 @@ public class Pokemon extends ImageGame {
         final I18nContext languageContext = lobby.getLanguageContext();
 
         try {
-            GameStatsManager.log(name());
             PokemonGameData data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->

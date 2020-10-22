@@ -56,7 +56,8 @@ public class DiscordUtils {
         return Pair.of(b.toString(), list.size());
     }
 
-    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
+    public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max,
+                                         IntConsumer valueConsumer, Consumer<Void> cancelConsumer) {
         return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), 30, (e) -> {
             if (!e.getAuthor().equals(event.getAuthor()))
                 return Operation.IGNORED;
@@ -101,31 +102,40 @@ public class DiscordUtils {
         });
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list,
+                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                              Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         Pair<String, Integer> r = embedList(list, toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list,
+                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                              Consumer<T> valueConsumer, Consumer<Void> cancelConsumer) {
         Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]), cancelConsumer);
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list,
+                                              Function<T, String> toString,
+                                              Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {
         });
     }
 
-    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+    public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list,
+                                              Function<T, String> toString, Function<String, MessageEmbed> toEmbed,
+                                              Consumer<T> valueConsumer) {
         return selectList(event, list, toString, toEmbed, valueConsumer, (o) -> {
         });
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+                                    IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0)
             return null;
 
@@ -200,7 +210,8 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+                                        EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0)
             return null;
 
@@ -225,14 +236,16 @@ public class DiscordUtils {
                     return Operation.IGNORED;
 
                 EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
+                        "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                 m.editMessage(toSend.build()).queue();
             } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
                 if (index.get() + 1 >= parts.size())
                     return Operation.IGNORED;
 
                 EmbedBuilder toSend = addAllFields(base, parts.get(index.incrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
+                        "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                 m.editMessage(toSend.build()).queue();
             }
 
@@ -266,11 +279,15 @@ public class DiscordUtils {
             if (contentRaw.equals("&p <<") || contentRaw.equals("&page <<")) {
                 if (index.get() == 0) return Operation.IGNORED;
 
-                m.editMessage(String.format("%s\n**Page: %d** | Total: %d**", parts.get(index.decrementAndGet()), index.get() + 1, parts.size())).queue();
+                m.editMessage(String.format("%s\n**Page: %d** | Total: %d**",
+                        parts.get(index.decrementAndGet()), index.get() + 1, parts.size())
+                ).queue();
             } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) return Operation.IGNORED;
 
-                m.editMessage(String.format("%s\n**Page: %d | Total: %d**", parts.get(index.incrementAndGet()), index.get() + 1, parts.size())).queue();
+                m.editMessage(String.format("%s\n**Page: %d | Total: %d**",
+                        parts.get(index.incrementAndGet()), index.get() + 1, parts.size())
+                ).queue();
             }
 
             if (contentRaw.equals("&cancel")) {
@@ -283,7 +300,8 @@ public class DiscordUtils {
     }
 
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int lenght, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int lenght,
+                                        IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0)
             return null;
 
@@ -357,11 +375,13 @@ public class DiscordUtils {
         });
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+                                        IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+                                        IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
     }
 
@@ -405,15 +425,18 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1", "\u274c");
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+                                    IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
         return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
     }
 
-    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+                                    EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0)
             return null;
 
@@ -440,7 +463,9 @@ public class DiscordUtils {
                     if (index.get() == 0)
                         break;
                     EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                    toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
+                            "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl()
+                    );
                     m.editMessage(toSend.build()).queue();
                 }
                 //right arrow
@@ -448,7 +473,9 @@ public class DiscordUtils {
                     if (index.get() + 1 >= parts.size())
                         break;
                     EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: " + (index.get() + 1) + " | Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                    toSend1.setFooter("Current page: " + (index.get() + 1) + " | " +
+                            "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl()
+                    );
                     m.editMessage(toSend1.build()).queue();
                 }
                 default -> { } // Do nothing, but make codefactor happy lol
