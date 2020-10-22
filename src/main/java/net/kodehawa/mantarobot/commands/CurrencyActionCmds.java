@@ -99,7 +99,6 @@ public class CurrencyActionCmds {
 
                 final Inventory inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
-                Pickaxe item;
                 int equipped = isSeasonal ?
                         seasonalPlayerData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK) :
                         userData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK);
@@ -109,7 +108,7 @@ public class CurrencyActionCmds {
                     return;
                 }
 
-                item = (Pickaxe) Items.fromId(equipped);
+                var item = (Pickaxe) Items.fromId(equipped);
 
                 if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
                     return;
@@ -542,8 +541,6 @@ public class CurrencyActionCmds {
                 var marriage = userData.getMarriage();
                 var playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
                 var extraMessage = "\n";
-
-                Axe item;
                 var equipped = isSeasonal ?
                         //seasonal equipped
                         seasonPlayer.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.AXE) :
@@ -555,7 +552,7 @@ public class CurrencyActionCmds {
                     return;
                 }
 
-                item = (Axe) Items.fromId(equipped);
+                var item = (Axe) Items.fromId(equipped);
 
                 if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
