@@ -19,10 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
@@ -213,7 +210,7 @@ public class MarketCmd {
                     }
                 }
 
-                Item item = Items.fromAny(itemName).orElse(null);
+                Item item = ItemHelper.fromAny(itemName).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.dump.non_existent", EmoteReference.ERROR);
@@ -257,7 +254,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Item item = Items.fromAny(content).orElse(null);
+                Item item = ItemHelper.fromAny(content).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.price.non_existent", EmoteReference.ERROR);
@@ -355,7 +352,7 @@ public class MarketCmd {
                         itemName = content.replace("allof", "").trim();
                     }
 
-                    Item toSell = Items.fromAny(itemName.replace("\"", "")).orElse(null);
+                    Item toSell = ItemHelper.fromAny(itemName.replace("\"", "")).orElse(null);
 
                     if (toSell == null) {
                         ctx.sendLocalized("commands.market.sell.non_existent", EmoteReference.ERROR);
@@ -456,7 +453,7 @@ public class MarketCmd {
                     }
                 }
 
-                final Item itemToBuy = Items.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
+                final Item itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
 
                 if (itemToBuy == null) {
                     ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
@@ -516,7 +513,7 @@ public class MarketCmd {
                 .setThumbnail("https://i.imgur.com/GIHXZAH.png");
 
         List<MessageEmbed.Field> fields = new LinkedList<>();
-        Stream.of(Items.ALL)
+        Stream.of(ItemReference.ALL)
                 .filter(predicate)
                 .filter(item -> !item.isHidden())
                 .forEach(item -> {

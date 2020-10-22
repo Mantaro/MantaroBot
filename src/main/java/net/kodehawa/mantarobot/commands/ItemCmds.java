@@ -20,8 +20,9 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
@@ -103,11 +104,11 @@ public class ItemCmds {
                         UserData userData = user.getData();
 
                         //Why
-                        Optional<Item> toCast = Items.fromAnyNoId(arguments[0]);
+                        Optional<Item> toCast = ItemHelper.fromAnyNoId(arguments[0]);
                         Optional<Item> optionalWrench = Optional.empty();
 
                         if (arguments.length > 1)
-                            optionalWrench = Items.fromAnyNoId(arguments[1]);
+                            optionalWrench = ItemHelper.fromAnyNoId(arguments[1]);
 
                         if (toCast.isEmpty()) {
                             ctx.sendLocalized("commands.cast.no_item_found", EmoteReference.ERROR);
@@ -139,10 +140,10 @@ public class ItemCmds {
                             return;
                         }
 
-                        Item wrenchItem = optionalWrench.orElse(Items.WRENCH);
+                        Item wrenchItem = optionalWrench.orElse(ItemReference.WRENCH);
 
                         if (!(wrenchItem instanceof Wrench)) {
-                            wrenchItem = Items.WRENCH;
+                            wrenchItem = ItemReference.WRENCH;
                         }
 
                         //How many steps until this again?
@@ -178,7 +179,7 @@ public class ItemCmds {
                         int limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
 
                         // Limit is double with sparkle wrench
-                        if(wrench == Items.WRENCH_SPARKLE)
+                        if(wrench == ItemReference.WRENCH_SPARKLE)
                             limit *= 2;
 
                         if (amountSpecified > limit) {
@@ -189,7 +190,7 @@ public class ItemCmds {
                         Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                         if (!playerInventory.containsItem(wrenchItem)) {
-                            ctx.sendLocalized("commands.cast.no_tool", EmoteReference.ERROR, Items.WRENCH.getName());
+                            ctx.sendLocalized("commands.cast.no_tool", EmoteReference.ERROR, ItemReference.WRENCH.getName());
                             return;
                         }
 
@@ -203,7 +204,7 @@ public class ItemCmds {
                         //build recipe
                         StringBuilder recipeString = new StringBuilder();
                         for (int i : castItem.getRecipeTypes()) {
-                            Item item = Items.fromId(i);
+                            Item item = ItemHelper.fromId(i);
                             int amount = Integer.parseInt(splitRecipe[increment]) * amountSpecified;
 
                             if (!playerInventory.containsItem(item)) {
@@ -213,7 +214,7 @@ public class ItemCmds {
 
                             int inventoryAmount = playerInventory.getAmount(item);
                             //Subtract 1 from the usable amount since if your wrench breaks in the process, it causes issues.
-                            int usableInventoryAmount = (i == Items.idOf(wrench)) ? inventoryAmount - 1 : inventoryAmount;
+                            int usableInventoryAmount = (i == ItemHelper.idOf(wrench)) ? inventoryAmount - 1 : inventoryAmount;
                             if (usableInventoryAmount < amount) {
                                 ctx.sendLocalized("commands.cast.not_enough_items", EmoteReference.ERROR, item.getName(), amount, usableInventoryAmount);
 
@@ -298,7 +299,7 @@ public class ItemCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                List<Item> castableItems = Arrays.stream(Items.ALL)
+                List<Item> castableItems = Arrays.stream(ItemReference.ALL)
                         .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
 
@@ -318,7 +319,7 @@ public class ItemCmds {
                     AtomicInteger ai = new AtomicInteger();
 
                     String recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
-                        Item recipeItem = Items.fromId(i);
+                        Item recipeItem = ItemHelper.fromId(i);
                         return recipeItem.getEmoji() + " " + recipeAmount[ai.getAndIncrement()] + "x" + "\u2009*" + recipeItem.getName() + "*";
                     }).collect(Collectors.joining(", "));
                     //End of build recipe explanation
@@ -379,12 +380,12 @@ public class ItemCmds {
                         DBUser user = ctx.getDBUser();
 
                         String itemString = args[0];
-                        Item item = Items.fromAnyNoId(itemString).orElse(null);
+                        Item item = ItemHelper.fromAnyNoId(itemString).orElse(null);
                         Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                        Item wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
+                        Item wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ? ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
 
                         if (args.length > 1) {
-                            wrench = Items.fromAnyNoId(args[1]).orElse(null);
+                            wrench = ItemHelper.fromAnyNoId(args[1]).orElse(null);
                         }
 
                         if (item == null) {
@@ -427,7 +428,7 @@ public class ItemCmds {
                             return;
 
                         Broken brokenItem = (Broken) item;
-                        Item repairedItem = Items.fromId(brokenItem.getMainItem());
+                        Item repairedItem = ItemHelper.fromId(brokenItem.getMainItem());
                         long repairCost = repairedItem.getValue() / 3;
 
                         long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
@@ -444,7 +445,7 @@ public class ItemCmds {
                         for (String s : splitRecipe) {
                             String[] split = s.split(",");
                             int amount = Integer.parseInt(split[0]);
-                            Item needed = Items.fromId(Integer.parseInt(split[1]));
+                            Item needed = ItemHelper.fromId(Integer.parseInt(split[1]));
 
                             if (!playerInventory.containsItem(needed)) {
                                 ctx.sendLocalized("commands.repair.no_item_recipe", EmoteReference.ERROR, needed.getName());
@@ -517,7 +518,7 @@ public class ItemCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                List<Broken> repairableItems = Arrays.stream(Items.ALL)
+                List<Broken> repairableItems = Arrays.stream(ItemReference.ALL)
                         .filter(Broken.class::isInstance)
                         .map(Broken.class::cast)
                         .collect(Collectors.toList());
@@ -537,11 +538,11 @@ public class ItemCmds {
                     String repairRecipe = item.getRecipe();
                     String[] splitRecipe = repairRecipe.split(";");
                     StringBuilder recipeString = new StringBuilder();
-                    Item mainItem = Items.fromId(item.getMainItem());
+                    Item mainItem = ItemHelper.fromId(item.getMainItem());
                     for (String s : splitRecipe) {
                         String[] split = s.split(",");
                         int amount = Integer.parseInt(split[0]);
-                        Item needed = Items.fromId(Integer.parseInt(split[1]));
+                        Item needed = ItemHelper.fromId(Integer.parseInt(split[1]));
                         recipeString.append(amount).append("x ").append(needed.getEmoji()).append(" *").append(needed.getName()).append("*|");
                     }
 
@@ -596,12 +597,12 @@ public class ItemCmds {
 
                         final var args = ctx.getArguments();
                         final var itemString = args[0];
-                        final var item = Items.fromAnyNoId(itemString).orElse(null);
+                        final var item = ItemHelper.fromAnyNoId(itemString).orElse(null);
                         final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                        var wrench = playerInventory.containsItem(Items.WRENCH_SPARKLE) ? Items.WRENCH_SPARKLE : Items.WRENCH_COMET;
+                        var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ? ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
                         var custom = false;
                         if (args.length > 1) {
-                            wrench = Items.fromAnyNoId(args[1]).orElse(null);
+                            wrench = ItemHelper.fromAnyNoId(args[1]).orElse(null);
                             custom = true;
                         }
 
@@ -616,7 +617,7 @@ public class ItemCmds {
                         }
 
                         final var broken = (Broken) item;
-                        final var original = Items.fromId(broken.getMainItem());
+                        final var original = ItemHelper.fromId(broken.getMainItem());
 
                         if (!(original instanceof Salvageable)) {
                             ctx.sendLocalized("commands.salvage.cant_salvage", EmoteReference.ERROR, item.getName());
@@ -658,7 +659,7 @@ public class ItemCmds {
                             return;
 
                         final var salvageable = (Salvageable) original;
-                        List<Item> returns = salvageable.getReturns().stream().map(Items::fromId).collect(Collectors.toList());
+                        List<Item> returns = salvageable.getReturns().stream().map(ItemHelper::fromId).collect(Collectors.toList());
 
                         if(returns.isEmpty()) {
                             ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
@@ -711,7 +712,7 @@ public class ItemCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                var broken = Arrays.stream(Items.ALL)
+                var broken = Arrays.stream(ItemReference.ALL)
                         .filter(Broken.class::isInstance)
                         .map(Broken.class::cast)
                         .collect(Collectors.toList());
@@ -738,7 +739,7 @@ public class ItemCmds {
                     var returns = salvageable.getReturns();
                     var salvageCost = mainItem.getValue() / 3;
                     for(int id : returns) {
-                        Item rt = Items.fromId(id);
+                        Item rt = ItemHelper.fromId(id);
                         recipeString.append(rt.getEmoji())
                                 .append(" ")
                                 .append(rt.getName())
@@ -770,7 +771,7 @@ public class ItemCmds {
                     return;
                 }
 
-                Optional<Item> itemOptional = Items.fromAnyNoId(content.replace("\"", ""));
+                Optional<Item> itemOptional = ItemHelper.fromAnyNoId(content.replace("\"", ""));
 
                 if (itemOptional.isEmpty()) {
                     ctx.sendLocalized("commands.iteminfo.no_item", EmoteReference.ERROR);

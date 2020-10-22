@@ -22,17 +22,20 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 public class Potion extends Item {
     private int maxUses;
 
-    public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName, String desc, long value, String recipe, int... recipeTypes) {
+    public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName,
+                  String desc, long value, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, false, recipe, recipeTypes);
         this.maxUses = maxUses;
     }
 
-    public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName, String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
+    public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName,
+                  String desc, long value, boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, true, buyable, recipe, recipeTypes);
         this.maxUses = maxUses;
     }
 
-    public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+    public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName,
+                  String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.maxUses = maxUses;
     }

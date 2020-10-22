@@ -20,7 +20,8 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Water extends Item {
-    public Water(ItemType type, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+    public Water(ItemType type, String emoji, String name, String translatedName,
+                 String desc, long value, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
     }
 }

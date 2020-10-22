@@ -19,8 +19,8 @@ package net.kodehawa.mantarobot.commands.currency;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -78,7 +78,7 @@ public class TextChannelGround {
     }
 
     public void dropItemWithChance(int item, int weight) {
-        dropItemWithChance(Items.fromId(item), weight);
+        dropItemWithChance(ItemHelper.fromId(item), weight);
     }
 
     public TextChannelGround dropItems(List<ItemStack> stacks) {

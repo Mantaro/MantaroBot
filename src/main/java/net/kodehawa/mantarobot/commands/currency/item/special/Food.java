@@ -24,7 +24,8 @@ public class Food extends Item {
     private final int hungerLevel;
     private final FoodType type;
 
-    public Food(FoodType type, int hungerLevel, String emoji, String name, String translatedName, String desc, long value, boolean buyable) {
+    public Food(FoodType type, int hungerLevel, String emoji, String name, String translatedName,
+                String desc, long value, boolean buyable) {
         super(ItemType.PET_FOOD, emoji, name, translatedName, desc, value, true, buyable);
         this.hungerLevel = hungerLevel;
         this.type = type;

@@ -35,8 +35,10 @@ public class Axe extends Item implements Castable, Breakable, Salvageable {
     private int maxDurability;
     private List<Integer> salvageReturns;
 
-    public Axe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName,
-                   String desc, long value, boolean sellable, boolean buyable, String recipe, int maxDurability, int... recipeTypes) {
+    public Axe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount,
+               String emoji, String name, String translatedName,
+               String desc, long value, boolean sellable, boolean buyable,
+               String recipe, int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.castLevelRequired = castLevelRequired;
@@ -45,7 +47,8 @@ public class Axe extends Item implements Castable, Breakable, Salvageable {
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
     }
 
-    public Axe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable, int maxDurability) {
+    public Axe(ItemType type, float chance, String emoji, String name, String translatedName,
+               String desc, long value, boolean buyable, int maxDurability) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.castLevelRequired = -1;

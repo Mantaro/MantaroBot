@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MiscUtil;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
@@ -142,7 +142,7 @@ public class MantaroBot {
         core = new MantaroCore(config, true, ExtraRuntimeOptions.DEBUG);
 
         audioManager = new MantaroAudioManager();
-        Items.setItemActions();
+        ItemHelper.setItemActions();
 
         birthdayCacher = new BirthdayCacher();
 

@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -181,7 +181,7 @@ public class FunCmds {
                         EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))
                 );
 
-                TextChannelGround.of(ctx.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
+                TextChannelGround.of(ctx.getChannel()).dropItemWithChance(ItemReference.LOADED_DICE, 5);
             }
 
             @Override

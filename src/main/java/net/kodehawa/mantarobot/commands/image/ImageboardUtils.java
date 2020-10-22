@@ -24,7 +24,7 @@ import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -204,7 +204,7 @@ public class ImageboardUtils {
                 player.saveAsync();
 
             // Drop a lewd magazine.
-            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(Items.LEWD_MAGAZINE, 4);
+            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(ItemReference.LEWD_MAGAZINE, 4);
         }
     }
 

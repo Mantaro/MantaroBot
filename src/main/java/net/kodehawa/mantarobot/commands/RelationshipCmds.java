@@ -22,8 +22,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -215,7 +215,7 @@ public class RelationshipCmds {
                         }
 
                         //Not enough rings to continue. Buy more rings w.
-                        if (!proposingPlayerInventory.containsItem(Items.RING) || proposingPlayerInventory.getAmount(Items.RING) < 2) {
+                        if (!proposingPlayerInventory.containsItem(ItemReference.RING) || proposingPlayerInventory.getAmount(ItemReference.RING) < 2) {
                             ctx.sendLocalized("commands.marry.no_ring", EmoteReference.ERROR);
                             return;
                         }
@@ -276,17 +276,17 @@ public class RelationshipCmds {
                                 final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
                                 final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
 
-                                if (proposingPlayerFinalInventory.getAmount(Items.RING) < 2) {
+                                if (proposingPlayerFinalInventory.getAmount(ItemReference.RING) < 2) {
                                     ctx.sendLocalized("commands.marry.ring_check_fail", EmoteReference.ERROR);
                                     return Operation.COMPLETED;
                                 }
 
                                 //Remove the ring from the proposing player inventory.
-                                proposingPlayerFinalInventory.process(new ItemStack(Items.RING, -1));
+                                proposingPlayerFinalInventory.process(new ItemStack(ItemReference.RING, -1));
 
                                 //Silently scrape the rings if the receipt has more than 5000 rings.
-                                if (proposedToPlayerInventory.getAmount(Items.RING) < 5000) {
-                                    proposedToPlayerInventory.process(new ItemStack(Items.RING, 1));
+                                if (proposedToPlayerInventory.getAmount(ItemReference.RING) < 5000) {
+                                    proposedToPlayerInventory.process(new ItemStack(ItemReference.RING, 1));
                                 }
                                 // ---------------- END OF INVENTORY CHECKS ----------------
 
@@ -318,11 +318,11 @@ public class RelationshipCmds {
                                 proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
 
                                 //Give a love letter both to the proposing player and the one who was proposed to.
-                                if (proposingPlayerFinalInventory.getAmount(Items.LOVE_LETTER) < 5000)
-                                    proposingPlayerFinalInventory.process(new ItemStack(Items.LOVE_LETTER, 1));
+                                if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000)
+                                    proposingPlayerFinalInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
 
-                                if (proposedToPlayerInventory.getAmount(Items.LOVE_LETTER) < 5000)
-                                    proposedToPlayerInventory.process(new ItemStack(Items.LOVE_LETTER, 1));
+                                if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000)
+                                    proposedToPlayerInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
 
                                 //Badge assignment saving.
                                 proposingPlayer.save();
@@ -374,7 +374,7 @@ public class RelationshipCmds {
                 DBUser dbUser = ctx.getDBUser();
 
                 //Without one love letter we cannot do much, ya know.
-                if (playerInventory.containsItem(Items.LOVE_LETTER)) {
+                if (playerInventory.containsItem(ItemReference.LOVE_LETTER)) {
                     final Marriage currentMarriage = dbUser.getData().getMarriage();
 
                     //Check if the user is married, is the proposed player, there's no love letter and that the love letter is less than 1500 characters long.
@@ -445,13 +445,13 @@ public class RelationshipCmds {
                                 return Operation.COMPLETED;
                             }
 
-                            if (!inventoryFinal.containsItem(Items.LOVE_LETTER)) {
+                            if (!inventoryFinal.containsItem(ItemReference.LOVE_LETTER)) {
                                 ctx.sendLocalized("commands.marry.loveletter.no_letter", EmoteReference.SAD);
                                 return Operation.COMPLETED;
                             }
 
                             //Remove the love letter from the inventory.
-                            inventoryFinal.process(new ItemStack(Items.LOVE_LETTER, -1));
+                            inventoryFinal.process(new ItemStack(ItemReference.LOVE_LETTER, -1));
                             playerFinal.save();
 
                             //Save the love letter. The content variable is the actual letter, while c is the content of the operation itself.
@@ -492,7 +492,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(!playerInventory.containsItem(Items.HOUSE)) {
+                if(!playerInventory.containsItem(ItemReference.HOUSE)) {
                     ctx.sendLocalized("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
                     return;
                 }
@@ -519,7 +519,7 @@ public class RelationshipCmds {
                         var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
 
                         // People like to mess around lol.
-                        if(!playerInventoryConfirmed.containsItem(Items.HOUSE)) {
+                        if(!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
                             ctx.sendLocalized("commands.marry.buyhouse.no_house");
                             return Operation.COMPLETED;
                         }
@@ -529,7 +529,7 @@ public class RelationshipCmds {
                             return Operation.COMPLETED;
                         }
 
-                        playerInventoryConfirmed.process(new ItemStack(Items.HOUSE, -1));
+                        playerInventoryConfirmed.process(new ItemStack(ItemReference.HOUSE, -1));
                         playerConfirmed.removeMoney(housePrice);
 
                         playerConfirmed.save();
@@ -570,7 +570,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(!playerInventory.containsItem(Items.CAR)) {
+                if(!playerInventory.containsItem(ItemReference.CAR)) {
                     ctx.sendLocalized("commands.marry.buycar.no_house", EmoteReference.ERROR);
                     return;
                 }
@@ -597,7 +597,7 @@ public class RelationshipCmds {
                         var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
 
                         // People like to mess around lol.
-                        if(!playerInventoryConfirmed.containsItem(Items.CAR)) {
+                        if(!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
                             ctx.sendLocalized("commands.marry.buycar.no_car");
                             return Operation.COMPLETED;
                         }
@@ -607,7 +607,7 @@ public class RelationshipCmds {
                             return Operation.COMPLETED;
                         }
 
-                        playerInventoryConfirmed.process(new ItemStack(Items.CAR, -1));
+                        playerInventoryConfirmed.process(new ItemStack(ItemReference.CAR, -1));
                         playerConfirmed.removeMoney(carPrice);
                         playerConfirmed.save();
 

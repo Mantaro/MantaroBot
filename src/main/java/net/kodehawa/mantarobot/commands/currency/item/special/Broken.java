@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 
 public class Broken extends Item {
     //Repair cost it's usually Item value / 3
@@ -29,14 +29,16 @@ public class Broken extends Item {
     private String recipe;
 
 
-    public Broken(int mainItem, String emoji, String name, String translatedName, String desc, long value, String recipe) {
+    public Broken(int mainItem, String emoji, String name, String translatedName,
+                  String desc, long value, String recipe) {
         super(ItemType.BROKEN, emoji, name, translatedName, desc, value, true, false);
         this.mainItem = mainItem;
         //Repair recipe
         this.recipe = recipe;
     }
 
-    public Broken(ItemType type, int mainItem, String emoji, String name, String translatedName, String desc, long value, String recipe) {
+    public Broken(ItemType type, int mainItem, String emoji, String name, String translatedName,
+                  String desc, long value, String recipe) {
         super(type, emoji, name, translatedName, desc, value, true, false);
         this.mainItem = mainItem;
         //Repair recipe
@@ -48,7 +50,7 @@ public class Broken extends Item {
     }
 
     public Item getItem() {
-        return Items.fromId(mainItem);
+        return ItemHelper.fromId(mainItem);
     }
 
     public String getRecipe() {

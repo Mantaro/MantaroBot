@@ -110,9 +110,9 @@ public class CurrencyCmds {
             // In case you have more than a potion equipped, we'll just stack the rest as necessary.
             if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
                 //Currently has a potion equipped, but wants to stack a potion of other type.
-                if (currentPotion.getPotion() != Items.idOf(item)) {
+                if (currentPotion.getPotion() != ItemHelper.idOf(item)) {
                     ctx.sendLocalized("general.misc_item_usage.not_same_potion",
-                            EmoteReference.ERROR, Items.fromId(currentPotion.getPotion()).getName(), item.getName()
+                            EmoteReference.ERROR, ItemHelper.fromId(currentPotion.getPotion()).getName(), item.getName()
                     );
 
                     return;
@@ -132,7 +132,7 @@ public class CurrencyCmds {
                 }
             } else {
                 // No potion stacked.
-                PotionEffect effect = new PotionEffect(Items.idOf(item), 0, ItemType.PotionType.PLAYER);
+                PotionEffect effect = new PotionEffect(ItemHelper.idOf(item), 0, ItemType.PotionType.PLAYER);
 
                 // If there's more than 1, proceed to equip the stacks.
                 if (amount >= 10) {
@@ -368,16 +368,16 @@ public class CurrencyCmds {
                     if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
                         return;
 
-                    Item item = Items.fromAnyNoId(args[1]).orElse(null);
+                    Item item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
                     if (item == null) {
-                        item = Items.fromAnyNoId(args[0]).orElse(null);
+                        item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
                         if(item == null) {
                             ctx.sendLocalized("general.item_lookup.no_item_emoji");
                             return;
                         }
                     }
 
-                    if (item == Items.CLAIM_KEY) {
+                    if (item == ItemReference.CLAIM_KEY) {
                         ctx.sendLocalized("general.item_lookup.claim_key");
                         return;
                     }
@@ -520,7 +520,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (Items.fromAnyNoId(args[1]).isPresent()) {
+                if (ItemHelper.fromAnyNoId(args[1]).isPresent()) {
                     ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
                     return;
                 }
@@ -605,11 +605,11 @@ public class CurrencyCmds {
 
                 Player p = ctx.getPlayer();
                 SeasonPlayer sp = ctx.getSeasonPlayer();
-                Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                Item item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
 
                 //Open default crate if nothing's specified.
                 if (item == null || content.isEmpty())
-                    item = Items.LOOT_CRATE;
+                    item = ItemReference.LOOT_CRATE;
 
                 if (item.getItemType() != ItemType.CRATE) {
                     ctx.sendLocalized("commands.opencrate.not_crate", EmoteReference.ERROR);
@@ -680,11 +680,11 @@ public class CurrencyCmds {
 
                 // Alternate between mine and fish crates instead of doing so at random, since at random
                 // it might seem like it only gives one sort of crate.
-                Item crate = playerData.getLastCrateGiven() == Items.idOf(Items.MINE_PREMIUM_CRATE) ?
-                        Items.FISH_PREMIUM_CRATE : Items.MINE_PREMIUM_CRATE;
+                Item crate = playerData.getLastCrateGiven() == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE) ?
+                        ItemReference.FISH_PREMIUM_CRATE : ItemReference.MINE_PREMIUM_CRATE;
 
                 inventory.process(new ItemStack(crate, 1));
-                playerData.setLastCrateGiven(Items.idOf(crate));
+                playerData.setLastCrateGiven(ItemHelper.idOf(crate));
                 p.save();
 
                 var successMessage = String.format(languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, crate.getName()) +
@@ -721,7 +721,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        Item item = Items.fromAnyNoId(args[0]).orElse(null);
+                        Item item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
                         //Well, shit.
                         if (item == null) {
                             ctx.sendLocalized("general.item_lookup.not_found", EmoteReference.ERROR);
@@ -770,7 +770,7 @@ public class CurrencyCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                List<Item> interactiveItems = Arrays.stream(Items.ALL).filter(
+                List<Item> interactiveItems = Arrays.stream(ItemReference.ALL).filter(
                         i -> i.getItemType() == ItemType.INTERACTIVE || i.getItemType() == ItemType.POTION || i.getItemType() == ItemType.CRATE || i.getItemType() == ItemType.BUFF
                 ).collect(Collectors.toList());
 

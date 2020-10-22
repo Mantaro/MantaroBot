@@ -49,7 +49,7 @@ public class PlayerEquipment {
         if (type == null || type.getType() != 0)
             return false;
 
-        equipment.put(type, Items.idOf(item));
+        equipment.put(type, ItemHelper.idOf(item));
         if (item instanceof Breakable) //should always be?
             durability.put(type, ((Breakable) item).getMaxDurability());
 
@@ -58,7 +58,7 @@ public class PlayerEquipment {
 
     @JsonIgnore
     public void applyEffect(PotionEffect effect) {
-        EquipmentType type = getTypeFor(Items.fromId(effect.getPotion()));
+        EquipmentType type = getTypeFor(ItemHelper.fromId(effect.getPotion()));
         if (type == null || type.getType() != 1)
             return;
 
@@ -104,7 +104,7 @@ public class PlayerEquipment {
     @JsonIgnore
     public Item getEffectItem(EquipmentType type) {
         PotionEffect effect = effects.get(type);
-        return effect == null ? null : Items.fromId(effect.getPotion());
+        return effect == null ? null : ItemHelper.fromId(effect.getPotion());
     }
 
     @JsonIgnore

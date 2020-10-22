@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.kodehawa.mantarobot.commands.currency.item.Items.handleDurability;
+import static net.kodehawa.mantarobot.commands.currency.item.ItemHelper.handleDurability;
 
 @Module
 public class CurrencyActionCmds {
@@ -70,7 +70,7 @@ public class CurrencyActionCmds {
         cr.register("mine", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .limit(1)
-                    .spamTolerance(2)
+                    .spamTolerance(3)
                     .cooldown(5, TimeUnit.MINUTES)
                     .maxCooldown(5, TimeUnit.MINUTES)
                     .incrementDivider(10)
@@ -108,7 +108,7 @@ public class CurrencyActionCmds {
                     return;
                 }
 
-                var item = (Pickaxe) Items.fromId(equipped);
+                var item = (Pickaxe) ItemHelper.fromId(equipped);
 
                 if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
                     return;
@@ -117,25 +117,25 @@ public class CurrencyActionCmds {
 
                 // Add money buff to higher pickaxes.
                 // TODO: Do this automatically? (we do it on fish)
-                if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
+                if (item == ItemReference.STAR_PICKAXE || item == ItemReference.COMET_PICKAXE)
                     money += random.nextInt(100);
-                if (item == Items.SPARKLE_PICKAXE)
+                if (item == ItemReference.SPARKLE_PICKAXE)
                     money += random.nextInt(300);
-                if (item == Items.HELLFIRE_PICK)
+                if (item == ItemReference.HELLFIRE_PICK)
                     money += random.nextInt(900);
 
                 boolean waifuHelp = false;
-                if (Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
+                if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                     if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                         money += Math.max(45, random.nextInt(200));
                         waifuHelp = true;
                     }
                 }
 
-                String reminder = random.nextInt(6) == 0 && item == Items.BROM_PICKAXE ? languageContext.get("commands.mine.reminder") : "";
+                String reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ? languageContext.get("commands.mine.reminder") : "";
                 String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
-                boolean hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
+                boolean hasPotion = ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
                 boolean petHelp = false;
 
                 if(marriage != null) {
@@ -155,18 +155,18 @@ public class CurrencyActionCmds {
 
                 //Diamond find
                 if (random.nextInt(400) > (hasPotion || petHelp ? 290 : 350)) {
-                    if (inventory.getAmount(Items.DIAMOND) == 5000) {
+                    if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
-                        money += Items.DIAMOND.getValue() * 0.9;
+                        money += ItemReference.DIAMOND.getValue() * 0.9;
                     } else {
                         int amount = 1;
 
-                        if (item == Items.STAR_PICKAXE || item == Items.COMET_PICKAXE)
+                        if (item == ItemReference.STAR_PICKAXE || item == ItemReference.COMET_PICKAXE)
                             amount += random.nextInt(2);
-                        if (item == Items.SPARKLE_PICKAXE)
+                        if (item == ItemReference.SPARKLE_PICKAXE)
                             amount += random.nextInt(4);
 
-                        inventory.process(new ItemStack(Items.DIAMOND, amount));
+                        inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
                         message += "\n" + EmoteReference.DIAMOND +
                                 String.format(languageContext.withRoot("commands", "mine.diamond.success"), amount);
                     }
@@ -176,7 +176,7 @@ public class CurrencyActionCmds {
 
                 //Gem find
                 if (random.nextInt(400) > (hasPotion ? 278 : (petHelp ? 250 : 325))) {
-                    List<Item> gem = Stream.of(Items.ALL)
+                    List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
 
@@ -205,9 +205,9 @@ public class CurrencyActionCmds {
                 }
 
                 //Sparkle find
-                if ((random.nextInt(400) > 395 && item == Items.COMET_PICKAXE) ||
-                        (random.nextInt(400) > 390 && (item == Items.STAR_PICKAXE || item == Items.SPARKLE_PICKAXE || item == Items.HELLFIRE_PICK))) {
-                    Item gem = Items.SPARKLE_FRAGMENT;
+                if ((random.nextInt(400) > 395 && item == ItemReference.COMET_PICKAXE) ||
+                        (random.nextInt(400) > 390 && (item == ItemReference.STAR_PICKAXE || item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
+                    Item gem = ItemReference.SPARKLE_FRAGMENT;
                     if (inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
                         money += gem.getValue() * 0.9;
@@ -222,7 +222,7 @@ public class CurrencyActionCmds {
 
                 PremiumKey key = db.getPremiumKey(dbUser.getData().getPremiumKey());
                 if (random.nextInt(400) > 392) {
-                    Item crate = (key != null && key.getDurationDays() > 1) ? Items.MINE_PREMIUM_CRATE : Items.MINE_CRATE;
+                    Item crate = (key != null && key.getDurationDays() > 1) ? ItemReference.MINE_PREMIUM_CRATE : ItemReference.MINE_CRATE;
                     if (inventory.getAmount(crate) + 1 > 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
                     } else {
@@ -307,7 +307,7 @@ public class CurrencyActionCmds {
                 }
 
                 //It can only be a rod, lol.
-                item = (FishRod) Items.fromId(equipped);
+                item = (FishRod) ItemHelper.fromId(equipped);
 
                 if (!RatelimitUtils.handleIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
@@ -327,7 +327,7 @@ public class CurrencyActionCmds {
                     return;
                 } else if (chance < 35) {
                     //Here you found trash.
-                    List<Item> common = Stream.of(Items.ALL)
+                    List<Item> common = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.getValue() < 45)
                             .collect(Collectors.toList());
 
@@ -343,13 +343,13 @@ public class CurrencyActionCmds {
                     ctx.sendLocalized("commands.fish.trash.success", EmoteReference.EYES, selected.getEmoji());
                 } else {
                     //Here you actually caught fish, congrats.
-                    List<Item> fish = Stream.of(Items.ALL)
+                    List<Item> fish = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    boolean buff = Items.handleEffect(PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), Items.FISHING_BAIT, dbUser);
+                    boolean buff = ItemHelper.handleEffect(PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), ItemReference.FISHING_BAIT, dbUser);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
                     if (nominalLevel >= 2)
                         amount += random.nextInt(4);
@@ -378,7 +378,7 @@ public class CurrencyActionCmds {
 
                     //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
-                    if (Items.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), Items.WAIFU_PILL, dbUser)) {
+                    if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                         if (dbUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
@@ -388,7 +388,7 @@ public class CurrencyActionCmds {
 
                     //START OF FISH LOOT CRATE HANDLING
                     if (random.nextInt(400) > 380) {
-                        Item crate = dbUser.isPremium() ? Items.FISH_PREMIUM_CRATE : Items.FISH_CRATE;
+                        Item crate = dbUser.isPremium() ? ItemReference.FISH_PREMIUM_CRATE : ItemReference.FISH_CRATE;
                         if (playerInventory.getAmount(crate) >= 5000) {
                             extraMessage += "\n" + languageContext.get("commands.fish.crate.overflow");
                         } else {
@@ -399,16 +399,16 @@ public class CurrencyActionCmds {
                     }
                     //END OF FISH LOOT CRATE HANDLING
 
-                    if ((item == Items.SPARKLE_ROD || item == Items.HELLFIRE_ROD) && random.nextInt(30) > 20) {
+                    if ((item == ItemReference.SPARKLE_ROD || item == ItemReference.HELLFIRE_ROD) && random.nextInt(30) > 20) {
                         if (random.nextInt(100) > 96) {
-                            fish.addAll(Stream.of(Items.ALL)
+                            fish.addAll(Stream.of(ItemReference.ALL)
                                     .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())
                                     .collect(Collectors.toList())
                             );
                         }
 
-                        playerInventory.process(new ItemStack(Items.SHARK, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.shark_success"), Items.SHARK.getEmoji());
+                        playerInventory.process(new ItemStack(ItemReference.SHARK, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.shark_success"), ItemReference.SHARK.getEmoji());
                         player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
                     }
 
@@ -450,8 +450,8 @@ public class CurrencyActionCmds {
                         player.getData().addBadgeIfAbsent(Badge.FISHER);
 
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
-                        playerInventory.process(new ItemStack(Items.SHELL, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.fossil_success"), Items.SHELL.getEmoji());
+                        playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
+                        extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.fossil_success"), ItemReference.SHELL.getEmoji());
                     }
 
 
@@ -552,13 +552,13 @@ public class CurrencyActionCmds {
                     return;
                 }
 
-                var item = (Axe) Items.fromId(equipped);
+                var item = (Axe) ItemHelper.fromId(equipped);
 
                 if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
                     return;
 
                 var chance = random.nextInt(100);
-                var hasPotion = Items.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), Items.POTION_HASTE, dbUser);
+                var hasPotion = ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
                 if(hasPotion)
                     chance += 10;
 
@@ -595,11 +595,11 @@ public class CurrencyActionCmds {
 
                     // Add money buff to higher axes.
                     // TODO: Do this automatically? (we do it on fish)
-                    if (item == Items.STAR_AXE || item == Items.COMET_AXE)
+                    if (item == ItemReference.STAR_AXE || item == ItemReference.COMET_AXE)
                         money += random.nextInt(100);
-                    if (item == Items.SPARKLE_AXE)
+                    if (item == ItemReference.SPARKLE_AXE)
                         money += random.nextInt(300);
-                    if (item == Items.HELLFIRE_AXE)
+                    if (item == ItemReference.HELLFIRE_AXE)
                         money += random.nextInt(900);
 
 
@@ -617,11 +617,11 @@ public class CurrencyActionCmds {
                     boolean found = !ita.isEmpty();
 
                     // Make so it drops some decent amount of wood lol
-                    if(ita.stream().anyMatch(is -> is.getItem() == Items.WOOD)) {
-                        ita.add(new ItemStack(Items.WOOD, Math.max(1, random.nextInt(7))));
+                    if(ita.stream().anyMatch(is -> is.getItem() == ItemReference.WOOD)) {
+                        ita.add(new ItemStack(ItemReference.WOOD, Math.max(1, random.nextInt(7))));
                     } else if (found) {
                         // Guarantee at least one wood.
-                        ita.add(new ItemStack(Items.WOOD, 1));
+                        ita.add(new ItemStack(ItemReference.WOOD, 1));
                     }
                     // ---- End of drop handling.
 
@@ -687,7 +687,7 @@ public class CurrencyActionCmds {
     }
 
     private List<Item> handleChopDrop() {
-        List<Item> all = Arrays.stream(Items.ALL).filter(i -> i.getItemType() == ItemType.CHOP_DROP).collect(Collectors.toList());
+        List<Item> all = Arrays.stream(ItemReference.ALL).filter(i -> i.getItemType() == ItemType.CHOP_DROP).collect(Collectors.toList());
         return all.stream().sorted(Comparator.comparingLong(Item::getValue)).collect(Collectors.toList());
     }
 

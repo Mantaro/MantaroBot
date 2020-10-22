@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.game;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
@@ -108,7 +108,7 @@ public class GuessTheNumber extends Game<Object> {
 
                         unifiedPlayer.save();
 
-                        TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
+                        TextChannelGround.of(e).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                         channel.sendMessageFormat(languageContext.get("commands.game.lobby.won_game"),
                                 EmoteReference.MEGA, e.getMember().getEffectiveName(), gains
                         ).queue();

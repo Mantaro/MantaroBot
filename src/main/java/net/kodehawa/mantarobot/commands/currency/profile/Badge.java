@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.commands.currency.profile;
 
 import net.dv8tion.jda.internal.utils.IOUtil;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import org.slf4j.Logger;
@@ -159,7 +159,7 @@ public enum Badge {
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92,
             (player, dbUser) -> player.getInventory().asList().stream()
-                    .filter(itemStack -> itemStack.getItem() != Items.CLAIM_KEY)
+                    .filter(itemStack -> itemStack.getItem() != ItemReference.CLAIM_KEY)
                     .anyMatch(stack -> stack.getAmount() == 5000), false
     ),
 

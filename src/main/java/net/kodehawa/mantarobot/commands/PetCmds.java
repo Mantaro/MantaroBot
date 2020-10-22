@@ -19,9 +19,9 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
+//TODO: Multiple / Personal pets.
 public class PetCmds {
     @Subscribe
     public void pet(CommandRegistry cr) {
@@ -93,8 +94,9 @@ public class PetCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        // TODO: link to wiki once it's done
-                        .setDescription("Pet commands. For a better explanation of the pet system see [here](https://github.com/Mantaro/MantaroBot/wiki).")
+                        .setDescription("Pet commands. " +
+                                "For a better explanation of the pet system see [here](https://github.com/Mantaro/MantaroBot/wiki)\n" +
+                                "This contains an explanation about what pets are..")
                         .build();
             }
         });
@@ -314,7 +316,6 @@ public class PetCmds {
                 var marriage = dbUser.getData().getMarriage();
                 var args = ctx.getArguments();
 
-                // TODO: personal pets?
                 if(marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
@@ -335,12 +336,11 @@ public class PetCmds {
                     return;
                 }
 
-                if(!playerInventory.containsItem(Items.PET_HOUSE)) {
+                if(!playerInventory.containsItem(ItemReference.PET_HOUSE)) {
                     ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                     return;
                 }
 
-                // TODO: Multiple pets.
                 if(marriageData.getPet() != null) {
                     ctx.sendLocalized("commands.pet.buy.already_has_pet", EmoteReference.ERROR);
                     return;
@@ -375,7 +375,7 @@ public class PetCmds {
                         var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
 
                         // People like to mess around lol.
-                        if(!playerInventory.containsItem(Items.PET_HOUSE)) {
+                        if(!playerInventory.containsItem(ItemReference.PET_HOUSE)) {
                             ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                             return Operation.COMPLETED;
                         }
@@ -386,7 +386,7 @@ public class PetCmds {
                         }
 
                         playerConfirmed.removeMoney(toBuy.getCost());
-                        playerInventoryConfirmed.process(new ItemStack(Items.PET_HOUSE, -1));
+                        playerInventoryConfirmed.process(new ItemStack(ItemReference.PET_HOUSE, -1));
                         playerConfirmed.save();
 
                         marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
@@ -493,7 +493,7 @@ public class PetCmds {
                     return;
                 }
 
-                var item = Items.fromAnyNoId(food);
+                var item = ItemHelper.fromAnyNoId(food);
                 if(item.isEmpty()) {
                     ctx.sendLocalized("commands.pet.feed.no_item", EmoteReference.ERROR);
                     return;
@@ -571,7 +571,7 @@ public class PetCmds {
                     return;
                 }
 
-                var item = Items.WATER_BOTTLE;
+                var item = ItemReference.WATER_BOTTLE;
                 if(!playerInventory.containsItem(item)) {
                     ctx.sendLocalized("commands.pet.water.not_inventory", EmoteReference.ERROR);
                     return;
@@ -607,7 +607,7 @@ public class PetCmds {
                 var coinBuildup100 = lookup.getMaxCoinBuildup(100);
                 var itemBuildup = lookup.getMaxItemBuildup(1);
                 var itemBuildup100 = lookup.getMaxItemBuildup(100);
-                var food = Arrays.stream(Items.ALL)
+                var food = Arrays.stream(ItemReference.ALL)
                         .filter(Food.class::isInstance)
                         .map(Food.class::cast)
                         .filter(f -> f.getType().getApplicableType() == lookup)

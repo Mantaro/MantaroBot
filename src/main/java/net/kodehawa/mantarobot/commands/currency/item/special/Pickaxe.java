@@ -36,7 +36,8 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
     private int maxDurability;
     private List<Integer> salvageReturns;
 
-    public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount, String emoji, String name, String translatedName,
+    public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount,
+                   String emoji, String name, String translatedName,
                    String desc, long value, boolean sellable, boolean buyable, String recipe,
                    int maxDurability, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
@@ -47,7 +48,8 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
     }
 
-    public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName, String desc, long value, boolean buyable, int maxDurability) {
+    public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName,
+                   String desc, long value, boolean buyable, int maxDurability) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.castLevelRequired = -1;

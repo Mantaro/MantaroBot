@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,13 +100,13 @@ public class Inventory {
 
     public static class Resolver {
         public static Map<Integer, Integer> serialize(List<ItemStack> list) {
-            Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
+            Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> ItemHelper.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
             collect.values().remove(0);
             return collect;
         }
 
         public static List<ItemStack> unserialize(Map<Integer, Integer> map) {
-            return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(Items.fromId(entry.getKey()), Math.max(Math.min(entry.getValue(), 5000), 0))).collect(Collectors.toList());
+            return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(ItemHelper.fromId(entry.getKey()), Math.max(Math.min(entry.getValue(), 5000), 0))).collect(Collectors.toList());
         }
     }
 }

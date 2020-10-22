@@ -25,8 +25,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.Season;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -252,7 +252,7 @@ public class OwnerCmd {
                     return;
                 }
 
-                Item i = Items.fromAnyNoId(content).orElse(null);
+                Item i = ItemHelper.fromAnyNoId(content).orElse(null);
 
                 if (i == null) {
                     ctx.send(EmoteReference.ERROR + "I didn't find that item.");

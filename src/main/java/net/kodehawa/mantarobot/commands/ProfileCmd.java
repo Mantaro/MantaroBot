@@ -149,8 +149,8 @@ public class ProfileCmd {
                             if (MantaroData.config().get().isOwner(userLooked))
                                 playerData.addBadgeIfAbsent(Badge.DEVELOPER);
                             if (inv.asList().stream()
-                                    .anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) ||
-                                            stack.getItem().equals(Items.BELL_SPECIAL)))
+                                    .anyMatch(stack -> stack.getItem().equals(ItemReference.CHRISTMAS_TREE_SPECIAL) ||
+                                            stack.getItem().equals(ItemReference.BELL_SPECIAL)))
                                 playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
                             if (mhMember != null &&
                                     mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
@@ -167,7 +167,7 @@ public class ProfileCmd {
                             if (isSeasonal)
                                 seasonalPlayer = ctx.getSeasonPlayer(userLooked);
 
-                            boolean ringHolder = player.getInventory().containsItem(Items.RING) && userData.getMarriage() != null;
+                            boolean ringHolder = player.getInventory().containsItem(ItemReference.RING) && userData.getMarriage() != null;
                             ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
                             I18nContext languageContext = ctx.getLanguageContext();
 
@@ -232,14 +232,14 @@ public class ProfileCmd {
                 }
 
                 Inventory inventory = player.getInventory();
-                if(!inventory.containsItem(Items.CLAIM_KEY)) {
+                if(!inventory.containsItem(ItemReference.CLAIM_KEY)) {
                     ctx.sendLocalized("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
                 }
 
                 player.getData().setClaimLocked(true);
                 ctx.sendLocalized("commands.profile.claimlock.success", EmoteReference.CORRECT);
-                inventory.process(new ItemStack(Items.CLAIM_KEY, -1));
+                inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.save();
             }
         });
@@ -787,7 +787,7 @@ public class ProfileCmd {
         }
 
         return toolsEquipment.entrySet().stream().map((entry) -> {
-            Item item = Items.fromId(entry.getValue());
+            Item item = ItemHelper.fromId(entry.getValue());
 
             return "- " +
                     Utils.capitalize(entry.getKey().toString()) + ": " +

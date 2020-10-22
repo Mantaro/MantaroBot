@@ -31,11 +31,15 @@ public class ItemStack {
     }
 
     public ItemStack(int i, int amount) {
-        this(Items.fromId(i), amount);
+        this(ItemHelper.fromId(i), amount);
     }
 
     public static Map<Item, ItemStack> mapped(List<ItemStack> list) {
-        return list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(ItemStack::getItem, UnaryOperator.identity(), ItemStack::join));
+        return list.stream()
+                .filter(stack -> stack.getAmount() != 0)
+                .collect(
+                        Collectors.toMap(ItemStack::getItem, UnaryOperator.identity(), ItemStack::join)
+                );
     }
 
     public static List<ItemStack> reduce(List<ItemStack> list) {
@@ -43,7 +47,8 @@ public class ItemStack {
     }
 
     public static String toString(List<ItemStack> list) {
-        if (list.isEmpty()) return "There's only dust.";
+        if (list.isEmpty())
+            return "There's only dust.";
 
         return list.stream().filter(stack -> stack.getAmount() != 0)
                 .sorted(Comparator.comparingInt(ItemStack::getAmount).reversed())

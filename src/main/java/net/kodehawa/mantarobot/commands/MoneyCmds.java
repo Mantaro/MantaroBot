@@ -21,8 +21,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
@@ -157,7 +157,7 @@ public class MoneyCmds {
                     //Marriage bonus
                     Marriage marriage = authorUserData.getMarriage();
                     if(marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
-                            playerOtherUser.getInventory().containsItem(Items.RING)) {
+                            playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
                         dailyMoney += Math.max(10, r.nextInt(100));
                     }
 
@@ -181,7 +181,7 @@ public class MoneyCmds {
 
                 List<String> returnMessage = new ArrayList<>();
                 long currentTime = System.currentTimeMillis();
-                int amountStreaksavers = authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH);
+                int amountStreaksavers = authorPlayer.getInventory().getAmount(ItemReference.MAGIC_WATCH);
                 // >=0 -> Valid  <0 -> Invalid
                 long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayerData.getLastDailyAt()) ;
 
@@ -196,7 +196,7 @@ public class MoneyCmds {
                         returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.up"), streak));
                     if(currentDailyOffset < 0){
                         int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
-                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH, streakSaversUsed * -1));
+                        authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"),
                                 streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
                     }
@@ -211,7 +211,7 @@ public class MoneyCmds {
                             );
 
                             authorPlayer.getInventory().process(
-                                    new ItemStack(Items.MAGIC_WATCH, authorPlayer.getInventory().getAmount(Items.MAGIC_WATCH) * -1)
+                                    new ItemStack(ItemReference.MAGIC_WATCH, authorPlayer.getInventory().getAmount(ItemReference.MAGIC_WATCH) * -1)
                             );
 
                         } else{
@@ -226,15 +226,15 @@ public class MoneyCmds {
                     int bonus = 150;
 
                     if(streak % 50 == 0){
-                        authorPlayer.getInventory().process(new ItemStack(Items.MAGIC_WATCH,1));
+                        authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH,1));
                         returnMessage.add(languageContext.get("commands.daily.watch_get"));
                     }
 
                     if (streak > 10) {
                         authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
 
-                        if (streak % 20 == 0 && authorPlayer.getInventory().getAmount(Items.LOOT_CRATE) < 5000) {
-                            authorPlayer.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
+                        if (streak % 20 == 0 && authorPlayer.getInventory().getAmount(ItemReference.LOOT_CRATE) < 5000) {
+                            authorPlayer.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE, 1));
                             returnMessage.add(languageContext.get("commands.daily.crate"));
                         }
 
@@ -492,12 +492,12 @@ public class MoneyCmds {
                 TextChannelGround ground = TextChannelGround.of(ctx.getEvent());
 
                 if (today.isEqual(eventStart) || (today.isAfter(eventStart) && today.isBefore(eventStop))) {
-                    ground.dropItemWithChance(Items.CHRISTMAS_TREE_SPECIAL, 4);
-                    ground.dropItemWithChance(Items.BELL_SPECIAL, 4);
+                    ground.dropItemWithChance(ItemReference.CHRISTMAS_TREE_SPECIAL, 4);
+                    ground.dropItemWithChance(ItemReference.BELL_SPECIAL, 4);
                 }
 
                 if (r.nextInt(100) > 95) {
-                    ground.dropItem(Items.LOOT_CRATE);
+                    ground.dropItem(ItemReference.LOOT_CRATE);
                     if (playerData.addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
                 }
@@ -694,7 +694,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    if (playerInventory.getAmount(Items.SLOT_COIN) < amountN) {
+                    if (playerInventory.getAmount(ItemReference.SLOT_COIN) < amountN) {
                         ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                         return;
                     }
@@ -739,8 +739,8 @@ public class MoneyCmds {
                     return;
 
                 if (coinSelect) {
-                    if (playerInventory.containsItem(Items.SLOT_COIN)) {
-                        playerInventory.process(new ItemStack(Items.SLOT_COIN, -amountN));
+                    if (playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+                        playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -amountN));
                         if (season)
                             seasonalPlayer.saveAsync();
                         else

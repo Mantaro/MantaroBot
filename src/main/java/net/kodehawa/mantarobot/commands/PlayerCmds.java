@@ -23,10 +23,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
+import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
@@ -181,7 +178,7 @@ public class PlayerCmds {
                 boolean isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
-                Item item = Items.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                Item item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
 
                 Player player = ctx.getPlayer();
                 DBUser dbUser = ctx.getDBUser();
@@ -264,7 +261,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                Item equippedItem = Items.fromId(equipped);
+                Item equippedItem = ItemHelper.fromId(equipped);
 
                 ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
@@ -301,7 +298,7 @@ public class PlayerCmds {
                                         languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName()
                                 );
                             } else {
-                                Item brokenItem = Items.getBrokenItemFrom(equippedItem);
+                                Item brokenItem = ItemHelper.getBrokenItemFrom(equippedItem);
                                 if(brokenItem != null) {
                                     playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
                                     part += String.format(
