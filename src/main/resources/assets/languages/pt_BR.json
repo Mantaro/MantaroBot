@@ -1317,15 +1317,15 @@
       },
       "pet_reactions": {
         "cute": "%1$sSeu pet abana o rabo alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %2$s**.%3$s",
-        "cheer": "%1$sA reação do seu pet foi tão fofa que conseguiu te animar. **Contador de carinhos: %2$s**.%3$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %2$s**.%3$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "cheer": "%1$sA reação do seu pet foi tão fofa que conseguiu te animar. **Contador de carinho: %2$s**.%3$s",
+        "scare": "%1$sO pet ficou assustado quando você deu carinho pra ele. Talvez tenha sido muito inesperado? **Contador de carinho: %2$s**.%3$s",
+        "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
-        "already_has_pet": "%1$sYou already have a pet.",
+        "not_enough_arguments": "%1$sVocê tem que especificar o nome do pet e o tipo do pet que quer comprar.",
+        "no_requirements": "%1$sVocê precisa de um carro e uma casa pra comprar um pet! Casa: %2$s, Carro: %3$s",
+        "no_house": "%1$sVocê precisa ter uma casa de pet no seu inventário pra fazer isso.",
+        "already_has_pet": "%1$sVocê já tem um pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
