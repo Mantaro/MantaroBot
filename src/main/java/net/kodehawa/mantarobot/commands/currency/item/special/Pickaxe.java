@@ -34,27 +34,30 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
     private int castLevelRequired;
     private int maximumCastAmount;
     private int maxDurability;
+    private int moneyIncrease;
     private List<Integer> salvageReturns;
 
     public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount,
                    String emoji, String name, String translatedName,
                    String desc, long value, boolean sellable, boolean buyable, String recipe,
-                   int maxDurability, int... recipeTypes) {
+                   int maxDurability, int moneyIncrease, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
         this.maxDurability = maxDurability;
+        this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
     }
 
     public Pickaxe(ItemType type, float chance, String emoji, String name, String translatedName,
-                   String desc, long value, boolean buyable, int maxDurability) {
+                   String desc, long value, boolean buyable, int maxDurability, int moneyIncrease) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.castLevelRequired = -1;
         this.maximumCastAmount = -1;
         this.maxDurability = maxDurability;
+        this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Collections.emptyList();
     }
 
@@ -72,6 +75,10 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
 
     public int getMaximumCastAmount() {
         return this.maximumCastAmount;
+    }
+
+    public int getMoneyIncrease() {
+        return moneyIncrease;
     }
 
     @Override

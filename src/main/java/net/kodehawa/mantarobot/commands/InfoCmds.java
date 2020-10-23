@@ -94,7 +94,9 @@ public class InfoCmds {
         cr.register("lang", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                ctx.sendLocalized("commands.lang.info", EmoteReference.ZAP, String.join(", ", I18n.LANGUAGES).replace(".json", ""));
+                ctx.sendLocalized("commands.lang.info", EmoteReference.ZAP,
+                        String.join(", ", I18n.LANGUAGES).replace(".json", "")
+                );
             }
 
             @Override
@@ -128,7 +130,8 @@ public class InfoCmds {
                 return new HelpContent.Builder()
                         .setDescription("Get a user's avatar URL.")
                         .setUsage("`~>avatar [@user]` - Returns the requested avatar URL")
-                        .addParameter("@user", "The user you want to check the avatar URL of. Can be a mention, or name#discrim")
+                        .addParameter("@user",
+                                "The user you want to check the avatar URL of. Can be a mention, or name#discrim")
                         .build();
             }
         });
@@ -263,7 +266,8 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter,
+                        ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
                     return;
 
                 if (content.isEmpty()) {
@@ -289,10 +293,13 @@ public class InfoCmds {
                             EmbedBuilder builder = new EmbedBuilder()
                                     .setColor(Color.PINK)
                                     //assume content = command name
-                                    .setAuthor(Utils.capitalize(content) + " Command Help", null, ctx.getAuthor().getEffectiveAvatarUrl())
+                                    .setAuthor(Utils.capitalize(content) +
+                                            " Command Help", null, ctx.getAuthor().getEffectiveAvatarUrl())
                                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                                    .setDescription((r.nextBoolean() ? languageContext.get("commands.help.patreon") + "\n" : "")
-                                            + (descriptionList.isEmpty() ? newHelp.getDescription() : descriptionList.get(r.nextInt(descriptionList.size())))
+                                    .setDescription((r.nextBoolean() ?
+                                            languageContext.get("commands.help.patreon") + "\n" : "")
+                                            + (descriptionList.isEmpty() ?
+                                            newHelp.getDescription() : descriptionList.get(r.nextInt(descriptionList.size())))
                                             + "\n" + "**Don't include <> or [] on the command itself.**"
                                     );
 
@@ -323,7 +330,12 @@ public class InfoCmds {
                                         .stream()
                                         .sorted(Comparator.comparingInt(a ->
                                                 a.getValue().description() == null ? 0 : a.getValue().description().length())
-                                        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+                                        ).collect(
+                                                Collectors.toMap(
+                                                        Map.Entry::getKey, Map.Entry::getValue,
+                                                        (oldValue, newValue) -> oldValue, LinkedHashMap::new
+                                                )
+                                        );
 
                                 StringBuilder stringBuilder = new StringBuilder();
 
@@ -363,7 +375,8 @@ public class InfoCmds {
                             }
 
                             builder.addField("Still lost?",
-                                    "[Check the wiki](https://wiki.mantaro.site) or [get support here!](https://support.mantaro.site)",  false
+                                    "[Check the wiki](https://wiki.mantaro.site) or " +
+                                            "[get support here!](https://support.mantaro.site)",  false
                             ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());
 
                             ctx.send(builder.build());
@@ -427,7 +440,9 @@ public class InfoCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 DBGuild dbGuild = ctx.getDBGuild();
-                String defaultPrefix = Stream.of(ctx.getConfig().getPrefix()).map(prefix -> "`" + prefix + "`").collect(Collectors.joining(" "));
+                String defaultPrefix = Stream.of(ctx.getConfig().getPrefix())
+                        .map(prefix -> "`" + prefix + "`")
+                        .collect(Collectors.joining(" "));
                 String guildPrefix = dbGuild.getData().getGuildCustomPrefix();
 
                 ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART,
@@ -540,13 +555,7 @@ public class InfoCmds {
                     ));
                 });
 
-                var splitFields = DiscordUtils.divideFields(3, fields);
-                boolean hasReactionPerms = ctx.hasReactionPerms();
-
-                if (hasReactionPerms)
-                    DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
-                else
-                    DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
+                DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(3, fields));
             }
         });
 
@@ -590,13 +599,7 @@ public class InfoCmds {
                     ));
                 }
 
-                var splitFields = DiscordUtils.divideFields(3, fields);
-                boolean hasReactionPerms = ctx.hasReactionPerms();
-
-                if (hasReactionPerms)
-                    DiscordUtils.list(ctx.getEvent(), 200, false, embed, splitFields);
-                else
-                    DiscordUtils.listText(ctx.getEvent(), 200, false, embed, splitFields);
+                DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(3, fields));
             }
         });
 
@@ -722,8 +725,9 @@ public class InfoCmds {
                                     )
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.account_age"),
-                                    TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
-                                            + " " + languageContext.get("general.days")
+                                    TimeUnit.MILLISECONDS.toDays(
+                                            System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli()
+                                    ) + " " + languageContext.get("general.days")
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance()
                                     .getShardManager()
@@ -738,7 +742,8 @@ public class InfoCmds {
                                     member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" +
                                             Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()
                             ),
-                            prettyDisplay(languageContext.get("commands.userinfo.status"), Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
+                            prettyDisplay(languageContext.get("commands.userinfo.status"),
+                                    Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
                     );
 
                     ctx.send(new EmbedBuilder()
@@ -759,7 +764,8 @@ public class InfoCmds {
                 return new HelpContent.Builder()
                         .setDescription("See information about specific users.")
                         .setUsage("`~>userinfo <@user>` - Get information about an user.")
-                        .addParameter("user", "The user you want to look for. Mentions, nickname and user#discriminator work.")
+                        .addParameter("user", "The user you want to look for. " +
+                                "Mentions, nickname and user#discriminator work.")
                         .build();
             }
         });
@@ -815,8 +821,9 @@ public class InfoCmds {
                                 )
                         ),
                         prettyDisplay(languageContext.get("commands.roleinfo.age"),
-                                TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getTimeCreated().toInstant().toEpochMilli()) +
-                                        " " + languageContext.get("general.days")
+                                TimeUnit.MILLISECONDS.toDays(
+                                        System.currentTimeMillis() - r.getTimeCreated().toInstant().toEpochMilli()
+                                ) + " " + languageContext.get("general.days")
                         ),
                         prettyDisplay(languageContext.get("commands.roleinfo.color"),
                                 r.getColor() == null ?
@@ -838,7 +845,10 @@ public class InfoCmds {
                                 ).setDescription(s)
                                 .addField(String.format(languageContext.get("commands.roleinfo.permissions"), r.getPermissions().size()),
                                         r.getPermissions().size() == 0 ? languageContext.get("general.none") :
-                                                r.getPermissions().stream().map(Permission::getName).collect(Collectors.joining(", ")) + ".",
+                                                r.getPermissions()
+                                                        .stream()
+                                                        .map(Permission::getName)
+                                                        .collect(Collectors.joining(", ")) + ".",
                                         false
                                 )
                                 .build()

@@ -51,9 +51,11 @@ import java.util.regex.Pattern;
 @Module
 public class MuteCmds {
     @SuppressWarnings("Annotator")
-    private static final Pattern timePattern = Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private static final Pattern timePattern =
+            Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     @SuppressWarnings("Annotator")
-    private static final Pattern muteTimePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private static final Pattern muteTimePattern =
+            Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -67,7 +69,8 @@ public class MuteCmds {
 
                 String affected = args[0];
 
-                if (!(ctx.getMember().hasPermission(Permission.KICK_MEMBERS) || ctx.getMember().hasPermission(Permission.BAN_MEMBERS))) {
+                if (!(ctx.getMember().hasPermission(Permission.KICK_MEMBERS) ||
+                        ctx.getMember().hasPermission(Permission.BAN_MEMBERS))) {
                     ctx.sendLocalized("commands.mute.no_permissions", EmoteReference.ERROR);
                     return;
                 }
@@ -109,7 +112,8 @@ public class MuteCmds {
                         return;
 
                     User user = member.getUser();
-                    long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
+                    long time = guildData.getSetModTimeout() > 0 ?
+                            System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
 
                     if (opts.containsKey("time")) {
                         if (opts.get("time") == null || opts.get("time").isEmpty()) {
@@ -174,7 +178,9 @@ public class MuteCmds {
 
                     dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
                     dbGuild.saveAsync();
-                    ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getData().getCases());
+                    ModLog.log(
+                            ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.MUTE, dbGuild.getData().getCases()
+                    );
                 });
             }
 
@@ -183,9 +189,13 @@ public class MuteCmds {
                 return new HelpContent.Builder()
                         .setDescription("Mutes the specified users.")
                         .setUsage("`~>mute <@user> [reason] [-time <time>]`")
-                        .addParameter("@user", "The users to mute. Needs to be mentions (pings)")
-                        .addParameter("reason", "The mute reason. This is optional.")
-                        .addParameter("-time", "The time to mute an user for. For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.")
+                        .addParameter("@user",
+                                "The users to mute. Needs to be mentions (pings)")
+                        .addParameter("reason",
+                                "The mute reason. This is optional.")
+                        .addParameter("-time",
+                                "The time to mute an user for. " +
+                                        "For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.")
                         .build();
             }
         });
@@ -225,7 +235,9 @@ public class MuteCmds {
                     guildData.setSetModTimeout(timeoutToSet);
                     dbGuild.save();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.success"), EmoteReference.CORRECT, args[0], timeoutToSet).queue();
+                    event.getChannel().sendMessageFormat(
+                            lang.get("options.defaultmutetimeout_set.success"), EmoteReference.CORRECT, args[0], timeoutToSet
+                    ).queue();
                 }).setShortDescription("Sets the default timeout for the ~>mute command"));
 
 
@@ -268,7 +280,8 @@ public class MuteCmds {
                     }
                 }).setShortDescription("Sets this guilds mute role to apply on the ~>mute command"));
 
-        mute.addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
+        mute.addOption("muterole:unbind", new Option("Mute Role unbind",
+                "Resets the current value set for the mute role", OptionType.GENERAL)
                 .setActionLang((event, lang) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();

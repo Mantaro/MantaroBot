@@ -219,7 +219,7 @@ public class HousePet {
     }
 
     @JsonIgnore
-    public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility, String marriageTz) {
+    public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility) {
         if(!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
 
@@ -256,6 +256,42 @@ public class HousePet {
         }
 
         return HousePetType.PatReaction.CUTE;
+    }
+
+    public static class ActivityReward {
+        private int items;
+        private int money;
+        private String result;
+
+        public ActivityReward(int items, int money, String result) {
+            this.items = items;
+            this.money = money;
+            this.result = result;
+        }
+
+        public int getItems() {
+            return items;
+        }
+
+        public void setItems(int items) {
+            this.items = items;
+        }
+
+        public int getMoney() {
+            return money;
+        }
+
+        public void setMoney(int money) {
+            this.money = money;
+        }
+
+        public String getResult() {
+            return result;
+        }
+
+        public void setResult(String result) {
+            this.result = result;
+        }
     }
 
     public static enum ActivityResult {

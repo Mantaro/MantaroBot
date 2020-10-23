@@ -137,7 +137,8 @@ public class MessageCmds {
                         messageHistory -> {
                             String prefix = MantaroData.db().getGuild(ctx.getGuild()).getData().getGuildCustomPrefix();
                             getMessageHistory(ctx, messageHistory, "commands.prune.bots_no_messages",
-                                    message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
+                                    message -> message.getAuthor().isBot() ||
+                                            message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
                         }, error -> {
                             ctx.sendLocalized("commands.prune.error_retrieving",
                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()

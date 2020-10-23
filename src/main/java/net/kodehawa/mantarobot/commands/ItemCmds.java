@@ -129,7 +129,8 @@ public class ItemCmds {
                         } catch (Exception ignored) { }
 
                         Item castItem = toCast.get();
-                        //This is a good way of getting if it's castable, since implementing an interface wouldn't cut it (some rods aren't castable, for example)
+                        // This is a good way of getting if it's castable,
+                        // since implementing an interface wouldn't cut it (some rods aren't castable, for example)
                         if (!castItem.getItemType().isCastable()) {
                             ctx.sendLocalized("commands.cast.item_not_cast", EmoteReference.ERROR);
                             return;
@@ -284,9 +285,12 @@ public class ItemCmds {
                                 "If you specify the item and the wrench, you can use amount without -amount. " +
                                 "Example: `~>cast \"diamond pickaxe\" \"sparkle wrench\" 10`")
                         .setUsage("`~>cast <item> [wrench] [-amount <amount>]` - Casts the item you provide.")
-                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("wrench", "The wrench name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("amount", "The amount of items you want to cast. Depends on your wrench, maximum of 10.")
+                        .addParameter("item",
+                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("wrench",
+                                "The wrench name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("amount",
+                                "The amount of items you want to cast. Depends on your wrench, maximum of 10.")
                         .build();
             }
         });
@@ -333,8 +337,7 @@ public class ItemCmds {
                     );
                 }
 
-                sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.cast.ls.desc")
-                );
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.cast.ls.desc"));
             }
         });
 
@@ -382,7 +385,8 @@ public class ItemCmds {
                         String itemString = args[0];
                         Item item = ItemHelper.fromAnyNoId(itemString).orElse(null);
                         Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                        Item wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ? ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
+                        Item wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
+                                ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
 
                         if (args.length > 1) {
                             wrench = ItemHelper.fromAnyNoId(args[1]).orElse(null);
@@ -454,7 +458,9 @@ public class ItemCmds {
 
                             int inventoryAmount = playerInventory.getAmount(needed);
                             if (inventoryAmount < amount) {
-                                ctx.sendLocalized("commands.repair.not_enough_items", EmoteReference.ERROR, needed.getName(), amount, inventoryAmount);
+                                ctx.sendLocalized("commands.repair.not_enough_items",
+                                        EmoteReference.ERROR, needed.getName(), amount, inventoryAmount
+                                );
                                 return;
                             }
 
@@ -503,9 +509,11 @@ public class ItemCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Allows you to repair any broken item given you have the necessary elements.\n" +
-                                "Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.\n")
+                                "Repairing requires you to have the necessary materials to cast the item, " +
+                                "and it has a cost of `item value / 3`.\n")
                         .setUsage("`~>repair <item>` - Repairs a broken item.")
-                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameter("item",
+                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .build();
             }
         });
@@ -528,7 +536,11 @@ public class ItemCmds {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.repair.ls.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getMember().getEffectiveName()), null);
+                        .setFooter(
+                                String.format(
+                                        languageContext.get("general.requested_by"), ctx.getMember().getEffectiveName()
+                                ), null
+                        );
 
                 for (Broken item : repairableItems) {
                     //Build recipe explanation
@@ -543,7 +555,11 @@ public class ItemCmds {
                         String[] split = s.split(",");
                         int amount = Integer.parseInt(split[0]);
                         Item needed = ItemHelper.fromId(Integer.parseInt(split[1]));
-                        recipeString.append(amount).append("x ").append(needed.getEmoji()).append(" *").append(needed.getName()).append("*|");
+                        recipeString.append(amount).append("x ")
+                                .append(needed.getEmoji())
+                                .append(" *")
+                                .append(needed.getName())
+                                .append("*|");
                     }
 
                     //End of build recipe explanation
@@ -559,7 +575,7 @@ public class ItemCmds {
                     );
                 }
 
-                sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.repair.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.repair.ls.desc"));
             }
         }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }
@@ -599,7 +615,8 @@ public class ItemCmds {
                         final var itemString = args[0];
                         final var item = ItemHelper.fromAnyNoId(itemString).orElse(null);
                         final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                        var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ? ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
+                        var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
+                                ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
                         var custom = false;
                         if (args.length > 1) {
                             wrench = ItemHelper.fromAnyNoId(args[1]).orElse(null);
@@ -696,9 +713,11 @@ public class ItemCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Salvages an item. Useful when you can't repair it but wanna get something back. The cost is 1/3rd of the item price.")
+                        .setDescription("Salvages an item. Useful when you can't repair it but wanna get something back. " +
+                                "The cost is 1/3rd of the item price.")
                         .setUsage("`~>salvage <item> [wrench]` - Salvages an item.")
-                        .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameter("item",
+                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .addParameterOptional("wrench", "The wrench to use.")
                         .build();
             }
@@ -756,7 +775,7 @@ public class ItemCmds {
                     );
                 }
 
-                sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.salvage.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.salvage.ls.desc"));
             }
         }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }
@@ -796,22 +815,5 @@ public class ItemCmds {
                         .build();
             }
         });
-    }
-
-    private void sendPaginatedEmbed(Context ctx, EmbedBuilder builder, List<List<MessageEmbed.Field>> splitFields, String str) {
-        var languageContext = ctx.getLanguageContext();
-        if (ctx.hasReactionPerms()) {
-            builder.setDescription(
-                    String.format(languageContext.get("general.buy_sell_paged_react"), "\n" + EmoteReference.TALKING + str)
-            );
-
-            DiscordUtils.list(ctx.getEvent(), 45, false, builder, splitFields);
-        } else {
-            builder.setDescription(
-                    String.format(languageContext.get("general.buy_sell_paged_text"), "\n" + EmoteReference.TALKING + str)
-            );
-
-            DiscordUtils.listText(ctx.getEvent(), 45, false, builder, splitFields);
-        }
     }
 }

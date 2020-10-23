@@ -185,7 +185,9 @@ public class CustomCmds {
             }
         });
 
-        customCommand.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
+        customCommand.setPredicate(ctx ->
+                RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)
+        );
 
         //Just so this is in english.
         I18nContext i18nTemp = new I18nContext();
@@ -220,7 +222,8 @@ public class CustomCmds {
                                 (commands.isEmpty() ? languageContext.get("general.dust") :
                                         checkString(commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "))
                                         ))
-                        ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"), commands.size()), ctx.getAuthor().getEffectiveAvatarUrl());
+                        ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"),
+                                commands.size()), ctx.getAuthor().getEffectiveAvatarUrl());
 
                 ctx.send(builder.build());
             }
@@ -302,15 +305,7 @@ public class CustomCmds {
                         .setDescription(languageContext.get("commands.custom.raw.description"))
                         .setFooter(String.format(languageContext.get("commands.custom.raw.amount"), 6, custom.getValues().size()), null);
 
-                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-
-                if (ctx.hasReactionPerms()) {
-                    embed.appendDescription("\n" + String.format(languageContext.get("general.buy_sell_paged_react"), splitFields.size(), ""));
-                    DiscordUtils.list(ctx.getEvent(), 100, false, embed, splitFields);
-                } else {
-                    embed.appendDescription("\n" + String.format(languageContext.get("general.buy_sell_paged_text"), splitFields.size(), ""));
-                    DiscordUtils.listText(ctx.getEvent(), 100, false, embed, splitFields);
-                }
+                DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));
             }
         }).createSubCommandAlias("raw", "rw");
 
@@ -521,10 +516,14 @@ public class CustomCmds {
                 ctx.send(new EmbedBuilder()
                         .setAuthor("Custom Command Information for " + content, null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(
-                                EmoteReference.BLUE_SMALL_MARKER + "**Owner:** " + (member == null ? "Nobody" : member.getUser().getAsTag()) + "\n" +
-                                        EmoteReference.BLUE_SMALL_MARKER + "**Owner ID:** " + (member == null ? "None" : member.getId()) + "\n" +
-                                        EmoteReference.BLUE_SMALL_MARKER + "**NSFW:** " + command.getData().isNsfw() + "\n" +
-                                        EmoteReference.BLUE_SMALL_MARKER + "**Responses:** " + command.getValues().size() + "\n"
+                                EmoteReference.BLUE_SMALL_MARKER +
+                                        "**Owner:** " + (member == null ? "Nobody" : member.getUser().getAsTag()) + "\n" +
+                                        EmoteReference.BLUE_SMALL_MARKER +
+                                        "**Owner ID:** " + (member == null ? "None" : member.getId()) + "\n" +
+                                        EmoteReference.BLUE_SMALL_MARKER +
+                                        "**NSFW:** " + command.getData().isNsfw() + "\n" +
+                                        EmoteReference.BLUE_SMALL_MARKER +
+                                        "**Responses:** " + command.getValues().size() + "\n"
                         )
                         .setThumbnail("https://i.imgur.com/jPL5Lof.png")
                         .build()

@@ -39,14 +39,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
@@ -73,22 +71,24 @@ public class RelationshipCmds {
     private static final long housePrice = 5000;
     private static final long carPrice = 1000;
 
-    private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern offsetRegex =
+            Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
 
-    static Waifu calculateWaifuValue(User user) {
-        final ManagedDatabase db = MantaroData.db();
-        Player waifuPlayer = db.getPlayer(user);
-        PlayerData waifuPlayerData = waifuPlayer.getData();
-        UserData waifuUserData = db.getUser(user).getData();
+    static Waifu calculateWaifuValue(final User user) {
+        final var db = MantaroData.db();
+        var waifuPlayer = db.getPlayer(user);
+        var waifuPlayerData = waifuPlayer.getData();
+        var waifuUserData = db.getUser(user).getData();
 
-        long waifuValue = WAIFU_BASE_VALUE;
+        var waifuValue = WAIFU_BASE_VALUE;
         long performance;
-        //For every 135000 money owned, it increases by 7% base value (base: 1300)
-        //For every 3 badges, it increases by 17% base value.
-        //For every 2780 experience, the value increases by 18% of the base value.
-        //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
-        //For every 3 waifu claims, the final value increases by 5% of the base value.
-        //Maximum waifu value is Integer.MAX_VALUE.
+        // For every 135000 money owned, it increases by 7% base value (base: 1300)
+        // For every 3 badges, it increases by 17% base value.
+        // For every 2780 experience, the value increases by 18% of the base value.
+        // After all those calculations are complete,
+        // the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
+        // For every 3 waifu claims, the final value increases by 5% of the base value.
+        // Maximum waifu value is Integer.MAX_VALUE.
 
         //Money calculation.
         long moneyValue = Math.round(Math.max(1, (int) (waifuPlayer.getCurrentMoney() / 135000)) * calculatePercentage(6));
@@ -102,21 +102,24 @@ public class RelationshipCmds {
         //"final" value
         waifuValue += moneyValue + badgeValue + experienceValue + claimValue;
 
-        //what is this lol
-        //After all those calculations are complete, the value then is calculated using final * (reputation scale / 20) where reputation scale goes up by 1 every 10 reputation points.
-        //At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
-        //to implement later: Reputation scaling is capped at 3.9k. Then at 6.5k the multiplier is applied.
-        long reputation = waifuPlayer.getReputation();
-        double reputationScaling = (reputation / 4.5) / 30;
-        long finalValue = (long) (
+        // what is this lol
+        // After all those calculations are complete, the value then is calculated using final *
+        // (reputation scale / 20) where reputation scale goes up by 1 every 10 reputation points.
+        // At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
+        // to implement later: Reputation scaling is capped at 3.9k. Then at 6.5k the multiplier is applied.
+        var reputation = waifuPlayer.getReputation();
+        var reputationScaling = (reputation / 4.5) / 30;
+        var finalValue = (long) (
                 Math.min (
                         Integer.MAX_VALUE,
                         (waifuValue * (reputationScaling > 1 ? reputationScaling : 1) * (reputation > 6500 ? 1.1 : 1))
                 )
         );
 
-        int divide = (int) (moneyValue / 1300);
-        performance = ((waifuValue - (WAIFU_BASE_VALUE + 450)) + (long) ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
+        var divide = (int) (moneyValue / 1300);
+        performance = ((waifuValue - (WAIFU_BASE_VALUE + 450)) + (long)
+                ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
+
         //possible?
         if (performance < 0)
             performance = 0;
@@ -143,24 +146,30 @@ public class RelationshipCmds {
                             return;
                         }
 
-                        //MARRIAGE SYSTEM EXPLANATION.
-                        //UserData stores marriage UUID, Marriages table on rethink stores the Marriage document based on the UUID assigned.
-                        //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
-                        //Scrapping a marriage is easy, just remove the document from the db and reset marriageId field on the User.
-                        //A marriage IS only between 2 people, but a waifu system will be implemented down the road (waifus field in UserData being a List of User)
-                        //To check whether the person is married to the person proposing to, we can check if their Marriage ID is the same instead of all this bullshit.
-                        //If the marriageId field exists but it's missing the document on the marriages db, we can scrape that as non existent (race condition?)
-                        //Already-married people will just be checked whether the getMarriage is not null on UserData (that redirects to the db call to get the Marriage object,
-                        //not only the id.
-                        //Person proposing NEEDS 2 rings and them deducted from their inventory. A love letter can be randomly dropped.
-                        //After the love letter is dropped, the proposing person can write on it and transfer the written letter to their loved one, as a read-only receipt that
-                        //will be scrapped completely after the marriage ends.
-                        //Marriage date will be saved as Instant.now().toEpochMilli().
-                        //A denied marriage will give the denied badge, a successful one will give the married badge.
-                        //A successfully delivered love letter will give you the lover badge.
-                        //CANNOT marry bots, yourself, people already married, if you're married.
-                        //Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
-                        //If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
+                        // MARRIAGE SYSTEM EXPLANATION.
+                        // UserData stores marriage UUID, Marriages table on rethink stores the Marriage document based on the UUID assigned.
+                        // Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
+                        // Scrapping a marriage is easy, just remove the document from the db and reset marriageId field on the User.
+                        // A marriage IS only between 2 people,
+                        // but a waifu system will be implemented down the road (waifus field in UserData being a List of User)
+                        // To check whether the person is married to the person proposing to,
+                        // we can check if their Marriage ID is the same instead of all this bullshit.
+                        // If the marriageId field exists but it's missing the document on the marriages db,
+                        // we can scrape that as non existent (race condition?)
+                        // Already-married people will just be checked whether the getMarriage is not null on UserData
+                        // (that redirects to the db call to get the Marriage object,
+                        // not only the id.
+                        // Person proposing NEEDS 2 rings and them deducted from their inventory.
+                        // A love letter can be randomly dropped.
+                        // After the love letter is dropped, the proposing person can write on it and
+                        // transfer the written letter to their loved one, as a read-only receipt that
+                        // will be scrapped completely after the marriage ends.
+                        // Marriage date will be saved as Instant.now().toEpochMilli().
+                        // A denied marriage will give the denied badge, a successful one will give the married badge.
+                        // A successfully delivered love letter will give you the lover badge.
+                        // CANNOT marry bots, yourself, people already married, if you're married.
+                        // Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
+                        // If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
 
                         //We don't need to change those. I sure fucking hope we don't.
                         final DBGuild dbGuild = ctx.getDBGuild();
@@ -197,7 +206,8 @@ public class RelationshipCmds {
                         }
 
                         //Already married to the same person you're proposing to.
-                        if ((proposingMarriage != null && proposedToMarriage != null) && proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
+                        if ((proposingMarriage != null && proposedToMarriage != null) &&
+                                proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
                             ctx.sendLocalized("commands.marry.already_married_receipt", EmoteReference.ERROR);
                             return;
                         }
@@ -246,11 +256,13 @@ public class RelationshipCmds {
 
                             //Lovely~ <3
                             if (message.equalsIgnoreCase("yes")) {
-                                //Here we NEED to get the Player,
-                                //User and Marriage objects once again to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
-                                //We need to check if the marriage is empty once again before continuing, also if we have enough rings!
-                                //USE THOSE VARIABLES TO MODIFY DATA, NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
-                                //Else we end up with really annoying to debug bugs, lol.
+                                // Here we NEED to get the Player,
+                                // User and Marriage objects once again
+                                // to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
+                                // We need to check if the marriage is empty once again before continuing, also if we have enough rings!
+                                // USE THOSE VARIABLES TO MODIFY DATA,
+                                // NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
+                                // Else we end up with really annoying to debug bugs, lol.
                                 Player proposingPlayer = ctx.getPlayer(proposingUser);
                                 Player proposedToPlayer = ctx.getPlayer(proposedToUser);
                                 DBUser proposingUserDB = ctx.getDBUser(proposingUser);
@@ -292,7 +304,8 @@ public class RelationshipCmds {
 
                                 // ---------------- START OF MARRIAGE ASSIGNMENT ----------------
                                 final long marriageCreationMillis = Instant.now().toEpochMilli();
-                                //Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
+                                // Onto the UUID we need to encode userId + timestamp of
+                                // the proposing player and the proposed to player after the acceptance is done.
                                 String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
 
                                 //Make and save the new marriage object.
@@ -354,7 +367,8 @@ public class RelationshipCmds {
                         .setUsage("`~>marry <@mention>` - Propose to someone\n" +
                                 "`~>marry <command>`")
                         .addParameter("@mention", "The person to propose to")
-                        .addParameter("command", "The subcommand you can use. Check the subcommands section for a list and usage of each.")
+                        .addParameter("command",
+                                "The subcommand you can use. Check the subcommands section for a list and usage of each.")
                         .build();
             }
         });
@@ -377,7 +391,9 @@ public class RelationshipCmds {
                 if (playerInventory.containsItem(ItemReference.LOVE_LETTER)) {
                     final Marriage currentMarriage = dbUser.getData().getMarriage();
 
-                    //Check if the user is married, is the proposed player, there's no love letter and that the love letter is less than 1500 characters long.
+                    // Check if the user is married,
+                    // is the proposed player, there's no love letter and
+                    // that the love letter is less than 1500 characters long.
                     if (currentMarriage == null) {
                         ctx.sendLocalized("commands.marry.loveletter.no_marriage", EmoteReference.SAD);
                         return;
@@ -409,7 +425,8 @@ public class RelationshipCmds {
                     String finalContent = Utils.DISCORD_INVITE.matcher(content).replaceAll("-invite link-");
                     finalContent = Utils.DISCORD_INVITE_2.matcher(finalContent).replaceAll("-invite link-");
 
-                    ctx.sendStrippedLocalized("commands.marry.loveletter.confirmation", EmoteReference.TALKING, marriedTo.getName(),
+                    ctx.sendStrippedLocalized("commands.marry.loveletter.confirmation",
+                            EmoteReference.TALKING, marriedTo.getName(),
                             marriedTo.getDiscriminator(), finalContent
                     );
 
@@ -723,7 +740,9 @@ public class RelationshipCmds {
                 I18nContext languageContext = ctx.getLanguageContext();
                 DBUser marriedDBUser = ctx.getDBUser(marriedTo);
 
-                LocalDateTime marriageDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault());
+                LocalDateTime marriageDate = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault()
+                );
                 String dateFormat = marriageDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                         .withLocale(Utils.getLocaleFromLanguage(dbUser.getData().getLang()))
                 );
@@ -873,18 +892,22 @@ public class RelationshipCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {
-                        //IMPLEMENTATION NOTES FOR THE WAIFU SYSTEM
-                        //You get 3 free slots to put "waifus" in. Each extra slot (up to 9) costs exponentially more than the last one (2x more than the costs of the last one)
-                        //Every waifu has a "claim" price which increases in the following situations:
-                        //For every 100000 money owned, it increases by 3% base value (base: 1500)
-                        //For every 10 badges, it increases by 20% base value.
-                        //For every 1000 experience, the value increases by 20% of the base value.
-                        //After all those calculations are complete, the value then is calculated using final * (reputation scale / 10) where reputation scale goes up by 1 every 10 reputation points.
-                        //Maximum waifu value is Integer.MAX_VALUE.
-                        //Having a common waifu with your married partner will increase some marriage stats.
-                        //If you claim a waifu, and then your waifu claims you, that will unlock the "Mutual" achievement.
-                        //If the waifu status is mutual, the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
-                        //waifu will receive.
+                        // IMPLEMENTATION NOTES FOR THE WAIFU SYSTEM
+                        // You get 3 free slots to put "waifus" in.
+                        // Each extra slot (up to 9) costs exponentially more than the last one (2x more than the costs of the last one)
+                        // Every waifu has a "claim" price which increases in the following situations:
+                        // For every 100000 money owned, it increases by 3% base value (base: 1500)
+                        // For every 10 badges, it increases by 20% base value.
+                        // For every 1000 experience, the value increases by 20% of the base value.
+                        // After all those calculations are complete,
+                        // the value then is calculated using final * (reputation scale / 10)
+                        // where reputation scale goes up by 1 every 10 reputation points.
+                        // Maximum waifu value is Integer.MAX_VALUE.
+                        // Having a common waifu with your married partner will increase some marriage stats.
+                        // If you claim a waifu, and then your waifu claims you, that will unlock the "Mutual" achievement.
+                        // If the waifu status is mutual,
+                        // the MP game boost will go up by 20% and giving your daily to that waifu will increase the amount of money that your
+                        // waifu will receive.
 
                         Map<String, String> opts = ctx.getOptionalArguments();
 
@@ -906,7 +929,10 @@ public class RelationshipCmds {
                                 .setAuthor(languageContext.get("commands.waifu.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                                 .setThumbnail("https://i.imgur.com/2JlMtCe.png")
                                 .setColor(Color.CYAN)
-                                .setFooter(String.format(languageContext.get("commands.waifu.footer"), userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()), null);
+                                .setFooter(String.format(languageContext.get("commands.waifu.footer"),
+                                        userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()),
+                                        null
+                                );
 
                         if (userData.getWaifus().isEmpty()) {
                             waifusEmbed.setDescription(description);
@@ -922,7 +948,8 @@ public class RelationshipCmds {
                             //This fixes the issue of cross-node waifus not appearing.
                             User user = ctx.retrieveUserById(waifu);
                             if (user == null) {
-                                fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
+                                fields.add(new MessageEmbed.Field(
+                                        EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
                                         languageContext.get("commands.waifu.value_format") + " unknown\n" +
                                                 languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
                                                 languageContext.get("commands.waifu.credits_format"), false)
@@ -934,9 +961,12 @@ public class RelationshipCmds {
                                     continue;
                                 }
 
-                                fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + user.getName() + (!userData.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
+                                fields.add(new MessageEmbed.Field(
+                                        EmoteReference.BLUE_SMALL_MARKER + user.getName() +
+                                                (!userData.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
                                         (id ? languageContext.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
-                                                languageContext.get("commands.waifu.value_format") + " " + calculateWaifuValue(user).getFinalValue() + " " +
+                                                languageContext.get("commands.waifu.value_format") + " " +
+                                                calculateWaifuValue(user).getFinalValue() + " " +
                                                 languageContext.get("commands.waifu.credits_format") + "\n" +
                                                 languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
                                                 languageContext.get("commands.waifu.credits_format"), false)
@@ -944,24 +974,8 @@ public class RelationshipCmds {
                             }
                         }
 
-                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-                        boolean hasReactionPerms = ctx.hasReactionPerms();
-
-                        if (hasReactionPerms) {
-                            waifusEmbed.setDescription(
-                                    languageContext.get("general.arrow_react") + "\n" +
-                                            String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description
-                            );
-
-                            DiscordUtils.list(ctx.getEvent(), 60, false, waifusEmbed, splitFields);
-                        } else {
-                            waifusEmbed.setDescription(
-                                    languageContext.get("general.text_menu") + "\n" +
-                                            String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description
-                            );
-
-                            DiscordUtils.listText(ctx.getEvent(), 60, false, waifusEmbed, splitFields);
-                        }
+                        var toSend = String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description;
+                        DiscordUtils.sendPaginatedEmbed(ctx, waifusEmbed, DiscordUtils.divideFields(4, fields), toSend);
 
                         if(!toRemove.isEmpty()) {
                             for(String remove : toRemove) {
@@ -980,7 +994,8 @@ public class RelationshipCmds {
                         .setDescription("This command is the hub for all waifu operations. Yeah, it's all fiction.")
                         .setUsage("`~>waifu` - Shows a list of all your waifus and their current value.\n" +
                                 "`~>waifu [command] [@user]`")
-                        .addParameterOptional("command", "The subcommand to use. Check the sub-command section for more information on which ones you can use.")
+                        .addParameterOptional("command", "The subcommand to use." +
+                                " Check the sub-command section for more information on which ones you can use.")
                         .addParameterOptional("@user", "The user you want to do the action with.")
                         .addParameterOptional("-id", "Shows the user id.")
                         .build();

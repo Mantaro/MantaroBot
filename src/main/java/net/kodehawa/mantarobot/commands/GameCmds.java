@@ -118,7 +118,9 @@ public class GameCmds {
             }
         }));
 
-        gameCommand.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
+        gameCommand.setPredicate(ctx ->
+                RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)
+        );
 
         //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
@@ -341,10 +343,12 @@ public class GameCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Starts an instance of trivia. You have 10 attempts and 60 seconds to answer, otherwise the game ends.")
+                        .setDescription("Starts an instance of trivia. " +
+                                "You have 10 attempts and 60 seconds to answer, otherwise the game ends.")
                         .setUsage("`~>trivia [@user] [difficulty]` - Starts a new game of trivia")
                         .addParameterOptional("@user", "Whoever you want to play trivia with.")
-                        .addParameterOptional("difficulty", "The difficulty of the game, it can be easy, medium or hard.")
+                        .addParameterOptional("difficulty",
+                                "The difficulty of the game, it can be easy, medium or hard.")
                         .build();
             }
         });
@@ -408,7 +412,8 @@ public class GameCmds {
         if (GameLobby.LOBBYS.containsKey(ctx.getChannel().getIdLong())) {
             DBGuild dbGuild = MantaroData.db().getGuild(ctx.getGuild());
 
-            if (dbGuild.getData().getGameTimeoutExpectedAt() != null && (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
+            if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
+                    (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
                 ctx.sendLocalized("commands.game.game_timeout_drop", EmoteReference.ERROR);
                 return false;
             } else {

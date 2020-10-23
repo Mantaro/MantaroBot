@@ -114,42 +114,36 @@ public class CurrencyActionCmds {
                     return;
 
                 long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
-
-                // Add money buff to higher pickaxes.
-                // TODO: Do this automatically? (we do it on fish)
-                if (item == ItemReference.STAR_PICKAXE || item == ItemReference.COMET_PICKAXE)
-                    money += random.nextInt(100);
-                if (item == ItemReference.SPARKLE_PICKAXE)
-                    money += random.nextInt(300);
-                if (item == ItemReference.HELLFIRE_PICK)
-                    money += random.nextInt(900);
+                money += item.getMoneyIncrease();
 
                 boolean waifuHelp = false;
-                if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+                if (ItemHelper.handleEffect(
+                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                     if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                         money += Math.max(45, random.nextInt(200));
                         waifuHelp = true;
                     }
                 }
 
-                String reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ? languageContext.get("commands.mine.reminder") : "";
+                String reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
+                        languageContext.get("commands.mine.reminder") : "";
+
                 String message = String.format(languageContext.get("commands.mine.success") + reminder, item.getEmoji(), money, item.getName());
 
-                boolean hasPotion = ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
+                boolean hasPotion = ItemHelper.handleEffect(
+                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
+                );
                 boolean petHelp = false;
 
-                if(marriage != null) {
+                if(marriage != null && marriage.getData().getPet() != null) {
                     HousePet pet = marriage.getData().getPet();
                     if(pet != null) {
-                        HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CATCH, marriage.getData().getTimezone());
-                        if(ability.passed()) {
+                        HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext);
+                        money += rewards.getMoney();
+                        message += rewards.getResult();
+
+                        if(rewards.getMoney() > 0)
                             petHelp = true;
-                            var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
-                            money += moneyIncrease;
-                            message += "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, 0);
-                        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                            message += "\n" + pet.buildMessage(ability, languageContext, 0, 0);
-                        }
                     }
                 }
 
@@ -206,7 +200,8 @@ public class CurrencyActionCmds {
 
                 //Sparkle find
                 if ((random.nextInt(400) > 395 && item == ItemReference.COMET_PICKAXE) ||
-                        (random.nextInt(400) > 390 && (item == ItemReference.STAR_PICKAXE || item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
+                        (random.nextInt(400) > 390 && (item == ItemReference.STAR_PICKAXE ||
+                        item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
                     Item gem = ItemReference.SPARKLE_FRAGMENT;
                     if (inventory.getAmount(gem) + 1 >= 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
@@ -349,26 +344,21 @@ public class CurrencyActionCmds {
                     RandomCollection<Item> fishItems = new RandomCollection<>();
 
                     int money = 0;
-                    boolean buff = ItemHelper.handleEffect(PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), ItemReference.FISHING_BAIT, dbUser);
+                    boolean buff = ItemHelper.handleEffect(
+                            PlayerEquipment.EquipmentType.BUFF, dbUser.getData().getEquippedItems(), ItemReference.FISHING_BAIT, dbUser);
                     int amount = buff ? Math.max(1, random.nextInt(item.getLevel() + 4)) : Math.max(1, random.nextInt(item.getLevel()));
                     if (nominalLevel >= 2)
                         amount += random.nextInt(4);
 
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
-                    if(marriage != null) {
+                    if(marriage != null && marriage.getData().getPet() != null) {
                         HousePet pet = marriage.getData().getPet();
                         if(pet != null) {
-                            HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.FISH, marriage.getData().getTimezone());
-                            if(ability.passed()) {
-                                var amountIncrease = pet.getType().getMaxItemBuildup(pet.getLevel());
-                                amount += amountIncrease;
-                                var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
-                                money += moneyIncrease;
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, amountIncrease);
-                            } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, 0, 0);
-                            }
+                            HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
+                            amount += rewards.getItems();
+                            money += rewards.getMoney();
+                            extraMessage += rewards.getResult();
                         }
                     }
 
@@ -378,7 +368,8 @@ public class CurrencyActionCmds {
 
                     //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
-                    if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+                    if (ItemHelper.handleEffect(
+                            PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                         if (dbUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
                             money += Math.max(10, random.nextInt(100));
                             waifuHelp = true;
@@ -408,7 +399,8 @@ public class CurrencyActionCmds {
                         }
 
                         playerInventory.process(new ItemStack(ItemReference.SHARK, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.shark_success"), ItemReference.SHARK.getEmoji());
+                        extraMessage += "\n" + EmoteReference.MEGA +
+                                String.format(languageContext.get("commands.fish.shark_success"), ItemReference.SHARK.getEmoji());
                         player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
                     }
 
@@ -451,7 +443,8 @@ public class CurrencyActionCmds {
 
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(languageContext.get("commands.fish.fossil_success"), ItemReference.SHELL.getEmoji());
+                        extraMessage += "\n" + EmoteReference.MEGA +
+                                String.format(languageContext.get("commands.fish.fossil_success"), ItemReference.SHELL.getEmoji());
                     }
 
 
@@ -558,7 +551,8 @@ public class CurrencyActionCmds {
                     return;
 
                 var chance = random.nextInt(100);
-                var hasPotion = ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
+                var hasPotion = ItemHelper.handleEffect(
+                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
                 if(hasPotion)
                     chance += 10;
 
@@ -573,35 +567,20 @@ public class CurrencyActionCmds {
                 } else {
                     var money = chance > 50 ? random.nextInt(100) : 0;
                     var amount = random.nextInt(8);
+                    money += item.getMoneyIncrease();
 
-                    if(marriage != null) {
+                    if(marriage != null && marriage.getData().getPet() != null) {
                         HousePet pet = marriage.getData().getPet();
                         if(pet != null) {
-                            HousePet.ActivityResult ability = pet.handleAbility(HousePetType.HousePetAbility.CHOP, marriage.getData().getTimezone());
-                            if(ability.passed()) {
-                                var amountIncrease = pet.getType().getMaxItemBuildup(pet.getLevel());
-                                amount += amountIncrease;
-                                var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
-                                money += moneyIncrease;
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, amountIncrease);
-                            } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
-                                extraMessage += "\n" + pet.buildMessage(ability, languageContext, 0, 0);
-                            }
+                            HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
+                            amount += rewards.getItems();
+                            money += rewards.getMoney();
+                            extraMessage += rewards.getResult();
                         }
                     }
 
                     if(hasPotion)
                         amount += 3;
-
-                    // Add money buff to higher axes.
-                    // TODO: Do this automatically? (we do it on fish)
-                    if (item == ItemReference.STAR_AXE || item == ItemReference.COMET_AXE)
-                        money += random.nextInt(100);
-                    if (item == ItemReference.SPARKLE_AXE)
-                        money += random.nextInt(300);
-                    if (item == ItemReference.HELLFIRE_AXE)
-                        money += random.nextInt(900);
-
 
                     // ---- Start of drop handling.
                     RandomCollection<Item> items = new RandomCollection<>();
@@ -684,6 +663,22 @@ public class CurrencyActionCmds {
                         .build();
             }
         });
+    }
+
+    private HousePet.ActivityReward handlePetBuff(HousePet pet, HousePetType.HousePetAbility required, I18nContext languageContext) {
+        HousePet.ActivityResult ability = pet.handleAbility(required);
+        if(ability.passed()) {
+            var amountIncrease = random.nextInt(pet.getType().getMaxItemBuildup(pet.getLevel()));
+            var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
+            var message = "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, amountIncrease);
+
+            return new HousePet.ActivityReward(amountIncrease, moneyIncrease, message);
+        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+            var message = "\n" + pet.buildMessage(ability, languageContext, 0, 0);
+            return new HousePet.ActivityReward(0, 0, message);
+        }
+
+        return new HousePet.ActivityReward(0, 0, "");
     }
 
     private List<Item> handleChopDrop() {

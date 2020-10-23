@@ -405,21 +405,11 @@ public class PlayerCmds {
                                 return;
                             }
 
-                            List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
-                            boolean hasReactionPerms = ctx.hasReactionPerms();
-
-                            embed.setFooter(languageContext.get("commands.badges.footer"), null);
-
                             String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
                                     ((r.nextInt(2) == 0 && !dbUser.isPremium() ? languageContext.get("commands.badges.donate_notice") : "\n") +
                                             String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
-                            if (hasReactionPerms) {
-                                embed.setDescription(languageContext.get("general.arrow_react") + "\n" + common);
-                                DiscordUtils.list(ctx.getEvent(), 60, false, embed, splitFields);
-                            } else {
-                                embed.setDescription(languageContext.get("general.text_menu") + "\n" + common);
-                                DiscordUtils.listText(ctx.getEvent(), 60, false, embed, splitFields);
-                            }
+
+                            DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields), common);
                         });
                     }
                 };

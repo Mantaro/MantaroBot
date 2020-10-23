@@ -88,7 +88,7 @@ public class ItemReference {
 
             BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.19f, "\u26cf",
                     "Brom's Pickaxe", "items.pick", "items.description.pick",
-                    100, true, 40
+                    100, true, 40, 0
             ),
 
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(),
@@ -331,7 +331,7 @@ public class ItemReference {
                     1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(),
                     "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick",
                     100, true, false,
-                    "1;3;7", 150, 10, 18, 101
+                    "1;3;7", 150, 40, 10, 18, 101
             ),
 
             TELEVISION = new Item(ItemType.COMMON, "\uD83D\uDCFA",
@@ -354,14 +354,14 @@ public class ItemReference {
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 160, 10, 48, 101
+                    "1;2;7", 160, 100, 10, 48, 101
             ),
 
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f,
                     1, 10, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
                     350, true, false,
-                    "1;2;7", 210, 10, 49, 101
+                    "1;2;7", 210, 100,10, 49, 101
             ),
 
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55",
@@ -590,54 +590,54 @@ public class ItemReference {
                     3, 7, EmoteReference.MOON_PICK.getDiscordNotation(),
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
                     1000, true, false,
-                    "1;3;2;5;10", 320, 10, 83, 18, 76, 101
+                    "1;3;2;5;10", 320, 130,10, 83, 18, 76, 101
             ),
 
             HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK_NODROP, 0.00001f,
                     3, 1, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
                     "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick",
                     15000, true, false,
-                    "450;1;175;1;175;1;55;1;50;50", 3000, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76
+                    "450;1;175;1;175;1;55;1;50;50", 3000, 900,18, 57, 48, 61, 49, 62, 74, 73, 101, 76
             ),
 
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93",
                     "Axe", "items.axe", "items.description.axe",
-                    100, true, 35
+                    100, true, 35, 0
             ),
 
             COMET_AXE = new Axe(ItemType.CHOP_AXE, 0.13f,
                     1, 10, EmoteReference.COMET_AXE.getDiscordNotation(),
                     "Comet Axe", "items.comet_axe", "items.description.comet_axe",
                     290, true, false,
-                    "1;3;8", 170, 104, 48, 101
+                    "1;3;8", 170, 100, 104, 48, 101
             ),
 
             STAR_AXE = new Axe(ItemType.CHOP_AXE, 0.09f,
                     1, 10, EmoteReference.STAR_AXE.getDiscordNotation(),
                     "Star Axe", "items.star_axe", "items.description.star_axe",
                     350, true, false,
-                    "1;3;7", 220, 104, 49, 101
+                    "1;3;7", 220, 100, 104, 49, 101
             ),
 
             SPARKLE_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.04f,
                     3, 5, EmoteReference.SPARKLE_AXE.getDiscordNotation(),
                     "Sparkle Axe", "items.sparkle_axe", "items.description.sparkle_axe",
                     1200, true, false,
-                    "1;3;2;8", 500, 104, 74, 18, 101
+                    "1;3;2;8", 500, 300, 104, 74, 18, 101
             ),
 
             MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f,
                     3, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
                     "Moon Axe", "items.moon_axe", "items.description.moon_axe",
                     1000, true, false,
-                    "1;3;2;10", 330, 104, 83, 18, 101
+                    "1;3;2;10", 330, 130, 104, 83, 18, 101
             ),
 
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE_NODROP, 0.00001f,
                     3, 1, EmoteReference.HELLFIRE_AXE.getDiscordNotation(),
                     "Hellfire Axe", "items.hellfire_axe", "items.description.hellfire_axe",
                     15000, true, false,
-                    "450;175;1;175;1;55;1;50;50", 3100, 18, 48, 105, 49, 106, 74, 107, 101, 76
+                    "450;175;1;175;1;55;1;50;50", 3100, 900, 18, 48, 105, 49, 106, 74, 107, 101, 76
             ),
 
             MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3,

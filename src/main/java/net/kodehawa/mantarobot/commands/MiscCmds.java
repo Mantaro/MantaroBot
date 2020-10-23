@@ -254,12 +254,7 @@ public class MiscCmds {
                         }
                     });
 
-                    List<List<MessageEmbed.Field>> parts = DiscordUtils.divideFields(6, fields);
-                    if (ctx.hasReactionPerms()) {
-                        DiscordUtils.list(ctx.getEvent(), 100, false, embed, parts);
-                    } else {
-                        DiscordUtils.listText(ctx.getEvent(), 100, false, embed, parts);
-                    }
+                    DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));
                 } else {
                     embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
                             .setThumbnail(ctx.getGuild().getIconUrl())

@@ -464,12 +464,16 @@ public class LeaderboardCmd {
                 .toList();
     }
 
-    private EmbedBuilder generateLeaderboardEmbed(Context ctx, String description, String leaderboardKey, List<Map<String, Object>> lb, Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction, String format, boolean isSeasonal) {
+    private EmbedBuilder generateLeaderboardEmbed(Context ctx, String description, String leaderboardKey,
+                                                  List<Map<String, Object>> lb,
+                                                  Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
+                                                  String format, boolean isSeasonal) {
         I18nContext languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(isSeasonal ?
                         String.format(languageContext.get("commands.leaderboard.header_seasonal"),
-                        config.getCurrentSeason().getDisplay()) : languageContext.get("commands.leaderboard.header"), null, ctx.getSelfUser().getEffectiveAvatarUrl()
+                        config.getCurrentSeason().getDisplay()) : languageContext.get("commands.leaderboard.header"),
+                        null, ctx.getSelfUser().getEffectiveAvatarUrl()
                 ).setDescription(description)
                 .addField(languageContext.get(leaderboardKey), lb.stream()
                         .map(mapFunction)
@@ -496,13 +500,15 @@ public class LeaderboardCmd {
      * The key will expire after 48 hours in the set, then we will just re-cache it as needed.
      * This should also take care of username changes.
      *
-     * This value is saved in Redis so it can be used cross-node. This also fixes leaderboards being incomplete in some nodes.
+     * This value is saved in Redis so it can be used cross-node.
+     * This also fixes leaderboards being incomplete in some nodes.
      *
-     * This method is necessary to avoid calling Discord every single time we call a leaderboard, since this might create hundreds of API requests
-     * in a few seconds, causing some nice 429s.
+     * This method is necessary to avoid calling Discord every single time we call a leaderboard,
+     * since this might create hundreds of API requests in a few seconds, causing some nice 429s.
      *
      * @param id The id of the user.
-     * @return A instance of CachedLeaderboardMember. This can either be retrieved from Redis or cached on the spot if the cache didn't exist for it.
+     * @return A instance of CachedLeaderboardMember.
+     * This can either be retrieved from Redis or cached on the spot if the cache didn't exist for it.
      */
     private CachedLeaderboardMember getMember(Context ctx, String id) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
@@ -529,7 +535,9 @@ public class LeaderboardCmd {
                     return null;
                 }
 
-                CachedLeaderboardMember cached = new CachedLeaderboardMember(user.getIdLong(), user.getName(), user.getDiscriminator(), System.currentTimeMillis());
+                CachedLeaderboardMember cached = new CachedLeaderboardMember(
+                        user.getIdLong(), user.getName(), user.getDiscriminator(), System.currentTimeMillis()
+                );
                 jedis.set(savedTo, JsonDataManager.toJson(cached));
 
                 // Set the value to expire in 48 hours.

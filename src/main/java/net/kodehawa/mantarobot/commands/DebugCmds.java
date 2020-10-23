@@ -109,7 +109,12 @@ public class DebugCmds {
 
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
-                        + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
+                        + "Commands: " +
+                        CommandProcessor.REGISTRY.commands()
+                                .values()
+                                .stream()
+                                .filter(command -> command.category() != null)
+                                .count() + "\n"
                         + "Bot Version: " + MantaroInfo.VERSION + " [" + MantaroInfo.GIT_REVISION + "]\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
@@ -126,7 +131,10 @@ public class DebugCmds {
                         + "Executed Commands: " + String.format("%,d", totalCommandCount) + "\n"
                         + "Music Players: " + players + "\n"
                         + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
-                        + "Memory: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory()) + " (Total: " +  Utils.formatMemoryAmount(totalMemory) + ")\n"
+                        + "Memory: " +
+                        Utils.formatMemoryAmount(
+                                getTotalMemory() - getFreeMemory()) + " (Total: " +  Utils.formatMemoryAmount(totalMemory)
+                        + ")\n"
                         + "Queue Size: " + String.format("%,d", queueSize)
                         + "```"
                 );
@@ -251,7 +259,8 @@ public class DebugCmds {
                 List<String> messages = new LinkedList<>();
 
                 for (String s1 : m)
-                    messages.add(String.format("%s\n```prolog\n%s```", "**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
+                    messages.add(String.format("%s\n```prolog\n%s```",
+                            "**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
 
                 DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
             }

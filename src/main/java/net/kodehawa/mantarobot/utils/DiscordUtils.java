@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -516,6 +517,32 @@ public class DiscordUtils {
 
     public static List<String> divideString(StringBuilder builder) {
         return divideString(1750, builder);
+    }
+
+    public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,
+                                          List<List<MessageEmbed.Field>> splitFields, final String str) {
+        final var languageContext = ctx.getLanguageContext();
+        final var show = "\n" + (str.isEmpty() ? "" : EmoteReference.TALKING + str);
+        final var newLine = builder.getDescriptionBuilder().length() > 0 ? "\n" : "";
+
+        if (ctx.hasReactionPerms()) {
+            builder.appendDescription(
+                    newLine + String.format(languageContext.get("general.buy_sell_paged_react"), show)
+            );
+
+            list(ctx.getEvent(), 45, false, builder, splitFields);
+        } else {
+            builder.appendDescription(
+                    newLine + String.format(languageContext.get("general.buy_sell_paged_text"), show)
+            );
+
+            listText(ctx.getEvent(), 45, false, builder, splitFields);
+        }
+    }
+
+    public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,
+                                          List<List<MessageEmbed.Field>> splitFields) {
+        sendPaginatedEmbed(ctx, builder, splitFields, "");
     }
 
     public static List<List<MessageEmbed.Field>> divideFields(int max, List<MessageEmbed.Field> fields) {

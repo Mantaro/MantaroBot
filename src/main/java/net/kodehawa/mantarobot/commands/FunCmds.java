@@ -102,7 +102,8 @@ public class FunCmds {
                     return;
                 }
 
-                int waifuRate = content.replaceAll("\\s+", " ").replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
+                int waifuRate = content.replaceAll("\\s+", " ")
+                        .replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
 
                 //hehe~
                 if (content.equalsIgnoreCase("mantaro"))
@@ -116,7 +117,8 @@ public class FunCmds {
                 return new HelpContent.Builder()
                         .setDescription("Just rates your waifu from zero to 100. Results may vary.")
                         .setUsage("`~>ratewaifu <@user>` - Rates your waifu.")
-                        .addParameter("@user", "The waifu to rate (results may vary, not dependant on profile waifu score)")
+                        .addParameter("@user",
+                                "The waifu to rate (results may vary, not dependant on profile waifu score)")
                         .build();
             }
         });
@@ -187,8 +189,10 @@ public class FunCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Roll a any-sided dice a 1 or more times. By default, this command will roll a 6-sized dice 1 time.")
-                        .setUsage("`~>roll [times] [-amount <number>] [-size <number>]`: Rolls a dice of the specified size the specified times.\n" +
+                        .setDescription("Roll a any-sided dice a 1 or more times. " +
+                                "By default, this command will roll a 6-sized dice 1 time.")
+                        .setUsage("`~>roll [times] [-amount <number>] [-size <number>]`: " +
+                                "Rolls a dice of the specified size the specified times.\n" +
                                 "D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1` or just `1d20`")
                         .addParameter("-amount", "The amount you want (example: -amount 20)")
                         .addParameter("-size", "The size of the dice (example: -size 7)")
@@ -225,7 +229,9 @@ public class FunCmds {
                     ids[0] = mentioned.get(0).getIdLong();
                     ids[1] = mentioned.get(1).getIdLong();
                     toDisplay = mentioned.stream()
-                            .map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining("\n"));
+                            .map(user -> "\uD83D\uDC97  " + user.getName() + "#" +
+                                    user.getDiscriminator()).collect(Collectors.joining("\n")
+                            );
                 } else {
                     ids[0] = ctx.getAuthor().getIdLong();
                     ids[1] = mentioned.get(0).getIdLong();

@@ -211,7 +211,8 @@ public class Utils {
     }
 
     // Hopefully we never need this, electric boogaloo.
-    public static Member findMemberSyncDefault(GuildMessageReceivedEvent event, Context ctx, Message message, String content, Member member) {
+    public static Member findMemberSyncDefault(GuildMessageReceivedEvent event,
+                                               Context ctx, Message message, String content, Member member) {
         if(content.isEmpty()) {
             return member;
         } else {
@@ -247,7 +248,8 @@ public class Utils {
         return event.getMember().getRoles().get(0);
     }
 
-    public static Role findRoleSelect(GuildMessageReceivedEvent event, String content, Consumer<Role> consumer) {
+    public static Role findRoleSelect(GuildMessageReceivedEvent event,
+                                      String content, Consumer<Role> consumer) {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
             event.getChannel().sendMessage(EmoteReference.ERROR +
@@ -307,7 +309,8 @@ public class Utils {
         return null;
     }
 
-    public static TextChannel findChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<TextChannel> consumer) {
+    public static TextChannel findChannelSelect(GuildMessageReceivedEvent event,
+                                                String content, Consumer<TextChannel> consumer) {
         List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();

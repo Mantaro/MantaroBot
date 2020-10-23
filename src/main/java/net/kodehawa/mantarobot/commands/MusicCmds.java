@@ -89,7 +89,8 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?. `~>skip` has the same effect if you have the DJ role")
+                        .setDescription("Well, administrators should be able to forceskip, shouldn't they?. " +
+                                "`~>skip` has the same effect if you have the DJ role")
                         .build();
             }
         });
@@ -239,7 +240,8 @@ public class MusicCmds {
                                 .getInfo().uri + ")** "
                                 + String.format("`(%s/%s)`",
                                 Utils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : Utils.getDurationMinutes(total))
-                        ).setFooter("Enjoy the music! <3. Use ~>lyrics current to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
+                        ).setFooter("Enjoy the music! <3. " +
+                        "Use ~>lyrics current to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
 
                 ctx.send(npEmbed.build());
                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
