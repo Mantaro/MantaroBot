@@ -722,7 +722,7 @@
       "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para fundir este item. Talvez tentar especificar uma mais poderosa? *Nível da chave inglesa: %2$s, Nível necessário: %3$s*. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sVocê não pode fundir isso tudo de item ao mesmo tempo! Limite: %2$s, Tentativa: %3$s. Uma chave inglesa brilhante faz com que o limite duplique! A menos que você já esteja usando uma.",
       "ls": {
-        "header": "Lista de Item Fundíveis",
+        "header": "Lista de Itens Fundíveis",
         "cost": "Custo da Fusão: ",
         "desc": "Essa é uma lista de itens que você pode fundir usando `~>cast`. Você tem que usar o nome completo ou um nome menor para fundir (exemplo: `~>cast diamond pickaxe` ou `~>cast diamond p` funciona)\n**A Fundição tem um custo da metade do preço do item. O preço da fundição será mostrado abaixo.**.\nChave inglesa tier 2 e 3 são de cometa e brilhante, respectivamente."
       },
@@ -1394,23 +1394,23 @@
       "footer": "Nós esperamos que você se divirta com o bot."
     },
     "salvage": {
-      "no_item": "%1$sVocê tem que especificar o item que quer salvar.",
+      "no_item": "%1$sVocê tem que especificar o item que quer resgatar.",
       "no_item_found": "%1$sEu consegui encontrar o item que você especificou.",
-      "cant_salvage": "%1$sEu não consigo salvar esse item.",
-      "not_wrench": "%1$sVocê precisa de uma chave inglesa pra salvar um item.",
-      "not_enough_level": "%1$sVocê precisa de pelo menos uma chave inglesa de nível 2 pra salvar esse item.",
-      "no_main_item": "%1$sVocê não parece que tem o item que está tentando salvar.",
+      "cant_salvage": "%1$sEu não consigo resgatar esse item.",
+      "not_wrench": "%1$sVocê precisa de uma chave inglesa pra resgatar um item.",
+      "not_enough_level": "%1$sVocê precisa de pelo menos uma chave inglesa de nível 2 pra resgatar esse item.",
+      "no_main_item": "%1$sVocê não parece que tem o item que está tentando resgatar.",
       "no_tool": "%1$sVocê não tem essa chave inglesa. Tente especificar ela, ou especificar outra chave inglesa.",
       "no_tool_default": "%1$sVocê precisa de pelo menos uma Chave Inglesa de Cometa no seu inventário pra fazer isso, mas você pode especificar uma maior se quiser.",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
-      "no_returnables": "%1$sThis item has no returnable salvage elements.",
+      "dust": "%1$sSeu inventário tá muito sujo pra tentar resgatar um item, tente limpar com um esfregão.",
+      "no_returnables": "%1$sEste item não possui elementos resgate retornáveis.",
       "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "success": "%1$sResgatado com sucesso %2$s e você ganhou %3$s de retorno. O custo foi %4$s créditos. %5$s",
       "ls": {
         "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
-        "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "cost": "Custo do Resgatamento: ",
+        "return": "Possível Retorno: ",
+        "desc": "Essa é uma lista de itens que você pode resgatar usando `~>salvage`.\nVocê pode usar o nome inteiro ou um nome curto (exemplo: `~>salvage \"diamond pickaxe\", ou `~>salvage \"diamond p\", funciona)\n**Resgatar possui um custo de 1/3 do preço do item. O preço do resgatamento será mostrado abaixo.**.\nVocê ganha apenas um item listado aqui, escolhido aleatoriamente.\nChave inglesa de tier 2 e 3 são cometa e brilhante, respectivamente."
       }
     },
     "stats": {
@@ -1581,7 +1581,7 @@
       "given_credits": "%1$sEu dei seus **$%2$,d** créditos diários para %3$s",
       "credits": "%1$sVocê ganhou **$%2$s** de créditos diários.",
       "sellout": {
-        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
+        "get_premium": "Nós precisamos da sua ajuda para manter a Mantaro viva! Cheque <https://patreon.com/mantaro> para mais informações. **Você pode obter até o dobro de c'reditos com o Premium!** Memberships começa em apenas $2/mês, o preço de um lanche barato!",
         "already_premium": "Obrigado por apoiar Mantaro. Sem a ajuda de pessoas como você, não poderíamos manter Mantaro vivo :heart:"
       },
       "crate": "Você ganhou um caixote de saque porquê seu combo no diário é um múltiplo de 20! Aprecie.",
@@ -1612,7 +1612,7 @@
         "found_only_item_but_overflow": "%1$sCavando através das mensagens, você encontrou %2$s. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
+        "found": "%1$sCavando atráves das mensagens, você encontrou **$%2$s créditos!**%3$s",
         "found_but_overflow_no_item": "%1$sCavando através das mensagens, você encontrou **$%2$d créditos.** Mas você já tinha muitos créditos, então eu doei o excesso."
       },
       "dust": "Cavando através das mensagens, você não encontrou nada além de poeira (Nível de poeira %1$s%%)",
@@ -1651,14 +1651,14 @@
       "broken_drop": "%1$sSua ferramenta quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure!",
-      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
+      "not_equipped": "%1$sVocê não tem um machado equipado. Use `~>equip <axe name>` para equipar o machado e começar a aventura!",
+      "dust": "%1$sA árvore era muito frágil e você só conseguiu serragem dela (Nível de poeira: %2$d%%)",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+        "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+      "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
+      "success": "%1$sEnquanto cortava as árvores, você encontrou %2$s e **$%3$d créditos** e prossegue para salvar em seu inventário.",
+      "success_money_noitem": "%1$sEnquanto cortava as árvores, você encontrou **$%2$d créditos** e prossegue para salvar em seu bolso."
     },
     "slots": {
       "errors": {
@@ -1669,8 +1669,8 @@
         "below_minimum": "%1$sO valor mínimo é 25 créditos",
         "no_tickets": "%1$sVocê tentou usar tickets mas você não tem nenhum :<",
         "no_amount": "%1$sVocê não especificou a quantidade!",
-        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
+        "no_valid_amount": "%1$sIsso não é uma quantia válida de dinheiro! (Exemplo de quantias válidas: 1000, 1k, 14000)",
+        "too_many_tickets": "%1$sVocê está tentando usar muitos tickets de caça-níquel. Máximo permitido é %2$d"
       },
       "roll": "%1$s**Você usou %2$s e rolou o caça-níquel**\n",
       "win": "E você ganhou **%1$d** créditos e pode ficar com o que você apostou (%2$d créditos)! Sortudo!",
@@ -1694,8 +1694,8 @@
         "experience": "Experiência",
         "game": "%1sEssa página mostra o top 10 de pessoas que ganhou mais jogos.\n\nConfira `~>help game` ou `~>help trivia` para detalhes sobre como os jogos funcionam!",
         "claim": "%1sEssa página mostra o top 10 de pessoas que foram mais reivindicadas como waifu.\n\nConfira `~>help waifu` para detalhes sobre o sistema de waifu.",
-        "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
+        "money_old": "%1$sEssa página mostra as top 10 pessoas mais ricas na Mantaro (antes do reset).\n",
+        "money": "%1$sEssa página mostra as top 10 pessoas mais ricas na Mantaro. Grinding é difícil!",
         "seasonal_money": "%1$sEssa página mostra as top 10 pessoas mais ricas dessa temporada.",
         "rep": "%1sEssa página mostra o top 10 de pessoas com mais reputação.",
         "streak": "%1sEssa página mostra o top 10 de pessoas com os maiores combos diários.\n\nConfira `~>help daily` para mais informarções",
@@ -2130,12 +2130,12 @@
       "reset_success": "%1$sRegistros de mensagem de desbanimento resetado."
     },
     "djrole_set": {
-      "no_role": "%1$sYou need to give me a role to use as the DJ role.",
-      "success": "%1$sSuccessfully set the DJ role to %2$s."
+      "no_role": "%1$sVocê tem que me da um cargo para usar como o cargo de DJ.",
+      "success": "%1$sDefinido com sucesso o cargo de DJ para %2$s."
     },
     "djrole_reset": {
-      "not_set": "%1$sYou have no custom DJ role set.",
-      "success": "%1$sSuccessfully reset the DJ role."
+      "not_set": "%1$sVocê não tem um cargo customizável de DJ definido.",
+      "success": "%1$sResetado com sucesso o cargo de DJ."
     },
     "showdisablewarning": {
       "success": "%1$sAviso de exibição em comandos desativados definido para: %2$s"
@@ -2261,8 +2261,8 @@
     "star_wrench": "Chave Inglesa de Cometa",
     "sparkle_wrench": "Chave Inglesa Brilhante",
     "motorcycle": "Motocicleta",
-    "comet_pick": "Comet Pickaxe",
-    "star_pick": "Star Pickaxe",
+    "comet_pick": "Picareta de Cometa",
+    "star_pick": "Picareta de Estrela",
     "sparkle": "Matéria Brilhante",
     "sparkle_pick": "Picareta Brilhante",
     "pizza": "Pizza",
@@ -2289,20 +2289,20 @@
     "incubator_egg": "Incubadora de Ovo",
     "water_bottle": "Garrafa d'Água",
     "magic_watch": "Relógio Mágico",
-    "pet_house": "Pet House",
-    "steak": "Steak",
-    "chicken": "Chicken",
-    "milk_3": "Milk Bottle",
-    "dog_food": "Dog Food",
-    "cat_food": "Cat Food",
-    "hamster_food": "Hamster Food",
-    "wood": "Wood",
-    "moon_pick": "Moon Pickaxe",
-    "hellfire_pick": "Hellfire Pickaxe",
-    "axe": "Axe",
-    "comet_axe": "Comet Axe",
-    "star_axe": "Star Axe",
-    "sparkle_axe": "Sparkle Axe",
+    "pet_house": "Casa do Pet",
+    "steak": "Bife",
+    "chicken": "Frango",
+    "milk_3": "Garrafa de Leite",
+    "dog_food": "Comida de Cachorro",
+    "cat_food": "Comida de Gato",
+    "hamster_food": "Comida de Hamster",
+    "wood": "Madeira",
+    "moon_pick": "Picareta de Lua",
+    "hellfire_pick": "Picareta de Fogo do Inferno",
+    "axe": "Machado",
+    "comet_axe": "Machado de Cometa",
+    "star_axe": "Machado de Estrela",
+    "sparkle_axe": "Machado Brilhante",
     "moon_axe": "Moon Axe",
     "hellfire_axe": "Hellfire Axe",
     "moon_rod": "Moon Rod",
