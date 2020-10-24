@@ -344,7 +344,7 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
 
                 String[] args = content.split(" ");

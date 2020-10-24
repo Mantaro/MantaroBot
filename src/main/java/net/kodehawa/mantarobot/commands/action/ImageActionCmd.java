@@ -108,7 +108,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
     @Override
     protected void call(Context ctx, String content) {
-        if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null))
+        if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null))
             return;
 
         I18nContext languageContext = ctx.getGuildLanguageContext();

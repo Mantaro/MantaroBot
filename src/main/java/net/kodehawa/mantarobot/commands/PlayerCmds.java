@@ -140,7 +140,7 @@ public class PlayerCmds {
                     }
 
                     //Check for RL.
-                    if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                         return;
 
                     UnifiedPlayer player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());

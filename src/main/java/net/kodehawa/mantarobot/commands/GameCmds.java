@@ -119,7 +119,7 @@ public class GameCmds {
         }));
 
         gameCommand.setPredicate(ctx ->
-                RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)
+                RatelimitUtils.ratelimit(rateLimiter, ctx, null)
         );
 
         //Sub-commands.
@@ -320,7 +320,7 @@ public class GameCmds {
 
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext()))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
 
                 String diff = "";

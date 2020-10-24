@@ -194,34 +194,59 @@ public class InfoCmds {
     }
 
     private void buildHelp(Context ctx, CommandCategory category) {
-        DBGuild dbGuild = ctx.getDBGuild();
-        String defaultPrefix = ctx.getConfig().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
-        String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
-        GuildData guildData = dbGuild.getData();
+        var dbGuild = ctx.getDBGuild();
+        var guildData = dbGuild.getData();
+        var dbUser = ctx.getDBUser();
+
+        String defaultPrefix = ctx.getConfig().prefix[0], guildPrefix = guildData.getGuildCustomPrefix();
+        var prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
+
         var languageContext = ctx.getLanguageContext();
+
+        // Start building the help description.
+        var description = new StringBuilder();
+        if (category == null) {
+            description.append(languageContext.get("commands.help.base"));
+        } else {
+            description.append(String.format(
+                    languageContext.get("commands.help.base_category"), languageContext.get(category.toString()))
+            );
+        }
+
+        description.append(languageContext.get("commands.help.support"));
+
+        if (dbGuild.isPremium() || dbUser.isPremium()) {
+            description.append(languageContext.get("commands.help.patreon"));
+        }
+
+        var disabledCommands = guildData.getDisabledCommands();
+        if (!disabledCommands.isEmpty()) {
+            description.append(String.format(
+                    languageContext.get("commands.help.disabled_commands"), disabledCommands.size()
+            ));
+        }
+
+        var channelSpecificDisabledCommands = guildData.getChannelSpecificDisabledCommands();
+        var disabledChannelCommands = channelSpecificDisabledCommands.get(ctx.getChannel().getId());
+        if(disabledChannelCommands != null && !disabledChannelCommands.isEmpty()) {
+            description.append("\n");
+            description.append(String.format(
+                    languageContext.get("commands.help.channel_specific_disabled_commands"), disabledChannelCommands.size())
+            );
+        }
+        // End of help description.
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setAuthor(languageContext.get("commands.help.title"), null, ctx.getGuild().getIconUrl())
                 .setColor(Color.PINK)
-                .setDescription(
-                        (category == null ?
-                                languageContext.get("commands.help.base") :
-                                String.format(languageContext.get("commands.help.base_category"), languageContext.get(category.toString()))) +
-                                languageContext.get("commands.help.support") +
-                                (dbGuild.isPremium() || ctx.getDBUser().isPremium() ? "" : languageContext.get("commands.help.patreon")) +
-                                //LISP simulator 2018
-                                (guildData.getDisabledCommands().isEmpty() ? "" : "\n" +
-                                        String.format(languageContext.get("commands.help.disabled_commands"), guildData.getDisabledCommands().size())
-                                ) +
-                                (guildData.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId()) == null ||
-                                        guildData.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId()).isEmpty() ?
-                                        "" : "\n" + String.format(languageContext.get("commands.help.channel_specific_disabled_commands"),
-                                        guildData.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId()).size())
-                                )
-
-                )
+                .setDescription(description.toString())
                 .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
-                        CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()), null);
+                        CommandProcessor.REGISTRY.commands()
+                                .values()
+                                .stream()
+                                .filter(c -> c.category() != null)
+                                .count()
+                ), ctx.getGuild().getIconUrl());
 
         Arrays.stream(CommandCategory.values())
                 .filter(c -> {
@@ -244,7 +269,7 @@ public class InfoCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(3, TimeUnit.SECONDS)
+                .cooldown(2, TimeUnit.SECONDS)
                 .maxCooldown(3, TimeUnit.SECONDS)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
@@ -260,132 +285,153 @@ public class InfoCmds {
                 "A help helping helping helping help.",
                 "I wonder if this is what you are looking for...",
                 "Helping you help the world.",
-                "The help you might need."
+                "The help you might need.",
+                "Halp!"
         );
 
         cr.register("help", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter,
-                        ctx.getAuthor(), ctx.getEvent(), ctx.getLanguageContext(), false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                     return;
+                }
+
+                var commandCategory = CommandCategory.lookupFromString(content);
 
                 if (content.isEmpty()) {
                     buildHelp(ctx, null);
-                } else if (CommandCategory.lookupFromString(content) != null) {
-                    CommandCategory category = CommandCategory.lookupFromString(content);
-                    buildHelp(ctx, category);
+                } else if (commandCategory != null) {
+                    buildHelp(ctx, commandCategory);
                 } else {
-                    Command command = CommandProcessor.REGISTRY.commands().get(content);
+                    var member = ctx.getMember();
+                    var command = CommandProcessor.REGISTRY.commands().get(content);
 
-                    if (command != null) {
-                        if (command.category() == CommandCategory.OWNER && !CommandPermission.OWNER.test(ctx.getMember())) {
-                            ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
-                            return;
-                        }
+                    if (command == null) {
+                        ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
+                        return;
+                    }
 
-                        var languageContext = ctx.getLanguageContext();
+                    if (command.isOwnerCommand() && !CommandPermission.OWNER.test(member)) {
+                        ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
+                        return;
+                    }
 
-                        if (command.help() != null && command.help().getDescription() != null) {
-                            HelpContent newHelp = command.help();
-                            List<String> descriptionList = newHelp.getDescriptionList();
+                    var help = command.help();
 
-                            EmbedBuilder builder = new EmbedBuilder()
-                                    .setColor(Color.PINK)
-                                    //assume content = command name
-                                    .setAuthor(Utils.capitalize(content) +
-                                            " Command Help", null, ctx.getAuthor().getEffectiveAvatarUrl())
-                                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                                    .setDescription((r.nextBoolean() ?
-                                            languageContext.get("commands.help.patreon") + "\n" : "")
-                                            + (descriptionList.isEmpty() ?
-                                            newHelp.getDescription() : descriptionList.get(r.nextInt(descriptionList.size())))
-                                            + "\n" + "**Don't include <> or [] on the command itself.**"
-                                    );
+                    if (help == null || help.getDescription() == null) {
+                        ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
+                        return;
+                    }
 
-                            if (newHelp.getUsage() != null) {
-                                builder.addField("Usage", newHelp.getUsage(), false);
-                            }
+                    var descriptionList = help.getDescriptionList();
+                    var languageContext = ctx.getLanguageContext();
 
-                            if (newHelp.getParameters().size() > 0) {
-                                builder.addField("Parameters", newHelp.getParameters().entrySet().stream()
-                                        .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
-                                        .collect(Collectors.joining("\n")), false);
+                    var desc = new StringBuilder();
+                    if (r.nextBoolean()) {
+                        desc.append(languageContext.get("commands.help.patreon"))
+                                .append("\n");
+                    }
 
-                            }
+                    if (descriptionList.isEmpty()) {
+                        desc.append(help.getDescription());
+                    }
+                    else {
+                        desc.append(descriptionList.get(r.nextInt(descriptionList.size())));
+                    }
 
-                            if (newHelp.isSeasonal()) {
-                                builder.addField("Seasonal", "This command allows the usage of the `-season` (or `-s`) argument.", false);
-                            }
+                    desc.append("\n")
+                            .append("**Don't include <> or [] on the command itself.**");
 
-                            //Ensure sub-commands show in help.
-                            //Only god shall help me now with all of this casting lol.
-                            if (command instanceof AliasCommand) {
-                                command = ((AliasCommand) command).getCommand();
-                            }
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Color.PINK)
+                            .setAuthor("Command help for " + content, null,
+                                    ctx.getAuthor().getEffectiveAvatarUrl()
+                            ).setDescription(desc);
 
-                            if (command instanceof ITreeCommand) {
-                                Map<String, SubCommand> subCommands = ((ITreeCommand) command).getSubCommands()
+                    if (help.getUsage() != null) {
+                        builder.addField("Usage", help.getUsage(), false);
+                    }
+
+                    if (help.getParameters().size() > 0) {
+                        builder.addField("Parameters", help.getParameters().entrySet().stream()
+                                .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
+                                .collect(Collectors.joining("\n")), false);
+
+                    }
+
+                    if (help.isSeasonal()) {
+                        builder.addField("Seasonal",
+                                "This command allows the usage of the `-season` (or `-s`) argument.",
+                                false
+                        );
+                    }
+
+                    //Ensure sub-commands show in help.
+                    //Only god shall help me now with all of this casting lol.
+                    if (command instanceof AliasCommand) {
+                        command = ((AliasCommand) command).getCommand();
+                    }
+
+                    if (command instanceof ITreeCommand) {
+                        var subCommands =
+                                ((ITreeCommand) command).getSubCommands()
                                         .entrySet()
                                         .stream()
                                         .sorted(Comparator.comparingInt(a ->
                                                 a.getValue().description() == null ? 0 : a.getValue().description().length())
                                         ).collect(
-                                                Collectors.toMap(
-                                                        Map.Entry::getKey, Map.Entry::getValue,
+                                                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                                         (oldValue, newValue) -> oldValue, LinkedHashMap::new
                                                 )
-                                        );
+                                );
 
-                                StringBuilder stringBuilder = new StringBuilder();
+                        var stringBuilder = new StringBuilder();
 
-                                for (Map.Entry<String, SubCommand> inners : subCommands.entrySet()) {
-                                    String name = inners.getKey();
-                                    InnerCommand inner = inners.getValue();
-                                    if (inner.isChild())
-                                        continue;
-
-                                    if (inner.description() != null) {
-                                        stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER)
-                                                .append("`")
-                                                .append(name)
-                                                .append("` - ")
-                                                .append(inner.description())
-                                                .append("\n");
-                                    }
-                                }
-
-                                if (stringBuilder.length() > 0) {
-                                    builder.addField("Sub-commands",
-                                            "**Append the main command to use any of this.**\n" + stringBuilder.toString(), false
-                                    );
-                                }
+                        for (var inners : subCommands.entrySet()) {
+                            var name = inners.getKey();
+                            var inner = inners.getValue();
+                            if (inner.isChild()) {
+                                continue;
                             }
 
-                            //Known command aliases.
-                            List<String> commandAliases = command.getAliases();
-                            if (!commandAliases.isEmpty()) {
-                                String aliases = commandAliases.stream()
-                                        .filter(alias -> !alias.equalsIgnoreCase(content)).map(alias -> "`" + alias + "`")
-                                        .collect(Collectors.joining(" "));
-
-                                if (!aliases.trim().isEmpty()) {
-                                    builder.addField("Aliases", aliases, false);
-                                }
+                            if (inner.description() != null) {
+                                stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER)
+                                        .append("`")
+                                        .append(name)
+                                        .append("` - ")
+                                        .append(inner.description())
+                                        .append("\n");
                             }
-
-                            builder.addField("Still lost?",
-                                    "[Check the wiki](https://wiki.mantaro.site) or " +
-                                            "[get support here!](https://support.mantaro.site)",  false
-                            ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());
-
-                            ctx.send(builder.build());
-                        } else {
-                            ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
                         }
-                    } else {
-                        ctx.sendLocalized("commands.help.extended.not_found", EmoteReference.ERROR);
+
+                        if (stringBuilder.length() > 0) {
+                            builder.addField("Sub-commands",
+                                    "**Append the main command to use any of this.**\n" + stringBuilder.toString(),
+                                    false
+                            );
+                        }
                     }
+
+                    //Known command aliases.
+                    var commandAliases = command.getAliases();
+                    if (!commandAliases.isEmpty()) {
+                        String aliases = commandAliases
+                                .stream()
+                                .filter(alias -> !alias.equalsIgnoreCase(content))
+                                .map(alias -> "`" + alias + "`")
+                                .collect(Collectors.joining(" "));
+
+                        if (!aliases.trim().isEmpty()) {
+                            builder.addField("Aliases", aliases, false);
+                        }
+                    }
+
+                    builder.addField("Still lost?",
+                            "[Check the wiki](https://wiki.mantaro.site) or " +
+                                    "[get support here!](https://support.mantaro.site)",  false
+                    ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());
+
+                    ctx.send(builder.build());
                 }
             }
 
@@ -413,13 +459,24 @@ public class InfoCmds {
 
                 ctx.send(new EmbedBuilder()
                         .setAuthor("Mantaro's Invite URL.", null, ctx.getSelfUser().getAvatarUrl())
-                        .addField(languageContext.get("commands.invite.url"), "http://add.mantaro.site", false)
-                        .addField(languageContext.get("commands.invite.server"), "https://support.mantaro.site", false)
-                        .addField(languageContext.get("commands.invite.patreon"), "http://patreon.com/mantaro", false)
-                        .setDescription(languageContext.get("commands.invite.description.1") + " " +
+                        .addField(languageContext.get("commands.invite.url"),
+                                "http://add.mantaro.site",
+                                false
+                        )
+                        .addField(languageContext.get("commands.invite.server"),
+                                "https://support.mantaro.site",
+                                false)
+
+                        .addField(languageContext.get("commands.invite.patreon"),
+                                "http://patreon.com/mantaro",
+                                false
+                        )
+                        .setDescription(
+                                languageContext.get("commands.invite.description.1") + " " +
                                 languageContext.get("commands.invite.description.2") + "\n" +
                                 languageContext.get("commands.invite.description.3") + " " +
-                                languageContext.get("commands.invite.description.4"))
+                                languageContext.get("commands.invite.description.4")
+                        )
                         .setFooter(languageContext.get("commands.invite.footer"), ctx.getSelfUser().getAvatarUrl())
                         .build()
                 );
@@ -446,7 +503,8 @@ public class InfoCmds {
                 String guildPrefix = dbGuild.getData().getGuildCustomPrefix();
 
                 ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART,
-                        defaultPrefix, guildPrefix == null ? ctx.getLanguageContext().get("commands.prefix.none") : guildPrefix
+                        defaultPrefix, guildPrefix == null ?
+                                ctx.getLanguageContext().get("commands.prefix.none") : guildPrefix
                 );
             }
 
@@ -545,7 +603,8 @@ public class InfoCmds {
                                     Utils.formatDuration(nodeData.getLong("uptime")),
                                     nodeData.getLong("available_processors"),
                                     String.format("%.2f", nodeData.getDouble("cpu_usage")) + "%",
-                                    Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
+                                    Utils.formatMemoryUsage(nodeData.getLong("used_memory"),
+                                            nodeData.getLong("total_memory")),
                                     nodeData.getLong("thread_count"),
                                     nodeData.getString("shard_slice"),
                                     nodeData.getLong("guild_count"),
@@ -615,22 +674,34 @@ public class InfoCmds {
                 if (args.length > 0) {
                     String what = args[0];
                     if (what.equals("total")) {
-                        ctx.send(CommandStatsManager.fillEmbed(DefaultBucket.TOTAL, baseEmbed(ctx, "Command Stats | Total")).build());
+                        ctx.send(CommandStatsManager.fillEmbed(
+                                DefaultBucket.TOTAL, baseEmbed(ctx, "Command Stats | Total")
+                        ).build());
+
                         return;
                     }
 
                     if (what.equals("daily")) {
-                        ctx.send(CommandStatsManager.fillEmbed(DefaultBucket.DAY, baseEmbed(ctx, "Command Stats | Daily")).build());
+                        ctx.send(CommandStatsManager.fillEmbed(
+                                DefaultBucket.DAY, baseEmbed(ctx, "Command Stats | Daily")
+                        ).build());
+
                         return;
                     }
 
                     if (what.equals("hourly")) {
-                        ctx.send(CommandStatsManager.fillEmbed(DefaultBucket.HOUR, baseEmbed(ctx, "Command Stats | Hourly")).build());
+                        ctx.send(CommandStatsManager.fillEmbed(
+                                DefaultBucket.HOUR, baseEmbed(ctx, "Command Stats | Hourly")
+                        ).build());
+
                         return;
                     }
 
                     if (what.equals("now")) {
-                        ctx.send(CommandStatsManager.fillEmbed(DefaultBucket.MINUTE, baseEmbed(ctx, "Command Stats | Now")).build());
+                        ctx.send(CommandStatsManager.fillEmbed(
+                                DefaultBucket.MINUTE, baseEmbed(ctx, "Command Stats | Now")
+                        ).build());
+
                         return;
                     }
                 }
@@ -639,11 +710,22 @@ public class InfoCmds {
                 var languageContext = ctx.getLanguageContext();
                 ctx.send(
                         baseEmbed(ctx, "Command Stats")
-                                .addField(languageContext.get("general.now"), CommandStatsManager.resume(DefaultBucket.MINUTE), false)
-                                .addField(languageContext.get("general.hourly"), CommandStatsManager.resume(DefaultBucket.HOUR), false)
-                                .addField(languageContext.get("general.daily"), CommandStatsManager.resume(DefaultBucket.DAY), false)
-                                .addField(languageContext.get("general.total"), CommandStatsManager.resume(DefaultBucket.TOTAL), false)
-                                .build()
+                                .addField(languageContext.get("general.now"),
+                                        CommandStatsManager.resume(DefaultBucket.MINUTE),
+                                        false
+                                )
+                                .addField(languageContext.get("general.hourly"),
+                                        CommandStatsManager.resume(DefaultBucket.HOUR),
+                                        false
+                                )
+                                .addField(languageContext.get("general.daily"),
+                                        CommandStatsManager.resume(DefaultBucket.DAY),
+                                        false
+                                )
+                                .addField(languageContext.get("general.total"),
+                                        CommandStatsManager.resume(DefaultBucket.TOTAL),
+                                        false
+                                ).build()
                 );
             }
         });
@@ -660,22 +742,34 @@ public class InfoCmds {
                 if (args.length > 0) {
                     String what = args[0];
                     if (what.equals("total")) {
-                        ctx.send(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(ctx, "Category Stats | Total")).build());
+                        ctx.send(categoryStatsManager.fillEmbed(
+                                CategoryStatsManager.TOTAL_CATS, baseEmbed(ctx, "Category Stats | Total")).build()
+                        );
+
                         return;
                     }
 
                     if (what.equals("daily")) {
-                        ctx.send(categoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(ctx, "Category Stats | Daily")).build());
+                        ctx.send(categoryStatsManager.fillEmbed(
+                                CategoryStatsManager.DAY_CATS, baseEmbed(ctx, "Category Stats | Daily")
+                        ).build());
+
                         return;
                     }
 
                     if (what.equals("hourly")) {
-                        ctx.send(categoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(ctx, "Category Stats | Hourly")).build());
+                        ctx.send(categoryStatsManager.fillEmbed(
+                                CategoryStatsManager.HOUR_CATS, baseEmbed(ctx, "Category Stats | Hourly")
+                        ).build());
+
                         return;
                     }
 
                     if (what.equals("now")) {
-                        ctx.send(categoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(ctx, "Category Stats | Now")).build());
+                        ctx.send(categoryStatsManager.fillEmbed(
+                                CategoryStatsManager.MINUTE_CATS, baseEmbed(ctx, "Category Stats | Now")
+                        ).build());
+
                         return;
                     }
                 }
@@ -684,10 +778,14 @@ public class InfoCmds {
                 var languageContext = ctx.getLanguageContext();
                 ctx.send(
                         baseEmbed(ctx, "Category Stats")
-                                .addField(languageContext.get("general.now"), categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
-                                .addField(languageContext.get("general.hourly"), categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
-                                .addField(languageContext.get("general.daily"), categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
-                                .addField(languageContext.get("general.total"), categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
+                                .addField(languageContext.get("general.now"),
+                                        categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
+                                .addField(languageContext.get("general.hourly"),
+                                        categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
+                                .addField(languageContext.get("general.daily"),
+                                        categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
+                                .addField(languageContext.get("general.total"),
+                                        categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
                                 .build()
                 );
             }
@@ -729,9 +827,10 @@ public class InfoCmds {
                                             System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli()
                                     ) + " " + languageContext.get("general.days")
                             ),
-                            prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"), String.valueOf(MantaroBot.getInstance()
-                                    .getShardManager()
-                                    .getMutualGuilds(ctx.getAuthor()).size())
+                            prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"),
+                                    String.valueOf(MantaroBot.getInstance()
+                                            .getShardManager()
+                                            .getMutualGuilds(ctx.getAuthor()).size())
                             ),
                             prettyDisplay(languageContext.get("commands.userinfo.vc"),
                                     member.getVoiceState().getChannel() != null ?
@@ -749,7 +848,8 @@ public class InfoCmds {
                     ctx.send(new EmbedBuilder()
                             .setColor(member.getColor())
                             .setAuthor(String.format(languageContext.get("commands.userinfo.header"),
-                                    user.getName(), user.getDiscriminator()), null, ctx.getAuthor().getEffectiveAvatarUrl()
+                                    user.getName(), user.getDiscriminator()), null,
+                                    ctx.getAuthor().getEffectiveAvatarUrl()
                             ).setThumbnail(user.getEffectiveAvatarUrl())
                             .setDescription(s)
                             .addField(String.format(languageContext.get("commands.userinfo.roles"),
@@ -778,7 +878,8 @@ public class InfoCmds {
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                ctx.sendFormat(languageContext.get("commands.season.info") + languageContext.get("commands.season.info_2"),
+                ctx.sendFormat(languageContext.get("commands.season.info") +
+                                languageContext.get("commands.season.info_2"),
                         ctx.getConfig().getCurrentSeason().getDisplay(), ctx.db().getAmountSeasonalPlayers()
                 );
             }
@@ -831,7 +932,12 @@ public class InfoCmds {
                                         ("#" + Integer.toHexString(r.getColor().getRGB()).substring(2))
                         ),
                         prettyDisplay(languageContext.get("commands.roleinfo.members"),
-                                String.valueOf(ctx.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count())
+                                String.valueOf(ctx.getGuild()
+                                        .getMembers()
+                                        .stream()
+                                        .filter(member -> member.getRoles().contains(r))
+                                        .count()
+                                )
                         ),
                         prettyDisplay(languageContext.get("commands.roleinfo.position"), String.valueOf(r.getPosition())),
                         prettyDisplay(languageContext.get("commands.roleinfo.hoisted"), String.valueOf(r.isHoisted()))
@@ -842,7 +948,8 @@ public class InfoCmds {
                                 .setColor(ctx.getMember().getColor())
                                 .setAuthor(String.format(languageContext.get("commands.roleinfo.header"),
                                         r.getName()), null, ctx.getGuild().getIconUrl()
-                                ).setDescription(s)
+                                )
+                                .setDescription(s)
                                 .addField(String.format(languageContext.get("commands.roleinfo.permissions"), r.getPermissions().size()),
                                         r.getPermissions().size() == 0 ? languageContext.get("general.none") :
                                                 r.getPermissions()
@@ -850,8 +957,7 @@ public class InfoCmds {
                                                         .map(Permission::getName)
                                                         .collect(Collectors.joining(", ")) + ".",
                                         false
-                                )
-                                .build()
+                                ).build()
                 );
             }
 
@@ -860,7 +966,8 @@ public class InfoCmds {
                 return new HelpContent.Builder()
                         .setDescription("See information about specific role.")
                         .setUsage("`~>roleinfo <role>` - Get information about a role.")
-                        .addParameter("role", "The role you want to look for. Mentions, id and name work.")
+                        .addParameter("role",
+                                "The role you want to look for. Mentions, id and name work.")
                         .build();
             }
         });

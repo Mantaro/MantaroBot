@@ -126,7 +126,7 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null));
+        leaderboards.setPredicate(ctx -> RatelimitUtils.ratelimit(rateLimiter, ctx, null));
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override

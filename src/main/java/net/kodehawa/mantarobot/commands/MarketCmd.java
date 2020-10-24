@@ -93,7 +93,7 @@ public class MarketCmd {
         });
 
         marketCommand.setPredicate((ctx) -> {
-            if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false))
                 return false;
 
             Player player = ctx.getPlayer();

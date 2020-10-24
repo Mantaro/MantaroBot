@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -64,7 +65,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -115,7 +116,7 @@ public class MusicCmds {
             public void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
 
-                if (!handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx))
+                if (!RatelimitUtils.ratelimit(rl, ctx))
                     return;
 
                 MantaroAudioManager audioManager = MantaroBot.getInstance().getAudioManager();

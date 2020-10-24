@@ -101,7 +101,7 @@ public class PetCmds {
             }
         });
 
-        pet.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+        pet.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, null, false));
 
         pet.addSubCommand("list", new SubCommand() {
             @Override
@@ -225,7 +225,7 @@ public class PetCmds {
                     return;
                 }
 
-                if(!RatelimitUtils.handleIncreasingRatelimit(petRemoveRatelimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+                if(!RatelimitUtils.ratelimit(petRemoveRatelimiter, ctx, null, false))
                     return;
 
                 var toRefund = pet.getType().getCost() / 2;
@@ -286,7 +286,7 @@ public class PetCmds {
                     return;
                 }
 
-                if(!RatelimitUtils.handleIncreasingRatelimit(patRatelimiter, ctx.getAuthor(), ctx.getEvent(), null, false))
+                if(!RatelimitUtils.ratelimit(patRatelimiter, ctx, null, false))
                     return;
 
                 String message = pet.handlePat().getMessage();

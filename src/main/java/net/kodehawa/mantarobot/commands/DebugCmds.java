@@ -195,7 +195,7 @@ public class DebugCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 I18nContext languageContext = ctx.getLanguageContext();
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                     return;
 
                 long start = System.currentTimeMillis();

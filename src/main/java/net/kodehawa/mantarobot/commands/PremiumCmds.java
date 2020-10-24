@@ -212,7 +212,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                if(!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)) {
+                if(!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
                     return;
                 }
 

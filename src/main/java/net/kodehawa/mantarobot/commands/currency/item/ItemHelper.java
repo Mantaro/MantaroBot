@@ -181,8 +181,7 @@ public class ItemHelper {
 
         if(inventory.containsItem(crate)) {
             if(inventory.containsItem(ItemReference.LOOT_CRATE_KEY)) {
-                if(!RatelimitUtils.handleIncreasingRatelimit(lootCrateRatelimiter, ctx.getAuthor(), ctx.getEvent(),
-                        ctx.getLanguageContext(), false))
+                if(!RatelimitUtils.ratelimit(lootCrateRatelimiter, ctx, false))
                     return false;
 
                 if(crate == ItemReference.LOOT_CRATE) {

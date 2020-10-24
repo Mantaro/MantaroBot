@@ -694,7 +694,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(!RatelimitUtils.handleIncreasingRatelimit(tzRatelimit, ctx.getAuthor(), ctx)) {
+                if(!RatelimitUtils.ratelimit(tzRatelimit, ctx)) {
                     return;
                 }
 
@@ -1003,7 +1003,7 @@ public class RelationshipCmds {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(ctx -> RatelimitUtils.handleIncreasingRatelimit(rl, ctx.getAuthor(), ctx.getEvent(), null, false));
+        waifu.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, null, false));
 
         waifu.addSubCommand("optout", new SubCommand() {
             @Override

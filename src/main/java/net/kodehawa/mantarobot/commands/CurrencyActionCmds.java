@@ -110,7 +110,7 @@ public class CurrencyActionCmds {
 
                 var item = (Pickaxe) ItemHelper.fromId(equipped);
 
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, user, ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                     return;
 
                 long money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
@@ -138,7 +138,7 @@ public class CurrencyActionCmds {
                 if(marriage != null && marriage.getData().getPet() != null) {
                     HousePet pet = marriage.getData().getPet();
                     if(pet != null) {
-                        HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext);
+                        HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
                         money += rewards.getMoney();
                         message += rewards.getResult();
 
@@ -304,7 +304,7 @@ public class CurrencyActionCmds {
                 //It can only be a rod, lol.
                 item = (FishRod) ItemHelper.fromId(equipped);
 
-                if (!RatelimitUtils.handleIncreasingRatelimit(fishRatelimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.ratelimit(fishRatelimiter, ctx, false))
                     return;
 
                 //Level but starting at 0.
@@ -547,7 +547,7 @@ public class CurrencyActionCmds {
 
                 var item = (Axe) ItemHelper.fromId(equipped);
 
-                if (!RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), languageContext, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
                     return;
 
                 var chance = random.nextInt(100);
@@ -666,13 +666,23 @@ public class CurrencyActionCmds {
     }
 
     private HousePet.ActivityReward handlePetBuff(HousePet pet, HousePetType.HousePetAbility required, I18nContext languageContext) {
+        return handlePetBuff(pet, required, languageContext, true);
+    }
+
+
+    private HousePet.ActivityReward handlePetBuff(HousePet pet, HousePetType.HousePetAbility required,
+                                                  I18nContext languageContext, boolean needsItem) {
         HousePet.ActivityResult ability = pet.handleAbility(required);
         if(ability.passed()) {
-            var amountIncrease = random.nextInt(pet.getType().getMaxItemBuildup(pet.getLevel()));
-            var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
-            var message = "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, amountIncrease);
+            var itemIncrease = 0;
+            if (needsItem) {
+                itemIncrease = random.nextInt(pet.getType().getMaxItemBuildup(pet.getLevel()));
+            }
 
-            return new HousePet.ActivityReward(amountIncrease, moneyIncrease, message);
+            var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
+            var message = "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, itemIncrease);
+
+            return new HousePet.ActivityReward(itemIncrease, moneyIncrease, message);
         } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
             var message = "\n" + pet.buildMessage(ability, languageContext, 0, 0);
             return new HousePet.ActivityReward(0, 0, message);

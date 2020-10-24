@@ -44,6 +44,7 @@ import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -58,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 
 @Module
 public class ItemCmds {
@@ -115,7 +116,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!handleIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
+                        if (!RatelimitUtils.ratelimit(ratelimiter, ctx))
                             return;
 
                         int amountSpecified = 1;
@@ -428,7 +429,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!handleIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
+                        if (!RatelimitUtils.ratelimit(ratelimiter, ctx))
                             return;
 
                         Broken brokenItem = (Broken) item;
@@ -672,7 +673,7 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!handleIncreasingRatelimit(ratelimiter, ctx.getAuthor(), ctx))
+                        if (!RatelimitUtils.ratelimit(ratelimiter, ctx))
                             return;
 
                         final var salvageable = (Salvageable) original;

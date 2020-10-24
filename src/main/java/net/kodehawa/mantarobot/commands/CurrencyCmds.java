@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.RatelimitUtils.handleIncreasingRatelimit;
+import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 
 @Module
 public class CurrencyCmds {
@@ -352,7 +352,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                         return;
 
                     Item item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
@@ -493,7 +493,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
 
                 long toSend; // = 0 at the start
@@ -668,7 +668,7 @@ public class CurrencyCmds {
                 Inventory inventory = p.getInventory();
                 I18nContext languageContext = ctx.getLanguageContext();
 
-                if (!handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx, false))
+                if (!ratelimit(rateLimiter, ctx, false))
                     return;
 
                 // Alternate between mine and fish crates instead of doing so at random, since at random

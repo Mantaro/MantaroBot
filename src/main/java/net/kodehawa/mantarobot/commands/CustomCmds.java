@@ -186,7 +186,7 @@ public class CustomCmds {
         });
 
         customCommand.setPredicate(ctx ->
-                RatelimitUtils.handleIncreasingRatelimit(rateLimiter, ctx.getAuthor(), ctx.getEvent(), null)
+                RatelimitUtils.ratelimit(rateLimiter, ctx, null)
         );
 
         //Just so this is in english.

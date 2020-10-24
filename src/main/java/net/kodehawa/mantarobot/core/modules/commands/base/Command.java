@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.core.modules.commands.base;
 
+import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.options.core.Option;
 
@@ -48,4 +49,8 @@ public interface Command {
     Command addOption(String call, Option option);
 
     List<String> getAliases();
+
+    default boolean isOwnerCommand() {
+        return permission() == CommandPermission.OWNER;
+    }
 }
