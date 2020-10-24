@@ -18,14 +18,10 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -36,13 +32,8 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -65,124 +56,21 @@ import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 public class CurrencyCmds {
     private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 4; //around 536m
 
-    public static void applyPotionEffect(Context ctx, Item item, Player p, Map<String, String> arguments, String content, boolean isPet) {
-        if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
-            DBUser dbUser = ctx.getDBUser();
-            UserData userData = dbUser.getData();
-            Map<String, Pet> profilePets = p.getData().getPets();
-
-            // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
-            // NumberFormatException?
-            int amount = 1;
-            if(arguments.containsKey("amount")) {
-                try {
-                    amount = Integer.parseInt(arguments.get("amount"));
-                } catch (NumberFormatException e) {
-                    ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
-                    return;
-                }
-            }
-            String petName = isPet ? content : "";
-
-            if (isPet && petName.isEmpty()) {
-                ctx.sendLocalized("commands.useitem.no_name", EmoteReference.SAD);
-                return;
-            }
-
-            final PlayerEquipment equippedItems = isPet ?
-                    profilePets.get(petName).getData().getEquippedItems() : userData.getEquippedItems();
-            PlayerEquipment.EquipmentType type = equippedItems.getTypeFor(item);
-
-            if (amount < 1) {
-                ctx.sendLocalized("commands.useitem.too_little", EmoteReference.SAD);
-                return;
-            }
-
-            if (p.getInventory().getAmount(item) < amount) {
-                ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
-                return;
-            }
-
-            PotionEffect currentPotion = equippedItems.getCurrentEffect(type);
-            var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
-            // This used to only check for activePotion.
-            // The issue with this was that there could be one potion that was fully used, but there was another potion
-            // waiting to be used. In that case the potion would get overridden.
-            // In case you have more than a potion equipped, we'll just stack the rest as necessary.
-            if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
-                //Currently has a potion equipped, but wants to stack a potion of other type.
-                if (currentPotion.getPotion() != ItemHelper.idOf(item)) {
-                    ctx.sendLocalized("general.misc_item_usage.not_same_potion",
-                            EmoteReference.ERROR, ItemHelper.fromId(currentPotion.getPotion()).getName(), item.getName()
-                    );
-
-                    return;
-                }
-
-                // Currently has a potion equipped, and is of the same type.
-                if (currentPotion.getAmountEquipped() + amount < 10) {
-                    currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
-                    ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
-                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
-                            activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
-                    );
-                } else {
-                    // Too many stacked (max: 10).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName());
-                    return;
-                }
-            } else {
-                // No potion stacked.
-                PotionEffect effect = new PotionEffect(ItemHelper.idOf(item), 0, ItemType.PotionType.PLAYER);
-
-                // If there's more than 1, proceed to equip the stacks.
-                if (amount >= 10) {
-                    //Too many stacked (max: 10).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName());
-                    return;
-                }
-
-                if (amount > 1)
-                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
-
-
-                // Apply the effect.
-                equippedItems.applyEffect(effect);
-                ctx.sendLocalized("general.misc_item_usage.potion_applied",
-                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount
-                );
-            }
-
-
-            if(amount == 9)
-                p.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
-
-            // Default: 1
-            p.getInventory().process(new ItemStack(item, -amount));
-            p.save();
-            dbUser.save();
-
-            return;
-        }
-
-        if (!isPet)
-            item.getAction().test(ctx, false);
-    }
-
     @Subscribe
     public void inventory(CommandRegistry cr) {
         final Random r = new Random();
         cr.register("inventory", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                Map<String, String> t = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(t, content,
+                var arguments = ctx.getOptionalArguments();
+                content = Utils.replaceArguments(arguments, content,
                         "brief", "calculate", "calc", "c", "info", "full", "season", "s");
+
                 // Lambda memes lol
                 var finalContent = content;
 
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                    var member = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
 
@@ -191,18 +79,19 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    Player player = ctx.getPlayer(member);
-                    DBUser user = ctx.getDBUser(member);
-                    SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(member);
-                    Inventory playerInventory = player.getInventory();
-                    final List<ItemStack> inventoryList = playerInventory.asList();
-                    I18nContext languageContext = ctx.getLanguageContext();
+                    final var player = ctx.getPlayer(member);
+                    final var user = ctx.getDBUser(member);
+                    final var seasonPlayer = ctx.getSeasonPlayer(member);
+                    final var languageContext = ctx.getLanguageContext();
+
+                    var playerInventory = player.getInventory();
+                    final var inventoryList = playerInventory.asList();
 
                     if (ctx.isSeasonal()) {
                         playerInventory = seasonPlayer.getInventory();
                     }
 
-                    if (t.containsKey("calculate") || t.containsKey("calc") || t.containsKey("c")) {
+                    if (arguments.containsKey("calculate") || arguments.containsKey("calc") || arguments.containsKey("c")) {
                         long all = playerInventory.asList().stream()
                                 .filter(item -> item.getItem().isSellable())
                                 .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
@@ -217,10 +106,10 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (t.containsKey("info") || t.containsKey("full")) {
-                        EmbedBuilder builder = baseEmbed(ctx,
-                                String.format(languageContext.get("commands.inventory.header"),
-                                        member.getEffectiveName()), member.getUser().getEffectiveAvatarUrl()
+                    if (arguments.containsKey("info") || arguments.containsKey("full")) {
+                        EmbedBuilder builder = baseEmbed(ctx, String.format(
+                                languageContext.get("commands.inventory.header"), member.getEffectiveName()),
+                                member.getUser().getEffectiveAvatarUrl()
                         );
 
                         List<MessageEmbed.Field> fields = new LinkedList<>();
@@ -230,17 +119,21 @@ public class CurrencyCmds {
                             playerInventory.asList().forEach(stack -> {
                                 long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                                 long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                                fields.add(new MessageEmbed.Field(String.format("%s %s x %d", stack.getItem().getEmoji(),
+                                fields.add(new MessageEmbed.Field(
+                                        String.format("%s %s x %d", stack.getItem().getEmoji(),
                                         stack.getItem().getName(), stack.getAmount()),
-                                        String.format(languageContext.get("commands.inventory.format"), buyValue,
-                                                sellValue, languageContext.get(stack.getItem().getDesc())), false)
+                                        String.format(
+                                                languageContext.get("commands.inventory.format"),
+                                                buyValue, sellValue,
+                                                languageContext.get(stack.getItem().getDesc())
+                                        ), false)
                                 );
                             });
                         }
 
                         var toShow = "\n" + languageContext.get("commands.inventory.brief_notice") +
-                                (r.nextInt(3) == 0 && !user.isPremium() ?
-                                        languageContext.get("general.sellout") : "");
+                                (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "");
+
                         DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(6, fields), toShow);
                         return;
                     }
@@ -273,21 +166,23 @@ public class CurrencyCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = ctx.getMember();
+                    var member = ctx.getMember();
+
                     if(!content.isEmpty()) {
                         member = CustomFinderUtil.findMember(content, members, ctx);
                     }
 
-                    if (member == null)
+                    if (member == null) {
                         return;
+                    }
 
                     if (member.getUser().isBot()) {
                         ctx.sendLocalized("commands.level.bot_notice", EmoteReference.ERROR);
                         return;
                     }
 
-                    Player player = MantaroData.db().getPlayer(member);
-                    long experienceNext =
+                    var player = MantaroData.db().getPlayer(member);
+                    var experienceNext =
                             (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
                     if (member.getUser().getIdLong() == ctx.getAuthor().getIdLong()) {
@@ -336,105 +231,108 @@ public class CurrencyCmds {
                     return;
                 }
 
-                final List<Member> mentionedMembers = ctx.getMentionedMembers();
-                if (mentionedMembers.size() == 0) {
+                final var mentionedMembers = ctx.getMentionedMembers();
+
+                if (mentionedMembers.isEmpty()) {
                     ctx.sendLocalized("general.mention_user_required", EmoteReference.ERROR);
-                } else {
-                    Member giveTo = mentionedMembers.get(0);
+                    return;
+                }
 
-                    if (ctx.getAuthor().getId().equals(giveTo.getId())) {
-                        ctx.sendLocalized("commands.itemtransfer.transfer_yourself_note", EmoteReference.ERROR);
+                var giveTo = mentionedMembers.get(0);
+
+                if (ctx.getAuthor().getId().equals(giveTo.getId())) {
+                    ctx.sendLocalized("commands.itemtransfer.transfer_yourself_note", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (giveTo.getUser().isBot()) {
+                    ctx.sendLocalized("commands.itemtransfer.bot_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
+                    return;
+                }
+
+                var item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
+                if (item == null) {
+                    item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
+                    if(item == null) {
+                        ctx.sendLocalized("general.item_lookup.no_item_emoji");
                         return;
                     }
+                }
 
-                    if (giveTo.getUser().isBot()) {
-                        ctx.sendLocalized("commands.itemtransfer.bot_notice", EmoteReference.ERROR);
-                        return;
-                    }
+                if (item == ItemReference.CLAIM_KEY) {
+                    ctx.sendLocalized("general.item_lookup.claim_key");
+                    return;
+                }
 
-                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
-                        return;
+                final var player = ctx.getPlayer();
+                final var giveToPlayer = ctx.getPlayer(giveTo);
 
-                    Item item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
-                    if (item == null) {
-                        item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
-                        if(item == null) {
-                            ctx.sendLocalized("general.item_lookup.no_item_emoji");
+                if (player.isLocked()) {
+                    ctx.sendLocalized("commands.itemtransfer.locked_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (args.length == 2) {
+                    if (player.getInventory().containsItem(item)) {
+                        if (item.isHidden()) {
+                            ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
                             return;
                         }
-                    }
 
-                    if (item == ItemReference.CLAIM_KEY) {
-                        ctx.sendLocalized("general.item_lookup.claim_key");
-                        return;
-                    }
-
-                    Player player = ctx.getPlayer();
-                    Player giveToPlayer = ctx.getPlayer(giveTo);
-
-                    if (player.isLocked()) {
-                        ctx.sendLocalized("commands.itemtransfer.locked_notice", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (args.length == 2) {
-                        if (player.getInventory().containsItem(item)) {
-                            if (item.isHidden()) {
-                                ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            if (giveToPlayer.getInventory().getAmount(item) >= 5000) {
-                                ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            player.getInventory().process(new ItemStack(item, -1));
-                            giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                            ctx.sendStrippedLocalized("commands.itemtransfer.success",
-                                    EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
-                                    item.getName(), giveTo.getEffectiveName()
-                            );
-                        } else {
-                            ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
+                        if (giveToPlayer.getInventory().getAmount(item) >= 5000) {
+                            ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
+                            return;
                         }
 
-                        player.saveAsync();
-                        giveToPlayer.saveAsync();
-                        return;
-                    }
-
-                    try {
-                        int amount = Math.abs(Integer.parseInt(args[2]));
-                        if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
-                            if (item.isHidden()) {
-                                ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            if (giveToPlayer.getInventory().getAmount(item) + amount > 5000) {
-                                ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            player.getInventory().process(new ItemStack(item, amount * -1));
-                            giveToPlayer.getInventory().process(new ItemStack(item, amount));
-
-                            ctx.sendStrippedLocalized("commands.itemtransfer.success", EmoteReference.OK,
-                                    ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getEffectiveName()
-                            );
-                        } else {
-                            ctx.sendLocalized("commands.itemtransfer.error", EmoteReference.ERROR);
-                        }
-                    } catch (NumberFormatException nfe) {
-                        ctx.send(String.format(ctx.getLanguageContext().get("general.invalid_number") + " " +
-                                ctx.getLanguageContext().get("general.space_notice"), EmoteReference.ERROR)
+                        player.getInventory().process(new ItemStack(item, -1));
+                        giveToPlayer.getInventory().process(new ItemStack(item, 1));
+                        ctx.sendStrippedLocalized("commands.itemtransfer.success",
+                                EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
+                                item.getName(), giveTo.getEffectiveName()
                         );
+                    } else {
+                        ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
                     }
 
                     player.saveAsync();
                     giveToPlayer.saveAsync();
+                    return;
                 }
+
+                try {
+                    int amount = Math.abs(Integer.parseInt(args[2]));
+                    if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
+                        if (item.isHidden()) {
+                            ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
+                            return;
+                        }
+
+                        if (giveToPlayer.getInventory().getAmount(item) + amount > 5000) {
+                            ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
+                            return;
+                        }
+
+                        player.getInventory().process(new ItemStack(item, amount * -1));
+                        giveToPlayer.getInventory().process(new ItemStack(item, amount));
+
+                        ctx.sendStrippedLocalized("commands.itemtransfer.success", EmoteReference.OK,
+                                ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getEffectiveName()
+                        );
+                    } else {
+                        ctx.sendLocalized("commands.itemtransfer.error", EmoteReference.ERROR);
+                    }
+                } catch (NumberFormatException nfe) {
+                    ctx.send(String.format(ctx.getLanguageContext().get("general.invalid_number") + " " +
+                            ctx.getLanguageContext().get("general.space_notice"), EmoteReference.ERROR)
+                    );
+                }
+
+                player.saveAsync();
+                giveToPlayer.saveAsync();
             }
 
             @Override
@@ -458,7 +356,6 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    //Should be called return land tbh, what the fuck.
     public void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(CommandCategory.CURRENCY) {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -481,7 +378,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                final User giveTo = ctx.getMentionedUsers().get(0);
+                final var giveTo = ctx.getMentionedUsers().get(0);
 
                 if (giveTo.equals(ctx.getAuthor())) {
                     ctx.sendLocalized("commands.transfer.transfer_yourself_note", EmoteReference.THINKING);
@@ -496,7 +393,7 @@ public class CurrencyCmds {
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
 
-                long toSend; // = 0 at the start
+                var toSend = 0L; // = 0 at the start
 
                 try {
                     //Convert negative values to absolute.
@@ -521,8 +418,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Player transferPlayer = ctx.getPlayer();
-                Player toTransfer = ctx.getPlayer(giveTo);
+                final var transferPlayer = ctx.getPlayer();
+                final var toTransfer = ctx.getPlayer(giveTo);
 
                 if (transferPlayer.isLocked()) {
                     ctx.sendLocalized("commands.transfer.own_locked_notice", EmoteReference.ERROR);
@@ -544,7 +441,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                String partyKey = ctx.getAuthor().getId() + ":" + giveTo.getId();
+                var partyKey = ctx.getAuthor().getId() + ":" + giveTo.getId();
                 if (!partyRateLimiter.process(partyKey)) {
                     ctx.getChannel().sendMessage(
                             EmoteReference.STOPWATCH +
@@ -558,7 +455,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                long amountTransfer = Math.round(toSend * 0.92);
+                var amountTransfer = Math.round(toSend * 0.92);
 
                 if (toTransfer.addMoney(amountTransfer)) {
                     transferPlayer.removeMoney(toSend);
@@ -590,25 +487,29 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                //Argument parsing.
-                Map<String, String> t = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
-                boolean isSeasonal = ctx.isSeasonal();
+                var arguments = ctx.getOptionalArguments();
+                content = Utils.replaceArguments(arguments, content, "season", "s").trim();
 
-                Player p = ctx.getPlayer();
-                SeasonPlayer sp = ctx.getSeasonPlayer();
-                Item item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                var isSeasonal = ctx.isSeasonal();
+
+                var player = ctx.getPlayer();
+                var seasonPlayer = ctx.getSeasonPlayer();
+                var item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
 
                 //Open default crate if nothing's specified.
-                if (item == null || content.isEmpty())
+                if (item == null || content.isEmpty()) {
                     item = ItemReference.LOOT_CRATE;
+                }
 
                 if (item.getItemType() != ItemType.CRATE) {
                     ctx.sendLocalized("commands.opencrate.not_crate", EmoteReference.ERROR);
                     return;
                 }
 
-                boolean containsItem = isSeasonal ? sp.getInventory().containsItem(item) : p.getInventory().containsItem(item);
+                var containsItem = isSeasonal ?
+                        seasonPlayer.getInventory().containsItem(item) :
+                        player.getInventory().containsItem(item);
+
                 if (!containsItem) {
                     ctx.sendLocalized("commands.opencrate.no_crate", EmoteReference.SAD, item.getName());
                     return;
@@ -663,22 +564,23 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Player p = ctx.getPlayer();
-                PlayerData playerData = p.getData();
-                Inventory inventory = p.getInventory();
-                I18nContext languageContext = ctx.getLanguageContext();
+                final var player = ctx.getPlayer();
+                final var playerData = player.getData();
+                final var inventory = player.getInventory();
+                final var languageContext = ctx.getLanguageContext();
 
-                if (!ratelimit(rateLimiter, ctx, false))
+                if (!ratelimit(rateLimiter, ctx, false)) {
                     return;
+                }
 
                 // Alternate between mine and fish crates instead of doing so at random, since at random
                 // it might seem like it only gives one sort of crate.
-                Item crate = playerData.getLastCrateGiven() == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE) ?
+                var crate = playerData.getLastCrateGiven() == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE) ?
                         ItemReference.FISH_PREMIUM_CRATE : ItemReference.MINE_PREMIUM_CRATE;
 
                 inventory.process(new ItemStack(crate, 1));
                 playerData.setLastCrateGiven(ItemHelper.idOf(crate));
-                p.save();
+                player.save();
 
                 var successMessage = String.format(
                         languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, crate.getName()) +
@@ -708,14 +610,15 @@ public class CurrencyCmds {
                     @Override
                     protected void call(Context ctx, String content) {
                         String[] args = ctx.getArguments();
-                        Map<String, String> t = ctx.getOptionalArguments();
+                        var arguments = ctx.getOptionalArguments();
 
                         if (content.isEmpty()) {
                             ctx.sendLocalized("commands.useitem.no_items_specified", EmoteReference.ERROR);
                             return;
                         }
 
-                        Item item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
+                        var item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
+
                         //Well, shit.
                         if (item == null) {
                             ctx.sendLocalized("general.item_lookup.not_found", EmoteReference.ERROR);
@@ -724,6 +627,7 @@ public class CurrencyCmds {
 
                         if (item.getItemType() != ItemType.INTERACTIVE && item.getItemType() != ItemType.CRATE &&
                                 item.getItemType() != ItemType.POTION && item.getItemType() != ItemType.BUFF) {
+
                             ctx.sendLocalized("commands.useitem.not_interactive", EmoteReference.ERROR);
                             return;
                         }
@@ -733,13 +637,13 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        Player p = ctx.getPlayer();
-                        if (!p.getInventory().containsItem(item)) {
+                        var player = ctx.getPlayer();
+                        if (!player.getInventory().containsItem(item)) {
                             ctx.sendLocalized("commands.useitem.no_item", EmoteReference.SAD);
                             return;
                         }
 
-                        applyPotionEffect(ctx, item, p, t, content, false);
+                        applyPotionEffect(ctx, item, player, arguments);
                     }
                 };
             }
@@ -764,21 +668,21 @@ public class CurrencyCmds {
 
             @Override
             protected void call(Context ctx, String content) {
-                List<Item> interactiveItems = Arrays.stream(ItemReference.ALL).filter(
+                var interactiveItems = Arrays.stream(ItemReference.ALL).filter(
                         i -> i.getItemType() == ItemType.INTERACTIVE ||
                         i.getItemType() == ItemType.POTION ||
                         i.getItemType() == ItemType.CRATE ||
                         i.getItemType() == ItemType.BUFF
                 ).collect(Collectors.toList());
 
-                I18nContext languageContext = ctx.getLanguageContext();
-                StringBuilder show = new StringBuilder();
+                var languageContext = ctx.getLanguageContext();
+                var show = new StringBuilder();
 
                 show.append(EmoteReference.TALKING)
                         .append(languageContext.get("commands.useitem.ls.desc"))
                         .append("\n\n");
 
-                for (Item item : interactiveItems) {
+                for (var item : interactiveItems) {
                     show.append(EmoteReference.BLUE_SMALL_MARKER)
                             .append(item.getEmoji())
                             .append(" **")
@@ -800,13 +704,111 @@ public class CurrencyCmds {
                         .setColor(Color.PINK)
                         .setFooter(String.format(languageContext.get("general.requested_by"),
                                 ctx.getMember().getEffectiveName()), null
-                        )
-                        .build()
+                        ).build()
                 );
             }
         });
 
         ui.createSubCommandAlias("ls", "list");
         ui.createSubCommandAlias("ls", "Is");
+    }
+
+    public static void applyPotionEffect(Context ctx, Item item, Player player, Map<String, String> arguments) {
+
+        if ((item.getItemType() == ItemType.POTION || item.getItemType() == ItemType.BUFF) && item instanceof Potion) {
+            var dbUser = ctx.getDBUser();
+            var userData = dbUser.getData();
+
+            // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
+            // NumberFormatException?
+            int amount = 1;
+            if(arguments.containsKey("amount")) {
+                try {
+                    amount = Integer.parseInt(arguments.get("amount"));
+                } catch (NumberFormatException e) {
+                    ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
+                    return;
+                }
+            }
+
+            final var equippedItems = userData.getEquippedItems();
+
+            var type = equippedItems.getTypeFor(item);
+
+            if (amount < 1) {
+                ctx.sendLocalized("commands.useitem.too_little", EmoteReference.SAD);
+                return;
+            }
+
+            if (player.getInventory().getAmount(item) < amount) {
+                ctx.sendLocalized("commands.useitem.not_enough_items", EmoteReference.SAD);
+                return;
+            }
+
+            var currentPotion = equippedItems.getCurrentEffect(type);
+            var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
+            // This used to only check for activePotion.
+            // The issue with this was that there could be one potion that was fully used, but there was another potion
+            // waiting to be used. In that case the potion would get overridden.
+            // In case you have more than a potion equipped, we'll just stack the rest as necessary.
+            if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
+                //Currently has a potion equipped, but wants to stack a potion of other type.
+                if (currentPotion.getPotion() != ItemHelper.idOf(item)) {
+                    ctx.sendLocalized("general.misc_item_usage.not_same_potion",
+                            EmoteReference.ERROR, ItemHelper.fromId(currentPotion.getPotion()).getName(), item.getName()
+                    );
+
+                    return;
+                }
+
+                // Currently has a potion equipped, and is of the same type.
+                if (currentPotion.getAmountEquipped() + amount < 10) {
+                    currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
+                    ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
+                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
+                            activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
+                    );
+                } else {
+                    // Too many stacked (max: 10).
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName());
+                    return;
+                }
+            } else {
+                // No potion stacked.
+                var effect = new PotionEffect(ItemHelper.idOf(item), 0, ItemType.PotionType.PLAYER);
+
+                // If there's more than 1, proceed to equip the stacks.
+                if (amount >= 10) {
+                    //Too many stacked (max: 10).
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName());
+                    return;
+                }
+
+                if (amount > 1) {
+                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
+                }
+
+
+                // Apply the effect.
+                equippedItems.applyEffect(effect);
+                ctx.sendLocalized("general.misc_item_usage.potion_applied",
+                        EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), amount
+                );
+            }
+
+
+            if(amount == 9) {
+                player.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
+            }
+
+            // Default: 1
+            player.getInventory().process(new ItemStack(item, -amount));
+            player.save();
+            dbUser.save();
+
+            return;
+        }
+
+        item.getAction().test(ctx, false);
     }
 }
