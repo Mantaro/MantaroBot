@@ -205,8 +205,9 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Puts a song on the front of the queue. Run `~>skip` after this to play it.")
-                        .setUsage("`~>playnow <song>`")
+                        .setUsage("`~>playnow [soundcloud] <song>`")
                         .addParameter("song", "The song to play, can be either a soundcloud or youtube link, or a search query.")
+                        .addParameterOptional("soundcloud", "Whether to use soundcloud for search.")
                         .build();
             }
         });

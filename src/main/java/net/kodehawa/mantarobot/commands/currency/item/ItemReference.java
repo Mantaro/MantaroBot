@@ -256,7 +256,7 @@ public class ItemReference {
                     450, true
             ),
 
-            FISHING_ROD = new FishRod(ItemType.INTERACTIVE, 3, 1, 25,
+            FISHING_ROD = new FishRod(ItemType.COMMON, 3, 1, 25,
                     "\uD83C\uDFA3",
                     "Fishing Rod", "Rod", "items.rod", "items.description.rod",
                     65, true,

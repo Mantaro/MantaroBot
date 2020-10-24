@@ -64,11 +64,14 @@ public class ImageCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    Pair<String, String> result = weebAPIRequester.getRandomImageByType("animal_cat", false, null);
+                    Pair<String, String> result = weebAPIRequester
+                            .getRandomImageByType("animal_cat", false, null);
+
                     String url = result.getKey();
                     ctx.getChannel().sendMessage(
                             new MessageBuilder().append(EmoteReference.TALKING).append(
-                                    catResponses[random.nextInt(catResponses.length)].replace("%mention%", ctx.getAuthor().getName()))
+                                    catResponses[random.nextInt(catResponses.length)]
+                                            .replace("%mention%", ctx.getAuthor().getName()))
                                     .build()
                     ).addFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png")
                             .queue();
@@ -105,7 +108,9 @@ public class ImageCmds {
                         return;
                     }
 
-                    ctx.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png").queue();
+                    ctx.getChannel().sendFile(
+                            CACHE.getInput(image), "catgirl-" + result.getValue() + ".png"
+                    ).queue();
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.catgirl.error");
                 }
@@ -116,7 +121,7 @@ public class ImageCmds {
                 return new HelpContent.Builder()
                         .setDescription("Sends images of catgirl(s). Maybe.")
                         .setUsage("`~>catgirl` - Sends images of normal catgirls.\n" +
-                                "\"`~>catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)")
+                                "`~>catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)")
                         .build();
             }
         });
@@ -138,12 +143,14 @@ public class ImageCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Retrieves images from the e621 (furry) image board. (Why is the IB name so unrelated?).\n" +
+                        .setDescription("Retrieves images from the e621 (furry) image board. " +
+                                "(Why is the IB name so unrelated?).\n" +
                                 "This command can be only used in NSFW channels.")
                         .setUsage("`~>e621` - Retrieves a random image.\n" +
                                 "`~>e621 <tag>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag",
-                                "The image tag you're looking for. You can see a list of valid tags on e621's website (NSFW).")
+                                "The image tag you're looking for. " +
+                                        "You can see a list of valid tags on e621's website (NSFW).")
                         .build();
             }
         });

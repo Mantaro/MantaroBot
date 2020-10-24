@@ -339,7 +339,7 @@ public class PlayerCmds {
                         .setUsage("`~>unequip <slot>`.\n" +
                                 "Unequipping an item causes it to drop a broken version of itself, unless it wasn't used. " +
                                 "If there's no broken version of it, it will drop half of its market value.")
-                        .addParameter("slot", "Either pick or rod.")
+                        .addParameter("slot", "Either pick, axe or rod.")
                         .build();
             }
         });

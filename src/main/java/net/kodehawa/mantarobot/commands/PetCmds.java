@@ -591,6 +591,11 @@ public class PetCmds {
 
         pet.addSubCommand("info", new SubCommand() {
             @Override
+            public String description() {
+                return "Shows info about a pet type.";
+            }
+
+            @Override
             protected void call(Context ctx, String content) {
                 var lookup = HousePetType.lookupFromString(content);
                 var languageContext = ctx.getLanguageContext();

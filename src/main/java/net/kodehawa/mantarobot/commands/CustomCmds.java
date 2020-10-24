@@ -296,7 +296,7 @@ public class CustomCmds {
                     if (value.length() > 900)
                         val = Utils.paste(value);
 
-                    fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, true));
+                    fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, false));
                 }
 
                 I18nContext languageContext = ctx.getLanguageContext();

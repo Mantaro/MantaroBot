@@ -153,7 +153,7 @@ public class ModerationCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Softban the mentioned user and clears their messages from the past week. " +
-                                "(You need the Ban Members permission, so does the bot)♥n" +
+                                "(You need the Ban Members permission, so does the bot)" +
                                 "A soft ban is a ban & instant unban, usually useful to kick and clear messages.")
                         .setUsage("`~>softban <@user> [reason]`")
                         .addParameter("@user", "The user to softban.")
