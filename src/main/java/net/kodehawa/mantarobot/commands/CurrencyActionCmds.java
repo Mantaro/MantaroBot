@@ -101,8 +101,9 @@ public class CurrencyActionCmds {
 
                 var item = (Pickaxe) ItemHelper.fromId(equipped);
 
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                     return;
+                }
 
                 var money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
                 money += item.getMoneyIncrease();
@@ -151,7 +152,8 @@ public class CurrencyActionCmds {
                     } else {
                         var amount = 1;
 
-                        if (item == ItemReference.STAR_PICKAXE || item == ItemReference.COMET_PICKAXE) {
+                        if (item == ItemReference.STAR_PICKAXE ||
+                                item == ItemReference.COMET_PICKAXE || item == ItemReference.MOON_PICK) {
                             amount += random.nextInt(2);
                         }
 
@@ -170,6 +172,7 @@ public class CurrencyActionCmds {
 
                 //Gem find
                 if (random.nextInt(400) > (hasPotion ? 278 : (petHelp ? 250 : 325))) {
+
                     List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -580,8 +583,9 @@ public class CurrencyActionCmds {
 
                 final var item = (Axe) ItemHelper.fromId(equipped);
 
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                     return;
+                }
 
                 var chance = random.nextInt(100);
                 var hasPotion = ItemHelper.handleEffect(
