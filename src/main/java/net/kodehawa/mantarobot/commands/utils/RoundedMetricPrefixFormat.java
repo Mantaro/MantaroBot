@@ -27,10 +27,12 @@ import java.util.regex.Pattern;
 
 /**
  * Converts a number to a string in <a href="http://en.wikipedia.org/wiki/Metric_prefix">metric prefix</a> format.
- * For example, 7800000 will be formatted as '7.8M'. Numbers under 1000 will be unchanged. Refer to the tests for further examples.
+ * For example, 7800000 will be formatted as '7.8M'.
+ * Numbers under 1000 will be unchanged. Refer to the tests for further examples.
  * <p>
  * <p>
- * Literally taken out of https://stackoverflow.com/questions/4753251/how-to-go-about-formatting-1200-to-1-2k-in-java
+ * Literally taken out of
+ * https://stackoverflow.com/questions/4753251/how-to-go-about-formatting-1200-to-1-2k-in-java
  * Answer isn't the first one so gotta scroll up.
  * Decided to take this answer as I felt like it was the most complete one and had support for reversal.
  */
@@ -51,7 +53,8 @@ public class RoundedMetricPrefixFormat extends Format {
     @Override
     public StringBuffer format(Object obj, @NotNull StringBuffer output, @NotNull FieldPosition pos) {
         double number = Double.parseDouble(obj.toString());
-        // if the number is negative, convert it to a positive number and add the minus sign to the output at the end
+        // if the number is negative,
+        // convert it to a positive number and add the minus sign to the output at the end
         boolean isNegative = number < 0;
         number = Math.abs(number);
 

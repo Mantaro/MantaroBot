@@ -109,7 +109,9 @@ public class FunCmds {
                 if (content.equalsIgnoreCase("mantaro"))
                     waifuRate = 100;
 
-                ctx.sendStrippedLocalized("commands.ratewaifu.success", EmoteReference.THINKING, content, waifuRate);
+                ctx.sendStrippedLocalized(
+                        "commands.ratewaifu.success", EmoteReference.THINKING, content, waifuRate
+                );
             }
 
             @Override
@@ -180,7 +182,9 @@ public class FunCmds {
                 }
 
                 ctx.sendLocalized("commands.roll.success",
-                        EmoteReference.DICE, result, amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))
+                        EmoteReference.DICE,
+                        result,
+                        amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))
                 );
 
                 TextChannelGround.of(ctx.getChannel()).dropItemWithChance(ItemReference.LOADED_DICE, 5);
@@ -220,8 +224,13 @@ public class FunCmds {
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
 
-                listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
-                listDisplay.add(String.format("\uD83D\uDC97  %s#%s", ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator()));
+                listDisplay.add(String.format("\uD83D\uDC97  %s#%s",
+                        mentioned.get(0).getName(), mentioned.get(0).getDiscriminator())
+                );
+
+                listDisplay.add(String.format("\uD83D\uDC97  %s#%s",
+                        ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator())
+                );
 
                 toDisplay = String.join("\n", listDisplay);
 
@@ -229,9 +238,8 @@ public class FunCmds {
                     ids[0] = mentioned.get(0).getIdLong();
                     ids[1] = mentioned.get(1).getIdLong();
                     toDisplay = mentioned.stream()
-                            .map(user -> "\uD83D\uDC97  " + user.getName() + "#" +
-                                    user.getDiscriminator()).collect(Collectors.joining("\n")
-                            );
+                            .map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator())
+                            .collect(Collectors.joining("\n"));
                 } else {
                     ids[0] = ctx.getAuthor().getIdLong();
                     ids[1] = mentioned.get(0).getIdLong();
@@ -257,7 +265,9 @@ public class FunCmds {
                 MessageEmbed loveEmbed = new EmbedBuilder()
                         .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null,
                                 ctx.getAuthor().getEffectiveAvatarUrl())
-                        .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
+                        .setThumbnail(
+                                "http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png"
+                        )
                         .setDescription("\n**" + toDisplay + "**\n\n" +
                                 percentage + "% **\\|\\|**  " +
                                 CommandStatsManager.bar(percentage, 40) + "  **\\|\\|** \n\n" +

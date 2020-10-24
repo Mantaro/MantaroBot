@@ -25,7 +25,8 @@ public class ReminderObject {
     private final String userId;
     private final String guildId;
 
-    ReminderObject(String id, String reminder, long time, long scheduledAtMillis, String userId, String guildId) {
+    ReminderObject(String id, String reminder, long time,
+                   long scheduledAtMillis, String userId, String guildId) {
         this.id = id;
         this.reminder = reminder;
         this.time = time;

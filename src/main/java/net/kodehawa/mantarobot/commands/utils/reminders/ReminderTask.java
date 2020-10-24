@@ -28,6 +28,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +53,7 @@ public class ReminderTask {
                     JSONObject data = new JSONObject(rem);
                     long fireAt = data.getLong("at");
 
-                    //If the time has passed...
+                    // If the time has passed...
                     if (System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
                         String userId = data.getString("user");
@@ -56,7 +61,8 @@ public class ReminderTask {
                         String guildId = data.getString("guild");
                         long scheduledAt = data.getLong("scheduledAt");
 
-                        //1 day passed already, assuming it's a stale reminder: Done because ReminderTask wasn't working.
+                        // 1 day passed already, assuming it's a stale reminder:
+                        // Done because ReminderTask wasn't working.
                         if(System.currentTimeMillis() - fireAt > TimeUnit.DAYS.toMillis(1)) {
                             Reminder.cancel(userId, fullId, Reminder.CancelReason.CANCEL);
                             return;
@@ -67,11 +73,15 @@ public class ReminderTask {
 
                         bot.getShardManager().retrieveUserById(userId)
                                 .flatMap(User::openPrivateChannel)
-                                .flatMap(privateChannel -> privateChannel.sendMessage(
-                                            EmoteReference.POPPER +
-                                                    "**Reminder!**\n" + "You asked me to remind you of: " + reminder +
-                                                    "\nAt: " +
-                                                    new Date(scheduledAt) + (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
+                                .flatMap(privateChannel -> privateChannel
+                                        .sendMessageFormat("%s**Reminder!**\nYou asked me to remind you of: %s\n" +
+                                                "At: %s%s",
+                                                EmoteReference.POPPER,
+                                                reminder,
+                                                OffsetDateTime.ofInstant(
+                                                        Instant.ofEpochMilli(scheduledAt), ZoneId.systemDefault()
+                                                ).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)),
+                                                (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
                                         )
                                 ).queue(success -> {
                                     log.debug("Reminded {}. Removing from remind database", fullId);

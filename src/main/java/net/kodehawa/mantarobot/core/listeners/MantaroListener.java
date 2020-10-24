@@ -96,10 +96,12 @@ public class MantaroListener implements EventListener {
     private final Pattern modifierPattern = Pattern.compile("\\b\\p{L}*:\\b");
 
     //Channels we could send the greet message to.
-    private final List<String> channelNames = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
+    private final List<String> channelNames =
+            List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
     private final Config config = MantaroData.config().get();
 
-    public MantaroListener(ExecutorService threadPool, Cache<Long, Optional<CachedMessage>> messageCache) {
+    public MantaroListener(ExecutorService threadPool,
+                           Cache<Long, Optional<CachedMessage>> messageCache) {
         this.threadPool = threadPool;
         this.messageCache = messageCache;
     }
@@ -119,7 +121,11 @@ public class MantaroListener implements EventListener {
         String invite = m.group(0);
         String code = invite.substring(invite.lastIndexOf('/') + 1).trim();
         try {
-            return INVITES.get(code, () -> Invite.resolve(jda, code).complete().getGuild().getIdLong()) != guild.getIdLong();
+            return INVITES.get(code, () -> Invite.resolve(jda, code)
+                    .complete()
+                    .getGuild()
+                    .getIdLong()) != guild.getIdLong();
+
         } catch (ExecutionException e) {
             log.error("Error running invite validator", e);
             return DISCORD_INVITE.matcher(message).find();
@@ -199,7 +205,10 @@ public class MantaroListener implements EventListener {
 
             var guild = ((GuildLeaveEvent) event).getGuild();
             //Destroy this link. Avoid creating a new one by checking if we actually do have an audio manager here.
-            var manager = instance.getAudioManager().getMusicManagers().get(guild.getId());
+            var manager = instance.getAudioManager()
+                    .getMusicManagers()
+                    .get(guild.getId());
+
             if(manager != null) {
                 manager.getLavaLink().resetPlayer();
                 manager.getLavaLink().destroy();
@@ -266,16 +275,21 @@ public class MantaroListener implements EventListener {
                         //Attempt to open a PM and send a key!
                         user.openPrivateChannel().queue(channel -> {
                             //Sellout message :^)
-                            channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
-                                message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
-                                        "If any doubts, please contact Kodehawa#3457.\n" +
-                                        "Instructions: **Apply this key to yourself!**. " +
-                                        "This key is a subscription to Mantaro Premium. This will last as long as you pledge. If you want more keys (>$2 donation) " +
-                                        "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
-                                        "To apply this key, run the following command in any channel `~>activatekey " +
-                                        //will eventually get linked (see DBUser.java, lines 103-107), patreon webhook can be slower and clash with what I need here.
-                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER, false).getId() + "`\n" +
-                                        "Thanks you soo much for donating and helping to keep Mantaro alive! :heart:").queue(sent -> {
+                            channel.sendMessage(EmoteReference.EYES +
+                                    "Thanks you for donating, we'll deliver your premium key shortly! :heart:")
+                                    .queue(message -> {
+                                        message.editMessage(EmoteReference.POPPER +
+                                                "You received a premium key due to your donation to mantaro. " +
+                                                "If any doubts, please contact Kodehawa#3457.\n" +
+                                                "Instructions: **Apply this key to yourself!**. " +
+                                                "This key is a subscription to Mantaro Premium. " +
+                                                "This will last as long as you pledge. If you want more keys (>$2 donation) " +
+                                                "or want to enable the patreon bot (>$4 donation)" +
+                                                " you need to contact Kodehawa to deliver your keys.\n" +
+                                                "To apply this key, run the following command in any channel `~>activatekey " +
+                                                PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER, false).getId()
+                                                + "`\nThanks you soo much for donating and helping to keep Mantaro alive! :heart:"
+                                        ).queue(sent -> {
                                             dbUser.getData().setHasReceivedFirstKey(true);
                                             dbUser.saveAsync();
                                         }
@@ -283,11 +297,13 @@ public class MantaroListener implements EventListener {
 
                                 Metrics.PATRON_COUNTER.inc();
                                 //Celebrate internally! \ o /
-                                LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
+                                LogUtils.log(
+                                        "Delivered premium key to " + user.getAsTag() + "(" + user.getId() + ")"
+                                );
                             });
                         }, failure -> LogUtils.log(
-                                String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!",
-                                        user.getId(), user.getName(), user.getDiscriminator())
+                                String.format("User: %s (%s) couldn't receive the key, apply manually when asked!",
+                                        user.getId(), user.getAsTag())
                                 )
                         );
                     }
@@ -300,6 +316,8 @@ public class MantaroListener implements EventListener {
         String hour = df.format(new Date(System.currentTimeMillis()));
         GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
         String logChannel = data.getGuildLogChannel();
+        User user = event.getUser();
+
         if (logChannel != null) {
             TextChannel tc = event.getGuild().getTextChannelById(logChannel);
             if (tc != null) {
@@ -308,11 +326,11 @@ public class MantaroListener implements EventListener {
                     message = new DynamicModifiers()
                             .set("hour", hour)
                             .mapEvent("event", event)
-                            .mapUser("event.user", event.getUser())
+                            .mapUser("event.user", user)
                             .resolve(data.getBannedMemberLog());
                 } else {
                     message = EmoteReference.WARNING + "`[" + hour + "]` " +
-                            event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.";
+                            user.getAsTag() + " just got banned.";
                 }
                 tc.sendMessage(message).queue();
                 logTotal++;
@@ -327,17 +345,21 @@ public class MantaroListener implements EventListener {
 
             final DBGuild dbGuild = db.getGuild(event.getGuild());
             final GuildData data = dbGuild.getData();
-
             String logChannel = data.getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null)
                     return;
 
-                CachedMessage deletedMessage = messageCache.get(event.getMessageIdLong(), Optional::empty).orElse(null);
-                if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)
-                        && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
-                    if (data.getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
+                CachedMessage deletedMessage =
+                        messageCache.get(event.getMessageIdLong(), Optional::empty).orElse(null);
+
+                User author = deletedMessage.getAuthor();
+
+                if (deletedMessage != null &&
+                        !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)
+                        && !author.getId().equals(event.getJDA().getSelfUser().getId())) {
+                    if (data.getModlogBlacklistedPeople().contains(author.getId())) {
                         return;
                     }
 
@@ -360,13 +382,15 @@ public class MantaroListener implements EventListener {
                                 .set("content", deletedMessage.getContent().replace("```", ""))
                                 .mapEvent("event", event)
                                 .mapChannel("event.channel", event.getChannel())
-                                .mapUser("event.user", deletedMessage.getAuthor())
+                                .mapUser("event.user", author)
                                 .set("event.message.id", event.getMessageId())
                                 .resolve(data.getDeleteMessageLog());
                     } else {
-                        message = String.format(EmoteReference.WARNING + "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
-                                "```diff\n-%s```", hour, event.getMessageId(), deletedMessage.getAuthor().getName(),
-                                deletedMessage.getAuthor().getDiscriminator(), deletedMessage.getAuthor().getId(), event.getChannel().getName(),
+                        message = String.format(EmoteReference.WARNING +
+                                        "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                                        "```diff\n-%s```", hour, event.getMessageId(), author.getName(),
+                                author.getDiscriminator(),
+                                author.getId(), event.getChannel().getName(),
                                 deletedMessage.getContent().replace("```", "")
                         );
                     }
@@ -398,11 +422,15 @@ public class MantaroListener implements EventListener {
 
                 User author = event.getAuthor();
                 CachedMessage editedMessage = messageCache.get(event.getMessage().getIdLong(), Optional::empty).orElse(null);
+                String content = editedMessage.getContent();
 
-                if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
+                if (editedMessage != null && !content.isEmpty() && !event.getChannel().getId().equals(logChannel)) {
                     //Update message in cache in any case.
-                    messageCache.put(event.getMessage().getIdLong(), Optional.of(
-                            new CachedMessage(event.getGuild().getIdLong(), event.getAuthor().getIdLong(), event.getMessage().getContentDisplay()))
+                    Message originalMessage = event.getMessage();
+                    messageCache.put(originalMessage.getIdLong(), Optional.of(
+                            new CachedMessage(event.getGuild().getIdLong(),
+                                    event.getAuthor().getIdLong(), originalMessage.getContentDisplay())
+                            )
                     );
 
                     if (guildData.getLogExcludedChannels().contains(event.getChannel().getId())) {
@@ -414,12 +442,12 @@ public class MantaroListener implements EventListener {
                     }
 
                     //Don't log if content is equal but update in cache (cc: message is still relevant).
-                    if (event.getMessage().getContentDisplay().equals(editedMessage.getContent()))
+                    if (originalMessage.getContentDisplay().equals(content))
                         return;
 
                     if (!guildData.getModLogBlacklistWords().isEmpty()) {
                         //This is not efficient at all I'm pretty sure, is there a better way?
-                        List<String> splitMessage = Arrays.asList(editedMessage.getContent().split("\\s+"));
+                        List<String> splitMessage = Arrays.asList(content.split("\\s+"));
                         if (guildData.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
                             return;
                         }
@@ -429,19 +457,20 @@ public class MantaroListener implements EventListener {
                     if (guildData.getEditMessageLog() != null) {
                         message = new DynamicModifiers()
                                 .set("hour", hour)
-                                .set("old", editedMessage.getContent().replace("```", ""))
-                                .set("new", event.getMessage().getContentDisplay().replace("```", ""))
+                                .set("old", content.replace("```", ""))
+                                .set("new", originalMessage.getContentDisplay().replace("```", ""))
                                 .mapEvent("event", event)
                                 .mapChannel("event.channel", event.getChannel())
                                 .mapUser("event.user", editedMessage.getAuthor())
-                                .mapMessage("event.message", event.getMessage())
+                                .mapMessage("event.message", originalMessage)
                                 .resolve(guildData.getEditMessageLog());
                     } else {
                         message = String.format(EmoteReference.WARNING +
-                                        "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                                hour, event.getMessage().getId(), author.getName(), author.getDiscriminator(),
-                                event.getChannel().getName(), editedMessage.getContent().replace("```", ""),
-                                event.getMessage().getContentDisplay().replace("```", "")
+                                        "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified." +
+                                        "\n```diff\n-%s\n+%s```",
+                                hour, originalMessage.getId(), author.getName(), author.getDiscriminator(),
+                                event.getChannel().getName(), content.replace("```", ""),
+                                originalMessage.getContentDisplay().replace("```", "")
                         );
                     }
 
@@ -492,8 +521,9 @@ public class MantaroListener implements EventListener {
                                 .mapUser("event.user", event.getUser())
                                 .resolve(data.getUnbannedMemberLog());
                     } else {
-                        message = String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour,
-                                event.getUser().getName(), event.getUser().getDiscriminator()
+                        message = String.format(EmoteReference.WARNING +
+                                        "`[%s]` %s#%s just got unbanned.",
+                                hour, event.getUser().getName(), event.getUser().getDiscriminator()
                         );
                     }
                     tc.sendMessage(message).queue();
@@ -545,8 +575,9 @@ public class MantaroListener implements EventListener {
                         .setColor(Color.PINK)
                         .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! " +
                                 "Thanks for adding me to your server, I highly appreciate it <3\n" +
-                                "We have music, currency, games and way more stuff you can check out! " +
-                                "Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!\n\n" +
+                                "We have music, currency (money/economy), games and way more stuff you can check out!\n" +
+                                "Make sure you use the `~>help` command " +
+                                "to make yourself comfy and to get started with the bot!\n\n" +
                                 "If you're interested in supporting Mantaro," +
                                 " check out our Patreon page below, it'll greatly help to improve the bot. " +
                                 "This message will only be shown once.")
@@ -558,12 +589,12 @@ public class MantaroListener implements EventListener {
                                         "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - " +
                                         "Great customizability for your server needs!\n" +
                                         "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - " +
-                                        " customizability for your server needs!\n" +
+                                        " Customizability for your server needs!\n" +
                                         "[Patreon](https://patreon.com/mantaro) - " +
                                         "Help Mantaro's development directly by donating a small amount of money each month.\n" +
-                                        "[Official Website](https://mantaro.site) - " +
-                                        "A cool website.", true
-                        ).setFooter("We hope you enjoy using Mantaro! This will self-destruct in 1 minute.");
+                                        "[Official Website](https://mantaro.site) - A cool website.",
+                                true
+                        ).setFooter("We hope you enjoy using Mantaro! This will self-destruct in 2 minutes.");
 
                 DBGuild dbGuild = db.getGuild(guild);
 
@@ -571,20 +602,24 @@ public class MantaroListener implements EventListener {
                         channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
                     TextChannel channel = (TextChannel) ch;
                     if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
-                        channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
+                        channel.sendMessage(embedBuilder.build()
+                        ).queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
                         dbGuild.save();
                     } // else ignore
                 }, () -> {
                     //Attempt to find the first channel we can talk to.
                     TextChannel channel = (TextChannel) guild.getChannels().stream()
-                            .filter(guildChannel -> guildChannel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk())
+                            .filter(guildChannel ->
+                                    guildChannel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk()
+                            )
                             .findFirst()
                             .orElse(null);
 
                     //Basically same code as above, but w/e.
                     if(channel != null && !dbGuild.getData().hasReceivedGreet()) {
-                        channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(1, TimeUnit.MINUTES));
+                        channel.sendMessage(embedBuilder.build())
+                                .queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
                         dbGuild.save();
                     }
@@ -637,14 +672,16 @@ public class MantaroListener implements EventListener {
         if (guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId()) &&
                 !guildData.getLinkProtectionAllowedUsers().contains(event.getAuthor().getId())) {
             //Has link protection enabled, let's check if they don't have admin stuff.
-            if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+            if (!event.getMember().hasPermission(Permission.ADMINISTRATOR) &&
+                    !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 //Check if invite is valid. This is async because hasInvite uses complete sometimes.
                 threadPool.execute(() -> {
                     //If this message has an invite and it's not an invite to the same guild it was sent on, proceed to delete.
                     if (hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                         Member bot = event.getGuild().getSelfMember();
                         Metrics.ACTIONS.labels("link_block").inc();
-                        if (bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
+                        if (bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) ||
+                                bot.hasPermission(Permission.ADMINISTRATOR)) {
                             User author = event.getAuthor();
 
                             //Ignore myself.
@@ -653,11 +690,13 @@ public class MantaroListener implements EventListener {
                             }
 
                             //Ignore log channel.
-                            if (guildData.getGuildLogChannel() != null && event.getChannel().getId().equals(guildData.getGuildLogChannel())) {
+                            if (guildData.getGuildLogChannel() != null &&
+                                    event.getChannel().getId().equals(guildData.getGuildLogChannel())) {
                                 return;
                             }
 
-                            //Yes, I know the check previously done is redundant, but in case someone decides to change the laws of nature, it should do	.
+                            // Yes, I know the check previously done is redundant,
+                            // but in case someone decides to change the laws of nature, it should do	.
                             event.getMessage().delete().queue();
                             event.getChannel().sendMessage(EmoteReference.ERROR +
                                     "**You cannot advertise here.** Deleted invite link sent by **" +
@@ -825,7 +864,8 @@ public class MantaroListener implements EventListener {
                         try {
                             embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
                         } catch (Exception e) {
-                            tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                            tc.sendMessage(EmoteReference.ERROR2 +
+                                    "The string ``{" + v + "}`` isn't a valid JSON.").queue();
                             e.printStackTrace();
                             return;
                         }
@@ -845,9 +885,11 @@ public class MantaroListener implements EventListener {
                     }
                 } catch (Exception e) {
                     if(e.getLocalizedMessage().contains("URL must be a valid http(s) or attachment url")) {
-                        tc.sendMessage("Failed to send join/leave message: Wrong image URL in thumbnail, image, footer and/or author.").queue();
+                        tc.sendMessage("Failed to send join/leave message: " +
+                                "Wrong image URL in thumbnail, image, footer and/or author.").queue();
                     } else {
-                        tc.sendMessage("Failed to send join/leave message: Unknown error, try checking your message.").queue();
+                        tc.sendMessage("Failed to send join/leave message: " +
+                                "Unknown error, try checking your message.").queue();
                         e.printStackTrace();
                     }
                 }
@@ -855,7 +897,9 @@ public class MantaroListener implements EventListener {
 
             tc.sendMessage(message)
                     .allowedMentions(EnumSet.of(Message.MentionType.USER, Message.MentionType.ROLE))
-                    .queue(success -> { }, failure -> tc.sendMessage("Failed to send join/leave message.").queue());
+                    .queue(success -> { }, failure ->
+                            tc.sendMessage("Failed to send join/leave message.").queue()
+                    );
         }
     }
 

@@ -15,7 +15,8 @@ public class LessAnnoyingLavalinkSocket extends LavalinkSocket {
             "WebSocketClosedEvent"
     );
 
-    LessAnnoyingLavalinkSocket(String name, Lavalink<?> lavalink, URI serverUri, Draft protocolDraft, Map<String, String> headers) {
+    LessAnnoyingLavalinkSocket(String name, Lavalink<?> lavalink, URI serverUri,
+                               Draft protocolDraft, Map<String, String> headers) {
         super(name, lavalink, serverUri, protocolDraft, headers);
     }
 
