@@ -39,8 +39,8 @@
       "mop": "%1$sVocê (talvez) limpou todas as poeiras que você tinha acumulado sobre todas as sessões de mineração.",
       "mop_not_enough": "%1$sSeu nível de poeira é 5%%, então limpar não será muito útil.",
       "milk": "%1$sEfeitos de poção removidos.",
-      "stamina": "%1$sVigor ativado para 5 sessões de mineração.",
-      "stamina_used": "%1$sVocê já tem um efeito de vigor usado!",
+      "stamina": "%1$sEstâmina ativada para 5 sessões de mineração.",
+      "stamina_used": "%1$sVocê já tem um efeito de estâmina usado!",
       "haste": "%1$sPressa ativada por 2 sessões.",
       "haste_used": "%1$sVocê já tem um efeito de pressa ativado!",
       "bait": "%1$sVocê inseriu uma isca na sua vara de pesca! Boa sorte na pesca. (Ativado por 1 uso)",
@@ -1313,7 +1313,7 @@
         "header": "%1$s**Pets atualmente Disponíveis**\n\n%2$s\n\n%3$s**Explicação das Habilidades:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sVocê não tem nenhum pet acariciar. Cheque `~>pet` para uma explicação."
+        "no_pet": "%1$sVocê não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação."
       },
       "pet_reactions": {
         "cute": "%1$sSeu pet abana o rabo alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %2$s**.%3$s",
@@ -1326,59 +1326,59 @@
         "no_requirements": "%1$sVocê precisa de um carro e uma casa pra comprar um pet! Casa: %2$s, Carro: %3$s",
         "no_house": "%1$sVocê precisa ter uma casa de pet no seu inventário pra fazer isso.",
         "already_has_pet": "%1$sVocê já tem um pet.",
-        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$s.",
-        "cancel_success": "%1$sCancelled operation."
+        "nothing_found": "%1$sNão foi possível encontrar o tipo de pet que você especificou. Você especificou: `%2$s`, Tipos válidos: `%3$s`",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse pet. Valor: %2$,d créditos, Carteira: %3$,d créditos",
+        "confirm": "%1$sVocê tem certeza que quer comprar esse pet? Nome: %2$s, Tipo: %3$s, Custo: %4$,d créditos. Digite `yes` para continuar, `no` caso contrário.",
+        "success": "%1$sParabéns! Vocês são dois agora são os orgulhosos proprietários de um %2$s%3$s e eles foram nomeados `%4$s`. O custo para comprar este pet foi %5$s.",
+        "cancel_success": "%1$sOperação cancelada."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with.",
-        "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food!",
-        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
-        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
-        "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "no_pet": "%1$sVocê não tem nenhum pet pra alimentar. Cheque `~>pet` para uma explicação.",
+        "no_content": "%1$sVocê precisa especificar o que você dar de alimento pro seu pet.",
+        "no_item": "%1$sEu não encontrei o item que você especificou.",
+        "not_food": "%1$sUé! Isso não é comida!",
+        "no_need": "%1$sSeu pet não está faminto, então ele não quer comer agora.",
+        "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
+        "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
+        "success": "%1$sYay! Pet alimentando com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%%",
+        "too_much": "%1$sTalvez dê um pouco menos de comida? Você estaria desperdiçando comida caso contrário! (O aumento é mais do que necessário)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
-        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
-        "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
-        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
+        "no_pet": "%1$sVocê não tem nenhum pet pra dar água. Cheque `~>pet` para uma explicação.",
+        "no_need": "%1$sSeu pet não está com sede, então ele não quer beber agora.",
+        "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
+        "success": "%1$sYay! Pet hidratado com sucesso e ele recuperou %2$s%% de sua sede. A sede agora está %3$s%%"
       },
       "activity": {
-        "low_stamina": "%1$sYour pet has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$sThe health of your pet is too low. Give it food and let it rest for a while to replenish",
-        "low_hunger": "%1$sYour pet is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$sYour pet is too thirsty to do anything right now.",
-        "sleepy": "%1$sYour pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
-        "success": "%1$sYour pet successfully helped you! You got a buff and extra credits **(%2$s extra credits, %3$s extra items)** -included on what you got- thanks to the extra work your pet was able to do for you!"
+        "low_stamina": "%1$sSeu pet tem uma estâmina muito baixa. Dê a ele comida/água para reabastecer.",
+        "low_health": "%1$sA saúde do seu pet é muito baixa. Dê a ele comida e deixe ele descansar um pouco para reabastecer",
+        "low_hunger": "%1$sSeu pet está com muita fome pra fazer qualquer coisa agora. *Coooomida~*",
+        "low_thirst": "%1$sSeu pet está com muita sede pra fazer qualquer coisa agora.",
+        "sleepy": "%1$sSeu pet está com muito sono pra fazer qualquer coisa. De fato, você acordou ele :<. Você não deveria estar dormindo também?",
+        "success": "%1$sSeu pet te ajudou com sucesso! Você ganhou um buff e créditos extras **(%2$s créditos extras, %3$s itens extras)** -incluindo o que você ganhou- graças ao trabalho extra que seu pet foi capaz de fazer por você!"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename.",
-        "no_content": "%1$sYou need to give me the new name of your pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+        "no_pet": "%1$sVocê não tem um pet pra renomear.",
+        "no_content": "%1$sVocê tem que me dizer o novo nome do seu pet.",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fazer isso. Custo: %2%s, Atual: %3$s.",
+        "success": "%1$sRenomeado com sucesso o seu pet de `%2$s` para `%3$s`. %4$s foi deduzido da sua carteira. Aprecie!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+        "no_pet": "%1$sVocê não tem um pet pra remover",
+        "confirm": "%1$sVocê tem certeza de que quer remover esse pet? A pessoa com quem você é casado irá receberá %2$s créditos, e você receberá %2$s créditos também.\nDigite `yes` para confirmar ou `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tomagotchi ou algo semelhante.",
+        "success": "%1$sPet removido com sucesso. Cada pessoa neste casamento recebeu %2$s créditos como um reembolso."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for.",
-        "author": "Pet information for type %1$s%2$s",
-        "name": "Pet Name",
-        "cost": "Pet Cost",
-        "abilities": "Abilities",
-        "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1)",
-        "coin_buildup_100": "Coin Buildup (Lvl. 100)",
-        "item_buildup": "Item Buildup (Lvl. 1)",
-        "item_buildup_100": "Item Buildup (Lvl. 100)"
+        "not_found": "%1$sEu não consegui encontrar o tipo de pet que você está procurando.",
+        "author": "Informação do tipo de pet %1$s%2$s",
+        "name": "Nome do Pet",
+        "cost": "Custo do Pet",
+        "abilities": "Habilidades",
+        "food": "Comestíveis",
+        "coin_buildup": "Acúmulo de Moedas (Nvl. 1)",
+        "coin_buildup_100": "Acúmulo de Moedas (Nvl. 100)",
+        "item_buildup": "Acúmulo de Itens (Nvl. 1)",
+        "item_buildup_100": "Acúmulo de Itens (Nvl. 100)"
       }
     },
     "invite": {
@@ -1394,14 +1394,14 @@
       "footer": "Nós esperamos que você se divirta com o bot."
     },
     "salvage": {
-      "no_item": "%1$sYou need to specify the item you want to salvage.",
-      "no_item_found": "%1$sI can't find the item you specified.",
-      "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item.",
-      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
-      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
-      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
-      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
+      "no_item": "%1$sVocê tem que especificar o item que quer salvar.",
+      "no_item_found": "%1$sEu consegui encontrar o item que você especificou.",
+      "cant_salvage": "%1$sEu não consigo salvar esse item.",
+      "not_wrench": "%1$sVocê precisa de uma chave inglesa pra salvar um item.",
+      "not_enough_level": "%1$sVocê precisa de pelo menos uma chave inglesa de nível 2 pra salvar esse item.",
+      "no_main_item": "%1$sVocê não parece que tem o item que está tentando salvar.",
+      "no_tool": "%1$sVocê não tem essa chave inglesa. Tente especificar ela, ou especificar outra chave inglesa.",
+      "no_tool_default": "%1$sVocê precisa de pelo menos uma Chave Inglesa de Cometa no seu inventário pra fazer isso, mas você pode especificar uma maior se quiser.",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
@@ -2287,7 +2287,7 @@
     "broken_sparkle_rod": "Vara Brilhante Quebrada",
     "broken_star_rod": "Vara de Estrela Quebrada",
     "incubator_egg": "Incubadora de Ovo",
-    "water_bottle": "Garrafa d'água",
+    "water_bottle": "Garrafa d'Água",
     "magic_watch": "Relógio Mágico",
     "pet_house": "Pet House",
     "steak": "Steak",
