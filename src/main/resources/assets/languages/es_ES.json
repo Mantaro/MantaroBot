@@ -1250,7 +1250,7 @@
       "bot_no_messages": "%1$sNo hay mensajes de bots ni llamadas a los bots por aquí...",
       "no_pins_no_messages": "%1$sNo hay ningun mensaje no anclado por aquí...",
       "mention_no_messages": "%1$sNo encuentro ningún mensaje de los usuarios que mencionaste por aquí.",
-      "too_few_messages": "%1$s¡Muy pocos mensajes para eliminar en masa! El mínimo son 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sEncontré un error desconocido mientras intentaba recuperar el historial de mensajes para eliminar. (Uso interno: %2$s: %3$s)",
       "invalid_number": "%1$sPor favor especifica un número válido.",
       "not_valid": "%1$s¡Ese no es un número válido de mensajes a eliminar!",
