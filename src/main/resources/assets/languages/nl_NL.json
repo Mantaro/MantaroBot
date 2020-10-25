@@ -1250,7 +1250,7 @@
       "bot_no_messages": "%1$sEr zijn hier geen berichten van bots of botoproepen.",
       "no_pins_no_messages": "%1$sEr zijn hier geen berichten die niet gepind zijn ...",
       "mention_no_messages": "%1$sEr zijn geen berichten van gebruikers die je hier hebt genoemd.",
-      "too_few_messages": "%1$sTe weinig berichten om te verwijderen. Het minimum is 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sIk vond een onbekende fout tijdens het ophalen van de geschiedenis om de berichten te weg te halen (Internal: %2$s %3$s)",
       "invalid_number": "%1$sGeef een geldig nummer op.",
       "not_valid": "%1$sDat is geen geldig aantal te verwijderen berichten.",
