@@ -153,7 +153,7 @@ public class InteractiveOperations {
             if (l == null || l.isEmpty())
                 return;
 
-            l.removeIf(o -> {
+            l.removeIf (o -> {
                 try {
                     int i = o.operation.run(event);
                     if (i == Operation.COMPLETED) {

@@ -54,7 +54,7 @@ public class APIUtils {
 
             try(var response = httpClient.newCall(request).execute()) {
                 var body = response.body();
-                if(body == null) {
+                if (body == null) {
                     throw new IllegalStateException("Body is null");
                 }
                 return Badge.lookupFromString(new JSONObject(new JSONTokener(
@@ -77,7 +77,7 @@ public class APIUtils {
 
         try(var response = httpClient.newCall(request).execute()) {
             var body = response.body();
-            if(body == null) {
+            if (body == null) {
                 throw new IllegalStateException("Body is null");
             }
 
@@ -105,7 +105,7 @@ public class APIUtils {
 
             try(var response = httpClient.newCall(request).execute()) {
                 var body = response.body();
-                if(body == null) {
+                if (body == null) {
                     throw new IllegalStateException("Body is null");
                 }
                 JSONObject reply = new JSONObject(new JSONTokener(body.byteStream()));
@@ -117,7 +117,7 @@ public class APIUtils {
             //don't disable premium if the api is wonky, no need to be a meanie.
             ex.printStackTrace();
 
-            if(config.isPremiumBot()) {
+            if (config.isPremiumBot()) {
                 // Same as above, but send pledge = false but an amount of 4. This is to signal the
                 // handler that we have a wrong reply.
                 return Pair.of(false, "100000");

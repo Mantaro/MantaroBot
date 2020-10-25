@@ -251,7 +251,7 @@ public class AudioCmdUtils {
 
             //Workaround for a bug in lavalink that gives us Link.State.CONNECTED and a channel that doesn't exist anymore.
             //This is a little cursed.
-            if(vc != null) {
+            if (vc != null) {
                 textChannel.sendMessageFormat(lang.get("commands.music_general.connect.already_connected"), EmoteReference.WARNING, vc.getName()).queue();
                 return completedFuture(false);
             } else {
@@ -265,7 +265,7 @@ public class AudioCmdUtils {
 
             //Workaround for a bug in lavalink that gives us Link.State.CONNECTING and a channel that doesn't exist anymore.
             //This is a little cursed.
-            if(vc != null) {
+            if (vc != null) {
                 textChannel.sendMessageFormat(lang.get("commands.music_general.connect.attempting_to_connect"), EmoteReference.ERROR, vc.getName()).queue();
                 return completedFuture(false);
             } else {
@@ -280,7 +280,7 @@ public class AudioCmdUtils {
                     voiceChannel.getId()
             );
 
-            if(cursed)
+            if (cursed)
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", link.getState());
 
             return openAudioConnection(event, link, voiceChannel, lang).thenApply(__ -> true);

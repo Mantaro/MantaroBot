@@ -114,7 +114,7 @@ public class NewContext {
     public <T> T argument(@Nonnull Parser<T> parser, @Nullable String missingMessage, @Nullable String failureMessage) {
         int offset = args.getOffset();
         Optional<T> optional;
-        if(!args.hasNext()) {
+        if (!args.hasNext()) {
             throw new ArgumentParseError(missingMessage, this, parser, args.snapshot());
         } else {
             optional = parser.parse(this);
@@ -140,10 +140,10 @@ public class NewContext {
     @Nonnull
     @CheckReturnValue
     public <T> Optional<T> tryArgument(@Nonnull Parser<T> parser) {
-        if(!args.hasNext()) return Optional.empty();
+        if (!args.hasNext()) return Optional.empty();
         MarkedBlock block = args.marked();
         Optional<T> optional = parser.parse(this);
-        if(optional.isEmpty()) {
+        if (optional.isEmpty()) {
             block.reset();
         }
         return optional;
@@ -215,14 +215,14 @@ public class NewContext {
     public <T> List<T> takeUntil(Parser<T> valueParser, Parser<?> delimiter) {
         List<T> list = new ArrayList<>();
         MarkedBlock block = args.marked();
-        if(tryArgument(delimiter).isPresent()) {
+        if (tryArgument(delimiter).isPresent()) {
             block.reset();
             return list;
         }
         for(Optional<T> parsed = tryArgument(valueParser); parsed.isPresent(); parsed = tryArgument(valueParser)) {
             list.add(parsed.get());
             block.mark();
-            if(tryArgument(delimiter).isPresent()) {
+            if (tryArgument(delimiter).isPresent()) {
                 block.reset();
                 return list;
             }

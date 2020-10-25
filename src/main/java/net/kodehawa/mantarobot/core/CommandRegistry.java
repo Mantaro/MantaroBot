@@ -126,7 +126,7 @@ public class CommandRegistry {
             return false;
         }
 
-        if (guildData.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
+        if (guildData.getDisabledUsers().contains(event.getAuthor().getId()) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.USER);
             return false;
         }
@@ -152,27 +152,27 @@ public class CommandRegistry {
 
         if (guildData.getWhitelistedRole() != null) {
             Role whitelistedRole = event.getGuild().getRoleById(guildData.getWhitelistedRole());
-            if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && !isAdmin(event.getMember()))) {
+            if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && isNotAdmin(event.getMember()))) {
                 return false;
             }
             //else continue.
         }
 
-        if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
+        if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
             return false;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>())
-                .contains(name(cmd, cmdName))) && !isAdmin(event.getMember())) {
+                .contains(name(cmd, cmdName))) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
             return false;
         }
 
         HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>())
-                .contains(root(cmd).category())) && !isAdmin(event.getMember())) {
+                .contains(root(cmd).category())) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
             return false;
         }
@@ -243,7 +243,7 @@ public class CommandRegistry {
                     new I18nContext(guildData, userData),
                     event.getMessage().getContentRaw().substring(prefix.length())));
         } catch (ArgumentParseError e) {
-            if(e.getMessage() != null) {
+            if (e.getMessage() != null) {
                 event.getChannel().sendMessage(
                         EmoteReference.ERROR + e.getMessage()
                 ).queue();
@@ -255,7 +255,7 @@ public class CommandRegistry {
             }
             return true;
         }
-        if(!executedNew) {
+        if (!executedNew) {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
         }
 
@@ -292,7 +292,7 @@ public class CommandRegistry {
         }
 
         Command parent = commands.get(command);
-        if(parent instanceof ProxyCommand) {
+        if (parent instanceof ProxyCommand) {
             throw new IllegalArgumentException("Use @Alias instead");
         }
         parent.getAliases().add(alias);
@@ -300,8 +300,8 @@ public class CommandRegistry {
         register(alias, new AliasCommand(alias, command, parent));
     }
 
-    private boolean isAdmin(Member member) {
-        return CommandPermission.ADMIN.test(member);
+    private boolean isNotAdmin(Member member) {
+        return !CommandPermission.ADMIN.test(member);
     }
 
     public void sendDisabledNotice(GuildMessageReceivedEvent event, GuildData data, CommandDisableLevel level) {
@@ -317,14 +317,14 @@ public class CommandRegistry {
     }
 
     private static String name(Command c, String userInput) {
-        if(c instanceof AliasCommand) {
+        if (c instanceof AliasCommand) {
             //Return the original command name here for all intents and purposes.
             //This is because in the check for command disable (which is what this is used for), the
             //command disabled will be the original command, and the check expects that.
             return ((AliasCommand) c).getOriginalName();
         }
 
-        if(c instanceof ProxyCommand) {
+        if (c instanceof ProxyCommand) {
             return ((ProxyCommand) c).c.name();
         }
 
@@ -332,11 +332,11 @@ public class CommandRegistry {
     }
 
     private Command root(Command c) {
-        if(c instanceof AliasCommand) {
+        if (c instanceof AliasCommand) {
             return commands.get(((AliasCommand) c).parentName());
         }
 
-        if(c instanceof AliasProxyCommand) {
+        if (c instanceof AliasProxyCommand) {
             return ((AliasProxyCommand) c).p;
         }
         return c;

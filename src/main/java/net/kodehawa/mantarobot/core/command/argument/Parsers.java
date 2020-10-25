@@ -273,10 +273,10 @@ public class Parsers {
         return (__, arguments) -> {
             String name = arguments.next().getValue();
             for(T t : constants) {
-                if(ignoreCase) {
-                    if(t.name().equalsIgnoreCase(name)) return Optional.of(t);
+                if (ignoreCase) {
+                    if (t.name().equalsIgnoreCase(name)) return Optional.of(t);
                 } else {
-                    if(t.name().equals(name)) return Optional.of(t);
+                    if (t.name().equals(name)) return Optional.of(t);
                 }
             }
             return Optional.empty();
@@ -295,7 +295,7 @@ public class Parsers {
     @CheckReturnValue
     public static Parser<String> remainingContent() {
         return (__, arguments) -> {
-            if(!arguments.hasNext()) return Optional.empty();
+            if (!arguments.hasNext()) return Optional.empty();
             StringJoiner sj = new StringJoiner("");
             while(arguments.hasNext()) {
                 sj.add(arguments.next().getRawValue());
@@ -326,7 +326,7 @@ public class Parsers {
     @CheckReturnValue
     public static Parser<String> remainingArguments(@Nonnull String delimiter) {
         return (c, arguments) -> {
-            if(!arguments.hasNext()) return Optional.empty();
+            if (!arguments.hasNext()) return Optional.empty();
             StringJoiner sj = new StringJoiner(delimiter);
             while(arguments.hasNext()) {
                 sj.add(arguments.next().getValue());
@@ -401,10 +401,10 @@ public class Parsers {
     @CheckReturnValue
     public static Parser<String> delimitedBy(char delimiter, boolean allowEscaping) {
         return (__, arguments) -> {
-            if(!arguments.hasNext()) return Optional.empty();
+            if (!arguments.hasNext()) return Optional.empty();
             DelimiterContext context = new DelimiterContext(delimiter, allowEscaping);
             while(arguments.hasNext()) {
-                if(!context.handle(arguments.next())) break;
+                if (!context.handle(arguments.next())) break;
             }
             return Optional.of(context.result());
         };

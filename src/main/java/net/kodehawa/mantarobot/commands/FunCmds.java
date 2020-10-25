@@ -150,7 +150,7 @@ public class FunCmds {
                 int size = 6, amount = 1;
 
                 RPGDice d20 = RPGDice.parse(content);
-                if(d20 != null) {
+                if (d20 != null) {
                     size = d20.getFaces();
                     amount = d20.getRolls();
                 } else { // Verbose format

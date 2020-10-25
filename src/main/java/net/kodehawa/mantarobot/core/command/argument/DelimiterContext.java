@@ -23,16 +23,16 @@ class DelimiterContext {
         String value = string.getValue();
         for(int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);
-            if(escaped) {
+            if (escaped) {
                 escaped = false;
                 builder.append(c);
                 continue;
             }
-            if(c == delimiter) {
+            if (c == delimiter) {
                 insideBlock = !insideBlock;
                 continue;
             }
-            if(allowEscaping && c == '\\') {
+            if (allowEscaping && c == '\\') {
                 escaped = true;
                 continue;
             }

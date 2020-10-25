@@ -59,7 +59,7 @@ public class BirthdayTask {
             int membersDivested = 0;
 
             JDA jda = MantaroBot.getInstance().getShardManager().getShardById(shardId);
-            if(jda == null) // To be fair, this shouldn't be possible as it only starts it with the shards it knows...
+            if (jda == null) // To be fair, this shouldn't be possible as it only starts it with the shards it knows...
                 return;
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
@@ -120,7 +120,7 @@ public class BirthdayTask {
                                 continue;
                             }
 
-                            if(guildData.getBirthdayBlockedIds().contains(member.getId()))
+                            if (guildData.getBirthdayBlockedIds().contains(member.getId()))
                                 continue;
 
                             if (birthday == null) {
@@ -183,12 +183,12 @@ public class BirthdayTask {
                             }
                         }
 
-                        if(birthdayNumber != 0) {
+                        if (birthdayNumber != 0) {
                             // Don't send one message per birthday, only send a single one or multiple as needed, but not a billion.
                             // This is to avoid spamming calls to Discord.
                             birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE).forEach(message -> channel.sendMessage(message).queue());
                         } else {
-                            if(!guildData.isNotifiedFromBirthdayChange()) {
+                            if (!guildData.isNotifiedFromBirthdayChange()) {
                                 birthdayAnnouncerText.append("\n")
                                         .append("**No birthdays? We've just changed how the birthday system works!**\n")
                                         .append("Give the changes a read on:" +
@@ -207,7 +207,7 @@ public class BirthdayTask {
                         }
 
                         // If any of the member lookups to discord returned null, remove them.
-                        if(!nullMembers.isEmpty()) {
+                        if (!nullMembers.isEmpty()) {
                             guildData.getAllowedBirthdays().removeAll(nullMembers);
                             dbGuild.save();
                         }

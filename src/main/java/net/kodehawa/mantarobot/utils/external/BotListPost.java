@@ -47,7 +47,7 @@ public enum BotListPost {
     }
 
     public void createRequest(long currentCount, String clientId) throws IOException {
-        if(token == null) {
+        if (token == null) {
             return;
         }
 

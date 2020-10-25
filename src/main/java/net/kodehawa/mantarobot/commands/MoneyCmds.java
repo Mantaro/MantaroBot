@@ -109,7 +109,7 @@ public class MoneyCmds {
                 final var authorDBUser = ctx.getDBUser();
                 final var authorUserData = authorDBUser.getData();
 
-                if(authorPlayer.isLocked()){
+                if (authorPlayer.isLocked()){
                     ctx.sendLocalized("commands.daily.errors.own_locked");
                     return;
                 }
@@ -118,21 +118,21 @@ public class MoneyCmds {
                 User otherUser = null;
 
                 boolean targetOther = !mentionedUsers.isEmpty();
-                if(targetOther){
+                if (targetOther){
                     otherUser = mentionedUsers.get(0);
                     // Bot check mentioned authorDBUser
-                    if(otherUser.isBot()){
+                    if (otherUser.isBot()){
                         ctx.sendLocalized("commands.daily.errors.bot", EmoteReference.ERROR);
                         return;
                     }
 
-                    if(otherUser.getIdLong() == author.getIdLong()) {
+                    if (otherUser.getIdLong() == author.getIdLong()) {
                         ctx.sendLocalized("commands.daily.errors.same_user", EmoteReference.ERROR);
                         return;
                     }
 
                     var playerOtherUser = ctx.getPlayer(otherUser);
-                    if(playerOtherUser.isLocked()){
+                    if (playerOtherUser.isLocked()){
                         ctx.sendLocalized("commands.daily.errors.receipt_locked");
                         return;
                     }
@@ -145,7 +145,7 @@ public class MoneyCmds {
 
                     //Marriage bonus
                     var marriage = authorUserData.getMarriage();
-                    if(marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
+                    if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                             playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
                         dailyMoney += Math.max(10, r.nextInt(100));
                     }
@@ -177,13 +177,13 @@ public class MoneyCmds {
                 long streak = authorPlayerData.getDailyStreak();
 
                 // Not expired?
-                if(currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
+                if (currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
                     streak++;
-                    if(targetOther)
+                    if (targetOther)
                         returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.given.up"), streak));
                     else
                         returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.up"), streak));
-                    if(currentDailyOffset < 0){
+                    if (currentDailyOffset < 0){
                         int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
                         authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
                         returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"),
@@ -214,7 +214,7 @@ public class MoneyCmds {
                     // Bonus money
                     int bonus = 150;
 
-                    if(streak % 50 == 0){
+                    if (streak % 50 == 0){
                         authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH,1));
                         returnMessage.add(languageContext.get("commands.daily.watch_get"));
                     }
@@ -236,7 +236,7 @@ public class MoneyCmds {
                         }
                     }
 
-                    if(targetOther) {
+                    if (targetOther) {
                         returnMessage.add(String.format(
                                 languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus)
                         );
@@ -249,12 +249,12 @@ public class MoneyCmds {
                 }
 
                 // If the author is premium, make daily double.
-                if(authorDBUser.isPremium()) {
+                if (authorDBUser.isPremium()) {
                     dailyMoney *=2;
                 }
 
                 // Sellout + this is always a day apart, so we can just send campaign.
-                if(r.nextBoolean()) {
+                if (r.nextBoolean()) {
                     returnMessage.add(Campaign.TWITTER.getStringFromCampaign(languageContext, true));
                 } else {
                     returnMessage.add(Campaign.PREMIUM_DAILY.getStringFromCampaign(languageContext, authorDBUser.isPremium()));
@@ -267,7 +267,7 @@ public class MoneyCmds {
 
                 // Critical not to call if author != mentioned because in this case
                 // toAdd is the unified player as referenced
-                if(targetOther) {
+                if (targetOther) {
                     authorPlayer.save();
                 }
 
@@ -282,7 +282,7 @@ public class MoneyCmds {
                         String.format(languageContext.withRoot("commands", "daily.credits"),
                                 EmoteReference.CORRECT, dailyMoney)) + "\n");
 
-                for(var string : returnMessage) {
+                for  (var string : returnMessage) {
                     toSend.append("\n").append(string);
                 }
 
@@ -510,7 +510,7 @@ public class MoneyCmds {
                 var extraMessage = "";
 
                 // Sellout
-                if(playerData.shouldSeeCampaign()){
+                if (playerData.shouldSeeCampaign()){
                     extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
                     playerData.markCampaignAsSeen();
                 }
@@ -583,7 +583,7 @@ public class MoneyCmds {
                     boolean isExternal = false;
 
                     var found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
-                    if(found == null) {
+                    if (found == null) {
                         return;
                     } else if (!finalContent.isEmpty()) {
                         user = found.getUser();
@@ -689,7 +689,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    if(coinAmount > TICKETS_MAX_AMOUNT) {
+                    if (coinAmount > TICKETS_MAX_AMOUNT) {
                         ctx.sendLocalized("commands.slots.errors.too_many_tickets", EmoteReference.ERROR, TICKETS_MAX_AMOUNT);
                         return;
                     }

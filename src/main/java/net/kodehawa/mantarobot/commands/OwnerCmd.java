@@ -554,7 +554,7 @@ public class OwnerCmd {
                     return;
                 }
 
-                if(args.length < 2) {
+                if (args.length < 2) {
                     ctx.send("Wrong amount of arguments. I need the guild id and the amount of days");
                     return;
                 }
@@ -562,7 +562,7 @@ public class OwnerCmd {
                 String serverId = args[0];
                 String days = args[1];
 
-                if(MantaroBot.getInstance().getShardManager().getGuildById(serverId) == null) {
+                if (MantaroBot.getInstance().getShardManager().getGuildById(serverId) == null) {
                     ctx.send("Invalid guild.");
                     return;
                 }

@@ -87,7 +87,7 @@ public class VoiceChannelListener implements EventListener {
         GuildMusicManager gmm = MantaroBot.getInstance()
                 .getAudioManager()
                 .getMusicManager(event.getGuild());
-        if(gmm == null)
+        if (gmm == null)
             return;
 
         if (event.isMuted()) {
@@ -119,7 +119,7 @@ public class VoiceChannelListener implements EventListener {
             GuildMusicManager gmm = MantaroBot.getInstance()
                     .getAudioManager()
                     .getMusicManager(vc.getGuild());
-            if(gmm == null)
+            if (gmm == null)
                 return;
 
             TrackScheduler scheduler = gmm.getTrackScheduler();
@@ -150,7 +150,7 @@ public class VoiceChannelListener implements EventListener {
             GuildMusicManager gmm = MantaroBot.getInstance()
                     .getAudioManager()
                     .getMusicManager(vc.getGuild());
-            if(gmm == null)
+            if (gmm == null)
                 return;
 
             TrackScheduler scheduler = gmm.getTrackScheduler();

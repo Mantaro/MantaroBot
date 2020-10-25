@@ -25,7 +25,7 @@ public abstract class NewCommand {
 
     public NewCommand() {
         var clazz = getClass();
-        if(clazz.getAnnotation(Name.class) != null) {
+        if (clazz.getAnnotation(Name.class) != null) {
             this.name = clazz.getAnnotation(Name.class).value();
         } else {
             this.name = clazz.getSimpleName().toLowerCase();
@@ -34,20 +34,20 @@ public abstract class NewCommand {
                 .map(Alias::value)
                 .collect(Collectors.toUnmodifiableList());
         var c = clazz.getAnnotation(net.kodehawa.mantarobot.core.command.meta.Category.class);
-        if(c == null) {
+        if (c == null) {
             this.category = null;
         } else {
             this.category = c.value();
         }
         var p = clazz.getAnnotation(Permission.class);
-        if(p == null) {
+        if (p == null) {
             this.permission = CommandPermission.INHERIT;
         } else {
             this.permission = p.value();
         }
         this.guildOnly = clazz.getAnnotation(GuildOnly.class) != null;
         var h = clazz.getAnnotation(Help.class);
-        if(h == null) {
+        if (h == null) {
             this.help = new HelpContent.Builder().build();
         } else {
             var builder = new HelpContent.Builder()
@@ -55,8 +55,8 @@ public abstract class NewCommand {
                     .setUsage(h.usage())
                     .setRelated(Arrays.asList(h.related()))
                     .setSeasonal(h.seasonal());
-            for(var param : h.parameters()) {
-                if(param.optional()) {
+            for  (var param : h.parameters()) {
+                if (param.optional()) {
                     builder.addParameterOptional(param.name(), param.description());
                 } else {
                     builder.addParameter(param.name(), param.description());
@@ -79,10 +79,10 @@ public abstract class NewCommand {
     }
 
     public CommandPermission permission() {
-        if(permission != CommandPermission.INHERIT) {
+        if (permission != CommandPermission.INHERIT) {
             return permission;
         }
-        if(parent == null) {
+        if (parent == null) {
             return category == null ? CommandPermission.OWNER : category.permission;
         }
         return parent.permission();
@@ -98,13 +98,13 @@ public abstract class NewCommand {
 
     public final void execute(NewContext ctx) {
         var args = ctx.arguments();
-        if(args.hasNext()) {
+        if (args.hasNext()) {
             var name = args.next().getValue().toLowerCase();
             var child = children.get(name);
-            if(child == null) {
+            if (child == null) {
                 child = children.get(childrenAliases.getOrDefault(name, ""));
             }
-            if(child != null) {
+            if (child != null) {
                 child.execute(ctx);
                 return;
             }

@@ -131,14 +131,14 @@ public class CurrencyActionCmds {
 
                 var petHelp = false;
 
-                if(marriage != null && marriage.getData().getPet() != null) {
+                if (marriage != null && marriage.getData().getPet() != null) {
                     var pet = marriage.getData().getPet();
                     if (pet != null) {
                         var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
                         money += rewards.getMoney();
                         message += rewards.getResult();
 
-                        if(rewards.getMoney() > 0)
+                        if (rewards.getMoney() > 0)
                             petHelp = true;
                     }
                 }
@@ -199,7 +199,7 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                if(dbUser.isPremium() && money > 0) {
+                if (dbUser.isPremium() && money > 0) {
                     money += random.nextInt(money);
                 }
 
@@ -377,7 +377,7 @@ public class CurrencyActionCmds {
 
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
-                    if(marriage != null && marriage.getData().getPet() != null) {
+                    if (marriage != null && marriage.getData().getPet() != null) {
                         var pet = marriage.getData().getPet();
 
                         if (pet != null) {
@@ -590,10 +590,10 @@ public class CurrencyActionCmds {
                 var chance = random.nextInt(100);
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
-                if(hasPotion)
+                if (hasPotion)
                     chance += 10;
 
-                if(chance < 10) {
+                if (chance < 10) {
                     // Found nothing.
                     int level = userData.increaseDustLevel(random.nextInt(5));
                     dbUser.save();
@@ -606,10 +606,10 @@ public class CurrencyActionCmds {
                     var amount = random.nextInt(8);
                     money += item.getMoneyIncrease();
 
-                    if(marriage != null && marriage.getData().getPet() != null) {
+                    if (marriage != null && marriage.getData().getPet() != null) {
                         var pet = marriage.getData().getPet();
 
-                        if(pet != null) {
+                        if (pet != null) {
                             HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
                             amount += rewards.getItems();
                             money += rewards.getMoney();
@@ -617,7 +617,7 @@ public class CurrencyActionCmds {
                         }
                     }
 
-                    if(hasPotion)
+                    if (hasPotion)
                         amount += 3;
 
                     // ---- Start of drop handling.
@@ -635,7 +635,7 @@ public class CurrencyActionCmds {
                     var found = !ita.isEmpty();
 
                     // Make so it drops some decent amount of wood lol
-                    if(ita.stream().anyMatch(is -> is.getItem() == ItemReference.WOOD)) {
+                    if (ita.stream().anyMatch(is -> is.getItem() == ItemReference.WOOD)) {
                         ita.add(new ItemStack(ItemReference.WOOD, Math.max(1, random.nextInt(7))));
                     } else if (found) {
                         // Guarantee at least one wood.
@@ -657,11 +657,11 @@ public class CurrencyActionCmds {
                     }
 
                     // Ah yes, sellout
-                    if(dbUser.isPremium() && money > 0) {
+                    if (dbUser.isPremium() && money > 0) {
                         money += random.nextInt(money);
                     }
 
-                    if(found) {
+                    if (found) {
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
                     }
 
@@ -671,7 +671,7 @@ public class CurrencyActionCmds {
                     }
 
                     // Show a message depending on the outcome.
-                    if(money > 0 && !found) {
+                    if (money > 0 && !found) {
                         ctx.sendFormat(languageContext.get("commands.chop.success_money_noitem") + extraMessage, item.getEmoji(), money);
                     } else if (found && money == 0) {
                         ctx.sendFormat(languageContext.get("commands.chop.success_only_item") + extraMessage, item.getEmoji(), itemDisplay);
@@ -686,7 +686,7 @@ public class CurrencyActionCmds {
                     player.save();
 
                     // Save pet stuff.
-                    if(marriage != null) {
+                    if (marriage != null) {
                         marriage.save();
                     }
 
@@ -717,7 +717,7 @@ public class CurrencyActionCmds {
                                                   I18nContext languageContext, boolean needsItem) {
 
         HousePet.ActivityResult ability = pet.handleAbility(required);
-        if(ability.passed()) {
+        if (ability.passed()) {
             var itemIncrease = 0;
             if (needsItem) {
                 itemIncrease = random.nextInt(pet.getType().getMaxItemBuildup(pet.getLevel()));
@@ -756,7 +756,7 @@ public class CurrencyActionCmds {
         var finalPlayer = breakage.getValue();
         var inventory = finalPlayer.getInventory();
 
-        if(dbUser.getData().isAutoEquip() && inventory.containsItem(item)) {
+        if (dbUser.getData().isAutoEquip() && inventory.containsItem(item)) {
             dbUser.getData().getEquippedItems().equipItem(item);
             inventory.process(new ItemStack(item, -1));
 

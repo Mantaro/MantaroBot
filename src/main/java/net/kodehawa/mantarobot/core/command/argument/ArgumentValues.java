@@ -21,7 +21,7 @@ public class ArgumentValues implements Iterator<String> {
      * try(MarkedBlock block = args.marked()) {
      *     while(args.hasNext()) {
      *         handle(args.next());
-     *         if(shouldAbort()) {
+     *         if (shouldAbort()) {
      *             block.reset();
      *             break;
      *         }

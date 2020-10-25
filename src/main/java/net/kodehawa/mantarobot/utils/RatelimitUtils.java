@@ -49,7 +49,7 @@ public class RatelimitUtils {
             i18nContext = new I18nContext();
         }
 
-        if(!config.isHandleRatelimits()) {
+        if (!config.isHandleRatelimits()) {
             return true;
         }
 

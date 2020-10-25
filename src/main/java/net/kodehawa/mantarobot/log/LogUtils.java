@@ -153,7 +153,7 @@ public class LogUtils {
             ).collect(Collectors.joining("\n"))));
             fields.add(new WebhookEmbed.EmbedField(false, "Type", type.toString()));
 
-            if(type == SpamType.BLATANT) {
+            if (type == SpamType.BLATANT) {
                 MantaroObj mantaroData = MantaroData.db().getMantaroData();
                 mantaroData.getBlackListedUsers().add(user.getId());
                 mantaroData.save();

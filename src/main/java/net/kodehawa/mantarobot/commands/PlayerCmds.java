@@ -256,7 +256,7 @@ public class PlayerCmds {
                 }
 
                 Integer equipped = equipment.getEquipment().get(type);
-                if(equipped == null) {
+                if (equipped == null) {
                     ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                     return;
                 }
@@ -276,15 +276,15 @@ public class PlayerCmds {
                         I18nContext languageContext = ctx.getLanguageContext();
 
                         String part = ""; //Start as an empty string.
-                        if(type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD ||type == PlayerEquipment.EquipmentType.AXE ) {
+                        if (type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD ||type == PlayerEquipment.EquipmentType.AXE ) {
                             // Gotta check again, just in case...
                             Integer equippedFinal = equipmentFinal.getEquipment().get(type);
-                            if(equippedFinal == null) {
+                            if (equippedFinal == null) {
                                 ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                                 return InteractiveOperation.COMPLETED;
                             }
 
-                            if(equippedItem == null) {
+                            if (equippedItem == null) {
                                 ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                                 return InteractiveOperation.COMPLETED;
                             }
@@ -292,14 +292,14 @@ public class PlayerCmds {
                             Breakable item = (Breakable) equippedItem;
 
                             float percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
-                            if(percentage == 100) { //Basically never used
+                            if (percentage == 100) { //Basically never used
                                 playerFinal.getInventory().process(new ItemStack(equippedItem, 1));
                                 part += String.format(
                                         languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName()
                                 );
                             } else {
                                 Item brokenItem = ItemHelper.getBrokenItemFrom(equippedItem);
-                                if(brokenItem != null) {
+                                if (brokenItem != null) {
                                     playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
                                     part += String.format(
                                             languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName()

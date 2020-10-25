@@ -403,7 +403,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if(custom.getData().isLocked()) {
+                if (custom.getData().isLocked()) {
                     ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
                     return;
                 }
@@ -505,7 +505,7 @@ public class CustomCmds {
                 }
 
                 CustomCommand command = ctx.db().getCustomCommand(ctx.getGuild(), content);
-                if(command == null) {
+                if (command == null) {
                     ctx.sendLocalized("commands.custom.raw.not_found", EmoteReference.ERROR);
                     return;
                 }
@@ -563,7 +563,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if(custom.getData().isLocked()) {
+                if (custom.getData().isLocked()) {
                     ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
                     return;
                 }
@@ -632,7 +632,7 @@ public class CustomCmds {
                     return;
                 }
 
-                if(custom.getData().isLocked()) {
+                if (custom.getData().isLocked()) {
                     ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
                     return;
                 }
@@ -680,7 +680,7 @@ public class CustomCmds {
                 }
 
                 var cmd = ctx.db().getCustomCommand(ctx.getGuild(), content);
-                if(cmd == null) {
+                if (cmd == null) {
                     ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR, content);
                     return;
                 }
@@ -712,13 +712,13 @@ public class CustomCmds {
                 }
 
                 var cmd = ctx.db().getCustomCommand(ctx.getGuild(), content);
-                if(cmd == null) {
+                if (cmd == null) {
                     ctx.sendLocalized("commands.custom.not_found", EmoteReference.ERROR, content);
                     return;
                 }
 
                 var data = cmd.getData();
-                if(!data.isLocked()) {
+                if (!data.isLocked()) {
                     ctx.sendLocalized("commands.custom.unlockcommand.not_locked", EmoteReference.ERROR, content);
                     return;
                 }
@@ -865,7 +865,7 @@ public class CustomCmds {
                 CustomCommand c = ctx.db().getCustomCommand(ctx.getEvent(), cmd);
 
                 if (c != null) {
-                    if(custom.getData().isLocked()) {
+                    if (custom.getData().isLocked()) {
                         ctx.sendLocalized("commands.custom.locked_command", EmoteReference.ERROR2);
                         return;
                     }

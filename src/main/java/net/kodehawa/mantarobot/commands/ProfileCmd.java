@@ -86,7 +86,7 @@ public class ProfileCmd {
 
         //I actually do need this, sob.
         LinkedList<ProfileComponent> defaultOrder;
-        if(config.isPremiumBot()) {
+        if (config.isPremiumBot()) {
             defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
         } else {
             defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
@@ -112,9 +112,9 @@ public class ProfileCmd {
                             SeasonPlayer seasonalPlayer = null;
                             DBUser dbUser = ctx.getDBUser();
 
-                            if(!finalContent.isEmpty()) {
+                            if (!finalContent.isEmpty()) {
                                 Member found = CustomFinderUtil.findMember(finalContent, members, ctx);
-                                if(found != null) {
+                                if (found != null) {
                                     userLooked = found.getUser();
                                     memberLooked = found;
 
@@ -232,7 +232,7 @@ public class ProfileCmd {
                 }
 
                 Inventory inventory = player.getInventory();
-                if(!inventory.containsItem(ItemReference.CLAIM_KEY)) {
+                if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
                     ctx.sendLocalized("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
                 }
@@ -304,7 +304,7 @@ public class ProfileCmd {
                 }
 
                 String timezone = content;
-                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                if (offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
                     timezone = content.toUpperCase().replace("UTC", "GMT");
 
                 if (timezone.equalsIgnoreCase("reset")) {
@@ -327,7 +327,7 @@ public class ProfileCmd {
                 }
 
                 Player player = ctx.getPlayer();
-                if(player.getData().addBadgeIfAbsent(Badge.CALENDAR))
+                if (player.getData().addBadgeIfAbsent(Badge.CALENDAR))
                     player.save();
 
                 dbUser.getData().setTimezone(timezone);
@@ -344,8 +344,9 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
+                }
 
                 String[] args = content.split(" ");
                 Player player = ctx.getPlayer();

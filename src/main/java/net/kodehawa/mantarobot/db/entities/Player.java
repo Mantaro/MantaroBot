@@ -111,7 +111,7 @@ public class Player implements ManagedObject {
 
         money = Math.addExact(money, toAdd);
 
-        if(useOld) {
+        if (useOld) {
             this.setOldMoney(money);
         } else {
             data.setNewMoney(money);
@@ -169,7 +169,7 @@ public class Player implements ManagedObject {
 
         money -= toRemove;
 
-        if(useOld) {
+        if (useOld) {
             this.setOldMoney(money);
         } else {
             data.setNewMoney(money);
@@ -229,7 +229,7 @@ public class Player implements ManagedObject {
     @JsonIgnore
     public void setCurrentMoney(long money) {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();
-        if(useOld) {
+        if (useOld) {
             this.oldMoney = money < 0 ? 0 : money;
         } else {
             data.setNewMoney(money < 0 ? 0 : money);

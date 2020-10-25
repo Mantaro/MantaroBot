@@ -63,7 +63,7 @@ public class ReminderTask {
 
                         // 1 day passed already, assuming it's a stale reminder:
                         // Done because ReminderTask wasn't working.
-                        if(System.currentTimeMillis() - fireAt > TimeUnit.DAYS.toMillis(1)) {
+                        if (System.currentTimeMillis() - fireAt > TimeUnit.DAYS.toMillis(1)) {
                             Reminder.cancel(userId, fullId, Reminder.CancelReason.CANCEL);
                             return;
                         }

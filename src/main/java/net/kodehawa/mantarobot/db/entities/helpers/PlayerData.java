@@ -387,7 +387,7 @@ public class PlayerData {
 
     @JsonIgnore
     public boolean shouldSeeCampaign() {
-        if(config.isPremiumBot())
+        if (config.isPremiumBot())
             return false;
 
         return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.DAYS.toMillis(1));
@@ -400,7 +400,7 @@ public class PlayerData {
 
     @JsonIgnore
     public Quest startQuest(SecureRandom random) {
-        if(quests.getCurrentActiveQuests().size() > getQuestQuota()) {
+        if (quests.getCurrentActiveQuests().size() > getQuestQuota()) {
             return null;
         }
 

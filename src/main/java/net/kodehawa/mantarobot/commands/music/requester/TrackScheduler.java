@@ -116,7 +116,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
 
             //What kind of massive meme is this? part 2
-            if(voiceState == null) {
+            if (voiceState == null) {
                 this.getAudioPlayer().disconnect();
                 return;
             }

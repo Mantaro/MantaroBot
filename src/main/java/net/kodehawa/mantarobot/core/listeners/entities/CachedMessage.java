@@ -35,7 +35,7 @@ public class CachedMessage {
         Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
         User user = null;
 
-        if(guild != null)
+        if (guild != null)
             user = guild.retrieveMemberById(author).complete().getUser();
 
         return user;

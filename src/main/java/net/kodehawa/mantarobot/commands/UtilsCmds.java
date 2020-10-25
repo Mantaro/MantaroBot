@@ -112,7 +112,7 @@ public class UtilsCmds {
                                 return;
                             }
 
-                            if(parts.size() > 2) {
+                            if (parts.size() > 2) {
                                 ctx.sendLocalized("commands.birthday.new_format", EmoteReference.ERROR);
                                 return;
                             }
@@ -177,7 +177,7 @@ public class UtilsCmds {
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
 
-                if(guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
+                if (guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
                     ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
                     return;
                 }
@@ -268,7 +268,7 @@ public class UtilsCmds {
                                             String.format("```diff\n%s```", s1)));
                         }
 
-                        if(parts.isEmpty()) {
+                        if (parts.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
@@ -610,18 +610,18 @@ public class UtilsCmds {
                 var isMention = !mentions.isEmpty();
                 var timezone = content.isEmpty() ? "" : args[0]; // Array out of bounds lol
 
-                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                if (offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
                     timezone = timezone.toUpperCase().replace("UTC", "GMT");
 
                 var dbUser = !isMention ? ctx.getDBUser() : ctx.getDBUser(mentions.get(0));
                 var userData = dbUser.getData();
 
-                if(isMention && userData.getTimezone() == null) {
+                if (isMention && userData.getTimezone() == null) {
                     ctx.sendLocalized("commands.time.user_no_timezone", EmoteReference.ERROR);
                     return;
                 }
 
-                if(userData.getTimezone() != null && (content.isEmpty() || isMention)) {
+                if (userData.getTimezone() != null && (content.isEmpty() || isMention)) {
                     timezone = userData.getTimezone();
                 }
 

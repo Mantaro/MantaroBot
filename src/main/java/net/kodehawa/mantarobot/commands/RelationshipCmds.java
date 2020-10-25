@@ -504,22 +504,22 @@ public class RelationshipCmds {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
-                if(marriage == null) {
+                if (marriage == null) {
                     ctx.sendLocalized("commands.marry.buyhouse.not_married", EmoteReference.ERROR);
                     return;
                 }
 
-                if(!playerInventory.containsItem(ItemReference.HOUSE)) {
+                if (!playerInventory.containsItem(ItemReference.HOUSE)) {
                     ctx.sendLocalized("commands.marry.buyhouse.no_house", EmoteReference.ERROR);
                     return;
                 }
 
-                if(player.getCurrentMoney() < housePrice) {
+                if (player.getCurrentMoney() < housePrice) {
                     ctx.sendLocalized("commands.marry.buyhouse.not_enough_money", EmoteReference.ERROR, housePrice);
                     return;
                 }
 
-                if(content.isEmpty()) {
+                if (content.isEmpty()) {
                     ctx.sendLocalized("commands.marry.buyhouse.no_name", EmoteReference.ERROR);
                     return;
                 }
@@ -529,19 +529,19 @@ public class RelationshipCmds {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
 
-                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var dbUserConfirmed = ctx.getDBUser();
                         var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
 
                         // People like to mess around lol.
-                        if(!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
+                        if (!playerInventoryConfirmed.containsItem(ItemReference.HOUSE)) {
                             ctx.sendLocalized("commands.marry.buyhouse.no_house");
                             return Operation.COMPLETED;
                         }
 
-                        if(playerConfirmed.getCurrentMoney() < housePrice) {
+                        if (playerConfirmed.getCurrentMoney() < housePrice) {
                             ctx.sendLocalized("commands.marry.buyhouse.not_enough_money");
                             return Operation.COMPLETED;
                         }
@@ -559,7 +559,7 @@ public class RelationshipCmds {
                         return Operation.COMPLETED;
                     }
 
-                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                         ctx.sendLocalized("commands.marry.buyhouse.cancel_success", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     }
@@ -582,22 +582,22 @@ public class RelationshipCmds {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
-                if(marriage == null) {
+                if (marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
                 }
 
-                if(!playerInventory.containsItem(ItemReference.CAR)) {
+                if (!playerInventory.containsItem(ItemReference.CAR)) {
                     ctx.sendLocalized("commands.marry.buycar.no_house", EmoteReference.ERROR);
                     return;
                 }
 
-                if(player.getCurrentMoney() < carPrice) {
+                if (player.getCurrentMoney() < carPrice) {
                     ctx.sendLocalized("commands.marry.buycar.not_enough_money", EmoteReference.ERROR, carPrice);
                     return;
                 }
 
-                if(content.isEmpty()) {
+                if (content.isEmpty()) {
                     ctx.sendLocalized("commands.marry.buycar.no_name", EmoteReference.ERROR);
                     return;
                 }
@@ -607,19 +607,19 @@ public class RelationshipCmds {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
 
-                    if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
+                    if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var dbUserConfirmed = ctx.getDBUser();
                         var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
 
                         // People like to mess around lol.
-                        if(!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
+                        if (!playerInventoryConfirmed.containsItem(ItemReference.CAR)) {
                             ctx.sendLocalized("commands.marry.buycar.no_car");
                             return Operation.COMPLETED;
                         }
 
-                        if(playerConfirmed.getCurrentMoney() < carPrice) {
+                        if (playerConfirmed.getCurrentMoney() < carPrice) {
                             ctx.sendLocalized("commands.marry.buycar.not_enough_money");
                             return Operation.COMPLETED;
                         }
@@ -636,7 +636,7 @@ public class RelationshipCmds {
                         return Operation.COMPLETED;
                     }
 
-                    if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                    if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                         ctx.sendLocalized("commands.marry.buycar.cancel_success", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     }
@@ -668,18 +668,18 @@ public class RelationshipCmds {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
-                if(content.isEmpty()) {
+                if (content.isEmpty()) {
                     ctx.sendLocalized("commands.marry.timezone.no_content", EmoteReference.ERROR);
                     return;
                 }
 
-                if(marriage == null) {
+                if (marriage == null) {
                     ctx.sendLocalized("commands.marry.general.not_married", EmoteReference.ERROR);
                     return;
                 }
 
                 String timezone = content;
-                if(offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                if (offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
                     timezone = content.toUpperCase().replace("UTC", "GMT");
 
                 if (!Utils.isValidTimeZone(timezone)) {
@@ -694,7 +694,7 @@ public class RelationshipCmds {
                     return;
                 }
 
-                if(!RatelimitUtils.ratelimit(tzRatelimit, ctx)) {
+                if (!RatelimitUtils.ratelimit(tzRatelimit, ctx)) {
                     return;
                 }
 
@@ -759,15 +759,15 @@ public class RelationshipCmds {
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), null);
 
-                if(data.hasHouse()) {
+                if (data.hasHouse()) {
                     embedBuilder.addField(languageContext.get("commands.marry.status.house"), data.getHouseName(), false);
                 }
 
-                if(data.hasCar()) {
+                if (data.hasCar()) {
                     embedBuilder.addField(languageContext.get("commands.marry.status.car"), data.getCarName(), false);
                 }
 
-                if(data.getPet() != null) {
+                if (data.getPet() != null) {
                     var pet = data.getPet();
                     var petType = data.getPet().getType();
 
@@ -825,15 +825,15 @@ public class RelationshipCmds {
 
                         var moneySplit = 0L;
 
-                        if(marriageData.hasHouse()) {
+                        if (marriageData.hasHouse()) {
                             moneySplit += housePrice * 0.9;
                         }
 
-                        if(marriageData.hasCar()) {
+                        if (marriageData.hasCar()) {
                             moneySplit += carPrice * 0.9;
                         }
 
-                        if(marriageData.getPet() != null) {
+                        if (marriageData.getPet() != null) {
                             moneySplit += marriageData.getPet().getType().getCost() * 0.7;
                         }
 
@@ -849,7 +849,7 @@ public class RelationshipCmds {
                         marriedWithPlayer.save();
 
                         var extra = "";
-                        if(portion > 1) {
+                        if (portion > 1) {
                             extra = String.format(ctx.getLanguageContext().get("commands.divorce.split"), portion);
                         }
 
@@ -916,7 +916,7 @@ public class RelationshipCmds {
                         UserData userData = dbUser.getData();
                         I18nContext languageContext = ctx.getLanguageContext();
                         Player player = ctx.getPlayer();
-                        if(player.getData().isWaifuout()) {
+                        if (player.getData().isWaifuout()) {
                             ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                             return;
                         }
@@ -956,7 +956,7 @@ public class RelationshipCmds {
                                 );
                             } else {
                                 Player waifuClaimed = ctx.getPlayer(user);
-                                if(waifuClaimed.getData().isWaifuout()) {
+                                if (waifuClaimed.getData().isWaifuout()) {
                                     toRemove.add(waifu);
                                     continue;
                                 }
@@ -977,7 +977,7 @@ public class RelationshipCmds {
                         var toSend = String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description;
                         DiscordUtils.sendPaginatedEmbed(ctx, waifusEmbed, DiscordUtils.divideFields(4, fields), toSend);
 
-                        if(!toRemove.isEmpty()) {
+                        if (!toRemove.isEmpty()) {
                             for(String remove : toRemove) {
                                 dbUser.getData().getWaifus().remove(remove);
                             }
@@ -1015,7 +1015,7 @@ public class RelationshipCmds {
             protected void call(Context ctx, String content) {
                 ctx.sendLocalized("commands.waifu.optout.warning", EmoteReference.WARNING);
                 Player player = ctx.getPlayer();
-                if(player.getData().isWaifuout()) {
+                if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -1051,7 +1051,7 @@ public class RelationshipCmds {
             @Override
             protected void call(Context ctx, String content) {
                 Player player = ctx.getPlayer();
-                if(player.getData().isWaifuout()) {
+                if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -1100,7 +1100,7 @@ public class RelationshipCmds {
             @Override
             protected void call(Context ctx, String content) {
                 Player player = ctx.getPlayer();
-                if(player.getData().isWaifuout()) {
+                if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -1125,7 +1125,7 @@ public class RelationshipCmds {
                 final DBUser claimedUser = ctx.getDBUser(toLookup);
                 final UserData claimedUserData = claimedUser.getData();
 
-                if(claimedPlayer.getData().isWaifuout()) {
+                if (claimedPlayer.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.claim_notice", EmoteReference.ERROR);
                     return;
                 }
@@ -1213,7 +1213,7 @@ public class RelationshipCmds {
                 content = Utils.replaceArguments(t, content, "unknown");
                 boolean isId = content.matches("\\d{16,20}");
                 Player player = ctx.getPlayer();
-                if(player.getData().isWaifuout()) {
+                if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
@@ -1230,7 +1230,7 @@ public class RelationshipCmds {
                 ctx.findMember(lookup, ctx.getMessage()).onSuccess(members -> {
                     // This is hacky again, but search *will* fail if we pass a empty list to this method.
                     Member member = isId ? null : CustomFinderUtil.findMember(lookup, members, ctx);
-                    if(member == null && !isId) {
+                    if (member == null && !isId) {
                         return;
                     }
 
@@ -1330,7 +1330,7 @@ public class RelationshipCmds {
                 Player player = ctx.getPlayer();
                 final UserData userData = user.getData();
 
-                if(player.getData().isWaifuout()) {
+                if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }

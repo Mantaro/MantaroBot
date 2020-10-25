@@ -102,7 +102,7 @@ public class MantaroBot {
     );
 
     private MantaroBot() throws Exception {
-        if(ExtraRuntimeOptions.PRINT_VARIABLES || ExtraRuntimeOptions.DEBUG)
+        if (ExtraRuntimeOptions.PRINT_VARIABLES || ExtraRuntimeOptions.DEBUG)
             printStartVariables();
 
         instance = this;
@@ -165,7 +165,7 @@ public class MantaroBot {
         muteExecutor.scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
 
         // Handle the delivery of reminders, assuming this is the master node.
-        if(isMasterNode()) {
+        if (isMasterNode()) {
             ScheduledExecutorService reminderExecutor = Executors.newSingleThreadScheduledExecutor(
                     new ThreadFactoryBuilder().setNameFormat("Mantaro-Reminder-Handler").build()
             );
@@ -283,7 +283,7 @@ public class MantaroBot {
 
     private void postStats(ShardManager manager) {
         for(JDA jda : manager.getShardCache()) {
-            if(jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN)
+            if (jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN)
                 return;
 
             try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
@@ -327,7 +327,7 @@ public class MantaroBot {
     }
 
     public boolean isMasterNode() {
-        if(ExtraRuntimeOptions.SHARD_SUBSET && ExtraRuntimeOptions.FROM_SHARD.isPresent()) {
+        if (ExtraRuntimeOptions.SHARD_SUBSET && ExtraRuntimeOptions.FROM_SHARD.isPresent()) {
             return ExtraRuntimeOptions.FROM_SHARD.getAsInt() == 0;
         }
 
@@ -335,7 +335,7 @@ public class MantaroBot {
     }
 
     public String getShardSlice() {
-        if(ExtraRuntimeOptions.SHARD_SUBSET) {
+        if (ExtraRuntimeOptions.SHARD_SUBSET) {
             //noinspection OptionalGetWithoutIsPresent
             return ExtraRuntimeOptions.FROM_SHARD.getAsInt() + " to " + ExtraRuntimeOptions.TO_SHARD.getAsInt();
         } else {

@@ -134,7 +134,7 @@ public class MantaroListener implements EventListener {
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if(event instanceof ReadyEvent) {
+        if (event instanceof ReadyEvent) {
             this.updateStats(event.getJDA());
         }
 
@@ -209,7 +209,7 @@ public class MantaroListener implements EventListener {
                     .getMusicManagers()
                     .get(guild.getId());
 
-            if(manager != null) {
+            if (manager != null) {
                 manager.getLavaLink().resetPlayer();
                 manager.getLavaLink().destroy();
                 instance.getAudioManager().getMusicManagers().remove(guild.getId());
@@ -491,11 +491,11 @@ public class MantaroListener implements EventListener {
     private void logStatusChange(StatusChangeEvent event) {
         int shardId = event.getJDA().getShardInfo().getShardId();
 
-        if(ExtraRuntimeOptions.VERBOSE_SHARD_LOGS || ExtraRuntimeOptions.VERBOSE) {
+        if (ExtraRuntimeOptions.VERBOSE_SHARD_LOGS || ExtraRuntimeOptions.VERBOSE) {
             log.info("Shard #{}: Changed from {} to {}", shardId, event.getOldStatus(), event.getNewStatus());
         } else {
             //Very janky solution lol.
-            if(event.getNewStatus().ordinal() > JDA.Status.LOADING_SUBSYSTEMS.ordinal())
+            if (event.getNewStatus().ordinal() > JDA.Status.LOADING_SUBSYSTEMS.ordinal())
                 log.info("Shard #{}: {}", shardId, event.getNewStatus());
 
             //Log it to debug eitherway.
@@ -568,7 +568,7 @@ public class MantaroListener implements EventListener {
             }
 
             //Don't send greet message for MP. Not necessary.
-            if(!config.isPremiumBot()) {
+            if (!config.isPremiumBot()) {
                 //Greet message start.
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail(jda.getSelfUser().getEffectiveAvatarUrl())
@@ -601,7 +601,7 @@ public class MantaroListener implements EventListener {
                 guild.getChannels().stream().filter(channel -> channel.getType() == ChannelType.TEXT &&
                         channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
                     TextChannel channel = (TextChannel) ch;
-                    if(channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
+                    if (channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build()
                         ).queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
@@ -617,7 +617,7 @@ public class MantaroListener implements EventListener {
                             .orElse(null);
 
                     //Basically same code as above, but w/e.
-                    if(channel != null && !dbGuild.getData().hasReceivedGreet()) {
+                    if (channel != null && !dbGuild.getData().hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build())
                                 .queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
                         dbGuild.getData().setHasReceivedGreet(true);
@@ -763,7 +763,7 @@ public class MantaroListener implements EventListener {
                 joinChannel = data.getLogJoinLeaveChannel();
             }
 
-            if(joinChannel == null)
+            if (joinChannel == null)
                 return;
 
             String joinMessage = data.getJoinMessage();
@@ -812,7 +812,7 @@ public class MantaroListener implements EventListener {
                 leaveChannel = data.getLogJoinLeaveChannel();
             }
 
-            if(leaveChannel == null)
+            if (leaveChannel == null)
                 return;
 
             String leaveMessage = data.getLeaveMessage();
@@ -825,7 +825,7 @@ public class MantaroListener implements EventListener {
             log.error("Failed to send leave message!", e);
         }
 
-        if(data.getAllowedBirthdays().contains(event.getUser().getId())) {
+        if (data.getAllowedBirthdays().contains(event.getUser().getId())) {
             data.getAllowedBirthdays().remove(event.getUser().getId());
             dbg.saveAsync();
         }
@@ -884,7 +884,7 @@ public class MantaroListener implements EventListener {
                         return;
                     }
                 } catch (Exception e) {
-                    if(e.getLocalizedMessage().contains("URL must be a valid http(s) or attachment url")) {
+                    if (e.getLocalizedMessage().contains("URL must be a valid http(s) or attachment url")) {
                         tc.sendMessage("Failed to send join/leave message: " +
                                 "Wrong image URL in thumbnail, image, footer and/or author.").queue();
                     } else {
@@ -904,7 +904,7 @@ public class MantaroListener implements EventListener {
     }
 
     private void updateStats(JDA jda) {
-        if(jda.getStatus() == JDA.Status.INITIALIZED)
+        if (jda.getStatus() == JDA.Status.INITIALIZED)
             return;
 
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {

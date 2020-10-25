@@ -52,7 +52,7 @@ repositories {
 task generateLanguageList {
     def out = new PrintStream(new FileOutputStream("src/main/resources/assets/languages/list.txt"))
     new File("src/main/resources/assets/languages").listFiles().each {
-        if(it.getName().endsWith("json")) {
+        if (it.getName().endsWith("json")) {
             out.println(it.getName())
         }
     }

@@ -64,7 +64,7 @@ public class Reminder {
         DBUser user = db.getUser(userId);
         UserData data = user.getData();
         data.getReminders().remove(fullId);
-        if(reason == CancelReason.REMINDED)
+        if (reason == CancelReason.REMINDED)
             data.incrementReminders();
 
         user.save();

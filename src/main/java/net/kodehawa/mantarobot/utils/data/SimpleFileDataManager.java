@@ -56,7 +56,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        data.removeIf(s -> s.startsWith("//"));
+        data.removeIf (s -> s.startsWith("//"));
     }
 
     @Override

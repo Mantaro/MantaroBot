@@ -175,7 +175,7 @@ public class ItemCmds {
                         var limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
 
                         // Limit is double with sparkle wrench
-                        if(wrench == ItemReference.WRENCH_SPARKLE)
+                        if (wrench == ItemReference.WRENCH_SPARKLE)
                             limit *= 2;
 
                         if (amountSpecified > limit) {
@@ -217,7 +217,7 @@ public class ItemCmds {
                                         EmoteReference.ERROR, item.getName(), amount, usableInventoryAmount
                                 );
 
-                                if(usableInventoryAmount < inventoryAmount)
+                                if (usableInventoryAmount < inventoryAmount)
                                     ctx.sendLocalized("commands.cast.wrench_multiple_use");
 
                                 return;
@@ -680,7 +680,7 @@ public class ItemCmds {
                         final var salvageable = (Salvageable) original;
                         var returns = salvageable.getReturns().stream().map(ItemHelper::fromId).collect(Collectors.toList());
 
-                        if(returns.isEmpty()) {
+                        if (returns.isEmpty()) {
                             ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
                             return;
                         }

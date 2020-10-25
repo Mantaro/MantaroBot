@@ -130,7 +130,7 @@ public enum ProfileComponent {
 
         // Create a string for all active quests.
         for(Quest quest : quests) {
-            if(quest.isActive()) {
+            if (quest.isActive()) {
                 builder.append(String.format(i18nContext.get(quest.getType().getI18n()), quest.getProgress()))
                         .append("\n");
             } else {
@@ -139,7 +139,7 @@ public enum ProfileComponent {
             }
         }
 
-        if(builder.length() == 0) {
+        if (builder.length() == 0) {
             builder.append(i18nContext.get("commands.profile.quests.no_quests"));
         }
 

@@ -67,7 +67,7 @@ public class RPGDice {
     public static RPGDice parse(String str) {
         Matcher matcher = DICE_PATTERN.matcher(str);
 
-        if(matcher.matches()) {
+        if (matcher.matches()) {
             int rolls = getInt(matcher, "A", 1);
             int faces = getInt(matcher, "B", -1);
             int multiplier = getInt(matcher, "C", 1);

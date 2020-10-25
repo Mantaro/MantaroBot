@@ -187,7 +187,7 @@ public class MessageCmds {
         });
 
         pruneCmd.setPredicate(ctx -> {
-            if(!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+            if (!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
                 ctx.sendLocalized("commands.prune.no_permissions_user", EmoteReference.ERROR);
                 return false;
             }

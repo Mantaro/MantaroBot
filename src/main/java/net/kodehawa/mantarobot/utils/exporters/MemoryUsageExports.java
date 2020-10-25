@@ -28,7 +28,7 @@ public class MemoryUsageExports {
 
     public static void register() {
         MEMORY_USAGE.register();
-        if(!Files.exists(SMAPS_ROLLUP)) {
+        if (!Files.exists(SMAPS_ROLLUP)) {
             PSS.set(-1);
             RSS.set(-1);
             return;
@@ -62,9 +62,9 @@ public class MemoryUsageExports {
     private static void collect() {
         try(var stream = Files.lines(SMAPS_ROLLUP)) {
             stream.forEach(line -> {
-                if(line.startsWith("Rss:")) {
+                if (line.startsWith("Rss:")) {
                     RSS.set(parse(line));
-                } else if(line.startsWith("Pss:")) {
+                } else if (line.startsWith("Pss:")) {
                     PSS.set(parse(line));
                 }
             });

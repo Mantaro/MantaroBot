@@ -80,7 +80,7 @@ public class HousePet {
 
     public void decreaseHealth() {
         var defaultDecrease = 2;
-        if(health < 1) {
+        if (health < 1) {
             return;
         }
 
@@ -89,7 +89,7 @@ public class HousePet {
 
     public void decreaseStamina() {
         var defaultDecrease = 10;
-        if(stamina < 1) {
+        if (stamina < 1) {
             return;
         }
 
@@ -98,7 +98,7 @@ public class HousePet {
 
     public void decreaseHunger() {
         var defaultDecrease = 10;
-        if(hunger < 1) {
+        if (hunger < 1) {
             return;
         }
 
@@ -107,7 +107,7 @@ public class HousePet {
 
     public void decreaseThirst() {
         var defaultDecrease = 15;
-        if(thirst < 1) {
+        if (thirst < 1) {
             return;
         }
 
@@ -115,7 +115,7 @@ public class HousePet {
     }
 
     public void increaseHealth() {
-        if(health >= 100) {
+        if (health >= 100) {
             this.health = 100;
             return;
         }
@@ -125,7 +125,7 @@ public class HousePet {
     }
 
     public void increaseStamina() {
-        if(stamina >= 100) {
+        if (stamina >= 100) {
             this.stamina = 100;
             return;
         }
@@ -135,7 +135,7 @@ public class HousePet {
     }
 
     public void increaseHunger(int by) {
-        if(hunger >= 100) {
+        if (hunger >= 100) {
             this.hunger = 100;
             return;
         }
@@ -144,7 +144,7 @@ public class HousePet {
     }
 
     public void increaseThirst() {
-        if(thirst >= 100) {
+        if (thirst >= 100) {
             this.thirst = 100;
             return;
         }
@@ -209,7 +209,7 @@ public class HousePet {
     @JsonIgnore
     public boolean isSleepy(String timezone) {
         TimeZone tz = TimeZone.getDefault();
-        if(timezone != null) {
+        if (timezone != null) {
             tz = TimeZone.getTimeZone(timezone);
         }
 
@@ -220,19 +220,19 @@ public class HousePet {
 
     @JsonIgnore
     public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility) {
-        if(!type.getAbilities().contains(neededAbility))
+        if (!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
 
-        if(getStamina() < 40)
+        if (getStamina() < 40)
             return ActivityResult.LOW_STAMINA;
 
-        if(getHealth() < 30)
+        if (getHealth() < 30)
             return ActivityResult.LOW_HEALTH;
 
-        if(getHunger() < 10)
+        if (getHunger() < 10)
             return ActivityResult.LOW_HUNGER;
 
-        if(getThirst() < 20)
+        if (getThirst() < 20)
             return ActivityResult.LOW_THIRST;
 
         decreaseStamina();
@@ -251,7 +251,7 @@ public class HousePet {
 
     @JsonIgnore
     public HousePetType.PatReaction handlePat() {
-        if(getType() == HousePetType.CAT) {
+        if (getType() == HousePetType.CAT) {
             return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;
         }
 

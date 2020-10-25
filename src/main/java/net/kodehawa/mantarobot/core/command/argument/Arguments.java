@@ -28,7 +28,7 @@ public class Arguments implements Iterator<SplitString> {
      * try(MarkedBlock block = args.marked()) {
      *     while(args.hasNext()) {
      *         handle(args.next());
-     *         if(shouldAbort()) {
+     *         if (shouldAbort()) {
      *             block.reset();
      *             break;
      *         }
@@ -63,7 +63,7 @@ public class Arguments implements Iterator<SplitString> {
      * @apiNote This method should be avoided by parsers. Use the {@link #marked() marker} API instead.
      */
     public void setOffset(@Nonnegative int offset) {
-        if(offset > array.length) {
+        if (offset > array.length) {
             throw new IllegalArgumentException("Offset > length");
         }
         this.offset = offset;
@@ -112,10 +112,10 @@ public class Arguments implements Iterator<SplitString> {
     @CheckReturnValue
     public SplitString get(@Nonnegative int i) {
         //noinspection ConstantConditions
-        if(i < 0) {
+        if (i < 0) {
             throw new IllegalArgumentException("Negative index");
         }
-        if(i + offset >= array.length) {
+        if (i + offset >= array.length) {
             throw new IllegalArgumentException("Out of bounds! Remaining values = " + (array.length - offset) + ", requested = " + i);
         }
         return array[offset + i];
@@ -134,7 +134,7 @@ public class Arguments implements Iterator<SplitString> {
     @Nonnull
     @CheckReturnValue
     public SplitString previous() {
-        if(offset == 0) {
+        if (offset == 0) {
             throw new IllegalStateException("Already at the beginning");
         }
         return array[--offset];
@@ -176,7 +176,7 @@ public class Arguments implements Iterator<SplitString> {
     @Nonnull
     @CheckReturnValue
     public SplitString next() {
-        if(offset == array.length) {
+        if (offset == array.length) {
             throw new IllegalStateException("No more arguments to read");
         }
         return array[offset++];

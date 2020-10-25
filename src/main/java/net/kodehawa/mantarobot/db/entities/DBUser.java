@@ -114,7 +114,7 @@ public class DBUser implements ManagedObject {
                 // Send a message if the user was premium but the key expired.
                 // This has a 5-day leeway. This means it won't kill your key if the day of the month is before or the 5th of X month.
                 // This is because Patreon can take up to the 5th to process pledges.
-                if(key.getOwner().equals(getId())) {
+                if (key.getOwner().equals(getId())) {
                     MantaroBot.getInstance().getShardManager()
                             .retrieveUserById(key.getOwner())
                             .flatMap(User::openPrivateChannel)

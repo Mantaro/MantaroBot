@@ -47,7 +47,7 @@ public class ArgumentParseError extends RuntimeException {
     }
 
     private static String messageString(String message, Parser parser, Arguments readArguments) {
-        if(message != null) return message;
+        if (message != null) return message;
         return "Unable to parse argument using parser " + parser + " and arguments " + readArguments;
     }
 }

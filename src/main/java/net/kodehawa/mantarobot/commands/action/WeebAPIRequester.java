@@ -105,7 +105,7 @@ public class WeebAPIRequester {
 
             try(var response = Utils.httpClient.newCall(r).execute()) {
                 var body = response.body();
-                if(body == null) throw new IllegalStateException("body == null");
+                if (body == null) throw new IllegalStateException("body == null");
                 return body.string();
             }
         } catch (Exception ex) {

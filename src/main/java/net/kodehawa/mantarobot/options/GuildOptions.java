@@ -252,7 +252,7 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            if(prefix.equals("/tts")) {
+            if (prefix.equals("/tts")) {
                 var tts = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_TTS);
                 event.getChannel().sendMessage("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
                         .tts(tts)
@@ -260,7 +260,7 @@ public class GuildOptions extends OptionHandler {
                 return;
             }
 
-            if(prefix.equals("/shrug") || prefix.equals("¯\\_(ツ)_/¯")) {
+            if (prefix.equals("/shrug") || prefix.equals("¯\\_(ツ)_/¯")) {
                 event.getChannel().sendMessage("¯\\_(ツ)_/¯").queue();
                 return;
             }
@@ -1168,7 +1168,7 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
-            if(args[0].equals("reset")) {
+            if (args[0].equals("reset")) {
                 guildData.setEditMessageLog(null);
                 dbGuild.save();
                 event.getChannel().sendMessageFormat(lang.get("options.logs_editmessage.reset_success"), EmoteReference.CORRECT).queue();
@@ -1195,7 +1195,7 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
-            if(args[0].equals("reset")) {
+            if (args[0].equals("reset")) {
                 guildData.setDeleteMessageLog(null);
                 dbGuild.save();
                 event.getChannel().sendMessageFormat(lang.get("options.logs_deletemessage.reset_success"), EmoteReference.CORRECT).queue();
@@ -1222,7 +1222,7 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
-            if(args[0].equals("reset")) {
+            if (args[0].equals("reset")) {
                 guildData.setBannedMemberLog(null);
                 dbGuild.save();
                 event.getChannel().sendMessageFormat(lang.get("options.logs_banmessage.reset_success"), EmoteReference.CORRECT).queue();
@@ -1249,7 +1249,7 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
-            if(args[0].equals("reset")) {
+            if (args[0].equals("reset")) {
                 guildData.setUnbannedMemberLog(null);
                 dbGuild.save();
                 event.getChannel().sendMessageFormat(lang.get("options.logs_unbanmessage.reset_success"), EmoteReference.CORRECT).queue();
@@ -1277,7 +1277,7 @@ public class GuildOptions extends OptionHandler {
                 "Add someone to the birthday blacklist", (event, args, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-            if(args.length == 0) {
+            if (args.length == 0) {
                 event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
                 return;
             }
@@ -1287,7 +1287,7 @@ public class GuildOptions extends OptionHandler {
             Context ctx = new Context(event, lang, content);
             ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                if(member == null)
+                if (member == null)
                     return;
 
                 guildData.getBirthdayBlockedIds().add(member.getId());
@@ -1299,7 +1299,7 @@ public class GuildOptions extends OptionHandler {
                 "Remove someone to the birthday blacklist", (event, args, lang) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-            if(args.length == 0) {
+            if (args.length == 0) {
                 event.getChannel().sendMessageFormat(lang.get("options.birthdayblacklist.no_args"), EmoteReference.ERROR).queue();
                 return;
             }
@@ -1309,7 +1309,7 @@ public class GuildOptions extends OptionHandler {
             Context ctx = new Context(event, lang, content);
             ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                if(member == null)
+                if (member == null)
                     return;
 
                 guildData.getBirthdayBlockedIds().remove(member.getId());
@@ -1333,7 +1333,7 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
-            if(!guildData.isGameMultipleDisabled()) {
+            if (!guildData.isGameMultipleDisabled()) {
                 event.getChannel().sendMessageFormat(lang.get("options.lobby.enable.already_enabled"), EmoteReference.CORRECT).queue();
                 return;
             }

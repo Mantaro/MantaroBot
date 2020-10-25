@@ -109,7 +109,7 @@ public class Utils {
     }
 
     public static String formatDuration(long time) {
-        if(time < 1000) {
+        if (time < 1000) {
             return "less than a second";
         }
 
@@ -125,12 +125,12 @@ public class Utils {
         var multiple = false;
         while(parts.hasNext()) {
             sb.append(parts.next());
-            if(parts.hasNext()) {
+            if (parts.hasNext()) {
                 multiple = true;
                 sb.append(", ");
             }
         }
-        if(multiple) {
+        if (multiple) {
             var last = sb.lastIndexOf(", ");
             sb.replace(last, last + 2, " and ");
         }
@@ -213,7 +213,7 @@ public class Utils {
     // Hopefully we never need this, electric boogaloo.
     public static Member findMemberSyncDefault(GuildMessageReceivedEvent event,
                                                Context ctx, Message message, String content, Member member) {
-        if(content.isEmpty()) {
+        if (content.isEmpty()) {
             return member;
         } else {
             return findMemberSync(event, ctx, message, content);
@@ -500,8 +500,8 @@ public class Utils {
     }
 
     private static String formatUnit(long amount, String baseName) {
-        if(amount == 0) return "";
-        if(amount == 1) return "1 " + baseName;
+        if (amount == 0) return "";
+        if (amount == 1) return "1 " + baseName;
         return amount + " " + baseName + "s";
     }
 
@@ -585,7 +585,7 @@ public class Utils {
 
     public static Locale getLocaleFromLanguage(String language) {
         // No need to pass it to LocaleUtils if we pass nothing to this.
-        if(language == null || language.isEmpty()) {
+        if (language == null || language.isEmpty()) {
             return Locale.ENGLISH;
         }
 
@@ -595,7 +595,7 @@ public class Utils {
             locale = LocaleUtils.toLocale(language);
         } catch (IllegalArgumentException ignore) { }
 
-        if(locale == null) {
+        if (locale == null) {
             locale = Locale.ENGLISH;
         }
 
@@ -615,17 +615,17 @@ public class Utils {
     @CheckReturnValue
     public static String fixInlineCodeblockDirection(@Nonnull String src) {
         //if there's no right to left override, there's nothing to do
-        if(!isRtl(src)) {
+        if (!isRtl(src)) {
             return src;
         }
 
         //no realloc unless we somehow have 5 codeblocks
         var sb = new StringBuilder(src.length() + 8);
         var inside = false;
-        for(var i = 0; i < src.length(); i++) {
+        for  (var i = 0; i < src.length(); i++) {
             var ch = src.charAt(i);
-            if(ch == BACKTICK) {
-                if(inside) {
+            if (ch == BACKTICK) {
+                if (inside) {
                     sb.append(BACKTICK)
                             .append(POP_DIRECTIONAL_ISOLATE);
                 } else {

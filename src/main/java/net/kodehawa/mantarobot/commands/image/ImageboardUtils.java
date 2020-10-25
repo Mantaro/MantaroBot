@@ -99,7 +99,7 @@ public class ImageboardUtils {
             return;
         }
 
-        if(type == ImageRequestType.TAGS) {
+        if (type == ImageRequestType.TAGS) {
             try {
                 DBGuild dbGuild = ctx.getDBGuild();
                 GuildData data = dbGuild.getData();
@@ -236,7 +236,7 @@ public class ImageboardUtils {
 
     private static boolean containsExcludedTags(List<String> tags) {
         for(String tag : excludedTags) {
-            if(tags.contains(tag)) {
+            if (tags.contains(tag)) {
                 return true;
             }
         }
@@ -272,7 +272,7 @@ public class ImageboardUtils {
 
     //This is so random is a valid rating.
     private static Rating lookupRating(String rating) {
-        if(rating.equalsIgnoreCase("random")) {
+        if (rating.equalsIgnoreCase("random")) {
             Rating[] values = Rating.values();
             return values[r.nextInt(values.length)];
         } else {
@@ -282,7 +282,7 @@ public class ImageboardUtils {
 
     //This is so random (R) is a valid rating.
     private static Rating lookupShortRating(String shortRating) {
-        if(shortRating.equalsIgnoreCase("r")) {
+        if (shortRating.equalsIgnoreCase("r")) {
             Rating[] values = Rating.values();
             return values[r.nextInt(values.length)];
         } else {

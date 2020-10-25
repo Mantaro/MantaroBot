@@ -18,7 +18,7 @@ public class EvictingCachePolicy implements MemberCachePolicy {
     
     public EvictingCachePolicy(List<Integer> shardIds, Supplier<EvictionStrategy> strategySupplier) {
         var s = new EvictionStrategy[Collections.max(shardIds) + 1];
-        for(var id : shardIds) {
+        for  (var id : shardIds) {
             s[id] = strategySupplier.get();
         }
 
@@ -28,7 +28,7 @@ public class EvictingCachePolicy implements MemberCachePolicy {
     @Override
     public boolean cacheMember(@NotNull Member member) {
         GuildVoiceState voiceState = member.getVoiceState();
-        if(voiceState != null && voiceState.getChannel() != null) {
+        if (voiceState != null && voiceState.getChannel() != null) {
             return true;
         }
 
@@ -37,7 +37,7 @@ public class EvictingCachePolicy implements MemberCachePolicy {
         var shard = member.getJDA().getShardInfo().getShardId();
         var strategy = strategies[shard];
 
-        if(strategy == null) {
+        if (strategy == null) {
             log.error("Null strategy for shard {}", shard);
             return true;
         }
@@ -49,14 +49,14 @@ public class EvictingCachePolicy implements MemberCachePolicy {
 
         //the strategy contains only members that were added to this shard
         //so removing shouldn't fail
-        if(evict != EvictionStrategy.NO_REMOVAL_NEEDED) {
+        if (evict != EvictionStrategy.NO_REMOVAL_NEEDED) {
             member.getJDA().getGuildCache().forEach(g -> {
                 var m = g.getMemberById(evict);
-                if(m == null)
+                if (m == null)
                     return;
 
                 // Only remove if voice state is null, or channel in the voice state is null.
-                if(m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
+                if (m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
                     g.unloadMember(evict);
                 }
             });

@@ -168,7 +168,7 @@ public class CurrencyCmds {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                     var member = ctx.getMember();
 
-                    if(!content.isEmpty()) {
+                    if (!content.isEmpty()) {
                         member = CustomFinderUtil.findMember(content, members, ctx);
                     }
 
@@ -257,7 +257,7 @@ public class CurrencyCmds {
                 var item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
                 if (item == null) {
                     item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
-                    if(item == null) {
+                    if (item == null) {
                         ctx.sendLocalized("general.item_lookup.no_item_emoji");
                         return;
                     }
@@ -722,7 +722,7 @@ public class CurrencyCmds {
             // Yes, parser limitations. Natan change to your parser eta wen :^), really though, we could use some generics on here lol
             // NumberFormatException?
             int amount = 1;
-            if(arguments.containsKey("amount")) {
+            if (arguments.containsKey("amount")) {
                 try {
                     amount = Integer.parseInt(arguments.get("amount"));
                 } catch (NumberFormatException e) {
@@ -797,7 +797,7 @@ public class CurrencyCmds {
             }
 
 
-            if(amount == 9) {
+            if (amount == 9) {
                 player.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
             }
 

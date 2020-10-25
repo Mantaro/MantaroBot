@@ -230,7 +230,7 @@ public class MarketCmd {
 
                 playerInventory.process(new ItemStack(item, -itemNumber));
 
-                if(itemNumber > 4000) {
+                if (itemNumber > 4000) {
                     player.getData().addBadgeIfAbsent(Badge.WASTER);
                 }
 

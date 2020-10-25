@@ -111,7 +111,7 @@ public final class ReactionOperations {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
 
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
-        if(f == null) return null;
+        if (f == null) return null;
 
         if (defaultReactions.length > 0) {
             AtomicInteger index = new AtomicInteger();

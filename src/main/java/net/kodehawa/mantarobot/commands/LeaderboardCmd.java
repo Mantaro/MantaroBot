@@ -176,7 +176,7 @@ public class LeaderboardCmd {
             }
         });
 
-        if(!config.isPremiumBot) {
+        if (!config.isPremiumBot) {
             leaderboards.addSubCommand("money", new SubCommand() {
                 @Override
                 public String description() {
@@ -213,7 +213,7 @@ public class LeaderboardCmd {
         leaderboards.addSubCommand(config.isPremiumBot ? "money" : "oldmoney", new SubCommand() {
             @Override
             public String description() {
-                if(config.isPremiumBot) {
+                if (config.isPremiumBot) {
                     return "Returns the money leaderboard";
                 } else {
                     return "Returns the (old) pre-reset money leaderboard";
@@ -478,9 +478,9 @@ public class LeaderboardCmd {
                         .filter(p -> Objects.nonNull(p.getKey()))
                         .map(p -> {
                             //This is... an interesting place to do it lol
-                            if(p.getKey().getId() == ctx.getAuthor().getIdLong()) {
+                            if (p.getKey().getId() == ctx.getAuthor().getIdLong()) {
                                 var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                                if(player.getData().addBadgeIfAbsent(Badge.CHAMPION))
+                                if (player.getData().addBadgeIfAbsent(Badge.CHAMPION))
                                     player.saveAsync();
                             }
 
@@ -514,9 +514,9 @@ public class LeaderboardCmd {
             var missed = "lbmiss:" + id;
 
             var json = jedis.get(savedTo);
-            if(json == null) {
+            if (json == null) {
                 // No need to keep trying missed entries for a while. Entry should have a TTL of 12 hours.
-                if(jedis.get(missed) != null) {
+                if (jedis.get(missed) != null) {
                     return null;
                 }
 
@@ -527,7 +527,7 @@ public class LeaderboardCmd {
                 var user = ctx.retrieveUserById(id);
 
                 // If no user was found, we need to return null. This is later handled on generateLeaderboardEmbed.
-                if(user == null) {
+                if (user == null) {
                     jedis.set(missed, "1");
                     jedis.expire(missed, (int) TimeUnit.HOURS.toSeconds(12));
                     return null;

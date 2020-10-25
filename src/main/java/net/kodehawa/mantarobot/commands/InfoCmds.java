@@ -157,7 +157,7 @@ public class InfoCmds {
 
                 var owner = guild.getOwner();
                 //This is wank lol
-                if(owner == null) {
+                if (owner == null) {
                     owner = guild.retrieveOwner(false).complete();
                 }
 
@@ -234,7 +234,7 @@ public class InfoCmds {
 
         var channelSpecificDisabledCommands = guildData.getChannelSpecificDisabledCommands();
         var disabledChannelCommands = channelSpecificDisabledCommands.get(ctx.getChannel().getId());
-        if(disabledChannelCommands != null && !disabledChannelCommands.isEmpty()) {
+        if (disabledChannelCommands != null && !disabledChannelCommands.isEmpty()) {
             description.append("\n");
             description.append(String.format(
                     languageContext.get("commands.help.channel_specific_disabled_commands"), disabledChannelCommands.size())
@@ -647,7 +647,7 @@ public class InfoCmds {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 for (LavalinkSocket node : nodes) {
-                    if(!node.isAvailable())
+                    if (!node.isAvailable())
                         continue;
 
                     RemoteStats stats = node.getStats();

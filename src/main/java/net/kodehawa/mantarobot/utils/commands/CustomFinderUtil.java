@@ -41,7 +41,7 @@ public class CustomFinderUtil {
     public static Member findMember(String query, List<Member> result, Context ctx) {
         // This is technically a safeguard, shouldn't be needed, but since we handle no results by giving this an empty list, it should be done.
         // If you want to handle it differently, there's findMemberDefault to return a default member.
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
             return null;
         }
@@ -75,7 +75,7 @@ public class CustomFinderUtil {
             }
 
             for(Member member : result) {
-                if(member.getUser().getDiscriminator().equals(disc))
+                if (member.getUser().getDiscriminator().equals(disc))
                     return member;
             }
 
@@ -118,24 +118,24 @@ public class CustomFinderUtil {
         result.forEach(member -> {
             String name = member.getUser().getName();
             String effName = member.getEffectiveName();
-            if(name.equals(query) || effName.equals(query))
+            if (name.equals(query) || effName.equals(query))
                 exact.add(member);
-            else if((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty())
+            else if ((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty())
                 wrongCase.add(member);
-            else if((name.toLowerCase().startsWith(lowerQuery) || effName.toLowerCase().startsWith(lowerQuery)) && wrongCase.isEmpty())
+            else if ((name.toLowerCase().startsWith(lowerQuery) || effName.toLowerCase().startsWith(lowerQuery)) && wrongCase.isEmpty())
                 startsWith.add(member);
-            else if((name.toLowerCase().contains(lowerQuery) || effName.toLowerCase().contains(lowerQuery)) && startsWith.isEmpty())
+            else if ((name.toLowerCase().contains(lowerQuery) || effName.toLowerCase().contains(lowerQuery)) && startsWith.isEmpty())
                 contains.add(member);
         });
 
         List<Member> found;
 
         // Slowly becoming insane.png
-        if(!exact.isEmpty())
+        if (!exact.isEmpty())
             found = Collections.unmodifiableList(exact);
-        else if(!wrongCase.isEmpty())
+        else if (!wrongCase.isEmpty())
             found = Collections.unmodifiableList(wrongCase);
-        else if(!startsWith.isEmpty())
+        else if (!startsWith.isEmpty())
             found = Collections.unmodifiableList(startsWith);
         else
             found = Collections.unmodifiableList(contains);
@@ -144,7 +144,7 @@ public class CustomFinderUtil {
     }
 
     public static Member findMemberDefault(String query, List<Member> result, Context ctx, Member member) {
-        if(query.isEmpty()) {
+        if (query.isEmpty()) {
             return member;
         } else {
             return findMember(query, result, ctx);
@@ -161,14 +161,14 @@ public class CustomFinderUtil {
     public static List<Member> findMembersSync(String query, Context ctx, Message message, Guild guild) {
         // Handle user mentions.
         Matcher userMention = USER_MENTION.matcher(query);
-        if(userMention.matches() && message.getMentionedMembers().size() > 0) {
+        if (userMention.matches() && message.getMentionedMembers().size() > 0) {
             return Collections.singletonList(message.getMentionedMembers().get(0));
         }
 
         // User ID
         if (DISCORD_ID.matcher(query).matches()) {
             Member member = ctx.retrieveMemberById(query, false);
-            if(member == null) {
+            if (member == null) {
                 return Collections.emptyList();
             }
 
@@ -198,15 +198,15 @@ public class CustomFinderUtil {
 
     // This whole thing is hacky as FUCK
     public static Task<List<Member>> lookupMember(Guild guild, Message message, Context context, String query) {
-        if(query.trim().isEmpty()) {
+        if (query.trim().isEmpty()) {
             // This is next-level hacky, LMAO.
             // Basically we handle giving an empty value to this, and just return an empty list in that case.
             return emptyMemberTask();
         }
 
         // Handle user mentions.
-        if(USER_MENTION.matcher(query).matches() && message.getMentionedMembers().size() > 0) {
-            if(message.getMentionedMembers().size() > 1) {
+        if (USER_MENTION.matcher(query).matches() && message.getMentionedMembers().size() > 0) {
+            if (message.getMentionedMembers().size() > 1) {
                 context.sendLocalized("general.too_many_mentions", EmoteReference.ERROR);
                 return emptyMemberTask();
             }
@@ -228,7 +228,7 @@ public class CustomFinderUtil {
             CompletableFuture<List<Member>> result = new CompletableFuture<>();
 
             Member member = context.retrieveMemberById(query, false);
-            if(member == null) {
+            if (member == null) {
                 return emptyMemberTask();
             }
 
@@ -238,7 +238,7 @@ public class CustomFinderUtil {
 
         // Usually people like to mess with results by searching for stuff like "a" and "tu", stuff like that.
         // This just makes sure we don't send a request to discord for useless searches.
-        if(query.length() < 4) {
+        if (query.length() < 4) {
             context.sendLocalized("general.query_too_small", EmoteReference.ERROR);
             return emptyMemberTask();
         }

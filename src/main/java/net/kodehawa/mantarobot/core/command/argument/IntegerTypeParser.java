@@ -29,13 +29,13 @@ public class IntegerTypeParser<T> implements Parser<T> {
             int offset = 0;
             for(; offset < s.length(); offset++) {
                 char c = s.charAt(offset);
-                if(c == '.' || c == ',') continue;
-                if(!Character.isDigit(c)) break;
+                if (c == '.' || c == ',') continue;
+                if (!Character.isDigit(c)) break;
                 builder.append(c);
             }
-            if(builder.length() == 0) return Optional.empty();
+            if (builder.length() == 0) return Optional.empty();
             int multiplier;
-            if(offset < s.length()) {
+            if (offset < s.length()) {
                 switch(s.substring(offset).toLowerCase()) {
                     case "k": multiplier = 1000; break;
                     case "kk": case "m": multiplier = 1000000; break;

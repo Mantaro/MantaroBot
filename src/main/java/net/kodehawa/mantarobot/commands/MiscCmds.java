@@ -146,7 +146,7 @@ public class MiscCmds {
                 var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
                 var json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
 
-                if(json == null) {
+                if (json == null) {
                     ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
                     return;
                 }
@@ -228,7 +228,7 @@ public class MiscCmds {
                             var roleId = autoroles.get(iam);
                             if (roleId != null) {
                                 Role role = ctx.getGuild().getRoleById(roleId);
-                                if(role == null)
+                                if (role == null)
                                     continue;
 
                                 roleString.append("`").append(iam).append("`. Gives role: ").append(role.getName()).append(", ");

@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -34,15 +33,11 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.APIUtils;
-import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
@@ -67,7 +62,7 @@ public class PremiumCmds {
         cr.register("activatekey", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                final ManagedDatabase db = ctx.db();
+                final var db = ctx.db();
 
                 if (config.isPremiumBot()) {
                     ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
@@ -75,7 +70,7 @@ public class PremiumCmds {
                 }
 
                 if (!(args.length == 0) && args[0].equalsIgnoreCase("check")) {
-                    PremiumKey currentKey = db.getPremiumKey(ctx.getDBUser().getData().getPremiumKey());
+                    var currentKey = db.getPremiumKey(ctx.getDBUser().getData().getPremiumKey());
 
                     if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         ctx.sendLocalized("commands.activatekey.check.key_valid_for", EmoteReference.EYES, currentKey.validFor());
@@ -91,19 +86,18 @@ public class PremiumCmds {
                     return;
                 }
 
-                PremiumKey key = db.getPremiumKey(args[0]);
+                var key = db.getPremiumKey(args[0]);
 
                 if (key == null || (key.isEnabled())) {
                     ctx.sendLocalized("commands.activatekey.invalid_key", EmoteReference.ERROR);
                     return;
                 }
 
-                PremiumKey.Type scopeParsed = key.getParsedType();
+                var scopeParsed = key.getParsedType();
 
                 if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
-                    DBGuild guild = ctx.getDBGuild();
-
-                    PremiumKey currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
+                    var guild = ctx.getDBGuild();
+                    var currentKey = db.getPremiumKey(guild.getData().getPremiumKey());
 
                     if (currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         ctx.sendLocalized("commands.activatekey.guild_already_premium", EmoteReference.POPPER);
@@ -126,8 +120,8 @@ public class PremiumCmds {
                 }
 
                 if (scopeParsed.equals(PremiumKey.Type.USER)) {
-                    DBUser dbUser = ctx.getDBUser();
-                    Player player = ctx.getPlayer();
+                    var dbUser = ctx.getDBUser();
+                    var player = ctx.getPlayer();
 
                     if (dbUser.isPremium()) {
                         ctx.sendLocalized("commands.activatekey.user_already_premium", EmoteReference.POPPER);
@@ -141,7 +135,7 @@ public class PremiumCmds {
 
                     //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!ctx.getAuthor().getId().equals(key.getOwner())) {
-                        DBUser ownerUser = db.getUser(key.getOwner());
+                        var ownerUser = db.getUser(key.getOwner());
                         ownerUser.getData().getKeysClaimed().put(ctx.getAuthor().getId(), key.getId());
                         ownerUser.saveAsync();
                     }
@@ -184,7 +178,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                PremiumKey.Type scopeParsed = PremiumKey.Type.USER;
+                var scopeParsed = PremiumKey.Type.USER;
                 if (args.length > 0) {
                     try {
                         scopeParsed = PremiumKey.Type.valueOf(args[0].toUpperCase());
@@ -193,18 +187,18 @@ public class PremiumCmds {
                     }
                 }
 
-                final User author = ctx.getAuthor();
-                DBUser dbUser = ctx.getDBUser();
+                final var author = ctx.getAuthor();
+                var dbUser = ctx.getDBUser();
 
                 //left: isPatron, right: pledgeAmount, basically.
-                Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(author.getId());
+                var pledgeInfo = APIUtils.getPledgeInformation(author.getId());
                 if (pledgeInfo == null || !pledgeInfo.getLeft() || !dbUser.isPremium()) {
                     ctx.sendLocalized("commands.claimkey.not_patron", EmoteReference.ERROR);
                     return;
                 }
 
-                double pledgeAmount = Double.parseDouble(pledgeInfo.getRight());
-                UserData data = dbUser.getData();
+                var pledgeAmount = Double.parseDouble(pledgeInfo.getRight());
+                var data = dbUser.getData();
 
                 //Check for pledge changes on DBUser#isPremium
                 if (pledgeAmount == 1 || data.getKeysClaimed().size() >= (pledgeAmount / 2)) {
@@ -212,7 +206,7 @@ public class PremiumCmds {
                     return;
                 }
 
-                if(!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
                     return;
                 }
 
@@ -245,7 +239,7 @@ public class PremiumCmds {
 
     @Subscribe
     public void vipstatus(CommandRegistry cr) {
-        final ManagedDatabase db = MantaroData.db();
+        final var db = MantaroData.db();
 
         TreeCommand vipstatusCmd = cr.register("vipstatus", new TreeCommand(CommandCategory.INFO) {
             @Override
@@ -253,57 +247,57 @@ public class PremiumCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, String content) {
-                        if(config.isPremiumBot()) {
+                        if (config.isPremiumBot()) {
                             ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
                             return;
                         }
 
-                        I18nContext languageContext = ctx.getLanguageContext();
+                        var languageContext = ctx.getLanguageContext();
 
                         ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                            Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                            if(member == null)
+                            var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                            if (member == null)
                                 return;
 
-                            User toCheck = member.getUser();
-                            DBUser dbUser = db.getUser(toCheck);
-                            UserData data = dbUser.getData();
-                            boolean isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
+                            var toCheck = member.getUser();
+                            var dbUser = db.getUser(toCheck);
+                            var data = dbUser.getData();
+                            var isLookup = toCheck.getIdLong() != ctx.getAuthor().getIdLong();
 
-                            if(!dbUser.isPremium()) {
+                            if (!dbUser.isPremium()) {
                                 ctx.sendLocalized("commands.vipstatus.user.not_premium", EmoteReference.ERROR, toCheck.getAsTag());
                                 return;
                             }
 
-                            EmbedBuilder embedBuilder = new EmbedBuilder()
+                            var embedBuilder = new EmbedBuilder()
                                     .setAuthor(isLookup ? String.format(languageContext.get("commands.vipstatus.user.header_other"), toCheck.getName())
                                             : languageContext.get("commands.vipstatus.user.header"), null, toCheck.getEffectiveAvatarUrl()
                                     );
 
-                            PremiumKey currentKey = db.getPremiumKey(data.getPremiumKey());
+                            var currentKey = db.getPremiumKey(data.getPremiumKey());
 
-                            if(currentKey == null || currentKey.validFor() < 1) {
+                            if (currentKey == null || currentKey.validFor() < 1) {
                                 ctx.sendLocalized("commands.vipstatus.user.not_premium", toCheck.getAsTag(), EmoteReference.ERROR);
                                 return;
                             }
 
-                            User owner = ctx.retrieveUserById(currentKey.getOwner());
-                            boolean marked = false;
+                            var owner = ctx.retrieveUserById(currentKey.getOwner());
+                            var marked = false;
                             if (owner == null) {
                                 marked = true;
                                 owner = ctx.getAuthor();
                             }
 
                             //Give the badge to the key owner, I'd guess?
-                            if(!marked && isLookup) {
-                                Player p = db.getPlayer(owner);
-                                if (p.getData().addBadgeIfAbsent(Badge.DONATOR_2))
-                                    p.saveAsync();
+                            if (!marked && isLookup) {
+                                Player player = db.getPlayer(owner);
+                                if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2))
+                                    player.saveAsync();
                             }
 
-                            Pair<Boolean, String> patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                            String linkedTo = currentKey.getData().getLinkedTo();
-                            int amountClaimed = data.getKeysClaimed().size();
+                            var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
+                            var linkedTo = currentKey.getData().getLinkedTo();
+                            var amountClaimed = data.getKeysClaimed().size();
 
                             embedBuilder.setColor(Color.CYAN)
                                     .setThumbnail(toCheck.getEffectiveAvatarUrl())
@@ -318,31 +312,40 @@ public class PremiumCmds {
                             try {
                                 //User has more keys than what the system would allow. Warn.
                                 if (patreonInformation != null && patreonInformation.getLeft()) {
-                                    double patreonAmount = Double.parseDouble(patreonInformation.getRight());
+                                    var patreonAmount = Double.parseDouble(patreonInformation.getRight());
 
-                                    if((patreonAmount / 2) - amountClaimed < 0) {
-                                        LogUtils.log(
-                                                String.format(
-                                                        "%s has more keys claimed than given keys, dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.", owner.getId(),
-                                                        Utils.paste(
-                                                                data.getKeysClaimed().entrySet().stream().map(entry ->
-                                                                        "to:" + entry.getKey() + ", key:" + entry.getValue()).collect(Collectors.joining("\n")
-                                                                )
-                                                        ), patreonAmount, amountClaimed, (patreonAmount / 2)
-                                                )
-                                        );
+                                    if ((patreonAmount / 2) - amountClaimed < 0) {
+                                        LogUtils.log
+                                                (String.format(
+                                                        "%s has more keys claimed than given keys, " +
+                                                                "dumping keys:\n%s\nCurrently pledging: %s, Claimed keys: %s, Should have %s total keys.",
+                                                        owner.getId(),
+                                                        Utils.paste(data.getKeysClaimed()
+                                                                .entrySet()
+                                                                .stream()
+                                                                .map(entry -> "to:" + entry.getKey() + ", key:" + entry.getValue())
+                                                                .collect(Collectors.joining("\n"))),
+                                                        patreonAmount, amountClaimed, (patreonAmount / 2))
+                                                );
                                     }
                                 }
                             } catch (Exception ignored) { }
 
                             if (linkedTo != null) {
-                                User linkedUser = ctx.retrieveUserById(currentKey.getOwner());
-                                if(linkedUser != null)
-                                    embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName() +
-                                            "#" + linkedUser.getDiscriminator(), true);
+                                var linkedUser = ctx.retrieveUserById(currentKey.getOwner());
+                                if (linkedUser != null)
+                                    embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"),
+                                            linkedUser.getAsTag(),
+                                            true
+                                    );
                             } else {
-                                embedBuilder.addField(languageContext.get("commands.vipstatus.expire"), currentKey.validFor() + " " + languageContext.get("general.days"), true)
-                                        .addField(languageContext.get("commands.vipstatus.key_duration"), currentKey.getDurationDays() + " " + languageContext.get("general.days"), true);
+                                embedBuilder.addField(languageContext.get("commands.vipstatus.expire"),
+                                        currentKey.validFor() + " " + languageContext.get("general.days"),
+                                        true
+                                ).addField(languageContext.get("commands.vipstatus.key_duration"),
+                                        currentKey.getDurationDays() + " " + languageContext.get("general.days"),
+                                        true
+                                );
                             }
 
                             ctx.send(embedBuilder.build());
@@ -366,31 +369,31 @@ public class PremiumCmds {
         vipstatusCmd.addSubCommand("guild", new SubCommand() {
             @Override
             protected void call(Context ctx, String content) {
-                DBGuild dbGuild = ctx.getDBGuild();
-                I18nContext languageContext = ctx.getLanguageContext();
+                var dbGuild = ctx.getDBGuild();
+                var languageContext = ctx.getLanguageContext();
 
                 if (!dbGuild.isPremium()) {
                     ctx.sendLocalized("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
-                EmbedBuilder embedBuilder = new EmbedBuilder()
+                var embedBuilder = new EmbedBuilder()
                         .setAuthor(String.format(languageContext.get("commands.vipstatus.guild.header"), ctx.getGuild().getName()),
                                 null, ctx.getAuthor().getEffectiveAvatarUrl());
 
-                PremiumKey currentKey = db.getPremiumKey(dbGuild.getData().getPremiumKey());
+                var currentKey = db.getPremiumKey(dbGuild.getData().getPremiumKey());
 
-                if(currentKey == null || currentKey.validFor() < 1) {
+                if (currentKey == null || currentKey.validFor() < 1) {
                     ctx.sendLocalized("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
-                User owner = ctx.retrieveUserById(currentKey.getOwner());
+                var owner = ctx.retrieveUserById(currentKey.getOwner());
                 if (owner == null)
                     owner = Objects.requireNonNull(ctx.getGuild().getOwner()).getUser();
 
-                Pair<Boolean, String> patreonInformation = APIUtils.getPledgeInformation(owner.getId());
-                String linkedTo = currentKey.getData().getLinkedTo();
+                var patreonInformation = APIUtils.getPledgeInformation(owner.getId());
+                var linkedTo = currentKey.getData().getLinkedTo();
                 embedBuilder.setColor(Color.CYAN)
                         .setThumbnail(ctx.getGuild().getIconUrl())
                         .setDescription(languageContext.get("commands.vipstatus.guild.premium")  + "\n" + languageContext.get("commands.vipstatus.description"))
@@ -402,7 +405,7 @@ public class PremiumCmds {
 
                 if (linkedTo != null) {
                     User linkedUser = ctx.retrieveUserById(currentKey.getOwner());
-                    if(linkedUser != null)
+                    if (linkedUser != null)
                         embedBuilder.addField(languageContext.get("commands.vipstatus.linked_to"), linkedUser.getName()  + "#" +
                                 linkedUser.getDiscriminator(), false);
                 } else {
@@ -422,13 +425,13 @@ public class PremiumCmds {
         cr.register("invalidatekey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if(args.length == 0) {
+                if (args.length == 0) {
                     ctx.send(EmoteReference.ERROR + "Give me a key to invalidate!");
                     return;
                 }
 
                 PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
-                if(key == null) {
+                if (key == null) {
                     ctx.send("Invalid key.");
                     return;
                 }
@@ -474,7 +477,7 @@ public class PremiumCmds {
 
                 //This method generates a premium key AND saves it on the database! Please use this result!
                 PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
-                if(t.containsKey("mobile")) {
+                if (t.containsKey("mobile")) {
                     ctx.send(generated.getId());
                 } else {
                     ctx.send(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",

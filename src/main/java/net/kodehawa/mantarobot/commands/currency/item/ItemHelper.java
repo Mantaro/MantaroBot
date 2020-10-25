@@ -69,7 +69,7 @@ public class ItemHelper {
             if (!playerInventory.containsItem(ItemReference.MOP))
                 return false;
 
-            if(dbUser.getData().getDustLevel() > 5) {
+            if (dbUser.getData().getDustLevel() > 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
                 player.save();
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
@@ -179,12 +179,12 @@ public class ItemHelper {
 
         Item crate = fromId(item);
 
-        if(inventory.containsItem(crate)) {
-            if(inventory.containsItem(ItemReference.LOOT_CRATE_KEY)) {
-                if(!RatelimitUtils.ratelimit(lootCrateRatelimiter, ctx, false))
+        if (inventory.containsItem(crate)) {
+            if (inventory.containsItem(ItemReference.LOOT_CRATE_KEY)) {
+                if (!RatelimitUtils.ratelimit(lootCrateRatelimiter, ctx, false))
                     return false;
 
-                if(crate == ItemReference.LOOT_CRATE) {
+                if (crate == ItemReference.LOOT_CRATE) {
                     player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
                 }
 
@@ -209,19 +209,19 @@ public class ItemHelper {
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
         PlayerData data = player.getData();
-        if((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) &&
+        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) &&
                 toAdd.contains(ItemReference.GEM5_PICKAXE) && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
             data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
-        if((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) &&
+        if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) &&
                 toAdd.contains(ItemReference.SHARK)) {
             data.addBadgeIfAbsent(Badge.TOO_BIG);
         }
 
         boolean overflow = seasonal ? seasonPlayer.getInventory().merge(ita) : player.getInventory().merge(ita);
 
-        if(seasonal) {
+        if (seasonal) {
             seasonPlayer.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
             seasonPlayer.getInventory().process(new ItemStack(crate, -1));
         } else {
@@ -373,7 +373,7 @@ public class ItemHelper {
         PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
 
         //This is important for previously equipped items before we implemented durability.
-        if(!equippedItems.getDurability().containsKey(equipmentType) && item instanceof Breakable) {
+        if (!equippedItems.getDurability().containsKey(equipmentType) && item instanceof Breakable) {
             equippedItems.resetDurabilityTo(equipmentType, ((Breakable) item).getMaxDurability());
         }
 
@@ -395,7 +395,7 @@ public class ItemHelper {
             }
 
             String toReplace = languageContext.get("commands.mine.item_broke");
-            if(!user.getData().isAutoEquip())
+            if (!user.getData().isAutoEquip())
                 toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
 
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);

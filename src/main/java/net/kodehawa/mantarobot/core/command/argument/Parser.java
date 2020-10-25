@@ -144,9 +144,9 @@ public interface Parser<T> {
     static <T> Parser<T> firstOf(@Nonnull Parser<? extends T>... parsers) {
         return (c, args) -> {
             var block = args.marked();
-            for(var parser : parsers) {
+            for  (var parser : parsers) {
                 var optional = parser.parse(c, args);
-                if(optional.isEmpty()) {
+                if (optional.isEmpty()) {
                     block.reset();
                     continue;
                 }

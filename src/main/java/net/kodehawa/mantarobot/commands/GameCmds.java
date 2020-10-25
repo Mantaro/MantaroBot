@@ -148,7 +148,7 @@ public class GameCmds {
             protected void call(Context ctx, String content) {
                 var guildData = ctx.getDBGuild().getData();
 
-                if(guildData.isGameMultipleDisabled()) {
+                if (guildData.isGameMultipleDisabled()) {
                     ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
                     return;
                 }
@@ -223,7 +223,7 @@ public class GameCmds {
             protected void call(Context ctx, String content) {
                 var guildData = ctx.getDBGuild().getData();
 
-                if(guildData.isGameMultipleDisabled()) {
+                if (guildData.isGameMultipleDisabled()) {
                     ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
                     return;
                 }

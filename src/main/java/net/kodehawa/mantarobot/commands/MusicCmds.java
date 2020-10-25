@@ -65,7 +65,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -80,7 +79,7 @@ public class MusicCmds {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 TrackScheduler scheduler = musicManager.getTrackScheduler();
 
-                if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink()))
                     return;
 
                 ctx.sendLocalized("commands.forceskip.success", EmoteReference.CORRECT);
@@ -266,7 +265,7 @@ public class MusicCmds {
             public void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink()))
                     return;
 
                 boolean paused = !musicManager.getTrackScheduler().getMusicPlayer().isPaused();
@@ -558,7 +557,7 @@ public class MusicCmds {
                 MantaroAudioManager mantaroAudioManager = ctx.getAudioManager();
                 GuildMusicManager musicManager = mantaroAudioManager.getMusicManager(ctx.getGuild());
 
-                if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink()))
                     return;
 
                 if (isDJ(ctx, ctx.getMember())) {
@@ -584,7 +583,7 @@ public class MusicCmds {
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink()))
                     return;
 
                 if (!isDJ(ctx, ctx.getMember())) {
@@ -677,7 +676,7 @@ public class MusicCmds {
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink()))
                     return;
 
                 final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
@@ -756,7 +755,7 @@ public class MusicCmds {
             protected void call(Context ctx, String content, String[] args) {
                 GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink()))
                     return;
 
                 musicManager.getTrackScheduler().shuffle();
@@ -782,7 +781,7 @@ public class MusicCmds {
                     GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                     TrackScheduler scheduler = musicManager.getTrackScheduler();
 
-                    if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                    if (isNotInCondition(ctx, musicManager.getLavaLink()))
                         return;
 
                     User author = ctx.getAuthor();
@@ -840,7 +839,7 @@ public class MusicCmds {
                     GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                     TrackScheduler scheduler = musicManager.getTrackScheduler();
 
-                    if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                    if (isNotInCondition(ctx, musicManager.getLavaLink()))
                         return;
 
                     if (isDJ(ctx, ctx.getMember())) {
@@ -897,7 +896,7 @@ public class MusicCmds {
                         if (ctx.getDBUser().isPremium() || ctx.getDBGuild().isPremium() || ctx.getConfig().getOwners().contains(ctx.getAuthor().getId())) {
                             GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                            if (!isInConditionTo(ctx, musicManager.getLavaLink()))
+                            if (isNotInCondition(ctx, musicManager.getLavaLink()))
                                 return;
 
                             if (content.isEmpty()) {
@@ -993,11 +992,11 @@ public class MusicCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 String search = content.trim();
-                if(search.equals("current") || search.isEmpty()) {
+                if (search.equals("current") || search.isEmpty()) {
                     GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                     TrackScheduler scheduler = musicManager.getTrackScheduler();
                     AudioTrack currentTrack = scheduler.getCurrentTrack();
-                    if(currentTrack == null) {
+                    if (currentTrack == null) {
                         ctx.sendLocalized("commands.lyrics.no_current_track", EmoteReference.ERROR);
                         return;
                     }
@@ -1006,13 +1005,13 @@ public class MusicCmds {
                 }
 
                 String result = Utils.wget("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
-                if(result == null) {
+                if (result == null) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;
                 }
 
                 JSONObject results = new JSONObject(result);
-                if(!results.isNull("empty")) {
+                if (!results.isNull("empty")) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;
                 }
@@ -1052,7 +1051,7 @@ public class MusicCmds {
         Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
         GuildData guildData = ctx.getDBGuild().getData();
         Role customDjRole = null;
-        if(guildData.getDjRoleId() != null) {
+        if (guildData.getDjRoleId() != null) {
             customDjRole = member.getGuild().getRoleById(guildData.getDjRoleId());
         }
 
@@ -1094,35 +1093,35 @@ public class MusicCmds {
         }
     }
 
-    private boolean isInConditionTo(Context ctx, JdaLink player) {
+    private boolean isNotInCondition(Context ctx, JdaLink player) {
         GuildVoiceState selfVoiceState = ctx.getSelfMember().getVoiceState();
         GuildVoiceState voiceState = ctx.getMember().getVoiceState();
 
         try {
             // Maybe?
             if (isDJ(ctx, ctx.getMember())) {
-                return true;
+                return false;
             }
 
             // We can't do anything if voiceChannel is null, so send not connected.
-            if(voiceState == null || voiceState.getChannel() == null) {
+            if (voiceState == null || voiceState.getChannel() == null) {
                 sendNotConnectedToMyChannel(ctx.getChannel(), ctx.getLanguageContext());
-                return false; //No player to stop/change?
+                return true; //No player to stop/change?
             }
 
             // There's voice state but it isn't on a voice channel (how?), or the person is connected to another VC.
             if (!voiceState.inVoiceChannel() || !voiceState.getChannel().getId().equals(player.getChannel())) {
                 sendNotConnectedToMyChannel(ctx.getChannel(), ctx.getLanguageContext());
-                return false;
+                return true;
             }
 
             // No self voice state?
-            if(selfVoiceState == null) {
+            if (selfVoiceState == null) {
                 ctx.sendLocalized("commands.music_general.no_player", EmoteReference.ERROR);
-                return false; //No player to stop/change?
+                return true; //No player to stop/change?
             }
 
-            return true;
+            return false;
         } catch (NullPointerException e) { // Maybe a little harder to reach this?
             // Ironically before we checked for this without checking if selfVoiceState was null
             // therefore we threw a NPE when catching a NPE...
@@ -1130,7 +1129,7 @@ public class MusicCmds {
                 log.error("Possible bug? No player even though bot is connected to a channel!", e);
 
             ctx.sendLocalized("commands.music_general.no_player", EmoteReference.ERROR);
-            return false; // No player to stop/change?
+            return true; // No player to stop/change?
         }
     }
 }

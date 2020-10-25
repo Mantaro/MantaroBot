@@ -105,7 +105,7 @@ public class JFRExports {
     private static final Gauge.Child MEMORY_USAGE_NONHEAP = MEMORY_USAGE.labels("nonheap");
 
     public static void register() {
-        if(!REGISTERED.compareAndSet(false, true)) return;
+        if (!REGISTERED.compareAndSet(false, true)) return;
         
         SAFEPOINTS.register();
         GC_PAUSES.register();
@@ -265,7 +265,7 @@ public class JFRExports {
          */
         event(rs ,"jdk.NetworkUtilization", e -> {
             var itf = e.getString("networkInterface");
-            if(itf == null) itf = "N/A";
+            if (itf == null) itf = "N/A";
             NETWORK_READ.labels(itf).set(e.getLong("readRate"));
             NETWORK_WRITE.labels(itf).set(e.getLong("writeRate"));
         }).withPeriod(Prometheus.UPDATE_PERIOD);
@@ -386,7 +386,7 @@ public class JFRExports {
     private static void logTTSP(LongLongRingBuffer buffer, RecordedEvent event) {
         var id = event.getLong("safepointId");
         var time = buffer.remove(id);
-        if(time == -1) {
+        if (time == -1) {
             //safepoint lost, buffer overwrote it
             //this shouldn't happen unless we get a
             //massive amount of safepoints at once
@@ -403,7 +403,7 @@ public class JFRExports {
     private static void logSafepointOperation(LongLongRingBuffer buffer, RecordedEvent event) {
         var id = event.getLong("safepointId");
         var time = buffer.remove(id);
-        if(time == -1) {
+        if (time == -1) {
             //safepoint lost, buffer overwrote it
             //this shouldn't happen unless we get a
             //massive amount of safepoints at once
@@ -437,9 +437,9 @@ public class JFRExports {
         }
 
         long remove(long id) {
-            for(var i = 0; i < size; i++) {
+            for  (var i = 0; i < size; i++) {
                 var idx = i * 2;
-                if(table[idx] == id) {
+                if (table[idx] == id) {
                     table[idx] = -1;
                     return table[idx + 1];
                 }

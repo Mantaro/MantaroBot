@@ -163,7 +163,7 @@ public class MantaroCore {
             controller = new BucketedController(1, 213468583252983809L);
         } else {
             var bucketFactor = config.getBucketFactor();
-            if(bucketFactor > 1) {
+            if (bucketFactor > 1) {
                 log.info("Using buckets of {} shards to start the bot! Assuming we're on big bot sharding." , bucketFactor);
                 log.info("If you're self-hosting, set bucketFactor in config.json to 1 and isSelfHost to true.");
             }
@@ -236,7 +236,7 @@ public class MantaroCore {
             } else {
                 int shardCount;
                 // Count specified in config.
-                if(config.totalShards != 0) {
+                if (config.totalShards != 0) {
                     shardCount = config.totalShards;
                     builder.setShardsTotal(config.totalShards);
                     log.info("Using {} shards from config (totalShards != 0)", shardCount);
@@ -244,7 +244,7 @@ public class MantaroCore {
                     //Count specified on runtime options or recommended count by discord.
                     shardCount = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
                     builder.setShardsTotal(shardCount);
-                    if(ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
+                    if (ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
                         log.info("Using {} shards from ExtraRuntimeOptions", shardCount);
                     } else {
                         log.info("Using {} shards from discord recommended amount", shardCount);
@@ -281,7 +281,7 @@ public class MantaroCore {
             }
 
             //if this isn't true we have a big problem
-            if(shardIds.size() != latchCount) {
+            if (shardIds.size() != latchCount) {
                 throw new IllegalStateException("Shard ids list must have the same size as latch count");
             }
 
@@ -402,7 +402,7 @@ public class MantaroCore {
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         //Only update guild count from the master node.
-        if(bot.isMasterNode())
+        if (bot.isMasterNode())
             startUpdaters();
 
         bot.startCheckingBirthdays();
