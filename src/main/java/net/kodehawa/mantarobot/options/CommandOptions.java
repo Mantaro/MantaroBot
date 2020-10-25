@@ -29,8 +29,8 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +133,7 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    TextChannel channel = Utils.findChannel(event, channelName);
+                    TextChannel channel = FinderUtils.findChannel(event, channelName);
                     if (channel == null) return;
 
                     String id = channel.getId();
@@ -168,7 +168,7 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    TextChannel channel = Utils.findChannel(event, channelName);
+                    TextChannel channel = FinderUtils.findChannel(event, channelName);
                     if (channel == null) return;
 
                     String id = channel.getId();
@@ -204,7 +204,7 @@ public class CommandOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.server_channel_disallow.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, args[0], consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, args[0], consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);
@@ -230,7 +230,7 @@ public class CommandOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.server_channel_allow.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, args[0], consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, args[0], consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);
@@ -348,7 +348,7 @@ public class CommandOptions extends OptionHandler {
                         ).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);
@@ -398,7 +398,7 @@ public class CommandOptions extends OptionHandler {
                         ).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);
@@ -460,7 +460,7 @@ public class CommandOptions extends OptionHandler {
                 ).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, roleDisallow, consumer);
+            Role role = FinderUtils.findRoleSelect(event, roleDisallow, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -511,7 +511,7 @@ public class CommandOptions extends OptionHandler {
                 ).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, roleAllow, consumer);
+            Role role = FinderUtils.findRoleSelect(event, roleAllow, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -570,7 +570,7 @@ public class CommandOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.success"), EmoteReference.CORRECT, toDisable.toString(), role.getName()).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(event, roleName, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -615,7 +615,7 @@ public class CommandOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_enable.success"), EmoteReference.CORRECT, toEnable.toString(), role.getName()).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(event, roleName, consumer);
 
             if (role != null) {
                 consumer.accept(role);

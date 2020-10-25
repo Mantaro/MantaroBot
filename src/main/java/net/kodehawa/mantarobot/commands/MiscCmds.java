@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
-import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -32,9 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -144,7 +140,7 @@ public class MiscCmds {
                 }
 
                 var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-                var json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
+                var json = Utils.httpRequest(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
 
                 if (json == null) {
                     ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);

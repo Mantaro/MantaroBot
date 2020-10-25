@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
@@ -54,7 +55,7 @@ public class AudioCmdUtils {
         String nowPlaying = trackScheduler.getMusicPlayer().getPlayingTrack() != null ?
                 "**[" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().title
                         + "](" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().uri +
-                        ")** (" + Utils.getDurationMinutes(trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().length) + ")" :
+                        ")** (" + getDurationMinutes(trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().length) + ")" :
                 lang.get("commands.music_general.queue.no_track_found_np");
 
         if (toSend.isEmpty()) {
@@ -123,7 +124,7 @@ public class AudioCmdUtils {
                 builder.addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .addField(lang.get("commands.music_general.queue.total_queue_time"),
-                                String.format("`%s`", Utils.getReadableTime(length)), true)
+                                String.format("`%s`", Utils.formatDuration(length)), false)
                         .addField(lang.get("commands.music_general.queue.total_size"),
                                 String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                         .addField(lang.get("commands.music_general.queue.togglers"),
@@ -148,7 +149,7 @@ public class AudioCmdUtils {
             builder.addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                     .addField(lang.get("commands.music_general.queue.total_queue_time"),
-                            String.format("`%s`", Utils.getReadableTime(length)), true)
+                            String.format("`%s`", Utils.formatDuration(length)), false)
                     .addField(lang.get("commands.music_general.queue.total_size"),
                             String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
                     .addField(lang.get("commands.music_general.queue.togglers"),
@@ -292,5 +293,13 @@ public class AudioCmdUtils {
 
     private static void joinVoiceChannel(JdaLink manager, VoiceChannel channel) {
         manager.connect(channel);
+    }
+
+    public static String getDurationMinutes(long length) {
+        return String.format("%d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(length),
+                TimeUnit.MILLISECONDS.toSeconds(length) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
+        );
     }
 }

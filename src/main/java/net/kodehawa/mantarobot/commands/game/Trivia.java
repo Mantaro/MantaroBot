@@ -83,7 +83,7 @@ public class Trivia extends Game<String> {
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
-            String json = Utils.wget(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty.name().toLowerCase()));
+            String json = Utils.httpRequest(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty.name().toLowerCase()));
 
             if (json == null) {
                 lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.fetch_error"), EmoteReference.ERROR).queue();

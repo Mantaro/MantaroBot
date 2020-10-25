@@ -25,7 +25,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
+import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -105,7 +105,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.loaded_playlist"),
-                    EmoteReference.CORRECT, i, playlist.getName(), Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
+                    EmoteReference.CORRECT, i, playlist.getName(), AudioCmdUtils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
             ).queue();
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,7 +185,7 @@ public class AudioLoader implements AudioLoadResultHandler {
     private void onSearch(AudioPlaylist playlist) {
         List<AudioTrack> list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
-                track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, Utils.getDurationMinutes(track.getInfo().length)),
+                track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, AudioCmdUtils.getDurationMinutes(track.getInfo().length)),
                 s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor(language.get("commands.music_general.loader.selection_text"), "https://i.imgur.com/sFDpUZy.png")
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)

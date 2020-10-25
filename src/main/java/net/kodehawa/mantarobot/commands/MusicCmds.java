@@ -240,7 +240,7 @@ public class MusicCmds {
                                 + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
                                 .getInfo().uri + ")** "
                                 + String.format("`(%s/%s)`",
-                                Utils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : Utils.getDurationMinutes(total))
+                                AudioCmdUtils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : AudioCmdUtils.getDurationMinutes(total))
                         ).setFooter("Enjoy the music! <3. " +
                         "Use ~>lyrics current to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
 
@@ -732,7 +732,7 @@ public class MusicCmds {
                     ctx.sendLocalized("commands.nextsong.no_song_next", EmoteReference.TALKING);
                 } else {
                     ctx.sendLocalized("commands.nextsong.format",
-                            EmoteReference.MEGA, next.getInfo().title, Utils.getDurationMinutes(next.getDuration()), scheduler.getQueue().size()
+                            EmoteReference.MEGA, next.getInfo().title, AudioCmdUtils.getDurationMinutes(next.getDuration()), scheduler.getQueue().size()
                     );
                 }
             }
@@ -1004,7 +1004,7 @@ public class MusicCmds {
                     search = currentTrack.getInfo().title;
                 }
 
-                String result = Utils.wget("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
+                String result = Utils.httpRequest("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
                 if (result == null) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;

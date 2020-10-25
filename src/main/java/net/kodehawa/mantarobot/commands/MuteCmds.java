@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -267,7 +268,7 @@ public class MuteCmds {
                         event.getChannel().sendMessageFormat(lang.get("options.muterole_set.success"), EmoteReference.OK, roleName).queue();
                     };
 
-                    var role = Utils.findRoleSelect(event, roleName, consumer);
+                    var role = FinderUtils.findRoleSelect(event, roleName, consumer);
 
                     if (role != null) {
                         consumer.accept(role);

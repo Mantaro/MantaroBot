@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -35,9 +34,9 @@ import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -165,13 +164,13 @@ public class GuildOptions extends OptionHandler {
                 String channel = args[0];
                 String role = args[1];
 
-                TextChannel channelObj = Utils.findChannel(event, channel);
+                TextChannel channelObj = FinderUtils.findChannel(event, channel);
                 if (channelObj == null)
                     return;
 
                 String channelId = channelObj.getId();
 
-                Role roleObj = Utils.findRole(event, role);
+                Role roleObj = FinderUtils.findRole(event, role);
                 if (roleObj == null)
                     return;
 
@@ -318,7 +317,7 @@ public class GuildOptions extends OptionHandler {
                 ).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, String.join(" ", args), consumer);
+            Role role = FinderUtils.findRoleSelect(event, String.join(" ", args), consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -388,7 +387,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.usermessage_join_channel.success"), EmoteReference.OK, tc.getAsMention()).queue();
             };
 
-            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+            TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -424,7 +423,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.usermessage_leave_channel.success"), EmoteReference.CORRECT, tc.getAsMention()).queue();
             };
 
-            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+            TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -461,7 +460,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.usermessage_channel.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
             };
 
-            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+            TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -951,7 +950,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.success"), EmoteReference.CORRECT, role.getName()).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(event, roleName, consumer);
 
             if (role != null && role.isPublicRole()) {
                 event.getChannel().sendMessageFormat(lang.get("options.server_role_disallow.public_role"), EmoteReference.ERROR).queue();
@@ -987,7 +986,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.server_role_allow.success"), EmoteReference.CORRECT, role.getName()).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, roleName, consumer);
+            Role role = FinderUtils.findRoleSelect(event, roleName, consumer);
 
             if (role != null) {
                 consumer.accept(role);
@@ -1072,7 +1071,7 @@ public class GuildOptions extends OptionHandler {
                 event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
             };
 
-            TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+            TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
             if (channel != null) {
                 consumer.accept(channel);
@@ -1364,7 +1363,7 @@ public class GuildOptions extends OptionHandler {
                 ).queue();
             };
 
-            Role role = Utils.findRoleSelect(event, String.join(" ", args), consumer);
+            Role role = FinderUtils.findRoleSelect(event, String.join(" ", args), consumer);
 
             if (role != null) {
                 consumer.accept(role);

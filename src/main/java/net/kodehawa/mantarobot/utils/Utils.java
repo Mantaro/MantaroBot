@@ -16,18 +16,12 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
 import net.kodehawa.mantarobot.utils.annotations.HiddenConfig;
-import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.*;
 import org.apache.commons.lang3.LocaleUtils;
 import org.jetbrains.annotations.NotNull;
@@ -45,11 +39,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 public class Utils {
@@ -93,21 +85,6 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
-    public static String getReadableTime(long millis) {
-        return String.format("%02d:%02d:%02d",
-                TimeUnit.MILLISECONDS.toHours(millis),
-                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-    }
-
-    public static String getDurationMinutes(long length) {
-        return String.format("%d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(length),
-                TimeUnit.MILLISECONDS.toSeconds(length) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
-        );
-    }
-
     public static String formatDuration(long time) {
         if (time < 1000) {
             return "less than a second";
@@ -137,6 +114,47 @@ public class Utils {
         return sb.toString();
     }
 
+    public static long parseTime(String s) {
+        s = s.toLowerCase();
+        long[] time = {0};
+        iterate(pattern.matcher(s)).forEach(string -> {
+            String l = string.substring(0, string.length() - 1);
+            TimeUnit unit = switch (string.charAt(string.length() - 1)) {
+                case 'm' -> TimeUnit.MINUTES;
+                case 'h' -> TimeUnit.HOURS;
+                case 'd' -> TimeUnit.DAYS;
+                default -> TimeUnit.SECONDS;
+            };
+            time[0] += unit.toMillis(Long.parseLong(l));
+        });
+        return time[0];
+    }
+
+    private static String formatUnit(long amount, String baseName) {
+        if (amount == 0) return "";
+        if (amount == 1) return "1 " + baseName;
+        return amount + " " + baseName + "s";
+    }
+
+    public static Locale getLocaleFromLanguage(String language) {
+        // No need to pass it to LocaleUtils if we pass nothing to this.
+        if (language == null || language.isEmpty()) {
+            return Locale.ENGLISH;
+        }
+
+        // Parse the user's language settings to attempt to get the locale.
+        Locale locale = null;
+        try {
+            locale = LocaleUtils.toLocale(language);
+        } catch (IllegalArgumentException ignore) { }
+
+        if (locale == null) {
+            locale = Locale.ENGLISH;
+        }
+
+        return locale;
+    }
+
     public static String paste(String toSend) {
         try {
             RequestBody post = RequestBody.create(MediaType.parse("text/plain"), toSend);
@@ -163,7 +181,7 @@ public class Utils {
      * @param url The URL to get the object from.
      * @return The object as a parsed string.
      */
-    public static String wget(String url) {
+    public static String httpRequest(String url) {
         try {
             Request req = new Request.Builder()
                     .url(url)
@@ -186,192 +204,6 @@ public class Utils {
         }
     }
 
-    // Hopefully we never need this.
-    public static Member findMemberSync(GuildMessageReceivedEvent event, Context ctx, Message message, String content) {
-        List<Member> found = CustomFinderUtil.findMembersSync(content, ctx, message, event.getGuild());
-        if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any member with that name :(").queue();
-            return null;
-        }
-
-        if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(
-                    String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
-                            EmoteReference.THINKING,
-                            found.stream()
-                                    .limit(7)
-                                    .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
-                                    .collect(Collectors.joining(", ")))
-            ).queue();
-
-            return null;
-        }
-
-        return found.get(0);
-    }
-
-    // Hopefully we never need this, electric boogaloo.
-    public static Member findMemberSyncDefault(GuildMessageReceivedEvent event,
-                                               Context ctx, Message message, String content, Member member) {
-        if (content.isEmpty()) {
-            return member;
-        } else {
-            return findMemberSync(event, ctx, message, content);
-        }
-    }
-
-    public static Role findRole(GuildMessageReceivedEvent event, String content) {
-        List<Role> found = FinderUtil.findRoles(content, event.getGuild());
-        if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR +
-                    "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\""
-            ).queue();
-            return null;
-        }
-
-        if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
-                    EmoteReference.THINKING,
-                    found.stream()
-                            .limit(5)
-                            .map(Role::getName)
-                            .collect(Collectors.joining(", ")))
-            ).queue();
-
-            return null;
-        }
-
-        if (found.size() == 1) {
-            return found.get(0);
-        }
-
-        return event.getMember().getRoles().get(0);
-    }
-
-    public static Role findRoleSelect(GuildMessageReceivedEvent event,
-                                      String content, Consumer<Role> consumer) {
-        List<Role> found = FinderUtil.findRoles(content, event.getGuild());
-        if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR +
-                    "Cannot find any roles with that name :( -if the role has spaces try wrapping it in quotes \"like this\""
-            ).queue();
-            return null;
-        }
-
-        if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s\n" +
-                            "If the role you're trying to search contain spaces, wrap it in quotes `\"like this\"`",
-                    EmoteReference.THINKING,
-                    found.stream()
-                            .limit(5)
-                            .map(Role::getName)
-                            .collect(Collectors.joining(", ")))
-            ).queue();
-
-            return null;
-        }
-
-        if (found.size() == 1) {
-            return found.get(0);
-        } else {
-            DiscordUtils.selectList(event, found,
-                    role -> String.format("%s (ID: %s)", role.getName(), role.getId()),
-                    s -> optsCmd.baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
-            );
-        }
-
-        return null;
-    }
-
-    public static TextChannel findChannel(GuildMessageReceivedEvent event, String content) {
-        List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
-        if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();
-            return null;
-        }
-
-        if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
-                    EmoteReference.THINKING,
-                    found.stream()
-                            .limit(5)
-                            .map(TextChannel::getName)
-                            .collect(Collectors.joining(", ")))
-            ).queue();
-
-            return null;
-        }
-
-        if (found.size() == 1) {
-            return found.get(0);
-        }
-
-        return null;
-    }
-
-    public static TextChannel findChannelSelect(GuildMessageReceivedEvent event,
-                                                String content, Consumer<TextChannel> consumer) {
-        List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
-        if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any text channel with that name :(").queue();
-            return null;
-        }
-
-        if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
-                    EmoteReference.THINKING,
-                    found.stream()
-                            .limit(5)
-                            .map(TextChannel::getName)
-                            .collect(Collectors.joining(", ")))
-            ).queue();
-
-            return null;
-        }
-
-        if (found.size() == 1) {
-            return found.get(0);
-        } else {
-            DiscordUtils.selectList(event, found,
-                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                    s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
-            );
-        }
-
-        return null;
-    }
-
-    public static VoiceChannel findVoiceChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<VoiceChannel> consumer) {
-        List<VoiceChannel> found = FinderUtil.findVoiceChannels(content, event.getGuild());
-        if (found.isEmpty() && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find any voice channel with that name :(").queue();
-            return null;
-        }
-
-        if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Voice Channels found:** %s",
-                    EmoteReference.THINKING,
-                    found.stream()
-                            .limit(5)
-                            .map(VoiceChannel::getName)
-                            .collect(Collectors.joining(", ")))
-            ).queue();
-
-            return null;
-        }
-
-        if (found.size() == 1) {
-            return found.get(0);
-        } else {
-            DiscordUtils.selectList(event, found,
-                    voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-                    s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
-            );
-        }
-
-        return null;
-    }
-
     public static String pretty(int number) {
         String ugly = Integer.toString(number);
         char[] almostPretty = new char[ugly.length()];
@@ -381,44 +213,6 @@ public class Utils {
             almostPretty[1] = ugly.charAt(1);
 
         return new String(almostPretty);
-    }
-
-    /**
-     * Retrieves a map of objects in a class and its respective values.
-     * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
-     * <p>
-     * Modified it a bit. (Original: https://narendrakadali.wordpress.com/2011/08/27/41/)
-     *
-     * @author Narendra
-     * @since Aug 27, 2011 5:27:19 AM
-     */
-    public static HashMap<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
-        try {
-            Class<?> c1 = valueObj.getClass();
-            HashMap<String, Pair<String, Object>> fieldMap = new HashMap<>();
-            Field[] valueObjFields = c1.getDeclaredFields();
-
-            for (Field valueObjField : valueObjFields) {
-                String fieldName = valueObjField.getName();
-                String fieldDescription = "unknown";
-                valueObjField.setAccessible(true);
-                Object newObj = valueObjField.get(valueObj);
-
-                if (valueObjField.getAnnotation(HiddenConfig.class) != null) {
-                    continue;
-                }
-
-                if (valueObjField.getAnnotation(ConfigName.class) != null) {
-                    fieldDescription = valueObjField.getAnnotation(ConfigName.class).value();
-                }
-
-                fieldMap.put(fieldName, Pair.of(fieldDescription, newObj));
-            }
-
-            return fieldMap;
-        } catch (IllegalAccessException e) {
-            return null;
-        }
     }
 
     public static String urlEncodeUTF8(Map<?, ?> map) {
@@ -483,28 +277,6 @@ public class Utils {
         };
     }
 
-    public static long parseTime(String s) {
-        s = s.toLowerCase();
-        long[] time = {0};
-        iterate(pattern.matcher(s)).forEach(string -> {
-            String l = string.substring(0, string.length() - 1);
-            TimeUnit unit = switch (string.charAt(string.length() - 1)) {
-                case 'm' -> TimeUnit.MINUTES;
-                case 'h' -> TimeUnit.HOURS;
-                case 'd' -> TimeUnit.DAYS;
-                default -> TimeUnit.SECONDS;
-            };
-            time[0] += unit.toMillis(Long.parseLong(l));
-        });
-        return time[0];
-    }
-
-    private static String formatUnit(long amount, String baseName) {
-        if (amount == 0) return "";
-        if (amount == 1) return "1 " + baseName;
-        return amount + " " + baseName + "s";
-    }
-
     public static Connection newDbConnection() {
         return r.connection()
                 .hostname(config.getDbHost())
@@ -523,7 +295,9 @@ public class Utils {
 
         for (String s : toReplace) {
             if (args.containsKey(s)) {
-                contentReplaced = contentReplaced.replace(" -" + s, "").replace("-" + s, "");
+                contentReplaced = contentReplaced
+                        .replace(" -" + s, "")
+                        .replace("-" + s, "");
             }
         }
 
@@ -545,14 +319,6 @@ public class Utils {
 
     public static String prettyDisplayLine(String header, String body) {
         return BLUE_SMALL_MARKER + "**" + header + "**:\n" + body;
-    }
-
-    @SafeVarargs
-    @SuppressWarnings("varargs")
-    public static <T> LinkedList<T> createLinkedList(T... elements) {
-        LinkedList<T> list = new LinkedList<>();
-        Collections.addAll(list, elements);
-        return list;
     }
 
     private static String formatMemoryHelper(long bytes, long unitSize, String unit) {
@@ -583,25 +349,14 @@ public class Utils {
         return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
     }
 
-    public static Locale getLocaleFromLanguage(String language) {
-        // No need to pass it to LocaleUtils if we pass nothing to this.
-        if (language == null || language.isEmpty()) {
-            return Locale.ENGLISH;
-        }
-
-        // Parse the user's language settings to attempt to get the locale.
-        Locale locale = null;
-        try {
-            locale = LocaleUtils.toLocale(language);
-        } catch (IllegalArgumentException ignore) { }
-
-        if (locale == null) {
-            locale = Locale.ENGLISH;
-        }
-
-        return locale;
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> LinkedList<T> createLinkedList(T... elements) {
+        LinkedList<T> list = new LinkedList<>();
+        Collections.addAll(list, elements);
+        return list;
     }
-    
+
     /**
      * Fixes the direction of the rendering of the text inside `inline codeblocks` to
      * be always left to right.
@@ -675,6 +430,46 @@ public class Utils {
         return null;
     }
 
+    /**
+     * Retrieves a map of objects in a class and its respective values.
+     * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
+     * <p>
+     * Modified it a bit. (Original: https://narendrakadali.wordpress.com/2011/08/27/41/)
+     *
+     * @author Narendra
+     * @since Aug 27, 2011 5:27:19 AM
+     */
+    public static HashMap<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
+        try {
+            Class<?> c1 = valueObj.getClass();
+            HashMap<String, Pair<String, Object>> fieldMap = new HashMap<>();
+            Field[] valueObjFields = c1.getDeclaredFields();
+
+            for (Field valueObjField : valueObjFields) {
+                String fieldName = valueObjField.getName();
+                String fieldDescription = "unknown";
+                valueObjField.setAccessible(true);
+                Object newObj = valueObjField.get(valueObj);
+
+                if (valueObjField.getAnnotation(HiddenConfig.class) != null) {
+                    continue;
+                }
+
+                if (valueObjField.getAnnotation(ConfigName.class) != null) {
+                    fieldDescription = valueObjField
+                            .getAnnotation(ConfigName.class)
+                            .value();
+                }
+
+                fieldMap.put(fieldName, Pair.of(fieldDescription, newObj));
+            }
+
+            return fieldMap;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
+
     public static String getProgressBar(long now, long total) {
         int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
         StringBuilder builder = new StringBuilder();
@@ -688,7 +483,9 @@ public class Utils {
         int activeBlocks = (int) ((float) now / total * blocks);
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < blocks; i++)
-            builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+            builder.append(
+                    activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE
+            );
 
         return builder.append(BLOCK_INACTIVE).toString();
     }

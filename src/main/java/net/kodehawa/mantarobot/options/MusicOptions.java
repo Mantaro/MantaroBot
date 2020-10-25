@@ -25,8 +25,8 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.function.Consumer;
 
@@ -94,7 +94,7 @@ public class MusicOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.music_channel.success"), EmoteReference.OK, voiceChannel.getName()).queue();
                     };
 
-                    VoiceChannel channel = Utils.findVoiceChannelSelect(event, channelName, consumer);
+                    VoiceChannel channel = FinderUtils.findVoiceChannelSelect(event, channelName, consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);

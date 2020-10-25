@@ -32,7 +32,8 @@ import java.util.stream.Collectors;
 
 /**
  * Utility class to create, get or use a {@link InteractiveOperation}.
- * An InteractiveOperation is an Operation that listens for upcoming messages. It can be used for all kind of stuff, like listening for user input, etc.
+ * An InteractiveOperation is an Operation that listens for upcoming messages.
+ * It can be used for all kind of stuff, like listening for user input, etc.
  */
 public class InteractiveOperations {
     //The listener used to check interactive operations.

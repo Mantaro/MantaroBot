@@ -29,8 +29,8 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -126,7 +126,7 @@ public class GeneralOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.success"), EmoteReference.OK, tc.getAsMention()).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);
@@ -155,7 +155,7 @@ public class GeneralOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.success"), EmoteReference.OK, tc.getAsMention()).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, channelName, consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);

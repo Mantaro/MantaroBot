@@ -31,8 +31,8 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -127,7 +127,7 @@ public class ModerationOptions extends OptionHandler {
                         ).queue();
                     };
 
-                    TextChannel channel = Utils.findChannelSelect(event, logChannel, consumer);
+                    TextChannel channel = FinderUtils.findChannelSelect(event, logChannel, consumer);
 
                     if (channel != null) {
                         consumer.accept(channel);
@@ -168,7 +168,7 @@ public class ModerationOptions extends OptionHandler {
                             ).queue();
                         };
 
-                        TextChannel ch = Utils.findChannelSelect(event, channel, consumer);
+                        TextChannel ch = FinderUtils.findChannelSelect(event, channel, consumer);
 
                         if (ch != null) {
                             consumer.accept(ch);
@@ -183,7 +183,7 @@ public class ModerationOptions extends OptionHandler {
                         event.getChannel().sendMessageFormat(lang.get("options.logs_exclude.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
                     };
 
-                    TextChannel ch = Utils.findChannelSelect(event, channel, consumer);
+                    TextChannel ch = FinderUtils.findChannelSelect(event, channel, consumer);
 
                     if (ch != null) {
                         consumer.accept(ch);

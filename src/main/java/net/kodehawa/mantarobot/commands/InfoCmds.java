@@ -50,6 +50,7 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
@@ -917,7 +918,7 @@ public class InfoCmds {
         cr.register("roleinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Role r = Utils.findRole(ctx.getEvent(), content);
+                Role r = FinderUtils.findRole(ctx.getEvent(), content);
                 if (r == null)
                     return;
 
