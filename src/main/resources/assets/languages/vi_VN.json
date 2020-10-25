@@ -1250,7 +1250,7 @@
       "bot_no_messages": "%1$sKhông có tin nhắn của bot hoặc lệnh gọi bot ở đây.",
       "no_pins_no_messages": "%1$sKhông có tin nhắn không ghim ở đây...",
       "mention_no_messages": "%1$sKhông có tin nhắn từ người dùng bạn đề cập đến ở đây.",
-      "too_few_messages": "%1$sQuá ít tin nhắn để xoá. Cần ít nhất 5 tin nhắn.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sHãy nhập một con số phù hợp.",
       "not_valid": "%1$sCon số đó không phù hợp để xoá tin nhắn.",
