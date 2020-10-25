@@ -1250,7 +1250,7 @@
       "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
       "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
       "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
-      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sPlease specify a valid number.",
       "not_valid": "%1$sThat's not a valid number of messages to delete.",
