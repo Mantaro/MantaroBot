@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.utils.commands;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -34,7 +35,7 @@ public class FinderUtils {
         List<Role> found = FinderUtil.findRoles(content, event.getGuild());
         if (found.isEmpty() && !content.isEmpty()) {
             event.getChannel().sendMessage(EmoteReference.ERROR +
-                    "Cannot find any role with that name :( -if the role has spaces try wrapping it in quotes \"like this\""
+                    "Cannot find any role with that name :( *if the role has spaces try wrapping it in quotes \"like this\"*"
             ).queue();
 
             return null;
@@ -47,7 +48,8 @@ public class FinderUtils {
         List<Role> found = findRole0(event, content);
 
         if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
+            event.getChannel().sendMessage(String.format(
+                    "%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
                     EmoteReference.THINKING,
                     found.stream()
                             .limit(5)
@@ -95,8 +97,8 @@ public class FinderUtils {
         List<TextChannel> found = findChannel0(event, content);
 
         if (found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**" +
-                            "Text Channel found:** %s",
+            event.getChannel().sendMessage(String.format(
+                    "%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
                     EmoteReference.THINKING,
                     found.stream()
                             .limit(5)
@@ -122,10 +124,7 @@ public class FinderUtils {
         if (found.size() == 1) {
             return found.get(0);
         } else {
-            DiscordUtils.selectList(event, found.stream().limit(5).collect(Collectors.toList()),
-                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                    s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
-            );
+            selectList(event, found, consumer);
         }
 
         return null;
@@ -141,12 +140,16 @@ public class FinderUtils {
         if (found.size() == 1) {
             return found.get(0);
         } else {
-            DiscordUtils.selectList(event, found.stream().limit(5).collect(Collectors.toList()),
-                    voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-                    s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
-            );
+            selectList(event, found, consumer);
         }
 
         return null;
+    }
+
+    private static <T extends GuildChannel> void selectList(GuildMessageReceivedEvent event, List<T> found, Consumer<T> consumer) {
+        DiscordUtils.selectList(event, found.stream().limit(5).collect(Collectors.toList()),
+                channel -> String.format("%s (ID: %s)", channel.getName(), channel.getId()),
+                s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+        );
     }
 }
