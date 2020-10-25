@@ -56,13 +56,13 @@ public class MessageCmds {
                             return;
                         }
 
-                        List<User> mentionedUsers = ctx.getMentionedUsers();
+                        var mentionedUsers = ctx.getMentionedUsers();
 
-                        int i = 5;
+                        var amount = 5;
                         if (args.length >= 1) {
                             try {
-                                i = Integer.parseInt(args.length == 1 ? content : args[0]);
-                                if (i < 3) i = 3;
+                                amount = Integer.parseInt(args.length == 1 ? content : args[0]);
+                                if (amount < 3) amount = 3;
                             } catch (Exception e) {
                                 ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
                                 return;
@@ -72,7 +72,7 @@ public class MessageCmds {
 
                         if (!mentionedUsers.isEmpty()) {
                             List<Long> users = mentionedUsers.stream().map(User::getIdLong).collect(Collectors.toList());
-                            ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
+                            ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
                                     messageHistory -> getMessageHistory(
                                             ctx, messageHistory, "commands.prune.mention_no_messages",
                                             message -> users.contains(message.getAuthor().getIdLong())
@@ -87,7 +87,7 @@ public class MessageCmds {
                             return;
                         }
 
-                        ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
+                        ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
                                 messageHistory -> prune(ctx, messageHistory),
                                 error -> {
                                     ctx.sendLocalized("commands.prune.error_retrieving",
@@ -122,18 +122,18 @@ public class MessageCmds {
             protected void call(Context ctx, String content) {
                 var args = ctx.getArguments();
 
-                int i = 100;
+                var amount = 100;
                 if (args.length >= 1) {
                     try {
-                        i = Integer.parseInt(args[0]);
-                        if (i < 3) i = 3;
+                        amount = Integer.parseInt(args[0]);
+                        if (amount < 3) amount = 3;
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
                         return;
                     }
                 }
 
-                ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
+                ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
                         messageHistory -> {
                             String prefix = MantaroData.db().getGuild(ctx.getGuild()).getData().getGuildCustomPrefix();
                             getMessageHistory(ctx, messageHistory, "commands.prune.bots_no_messages",
@@ -160,18 +160,18 @@ public class MessageCmds {
             protected void call(Context ctx, String content) {
                 var args = ctx.getArguments();
 
-                int i = 100;
+                var amount = 100;
                 if (args.length >= 1) {
                     try {
-                        i = Integer.parseInt(args[0]);
-                        if (i < 3) i = 3;
+                        amount = Integer.parseInt(args[0]);
+                        if (amount < 3) amount = 3;
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
                         return;
                     }
                 }
 
-                ctx.getChannel().getHistory().retrievePast(Math.min(i, 100)).queue(
+                ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
                         messageHistory -> getMessageHistory(ctx, messageHistory,
                                 "commands.prune.no_pins_no_messages", message -> !message.isPinned()
                         ), error -> {
@@ -227,7 +227,7 @@ public class MessageCmds {
             return;
         }
 
-        final int size = messageHistory.size();
+        final var size = messageHistory.size();
 
         if (messageHistory.size() < 3) {
             ctx.sendLocalized("commands.prune.too_few_messages", EmoteReference.ERROR);

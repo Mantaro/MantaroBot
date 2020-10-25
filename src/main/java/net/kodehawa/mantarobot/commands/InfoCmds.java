@@ -23,7 +23,8 @@ import lavalink.client.io.RemoteStats;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.Region;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.Role;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
@@ -35,13 +36,14 @@ import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.*;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -116,12 +118,15 @@ public class InfoCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                    if (member == null)
+                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null) {
                         return;
+                    }
 
-                    User u = member.getUser();
-                    ctx.sendLocalized("commands.avatar.result", EmoteReference.OK, u.getName(), u.getEffectiveAvatarUrl() + "?size=1024");
+                    var user = member.getUser();
+                    ctx.sendLocalized("commands.avatar.result",
+                            EmoteReference.OK, user.getName(), user.getEffectiveAvatarUrl() + "?size=1024"
+                    );
                 });
             }
 
@@ -142,18 +147,19 @@ public class InfoCmds {
         cr.register("serverinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Guild guild = ctx.getGuild();
-                GuildData guildData = ctx.getDBGuild().getData();
+                var guild = ctx.getGuild();
+                var guildData = ctx.getDBGuild().getData();
 
-                String roles = guild.getRoles().stream()
+                var roles = guild.getRoles().stream()
                         .filter(role -> !guild.getPublicRole().equals(role))
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                Member owner = guild.getOwner();
+                var owner = guild.getOwner();
                 //This is wank lol
-                if(owner == null)
+                if(owner == null) {
                     owner = guild.retrieveOwner(false).complete();
+                }
 
                 var languageContext = ctx.getLanguageContext();
                 ctx.send(new EmbedBuilder()
@@ -496,11 +502,13 @@ public class InfoCmds {
         cr.register("prefix", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                DBGuild dbGuild = ctx.getDBGuild();
-                String defaultPrefix = Stream.of(ctx.getConfig().getPrefix())
+                var dbGuild = ctx.getDBGuild();
+
+                var defaultPrefix = Stream.of(ctx.getConfig().getPrefix())
                         .map(prefix -> "`" + prefix + "`")
                         .collect(Collectors.joining(" "));
-                String guildPrefix = dbGuild.getData().getGuildCustomPrefix();
+
+                var guildPrefix = dbGuild.getData().getGuildCustomPrefix();
 
                 ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART,
                         defaultPrefix, guildPrefix == null ?

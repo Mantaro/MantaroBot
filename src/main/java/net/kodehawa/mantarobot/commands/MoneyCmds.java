@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -35,15 +34,8 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
@@ -60,11 +52,8 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 
 @Module
 public class MoneyCmds {
@@ -96,7 +85,7 @@ public class MoneyCmds {
         cr.register("daily", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                I18nContext languageContext = ctx.getLanguageContext();
+                final var languageContext = ctx.getLanguageContext();
 
                 //155
                 //Args: Check -check for duration
@@ -111,14 +100,14 @@ public class MoneyCmds {
                 }
 
                 // Determine who gets the money
-                long dailyMoney = 150L;
-                List<User> mentionedUsers = ctx.getMentionedUsers();
+                var dailyMoney = 150L;
+                final var mentionedUsers = ctx.getMentionedUsers();
 
-                User author = ctx.getAuthor();
-                Player authorPlayer = ctx.getPlayer();
-                PlayerData authorPlayerData = authorPlayer.getData();
-                DBUser authorDBUser = ctx.getDBUser();
-                UserData authorUserData = authorDBUser.getData();
+                final var author = ctx.getAuthor();
+                var authorPlayer = ctx.getPlayer();
+                var authorPlayerData = authorPlayer.getData();
+                final var authorDBUser = ctx.getDBUser();
+                final var authorUserData = authorDBUser.getData();
 
                 if(authorPlayer.isLocked()){
                     ctx.sendLocalized("commands.daily.errors.own_locked");
@@ -142,7 +131,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    Player playerOtherUser = ctx.getPlayer(otherUser);
+                    var playerOtherUser = ctx.getPlayer(otherUser);
                     if(playerOtherUser.isLocked()){
                         ctx.sendLocalized("commands.daily.errors.receipt_locked");
                         return;
@@ -151,11 +140,11 @@ public class MoneyCmds {
                     // Why this is here I have no clue;;;
                     dailyMoney += r.nextInt(90);
 
-                    DBUser mentionedDBUser = ctx.getDBUser(otherUser.getId());
-                    UserData mentionedUserData = mentionedDBUser.getData();
+                    var mentionedDBUser = ctx.getDBUser(otherUser.getId());
+                    var mentionedUserData = mentionedDBUser.getData();
 
                     //Marriage bonus
-                    Marriage marriage = authorUserData.getMarriage();
+                    var marriage = authorUserData.getMarriage();
                     if(marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                             playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
                         dailyMoney += Math.max(10, r.nextInt(100));
@@ -247,11 +236,15 @@ public class MoneyCmds {
                         }
                     }
 
-                    // Cleaner using if
-                    if(targetOther)
-                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus));
-                    else
-                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.bonus"), bonus));
+                    if(targetOther) {
+                        returnMessage.add(String.format(
+                                languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus)
+                        );
+                    } else {
+                        returnMessage.add(String.format(
+                                languageContext.withRoot("commands", "daily.streak.bonus"), bonus)
+                        );
+                    }
                     dailyMoney += bonus;
                 }
 
@@ -274,22 +267,24 @@ public class MoneyCmds {
 
                 // Critical not to call if author != mentioned because in this case
                 // toAdd is the unified player as referenced
-                if(targetOther)
+                if(targetOther) {
                     authorPlayer.save();
+                }
 
                 toAddMoneyTo.addMoney(dailyMoney);
                 toAddMoneyTo.save();
 
 
                 // Build Message
-                StringBuilder toSend = new StringBuilder((targetOther ?
+                var toSend = new StringBuilder((targetOther ?
                         String.format(languageContext.withRoot("commands", "daily.given_credits"),
                                 EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
                         String.format(languageContext.withRoot("commands", "daily.credits"),
                                 EmoteReference.CORRECT, dailyMoney)) + "\n");
 
-                for(String s : returnMessage)
-                    toSend.append("\n").append(s);
+                for(var string : returnMessage) {
+                    toSend.append("\n").append(string);
+                }
 
                 // Send Message
                 ctx.send(toSend.toString());
@@ -325,11 +320,11 @@ public class MoneyCmds {
                     .premiumAware(true)
                     .build();
 
-            final SecureRandom r = new SecureRandom();
+            final SecureRandom secureRandom = new SecureRandom();
 
             @Override
             public void call(Context ctx, String content, String[] args) {
-                Player player = ctx.getPlayer();
+                var player = ctx.getPlayer();
 
                 if (player.getCurrentMoney() <= 0) {
                     ctx.sendLocalized("commands.gamble.no_credits", EmoteReference.SAD);
@@ -348,26 +343,26 @@ public class MoneyCmds {
                     switch (content) {
                         case "all", "everything" -> {
                             i = player.getCurrentMoney();
-                            multiplier = 1.3d + (r.nextInt(1350) / 1000d);
-                            luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
+                            multiplier = 1.3d + (secureRandom.nextInt(1350) / 1000d);
+                            luck = 19 + (int) (multiplier * 13) + secureRandom.nextInt(18);
                         }
                         case "half" -> {
                             i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 2;
-                            multiplier = 1.2d + (r.nextInt(1350) / 1000d);
-                            luck = 18 + (int) (multiplier * 13) + r.nextInt(18);
+                            multiplier = 1.2d + (secureRandom.nextInt(1350) / 1000d);
+                            luck = 18 + (int) (multiplier * 13) + secureRandom.nextInt(18);
                         }
                         case "quarter" -> {
                             i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 4;
-                            multiplier = 1.1d + (r.nextInt(1250) / 1000d);
-                            luck = 18 + (int) (multiplier * 12) + r.nextInt(18);
+                            multiplier = 1.1d + (secureRandom.nextInt(1250) / 1000d);
+                            luck = 18 + (int) (multiplier * 12) + secureRandom.nextInt(18);
                         }
                         default -> {
                             i = content.endsWith("%")
                                     ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getCurrentMoney())
                                     : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
                             if (i > player.getCurrentMoney() || i < 0) throw new UnsupportedOperationException();
-                            multiplier = 1.1d + (i / ((double) player.getCurrentMoney()) * r.nextInt(1300) / 1000d);
-                            luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
+                            multiplier = 1.1d + (i / ((double) player.getCurrentMoney()) * secureRandom.nextInt(1300) / 1000d);
+                            luck = 17 + (int) (multiplier * 13) + secureRandom.nextInt(12);
                         }
                     }
                 } catch (NumberFormatException | NullPointerException e) {
@@ -392,15 +387,16 @@ public class MoneyCmds {
                 }
 
                 //Handle ratelimits after all of the exceptions/error messages could've been thrown already.
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
+                }
 
-                User user = ctx.getAuthor();
-                long gains = (long) (i * multiplier);
+                var user = ctx.getAuthor();
+                var gains = (long) (i * multiplier);
                 gains = Math.round(gains * 0.45);
 
-                final int finalLuck = luck;
-                final long finalGains = gains;
+                final var finalLuck = luck;
+                final var finalGains = gains;
 
                 if (i >= 60000000) {
                     player.setLocked(true);
@@ -411,7 +407,7 @@ public class MoneyCmds {
                         public int run(GuildMessageReceivedEvent e) {
                             if (e.getAuthor().getId().equals(user.getId())) {
                                 if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                    proceedGamble(ctx, player, finalLuck, random, i, finalGains, i);
+                                    proceedGamble(ctx, player, finalLuck, i, finalGains, i);
                                     return COMPLETED;
                                 } else if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                                     e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
@@ -434,7 +430,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                proceedGamble(ctx, player, luck, random, i, gains, i);
+                proceedGamble(ctx, player, luck, i, gains, i);
             }
 
             @Override
@@ -454,63 +450,64 @@ public class MoneyCmds {
 
     @Subscribe
     public void loot(CommandRegistry cr) {
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .spamTolerance(2)
+                .cooldown(5, TimeUnit.MINUTES)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .randomIncrement(false)
+                .premiumAware(true)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("loot")
+                .build();
+
+        final ZoneId zoneId = ZoneId.systemDefault();
+        final SecureRandom random = new SecureRandom();
+
         cr.register("loot", new SimpleCommand(CommandCategory.CURRENCY) {
-            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                    .limit(1)
-                    .spamTolerance(2)
-                    .cooldown(5, TimeUnit.MINUTES)
-                    .maxCooldown(5, TimeUnit.MINUTES)
-                    .randomIncrement(false)
-                    .premiumAware(true)
-                    .pool(MantaroData.getDefaultJedisPool())
-                    .prefix("loot")
-                    .build();
-
-            final ZoneId zoneId = ZoneId.systemDefault();
-            final Random r = new Random();
-
             @Override
             public void call(Context ctx, String content, String[] args) {
-                UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(ctx.getAuthor(), ctx.getConfig().getCurrentSeason());
+                var unifiedPlayer = UnifiedPlayer.of(ctx.getAuthor(), ctx.getConfig().getCurrentSeason());
 
-                Player player = unifiedPlayer.getPlayer();
-                PlayerData playerData = player.getData();
-                DBUser dbUser = ctx.getDBUser();
-                I18nContext languageContext = ctx.getLanguageContext();
+                var player = unifiedPlayer.getPlayer();
+                var playerData = player.getData();
+                var dbUser = ctx.getDBUser();
+                var languageContext = ctx.getLanguageContext();
 
                 if (player.isLocked()) {
                     ctx.sendLocalized("commands.loot.player_locked", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                     return;
+                }
 
-                LocalDate today = LocalDate.now(zoneId);
-                LocalDate eventStart = today.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(23);
-                LocalDate eventStop = eventStart.plusDays(3); //Up to the 25th
-                TextChannelGround ground = TextChannelGround.of(ctx.getEvent());
+                var today = LocalDate.now(zoneId);
+                var eventStart = today.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(23);
+                var eventStop = eventStart.plusDays(3); //Up to the 25th
+                var ground = TextChannelGround.of(ctx.getEvent());
 
                 if (today.isEqual(eventStart) || (today.isAfter(eventStart) && today.isBefore(eventStop))) {
                     ground.dropItemWithChance(ItemReference.CHRISTMAS_TREE_SPECIAL, 4);
                     ground.dropItemWithChance(ItemReference.BELL_SPECIAL, 4);
                 }
 
-                if (r.nextInt(100) > 95) {
+                if (random.nextInt(100) > 95) {
                     ground.dropItem(ItemReference.LOOT_CRATE);
                     if (playerData.addBadgeIfAbsent(Badge.LUCKY))
                         player.saveAsync();
                 }
 
-                List<ItemStack> loot = ground.collectItems();
-                int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
+                var loot = ground.collectItems();
+                var moneyFound = ground.collectMoney() + Math.max(0, random.nextInt(50) - 10);
 
                 if (dbUser.isPremium() && moneyFound > 0) {
                     int extra = (int) (moneyFound * 1.5);
                     moneyFound += random.nextInt(extra);
                 }
 
-                String extraMessage = "";
+                var extraMessage = "";
 
                 // Sellout
                 if(playerData.shouldSeeCampaign()){
@@ -519,19 +516,19 @@ public class MoneyCmds {
                 }
 
                 if (!loot.isEmpty()) {
-                    String s = ItemStack.toString(ItemStack.reduce(loot));
+                    var stack = ItemStack.toString(ItemStack.reduce(loot));
 
                     if (player.getInventory().merge(loot))
                         extraMessage += languageContext.withRoot("commands", "loot.item_overflow");
 
                     if (moneyFound != 0) {
                         if (unifiedPlayer.addMoney(moneyFound)) {
-                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, s, moneyFound, extraMessage);
+                            ctx.sendLocalized("commands.loot.with_item.found", EmoteReference.POPPER, stack, moneyFound, extraMessage);
                         } else {
-                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, s, moneyFound, extraMessage);
+                            ctx.sendLocalized("commands.loot.with_item.found_but_overflow", EmoteReference.POPPER, stack, moneyFound, extraMessage);
                         }
                     } else {
-                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, s, extraMessage);
+                        ctx.sendLocalized("commands.loot.with_item.found_only_item_but_overflow", EmoteReference.MEGA, stack, extraMessage);
                     }
 
                 } else {
@@ -542,11 +539,12 @@ public class MoneyCmds {
                             ctx.sendLocalized("commands.loot.without_item.found_but_overflow", EmoteReference.POPPER, moneyFound);
                         }
                     } else {
-                        int dust = dbUser.getData().increaseDustLevel(r.nextInt(2));
-                        String msg = String.format(languageContext.withRoot("commands", "loot.dust"), dust);
+                        var dust = dbUser.getData().increaseDustLevel(random.nextInt(2));
+                        var msg = String.format(languageContext.withRoot("commands", "loot.dust"), dust);
+
                         dbUser.save();
 
-                        if (r.nextInt(100) > 93) {
+                        if (random.nextInt(100) > 93) {
                             msg += languageContext.withRoot("commands", "loot.easter");
                         }
 
@@ -573,18 +571,18 @@ public class MoneyCmds {
         cr.register("balance", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Map<String, String> t = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
-                boolean isSeasonal = t.containsKey("season") || t.containsKey("s");
-                I18nContext languageContext = ctx.getLanguageContext();
+                var optionalArguments = ctx.getOptionalArguments();
+                content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
+                var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
+                var languageContext = ctx.getLanguageContext();
 
                 // Values on lambdas should be final or effectively final part 9999.
                 final var finalContent = content;
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    User user = ctx.getAuthor();
+                    var user = ctx.getAuthor();
                     boolean isExternal = false;
 
-                    Member found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
+                    var found = CustomFinderUtil.findMemberDefault(finalContent, members, ctx, ctx.getMember());
                     if(found == null) {
                         return;
                     } else if (!finalContent.isEmpty()) {
@@ -597,7 +595,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    long balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getCurrentMoney();
+                    var balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getCurrentMoney();
 
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?
                             String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
@@ -646,28 +644,30 @@ public class MoneyCmds {
         cr.register("slots", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Map<String, String> opts = ctx.getOptionalArguments();
+                var opts = ctx.getOptionalArguments();
 
-                long money = 50;
-                int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
-                boolean isWin = false;
-                boolean coinSelect = false;
-                int amountN = 1;
+                var money = 50L;
+                var slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
+                var isWin = false;
+                var coinSelect = false;
+                var coinAmount = 1;
 
-                Player player = ctx.getPlayer();
-                PlayerStats stats = ctx.db().getPlayerStats(ctx.getAuthor());
+                var player = ctx.getPlayer();
+                var stats = ctx.db().getPlayerStats(ctx.getAuthor());
+
                 SeasonPlayer seasonalPlayer = null; //yes
-                boolean season = false;
+                var season = false;
 
                 if (opts.containsKey("season")) {
                     season = true;
                     seasonalPlayer = ctx.getSeasonPlayer();
                 }
 
-                if (opts.containsKey("useticket"))
+                if (opts.containsKey("useticket")) {
                     coinSelect = true;
+                }
 
-                Inventory playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
+                var playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if (opts.containsKey("amount") && opts.get("amount") != null) {
                     if (!coinSelect) {
@@ -675,7 +675,7 @@ public class MoneyCmds {
                         return;
                     }
 
-                    String amount = opts.get("amount");
+                    var amount = opts.get("amount");
 
                     if (amount.isEmpty()) {
                         ctx.sendLocalized("commands.slots.errors.no_amount", EmoteReference.ERROR);
@@ -683,28 +683,28 @@ public class MoneyCmds {
                     }
 
                     try {
-                        amountN = Integer.parseInt(amount);
+                        coinAmount = Integer.parseInt(amount);
                     } catch (NumberFormatException e) {
                         ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
                         return;
                     }
 
-                    if(amountN > TICKETS_MAX_AMOUNT) {
+                    if(coinAmount > TICKETS_MAX_AMOUNT) {
                         ctx.sendLocalized("commands.slots.errors.too_many_tickets", EmoteReference.ERROR, TICKETS_MAX_AMOUNT);
                         return;
                     }
 
-                    if (playerInventory.getAmount(ItemReference.SLOT_COIN) < amountN) {
+                    if (playerInventory.getAmount(ItemReference.SLOT_COIN) < coinAmount) {
                         ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                         return;
                     }
 
-                    money += 58 * amountN;
+                    money += 58 * coinAmount;
                 }
 
                 if (args.length >= 1 && !coinSelect) {
                     try {
-                        Long parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
+                        var parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
 
                         if (parsed == null) {
                             ctx.sendLocalized("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
@@ -728,19 +728,20 @@ public class MoneyCmds {
                     }
                 }
 
-                long playerMoney = season ? seasonalPlayer.getMoney() : player.getCurrentMoney();
+                var playerMoney = season ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
                 if (playerMoney < money && !coinSelect) {
                     ctx.sendLocalized("commands.slots.errors.not_enough_money", EmoteReference.SAD);
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
+                }
 
                 if (coinSelect) {
                     if (playerInventory.containsItem(ItemReference.SLOT_COIN)) {
-                        playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -amountN));
+                        playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -coinAmount));
                         if (season)
                             seasonalPlayer.saveAsync();
                         else
@@ -761,12 +762,17 @@ public class MoneyCmds {
                     }
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
-                StringBuilder message = new StringBuilder(String.format(languageContext.withRoot("commands", "slots.roll"),
-                        EmoteReference.DICE, coinSelect ? amountN + " " + languageContext.get("commands.slots.tickets") : money + " "
-                                + languageContext.get("commands.slots.credits")));
-                StringBuilder builder = new StringBuilder();
+                var message = new StringBuilder(
+                        String.format(languageContext.withRoot("commands", "slots.roll"),
+                        EmoteReference.DICE, coinSelect ? coinAmount + " " +
+                                        languageContext.get("commands.slots.tickets") : money + " " +
+                                        languageContext.get("commands.slots.credits"))
+                );
+
+                var builder = new StringBuilder();
+
 
                 for (int i = 0; i < 9; i++) {
                     if (i > 1 && i % 3 == 0) {
@@ -776,9 +782,9 @@ public class MoneyCmds {
                     builder.append(emotes[random.nextInt(emotes.length)]);
                 }
 
-                String toSend = builder.toString();
-                int gains = 0;
-                String[] rows = toSend.split("\\r?\\n");
+                var toSend = builder.toString();
+                var gains = 0;
+                var rows = toSend.split("\\r?\\n");
 
                 if (random.nextInt(100) < slotsChance) {
                     rows[1] = winCombinations.get(random.nextInt(winCombinations.size()));
@@ -804,7 +810,7 @@ public class MoneyCmds {
                         player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
                     }
 
-                    if (coinSelect && amountN > ItemStack.MAX_STACK_SIZE - random.nextInt(650))
+                    if (coinSelect && coinAmount > ItemStack.MAX_STACK_SIZE - random.nextInt(650))
                         player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
 
                     if (season) {
@@ -816,7 +822,9 @@ public class MoneyCmds {
                     }
                 } else {
                     stats.getData().incrementSlotsLose();
-                    message.append(toSend).append("\n\n").append(String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD));
+                    message.append(toSend).append("\n\n").append(
+                            String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD)
+                    );
                 }
 
                 stats.saveAsync();
@@ -830,20 +838,22 @@ public class MoneyCmds {
                 return new HelpContent.Builder()
                         .setDescription("Rolls the slot machine. Requires a default of 50 coins to roll.")
                         .setUsage("`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of " + SLOTS_MAX_MONEY + " coins.\n" +
+                                "`~>slots <credits>` - Puts x credits on the slot machine. " +
+                                "You can put a maximum of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
-                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`). " +
+                                "You can specify the amount of tickets to use using `-amount` " +
+                                "(for example `~>slots -useticket -amount 10`). " +
                                 "Using tickets increases your chance by 10%. Maximum amount of tickets allowed is 50.")
                         .build();
             }
         });
     }
 
-    private void proceedGamble(Context ctx, Player player, int luck, Random r, long i, long gains, long bet) {
-        PlayerStats stats = MantaroData.db().getPlayerStats(ctx.getMember());
-        PlayerData data = player.getData();
+    private void proceedGamble(Context ctx, Player player, int luck, long i, long gains, long bet) {
+        var stats = MantaroData.db().getPlayerStats(ctx.getMember());
+        var data = player.getData();
 
-        if (luck > r.nextInt(140)) {
+        if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
                 if (gains > Integer.MAX_VALUE / 2) {
                     if (!data.hasBadge(Badge.GAMBLER)) {
@@ -864,7 +874,7 @@ public class MoneyCmds {
                 data.addBadgeIfAbsent(Badge.RISKY_ORDEAL);
             }
 
-            long oldMoney = player.getCurrentMoney();
+            var oldMoney = player.getCurrentMoney();
             player.setCurrentMoney(Math.max(0, player.getCurrentMoney() - i));
 
             stats.getData().incrementGambleLose();

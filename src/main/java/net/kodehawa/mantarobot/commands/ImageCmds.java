@@ -31,7 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Random;
 
@@ -39,15 +38,15 @@ import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
 
 @Module
-@SuppressWarnings("unused")
 public class ImageCmds {
-    private final URLCache CACHE = new URLCache(20);
+    private final URLCache imageCache = new URLCache(20);
     private final String[] catResponses = {
             "Aww, here, take a cat.", "%mention%, are you sad? ;w; take a cat!",
             "You should all have a cat in your life, but an image will do.",
             "Am I cute yet?", "I think you should have a cat, %mention%.",
             "Meow~ %mention%", "Nya~ %mention%"
     };
+
     private final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
     private final ImageBoard<KonachanImage> konachan = DefaultImageBoards.KONACHAN;
@@ -64,16 +63,17 @@ public class ImageCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    Pair<String, String> result = weebAPIRequester
+                    var result = weebAPIRequester
                             .getRandomImageByType("animal_cat", false, null);
 
-                    String url = result.getKey();
-                    ctx.getChannel().sendMessage(
-                            new MessageBuilder().append(EmoteReference.TALKING).append(
-                                    catResponses[random.nextInt(catResponses.length)]
-                                            .replace("%mention%", ctx.getAuthor().getName()))
-                                    .build()
-                    ).addFile(CACHE.getFile(url), "cat-" + result.getValue() + ".png")
+                    var url = result.getKey();
+                    var builder = new MessageBuilder()
+                            .append(EmoteReference.TALKING).append(catResponses[random.nextInt(catResponses.length)]
+                            .replace("%mention%", ctx.getAuthor().getName()))
+                            .build();
+
+                    ctx.getChannel().sendMessage(builder)
+                            .addFile(imageCache.getFile(url), "cat-" + result.getValue() + ".png")
                             .queue();
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.cat.error", EmoteReference.ERROR);
@@ -94,14 +94,15 @@ public class ImageCmds {
         cr.register("catgirl", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
+                var nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
 
-                if (nsfw && !nsfwCheck(ctx, true, true, null))
+                if (nsfw && !nsfwCheck(ctx, true, true, null)) {
                     return;
+                }
 
                 try {
-                    Pair<String, String> result = weebAPIRequester.getRandomImageByType("neko", nsfw, null);
-                    String image = result.getKey();
+                    var result = weebAPIRequester.getRandomImageByType("neko", nsfw, null);
+                    var image = result.getKey();
 
                     if (image == null) {
                         ctx.sendLocalized("commands.imageboard.catgirl.error");
@@ -109,7 +110,7 @@ public class ImageCmds {
                     }
 
                     ctx.getChannel().sendFile(
-                            CACHE.getInput(image), "catgirl-" + result.getValue() + ".png"
+                            imageCache.getInput(image), "catgirl-" + result.getValue() + ".png"
                     ).queue();
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.catgirl.error");
@@ -121,8 +122,8 @@ public class ImageCmds {
                 return new HelpContent.Builder()
                         .setDescription("Sends images of catgirl(s). Maybe.")
                         .setUsage("`~>catgirl` - Sends images of normal catgirls.\n" +
-                                "`~>catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)")
-                        .build();
+                                "`~>catgirl nsfw` - Sends images of lewd catgirls. (Only works on NSFW channels)"
+                        ).build();
             }
         });
     }
@@ -150,8 +151,8 @@ public class ImageCmds {
                                 "`~>e621 <tag>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag",
                                 "The image tag you're looking for. " +
-                                        "You can see a list of valid tags on e621's website (NSFW).")
-                        .build();
+                                        "You can see a list of valid tags on e621's website (NSFW)."
+                        ).build();
             }
         });
     }
@@ -177,8 +178,8 @@ public class ImageCmds {
                         .addParameter("rating",
                                 "The image rating, can be either safe, questionable or explicit. " +
                                 "You can also use this in place of the tags. " +
-                                "Rating can be random if you specify it as random, in case you want to play a roulette.")
-                        .build();
+                                "Rating can be random if you specify it as random, in case you want to play a roulette."
+                        ).build();
             }
         });
     }
@@ -198,8 +199,8 @@ public class ImageCmds {
                         .setUsage("`~>safebooru` - Retrieves a random image.\n" +
                                 "`~>safebooru <tag>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag", "The image tag you're looking for. " +
-                                "You can see a list of valid tags on safebooru's website.")
-                        .build();
+                                "You can see a list of valid tags on safebooru's website."
+                        ).build();
             }
         });
     }
@@ -224,8 +225,9 @@ public class ImageCmds {
                         .addParameter("rating",
                                 "The image rating, can be either safe, questionable or explicit. " +
                                 "You can also use this in place of the tags. " +
-                                        "Rating can be random if you specify it as random, in case you want to play a roulette.")
-                        .build();
+                                        "Rating can be random if you specify it as random, " +
+                                        "in case you want to play a roulette."
+                        ).build();
             }
         });
     }
@@ -246,8 +248,9 @@ public class ImageCmds {
                         .setUsage("`~>rule34` - Retrieves a random image.\n" +
                                 "`~>rule34 <tag>` - Fetches an image with the respective tag and specified parameters.")
                         .addParameter("tag",
-                                "The image tag you're looking for. You can see a list of valid tags on rule34's website (NSFW).")
-                        .build();
+                                "The image tag you're looking for." +
+                                        " You can see a list of valid tags on rule34's website (NSFW)."
+                        ).build();
             }
         });
     }
@@ -279,8 +282,9 @@ public class ImageCmds {
                         .addParameter("rating",
                                 "The image rating, can be either safe, questionable or explicit. " +
                                 "You can also use this in place of the tags. " +
-                                        "Rating can be random if you specify it as random, in case you want to play a roulette.")
-                        .build();
+                                        "Rating can be random if you specify it as random, " +
+                                        "in case you want to play a roulette."
+                        ).build();
             }
         });
     }
@@ -303,23 +307,29 @@ public class ImageCmds {
                 return new HelpContent.Builder()
                         .setDescription("Retrieves images from the Gelbooru image board.\n" +
                                 "This command only works on NSFW channels, regarding of rating " +
-                                "(because we're not sure if it'll really put safe images all the time, rating is still left to the user).")
+                                "(because we're not sure if it'll really put safe images all the time, rating is still left to the user)."
+                        )
                         .setUsage("`~>gelbooru` - Retrieves a random image.\n" +
-                                "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters.")
+                                "`~>gelbooru <tag> <rating>` - Fetches an image with the respective tag and specified parameters."
+                        )
                         .addParameter("tag", "The image tag you're looking for. " +
                                 "You can see a list of valid tags on gelbooru's website.")
                         .addParameter("rating",
-                                "The image rating, can be either safe, questionable or explicit. You can also use this in place of the tags.")
-                        .build();
+                                "The image rating, " +
+                                        "can be either safe, questionable or explicit. " +
+                                        "You can also use this in place of the tags."
+                        ).build();
             }
         });
     }
 
-    private void sendImage(Context ctx, ImageBoard<?> image, boolean nsfwOnly, String name, String[] args) {
-        String firstArg = args.length == 0 ? "" : args[0];
-        if(firstArg.isEmpty())
+    private void sendImage(Context ctx, ImageBoard<?> image,
+                           boolean nsfwOnly, String name, String[] args) {
+        var firstArg = args.length == 0 ? "" : args[0];
+        if (firstArg.isEmpty()) {
             getImage(image, ImageRequestType.RANDOM, nsfwOnly, name, args, ctx);
-        else
+        } else {
             getImage(image, ImageRequestType.TAGS, nsfwOnly, name, args, ctx);
+        }
     }
 }

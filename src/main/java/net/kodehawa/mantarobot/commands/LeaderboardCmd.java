@@ -23,7 +23,6 @@ import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -34,7 +33,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
@@ -86,7 +84,7 @@ public class LeaderboardCmd {
                                 stats -> stats.pluck("id", "slotsWinAmount"), 5
                         );
 
-                        I18nContext languageContext = ctx.getLanguageContext();
+                        var languageContext = ctx.getLanguageContext();
 
                         ctx.send(
                                 baseEmbed(ctx, languageContext.get("commands.leaderboard.header"))
@@ -140,7 +138,7 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", "gambleWins"), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -165,7 +163,7 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", "slotsWins"), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -187,16 +185,16 @@ public class LeaderboardCmd {
 
                 @Override
                 protected void call(Context ctx, String content) {
-                    boolean seasonal = ctx.isSeasonal();
-                    String tableName = seasonal ? "seasonalplayers" : "players";
-                    String indexName = seasonal ? "money" : "newMoney";
+                    var seasonal = ctx.isSeasonal();
+                    var tableName = seasonal ? "seasonalplayers" : "players";
+                    var indexName = seasonal ? "money" : "newMoney";
 
                     List<Map<String, Object>> c = getLeaderboard(tableName, indexName,
                             player -> player.g("id"),
                             player -> player.pluck("id", "money"), 10
                     );
 
-                    I18nContext languageContext = ctx.getLanguageContext();
+                    var languageContext = ctx.getLanguageContext();
 
                     ctx.send(
                             generateLeaderboardEmbed(
@@ -224,14 +222,14 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                String tableName = "players";
+                var tableName = "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
                         player -> player.pluck("id", "money"), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -258,7 +256,7 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -285,15 +283,15 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                boolean seasonal = ctx.isSeasonal();
-                String tableName = seasonal ? "seasonalplayers" : "players";
+                var seasonal = ctx.isSeasonal();
+                var tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
                         player -> player.pluck("id", "reputation"), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -319,7 +317,7 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -346,15 +344,15 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                boolean seasonal = ctx.isSeasonal();
-                String tableName = seasonal ? "seasonalplayers" : "players";
+                var seasonal = ctx.isSeasonal();
+                var tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -385,7 +383,7 @@ public class LeaderboardCmd {
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -412,15 +410,15 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                boolean seasonal = ctx.isSeasonal();
-                String tableName = seasonal ? "seasonalplayers" : "players";
+                var seasonal = ctx.isSeasonal();
+                var tableName = seasonal ? "seasonalplayers" : "players";
 
                 List<Map<String, Object>> c = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -468,7 +466,7 @@ public class LeaderboardCmd {
                                                   List<Map<String, Object>> lb,
                                                   Function<Map<?, ?>, Pair<CachedLeaderboardMember, String>> mapFunction,
                                                   String format, boolean isSeasonal) {
-        I18nContext languageContext = ctx.getLanguageContext();
+        var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(isSeasonal ?
                         String.format(languageContext.get("commands.leaderboard.header_seasonal"),
@@ -512,10 +510,10 @@ public class LeaderboardCmd {
      */
     private CachedLeaderboardMember getMember(Context ctx, String id) {
         try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
-            String savedTo = "cachedlbuser:" + id;
-            String missed = "lbmiss:" + id;
+            var savedTo = "cachedlbuser:" + id;
+            var missed = "lbmiss:" + id;
 
-            String json = jedis.get(savedTo);
+            var json = jedis.get(savedTo);
             if(json == null) {
                 // No need to keep trying missed entries for a while. Entry should have a TTL of 12 hours.
                 if(jedis.get(missed) != null) {
@@ -526,7 +524,7 @@ public class LeaderboardCmd {
                 // to our own cache in Redis, and expire it in 48 hours to avoid it filling up endlessly.
                 // This is to avoid having to do calls to discord all the time a leaderboard is retrieved, and only do the calls whenever
                 // it's absolutely needed, or when we need to re-populate the cache.
-                User user = ctx.retrieveUserById(id);
+                var user = ctx.retrieveUserById(id);
 
                 // If no user was found, we need to return null. This is later handled on generateLeaderboardEmbed.
                 if(user == null) {

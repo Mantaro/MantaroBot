@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -34,9 +33,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -46,7 +42,6 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -93,10 +88,11 @@ public class MarketCmd {
         });
 
         marketCommand.setPredicate((ctx) -> {
-            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false))
+            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
                 return false;
+            }
 
-            Player player = ctx.getPlayer();
+            var player = ctx.getPlayer();
             if (player.isLocked()) {
                 ctx.send(EmoteReference.ERROR + "You cannot access the market now.");
                 return false;
@@ -192,14 +188,14 @@ public class MarketCmd {
                     return;
                 }
 
-                Map<String, String> t = ctx.getOptionalArguments();
-                boolean isSeasonal = ctx.isSeasonal();
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
+                var arguments = ctx.getOptionalArguments();
+                var isSeasonal = ctx.isSeasonal();
+                content = Utils.replaceArguments(arguments, content, "season", "s").trim();
 
-                String[] args = content.split(" ");
-                String itemName = content;
-                int itemNumber = 1;
-                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                var args = content.split(" ");
+                var itemName = content;
+                var itemNumber = 1;
+                var isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
                 if (isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.parseInt(itemName.split(" ")[0]));
@@ -210,17 +206,17 @@ public class MarketCmd {
                     }
                 }
 
-                Item item = ItemHelper.fromAny(itemName).orElse(null);
+                var item = ItemHelper.fromAny(itemName).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.dump.non_existent", EmoteReference.ERROR);
                     return;
                 }
 
-                Player player = ctx.getPlayer();
-                SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
+                var player = ctx.getPlayer();
+                var seasonalPlayer = ctx.getSeasonPlayer();
 
-                Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if (!playerInventory.containsItem(item)) {
                     ctx.sendLocalized("commands.market.dump.player_no_item", EmoteReference.ERROR);
@@ -234,13 +230,15 @@ public class MarketCmd {
 
                 playerInventory.process(new ItemStack(item, -itemNumber));
 
-                if(itemNumber > 4000)
+                if(itemNumber > 4000) {
                     player.getData().addBadgeIfAbsent(Badge.WASTER);
+                }
 
-                if (isSeasonal)
+                if (isSeasonal) {
                     seasonalPlayer.saveAsync();
-                else
+                } else {
                     player.saveAsync();
+                }
 
                 ctx.sendLocalized("commands.market.dump.success", EmoteReference.CORRECT, itemNumber, item.getEmoji(), item.getName());
             }
@@ -254,7 +252,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, String content) {
-                Item item = ItemHelper.fromAny(content).orElse(null);
+                var item = ItemHelper.fromAny(content).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.price.non_existent", EmoteReference.ERROR);
@@ -291,17 +289,18 @@ public class MarketCmd {
                     return;
                 }
 
-                Player player = ctx.getPlayer();
-                SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
-                Map<String, String> t = ctx.getOptionalArguments();
-                boolean isSeasonal = ctx.isSeasonal();
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
+                var player = ctx.getPlayer();
+                var seasonalPlayer = ctx.getSeasonPlayer();
+                var optionalArguments = ctx.getOptionalArguments();
+                var isSeasonal = ctx.isSeasonal();
+                content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
 
-                String[] args = content.split(" ");
-                String itemName = content;
-                int itemNumber = 1;
-                String split = args[0];
-                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+                var args = content.split(" ");
+                var itemName = content;
+                var itemNumber = 1;
+                var split = args[0];
+                var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+
                 if (isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.parseInt(split));
@@ -346,13 +345,13 @@ public class MarketCmd {
                         return;
                     }
 
-                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                    var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
-                    if(args[0].equalsIgnoreCase("allof")) {
+                    if (args[0].equalsIgnoreCase("allof")) {
                         itemName = content.replace("allof", "").trim();
                     }
 
-                    Item toSell = ItemHelper.fromAny(itemName.replace("\"", "")).orElse(null);
+                    var toSell = ItemHelper.fromAny(itemName.replace("\"", "")).orElse(null);
 
                     if (toSell == null) {
                         ctx.sendLocalized("commands.market.sell.non_existent", EmoteReference.ERROR);
@@ -369,7 +368,7 @@ public class MarketCmd {
                         return;
                     }
 
-                    if(args[0].equalsIgnoreCase("allof")) {
+                    if (args[0].equalsIgnoreCase("allof")) {
                         itemNumber = playerInventory.getAmount(toSell);
                     }
 
@@ -378,13 +377,15 @@ public class MarketCmd {
                         return;
                     }
 
-                    int many = itemNumber * -1;
-                    long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
+                    var many = itemNumber * -1;
+                    var amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
                     playerInventory.process(new ItemStack(toSell, many));
-                    if (isSeasonal)
+
+                    if (isSeasonal) {
                         seasonalPlayer.addMoney(amount);
-                    else
+                    } else {
                         player.addMoney(amount);
+                    }
 
                     player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                     ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount);
@@ -412,17 +413,18 @@ public class MarketCmd {
                     return;
                 }
 
-                Player player = ctx.getPlayer();
-                SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
-                Map<String, String> t = ctx.getOptionalArguments();
-                boolean isSeasonal = ctx.isSeasonal();
-                content = Utils.replaceArguments(t, content, "season", "s").trim();
+                var player = ctx.getPlayer();
+                var seasonalPlayer = ctx.getSeasonPlayer();
+                var optionalArguments = ctx.getOptionalArguments();
+                var isSeasonal = ctx.isSeasonal();
+                content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
 
-                String[] args = content.split(" ");
-                String itemName = content;
-                int itemNumber = 1;
-                String split = args[0];
-                boolean isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+                var args = content.split(" ");
+                var itemName = content;
+                var itemNumber = 1;
+                var split = args[0];
+                var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+
                 if (isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.parseInt(split));
@@ -448,12 +450,13 @@ public class MarketCmd {
                                 break;
                         }
 
-                        if (itemNumber > 1)
+                        if (itemNumber > 1) {
                             itemName = itemName.replace(args[0], "").trim();
+                        }
                     }
                 }
 
-                final Item itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
+                final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
 
                 if (itemToBuy == null) {
                     ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
@@ -466,15 +469,15 @@ public class MarketCmd {
                         return;
                     }
 
-                    Inventory playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    ItemStack stack = playerInventory.getStackOf(itemToBuy);
+                    var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+                    var stack = playerInventory.getStackOf(itemToBuy);
                     if ((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
                         //assume overflow
                         ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                         return;
                     }
 
-                    boolean removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) :
+                    var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) :
                             player.removeMoney(itemToBuy.getValue() * itemNumber);
 
                     if (removedMoney) {
@@ -485,10 +488,11 @@ public class MarketCmd {
                         //Due to player data being updated here too.
                         player.saveAsync();
 
-                        if (isSeasonal)
+                        if (isSeasonal) {
                             seasonalPlayer.saveAsync();
+                        }
 
-                        long playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
+                        var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
                         ctx.sendLocalized("commands.market.buy.success",
                                 EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
@@ -531,10 +535,10 @@ public class MarketCmd {
                     );
                 });
 
-        DBUser user = ctx.getDBUser();
+        var user = ctx.getDBUser();
 
-        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(4, fields);
-        boolean hasReactionPerms = ctx.hasReactionPerms();
+        var splitFields = DiscordUtils.divideFields(4, fields);
+        var hasReactionPerms = ctx.hasReactionPerms();
         embed.setColor(Color.MAGENTA).setAuthor("Mantaro's Market", null, ctx.getAuthor().getEffectiveAvatarUrl());
 
         if (hasReactionPerms) {

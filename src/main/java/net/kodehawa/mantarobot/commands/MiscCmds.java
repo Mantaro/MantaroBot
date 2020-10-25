@@ -58,11 +58,11 @@ public class MiscCmds {
     }
 
     public static void iamFunction(String autoroleName, Context ctx, String message) {
-        DBGuild dbGuild = ctx.getDBGuild();
-        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+        var dbGuild = ctx.getDBGuild();
+        var autoroles = dbGuild.getData().getAutoroles();
 
         if (autoroles.containsKey(autoroleName)) {
-            Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
+            var role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
             if (role == null) {
                 ctx.sendLocalized("commands.iam.deleted_role", EmoteReference.ERROR);
 
@@ -99,8 +99,8 @@ public class MiscCmds {
     }
 
     public static void iamnotFunction(String autoroleName, Context ctx, String message) {
-        DBGuild dbGuild = ctx.getDBGuild();
-        Map<String, String> autoroles = dbGuild.getData().getAutoroles();
+        var dbGuild = ctx.getDBGuild();
+        var autoroles = dbGuild.getData().getAutoroles();
 
         if (autoroles.containsKey(autoroleName)) {
             Role role = ctx.getGuild().getRoleById(autoroles.get(autoroleName));
@@ -143,8 +143,8 @@ public class MiscCmds {
                     return;
                 }
 
-                String textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-                String json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
+                var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
+                var json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
 
                 if(json == null) {
                     ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
@@ -206,29 +206,26 @@ public class MiscCmds {
             @Override
             protected void call(Context ctx, String content) {
                 EmbedBuilder embed;
-                DBGuild dbGuild = ctx.getDBGuild();
-                GuildData guildData = dbGuild.getData();
-
-                Map<String, String> autoroles = guildData.getAutoroles();
-                Map<String, List<String>> autorolesCategories = guildData.getAutoroleCategories();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
-                StringBuilder stringBuilder = new StringBuilder();
-                I18nContext languageContext = ctx.getLanguageContext();
 
-                if (!ctx.hasReactionPerms())
-                    stringBuilder.append(languageContext.get("general.text_menu")).append("\n");
+                var dbGuild = ctx.getDBGuild();
+                var guildData = dbGuild.getData();
+
+                var autoroles = guildData.getAutoroles();
+                var autorolesCategories = guildData.getAutoroleCategories();
+                var languageContext = ctx.getLanguageContext();
 
                 embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
-                        .setDescription(languageContext.get("commands.iam.list.description") + stringBuilder.toString())
+                        .setDescription(languageContext.get("commands.iam.list.description") + "")
                         .setThumbnail(ctx.getGuild().getIconUrl());
 
                 if (autoroles.size() > 0) {
-                    List<String> categorizedRoles = new ArrayList<>();
+                    var categorizedRoles = new ArrayList<>();
                     autorolesCategories.forEach((cat, roles) -> {
-                        StringBuilder roleString = new StringBuilder();
+                        var roleString = new StringBuilder();
 
-                        for (String iam : roles) {
-                            String roleId = autoroles.get(iam);
+                        for (var iam : roles) {
+                            var roleId = autoroles.get(iam);
                             if (roleId != null) {
                                 Role role = ctx.getGuild().getRoleById(roleId);
                                 if(role == null)
@@ -239,17 +236,23 @@ public class MiscCmds {
                             }
                         }
 
-                        if (roleString.length() > 0)
-                            fields.add(new MessageEmbed.Field(cat, languageContext.get("commands.iam.list.role")
-                                    + " `" + roleString + "`", false));
+                        if (roleString.length() > 0) {
+                            fields.add(new MessageEmbed.Field(
+                                    cat,
+                                    languageContext.get("commands.iam.list.role") + " `" + roleString + "`",
+                                    false)
+                            );
+                        }
                     });
 
                     autoroles.forEach((name, roleId) -> {
                         if (!categorizedRoles.contains(roleId)) {
-                            Role role = ctx.getGuild().getRoleById(roleId);
+                            var role = ctx.getGuild().getRoleById(roleId);
                             if (role != null) {
-                                fields.add(new MessageEmbed.Field(name, languageContext.get("commands.iam.list.role")
-                                        + " `" + role.getName() + "`", false));
+                                fields.add(new MessageEmbed.Field(name,
+                                        languageContext.get("commands.iam.list.role") + " `" + role.getName() + "`",
+                                        false)
+                                );
                             }
                         }
                     });
@@ -318,15 +321,16 @@ public class MiscCmds {
         registry.register("createpoll", new SimpleCommand(CommandCategory.MISC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Map<String, String> opts = ctx.getOptionalArguments();
-                PollBuilder builder = Poll.builder();
-                boolean failure = (!opts.containsKey("time") || opts.get("time") == null) ||
+                var opts = ctx.getOptionalArguments();
+                var builder = Poll.builder();
+                var failure = (!opts.containsKey("time") || opts.get("time") == null) ||
                         (!opts.containsKey("options") || opts.get("options") == null) ||
                         (!opts.containsKey("name") || opts.get("name") == null);
 
                 if (failure) {
                     ctx.sendLocalized("commands.poll.missing", EmoteReference.ERROR,
-                            "`-time`", "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\""
+                            "`-time`",
+                            "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\""
                     );
                     return;
                 }
@@ -340,7 +344,7 @@ public class MiscCmds {
                 }
 
 
-                String[] options = pollOptionSeparator.split(opts.get("options").replaceAll(String.valueOf('"'), ""));
+                var options = pollOptionSeparator.split(opts.get("options").replaceAll(String.valueOf('"'), ""));
                 long timeout;
 
                 try {
