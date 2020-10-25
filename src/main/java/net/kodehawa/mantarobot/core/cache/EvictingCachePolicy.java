@@ -18,7 +18,7 @@ public class EvictingCachePolicy implements MemberCachePolicy {
     
     public EvictingCachePolicy(List<Integer> shardIds, Supplier<EvictionStrategy> strategySupplier) {
         var s = new EvictionStrategy[Collections.max(shardIds) + 1];
-        for  (var id : shardIds) {
+        for (var id : shardIds) {
             s[id] = strategySupplier.get();
         }
 

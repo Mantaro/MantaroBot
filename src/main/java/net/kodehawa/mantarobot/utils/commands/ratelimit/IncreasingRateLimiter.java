@@ -37,7 +37,10 @@ public class IncreasingRateLimiter {
 
     static {
         try {
-            SCRIPT = IOUtils.toString(IncreasingRateLimiter.class.getResourceAsStream("/ratelimiter.lua"), StandardCharsets.UTF_8);
+            // We actually ratelimit using a lua script :p
+            SCRIPT = IOUtils.toString(
+                    IncreasingRateLimiter.class.getResourceAsStream("/ratelimiter.lua"), StandardCharsets.UTF_8
+            );
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -55,7 +58,9 @@ public class IncreasingRateLimiter {
     private final boolean premiumAware;
     private final int incrementDivider;
 
-    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown, int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown, boolean randomIncrement, boolean premiumAware, int incrementDivider) {
+    private IncreasingRateLimiter(JedisPool pool, String prefix, int limit, int cooldown,
+                                  int spamBeforeCooldownIncrease, int cooldownIncrease, int maxCooldown,
+                                  boolean randomIncrement, boolean premiumAware, int incrementDivider) {
         this.pool = pool;
         this.prefix = prefix;
         this.limit = limit;
@@ -79,7 +84,9 @@ public class IncreasingRateLimiter {
             List<Long> result;
             boolean premiumAwareness = premiumAware && MantaroData.db().getUser(key).isPremium();
             try {
-                int cd = cooldown + (randomIncrement && !premiumAwareness ? ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : 0);
+                int cd = cooldown + (randomIncrement && !premiumAwareness ?
+                        ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : 0);
+
                 result = (List<Long>) j.evalsha(scriptSha,
                         Collections.singletonList(key),
                         Arrays.asList(
@@ -159,6 +166,7 @@ public class IncreasingRateLimiter {
             } else {
                 this.prefix = prefix + ":";
             }
+
             return this;
         }
 
@@ -169,18 +177,22 @@ public class IncreasingRateLimiter {
 
         public Builder cooldown(int amount, TimeUnit unit) {
             int inMillis = (int) unit.toMillis(amount);
+
             if (inMillis < 1) {
                 throw new IllegalArgumentException("Must be at least one millisecond!");
             }
+
             this.cooldown = inMillis;
             return this;
         }
 
         public Builder cooldownPenaltyIncrease(int amount, TimeUnit unit) {
             int inMillis = (int) unit.toMillis(amount);
+
             if (inMillis < 1) {
                 throw new IllegalArgumentException("Must be at least one millisecond!");
             }
+
             this.cooldownPenaltyIncrease = inMillis;
             return this;
         }
@@ -189,15 +201,18 @@ public class IncreasingRateLimiter {
             if (tolerance < 0) {
                 throw new IllegalArgumentException("Must be 0 or positive");
             }
+
             this.spamTolerance = tolerance;
             return this;
         }
 
         public Builder maxCooldown(int amount, TimeUnit unit) {
             int inMillis = (int) unit.toMillis(amount);
+
             if (inMillis < cooldown) {
                 throw new IllegalArgumentException("Must be greater than or equal to initial cooldown!");
             }
+
             this.maxCooldown = inMillis;
             return this;
         }
@@ -206,13 +221,20 @@ public class IncreasingRateLimiter {
             if (pool == null) {
                 throw new IllegalStateException("Pool must be set");
             }
+
             if (limit < 0) {
                 throw new IllegalStateException("Limit must be set");
             }
+
             if (cooldown < 0) {
                 throw new IllegalStateException("Cooldown must be set");
             }
-            return new IncreasingRateLimiter(pool, prefix, limit, cooldown, spamTolerance, cooldownPenaltyIncrease, maxCooldown, randomIncrement, premiumAware, incrementDivider);
+
+            return new IncreasingRateLimiter(
+                    pool, prefix, limit, cooldown, spamTolerance,
+                    cooldownPenaltyIncrease, maxCooldown,
+                    randomIncrement, premiumAware, incrementDivider
+            );
         }
     }
 }

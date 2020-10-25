@@ -437,7 +437,7 @@ public class JFRExports {
         }
 
         long remove(long id) {
-            for  (var i = 0; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var idx = i * 2;
                 if (table[idx] == id) {
                     table[idx] = -1;

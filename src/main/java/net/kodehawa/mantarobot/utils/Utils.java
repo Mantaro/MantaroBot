@@ -622,7 +622,7 @@ public class Utils {
         //no realloc unless we somehow have 5 codeblocks
         var sb = new StringBuilder(src.length() + 8);
         var inside = false;
-        for  (var i = 0; i < src.length(); i++) {
+        for (var i = 0; i < src.length(); i++) {
             var ch = src.charAt(i);
             if (ch == BACKTICK) {
                 if (inside) {

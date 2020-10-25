@@ -80,7 +80,7 @@ public class DebugCmds {
                     }
 
                     var clusters = jedis.hgetAll("node-stats-" + config.getClientId());
-                    for  (var cluster : clusters.entrySet()) {
+                    for (var cluster : clusters.entrySet()) {
                         var json = new JSONObject(cluster.getValue());
                         totalMemory += json.getLong("used_memory");
                         queueSize += json.getLong("queue_size");
@@ -92,7 +92,7 @@ public class DebugCmds {
                 }
 
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
-                for  (var lavaLink : lavaLinkSockets) {
+                for (var lavaLink : lavaLinkSockets) {
                     if (lavaLink.isAvailable() && lavaLink.getStats() != null) // Andesite compatibility fix.
                         players += lavaLink.getStats().getPlayers();
                 }

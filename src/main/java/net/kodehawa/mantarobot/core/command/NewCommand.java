@@ -55,7 +55,7 @@ public abstract class NewCommand {
                     .setUsage(h.usage())
                     .setRelated(Arrays.asList(h.related()))
                     .setSeasonal(h.seasonal());
-            for  (var param : h.parameters()) {
+            for (var param : h.parameters()) {
                 if (param.optional()) {
                     builder.addParameterOptional(param.name(), param.description());
                 } else {

@@ -282,7 +282,7 @@ public class MoneyCmds {
                         String.format(languageContext.withRoot("commands", "daily.credits"),
                                 EmoteReference.CORRECT, dailyMoney)) + "\n");
 
-                for  (var string : returnMessage) {
+                for (var string : returnMessage) {
                     toSend.append("\n").append(string);
                 }
 
