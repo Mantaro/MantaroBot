@@ -1341,12 +1341,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1858,28 +1860,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Necesitas especificar los usuarios que serán agregados al registro de mensajes de moderadores.**",
       "success": "%1$sUsuarios en la lista local de registro de mensajes de moderadores: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sLa protección de links ha sido cambiada a `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sNecesitas especificar que canal deseas excluir del eliminador de invitaciones.",
-      "success": "%1$s%2$s ahora puede recibir invitaciones de Discord."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sNecesitas especificar que canal deseas incluir en el eliminador de invitaciones (todos por defecto)",
-      "success": "%1$s%2$s ya no puede recibir invitaciones de Discord."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sNecesitas especificar que el usuario que deseas excluir del eliminador de invitaciones.",
-      "success": "%1$sCorrectamente agregado a la whitelist a %2$s#%3$s para postear invitaciones a otros canales de Discord.\n"
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le prohiba publicar invitaciones!",
-      "not_whitelisted": "%1$sA este usuario no está en la lista que le permite enviar invitaciones!",
-      "success": "%1$sAl usuario %2$s#%3$s ahora se le prohibe publicar invitaciones."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sNecesitas especificar un tag para agregar a la lista negra!",
