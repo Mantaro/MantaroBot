@@ -1341,12 +1341,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1858,28 +1860,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Вы должны указать пользователей для локального белого списка из журналов модов.**",
       "success": "%1$sЛокальные исключения из черного списка пользователей для журнала модов: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sУстановлена защита на ссылку для `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sВы должны указать, какой канал вы хотите включить в средство проверки приглашения. (Все каналы включены по умолчанию)",
-      "success": "%1$s%2$s больше не может использоваться для отправки приглашений на другие сервера дискорда."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sВы должны указать, какой канал вы хотите включить в средство проверки приглашений. (Все каналы включены по умолчанию)",
-      "success": "%1$s%2$s больше не может использоваться для отправки приглашений на разногласия."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sВы должны добавить пользователя в белый список для публикации приглашений!",
-      "success": "%1$sУспешно внесён в белый список %2$s#%3$s для публикации приглашений на другие сервера в дискорде."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sВы должны указать пользователя в черный список при публикации приглашений!",
-      "not_whitelisted": "%1$sЭтого пользователя нет в белом списке публикации приглашений!",
-      "success": "%1$sУспешно занесен в черный список %2$s#%3$ s после публикации приглашений на другой дискорд-сервер."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sВы должны указать хотя бы тег для черного списка!",
