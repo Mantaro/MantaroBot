@@ -1341,12 +1341,14 @@
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
         "success": "%1$sYay! Pet alimentando com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%%",
-        "too_much": "%1$sTalvez dê um pouco menos de comida? Você estaria desperdiçando comida caso contrário! (O aumento é mais do que necessário)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sVocê não tem nenhum pet pra dar água. Cheque `~>pet` para uma explicação.",
         "no_need": "%1$sSeu pet não está com sede, então ele não quer beber agora.",
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Pet hidratado com sucesso e ele recuperou %2$s%% de sua sede. A sede agora está %3$s%%"
       },
       "activity": {
@@ -1858,28 +1860,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Você precisa especificar os usuários para colocar na lista branca local do mod logs.**",
       "success": "%1$sUsuários localmente removidos da lista negra do mod-log: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sProteção de link definida para `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sVocê precisa especificar qual canal deseja excluir do verificador de convite.",
-      "success": "%1$s%2$s agora pode ser usado para enviar convites do discord."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sVocê precisa especificar qual canal deseja incluir no verificador de convite. (Todos os canais incluidos por padrão)",
-      "success": "%1$s%2$s não pode mais ser usado para enviar convites do discord."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sVocê precisa especificar que usuário você quer excluir do checador de convite.",
-      "no_mentions": "%1$sVocê precisa mencionar o usuário à lista de permissões da postagem de convites!",
-      "success": "%1$sColocado com sucesso %2$s#%3$s na lista branca de postar convites do discord."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sVocê precisa especificar qual usuário você quer incluir no checador de convite. (Todos exceto os administradores incluídos por padrão)",
-      "no_mentions": "%1$sVocê precisa mencionar o usuário à lista negra de postagem de convites!",
-      "not_whitelisted": "%1$sEste usuário não está na lista branca de permissões de postagem de convite!",
-      "success": "%1$sColocado com sucesso %2$s#%3$s na lista negra de postar convites do discord."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sVocê precisa especificar pelo menos uma tag para a lista negra!",
