@@ -1341,12 +1341,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1858,28 +1860,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
       "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sتم تغيير حالة حماية الروابط الى `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sيجب عليك ذكر الروم الذي تريد السماح بارسال روابط السيرفرات فيه.",
-      "success": "%1$s%2$s يمكن الان ارسال روابط سيرفرات في هذا الروم."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sيجب ان تذكر الروم الذي تريد ان تمنع ارسال روابط السيرفرات فيه. (جميع الرومات مشمولة بشكل افتراضي)",
-      "success": "%1$s%2$s لم يعد يمكن استخدام هذا الروم لارسال روابط سيرفرات بعد الآن."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
-      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
-      "not_whitelisted": "%1$sهذا العضو ليس مسموح له بارسال روابط السيرفرات بالفعل!",
-      "success": "%1$sتم منع %2$s#%3$s من ارسال روابط سيرفرات."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
