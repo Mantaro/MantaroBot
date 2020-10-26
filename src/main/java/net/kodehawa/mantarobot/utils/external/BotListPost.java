@@ -51,13 +51,13 @@ public enum BotListPost {
             return;
         }
 
-        RequestBody post = RequestBody.create(MediaType.parse("application/json"),
+        var post = RequestBody.create(MediaType.parse("application/json"),
                 new JSONObject()
                         .put(guildValue, currentCount)
                         .toString()
         );
 
-        Request request = new Request.Builder()
+        var request = new Request.Builder()
                 .url(String.format(path, clientId))
                 .header("User-Agent", MantaroInfo.USER_AGENT)
                 .header("Authorization", token)

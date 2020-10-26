@@ -61,14 +61,20 @@ public class PollBuilder {
     }
 
     public Poll build() {
-        if (options == null)
+        if (options == null) {
             throw new IllegalArgumentException("Cannot create a poll with null options");
-        if (event == null)
+        }
+
+        if (event == null) {
             throw new IllegalArgumentException("Cannot create a poll with null event");
-        if (timeout == 0)
+        }
+
+        if (timeout == 0) {
             throw new IllegalArgumentException("Cannot create a poll without a timeout");
-        if (languageContext == null)
+        }
+        if (languageContext == null) {
             throw new IllegalArgumentException("Cannot create a poll without a language context!");
+        }
 
         return new Poll(UUID.randomUUID().toString(),
                 event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(),

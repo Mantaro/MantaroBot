@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -32,8 +31,6 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.*;
@@ -42,10 +39,8 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.Map.Entry;
 import static net.kodehawa.mantarobot.utils.Utils.mapConfigObjects;
 
 @Module
@@ -66,20 +61,22 @@ public class OptsCmd {
                     return;
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 if (args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
-                    StringBuilder builder = new StringBuilder();
+                    var builder = new StringBuilder();
 
-                    for (String s : Option.getAvaliableOptions())
-                        builder.append(s).append("\n");
+                    for (var opt : Option.getAvaliableOptions()) {
+                        builder.append(opt).append("\n");
+                    }
 
-                    List<String> m = DiscordUtils.divideString(builder);
+                    var dividedMessages = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
-                    for (String s1 : m) {
+
+                    for (var msgs : dividedMessages) {
                         messages.add(String.format(languageContext.get("commands.opts.list.header"),
                                 ctx.hasReactionPerms() ? languageContext.get("general.text_menu") + " " :
-                                        languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", s1))
+                                        languageContext.get("general.arrow_react"), String.format("```prolog\n%s```", msgs))
                         );
                     }
 
@@ -97,20 +94,21 @@ public class OptsCmd {
                     return;
                 }
 
-                StringBuilder name = new StringBuilder();
+                var name = new StringBuilder();
 
                 if (args[0].equalsIgnoreCase("help")) {
                     for (int i = 1; i < args.length; i++) {
-                        String s = args[i];
-                        if (name.length() > 0)
+                        var s = args[i];
+                        if (name.length() > 0) {
                             name.append(":");
+                        }
 
                         name.append(s);
-                        Option option = Option.getOptionMap().get(name.toString());
+                        var option = Option.getOptionMap().get(name.toString());
 
                         if (option != null) {
                             try {
-                                EmbedBuilder builder = new EmbedBuilder()
+                                var builder = new EmbedBuilder()
                                         .setAuthor(option.getOptionName(), null, ctx.getAuthor().getEffectiveAvatarUrl())
                                         .setDescription(option.getDescription())
                                         .setThumbnail("https://i.imgur.com/lFTJSE4.png")
@@ -122,38 +120,45 @@ public class OptsCmd {
                         }
                     }
 
-                    ctx.getChannel().sendMessageFormat(languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR).queue(
-                            message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                    );
+                    ctx.getChannel().sendMessageFormat(
+                            languageContext.get("commands.opts.option_not_found"), EmoteReference.ERROR
+                    ).queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
 
                     return;
                 }
 
                 for (int i = 0; i < args.length; i++) {
-                    String s = args[i];
-                    if (name.length() > 0) name.append(":");
-                    name.append(s);
-                    Option option = Option.getOptionMap().get(name.toString());
+                    var str = args[i];
+                    if (name.length() > 0) {
+                        name.append(":");
+                    }
+
+                    name.append(str);
+                    var option = Option.getOptionMap().get(name.toString());
 
                     if (option != null) {
-                        TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
+                        var callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
+
                         try {
                             String[] a;
-                            if (++i < args.length)
+                            if (++i < args.length) {
                                 a = Arrays.copyOfRange(args, i, args.length);
-                            else
+                            } else {
                                 a = new String[0];
+                            }
 
                             callable.accept(ctx.getEvent(), a,
-                                    new I18nContext(MantaroData.db().getGuild(ctx.getGuild()).getData(), MantaroData.db().getUser(ctx.getAuthor().getId()).getData())
+                                    new I18nContext(
+                                            MantaroData.db().getGuild(ctx.getGuild()).getData(), MantaroData.db().getUser(ctx.getAuthor().getId()).getData()
+                                    )
                             );
-                            Player p = MantaroData.db().getPlayer(ctx.getAuthor());
 
-                            if (p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
-                                p.saveAsync();
+                            var player = MantaroData.db().getPlayer(ctx.getAuthor());
+
+                            if (player.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
+                                player.saveAsync();
                             }
-                        } catch (IndexOutOfBoundsException ignored) {
-                        }
+                        } catch (IndexOutOfBoundsException ignored) { }
                         return;
                     }
                 }
@@ -174,30 +179,30 @@ public class OptsCmd {
         }).addOption("check:data", new Option("Data check.",
                 "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**. If you wanna send this to the support server, use -print at the end.", OptionType.GENERAL)
                 .setActionLang((event, args, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    var guildData = dbGuild.getData();
 
                     //Map as follows: name, value
                     //This filters out unused configs.
-                    Map<String, Pair<String, Object>> fieldMap = mapConfigObjects(guildData);
+                    var fieldMap = mapConfigObjects(guildData);
 
                     if (fieldMap == null) {
                         event.getChannel().sendMessage(String.format(lang.get("options.check_data.retrieve_failure"), EmoteReference.ERROR)).queue();
                         return;
                     }
 
-                    Map<String, String> opts = StringUtils.parse(args);
+                    var opts = StringUtils.parseArguments(args);
                     if (opts.containsKey("print")) {
-                        StringBuilder builder = new StringBuilder();
-                        for (Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {
-                            builder.append("* ").append(e.getKey()).append(": ").append(e.getValue().getRight()).append("\n");
+                        var builder = new StringBuilder();
+                        for (var entry : fieldMap.entrySet()) {
+                            builder.append("* ").append(entry.getKey()).append(": ").append(entry.getValue().getRight()).append("\n");
                         }
 
                         event.getChannel().sendMessage("Send this: " + Utils.paste(builder.toString())).queue();
                         return;
                     }
 
-                    EmbedBuilder embedBuilder = new EmbedBuilder();
+                    var embedBuilder = new EmbedBuilder();
                     embedBuilder.setAuthor("Option Debug", null, event.getAuthor().getEffectiveAvatarUrl())
                             .setDescription(String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"),
                                     event.getGuild().getName())
@@ -205,49 +210,50 @@ public class OptsCmd {
                             .setFooter(lang.get("options.check_data.footer"), null);
                     List<MessageEmbed.Field> fields = new LinkedList<>();
 
-                    for (Entry<String, Pair<String, Object>> e : fieldMap.entrySet()) {
+                    for (var e : fieldMap.entrySet()) {
                         fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().getLeft() + "",
                                 e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().getRight()),
                                 false)
                         );
                     }
 
-                    List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(6, fields);
+                    var splitFields = DiscordUtils.divideFields(6, fields);
                     boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
-                    if (hasReactionPerms)
+                    if (hasReactionPerms) {
                         DiscordUtils.list(event, 200, false, embedBuilder, splitFields);
-                    else
+                    }
+                    else {
                         DiscordUtils.listText(event, 200, false, embedBuilder, splitFields);
+                    }
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
-                "Resets all options set on this server.", OptionType.GENERAL)
-                .setActionLang((event, lang) -> {
-                            //Temporary stuff.
-                            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                            GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
+                "Resets all options set on this server.", OptionType.GENERAL).setActionLang((event, lang) -> {
+                    //Temporary stuff.
+                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    var temp = MantaroData.db().getGuild(event.getGuild()).getData();
 
-                            //The persistent data we wish to maintain.
-                            String premiumKey = temp.getPremiumKey();
-                            long quoteLastId = temp.getQuoteLastId();
-                            long ranPolls = temp.getQuoteLastId();
-                            String gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
-                            long cases = temp.getCases();
+                    //The persistent data we wish to maintain.
+                    var premiumKey = temp.getPremiumKey();
+                    var quoteLastId = temp.getQuoteLastId();
+                    var ranPolls = temp.getQuoteLastId();
+                    var gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
+                    var cases = temp.getCases();
 
-                            //Assign everything all over again
-                            DBGuild newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
-                            GuildData newTmp = newDbGuild.getData();
-                            newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
-                            newTmp.setRanPolls(ranPolls);
-                            newTmp.setCases(cases);
-                            newTmp.setPremiumKey(premiumKey);
-                            newTmp.setQuoteLastId(quoteLastId);
+                    //Assign everything all over again
+                    var newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
+                    var newTmp = newDbGuild.getData();
 
-                            //weee
-                            newDbGuild.saveAsync();
+                    newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
+                    newTmp.setRanPolls(ranPolls);
+                    newTmp.setCases(cases);
+                    newTmp.setPremiumKey(premiumKey);
+                    newTmp.setQuoteLastId(quoteLastId);
 
-                            event.getChannel().sendMessage(String.format(lang.get("options.reset_all.success"), EmoteReference.CORRECT)).queue();
-                        }
-                ));
+                    newDbGuild.saveAsync();
+
+                    event.getChannel().sendMessage(String.format(lang.get("options.reset_all.success"), EmoteReference.CORRECT)).queue();
+                })
+        );
     }
 }

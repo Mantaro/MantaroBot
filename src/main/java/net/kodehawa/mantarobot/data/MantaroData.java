@@ -45,23 +45,34 @@ public class MantaroData {
     }
 
     public static JsonDataManager<Config> config() {
-        if (config == null)
+        if (config == null) {
             config = new JsonDataManager<>(Config.class, "config.json", Config::new);
+        }
 
         return config;
     }
 
     public static Connection conn() {
-        Config c = config().get();
+        var config = config().get();
         if (conn == null) {
             synchronized (MantaroData.class) {
-                if (conn != null)
+                if (conn != null) {
                     return conn;
+                }
 
-                conn = r.connection().hostname(c.getDbHost()).port(c.getDbPort()).db(c.getDbDb()).user(c.getDbUser(), c.getDbPassword()).connect();
-                log.info("Established first database connection to {}:{} ({})", c.getDbHost(), c.getDbPort(), c.getDbUser());
+                conn = r.connection()
+                        .hostname(config.getDbHost())
+                        .port(config.getDbPort())
+                        .db(config.getDbDb())
+                        .user(config.getDbUser(), config.getDbPassword())
+                        .connect();
+
+                log.info("Established first database connection to {}:{} ({})",
+                        config.getDbHost(), config.getDbPort(), config.getDbUser()
+                );
             }
         }
+
         return conn;
     }
 

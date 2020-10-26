@@ -41,21 +41,24 @@ public class LogUtils {
     private static WebhookClient SPAMBOT_WEBHOOK;
 
     static {
-        String shardWebhook = MantaroData.config().get().getShardWebhookUrl();
-        String logWebhook = MantaroData.config().get().getWebhookUrl();
-        String spambotWebhook = MantaroData.config().get().getSpambotUrl();
+        var shardWebhook = MantaroData.config().get().getShardWebhookUrl();
+        var logWebhook = MantaroData.config().get().getWebhookUrl();
+        var spambotWebhook = MantaroData.config().get().getSpambotUrl();
+
         if (shardWebhook != null) {
-            String[] parts = shardWebhook.replace(WEBHOOK_START, "").split("/");
+            var parts = shardWebhook.replace(WEBHOOK_START, "").split("/");
             SHARD_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         }
+
         if (logWebhook != null) {
-            String[] parts = logWebhook.replace(WEBHOOK_START, "").split("/");
+            var parts = logWebhook.replace(WEBHOOK_START, "").split("/");
             LOGBACK_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         } else {
             log.error("Webhook URL is null. Webhooks won't be posted at all to status channels.");
         }
+
         if (spambotWebhook != null) {
-            String[] parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
+            var parts = spambotWebhook.replace(WEBHOOK_START, "").split("/");
             SPAMBOT_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts[0]), parts[1]).build();
         } else {
             log("Warning", "Spambot Webhook URL is null. Spam bots won't be logged.");
@@ -64,8 +67,9 @@ public class LogUtils {
     }
 
     public static void shard(String message) {
-        if (SHARD_WEBHOOK == null)
+        if (SHARD_WEBHOOK == null) {
             return;
+        }
 
         try {
             SHARD_WEBHOOK.send(new WebhookEmbed(
@@ -80,8 +84,9 @@ public class LogUtils {
     }
 
     public static void log(String title, String message) {
-        if (LOGBACK_WEBHOOK == null)
+        if (LOGBACK_WEBHOOK == null) {
             return;
+        }
 
         try {
             LOGBACK_WEBHOOK.send(new WebhookEmbed(
@@ -96,8 +101,9 @@ public class LogUtils {
     }
 
     public static void log(String message) {
-        if (LOGBACK_WEBHOOK == null)
+        if (LOGBACK_WEBHOOK == null) {
             return;
+        }
 
         try {
             LOGBACK_WEBHOOK.send(new WebhookEmbed(
@@ -112,8 +118,9 @@ public class LogUtils {
     }
 
     public static void simple(String message) {
-        if (LOGBACK_WEBHOOK == null)
+        if (LOGBACK_WEBHOOK == null) {
             return;
+        }
 
         try {
             LOGBACK_WEBHOOK.send(message);
@@ -123,8 +130,9 @@ public class LogUtils {
     }
 
     public static void shardSimple(String message) {
-        if (SHARD_WEBHOOK == null)
+        if (SHARD_WEBHOOK == null) {
             return;
+        }
 
         try {
             SHARD_WEBHOOK.send(message);
@@ -151,10 +159,11 @@ public class LogUtils {
             fields.add(new WebhookEmbed.EmbedField(true, "Mutual Guilds", user.getMutualGuilds().stream().map(g ->
                     g.getId() + ": " + g.getMemberCount() + " members"
             ).collect(Collectors.joining("\n"))));
+
             fields.add(new WebhookEmbed.EmbedField(false, "Type", type.toString()));
 
             if (type == SpamType.BLATANT) {
-                MantaroObj mantaroData = MantaroData.db().getMantaroData();
+                var mantaroData = MantaroData.db().getMantaroData();
                 mantaroData.getBlackListedUsers().add(user.getId());
                 mantaroData.save();
 

@@ -193,7 +193,7 @@ public class Context {
     }
 
     public Map<String, String> getOptionalArguments() {
-        return StringUtils.parse(getArguments());
+        return StringUtils.parseArguments(getArguments());
     }
 
     public void send(Message message) {

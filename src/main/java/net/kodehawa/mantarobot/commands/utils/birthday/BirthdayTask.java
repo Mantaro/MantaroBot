@@ -16,17 +16,10 @@
 
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -49,37 +42,40 @@ public class BirthdayTask {
         try {
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
             // There's no cache to be seen here
-            if (cache == null)
+            if (cache == null) {
                 return;
+            }
             // We haven't finished caching all members, somehow?
-            if (!cache.isDone)
+            if (!cache.isDone) {
                 return;
+            }
 
-            int membersAssigned = 0;
-            int membersDivested = 0;
+            var membersAssigned = 0;
+            var membersDivested = 0;
 
-            JDA jda = MantaroBot.getInstance().getShardManager().getShardById(shardId);
-            if (jda == null) // To be fair, this shouldn't be possible as it only starts it with the shards it knows...
+            var jda = MantaroBot.getInstance().getShardManager().getShardById(shardId);
+            if (jda == null) { // To be fair, this shouldn't be possible as it only starts it with the shards it knows...
                 return;
+            }
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
 
-            long start = System.currentTimeMillis();
+            var start = System.currentTimeMillis();
 
-            Calendar cal = Calendar.getInstance();
-            String now = dateFormat.format(cal.getTime()).substring(0, 5);
+            var cal = Calendar.getInstance();
+            var now = dateFormat.format(cal.getTime()).substring(0, 5);
 
-            Map<String, BirthdayCacher.BirthdayData> cached = cache.cachedBirthdays;
-            SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
+            var cached = cache.cachedBirthdays;
+            var guilds = jda.getGuildCache();
 
             // For all current -cached- guilds.
-            for (Guild guild : guilds) {
-                DBGuild dbGuild = MantaroData.db().getGuild(guild);
-                GuildData guildData = dbGuild.getData();
+            for (var guild : guilds) {
+                var dbGuild = MantaroData.db().getGuild(guild);
+                var guildData = dbGuild.getData();
                 // If we have a birthday guild and channel here, continue
                 if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
-                    Role birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
-                    TextChannel channel = guild.getTextChannelById(guildData.getBirthdayChannel());
+                    var birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
+                    var channel = guild.getTextChannelById(guildData.getBirthdayChannel());
 
                     if (channel != null && birthdayRole != null) {
                         if (!guild.getSelfMember().canInteract(birthdayRole))
@@ -99,7 +95,7 @@ public class BirthdayTask {
                                 cached.entrySet().stream().filter(map -> guildData.getAllowedBirthdays().contains(map.getKey()))
                                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-                        MessageBuilder birthdayAnnouncerText = new MessageBuilder();
+                        var birthdayAnnouncerText = new MessageBuilder();
                         birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
                         int birthdayNumber = 0;
 
@@ -112,7 +108,7 @@ public class BirthdayTask {
                                 member = guild.retrieveMemberById(data.getKey(), false).complete();
                             } catch (Exception ignored) { }
 
-                            String birthday = data.getValue().birthday;
+                            var birthday = data.getValue().birthday;
 
                             // shut up warnings
                             if (member == null) {
@@ -120,8 +116,9 @@ public class BirthdayTask {
                                 continue;
                             }
 
-                            if (guildData.getBirthdayBlockedIds().contains(member.getId()))
+                            if (guildData.getBirthdayBlockedIds().contains(member.getId())) {
                                 continue;
+                            }
 
                             if (birthday == null) {
                                 log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
@@ -137,7 +134,7 @@ public class BirthdayTask {
                             //:tada:!
                             if (birthday.substring(0, 5).equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
-                                String tempBirthdayMessage =
+                                var tempBirthdayMessage =
                                         String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                         member.getEffectiveName());
 
@@ -149,7 +146,7 @@ public class BirthdayTask {
                                 }
 
                                 //Variable used in lambda expression should be final or effectively final...
-                                final String birthdayMessage = tempBirthdayMessage;
+                                final var birthdayMessage = tempBirthdayMessage;
 
                                 if (!member.getRoles().contains(birthdayRole)) {
                                     try {
@@ -215,9 +212,9 @@ public class BirthdayTask {
                 }
             }
 
-            long end = System.currentTimeMillis();
+            var end = System.currentTimeMillis();
 
-            String toSend = String.format("Finished checking birthdays for shard %s, people assigned: %d, people divested: %d, took %dms",
+            var toSend = String.format("Finished checking birthdays for shard %s, people assigned: %d, people divested: %d, took %dms",
                     jda.getShardInfo().getShardId(), membersAssigned, membersDivested, (end - start));
 
             log.info(toSend);

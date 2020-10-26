@@ -102,8 +102,9 @@ public class MantaroBot {
     );
 
     private MantaroBot() throws Exception {
-        if (ExtraRuntimeOptions.PRINT_VARIABLES || ExtraRuntimeOptions.DEBUG)
+        if (ExtraRuntimeOptions.PRINT_VARIABLES || ExtraRuntimeOptions.DEBUG) {
             printStartVariables();
+        }
 
         instance = this;
 
@@ -112,10 +113,15 @@ public class MantaroBot {
                 Request request = new Request.Builder()
                         .url(config.apiTwoUrl + "/mantaroapi/ping")
                         .build();
+
                 Response httpResponse = Utils.httpClient.newCall(request).execute();
 
                 if (httpResponse.code() != 200) {
-                    log.error("Cannot connect to the API! Wrong status code...");
+                    log.error(
+                            "Cannot connect to the API! Wrong status code? Returned: {}, Expected: 200",
+                            httpResponse.code()
+                    );
+
                     System.exit(API_HANDSHAKE_FAILURE);
                 }
 
@@ -133,18 +139,18 @@ public class MantaroBot {
                 shardId -> getShardManager().getShardById(shardId)
         );
 
-        for (String node : config.getLavalinkNodes())
+        for (String node : config.getLavalinkNodes()) {
             lavaLink.addNode(new URI(node), config.lavalinkPass);
+        }
 
         // Choose the server with the lowest player amount
         lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
 
-        core = new MantaroCore(config, true, ExtraRuntimeOptions.DEBUG);
+        core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
 
         audioManager = new MantaroAudioManager();
-        ItemHelper.setItemActions();
-
         birthdayCacher = new BirthdayCacher();
+        ItemHelper.setItemActions();
 
         LogUtils.log("Startup", String.format("Starting up Mantaro %s (Git: %s) in Node %s\nHold your seatbelts! <3",
                 MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
@@ -154,7 +160,7 @@ public class MantaroBot {
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
                 .start();
 
-        System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
+        log.info("Finished loading basic components. Current status: {}", MantaroCore.getLoadState());
         MantaroData.config().save();
 
         // Handle the removal of mutes.
@@ -184,15 +190,19 @@ public class MantaroBot {
         ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder().setNameFormat("Mantaro-StatPosting").build()
         );
+
         postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
     }
 
     public static void main(String[] args) {
+        // Start internal metrics collection.
         try {
             Prometheus.enable();
         } catch (Exception e) {
             log.error("Unable to start prometheus client!", e);
         }
+
+        // Attempt to start the bot process itself.
         try {
             new MantaroBot();
         } catch (Exception e) {
@@ -200,7 +210,8 @@ public class MantaroBot {
             log.error("Cannot continue! Exiting program...");
             System.exit(FATAL_FAILURE);
         }
-        //must be registered after MantaroBot.instance is set
+
+        // Must be registered after MantaroBot.instance is set
         Prometheus.registerPostStartup();
     }
 
@@ -233,15 +244,17 @@ public class MantaroBot {
     }
 
     public JDA getShardGuild(long guildId) {
-        return getShardManager().getShardById((int) ((guildId >> 22) % getShardManager().getShardsTotal()));
+        return getShardManager().getShardById(
+                (int) ((guildId >> 22) % getShardManager().getShardsTotal())
+        );
     }
 
     public int getShardIdForGuild(long guildId) {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
     }
 
-    //You would ask, doesn't ShardManager#getShardsTotal do that? Absolutely not. It's screwed. Fucked. I dunno why.
-    //DefaultShardManager overrides it, nvm, ouch.
+    // You would ask, doesn't ShardManager#getShardsTotal do that? Absolutely not. It's screwed. Fucked. I dunno why.
+    // DefaultShardManager overrides it, nvm, ouch.
     public int getManagedShards() {
         return getShardManager().getShardsRunning() + getShardManager().getShardsQueued();
     }
@@ -259,34 +272,35 @@ public class MantaroBot {
 
         Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
 
-        //How much until tomorrow? That's the initial delay, then run it once a day.
-        ZoneId z = ZoneId.of("America/Chicago");
-        ZonedDateTime now = ZonedDateTime.now(z);
-        LocalDate tomorrow = now.toLocalDate().plusDays(1);
-        ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
-        Duration duration = Duration.between(now, tomorrowStart);
-        long millisecondsUntilTomorrow = duration.toMillis();
+        // How much until tomorrow? That's the initial delay, then run it once a day.
+        var zoneId = ZoneId.of("America/Chicago");
+        var now = ZonedDateTime.now(zoneId);
+        var tomorrow = now.toLocalDate().plusDays(1);
+        var tomorrowStart = tomorrow.atStartOfDay(zoneId);
+        var duration = Duration.between(now, tomorrowStart);
+        var millisecondsUntilTomorrow = duration.toMillis();
 
-        //Start the birthday task on all shards.
-        //This is because running them in parallel is way better than running it once for all shards.
-        //It actually cut off the time from 50 minutes to 20 seconds.
-        for (Shard shard : core.getShards()) {
+        // Start the birthday task on all shards.
+        // This is because running them in parallel is way better than running it once for all shards.
+        // It actually cut off the time from 50 minutes to 20 seconds.
+        for (var shard : core.getShards()) {
             log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shard.getId(), millisecondsUntilTomorrow);
 
             executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
                     millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
         }
 
-        //Start the birthday cacher.
+        // Start the birthday cacher.
         executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 23, TimeUnit.HOURS);
     }
 
     private void postStats(ShardManager manager) {
-        for(JDA jda : manager.getShardCache()) {
-            if (jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN)
+        for(var jda : manager.getShardCache()) {
+            if (jda.getStatus() == JDA.Status.INITIALIZED || jda.getStatus() == JDA.Status.SHUTDOWN) {
                 return;
+            }
 
-            try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            try(var jedis = MantaroData.getDefaultJedisPool().getResource()) {
                 var json = new JSONObject()
                         .put("guild_count", jda.getGuildCache().size())
                         .put("cached_users", jda.getUserCache().size())
@@ -347,7 +361,7 @@ public class MantaroBot {
         return ExtraRuntimeOptions.NODE_NUMBER.orElse(0);
     }
 
-    //This will print if the MANTARO_PRINT_VARIABLES env variable is present.
+    // This will print if the MANTARO_PRINT_VARIABLES env variable is present.
     private void printStartVariables() {
         log.info("Environment variables set on this startup:\n" +
                         "DISABLE_NON_ALLOCATING_BUFFER = {}\n" +

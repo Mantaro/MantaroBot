@@ -48,15 +48,15 @@ public class GuessTheNumber extends Game<Object> {
         InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
-                final TextChannel channel = lobby.getChannel();
+                final var channel = lobby.getChannel();
                 if (!e.getChannel().getId().equals(channel.getId())) {
                     return Operation.IGNORED;
                 }
 
-                final String contentRaw = e.getMessage().getContentRaw();
-                final I18nContext languageContext = lobby.getLanguageContext();
+                final var contentRaw = e.getMessage().getContentRaw();
+                final var languageContext = lobby.getLanguageContext();
 
-                for (String s : MantaroData.config().get().getPrefix()) {
+                for (var s : MantaroData.config().get().getPrefix()) {
                     if (contentRaw.startsWith(s)) {
                         return Operation.IGNORED;
                     }
@@ -96,23 +96,26 @@ public class GuessTheNumber extends Game<Object> {
                     }
 
                     if (contentRaw.equals(String.valueOf(number))) {
-                        UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
-                        Player player = unifiedPlayer.getPlayer();
-                        SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
-                        int gains = 140;
+                        var unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
+                        var player = unifiedPlayer.getPlayer();
+                        var seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
+                        var gains = 140;
 
                         unifiedPlayer.addMoney(gains);
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
                         seasonalPlayer.getData().setGamesWon(seasonalPlayer.getData().getGamesWon() + 1);
 
-                        if (player.getData().getGamesWon() == 100)
+                        if (player.getData().getGamesWon() == 100) {
                             player.getData().addBadgeIfAbsent(Badge.GAMER);
+                        }
 
-                        if (player.getData().getGamesWon() == 1000)
+                        if (player.getData().getGamesWon() == 1000) {
                             player.getData().addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+                        }
 
-                        if (number > 90)
+                        if (number > 90) {
                             player.getData().addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
+                        }
 
                         unifiedPlayer.save();
 
@@ -151,7 +154,7 @@ public class GuessTheNumber extends Game<Object> {
 
             @Override
             public void onExpire() {
-                final TextChannel channel = lobby.getChannel();
+                final var channel = lobby.getChannel();
                 if (channel == null) {
                     GameLobby.LOBBYS.remove(Long.parseLong(lobby.getChannelId()));
                     return;
@@ -174,6 +177,7 @@ public class GuessTheNumber extends Game<Object> {
         lobby.getChannel().sendMessageFormat(lobby.getLanguageContext().get("commands.game.number.start"),
                 EmoteReference.THINKING
         ).queue(success -> lobby.setGameLoaded(true));
+
         return true;
     }
 

@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -608,7 +609,7 @@ public class CurrencyCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         String[] args = ctx.getArguments();
                         var arguments = ctx.getOptionalArguments();
 
@@ -667,15 +668,13 @@ public class CurrencyCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var interactiveItems = Arrays.stream(ItemReference.ALL).filter(
                         i -> i.getItemType() == ItemType.INTERACTIVE ||
                         i.getItemType() == ItemType.POTION ||
                         i.getItemType() == ItemType.CRATE ||
                         i.getItemType() == ItemType.BUFF
                 ).collect(Collectors.toList());
-
-                var languageContext = ctx.getLanguageContext();
                 var show = new StringBuilder();
 
                 show.append(EmoteReference.TALKING)

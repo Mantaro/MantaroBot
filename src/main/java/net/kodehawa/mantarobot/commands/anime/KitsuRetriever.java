@@ -20,8 +20,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import okhttp3.Request;
-import okhttp3.Response;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -33,7 +31,7 @@ import static net.kodehawa.mantarobot.utils.Utils.httpClient;
 
 public class KitsuRetriever {
     public static List<CharacterData> searchCharacters(String name) throws IOException {
-        Request request = new Request.Builder()
+        var request = new Request.Builder()
                 .url(
                         String.format("https://kitsu.io/api/edge/characters?filter[name]=%s",
                                 URLEncoder.encode(name, StandardCharsets.UTF_8)
@@ -43,17 +41,18 @@ public class KitsuRetriever {
                 .get()
                 .build();
 
-        Response response = httpClient.newCall(request).execute();
-        String body = response.body().string();
+        var response = httpClient.newCall(request).execute();
+        var body = response.body().string();
         response.close();
 
-        JSONObject json = new JSONObject(body);
-        JSONArray arr = json.getJSONArray("data");
+        var json = new JSONObject(body);
+        var arr = json.getJSONArray("data");
+
         return JsonDataManager.fromJson(arr.toString(), new TypeReference<List<CharacterData>>() { });
     }
 
     public static List<AnimeData> searchAnime(String name) throws IOException {
-        Request request = new Request.Builder()
+        var request = new Request.Builder()
                 .url(
                         String.format("https://kitsu.io/api/edge/anime?filter[text]=%s",
                                 URLEncoder.encode(name, StandardCharsets.UTF_8)
@@ -63,12 +62,12 @@ public class KitsuRetriever {
                 .get()
                 .build();
 
-        Response response = httpClient.newCall(request).execute();
-        String body = response.body().string();
+        var response = httpClient.newCall(request).execute();
+        var body = response.body().string();
         response.close();
 
-        JSONObject json = new JSONObject(body);
-        JSONArray arr = json.getJSONArray("data");
+        var json = new JSONObject(body);
+        var arr = json.getJSONArray("data");
         return JsonDataManager.fromJson(arr.toString(), new TypeReference<List<AnimeData>>() { });
     }
 }

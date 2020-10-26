@@ -82,22 +82,25 @@ public class LavalinkTrackLoader {
 
             @Override
             public void onResponse(@Nonnull Call call, @Nonnull Response response) {
-                try (Response r = response) {
-                    ResponseBody body = r.body();
+                try (var r = response) {
+                    var body = r.body();
+
                     if (body == null) {
                         future.completeExceptionally(new IllegalArgumentException(
                                 "Response body was null! Code " + response.code()
                         ));
                         return;
                     }
-                    JSONObject json = new JSONObject(new JSONTokener(body.byteStream()));
+
+                    var json = new JSONObject(new JSONTokener(body.byteStream()));
+
                     switch (json.getString("loadType")) {
                         case "LOAD_FAILED" -> future.completeExceptionally(new IllegalArgumentException(
                                 json.getJSONObject("exception").getString("message")
                         ));
                         case "NO_MATCHES" -> future.complete(handler::noMatches);
                         case "TRACK_LOADED" -> {
-                            String track = json.getJSONArray("tracks").getJSONObject(0).getString("track");
+                            var track = json.getJSONArray("tracks").getJSONObject(0).getString("track");
                             try {
                                 AudioTrack t = decode(manager, track);
                                 future.complete(() -> handler.trackLoaded(t));
@@ -107,7 +110,7 @@ public class LavalinkTrackLoader {
                         }
                         case "PLAYLIST_LOADED", "SEARCH_RESULT" -> {
                             List<AudioTrack> decoded = new ArrayList<>();
-                            JSONArray tracks = json.getJSONArray("tracks");
+                            var tracks = json.getJSONArray("tracks");
                             for (int i = 0; i < tracks.length(); i++) {
                                 try {
                                     decoded.add(decode(manager, tracks.getJSONObject(i).getString("track")));
@@ -116,13 +119,15 @@ public class LavalinkTrackLoader {
                                     return;
                                 }
                             }
-                            int selected = json.getJSONObject("playlistInfo").getInt("selectedTrack");
-                            AudioPlaylist playlist = new BasicAudioPlaylist(
+
+                            var selected = json.getJSONObject("playlistInfo").getInt("selectedTrack");
+                            var playlist = new BasicAudioPlaylist(
                                     json.getJSONObject("playlistInfo").getString("name"),
                                     decoded,
                                     selected >= 0 && selected < decoded.size() ? decoded.get(selected) : null,
                                     json.getString("loadType").equals("SEARCH_RESULT")
                             );
+
                             future.complete(() -> handler.playlistLoaded(playlist));
                         }
                         default -> future.completeExceptionally(

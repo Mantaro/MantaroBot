@@ -17,19 +17,17 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavalink.client.io.jda.JdaLink;
-import lavalink.client.player.IPlayer;
-import lavalink.client.player.LavalinkPlayer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.StatsManager;
-import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
@@ -45,7 +43,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -76,11 +73,12 @@ public class MusicCmds {
         cr.register("forceskip", new SimpleCommand(CommandCategory.MUSIC, CommandPermission.ADMIN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                TrackScheduler scheduler = musicManager.getTrackScheduler();
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var scheduler = musicManager.getTrackScheduler();
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
+                }
 
                 ctx.sendLocalized("commands.forceskip.success", EmoteReference.CORRECT);
                 scheduler.nextTrack(true, true);
@@ -115,15 +113,16 @@ public class MusicCmds {
             public void call(Context ctx, String content, String[] args) {
                 Guild guild = ctx.getGuild();
 
-                if (!RatelimitUtils.ratelimit(rl, ctx))
+                if (!RatelimitUtils.ratelimit(rl, ctx)) {
                     return;
+                }
 
-                MantaroAudioManager audioManager = MantaroBot.getInstance().getAudioManager();
+                var audioManager = MantaroBot.getInstance().getAudioManager();
                 if (content.isEmpty()) {
-                    JdaLink link = audioManager.getMusicManager(guild).getLavaLink();
+                    var link = audioManager.getMusicManager(guild).getLavaLink();
 
                     try {
-                        VoiceChannel vc = ctx.getMember().getVoiceState().getChannel();
+                        var vc = ctx.getMember().getVoiceState().getChannel();
 
                         if (vc != guild.getMember(ctx.getSelfUser()).getVoiceState().getChannel()) {
                             ctx.sendLocalized("commands.move.attempt", EmoteReference.THINKING);
@@ -145,8 +144,8 @@ public class MusicCmds {
                 }
 
                 try {
-                    VoiceChannel vc = ctx.getGuild().getVoiceChannelsByName(content, true).get(0);
-                    JdaLink link = audioManager.getMusicManager(ctx.getGuild()).getLavaLink();
+                    var vc = ctx.getGuild().getVoiceChannelsByName(content, true).get(0);
+                    var link = audioManager.getMusicManager(ctx.getGuild()).getLavaLink();
 
                     AudioCmdUtils.openAudioConnection(ctx.getEvent(), link, vc, ctx.getLanguageContext());
                     ctx.sendLocalized("commands.move.success", EmoteReference.OK, vc.getName());
@@ -182,7 +181,7 @@ public class MusicCmds {
                         new URL(content);
                     } catch (Exception e) {
                         if (content.startsWith("soundcloud")) {
-                            String name = content.substring("soundcloud".length()).trim();
+                            var name = content.substring("soundcloud".length()).trim();
                             if (name.isEmpty()) {
                                 ctx.sendLocalized("commands.music_general.soundcloud_no_args", EmoteReference.ERROR);
                                 return;
@@ -218,19 +217,19 @@ public class MusicCmds {
         cr.register("np", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                final GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
-                final IPlayer audioPlayer = trackScheduler.getMusicPlayer();
+                final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                final var trackScheduler = musicManager.getTrackScheduler();
+                final var audioPlayer = trackScheduler.getMusicPlayer();
 
                 if (audioPlayer == null || audioPlayer.getPlayingTrack() == null) {
                     ctx.sendLocalized("commands.np.no_track", EmoteReference.ERROR);
                     return;
                 }
 
-                EmbedBuilder npEmbed = new EmbedBuilder();
-                long now = audioPlayer.getTrackPosition();
-                long total = audioPlayer.getPlayingTrack().getDuration();
-                I18nContext languageContext = ctx.getLanguageContext();
+                var npEmbed = new EmbedBuilder();
+                var now = audioPlayer.getTrackPosition();
+                var total = audioPlayer.getPlayingTrack().getDuration();
+                var languageContext = ctx.getLanguageContext();
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
@@ -263,15 +262,16 @@ public class MusicCmds {
         cr.register("pause", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
+                }
 
-                boolean paused = !musicManager.getTrackScheduler().getMusicPlayer().isPaused();
-                I18nContext languageContext = ctx.getLanguageContext();
+                var paused = !musicManager.getTrackScheduler().getMusicPlayer().isPaused();
+                var languageContext = ctx.getLanguageContext();
 
-                String toSend = EmoteReference.MEGA + (paused ? languageContext.get("commands.pause.paused") : languageContext.get("commands.pause.unpaused"));
+                var toSend = EmoteReference.MEGA + (paused ? languageContext.get("commands.pause.paused") : languageContext.get("commands.pause.unpaused"));
                 musicManager.getTrackScheduler().getMusicPlayer().setPaused(paused);
                 ctx.send(toSend);
 
@@ -306,13 +306,15 @@ public class MusicCmds {
                     new URL(content);
                 } catch (Exception e) {
                     if (content.startsWith("soundcloud")) {
-                        String name = content.substring("soundcloud".length()).trim();
+                        var name = content.substring("soundcloud".length()).trim();
                         if (name.isEmpty()) {
                             ctx.sendLocalized("commands.music_general.soundcloud_no_args", EmoteReference.ERROR);
                             return;
                         }
                         content = "scsearch: " + content;
-                    } else content = "ytsearch: " + content;
+                    } else {
+                        content = "ytsearch: " + content;
+                    }
                 }
 
                 ctx.getAudioManager().loadAndPlay(ctx.getEvent(), content, false, false, ctx.getLanguageContext());
@@ -383,8 +385,8 @@ public class MusicCmds {
                     return;
                 }
 
-                GuildMusicManager manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                LavalinkPlayer lavalinkPlayer = manager.getLavaLink().getPlayer();
+                var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var lavalinkPlayer = manager.getLavaLink().getPlayer();
                 if (lavalinkPlayer.getPlayingTrack() == null) {
                     ctx.sendLocalized("commands.music_general.not_playing", EmoteReference.ERROR);
                     return;
@@ -392,13 +394,13 @@ public class MusicCmds {
 
                 if (isDJ(ctx, ctx.getMember())) {
                     try {
-                        long amt = Utils.parseTime(args[0]);
+                        var amt = Utils.parseTime(args[0]);
                         if (amt < 0) {
                             ctx.sendLocalized("commands.rewind.negative", EmoteReference.ERROR);
                             return;
                         }
 
-                        long position = lavalinkPlayer.getTrackPosition();
+                        var position = lavalinkPlayer.getTrackPosition();
                         if (position - amt < 0) {
                             ctx.sendLocalized("commands.rewind.before_beginning", EmoteReference.ERROR);
                             return;
@@ -431,8 +433,8 @@ public class MusicCmds {
         cr.register("restartsong", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                GuildMusicManager manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                LavalinkPlayer lavalinkPlayer = manager.getLavaLink().getPlayer();
+                var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var lavalinkPlayer = manager.getLavaLink().getPlayer();
 
                 if (lavalinkPlayer.getPlayingTrack() == null) {
                     ctx.sendLocalized("commands.music_general.not_playing", EmoteReference.ERROR);
@@ -466,8 +468,8 @@ public class MusicCmds {
                     return;
                 }
 
-                GuildMusicManager manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                LavalinkPlayer lavalinkPlayer = manager.getLavaLink().getPlayer();
+                var manager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var lavalinkPlayer = manager.getLavaLink().getPlayer();
 
                 if (lavalinkPlayer.getPlayingTrack() == null) {
                     ctx.sendLocalized("commands.music_general.not_playing", EmoteReference.ERROR);
@@ -476,15 +478,15 @@ public class MusicCmds {
 
                 if (isDJ(ctx, ctx.getMember())) {
                     try {
-                        long amt = Utils.parseTime(args[0]);
+                        var amt = Utils.parseTime(args[0]);
                         if (amt < 0) {
                             //same as in rewind here
                             ctx.sendLocalized("commands.rewind.negative", EmoteReference.ERROR);
                             return;
                         }
 
-                        AudioTrack track = lavalinkPlayer.getPlayingTrack();
-                        long position = lavalinkPlayer.getTrackPosition();
+                        var track = lavalinkPlayer.getPlayingTrack();
+                        var position = lavalinkPlayer.getTrackPosition();
                         if (position + amt > track.getDuration()) {
                             ctx.sendLocalized("commands.skipahead.past_duration", EmoteReference.ERROR);
                             return;
@@ -522,8 +524,8 @@ public class MusicCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
-                        GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
+                        var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                         int page = 0;
 
                         try {
@@ -553,17 +555,18 @@ public class MusicCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                MantaroAudioManager mantaroAudioManager = ctx.getAudioManager();
-                GuildMusicManager musicManager = mantaroAudioManager.getMusicManager(ctx.getGuild());
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var mantaroAudioManager = ctx.getAudioManager();
+                var musicManager = mantaroAudioManager.getMusicManager(ctx.getGuild());
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
+                }
 
                 if (isDJ(ctx, ctx.getMember())) {
                     musicManager.getLavaLink().getPlayer().stopTrack();
                     musicManager.getTrackScheduler().stop();
-                    int tempLength = musicManager.getTrackScheduler().getQueue().size();
+                    var tempLength = musicManager.getTrackScheduler().getQueue().size();
                     ctx.sendLocalized("commands.music_general.queue.clear_success", EmoteReference.CORRECT, tempLength);
 
                     return;
@@ -581,10 +584,11 @@ public class MusicCmds {
         cr.register("removetrack", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
+                }
 
                 if (!isDJ(ctx, ctx.getMember())) {
                     ctx.sendLocalized("commands.removetrack.not_dj", EmoteReference.ERROR);
@@ -594,17 +598,17 @@ public class MusicCmds {
                 ctx.getAudioManager().getMusicManager(ctx.getGuild()).getTrackScheduler()
                         .getQueueAsList(list -> {
                             HashSet<Integer> selected = new HashSet<>();
-                            String last = Integer.toString(list.size() - 1);
+                            var last = Integer.toString(list.size() - 1);
 
-                            for (String param : args) {
-                                String arg = replaceEach(
+                            for (var param : args) {
+                                var arg = replaceEach(
                                         param,
                                         new String[]{"first", "next", "last", "all"},
                                         new String[]{"0", "0", last, "0-" + last}
                                 );
 
                                 if (arg.contains("-") || arg.contains("~")) {
-                                    String[] range = content.split("[-~]");
+                                    var range = content.split("[-~]");
 
                                     if (range.length != 2) {
                                         ctx.sendLocalized("commands.removetrack.invalid_range", EmoteReference.ERROR, param);
@@ -631,7 +635,7 @@ public class MusicCmds {
                                     }
                                 } else {
                                     try {
-                                        int i = Integer.parseInt(content) - 1;
+                                        var i = Integer.parseInt(content) - 1;
 
                                         if (i < 0 || i >= list.size()) {
                                             ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, i);
@@ -646,8 +650,9 @@ public class MusicCmds {
                                 }
                             }
 
-                            for (Integer integer : selected)
+                            for (var integer : selected) {
                                 list.remove(integer);
+                            }
 
                             ctx.sendLocalized("commands.removetrack.success", EmoteReference.CORRECT, selected.size());
                             TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
@@ -674,12 +679,13 @@ public class MusicCmds {
         cr.register("repeat", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
+                }
 
-                final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
+                final var trackScheduler = musicManager.getTrackScheduler();
 
                 if (args.length == 0) {
                     if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
@@ -723,10 +729,9 @@ public class MusicCmds {
         cr.register("ns", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                TrackScheduler scheduler = musicManager.getTrackScheduler();
-
-                AudioTrack next = scheduler.getQueue().peek();
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var scheduler = musicManager.getTrackScheduler();
+                var next = scheduler.getQueue().peek();
 
                 if (next == null) {
                     ctx.sendLocalized("commands.nextsong.no_song_next", EmoteReference.TALKING);
@@ -753,10 +758,11 @@ public class MusicCmds {
         cr.register("shuffle", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
+                }
 
                 musicManager.getTrackScheduler().shuffle();
                 ctx.sendLocalized("commands.shuffle.success", EmoteReference.OK);
@@ -778,13 +784,14 @@ public class MusicCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                    TrackScheduler scheduler = musicManager.getTrackScheduler();
+                    var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                    var scheduler = musicManager.getTrackScheduler();
 
-                    if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                    if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                         return;
+                    }
 
-                    User author = ctx.getAuthor();
+                    var author = ctx.getAuthor();
                     if (scheduler.getCurrentTrack().getUserData() != null &&
                             String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId()) || isDJ(ctx, ctx.getMember())) {
                         ctx.sendLocalized("commands.skip.dj_skip", EmoteReference.CORRECT);
@@ -792,14 +799,15 @@ public class MusicCmds {
                         return;
                     }
 
-                    GuildData guildData = ctx.getDBGuild().getData();
+                    var guildData = ctx.getDBGuild().getData();
 
                     if (!guildData.isMusicVote()) {
                         ctx.sendLocalized("commands.skip.success", EmoteReference.CORRECT);
                         scheduler.nextTrack(true, true);
                     } else {
                         List<String> voteSkips = scheduler.getVoteSkips();
-                        int requiredVotes = scheduler.getRequiredVotes();
+                        var requiredVotes = scheduler.getRequiredVotes();
+
                         if (voteSkips.contains(author.getId())) {
                             voteSkips.remove(author.getId());
                             ctx.sendLocalized("commands.skip.vote.remove", EmoteReference.CORRECT, requiredVotes - voteSkips.size());
@@ -836,11 +844,12 @@ public class MusicCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 try {
-                    GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                    TrackScheduler scheduler = musicManager.getTrackScheduler();
+                    var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                    var scheduler = musicManager.getTrackScheduler();
 
-                    if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                    if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                         return;
+                    }
 
                     if (isDJ(ctx, ctx.getMember())) {
                         ctx.sendLocalized("commands.stop.dj_stop", EmoteReference.CORRECT);
@@ -848,15 +857,16 @@ public class MusicCmds {
                         return;
                     }
 
-                    GuildData guildData = ctx.getDBGuild().getData();
-                    User author = ctx.getAuthor();
+                    var guildData = ctx.getDBGuild().getData();
+                    var author = ctx.getAuthor();
 
                     if (!guildData.isMusicVote()) {
                         ctx.sendLocalized("commands.stop.success", EmoteReference.CORRECT);
                         stopCurrent(ctx);
                     } else {
                         List<String> stopVotes = scheduler.getVoteStop();
-                        int requiredVotes = scheduler.getRequiredVotes();
+                        var requiredVotes = scheduler.getRequiredVotes();
+
                         if (stopVotes.contains(author.getId())) {
                             stopVotes.remove(author.getId());
                             ctx.sendLocalized("commands.stop.vote.remove", EmoteReference.CORRECT, requiredVotes - stopVotes.size());
@@ -892,19 +902,20 @@ public class MusicCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (ctx.getDBUser().isPremium() || ctx.getDBGuild().isPremium() || ctx.getConfig().getOwners().contains(ctx.getAuthor().getId())) {
-                            GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                            var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
 
-                            if (isNotInCondition(ctx, musicManager.getLavaLink()))
+                            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                                 return;
+                            }
 
                             if (content.isEmpty()) {
                                 ctx.sendLocalized("commands.volume.no_args", EmoteReference.ERROR);
                                 return;
                             }
 
-                            JdaLink player = musicManager.getLavaLink();
+                            var player = musicManager.getLavaLink();
 
                             int volume;
                             try {
@@ -942,9 +953,9 @@ public class MusicCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                JdaLink link = ctx.getAudioManager().getMusicManager(ctx.getGuild()).getLavaLink();
-                IPlayer player = link.getPlayer();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var link = ctx.getAudioManager().getMusicManager(ctx.getGuild()).getLavaLink();
+                var player = link.getPlayer();
 
                 ctx.sendLocalized("commands.volume.check", EmoteReference.ZAP, player.getVolume(), StatsManager.bar(player.getVolume(), 50));
             }
@@ -956,7 +967,7 @@ public class MusicCmds {
         cr.register("music", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                I18nContext languageContext = ctx.getLanguageContext();
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.send(
                         String.join("\n",
@@ -991,11 +1002,12 @@ public class MusicCmds {
         cr.register("lyrics", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                String search = content.trim();
+                var search = content.trim();
                 if (search.equals("current") || search.isEmpty()) {
-                    GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                    TrackScheduler scheduler = musicManager.getTrackScheduler();
-                    AudioTrack currentTrack = scheduler.getCurrentTrack();
+                    var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                    var scheduler = musicManager.getTrackScheduler();
+                    var currentTrack = scheduler.getCurrentTrack();
+
                     if (currentTrack == null) {
                         ctx.sendLocalized("commands.lyrics.no_current_track", EmoteReference.ERROR);
                         return;
@@ -1004,26 +1016,24 @@ public class MusicCmds {
                     search = currentTrack.getInfo().title;
                 }
 
-                String result = Utils.httpRequest("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
+                var result = Utils.httpRequest("https://lyrics.tsu.sh/v1/?q=" + URLEncoder.encode(search, StandardCharsets.UTF_8));
                 if (result == null) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;
                 }
 
-                JSONObject results = new JSONObject(result);
+                var results = new JSONObject(result);
                 if (!results.isNull("empty")) {
                     ctx.sendLocalized("commands.lyrics.error_searching", EmoteReference.ERROR);
                     return;
                 }
 
-                String lyrics = results.getString("content");
-                JSONObject songObject = results.getJSONObject("song");
-                String fullTitle = songObject.getString("full_title");
-                String icon = songObject.getString("icon");
-
-                List<String> divided = DiscordUtils.divideString(900, lyrics.trim());
-
-                I18nContext languageContext = ctx.getLanguageContext();
+                var lyrics = results.getString("content");
+                var songObject = results.getJSONObject("song");
+                var fullTitle = songObject.getString("full_title");
+                var icon = songObject.getString("icon");
+                var divided = DiscordUtils.divideString(900, lyrics.trim());
+                var languageContext = ctx.getLanguageContext();
 
                 DiscordUtils.list(ctx.getEvent(), 30, false, 900, (p, total) -> {
                     EmbedBuilder embed = new EmbedBuilder();
@@ -1048,9 +1058,10 @@ public class MusicCmds {
     }
 
     private boolean isDJ(Context ctx, Member member) {
-        Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
-        GuildData guildData = ctx.getDBGuild().getData();
+        var djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
+        var guildData = ctx.getDBGuild().getData();
         Role customDjRole = null;
+
         if (guildData.getDjRoleId() != null) {
             customDjRole = member.getGuild().getRoleById(guildData.getDjRoleId());
         }
@@ -1070,15 +1081,15 @@ public class MusicCmds {
      */
     private void stopCurrent(Context ctx) {
         try {
-            GuildMusicManager musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-            TrackScheduler trackScheduler = musicManager.getTrackScheduler();
-            IPlayer musicPlayer = trackScheduler.getMusicPlayer();
+            var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+            var trackScheduler = musicManager.getTrackScheduler();
+            var musicPlayer = trackScheduler.getMusicPlayer();
 
             if (musicPlayer.getPlayingTrack() != null && !musicPlayer.isPaused()) {
                 musicPlayer.stopTrack();
             }
 
-            int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
+            var TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
             trackScheduler.getQueue().clear();
 
             if (TEMP_QUEUE_LENGTH > 0) {
@@ -1094,8 +1105,8 @@ public class MusicCmds {
     }
 
     private boolean isNotInCondition(Context ctx, JdaLink player) {
-        GuildVoiceState selfVoiceState = ctx.getSelfMember().getVoiceState();
-        GuildVoiceState voiceState = ctx.getMember().getVoiceState();
+        var selfVoiceState = ctx.getSelfMember().getVoiceState();
+        var voiceState = ctx.getMember().getVoiceState();
 
         try {
             // Maybe?

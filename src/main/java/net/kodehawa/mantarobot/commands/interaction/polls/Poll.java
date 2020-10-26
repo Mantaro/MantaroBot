@@ -20,7 +20,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -30,8 +29,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -106,14 +103,14 @@ public class Poll extends Lobby {
                 return;
             }
 
-            DBGuild dbGuild = MantaroData.db().getGuild(getGuild());
-            GuildData data = dbGuild.getData();
-            AtomicInteger at = new AtomicInteger();
+            var dbGuild = MantaroData.db().getGuild(getGuild());
+            var data = dbGuild.getData();
+            var at = new AtomicInteger();
 
             data.setRanPolls(data.getRanPolls() + 1L);
             dbGuild.saveAsync();
 
-            String toShow = Stream.of(options)
+            var toShow = Stream.of(options)
                     .map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt))
                     .collect(Collectors.joining("\n"));
 
@@ -121,9 +118,9 @@ public class Poll extends Lobby {
                 toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
             }
 
-            User user = ctx.getAuthor();
+            var user = ctx.getAuthor();
 
-            EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
+            var builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
                     data.getRanPolls(), user.getName()), null, user.getAvatarUrl())
                     .setDescription(String.format(languageContext.get("commands.poll.success"), name))
                     .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
@@ -132,8 +129,9 @@ public class Poll extends Lobby {
                     .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), user.getAvatarUrl());
 
 
-            if (image != null && EmbedBuilder.URL_PATTERN.asPredicate().test(image))
+            if (image != null && EmbedBuilder.URL_PATTERN.asPredicate().test(image)) {
                 builder.setImage(image);
+            }
 
             getChannel().sendMessage(builder.build()).queue(message -> createPoll(ctx, message, languageContext));
 
@@ -159,12 +157,15 @@ public class Poll extends Lobby {
     }
 
     private String[] reactions(int options) {
-        if (options < 2)
+        if (options < 2) {
             throw new IllegalArgumentException("You need to add a minimum of 2 options.");
-        if (options > 9)
-            throw new IllegalArgumentException("The maximum amount of options is 9.");
+        }
 
-        String[] r = new String[options];
+        if (options > 9) {
+            throw new IllegalArgumentException("The maximum amount of options is 9.");
+        }
+
+        var r = new String[options];
         for (int i = 0; i < options; i++) {
             r[i] = (char) ('\u0031' + i) + "\u20e3";
         }
@@ -184,17 +185,17 @@ public class Poll extends Lobby {
                 if (getChannel() == null)
                     return;
 
-                User user = ctx.getAuthor();
-                EmbedBuilder embedBuilder = new EmbedBuilder()
+                var user = ctx.getAuthor();
+                var embedBuilder = new EmbedBuilder()
                         .setTitle(languageContext.get("commands.poll.result_header"))
                         .setDescription(String.format(languageContext.get("commands.poll.result_screen"), user.getName(), name))
                         .setFooter(languageContext.get("commands.poll.thank_note"), null);
 
-                AtomicInteger react = new AtomicInteger(0);
-                AtomicInteger counter = new AtomicInteger(0);
+                var react = new AtomicInteger(0);
+                var counter = new AtomicInteger(0);
 
                 getChannel().retrieveMessageById(message.getIdLong()).queue(message -> {
-                    String votes = message.getReactions().stream()
+                    var votes = message.getReactions().stream()
                             .filter(r -> react.getAndIncrement() <= options.length)
                             .map(r -> String.format(languageContext.get("commands.poll.vote_results"),
                                     r.getCount() - 1, options[counter.getAndIncrement()])

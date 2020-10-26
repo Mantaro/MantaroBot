@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -49,6 +48,7 @@ public class Utils {
 
     public static final OkHttpClient httpClient = new OkHttpClient();
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
+
     private final static String BLOCK_INACTIVE = "\u25AC";
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
@@ -90,16 +90,19 @@ public class Utils {
             return "less than a second";
         }
 
-        long days = TimeUnit.MILLISECONDS.toDays(time);
-        long hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
+        var days = TimeUnit.MILLISECONDS.toDays(time);
+        var hours = TimeUnit.MILLISECONDS.toHours(time) % TimeUnit.DAYS.toHours(1);
+        var minutes = TimeUnit.MILLISECONDS.toMinutes(time) % TimeUnit.HOURS.toMinutes(1);
+        var seconds = TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1);
+
         var parts = Stream.of(
                 formatUnit(days, "day"), formatUnit(hours, "hour"),
                 formatUnit(minutes, "minute"), formatUnit(seconds, "second")
         ).filter(i -> !i.isEmpty()).iterator();
+
         var sb = new StringBuilder();
         var multiple = false;
+
         while(parts.hasNext()) {
             sb.append(parts.next());
             if (parts.hasNext()) {
@@ -107,17 +110,20 @@ public class Utils {
                 sb.append(", ");
             }
         }
+
         if (multiple) {
             var last = sb.lastIndexOf(", ");
             sb.replace(last, last + 2, " and ");
         }
+
         return sb.toString();
     }
 
-    public static long parseTime(String s) {
-        s = s.toLowerCase();
-        long[] time = {0};
-        iterate(pattern.matcher(s)).forEach(string -> {
+    public static long parseTime(String toParse) {
+        toParse = toParse.toLowerCase();
+        long[] time = { 0 };
+
+        iterate(pattern.matcher(toParse)).forEach(string -> {
             String l = string.substring(0, string.length() - 1);
             TimeUnit unit = switch (string.charAt(string.length() - 1)) {
                 case 'm' -> TimeUnit.MINUTES;
@@ -125,14 +131,22 @@ public class Utils {
                 case 'd' -> TimeUnit.DAYS;
                 default -> TimeUnit.SECONDS;
             };
+
             time[0] += unit.toMillis(Long.parseLong(l));
         });
+
         return time[0];
     }
 
     private static String formatUnit(long amount, String baseName) {
-        if (amount == 0) return "";
-        if (amount == 1) return "1 " + baseName;
+        if (amount == 0) {
+            return "";
+        }
+
+        if (amount == 1) {
+            return "1 " + baseName;
+        }
+
         return amount + " " + baseName + "s";
     }
 
@@ -169,7 +183,6 @@ public class Utils {
             try (Response r = httpClient.newCall(toPost).execute()) {
                 return "https://hasteb.in/" + new JSONObject(r.body().string()).getString("key");
             }
-
         } catch (Exception e) {
             return "cannot post data to hasteb.in";
         }
@@ -183,12 +196,12 @@ public class Utils {
      */
     public static String httpRequest(String url) {
         try {
-            Request req = new Request.Builder()
+            var req = new Request.Builder()
                     .url(url)
                     .header("User-Agent", MantaroInfo.USER_AGENT)
                     .build();
 
-            try (Response r = httpClient.newCall(req).execute()) {
+            try (var r = httpClient.newCall(req).execute()) {
                 if (r.body() == null || r.code() / 100 != 2) {
                     if (r.code() != 404) {
                         log.warn("Non 404 code failure for {}: {}", url, r.code());
@@ -196,6 +209,7 @@ public class Utils {
 
                     return null;
                 }
+
                 return r.body().string();
             }
         } catch (Exception e) {
@@ -204,23 +218,13 @@ public class Utils {
         }
     }
 
-    public static String pretty(int number) {
-        String ugly = Integer.toString(number);
-        char[] almostPretty = new char[ugly.length()];
-        Arrays.fill(almostPretty, '0');
-
-        if ((almostPretty[0] = ugly.charAt(0)) == '-')
-            almostPretty[1] = ugly.charAt(1);
-
-        return new String(almostPretty);
-    }
-
     public static String urlEncodeUTF8(Map<?, ?> map) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<?, ?> entry : map.entrySet()) {
+        var sb = new StringBuilder();
+        for (var entry : map.entrySet()) {
             if (sb.length() > 0) {
                 sb.append("&");
             }
+
             sb.append(String.format("%s=%s",
                     urlEncodeUTF8(entry.getKey().toString()),
                     urlEncodeUTF8(entry.getValue().toString())
@@ -235,7 +239,7 @@ public class Utils {
 
     public static Iterable<String> iterate(Pattern pattern, String string) {
         return () -> {
-            Matcher matcher = pattern.matcher(string);
+            var matcher = pattern.matcher(string);
             return new Iterator<>() {
                 @Override
                 public boolean hasNext() {
@@ -291,9 +295,9 @@ public class Utils {
             return content;
         }
 
-        String contentReplaced = content;
+        var contentReplaced = content;
 
-        for (String s : toReplace) {
+        for (var s : toReplace) {
             if (args.containsKey(s)) {
                 contentReplaced = contentReplaced
                         .replace(" -" + s, "")
@@ -329,6 +333,10 @@ public class Utils {
         return String.format("%.1f %s", bytes / (double) unitSize, unit);
     }
 
+    public static String formatMemoryUsage(long used, long total) {
+        return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
+    }
+
     public static String formatMemoryAmount(long bytes) {
         if (bytes > 1L << 30) {
             return formatMemoryHelper(bytes, 1L << 30, "GiB");
@@ -345,15 +353,12 @@ public class Utils {
         return String.format("%d B", bytes);
     }
 
-    public static String formatMemoryUsage(long used, long total) {
-        return String.format("%s/%s", formatMemoryAmount(used), formatMemoryAmount(total));
-    }
-
     @SafeVarargs
     @SuppressWarnings("varargs")
     public static <T> LinkedList<T> createLinkedList(T... elements) {
         LinkedList<T> list = new LinkedList<>();
         Collections.addAll(list, elements);
+
         return list;
     }
 
@@ -377,6 +382,7 @@ public class Utils {
         //no realloc unless we somehow have 5 codeblocks
         var sb = new StringBuilder(src.length() + 8);
         var inside = false;
+
         for (var i = 0; i < src.length(); i++) {
             var ch = src.charAt(i);
             if (ch == BACKTICK) {
@@ -401,7 +407,7 @@ public class Utils {
         }
 
         for (int i = 0, n = string.length(); i < n; ++i) {
-            byte d = Character.getDirectionality(string.charAt(i));
+            var d = Character.getDirectionality(string.charAt(i));
 
             switch (d) {
                 case Character.DIRECTIONALITY_RIGHT_TO_LEFT:
@@ -421,7 +427,7 @@ public class Utils {
     }
 
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
+        for (var entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
             }
@@ -441,14 +447,16 @@ public class Utils {
      */
     public static HashMap<String, Pair<String, Object>> mapConfigObjects(Object valueObj) {
         try {
-            Class<?> c1 = valueObj.getClass();
-            HashMap<String, Pair<String, Object>> fieldMap = new HashMap<>();
-            Field[] valueObjFields = c1.getDeclaredFields();
+            var clazz = valueObj.getClass();
+            var valueObjFields = clazz.getDeclaredFields();
 
-            for (Field valueObjField : valueObjFields) {
-                String fieldName = valueObjField.getName();
-                String fieldDescription = "unknown";
+            HashMap<String, Pair<String, Object>> fieldMap = new HashMap<>();
+
+            for (var valueObjField : valueObjFields) {
+                var fieldName = valueObjField.getName();
+                var fieldDescription = "unknown";
                 valueObjField.setAccessible(true);
+
                 Object newObj = valueObjField.get(valueObj);
 
                 if (valueObjField.getAnnotation(HiddenConfig.class) != null) {
@@ -471,18 +479,19 @@ public class Utils {
     }
 
     public static String getProgressBar(long now, long total) {
-        int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < TOTAL_BLOCKS; i++)
+        var activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
+        var builder = new StringBuilder();
+        for (var i = 0; i < TOTAL_BLOCKS; i++)
             builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
 
         return builder.append(BLOCK_INACTIVE).toString();
     }
 
     public static String getProgressBar(long now, long total, long blocks) {
-        int activeBlocks = (int) ((float) now / total * blocks);
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < blocks; i++)
+        var activeBlocks = (int) ((float) now / total * blocks);
+        var builder = new StringBuilder();
+
+        for (var i = 0; i < blocks; i++)
             builder.append(
                     activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE
             );

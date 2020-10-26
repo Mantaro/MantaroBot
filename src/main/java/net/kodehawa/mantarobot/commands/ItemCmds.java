@@ -36,6 +36,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
@@ -74,7 +75,7 @@ public class ItemCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (content.trim().isEmpty()) {
                             ctx.sendLocalized("commands.cast.no_item_found", EmoteReference.ERROR);
                             return;
@@ -300,8 +301,7 @@ public class ItemCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                var languageContext = ctx.getLanguageContext();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var castableItems = Arrays.stream(ItemReference.ALL)
                         .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
@@ -364,7 +364,7 @@ public class ItemCmds {
             public Command defaultTrigger(Context ctx, String commandName, String content) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (content.isEmpty()) {
                             ctx.sendLocalized("commands.repair.no_item", EmoteReference.ERROR);
                             return;
@@ -525,8 +525,7 @@ public class ItemCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                var languageContext = ctx.getLanguageContext();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var repairableItems = Arrays.stream(ItemReference.ALL)
                         .filter(Broken.class::isInstance)
                         .map(Broken.class::cast)
@@ -599,7 +598,7 @@ public class ItemCmds {
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (content.isEmpty()) {
                             ctx.sendLocalized("commands.salvage.no_item", EmoteReference.ERROR);
                             return;
@@ -732,8 +731,7 @@ public class ItemCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                var languageContext = ctx.getLanguageContext();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var broken = Arrays.stream(ItemReference.ALL)
                         .filter(Broken.class::isInstance)
                         .map(Broken.class::cast)

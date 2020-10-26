@@ -20,17 +20,13 @@ import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -49,10 +45,10 @@ public class AudioCmdUtils {
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
 
     public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
-        final TrackScheduler trackScheduler = musicManager.getTrackScheduler();
-        final String toSend = AudioUtils.getQueueList(trackScheduler.getQueue(), musicManager);
-        final Guild guild = event.getGuild();
-        String nowPlaying = trackScheduler.getMusicPlayer().getPlayingTrack() != null ?
+        final var trackScheduler = musicManager.getTrackScheduler();
+        final var toSend = AudioUtils.getQueueList(trackScheduler.getQueue(), musicManager);
+        final var guild = event.getGuild();
+        final var nowPlaying = trackScheduler.getMusicPlayer().getPlayingTrack() != null ?
                 "**[" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().title
                         + "](" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().uri +
                         ")** (" + getDurationMinutes(trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().length) + ")" :
@@ -68,7 +64,7 @@ public class AudioCmdUtils {
             return;
         }
 
-        String[] lines = NEWLINE_PATTERN.split(toSend);
+        var lines = NEWLINE_PATTERN.split(toSend);
 
         if (!guild.getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
             String line = null;
@@ -104,9 +100,11 @@ public class AudioCmdUtils {
                 }
                 sb.append(s).append('\n');
             }
+
             if (sb.length() > 0 && current + 1 == page) {
                 line = sb.toString();
             }
+
             if (line == null || page > total) {
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
@@ -115,12 +113,12 @@ public class AudioCmdUtils {
                         .addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
             } else {
-                long length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
-                EmbedBuilder builder = new EmbedBuilder()
+                var length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+                var builder = new EmbedBuilder()
                         .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
                         .setColor(Color.CYAN);
 
-                VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
+                var vch = guild.getSelfMember().getVoiceState().getChannel();
                 builder.addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .addField(lang.get("commands.music_general.queue.total_queue_time"),
@@ -140,12 +138,13 @@ public class AudioCmdUtils {
         }
 
         DiscordUtils.list(event, 30, false, MessageEmbed.TEXT_MAX_LENGTH, (p, total) -> {
-            long length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
-            EmbedBuilder builder = new EmbedBuilder()
+            var length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+            var builder = new EmbedBuilder()
                     .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
                     .setColor(Color.CYAN);
 
-            VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
+            var vch = guild.getSelfMember().getVoiceState().getChannel();
+
             builder.addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                     .addField(lang.get("commands.music_general.queue.total_queue_time"),
@@ -180,9 +179,10 @@ public class AudioCmdUtils {
             event.getChannel().sendMessageFormat(lang.get("commands.music_general.connect.non_existent_channel"), EmoteReference.ERROR).queue();
 
             //Reset custom channel.
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            var dbGuild = MantaroData.db().getGuild(event.getGuild());
             dbGuild.getData().setMusicChannel(null);
             dbGuild.saveAsync();
+
             CompletableFuture<Void> future = new CompletableFuture<>();
             future.completeExceptionally(e);
             return future;
@@ -190,9 +190,9 @@ public class AudioCmdUtils {
     }
 
     public static CompletionStage<Boolean> connectToVoiceChannel(GuildMessageReceivedEvent event, I18nContext lang) {
-        VoiceChannel voiceChannel = event.getMember().getVoiceState().getChannel();
-        Guild guild = event.getGuild();
-        TextChannel textChannel = event.getChannel();
+        var voiceChannel = event.getMember().getVoiceState().getChannel();
+        var guild = event.getGuild();
+        var textChannel = event.getChannel();
 
         //I can't see you in any VC here?
         if (voiceChannel == null) {
@@ -216,14 +216,15 @@ public class AudioCmdUtils {
 
         //Set the custom guild music channel from the db value
         VoiceChannel guildMusicChannel = null;
-        if (MantaroData.db().getGuild(guild).getData().getMusicChannel() != null)
+        if (MantaroData.db().getGuild(guild).getData().getMusicChannel() != null) {
             guildMusicChannel = guild.getVoiceChannelById(MantaroData.db().getGuild(guild).getData().getMusicChannel());
+        }
 
         //This is where we call LL.
-        JdaLink link = MantaroBot.getInstance().getAudioManager().getMusicManager(guild).getLavaLink();
+        var link = MantaroBot.getInstance().getAudioManager().getMusicManager(guild).getLavaLink();
 
         //Cursed lavalink issues tracker.
-        boolean cursed = false;
+        var cursed = false;
         if (guildMusicChannel != null) {
             //If the channel is not the set one, reject this connect.
             if (!voiceChannel.equals(guildMusicChannel)) {

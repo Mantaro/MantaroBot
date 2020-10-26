@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.core.listeners.entities;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 
@@ -32,11 +31,12 @@ public class CachedMessage {
     }
 
     public User getAuthor() {
-        Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+        var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
         User user = null;
 
-        if (guild != null)
+        if (guild != null)  {
             user = guild.retrieveMemberById(author).complete().getUser();
+        }
 
         return user;
     }

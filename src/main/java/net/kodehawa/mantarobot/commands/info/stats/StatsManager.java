@@ -28,14 +28,18 @@ public abstract class StatsManager<T> {
     private static final char EMPTY_BLOCK = '\u200b';
 
     public static String bar(long percent, long total) {
-        long activeBlocks = (int) ((float) percent / 100f * total);
-        StringBuilder builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
-        for (long i = 0; i < total; i++) builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
+        var activeBlocks = (int) ((float) percent / 100f * total);
+        var builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
+
+        for (long i = 0; i < total; i++) {
+            builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
+        }
+
         return builder.append(EMPTY_BLOCK).append('`').toString();
     }
 
     public EmbedBuilder fillEmbed(Map<T, AtomicInteger> values, EmbedBuilder builder) {
-        int total = values.values().stream().mapToInt(AtomicInteger::get).sum();
+        var total = values.values().stream().mapToInt(AtomicInteger::get).sum();
 
         if (total == 0) {
             builder.addField("Nothing Here.", "Just dust.", false);
@@ -55,7 +59,7 @@ public abstract class StatsManager<T> {
     }
 
     public String resume(Map<T, AtomicInteger> commands) {
-        int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
+        var total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 
         return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + commands.entrySet().stream()
                 .filter(entry -> entry.getValue().get() > 0)

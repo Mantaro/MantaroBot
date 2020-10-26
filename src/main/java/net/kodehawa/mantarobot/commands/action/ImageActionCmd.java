@@ -23,12 +23,10 @@ import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.util.Collections;
@@ -108,15 +106,17 @@ public class ImageActionCmd extends NoArgsCommand {
 
     @Override
     protected void call(Context ctx, String content) {
-        if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null))
+        if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null)) {
             return;
+        }
 
-        I18nContext languageContext = ctx.getGuildLanguageContext();
-        String random = "";
+        var languageContext = ctx.getGuildLanguageContext();
+        var random = "";
+
         if (images.size() == 1) {
             if (type != null) {
-                Pair<String, String> result = weebapi.getRandomImageByType(type, false, "gif");
-                String image = result.getKey();
+                var result = weebapi.getRandomImageByType(type, false, "gif");
+                var image = result.getKey();
 
                 if (image == null) {
                     ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.SAD);
@@ -136,18 +136,19 @@ public class ImageActionCmd extends NoArgsCommand {
                 return;
             }
 
-            MessageBuilder toSend = new MessageBuilder()
-                    .append(String.format(emoji + languageContext.get(format), "**" + noMentions(ctx)
-                            + "**", "**" + ctx.getMember().getEffectiveName() + "**")
+            var toSend = new MessageBuilder()
+                    .append(String.format(
+                            emoji + languageContext.get(format), "**" + noMentions(ctx) + "**", "**" +
+                                    ctx.getMember().getEffectiveName() + "**")
                     );
 
 
             if (swapNames) {
                 toSend = new MessageBuilder()
-                        .append(String.format(emoji + languageContext.get(format),
-                                "**" + ctx.getMember().getEffectiveName()
-                                + "**", "**" + noMentions(ctx) + "**")
-                        );
+                        .append(String.format(
+                                emoji + languageContext.get(format), "**" +
+                                        ctx.getMember().getEffectiveName() + "**", "**" + noMentions(ctx) + "**"
+                        ));
             }
 
             if (isLonely(ctx)) {

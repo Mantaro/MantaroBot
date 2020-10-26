@@ -40,7 +40,11 @@ public class TracingPrintStream extends PrintStream {
                         .findFirst()
                         .orElseThrow()
         ).toStackTraceElement();
-        if (caller.getClassName().startsWith("ch.qos.")) return null;
+
+        if (caller.getClassName().startsWith("ch.qos.")) {
+            return null;
+        }
+
         return caller.toString();
     }
 
@@ -210,11 +214,15 @@ public class TracingPrintStream extends PrintStream {
 
         @Override
         public void flush() {
-            if (buffer.size() == 0) return;
+            if (buffer.size() == 0) {
+                return;
+            }
+
             var caller = getCaller();
             if (caller != null) {
                 destination.print("[" + getCaller() + "] ");
             }
+
             destination.println(buffer.toString());
             buffer.reset();
         }

@@ -143,14 +143,13 @@ public class HousePet {
         this.hunger = Math.min(100, hunger + by);
     }
 
-    public void increaseThirst() {
+    public void increaseThirst(int by) {
         if (thirst >= 100) {
             this.thirst = 100;
             return;
         }
 
-        var defaultIncrease = 15;
-        this.thirst = Math.min(100, thirst + defaultIncrease);
+        this.thirst = Math.min(100, thirst + by);
     }
 
     public int getHunger() {

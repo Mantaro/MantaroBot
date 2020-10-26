@@ -27,12 +27,15 @@ public class CommandStatsManager extends StatsManager<String> {
     private static final TrackerGroup<String> TRACKERS = new TrackerGroup<>();
 
     public static void log(String cmd) {
-        if (cmd.isEmpty()) return;
+        if (cmd.isEmpty()) {
+            return;
+        }
+
         TRACKERS.tracker(cmd).increment();
     }
 
     public static String resume(Bucket bucket) {
-        long total = TRACKERS.total(bucket);
+        var total = TRACKERS.total(bucket);
 
         return (total == 0) ? ("No Events Logged.") : ("Count: " + total + "\n" + TRACKERS.highest(bucket, 5)
                 .map(tracker -> {

@@ -16,21 +16,14 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -47,7 +40,7 @@ public abstract class Game<T> {
     public abstract String name();
 
     protected int callDefault(GuildMessageReceivedEvent e, GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
-        TextChannel channel = lobby.getChannel();
+        var channel = lobby.getChannel();
         if (!e.getChannel().getId().equals(channel.getId())) {
             return Operation.IGNORED;
         }
@@ -56,11 +49,11 @@ public abstract class Game<T> {
             return Operation.IGNORED;
         }
 
-        Message message = e.getMessage();
-        String contentRaw = message.getContentRaw();
-        I18nContext languageContext = lobby.getLanguageContext();
+        var message = e.getMessage();
+        var contentRaw = message.getContentRaw();
+        var languageContext = lobby.getLanguageContext();
 
-        for (String s : MantaroData.config().get().getPrefix()) {
+        for (var s : MantaroData.config().get().getPrefix()) {
             if (contentRaw.startsWith(s)) {
                 return Operation.IGNORED;
             }
@@ -84,20 +77,22 @@ public abstract class Game<T> {
             }
 
             if (expectedAnswer.stream().map(String::valueOf).anyMatch(contentRaw::equalsIgnoreCase)) {
-                UnifiedPlayer unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
-                Player player = unifiedPlayer.getPlayer();
-                PlayerData data = player.getData();
-                SeasonPlayer seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+                var unifiedPlayer = UnifiedPlayer.of(e.getAuthor(), config.getCurrentSeason());
+                var player = unifiedPlayer.getPlayer();
+                var data = player.getData();
+                var seasonalPlayer = unifiedPlayer.getSeasonalPlayer();
+                var seasonalPlayerData = seasonalPlayer.getData();
 
-                int gains = 70 + extra;
+                var gains = 70 + extra;
                 unifiedPlayer.addMoney(gains);
 
-                if (data.getGamesWon() == 100)
+                if (data.getGamesWon() == 100) {
                     data.addBadgeIfAbsent(Badge.GAMER);
+                }
 
-                if (data.getGamesWon() == 1000)
+                if (data.getGamesWon() == 1000) {
                     data.addBadgeIfAbsent(Badge.ADDICTED_GAMER);
+                }
 
                 seasonalPlayerData.setGamesWon(seasonalPlayerData.getGamesWon() + 1);
                 data.setGamesWon(data.getGamesWon() + 1);

@@ -19,7 +19,10 @@ package net.kodehawa.mantarobot.utils.exporters;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 public class ThreadPoolCollector extends Collector {
@@ -40,6 +43,7 @@ public class ThreadPoolCollector extends Collector {
         if (executor instanceof ThreadPoolExecutor) {
             return add(name, (ThreadPoolExecutor) executor);
         }
+
         throw new IllegalArgumentException("Provided executor is not a ThreadPoolExecutor");
     }
 
@@ -61,52 +65,61 @@ public class ThreadPoolCollector extends Collector {
                 "Approximate number of threads that are actively executing tasks.",
                 Collections.singletonList("executor")
         );
+
         list.add(activeCount);
         GaugeMetricFamily completedTaskCount = new GaugeMetricFamily(
                 "executor_completed_task_count",
                 "Approximate total number of tasks that have completed execution.",
                 Collections.singletonList("executor")
         );
+
         list.add(completedTaskCount);
         GaugeMetricFamily corePoolSize = new GaugeMetricFamily(
                 "executor_core_pool_size",
                 "Core number of threads.",
                 Collections.singletonList("executor")
         );
+
         list.add(corePoolSize);
         GaugeMetricFamily keepAliveTimeMs = new GaugeMetricFamily(
                 "executor_keep_alive_time_milliseconds",
                 "Thread keep-alive time, which is the amount of time that threads may remain idle before being terminated.",
                 Collections.singletonList("executor")
         );
+
         list.add(keepAliveTimeMs);
         GaugeMetricFamily largestPoolSize = new GaugeMetricFamily(
                 "executor_largest_pool_size",
                 "Largest number of threads that have ever simultaneously been in the pool.",
                 Collections.singletonList("executor")
         );
+
         list.add(largestPoolSize);
         GaugeMetricFamily maximumPoolSize = new GaugeMetricFamily(
                 "executor_maximum_pool_size",
                 "Maximum allowed number of threads.",
                 Collections.singletonList("executor")
         );
+
         list.add(maximumPoolSize);
         GaugeMetricFamily poolSize = new GaugeMetricFamily(
                 "executor_pool_size",
                 "Current number of threads in the pool.",
                 Collections.singletonList("executor")
         );
+
         list.add(poolSize);
         GaugeMetricFamily taskCount = new GaugeMetricFamily(
                 "executor_task_count",
                 "Approximate total number of tasks that have ever been scheduled for execution.",
                 Collections.singletonList("executor")
         );
+
         list.add(taskCount);
-        for (Map.Entry<String, ThreadPoolExecutor> entry : executors.entrySet()) {
-            List<String> name = Collections.singletonList(entry.getKey());
-            ThreadPoolExecutor executor = entry.getValue();
+        for (var entry : executors.entrySet()) {
+            var name = Collections.singletonList(entry.getKey());
+            var executor = entry.getValue();
+
             activeCount.addMetric(name, executor.getActiveCount());
             completedTaskCount.addMetric(name, executor.getCompletedTaskCount());
             corePoolSize.addMetric(name, executor.getCorePoolSize());
@@ -116,6 +129,7 @@ public class ThreadPoolCollector extends Collector {
             poolSize.addMetric(name, executor.getPoolSize());
             taskCount.addMetric(name, executor.getTaskCount());
         }
+
         return list;
     }
 }

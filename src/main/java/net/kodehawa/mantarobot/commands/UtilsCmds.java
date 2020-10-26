@@ -37,9 +37,9 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -90,7 +90,7 @@ public class UtilsCmds {
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (content.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_content", EmoteReference.ERROR);
                             return;
@@ -156,7 +156,7 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
 
@@ -173,7 +173,7 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
 
@@ -196,7 +196,7 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var user = ctx.getDBUser();
                 user.getData().setBirthday(null);
                 user.save();
@@ -212,7 +212,7 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
                 try {
                     // Why would this happen is out of my understanding.
@@ -227,8 +227,8 @@ public class UtilsCmds {
                         var guild = ctx.getGuild();
                         var data = ctx.getDBGuild().getData();
 
-                        List<String> ids = data.getAllowedBirthdays();
-                        Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = cacher.cachedBirthdays;
+                        var ids = data.getAllowedBirthdays();
+                        var guildCurrentBirthdays = cacher.cachedBirthdays;
 
                         // No birthdays to be seen here? (This month)
                         if (guildCurrentBirthdays.isEmpty()) {
@@ -260,12 +260,11 @@ public class UtilsCmds {
                         var hasReactionPerms = ctx.hasReactionPerms();
 
                         List<String> messages = new LinkedList<>();
-                        var languageContext = ctx.getLanguageContext();
-                        for (String s1 : parts) {
+                        for (String part : parts) {
                             messages.add(String.format(languageContext.get("commands.birthday.full_header"), guild.getName(),
                                     (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") :
                                             languageContext.get("general.text_menu")) : "") +
-                                            String.format("```diff\n%s```", s1)));
+                                            String.format("```diff\n%s```", part)));
                         }
 
                         if (parts.isEmpty()) {
@@ -275,10 +274,11 @@ public class UtilsCmds {
 
                         // Show the message.
                         // Probably a p big one tbh.
-                        if (hasReactionPerms)
+                        if (hasReactionPerms) {
                             DiscordUtils.list(ctx.getEvent(), 45, false, messages);
-                        else
+                        } else {
                             DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
+                        }
                     } else {
                         ctx.sendLocalized("commands.birthday.cache_not_running", EmoteReference.SAD);
                     }
@@ -296,19 +296,20 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                String[] args = ctx.getArguments();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var args = ctx.getArguments();
                 var cacher = MantaroBot.getInstance().getBirthdayCacher();
                 var calendar = Calendar.getInstance();
-                int month = calendar.get(Calendar.MONTH);
+                var month = calendar.get(Calendar.MONTH);
 
-                String m1 = "";
-                if (args.length == 1)
-                    m1 = args[0];
+                var msg = "";
+                if (args.length == 1) {
+                    msg = args[0];
+                }
 
-                if (!m1.isEmpty()) {
+                if (!msg.isEmpty()) {
                     try {
-                        month = Integer.parseInt(m1);
+                        month = Integer.parseInt(msg);
                         if (month < 1 || month > 12) {
                             ctx.sendLocalized("commands.birthday.invalid_month", EmoteReference.ERROR);
                             return;
@@ -334,17 +335,17 @@ public class UtilsCmds {
                             return;
                         }
 
-                        GuildData data = ctx.getDBGuild().getData();
-                        List<String> ids = data.getAllowedBirthdays();
                         Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new HashMap<>();
+
+                        var data = ctx.getDBGuild().getData();
+                        var ids = data.getAllowedBirthdays();
 
                         //Try not to die. I mean get calendar month and sum 1.
                         var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
                         var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
-                        var languageContext = ctx.getLanguageContext();
 
                         //~100k repetitions rip
-                        for (Map.Entry<String, BirthdayCacher.BirthdayData> birthdays : cacher.cachedBirthdays.entrySet()) {
+                        for (var birthdays : cacher.cachedBirthdays.entrySet()) {
                             //Why was the birthday saved on this outdated format again?
                             //Check if this guild contains x user and that the month matches.
                             if (ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {
@@ -363,8 +364,9 @@ public class UtilsCmds {
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .map((entry) -> {
-                                    var guild = ctx.getGuild();
+                                    Guild guild = ctx.getGuild();
                                     var birthday = entry.getValue().getBirthday().split("-");
+
                                     Member member = null;
                                     try {
                                         member = guild.retrieveMemberById(entry.getKey(), false).complete();
@@ -378,21 +380,21 @@ public class UtilsCmds {
                                     );
                                 }).collect(Collectors.joining("\n"));
 
-                        List<String> parts = DiscordUtils.divideString(1000, birthdays);
+                        var parts = DiscordUtils.divideString(1000, birthdays);
                         List<String> messages = new LinkedList<>();
-                        for (String s1 : parts) {
+
+                        for (var part : parts) {
                             messages.add(String.format(languageContext.get("commands.birthday.header"), ctx.getGuild().getName(),
                                     Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))) +
                                     (parts.size() > 1 ? (ctx.hasReactionPerms() ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
-                                    String.format("```diff\n%s```", s1));
+                                    String.format("```diff\n%s```", part));
                         }
 
-                        //Show the message.
-                        //Probably a p big one tbh.
-                        if (ctx.hasReactionPerms())
+                        if (ctx.hasReactionPerms()) {
                             DiscordUtils.list(ctx.getEvent(), 45, false, messages);
-                        else
+                        } else {
                             DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
+                        }
                     } else {
                         ctx.sendLocalized("commands.birthday.cache_not_running", EmoteReference.SAD);
                     }
@@ -442,7 +444,7 @@ public class UtilsCmds {
             public Command defaultTrigger(Context context, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         var optionalArguments = ctx.getOptionalArguments();
 
                         if (!optionalArguments.containsKey("time")) {
@@ -457,7 +459,7 @@ public class UtilsCmds {
 
                         var toRemind = timePattern.matcher(content).replaceAll("");
                         var user = ctx.getUser();
-                        long time = Utils.parseTime(optionalArguments.get("time"));
+                        var time = Utils.parseTime(optionalArguments.get("time"));
                         var dbUser = ctx.getDBUser();
                         var rems = getReminders(dbUser.getData().getReminders());
 
@@ -514,7 +516,7 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var reminders = ctx.getDBUser().getData().getReminders();
                 var rms = getReminders(reminders);
 
@@ -525,7 +527,7 @@ public class UtilsCmds {
 
                 var builder = new StringBuilder();
                 var i = new AtomicInteger();
-                for (ReminderObject rems : rms) {
+                for (var rems : rms) {
                     builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
                             .append(Utils.formatDuration(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
                 }
@@ -545,7 +547,7 @@ public class UtilsCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 try {
                     var reminders = ctx.getDBUser().getData().getReminders();
 
@@ -610,8 +612,9 @@ public class UtilsCmds {
                 var isMention = !mentions.isEmpty();
                 var timezone = content.isEmpty() ? "" : args[0]; // Array out of bounds lol
 
-                if (offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                if (offsetRegex.matcher(timezone).matches()) {
                     timezone = timezone.toUpperCase().replace("UTC", "GMT");
+                }
 
                 var dbUser = !isMention ? ctx.getDBUser() : ctx.getDBUser(mentions.get(0));
                 var userData = dbUser.getData();
@@ -638,7 +641,8 @@ public class UtilsCmds {
                 return new HelpContent.Builder()
                         .setDescription("Get the time in a specific timezone (GMT).")
                         .setUsage("`~>time <timezone> [@user]`")
-                        .addParameter("timezone", "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)")
+                        .addParameter("timezone",
+                                "The timezone in GMT or UTC offset (Example: GMT-3) or a ZoneId (such as Europe/London)")
                         .addParameter("@user", "The user to see the timezone of. Has to be a mention.")
                         .build();
             }
@@ -660,12 +664,13 @@ public class UtilsCmds {
                     return;
                 }
 
-                String[] commandArguments = content.split("->");
+                var commandArguments = content.split("->");
                 var languageContext = ctx.getLanguageContext();
 
                 var url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
                 var json = Utils.httpRequest(url);
                 UrbanData data = null;
+
                 try {
                     data = JsonDataManager.fromJson(json, UrbanData.class);
                 } catch (JsonProcessingException e) {
@@ -689,7 +694,9 @@ public class UtilsCmds {
                 var definition = urbanData.getDefinition();
 
                 ctx.send(new EmbedBuilder()
-                        .setAuthor(String.format(languageContext.get("commands.urban.header"), commandArguments[0]), urbanData.getPermalink(), null)
+                        .setAuthor(String.format(languageContext.get("commands.urban.header"),
+                                commandArguments[0]), urbanData.getPermalink(), null
+                        )
                         .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                         .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
                         .setColor(Color.GREEN)
@@ -714,7 +721,6 @@ public class UtilsCmds {
         });
     }
 
-    //Won't translate
     @Subscribe
     public void wiki(CommandRegistry registry) {
         registry.register("wiki", new TreeCommand(CommandCategory.UTILS) {
@@ -722,7 +728,7 @@ public class UtilsCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         ctx.send(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://github.com/Mantaro/MantaroBot/wiki/Home");
                     }
                 };
@@ -733,19 +739,43 @@ public class UtilsCmds {
                 return new HelpContent.Builder()
                         .setDescription("Shows a bunch of things related to Mantaro's wiki.")
                         .build();
-            }//addSubCommand meme incoming...
-        }.addSubCommand("opts", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** https://github.com/Mantaro/MantaroBot/wiki/Configuration"))
-                .addSubCommand("custom", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22"))
-                .addSubCommand("modifiers", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers"))
-                .addSubCommand("commands", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:** https://github.com/Mantaro/MantaroBot/wiki/Command-reference-and-documentation"))
-                .addSubCommand("faq", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's FAQ please visit:** https://github.com/Mantaro/MantaroBot/wiki/FAQ"))
-                .addSubCommand("badges", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's badge documentation please visit:** https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation"))
-                .addSubCommand("tos", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's ToS please visit:** https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service"))
-                .addSubCommand("usermessage", (ctx, s) -> ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial"))
-                .addSubCommand("premium", (ctx, s) -> ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks"))
-                .addSubCommand("currency", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Currency-101"))
-                .addSubCommand("collectibles", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a list of collectables, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items"))
-                .addSubCommand("birthday", (ctx, s) -> ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:** https://github.com/Mantaro/MantaroBot/wiki/Birthday-101"))
+            } // addSubCommand meme incoming...
+        }.addSubCommand("opts", (ctx, s) ->
+                ctx.send(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options please visit:** " +
+                        "https://github.com/Mantaro/MantaroBot/wiki/Configuration"))
+                .addSubCommand("custom", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22"))
+                .addSubCommand("modifiers", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers"))
+                .addSubCommand("commands", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Command-reference-and-documentation"))
+                .addSubCommand("faq", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's FAQ please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/FAQ"))
+                .addSubCommand("badges", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's badge documentation please visit:**" +
+                                " https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation"))
+                .addSubCommand("tos", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's ToS please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service"))
+                .addSubCommand("usermessage", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial"))
+                .addSubCommand("premium", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks"))
+                .addSubCommand("currency", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** " +
+                                "https://github.com/Mantaro/MantaroBot/wiki/Currency-101"))
+                .addSubCommand("collectibles", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For a list of collectables, please visit:**" +
+                                " https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items"))
+                .addSubCommand("birthday", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:**" +
+                                " https://github.com/Mantaro/MantaroBot/wiki/Birthday-101"))
         );
     }
 }

@@ -62,7 +62,10 @@ public class Prometheus {
 
     public static void disable() {
         while (!STATE.compareAndSet(State.ENABLED, State.DISABLED)) {
-            if (STATE.get() == State.DISABLED) return;
+            if (STATE.get() == State.DISABLED) {
+                return;
+            }
+
             Thread.yield();
         }
         server.stop();

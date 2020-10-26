@@ -17,22 +17,26 @@ public class MemoryUsageExports {
     private static final Logger log = LoggerFactory.getLogger(MemoryUsageExports.class);
     private static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
     private static final Path SMAPS_ROLLUP = Path.of("/proc/self/smaps_rollup");
+
     private static final Gauge MEMORY_USAGE = Gauge.build()
             .name("jvm_os_memory_used_bytes")
             .help("Memory usage (RSS, PSS) reported by the OS for the JVM")
             .labelNames("type") // RSS/PSS
             .create();
+
     private static final Gauge.Child PSS = MEMORY_USAGE.labels("PSS");
     private static final Gauge.Child RSS = MEMORY_USAGE.labels("RSS");
     private static volatile ScheduledFuture<?> task;
 
     public static void register() {
         MEMORY_USAGE.register();
+
         if (!Files.exists(SMAPS_ROLLUP)) {
             PSS.set(-1);
             RSS.set(-1);
             return;
         }
+
         task = MantaroBot.getInstance().getExecutorService().scheduleAtFixedRate(
                 MemoryUsageExports::collect, 0,
                 Prometheus.UPDATE_PERIOD.toMillis(), TimeUnit.MILLISECONDS

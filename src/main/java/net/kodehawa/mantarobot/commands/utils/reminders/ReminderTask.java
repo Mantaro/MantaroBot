@@ -16,12 +16,9 @@
 
 package net.kodehawa.mantarobot.commands.utils.reminders;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -33,7 +30,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -44,22 +40,22 @@ public class ReminderTask {
         log.debug("Checking reminder data...");
         try (Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
             Set<String> reminders = j.zrange("zreminder", 0, 14);
-            MantaroBot bot = MantaroBot.getInstance();
+            var bot = MantaroBot.getInstance();
 
             log.debug("Reminder check - remainder is: {}", reminders.size());
 
-            for (String rem : reminders) {
+            for (var rem : reminders) {
                 try {
-                    JSONObject data = new JSONObject(rem);
-                    long fireAt = data.getLong("at");
+                    var data = new JSONObject(rem);
+                    var fireAt = data.getLong("at");
 
                     // If the time has passed...
                     if (System.currentTimeMillis() >= fireAt) {
                         log.debug("Reminder date has passed, remind accordingly.");
-                        String userId = data.getString("user");
-                        String fullId = data.getString("id") + ":" + userId;
-                        String guildId = data.getString("guild");
-                        long scheduledAt = data.getLong("scheduledAt");
+                        var userId = data.getString("user");
+                        var fullId = data.getString("id") + ":" + userId;
+                        var guildId = data.getString("guild");
+                        var scheduledAt = data.getLong("scheduledAt");
 
                         // 1 day passed already, assuming it's a stale reminder:
                         // Done because ReminderTask wasn't working.
@@ -68,8 +64,8 @@ public class ReminderTask {
                             return;
                         }
 
-                        String reminder = data.getString("reminder"); //The actual reminder data
-                        Guild guild = bot.getShardManager().getGuildById(guildId);
+                        var reminder = data.getString("reminder"); //The actual reminder data
+                        var guild = bot.getShardManager().getGuildById(guildId);
 
                         bot.getShardManager().retrieveUserById(userId)
                                 .flatMap(User::openPrivateChannel)

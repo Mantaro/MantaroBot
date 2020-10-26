@@ -38,19 +38,24 @@ public class WeebAPIRequester {
     public Pair<String, String> getRandomImageByType(String type, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("type", type);
-        if (nsfw)
+
+        if (nsfw) {
             queryParams.put("nsfw", "only");
-        else
+        }
+        else {
             queryParams.put("nsfw", false);
+        }
 
-        if (filetype != null)
+        if (filetype != null) {
             queryParams.put("filetype", filetype);
+        }
 
-        String r = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
-        if (r == null)
+        var req = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
+        if (req == null) {
             return Pair.of(null, null);
+        }
 
-        JSONObject object = new JSONObject(r);
+        var object = new JSONObject(req);
         return Pair.of(object.getString("url"), object.getString("id"));
     }
 
@@ -58,46 +63,51 @@ public class WeebAPIRequester {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("tags", tags);
 
-        if (nsfw)
+        if (nsfw) {
             queryParams.put("nsfw", "only");
-        else
+        } else {
             queryParams.put("nsfw", false);
+        }
 
-        if (filetype != null)
+        if (filetype != null) {
             queryParams.put("filetype", filetype);
+        }
 
-        String r = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
-        if (r == null)
+        var req = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
+        if (req == null) {
             return null;
+        }
 
-        return new JSONObject(r).getString("url");
+        return new JSONObject(req).getString("url");
     }
 
     public JSONObject getTypes() {
-        String r = request(ALL_TYPES, null);
-        if (r == null)
+        var req = request(ALL_TYPES, null);
+        if (req == null) {
             return null;
+        }
 
-        return new JSONObject(r);
+        return new JSONObject(req);
     }
 
     public JSONObject getTags() {
-        String r = request(ALL_TAGS, null);
-        if (r == null)
+        var req = request(ALL_TAGS, null);
+        if (req == null) {
             return null;
+        }
 
-        return new JSONObject(r);
+        return new JSONObject(req);
     }
 
     private String request(String endpoint, String e) {
         try {
-            StringBuilder builder = new StringBuilder(endpoint);
+            var builder = new StringBuilder(endpoint);
             if (e != null) {
                 builder.append("?");
                 builder.append(e);
             }
 
-            Request r = new Request.Builder()
+            var r = new Request.Builder()
                     .url(API_BASE_URL + builder.toString())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .addHeader("Authorization", AUTH_HEADER)
@@ -105,7 +115,10 @@ public class WeebAPIRequester {
 
             try(var response = Utils.httpClient.newCall(r).execute()) {
                 var body = response.body();
-                if (body == null) throw new IllegalStateException("body == null");
+                if (body == null) {
+                    throw new IllegalStateException("body == null");
+                }
+
                 return body.string();
             }
         } catch (Exception ex) {

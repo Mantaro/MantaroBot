@@ -42,6 +42,7 @@ public class JsonDataManager<T> implements DataManager<T> {
 
     public JsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
         this.configPath = Paths.get(file);
+
         if (!configPath.toFile().exists()) {
             log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
             try {

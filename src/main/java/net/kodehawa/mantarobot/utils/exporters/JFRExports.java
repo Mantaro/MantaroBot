@@ -29,6 +29,7 @@ public class JFRExports {
             .labelNames("type") // ttsp, operation
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
+
     private static final Histogram.Child SAFEPOINTS_TTSP = SAFEPOINTS.labels("ttsp");
     private static final Histogram.Child SAFEPOINTS_OPERATION = SAFEPOINTS.labels("operation");
     //jdk.GarbageCollection
@@ -38,6 +39,7 @@ public class JFRExports {
             .labelNames("name", "cause")
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
+
     //jdk.GarbageCollection
     private static final Histogram GC_PAUSES_SUM = Histogram.build()
             .name("jvm_gc_sum_of_pauses_seconds")
@@ -45,55 +47,65 @@ public class JFRExports {
             .labelNames("name", "cause")
             .buckets(0.005, 0.010, 0.025, 0.050, 0.100, 0.200, 0.400, 0.800, 1.600, 3, 5, 10)
             .create();
+
     //jdk.GCReferenceStatistics
     private static final Counter REFERENCE_STATISTICS = Counter.build()
             .name("jvm_reference_statistics")
             .help("Number of java.lang.ref references by type")
             .labelNames("type")
             .create();
+
     //jdk.ExecuteVMOperation
     private static final Counter VM_OPERATIONS = Counter.build()
             .name("jvm_vm_operations")
             .help("Executed VM operations")
             .labelNames("operation", "safepoint")
             .create();
+
     //jdk.NetworkUtilization
     private static final Gauge NETWORK_READ = Gauge.build()
             .name("jvm_network_read")
             .help("Bits read from the network per second")
             .labelNames("interface")
             .create();
+
     //jdk.NetworkUtilization
     private static final Gauge NETWORK_WRITE = Gauge.build()
             .name("jvm_network_write")
             .help("Bits written to the network per second")
             .labelNames("interface")
             .create();
+
     //jdk.JavaThreadStatistics
     private static final Gauge THREADS_CURRENT = Gauge.build()
             .name("jvm_threads_current")
             .help("Current thread count of the JVM")
             .create();
+
     //jdk.JavaThreadStatistics
     private static final Gauge THREADS_DAEMON = Gauge.build()
             .name("jvm_threads_daemon")
             .help("Daemon thread count of the JVM")
             .create();
+
     //jdk.CPULoad
     private static final Gauge CPU_USER = Gauge.build()
             .name("jvm_cpu_user")
             .help("User CPU usage of the JVM")
             .create();
+
     //jdk.CPULoad
     private static final Gauge CPU_SYSTEM = Gauge.build()
             .name("jvm_cpu_system")
             .help("System CPU usage of the JVM")
             .create();
+
     //jdk.CPULoad
     private static final Gauge CPU_MACHINE = Gauge.build()
             .name("jvm_cpu_machine")
             .help("CPU usage of the machine the JVM is running on")
             .create();
+
     //jdk.GCHeapSummary, jdk.MetaspaceSummary
     private static final Gauge MEMORY_USAGE = Gauge.build()
             // remove _jfr suffix if we remove the standard exports
@@ -101,11 +113,14 @@ public class JFRExports {
             .help("Bytes of memory used by the JVM")
             .labelNames("area") //heap, nonheap
             .create();
+
     private static final Gauge.Child MEMORY_USAGE_HEAP = MEMORY_USAGE.labels("heap");
     private static final Gauge.Child MEMORY_USAGE_NONHEAP = MEMORY_USAGE.labels("nonheap");
 
     public static void register() {
-        if (!REGISTERED.compareAndSet(false, true)) return;
+        if (!REGISTERED.compareAndSet(false, true)) {
+            return;
+        }
         
         SAFEPOINTS.register();
         GC_PAUSES.register();
@@ -265,7 +280,10 @@ public class JFRExports {
          */
         event(rs ,"jdk.NetworkUtilization", e -> {
             var itf = e.getString("networkInterface");
-            if (itf == null) itf = "N/A";
+            if (itf == null) {
+                itf = "N/A";
+            }
+
             NETWORK_READ.labels(itf).set(e.getLong("readRate"));
             NETWORK_WRITE.labels(itf).set(e.getLong("writeRate"));
         }).withPeriod(Prometheus.UPDATE_PERIOD);
@@ -426,7 +444,10 @@ public class JFRExports {
         }
 
         private static int inc(int i, int modulus) {
-            if (++i >= modulus) i = 0;
+            if (++i >= modulus) {
+                i = 0;
+            }
+
             return i;
         }
 
@@ -439,6 +460,7 @@ public class JFRExports {
         long remove(long id) {
             for (var i = 0; i < size; i++) {
                 var idx = i * 2;
+
                 if (table[idx] == id) {
                     table[idx] = -1;
                     return table[idx + 1];

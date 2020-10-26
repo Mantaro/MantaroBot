@@ -26,8 +26,7 @@ public class SeasonalPlayerData {
     private long lockedUntil = 0;
     private PlayerEquipment equippedItems = new PlayerEquipment(new HashMap<>(), new HashMap<>(), new HashMap<>()); //hashmap is type -> itemId
 
-    public SeasonalPlayerData() {
-    }
+    public SeasonalPlayerData() { }
 
     public PlayerEquipment getEquippedItems() {
         return this.equippedItems;

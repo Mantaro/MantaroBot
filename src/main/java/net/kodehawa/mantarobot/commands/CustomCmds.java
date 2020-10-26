@@ -207,12 +207,11 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 List<String> commands = ctx.db().getCustomCommands(ctx.getGuild())
                         .stream()
                         .map(CustomCommand::getName)
                         .collect(Collectors.toList());
-                I18nContext languageContext = ctx.getLanguageContext();
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
@@ -236,7 +235,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 String[] args = StringUtils.splitArgs(content, 2);
                 if (args.length < 2) {
                     ctx.sendLocalized("commands.custom.view.not_found", EmoteReference.ERROR);
@@ -276,7 +275,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 String command = content.trim();
                 if (command.isEmpty()) {
                     ctx.sendLocalized("commands.custom.raw.no_command", EmoteReference.ERROR);
@@ -299,8 +298,6 @@ public class CustomCmds {
                     fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, false));
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
-
                 EmbedBuilder embed = baseEmbed(ctx.getEvent(), String.format(languageContext.get("commands.custom.raw.header"), command))
                         .setDescription(languageContext.get("commands.custom.raw.description"))
                         .setFooter(String.format(languageContext.get("commands.custom.raw.amount"), 6, custom.getValues().size()), null);
@@ -316,7 +313,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                     return;
                 }
@@ -342,7 +339,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
@@ -376,7 +373,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
@@ -429,7 +426,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
@@ -464,8 +461,6 @@ public class CustomCmds {
                     return;
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
-
                 DiscordUtils.selectList(
                         ctx.getEvent(), filtered,
                         pair -> String.format(languageContext.get("commands.custom.import.header"),
@@ -498,7 +493,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.custom.raw.no_command", EmoteReference.ERROR);
                     return;
@@ -538,7 +533,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
@@ -610,7 +605,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
@@ -668,7 +663,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                     ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
                     return;
@@ -699,7 +694,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!ctx.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                     ctx.sendLocalized("commands.custom.lockcommand.no_permission", EmoteReference.ERROR);
                     return;
@@ -737,7 +732,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }
@@ -807,7 +802,7 @@ public class CustomCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!adminPredicate.test(ctx.getEvent())) {
                     return;
                 }

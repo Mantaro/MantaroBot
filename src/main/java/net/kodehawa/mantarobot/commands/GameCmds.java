@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -85,7 +86,7 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 startGame(new Character(), ctx);
             }
         }).addSubCommand("pokemon", new SubCommand() {
@@ -95,7 +96,7 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 startGame(new Pokemon(), ctx);
             }
         }).addSubCommand("number", new SubCommand() {
@@ -105,7 +106,7 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 startGame(new GuessTheNumber(), ctx);
             }
         }));
@@ -122,7 +123,7 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                     var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null) {
@@ -145,7 +146,7 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var guildData = ctx.getDBGuild().getData();
 
                 if (guildData.isGameMultipleDisabled()) {
@@ -220,7 +221,7 @@ public class GameCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var guildData = ctx.getDBGuild().getData();
 
                 if (guildData.isGameMultipleDisabled()) {

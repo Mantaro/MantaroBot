@@ -33,7 +33,6 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
@@ -45,7 +44,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -106,7 +104,7 @@ public class PremiumCmds {
 
                     //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!ctx.getAuthor().getId().equals(key.getOwner())) {
-                        DBUser ownerUser = db.getUser(key.getOwner());
+                        var ownerUser = db.getUser(key.getOwner());
                         ownerUser.getData().getKeysClaimed().put(ctx.getAuthor().getId(), key.getId());
                         ownerUser.saveAsync();
                     }
@@ -215,12 +213,12 @@ public class PremiumCmds {
                 //Send message in a DM (it's private after all)
                 ctx.getAuthor().openPrivateChannel()
                         .flatMap(privateChannel -> {
-                            PremiumKey newKey = PremiumKey.generatePremiumKey(author.getId(), scope, true);
-                            I18nContext languageContext = ctx.getLanguageContext();
+                            var newKey = PremiumKey.generatePremiumKey(author.getId(), scope, true);
+                            var languageContext = ctx.getLanguageContext();
 
                             //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
                             data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
-                            int amountClaimed = data.getKeysClaimed().size();
+                            var amountClaimed = data.getKeysClaimed().size();
 
                             privateChannel.sendMessageFormat(languageContext.get("commands.claimkey.successful"),
                                     EmoteReference.HEART, newKey.getId(), amountClaimed, (int) ((pledgeAmount / 2) - amountClaimed), newKey.getParsedType()
@@ -246,13 +244,11 @@ public class PremiumCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (config.isPremiumBot()) {
                             ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
                             return;
                         }
-
-                        var languageContext = ctx.getLanguageContext();
 
                         ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                             var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
@@ -368,9 +364,8 @@ public class PremiumCmds {
 
         vipstatusCmd.addSubCommand("guild", new SubCommand() {
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbGuild = ctx.getDBGuild();
-                var languageContext = ctx.getLanguageContext();
 
                 if (!dbGuild.isPremium()) {
                     ctx.sendLocalized("commands.vipstatus.guild.not_premium", EmoteReference.ERROR);
@@ -430,14 +425,14 @@ public class PremiumCmds {
                     return;
                 }
 
-                PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
+                var key = MantaroData.db().getPremiumKey(args[0]);
                 if (key == null) {
                     ctx.send("Invalid key.");
                     return;
                 }
 
-                DBUser dbUser = MantaroData.db().getUser(key.getOwner());
-                Map<String, String> keysClaimed = dbUser.getData().getKeysClaimed();
+                var dbUser = MantaroData.db().getUser(key.getOwner());
+                var keysClaimed = dbUser.getData().getKeysClaimed();
 
                 keysClaimed.remove(Utils.getKeyByValue(keysClaimed, key.getId()));
                 dbUser.save();
@@ -454,16 +449,16 @@ public class PremiumCmds {
         cr.register("createkey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Map<String, String> t = ctx.getOptionalArguments();
+                var optionalArguments = ctx.getOptionalArguments();
 
                 if (args.length < 3) {
                     ctx.send(EmoteReference.ERROR + "You need to provide a scope, an id and whether this key is linked (example: guild 1558674582032875529 true)");
                     return;
                 }
 
-                String scope = args[0];
-                String owner = args[1];
-                boolean linked = Boolean.parseBoolean(args[2]);
+                var scope = args[0];
+                var owner = args[1];
+                var linked = Boolean.parseBoolean(args[2]);
 
                 PremiumKey.Type scopeParsed = null;
                 try {
@@ -476,8 +471,8 @@ public class PremiumCmds {
                 }
 
                 //This method generates a premium key AND saves it on the database! Please use this result!
-                PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
-                if (t.containsKey("mobile")) {
+                var generated = PremiumKey.generatePremiumKey(owner, scopeParsed, linked);
+                if (optionalArguments.containsKey("mobile")) {
                     ctx.send(generated.getId());
                 } else {
                     ctx.send(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]** (Linked: %s)",

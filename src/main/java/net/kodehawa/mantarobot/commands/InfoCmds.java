@@ -548,9 +548,7 @@ public class InfoCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                I18nContext languageContext = ctx.getLanguageContext();
-
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.send(new EmbedBuilder()
                                 .setAuthor(languageContext.get("commands.stats.usage.header"), null, ctx.getSelfUser().getAvatarUrl())
                                 .setDescription(languageContext.get("commands.stats.usage.description"))
@@ -581,7 +579,7 @@ public class InfoCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 Map<String, String> nodeMap;
                 try (Jedis jedis = ctx.getJedisPool().getResource()) {
                     nodeMap = jedis.hgetAll("node-stats-" + ctx.getConfig().getClientId());
@@ -634,7 +632,7 @@ public class InfoCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 List<LavalinkSocket> nodes = ctx.getBot().getLavaLink().getNodes();
                 var embed = new EmbedBuilder();
                 embed.setTitle("Lavalink Node Statistics")
@@ -678,7 +676,7 @@ public class InfoCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 String[] args = ctx.getArguments();
                 if (args.length > 0) {
                     String what = args[0];
@@ -715,8 +713,6 @@ public class InfoCmds {
                     }
                 }
 
-                //Default
-                var languageContext = ctx.getLanguageContext();
                 ctx.send(
                         baseEmbed(ctx, "Command Stats")
                                 .addField(languageContext.get("general.now"),
@@ -746,7 +742,7 @@ public class InfoCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 String[] args = ctx.getArguments();
                 if (args.length > 0) {
                     String what = args[0];
@@ -783,8 +779,6 @@ public class InfoCmds {
                     }
                 }
 
-                //Default
-                var languageContext = ctx.getLanguageContext();
                 ctx.send(
                         baseEmbed(ctx, "Category Stats")
                                 .addField(languageContext.get("general.now"),

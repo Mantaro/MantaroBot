@@ -19,10 +19,14 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -41,23 +45,18 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.PlayerStats;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -97,23 +96,24 @@ public class ProfileCmd {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
-                        Map<String, String> t = ctx.getOptionalArguments();
-                        content = Utils.replaceArguments(t, content, "season", "s").trim();
-                        boolean isSeasonal = ctx.isSeasonal();
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
+                        var optionalArguments = ctx.getOptionalArguments();
+                        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
+                        var isSeasonal = ctx.isSeasonal();
 
 
                         var finalContent = content;
                         ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                            User userLooked = ctx.getAuthor();
-                            Member memberLooked = ctx.getMember();
-
-                            Player player = ctx.getPlayer();
                             SeasonPlayer seasonalPlayer = null;
-                            DBUser dbUser = ctx.getDBUser();
+
+                            var userLooked = ctx.getAuthor();
+                            var memberLooked = ctx.getMember();
+
+                            var player = ctx.getPlayer();
+                            var dbUser = ctx.getDBUser();
 
                             if (!finalContent.isEmpty()) {
-                                Member found = CustomFinderUtil.findMember(finalContent, members, ctx);
+                                var found = CustomFinderUtil.findMember(finalContent, members, ctx);
                                 if (found != null) {
                                     userLooked = found.getUser();
                                     memberLooked = found;
@@ -131,47 +131,56 @@ public class ProfileCmd {
                                 }
                             }
 
-                            PlayerData playerData = player.getData();
-                            UserData userData = dbUser.getData();
-                            Inventory inv = player.getInventory();
+                            var playerData = player.getData();
+                            var userData = dbUser.getData();
+                            var inv = player.getInventory();
 
                             //Cache waifu value.
                             playerData.setWaifuCachedValue(RelationshipCmds.calculateWaifuValue(userLooked).getFinalValue());
 
                             //start of badge assigning
-                            Guild mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
-                            Member mhMember = mh == null ? null : ctx.retrieveMemberById(memberLooked.getUser().getId(), false);
+                            var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
+                            var mhMember = mh == null ? null : ctx.retrieveMemberById(memberLooked.getUser().getId(), false);
 
                             //Badge assigning code
                             Badge.assignBadges(player, dbUser);
 
                             //Manual badges
-                            if (MantaroData.config().get().isOwner(userLooked))
+                            if (MantaroData.config().get().isOwner(userLooked)) {
                                 playerData.addBadgeIfAbsent(Badge.DEVELOPER);
+                            }
+
                             if (inv.asList().stream()
                                     .anyMatch(stack -> stack.getItem().equals(ItemReference.CHRISTMAS_TREE_SPECIAL) ||
-                                            stack.getItem().equals(ItemReference.BELL_SPECIAL)))
+                                            stack.getItem().equals(ItemReference.BELL_SPECIAL))) {
                                 playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
-                            if (mhMember != null &&
-                                    mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 406920476259123201L))
+                            }
+
+                            if (mhMember != null && mhMember.getRoles()
+                                    .stream()
+                                    .anyMatch(r -> r.getIdLong() == 406920476259123201L)) {
                                 playerData.addBadgeIfAbsent(Badge.HELPER_2);
-                            if (mhMember != null &&
-                                    mhMember.getRoles().stream().anyMatch(r -> r.getIdLong() == 290257037072531466L ||
-                                            r.getIdLong() == 290902183300431872L))
+                            }
+
+                            if (mhMember != null && mhMember.getRoles()
+                                    .stream()
+                                    .anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L)) {
                                 playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+                            }
                             //end of badge assigning
 
-                            List<Badge> badges = playerData.getBadges();
+                            var badges = playerData.getBadges();
                             Collections.sort(badges);
 
-                            if (isSeasonal)
+                            if (isSeasonal) {
                                 seasonalPlayer = ctx.getSeasonPlayer(userLooked);
+                            }
 
-                            boolean ringHolder = player.getInventory().containsItem(ItemReference.RING) && userData.getMarriage() != null;
-                            ProfileComponent.Holder holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
-                            I18nContext languageContext = ctx.getLanguageContext();
+                            var ringHolder = player.getInventory().containsItem(ItemReference.RING) && userData.getMarriage() != null;
+                            var holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
 
-                            EmbedBuilder profileBuilder = new EmbedBuilder();
+                            var profileBuilder = new EmbedBuilder();
+
                             profileBuilder.setAuthor((ringHolder ? EmoteReference.RING : "") +
                                     String.format(languageContext.get("commands.profile.header"),
                                             memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl()
@@ -179,10 +188,10 @@ public class ProfileCmd {
                                     languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
                             ).setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
-                            boolean hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
-                            List<ProfileComponent> usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+                            var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
+                            var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
 
-                            for (ProfileComponent component : usedOrder) {
+                            for (var component : usedOrder) {
                                 profileBuilder.addField(
                                         component.getTitle(languageContext), component.getContent().apply(holder, languageContext), component.isInline()
                                 );
@@ -221,8 +230,8 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                Player player = ctx.getPlayer();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var player = ctx.getPlayer();
 
                 if (content.equals("remove")) {
                     player.getData().setClaimLocked(false);
@@ -231,7 +240,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                Inventory inventory = player.getInventory();
+                var inventory = player.getInventory();
                 if (!inventory.containsItem(ItemReference.CLAIM_KEY)) {
                     ctx.sendLocalized("commands.profile.claimlock.no_key", EmoteReference.ERROR);
                     return;
@@ -251,9 +260,9 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                DBUser user = ctx.getDBUser();
-                UserData data = user.getData();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var user = ctx.getDBUser();
+                var data = user.getData();
 
                 if (content.equals("disable")) {
                     data.setAutoEquip(false);
@@ -276,9 +285,9 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                DBUser user = ctx.getDBUser();
-                UserData data = user.getData();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var user = ctx.getDBUser();
+                var data = user.getData();
 
                 data.setPrivateTag(!data.isPrivateTag());
                 user.save();
@@ -294,18 +303,19 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                DBUser dbUser = ctx.getDBUser();
-                String[] args = ctx.getArguments();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var dbUser = ctx.getDBUser();
+                var args = ctx.getArguments();
 
                 if (args.length < 1) {
                     ctx.sendLocalized("commands.profile.timezone.not_specified", EmoteReference.ERROR);
                     return;
                 }
 
-                String timezone = content;
-                if (offsetRegex.matcher(timezone).matches()) // Avoid replacing valid zone IDs / uppercasing them.
+                var timezone = content;
+                if (offsetRegex.matcher(timezone).matches()) {
                     timezone = content.toUpperCase().replace("UTC", "GMT");
+                }
 
                 if (timezone.equalsIgnoreCase("reset")) {
                     dbUser.getData().setTimezone(null);
@@ -326,9 +336,10 @@ public class ProfileCmd {
                     return;
                 }
 
-                Player player = ctx.getPlayer();
-                if (player.getData().addBadgeIfAbsent(Badge.CALENDAR))
+                var player = ctx.getPlayer();
+                if (player.getData().addBadgeIfAbsent(Badge.CALENDAR)) {
                     player.save();
+                }
 
                 dbUser.getData().setTimezone(timezone);
                 dbUser.saveAsync();
@@ -343,14 +354,14 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
                 }
 
-                String[] args = content.split(" ");
-                Player player = ctx.getPlayer();
-                DBUser dbUser = ctx.getDBUser();
+                var args = content.split(" ");
+                var player = ctx.getPlayer();
+                var dbUser = ctx.getDBUser();
 
                 if (args.length == 0) {
                     ctx.sendLocalized("commands.profile.description.no_argument", EmoteReference.ERROR);
@@ -358,29 +369,30 @@ public class ProfileCmd {
                 }
 
                 if (args[0].equals("set")) {
-                    int MAX_LENGTH = 300;
+                    var MAX_LENGTH = 300;
 
-                    if (dbUser.isPremium())
+                    if (dbUser.isPremium()) {
                         MAX_LENGTH = 500;
+                    }
 
                     if (args.length < 2) {
                         ctx.sendLocalized("commands.profile.description.no_content", EmoteReference.ERROR);
                         return;
                     }
 
-                    String content1 = SPLIT_PATTERN.split(content, 2)[1];
+                    var desc = SPLIT_PATTERN.split(content, 2)[1];
 
-                    if (content1.length() > MAX_LENGTH) {
+                    if (desc.length() > MAX_LENGTH) {
                         ctx.sendLocalized("commands.profile.description.too_long", EmoteReference.ERROR);
                         return;
                     }
 
-                    content1 = Utils.DISCORD_INVITE.matcher(content1).replaceAll("-discord invite link-");
-                    content1 = Utils.DISCORD_INVITE_2.matcher(content1).replaceAll("-discord invite link-");
+                    desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
+                    desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
 
-                    player.getData().setDescription(content1);
+                    player.getData().setDescription(desc);
 
-                    ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER, content1);
+                    ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER, desc);
 
                     player.getData().addBadgeIfAbsent(Badge.WRITER);
                     player.save();
@@ -404,16 +416,16 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                String[] args = ctx.getArguments();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var args = ctx.getArguments();
                 if (args.length == 0) {
                     ctx.sendLocalized("commands.profile.displaybadge.not_specified", EmoteReference.ERROR);
                     return;
                 }
 
-                Player player = ctx.getPlayer();
-                PlayerData data = player.getData();
-                String arg = args[0];
+                var player = ctx.getPlayer();
+                var data = player.getData();
+                var arg = args[0];
 
                 if (arg.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
@@ -430,7 +442,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                Badge badge = Badge.lookupFromString(content);
+                var badge = Badge.lookupFromString(content);
 
                 if (badge == null) {
                     ctx.sendLocalized("commands.profile.displaybadge.no_such_badge", EmoteReference.ERROR,
@@ -466,13 +478,13 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.profile.lang.nothing_specified", EmoteReference.ERROR);
                     return;
                 }
 
-                DBUser dbUser = ctx.getDBUser();
+                var dbUser = ctx.getDBUser();
 
                 if (content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
@@ -484,7 +496,7 @@ public class ProfileCmd {
                 if (I18n.isValidLanguage(content)) {
                     dbUser.getData().setLang(content);
                     //Create new I18n context based on the new language choice.
-                    I18nContext newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
+                    var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
 
                     dbUser.save();
                     ctx.getChannel().sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
@@ -501,65 +513,67 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
-                    if (member == null)
+                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null) {
                         return;
+                    }
 
-                    User toLookup = member.getUser();
+                    var toLookup = member.getUser();
 
-                    Player player = ctx.getPlayer(toLookup);
-                    DBUser dbUser = ctx.getDBUser(toLookup);
-                    UserData data = dbUser.getData();
-                    PlayerData playerData = player.getData();
-                    PlayerStats playerStats = ctx.db().getPlayerStats(toLookup);
-                    SeasonPlayer seasonPlayer = ctx.getSeasonPlayer(toLookup);
+                    var player = ctx.getPlayer(toLookup);
+                    var dbUser = ctx.getDBUser(toLookup);
+                    var data = dbUser.getData();
+                    var playerData = player.getData();
+                    var playerStats = ctx.db().getPlayerStats(toLookup);
+                    var seasonPlayer = ctx.getSeasonPlayer(toLookup);
 
-                    PlayerEquipment equippedItems = data.getEquippedItems();
-                    PlayerEquipment seasonalEquippedItems = seasonPlayer.getData().getEquippedItems();
+                    var equippedItems = data.getEquippedItems();
+                    var seasonalEquippedItems = seasonPlayer.getData().getEquippedItems();
 
-                    Potion potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
-                    Potion buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
-                    PotionEffect potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
-                    PotionEffect buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
+                    var potion = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.POTION);
+                    var buff = (Potion) equippedItems.getEffectItem(PlayerEquipment.EquipmentType.BUFF);
+                    var potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
+                    var buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
 
-                    boolean isPotionActive =
+                    var isPotionActive =
                             potion != null &&
                                     (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ||
                                             potionEffect.getAmountEquipped() > 1);
-                    boolean isBuffActive =
+                    var isBuffActive =
                             buff != null &&
                                     (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ||
                                             buffEffect.getAmountEquipped() > 1);
 
-                    long potionEquipped = 0;
-                    long buffEquipped = 0;
+                    var potionEquipped = 0L;
+                    var buffEquipped = 0L;
 
-                    if (potion != null)
-                        potionEquipped =
-                                equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ?
-                                        potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
-                    if (buff != null)
-                        buffEquipped =
-                                equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ?
-                                        buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
+                    if (potion != null) {
+                        potionEquipped = equippedItems.isEffectActive(
+                                PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()
+                        ) ? potionEffect.getAmountEquipped() : potionEffect.getAmountEquipped() - 1;
+                    }
+
+                    if (buff != null) {
+                        buffEquipped = equippedItems.isEffectActive(
+                                PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()
+                        ) ? buffEffect.getAmountEquipped() : buffEffect.getAmountEquipped() - 1;
+                    }
 
                     //no need for decimals
-                    long experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) +
+                    var experienceNext = (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) +
                             (50 * player.getLevel() / 2);
 
-                    boolean noPotion = potion == null || !isPotionActive;
-                    boolean noBuff = buff == null || !isBuffActive;
+                    var noPotion = potion == null || !isPotionActive;
+                    var noBuff = buff == null || !isBuffActive;
 
-                    String equipment = parsePlayerEquipment(equippedItems);
-                    String seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
-
-                    I18nContext languageContext = ctx.getLanguageContext();
+                    var equipment = parsePlayerEquipment(equippedItems);
+                    var seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
 
                     //This whole thing is a massive mess, lmfao.
                     //This is definitely painful and goes on for 100 lines lol
-                    String s = String.join("\n",
+                    var s = String.join("\n",
                             prettyDisplay(languageContext.get("commands.profile.stats.market"),
                                     playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times")
                             ),
@@ -681,16 +695,15 @@ public class ProfileCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
-                DBUser user = ctx.getDBUser();
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var user = ctx.getDBUser();
                 if (!user.isPremium()) {
                     ctx.sendLocalized("commands.profile.display.not_premium", EmoteReference.ERROR);
                     return;
                 }
 
-                Player player = ctx.getPlayer();
-                PlayerData data = player.getData();
-                I18nContext languageContext = ctx.getLanguageContext();
+                var player = ctx.getPlayer();
+                var playerData = player.getData();
 
                 if (content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("Is")) {
                     ctx.sendFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"),
@@ -701,8 +714,8 @@ public class ProfileCmd {
                                     .map(Enum::name)
                                     .collect(Collectors.joining(", ")),
 
-                            data.getProfileComponents().size() == 0 ? "Not personalized" :
-                                    data.getProfileComponents().stream()
+                            playerData.getProfileComponents().size() == 0 ? "Not personalized" :
+                                    playerData.getProfileComponents().stream()
                                             .map(Enum::name)
                                             .collect(Collectors.joining(", "))
                     );
@@ -710,18 +723,18 @@ public class ProfileCmd {
                 }
 
                 if (content.equalsIgnoreCase("reset")) {
-                    data.getProfileComponents().clear();
+                    playerData.getProfileComponents().clear();
                     player.saveAsync();
 
                     ctx.sendLocalized("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
                 }
 
-                String[] splitContent = content.replace(",", "").split("\\s+");
+                var splitContent = content.replace(",", "").split("\\s+");
                 List<ProfileComponent> newComponents = new LinkedList<>(); //new list of profile components
 
-                for (String c : splitContent) {
-                    ProfileComponent component = ProfileComponent.lookupFromString(c);
+                for (var cmt : splitContent) {
+                    var component = ProfileComponent.lookupFromString(cmt);
                     if (component != null && component.isAssignable()) {
                         newComponents.add(component);
                     }
@@ -735,7 +748,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                data.setProfileComponents(newComponents);
+                playerData.setProfileComponents(newComponents);
                 player.saveAsync();
 
                 ctx.sendLocalized("commands.profile.display.success",
@@ -751,22 +764,23 @@ public class ProfileCmd {
             return;
         }
 
-        Message message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
+        var message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
         byte[] bytes;
+
         try {
-            String url = author.getEffectiveAvatarUrl();
+            var url = author.getEffectiveAvatarUrl();
 
             if (url.endsWith(".gif")) {
                 url = url.substring(0, url.length() - 3) + "png";
             }
 
-            Response res = httpClient.newCall(new Request.Builder()
+            var res = httpClient.newCall(new Request.Builder()
                     .url(url)
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .build()
             ).execute();
 
-            ResponseBody body = res.body();
+            var body = res.body();
 
             if (body == null)
                 throw new IOException("body is null");
@@ -781,14 +795,14 @@ public class ProfileCmd {
     }
 
     public String parsePlayerEquipment(PlayerEquipment equipment) {
-        Map<PlayerEquipment.EquipmentType, Integer> toolsEquipment = equipment.getEquipment();
+        var toolsEquipment = equipment.getEquipment();
 
         if (toolsEquipment.isEmpty()) {
             return "None";
         }
 
         return toolsEquipment.entrySet().stream().map((entry) -> {
-            Item item = ItemHelper.fromId(entry.getValue());
+            var item = ItemHelper.fromId(entry.getValue());
 
             return "- " +
                     Utils.capitalize(entry.getKey().toString()) + ": " +

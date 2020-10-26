@@ -54,7 +54,7 @@ public class TextChannelGround {
 
     public List<ItemStack> collectItems() {
         List<ItemStack> finalStacks = new ArrayList<>();
-        for (ItemStack stack : stacks) {
+        for (var stack : stacks) {
             finalStacks.add(new ItemStack(stack.getItem(), Math.min(stack.getAmount(), 25)));
         }
 
@@ -71,9 +71,10 @@ public class TextChannelGround {
     }
 
     public void dropItemWithChance(Item item, int weight) {
-        boolean doDrop = r.nextInt(weight) == 0;
-        if (doDrop)
+        var doDrop = r.nextInt(weight) == 0;
+        if (doDrop) {
             dropItem(item);
+        }
     }
 
     public void dropItemWithChance(int item, int weight) {

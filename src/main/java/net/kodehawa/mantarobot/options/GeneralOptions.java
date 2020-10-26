@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.ISnowflake;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
@@ -30,11 +29,9 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.List;
 import java.util.concurrent.Future;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Option
@@ -72,7 +69,7 @@ public class GeneralOptions extends OptionHandler {
                     dbGuild.save();
 
                     event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.success"), EmoteReference.CORRECT, blacklisted).queue();
-                });
+        });
 
         registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)",
                 "Allows an user from appearing in modlogs.\n" +
@@ -94,128 +91,7 @@ public class GeneralOptions extends OptionHandler {
                     dbGuild.save();
 
                     event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.success"), EmoteReference.CORRECT, unBlacklisted).queue();
-                });
-
-        registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", (event, lang) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean toggler = guildData.isLinkProtection();
-
-            guildData.setLinkProtection(!toggler);
-            event.getChannel().sendMessageFormat(lang.get("options.linkprotection_toggle.success"), EmoteReference.CORRECT, !toggler).queue();
-            dbGuild.save();
         });
-
-        registerOption("linkprotection:channel:allow", "Link-protection channel allow",
-                "Allows the posting of invites on a channel.\n" +
-                        "You need the channel name.\n" +
-                        "Example: ~>opts linkprotection channel allow promote-here",
-                "Allows the posting of invites on a channel.", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.no_channel"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String channelName = args[0];
-
-                    Consumer<TextChannel> consumer = tc -> {
-                        guildData.getLinkProtectionAllowedChannels().add(tc.getId());
-                        dbGuild.save();
-                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_allow.success"), EmoteReference.OK, tc.getAsMention()).queue();
-                    };
-
-                    TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
-
-                    if (channel != null) {
-                        consumer.accept(channel);
-                    }
-                });
-        addOptionAlias("linkprotection:channel:allow", "linkprotection:channel:enable");
-
-
-        registerOption("linkprotection:channel:disallow", "Link-protection channel disallow",
-                "Disallows the posting of invites on a channel.\n" +
-                        "You need the channel name.\n" +
-                        "Example: ~>opts linkprotection channel disallow general",
-                "Disallows the posting of invites on a channel (every channel by default)", (event, args, lang) -> {
-                    if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.no_channel"), EmoteReference.ERROR).queue();
-                        return;
-                    }
-
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    String channelName = args[0];
-
-                    Consumer<TextChannel> consumer = tc -> {
-                        guildData.getLinkProtectionAllowedChannels().remove(tc.getId());
-                        dbGuild.save();
-                        event.getChannel().sendMessageFormat(lang.get("options.linkprotection_channel_disallow.success"), EmoteReference.OK, tc.getAsMention()).queue();
-                    };
-
-                    TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
-
-                    if (channel != null) {
-                        consumer.accept(channel);
-                    }
-                });
-        addOptionAlias("linkprotection:channel:disallow", "linkprotection:channel:disable");
-
-        registerOption("linkprotection:user:allow", "Link-protection user whitelist", "Allows an user to post invites.\n" +
-                "You need to mention the user.", "Allows an user to post invites.", (event, args, lang) -> {
-            if (args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.no_user"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            if (event.getMessage().getMentionedUsers().isEmpty()) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.no_mentions"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            User toWhiteList = event.getMessage().getMentionedUsers().get(0);
-            guildData.getLinkProtectionAllowedUsers().add(toWhiteList.getId());
-            dbGuild.save();
-            event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_allow.success"),
-                    EmoteReference.CORRECT, toWhiteList.getName(), toWhiteList.getDiscriminator()
-            ).queue();
-        });
-        addOptionAlias("linkprotection:user:allow", "linkprotection:user:enable");
-
-        registerOption("linkprotection:user:disallow", "Link-protection user blacklist", "Disallows an user to post invites.\n" +
-                "You need to mention the user. (This is the default behaviour)", "Allows an user to post invites (This is the default behaviour)", (event, args, lang) -> {
-            if (args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.no_user"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            if (event.getMessage().getMentionedUsers().isEmpty()) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.no_mentions"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            User toBlackList = event.getMessage().getMentionedUsers().get(0);
-
-            if (!guildData.getLinkProtectionAllowedUsers().contains(toBlackList.getId())) {
-                event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.not_whitelisted"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            guildData.getLinkProtectionAllowedUsers().remove(toBlackList.getId());
-            dbGuild.save();
-            event.getChannel().sendMessageFormat(lang.get("options.linkprotection_user_disallow.success"),
-                    EmoteReference.CORRECT, toBlackList.getName(), toBlackList.getDiscriminator()
-            ).queue();
-        });
-        addOptionAlias("linkprotection:user:disallow", "linkprotection:user:disable");
 
         registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
                 "Blacklist imageboard tags", (event, args, lang) -> {
@@ -235,7 +111,7 @@ public class GeneralOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.success"),
                             EmoteReference.CORRECT, String.join(" ,", args)
                     ).queue();
-                });
+        });
 
         registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", "Un-blacklist the specified imageboard tag from being looked up.",
                 "Un-blacklist imageboard tags", (event, args, lang) -> {
@@ -255,7 +131,7 @@ public class GeneralOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.success"),
                             EmoteReference.CORRECT, String.join(" ,", args)
                     ).queue();
-                });
+        });
     }
 
     @Override

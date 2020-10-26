@@ -22,7 +22,6 @@ import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
@@ -81,30 +80,31 @@ public class Trivia extends Game<String> {
 
     @Override
     public boolean onStart(GameLobby lobby) {
-        final I18nContext languageContext = lobby.getLanguageContext();
+        final var languageContext = lobby.getLanguageContext();
         try {
-            String json = Utils.httpRequest(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty.name().toLowerCase()));
+            var json = Utils.httpRequest(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty.name().toLowerCase()));
 
             if (json == null) {
                 lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.trivia.fetch_error"), EmoteReference.ERROR).queue();
                 return false;
             }
 
-            EmbedBuilder eb = new EmbedBuilder();
-            JSONObject ob = new JSONObject(json);
+            var eb = new EmbedBuilder();
+            var ob = new JSONObject(json);
 
-            JSONObject question = ob.getJSONArray("results").getJSONObject(0);
+            var question = ob.getJSONArray("results").getJSONObject(0);
 
-            List<String> answers = question
+            var answers = question
                     .getJSONArray("incorrect_answers")
                     .toList()
                     .stream()
                     .map(v -> fromB64(String.valueOf(v)))
                     .collect(Collectors.toList());
 
-            String qu = fromB64(question.getString("question"));
-            String category = fromB64(question.getString("category"));
-            String diff = fromB64(question.getString("difficulty"));
+            var qu = fromB64(question.getString("question"));
+            var category = fromB64(question.getString("category"));
+            var diff = fromB64(question.getString("difficulty"));
+
             hardDiff = diff.equalsIgnoreCase("hard");
             isBool = fromB64(question.getString("type")).equalsIgnoreCase("boolean");
 
@@ -112,9 +112,10 @@ public class Trivia extends Game<String> {
 
             answers.add(expectedAnswer.get(0));
             Collections.shuffle(answers);
-            StringBuilder sb = new StringBuilder();
-            int i = 1;
-            for (String s : answers) {
+
+            var sb = new StringBuilder();
+            var i = 1;
+            for (var s : answers) {
                 if (s.equals(expectedAnswer.get(0))) {
                     expectedAnswer.add(String.valueOf(i));
                 }

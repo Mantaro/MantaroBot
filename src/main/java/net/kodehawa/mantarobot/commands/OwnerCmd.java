@@ -17,14 +17,11 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.github.natanbc.javaeval.CompilationException;
-import com.github.natanbc.javaeval.CompilationResult;
 import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -43,15 +40,9 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.APIUtils;
-import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 
@@ -59,8 +50,6 @@ import java.awt.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -90,15 +79,17 @@ public class OwnerCmd {
         cr.register("blacklist", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                MantaroObj obj = ctx.db().getMantaroData();
+                var obj = ctx.db().getMantaroData();
 
-                String context = args[0];
-                String action = args[1];
+                var context = args[0];
+                var action = args[1];
 
                 if (context.equals("guild")) {
                     if (action.equals("add")) {
-                        if (MantaroBot.getInstance().getShardManager().getGuildById(args[2]) == null)
+                        if (MantaroBot.getInstance().getShardManager().getGuildById(args[2]) == null) {
+                            ctx.send(EmoteReference.ERROR + "Guild is already blacklisted?");
                             return;
+                        }
 
                         obj.getBlackListedGuilds().add(args[2]);
                         ctx.send(EmoteReference.CORRECT + "Blacklisted Guild: " +
@@ -107,8 +98,10 @@ public class OwnerCmd {
 
                         return;
                     } else if (action.equals("remove")) {
-                        if (!obj.getBlackListedGuilds().contains(args[2]))
+                        if (!obj.getBlackListedGuilds().contains(args[2])) {
+                            ctx.send(EmoteReference.ERROR + "Guild is not blacklisted?");
                             return;
+                        }
 
                         obj.getBlackListedGuilds().remove(args[2]);
                         ctx.send(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]);
@@ -122,10 +115,10 @@ public class OwnerCmd {
                 }
 
                 if (context.equals("user")) {
-                    User user = ctx.retrieveUserById(args[2]);
+                    var user = ctx.retrieveUserById(args[2]);
                     if (action.equals("add")) {
                         if (user == null) {
-                            ctx.send("Can't find user.");
+                            ctx.send("Can't find user?");
                             return;
                         }
 
@@ -173,15 +166,16 @@ public class OwnerCmd {
                     .map(String::valueOf), "Invalid id");
             var amount = ctx.argument(Parsers.strictLong(), "Invalid amount");
 
-            User u = ctx.retrieveUserById(id);
+            var u = ctx.retrieveUserById(id);
 
             if (u == null) {
                 ctx.send("Can't find user");
                 return;
             }
 
-            Player p = MantaroData.db().getPlayer(id);
-            PlayerData pd = p.getData();
+            var p = MantaroData.db().getPlayer(id);
+            var pd = p.getData();
+
             pd.setLastDailyAt(System.currentTimeMillis());
             pd.setDailyStreak(amount);
 
@@ -201,7 +195,7 @@ public class OwnerCmd {
     public static class DataRequest extends NewCommand {
         @Override
         protected void process(NewContext ctx) {
-            ManagedDatabase db = MantaroData.db();
+            var db = MantaroData.db();
             var id = ctx.argument(Parsers.strictLong()
                     .map(String::valueOf), "Invalid id");
 
@@ -223,6 +217,7 @@ public class OwnerCmd {
 
                 var total = String.format("Player:\n%s\n ---- \nUser:\n%s\n ---- \nSeason:\n%s", jsonPlayer, jsonUser, jsonSeason);
                 byte[] bytes = total.getBytes(StandardCharsets.UTF_8);
+
                 if (bytes.length > 7_800_000) {
                     ctx.send("Result too big!");
                 } else {
@@ -252,23 +247,23 @@ public class OwnerCmd {
                     return;
                 }
 
-                Item i = ItemHelper.fromAnyNoId(content).orElse(null);
+                var item = ItemHelper.fromAnyNoId(content).orElse(null);
 
-                if (i == null) {
+                if (item == null) {
                     ctx.send(EmoteReference.ERROR + "I didn't find that item.");
                     return;
                 }
 
-                Player p = ctx.getPlayer();
+                var player = ctx.getPlayer();
                 
-                if (p.getInventory().getAmount(i) < 5000) {
-                    p.getInventory().process(new ItemStack(i, 1));
+                if (player.getInventory().getAmount(item) < 5000) {
+                    player.getInventory().process(new ItemStack(item, 1));
                 } else {
                     ctx.send(EmoteReference.ERROR + "Too many of this item already.");
                 }
 
-                p.saveAsync();
-                ctx.send("Gave you " + i);
+                player.saveAsync();
+                ctx.send("Gave you " + item);
             }
         });
     }
@@ -290,16 +285,16 @@ public class OwnerCmd {
                     }
 
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                        Player transferred = MantaroData.db().getPlayer(args[0]);
-                        Player transferTo = MantaroData.db().getPlayer(args[1]);
+                        var transferred = MantaroData.db().getPlayer(args[0]);
+                        var transferTo = MantaroData.db().getPlayer(args[1]);
 
                         transferTo.setCurrentMoney(transferred.getCurrentMoney());
                         transferTo.setLevel(transferred.getLevel());
                         transferTo.setReputation(transferred.getReputation());
                         transferTo.getInventory().merge(transferred.getInventory().asList());
 
-                        PlayerData transferredData = transferred.getData();
-                        PlayerData transferToData = transferTo.getData();
+                        var transferredData = transferred.getData();
+                        var transferToData = transferTo.getData();
 
                         transferToData.setExperience(transferredData.getExperience());
                         transferToData.setBadges(transferredData.getBadges());
@@ -314,7 +309,8 @@ public class OwnerCmd {
                         transferToData.setTimesMopped(transferredData.getTimesMopped());
 
                         transferTo.save();
-                        Player reset = Player.of(args[0]);
+
+                        var reset = Player.of(args[0]);
                         reset.save();
 
                         ctx.send(EmoteReference.CORRECT + "Transfer from " + args[0] + " to " + args[1] + " completed.");
@@ -343,24 +339,24 @@ public class OwnerCmd {
                     return;
                 }
 
-                String b = args[1];
-                User user = ctx.retrieveUserById(args[0]);
+                var toAdd = args[1];
+                var user = ctx.retrieveUserById(args[0]);
 
                 if (user == null) {
                     ctx.send(EmoteReference.ERROR + "User not found.");
                     return;
                 }
 
-                Badge badge = Badge.lookupFromString(b);
+                var badge = Badge.lookupFromString(toAdd);
                 if (badge == null) {
                     ctx.send(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
                             Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,")));
                     return;
                 }
 
-                Player p = ctx.getPlayer(user);
-                p.getData().addBadgeIfAbsent(badge);
-                p.saveAsync();
+                var player = ctx.getPlayer(user);
+                player.getData().addBadgeIfAbsent(badge);
+                player.saveAsync();
 
                 ctx.send(EmoteReference.CORRECT + "Added badge " + badge + " to " + user.getAsTag());
             }
@@ -369,7 +365,7 @@ public class OwnerCmd {
         cr.register("removebadge", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                List<User> users = ctx.getMentionedUsers();
+                var users = ctx.getMentionedUsers();
 
                 if (users.isEmpty()) {
                     ctx.send(EmoteReference.ERROR + "You need to give me a user to remove the badge from!");
@@ -381,18 +377,19 @@ public class OwnerCmd {
                     return;
                 }
 
-                String b = args[1];
-                Badge badge = Badge.lookupFromString(b);
+                var toRemove = args[1];
+                var badge = Badge.lookupFromString(toRemove);
+
                 if (badge == null) {
                     ctx.send(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
                             Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,")));
                     return;
                 }
 
-                for (User u : users) {
-                    Player p = MantaroData.db().getPlayer(u);
-                    p.getData().removeBadge(badge);
-                    p.saveAsync();
+                for (var user : users) {
+                    Player player = MantaroData.db().getPlayer(user);
+                    player.getData().removeBadge(badge);
+                    player.saveAsync();
                 }
 
                 ctx.send(
@@ -405,10 +402,10 @@ public class OwnerCmd {
     @Subscribe
     public void eval(CommandRegistry cr) {
         //has no state
-        JavaEvaluator javaEvaluator = new JavaEvaluator();
+        var javaEvaluator = new JavaEvaluator();
         Evaluator eval = (ctx, code) -> {
             try {
-                CompilationResult r = javaEvaluator.compile()
+                var result = javaEvaluator.compile()
                         .addCompilerOptions("-Xlint:unchecked")
                         .source("Eval", JAVA_EVAL_IMPORTS + "\n\n" +
                                 "public class Eval {\n" +
@@ -423,19 +420,23 @@ public class OwnerCmd {
                         )
                         .execute();
 
-                EvalClassLoader ecl = new EvalClassLoader();
-                r.getClasses().forEach((name, bytes) -> ecl.define(bytes));
+                var ecl = new EvalClassLoader();
+                result.getClasses().forEach((name, bytes) -> ecl.define(bytes));
 
                 return ecl.loadClass("Eval").getMethod("run", Context.class).invoke(null, ctx);
-            } catch (CompilationException e) {
-                StringBuilder sb = new StringBuilder("\n");
+            } catch (CompilationException ex) {
+                var sb = new StringBuilder("\n");
 
-                if (e.getCompilerOutput() != null)
-                    sb.append(e.getCompilerOutput());
+                if (ex.getCompilerOutput() != null) {
+                    sb.append(ex.getCompilerOutput());
+                }
 
-                if (!e.getDiagnostics().isEmpty()) {
-                    if (sb.length() > 0) sb.append("\n\n");
-                    e.getDiagnostics().forEach(d -> sb.append(d).append('\n'));
+                if (!ex.getDiagnostics().isEmpty()) {
+                    if (sb.length() > 0) {
+                        sb.append("\n\n");
+                    }
+
+                    ex.getDiagnostics().forEach(d -> sb.append(d).append('\n'));
                 }
                 return new Error(sb.toString()) {
                     @Override
@@ -457,8 +458,8 @@ public class OwnerCmd {
                 }
 
                 // eval.eval, yes
-                Object result = eval.eval(ctx, content);
-                boolean errored = result instanceof Throwable;
+                var result = eval.eval(ctx, content);
+                var errored = result instanceof Throwable;
 
                 ctx.send(new EmbedBuilder()
                         .setAuthor(
@@ -489,7 +490,7 @@ public class OwnerCmd {
         cr.register("link", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                final Config config = ctx.getConfig();
+                final var config = ctx.getConfig();
 
                 if (!config.isPremiumBot()) {
                     ctx.send("This command can only be ran in MP, as it'll link a guild to an MP holder.");
@@ -501,18 +502,20 @@ public class OwnerCmd {
                     return;
                 }
 
-                String userString = args[0];
-                String guildString = args[1];
-                Guild guild = MantaroBot.getInstance().getShardManager().getGuildById(guildString);
-                User user = ctx.retrieveUserById(userString);
+                var userString = args[0];
+                var guildString = args[1];
+                var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildString);
+                var user = ctx.retrieveUserById(userString);
+
                 if (guild == null || user == null) {
                     ctx.send("User or guild not found.");
                     return;
                 }
 
-                final DBGuild dbGuild = MantaroData.db().getGuild(guildString);
-                Map<String, String> t = ctx.getOptionalArguments();
-                if (t.containsKey("u")) {
+                final var dbGuild = MantaroData.db().getGuild(guildString);
+                var optionalArguments = ctx.getOptionalArguments();
+
+                if (optionalArguments.containsKey("u")) {
                     dbGuild.getData().setMpLinkedTo(null);
                     dbGuild.save();
 
@@ -520,8 +523,9 @@ public class OwnerCmd {
                     return;
                 }
 
-                Pair<Boolean, String> pledgeInfo = APIUtils.getPledgeInformation(user.getId());
-                //guaranteed to be an integer
+                var pledgeInfo = APIUtils.getPledgeInformation(user.getId());
+
+                // Guaranteed to be an integer
                 if (pledgeInfo == null || !pledgeInfo.getLeft() || Double.parseDouble(pledgeInfo.getRight()) < 4) {
                     ctx.send("Pledge not found, pledge amount not enough or pledge was cancelled.");
                     return;
@@ -559,8 +563,8 @@ public class OwnerCmd {
                     return;
                 }
 
-                String serverId = args[0];
-                String days = args[1];
+                var serverId = args[0];
+                var days = args[1];
 
                 if (MantaroBot.getInstance().getShardManager().getGuildById(serverId) == null) {
                     ctx.send("Invalid guild.");
@@ -575,11 +579,13 @@ public class OwnerCmd {
                     return;
                 }
 
-                DBGuild db = MantaroData.db().getGuild(serverId);
-                db.incrementPremium(TimeUnit.DAYS.toMillis(dayAmount));
-                db.saveAsync();
+                var dbGuild = MantaroData.db().getGuild(serverId);
+                dbGuild.incrementPremium(TimeUnit.DAYS.toMillis(dayAmount));
+                dbGuild.saveAsync();
 
-                ctx.send(EmoteReference.CORRECT + "The premium feature for guild " + db.getId() + " now is until " + new Date(db.getPremiumUntil()));
+                ctx.send(EmoteReference.CORRECT +
+                        "The premium feature for guild " + dbGuild.getId() + " now is until " + new Date(dbGuild.getPremiumUntil())
+                );
             }
         });
     }

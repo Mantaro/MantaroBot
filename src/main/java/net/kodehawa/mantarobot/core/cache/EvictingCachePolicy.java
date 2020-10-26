@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.cache;
 
-import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.NotNull;
@@ -17,23 +16,24 @@ public class EvictingCachePolicy implements MemberCachePolicy {
     private final EvictionStrategy[] strategies;
     
     public EvictingCachePolicy(List<Integer> shardIds, Supplier<EvictionStrategy> strategySupplier) {
-        var s = new EvictionStrategy[Collections.max(shardIds) + 1];
+        var strategy = new EvictionStrategy[Collections.max(shardIds) + 1];
+
         for (var id : shardIds) {
-            s[id] = strategySupplier.get();
+            strategy[id] = strategySupplier.get();
         }
 
-        this.strategies = s;
+        this.strategies = strategy;
     }
     
     @Override
     public boolean cacheMember(@NotNull Member member) {
-        GuildVoiceState voiceState = member.getVoiceState();
+        var voiceState = member.getVoiceState();
         if (voiceState != null && voiceState.getChannel() != null) {
             return true;
         }
 
         long evict;
-        //this can be called from ws threads or requester threads
+        // This can be called from ws threads or requester threads
         var shard = member.getJDA().getShardInfo().getShardId();
         var strategy = strategies[shard];
 
@@ -47,16 +47,17 @@ public class EvictingCachePolicy implements MemberCachePolicy {
             evict = strategy.cache(member.getIdLong());
         }
 
-        //the strategy contains only members that were added to this shard
-        //so removing shouldn't fail
+        // The strategy contains only members that were added to this shard
+        // So removing shouldn't fail
         if (evict != EvictionStrategy.NO_REMOVAL_NEEDED) {
             member.getJDA().getGuildCache().forEach(g -> {
-                var m = g.getMemberById(evict);
-                if (m == null)
+                var evicted = g.getMemberById(evict);
+                if (evicted == null) {
                     return;
+                }
 
                 // Only remove if voice state is null, or channel in the voice state is null.
-                if (m.getVoiceState() == null || m.getVoiceState().getChannel() == null) {
+                if (evicted.getVoiceState() == null || evicted.getVoiceState().getChannel() == null) {
                     g.unloadMember(evict);
                 }
             });

@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
@@ -67,7 +68,7 @@ public class MarketCmd {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         showMarket(ctx, (item) -> true);
                     }
                 };
@@ -108,7 +109,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 showMarket(ctx, (item) -> item.getItemType() == ItemType.PET || item.getItemType() == ItemType.PET_FOOD);
             }
         });
@@ -120,7 +121,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 showMarket(ctx, (item) -> item.getItemType() == ItemType.COMMON || item.getItemType() == ItemType.COLLECTABLE);
             }
         });
@@ -132,7 +133,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 showMarket(ctx, (item) -> item instanceof FishRod || item instanceof Pickaxe || item instanceof Axe || item instanceof Broken);
             }
         });
@@ -144,7 +145,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 showMarket(ctx, (item) -> item instanceof Potion);
             }
         });
@@ -157,7 +158,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 showMarket(ctx, Item::isBuyable);
             }
         });
@@ -169,7 +170,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 showMarket(ctx, Item::isSellable);
             }
         });
@@ -182,7 +183,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.market.dump.no_item", EmoteReference.ERROR);
                     return;
@@ -251,7 +252,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var item = ItemHelper.fromAny(content).orElse(null);
 
                 if (item == null) {
@@ -283,7 +284,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
                     return;
@@ -394,7 +395,7 @@ public class MarketCmd {
                     if (isSeasonal)
                         seasonalPlayer.saveAsync();
                 } catch (Exception e) {
-                    ctx.send(EmoteReference.ERROR + ctx.getLanguageContext().get("general.invalid_syntax"));
+                    ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
                 }
             }
         });
@@ -407,7 +408,7 @@ public class MarketCmd {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
                     return;
@@ -502,7 +503,7 @@ public class MarketCmd {
                         ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP);
                     }
                 } catch (Exception e) {
-                    ctx.send(EmoteReference.ERROR + ctx.getLanguageContext().get("general.invalid_syntax"));
+                    ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
                 }
             }
         });

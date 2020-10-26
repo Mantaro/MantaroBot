@@ -41,7 +41,9 @@ public class HelpUtils {
     }
 
     public static String forType(List<String> values) {
-        if (values.size() == 0) return "`Disabled`";
+        if (values.size() == 0) {
+            return "`Disabled`";
+        }
 
         return "``" + values.stream().sorted()
                 .collect(Collectors.joining("`` ``")) + "``";

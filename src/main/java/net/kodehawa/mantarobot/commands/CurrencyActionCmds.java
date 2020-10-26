@@ -715,7 +715,6 @@ public class CurrencyActionCmds {
 
     private HousePet.ActivityReward handlePetBuff(HousePet pet, HousePetType.HousePetAbility required,
                                                   I18nContext languageContext, boolean needsItem) {
-
         HousePet.ActivityResult ability = pet.handleAbility(required);
         if (ability.passed()) {
             var itemIncrease = 0;

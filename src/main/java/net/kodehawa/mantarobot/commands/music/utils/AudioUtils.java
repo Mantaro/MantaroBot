@@ -33,11 +33,11 @@ public class AudioUtils {
     }
 
     public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue, GuildMusicManager manager) {
-        StringBuilder sb = new StringBuilder();
-        int n = 1;
-        for (AudioTrack audioTrack : queue) {
-            long aDuration = audioTrack.getDuration();
-            String duration = String.format("%02d:%02d",
+        var sb = new StringBuilder();
+        var n = 1;
+        for (var audioTrack : queue) {
+            var aDuration = audioTrack.getDuration();
+            var duration = String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(aDuration),
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );

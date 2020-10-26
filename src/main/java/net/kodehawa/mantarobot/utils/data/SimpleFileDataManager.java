@@ -36,6 +36,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 
     public SimpleFileDataManager(String file) {
         this.path = Paths.get(file);
+
         if (!this.path.toFile().exists()) {
             log.info("Could not find config file at " + this.path.toFile().getAbsolutePath() + ", creating a new one...");
             try {

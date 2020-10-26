@@ -34,6 +34,7 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
 
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
+
         if (ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
             this.frame = null;
         } else {
@@ -45,11 +46,15 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
 
     @Override
     public boolean canProvide() {
-        boolean provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ?
+        var provided = ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER ?
                 (lastFrame = audioPlayer.provide()) != null : audioPlayer.provide(frame);
+
         if (!audioPlayer.isPaused()) {
             total++;
-            if (!provided) lost++;
+            
+            if (!provided) {
+                lost++;
+            }
         }
         return provided;
     }

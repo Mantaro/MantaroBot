@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -85,7 +86,7 @@ public class PetCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         ctx.sendLocalized("commands.pet.explanation");
                     }
                 };
@@ -110,7 +111,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var pets = Arrays
                         .stream(HousePetType.values())
                         .filter(HousePetType::isBuyable)
@@ -137,7 +138,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext language, String content) {
                 var dbUser = ctx.getDBUser();
 
                 var marriage = dbUser.getData().getMarriage();
@@ -152,8 +153,6 @@ public class PetCmds {
                     return;
 
                 }
-
-                var language = ctx.getLanguageContext();
 
                 EmbedBuilder status = new EmbedBuilder()
                         .setAuthor(String.format(language.get("commands.pet.status.header"), pet.getName()), ctx.getUser().getEffectiveAvatarUrl())
@@ -209,7 +208,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
@@ -270,7 +269,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
@@ -310,7 +309,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
@@ -415,7 +414,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
@@ -460,7 +459,7 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
@@ -550,15 +549,22 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
+                int amount = 1;
 
                 if (marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
+                }
+
+                if (!content.isEmpty()) {
+                    try {
+                        amount = Integer.parseInt(content);
+                    } catch (Exception ignored) { }
                 }
 
                 var pet = marriage.getData().getPet();
@@ -579,11 +585,22 @@ public class PetCmds {
                     return;
                 }
 
-                pet.increaseThirst();
+                if (playerInventory.getAmount(item) < amount) {
+                    ctx.sendLocalized("commands.pet.water.not_enough_inventory", EmoteReference.ERROR, amount);
+                    return;
+                }
+
+                var increase = 15 * amount;
+                if ((pet.getThirst() + increase) > 100) {
+                    ctx.sendLocalized("commands.pet.thirst.too_much", EmoteReference.ERROR);
+                    return;
+                }
+
+                pet.increaseThirst(increase);
                 pet.increaseHealth();
                 pet.increaseStamina();
 
-                playerInventory.process(new ItemStack(item, -1));
+                playerInventory.process(new ItemStack(item, -amount));
                 player.save();
 
                 marriage.save();
@@ -598,9 +615,8 @@ public class PetCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var lookup = HousePetType.lookupFromString(content);
-                var languageContext = ctx.getLanguageContext();
                 if (lookup == null) {
                     ctx.sendLocalized("commands.pet.info.not_found", EmoteReference.ERROR);
                     return;

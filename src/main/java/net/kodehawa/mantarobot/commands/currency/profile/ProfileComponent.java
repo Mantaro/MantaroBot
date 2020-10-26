@@ -62,11 +62,11 @@ public enum ProfileComponent {
             holder.isSeasonal() ? String.valueOf(holder.getSeasonalPlayer().getReputation()) : String.valueOf(holder.getPlayer().getReputation())
     ),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
-        Player player = holder.getPlayer();
+        var player = holder.getPlayer();
         return String.format("%d (%s: %d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
     }),
     BIRTHDAY(EmoteReference.POPPER, i18nContext -> i18nContext.get("commands.profile.birthday"), (holder, i18nContext) -> {
-        UserData data = holder.getDbUser().getData();
+        var data = holder.getDbUser().getData();
 
         try {
             if (data.getBirthday() == null)
@@ -87,8 +87,8 @@ public enum ProfileComponent {
     }, true, false),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
         //New marriage support.
-        UserData userData = holder.getDbUser().getData();
-        Marriage currentMarriage = userData.getMarriage();
+        var userData = holder.getDbUser().getData();
+        var currentMarriage = userData.getMarriage();
         User marriedTo = null;
 
         //Expecting save to work in PlayerCmds, not here, just handle this here.
@@ -104,23 +104,25 @@ public enum ProfileComponent {
         if (marriedTo == null) {
             return i18nContext.get("commands.profile.nobody");
         } else {
-            if (userData.isPrivateTag())
+            if (userData.isPrivateTag()) {
                 return String.format("%s", marriedTo.getName());
-            else
+            } else {
                 return String.format("%s#%s", marriedTo.getName(), marriedTo.getDiscriminator());
+            }
         }
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
-        Inventory inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
+        var inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
         return inv.asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "));
     }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
-        String displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
+        var displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
-        if (displayBadges.isEmpty())
+        if (displayBadges.isEmpty()) {
             return i18nContext.get("commands.profile.no_badges");
-        else
+        } else {
             return displayBadges;
+        }
     }, true, false),
     QUESTS(EmoteReference.PENCIL, i18nContext -> i18nContext.get("commands.profile.quests.header"), (holder, i18nContext) -> {
         var tracker = holder.getPlayer().getData().getQuests();
@@ -129,7 +131,7 @@ public enum ProfileComponent {
         var builder = new StringBuilder();
 
         // Create a string for all active quests.
-        for(Quest quest : quests) {
+        for(var quest : quests) {
             if (quest.isActive()) {
                 builder.append(String.format(i18nContext.get(quest.getType().getI18n()), quest.getProgress()))
                         .append("\n");
@@ -146,15 +148,16 @@ public enum ProfileComponent {
         return builder.toString();
     }),
     FOOTER(null, null, (holder, i18nContext) -> {
-        UserData userData = holder.getDbUser().getData();
+        var userData = holder.getDbUser().getData();
         String timezone;
 
-        if (userData.getTimezone() == null)
+        if (userData.getTimezone() == null) {
             timezone = i18nContext.get("commands.profile.no_timezone");
-        else
+        } else {
             timezone = userData.getTimezone();
+        }
 
-        String seasonal = holder.isSeasonal() ? " | Seasonal profile (" + MantaroData.config().get().getCurrentSeason().getDisplay() + ")" : "";
+        var seasonal = holder.isSeasonal() ? " | Seasonal profile (" + MantaroData.config().get().getCurrentSeason().getDisplay() + ")" : "";
 
         return String.format("%s%s", String.format(i18nContext.get("commands.profile.timezone_user"), timezone), seasonal);
     }, false);
@@ -201,9 +204,9 @@ public enum ProfileComponent {
      * @return The component, or null if nothing is found.
      */
     public static ProfileComponent lookupFromString(String name) {
-        for (ProfileComponent c : ProfileComponent.values()) {
-            if (c.name().equalsIgnoreCase(name)) {
-                return c;
+        for (var component : ProfileComponent.values()) {
+            if (component.name().equalsIgnoreCase(name)) {
+                return component;
             }
         }
         return null;

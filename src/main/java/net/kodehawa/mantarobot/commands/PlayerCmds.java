@@ -19,15 +19,13 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
-import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
-import net.kodehawa.mantarobot.commands.currency.seasons.helpers.SeasonalPlayerData;
 import net.kodehawa.mantarobot.commands.currency.seasons.helpers.UnifiedPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -46,7 +44,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -57,8 +54,10 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import java.awt.*;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -79,8 +78,8 @@ public class PlayerCmds {
 
             @Override
             public void call(Context ctx, String content, String[] args) {
-                long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
-                I18nContext languageContext = ctx.getLanguageContext();
+                var rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
+                var languageContext = ctx.getLanguageContext();
 
                 if (content.isEmpty()) {
                     ctx.send(String.format(languageContext.get("commands.rep.no_mentions"), EmoteReference.ERROR,
@@ -92,7 +91,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                List<User> mentioned = ctx.getMentionedUsers();
+                var mentioned = ctx.getMentionedUsers();
                 if (!mentioned.isEmpty() && mentioned.size() > 1) {
                     ctx.sendLocalized("commands.rep.more_than_one", EmoteReference.ERROR);
                     return;
@@ -100,12 +99,13 @@ public class PlayerCmds {
 
 
                 ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                    Member member = CustomFinderUtil.findMember(content, members, ctx);
-                    if (member == null)
+                    var member = CustomFinderUtil.findMember(content, members, ctx);
+                    if (member == null) {
                         return;
+                    }
 
-                    User usr = member.getUser();
-                    User author = ctx.getAuthor();
+                    var usr = member.getUser();
+                    var author = ctx.getAuthor();
                     Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
 
                     //Didn't want to repeat the code twice, lol.
@@ -140,10 +140,11 @@ public class PlayerCmds {
                     }
 
                     //Check for RL.
-                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
+                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                         return;
+                    }
 
-                    UnifiedPlayer player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());
+                    var player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());
                     player.addReputation(1L);
                     player.save();
 
@@ -175,31 +176,31 @@ public class PlayerCmds {
                     return;
                 }
 
-                boolean isSeasonal = ctx.isSeasonal();
+                var isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
-                Item item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                var item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
 
-                Player player = ctx.getPlayer();
-                DBUser dbUser = ctx.getDBUser();
-                UserData data = dbUser.getData();
-                SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
-                SeasonalPlayerData seasonalPlayerData = seasonalPlayer.getData();
+                var player = ctx.getPlayer();
+                var dbUser = ctx.getDBUser();
+                var userData = dbUser.getData();
+                var seasonalPlayer = ctx.getSeasonPlayer();
+                var seasonalPlayerData = seasonalPlayer.getData();
 
                 if (item == null) {
                     ctx.sendLocalized("commands.profile.equip.no_item", EmoteReference.ERROR);
                     return;
                 }
 
-                boolean containsItem = isSeasonal ? seasonalPlayer.getInventory().containsItem(item) : player.getInventory().containsItem(item);
+                var containsItem = isSeasonal ? seasonalPlayer.getInventory().containsItem(item) : player.getInventory().containsItem(item);
                 if (!containsItem) {
                     ctx.sendLocalized("commands.profile.equip.not_owned", EmoteReference.ERROR);
                     return;
                 }
 
-                PlayerEquipment equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : data.getEquippedItems();
+                var equipment = isSeasonal ? seasonalPlayerData.getEquippedItems() : userData.getEquippedItems();
 
-                PlayerEquipment.EquipmentType proposedType = equipment.getTypeFor(item);
+                var proposedType = equipment.getTypeFor(item);
                 if (equipment.getEquipment().containsKey(proposedType)) {
                     ctx.sendLocalized("commands.profile.equip.already_equipped", EmoteReference.ERROR);
                     return;
@@ -243,42 +244,42 @@ public class PlayerCmds {
                     return;
                 }
 
-                boolean isSeasonal = ctx.isSeasonal();
+                var isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
-                SeasonPlayer seasonalPlayer = ctx.getSeasonPlayer();
-                DBUser dbUser = ctx.getDBUser();
-                PlayerEquipment equipment = isSeasonal ? seasonalPlayer.getData().getEquippedItems() : dbUser.getData().getEquippedItems();
-                PlayerEquipment.EquipmentType type = PlayerEquipment.EquipmentType.fromString(content);
+                var seasonalPlayer = ctx.getSeasonPlayer();
+                var dbUser = ctx.getDBUser();
+                var equipment = isSeasonal ? seasonalPlayer.getData().getEquippedItems() : dbUser.getData().getEquippedItems();
+                var type = PlayerEquipment.EquipmentType.fromString(content);
                 if (type == null) {
                     ctx.sendLocalized("commands.profile.unequip.invalid_type", EmoteReference.ERROR);
                     return;
                 }
 
-                Integer equipped = equipment.getEquipment().get(type);
+                var equipped = equipment.getEquipment().get(type);
                 if (equipped == null) {
                     ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                     return;
                 }
 
-                Item equippedItem = ItemHelper.fromId(equipped);
+                var equippedItem = ItemHelper.fromId(equipped);
 
                 ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
-                    String ct = interactiveEvent.getMessage().getContentRaw();
-                    SeasonPlayer seasonalPlayerFinal = ctx.getSeasonPlayer();
-                    DBUser dbUserFinal = ctx.getDBUser();
-                    Player playerFinal = ctx.getPlayer();
-                    UserData dbUserData = dbUserFinal.getData();
-                    PlayerEquipment equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
+                    var ct = interactiveEvent.getMessage().getContentRaw();
+                    var seasonalPlayerFinal = ctx.getSeasonPlayer();
+                    var dbUserFinal = ctx.getDBUser();
+                    var playerFinal = ctx.getPlayer();
+                    var dbUserData = dbUserFinal.getData();
+                    var equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
 
                     if (ct.equalsIgnoreCase("yes")) {
-                        I18nContext languageContext = ctx.getLanguageContext();
+                        var languageContext = ctx.getLanguageContext();
 
-                        String part = ""; //Start as an empty string.
+                        var part = ""; //Start as an empty string.
                         if (type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD ||type == PlayerEquipment.EquipmentType.AXE ) {
                             // Gotta check again, just in case...
-                            Integer equippedFinal = equipmentFinal.getEquipment().get(type);
+                            var equippedFinal = equipmentFinal.getEquipment().get(type);
                             if (equippedFinal == null) {
                                 ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                                 return InteractiveOperation.COMPLETED;
@@ -289,16 +290,16 @@ public class PlayerCmds {
                                 return InteractiveOperation.COMPLETED;
                             }
 
-                            Breakable item = (Breakable) equippedItem;
+                            var item = (Breakable) equippedItem;
 
-                            float percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
+                            var percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                             if (percentage == 100) { //Basically never used
                                 playerFinal.getInventory().process(new ItemStack(equippedItem, 1));
                                 part += String.format(
                                         languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName()
                                 );
                             } else {
-                                Item brokenItem = ItemHelper.getBrokenItemFrom(equippedItem);
+                                var brokenItem = ItemHelper.getBrokenItemFrom(equippedItem);
                                 if (brokenItem != null) {
                                     playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
                                     part += String.format(
@@ -315,10 +316,12 @@ public class PlayerCmds {
                         }
 
                         equipmentFinal.resetOfType(type);
-                        if (isSeasonal)
+                        if (isSeasonal) {
                             seasonalPlayerFinal.save();
-                        else
+                        }
+                        else {
                             dbUserFinal.save();
+                        }
 
                         ctx.sendFormat(languageContext.get("commands.profile.unequip.success") + part,
                                 EmoteReference.CORRECT, type.name().toLowerCase()
@@ -353,24 +356,23 @@ public class PlayerCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
-                        Map<String, String> optionalArguments = ctx.getOptionalArguments();
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
+                        var optionalArguments = ctx.getOptionalArguments();
                         content = Utils.replaceArguments(optionalArguments, content, "brief");
                         // Lambdas strike again.
                         var contentFinal = content;
 
                         ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
-                            Member member = CustomFinderUtil.findMemberDefault(contentFinal, members, ctx, ctx.getMember());
-                            if (member == null)
+                            var member = CustomFinderUtil.findMemberDefault(contentFinal, members, ctx, ctx.getMember());
+                            if (member == null) {
                                 return;
+                            }
 
-                            User toLookup = member.getUser();
+                            var toLookup = member.getUser();
 
                             Player player = ctx.getPlayer(toLookup);
                             PlayerData playerData = player.getData();
                             DBUser dbUser = ctx.getDBUser();
-
-                            I18nContext languageContext = ctx.getLanguageContext();
 
                             if (!optionalArguments.isEmpty() && optionalArguments.containsKey("brief")) {
                                 ctx.sendLocalized("commands.badges.brief_success", member.getEffectiveName(),
@@ -383,16 +385,16 @@ public class PlayerCmds {
                                 return;
                             }
 
-                            List<Badge> badges = playerData.getBadges();
+                            var badges = playerData.getBadges();
                             Collections.sort(badges);
 
-                            EmbedBuilder embed = new EmbedBuilder()
+                            var embed = new EmbedBuilder()
                                     .setAuthor(String.format(languageContext.get("commands.badges.header"), toLookup.getName()))
                                     .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
                                     .setThumbnail(toLookup.getEffectiveAvatarUrl());
                             List<MessageEmbed.Field> fields = new LinkedList<>();
 
-                            for (Badge b : badges) {
+                            for (var b : badges) {
                                 //God DAMNIT discord, I want it to look cute, stop trimming my spaces.
                                 fields.add(
                                         new MessageEmbed.Field(b.toString(), "**\u2009\u2009\u2009\u2009- " + b.description + "**", false)
@@ -405,7 +407,7 @@ public class PlayerCmds {
                                 return;
                             }
 
-                            String common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
+                            var common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
                                     ((r.nextInt(2) == 0 && !dbUser.isPremium() ? languageContext.get("commands.badges.donate_notice") : "\n") +
                                             String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
 
@@ -433,30 +435,28 @@ public class PlayerCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.badges.info.not_specified", EmoteReference.ERROR);
                     return;
                 }
 
-                Badge badge = Badge.lookupFromString(content);
-                //shouldn't NPE bc null check is done first, in order
+                var badge = Badge.lookupFromString(content);
                 if (badge == null || badge == Badge.DJ) {
                     ctx.sendLocalized("commands.badges.info.not_found", EmoteReference.ERROR);
                     return;
                 }
 
-                Player p = ctx.getPlayer();
-                final I18nContext languageContext = ctx.getLanguageContext();
+                var player = ctx.getPlayer();
 
-                Message message = new MessageBuilder().setEmbed(new EmbedBuilder()
+                var message = new MessageBuilder().setEmbed(new EmbedBuilder()
                         .setAuthor(String.format(languageContext.get("commands.badges.info.header"), badge.display))
                         .setDescription(String.join("\n",
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.name") + ":** " + badge.display,
                                 EmoteReference.BLUE_SMALL_MARKER + "**" + languageContext.get("general.description") + ":** " + badge.description,
                                 EmoteReference.BLUE_SMALL_MARKER + "**" +
                                         languageContext.get("commands.badges.info.achieved") + ":** " +
-                                        p.getData().getBadges().stream().anyMatch(b -> b == badge)
+                                        player.getData().getBadges().stream().anyMatch(b -> b == badge)
                                 )
                         )
                         .setThumbnail("attachment://icon.png")

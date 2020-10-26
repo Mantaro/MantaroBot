@@ -60,10 +60,10 @@ public class BirthdayCacher {
                 for (Map<Object, Object> r : m) {
                     //Blame rethinkdb for the casting hell thx
                     @SuppressWarnings("unchecked")
-                    String birthday = ((Map<String, String>) r.get("data")).get("birthday");
+                    var birthday = ((Map<String, String>) r.get("data")).get("birthday");
                     if (birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
-                        String[] bd = birthday.split("-");
+                        var bd = birthday.split("-");
                         cachedBirthdays.put(String.valueOf(r.get("id")), new BirthdayData(birthday, bd[0], bd[1]));
                     }
                 }

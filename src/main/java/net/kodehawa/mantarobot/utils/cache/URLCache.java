@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.utils.cache;
 import com.google.common.base.Preconditions;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.Request;
-import okhttp3.Response;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -35,6 +34,7 @@ public class URLCache {
     public URLCache(File cacheDir, int cacheSize) {
         this.cacheDir = cacheDir;
         var path = cacheDir.toPath();
+
         if (Files.exists(path) && !Files.isDirectory(path)) {
             try {
                 Files.delete(path);
@@ -52,21 +52,26 @@ public class URLCache {
     }
 
     public File getFile(String url) {
-        File cachedFile = saved.get(Preconditions.checkNotNull(url, "url"));
-        if (cachedFile != null) return cachedFile;
+        var cachedFile = saved.get(Preconditions.checkNotNull(url, "url"));
+        if (cachedFile != null) {
+            return cachedFile;
+        }
+
         File file = null;
+
         try {
             file = new File(cacheDir, url.replace('/', '_').replace(':', '_'));
-            Request r = new Request.Builder()
+            var r = new Request.Builder()
                     .url(url)
                     .build();
 
-            try (Response response = Utils.httpClient.newCall(r).execute();
-                 FileOutputStream fos = new FileOutputStream(file)) {
+            try (var response = Utils.httpClient.newCall(r).execute(); var fos = new FileOutputStream(file)) {
                 var body = response.body();
+
                 if (body == null) {
                     throw new IllegalStateException("Null response body! Code: " + response.code() + " " + response.message());
                 }
+
                 body.byteStream().transferTo(fos);
                 saved.put(url, file);
                 return file;
@@ -79,6 +84,7 @@ public class URLCache {
                     e.addSuppressed(e2);
                 }
             }
+
             e.printStackTrace();
             throw new IllegalStateException();
         }

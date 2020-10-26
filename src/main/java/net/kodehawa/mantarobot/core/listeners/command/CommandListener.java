@@ -19,8 +19,6 @@ package net.kodehawa.mantarobot.core.listeners.command;
 import com.google.common.cache.Cache;
 import com.rethinkdb.gen.exc.ReqlError;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
@@ -33,10 +31,6 @@ import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -74,15 +68,16 @@ public class CommandListener implements EventListener {
     @Override
     public void onEvent(@NotNull GenericEvent event) {
         if (event instanceof GuildMessageReceivedEvent) {
-            GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
+            var msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
             messageCache.put(msg.getMessage().getIdLong(), Optional.of(
                     new CachedMessage(msg.getGuild().getIdLong(), msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay()))
             );
 
             //Ignore myself and bots.
-            if (msg.getAuthor().isBot() || msg.isWebhookMessage() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))
+            if (msg.getAuthor().isBot() || msg.isWebhookMessage() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) {
                 return;
+            }
 
             threadPool.execute(() -> onCommand(msg));
         }
@@ -90,9 +85,10 @@ public class CommandListener implements EventListener {
 
     private void onCommand(GuildMessageReceivedEvent event) {
         try {
-            Member self = event.getGuild().getSelfMember();
-            if (!self.getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR))
+            var self = event.getGuild().getSelfMember();
+            if (!self.getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR)) {
                 return;
+            }
 
             if (commandProcessor.run(event)) {
                 commandTotal++;
@@ -109,19 +105,21 @@ public class CommandListener implements EventListener {
                         if (InteractiveOperations.get(event.getChannel()).size() > 0)
                             return;
 
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        PlayerData data = player.getData();
-                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                        GuildData guildData = dbGuild.getData();
+                        var player = MantaroData.db().getPlayer(event.getAuthor());
+                        var data = player.getData();
+                        var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        var guildData = dbGuild.getData();
 
-                        if (player.isLocked())
+                        if (player.isLocked()) {
                             return;
+                        }
 
                         // ---------- GLOBAL EXPERIENCE CHECK ---------- //
 
                         //Set level to 1 if level is zero.
-                        if (player.getLevel() == 0)
+                        if (player.getLevel() == 0) {
                             player.setLevel(1);
+                        }
 
                         //Set player experience to a random number between 1 and 5.
                         data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
@@ -149,7 +147,7 @@ public class CommandListener implements EventListener {
                 } catch (Exception ignored) { }
             }
         } catch (IndexOutOfBoundsException e) {
-            String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessage(EmoteReference.ERROR +
                     String.format(
                             "Your query returned no results or you used the incorrect arguments, seemingly (Error ID: `%s`). Just in case, check command help!",
@@ -166,12 +164,12 @@ public class CommandListener implements EventListener {
                         " higher than my role? Do I have the correct permissions/hierarchy to perform this action?").queue();
             }
         } catch (LanguageKeyNotFoundException e) {
-            String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sWrong I18n key found, please report on the support server " +
                     "(Link at `support.mantaro.site`) with error ID `%s`.\n%sMessage: *%s*", EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()).queue();
             log.warn("Missing i18n key. Check this. ID: {}", id, e);
         } catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
-            String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat("%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +
                     "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, Just in case, check command help! " +
                     "(Support server link can be found at `support.mantaro.site`)", EmoteReference.ERROR, id, EmoteReference.WARNING).queue();
@@ -180,23 +178,24 @@ public class CommandListener implements EventListener {
             //So much just went wrong...
             e.printStackTrace();
         } catch (Exception e) {
-            I18n context = I18n.of(event.getGuild());
+            var context = I18n.of(event.getGuild());
+            var id = Snow64.toSnow64(event.getMessage().getIdLong());
+            var player = MantaroData.db().getPlayer(event.getAuthor());
 
-            String id = Snow64.toSnow64(event.getMessage().getIdLong());
-            Player player = MantaroData.db().getPlayer(event.getAuthor());
             event.getChannel().sendMessageFormat(
                     "%s%s (Unexpected error, ID: `%s`)\n" + context.get("general.generic_error"), EmoteReference.ERROR, context.get("general.boom_quotes"), id
             ).queue();
 
-            if (player.getData().addBadgeIfAbsent(Badge.FIRE))
+            if (player.getData().addBadgeIfAbsent(Badge.FIRE)) {
                 player.saveAsync();
+            }
 
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
     }
 
     private void processMessage(String level, String message, String channel, GuildMessageReceivedEvent event) {
-        TextChannel tc = event.getGuild().getTextChannelById(channel);
+        var tc = event.getGuild().getTextChannelById(channel);
 
         if (tc == null) {
             return;
@@ -209,10 +208,10 @@ public class CommandListener implements EventListener {
                     .resolve(message);
         }
 
-        int c = message.indexOf(':');
+        var c = message.indexOf(':');
         if (c != -1) {
-            String m = message.substring(0, c);
-            String v = message.substring(c + 1);
+            var m = message.substring(0, c);
+            var v = message.substring(c + 1);
 
             if (m.equals("embed")) {
                 EmbedJSON embed;

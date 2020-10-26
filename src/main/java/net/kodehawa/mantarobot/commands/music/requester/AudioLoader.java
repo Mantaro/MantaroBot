@@ -20,18 +20,12 @@ import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -39,7 +33,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -79,11 +72,11 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         try {
-            int i = 0;
-            for (AudioTrack track : playlist.getTracks()) {
-                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                DBUser user = MantaroData.db().getUser(event.getMember());
-                GuildData guildData = dbGuild.getData();
+            var i = 0;
+            for (var track : playlist.getTracks()) {
+                var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                var user = MantaroData.db().getUser(event.getMember());
+                var guildData = dbGuild.getData();
 
                 if (guildData.getMusicQueueSizeLimit() != null) {
                     if (i < guildData.getMusicQueueSizeLimit()) {
@@ -128,18 +121,20 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
-        AudioTrackInfo trackInfo = audioTrack.getInfo();
+        var trackInfo = audioTrack.getInfo();
+
         audioTrack.setUserData(event.getAuthor().getId());
-        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-        DBUser dbUser = MantaroData.db().getUser(event.getMember());
-        GuildData guildData = dbGuild.getData();
 
-        String title = trackInfo.title;
-        long length = trackInfo.length;
+        var dbGuild = MantaroData.db().getGuild(event.getGuild());
+        var dbUser = MantaroData.db().getUser(event.getMember());
+        var guildData = dbGuild.getData();
 
-        long queueLimit = Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).isEmpty() ? MAX_QUEUE_LENGTH :
+        var title = trackInfo.title;
+        var length = trackInfo.length;
+
+        var queueLimit = Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).isEmpty() ? MAX_QUEUE_LENGTH :
                 dbGuild.getData().getMusicQueueSizeLimit();
-        int fqSize = guildData.getMaxFairQueue();
+        var fqSize = guildData.getMaxFairQueue();
 
         if (musicManager.getTrackScheduler().getQueue().size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent)
@@ -167,8 +162,8 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (!silent) {
             //Hush from here babe, hehe.
-            Player player = MantaroData.db().getPlayer(event.getAuthor());
-            Badge badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
+            var player = MantaroData.db().getPlayer(event.getAuthor());
+            var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
                 player.save();
@@ -183,7 +178,7 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     private void onSearch(AudioPlaylist playlist) {
-        List<AudioTrack> list = playlist.getTracks();
+        var list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, AudioCmdUtils.getDurationMinutes(track.getInfo().length)),
                 s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor(language.get("commands.music_general.loader.selection_text"), "https://i.imgur.com/sFDpUZy.png")

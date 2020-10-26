@@ -24,7 +24,6 @@ import net.kodehawa.mantarobot.utils.exporters.JFRExports;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
 
 import java.lang.management.ManagementFactory;
 import java.util.concurrent.Executors;
@@ -100,13 +99,15 @@ public class AsyncInfoMonitor {
     }
 
     public static void start() {
-        if (started)
+        if (started) {
             throw new IllegalStateException("Already Started.");
+        }
+
         //some stats are set by JFRExports
         JFRExports.register();
         var bot = MantaroBot.getInstance();
 
-        String nodeSetName = "node-stats-" + config.getClientId();
+        var nodeSetName = "node-stats-" + config.getClientId();
 
         log.info("Started System Monitor! Monitoring system statistics since now!");
         log.info("Posting node system stats to redis on set {}", nodeSetName);
@@ -116,8 +117,8 @@ public class AsyncInfoMonitor {
             maxMemory = Runtime.getRuntime().maxMemory();
             totalMemory = Runtime.getRuntime().totalMemory();
 
-            try(Jedis j = MantaroData.getDefaultJedisPool().getResource()) {
-                j.hset(nodeSetName,
+            try(var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                jedis.hset(nodeSetName,
                         "node-" + bot.getNodeNumber(),
                         new JSONObject()
                                 .put("uptime", ManagementFactory.getRuntimeMXBean().getUptime())

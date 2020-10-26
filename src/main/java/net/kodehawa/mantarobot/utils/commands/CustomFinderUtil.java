@@ -65,16 +65,16 @@ public class CustomFinderUtil {
         // prefix to discord, without any consideration to cache. This is a little expensive but should be fine.
 
         // user#discriminator search
-        Matcher fullRefMatch = FULL_USER_REF.matcher(query);
+        var fullRefMatch = FULL_USER_REF.matcher(query);
         if (fullRefMatch.matches()) {
             // We handle name elsewhere.
-            String disc = fullRefMatch.replaceAll("$2");
+            var disc = fullRefMatch.replaceAll("$2");
             if (result.isEmpty()) {
                 ctx.send(EmoteReference.ERROR + "Cannot find any member with that name :(");
                 return null;
             }
 
-            for(Member member : result) {
+            for(var member : result) {
                 if (member.getUser().getDiscriminator().equals(disc))
                     return member;
             }
@@ -85,7 +85,7 @@ public class CustomFinderUtil {
         // end of user#discriminator search
 
         // Filter member results: usually we just want exact search, but partial matches are possible and allowed.
-        List<Member> found = filterMemberResults(result, query);
+        var found = filterMemberResults(result, query);
 
         // We didn't find anything *after* filtering.
         if (found.isEmpty()) {
@@ -113,32 +113,35 @@ public class CustomFinderUtil {
         ArrayList<Member> wrongCase = new ArrayList<>();
         ArrayList<Member> startsWith = new ArrayList<>();
         ArrayList<Member> contains = new ArrayList<>();
-        String lowerQuery = query.toLowerCase();
+
+        var lowerQuery = query.toLowerCase();
 
         result.forEach(member -> {
             String name = member.getUser().getName();
             String effName = member.getEffectiveName();
-            if (name.equals(query) || effName.equals(query))
+            if (name.equals(query) || effName.equals(query)) {
                 exact.add(member);
-            else if ((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty())
+            } else if ((name.equalsIgnoreCase(query) || effName.equalsIgnoreCase(query)) && exact.isEmpty()) {
                 wrongCase.add(member);
-            else if ((name.toLowerCase().startsWith(lowerQuery) || effName.toLowerCase().startsWith(lowerQuery)) && wrongCase.isEmpty())
+            } else if ((name.toLowerCase().startsWith(lowerQuery) || effName.toLowerCase().startsWith(lowerQuery)) && wrongCase.isEmpty()) {
                 startsWith.add(member);
-            else if ((name.toLowerCase().contains(lowerQuery) || effName.toLowerCase().contains(lowerQuery)) && startsWith.isEmpty())
+            } else if ((name.toLowerCase().contains(lowerQuery) || effName.toLowerCase().contains(lowerQuery)) && startsWith.isEmpty()) {
                 contains.add(member);
+            }
         });
 
         List<Member> found;
 
         // Slowly becoming insane.png
-        if (!exact.isEmpty())
+        if (!exact.isEmpty()) {
             found = Collections.unmodifiableList(exact);
-        else if (!wrongCase.isEmpty())
+        } else if (!wrongCase.isEmpty()) {
             found = Collections.unmodifiableList(wrongCase);
-        else if (!startsWith.isEmpty())
+        } else if (!startsWith.isEmpty()) {
             found = Collections.unmodifiableList(startsWith);
-        else
+        } else {
             found = Collections.unmodifiableList(contains);
+        }
 
         return found;
     }
@@ -149,51 +152,6 @@ public class CustomFinderUtil {
         } else {
             return findMember(query, result, ctx);
         }
-    }
-
-    /**
-     * Search for a member in a sync way. This is very dangerous to use but it's useful in cases where we can't use callbacks for x or y reasons.
-     * This is a *very* blocking call. It will fail if called in the WS thread, as it should.
-     * @param query The query to look for, for example Member#1234 or @Member or 155867458203287552
-     * @param guild The guild where we want to look for the Member on.
-     * @return A list of Members we found.
-     */
-    public static List<Member> findMembersSync(String query, Context ctx, Message message, Guild guild) {
-        // Handle user mentions.
-        Matcher userMention = USER_MENTION.matcher(query);
-        if (userMention.matches() && message.getMentionedMembers().size() > 0) {
-            return Collections.singletonList(message.getMentionedMembers().get(0));
-        }
-
-        // User ID
-        if (DISCORD_ID.matcher(query).matches()) {
-            Member member = ctx.retrieveMemberById(query, false);
-            if (member == null) {
-                return Collections.emptyList();
-            }
-
-            return Collections.singletonList(member);
-        }
-
-        // username#discriminator (Test#0001)
-        Matcher fullRefMatch = FULL_USER_REF.matcher(query);
-        if (fullRefMatch.matches()) {
-            String name = fullRefMatch.replaceAll("$1");
-            String disc = fullRefMatch.replaceAll("$2");
-            List<Member> oneMember = guild.retrieveMembersByPrefix(name, 1).get();
-            if (oneMember.isEmpty()) {
-                return Collections.emptyList();
-            }
-            Member member = oneMember.get(0);
-            if (member.getUser().getDiscriminator().equals(disc)) {
-                return Collections.singletonList(member);
-            } else {
-                return Collections.emptyList();
-            }
-        }
-
-        List<Member> members = lookupMember(guild, message, ctx, query).get();
-        return filterMemberResults(members, query);
     }
 
     // This whole thing is hacky as FUCK
@@ -227,7 +185,7 @@ public class CustomFinderUtil {
             // or the lookup will only happen once, which is very cheap and good.
             CompletableFuture<List<Member>> result = new CompletableFuture<>();
 
-            Member member = context.retrieveMemberById(query, false);
+            var member = context.retrieveMemberById(query, false);
             if (member == null) {
                 return emptyMemberTask();
             }
@@ -247,10 +205,10 @@ public class CustomFinderUtil {
         // username search or a username#discriminator search. This isn't exactly cheap, but we can work with it, I guess.
 
         // username#discriminator regex matcher.
-        Matcher fullRefMatch = FULL_USER_REF.matcher(query);
+        var fullRefMatch = FULL_USER_REF.matcher(query);
         if (fullRefMatch.matches()) {
             // Retrieve just the name, as there will be no result with discriminator, we need to filter that later.
-            String name = fullRefMatch.replaceAll("$1");
+            var name = fullRefMatch.replaceAll("$1");
             return guild.retrieveMembersByPrefix(name, 5);
         } else {
             return guild.retrieveMembersByPrefix(query, 5);

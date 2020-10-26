@@ -140,7 +140,7 @@ public class RelationshipCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (ctx.getMentionedUsers().isEmpty()) {
                             ctx.sendLocalized("commands.marry.no_mention", EmoteReference.ERROR);
                             return;
@@ -380,7 +380,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 final User author = ctx.getAuthor();
 
                 Player player = ctx.getPlayer();
@@ -498,7 +498,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
@@ -576,7 +576,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var player = ctx.getPlayer();
                 var playerInventory = player.getInventory();
                 var dbUser = ctx.getDBUser();
@@ -664,7 +664,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
 
@@ -712,7 +712,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 final User author = ctx.getAuthor();
                 DBUser dbUser = ctx.getDBUser();
                 final Marriage currentMarriage = dbUser.getData().getMarriage();
@@ -737,9 +737,7 @@ public class RelationshipCmds {
                     loveLetter = "None.";
                 }
 
-                I18nContext languageContext = ctx.getLanguageContext();
                 DBUser marriedDBUser = ctx.getDBUser(marriedTo);
-
                 LocalDateTime marriageDate = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault()
                 );
@@ -891,7 +889,7 @@ public class RelationshipCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         // IMPLEMENTATION NOTES FOR THE WAIFU SYSTEM
                         // You get 3 free slots to put "waifus" in.
                         // Each extra slot (up to 9) costs exponentially more than the last one (2x more than the costs of the last one)
@@ -914,8 +912,8 @@ public class RelationshipCmds {
                         //Default call will bring out the waifu list.
                         DBUser dbUser = ctx.getDBUser();
                         UserData userData = dbUser.getData();
-                        I18nContext languageContext = ctx.getLanguageContext();
                         Player player = ctx.getPlayer();
+
                         if (player.getData().isWaifuout()) {
                             ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                             return;
@@ -1012,7 +1010,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.sendLocalized("commands.waifu.optout.warning", EmoteReference.WARNING);
                 Player player = ctx.getPlayer();
                 if (player.getData().isWaifuout()) {
@@ -1049,7 +1047,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 Player player = ctx.getPlayer();
                 if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
@@ -1068,8 +1066,6 @@ public class RelationshipCmds {
                     }
 
                     Waifu waifuStats = calculateWaifuValue(toLookup);
-                    I18nContext languageContext = ctx.getLanguageContext();
-
                     EmbedBuilder statsBuilder = new EmbedBuilder()
                             .setThumbnail(toLookup.getEffectiveAvatarUrl())
                             .setAuthor(toLookup == ctx.getAuthor() ?
@@ -1098,7 +1094,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 Player player = ctx.getPlayer();
                 if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
@@ -1208,7 +1204,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 Map<String, String> t = ctx.getOptionalArguments();
                 content = Utils.replaceArguments(t, content, "unknown");
                 boolean isId = content.matches("\\d{16,20}");
@@ -1323,7 +1319,7 @@ public class RelationshipCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 int baseValue = 3000;
 
                 DBUser user = ctx.getDBUser();

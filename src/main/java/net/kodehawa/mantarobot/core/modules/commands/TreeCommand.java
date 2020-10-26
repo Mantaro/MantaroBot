@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.kodehawa.mantarobot.core.modules.commands.base.*;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +67,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     public TreeCommand addSubCommand(String name, BiConsumer<Context, String> command) {
         subCommands.put(name, new SubCommand() {
             @Override
-            protected void call(Context context, String content) {
+            protected void call(Context context, I18nContext lang, String content) {
                 command.accept(context, content);
             }
         });

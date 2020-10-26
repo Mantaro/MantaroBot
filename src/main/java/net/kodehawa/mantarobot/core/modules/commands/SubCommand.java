@@ -20,6 +20,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public boolean child;
@@ -42,8 +43,8 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
     public static SubCommand copy(SubCommand original) {
         return new SubCommand(original.permission) {
             @Override
-            protected void call(Context ctx, String content) {
-                original.call(ctx, content);
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                original.call(ctx, languageContext, content);
             }
 
             @Override
@@ -53,7 +54,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
         };
     }
 
-    protected abstract void call(Context ctx, String content);
+    protected abstract void call(Context ctx, I18nContext languageContext, String content);
 
     @Override
     public CommandPermission permission() {
@@ -62,7 +63,7 @@ public abstract class SubCommand implements InnerCommand, AssistedCommand {
 
     @Override
     public void run(Context ctx, String commandName, String content) {
-        call(ctx, content);
+        call(ctx, ctx.getLanguageContext(), content);
     }
 
     public boolean isChild() {

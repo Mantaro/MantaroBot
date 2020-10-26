@@ -54,24 +54,26 @@ public class Reminder {
     //This is more useful now
     //Id here contains the full id aka UUID:userId, unlike in the other methods
     public static void cancel(String userId, String fullId, CancelReason reason) {
-        try (Jedis redis = pool.getResource()) {
-            String data = redis.hget(table, fullId);
+        try (var redis = pool.getResource()) {
+            var data = redis.hget(table, fullId);
 
             redis.zrem(ztable, data);
             redis.hdel(table, fullId);
         }
 
-        DBUser user = db.getUser(userId);
-        UserData data = user.getData();
+        var user = db.getUser(userId);
+        var data = user.getData();
         data.getReminders().remove(fullId);
-        if (reason == CancelReason.REMINDED)
+
+        if (reason == CancelReason.REMINDED) {
             data.incrementReminders();
+        }
 
         user.save();
     }
 
     public void schedule() {
-        JSONObject r = new JSONObject()
+        var r = new JSONObject()
                 .put("id", id)
                 .put("user", userId)
                 .put("guild", guildId)
@@ -79,14 +81,15 @@ public class Reminder {
                 .put("reminder", reminder)
                 .put("at", time);
 
-        try (Jedis redis = pool.getResource()) {
+        try (var redis = pool.getResource()) {
             redis.zadd(ztable, time, r.toString());
             //Needed for removal.
             redis.hset(table, id + ":" + userId, r.toString());
         }
 
-        DBUser user = db.getUser(userId);
-        UserData data = user.getData();
+        var user = db.getUser(userId);
+        var data = user.getData();
+
         data.getReminders().add(id + ":" + userId);
         user.save();
     }
@@ -122,7 +125,6 @@ public class Reminder {
             guildId = id;
             return this;
         }
-
 
         public Reminder build() {
             if (userId == null)

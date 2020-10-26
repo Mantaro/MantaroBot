@@ -29,8 +29,6 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -52,12 +50,12 @@ public class ImageboardUtils {
     );
 
     public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, Context ctx) {
-        Rating rating = Rating.SAFE;
+        var rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
 
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
 
-        boolean needRating = list.size() >= 2;
+        var needRating = list.size() >= 2;
         if (needRating && !nsfwOnly) {
             rating = lookupRating(list.get(1));
         } else if (!needRating && !list.isEmpty()) {
@@ -74,7 +72,7 @@ public class ImageboardUtils {
         }
 
         // Allow for more tags after declaration.
-        Rating finalRating = rating;
+        var finalRating = rating;
         if (finalRating != null) {
             list.remove(rating.getLongName());
             list.remove("random"); // remove "random" declaration.
@@ -92,7 +90,7 @@ public class ImageboardUtils {
         if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true))
             finalRating = null;
 
-        int limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
+        var limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
 
         if (list.size() > limit) {
             ctx.sendLocalized("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
@@ -101,8 +99,8 @@ public class ImageboardUtils {
 
         if (type == ImageRequestType.TAGS) {
             try {
-                DBGuild dbGuild = ctx.getDBGuild();
-                GuildData data = dbGuild.getData();
+                var dbGuild = ctx.getDBGuild();
+                var data = dbGuild.getData();
 
                 if (list.stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
                     ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
@@ -111,11 +109,12 @@ public class ImageboardUtils {
 
                 api.search(list, finalRating).async(requestedImages -> {
                     // Account for this, somehow this happens sometimes.
-                    if (isListNull(requestedImages, ctx))
+                    if (isListNull(requestedImages, ctx)) {
                         return;
+                    }
 
                     try {
-                        List<BoardImage> filter = requestedImages.stream()
+                        var filter = requestedImages.stream()
                                 // Somehow Danbooru and e621 are returning null images when a image is deleted?
                                 .filter(img -> img.getURL() != null)
                                 // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
@@ -147,10 +146,11 @@ public class ImageboardUtils {
         } else if (type == ImageRequestType.RANDOM) {
             api.search(list, finalRating).async(requestedImages -> {
                 try {
-                    if (isListNull(requestedImages, ctx))
+                    if (isListNull(requestedImages, ctx)) {
                         return;
+                    }
 
-                    List<BoardImage> filter = requestedImages.stream()
+                    var filter = requestedImages.stream()
                             // Somehow Danbooru and e621 are returning null images when a image is deleted?
                             .filter(img -> img.getURL() != null)
                             // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
@@ -166,8 +166,9 @@ public class ImageboardUtils {
                         return;
                     }
 
-                    int number = r.nextInt(filter.size());
-                    BoardImage image = filter.get(number);
+                    var number = r.nextInt(filter.size());
+                    var image = filter.get(number);
+
                     sendImage(ctx, imageboard, image, ctx.getDBGuild());
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
@@ -194,7 +195,7 @@ public class ImageboardUtils {
         }
 
         // Format the tags output so it's actually human-readable.
-        String imageTags = String.join(", ", image.getTags());
+        var imageTags = String.join(", ", image.getTags());
 
         imageEmbed(
                 ctx.getLanguageContext(), image.getURL(), String.valueOf(image.getWidth()),
@@ -202,7 +203,7 @@ public class ImageboardUtils {
         );
 
         if (image.getRating().equals(Rating.EXPLICIT)) {
-            Player player = ctx.getPlayer();
+            var player = ctx.getPlayer();
             if (player.getData().addBadgeIfAbsent(Badge.LEWDIE))
                 player.saveAsync();
 
@@ -212,15 +213,17 @@ public class ImageboardUtils {
     }
 
     public static boolean nsfwCheck(Context ctx, boolean isGlobal, boolean sendMessage, Rating rating) {
-        if (ctx.getChannel().isNSFW())
+        if (ctx.getChannel().isNSFW()) {
             return true;
+        }
 
-        Rating finalRating = rating == null ? Rating.SAFE : rating;
-        boolean trigger = finalRating.equals(Rating.SAFE) && !isGlobal;
+        var finalRating = rating == null ? Rating.SAFE : rating;
+        var trigger = finalRating.equals(Rating.SAFE) && !isGlobal;
 
         if (!trigger) {
-            if (sendMessage)
+            if (sendMessage) {
                 ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
+            }
 
             return false;
         }
@@ -235,7 +238,7 @@ public class ImageboardUtils {
     };
 
     private static boolean containsExcludedTags(List<String> tags) {
-        for(String tag : excludedTags) {
+        for(var tag : excludedTags) {
             if (tags.contains(tag)) {
                 return true;
             }
@@ -255,7 +258,7 @@ public class ImageboardUtils {
 
     private static void imageEmbed(I18nContext languageContext, String url, String width, String height,
                                    String tags, Rating rating, String imageboard, TextChannel channel) {
-        EmbedBuilder builder = new EmbedBuilder();
+        var builder = new EmbedBuilder();
         builder.setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
                 .setImage(url)
                 .setDescription(String.format(languageContext.get("commands.imageboard.description_image"),
@@ -273,7 +276,7 @@ public class ImageboardUtils {
     //This is so random is a valid rating.
     private static Rating lookupRating(String rating) {
         if (rating.equalsIgnoreCase("random")) {
-            Rating[] values = Rating.values();
+            var values = Rating.values();
             return values[r.nextInt(values.length)];
         } else {
             return Rating.lookupFromString(rating);
@@ -283,7 +286,7 @@ public class ImageboardUtils {
     //This is so random (R) is a valid rating.
     private static Rating lookupShortRating(String shortRating) {
         if (shortRating.equalsIgnoreCase("r")) {
-            Rating[] values = Rating.values();
+            var values = Rating.values();
             return values[r.nextInt(values.length)];
         } else {
             return Rating.lookupFromStringShort(shortRating);

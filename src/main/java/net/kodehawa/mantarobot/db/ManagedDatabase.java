@@ -286,6 +286,7 @@ public class ManagedDatabase {
 
     public void save(@Nonnull ManagedObject object) {
         log("Saving {} {}:{} to rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+
         r.table(object.getTableName())
                 .insert(object)
                 .optArg("conflict", "replace")
@@ -294,6 +295,7 @@ public class ManagedDatabase {
 
     public void delete(@Nonnull ManagedObject object) {
         log("Deleting {} {}:{} from rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+
         r.table(object.getTableName())
                 .get(object.getId())
                 .delete()

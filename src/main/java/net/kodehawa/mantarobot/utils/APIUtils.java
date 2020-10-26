@@ -35,11 +35,12 @@ public class APIUtils {
 
     @Nullable
     public static Badge getHushBadge(String name, Utils.HushType type) {
-        if (!config.needApi)
+        if (!config.needApi) {
             return null; //nothing to query on.
+        }
 
         try {
-            Request request = new Request.Builder()
+            var request = new Request.Builder()
                     .url(config.apiTwoUrl + "/mantaroapi/bot/hush")
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
@@ -54,6 +55,7 @@ public class APIUtils {
 
             try(var response = httpClient.newCall(request).execute()) {
                 var body = response.body();
+
                 if (body == null) {
                     throw new IllegalStateException("Body is null");
                 }
@@ -68,7 +70,7 @@ public class APIUtils {
     }
 
     public static String getFrom(String route) throws IOException {
-        Request request = new Request.Builder()
+        var request = new Request.Builder()
                 .url(config.apiTwoUrl + route)
                 .addHeader("Authorization", config.getApiAuthKey())
                 .addHeader("User-Agent", MantaroInfo.USER_AGENT)
@@ -86,11 +88,12 @@ public class APIUtils {
     }
 
     public static Pair<Boolean, String> getPledgeInformation(String user) {
-        if (!config.needApi)
+        if (!config.needApi) {
             return null; //nothing to query on.
+        }
 
         try {
-            Request request = new Request.Builder()
+            var request = new Request.Builder()
                     .url(config.apiTwoUrl + "/mantaroapi/bot/patreon/check")
                     .addHeader("Authorization", config.getApiAuthKey())
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
@@ -108,13 +111,14 @@ public class APIUtils {
                 if (body == null) {
                     throw new IllegalStateException("Body is null");
                 }
-                JSONObject reply = new JSONObject(new JSONTokener(body.byteStream()));
+
+                var reply = new JSONObject(new JSONTokener(body.byteStream()));
 
                 return new Pair<>(reply.getBoolean("active"), reply.getString("amount"));
             }
 
         } catch (Exception ex) {
-            //don't disable premium if the api is wonky, no need to be a meanie.
+            // Don't disable premium if the api is wonky, no need to be a meanie.
             ex.printStackTrace();
 
             if (config.isPremiumBot()) {

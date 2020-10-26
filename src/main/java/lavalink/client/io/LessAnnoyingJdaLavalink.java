@@ -43,9 +43,9 @@ public class LessAnnoyingJdaLavalink extends JdaLavalink {
         headers.put("Num-Shards", Integer.toString(numShards));
         headers.put("User-Id", userId);
 
-        LavalinkSocket socket =
-                new LessAnnoyingLavalinkSocket(name, this, serverUri, new Draft_6455(), headers);
+        var socket = new LessAnnoyingLavalinkSocket(name, this, serverUri, new Draft_6455(), headers);
         socket.connect();
+
         ((Lavalink<?>)this).nodes.add(socket);
     }
 }

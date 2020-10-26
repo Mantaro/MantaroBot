@@ -27,6 +27,7 @@ public class DiscordLatencyExports {
             var shards = MantaroBot.getInstance().getShardManager().getShardCache();
             shards.forEach(s -> {
                 var ping = s.getGatewayPing();
+
                 if (ping >= 0) {
                     GATEWAY_LATENCY.labels(String.valueOf(s.getShardInfo().getShardId()))
                             .set(ping / MILLISECONDS_PER_SECOND);

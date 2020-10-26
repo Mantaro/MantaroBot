@@ -23,9 +23,13 @@ public class LessAnnoyingLavalinkSocket extends LavalinkSocket {
     @Override
     public void onMessage(String message) {
         var json = new JSONObject(message);
+
         if ("event".equals(json.optString("op"))) {
             var name = json.optString("type");
-            if (!KNOWN_EVENTS.contains(name)) return;
+
+            if (!KNOWN_EVENTS.contains(name)) {
+                return;
+            }
         }
 
         super.onMessage(message);

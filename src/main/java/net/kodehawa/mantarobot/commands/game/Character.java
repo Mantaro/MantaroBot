@@ -45,8 +45,7 @@ public class Character extends ImageGame {
 
     @Override
     public void call(GameLobby lobby, List<String> players) {
-        InteractiveOperations
-                .create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
+        InteractiveOperations.create(lobby.getChannel(), Long.parseLong(lobby.getPlayers().get(0)), 60, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
                 return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
@@ -76,10 +75,10 @@ public class Character extends ImageGame {
     public boolean onStart(GameLobby lobby) {
         final I18nContext languageContext = lobby.getLanguageContext();
         try {
-            AnimeGameData data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/character"), AnimeGameData.class);
+            var data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/character"), AnimeGameData.class);
             characterNameL = new ArrayList<>();
             characterName = data.getName();
-            String imageUrl = data.getImage();
+            var imageUrl = data.getImage();
 
             //Allow for replying with only the first name of the character.
             if (characterName.contains(" ")) {

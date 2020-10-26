@@ -22,7 +22,6 @@ import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.game.core.PokemonGameData;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
@@ -71,10 +70,10 @@ public class Pokemon extends ImageGame {
     }
 
     public boolean onStart(GameLobby lobby) {
-        final I18nContext languageContext = lobby.getLanguageContext();
+        final var languageContext = lobby.getLanguageContext();
 
         try {
-            PokemonGameData data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
+            var data = JsonDataManager.fromJson(APIUtils.getFrom("/mantaroapi/bot/pokemon"), PokemonGameData.class);
             expectedAnswer = data.getNames();
             sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
                     eb.setTitle(languageContext.get("commands.game.pokemon.header"), null)

@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -171,7 +172,7 @@ public class MiscCmds {
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
                     @Override
-                    protected void call(Context ctx, String content) {
+                    protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (content.trim().isEmpty()) {
                             ctx.sendLocalized("commands.iam.no_iam", EmoteReference.ERROR);
                             return;
@@ -200,7 +201,7 @@ public class MiscCmds {
             }
 
             @Override
-            protected void call(Context ctx, String content) {
+            protected void call(Context ctx, I18nContext languageContext, String content) {
                 EmbedBuilder embed;
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
@@ -209,8 +210,6 @@ public class MiscCmds {
 
                 var autoroles = guildData.getAutoroles();
                 var autorolesCategories = guildData.getAutoroleCategories();
-                var languageContext = ctx.getLanguageContext();
-
                 embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
                         .setDescription(languageContext.get("commands.iam.list.description") + "")
                         .setThumbnail(ctx.getGuild().getIconUrl());

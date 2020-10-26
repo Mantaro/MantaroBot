@@ -17,14 +17,12 @@
 package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collections;
 import java.util.List;
@@ -82,10 +80,11 @@ public class ImageCmd extends NoArgsCommand {
     @Override
     protected void call(Context ctx, String content) {
         String random;
-        String id = "";
+        var id = "";
+
         if (images.size() == 1) {
             if (type != null) {
-                Pair<String, String> result = weebapi.getRandomImageByType(type, false, null);
+                var result = weebapi.getRandomImageByType(type, false, null);
                 images = Collections.singletonList(result.getKey());
                 id = result.getValue();
             }
@@ -95,12 +94,12 @@ public class ImageCmd extends NoArgsCommand {
             random = images.get(rand.nextInt(images.size()));
         }
 
-        String extension = random.substring(random.lastIndexOf("."));
-        MessageBuilder builder = new MessageBuilder();
+        var extension = random.substring(random.lastIndexOf("."));
+        var builder = new MessageBuilder();
         builder.append(EmoteReference.TALKING);
 
         if (!noMentions) {
-            List<User> users = ctx.getMentionedUsers();
+            var users = ctx.getMentionedUsers();
             var names = users.stream().distinct().map(user -> {
                 var member = ctx.getGuild().getMember(user);
                 if (member == null) {
@@ -109,8 +108,10 @@ public class ImageCmd extends NoArgsCommand {
 
                 return member.getEffectiveName();
             }).collect(Collectors.joining(", "));
-            if (!names.isEmpty())
+
+            if (!names.isEmpty()) {
                 builder.append("**").append(names).append("**, ");
+            }
         }
 
         builder.append(ctx.getLanguageContext().get(toSend));

@@ -33,8 +33,9 @@ public abstract class ImageGame extends Game<String> {
     }
 
     protected RestAction<Message> sendEmbedImage(MessageChannel channel, String url, Consumer<EmbedBuilder> embedConfigurator) {
-        EmbedBuilder eb = new EmbedBuilder();
+        var eb = new EmbedBuilder();
         embedConfigurator.accept(eb);
+
         eb.setImage("attachment://image.png");
         return channel.sendMessage(new MessageBuilder().setEmbed(eb.build()).build()).addFile(cache.getInput(url), "image.png");
     }

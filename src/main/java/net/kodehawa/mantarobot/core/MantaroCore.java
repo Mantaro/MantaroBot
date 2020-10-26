@@ -59,7 +59,6 @@ import okhttp3.Request;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
@@ -84,19 +83,18 @@ public class MantaroCore {
     );
     private final Config config;
     private final boolean isDebug;
-    private final boolean useBanner;
     private String commandsPackage;
     private String optsPackage;
     private final CommandProcessor commandProcessor = new CommandProcessor();
     private EventBus shardEventBus;
     private ShardManager shardManager;
 
-    public MantaroCore(Config config, boolean useBanner, boolean isDebug) {
+    public MantaroCore(Config config, boolean isDebug) {
         this.config = config;
-        this.useBanner = useBanner;
         this.isDebug = isDebug;
         Metrics.THREAD_POOL_COLLECTOR.add("mantaro-executor", threadPool);
     }
+
 
     public static boolean hasLoadedCompletely() {
         return getLoadState().equals(POSTLOAD);
@@ -128,6 +126,7 @@ public class MantaroCore {
 
             try (var response = Utils.httpClient.newCall(shards).execute()) {
                 var body = response.body();
+
                 if (body == null) {
                     throw new IllegalStateException("Error requesting shard count: " + response.code() + " " + response.message());
                 }
@@ -183,7 +182,7 @@ public class MantaroCore {
 
         try {
             // Don't allow mentioning @everyone, @here or @role (can be overriden in a per-command context, but we only ever re-enable role)
-            EnumSet<Message.MentionType> deny = EnumSet.of(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE);
+            var deny = EnumSet.of(Message.MentionType.EVERYONE, Message.MentionType.HERE, Message.MentionType.ROLE);
             MessageAction.setDefaultMentions(EnumSet.complementOf(deny));
 
             // Gateway Intents to enable.
@@ -200,7 +199,7 @@ public class MantaroCore {
             // This is used so we can fire PostLoadEvent properly.
             var shardStartListener = new ShardStartListener();
 
-            DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
+            var shardManager = DefaultShardManagerBuilder.create(config.token, Arrays.asList(toEnable))
                     // Can't do chunking with Gateway Intents enabled, fun, but don't need it anymore.
                     .setChunkingFilter(ChunkingFilter.NONE)
                     .setSessionController(controller)
@@ -225,11 +224,12 @@ public class MantaroCore {
             /* only create eviction strategies that will get used */
             List<Integer> shardIds;
             int latchCount;
+
             if (isDebug) {
                 var shardCount = 2;
                 shardIds = List.of(0, 1);
                 latchCount = shardCount;
-                builder.setShardsTotal(shardCount)
+                shardManager.setShardsTotal(shardCount)
                         .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
                 log.info("Debug instance, using {} shards", shardCount);
@@ -238,12 +238,12 @@ public class MantaroCore {
                 // Count specified in config.
                 if (config.totalShards != 0) {
                     shardCount = config.totalShards;
-                    builder.setShardsTotal(config.totalShards);
+                    shardManager.setShardsTotal(config.totalShards);
                     log.info("Using {} shards from config (totalShards != 0)", shardCount);
                 } else {
                     //Count specified on runtime options or recommended count by discord.
                     shardCount = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
-                    builder.setShardsTotal(shardCount);
+                    shardManager.setShardsTotal(shardCount);
                     if (ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
                         log.info("Using {} shards from ExtraRuntimeOptions", shardCount);
                     } else {
@@ -257,13 +257,14 @@ public class MantaroCore {
                         throw new IllegalStateException("Both mantaro.from-shard and mantaro.to-shard must be specified " +
                                 "when using shard subsets. Please specify the missing one.");
                     }
+
                     var from = ExtraRuntimeOptions.FROM_SHARD.orElseThrow();
                     var to = ExtraRuntimeOptions.TO_SHARD.orElseThrow() - 1;
                     shardIds = IntStream.rangeClosed(from, to).boxed().collect(Collectors.toList());
                     latchCount = to - from + 1;
 
                     log.info("Using shard range {}-{}", from, to);
-                    builder.setShards(from, to);
+                    shardManager.setShards(from, to);
                 } else {
                     shardIds = IntStream.range(0, shardCount).boxed().collect(Collectors.toList());
                     latchCount = shardCount;
@@ -274,24 +275,27 @@ public class MantaroCore {
                 // shardCount is the total number of shards in all processes
                 var gatewayThreads = Math.max(1, latchCount / 16);
                 var rateLimitThreads = Math.max(2, latchCount * 5 / 4);
+
                 log.info("Gateway pool: {} threads", gatewayThreads);
                 log.info("Rate limit pool: {} threads", rateLimitThreads);
-                builder.setGatewayPool(Executors.newScheduledThreadPool(gatewayThreads, gatewayThreadFactory), true)
+
+                shardManager.setGatewayPool(Executors.newScheduledThreadPool(gatewayThreads, gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(rateLimitThreads, requesterThreadFactory), true);
             }
 
-            //if this isn't true we have a big problem
+            // If this isn't true we have a big problem
             if (shardIds.size() != latchCount) {
                 throw new IllegalStateException("Shard ids list must have the same size as latch count");
             }
 
-            builder.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
+            shardManager.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
     
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
+
             log.info("Spawning {} shards...", latchCount);
             var start = System.currentTimeMillis();
             shardStartListener.setLatch(new CountDownLatch(latchCount));
-            shardManager = builder.build();
+            this.shardManager = shardManager.build();
 
             //This is so it doesn't block command registering, lol.
             threadPool.submit(() -> {
@@ -300,7 +304,7 @@ public class MantaroCore {
                 try {
                     shardStartListener.latch.await();
                     var elapsed = System.currentTimeMillis() - start;
-                    shardManager.removeEventListener(shardStartListener);
+                    this.shardManager.removeEventListener(shardStartListener);
                     startPostLoadProcedure(elapsed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -315,23 +319,28 @@ public class MantaroCore {
 
     @SuppressWarnings("UnstableApiUsage")
     public void start() {
-        if (config == null)
+        if (config == null) {
             throw new IllegalArgumentException("Config cannot be null!");
-        if (commandsPackage == null)
+        }
+
+        if (commandsPackage == null) {
             throw new IllegalArgumentException("Cannot look for commands if you don't specify where!");
-        if (optsPackage == null)
+        }
+
+        if (optsPackage == null) {
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
+        }
 
-        if (useBanner)
-            new BannerPrinter(1).printBanner();
+        new BannerPrinter(1).printBanner();
 
-        Set<Class<?>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
-        Set<Class<?>> options = lookForAnnotatedOn(optsPackage, Option.class);
+        var commands = lookForAnnotatedOn(commandsPackage, Module.class);
+        var options = lookForAnnotatedOn(optsPackage, Option.class);
+
         shardEventBus = new EventBus();
 
         startShardedInstance();
 
-        for (Class<?> commandClass : commands) {
+        for (var commandClass : commands) {
             try {
                 shardEventBus.register(commandClass.getDeclaredConstructor().newInstance());
             } catch (Exception e) {
@@ -339,7 +348,7 @@ public class MantaroCore {
             }
         }
 
-        for (Class<?> optionClass : options) {
+        for (var optionClass : options) {
             try {
                 shardEventBus.register(optionClass.getDeclaredConstructor().newInstance());
             } catch (Exception e) {
@@ -387,7 +396,7 @@ public class MantaroCore {
     }
 
     private void startPostLoadProcedure(long elapsed) {
-        MantaroBot bot = MantaroBot.getInstance();
+        var bot = MantaroBot.getInstance();
 
         //Start the reconnect queue.
         bot.getCore().markAsReady();
@@ -397,13 +406,15 @@ public class MantaroCore {
                 bot.getManagedShards(), CommandProcessor.REGISTRY.commands().size(),
                 Utils.formatDuration(elapsed), shardManager.getShardsTotal())
         );
+
         log.info("Loaded all shards successfully! Status: {}.", MantaroCore.getLoadState());
 
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
         //Only update guild count from the master node.
-        if (bot.isMasterNode())
+        if (bot.isMasterNode()) {
             startUpdaters();
+        }
 
         bot.startCheckingBirthdays();
     }
@@ -413,8 +424,9 @@ public class MantaroCore {
             try {
                 var serverCount = 0L;
                 //Fetch actual guild count.
-                try(Jedis jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                try(var jedis = MantaroData.getDefaultJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
+
                     for (var shards : stats.entrySet()) {
                         var json = new JSONObject(shards.getValue());
                         serverCount += json.getLong("guild_count");
@@ -422,7 +434,7 @@ public class MantaroCore {
                 }
 
                 // This will NOP if the token is null.
-                for(BotListPost listSites : BotListPost.values()) {
+                for(var listSites : BotListPost.values()) {
                     listSites.createRequest(serverCount, config.clientId);
                 }
 
@@ -444,8 +456,9 @@ public class MantaroCore {
         public void onEvent(@Nonnull GenericEvent event) {
             if (event instanceof ReadyEvent) {
                 var sm = event.getJDA().getShardManager();
-                if (sm == null)
+                if (sm == null) { // We have a big problem if this happens.
                     throw new AssertionError();
+                }
 
                 latch.countDown();
             }

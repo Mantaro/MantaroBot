@@ -20,7 +20,7 @@ public enum TriviaDifficulty {
     EASY, MEDIUM, HARD;
 
     public static TriviaDifficulty lookupFromString(String name) {
-        for (TriviaDifficulty t : TriviaDifficulty.values()) {
+        for (var t : TriviaDifficulty.values()) {
             //field name search
             if (t.name().equalsIgnoreCase(name)) {
                 return t;
