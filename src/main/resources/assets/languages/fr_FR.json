@@ -1341,12 +1341,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1858,28 +1860,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Tu dois spécifier l'utilisateur à enlever de la blacklist des logs.**",
       "success": "%1$sUtilisateurs enlevé localement de la blacklist des log: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sProgrammation du lien de protection sur `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sTu dois spécifier le salon que tu veux exclure du vérificateur d'invitations.",
-      "success": "%1$s%2$s peut désormais être utilisé pour envoyer des invitations Discord."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sTu dois spécifier le salon que tu veux inclure dans le vérificateur d'invitations. (Tous les salons sont inclus par défaut)",
-      "success": "%1$s%2$s ne peut plus être utilisé pour envoyer des invitations Discord."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sTu dois mentionner l'utilisateur que tu veux exclure du vérificateur d'invitations",
-      "success": "%1$s %2$s#%3$s peut désormais poster des invitations Discord."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sTu dois mentionner l'utilisateur que tu veux inclure dans le vérificateur d'invitations",
-      "not_whitelisted": "%1$sCet utilisateur n'est pas autorisé à poster des invitations!",
-      "success": "%1$s %2$s#%3$s ne peut plus poster d'invitations Discord."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sTu dois spécifier au moins un tag à prohiber!",
