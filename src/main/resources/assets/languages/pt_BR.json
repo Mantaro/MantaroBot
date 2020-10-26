@@ -1341,14 +1341,14 @@
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
         "success": "%1$sYay! Pet alimentando com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
+        "too_much": "%1$sTalvez dê um pouco menos de comida? Você estaria desperdiçando comida caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)"
       },
       "water": {
         "no_pet": "%1$sVocê não tem nenhum pet pra dar água. Cheque `~>pet` para uma explicação.",
         "no_need": "%1$sSeu pet não está com sede, então ele não quer beber agora.",
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
-        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
+        "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
+        "too_much": "%1$sTalvez dê um pouco menos de água? Você estaria desperdiçando água caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)",
         "success": "%1$sYay! Pet hidratado com sucesso e ele recuperou %2$s%% de sua sede. A sede agora está %3$s%%"
       },
       "activity": {
