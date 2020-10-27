@@ -246,6 +246,7 @@
         "nothing_playing": "Burada tozdan başka bir şey yok, belki bişeyler eklesen?\nBurada şarkı olduğunu ama gözükmediğini düşünüyorsan, `~>queue 1` kullanmayı deneyebilirsin.",
         "nothing_playing_2": "**Şarkı çalıyor ve herhangi bir müzik eklemediysen demek ki burada sadece toz var toz, şarkı eklemeyi deneyebilirsin?**",
         "np": "Şu anda çalıyor.",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Burada tozdan başka bişey yok, bir kaç sayfa geri gitsen?",
         "page_overflow_2": "Şarkı olupta görünmediğini düşünüyorsan, `~>queue 1` yazmayı deneyebilirsin.",
         "total_queue_time": "Toplam şarkı listesi zamanı",
