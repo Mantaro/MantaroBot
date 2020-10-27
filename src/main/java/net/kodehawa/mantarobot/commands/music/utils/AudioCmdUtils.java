@@ -361,9 +361,8 @@ public class AudioCmdUtils {
             sb.append("""
                     %s**%,d.** [%s] **[%s](%s)**
                     """.formatted(EmoteReference.BLUE_SMALL_MARKER,
-                    num,
-                    duration,
-                    MarkdownSanitizer.sanitize(StringUtils.limit(audioTrack.getInfo().title, 30)),
+                    num, duration,
+                    formatTitle(audioTrack.getInfo().title),
                     audioTrack.getInfo().uri)
             );
 
@@ -372,4 +371,11 @@ public class AudioCmdUtils {
         return sb.toString();
     }
 
+    private static String formatTitle(String title) {
+        // Sanitizing markdown doesn't remove [ and ], and that breaks queue.
+        return MarkdownSanitizer.escape(StringUtils.limit(title, 33))
+                .replace("[", "")
+                .replace("]", "")
+                .strip();
+    }
 }
