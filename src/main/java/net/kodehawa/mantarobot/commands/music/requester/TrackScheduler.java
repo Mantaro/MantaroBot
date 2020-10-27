@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
+import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -113,8 +113,8 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             return;
         }
 
-        var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
-        var dbGuild = MantaroData.db().getGuild(guildId);
+        final var guild = MantaroBot.getInstance().getShardManager().getGuildById(guildId);
+        final var dbGuild = MantaroData.db().getGuild(guildId);
 
         if (dbGuild.getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedTextChannel() != null) {
             var voiceState = getRequestedTextChannel().getGuild().getSelfMember().getVoiceState();
@@ -125,7 +125,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 return;
             }
 
-            var voiceChannel = voiceState.getChannel();
+            final var voiceChannel = voiceState.getChannel();
 
             //What kind of massive meme is this?
             //It's called mantaro
@@ -137,8 +137,11 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
             //Force it in case it keeps going all the time?
             if (errorCount > 20) {
-                getRequestedTextChannel().sendMessageFormat(language.get("commands.music_general.too_many_errors"),
-                        EmoteReference.ERROR).queue();
+                getRequestedTextChannel().sendMessageFormat(
+                        language.get("commands.music_general.too_many_errors"),
+                        EmoteReference.ERROR
+                ).queue();
+
                 onStop();
                 return;
             }
@@ -152,21 +155,24 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 if (getCurrentTrack().getUserData() != null && guild != null) {
                     // Retrieve member instead of user, so it gets cached.
                     try {
-                        user = guild
-                                .retrieveMemberById(String.valueOf(getCurrentTrack().getUserData()), false)
-                                .complete();
+                        user = guild.retrieveMemberById(
+                                String.valueOf(getCurrentTrack().getUserData()), false
+                        ).complete();
                     } catch (Exception ignored) {}
                 }
 
                 //Avoid massive spam of "now playing..." when repeating songs.
                 if (lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
                     getRequestedTextChannel().sendMessage(
-                            new MessageBuilder().append(String.format(language.get("commands.music_general.np_message"),
-                                    "\uD83D\uDCE3", title, AudioUtils.getLength(trackLength),
-                                    voiceChannel.getName(), user != null ?
-                                            String.format(language.get("general.requested_by"),
-                                                    String.format("**%s**", user.getUser().getAsTag()))
-                                            : ""))
+                            new MessageBuilder()
+                                    .append(String.format(
+                                            language.get("commands.music_general.np_message"),
+                                            "\uD83D\uDCE3", title,
+                                            AudioCmdUtils.getDurationMinutes(trackLength),
+                                            voiceChannel.getName(), user != null ?
+                                                    String.format(language.get("general.requested_by"),
+                                                            String.format("**%s**", user.getUser().getAsTag())) : "")
+                                    )
                                     .build()
                     ).queue(message -> {
                         lastMessageSentAt = System.currentTimeMillis();
@@ -241,8 +247,9 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
     }
 
     private void onStop() {
-        //stop the track.
-        var lavalinkPlayer = getAudioPlayer().getPlayer();
+        final var managedDatabase = MantaroData.db();
+        final var lavalinkPlayer = getAudioPlayer().getPlayer();
+        // Stop the track.
         if (lavalinkPlayer.getPlayingTrack() != null) {
             lavalinkPlayer.stopTrack();
         }
@@ -250,15 +257,14 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         getVoteStop().clear();
         getVoteSkips().clear();
 
-        var g = getGuild();
-        if (g == null) {
+        var guild = getGuild();
+        if (guild == null) {
             //Why?
             this.getAudioPlayer().destroy();
             return;
         }
 
-        var premium = MantaroData.db().getGuild(g).isPremium();
-
+        var premium = managedDatabase.getGuild(guild).isPremium();
         try {
             var ch = getRequestedTextChannel();
             if (ch != null && ch.canTalk()) {
@@ -274,8 +280,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             e.printStackTrace();
         }
 
+        // If not reset, this will come us to bite on next run.
         requestedChannel = 0;
         errorCount = 0;
+
         //If not set to null, those two objects will always be in scope and dangle around in the heap forever.
         //Some AudioTrack objects were of almost 500kb of size, I guess 100k of those can cause a meme.
         currentTrack = null;

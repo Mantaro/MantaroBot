@@ -33,7 +33,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
 import java.awt.*;
-import java.util.Optional;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 public class AudioLoader implements AudioLoadResultHandler {
@@ -82,12 +82,18 @@ public class AudioLoader implements AudioLoadResultHandler {
                     if (i < guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true);
                     } else {
-                        event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_limit"), EmoteReference.WARNING, guildData.getMusicQueueSizeLimit()).queue();
+                        event.getChannel().sendMessageFormat(
+                                language.get("commands.music_general.loader.over_limit"),
+                                EmoteReference.WARNING, guildData.getMusicQueueSizeLimit()
+                        ).queue();
                         break;
                     }
                 } else {
                     if (i > MAX_QUEUE_LENGTH && (!dbGuild.isPremium() && !user.isPremium())) {
-                        event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_limit"), EmoteReference.WARNING, MAX_QUEUE_LENGTH).queue();
+                        event.getChannel().sendMessageFormat(
+                                language.get("commands.music_general.loader.over_limit"),
+                                EmoteReference.WARNING, MAX_QUEUE_LENGTH
+                        ).queue();
                         break; //stop adding songs
                     } else {
                         loadSingle(track, true);
@@ -98,7 +104,12 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.loaded_playlist"),
-                    EmoteReference.CORRECT, i, playlist.getName(), AudioCmdUtils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
+                    EmoteReference.CORRECT, i, playlist.getName(),
+                    AudioCmdUtils.getDurationMinutes(
+                            playlist.getTracks()
+                                    .stream()
+                                    .mapToLong(temp -> temp.getInfo().length).sum()
+                    )
             ).queue();
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,55 +125,71 @@ public class AudioLoader implements AudioLoadResultHandler {
     @Override
     public void loadFailed(FriendlyException exception) {
         if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
-            event.getChannel().sendMessage(String.format(language.get("commands.music_general.loader.error_fetching"), EmoteReference.ERROR, exception.getMessage())).queue();
+            event.getChannel().sendMessage(
+                    String.format(language.get("commands.music_general.loader.error_fetching"),
+                            EmoteReference.ERROR, exception.getMessage()
+                    )
+            ).queue();
         } else {
             Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
         }
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
-        var trackInfo = audioTrack.getInfo();
+        final var trackInfo = audioTrack.getInfo();
+        final var managedDatabase = MantaroData.db();
 
         audioTrack.setUserData(event.getAuthor().getId());
 
-        var dbGuild = MantaroData.db().getGuild(event.getGuild());
-        var dbUser = MantaroData.db().getUser(event.getMember());
-        var guildData = dbGuild.getData();
+        final var trackScheduler = musicManager.getTrackScheduler();
+        final var dbGuild = managedDatabase.getGuild(event.getGuild());
+        final var dbUser = managedDatabase.getUser(event.getMember());
+        final var guildData = dbGuild.getData();
 
-        var title = trackInfo.title;
-        var length = trackInfo.length;
+        final var title = trackInfo.title;
+        final var length = trackInfo.length;
 
-        var queueLimit = Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).isEmpty() ? MAX_QUEUE_LENGTH :
-                dbGuild.getData().getMusicQueueSizeLimit();
+        var queueLimit = guildData.getMusicQueueSizeLimit() == null || guildData.getMusicQueueSizeLimit() < 1 ?
+                MAX_QUEUE_LENGTH : guildData.getMusicQueueSizeLimit();
+
         var fqSize = guildData.getMaxFairQueue();
+        ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
 
-        if (musicManager.getTrackScheduler().getQueue().size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
-            if (!silent)
-                event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_queue_limit"),
+        if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
+            if (!silent) {
+                event.getChannel().sendMessageFormat(
+                        language.get("commands.music_general.loader.over_queue_limit"),
                         EmoteReference.WARNING, title, queueLimit
                 ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
+            }
             return;
         }
 
-        if (audioTrack.getInfo().length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
+        if (trackInfo.length > MAX_SONG_LENGTH && (!dbUser.isPremium() && !dbGuild.isPremium())) {
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_32_minutes"),
-                    EmoteReference.WARNING, title, Utils.formatDuration(MAX_SONG_LENGTH), Utils.formatDuration(length)
+                    EmoteReference.WARNING, title,
+                    Utils.formatDuration(MAX_SONG_LENGTH),
+                    Utils.formatDuration(length)
             ).queue();
             return;
         }
 
         //Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
-        if (musicManager.getTrackScheduler().getQueue().stream().filter(track -> track.getInfo().uri.equals(audioTrack.getInfo().uri)).count() > fqSize && !silent) {
-            event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.fair_queue_limit_reached"), EmoteReference.ERROR, fqSize + 1).queue();
+        if (queue.stream()
+                .filter(track -> trackInfo.uri.equals(trackInfo.uri)).count() > fqSize && !silent) {
+            event.getChannel().sendMessageFormat(
+                    language.get("commands.music_general.loader.fair_queue_limit_reached"),
+                    EmoteReference.ERROR, fqSize + 1
+            ).queue();
+
             return;
         }
 
-        musicManager.getTrackScheduler().queue(audioTrack, insertFirst);
-        musicManager.getTrackScheduler().setRequestedChannel(event.getChannel().getIdLong());
+        trackScheduler.queue(audioTrack, insertFirst);
+        trackScheduler.setRequestedChannel(event.getChannel().getIdLong());
 
         if (!silent) {
-            //Hush from here babe, hehe.
-            var player = MantaroData.db().getPlayer(event.getAuthor());
+            var player = managedDatabase.getPlayer(event.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
@@ -180,11 +207,18 @@ public class AudioLoader implements AudioLoadResultHandler {
     private void onSearch(AudioPlaylist playlist) {
         var list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
-                track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, AudioCmdUtils.getDurationMinutes(track.getInfo().length)),
-                s -> new EmbedBuilder().setColor(Color.CYAN).setAuthor(language.get("commands.music_general.loader.selection_text"), "https://i.imgur.com/sFDpUZy.png")
+                track -> String.format(
+                        "**[%s](%s)** (%s)",
+                        track.getInfo().title,
+                        track.getInfo().uri,
+                        AudioCmdUtils.getDurationMinutes(track.getInfo().length)
+                ), s -> new EmbedBuilder()
+                        .setColor(Color.CYAN)
+                        .setAuthor(language.get("commands.music_general.loader.selection_text"), "https://i.imgur.com/sFDpUZy.png")
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .setDescription(s)
-                        .setFooter(language.get("commands.music_general.loader.timeout_text"), null).build(),
+                        .setFooter(language.get("commands.music_general.loader.timeout_text"), null)
+                        .build(),
                 selected -> loadSingle(selected, false)
         );
 

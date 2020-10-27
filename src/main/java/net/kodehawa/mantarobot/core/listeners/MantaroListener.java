@@ -39,6 +39,7 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.core.MantaroCore;
@@ -606,6 +607,10 @@ public class MantaroListener implements EventListener {
         try {
             final var jda = event.getJDA();
             final var mantaroData = MantaroData.db().getMantaroData();
+            final var guild = event.getGuild();
+
+            // Clear guild's TextChannel ground.
+            guild.getTextChannelCache().stream().forEach(TextChannelGround::delete);
 
             if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) ||
                     mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
@@ -830,7 +835,7 @@ public class MantaroListener implements EventListener {
                     .put("cached_users", jda.getUserCache().size())
                     .put("gateway_ping", jda.getGatewayPing())
                     .put("shard_status", jda.getStatus())
-                    .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff())
+                    .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).lastJDAEventDiff())
                     .put("node_number", MantaroBot.getInstance().getNodeNumber())
                     .toString();
 

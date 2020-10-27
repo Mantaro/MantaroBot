@@ -23,8 +23,7 @@ public class PokemonGameData {
     private String image;
     private List<String> names;
 
-    public PokemonGameData() {
-    }
+    public PokemonGameData() { }
 
     public String getName() {
         return this.name;

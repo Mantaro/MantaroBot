@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands.music.listener;
 
 import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
@@ -26,8 +25,6 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMuteEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 import org.jetbrains.annotations.NotNull;
@@ -36,14 +33,6 @@ import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
     private final RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
-
-    private static boolean validate(GuildVoiceState state) {
-        return state == null || !state.inVoiceChannel();
-    }
-
-    private static boolean isAlone(VoiceChannel vc) {
-        return vc.getMembers().stream().allMatch(m -> m.getUser().isBot());
-    }
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
@@ -59,75 +48,88 @@ public class VoiceChannelListener implements EventListener {
     }
 
     private void onGuildVoiceMove(GuildVoiceMoveEvent event) {
-        if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember()))
+        if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember())) {
             onJoin(event.getChannelJoined());
+        }
 
-        if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember()))
+        if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember())) {
             onLeave(event.getChannelLeft());
+        }
     }
 
     private void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
-        if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember()))
+        if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember())) {
             onJoin(event.getChannelJoined());
+        }
     }
 
     private void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
-        if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember()))
+        if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember())) {
             onLeave(event.getChannelLeft());
+        }
     }
 
     private void onGuildVoiceMute(GuildVoiceMuteEvent event) {
-        if (event.getMember().getUser().getIdLong() != event.getJDA().getSelfUser().getIdLong())
+        if (event.getMember().getUser().getIdLong() != event.getJDA().getSelfUser().getIdLong()) {
             return;
+        }
 
-        GuildVoiceState vs = event.getVoiceState();
-        if (validate(vs))
+        var voiceState = event.getVoiceState();
+        if (validate(voiceState)) {
             return;
+        }
 
-        GuildMusicManager gmm = MantaroBot.getInstance()
+        var musicManager = MantaroBot.getInstance()
                 .getAudioManager()
                 .getMusicManager(event.getGuild());
-        if (gmm == null)
+
+        if (musicManager == null) {
             return;
+        }
 
         if (event.isMuted()) {
-            TrackScheduler scheduler = gmm.getTrackScheduler();
+            var scheduler = musicManager.getTrackScheduler();
             if (scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
-                TextChannel tc = scheduler.getRequestedTextChannel();
+                var textChannel = scheduler.getRequestedTextChannel();
                 //Didn't ratelimit this one because mute can only be done by admins and such? Don't think it'll get abused.
-                if (tc.canTalk()) {
-                    tc.sendMessageFormat(
-                            scheduler.getLanguage().get("commands.music_general.listener.paused"), EmoteReference.SAD
+                if (textChannel.canTalk()) {
+                    textChannel.sendMessageFormat(
+                            scheduler.getLanguage().get("commands.music_general.listener.paused"),
+                            EmoteReference.SAD
                     ).queue();
                 }
-                gmm.getLavaLink().getPlayer().setPaused(true);
+
+                musicManager.getLavaLink().getPlayer().setPaused(true);
             }
         } else {
-            if (!isAlone(vs.getChannel()) && gmm.getTrackScheduler().getCurrentTrack() != null) {
-                gmm.getLavaLink().getPlayer().setPaused(false);
+            if (!isAlone(voiceState.getChannel()) && musicManager.getTrackScheduler().getCurrentTrack() != null) {
+                musicManager.getLavaLink().getPlayer().setPaused(false);
             }
         }
 
     }
 
     private void onJoin(VoiceChannel vc) {
-        GuildVoiceState vs = vc.getGuild().getSelfMember().getVoiceState();
-        if (validate(vs))
+        var vs = vc.getGuild().getSelfMember().getVoiceState();
+        if (validate(vs)) {
             return;
+        }
 
         if (!isAlone(vc)) {
-            GuildMusicManager gmm = MantaroBot.getInstance()
+            var musicManager = MantaroBot.getInstance()
                     .getAudioManager()
                     .getMusicManager(vc.getGuild());
-            if (gmm == null)
-                return;
 
-            TrackScheduler scheduler = gmm.getTrackScheduler();
+            if (musicManager == null) {
+                return;
+            }
+
+            var scheduler = musicManager.getTrackScheduler();
             if (scheduler.getCurrentTrack() != null) {
-                if (gmm.isAwaitingDeath()) {
-                    TextChannel tc = scheduler.getRequestedTextChannel();
-                    if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
-                        tc.sendMessageFormat(
+                if (musicManager.isAwaitingDeath()) {
+                    var textChannel = scheduler.getRequestedTextChannel();
+                    if (textChannel.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
+                        textChannel.sendMessageFormat(
                                 scheduler.getLanguage().get("commands.music_general.listener.resumed"),
                                 EmoteReference.POPPER
                         ).queue();
@@ -135,29 +137,32 @@ public class VoiceChannelListener implements EventListener {
                 }
             }
 
-            gmm.cancelLeave();
-            gmm.setAwaitingDeath(false);
-            gmm.getLavaLink().getPlayer().setPaused(false);
+            musicManager.cancelLeave();
+            musicManager.setAwaitingDeath(false);
+            musicManager.getLavaLink().getPlayer().setPaused(false);
         }
     }
 
     private void onLeave(VoiceChannel vc) {
-        GuildVoiceState vs = vc.getGuild().getSelfMember().getVoiceState();
-        if (validate(vs))
+        var vs = vc.getGuild().getSelfMember().getVoiceState();
+        if (validate(vs)) {
             return;
+        }
 
         if (isAlone(vc)) {
-            GuildMusicManager gmm = MantaroBot.getInstance()
+            var musicManager = MantaroBot.getInstance()
                     .getAudioManager()
                     .getMusicManager(vc.getGuild());
-            if (gmm == null)
-                return;
 
-            TrackScheduler scheduler = gmm.getTrackScheduler();
+            if (musicManager == null) {
+                return;
+            }
+
+            var scheduler = musicManager.getTrackScheduler();
             if (scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
-                TextChannel tc = scheduler.getRequestedTextChannel();
-                if (tc.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
-                    tc.sendMessageFormat(scheduler.getLanguage().get(
+                var textChannel = scheduler.getRequestedTextChannel();
+                if (textChannel.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
+                    textChannel.sendMessageFormat(scheduler.getLanguage().get(
                             "commands.music_general.listener.left_alone"),
                             EmoteReference.THINKING, vc.getName()
                     ).queue(m -> m.delete()
@@ -166,9 +171,17 @@ public class VoiceChannelListener implements EventListener {
                 }
             }
 
-            gmm.setAwaitingDeath(true);
-            gmm.scheduleLeave();
-            gmm.getLavaLink().getPlayer().setPaused(true);
+            musicManager.setAwaitingDeath(true);
+            musicManager.scheduleLeave();
+            musicManager.getLavaLink().getPlayer().setPaused(true);
         }
+    }
+
+    private static boolean validate(GuildVoiceState state) {
+        return state == null || !state.inVoiceChannel();
+    }
+
+    private static boolean isAlone(VoiceChannel vc) {
+        return vc.getMembers().stream().allMatch(m -> m.getUser().isBot());
     }
 }

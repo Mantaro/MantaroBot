@@ -32,10 +32,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import static com.rethinkdb.RethinkDB.r;
 
 public class MantaroData {
-    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build());
     private static final Logger log = LoggerFactory.getLogger(MantaroData.class);
+    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(
+            1, new ThreadFactoryBuilder().setNameFormat("MantaroData-Executor Thread-%d").build()
+    );
+
     private static JsonDataManager<Config> config;
-    private static Connection conn;
+    private static Connection connection;
     private static ManagedDatabase db;
 
     private static final JedisPool defaultJedisPool = new JedisPool(config().get().jedisPoolAddress, config().get().jedisPoolPort);
@@ -54,13 +57,13 @@ public class MantaroData {
 
     public static Connection conn() {
         var config = config().get();
-        if (conn == null) {
+        if (connection == null) {
             synchronized (MantaroData.class) {
-                if (conn != null) {
-                    return conn;
+                if (connection != null) {
+                    return connection;
                 }
 
-                conn = r.connection()
+                connection = r.connection()
                         .hostname(config.getDbHost())
                         .port(config.getDbPort())
                         .db(config.getDbDb())
@@ -73,7 +76,7 @@ public class MantaroData {
             }
         }
 
-        return conn;
+        return connection;
     }
 
 

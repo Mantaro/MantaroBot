@@ -34,7 +34,6 @@ import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.commands.utils.reminders.ReminderTask;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.core.shard.Shard;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogFilter;
@@ -49,12 +48,10 @@ import okhttp3.Response;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
 
 import java.net.ConnectException;
 import java.net.URI;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -306,7 +303,7 @@ public class MantaroBot {
                         .put("cached_users", jda.getUserCache().size())
                         .put("gateway_ping", jda.getGatewayPing())
                         .put("shard_status", jda.getStatus())
-                        .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).getLastJDAEventTimeDiff())
+                        .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).lastJDAEventDiff())
                         .put("node_number", MantaroBot.getInstance().getNodeNumber())
                         .toString();
 

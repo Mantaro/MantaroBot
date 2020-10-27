@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.music.utils;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -30,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -49,7 +52,7 @@ public class AudioCmdUtils {
 
     public static void embedForQueue(GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final var trackScheduler = musicManager.getTrackScheduler();
-        final var toSend = AudioUtils.getQueueList(trackScheduler.getQueue(), musicManager);
+        final var toSend = getQueueList(trackScheduler.getQueue(), musicManager);
         final var guild = event.getGuild();
         final var musicPlayer = trackScheduler.getMusicPlayer();
         final var playingTrack = musicPlayer.getPlayingTrack();
@@ -115,26 +118,21 @@ public class AudioCmdUtils {
                     .addField(lang.get("commands.music_general.queue.header_field"),
                             lang.get("commands.music_general.queue.header_instructions"),
                             false)
-                    .addField(
-                            lang.get("commands.music_general.queue.np"), np,
+                    .addField(lang.get("commands.music_general.queue.np"), np,
                             false)
-                    .addField(
-                            lang.get("commands.music_general.queue.total_queue_time"),
+                    .addField(lang.get("commands.music_general.queue.total_queue_time"),
                             Utils.formatDuration(length),
                             false)
-                    .addField(
-                            lang.get("commands.music_general.queue.total_size"),
+                    .addField(lang.get("commands.music_general.queue.total_size"),
                             String.format("%d %s",
                                     trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")
                             ),
                             true)
-                    .addField(
-                        lang.get("commands.music_general.queue.togglers"),
+                    .addField(lang.get("commands.music_general.queue.togglers"),
                         String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
                              trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
                             true)
-                    .addField(
-                            lang.get("commands.music_general.queue.playing_in"),
+                    .addField(lang.get("commands.music_general.queue.playing_in"),
                             voiceChannel == null ?
                                     lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
                             true)
@@ -336,5 +334,32 @@ public class AudioCmdUtils {
                 MILLISECONDS.toMinutes(length),
                 MILLISECONDS.toSeconds(length) - MINUTES.toSeconds(MILLISECONDS.toMinutes(length))
         );
+    }
+
+    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue, GuildMusicManager manager) {
+        var sb = new StringBuilder();
+        var num = 1;
+
+        for (var audioTrack : queue) {
+            var aDuration = audioTrack.getDuration();
+
+            var duration = String.format("%02d:%02d",
+                    MILLISECONDS.toMinutes(aDuration),
+                    MILLISECONDS.toSeconds(aDuration) - MINUTES.toSeconds(MILLISECONDS.toMinutes(aDuration))
+            );
+
+            sb.append("**")
+                    .append(num)
+                    .append(". [")
+                    .append(StringUtils.limit(audioTrack.getInfo().title, 40))
+                    .append("](")
+                    .append(audioTrack.getInfo().uri)
+                    .append(")** (")
+                    .append(duration)
+                    .append(")")
+                    .append("\n");
+            num++;
+        }
+        return sb.toString();
     }
 }

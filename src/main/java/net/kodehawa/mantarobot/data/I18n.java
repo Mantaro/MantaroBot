@@ -164,7 +164,6 @@ public class I18n {
             actualQuery = root + "." + query;
         }
 
-        //TODO: apply the fix to all at startup or lazily modify the map?
         return Utils.fixInlineCodeblockDirection(get(map, actualQuery.split("\\."), false));
     }
 

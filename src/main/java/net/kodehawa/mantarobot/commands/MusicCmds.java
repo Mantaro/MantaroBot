@@ -30,7 +30,6 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.StatsManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
-import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -407,7 +406,7 @@ public class MusicCmds {
                         }
 
                         lavalinkPlayer.seekTo(position - amt);
-                        ctx.sendLocalized("commands.rewind.success", EmoteReference.CORRECT, AudioUtils.getLength(position - amt));
+                        ctx.sendLocalized("commands.rewind.success", EmoteReference.CORRECT, AudioCmdUtils.getDurationMinutes(position - amt));
                     } catch (NumberFormatException ex) {
                         ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
                     }
@@ -493,7 +492,7 @@ public class MusicCmds {
                         }
 
                         lavalinkPlayer.seekTo(position + amt);
-                        ctx.sendLocalized("commands.skipahead.success", EmoteReference.CORRECT, AudioUtils.getLength(position + amt));
+                        ctx.sendLocalized("commands.skipahead.success", EmoteReference.CORRECT, AudioCmdUtils.getDurationMinutes(position + amt));
                     } catch (NumberFormatException ex) {
                         ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
                     }
