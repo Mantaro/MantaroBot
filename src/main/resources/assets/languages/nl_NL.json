@@ -239,6 +239,8 @@
       "too_many_errors": "%1$sToo many errors on this session, stopping...",
       "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
+        "header_field": "Queue",
+        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
         "no_track_found_np": "Niets, of de titel/afspeelduur niet gevonden.",
         "header": "afspeellijst voor de server %1$s",
         "nothing_playing": "Er wordt op dit moment geen muziek afgespeeld. Waarom zet je geen muziek in de afspeellijst?\nAls je denkt dat er wel nummers zijn maar ze verschijnen niet, probeer dan `~>queue 1`.",
