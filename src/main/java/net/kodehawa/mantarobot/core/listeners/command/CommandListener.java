@@ -61,7 +61,7 @@ public class CommandListener implements EventListener {
         this.messageCache = messageCache;
     }
 
-    public static int getCommandTotalInt() {
+    public static int getCommandTotal() {
         return commandTotal;
     }
 

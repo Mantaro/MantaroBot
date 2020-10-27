@@ -21,11 +21,13 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -71,6 +73,11 @@ public class DebugCmds {
                 var totalThreadCount = 0L;
                 var totalCommandCount = 0L;
 
+                String nodeData;
+                try (Jedis jedis = ctx.getJedisPool().getResource()) {
+                    nodeData = jedis.hget("node-stats-" + config.getClientId(), "node-" + bot.getNodeNumber());
+                }
+
                 try(Jedis jedis = ctx.getJedisPool().getResource()) {
                     var stats = jedis.hgetAll("shardstats-" + config.getClientId());
                     for (var shards : stats.entrySet()) {
@@ -107,35 +114,36 @@ public class DebugCmds {
                     mApiRequests = new JSONObject(APIUtils.getFrom("/mantaroapi/ping")).getInt("requests_served");
                 } catch (IOException | JSONException ignored) { }
 
+                // Get the master node.
+                var node = new JSONObject(nodeData);
+                var shardManager = ctx.getShardManager();
+                var jda = ctx.getJDA();
+
                 ctx.send("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
+                        + "Uptime: " + Utils.formatDuration(node.getLong("uptime")) + "\n"
+                        + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
+                        + "Libraries: " + String.format("[ JDA: %s, LP: %s ]", JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
                         + "Commands: " +
                         CommandProcessor.REGISTRY.commands()
                                 .values()
                                 .stream()
                                 .filter(command -> command.category() != null)
-                                .count() + "\n"
-                        + "Bot Version: " + MantaroInfo.VERSION + " [" + MantaroInfo.GIT_REVISION + "]\n"
-                        + "JDA Version: " + JDAInfo.VERSION + "\n"
-                        + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "API Responses: " + String.format("%,d [MAPI: %,d]", responseTotal, mApiRequests) + "\n"
-                        + "Nodes: " + String.format("%,d [Current: %,d]", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
-                        + "CPU Usage: " + String.format("%.2f", getInstanceCPUUsage() * 100) + "%" + "\n"
-                        + "CPU Cores: " + getAvailableProcessors() + "\n"
-                        + "Shard Info: " + ctx.getJDA().getShardInfo()
+                                .count()
+                        + "\n\n --------- Debug Information --------- \n\n"
+                        + "Replies: " + String.format("[ Discord: %,d, MAPI: %,d ]", responseTotal, mApiRequests) + "\n"
+                        + "Shard Info: " + jda.getShardInfo() + "\n"
+                        + "Nodes: " + String.format("%,d (Current: %,d)", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
+                        + "CPU: " + String.format("%.2f%% (Cores: %,d)", getInstanceCPUUsage() * 100, getAvailableProcessors()) + "\n"
+                        + "Memory: " +  Utils.formatMemoryAmount(totalMemory) +
+                        " [Node: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory())  + "]"
                         + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + String.format("%,d [Local: %,d]", guilds, ctx.getShardManager().getGuildCache().size()) + "\n"
-                        + "User Cache: " + String.format("%,d [Local: %,d]", users, ctx.getShardManager().getUserCache().size()) + "\n"
-                        + "Shards: " + bot.getShardManager().getShardsTotal() + " [Current: " + ctx.getJDA().getShardInfo().getShardId() + "]" + "\n"
-                        + "Threads: " + String.format("%,d [Local: %,d]", totalThreadCount, Thread.activeCount()) + "\n"
-                        + "Executed Commands: " + String.format("%,d", totalCommandCount) + "\n"
-                        + "Music Players: " + players + "\n"
-                        + "Logs: " + String.format("%,d", MantaroListener.getLogTotalInt()) + "\n"
-                        + "Memory: " +
-                        Utils.formatMemoryAmount(
-                                getTotalMemory() - getFreeMemory()) + " (Total: " +  Utils.formatMemoryAmount(totalMemory)
-                        + ")\n"
-                        + "Queue Size: " + String.format("%,d", queueSize)
+                        + "Guilds: " + String.format("%,d (Node: %,d)", guilds, shardManager.getGuildCache().size()) + "\n"
+                        + "User Cache: " + String.format("%,d (Node: %,d)", users, shardManager.getUserCache().size()) + "\n"
+                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardId() + ")" + "\n"
+                        + "Threads: " + String.format("%,d (Node: %,d)", totalThreadCount, Thread.activeCount()) + "\n"
+                        + "Commands Used: " + String.format("%,d (Node: %,d)", totalCommandCount, CommandListener.getCommandTotal()) + "\n"
+                        + "Overall: " + String.format("[ Players: %,d, Queue: %,d, Logs: %,d ]", players, queueSize, MantaroListener.getLogTotal()) + "\n"
                         + "```"
                 );
             }

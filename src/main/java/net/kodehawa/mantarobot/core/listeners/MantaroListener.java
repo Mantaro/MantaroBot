@@ -94,7 +94,7 @@ public class MantaroListener implements EventListener {
         this.messageCache = messageCache;
     }
 
-    public static int getLogTotalInt() {
+    public static int getLogTotal() {
         return logTotal;
     }
 
