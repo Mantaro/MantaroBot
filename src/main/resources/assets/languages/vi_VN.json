@@ -239,6 +239,8 @@
       "too_many_errors": "%1$sQuá nhiều lỗi trong phiên phát nhạc này, dừng lại...",
       "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải thể? Thử lại đê.",
       "queue": {
+        "header_field": "Queue",
+        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
         "no_track_found_np": "Không có gì hoặc không thể tìm thấy tên/thời lượng",
         "header": "Danh sách phát cho máy chủ %1$s",
         "nothing_playing": "Chả có gì ở đây cả, toàn bui. Tại sao bạn không bật vài bài hát?\nNếu bạn nghĩ rằng có những bài hát ở đây mà chúng không xuất hiện, thử dùng lệnh `~>queue 1`.",
