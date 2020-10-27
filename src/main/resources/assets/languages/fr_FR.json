@@ -246,6 +246,7 @@
         "nothing_playing": "Rien ici, que de la poussière. Pourquoi n'ajoutes tu pas des chansons à la liste de lecture ?\nSi tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "nothing_playing_2": "**S'il y a un morceau en train de jouer et que tu n'as pas ajouté de musique, alors c'est qu'il n'y a que de la poussière ici. Tu peux ajouter d'autres musiques à la liste de lecture !!**",
         "np": "Joue en ce moment",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Rien ici, que de la poussière. Pourquoi ne pas revenir en arrière de quelques pages ?",
         "page_overflow_2": "Si tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "total_queue_time": "Durée total de la liste de lecture",
