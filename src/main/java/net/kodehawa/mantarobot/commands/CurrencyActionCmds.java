@@ -121,9 +121,8 @@ public class CurrencyActionCmds {
                 var reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
                         languageContext.get("commands.mine.reminder") : "";
 
-                var message = String.format(languageContext.get("commands.mine.success") + reminder,
-                        item.getEmoji(), money, item.getName()
-                );
+                var message = (languageContext.get("commands.mine.success") + reminder)
+                        .formatted(item.getEmoji(), money, item.getName());
 
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
@@ -162,9 +161,8 @@ public class CurrencyActionCmds {
                         }
 
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
-                        message += "\n" + EmoteReference.DIAMOND + String.format(
-                                languageContext.withRoot("commands", "mine.diamond.success"), amount
-                        );
+                        message += "\n" + EmoteReference.DIAMOND +
+                                languageContext.withRoot("commands", "mine.diamond.success").formatted(amount);
                     }
 
                     playerData.addBadgeIfAbsent(Badge.MINER);
@@ -186,10 +184,8 @@ public class CurrencyActionCmds {
                         money += itemGem.getValue() * 0.9;
                     } else {
                         inventory.process(selectedGem);
-                        message += "\n" + EmoteReference.MEGA + String.format(
-                                languageContext.withRoot("commands", "mine.gem.success"),
-                                itemGem.getEmoji() + " x" + selectedGem.getAmount()
-                        );
+                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.gem.success")
+                                .formatted(itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
                     if (waifuHelp) {
@@ -216,7 +212,7 @@ public class CurrencyActionCmds {
                     } else {
                         inventory.process(new ItemStack(gem, 1));
                         message += "\n" + EmoteReference.MEGA +
-                                String.format(languageContext.withRoot("commands", "mine.sparkle.success"), gem.getEmoji());
+                                languageContext.withRoot("commands", "mine.sparkle.success").formatted(gem.getEmoji());
                     }
 
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
@@ -233,7 +229,7 @@ public class CurrencyActionCmds {
                     } else {
                         inventory.process(new ItemStack(crate, 1));
                         message += "\n" + EmoteReference.MEGA +
-                                String.format(languageContext.withRoot("commands", "mine.crate.success"), crate.getEmoji(), crate.getName());
+                                languageContext.withRoot("commands", "mine.crate.success".formatted(crate.getEmoji(), crate.getName()));
                     }
                 }
 
@@ -414,7 +410,7 @@ public class CurrencyActionCmds {
                         } else {
                             playerInventory.process(new ItemStack(crate, 1));
                             extraMessage += "\n" + EmoteReference.MEGA +
-                                    String.format(languageContext.get("commands.fish.crate.success"), crate.getEmoji(), crate.getName());
+                                    languageContext.get("commands.fish.crate.success").formatted(crate.getEmoji(), crate.getName());
                         }
                     }
                     //END OF FISH LOOT CRATE HANDLING
@@ -429,9 +425,8 @@ public class CurrencyActionCmds {
                         }
 
                         playerInventory.process(new ItemStack(ItemReference.SHARK, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(
-                                languageContext.get("commands.fish.shark_success"), ItemReference.SHARK.getEmoji()
-                        );
+                        extraMessage += "\n" + EmoteReference.MEGA +
+                                languageContext.get("commands.fish.shark_success").formatted(ItemReference.SHARK.getEmoji());
 
                         player.getData().setSharksCaught(player.getData().getSharksCaught() + 1);
                     }
@@ -451,7 +446,7 @@ public class CurrencyActionCmds {
                     // END OF ITEM ADD HANDLING
 
                     if (overflow) {
-                        extraMessage += "\n" + String.format(languageContext.get("commands.fish.overflow"), EmoteReference.SAD);
+                        extraMessage += "\n" + languageContext.get("commands.fish.overflow").formatted(EmoteReference.SAD);
                     }
 
                     List<ItemStack> reducedList = ItemStack.reduce(list);
@@ -474,9 +469,8 @@ public class CurrencyActionCmds {
 
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
-                        extraMessage += "\n" + EmoteReference.MEGA + String.format(
-                                languageContext.get("commands.fish.fossil_success"), ItemReference.SHELL.getEmoji()
-                        );
+                        extraMessage += "\n" + EmoteReference.MEGA +
+                                languageContext.get("commands.fish.fossil_success").formatted(ItemReference.SHELL.getEmoji());
                     }
 
 

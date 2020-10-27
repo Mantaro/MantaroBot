@@ -108,8 +108,8 @@ public class CurrencyCmds {
                     }
 
                     if (arguments.containsKey("info") || arguments.containsKey("full")) {
-                        EmbedBuilder builder = baseEmbed(ctx, String.format(
-                                languageContext.get("commands.inventory.header"), member.getEffectiveName()),
+                        EmbedBuilder builder = baseEmbed(ctx,
+                                languageContext.get("commands.inventory.header").formatted(member.getEffectiveName()),
                                 member.getUser().getEffectiveAvatarUrl()
                         );
 
@@ -121,13 +121,14 @@ public class CurrencyCmds {
                                 long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                                 long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                                 fields.add(new MessageEmbed.Field(
-                                        String.format("%s %s x %d", stack.getItem().getEmoji(),
-                                        stack.getItem().getName(), stack.getAmount()),
-                                        String.format(
-                                                languageContext.get("commands.inventory.format"),
+                                        "%s %s x %d".formatted(
+                                                stack.getItem().getEmoji(),
+                                                stack.getItem().getName(),
+                                                stack.getAmount()),
+                                        languageContext.get("commands.inventory.format").formatted(
                                                 buyValue, sellValue,
-                                                languageContext.get(stack.getItem().getDesc())
-                                        ), false)
+                                                languageContext.get(stack.getItem().getDesc()
+                                        )), false)
                                 );
                             });
                         }
@@ -149,10 +150,10 @@ public class CurrencyCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Shows your current inventory.")
-                        .setUsage("You can mention someone on this command to see their inventory.\n" +
-                                "You can use `~>inventory -full` to a more detailed version.\n" +
-                                "Use `~>inventory -calculate` to see " +
-                                "how much you'd get if you sell every sellable item on your inventory.")
+                        .setUsage("""
+                                You can mention someone on this command to see their inventory.
+                                You can use `~>inventory -full` to a more detailed version.
+                                Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory.""")
                         .setSeasonal(true)
                         .build();
             }
@@ -182,7 +183,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    var player = MantaroData.db().getPlayer(member);
+                    var player = ctx.getPlayer(member);
                     var experienceNext =
                             (long) (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2);
 
@@ -446,9 +447,8 @@ public class CurrencyCmds {
                 if (!partyRateLimiter.process(partyKey)) {
                     ctx.getChannel().sendMessage(
                             EmoteReference.STOPWATCH +
-                                    String.format(ctx.getLanguageContext().get("commands.transfer.party"),
-                                            giveTo.getName()) + " (Ratelimited)" +
-                                    "\n **You'll be able to transfer to this user again in " +
+                                    ctx.getLanguageContext().get("commands.transfer.party".formatted(giveTo.getName())) +
+                                            " (Ratelimited)\n **You'll be able to transfer to this user again in " +
                                     Utils.formatDuration(partyRateLimiter.tryAgainIn(partyKey)) + ".**"
                     ).queue();
 
@@ -583,8 +583,8 @@ public class CurrencyCmds {
                 playerData.setLastCrateGiven(ItemHelper.idOf(crate));
                 player.save();
 
-                var successMessage = String.format(
-                        languageContext.get("commands.dailycrate.success"), EmoteReference.POPPER, crate.getName()) +
+                var successMessage =
+                        languageContext.get("commands.dailycrate.success".formatted(EmoteReference.POPPER, crate.getName())) +
                         "\n" + languageContext.get("commands.daily.sellout.already_premium");
 
                 ctx.send(successMessage);
@@ -701,8 +701,9 @@ public class CurrencyCmds {
                         )
                         .setDescription(show.toString())
                         .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"),
-                                ctx.getMember().getEffectiveName()), null
+                        .setFooter(languageContext.get("general.requested_by")
+                                        .formatted(ctx.getMember().getEffectiveName()),
+                                null
                         ).build()
                 );
             }

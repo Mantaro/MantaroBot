@@ -68,8 +68,10 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(7).collect(Collectors.toList()),
-                            anime -> String.format("[**%s** (%s)](%s)",
-                            anime.getAttributes().getCanonicalTitle(), anime.getAttributes().getTitles().getJa_jp(), anime.getURL()),
+                            anime -> "[**%s** (%s)](%s)".formatted(
+                                    anime.getAttributes().getCanonicalTitle(),
+                                    anime.getAttributes().getTitles().getJa_jp(), anime.getURL()
+                            ),
                             s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.selection_start"))
                                     .setDescription(s)
                                     .setThumbnail("https://i.imgur.com/VwlGqdk.png")
@@ -124,7 +126,7 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(7).collect(Collectors.toList()),
-                            character -> String.format("[**%s** (%s)](%s)",
+                            character -> "[**%s** (%s)](%s)".formatted(
                                     character.getAttributes().getName(),
                                     character.getAttributes().getNames().getJa_jp(),
                                     character.getURL()
@@ -189,7 +191,7 @@ public class AnimeCmds {
         //Start building the embedded message.
         var embed = new EmbedBuilder();
         embed.setColor(Color.DARK_GRAY)
-                .setAuthor(String.format(lang.get("commands.anime.information_header"), title), null, imageUrl)
+                .setAuthor(lang.get("commands.anime.information_header").formatted(title), null, imageUrl)
                 .setFooter(lang.get("commands.anime.information_notice"), null)
                 .setThumbnail(imageUrl)
                 .addField(lang.get("commands.anime.release_date"), releaseDate, true)
@@ -247,9 +249,8 @@ public class AnimeCmds {
             embed.setColor(Color.LIGHT_GRAY)
                     .setThumbnail(imageUrl)
                     .setAuthor(
-                            String.format(
-                                    lang.get("commands.character.information_header"), charName
-                            ), null, imageUrl
+                            lang.get("commands.character.information_header").formatted(charName),
+                            null, imageUrl
                     )
                     .addField(lang.get("commands.character.information"), charDescription, true)
                     .setFooter(lang.get("commands.anime.information_notice"), null);
