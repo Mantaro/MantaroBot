@@ -239,8 +239,8 @@
       "too_many_errors": "%1$sالكثير من الاخطاء في هذه الجلسة, توقف...",
       "no_vc_found": "%1$sانا لست متصلاََ بقناة صوتيه على الرغم من أنني يجب أن أكون؟ حاول مجددا.",
       "queue": {
-        "header_field": "Queue",
-        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "لم يتم العثور على أي شيء أو عنوان / المدة",
         "header": "قائمة انتظار للخادم %1$s",
         "nothing_playing": "لا شيء هنا ، فقط غبار. لماذا لا تصطف بعض الأغاني؟\nإذا كنت تعتقد أن هناك أغانٍ هنا ولكنها لا تظهر ، فحاول استخدام\n`~>queue 1`.",
