@@ -20,6 +20,7 @@ import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -56,10 +57,18 @@ public class AudioCmdUtils {
         if (playingTrack == null) {
             nowPlaying = lang.get("commands.music_general.queue.no_track_found_np");
         } else {
-            nowPlaying = String.format("**[%s](%s)** (%s)",
+            Member dj = null;
+            if (playingTrack.getUserData() != null) {
+                try {
+                    dj = guild.retrieveMemberById(String.valueOf(playingTrack.getUserData()), false).complete();
+                } catch (Exception ignored) { }
+            }
+
+            nowPlaying = String.format("**[%s](%s)** (%s)\n%s",
                     playingTrack.getInfo().title,
                     playingTrack.getInfo().uri,
-                    getDurationMinutes(playingTrack.getInfo().length)
+                    getDurationMinutes(playingTrack.getInfo().length),
+                    dj != null ? lang.get("commands.music_general.queue.dj_np") + dj.getUser().getAsTag() : ""
             );
         }
 
@@ -82,17 +91,20 @@ public class AudioCmdUtils {
         // error: local variables referenced from a lambda expression must be final or effectively final
         // sob
         final var np = nowPlaying;
+
         IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->
-                builder.addField(lang.get("commands.music_general.queue.header_field"),
+                // Cursed, but should work?
+                builder.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png"
+                ).clearFields().addField(lang.get("commands.music_general.queue.header_field"),
                         lang.get("commands.music_general.queue.header_instructions"), false
                 ).addField(
                         lang.get("commands.music_general.queue.np"), np, false
                 ).addField(
                         lang.get("commands.music_general.queue.total_queue_time"),
-                        String.format("`%s`", Utils.formatDuration(length)), false
+                        Utils.formatDuration(length), false
                 ).addField(
                         lang.get("commands.music_general.queue.total_size"),
-                        String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")),
+                        String.format("%d %s", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")),
                         true
                 ).addField(
                         lang.get("commands.music_general.queue.togglers"),
@@ -100,7 +112,7 @@ public class AudioCmdUtils {
                                 trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
                         true
                 ).addField(lang.get("commands.music_general.queue.playing_in"),
-                        voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : "`" + voiceChannel.getName() + "`",
+                        voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
                         true
                 ).setFooter(String.format("Total Pages: %s | Current: %s", total, p), event.getAuthor().getEffectiveAvatarUrl());
 

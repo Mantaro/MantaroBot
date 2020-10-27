@@ -34,9 +34,11 @@ public class AudioUtils {
 
     public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue, GuildMusicManager manager) {
         var sb = new StringBuilder();
-        var n = 1;
+        var num = 1;
+
         for (var audioTrack : queue) {
             var aDuration = audioTrack.getDuration();
+
             var duration = String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes(aDuration),
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
@@ -50,17 +52,16 @@ public class AudioUtils {
             }
 
             sb.append("**")
-                    .append(n)
+                    .append(num)
                     .append(". [")
-                    .append(StringUtils.limit(audioTrack.getInfo().title, 30))
+                    .append(StringUtils.limit(audioTrack.getInfo().title, 40))
                     .append("](")
                     .append(audioTrack.getInfo().uri)
                     .append(")** (")
                     .append(duration)
                     .append(")")
-                    .append(dj != null ? " **[" + dj.getUser().getName() + "]**" : "")
                     .append("\n");
-            n++;
+            num++;
         }
         return sb.toString();
     }

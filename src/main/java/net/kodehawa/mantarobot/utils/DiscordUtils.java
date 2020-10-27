@@ -410,8 +410,8 @@ public class DiscordUtils {
         base.setFooter("Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
 
         var index = new AtomicInteger();
-        var m = event.getChannel().sendMessage(base.build()).complete();
-        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
+        var message = event.getChannel().sendMessage(base.build()).complete();
+        return ReactionOperations.create(message, timeoutSeconds, (e) -> {
             if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
@@ -428,7 +428,7 @@ public class DiscordUtils {
                             "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl()
                     );
 
-                    m.editMessage(toSend.build()).queue();
+                    message.editMessage(toSend.build()).queue();
                 }
                 //right arrow
                 case "\u27a1" -> {
@@ -440,7 +440,7 @@ public class DiscordUtils {
                     toSend1.setFooter("Current page: " + (index.get() + 1) + " | " +
                             "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl()
                     );
-                    m.editMessage(toSend1.build()).queue();
+                    message.editMessage(toSend1.build()).queue();
                 }
                 default -> { } // Do nothing, but make codefactor happy lol
             }
@@ -454,32 +454,35 @@ public class DiscordUtils {
     }
 
     public static List<String> divideString(int max, StringBuilder builder) {
-        List<String> m = new LinkedList<>();
-        var s = builder.toString().trim();
-        var sb = new StringBuilder();
+        List<String> list = new LinkedList<>();
+        var str = builder.toString().trim();
+        var stringBuilder = new StringBuilder();
 
-        while (s.length() > 0) {
-            var idx = s.indexOf('\n');
+        while (str.length() > 0) {
+            var index = str.indexOf('\n');
 
-            var line = idx == -1 ? s : s.substring(0, idx + 1);
-            s = s.substring(line.length());
-            if (s.equals("\n")) {
-                s = "";
+            var line = index == -1 ?
+                    str : str.substring(0, index + 1);
+
+            str = str.substring(line.length());
+            // Split on newline, if possible.
+            if (str.equals("\n")) {
+                str = "";
             }
 
-            if (sb.length() + line.length() > max) {
-                m.add(sb.toString());
-                sb = new StringBuilder();
+            if (stringBuilder.length() + line.length() > max) {
+                list.add(stringBuilder.toString());
+                stringBuilder = new StringBuilder();
             }
 
-            sb.append(line);
+            stringBuilder.append(line);
         }
 
-        if (sb.length() != 0) {
-            m.add(sb.toString());
+        if (stringBuilder.length() != 0) {
+            list.add(stringBuilder.toString());
         }
 
-        return m;
+        return list;
     }
 
     private static List<MessageEmbed> buildSplitEmbed(IntIntObjectFunction<EmbedBuilder> supplier, long length, String... parts) {
@@ -533,7 +536,6 @@ public class DiscordUtils {
                 // Set the description of the new embed with the part that
                 // corresponds to it.
                 embedBuilder.setDescription(stringBuilder.toString());
-
                 embeds.add(embedBuilder.build());
 
                 // Reset the string builder to build a new embed.
