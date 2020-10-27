@@ -239,8 +239,8 @@
       "too_many_errors": "%1$sСлишком много ошибок в данной сессии, прекращаю работу...",
       "no_vc_found": "%1$sЯ не подключена ни к единому голосовому чату, а должна ли? Попробуйте снова.",
       "queue": {
-        "header_field": "Queue",
-        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "По вашему запросу ничего не найдено (название/тайминг)",
         "header": "В очереди %1$s",
         "nothing_playing": "К сожалению здесь ничего нет, только пыль... Почему бы не поставить ваш любимый трек?\nЕсли в плейлист уже загружены треки, попробуйте использовать команду `~>queue 1`.",
