@@ -246,6 +246,7 @@
         "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
         "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
         "np": "Obecnie odtwarzany utwór",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
         "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
         "total_queue_time": "Totalny czas kolejki",
