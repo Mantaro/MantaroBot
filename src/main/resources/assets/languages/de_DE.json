@@ -239,6 +239,8 @@
       "too_many_errors": "%1$sZu viele Fehler während dieser Session...",
       "no_vc_found": "%1$sIch bin in keinem Sprachkanal, obwohl ich es sein sollte? Versuche es erneut.",
       "queue": {
+        "header_field": "Queue",
+        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
         "no_track_found_np": "Nichts oder der Title/die Länge wurde nicht gefunden.",
         "header": "Warteschlange für den Server %1$s",
         "nothing_playing": "Nichts hier, nur Staub. Warum bringst du nicht ein paar Songs in die Warteschlange? \nWenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~>queue 1`.",
