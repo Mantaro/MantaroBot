@@ -246,6 +246,7 @@
         "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽?\n如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
         "nothing_playing_2": "**如果這裡只有一首正在播放，那這邊真的就只剩灰塵了。你也可以加入更多歌曲!**",
         "np": "現正播放",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "這裡啥都沒有。為何不返回一些頁面?",
         "page_overflow_2": "如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
         "total_queue_time": "總播放時間",
