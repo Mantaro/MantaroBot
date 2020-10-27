@@ -239,6 +239,8 @@
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道? 在試一次。",
       "queue": {
+        "header_field": "Queue",
+        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
         "no_track_found_np": "找不到曲目或名稱/持續時間",
         "header": "%1$s播放清單",
         "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽?\n如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
