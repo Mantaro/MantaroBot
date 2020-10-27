@@ -239,6 +239,8 @@
       "too_many_errors": "%1$sBurada çok fazla hata var, durduruluyor...",
       "no_vc_found": "%1$sHerhangi bir SK'ya bağlı değilim. Tekrar deneyin.",
       "queue": {
+        "header_field": "Queue",
+        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
         "no_track_found_np": "Hiç bir şey bulamadım, üzücü!",
         "header": "Server %1$s için liste!",
         "nothing_playing": "Burada tozdan başka bir şey yok, belki bişeyler eklesen?\nBurada şarkı olduğunu ama gözükmediğini düşünüyorsan, `~>queue 1` kullanmayı deneyebilirsin.",
