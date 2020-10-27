@@ -239,8 +239,8 @@
       "too_many_errors": "%1$s이 세션에 오류가 너무 많아요. 멈추는 중...",
       "no_vc_found": "%1$s제가 음성 채널에 연결이 되야 하는데 음성 채널와 연결이 안 되는 건가요? 다시 해보세요.",
       "queue": {
-        "header_field": "Queue",
-        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "아우 것도 없거나 제목/지속 시간도 찾을 수 없네요",
         "header": "%1$s서버 대기열",
         "nothing_playing": "여긴 아무것도 없어요, 그냥 먼지뿐이에요. 몇 노래가 대기열에 없나요?\n여기에 노래가 있다고 생각하는데 안 나온다면 `~queue 1`을 사용해 보세요.",
