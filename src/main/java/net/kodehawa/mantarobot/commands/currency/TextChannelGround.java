@@ -185,9 +185,6 @@ public class TextChannelGround {
         public void save() {
             final var identifier =  "textchannelground:" + channel;
             try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
-                var json = JsonDataManager.toJson(this);
-                System.out.println(identifier);
-                System.out.println(json);
                 jedis.set(identifier, JsonDataManager.toJson(this));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
