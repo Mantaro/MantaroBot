@@ -92,29 +92,46 @@ public class AudioCmdUtils {
         // sob
         final var np = nowPlaying;
 
-        IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->
-                // Cursed, but should work?
-                builder.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png"
-                ).clearFields().addField(lang.get("commands.music_general.queue.header_field"),
-                        lang.get("commands.music_general.queue.header_instructions"), false
-                ).addField(
-                        lang.get("commands.music_general.queue.np"), np, false
-                ).addField(
-                        lang.get("commands.music_general.queue.total_queue_time"),
-                        Utils.formatDuration(length), false
-                ).addField(
-                        lang.get("commands.music_general.queue.total_size"),
-                        String.format("%d %s", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")),
-                        true
-                ).addField(
+        IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->{
+            // Cursed, but should work?
+            // Fields were getting duplicated since the supplier was called everytime
+            // obviously, but we need a clean field state here.
+            // So just reset it.
+            builder.clearFields();
+
+            // Build the queue embed.
+            // Description is then added on DiscordUtils.list/listText, as we have to
+            // split it.
+            return builder
+                    .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+                    .addField(lang.get("commands.music_general.queue.header_field"),
+                            lang.get("commands.music_general.queue.header_instructions"),
+                            false
+                    ).addField(
+                            lang.get("commands.music_general.queue.np"), np,
+                            false
+                    ).addField(
+                            lang.get("commands.music_general.queue.total_queue_time"),
+                            Utils.formatDuration(length),
+                            false
+                    ).addField(
+                            lang.get("commands.music_general.queue.total_size"),
+                            String.format("%d %s",
+                                    trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")
+                            ),
+                            true
+                    ).addField(
                         lang.get("commands.music_general.queue.togglers"),
                         String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
-                                trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
-                        true
-                ).addField(lang.get("commands.music_general.queue.playing_in"),
-                        voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
-                        true
-                ).setFooter(String.format("Total Pages: %s | Current: %s", total, p), event.getAuthor().getEffectiveAvatarUrl());
+                             trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
+                            true
+                    ).addField(
+                            lang.get("commands.music_general.queue.playing_in"),
+                            voiceChannel == null ?
+                                    lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
+                            true
+                    ).setFooter(String.format("Total Pages: %s | Current: %s", total, p), event.getAuthor().getEffectiveAvatarUrl());
+        };
 
         var split = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toSend);
         boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
