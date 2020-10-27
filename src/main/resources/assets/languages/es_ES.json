@@ -246,6 +246,7 @@
         "nothing_playing": "Nada por aquí, solo polvo. ¿Por qué no pones algunas canciones en la cola?\nSi crees que hay canciones por aquí pero no aparecen, intenta usar `~>queue 1`.",
         "nothing_playing_2": "**Si hay una canción reproduciendose y no has añadido más, entonces solamente hay polvo por aquí. Puedes poner más canciones en la cola a tu antojo!**",
         "np": "Reproduciendo actualmente",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Nada aquí, solo polvo. ¿Por qué no vas algunas páginas para atrás?",
         "page_overflow_2": "Si crees que hay canciones en esta cola pero no aparecen, intenta usar `~>queue 1`.",
         "total_queue_time": "Tiempo total de la cola",
