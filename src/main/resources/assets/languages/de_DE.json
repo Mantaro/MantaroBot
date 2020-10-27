@@ -246,6 +246,7 @@
         "nothing_playing": "Nichts hier, nur Staub. Warum bringst du nicht ein paar Songs in die Warteschlange? \nWenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~>queue 1`.",
         "nothing_playing_2": "**Wenn es einen Song gibt und du hast keine weiteren Songs hinzugefügt, dann ist hier eigentlich nur Staub. Du kannst mehr Songs in die Warteschlange stellen!**",
         "np": "Spiele derzeit",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Nichts hier, nur Staub. Warum gehst du nicht ein paar Seiten zurück?",
         "page_overflow_2": "Wenn du denkst, dass es hier Songs gibt, die aber nicht erscheinen, versuche es mit `~>queue 1`.",
         "total_queue_time": "Gesamtwarteschlangenzeit",
