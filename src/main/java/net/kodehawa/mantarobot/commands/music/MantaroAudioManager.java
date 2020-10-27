@@ -131,8 +131,8 @@ public class MantaroAudioManager {
 
     public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl,
                             boolean skipSelection, boolean addFirst, I18nContext lang) {
-        AudioCmdUtils.connectToVoiceChannel(event, lang).thenAcceptAsync(b -> {
-            if (b) {
+        AudioCmdUtils.connectToVoiceChannel(event, lang).thenAcceptAsync(bool -> {
+            if (bool) {
                 var musicManager = getMusicManager(event.getGuild());
                 var scheduler = musicManager.getTrackScheduler();
 

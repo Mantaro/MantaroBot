@@ -526,13 +526,7 @@ public class MusicCmds {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
                         var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-                        int page = 0;
-
-                        try {
-                            page = Math.max(Integer.parseInt(content), 1);
-                        } catch (Exception ignored) { }
-
-                        embedForQueue(page, ctx.getEvent(), musicManager, ctx.getLanguageContext());
+                        embedForQueue(ctx.getEvent(), musicManager, ctx.getLanguageContext());
                         TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
                     }
                 };

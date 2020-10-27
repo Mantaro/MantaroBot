@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.IntIntObjectFunction;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -39,20 +40,28 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
 
-    public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
+    public static void embedForQueue(GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final var trackScheduler = musicManager.getTrackScheduler();
         final var toSend = AudioUtils.getQueueList(trackScheduler.getQueue(), musicManager);
         final var guild = event.getGuild();
-        final var nowPlaying = trackScheduler.getMusicPlayer().getPlayingTrack() != null ?
-                "**[" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().title
-                        + "](" + trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().uri +
-                        ")** (" + getDurationMinutes(trackScheduler.getMusicPlayer().getPlayingTrack().getInfo().length) + ")" :
-                lang.get("commands.music_general.queue.no_track_found_np");
+        final var musicPlayer = trackScheduler.getMusicPlayer();
+        final var playingTrack = musicPlayer.getPlayingTrack();
+
+        // This used to be a ternary, but it wasn't too readable, to say the least.
+        var nowPlaying = "";
+        if (playingTrack == null) {
+            nowPlaying = lang.get("commands.music_general.queue.no_track_found_np");
+        } else {
+            nowPlaying = String.format("**[%s](%s)** (%s)",
+                    playingTrack.getInfo().title,
+                    playingTrack.getInfo().uri,
+                    getDurationMinutes(playingTrack.getInfo().length)
+            );
+        }
 
         if (toSend.isEmpty()) {
             event.getChannel().sendMessage(new EmbedBuilder()
@@ -64,102 +73,44 @@ public class AudioCmdUtils {
             return;
         }
 
-        var lines = NEWLINE_PATTERN.split(toSend);
+        var length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+        var voiceChannel = guild.getSelfMember().getVoiceState().getChannel();
+        var builder = new EmbedBuilder()
+                .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
+                .setColor(Color.CYAN);
 
-        if (!guild.getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
-            String line = null;
-            StringBuilder sb = new StringBuilder();
-            //i don't understand a single thing of this
-            //FIXME: Can't we just use the splitter we already use literally everywhere else?
-            int total;
-            {
-                int t = 0;
-                int c = 0;
-                for (String s : lines) {
-                    if (s.length() + c + 1 > MessageEmbed.TEXT_MAX_LENGTH) {
-                        t++;
-                        c = 0;
-                    }
-                    c += s.length() + 1;
-                }
-                if (c > 0) t++;
-                total = t;
-            }
-            int current = 0;
-            for (String s : lines) {
-                int l = s.length() + 1;
-                if (l > MessageEmbed.TEXT_MAX_LENGTH)
-                    throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-                if (sb.length() + l > MessageEmbed.TEXT_MAX_LENGTH) {
-                    current++;
-                    if (current == page) {
-                        line = sb.toString();
-                        break;
-                    }
-                    sb = new StringBuilder();
-                }
-                sb.append(s).append('\n');
-            }
+        // error: local variables referenced from a lambda expression must be final or effectively final
+        // sob
+        final var np = nowPlaying;
+        IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->
+                builder.addField(lang.get("commands.music_general.queue.header_field"),
+                        lang.get("commands.music_general.queue.header_instructions"), false
+                ).addField(
+                        lang.get("commands.music_general.queue.np"), np, false
+                ).addField(
+                        lang.get("commands.music_general.queue.total_queue_time"),
+                        String.format("`%s`", Utils.formatDuration(length)), false
+                ).addField(
+                        lang.get("commands.music_general.queue.total_size"),
+                        String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")),
+                        true
+                ).addField(
+                        lang.get("commands.music_general.queue.togglers"),
+                        String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
+                                trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
+                        true
+                ).addField(lang.get("commands.music_general.queue.playing_in"),
+                        voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : "`" + voiceChannel.getName() + "`",
+                        true
+                ).setFooter(String.format("Total Pages: %s | Current: %s", total, p), event.getAuthor().getEffectiveAvatarUrl());
 
-            if (sb.length() > 0 && current + 1 == page) {
-                line = sb.toString();
-            }
-
-            if (line == null || page > total) {
-                event.getChannel().sendMessage(new EmbedBuilder()
-                        .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
-                        .setColor(Color.CYAN).setDescription(lang.get("commands.music_general.queue.page_overflow") + "\n"
-                                + lang.get("commands.music_general.queue.page_overflow_2"))
-                        .addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
-                        .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
-            } else {
-                var length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
-                var builder = new EmbedBuilder()
-                        .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
-                        .setColor(Color.CYAN);
-
-                var vch = guild.getSelfMember().getVoiceState().getChannel();
-                builder.addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
-                        .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                        .addField(lang.get("commands.music_general.queue.total_queue_time"),
-                                String.format("`%s`", Utils.formatDuration(length)), false)
-                        .addField(lang.get("commands.music_general.queue.total_size"),
-                                String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
-                        .addField(lang.get("commands.music_general.queue.togglers"),
-                                String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
-                                        trackScheduler.getRepeatMode(), trackScheduler.getMusicPlayer().isPaused()), true)
-                        .addField(lang.get("commands.music_general.queue.playing_in"),
-                                vch == null ? lang.get("commands.music_general.queue.no_channel") : "`" + vch.getName() + "`", true)
-                        .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total,
-                                total == 1 ? "" : lang.get("commands.music_general.queue.multiple_pages"), page), guild.getIconUrl());
-                event.getChannel().sendMessage(builder.setDescription(line).build()).queue();
-            }
-            return;
+        var split = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toSend);
+        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+        if (hasReactionPerms) {
+            DiscordUtils.list(event, 150, false, supplier, split);
+        } else {
+            DiscordUtils.listText(event, 150, false, supplier, split);
         }
-
-        DiscordUtils.list(event, 30, false, MessageEmbed.TEXT_MAX_LENGTH, (p, total) -> {
-            var length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
-            var builder = new EmbedBuilder()
-                    .setAuthor(String.format(lang.get("commands.music_general.queue.header"), guild.getName()), null, guild.getIconUrl())
-                    .setColor(Color.CYAN);
-
-            var vch = guild.getSelfMember().getVoiceState().getChannel();
-
-            builder.addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
-                    .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                    .addField(lang.get("commands.music_general.queue.total_queue_time"),
-                            String.format("`%s`", Utils.formatDuration(length)), false)
-                    .addField(lang.get("commands.music_general.queue.total_size"),
-                            String.format("`%d %s`", trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")), true)
-                    .addField(lang.get("commands.music_general.queue.togglers"),
-                            String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
-                                    trackScheduler.getRepeatMode(), trackScheduler.getMusicPlayer().isPaused()), true)
-                    .addField(lang.get("commands.music_general.queue.playing_in"),
-                            vch == null ? lang.get("commands.music_general.queue.no_channel") : "`" + vch.getName() + "`", true)
-                    .setFooter(String.format(lang.get("commands.music_general.queue.footer"), total, total == 1 ? "" :
-                            lang.get("commands.music_general.queue.page_react"), p), guild.getIconUrl());
-            return builder;
-        }, lines);
     }
 
     public static CompletionStage<Void> openAudioConnection(GuildMessageReceivedEvent event, JdaLink link, VoiceChannel userChannel, I18nContext lang) {

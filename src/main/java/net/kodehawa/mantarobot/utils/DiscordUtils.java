@@ -44,7 +44,7 @@ public class DiscordUtils {
 
     public static <T> Pair<String, Integer> embedList(List<T> list, Function<T, String> toString) {
         var builder = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
+        for (var i = 0; i < list.size(); i++) {
             var str = toString.apply(list.get(i));
 
             if (builder.length() + str.length() + 5 > MessageEmbed.TEXT_MAX_LENGTH) {
@@ -138,63 +138,15 @@ public class DiscordUtils {
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-        if (parts.length == 0)
-            return null;
-
-        ArrayList<MessageEmbed> embeds = new ArrayList<>();
-        var sb = new StringBuilder();
-
-        int total;
-        {
-            var t = 0;
-            var c = 0;
-            for (var s : parts) {
-                if (s.length() + c + 1 > length) {
-                    t++;
-                    c = 0;
-                }
-
-                c += s.length() + 1;
-            }
-
-            if (c > 0) {
-                t++;
-            }
-
-            total = t;
-        }
-
-        for (var s : parts) {
-            var currentLength = s.length() + 1;
-            if (currentLength > MessageEmbed.TEXT_MAX_LENGTH) {
-                throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-            }
-
-            if (sb.length() + currentLength > length) {
-                EmbedBuilder eb = supplier.apply(embeds.size() + 1, total);
-                eb.setDescription(sb.toString());
-                embeds.add(eb.build());
-                sb = new StringBuilder();
-            }
-
-            sb.append(s).append('\n');
-        }
-
-        if (sb.length() > 0) {
-            var eb = supplier.apply(embeds.size() + 1, total);
-            eb.setDescription(sb.toString());
-            embeds.add(eb.build());
-        }
-
-        if (embeds.size() == 1) {
-            event.getChannel().sendMessage(embeds.get(0)).queue();
+        if (parts.length == 0) {
             return null;
         }
 
+        List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         var index = new AtomicInteger();
-        var m = event.getChannel().sendMessage(embeds.get(0)).complete();
+        var message = event.getChannel().sendMessage(embeds.get(0)).complete();
 
-        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
+        return ReactionOperations.create(message, timeoutSeconds, (e) -> {
             if (!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
@@ -206,7 +158,7 @@ public class DiscordUtils {
                         break;
                     }
 
-                    m.editMessage(embeds.get(index.decrementAndGet())).queue();
+                    message.editMessage(embeds.get(index.decrementAndGet())).queue();
                 }
                 //right arrow
                 case "\u27a1" -> {
@@ -214,10 +166,11 @@ public class DiscordUtils {
                         break;
                     }
 
-                    m.editMessage(embeds.get(index.incrementAndGet())).queue();
+                    message.editMessage(embeds.get(index.incrementAndGet())).queue();
                 }
                 default -> { } // Do nothing, but make codefactor happy lol
             }
+
             if (event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
@@ -249,7 +202,8 @@ public class DiscordUtils {
                 return Operation.IGNORED;
             }
 
-            if (e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
+            var contentRaw = e.getMessage().getContentRaw();
+            if (contentRaw.equals("&p <<") || contentRaw.equals("&page <<")) {
                 if (index.get() == 0) {
                     return Operation.IGNORED;
                 }
@@ -258,18 +212,21 @@ public class DiscordUtils {
                 toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
                         "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                 m.editMessage(toSend.build()).queue();
-            } else if (e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
+            } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) {
                     return Operation.IGNORED;
                 }
 
                 var toSend = addAllFields(base, parts.get(index.incrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
-                        "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | " + "Total Pages: " +
+                        parts.size(), event.getAuthor().getEffectiveAvatarUrl()
+                );
+
                 m.editMessage(toSend.build()).queue();
             }
 
-            if (e.getMessage().getContentRaw().equals("&cancel")) {
+            if (contentRaw.equals("&cancel")) {
                 m.delete().queue();
                 return Operation.COMPLETED;
             }
@@ -326,54 +283,13 @@ public class DiscordUtils {
     }
 
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int lenght,
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                         IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0) {
             return null;
         }
 
-        List<MessageEmbed> embeds = new ArrayList<>();
-        var sb = new StringBuilder();
-
-        int total;
-        {
-            int t = 0;
-            int c = 0;
-
-            for (String s : parts) {
-                if (s.length() + c + 1 > lenght) {
-                    t++;
-                    c = 0;
-                }
-                c += s.length() + 1;
-            }
-
-            if (c > 0) t++;
-            total = t;
-        }
-
-        for (var s : parts) {
-            var l = s.length() + 1;
-            if (l > MessageEmbed.TEXT_MAX_LENGTH) {
-                throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-            }
-
-            if (sb.length() + l > lenght) {
-                var eb = supplier.apply(embeds.size() + 1, total);
-                eb.setDescription(sb.toString());
-                embeds.add(eb.build());
-                sb = new StringBuilder();
-            }
-
-            sb.append(s).append('\n');
-        }
-
-        if (sb.length() > 0) {
-            var eb = supplier.apply(embeds.size() + 1, total);
-            eb.setDescription(sb.toString());
-            embeds.add(eb.build());
-        }
-
+        List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         if (embeds.size() == 1) {
             event.getChannel().sendMessage(embeds.get(0)).queue();
             return null;
@@ -564,6 +480,80 @@ public class DiscordUtils {
         }
 
         return m;
+    }
+
+    private static List<MessageEmbed> buildSplitEmbed(IntIntObjectFunction<EmbedBuilder> supplier, long length, String... parts) {
+        List<MessageEmbed> embeds = new ArrayList<>();
+        var stringBuilder = new StringBuilder();
+
+        // Get the amount of embeds we need to create.
+        int total;
+        {
+            int totalAmount = 0;
+            int chars = 0;
+
+            // Iterate through the list of parts.
+            for (var part : parts) {
+                // If the length of the part + chars + 1
+                // is more than the desired length, we split this one.
+                if (part.length() + chars + 1 > length) {
+                    // Update the total embed amount.
+                    totalAmount++;
+
+                    // Reset the char amount to 0, as we're splitting.
+                    chars = 0;
+                }
+
+                // Update the character count.
+                chars += part.length() + 1;
+            }
+
+            // Update the text embed amount if the final character count > 1.
+            if (chars > 0) {
+                totalAmount++;
+            }
+
+            // The total amount of embeds to part.
+            total = totalAmount;
+        }
+
+        // Build the split embeds
+        for (var part : parts) {
+            var finalLength = part.length() + 1;
+
+            // Can't go through if a page size is bigger than the maximum allowed.
+            if (finalLength > MessageEmbed.TEXT_MAX_LENGTH) {
+                throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
+            }
+
+            // Create the embeds.
+            if (stringBuilder.length() + finalLength > length) {
+                var embedBuilder = supplier.apply(embeds.size() + 1, total);
+
+                // Set the description of the new embed with the part that
+                // corresponds to it.
+                embedBuilder.setDescription(stringBuilder.toString());
+
+                embeds.add(embedBuilder.build());
+
+                // Reset the string builder to build a new embed.
+                stringBuilder = new StringBuilder();
+            }
+
+            stringBuilder.append(part).append('\n');
+        }
+
+        // If we have a dangling builder, it means we didn't get to reset the builder
+        // when building a new embed, and there's a dangling one:
+        // Add it to the total.
+        if (stringBuilder.length() > 0) {
+            var embedBuilder = supplier.apply(embeds.size() + 1, total);
+            embedBuilder.setDescription(stringBuilder.toString());
+
+            embeds.add(embedBuilder.build());
+        }
+
+        return embeds;
     }
 
     public static List<String> divideString(int max, String s) {

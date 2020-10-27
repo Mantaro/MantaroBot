@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core.listeners;
 
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -49,10 +48,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
@@ -61,7 +57,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.security.SecureRandom;
@@ -70,20 +65,13 @@ import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @SuppressWarnings("CatchMayIgnoreException")
 public class MantaroListener implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(MantaroListener.class);
-    private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
-            .maximumSize(5500)
-            .build();
 
     private static int logTotal = 0;
     private final ManagedDatabase db = MantaroData.db();
@@ -107,30 +95,6 @@ public class MantaroListener implements EventListener {
 
     public static int getLogTotalInt() {
         return logTotal;
-    }
-
-    private static boolean hasInvite(JDA jda, Guild guild, String message) {
-        if (THIRD_PARTY_INVITE.matcher(message).find()) {
-            return true;
-        }
-
-        var m = DISCORD_INVITE_2.matcher(message);
-        if (!m.find()) {
-            return false;
-        }
-
-        var invite = m.group(0);
-        var code = invite.substring(invite.lastIndexOf('/') + 1).trim();
-        try {
-            return INVITES.get(code, () -> Invite.resolve(jda, code)
-                    .complete()
-                    .getGuild()
-                    .getIdLong()) != guild.getIdLong();
-
-        } catch (ExecutionException e) {
-            log.error("Error running invite validator", e);
-            return DISCORD_INVITE.matcher(message).find();
-        }
     }
 
     @Override

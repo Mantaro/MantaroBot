@@ -62,10 +62,6 @@ public class Utils {
             "(?:https?://)?discord((?:app)?(?:\\.|\\s*?dot\\s*?)com\\s?/\\s*invite\\s*/\\s*|(?:\\.|\\s*dot\\s*)(?:gg|me|io)\\s*/\\s*)([a-zA-Z0-9\\-_]+)"
     );
 
-    public static final Pattern THIRD_PARTY_INVITE = Pattern.compile(
-            "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
-    );  
-
     private static final char BACKTICK = '`';
     private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
     private static final char POP_DIRECTIONAL_ISOLATE = '\u2069';
@@ -79,10 +75,13 @@ public class Utils {
      * @return A string with the first letter capitalized.
      */
     public static String capitalize(String s) {
-        if (s.length() == 0)
+        if (s.length() == 0) {
             return s;
+        }
 
-        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+        return s.substring(0, 1)
+                .toUpperCase() + s.substring(1)
+                .toLowerCase();
     }
 
     public static String formatDuration(long time) {
@@ -124,8 +123,8 @@ public class Utils {
         long[] time = { 0 };
 
         iterate(pattern.matcher(toParse)).forEach(string -> {
-            String l = string.substring(0, string.length() - 1);
-            TimeUnit unit = switch (string.charAt(string.length() - 1)) {
+            var l = string.substring(0, string.length() - 1);
+            var unit = switch (string.charAt(string.length() - 1)) {
                 case 'm' -> TimeUnit.MINUTES;
                 case 'h' -> TimeUnit.HOURS;
                 case 'd' -> TimeUnit.DAYS;
@@ -171,16 +170,16 @@ public class Utils {
 
     public static String paste(String toSend) {
         try {
-            RequestBody post = RequestBody.create(MediaType.parse("text/plain"), toSend);
+            var post = RequestBody.create(MediaType.parse("text/plain"), toSend);
 
-            Request toPost = new Request.Builder()
+            var toPost = new Request.Builder()
                     .url("https://hasteb.in/documents")
                     .header("User-Agent", MantaroInfo.USER_AGENT)
                     .header("Content-Type", "text/plain")
                     .post(post)
                     .build();
 
-            try (Response r = httpClient.newCall(toPost).execute()) {
+            try (var r = httpClient.newCall(toPost).execute()) {
                 return "https://hasteb.in/" + new JSONObject(r.body().string()).getString("key");
             }
         } catch (Exception e) {
