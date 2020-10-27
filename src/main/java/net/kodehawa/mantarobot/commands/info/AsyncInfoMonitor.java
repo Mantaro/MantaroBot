@@ -79,7 +79,7 @@ public class AsyncInfoMonitor {
         return processCpuUsage;
     }
 
-    //the following methods are used by JFRExports to set values in this class
+    // The following methods are used by JFRExports to set values in this class
 
     public static void setProcessCpuUsage(float usage) {
         processCpuUsage = usage;
@@ -103,7 +103,8 @@ public class AsyncInfoMonitor {
             throw new IllegalStateException("Already Started.");
         }
 
-        //some stats are set by JFRExports
+        // Some stats are set by JFRExports
+        // By some I mean basically most of them
         JFRExports.register();
         var bot = MantaroBot.getInstance();
 

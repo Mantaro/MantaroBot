@@ -33,6 +33,9 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -350,6 +353,11 @@ public class Utils {
         }
 
         return String.format("%d B", bytes);
+    }
+
+    public static String formatDate(OffsetDateTime date, String lang) {
+        return date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(getLocaleFromLanguage(lang)));
     }
 
     @SafeVarargs

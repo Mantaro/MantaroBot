@@ -25,7 +25,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
@@ -56,8 +55,6 @@ import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
 import java.awt.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -66,7 +63,7 @@ import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
-import static net.kodehawa.mantarobot.utils.Utils.prettyDisplay;
+import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
 public class InfoCmds {
@@ -78,8 +75,8 @@ public class InfoCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.sendLocalized("commands.donate.beg", EmoteReference.HEART,
-                        String.format(ctx.getLanguageContext().get("commands.donate.methods"),
-                                "https://patreon.com/mantaro", "https://paypal.me/kodemantaro")
+                        ctx.getLanguageContext().get("commands.donate.methods")
+                                .formatted("https://patreon.com/mantaro", "https://paypal.me/kodemantaro")
                 );
             }
 
@@ -163,28 +160,39 @@ public class InfoCmds {
                 }
 
                 var languageContext = ctx.getLanguageContext();
+                var str = """
+                        **%1$s**
+                        %2$s **%3$s:** %4$s
+                        %2$s **%5$s:** %6$s
+                        %2$s **%7$s:** %8$s
+                        %2$s **%9$s:** %10$s
+                        %2$s **%11$s:** %12$s
+                        """.formatted(languageContext.get("commands.serverinfo.description").formatted(guild.getName()),
+                        BLUE_SMALL_MARKER,
+                        languageContext.get("commands.serverinfo.users"),
+                        guild.getMemberCount(),
+                        languageContext.get("commands.serverinfo.channels"),
+                        "%,d / %,d".formatted(guild.getVoiceChannels().size(), guild.getTextChannels().size()),
+                        languageContext.get("commands.serverinfo.owner"),
+                        owner.getUser().getAsTag(),
+                        languageContext.get("commands.serverinfo.region"),
+                        guild.getRegion() == Region.UNKNOWN ?
+                                languageContext.get("general.unknown") :
+                                guild.getRegion().getName(),
+                        languageContext.get("commands.serverinfo.created"),
+                        Utils.formatDate(guild.getTimeCreated(), guildData.getLang())
+                );
+
                 ctx.send(new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
-                        .setColor(guild.getOwner().getColor() == null ? Color.ORANGE : guild.getOwner().getColor())
-                        .setDescription(String.format(languageContext.get("commands.serverinfo.description"), guild.getName()))
+                        .setColor(guild.getOwner().getColor() == null ? Color.PINK: guild.getOwner().getColor())
+                        .setDescription(str)
                         .setThumbnail(guild.getIconUrl())
-                        .addField(languageContext.get("commands.serverinfo.users"),
-                                String.valueOf(guild.getMemberCount()), true)
-                        .addField(languageContext.get("commands.serverinfo.channels"),
-                                guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
-                        .addField(languageContext.get("commands.serverinfo.owner"),
-                                owner.getUser().getAsTag(), false)
-                        .addField(languageContext.get("commands.serverinfo.region"),
-                                guild.getRegion() == Region.UNKNOWN ? languageContext.get("general.unknown") :
-                                        guild.getRegion().getName(), true)
-                        .addField(languageContext.get("commands.serverinfo.created"),
-                                guild.getTimeCreated().format(
-                                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                                                .withLocale(Utils.getLocaleFromLanguage(guildData.getLang()))
-                                ), false)
-                        .addField(String.format(languageContext.get("commands.serverinfo.roles"),
-                                guild.getRoles().size()), StringUtils.limit(roles, 500), false)
-                        .setFooter(String.format(languageContext.get("commands.serverinfo.id_show"), guild.getId()), null)
+                        .addField(
+                                languageContext.get("commands.serverinfo.roles").formatted(guild.getRoles().size()),
+                                StringUtils.limit(roles, 500), false
+                        )
+                        .setFooter(languageContext.get("commands.serverinfo.id_show").formatted(guild.getId()), null)
                         .build()
                 );
             }
@@ -215,8 +223,8 @@ public class InfoCmds {
         if (category == null) {
             description.append(languageContext.get("commands.help.base"));
         } else {
-            description.append(String.format(
-                    languageContext.get("commands.help.base_category"), languageContext.get(category.toString()))
+            description.append(languageContext.get("commands.help.base_category")
+                    .formatted(languageContext.get(category.toString()))
             );
         }
 
@@ -228,17 +236,16 @@ public class InfoCmds {
 
         var disabledCommands = guildData.getDisabledCommands();
         if (!disabledCommands.isEmpty()) {
-            description.append(String.format(
-                    languageContext.get("commands.help.disabled_commands"), disabledCommands.size()
-            ));
+            description.append(languageContext.get("commands.help.disabled_commands").formatted(disabledCommands.size()));
         }
 
         var channelSpecificDisabledCommands = guildData.getChannelSpecificDisabledCommands();
         var disabledChannelCommands = channelSpecificDisabledCommands.get(ctx.getChannel().getId());
         if (disabledChannelCommands != null && !disabledChannelCommands.isEmpty()) {
             description.append("\n");
-            description.append(String.format(
-                    languageContext.get("commands.help.channel_specific_disabled_commands"), disabledChannelCommands.size())
+            description.append(
+                    languageContext.get("commands.help.channel_specific_disabled_commands")
+                            .formatted(disabledChannelCommands.size())
             );
         }
         // End of help description.
@@ -247,7 +254,8 @@ public class InfoCmds {
                 .setAuthor(languageContext.get("commands.help.title"), null, ctx.getGuild().getIconUrl())
                 .setColor(Color.PINK)
                 .setDescription(description.toString())
-                .setFooter(String.format(languageContext.get("commands.help.footer"), prefix,
+                .setFooter(languageContext.get("commands.help.footer").formatted(
+                        prefix,
                         CommandProcessor.REGISTRY.commands()
                                 .values()
                                 .stream()
@@ -257,15 +265,19 @@ public class InfoCmds {
 
         Arrays.stream(CommandCategory.values())
                 .filter(c -> {
-                    if (category != null)
+                    if (category != null) {
                         return c == category;
-                    else
+                    } else {
                         return true;
+                    }
                 })
                 .filter(c -> c != CommandCategory.OWNER || CommandPermission.OWNER.test(ctx.getMember()))
                 .filter(c -> !CommandProcessor.REGISTRY.getCommandsForCategory(c).isEmpty())
-                .forEach(c -> embed.addField(languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") + ":",
-                        forType(ctx.getChannel(), guildData, c), false)
+                .forEach(c ->
+                        embed.addField(
+                                languageContext.get(c.toString()) + " " + languageContext.get("commands.help.commands") + ":",
+                                forType(ctx.getChannel(), guildData, c), false
+                        )
                 );
 
         ctx.send(embed.build());
@@ -346,8 +358,7 @@ public class InfoCmds {
                         desc.append(descriptionList.get(r.nextInt(descriptionList.size())));
                     }
 
-                    desc.append("\n")
-                            .append("**Don't include <> or [] on the command itself.**");
+                    desc.append("\n").append("**Don't include <> or [] on the command itself.**");
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
@@ -361,9 +372,10 @@ public class InfoCmds {
 
                     if (help.getParameters().size() > 0) {
                         builder.addField("Parameters", help.getParameters().entrySet().stream()
-                                .map(entry -> "`" + entry.getKey() + "` - *" + entry.getValue() + "*")
-                                .collect(Collectors.joining("\n")), false);
-
+                                .map(entry -> "`%s` - *%s*".formatted(entry.getKey(), entry.getValue()))
+                                .collect(Collectors.joining("\n")),
+                                false
+                        );
                     }
 
                     if (help.isSeasonal()) {
@@ -387,8 +399,8 @@ public class InfoCmds {
                                         .sorted(Comparator.comparingInt(a ->
                                                 a.getValue().description() == null ? 0 : a.getValue().description().length())
                                         ).collect(
-                                                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                                                        (oldValue, newValue) -> oldValue, LinkedHashMap::new
+                                                Collectors.toMap(
+                                                        Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new
                                                 )
                                 );
 
@@ -402,12 +414,10 @@ public class InfoCmds {
                             }
 
                             if (inner.description() != null) {
-                                stringBuilder.append(EmoteReference.BLUE_SMALL_MARKER)
-                                        .append("`")
-                                        .append(name)
-                                        .append("` - ")
-                                        .append(inner.description())
-                                        .append("\n");
+                                stringBuilder.append("""
+                                        %s`%s` - %s
+                                        """.formatted(BLUE_SMALL_MARKER, name, inner.description())
+                                );
                             }
                         }
 
@@ -425,7 +435,7 @@ public class InfoCmds {
                         String aliases = commandAliases
                                 .stream()
                                 .filter(alias -> !alias.equalsIgnoreCase(content))
-                                .map(alias -> "`" + alias + "`")
+                                .map("`%s`"::formatted)
                                 .collect(Collectors.joining(" "));
 
                         if (!aliases.trim().isEmpty()) {
@@ -560,7 +570,7 @@ public class InfoCmds {
                                 .addField(languageContext.get("commands.stats.usage.cores"),
                                         getAvailableProcessors() + " Cores", true)
                                 .addField(languageContext.get("commands.stats.usage.cpu_usage"),
-                                        String.format("%.2f", getInstanceCPUUsage() * 100) + "%", true)
+                                        "%.2f%%".formatted(getInstanceCPUUsage() * 100), true)
                                 .addField(languageContext.get("commands.stats.usage.assigned_mem"),
                                         Utils.formatMemoryAmount(getTotalMemory()), false)
                                 .addField(languageContext.get("commands.stats.usage.assigned_remaining"),
@@ -598,26 +608,27 @@ public class InfoCmds {
                 ).forEach(node -> {
                     var nodeData = new JSONObject(node.getValue());
                     fields.add(new MessageEmbed.Field("Node " + node.getKey(),
-                            String.format("**Uptime**: %s\n" +
-                                            "**CPU Cores**: %s\n" +
-                                            "**CPU Usage**: %s\n" +
-                                            "**Memory**: %s\n" +
-                                            "**Threads**: %,d\n" +
-                                            "**Shards**: %s\n" +
-                                            "**Guilds**: %,d\n" +
-                                            "**User Cache**: %,d\n" +
-                                            "**Machine Memory**: %s\n",
+                            """
+                               **Uptime**: %s
+                               **CPU Cores**: %s
+                               **CPU Usage**: %s
+                               **Memory**: %s
+                               **Threads**: %,d
+                               **Shards**: %s
+                               **Guilds**: %,d
+                               **User Cache**: %,d
+                               **Machine Memory**: %s
+                               """.formatted(
                                     Utils.formatDuration(nodeData.getLong("uptime")),
                                     nodeData.getLong("available_processors"),
-                                    String.format("%.2f", nodeData.getDouble("cpu_usage")) + "%",
-                                    Utils.formatMemoryUsage(nodeData.getLong("used_memory"),
-                                            nodeData.getLong("total_memory")),
+                                    "%.2f%%".formatted(nodeData.getDouble("cpu_usage")),
+                                    Utils.formatMemoryUsage(nodeData.getLong("used_memory"), nodeData.getLong("total_memory")),
                                     nodeData.getLong("thread_count"),
                                     nodeData.getString("shard_slice"),
                                     nodeData.getLong("guild_count"),
                                     nodeData.getLong("user_count"),
-                                    Utils.formatMemoryAmount(nodeData.getLong("machine_total_memory"))),
-                            false
+                                    Utils.formatMemoryAmount(nodeData.getLong("machine_total_memory"))
+                            ), false
                     ));
                 });
 
@@ -646,16 +657,19 @@ public class InfoCmds {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 for (LavalinkSocket node : nodes) {
-                    if (!node.isAvailable())
+                    if (!node.isAvailable()) {
                         continue;
+                    }
 
                     RemoteStats stats = node.getStats();
                     fields.add(new MessageEmbed.Field(node.getName(),
-                            String.format("**Uptime**: %s\n" +
-                                    "**Used Memory**: %s\n" +
-                                    "**Free Memory**: %s\n" +
-                                    "**Players**: %,d\n" +
-                                    "**Players Playing**: %,d",
+                            """
+                            **Uptime:** %s
+                            **Used Memory:** %s
+                            **Free Memory:** %s
+                            **Players:** %s
+                            **Players Playing**: %,d
+                            """.formatted(
                                     Utils.formatDuration(stats.getUptime()),
                                     Utils.formatMemoryAmount(stats.getMemUsed()),
                                     Utils.formatMemoryAmount(stats.getMemFree()),
@@ -716,20 +730,16 @@ public class InfoCmds {
                 ctx.send(
                         baseEmbed(ctx, "Command Stats")
                                 .addField(languageContext.get("general.now"),
-                                        CommandStatsManager.resume(DefaultBucket.MINUTE),
-                                        false
+                                        CommandStatsManager.resume(DefaultBucket.MINUTE), false
                                 )
                                 .addField(languageContext.get("general.hourly"),
-                                        CommandStatsManager.resume(DefaultBucket.HOUR),
-                                        false
+                                        CommandStatsManager.resume(DefaultBucket.HOUR), false
                                 )
                                 .addField(languageContext.get("general.daily"),
-                                        CommandStatsManager.resume(DefaultBucket.DAY),
-                                        false
+                                        CommandStatsManager.resume(DefaultBucket.DAY), false
                                 )
                                 .addField(languageContext.get("general.total"),
-                                        CommandStatsManager.resume(DefaultBucket.TOTAL),
-                                        false
+                                        CommandStatsManager.resume(DefaultBucket.TOTAL), false
                                 ).build()
                 );
             }
@@ -746,6 +756,7 @@ public class InfoCmds {
                 String[] args = ctx.getArguments();
                 if (args.length > 0) {
                     String what = args[0];
+
                     if (what.equals("total")) {
                         ctx.send(categoryStatsManager.fillEmbed(
                                 CategoryStatsManager.TOTAL_CATS, baseEmbed(ctx, "Category Stats | Total")).build()
@@ -813,50 +824,42 @@ public class InfoCmds {
                             .collect(Collectors.joining(", "));
 
                     var languageContext = ctx.getLanguageContext();
-                    var s = String.join("\n",
-                            prettyDisplay(languageContext.get("commands.userinfo.id"), user.getId()),
-                            prettyDisplay(languageContext.get("commands.userinfo.join_date"),
-                                    member.getTimeJoined().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                                            .withLocale(Utils.getLocaleFromLanguage(guildData.getLang()))
-                                    )
-                            ),
-                            prettyDisplay(languageContext.get("commands.userinfo.created"),
-                                    user.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                                            .withLocale(Utils.getLocaleFromLanguage(guildData.getLang()))
-                                    )
-                            ),
-                            prettyDisplay(languageContext.get("commands.userinfo.account_age"),
-                                    TimeUnit.MILLISECONDS.toDays(
-                                            System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli()
-                                    ) + " " + languageContext.get("general.days")
-                            ),
-                            prettyDisplay(languageContext.get("commands.userinfo.mutual_guilds"),
-                                    String.valueOf(MantaroBot.getInstance()
-                                            .getShardManager()
-                                            .getMutualGuilds(ctx.getAuthor()).size())
-                            ),
-                            prettyDisplay(languageContext.get("commands.userinfo.vc"),
-                                    member.getVoiceState().getChannel() != null ?
-                                            member.getVoiceState().getChannel().getName() :
-                                            languageContext.get("general.none")
-                            ),
-                            prettyDisplay(languageContext.get("commands.userinfo.color"),
-                                    member.getColor() == null ? languageContext.get("commands.userinfo.default") : "#" +
-                                            Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()
-                            ),
-                            prettyDisplay(languageContext.get("commands.userinfo.status"),
-                                    Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()))
+                    var str = """
+                            %1$s **%2$s:** %3$s
+                            %1$s **%4$s:** %5$s
+                            %1$s **%6$s:** %7$s
+                            %1$s **%8$s:** %9$s
+                            %1$s **%10$s:** %11$s
+                            """.formatted(BLUE_SMALL_MARKER,
+                            languageContext.get("commands.userinfo.id"), user.getId(),
+                            languageContext.get("commands.userinfo.join_date"),
+                            Utils.formatDate(member.getTimeJoined(), guildData.getLang()),
+                            languageContext.get("commands.userinfo.created"),
+                            Utils.formatDate(user.getTimeCreated(), guildData.getLang()),
+                            languageContext.get("commands.userinfo.account_age"),
+                            TimeUnit.MILLISECONDS.toDays(
+                                    System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
+                                    + " " + languageContext.get("general.days"),
+                            languageContext.get("commands.userinfo.vc"),
+                            member.getVoiceState().getChannel() != null ?
+                                    member.getVoiceState().getChannel().getName() : languageContext.get("general.none"),
+                            languageContext.get("commands.userinfo.color"),
+                            member.getColor() == null ? languageContext.get("commands.userinfo.default") :
+                                    "#%s".formatted(Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase())
                     );
 
                     ctx.send(new EmbedBuilder()
                             .setColor(member.getColor())
-                            .setAuthor(String.format(languageContext.get("commands.userinfo.header"),
-                                    user.getName(), user.getDiscriminator()), null,
-                                    ctx.getAuthor().getEffectiveAvatarUrl()
-                            ).setThumbnail(user.getEffectiveAvatarUrl())
-                            .setDescription(s)
-                            .addField(String.format(languageContext.get("commands.userinfo.roles"),
-                                    member.getRoles().size()), StringUtils.limit(roles, 900), true
+                            .setAuthor(
+                                    languageContext.get("commands.userinfo.header")
+                                            .formatted( user.getName(), user.getDiscriminator()),
+                                    null, ctx.getAuthor().getEffectiveAvatarUrl()
+                            )
+                            .setThumbnail(user.getEffectiveAvatarUrl())
+                            .setDescription(str)
+                            .addField(
+                                    languageContext.get("commands.userinfo.roles").formatted(member.getRoles().size()),
+                                    StringUtils.limit(roles, 900), true
                             ).build()
                     );
                 });
@@ -912,50 +915,49 @@ public class InfoCmds {
         cr.register("roleinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                Role r = FinderUtils.findRole(ctx.getEvent(), content);
-                if (r == null)
+                var role = FinderUtils.findRole(ctx.getEvent(), content);
+                if (role == null) {
                     return;
+                }
 
-                var languageContext = ctx.getLanguageContext();
-                String s = String.join("\n",
-                        prettyDisplay(languageContext.get("commands.roleinfo.id"), r.getId()),
-                        prettyDisplay(languageContext.get("commands.roleinfo.created"),
-                                r.getTimeCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                                        .withLocale(Utils.getLocaleFromLanguage(ctx.getDBGuild().getData().getLang()))
-                                )
+                var lang = ctx.getLanguageContext();
+                var str = """
+                        %1$s **%2$s:** %3$s
+                        %1$s **%4$s:** %5$s
+                        %1$s **%6$s:** %7$s
+                        %1$s **%8$s:** %9$s
+                        %1$s **%10$s:** %11$s
+                        %1$s **%12$s:** %13$s
+                        """.formatted(BLUE_SMALL_MARKER,
+                        lang.get("commands.roleinfo.id"),
+                        role.getId(),
+                        lang.get("commands.roleinfo.created"),
+                        Utils.formatDate(role.getTimeCreated(), ctx.getDBGuild().getData().getLang()),
+                        lang.get("commands.roleinfo.color"),
+                        role.getColor() == null ?
+                                lang.get("general.none") :
+                                "#%s".formatted(Integer.toHexString(role.getColor().getRGB()).substring(2)),
+                        lang.get("commands.roleinfo.members"),
+                        String.valueOf(ctx.getGuild()
+                                .getMembers()
+                                .stream()
+                                .filter(member -> member.getRoles().contains(role))
+                                .count()
                         ),
-                        prettyDisplay(languageContext.get("commands.roleinfo.age"),
-                                TimeUnit.MILLISECONDS.toDays(
-                                        System.currentTimeMillis() - r.getTimeCreated().toInstant().toEpochMilli()
-                                ) + " " + languageContext.get("general.days")
-                        ),
-                        prettyDisplay(languageContext.get("commands.roleinfo.color"),
-                                r.getColor() == null ?
-                                        languageContext.get("general.none") :
-                                        ("#" + Integer.toHexString(r.getColor().getRGB()).substring(2))
-                        ),
-                        prettyDisplay(languageContext.get("commands.roleinfo.members"),
-                                String.valueOf(ctx.getGuild()
-                                        .getMembers()
-                                        .stream()
-                                        .filter(member -> member.getRoles().contains(r))
-                                        .count()
-                                )
-                        ),
-                        prettyDisplay(languageContext.get("commands.roleinfo.position"), String.valueOf(r.getPosition())),
-                        prettyDisplay(languageContext.get("commands.roleinfo.hoisted"), String.valueOf(r.isHoisted()))
+                        lang.get("commands.roleinfo.position"), role.getPosition(),
+                        lang.get("commands.roleinfo.hoisted"), role.isHoisted()
                 );
 
                 ctx.send(
                         new EmbedBuilder()
                                 .setColor(ctx.getMember().getColor())
-                                .setAuthor(String.format(languageContext.get("commands.roleinfo.header"),
-                                        r.getName()), null, ctx.getGuild().getIconUrl()
+                                .setAuthor(lang.get("commands.roleinfo.header").formatted(role.getName()),
+                                        null, ctx.getGuild().getIconUrl()
                                 )
-                                .setDescription(s)
-                                .addField(String.format(languageContext.get("commands.roleinfo.permissions"), r.getPermissions().size()),
-                                        r.getPermissions().size() == 0 ? languageContext.get("general.none") :
-                                                r.getPermissions()
+                                .setDescription(str)
+                                .addField(lang.get("commands.roleinfo.permissions").formatted(role.getPermissions().size()),
+                                        role.getPermissions().size() == 0 ? lang.get("general.none") :
+                                                role.getPermissions()
                                                         .stream()
                                                         .map(Permission::getName)
                                                         .collect(Collectors.joining(", ")) + ".",

@@ -32,8 +32,8 @@ mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 def ver = new Version(major: 6, minor: 0, revision: 0)
 version ver.toString()
 
-sourceCompatibility = 14
-targetCompatibility = 14
+sourceCompatibility = 15
+targetCompatibility = 15
 
 repositories {
     mavenLocal()

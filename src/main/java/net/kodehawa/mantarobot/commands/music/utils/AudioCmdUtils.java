@@ -20,11 +20,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavalink.client.io.Link;
 import lavalink.client.io.jda.JdaLink;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -103,6 +105,7 @@ public class AudioCmdUtils {
         // error: local variables referenced from a lambda expression must be final or effectively final
         // sob
         final var np = nowPlaying;
+        final var hasReactionPerms = selfMember.hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
 
         IntIntObjectFunction<EmbedBuilder> supplier = (p, total) ->{
             // Cursed, but should work?
@@ -111,37 +114,44 @@ public class AudioCmdUtils {
             // So just reset it.
             builder.clearFields();
 
+            // Instructions in case there's no reaction perms.
+            if (!hasReactionPerms) {
+                builder.addField(lang.get("commands.music_general.queue.header_field"),
+                        lang.get("commands.music_general.queue.header_noreact"),
+                        false
+                );
+            }
+
             // Build the queue embed.
             // Description is then added on DiscordUtils.list/listText, as we have to
             // split it.
             return builder.setThumbnail(icon)
-                    .addField(lang.get("commands.music_general.queue.header_field"),
-                            lang.get("commands.music_general.queue.header_instructions"),
-                            false)
-                    .addField(lang.get("commands.music_general.queue.np"), np,
-                            false)
+                    .addField(lang.get("commands.music_general.queue.np"), np, false)
                     .addField(lang.get("commands.music_general.queue.total_queue_time"),
                             Utils.formatDuration(length),
-                            false)
+                            false
+                    )
                     .addField(lang.get("commands.music_general.queue.total_size"),
                             String.format("%d %s",
                                     trackScheduler.getQueue().size(), lang.get("commands.music_general.queue.songs")
                             ),
-                            true)
+                            true
+                    )
                     .addField(lang.get("commands.music_general.queue.togglers"),
                         String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
                              trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
-                            true)
+                            true
+                    )
                     .addField(lang.get("commands.music_general.queue.playing_in"),
-                            voiceChannel == null ?
-                                    lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
-                            true)
+                            voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
+                            true
+                    )
                     .setFooter(String.format("Total Pages: %s | Current: %s", total, p),
                             event.getAuthor().getEffectiveAvatarUrl());
         };
 
-        var split = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH, toSend);
-        boolean hasReactionPerms = selfMember.hasPermission(channel, Permission.MESSAGE_ADD_REACTION);
+        // Too long otherwise, so substract 800 from TEXT_MAX_LENGTH
+        var split = DiscordUtils.divideString(MessageEmbed.TEXT_MAX_LENGTH - 800, toSend);
         if (hasReactionPerms) {
             DiscordUtils.list(event, 150, false, supplier, split);
         } else {
@@ -348,18 +358,18 @@ public class AudioCmdUtils {
                     MILLISECONDS.toSeconds(aDuration) - MINUTES.toSeconds(MILLISECONDS.toMinutes(aDuration))
             );
 
-            sb.append("**")
-                    .append(num)
-                    .append(". [")
-                    .append(StringUtils.limit(audioTrack.getInfo().title, 40))
-                    .append("](")
-                    .append(audioTrack.getInfo().uri)
-                    .append(")** (")
-                    .append(duration)
-                    .append(")")
-                    .append("\n");
+            sb.append("""
+                    %s**%,d.** [%s] **[%s](%s)**
+                    """.formatted(EmoteReference.BLUE_SMALL_MARKER,
+                    num,
+                    duration,
+                    MarkdownSanitizer.sanitize(StringUtils.limit(audioTrack.getInfo().title, 30)),
+                    audioTrack.getInfo().uri)
+            );
+
             num++;
         }
         return sb.toString();
     }
+
 }

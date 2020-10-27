@@ -64,11 +64,10 @@ public class TextChannelGround {
     }
 
     public static void delete(TextChannel ch) {
-        final var identifier =  "textchannelground:" + ch.getId();
+        final var identifier = "textchannelground:" + ch.getId();
         try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
             // We don't need to check whether it exists or not
-            // Redis will happily run it anyway, so we can save
-            // one query.
+            // Redis will happily run it anyway, so we can save one query.
             jedis.del(identifier);
         }
     }
