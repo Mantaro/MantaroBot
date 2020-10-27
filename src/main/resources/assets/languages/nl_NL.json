@@ -246,6 +246,7 @@
         "nothing_playing": "Er wordt op dit moment geen muziek afgespeeld. Waarom zet je geen muziek in de afspeellijst?\nAls je denkt dat er wel nummers zijn maar ze verschijnen niet, probeer dan `~>queue 1`.",
         "nothing_playing_2": "**Als er een nummer wordt afgespeeld en er staan geen nummers in de wachtrij, dan wordt er geen muziek meer afgespeeld. Je kunt natuurlijk meer nummers in de wachtrij plaatsen!**",
         "np": "Speelt op dit moment",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Er is hier niets te zien, probeer eens een pagina terug te gaan",
         "page_overflow_2": "Als je dacht dat er hier nummers stonden maar ze verschijnen niet, probeer eens `~>queue 1`.",
         "total_queue_time": "Totale afspeellijst duur",
