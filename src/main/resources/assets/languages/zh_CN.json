@@ -239,8 +239,8 @@
       "too_many_errors": "%1$s此次工作阶段發生太多错误，停止中...",
       "no_vc_found": "%1$s我还没有连接到任何语音频道? 在试一次。",
       "queue": {
-        "header_field": "Queue",
-        "header_instructions": "**Use the arrow reactions to move around pages.**\nIf you don't see arrows, use `&p >>` and `&p <<`",
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "找不到曲目或名称/持续时间",
         "header": "%1$s播放清单",
         "nothing_playing": "这裡空无一物。为何不播些歌曲来听听?\n如果你认为这裡有歌曲还没出现，试着使用`~>queue 1`",
