@@ -239,8 +239,8 @@
       "too_many_errors": "%1$sMuitos erros nesta sessão, Parando...",
       "no_vc_found": "%1$sEu não estou conectada a nenhum CdV mesmo que eu deveria estar? Tente novamente.",
       "queue": {
-        "header_field": "Fila",
-        "header_instructions": "**Use as reações de setas para mover entre páginas**\nSe você não vê as setas, use `&p >>` e `&p <<`",
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Nada ou título/duração não encontrada",
         "header": "Fila para o servidor %1$s",
         "nothing_playing": "Nada aqui, apenas poeira. Por que você não coloca algumas músicas?\nSe você acha que existem músicas aqui, mas elas não aparecem, tente usar `~>queue 1`.",
