@@ -246,6 +246,7 @@
         "nothing_playing": "Chả có gì ở đây cả, toàn bui. Tại sao bạn không bật vài bài hát?\nNếu bạn nghĩ rằng có những bài hát ở đây mà chúng không xuất hiện, thử dùng lệnh `~>queue 1`.",
         "nothing_playing_2": "**Nếu chỉ có duy nhất bài hát đang bật và bạn không thêm nhiều bài nữa thì thực sự sẽ chỉ còn bụi ở đâu thôi. Bạn có thể xếp nhiều bài hát hơn nếu bạn muốn!**",
         "np": "Đang phát",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Chả có gì ở đây hớt, toàn bụi. Sao bạn không quay lại mấy trang trước?",
         "page_overflow_2": "Nếu bạn nghĩ rằng có vài bài hát ở đây nhưng chúng lại không xuất hiện, hãy thử `~>queue 1`.",
         "total_queue_time": "Tổng thời gian của danh sách phát",
