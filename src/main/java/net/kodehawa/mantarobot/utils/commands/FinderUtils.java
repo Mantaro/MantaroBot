@@ -75,7 +75,10 @@ public class FinderUtils {
             return found.get(0);
         } else {
             DiscordUtils.selectList(event, found.stream().limit(5).collect(Collectors.toList()),
-                    role -> String.format("%s (ID: %s)", role.getName(), role.getId()),
+                    role -> "%s%s (ID: %s)".formatted(
+                            EmoteReference.BLUE_SMALL_MARKER,
+                            role.getName(), role.getId()
+                    ),
                     s -> optsCmd.baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
             );
         }
@@ -148,8 +151,11 @@ public class FinderUtils {
 
     private static <T extends GuildChannel> void selectList(GuildMessageReceivedEvent event, List<T> found, Consumer<T> consumer) {
         DiscordUtils.selectList(event, found.stream().limit(5).collect(Collectors.toList()),
-                channel -> String.format("%s (ID: %s)", channel.getName(), channel.getId()),
-                s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+                channel -> "%s%s (ID: %s)".formatted(
+                        EmoteReference.BLUE_SMALL_MARKER,
+                        channel.getName(),
+                        channel.getId()
+                ), s -> optsCmd.baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
         );
     }
 }

@@ -95,9 +95,13 @@ public class PetCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Pet commands. " +
-                                "For a better explanation of the pet system see [here](https://github.com/Mantaro/MantaroBot/wiki)\n" +
-                                "This contains an explanation about what pets are..")
+                        .setDescription(
+                                """
+                                Pet commands. 
+                                For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
+                                This command contains an explanation of what pets are. Check subcommands for the available actions.
+                                """
+                        )
                         .build();
             }
         });

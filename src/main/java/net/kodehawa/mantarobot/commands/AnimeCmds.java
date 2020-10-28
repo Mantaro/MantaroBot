@@ -68,7 +68,8 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(7).collect(Collectors.toList()),
-                            anime -> "[**%s** (%s)](%s)".formatted(
+                            anime -> "%s[**%s** (%s)](%s)".formatted(
+                                    EmoteReference.BLUE_SMALL_MARKER,
                                     anime.getAttributes().getCanonicalTitle(),
                                     anime.getAttributes().getTitles().getJa_jp(), anime.getURL()
                             ),
@@ -126,7 +127,8 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(7).collect(Collectors.toList()),
-                            character -> "[**%s** (%s)](%s)".formatted(
+                            character -> "%s[**%s** (%s)](%s)".formatted(
+                                    EmoteReference.BLUE_SMALL_MARKER,
                                     character.getAttributes().getName(),
                                     character.getAttributes().getNames().getJa_jp(),
                                     character.getURL()

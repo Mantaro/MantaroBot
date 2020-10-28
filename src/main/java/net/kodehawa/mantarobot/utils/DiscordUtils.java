@@ -535,7 +535,11 @@ public class DiscordUtils {
 
                 // Set the description of the new embed with the part that
                 // corresponds to it.
-                embedBuilder.setDescription(stringBuilder.toString());
+                var desc = stringBuilder.toString();
+
+                // TODO: Hacky! Find the actual cause.
+                desc = desc.replace("\n\n", "\n");
+                embedBuilder.setDescription(desc);
                 embeds.add(embedBuilder.build());
 
                 // Reset the string builder to build a new embed.

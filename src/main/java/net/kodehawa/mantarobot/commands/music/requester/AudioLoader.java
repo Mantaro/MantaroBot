@@ -208,7 +208,8 @@ public class AudioLoader implements AudioLoadResultHandler {
         var list = playlist.getTracks();
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format(
-                        "**[%s](%s)** (%s)",
+                        "%s**[%s](%s)** (%s)",
+                        EmoteReference.BLUE_SMALL_MARKER,
                         track.getInfo().title,
                         track.getInfo().uri,
                         AudioCmdUtils.getDurationMinutes(track.getInfo().length)

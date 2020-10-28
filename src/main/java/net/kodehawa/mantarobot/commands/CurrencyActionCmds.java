@@ -584,8 +584,9 @@ public class CurrencyActionCmds {
                 var chance = random.nextInt(100);
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
-                if (hasPotion)
+                if (hasPotion) {
                     chance += 10;
+                }
 
                 if (chance < 10) {
                     // Found nothing.
