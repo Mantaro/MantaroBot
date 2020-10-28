@@ -57,15 +57,12 @@ import java.awt.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @Module
-//In theory fun category, but created this class to avoid FunCmds to go over 1k lines.
 public class RelationshipCmds {
     private static final long WAIFU_BASE_VALUE = 1000L;
     private static final long housePrice = 5000;
@@ -193,54 +190,54 @@ public class RelationshipCmds {
                         final Marriage proposingMarriage = proposingUserData.getMarriage();
                         final Marriage proposedToMarriage = proposedToUserData.getMarriage();
 
-                        //We need to conduct a bunch of checks here.
-                        //You CANNOT marry bots, yourself, people already married, or engage on another marriage if you're married.
-                        //On the latter, the waifu system will be avaliable on release.
-                        //Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
-                        //If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
+                        // We need to conduct a bunch of checks here.
+                        // You CANNOT marry bots, yourself, people already married, or engage on another marriage if you're married.
+                        // On the latter, the waifu system will be avaliable on release.
+                        // Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
+                        // If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
 
-                        //Proposed to is a bot user, cannot marry bots, this is still not 2100.
+                        // Proposed to is a bot user, cannot marry bots, this is still not 2100.
                         if (proposedToUser.isBot()) {
                             ctx.sendLocalized("commands.marry.marry_bot_notice", EmoteReference.ERROR);
                             return;
                         }
 
-                        //Already married to the same person you're proposing to.
+                        // Already married to the same person you're proposing to.
                         if ((proposingMarriage != null && proposedToMarriage != null) &&
                                 proposedToUserData.getMarriage().getId().equals(proposingMarriage.getId())) {
                             ctx.sendLocalized("commands.marry.already_married_receipt", EmoteReference.ERROR);
                             return;
                         }
 
-                        //You're already married. Huh huh.
+                        // You're already married. Huh huh.
                         if (proposingMarriage != null) {
                             ctx.sendLocalized("commands.marry.already_married", EmoteReference.ERROR);
                             return;
                         }
 
-                        //Receipt is married, cannot continue.
+                        // Receipt is married, cannot continue.
                         if (proposedToMarriage != null) {
                             ctx.sendLocalized("commands.marry.receipt_married", EmoteReference.ERROR);
                             return;
                         }
 
-                        //Not enough rings to continue. Buy more rings w.
+                        // Not enough rings to continue. Buy more rings w.
                         if (!proposingPlayerInventory.containsItem(ItemReference.RING) || proposingPlayerInventory.getAmount(ItemReference.RING) < 2) {
                             ctx.sendLocalized("commands.marry.no_ring", EmoteReference.ERROR);
                             return;
                         }
 
-                        //Send confirmation message.
+                        // Send confirmation message.
                         ctx.sendLocalized("commands.marry.confirmation", EmoteReference.MEGA,
                                 proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH
                         );
 
                         InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 120, (ie) -> {
-                            //Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
+                            // Ignore all messages from anyone that isn't the user we already proposed to. Waiting for confirmation...
                             if (!ie.getAuthor().getId().equals(proposedToUser.getId()))
                                 return Operation.IGNORED;
 
-                            //Replace prefix because people seem to think you have to add the prefix before saying yes.
+                            // Replace prefix because people seem to think you have to add the prefix before saying yes.
                             String message = ie.getMessage().getContentRaw();
                             for (String s : ctx.getConfig().prefix) {
                                 if (message.toLowerCase().startsWith(s)) {
@@ -252,9 +249,9 @@ public class RelationshipCmds {
                             if (guildCustomPrefix != null && !guildCustomPrefix.isEmpty() && message.toLowerCase().startsWith(guildCustomPrefix)) {
                                 message = message.substring(guildCustomPrefix.length());
                             }
-                            //End of prefix replacing.
+                            // End of prefix replacing.
 
-                            //Lovely~ <3
+                            // Lovely~ <3
                             if (message.equalsIgnoreCase("yes")) {
                                 // Here we NEED to get the Player,
                                 // User and Marriage objects once again
@@ -308,36 +305,36 @@ public class RelationshipCmds {
                                 // the proposing player and the proposed to player after the acceptance is done.
                                 String marriageId = new UUID(proposingUser.getIdLong(), proposedToUser.getIdLong()).toString();
 
-                                //Make and save the new marriage object.
+                                // Make and save the new marriage object.
                                 Marriage actualMarriage = Marriage.of(marriageId, proposingUser, proposedToUser);
                                 actualMarriage.getData().setMarriageCreationMillis(marriageCreationMillis);
                                 actualMarriage.save();
 
-                                //Assign the marriage ID to the respective users and save it.
+                                // Assign the marriage ID to the respective users and save it.
                                 proposingUserDB.getData().setMarriageId(marriageId);
                                 proposedToUserDB.getData().setMarriageId(marriageId);
                                 proposingUserDB.save();
                                 proposedToUserDB.save();
                                 //---------------- END OF MARRIAGE ASSIGNMENT ----------------
 
-                                //Send marriage confirmation message.
+                                // Send marriage confirmation message.
                                 ctx.sendLocalized("commands.marry.accepted",
                                         EmoteReference.POPPER, ie.getAuthor().getName(),
                                         ie.getAuthor().getDiscriminator(), proposingUser.getName(), proposingUser.getDiscriminator()
                                 );
 
-                                //Add the badge to the married couple.
+                                // Add the badge to the married couple.
                                 proposingPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
                                 proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
 
-                                //Give a love letter both to the proposing player and the one who was proposed to.
+                                // Give a love letter both to the proposing player and the one who was proposed to.
                                 if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000)
                                     proposingPlayerFinalInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
 
                                 if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000)
                                     proposedToPlayerInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
 
-                                //Badge assignment saving.
+                                // Badge assignment saving.
                                 proposingPlayer.save();
                                 proposedToPlayer.save();
 
@@ -347,7 +344,7 @@ public class RelationshipCmds {
                             if (message.equalsIgnoreCase("no")) {
                                 ctx.sendLocalized("commands.marry.denied", EmoteReference.CORRECT, proposingUser.getName());
 
-                                //Well, we have a badge for this too. Consolation prize I guess.
+                                // Well, we have a badge for this too. Consolation prize I guess.
                                 final Player proposingPlayer = ctx.getPlayer(proposingUser);
                                 proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
                                 proposingPlayer.saveAsync();
@@ -741,17 +738,20 @@ public class RelationshipCmds {
                 LocalDateTime marriageDate = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault()
                 );
-                String dateFormat = marriageDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                        .withLocale(Utils.getLocaleFromLanguage(dbUser.getData().getLang()))
-                );
+
+                String dateFormat = Utils.formatDate(marriageDate, dbUser.getData().getLang());
 
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
-                        .setDescription(String.format(languageContext.get("commands.marry.status.description_format"),
-                                EmoteReference.HEART, author.getName(), author.getDiscriminator(), marriedTo.getName(), marriedTo.getDiscriminator())
+                        .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
+                                EmoteReference.HEART,
+                                author.getName(),
+                                author.getDiscriminator(),
+                                marriedTo.getName(),
+                                marriedTo.getDiscriminator())
                         ).addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
@@ -848,7 +848,7 @@ public class RelationshipCmds {
 
                         var extra = "";
                         if (portion > 1) {
-                            extra = String.format(ctx.getLanguageContext().get("commands.divorce.split"), portion);
+                            extra = ctx.getLanguageContext().get("commands.divorce.split").formatted(portion);
                         }
 
                         ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
@@ -927,8 +927,9 @@ public class RelationshipCmds {
                                 .setAuthor(languageContext.get("commands.waifu.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                                 .setThumbnail("https://i.imgur.com/2JlMtCe.png")
                                 .setColor(Color.CYAN)
-                                .setFooter(String.format(languageContext.get("commands.waifu.footer"),
-                                        userData.getWaifus().size(), userData.getWaifuSlots() - userData.getWaifus().size()),
+                                .setFooter(languageContext.get("commands.waifu.footer").formatted(
+                                        userData.getWaifus().size(),
+                                        userData.getWaifuSlots() - userData.getWaifus().size()),
                                         null
                                 );
 
@@ -947,7 +948,7 @@ public class RelationshipCmds {
                             User user = ctx.retrieveUserById(waifu);
                             if (user == null) {
                                 fields.add(new MessageEmbed.Field(
-                                        EmoteReference.BLUE_SMALL_MARKER + String.format("Unknown User (ID: %s)", waifu),
+                                         "%sUnknown User (ID: %s)".formatted(EmoteReference.BLUE_SMALL_MARKER, waifu),
                                         languageContext.get("commands.waifu.value_format") + " unknown\n" +
                                                 languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
                                                 languageContext.get("commands.waifu.credits_format"), false)
@@ -972,7 +973,7 @@ public class RelationshipCmds {
                             }
                         }
 
-                        var toSend = String.format(languageContext.get("commands.waifu.description_header"), userData.getWaifuSlots()) + description;
+                        var toSend = languageContext.get("commands.waifu.description_header").formatted(userData.getWaifuSlots()) + description;
                         DiscordUtils.sendPaginatedEmbed(ctx, waifusEmbed, DiscordUtils.divideFields(4, fields), toSend);
 
                         if (!toRemove.isEmpty()) {
@@ -1070,16 +1071,21 @@ public class RelationshipCmds {
                             .setThumbnail(toLookup.getEffectiveAvatarUrl())
                             .setAuthor(toLookup == ctx.getAuthor() ?
                                             languageContext.get("commands.waifu.stats.header") :
-                                            String.format(languageContext.get("commands.waifu.stats.header_other"), toLookup.getName()),
+                                            languageContext.get("commands.waifu.stats.header_other").formatted(toLookup.getName()),
                                     null, toLookup.getEffectiveAvatarUrl()
                             ).setColor(Color.PINK)
-                            .setDescription(String.format(languageContext.get("commands.waifu.stats.format"),
-                                    EmoteReference.BLUE_SMALL_MARKER, waifuStats.getMoneyValue(), waifuStats.getBadgeValue(),
-                                    waifuStats.getExperienceValue(), waifuStats.getClaimValue(), waifuStats.getReputationMultiplier())
+                            .setDescription(languageContext.get("commands.waifu.stats.format").formatted(
+                                    EmoteReference.BLUE_SMALL_MARKER,
+                                    waifuStats.getMoneyValue(),
+                                    waifuStats.getBadgeValue(),
+                                    waifuStats.getExperienceValue(),
+                                    waifuStats.getClaimValue(),
+                                    waifuStats.getReputationMultiplier())
                             ).addField(languageContext.get("commands.waifu.stats.performance"),
                                     EmoteReference.ZAP.toString() + waifuStats.getPerformance() + "wp", true
                             ).addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY +
-                                    String.format(languageContext.get("commands.waifu.stats.credits"), waifuStats.getFinalValue()), false
+                                    languageContext.get("commands.waifu.stats.credits").formatted(waifuStats.getFinalValue()),
+                                    false
                             ).setFooter(languageContext.get("commands.waifu.notice"), null);
 
                     ctx.send(statsBuilder.build());

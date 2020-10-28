@@ -141,7 +141,7 @@ public class MiscCmds {
                 }
 
                 var textEncoded = URLEncoder.encode(content.replace("/", "|"), StandardCharsets.UTF_8);
-                var json = Utils.httpRequest(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded));
+                var json = Utils.httpRequest("https://8ball.delegator.com/magic/JSON/%1s".formatted(textEncoded));
 
                 if (json == null) {
                     ctx.sendLocalized("commands.8ball.error", EmoteReference.ERROR);
@@ -361,9 +361,10 @@ public class MiscCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Creates a poll.")
-                        .setUsage("`~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`\n" +
-                                "To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.\n" +
-                                "Example: `~>poll -options \"hi there\",\"wew\",\"owo what's this\" -time 10m20s -name \"test poll\"`")
+                        .setUsage("""
+                                `~>poll [-options <options>] [-time <time>] [-name <name>] [-image <image>]`
+                                To cancel the running poll type &cancelpoll. Only the person who started it or an Admin can cancel it.
+                                Example: `~>poll -options "hi there","wew","owo what's this" -time 10m20s -name "test poll"`""")
                         .addParameter("-options", "The options to add. Minimum is 2 and maximum is 9. " +
                                 "For instance: `Pizza,Spaghetti,Pasta,\"Spiral Nudels\"` " +
                                 "(Enclose options with multiple words in double quotes, there has to be no spaces between the commas)")

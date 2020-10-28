@@ -78,10 +78,12 @@ public class MarketCmd {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("List current items for buying and selling. You can check more specific markets below.")
-                        .setUsage("To buy an item do `~>market buy <item>`. It will subtract the value from your money and give you the item.\n" +
-                                "To sell do `~>market sell all` to sell all your items or `~>market sell <item>` to sell the specified item.\n" +
-                                "If the item name contains spaces, \"wrap it in quotes\".\n" +
-                                "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`\n")
+                        .setUsage("""
+                                To buy an item do `~>market buy <item>`. It will subtract the value from your money and give you the item.
+                                To sell do `~>market sell all` to sell all your items or `~>market sell <item>` to sell the specified item.
+                                If the item name contains spaces, "wrap it in quotes".
+                                To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`
+                                """)
                         .addParameter("item", "The item name or emoji")
                         .setSeasonal(true)
                         .build();
@@ -522,10 +524,10 @@ public class MarketCmd {
                 .filter(predicate)
                 .filter(item -> !item.isHidden())
                 .forEach(item -> {
-                    String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
-                    String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
+                    String buyValue = item.isBuyable() ? "$%,d".formatted(item.getValue()) : "N/A";
+                    String sellValue = item.isSellable() ? ("$%,d".formatted((int) Math.floor(item.getValue() * 0.9))) : "N/A";
 
-                    fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
+                    fields.add(new MessageEmbed.Field("%s %s".formatted(item.getEmoji(), item.getName()),
                                     (languageContext.getContextLanguage().equals("en_US") ? "" :
                                             " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
                                             languageContext.get(item.getDesc()) + "\n" +

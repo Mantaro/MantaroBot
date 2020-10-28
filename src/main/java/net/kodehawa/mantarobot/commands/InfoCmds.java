@@ -121,10 +121,18 @@ public class InfoCmds {
                         return;
                     }
 
+                    var languageContext = ctx.getLanguageContext();
                     var user = member.getUser();
-                    ctx.sendLocalized("commands.avatar.result",
-                            EmoteReference.OK, user.getName(), user.getEffectiveAvatarUrl() + "?size=1024"
-                    );
+                    var embed = new EmbedBuilder()
+                            .setAuthor(
+                                    languageContext.get("commands.avatar.result").formatted(user.getName()),
+                                    null, user.getEffectiveAvatarUrl()
+                            )
+                            .setColor(Color.PINK)
+                            .setImage(user.getEffectiveAvatarUrl() + "?size=1024")
+                            .setFooter(languageContext.get("commands.avatar.footer"), user.getEffectiveAvatarUrl());
+
+                    ctx.send(embed.build());
                 });
             }
 

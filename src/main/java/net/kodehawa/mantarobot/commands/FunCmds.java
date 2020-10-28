@@ -18,8 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -30,9 +28,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RPGDice;
@@ -41,7 +37,6 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -102,12 +97,13 @@ public class FunCmds {
                     return;
                 }
 
-                int waifuRate = content.replaceAll("\\s+", " ")
+                var waifuRate = content.replaceAll("\\s+", " ")
                         .replaceAll("<@!?(\\d+)>", "<@$1>").chars().sum() % 101;
 
                 //hehe~
-                if (content.equalsIgnoreCase("mantaro"))
+                if (content.equalsIgnoreCase("mantaro")) {
                     waifuRate = 100;
+                }
 
                 ctx.sendStrippedLocalized(
                         "commands.ratewaifu.success", EmoteReference.THINKING, content, waifuRate
@@ -143,13 +139,14 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
+                }
 
-                Map<String, String> opts = ctx.getOptionalArguments();
+                var opts = ctx.getOptionalArguments();
                 int size = 6, amount = 1;
 
-                RPGDice d20 = RPGDice.parse(content);
+                var d20 = RPGDice.parse(content);
                 if (d20 != null) {
                     size = d20.getFaces();
                     amount = d20.getRolls();
@@ -171,20 +168,21 @@ public class FunCmds {
                     }
                 }
 
-                if (amount >= 100)
+                if (amount >= 100) {
                     amount = 100;
+                }
 
-                long result = diceRoll(size, amount);
+                var result = diceRoll(size, amount);
                 if (size == 6 && result == 6) {
-                    Player p = MantaroData.db().getPlayer(ctx.getAuthor());
-                    p.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND);
-                    p.saveAsync();
+                    var player = MantaroData.db().getPlayer(ctx.getAuthor());
+                    player.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND);
+                    player.saveAsync();
                 }
 
                 ctx.sendLocalized("commands.roll.success",
                         EmoteReference.DICE,
                         result,
-                        amount == 1 ? "!" : (String.format("\nDoing **%d** rolls.", amount))
+                        amount == 1 ? "!" : "\nDoing **%d** rolls.".formatted(amount)
                 );
 
                 TextChannelGround.of(ctx.getChannel()).dropItemWithChance(ItemReference.LOADED_DICE, 5);
@@ -212,7 +210,7 @@ public class FunCmds {
         registry.register("love", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                List<User> mentioned = ctx.getMentionedUsers();
+                var mentioned = ctx.getMentionedUsers();
                 String result;
 
                 if (mentioned.size() < 1) {
@@ -224,12 +222,12 @@ public class FunCmds {
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
 
-                listDisplay.add(String.format("\uD83D\uDC97  %s#%s",
-                        mentioned.get(0).getName(), mentioned.get(0).getDiscriminator())
+                listDisplay.add("\uD83D\uDC97  %s#%s"
+                        .formatted(mentioned.get(0).getName(), mentioned.get(0).getDiscriminator())
                 );
 
-                listDisplay.add(String.format("\uD83D\uDC97  %s#%s",
-                        ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator())
+                listDisplay.add("\uD83D\uDC97  %s#%s"
+                        .formatted(ctx.getAuthor().getName(), ctx.getAuthor().getDiscriminator())
                 );
 
                 toDisplay = String.join("\n", listDisplay);
@@ -238,16 +236,15 @@ public class FunCmds {
                     ids[0] = mentioned.get(0).getIdLong();
                     ids[1] = mentioned.get(1).getIdLong();
                     toDisplay = mentioned.stream()
-                            .map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator())
+                            .map(user -> "\uD83D\uDC97 %s".formatted(user.getAsTag()))
                             .collect(Collectors.joining("\n"));
                 } else {
                     ids[0] = ctx.getAuthor().getIdLong();
                     ids[1] = mentioned.get(0).getIdLong();
                 }
 
-                int percentage = (ids[0] == ids[1] ? 101 : random.nextInt(101)); //last value is exclusive, so 101.
-
-                I18nContext languageContext = ctx.getLanguageContext();
+                var percentage = (ids[0] == ids[1] ? 101 : random.nextInt(101)); //last value is exclusive, so 101.
+                var languageContext = ctx.getLanguageContext();
 
                 if (percentage < 45) {
                     result = languageContext.get("commands.love.not_ideal");
@@ -262,7 +259,7 @@ public class FunCmds {
                     }
                 }
 
-                MessageEmbed loveEmbed = new EmbedBuilder()
+                var loveEmbed = new EmbedBuilder()
                         .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null,
                                 ctx.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail(
@@ -293,8 +290,9 @@ public class FunCmds {
 
     private long diceRoll(int size, int amount) {
         long sum = 0;
-        for (int i = 0; i < amount; i++)
+        for (int i = 0; i < amount; i++) {
             sum += r.nextInt(size) + 1;
+        }
 
         return sum;
     }

@@ -21,7 +21,6 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lavalink.client.io.LavalinkSocket;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -123,7 +122,7 @@ public class DebugCmds {
                         + " --------- Technical Information --------- \n\n"
                         + "Uptime: " + Utils.formatDuration(node.getLong("uptime")) + "\n"
                         + "Version: " + MantaroInfo.VERSION + " (Git: " + MantaroInfo.GIT_REVISION + ")\n"
-                        + "Libraries: " + String.format("[ JDA: %s, LP: %s ]", JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
+                        + "Libraries: " + "[ JDA: %s, LP: %s ]".formatted(JDAInfo.VERSION, PlayerLibrary.VERSION) + "\n"
                         + "Commands: " +
                         CommandProcessor.REGISTRY.commands()
                                 .values()
@@ -131,19 +130,19 @@ public class DebugCmds {
                                 .filter(command -> command.category() != null)
                                 .count()
                         + "\n\n --------- Debug Information --------- \n\n"
-                        + "Replies: " + String.format("[ Discord: %,d, MAPI: %,d ]", responseTotal, mApiRequests) + "\n"
+                        + "Replies: " + "[ Discord: %,d, MAPI: %,d ]".formatted(responseTotal, mApiRequests) + "\n"
                         + "Shard Info: " + jda.getShardInfo() + "\n"
-                        + "Nodes: " + String.format("%,d (Current: %,d)", clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
-                        + "CPU: " + String.format("%.2f%% (Cores: %,d)", getInstanceCPUUsage() * 100, getAvailableProcessors()) + "\n"
+                        + "Nodes: " + "%,d (Current: %,d)".formatted(clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
+                        + "CPU: " + "%.2f%% (Cores: %,d)".formatted(getInstanceCPUUsage() * 100, getAvailableProcessors()) + "\n"
                         + "Memory: " +  Utils.formatMemoryAmount(totalMemory) +
                         " [Node: " + Utils.formatMemoryAmount(getTotalMemory() - getFreeMemory())  + "]"
                         + "\n\n --------- Mantaro Information --------- \n\n"
-                        + "Guilds: " + String.format("%,d (Node: %,d)", guilds, shardManager.getGuildCache().size()) + "\n"
-                        + "User Cache: " + String.format("%,d (Node: %,d)", users, shardManager.getUserCache().size()) + "\n"
+                        + "Guilds: " + "%,d (Node: %,d)".formatted(guilds, shardManager.getGuildCache().size()) + "\n"
+                        + "User Cache: " + "%,d (Node: %,d)".formatted(users, shardManager.getUserCache().size()) + "\n"
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardId() + ")" + "\n"
-                        + "Threads: " + String.format("%,d (Node: %,d)", totalThreadCount, Thread.activeCount()) + "\n"
-                        + "Commands Used: " + String.format("%,d (Node: %,d)", totalCommandCount, CommandListener.getCommandTotal()) + "\n"
-                        + "Overall: " + String.format("[ Players: %,d, Queue: %,d, Logs: %,d ]", players, queueSize, MantaroListener.getLogTotal()) + "\n"
+                        + "Threads: " + "%,d (Node: %,d)".formatted(totalThreadCount, Thread.activeCount()) + "\n"
+                        + "Commands Used: " + "%,d (Node: %,d)".formatted(totalCommandCount, CommandListener.getCommandTotal()) + "\n"
+                        + "Overall: " + "[ Players: %,d, Queue: %,d, Logs: %,d ]".formatted(players, queueSize, MantaroListener.getLogTotal()) + "\n"
                         + "```"
                 );
             }
@@ -246,8 +245,7 @@ public class DebugCmds {
                     var jsonData = new JSONObject(shard.getValue());
                     var shardId = Integer.parseInt(shard.getKey());
     
-                    builder.append(String.format(
-                            "%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s",
+                    builder.append("%-7s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s".formatted(
                             shardId + " / " + ctx.getBot().getShardManager().getShardsTotal(),
                             jsonData.getString("shard_status"),
                             jsonData.getLong("cached_users"),
@@ -266,9 +264,11 @@ public class DebugCmds {
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
 
-                for (String s1 : m)
-                    messages.add(String.format("%s\n```prolog\n%s```",
-                            "**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
+                for (String shard : m) {
+                    messages.add("%s\n```prolog\n%s```"
+                            .formatted("**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", shard)
+                    );
+                }
 
                 DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
             }

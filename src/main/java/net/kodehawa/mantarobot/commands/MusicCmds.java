@@ -219,26 +219,31 @@ public class MusicCmds {
                 final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                 final var trackScheduler = musicManager.getTrackScheduler();
                 final var audioPlayer = trackScheduler.getMusicPlayer();
+                final var playingTrack = audioPlayer.getPlayingTrack();
 
-                if (audioPlayer == null || audioPlayer.getPlayingTrack() == null) {
+                if (audioPlayer == null || playingTrack == null) {
                     ctx.sendLocalized("commands.np.no_track", EmoteReference.ERROR);
                     return;
                 }
 
                 var npEmbed = new EmbedBuilder();
-                var now = audioPlayer.getTrackPosition();
-                var total = audioPlayer.getPlayingTrack().getDuration();
-                var languageContext = ctx.getLanguageContext();
+                final var now = audioPlayer.getTrackPosition();
+                final var total = audioPlayer.getPlayingTrack().getDuration();
+                final var languageContext = ctx.getLanguageContext();
+                final var trackInfo = playingTrack.getInfo();
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                        .setDescription("\n\u23ef " + Utils.getProgressBar(now, total) + "\n\n" +
-                                "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
-                                .getInfo().title + "]"
-                                + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayer().getPlayingTrack()
-                                .getInfo().uri + ")** "
-                                + String.format("`(%s/%s)`",
-                                AudioCmdUtils.getDurationMinutes(now), total == Long.MAX_VALUE ? "stream" : AudioCmdUtils.getDurationMinutes(total))
+                        .setDescription("""
+                                        \u23ef %s
+                                        
+                                        **[%s](%s)** `(%s/%s)`
+                                        """.formatted(Utils.getProgressBar(now, total),
+                                                        trackInfo.title,
+                                                        trackInfo.uri,
+                                                        AudioCmdUtils.getDurationMinutes(now), total == Long.MAX_VALUE ?
+                                                                "stream" : AudioCmdUtils.getDurationMinutes(total)
+                                        )
                         ).setFooter("Enjoy the music! <3. " +
                         "Use ~>lyrics current to see the lyrics of the current song!", ctx.getAuthor().getAvatarUrl());
 
@@ -360,12 +365,15 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("**This command doesn't put the song at the start of the queue, for that use `~>playnow`!**\n" +
-                                "Play the first song I find in your search. " +
-                                "This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
-                                "no song playing currently and Mantaro isn't bound to any channel. " +
-                                "Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
-                                "You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.")
+                        .setDescription("""
+                                **This command doesn't put the song at the start of the queue, for that use `~>playnow`!**
+                                Play the first song I find in your search. 
+                                This connects to the voice channel the user that triggers it it's connected to, 
+                                *only* if there is no song playing currently and Mantaro isn't bound to any channel. 
+                                Basically this works as a join command on the first song. 
+                                If you're lost, use `~>music` for examples.
+                                
+                                You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.""")
                         .setUsage("~>forceplay <song>")
                         .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result " +
                                 "(Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)"
@@ -1030,9 +1038,9 @@ public class MusicCmds {
 
                 DiscordUtils.list(ctx.getEvent(), 30, false, 900, (p, total) -> {
                     EmbedBuilder embed = new EmbedBuilder();
-                    embed.setTitle(String.format(languageContext.get("commands.lyrics.header"), EmoteReference.HEART, fullTitle))
+                    embed.setTitle(languageContext.get("commands.lyrics.header").formatted(EmoteReference.HEART, fullTitle))
                             .setThumbnail(icon)
-                            .setFooter(String.format(languageContext.get("commands.lyrics.footer"), p, total));
+                            .setFooter(languageContext.get("commands.lyrics.footer").formatted(p, total));
 
                     return embed;
                 }, divided);

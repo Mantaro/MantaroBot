@@ -180,14 +180,16 @@ public class MoneyCmds {
                 if (currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
                     streak++;
                     if (targetOther)
-                        returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.given.up"), streak));
+                        returnMessage.add(languageContext.withRoot("commands","daily.streak.given.up").formatted(streak));
                     else
-                        returnMessage.add(String.format(languageContext.withRoot("commands","daily.streak.up"), streak));
+                        returnMessage.add(languageContext.withRoot("commands","daily.streak.up").formatted(streak));
                     if (currentDailyOffset < 0){
                         int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
                         authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
-                        returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.watch_used"),
-                                streakSaversUsed, streakSaversUsed + 1, amountStreaksavers - streakSaversUsed));
+                        returnMessage.add(languageContext.withRoot("commands", "daily.streak.watch_used").formatted(
+                                streakSaversUsed, streakSaversUsed + 1,
+                                amountStreaksavers - streakSaversUsed)
+                        );
                     }
 
                 } else{
@@ -196,7 +198,7 @@ public class MoneyCmds {
                     } else {
                         if (amountStreaksavers > 0){
                             returnMessage.add(
-                                    String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.watch"), streak)
+                                    languageContext.withRoot("commands", "daily.streak.lost_streak.watch").formatted(streak)
                             );
 
                             authorPlayer.getInventory().process(
@@ -204,7 +206,7 @@ public class MoneyCmds {
                             );
 
                         } else{
-                            returnMessage.add(String.format(languageContext.withRoot("commands", "daily.streak.lost_streak.normal"), streak));
+                            returnMessage.add(languageContext.withRoot("commands", "daily.streak.lost_streak.normal").formatted(streak));
                         }
                     }
                     streak = 1;
@@ -237,12 +239,12 @@ public class MoneyCmds {
                     }
 
                     if (targetOther) {
-                        returnMessage.add(String.format(
-                                languageContext.withRoot("commands", "daily.streak.given.bonus"), otherUser.getName(), bonus)
+                        returnMessage.add(
+                                languageContext.withRoot("commands", "daily.streak.given.bonus").formatted(otherUser.getName(), bonus)
                         );
                     } else {
-                        returnMessage.add(String.format(
-                                languageContext.withRoot("commands", "daily.streak.bonus"), bonus)
+                        returnMessage.add(
+                                languageContext.withRoot("commands", "daily.streak.bonus").formatted(bonus)
                         );
                     }
                     dailyMoney += bonus;
@@ -277,10 +279,12 @@ public class MoneyCmds {
 
                 // Build Message
                 var toSend = new StringBuilder((targetOther ?
-                        String.format(languageContext.withRoot("commands", "daily.given_credits"),
-                                EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
-                        String.format(languageContext.withRoot("commands", "daily.credits"),
-                                EmoteReference.CORRECT, dailyMoney)) + "\n");
+                        languageContext.withRoot("commands", "daily.given_credits")
+                                .formatted(EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
+                        languageContext.withRoot("commands", "daily.credits").formatted(
+                                EmoteReference.CORRECT, dailyMoney)) +
+                        "\n"
+                );
 
                 for (var string : returnMessage) {
                     toSend.append("\n").append(string);
@@ -540,7 +544,7 @@ public class MoneyCmds {
                         }
                     } else {
                         var dust = dbUser.getData().increaseDustLevel(random.nextInt(2));
-                        var msg = String.format(languageContext.withRoot("commands", "loot.dust"), dust);
+                        var msg = languageContext.withRoot("commands", "loot.dust").formatted(dust);
 
                         dbUser.save();
 
@@ -598,8 +602,8 @@ public class MoneyCmds {
                     var balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getCurrentMoney();
 
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?
-                            String.format(languageContext.withRoot("commands", "balance.external_balance"), user.getName(), balance) :
-                            String.format(languageContext.withRoot("commands", "balance.own_balance"), balance))
+                            languageContext.withRoot("commands", "balance.external_balance").formatted(user.getName(), balance) :
+                            languageContext.withRoot("commands", "balance.own_balance").formatted(balance))
                     );
 
                 });
@@ -765,8 +769,8 @@ public class MoneyCmds {
                 var languageContext = ctx.getLanguageContext();
 
                 var message = new StringBuilder(
-                        String.format(languageContext.withRoot("commands", "slots.roll"),
-                        EmoteReference.DICE, coinSelect ? coinAmount + " " +
+                        languageContext.withRoot("commands", "slots.roll").formatted(
+                                EmoteReference.DICE, coinSelect ? coinAmount + " " +
                                         languageContext.get("commands.slots.tickets") : money + " " +
                                         languageContext.get("commands.slots.credits"))
                 );
@@ -800,7 +804,8 @@ public class MoneyCmds {
 
                 if (isWin) {
                     message.append(toSend).append("\n\n")
-                            .append(String.format(languageContext.withRoot("commands", "slots.win"), gains, money))
+                            .append(languageContext.withRoot("commands", "slots.win")
+                                    .formatted(gains, money))
                             .append(EmoteReference.POPPER);
 
                     stats.incrementSlotsWins();
@@ -823,7 +828,7 @@ public class MoneyCmds {
                 } else {
                     stats.getData().incrementSlotsLose();
                     message.append(toSend).append("\n\n").append(
-                            String.format(languageContext.withRoot("commands", "slots.lose"), EmoteReference.SAD)
+                            languageContext.withRoot("commands", "slots.lose").formatted(EmoteReference.SAD)
                     );
                 }
 

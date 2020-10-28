@@ -72,7 +72,7 @@ public class ModerationCmds {
                     reason = "Reason not specified";
                 }
 
-                var finalReason = String.format("Softbanned by %#s: %s", author, reason);
+                var finalReason = "Softbanned by %#s: %s".formatted(author, reason);
 
                 var member = ctx.getMentionedMembers().get(0);
                 var user = member.getUser();
@@ -100,8 +100,13 @@ public class ModerationCmds {
                         success -> {
                             user.openPrivateChannel()
                                     .flatMap(privateChannel ->
-                                            privateChannel.sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s on server **%s**.",
-                                            EmoteReference.MEGA, author.getName(), author.getDiscriminator(), finalReason, ctx.getGuild().getName()))
+                                            privateChannel.sendMessage("%sYou were **softbanned** by %s#%s for reason %s on server **%s**."
+                                                    .formatted(
+                                                            EmoteReference.MEGA,
+                                                            author.getName(),
+                                                            author.getDiscriminator(),
+                                                            finalReason,
+                                                            ctx.getGuild().getName()))
                                     ).queue();
 
                             dbGuild.getData().setCases(dbGuild.getData().getCases() + 1);
@@ -192,7 +197,7 @@ public class ModerationCmds {
                     reason = "Reason not specified";
                 }
 
-                final var finalReason = String.format("Banned by %#s: %s", author, reason);
+                final var finalReason = "Banned by %#s: %s".formatted(author, reason);
                 final var languageContext = ctx.getLanguageContext();
 
                 for (var member : mentionedMembers) {
@@ -218,8 +223,12 @@ public class ModerationCmds {
                     // DM's before success, because it might be the last mutual guild.
                     user.openPrivateChannel().queue(privateChannel -> {
                         if (!user.isBot()) {
-                            privateChannel.sendMessage(String.format("%sYou were **kicked** by %s with reason: %s on server **%s**.",
-                                    EmoteReference.MEGA, author.getAsTag(), finalReason, ctx.getGuild().getName())).queue();
+                            privateChannel.sendMessage("%sYou were **kicked** by %s with reason: %s on server **%s**.".formatted(
+                                    EmoteReference.MEGA,
+                                    author.getAsTag(),
+                                    finalReason,
+                                    ctx.getGuild().getName())
+                            ).queue();
                         }
                     });
 
@@ -295,7 +304,7 @@ public class ModerationCmds {
                     reason = "Reason not specified";
                 }
 
-                final var finalReason = String.format("Kicked by %#s: %s", ctx.getAuthor(), reason);
+                final var finalReason = "Kicked by %#s: %s".formatted(ctx.getAuthor(), reason);
                 var memberRaw = args[0];
 
                 ctx.findMember(memberRaw, ctx.getMessage()).onSuccess(members -> {
@@ -326,8 +335,11 @@ public class ModerationCmds {
                     if (!user.isBot()) {
                         user.openPrivateChannel()
                                 .flatMap(privateChannel ->
-                                        privateChannel.sendMessage(String.format("%sYou were **kicked** by %s with reason: %s on server **%s**.",
-                                                EmoteReference.MEGA, ctx.getAuthor().getAsTag(), finalReason, ctx.getGuild().getName()))
+                                        privateChannel.sendMessage("%sYou were **kicked** by %s with reason: %s on server **%s**.".formatted(
+                                                EmoteReference.MEGA,
+                                                ctx.getAuthor().getAsTag(),
+                                                finalReason,
+                                                ctx.getGuild().getName()))
                                 ).queue();
                     }
 

@@ -221,8 +221,9 @@ public class CustomCmds {
                                 (commands.isEmpty() ? languageContext.get("general.dust") :
                                         checkString(commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "))
                                         ))
-                        ).setFooter(String.format(languageContext.get("commands.custom.ls.footer"),
-                                commands.size()), ctx.getAuthor().getEffectiveAvatarUrl());
+                        ).setFooter(languageContext.get("commands.custom.ls.footer").formatted(commands.size()),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
+                        );
 
                 ctx.send(builder.build());
             }
@@ -298,9 +299,11 @@ public class CustomCmds {
                     fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, false));
                 }
 
-                EmbedBuilder embed = baseEmbed(ctx.getEvent(), String.format(languageContext.get("commands.custom.raw.header"), command))
+                EmbedBuilder embed = baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.raw.header").formatted(command))
                         .setDescription(languageContext.get("commands.custom.raw.description"))
-                        .setFooter(String.format(languageContext.get("commands.custom.raw.amount"), 6, custom.getValues().size()), null);
+                        .setFooter(languageContext.get("commands.custom.raw.amount").formatted(6, custom.getValues().size()),
+                                null
+                        );
 
                 DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));
             }
@@ -463,7 +466,7 @@ public class CustomCmds {
 
                 DiscordUtils.selectList(
                         ctx.getEvent(), filtered,
-                        pair -> String.format(languageContext.get("commands.custom.import.header"),
+                        pair -> languageContext.get("commands.custom.import.header").formatted(
                                 pair.getValue().getName(), pair.getRight().getValues().size(), pair.getKey()
                         ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.import.selection")).setDescription(s)
                                 .setFooter(

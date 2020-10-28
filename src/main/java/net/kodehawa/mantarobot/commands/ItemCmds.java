@@ -277,12 +277,11 @@ public class ItemCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Allows you to cast any castable item given you have the necessary elements.\n" +
-                                "Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.\n" +
-                                "Cast-able items are only able to be acquired by this command. " +
-                                "They're non-buyable items, though you can sell them for a profit.\n" +
-                                "If you specify the item and the wrench, you can use amount without -amount. " +
-                                "Example: `~>cast \"diamond pickaxe\" \"sparkle wrench\" 10`")
+                        .setDescription("""
+                                Allows you to cast any castable item given you have the necessary elements.
+                                Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.
+                                Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.
+                                If you specify the item and the wrench, you can use amount without -amount. Example: `~>cast "diamond pickaxe" "sparkle wrench" 10`""")
                         .setUsage("`~>cast <item> [wrench] [-amount <amount>]` - Casts the item you provide.")
                         .addParameter("item",
                                 "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
@@ -311,7 +310,7 @@ public class ItemCmds {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.cast.ls.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getMember().getEffectiveName()), null);
+                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()), null);
 
                 for (var item : castableItems) {
                     //Build recipe explanation
@@ -372,7 +371,7 @@ public class ItemCmds {
 
                         //Argument parsing.
                         var optionalArguments = ctx.getOptionalArguments();
-                        boolean isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
+                        var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
 
                         var args = ctx.getArguments();
 
@@ -508,9 +507,10 @@ public class ItemCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Allows you to repair any broken item given you have the necessary elements.\n" +
-                                "Repairing requires you to have the necessary materials to cast the item, " +
-                                "and it has a cost of `item value / 3`.\n")
+                        .setDescription("""
+                                Allows you to repair any broken item given you have the necessary elements.
+                                Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.
+                                """)
                         .setUsage("`~>repair <item>` - Repairs a broken item.")
                         .addParameter("item",
                                 "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
@@ -535,11 +535,7 @@ public class ItemCmds {
                 var builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.repair.ls.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
-                        .setFooter(
-                                String.format(
-                                        languageContext.get("general.requested_by"), ctx.getMember().getEffectiveName()
-                                ), null
-                        );
+                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName(), null));
 
                 for (var item : repairableItems) {
                     //Build recipe explanation
@@ -744,8 +740,8 @@ public class ItemCmds {
                                 null, ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .setColor(Color.PINK)
-                        .setFooter(String.format(languageContext.get("general.requested_by"),
-                                ctx.getMember().getEffectiveName()), null
+                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()),
+                                null
                         );
 
                 for (var item : broken) {
@@ -795,7 +791,8 @@ public class ItemCmds {
                     return;
                 }
 
-                var itemOptional = ItemHelper.fromAnyNoId(content.replace("\"", ""));
+                var itemOptional =
+                        ItemHelper.fromAnyNoId(content.replace("\"", ""));
 
                 if (itemOptional.isEmpty()) {
                     ctx.sendLocalized("commands.iteminfo.no_item", EmoteReference.ERROR);

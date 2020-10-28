@@ -95,19 +95,21 @@ public class LeaderboardCmd {
                                                 .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                                         map.get("gambleWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
-                                                .map(p -> String.format("%s**%s#%s** - $%,d",
-                                                        EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
+                                                .map(p -> "%s**%s#%s** - $%,d".formatted(
+                                                        EmoteReference.BLUE_SMALL_MARKER,
+                                                        p.getKey().getName(),
+                                                        p.getKey().getDiscriminator(),
                                                         Long.parseLong(p.getValue()))
                                                 ).collect(Collectors.joining("\n")), true)
                                         .addField("Slots", lb2.stream()
                                                 .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                                         map.get("slotsWinAmount").toString())
                                                 ).filter(p -> Objects.nonNull(p.getKey()))
-                                                .map(p -> String.format("%s**%s#%s** - $%,d",
+                                                .map(p -> "%s**%s#%s** - $%,d".formatted(
                                                         EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
                                                         Long.parseLong(p.getValue()))
                                                 ).collect(Collectors.joining("\n")), true)
-                                        .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getAuthor().getName()), null)
+                                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()), null)
                                         .build()
                         );
                     }
@@ -138,7 +140,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                                String.format(languageContext.get("commands.leaderboard.inner.gamble"), EmoteReference.MONEY),
+                                languageContext.get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.gamble", c,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false
@@ -161,7 +163,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                                String.format(languageContext.get("commands.leaderboard.inner.slots"), EmoteReference.MONEY),
+                                languageContext.get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.slots", c,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false
@@ -190,8 +192,9 @@ public class LeaderboardCmd {
                     ctx.send(
                             generateLeaderboardEmbed(
                                     ctx,
-                                    String.format((seasonal ? languageContext.get("commands.leaderboard.inner.seasonal_money") :
-                                            languageContext.get("commands.leaderboard.inner.money")), EmoteReference.MONEY),
+                                    seasonal ?
+                                            languageContext.get("commands.leaderboard.inner.seasonal_money").formatted(EmoteReference.MONEY) :
+                                            languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", c,
                                     map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                             map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
@@ -221,7 +224,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                                String.format(languageContext.get("commands.leaderboard.inner.money_old"), EmoteReference.MONEY),
+                                languageContext.get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.money", c,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", false
@@ -246,7 +249,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.lvl"), EmoteReference.ZAP),
+                        languageContext.get("commands.leaderboard.inner.lvl").formatted(EmoteReference.ZAP),
                                 "commands.leaderboard.level", c,
                         map -> {
                             @SuppressWarnings("unchecked")
@@ -278,7 +281,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.rep"), EmoteReference.REP),
+                        languageContext.get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
                                 "commands.leaderboard.reputation", c,
                         map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
@@ -302,7 +305,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.streak"), EmoteReference.POPPER),
+                        languageContext.get("commands.leaderboard.inner.streak").formatted(EmoteReference.POPPER),
                                 "commands.leaderboard.daily", c,
                         map -> {
                             @SuppressWarnings("unchecked")
@@ -335,7 +338,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.waifu"), EmoteReference.MONEY),
+                        languageContext.get("commands.leaderboard.inner.waifu").formatted(EmoteReference.MONEY),
                                 "commands.leaderboard.waifu", c,
                         map -> {
                             @SuppressWarnings("unchecked")
@@ -364,7 +367,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.claim"), EmoteReference.HEART),
+                        languageContext.get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),
                                 "commands.leaderboard.claim", c,
                         map -> {
                             @SuppressWarnings("unchecked")
@@ -397,7 +400,7 @@ public class LeaderboardCmd {
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
-                        String.format(languageContext.get("commands.leaderboard.inner.game"), EmoteReference.ZAP),
+                        languageContext.get("commands.leaderboard.inner.game").formatted(EmoteReference.ZAP),
                                 "commands.leaderboard.game", c,
                         map -> {
                             @SuppressWarnings("unchecked")
@@ -444,7 +447,7 @@ public class LeaderboardCmd {
         var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(isSeasonal ?
-                        String.format(languageContext.get("commands.leaderboard.header_seasonal"),
+                        languageContext.get("commands.leaderboard.header_seasonal").formatted(
                         config.getCurrentSeason().getDisplay()) : languageContext.get("commands.leaderboard.header"),
                         null, ctx.getSelfUser().getEffectiveAvatarUrl()
                 ).setDescription(description)
@@ -459,12 +462,14 @@ public class LeaderboardCmd {
                                     player.saveAsync();
                             }
 
-                            return String.format(
-                                    format, EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
+                            return format.formatted(
+                                    EmoteReference.BLUE_SMALL_MARKER,
+                                    p.getKey().getName(),
+                                    p.getKey().getDiscriminator(),
                                     StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
                             );
                         }).collect(Collectors.joining("\n")), false)
-                .setFooter(String.format(languageContext.get("general.requested_by"), ctx.getAuthor().getName()), null)
+                .setFooter(languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()), null)
                 .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl());
     }
 

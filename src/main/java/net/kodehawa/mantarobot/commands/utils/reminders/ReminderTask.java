@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.utils.reminders;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -28,8 +29,6 @@ import redis.clients.jedis.Jedis;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -66,18 +65,18 @@ public class ReminderTask {
 
                         var reminder = data.getString("reminder"); //The actual reminder data
                         var guild = bot.getShardManager().getGuildById(guildId);
-
+                        var scheduledTime = OffsetDateTime.ofInstant(Instant.ofEpochMilli(scheduledAt), ZoneId.systemDefault());
                         bot.getShardManager().retrieveUserById(userId)
                                 .flatMap(User::openPrivateChannel)
                                 .flatMap(privateChannel -> privateChannel
-                                        .sendMessageFormat("%s**Reminder!**\nYou asked me to remind you of: %s\n" +
-                                                "At: %s%s",
+                                        .sendMessageFormat("""
+                                                        %s**Reminder!**
+                                                        
+                                                        You asked me to remind you of: **%s**
+                                                        *Asked at:* %s%s""",
                                                 EmoteReference.POPPER,
-                                                reminder,
-                                                OffsetDateTime.ofInstant(
-                                                        Instant.ofEpochMilli(scheduledAt), ZoneId.systemDefault()
-                                                ).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)),
-                                                (guild != null ? "\n*Asked on: " + guild.getName() + "*" : "")
+                                                reminder, Utils.formatDate(scheduledTime),
+                                                (guild != null ? "\n*Asked on: %s".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {
                                     log.debug("Reminded {}. Removing from remind database", fullId);

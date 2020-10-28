@@ -249,7 +249,7 @@ public class UtilsCmds {
                                         return "Unknown Member : " + birthday[0] + "-" + birthday[1];
                                     }
 
-                                    return String.format("+ %-20s : %s ",
+                                    return "+ %-20s : %s ".formatted(
                                             member.getEffectiveName(),
                                             birthday[0] + "-" + birthday[1]
                                     );
@@ -261,10 +261,11 @@ public class UtilsCmds {
 
                         List<String> messages = new LinkedList<>();
                         for (String part : parts) {
-                            messages.add(String.format(languageContext.get("commands.birthday.full_header"), guild.getName(),
-                                    (parts.size() > 1 ? (hasReactionPerms ? languageContext.get("general.arrow_react") :
-                                            languageContext.get("general.text_menu")) : "") +
-                                            String.format("```diff\n%s```", part)));
+                            messages.add(languageContext.get("commands.birthday.full_header").formatted(guild.getName(),
+                                    (parts.size() > 1 ?
+                                            (hasReactionPerms ? languageContext.get("general.arrow_react") :
+                                            languageContext.get("general.text_menu")) : "") + "```diff\n%s```".formatted(part))
+                            );
                         }
 
                         if (parts.isEmpty()) {
@@ -374,7 +375,7 @@ public class UtilsCmds {
                                         return "Unknown Member : " + birthday[0] + "-" + birthday[1];
                                     }
 
-                                    return String.format("+ %-20s : %s ",
+                                    return "+ %-20s : %s ".formatted(
                                             member.getEffectiveName(),
                                             birthday[0] + "-" + birthday[1]
                                     );
@@ -384,10 +385,12 @@ public class UtilsCmds {
                         List<String> messages = new LinkedList<>();
 
                         for (var part : parts) {
-                            messages.add(String.format(languageContext.get("commands.birthday.header"), ctx.getGuild().getName(),
+                            messages.add(languageContext.get("commands.birthday.header").formatted(ctx.getGuild().getName(),
                                     Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))) +
-                                    (parts.size() > 1 ? (ctx.hasReactionPerms() ? languageContext.get("general.arrow_react") : languageContext.get("general.text_menu")) : "") +
-                                    String.format("```diff\n%s```", part));
+                                    (parts.size() > 1 ? (ctx.hasReactionPerms() ?
+                                            languageContext.get("general.arrow_react") :
+                                            languageContext.get("general.text_menu")) : "") + "```diff\n%s```".formatted(part)
+                            );
                         }
 
                         if (ctx.hasReactionPerms()) {
@@ -564,10 +567,10 @@ public class UtilsCmds {
                         List<ReminderObject> rems = getReminders(reminders);
                         rems = rems.stream().filter(reminder -> reminder.time - System.currentTimeMillis() > 3).collect(Collectors.toList());
                         DiscordUtils.selectList(ctx.getEvent(), rems,
-                                r -> String.format("%s, Due in: %s", r.reminder, Utils.formatDuration(r.time - System.currentTimeMillis())),
+                                r -> "%s, Due in: %s".formatted(r.reminder, Utils.formatDuration(r.time - System.currentTimeMillis())),
                                 r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle(ctx.getLanguageContext().get("commands.remindme.cancel.select"), null)
                                         .setDescription(r1)
-                                        .setFooter(String.format(ctx.getLanguageContext().get("general.timeout"), 10), null).build(),
+                                        .setFooter(ctx.getLanguageContext().get("general.timeout").formatted(10), null).build(),
                                 sr -> {
                                     Reminder.cancel(ctx.getUser().getId(), sr.id + ":" + sr.getUserId(), Reminder.CancelReason.CANCEL);
                                     ctx.send(EmoteReference.CORRECT + "Cancelled your reminder");
@@ -694,8 +697,9 @@ public class UtilsCmds {
                 var definition = urbanData.getDefinition();
 
                 ctx.send(new EmbedBuilder()
-                        .setAuthor(String.format(languageContext.get("commands.urban.header"),
-                                commandArguments[0]), urbanData.getPermalink(), null
+                        .setAuthor(languageContext.get("commands.urban.header").formatted(
+                                commandArguments[0]), urbanData.getPermalink(),
+                                ctx.getAuthor().getEffectiveAvatarUrl()
                         )
                         .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                         .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))

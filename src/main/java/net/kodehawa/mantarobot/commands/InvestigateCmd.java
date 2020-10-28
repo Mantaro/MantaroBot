@@ -300,7 +300,7 @@ public class InvestigateCmd {
         }
 
         String format() {
-            return String.format("%s - %s - %-37s (%-20s bot = %5s): %s",
+            return "%s - %s - %-37s (%-20s bot = %5s): %s".formatted(
                     timestamp(),
                     id,
                     authorName + "#" + authorDiscriminator,
