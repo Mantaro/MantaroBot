@@ -545,7 +545,7 @@ public class PetCmds {
         pet.addSubCommand("hydrate", new SubCommand() {
             @Override
             public String description() {
-                return "Hydrates your pet.";
+                return "Hydrates your pet. Usage: `~>pet hydrate [<amount>]`";
             }
 
             @Override

@@ -238,7 +238,7 @@ public class InfoCmds {
 
         description.append(languageContext.get("commands.help.support"));
 
-        if (dbGuild.isPremium() || dbUser.isPremium()) {
+        if (!dbUser.isPremium() && !dbGuild.isPremium()) {
             description.append(languageContext.get("commands.help.patreon"));
         }
 
@@ -393,8 +393,8 @@ public class InfoCmds {
                         );
                     }
 
-                    //Ensure sub-commands show in help.
-                    //Only god shall help me now with all of this casting lol.
+                    // Ensure sub-commands show in help.
+                    // Only god shall help me now with all of this casting lol.
                     if (command instanceof AliasCommand) {
                         command = ((AliasCommand) command).getCommand();
                     }

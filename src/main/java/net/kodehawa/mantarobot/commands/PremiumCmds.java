@@ -210,13 +210,13 @@ public class PremiumCmds {
 
                 final var scope = scopeParsed;
 
-                //Send message in a DM (it's private after all)
+                // Send message in a DM (it's private after all)
                 ctx.getAuthor().openPrivateChannel()
                         .flatMap(privateChannel -> {
                             var newKey = PremiumKey.generatePremiumKey(author.getId(), scope, true);
                             var languageContext = ctx.getLanguageContext();
 
-                            //Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
+                            // Placeholder so they don't spam key creation. Save as random UUID first, to avoid conflicting.
                             data.getKeysClaimed().put(UUID.randomUUID().toString(), newKey.getId());
                             var amountClaimed = data.getKeysClaimed().size();
 
@@ -227,8 +227,8 @@ public class PremiumCmds {
                             dbUser.saveAsync();
                             newKey.saveAsync();
 
-                            //Assume it all went well.
-                            //This one is actually needed, lol.
+                            // Assume it all went well.
+                            // This one is actually needed, lol.
                             return ctx.getChannel().sendMessageFormat(languageContext.get("commands.claimkey.success"), EmoteReference.CORRECT);
                         }).queue(null, error -> ctx.sendLocalized("commands.claimkey.cant_dm", EmoteReference.ERROR));
             }
@@ -284,7 +284,7 @@ public class PremiumCmds {
                                 owner = ctx.getAuthor();
                             }
 
-                            //Give the badge to the key owner, I'd guess?
+                            // Give the badge to the key owner, I'd guess?
                             if (!marked && isLookup) {
                                 Player player = db.getPlayer(owner);
                                 if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2))
@@ -306,7 +306,7 @@ public class PremiumCmds {
                                     .setFooter(languageContext.get("commands.vipstatus.thank_note"), null);
 
                             try {
-                                //User has more keys than what the system would allow. Warn.
+                                // User has more keys than what the system would allow. Warn.
                                 if (patreonInformation != null && patreonInformation.getLeft()) {
                                     var patreonAmount = Double.parseDouble(patreonInformation.getRight());
 
@@ -414,7 +414,7 @@ public class PremiumCmds {
         }).createSubCommandAlias("guild", "server");
     }
 
-    //Won't translate this. Owner command.
+    // Won't translate this. Owner command.
     @Subscribe
     public void invalidatekey(CommandRegistry cr) {
         cr.register("invalidatekey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
@@ -443,7 +443,7 @@ public class PremiumCmds {
         });
     }
 
-    //Won't translate this. Owner command.
+    // Won't translate this. Owner command.
     @Subscribe
     public void createkey(CommandRegistry cr) {
         cr.register("createkey", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
