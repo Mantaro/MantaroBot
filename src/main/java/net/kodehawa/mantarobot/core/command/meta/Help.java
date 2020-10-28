@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Help {
     String description();
-    String usage();
+    String usage()
+            default "";
     Parameter[] parameters()
             default {};
     String[] related()

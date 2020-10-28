@@ -51,8 +51,8 @@ public abstract class NewCommand {
             this.help = new HelpContent.Builder().build();
         } else {
             var builder = new HelpContent.Builder()
-                    .setDescription(h.description())
-                    .setUsage(h.usage())
+                    .setDescription(h.description().isBlank() ? null : h.description())
+                    .setUsage(h.usage().isBlank() ? null : h.usage())
                     .setRelated(Arrays.asList(h.related()))
                     .setSeasonal(h.seasonal());
             for (var param : h.parameters()) {

@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -28,6 +29,7 @@ import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
 import net.kodehawa.mantarobot.core.command.argument.Parsers;
 import net.kodehawa.mantarobot.core.command.meta.Category;
+import net.kodehawa.mantarobot.core.command.meta.Help;
 import net.kodehawa.mantarobot.core.command.meta.Permission;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -38,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -50,7 +53,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Module
@@ -65,6 +72,7 @@ public class OwnerCmd {
         cr.register(RemoveBadge.class);
         cr.register(RefreshPledges.class);
         cr.register(AddOwnerPremium.class);
+        cr.register(Blacklist.class);
     }
 
     @Permission(CommandPermission.OWNER)
@@ -352,6 +360,93 @@ public class OwnerCmd {
             ctx.send("%sThe premium feature for guild %s (%s) was extended for %s days".formatted(
                     EmoteReference.CORRECT, guild, guildObject.getName(), days
             ));
+        }
+    }
+    
+    @Permission(CommandPermission.OWNER)
+    @Category(CommandCategory.OWNER)
+    @Help(
+            description = "Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
+                                  "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552",
+                 parameters = {
+                    @Help.Parameter(name = "type", description = "Type of entity to (un)blacklist. Valid options are `guild` and `user`"),
+                    @Help.Parameter(name = "action", description = "Action to perform. Valid options are `add` and `remove`"),
+                    @Help.Parameter(name = "target", description = "ID of the entity to be (un)blacklisted")
+                 }
+    )
+    public static class Blacklist extends NewCommand {
+        @Override
+        protected void process(NewContext ctx) {
+            ctx.send(EmoteReference.ERROR + "Invalid type. (Valid: guild, user)");
+        }
+        
+        private abstract static class BlacklistCommand<T> extends NewCommand {
+            private final String type;
+            private final Function<MantaroObj, List<String>> dbGetter;
+            private final BiFunction<ShardManager, String, T> entityGetter;
+            private final Function<T, String> formatter;
+    
+            private BlacklistCommand(String type, Function<MantaroObj, List<String>> dbGetter,
+                                     BiFunction<ShardManager, String, T> entityGetter, Function<T, String> formatter) {
+                this.type = type;
+                this.dbGetter = dbGetter;
+                this.entityGetter = entityGetter;
+                this.formatter = formatter;
+            }
+    
+            @Override
+            protected void process(NewContext ctx) {
+                var action = ctx.argument(Parsers.string());
+                var target = ctx.argument(Parsers.string());
+                var obj = MantaroData.db().getMantaroData();
+                var shardManager = ctx.getShardManager();
+                switch(action) {
+                    case "add" -> {
+                        var entity = entityGetter.apply(shardManager, target);
+                        if(entity == null) {
+                            ctx.send(EmoteReference.ERROR + type + " is already blacklisted?");
+                            return;
+                        }
+                        dbGetter.apply(obj).add(target);
+                        ctx.send(EmoteReference.CORRECT + "Blacklisted " + type + ": " + formatter.apply(entity));
+                        obj.saveAsync();
+                    }
+                    case "remove" -> {
+                        var list = dbGetter.apply(obj);
+                        if (!list.contains(target)) {
+                            ctx.send(EmoteReference.ERROR + type + " is not blacklisted?");
+                            return;
+                        }
+    
+                        list.remove(target);
+                        ctx.send(EmoteReference.CORRECT + "Unblacklisted " + type + ": " + target);
+                        obj.saveAsync();
+                    }
+                    default -> ctx.send("Invalid scope. (Valid: add, remove)");
+                }
+            }
+        }
+    
+        public static class Guild extends BlacklistCommand<net.dv8tion.jda.api.entities.Guild> {
+            public Guild() {
+                super(
+                        "Guild",
+                        MantaroObj::getBlackListedGuilds,
+                        ShardManager::getGuildById,
+                        Objects::toString
+                );
+            }
+        }
+    
+        public static class User extends BlacklistCommand<net.dv8tion.jda.api.entities.User> {
+            public User() {
+                super(
+                        "User",
+                        MantaroObj::getBlackListedUsers,
+                        ShardManager::getUserById,
+                        user -> user.getAsTag() + " - " + user.getIdLong()
+                );
+            }
         }
     }
 
