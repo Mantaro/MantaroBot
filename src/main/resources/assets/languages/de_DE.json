@@ -1446,7 +1446,8 @@
       "note": "**Wenn du Mantaro magst, bitte upvote auf **<https://discordbots.org/bot/mantaro>** und/oder denke drüber nach auf Patreon oder Paypal zu spenden! Danke~**"
     },
     "avatar": {
-      "result": "%1$sAvatar von: **%2$s**\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Server Informationen",
@@ -1492,12 +1493,12 @@
     "help": {
       "title": "Mantaro-Hilfe",
       "base_category": "Befehlsliste für Kategorie %1$s. Für eine detaillierte Anleitung zur Benutzung von Mantaro, schau bitte ins [Wiki](https://github.com/Mantaro/MantaroBot/wiki). [Währungsanleitung](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Vollständige Befehlsliste**. Für eine detailierte Hilfe, schau dir bitte das [Wiki](https://github.com/Mantaro/MantaroBot/wiki) an.\nAnleitungen: [Währung](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Benutzerdefinierte Befehle](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Willkommensnachrichten](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[Tritt dem Support-Server bei, falsl du Hilfe brauchst](https://support.mantaro.site). [Du kannst mir auch für Neuigkeiten auf Twitter folgen.](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[**Wir brauchen deine Hilfe, um Mantaro online zu halten! Klicke hier für mehr Informationen.**](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
       "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
-      "footer": "Um die Befehlsnutzung anzusehen, nutze %1$shelp <command> // -> Befehle: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "Befehle",
       "extended": {
         "no_help": "%1$sEs gibt keine weitere Hilfe für diesen Befehl.",
