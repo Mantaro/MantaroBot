@@ -83,7 +83,6 @@ dependencies {
 
     // Internal deps (aka we made this ourselves)
     implementation 'net.kodehawa:imageboard-api:2.3'
-    implementation 'com.github.natanbc:java-eval:1.0'
     implementation 'com.github.natanbc:usage-tracker:0.1.1'
 
     //Basically for FinderUtil

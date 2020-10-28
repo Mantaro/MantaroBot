@@ -16,8 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import com.github.natanbc.javaeval.CompilationException;
-import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -44,9 +42,13 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
+import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
+import net.kodehawa.mantarobot.utils.eval.MavenDependencies;
 
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -462,60 +464,49 @@ public class OwnerCmd {
 
     @Subscribe
     public void eval(CommandRegistry cr) {
-        //has no state
-        var javaEvaluator = new JavaEvaluator();
+        var deps = new MavenDependencies(Path.of("eval_deps"))
+                .addRepository("https://jcenter.bintray.com");
+        var evaluator = new JavaEvaluator(deps);
         Evaluator eval = (ctx, code) -> {
-            try {
-                var result = javaEvaluator.compile()
-                        .addCompilerOptions("-Xlint:unchecked")
-                        .source("Eval",
-                                """
-                                import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-                                import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-                                import net.kodehawa.mantarobot.*;
-                                import net.kodehawa.mantarobot.core.listeners.operations.*;
-                                import net.kodehawa.mantarobot.data.*;
-                                import net.kodehawa.mantarobot.db.*;
-                                import net.kodehawa.mantarobot.db.entities.*;
-                                import net.kodehawa.mantarobot.commands.currency.*;
-                                import net.kodehawa.mantarobot.commands.currency.item.*;
-                                import net.kodehawa.mantarobot.commands.currency.item.special.*;
-                                import net.kodehawa.mantarobot.utils.*;
-                                import net.dv8tion.jda.api.entities.*;
-                                import java.util.*;
-                                import java.util.stream.*;
-                                import java.util.function.*;
-                                import java.lang.reflect.*;
-                                import java.lang.management.*;
+            var result = evaluator.compile("Eval",
+                    """
+                    import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+                    import net.kodehawa.mantarobot.core.modules.commands.base.Context;
+                    import net.kodehawa.mantarobot.*;
+                    import net.kodehawa.mantarobot.core.listeners.operations.*;
+                    import net.kodehawa.mantarobot.data.*;
+                    import net.kodehawa.mantarobot.db.*;
+                    import net.kodehawa.mantarobot.db.entities.*;
+                    import net.kodehawa.mantarobot.commands.currency.*;
+                    import net.kodehawa.mantarobot.commands.currency.item.*;
+                    import net.kodehawa.mantarobot.commands.currency.item.special.*;
+                    import net.kodehawa.mantarobot.utils.*;
+                    import net.kodehawa.mantarobot.utils.eval.*;
+                    import net.dv8tion.jda.api.entities.*;
+                    import java.util.*;
+                    import java.util.stream.*;
+                    import java.util.function.*;
+                    import java.lang.reflect.*;
+                    import java.lang.management.*;
 
-                                public class Eval {
-                                    public static Object run(Context ctx) throws Throwable {
-                                        try {
-                                        } finally {
-                                            """ + (code + ";").replaceAll(";{2,}", ";") + """
+                    public class Eval {
+                        public static Object run(Context ctx, MavenDependencies maven) throws Throwable {
+                            try {
+                                return null;
+                            } finally {
+                    """ + (code + ";").replaceAll(";{2,}", ";") + """
                                         }
                                     }
                                 }
-                                """
-                        ).execute();
-
-                var ecl = new EvalClassLoader();
-                result.getClasses().forEach((name, bytes) -> ecl.define(bytes));
-
-                return ecl.loadClass("Eval").getMethod("run", Context.class).invoke(null, ctx);
-            } catch (CompilationException ex) {
+                    """
+            );
+            if(!result.isSuccessful()) {
                 var sb = new StringBuilder("\n");
-
-                if (ex.getCompilerOutput() != null) {
-                    sb.append(ex.getCompilerOutput());
+                if(result.output() != null) {
+                    sb.append(result.output()).append("\n");
                 }
-
-                if (!ex.getDiagnostics().isEmpty()) {
-                    if (sb.length() > 0) {
-                        sb.append("\n\n");
-                    }
-
-                    ex.getDiagnostics().forEach(d -> sb.append(d).append('\n'));
+                for(var diag : result.diagnostics()) {
+                    sb.append(diag).append("\n");
                 }
                 return new Error(sb.toString()) {
                     @Override
@@ -523,7 +514,13 @@ public class OwnerCmd {
                         return getMessage();
                     }
                 };
-            } catch (Exception e) {
+            }
+            try {
+                return result.resultingClass().getMethod("run", Context.class, MavenDependencies.class)
+                        .invoke(null, ctx, deps);
+            } catch(InvocationTargetException e) {
+                return e.getCause();
+            } catch(Exception e) {
                 return e;
             }
         };
@@ -631,11 +628,5 @@ public class OwnerCmd {
 
     private interface Evaluator {
         Object eval(Context ctx, String code);
-    }
-
-    private static class EvalClassLoader extends ClassLoader {
-        public void define(byte[] bytes) {
-            super.defineClass(null, bytes, 0, bytes.length);
-        }
     }
 }
