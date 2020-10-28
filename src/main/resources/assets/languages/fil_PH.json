@@ -25,8 +25,8 @@
     "options": "Mga opsyon",
     "find_members_failure": "%1$sWalang nahanap na mga miyembo gamit ang iyong pamantayan :(",
     "too_many_members": "%1$sAndaming nahanap na mga miyembro, baka pwedeng mas busisiin ang iyong paghahanap? (hal. gamitin ang pangalan#discriminator)\n**Mga nahanap na miyembro:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sIsang tao lamang ang i-mention sa member lookup.",
+    "query_too_small": "%1$sAng iyong query sa paghahanap ay masyadong maliit. Siguraduhing naghahanap ka nang mas mahigit pa sa 4 na karakter.",
     "dust": "Alikabok lamang ang nandito.",
     "invalid_syntax": "Imbalidong syntax.",
     "item_lookup": {
@@ -37,7 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(Baka) nalinis mo na ang lahat na naipong alikabok na sanhi ng iyong pagmimina.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
+      "mop_not_enough": "%1$sAng lebel ng iyong alikabok ay mas mababa sa 5%%, kaya walang masyadong epekto ang pagmamapa.",
       "milk": "%1$sTinanggal ang epekto ng mga potion.",
       "stamina": "%1$sInaktibeyt ang stamina para sa 3 sesyon ng pagmimina.",
       "stamina_used": "%1$sMeron ka nang aktibong stamina effect!",
@@ -53,9 +53,9 @@
         "success": "%1$sBinuksan mo ang crate at nanalo ka ng: %2$s%3$s. Congrats!",
         "overflow": "Pero andami mo na nito, kaya tinapon mo na lang ang sumobra"
       },
-      "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
-      "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
+      "potion_active": "%1$sMayroon kanang aktibong **%2$s** na epekto ng potion at ang pinaka mataas na halaga nito!",
+      "potion_not_found": "%1$sHindi ko mahanap ang potion o ang uri ng kagamitang iyan!",
+      "potion_applied": "%1$sMatagumpay ang paglapat ng epektong **%2$s** na may uring *%3$s* (%4$dx). Tignan ang iyong makintab na bagong epekto gamit ang `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
@@ -101,16 +101,16 @@
     "ratelimit_quotes": [
       "Woah... you're calling me a bit too fast... I might get dizzy!",
       "Don't be greedy!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
+      "Nahihilo na ako sa mabilisang pagtatawag mo sakin...",
       "Halt in there buddy!",
       "Wait just a tiiiiny bit more uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "Mukhang makakuha tayo nito ng speed ticket nito pag nagpatuloy pa tayo nang ganito kabilis!",
+      "Gusto kong gawin to... pero paki hinto muna ng saglit.",
+      "Uy, teka lang, di pa ako tapos sa pagpapahinga!",
+      "Pwede bang huminahon ka munang saglit?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
+      "Aruy! Mukhang may natamaan!",
       "Just wholesome admin work happening over here...",
       "The boot has been thrown!",
       "You'll be missed... not really",
