@@ -63,44 +63,44 @@
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "generic_sellout": "Kailangan namin ang iyong tulong para manatiling buhay si Mantaro at mapabuti pa ang mga server ni Mantaro!\nMakakakuha ka ng mga kamangha-manghang perks at **hanggang doble sa credits with Mantaro Premium**! Nagsisimula ang memberships sa $2 kada buwan, ang halaga ng isang meryenda! Para sa karagdagang impormasyon, bisitahin lamang ang <https://patreon.com/mantaro>. Makakatulong din saamin kung sasabihan mo ang iyong mga kaibigan tungkol kay Mantaro :heart:",
+        "daily_sellout": "Kailangan namin ang iyong tulong upang manatiling buhay si Mantaro!\nMakakuha ka nang kamangha-manghang perks at **doble sa pang araw-araw na credits** at access sa `~>dailycrate`! Ang mga membership ay nagsisimula sa $2 kada buwan, para sa karagdagang impormasyon, bisitahin lamang ang <https://patreon.com/mantaro>.",
+        "thanks_message": "Salamat sa iyong pagsuporta kay Mantaro. Kung wala ang tulong galing sa mga taong katulad mo ay hindi namin mapapanatiling buhay si Mantaro :heart:",
+        "thanks_message_daily": "Salamat sa iyong pagsuporta kay Mantaro. Kung wala ang tulong galing sa mga taong katulad mo ay hindi namin mapapanatiling buhay si Mantaro :heart:\nMakakakuha ka rin ng doble sa credits bilang bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Alam mo bang may Twitter account kami? Oo, mayroon kami! I-follow kami sa (at)mantarodiscord <https://twitter.com/mantarodiscord> para sa mga updates at mga kalokohan."
     },
-    "mention_user_required": "%1$sYou need to mention one user.",
-    "invalid_character": "%1$sThat is not an allowed character.",
-    "invalid_action": "You cannot do that, silly.",
-    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "mention_user_required": "%1$sKailangan mong magbanggit ng isang user.",
+    "invalid_character": "%1$sHindi mo pwedeng gamitin ang karakter na iyan.",
+    "invalid_action": "Di mo pwedeng gawin yan, baliw.",
+    "interactive_running": "%1$sMayroon nang aktibong operasyon (pagmamay-ari mo) sa channel na ito.",
+    "buy_sell_paged_react": "Gamitin ang message reactions upang lumipat sa mga pahina.\n%1$s",
+    "buy_sell_paged_text": "Gamitin ang **&p>>** at **&p<<** upang lumipat sa mga pahina.\n%1$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
-    "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "deprecated": "Hindi na ginagamit",
+    "space_notice": "Kung ang pangalan nyan ay naglalaman ng puwang, subukang \"i-wrap ito gamit ang mga panipi\"",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
-      "spam_2": "\nI think stopping is the best option for now...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "header": "%1$s%2$s (Ratelimited)\n**Magagamit mo uli ang command na ito sa loob ng %3$s.**",
+      "spam_1": "Magpahinga ka muna, mabuti iyan para sa iyong kalusugan. **Tandaan na ang ratelimit ay patuloy na lalaki kung susubukan mo bago mag-rereset ang cooldown!**",
+      "spam_2": "\nSa tingin ko, ang paghinto ang pinakamabuting piliin sa ngayon...",
+      "spam_3": "\nHindi ba mas mabuti na lumabas ka kahit saglit?",
+      "spam_4": "\nNakabukas ba ang bagay na ito?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Kung gusto mo, sumali sa aming **support server** (`https://support.mantaro.site`), o bisitahin ang aming GitHub page (`https://github.com/Kodehawa/MantaroBot`). Paki sabi sa kanila na huwag akong kulitin at huwag kalimutan ang Error ID, ang command na ginamit mo at ang iyong node (nakikita sa `~>shard`) kapag nag-rereport!",
     "boom_quotes": [
-      "Seemingly Megumin exploded our castle...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-      "W-Wait, what just happened?",
-      "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-      "I've mastered explosion magic, you see?",
-      "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "Mukhang pinasabog ni Megumin ang ating kastila...",
+      "Naku, mukhang nakalimutan ng aking Master ang ilang zero tsaka one sa sahig :<",
+      "T-teka lang, anong nangyari?",
+      "S-sa tingin ko, may sunog na nagyayari dito... baka kailangan mong sabihan ang aking master upang matingnan ito.",
+      "Nakabisado ko na ang explosion magic, kita mo?",
+      "Baka may naging problema dito, pero, u-uh, kaya ko tong ayusin!",
+      "U-Uhh.. Ano ba yung gusto mo?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
-      "Don't be greedy!",
+      "Uy... masyadong mabilis ang pagtatawag mo sa akin... Baka mahilo ako!",
+      "Wag kang sakim!",
       "Nahihilo na ako sa mabilisang pagtatawag mo sakin...",
       "Halt in there buddy!",
       "Wait just a tiiiiny bit more uwu",
@@ -113,15 +113,15 @@
       "Aruy! Mukhang may natamaan!",
       "Just wholesome admin work happening over here...",
       "The boot has been thrown!",
-      "You'll be missed... not really",
+      "Mami-miss ka namin... pero joke lang! :stuck_out_tongue_closed_eyes: ",
       "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "Uy! Nagsalita na ang mga mods!",
+      "U-Uhm... mukhang may pinalabas sa pinto ah..."
     ]
   },
   "categories": {
     "music": "Audio",
-    "action": "Action",
+    "action": "Aksyon",
     "misc": "Misc",
     "moderation": "Moderation",
     "owner": "Owner",
