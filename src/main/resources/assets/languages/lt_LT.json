@@ -1446,7 +1446,8 @@
       "note": "**Jeigu tau patinka Mantaro, prašome už ją balsuoti** <https://discordbots.org/bot/mantaro> **ir/ar pagalvok apie jos rėmimą per Patreon arba Paypal! Ačiūū~**"
     },
     "avatar": {
-      "result": "%1$s**%2$s** avataras:\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Serverio informacija",
@@ -1492,12 +1493,12 @@
     "help": {
       "title": "Mantaro Pagalba",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[Mums reikia pagalbos palaikyti Mantaro gyvą! Nuspausk čia, kad gautum daugiau informacijos.](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Rodomos tik neišjungtos komandos. Viso išjungtų komandų: %1$s",
       "channel_specific_disabled_commands": "Rodomos tik neišjungtos komandos. Viso kanalui išjungtų komandų: %1$s",
-      "footer": "Kad pamatytum komandos naudojimą, naudok %1$shelp <komanda> // -> Komandų: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "komandos",
       "extended": {
         "no_help": "%1$sNėra detalesnio aprašymo šiai komandai",
