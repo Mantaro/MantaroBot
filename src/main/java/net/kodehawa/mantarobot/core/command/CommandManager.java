@@ -27,14 +27,7 @@ public class CommandManager {
                 throw new IllegalArgumentException("Duplicate alias " + alias);
             }
         }
-        for (var inner : command.getClass().getDeclaredClasses()) {
-            if (!NewCommand.class.isAssignableFrom(inner)) continue;
-            if (inner.isLocalClass() || inner.isAnonymousClass()) continue;
-            if (!Modifier.isStatic(inner.getModifiers())) continue;
-            if (Modifier.isAbstract(inner.getModifiers())) continue;
-            var sub = (NewCommand)instantiate(inner);
-            sub.registerParent(command);
-        }
+        registerSubcommands(command);
         return command;
     }
 
@@ -59,6 +52,18 @@ public class CommandManager {
             return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable to instantiate " + clazz, e);
+        }
+    }
+    
+    private static void registerSubcommands(NewCommand command) {
+        for (var inner : command.getClass().getDeclaredClasses()) {
+            if (!NewCommand.class.isAssignableFrom(inner)) continue;
+            if (inner.isLocalClass() || inner.isAnonymousClass()) continue;
+            if (!Modifier.isStatic(inner.getModifiers())) continue;
+            if (Modifier.isAbstract(inner.getModifiers())) continue;
+            var sub = (NewCommand)instantiate(inner);
+            sub.registerParent(command);
+            registerSubcommands(sub);
         }
     }
 }
