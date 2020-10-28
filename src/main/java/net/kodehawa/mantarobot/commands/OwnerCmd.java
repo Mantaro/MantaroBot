@@ -56,38 +56,14 @@ import java.util.stream.Collectors;
 @Module
 public class OwnerCmd {
     @Subscribe
-    public void transferPlayer(CommandRegistry cr) {
+    public void register(CommandRegistry cr) {
         cr.register(TransferPlayer.class);
-    }
-
-    @Subscribe
-    public void giveItem(CommandRegistry cr) {
         cr.register(GiveItem.class);
-    }
-
-    @Subscribe
-    public void restoreStreak(CommandRegistry cr) {
         cr.register(RestoreStreak.class);
-    }
-
-    @Subscribe
-    public void dataRequest(CommandRegistry cr) {
         cr.register(DataRequest.class);
-    }
-
-    @Subscribe
-    public void badge(CommandRegistry cr) {
         cr.register(AddBadge.class);
         cr.register(RemoveBadge.class);
-    }
-
-    @Subscribe
-    public void refreshPledges(CommandRegistry cr) {
         cr.register(RefreshPledges.class);
-    }
-
-    @Subscribe
-    public void addOwnerPremium(CommandRegistry cr) {
         cr.register(AddOwnerPremium.class);
     }
 
