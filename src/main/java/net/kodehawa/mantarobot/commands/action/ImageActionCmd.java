@@ -137,29 +137,44 @@ public class ImageActionCmd extends NoArgsCommand {
             }
 
             var toSend = new MessageBuilder()
-                    .append(String.format(
-                            emoji + languageContext.get(format), "**" + noMentions(ctx) + "**", "**" +
-                                    ctx.getMember().getEffectiveName() + "**")
+                    .append(emoji)
+                    .append(String.format(languageContext.get(format),
+                            "**%s**".formatted(noMentions(ctx)),
+                            "**%s**".formatted(ctx.getMember().getEffectiveName()))
                     );
 
 
             if (swapNames) {
                 toSend = new MessageBuilder()
+                        .append(emoji)
                         .append(String.format(
-                                emoji + languageContext.get(format), "**" +
-                                        ctx.getMember().getEffectiveName() + "**", "**" + noMentions(ctx) + "**"
+                                languageContext.get(format),
+                                "**%s**".formatted(ctx.getMember().getEffectiveName()),
+                                "**%s**".formatted(noMentions(ctx))
                         ));
             }
 
             if (isLonely(ctx)) {
-                toSend = new MessageBuilder().append("**").append(languageContext.get(lonelyLine)).append("**");
+                toSend = new MessageBuilder()
+                        .append("**")
+                        .append(languageContext.get(lonelyLine))
+                        .append("**");
             }
 
             if (isMentioningBot(ctx)) {
-                toSend = new MessageBuilder().append("**").append(languageContext.get(botLine)).append("**");
+                toSend = new MessageBuilder()
+                        .append("**")
+                        .append(languageContext.get(botLine))
+                        .append("**");
             }
 
-            toSend.setEmbed(new EmbedBuilder().setColor(Color.DARK_GRAY).setImage(random).build());
+            var member = ctx.getMember();
+            toSend.setEmbed(new EmbedBuilder()
+                    .setColor(member.getColor() == null ? Color.PINK : member.getColor())
+                    .setImage(random)
+                    .build()
+            );
+
             ctx.getChannel().sendMessage(toSend.build()).queue();
         } catch (Exception e) {
             e.printStackTrace();

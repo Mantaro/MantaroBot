@@ -407,6 +407,7 @@ public class OwnerCmd {
                             ctx.send(EmoteReference.ERROR + type + " is already blacklisted?");
                             return;
                         }
+
                         dbGetter.apply(obj).add(target);
                         ctx.send(EmoteReference.CORRECT + "Blacklisted " + type + ": " + formatter.apply(entity));
                         obj.saveAsync();
@@ -429,8 +430,7 @@ public class OwnerCmd {
     
         public static class Guild extends BlacklistCommand<net.dv8tion.jda.api.entities.Guild> {
             public Guild() {
-                super(
-                        "Guild",
+                super("Guild",
                         MantaroObj::getBlackListedGuilds,
                         ShardManager::getGuildById,
                         Objects::toString
@@ -440,8 +440,7 @@ public class OwnerCmd {
     
         public static class User extends BlacklistCommand<net.dv8tion.jda.api.entities.User> {
             public User() {
-                super(
-                        "User",
+                super("User",
                         MantaroObj::getBlackListedUsers,
                         (manager, str) -> manager.retrieveUserById(str).complete(),
                         user -> user.getAsTag() + " - " + user.getIdLong()
@@ -488,14 +487,17 @@ public class OwnerCmd {
                     }
                     """
             );
+
             if(!result.isSuccessful()) {
                 var sb = new StringBuilder("\n");
                 if(result.output() != null) {
                     sb.append(result.output()).append("\n");
                 }
+
                 for(var diag : result.diagnostics()) {
                     sb.append(diag).append("\n");
                 }
+
                 return new Error(sb.toString()) {
                     @Override
                     public String toString() {
@@ -503,6 +505,7 @@ public class OwnerCmd {
                     }
                 };
             }
+
             try {
                 return result.resultingClass().getMethod("run", Context.class, MavenDependencies.class)
                         .invoke(null, ctx, deps);

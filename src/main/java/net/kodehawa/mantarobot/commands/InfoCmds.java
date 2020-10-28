@@ -99,11 +99,11 @@ public class InfoCmds {
                     var languageContext = ctx.getLanguageContext();
                     var user = member.getUser();
                     var embed = new EmbedBuilder()
+                            .setColor(member.getColor() == null ? Color.PINK : member.getColor())
                             .setAuthor(
                                     languageContext.get("commands.avatar.result").formatted(user.getName()),
                                     null, user.getEffectiveAvatarUrl()
                             )
-                            .setColor(Color.PINK)
                             .setImage(user.getEffectiveAvatarUrl() + "?size=1024")
                             .setFooter(languageContext.get("commands.avatar.footer"), user.getEffectiveAvatarUrl());
 
@@ -308,7 +308,7 @@ public class InfoCmds {
                     );
 
                     ctx.send(new EmbedBuilder()
-                            .setColor(member.getColor())
+                            .setColor(member.getColor() == null ? Color.PINK : member.getColor())
                             .setAuthor(
                                     languageContext.get("commands.userinfo.header")
                                             .formatted( user.getName(), user.getDiscriminator()),
