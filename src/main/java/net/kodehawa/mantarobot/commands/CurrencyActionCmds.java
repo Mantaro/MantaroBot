@@ -229,7 +229,7 @@ public class CurrencyActionCmds {
                     } else {
                         inventory.process(new ItemStack(crate, 1));
                         message += "\n" + EmoteReference.MEGA +
-                                languageContext.withRoot("commands", "mine.crate.success".formatted(crate.getEmoji(), crate.getName()));
+                                languageContext.withRoot("commands", "mine.crate.success").formatted(crate.getEmoji(), crate.getName());
                     }
                 }
 
@@ -262,8 +262,11 @@ public class CurrencyActionCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Mines minerals to gain some credits. A bit more lucrative than loot, but needs pickaxes.")
-                        .setUsage("`~>mine` - Mines. You can gain minerals or mineral fragments by mining. " +
-                                "This can used later on to cast rods or picks for better chances.")
+                        .setUsage("""
+                                  `~>mine` - Mines. You can gain minerals or mineral fragments by mining.
+                                  This can used later on to cast rods or picks for better chances.
+                                  """
+                        )
                         .setSeasonal(true)
                         .build();
             }
@@ -446,7 +449,8 @@ public class CurrencyActionCmds {
                     // END OF ITEM ADD HANDLING
 
                     if (overflow) {
-                        extraMessage += "\n" + languageContext.get("commands.fish.overflow").formatted(EmoteReference.SAD);
+                        extraMessage += "\n" + languageContext.get("commands.fish.overflow")
+                                .formatted(EmoteReference.SAD);
                     }
 
                     List<ItemStack> reducedList = ItemStack.reduce(list);
@@ -470,7 +474,8 @@ public class CurrencyActionCmds {
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
                         extraMessage += "\n" + EmoteReference.MEGA +
-                                languageContext.get("commands.fish.fossil_success").formatted(ItemReference.SHELL.getEmoji());
+                                languageContext.get("commands.fish.fossil_success")
+                                        .formatted(ItemReference.SHELL.getEmoji());
                     }
 
 
@@ -490,7 +495,9 @@ public class CurrencyActionCmds {
                         ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                         dbUser.save();
 
-                        handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
+                        handleItemDurability(item, ctx, player, dbUser, seasonPlayer,
+                                "commands.fish.autoequip.success", isSeasonal
+                        );
                         return;
                     }
 
@@ -526,8 +533,11 @@ public class CurrencyActionCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Starts a fishing session.")
-                        .setUsage("`~>fish` - Starts fishing." +
-                                " You can gain credits and fish items by fishing, which can be used later on for casting.")
+                        .setUsage("""
+                                  `~>fish` - Starts fishing.
+                                  You can gain credits and fish items by fishing, which can be used later on for casting.
+                                  """
+                        )
                         .setSeasonal(true)
                         .build();
             }
@@ -694,8 +704,11 @@ public class CurrencyActionCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Starts a chopping session.")
-                        .setUsage("`~>chop` - Starts chopping trees." +
-                                " You can gain credits and items by chopping, which can be used later on for casting, specially tools.")
+                        .setUsage("""
+                                  `~>chop` - Starts chopping trees.
+                                  You can gain credits and items by chopping, which can be used later on for casting, specially tools.
+                                  """
+                        )
                         .setSeasonal(true)
                         .build();
             }

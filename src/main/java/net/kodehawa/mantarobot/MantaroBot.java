@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MiscUtil;
+import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -159,6 +160,7 @@ public class MantaroBot {
 
         log.info("Finished loading basic components. Current status: {}", MantaroCore.getLoadState());
         MantaroData.config().save();
+        ImageBoard.setUserAgent(MantaroInfo.USER_AGENT);
 
         // Handle the removal of mutes.
         ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor(
@@ -360,14 +362,20 @@ public class MantaroBot {
 
     // This will print if the MANTARO_PRINT_VARIABLES env variable is present.
     private void printStartVariables() {
-        log.info("Environment variables set on this startup:\n" +
-                        "DISABLE_NON_ALLOCATING_BUFFER = {}\n" +
-                        "VERBOSE_SHARD_LOGS = {}\n" +
-                        "DEBUG = {}\n" + "DEBUG_LOGS = {}\n" +
-                        "LOG_DB_ACCESS = {}\n" + "TRACE_LOGS = {}\n" +
-                        "VERBOSE = {}\n" + "VERBOSE_SHARD_LOGS = {}\n" +
-                        "FROM_SHARD = {}\n" + "TO_SHARD = {}\n" +
-                        "SHARD_COUNT = {}\n" + "NODE_NUMBER = {}",
+        log.info("""
+                        Environment variables set on this startup:
+                        DISABLE_NON_ALLOCATING_BUFFER = {}
+                        VERBOSE_SHARD_LOGS = {}
+                        DEBUG = {}
+                        DEBUG_LOGS = {}
+                        LOG_DB_ACCESS = {}
+                        TRACE_LOGS = {}
+                        VERBOSE = {}
+                        VERBOSE_SHARD_LOGS = {}
+                        FROM_SHARD = {}
+                        TO_SHARD = {}
+                        SHARD_COUNT = {}
+                        NODE_NUMBER = {}""",
                 ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER,
                 ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.DEBUG,

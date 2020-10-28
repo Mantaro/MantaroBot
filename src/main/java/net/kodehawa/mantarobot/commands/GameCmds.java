@@ -140,9 +140,11 @@ public class GameCmds {
         gameCommand.addSubCommand("lobby", new SubCommand() {
             @Override
             public String description() {
-                return "Starts a game lobby. For example `~>game lobby pokemon, trivia` will start pokemon and then trivia\n" +
-                        "If you want to specify the difficulty of trivia, you can use the `-diff` parameter. " +
-                        "Example: `~>game lobby pokemon, trivia -diff hard`";
+                return """
+                        Starts a game lobby. For example `~>game lobby pokemon, trivia` will start pokemon and then trivia.
+                        If you want to specify the difficulty of trivia, you can use the `-diff` parameter.
+                        Example: `~>game lobby pokemon, trivia -diff hard`
+                        """;
             }
 
             @Override
@@ -342,8 +344,12 @@ public class GameCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Starts an instance of trivia. " +
-                                "You have 10 attempts and 60 seconds to answer, otherwise the game ends.")
+                        .setDescription(
+                                """
+                                Starts an instance of a trivia game.
+                                You have 10 attempts and 60 seconds to answer, otherwise the game ends.
+                                """
+                        )
                         .setUsage("`~>trivia [@user] [difficulty]` - Starts a new game of trivia")
                         .addParameterOptional("@user", "Whoever you want to play trivia with.")
                         .addParameterOptional("difficulty",

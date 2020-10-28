@@ -177,9 +177,13 @@ public class CustomCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Manages the Custom Commands of the Guild. " +
-                                "If you wish to allow normal people to make custom commands, " +
-                                "run `~>opts admincustom false` (it's locked to admins by default)")
+                        .setDescription("""
+                                        Manages the Custom Commands of the current server.
+                                        If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
+                                        Running the above isn't exactly recommended, but works for small servers.
+                                        See subcommands for more commands, or refer to the [wiki](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22)
+                                        """
+                        )
                         .setUsage("`~>custom <sub command>`")
                         .build();
             }

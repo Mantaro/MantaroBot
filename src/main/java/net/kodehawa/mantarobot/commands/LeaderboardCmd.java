@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -77,40 +78,54 @@ public class LeaderboardCmd {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
-                        var lb1 = getLeaderboard("playerstats", "gambleWinAmount",
+                        var gambleLeaderboard = getLeaderboard("playerstats", "gambleWinAmount",
                                 stats -> stats.pluck("id", "gambleWinAmount"), 5
                         );
-                        var lb2 = getLeaderboard("playerstats", "slotsWinAmount",
+                        var slotsLeaderboard = getLeaderboard("playerstats", "slotsWinAmount",
                                 stats -> stats.pluck("id", "slotsWinAmount"), 5
                         );
 
-                        ctx.send(
-                                baseEmbed(ctx, languageContext.get("commands.leaderboard.header"))
-                                        .setDescription(EmoteReference.DICE + "**Main Leaderboard page.**\n" +
-                                                "To check what leaderboards we have avaliable, please run `~>help leaderboard`.\n\n" +
-                                                EmoteReference.TALKING + "This page shows the top 5 in slots and gamble wins, both in amount and quantity. " +
-                                                "The old money leaderboard is avaliable on `~>leaderboard money`")
-                                        .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
-                                        .addField("Gamble", lb1.stream()
-                                                .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                                        map.get("gambleWinAmount").toString())
-                                                ).filter(p -> Objects.nonNull(p.getKey()))
-                                                .map(p -> "%s**%s#%s** - $%,d".formatted(
-                                                        EmoteReference.BLUE_SMALL_MARKER,
-                                                        p.getKey().getName(),
-                                                        p.getKey().getDiscriminator(),
-                                                        Long.parseLong(p.getValue()))
-                                                ).collect(Collectors.joining("\n")), true)
-                                        .addField("Slots", lb2.stream()
-                                                .map(map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                                        map.get("slotsWinAmount").toString())
-                                                ).filter(p -> Objects.nonNull(p.getKey()))
-                                                .map(p -> "%s**%s#%s** - $%,d".formatted(
-                                                        EmoteReference.BLUE_SMALL_MARKER, p.getKey().getName(), p.getKey().getDiscriminator(),
-                                                        Long.parseLong(p.getValue()))
-                                                ).collect(Collectors.joining("\n")), true)
-                                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()), null)
-                                        .build()
+                        // This is such a cursed function, but I was duping this code lol
+                        BiFunction<Map<String, Object>, String,
+                                Pair<CachedLeaderboardMember, String>> mappingFunction = ((map, str) ->
+                                Pair.of(
+                                        getMember(ctx, map.get("id").toString().split(":")[0]),
+                                        map.get(str).toString()
+                                )
+                        );
+
+                        ctx.send(baseEmbed(ctx, languageContext.get("commands.leaderboard.header"))
+                                .setDescription(
+                                        """
+                                        %s**Main Leaderboard page.**
+                                        To check what leaderboards we have avaliable, please run `~>help leaderboard`.
+                                        %sThis page shows the top 5 in slots and gamble wins, both in amount and quantity.
+                                        The old money leaderboard is avaliable on `~>leaderboard money`
+                                        """.formatted(EmoteReference.DIAMOND, EmoteReference.TALKING)
+                                )
+                                .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
+                                .addField("Gamble", gambleLeaderboard.stream()
+                                        .map(map -> mappingFunction.apply(map, "gambleWinAmount"))
+                                        .filter(p -> Objects.nonNull(p.getKey())) // Filter null objects.
+                                        .map(p -> "%s**%s#%s** - $%,d".formatted(
+                                                EmoteReference.BLUE_SMALL_MARKER,
+                                                p.getKey().getName(),
+                                                p.getKey().getDiscriminator(),
+                                                Long.parseLong(p.getValue()))
+                                        ).collect(Collectors.joining("\n")), true
+                                )
+                                .addField("Slots", slotsLeaderboard.stream()
+                                        .map(map -> mappingFunction.apply(map, "slotsWinAmount"))
+                                        .filter(p -> Objects.nonNull(p.getKey())) // Filter null objects.
+                                        .map(p -> "%s**%s#%s** - $%,d".formatted(
+                                                EmoteReference.BLUE_SMALL_MARKER,
+                                                p.getKey().getName(),
+                                                p.getKey().getDiscriminator(),
+                                                Long.parseLong(p.getValue()))
+                                        ).collect(Collectors.joining("\n")), true
+                                )
+                                .setFooter(languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()), null)
+                                .build()
                         );
                     }
                 };
@@ -134,14 +149,14 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var c = getLeaderboard("playerstats", "gambleWins",
+                var gambleLeaderboard = getLeaderboard("playerstats", "gambleWins",
                         player -> player.pluck("id", "gambleWins"), 10
                 );
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                                 languageContext.get("commands.leaderboard.inner.gamble").formatted(EmoteReference.MONEY),
-                                "commands.leaderboard.gamble", c,
+                                "commands.leaderboard.gamble", gambleLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("gambleWins").toString()), "%s**%s#%s** - %,d", false
                         ).build()
@@ -157,14 +172,14 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var c = getLeaderboard("playerstats", "slotsWins",
+                var slotsLeaderboard = getLeaderboard("playerstats", "slotsWins",
                         player -> player.pluck("id", "slotsWins"), 10
                 );
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                                 languageContext.get("commands.leaderboard.inner.slots").formatted(EmoteReference.MONEY),
-                                "commands.leaderboard.slots", c,
+                                "commands.leaderboard.slots", slotsLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                         map.get("slotsWins").toString()), "%s**%s#%s** - %,d", false
                         ).build()
@@ -184,7 +199,7 @@ public class LeaderboardCmd {
                     var seasonal = ctx.isSeasonal();
                     var tableName = seasonal ? "seasonalplayers" : "players";
                     var indexName = seasonal ? "money" : "newMoney";
-                    var c = getLeaderboard(tableName, indexName,
+                    var moneyLeaderboard = getLeaderboard(tableName, indexName,
                             player -> player.g("id"),
                             player -> player.pluck("id", "money"), 10
                     );
@@ -195,7 +210,7 @@ public class LeaderboardCmd {
                                     seasonal ?
                                             languageContext.get("commands.leaderboard.inner.seasonal_money").formatted(EmoteReference.MONEY) :
                                             languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
-                                    "commands.leaderboard.money", c,
+                                    "commands.leaderboard.money", moneyLeaderboard,
                                     map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                             map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
                             ).build()
@@ -217,7 +232,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var tableName = "players";
-                var c = getLeaderboard(tableName, "money",
+                var moneyLeaderboard = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
                         player -> player.pluck("id", "money"), 10
                 );
@@ -225,7 +240,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                                 languageContext.get("commands.leaderboard.inner.money_old").formatted(EmoteReference.MONEY),
-                                "commands.leaderboard.money", c,
+                                "commands.leaderboard.money", moneyLeaderboard,
                                 map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
                                 map.get("money").toString()), "%s**%s#%s** - $%,d", false
                         ).build()
@@ -242,7 +257,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var c = getLeaderboard("players", "level",
+                var levelLeaderboard = getLeaderboard("players", "level",
                         player -> player.g("id"),
                         player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
                 );
@@ -250,7 +265,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.lvl").formatted(EmoteReference.ZAP),
-                                "commands.leaderboard.level", c,
+                                "commands.leaderboard.level", levelLeaderboard,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var experience = ((Map<String, Object>) map.get("data")).get("experience");
@@ -274,7 +289,7 @@ public class LeaderboardCmd {
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var seasonal = ctx.isSeasonal();
                 var tableName = seasonal ? "seasonalplayers" : "players";
-                var c = getLeaderboard(tableName, "reputation",
+                var reputationLeaderboard = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
                         player -> player.pluck("id", "reputation"), 10
                 );
@@ -282,9 +297,13 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.rep").formatted(EmoteReference.REP),
-                                "commands.leaderboard.reputation", c,
-                        map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                map.get("reputation").toString()), "%s**%s#%s** - %,d", seasonal)
+                                "commands.leaderboard.reputation", reputationLeaderboard,
+                        map -> Pair.of(
+                                getMember(
+                                        ctx,
+                                        map.get("id").toString().split(":")[0]
+                                ), map.get("reputation").toString()
+                        ), "%s**%s#%s** - %,d", seasonal)
                         .build()
                 );
             }
@@ -298,7 +317,7 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var c = getLeaderboard("players", "userDailyStreak",
+                var dailyLeaderboard = getLeaderboard("players", "userDailyStreak",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
                 );
@@ -306,7 +325,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.streak").formatted(EmoteReference.POPPER),
-                                "commands.leaderboard.daily", c,
+                                "commands.leaderboard.daily", dailyLeaderboard,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var strike = ((Map<String, Object>) (map.get("data"))).get("dailyStrike").toString();
@@ -331,7 +350,7 @@ public class LeaderboardCmd {
                 var seasonal = ctx.isSeasonal();
                 var tableName = seasonal ? "seasonalplayers" : "players";
 
-                var c = getLeaderboard(tableName, "waifuCachedValue",
+                var waifuLeaderboard = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
                 );
@@ -339,7 +358,7 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.waifu").formatted(EmoteReference.MONEY),
-                                "commands.leaderboard.waifu", c,
+                                "commands.leaderboard.waifu", waifuLeaderboard,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
@@ -361,14 +380,14 @@ public class LeaderboardCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                List<Map<String, Object>> c = getLeaderboard("users", "timesClaimed",
+                List<Map<String, Object>> claimLeaderboard = getLeaderboard("users", "timesClaimed",
                         player -> player.pluck("id", r.hashMap("data", "timesClaimed")), 10
                 );
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.claim").formatted(EmoteReference.HEART),
-                                "commands.leaderboard.claim", c,
+                                "commands.leaderboard.claim", claimLeaderboard,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var timesClaimed = ((Map<String, Object>) (map.get("data"))).get("timesClaimed").toString();
@@ -393,7 +412,7 @@ public class LeaderboardCmd {
                 var seasonal = ctx.isSeasonal();
                 var tableName = seasonal ? "seasonalplayers" : "players";
 
-                List<Map<String, Object>> c = getLeaderboard(tableName, "gameWins",
+                List<Map<String, Object>> gameLeaderboard = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
                         player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
                 );
@@ -401,10 +420,11 @@ public class LeaderboardCmd {
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
                         languageContext.get("commands.leaderboard.inner.game").formatted(EmoteReference.ZAP),
-                                "commands.leaderboard.game", c,
+                                "commands.leaderboard.game", gameLeaderboard,
                         map -> {
                             @SuppressWarnings("unchecked")
                             var gamesWon = ((Map<String, Object>) (map.get("data"))).get("gamesWon").toString();
+
                             return Pair.of(
                                     getMember(ctx, map.get("id").toString().split(":")[0]),
                                     gamesWon
@@ -436,7 +456,14 @@ public class LeaderboardCmd {
                 .filter(filterFunction)
                 .map(mapFunction)
                 .limit(limit)
-                .run(leaderboardConnection, OptArgs.of("read_mode", "outdated"), Types.mapOf(String.class, Object.class))
+                .run(leaderboardConnection,
+                        // This basically just means read from the available data
+                        // Instead of trying to get the latest data available.
+                        // For the purpose of leaderboards, this is actually pretty useful
+                        // and lead to quite a few improvements in query times.
+                        OptArgs.of("read_mode", "outdated"),
+                        Types.mapOf(String.class, Object.class)
+                )
                 .toList();
     }
 
@@ -447,29 +474,37 @@ public class LeaderboardCmd {
         var languageContext = ctx.getLanguageContext();
         return new EmbedBuilder()
                 .setAuthor(isSeasonal ?
-                        languageContext.get("commands.leaderboard.header_seasonal").formatted(
-                        config.getCurrentSeason().getDisplay()) : languageContext.get("commands.leaderboard.header"),
-                        null, ctx.getSelfUser().getEffectiveAvatarUrl()
+                                languageContext.get("commands.leaderboard.header_seasonal")
+                                        .formatted(config.getCurrentSeason().getDisplay()) :
+                                languageContext.get("commands.leaderboard.header"),
+                        null,
+                        ctx.getSelfUser().getEffectiveAvatarUrl()
                 ).setDescription(description)
-                .addField(languageContext.get(leaderboardKey), lb.stream()
-                        .map(mapFunction)
-                        .filter(p -> Objects.nonNull(p.getKey()))
-                        .map(p -> {
-                            //This is... an interesting place to do it lol
-                            if (p.getKey().getId() == ctx.getAuthor().getIdLong()) {
-                                var player = MantaroData.db().getPlayer(ctx.getAuthor());
-                                if (player.getData().addBadgeIfAbsent(Badge.CHAMPION))
-                                    player.saveAsync();
-                            }
+                .addField(
+                        languageContext.get(leaderboardKey),
+                        lb.stream()
+                                .map(mapFunction)
+                                .filter(p -> Objects.nonNull(p.getKey()))
+                                .map(p -> {
+                                    //This is... an interesting place to do it lol
+                                    if (p.getKey().getId() == ctx.getAuthor().getIdLong()) {
+                                        var player = MantaroData.db().getPlayer(ctx.getAuthor());
+                                        if (player.getData().addBadgeIfAbsent(Badge.CHAMPION))
+                                            player.saveAsync();
+                                    }
 
-                            return format.formatted(
-                                    EmoteReference.BLUE_SMALL_MARKER,
-                                    p.getKey().getName(),
-                                    p.getKey().getDiscriminator(),
-                                    StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
-                            );
-                        }).collect(Collectors.joining("\n")), false)
-                .setFooter(languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()), null)
+                                    return format.formatted(
+                                            EmoteReference.BLUE_SMALL_MARKER,
+                                            p.getKey().getName(),
+                                            p.getKey().getDiscriminator(),
+                                            StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
+                                    );
+                                })
+                                .collect(Collectors.joining("\n")),
+                        false
+                ).setFooter(
+                        languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()),
+                        null)
                 .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl());
     }
 

@@ -136,7 +136,7 @@ public class ProfileCmd {
                             var inv = player.getInventory();
 
                             //Cache waifu value.
-                            playerData.setWaifuCachedValue(RelationshipCmds.calculateWaifuValue(userLooked).getFinalValue());
+                            playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(userLooked).getFinalValue());
 
                             //start of badge assigning
                             var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");

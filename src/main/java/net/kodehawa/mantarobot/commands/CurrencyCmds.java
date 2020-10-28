@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -36,27 +35,21 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 
 import java.awt.*;
-import java.text.ParsePosition;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.RatelimitUtils.ratelimit;
 
 @Module
 public class CurrencyCmds {
-    private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 4; //around 536m
-
     @Subscribe
     public void inventory(CommandRegistry cr) {
         final Random r = new Random();
@@ -213,277 +206,6 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public void transferItems(CommandRegistry cr) {
-        cr.register("itemtransfer", new SimpleCommand(CommandCategory.CURRENCY) {
-            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                    .spamTolerance(2)
-                    .limit(1)
-                    .cooldown(15, TimeUnit.SECONDS)
-                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                    .maxCooldown(20, TimeUnit.MINUTES)
-                    .pool(MantaroData.getDefaultJedisPool())
-                    .premiumAware(true)
-                    .prefix("itemtransfer")
-                    .build();
-
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                if (args.length < 2) {
-                    ctx.sendLocalized("commands.itemtransfer.no_item_mention", EmoteReference.ERROR);
-                    return;
-                }
-
-                final var mentionedMembers = ctx.getMentionedMembers();
-
-                if (mentionedMembers.isEmpty()) {
-                    ctx.sendLocalized("general.mention_user_required", EmoteReference.ERROR);
-                    return;
-                }
-
-                var giveTo = mentionedMembers.get(0);
-
-                if (ctx.getAuthor().getId().equals(giveTo.getId())) {
-                    ctx.sendLocalized("commands.itemtransfer.transfer_yourself_note", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (giveTo.getUser().isBot()) {
-                    ctx.sendLocalized("commands.itemtransfer.bot_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
-                    return;
-                }
-
-                var item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
-                if (item == null) {
-                    item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
-                    if (item == null) {
-                        ctx.sendLocalized("general.item_lookup.no_item_emoji");
-                        return;
-                    }
-                }
-
-                if (item == ItemReference.CLAIM_KEY) {
-                    ctx.sendLocalized("general.item_lookup.claim_key");
-                    return;
-                }
-
-                final var player = ctx.getPlayer();
-                final var giveToPlayer = ctx.getPlayer(giveTo);
-
-                if (player.isLocked()) {
-                    ctx.sendLocalized("commands.itemtransfer.locked_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (args.length == 2) {
-                    if (player.getInventory().containsItem(item)) {
-                        if (item.isHidden()) {
-                            ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (giveToPlayer.getInventory().getAmount(item) >= 5000) {
-                            ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        player.getInventory().process(new ItemStack(item, -1));
-                        giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                        ctx.sendStrippedLocalized("commands.itemtransfer.success",
-                                EmoteReference.OK, ctx.getMember().getEffectiveName(), 1,
-                                item.getName(), giveTo.getEffectiveName()
-                        );
-                    } else {
-                        ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
-                    }
-
-                    player.saveAsync();
-                    giveToPlayer.saveAsync();
-                    return;
-                }
-
-                try {
-                    int amount = Math.abs(Integer.parseInt(args[2]));
-                    if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
-                        if (item.isHidden()) {
-                            ctx.sendLocalized("commands.itemtransfer.hidden_item", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (giveToPlayer.getInventory().getAmount(item) + amount > 5000) {
-                            ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        player.getInventory().process(new ItemStack(item, amount * -1));
-                        giveToPlayer.getInventory().process(new ItemStack(item, amount));
-
-                        ctx.sendStrippedLocalized("commands.itemtransfer.success", EmoteReference.OK,
-                                ctx.getMember().getEffectiveName(), amount, item.getName(), giveTo.getEffectiveName()
-                        );
-                    } else {
-                        ctx.sendLocalized("commands.itemtransfer.error", EmoteReference.ERROR);
-                    }
-                } catch (NumberFormatException nfe) {
-                    ctx.send(String.format(ctx.getLanguageContext().get("general.invalid_number") + " " +
-                            ctx.getLanguageContext().get("general.space_notice"), EmoteReference.ERROR)
-                    );
-                }
-
-                player.saveAsync();
-                giveToPlayer.saveAsync();
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Transfers items from you to another player.")
-                        .setUsage("`~>itemtransfer <@user> <item> <amount>` *or* " +
-                                "`~>itemtransfer <item> <@user> <amount>` - Transfers the item to a user.")
-                        .addParameter("@user", "User mention or name.")
-                        .addParameter("item",
-                                "The item emoji or name. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameter("amount", "" +
-                                "The amount of items you want to transfer. This is optional.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("itemtransfer", "transferitems");
-        cr.registerAlias("itemtransfer", "transferitem");
-
-    }
-
-    @Subscribe
-    public void transfer(CommandRegistry cr) {
-        cr.register("transfer", new SimpleCommand(CommandCategory.CURRENCY) {
-            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                    .spamTolerance(2)
-                    .limit(1)
-                    .cooldown(10, TimeUnit.SECONDS)
-                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
-                    .maxCooldown(10, TimeUnit.MINUTES)
-                    .pool(MantaroData.getDefaultJedisPool())
-                    .prefix("transfer")
-                    .build();
-
-            //this still uses a normal RL
-            final RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 3);
-
-            @Override
-            public void call(Context ctx, String content, String[] args) {
-                if (ctx.getMentionedUsers().isEmpty()) {
-                    ctx.sendLocalized("general.mention_user_required", EmoteReference.ERROR);
-                    return;
-                }
-
-                final var giveTo = ctx.getMentionedUsers().get(0);
-
-                if (giveTo.equals(ctx.getAuthor())) {
-                    ctx.sendLocalized("commands.transfer.transfer_yourself_note", EmoteReference.THINKING);
-                    return;
-                }
-
-                if (giveTo.isBot()) {
-                    ctx.sendLocalized("commands.transfer.bot_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
-                    return;
-
-                var toSend = 0L; // = 0 at the start
-
-                try {
-                    //Convert negative values to absolute.
-                    toSend = Math.abs(new RoundedMetricPrefixFormat().parseObject(args[1], new ParsePosition(0)));
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.transfer.no_amount", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (toSend == 0) {
-                    ctx.sendLocalized("commands.transfer.no_money_specified_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (ItemHelper.fromAnyNoId(args[1]).isPresent()) {
-                    ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (toSend > TRANSFER_LIMIT) {
-                    ctx.sendLocalized("commands.transfer.over_transfer_limit", EmoteReference.ERROR, TRANSFER_LIMIT);
-                    return;
-                }
-
-                final var transferPlayer = ctx.getPlayer();
-                final var toTransfer = ctx.getPlayer(giveTo);
-
-                if (transferPlayer.isLocked()) {
-                    ctx.sendLocalized("commands.transfer.own_locked_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (transferPlayer.getCurrentMoney() < toSend) {
-                    ctx.sendLocalized("commands.transfer.no_money_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (toTransfer.isLocked()) {
-                    ctx.sendLocalized("commands.transfer.receipt_locked_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (toTransfer.getCurrentMoney() > (long) TRANSFER_LIMIT * 18) {
-                    ctx.sendLocalized("commands.transfer.receipt_over_limit", EmoteReference.ERROR);
-                    return;
-                }
-
-                var partyKey = ctx.getAuthor().getId() + ":" + giveTo.getId();
-                if (!partyRateLimiter.process(partyKey)) {
-                    ctx.getChannel().sendMessage(
-                            EmoteReference.STOPWATCH +
-                                    ctx.getLanguageContext().get("commands.transfer.party".formatted(giveTo.getName())) +
-                                            " (Ratelimited)\n **You'll be able to transfer to this user again in " +
-                                    Utils.formatDuration(partyRateLimiter.tryAgainIn(partyKey)) + ".**"
-                    ).queue();
-
-                    RatelimitUtils.ratelimitedUsers.computeIfAbsent(ctx.getAuthor().getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
-                    return;
-                }
-
-                var amountTransfer = Math.round(toSend * 0.92);
-
-                if (toTransfer.addMoney(amountTransfer)) {
-                    transferPlayer.removeMoney(toSend);
-                    transferPlayer.saveAsync();
-
-                    ctx.sendLocalized("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getName());
-                    toTransfer.saveAsync();
-                    rateLimiter.limit(toTransfer.getUserId());
-                } else {
-                    ctx.sendLocalized("commands.transfer.receipt_overflow_notice", EmoteReference.ERROR);
-                }
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Transfers money from you to another player.\n" +
-                                "The maximum amount you can transfer at once is " + TRANSFER_LIMIT + " credits.")
-                        .setUsage("`~>transfer <@user> <money>` - Transfers money to x player")
-                        .addParameter("@user", "The user to send the money to. You have to mention (ping) the user.")
-                        .addParameter("money", "How much money to transfer.")
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
@@ -597,9 +319,11 @@ public class CurrencyCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Opens a daily premium loot crate.")
-                        .setUsage("`~>dailycrate` - Opens daily premium loot crate.\n" +
-                                "You need a crate key to open any crate. " +
-                                "Use `-check` to check when you can claim it.")
+                        .setUsage("""
+                                  `~>dailycrate` - Opens a daily premium loot crate.
+                                  You need a crate key to open any crate. Use `-check` to check when you can claim it.
+                                  """
+                        )
                         .build();
             }
         });
@@ -655,8 +379,12 @@ public class CurrencyCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Uses an item.\n" +
-                                "You need to have the item to use it, and the item has to be marked as *interactive*.")
+                        .setDescription(
+                                """
+                                Uses an item.
+                                You need to have the item to use it, and the item has to be marked as *interactive*.
+                                """
+                        )
                         .setUsage("`~>useitem <item> [-amount <number>]` - Uses the specified item")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
                         .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs.")

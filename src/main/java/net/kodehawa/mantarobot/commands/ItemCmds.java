@@ -314,24 +314,33 @@ public class ItemCmds {
 
                 for (var item : castableItems) {
                     //Build recipe explanation
-                    if (item.getRecipe().isEmpty())
+                    if (item.getRecipe().isEmpty()) {
                         continue;
+                    }
 
                     var recipeAmount = item.getRecipe().split(";");
                     var ai = new AtomicInteger();
 
                     var recipe = Arrays.stream(item.getRecipeTypes()).mapToObj((i) -> {
                         var recipeItem = ItemHelper.fromId(i);
-                        return recipeItem.getEmoji() + " " + recipeAmount[ai.getAndIncrement()] + "x" + "\u2009*" + recipeItem.getName() + "*";
+                        return "%s %sx\u2009*%s*".formatted(
+                                recipeItem.getEmoji(),
+                                recipeAmount[ai.getAndIncrement()],
+                                recipeItem.getName()
+                        );
                     }).collect(Collectors.joining(", "));
                     //End of build recipe explanation
 
                     var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
-                    fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
-                            languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.cast.ls.cost") + "**" +
-                                    item.getValue() / 2 + " " + languageContext.get("commands.gamble.credits") + ".\n**Recipe: **" + recipe +
-                                    "\n**Wrench Tier: **" + castLevel + ".",
-                            false)
+                    fields.add(new MessageEmbed.Field(
+                            "%s %s".formatted(item.getEmoji(), item.getName()),
+                            "%s\n**%s** %s %s.\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
+                                    languageContext.get(item.getDesc()),
+                                    languageContext.get("commands.cast.ls.cost"),
+                                    item.getValue() / 2,
+                                    languageContext.get("commands.gamble.credits"),
+                                    recipe, castLevel
+                            ), false)
                     );
                 }
 
@@ -539,8 +548,9 @@ public class ItemCmds {
 
                 for (var item : repairableItems) {
                     //Build recipe explanation
-                    if (item.getRecipe().isEmpty())
+                    if (item.getRecipe().isEmpty()) {
                         continue;
+                    }
 
                     var repairRecipe = item.getRecipe();
                     var splitRecipe = repairRecipe.split(";");
@@ -563,11 +573,15 @@ public class ItemCmds {
                     var recipe = String.join(", ", recipeString.toString().split("\\|"));
                     var repairCost = item.getValue() / 3;
 
-                    fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
-                            languageContext.get(item.getDesc()) + "\n**" + languageContext.get("commands.repair.ls.cost") + "**" +
-                                    repairCost + " " + languageContext.get("commands.gamble.credits") +
-                                    ".\n**Recipe: **" + recipe + "\n**Item: **" + mainItem.getEmoji() + " " + mainItem.getName(),
-                            false)
+                    fields.add(new MessageEmbed.Field("%s %s".formatted(item.getEmoji(), item.getName()),
+                            "%s\n**%s** %s.\n**Recipe: **%s\n**Item: ** %s %s".formatted(
+                                    languageContext.get(item.getDesc()),
+                                    languageContext.get("commands.repair.ls.cost"),
+                                    repairCost,
+                                    languageContext.get("commands.gamble.credits"),
+                                    recipe,
+                                    mainItem.getEmoji(), mainItem.getName()
+                            ), false)
                     );
                 }
 

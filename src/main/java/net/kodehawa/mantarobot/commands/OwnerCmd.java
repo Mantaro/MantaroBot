@@ -367,12 +367,12 @@ public class OwnerCmd {
     @Category(CommandCategory.OWNER)
     @Help(
             description = "Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
-                                  "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552",
-                 parameters = {
+                "Examples: `~>blacklist user add/remove 293884638101897216`, `~>blacklist guild add/remove 305408763915927552`",
+            parameters = {
                     @Help.Parameter(name = "type", description = "Type of entity to (un)blacklist. Valid options are `guild` and `user`"),
                     @Help.Parameter(name = "action", description = "Action to perform. Valid options are `add` and `remove`"),
                     @Help.Parameter(name = "target", description = "ID of the entity to be (un)blacklisted")
-                 }
+            }
     )
     public static class Blacklist extends NewCommand {
         @Override
@@ -443,94 +443,11 @@ public class OwnerCmd {
                 super(
                         "User",
                         MantaroObj::getBlackListedUsers,
-                        ShardManager::getUserById,
+                        (manager, str) -> manager.retrieveUserById(str).complete(),
                         user -> user.getAsTag() + " - " + user.getIdLong()
                 );
             }
         }
-    }
-
-    @Subscribe
-    public void blacklist(CommandRegistry cr) {
-        cr.register("blacklist", new SimpleCommand(CommandCategory.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                var obj = ctx.db().getMantaroData();
-
-                var context = args[0];
-                var action = args[1];
-
-                if (context.equals("guild")) {
-                    if (action.equals("add")) {
-                        if (MantaroBot.getInstance().getShardManager().getGuildById(args[2]) == null) {
-                            ctx.send(EmoteReference.ERROR + "Guild is already blacklisted?");
-                            return;
-                        }
-
-                        obj.getBlackListedGuilds().add(args[2]);
-                        ctx.send(EmoteReference.CORRECT + "Blacklisted Guild: " +
-                                MantaroBot.getInstance().getShardManager().getGuildById(args[2]));
-                        obj.saveAsync();
-
-                        return;
-                    } else if (action.equals("remove")) {
-                        if (!obj.getBlackListedGuilds().contains(args[2])) {
-                            ctx.send(EmoteReference.ERROR + "Guild is not blacklisted?");
-                            return;
-                        }
-
-                        obj.getBlackListedGuilds().remove(args[2]);
-                        ctx.send(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]);
-                        obj.saveAsync();
-
-                        return;
-                    }
-
-                    ctx.send("Invalid guild scope. (Valid: add, remove)");
-                    return;
-                }
-
-                if (context.equals("user")) {
-                    var user = ctx.retrieveUserById(args[2]);
-                    if (action.equals("add")) {
-                        if (user == null) {
-                            ctx.send("Can't find user?");
-                            return;
-                        }
-
-                        obj.getBlackListedUsers().add(args[2]);
-                        ctx.send(EmoteReference.CORRECT + "Blacklisted User: " + user.getAsTag() + " - " + user.getIdLong());
-                        obj.saveAsync();
-
-                        return;
-                    } else if (action.equals("remove")) {
-                        if (!obj.getBlackListedUsers().contains(args[2])) {
-                            ctx.send("User not in blacklist.");
-                            return;
-                        }
-
-                        obj.getBlackListedUsers().remove(args[2]);
-                        ctx.send(EmoteReference.CORRECT + "Unblacklisted User: " + user.getAsTag() + " - " + user.getIdLong());
-                        obj.saveAsync();
-
-                        return;
-                    }
-
-                    ctx.send("Invalid user scope. (Valid: add, remove)");
-                    return;
-                }
-
-                ctx.send("Invalid scope. (Valid: user, guild)");
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.\n" +
-                                "Examples: ~>blacklist user add/remove 293884638101897216, ~>blacklist guild add/remove 305408763915927552")
-                        .build();
-            }
-        });
     }
 
     @Subscribe
@@ -565,10 +482,10 @@ public class OwnerCmd {
                             try {
                                 return null;
                             } finally {
-                    """ + (code + ";").replaceAll(";{2,}", ";") + """
-                                        }
-                                    }
-                                }
+                                """ + (code + ";").replaceAll(";{2,}", ";") + """
+                            }
+                        }
+                    }
                     """
             );
             if(!result.isSuccessful()) {
@@ -684,7 +601,9 @@ public class OwnerCmd {
                 dbGuild.getData().setMpLinkedTo(userString); //Patreon check will run from this user.
                 dbGuild.save();
 
-                ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).", guild.getName(), guild.getId(), user.getName(), user.getId());
+                ctx.sendFormat("Linked MP for guild %s (%s) to user %s (%s). Including this guild in pledge check (id -> user -> pledge).",
+                        guild.getName(), guild.getId(), user.getName(), user.getId()
+                );
             }
 
             @Override

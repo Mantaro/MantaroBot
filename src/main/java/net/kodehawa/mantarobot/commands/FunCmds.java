@@ -191,11 +191,18 @@ public class FunCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Roll a any-sided dice a 1 or more times. " +
-                                "By default, this command will roll a 6-sized dice 1 time.")
-                        .setUsage("`~>roll [times] [-amount <number>] [-size <number>]`: " +
-                                "Rolls a dice of the specified size the specified times.\n" +
-                                "D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1` or just `1d20`")
+                        .setDescription(
+                                """
+                                Roll a any-sided dice a 1 or more times.
+                                By default, this command will roll a 6-sized dice 1 time.
+                                """
+                        )
+                        .setUsage(
+                              """
+                              `~>roll [times] [-amount <number>] [-size <number>]`: Rolls a dice of the specified size the specified times.
+                              D20 Format: For this, 1d20 would be `~>roll -size 20 -amount 1` or just `1d20` (aka DND format)
+                              """
+                        )
                         .addParameter("-amount", "The amount you want (example: -amount 20)")
                         .addParameter("-size", "The size of the dice (example: -size 7)")
                         .addParameter("times", "The amount of times to roll the dice. Can also be D20 format.")
@@ -279,8 +286,12 @@ public class FunCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Calculates the love between 2 discord users. Results may vary.\n" +
-                                "You can either mention one user (matches with yourself) or two (matches 2 users)")
+                        .setDescription(
+                                """
+                                Calculates the love between 2 discord users. Results may vary.
+                                You can either mention one user (matches with yourself) or two (matches 2 users)
+                                """
+                        )
                         .setUsage("`~>love <@user>`")
                         .addParameter("@user", "The user to check against.")
                         .build();

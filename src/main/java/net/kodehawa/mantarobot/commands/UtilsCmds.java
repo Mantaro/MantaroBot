@@ -507,7 +507,9 @@ public class UtilsCmds {
                         .setUsage("`~>remindme <reminder> <-time>`\n" +
                                 "Check subcommands for more. Append the subcommand after the main command.")
                         .addParameter("reminder", "What to remind you of.")
-                        .addParameter("-time", "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)")
+                        .addParameter("-time",
+                                "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m). " +
+                                        "You can use h, m and s (hour, minute, second)")
                         .build();
             }
         });
