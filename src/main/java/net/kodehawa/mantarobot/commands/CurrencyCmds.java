@@ -584,8 +584,11 @@ public class CurrencyCmds {
                 player.save();
 
                 var successMessage =
-                        languageContext.get("commands.dailycrate.success".formatted(EmoteReference.POPPER, crate.getName())) +
-                        "\n" + languageContext.get("commands.daily.sellout.already_premium");
+                        languageContext.get("commands.dailycrate.success")
+                                .formatted(
+                                        EmoteReference.POPPER,
+                                        crate.getName()
+                                ) + "\n" + languageContext.get("commands.daily.sellout.already_premium");
 
                 ctx.send(successMessage);
             }

@@ -380,4 +380,8 @@ public class NewContext {
     public MantaroBot getBot() {
         return MantaroBot.getInstance();
     }
+
+    public User getAuthor() {
+        return message.getAuthor();
+    }
 }
