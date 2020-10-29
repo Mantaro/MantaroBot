@@ -179,10 +179,10 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
-                                        EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+                                EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
         if (parts.size() == 0) {
-            return null;
+            return;
         }
 
         for (MessageEmbed.Field f : parts.get(0)) {
@@ -191,13 +191,13 @@ public class DiscordUtils {
 
         if (parts.size() == 1) {
             event.getChannel().sendMessage(base.build()).queue();
-            return null;
+            return;
         }
 
         var index = new AtomicInteger();
         var m = event.getChannel().sendMessage(base.build()).complete();
 
-        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
+        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
@@ -209,8 +209,7 @@ public class DiscordUtils {
                 }
 
                 var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
-                        "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | " + "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
                 m.editMessage(toSend.build()).queue();
             } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) {
@@ -219,9 +218,7 @@ public class DiscordUtils {
 
                 var toSend = addAllFields(base, parts.get(index.incrementAndGet()));
 
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | " + "Total Pages: " +
-                        parts.size(), event.getAuthor().getEffectiveAvatarUrl()
-                );
+                toSend.setFooter("Current page: " + (index.get() + 1) + " | " + "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
 
                 m.editMessage(toSend.build()).queue();
             }
@@ -235,20 +232,20 @@ public class DiscordUtils {
         });
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
+    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
         if (parts.size() == 0) {
-            return null;
+            return;
         }
 
         if (parts.size() == 1) {
             event.getChannel().sendMessage(parts.get(0)).queue();
-            return null;
+            return;
         }
 
         var index = new AtomicInteger();
         var m = event.getChannel().sendMessage(parts.get(0)).complete();
 
-        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
+        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
@@ -260,17 +257,13 @@ public class DiscordUtils {
                     return Operation.IGNORED;
                 }
 
-                m.editMessage(String.format("%s\n**Page: %d** | Total: %d**",
-                        parts.get(index.decrementAndGet()), index.get() + 1, parts.size())
-                ).queue();
+                m.editMessage(String.format("%s\n**Page: %d** | Total: %d**", parts.get(index.decrementAndGet()), index.get() + 1, parts.size())).queue();
             } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) {
                     return Operation.IGNORED;
                 }
 
-                m.editMessage(String.format("%s\n**Page: %d | Total: %d**",
-                        parts.get(index.incrementAndGet()), index.get() + 1, parts.size())
-                ).queue();
+                m.editMessage(String.format("%s\n**Page: %d | Total: %d**", parts.get(index.incrementAndGet()), index.get() + 1, parts.size())).queue();
             }
 
             if (contentRaw.equals("&cancel")) {
@@ -283,22 +276,22 @@ public class DiscordUtils {
     }
 
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
-                                        IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
+    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+                                IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
         if (parts.length == 0) {
-            return null;
+            return;
         }
 
         List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
         if (embeds.size() == 1) {
             event.getChannel().sendMessage(embeds.get(0)).queue();
-            return null;
+            return;
         }
 
         var index = new AtomicInteger();
         var m = event.getChannel().sendMessage(embeds.get(0)).complete();
 
-        return InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
+        InteractiveOperations.create(event.getChannel(), event.getAuthor().getIdLong(), timeoutSeconds, e -> {
             if (!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong()) {
                 return Operation.IGNORED;
             }
@@ -326,14 +319,14 @@ public class DiscordUtils {
         });
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
+    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                         IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
+        listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
-    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
-                                        IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
+    public static void listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
+                                IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
+        listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {

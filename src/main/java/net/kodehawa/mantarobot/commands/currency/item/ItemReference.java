@@ -435,7 +435,7 @@ public class ItemReference {
                     3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),
                     "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick",
                     1200, true, false,
-                    "1;3;1;7", 450, 10, 74, 18, 101
+                    "1;3;1;7", 450, 300, 10, 74, 18, 101
             ),
 
             SPARKLE_FRAGMENT = new Item(ItemType.MINE_RARE, "\u2728",
