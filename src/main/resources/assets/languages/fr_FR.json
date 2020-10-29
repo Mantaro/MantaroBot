@@ -239,11 +239,14 @@
       "too_many_errors": "%1$sIl y a trop d'erreurs sur cette session, arrêt en cours...",
       "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
       "queue": {
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Rien ou titre/ durée non trouvé",
         "header": "Lise de lecture du serveur %1$s",
         "nothing_playing": "Rien ici, que de la poussière. Pourquoi n'ajoutes tu pas des chansons à la liste de lecture ?\nSi tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "nothing_playing_2": "**S'il y a un morceau en train de jouer et que tu n'as pas ajouté de musique, alors c'est qu'il n'y a que de la poussière ici. Tu peux ajouter d'autres musiques à la liste de lecture !!**",
         "np": "Joue en ce moment",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Rien ici, que de la poussière. Pourquoi ne pas revenir en arrière de quelques pages ?",
         "page_overflow_2": "Si tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "total_queue_time": "Durée total de la liste de lecture",
@@ -1250,7 +1253,7 @@
       "bot_no_messages": "%1$sIl n'y a aucun messages de bots ici.",
       "no_pins_no_messages": "%1$sIl n'y a aucun message non-épinglé ici...",
       "mention_no_messages": "%1$sIl n'y a aucun message de l'utilisateur mentionné ici.",
-      "too_few_messages": "%1$sTrop peu de messages à effacer. Le minimum est de 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sJ'ai rencontré une erreur en essayant de purger les messages. (Interne : %2$s %3$s)",
       "invalid_number": "%1$sMerci de spécifier un nombre valide.",
       "not_valid": "%1$sCe n'est pas un nombre de message à effacer valide.",
@@ -1341,12 +1344,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1441,7 +1446,8 @@
       "note": "**Si tu aimes Mantaro, merci d'upvote sur ** <https://discordbots.org/bot/mantaro> **et/ou songer à donner sur PayPal ou Patreon! Merci~**"
     },
     "avatar": {
-      "result": "%1$sAvatar de: **%2$s**\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Informations du serveur",
@@ -1487,12 +1493,12 @@
     "help": {
       "title": "Menu d'aide de Mantaro",
       "base_category": "Liste des commandes pour la categorie %1$s. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Guide pour l'argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Liste complète des commandes**. Pour un guide d'utilisation plus détaillé, merci de te rendre sur le [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nAutres guides : [Argent](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Commandes personnalisées](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Messages de bienvenue](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[Pour obtenir de l'aide, rejoins le serveur de support](https://support.mantaro.site). [Tu peux me suivre sur Twitter pour avoir des nouvelles des mises à jour.](https://twitter.com/mantarodiscord) (Attention, le tout est en anglais!)\n",
-      "patreon": "[**On a besoin de ton aide pour garder Mantaro en vie! Clique ici pour plus d'infos.**](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Je ne montre que les commandes actives. Nombre total de commandes désactivées : %1$s",
       "channel_specific_disabled_commands": "\nJe ne montre que les commandes actives. Nombre total de commandes désactivées dans ce salon : %1$s",
-      "footer": "Pour voir l'utilisation d'une commande, envoie %1$shelp <nom de la commande> // -> Commandes: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "Commandes",
       "extended": {
         "no_help": "%1$sIl n'y a pas d'aide supplémentaire implémentée pour cette commande.",
@@ -1858,28 +1864,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Tu dois spécifier l'utilisateur à enlever de la blacklist des logs.**",
       "success": "%1$sUtilisateurs enlevé localement de la blacklist des log: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sProgrammation du lien de protection sur `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sTu dois spécifier le salon que tu veux exclure du vérificateur d'invitations.",
-      "success": "%1$s%2$s peut désormais être utilisé pour envoyer des invitations Discord."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sTu dois spécifier le salon que tu veux inclure dans le vérificateur d'invitations. (Tous les salons sont inclus par défaut)",
-      "success": "%1$s%2$s ne peut plus être utilisé pour envoyer des invitations Discord."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sTu dois mentionner l'utilisateur que tu veux exclure du vérificateur d'invitations",
-      "success": "%1$s %2$s#%3$s peut désormais poster des invitations Discord."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sTu dois mentionner l'utilisateur que tu veux inclure dans le vérificateur d'invitations",
-      "not_whitelisted": "%1$sCet utilisateur n'est pas autorisé à poster des invitations!",
-      "success": "%1$s %2$s#%3$s ne peut plus poster d'invitations Discord."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sTu dois spécifier au moins un tag à prohiber!",

@@ -25,8 +25,8 @@
     "options": "Mga opsyon",
     "find_members_failure": "%1$sWalang nahanap na mga miyembo gamit ang iyong pamantayan :(",
     "too_many_members": "%1$sAndaming nahanap na mga miyembro, baka pwedeng mas busisiin ang iyong paghahanap? (hal. gamitin ang pangalan#discriminator)\n**Mga nahanap na miyembro:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sIsang tao lamang ang i-mention sa member lookup.",
+    "query_too_small": "%1$sAng iyong query sa paghahanap ay masyadong maliit. Siguraduhing naghahanap ka nang mas mahigit pa sa 4 na karakter.",
     "dust": "Alikabok lamang ang nandito.",
     "invalid_syntax": "Imbalidong syntax.",
     "item_lookup": {
@@ -37,7 +37,7 @@
     },
     "misc_item_usage": {
       "mop": "%1$s(Baka) nalinis mo na ang lahat na naipong alikabok na sanhi ng iyong pagmimina.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
+      "mop_not_enough": "%1$sAng lebel ng iyong alikabok ay mas mababa sa 5%%, kaya walang masyadong epekto ang pagmamapa.",
       "milk": "%1$sTinanggal ang epekto ng mga potion.",
       "stamina": "%1$sInaktibeyt ang stamina para sa 3 sesyon ng pagmimina.",
       "stamina_used": "%1$sMeron ka nang aktibong stamina effect!",
@@ -53,9 +53,9 @@
         "success": "%1$sBinuksan mo ang crate at nanalo ka ng: %2$s%3$s. Congrats!",
         "overflow": "Pero andami mo na nito, kaya tinapon mo na lang ang sumobra"
       },
-      "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
-      "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
+      "potion_active": "%1$sMayroon kanang aktibong **%2$s** na epekto ng potion at ang pinaka mataas na halaga nito!",
+      "potion_not_found": "%1$sHindi ko mahanap ang potion o ang uri ng kagamitang iyan!",
+      "potion_applied": "%1$sMatagumpay ang paglapat ng epektong **%2$s** na may uring *%3$s* (%4$dx). Tignan ang iyong makintab na bagong epekto gamit ang `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
@@ -63,65 +63,65 @@
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "generic_sellout": "Kailangan namin ang iyong tulong para manatiling buhay si Mantaro at mapabuti pa ang mga server ni Mantaro!\nMakakakuha ka ng mga kamangha-manghang perks at **hanggang doble sa credits with Mantaro Premium**! Nagsisimula ang memberships sa $2 kada buwan, ang halaga ng isang meryenda! Para sa karagdagang impormasyon, bisitahin lamang ang <https://patreon.com/mantaro>. Makakatulong din saamin kung sasabihan mo ang iyong mga kaibigan tungkol kay Mantaro :heart:",
+        "daily_sellout": "Kailangan namin ang iyong tulong upang manatiling buhay si Mantaro!\nMakakuha ka nang kamangha-manghang perks at **doble sa pang araw-araw na credits** at access sa `~>dailycrate`! Ang mga membership ay nagsisimula sa $2 kada buwan, para sa karagdagang impormasyon, bisitahin lamang ang <https://patreon.com/mantaro>.",
+        "thanks_message": "Salamat sa iyong pagsuporta kay Mantaro. Kung wala ang tulong galing sa mga taong katulad mo ay hindi namin mapapanatiling buhay si Mantaro :heart:",
+        "thanks_message_daily": "Salamat sa iyong pagsuporta kay Mantaro. Kung wala ang tulong galing sa mga taong katulad mo ay hindi namin mapapanatiling buhay si Mantaro :heart:\nMakakakuha ka rin ng doble sa credits bilang bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Alam mo bang may Twitter account kami? Oo, mayroon kami! I-follow kami sa (at)mantarodiscord <https://twitter.com/mantarodiscord> para sa mga updates at mga kalokohan."
     },
-    "mention_user_required": "%1$sYou need to mention one user.",
-    "invalid_character": "%1$sThat is not an allowed character.",
-    "invalid_action": "You cannot do that, silly.",
-    "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "mention_user_required": "%1$sKailangan mong magbanggit ng isang user.",
+    "invalid_character": "%1$sHindi mo pwedeng gamitin ang karakter na iyan.",
+    "invalid_action": "Di mo pwedeng gawin yan, baliw.",
+    "interactive_running": "%1$sMayroon nang aktibong operasyon (pagmamay-ari mo) sa channel na ito.",
+    "buy_sell_paged_react": "Gamitin ang message reactions upang lumipat sa mga pahina.\n%1$s",
+    "buy_sell_paged_text": "Gamitin ang **&p>>** at **&p<<** upang lumipat sa mga pahina.\n%1$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
     "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
-    "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "deprecated": "Hindi na ginagamit",
+    "space_notice": "Kung ang pangalan nyan ay naglalaman ng puwang, subukang \"i-wrap ito gamit ang mga panipi\"",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
-      "spam_2": "\nI think stopping is the best option for now...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "header": "%1$s%2$s (Ratelimited)\n**Magagamit mo uli ang command na ito sa loob ng %3$s.**",
+      "spam_1": "Magpahinga ka muna, mabuti iyan para sa iyong kalusugan. **Tandaan na ang ratelimit ay patuloy na lalaki kung susubukan mo bago mag-rereset ang cooldown!**",
+      "spam_2": "\nSa tingin ko, ang paghinto ang pinakamabuting piliin sa ngayon...",
+      "spam_3": "\nHindi ba mas mabuti na lumabas ka kahit saglit?",
+      "spam_4": "\nNakabukas ba ang bagay na ito?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Kung gusto mo, sumali sa aming **support server** (`https://support.mantaro.site`), o bisitahin ang aming GitHub page (`https://github.com/Kodehawa/MantaroBot`). Paki sabi sa kanila na huwag akong kulitin at huwag kalimutan ang Error ID, ang command na ginamit mo at ang iyong node (nakikita sa `~>shard`) kapag nag-rereport!",
     "boom_quotes": [
-      "Seemingly Megumin exploded our castle...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-      "W-Wait, what just happened?",
-      "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-      "I've mastered explosion magic, you see?",
-      "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "Mukhang pinasabog ni Megumin ang ating kastila...",
+      "Naku, mukhang nakalimutan ng aking Master ang ilang zero tsaka one sa sahig :<",
+      "T-teka lang, anong nangyari?",
+      "S-sa tingin ko, may sunog na nagyayari dito... baka kailangan mong sabihan ang aking master upang matingnan ito.",
+      "Nakabisado ko na ang explosion magic, kita mo?",
+      "Baka may naging problema dito, pero, u-uh, kaya ko tong ayusin!",
+      "U-Uhh.. Ano ba yung gusto mo?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
-      "Don't be greedy!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
+      "Uy... masyadong mabilis ang pagtatawag mo sa akin... Baka mahilo ako!",
+      "Wag kang sakim!",
+      "Nahihilo na ako sa mabilisang pagtatawag mo sakin...",
       "Halt in there buddy!",
       "Wait just a tiiiiny bit more uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "Mukhang makakuha tayo nito ng speed ticket nito pag nagpatuloy pa tayo nang ganito kabilis!",
+      "Gusto kong gawin to... pero paki hinto muna ng saglit.",
+      "Uy, teka lang, di pa ako tapos sa pagpapahinga!",
+      "Pwede bang huminahon ka munang saglit?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
+      "Aruy! Mukhang may natamaan!",
       "Just wholesome admin work happening over here...",
       "The boot has been thrown!",
-      "You'll be missed... not really",
+      "Mami-miss ka namin... pero joke lang! :stuck_out_tongue_closed_eyes: ",
       "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "Uy! Nagsalita na ang mga mods!",
+      "U-Uhm... mukhang may pinalabas sa pinto ah..."
     ]
   },
   "categories": {
     "music": "Audio",
-    "action": "Action",
+    "action": "Aksyon",
     "misc": "Misc",
     "moderation": "Moderation",
     "owner": "Owner",
@@ -239,11 +239,14 @@
       "too_many_errors": "%1$sToo many errors on this session, stopping...",
       "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Nothing or title/duration not found",
         "header": "Queue for server %1$s",
         "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`.",
         "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
         "np": "Currently playing",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
         "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
         "total_queue_time": "Total queue time",
@@ -1250,7 +1253,7 @@
       "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
       "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
       "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
-      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sPlease specify a valid number.",
       "not_valid": "%1$sThat's not a valid number of messages to delete.",
@@ -1341,12 +1344,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1441,7 +1446,8 @@
       "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
     },
     "avatar": {
-      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Server Information",
@@ -1487,12 +1493,12 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "Commands",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
@@ -1858,28 +1864,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
       "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sSet link protection to `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sYou need to specify what channel you want to exclude from the invite checker.",
-      "success": "%1$s%2$s can now be used to send discord invites."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sYou need to specify what channel you want to include on the invite checker. (All channels included by default)",
-      "success": "%1$s%2$s cannot longer be used to send discord invites."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
-      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
-      "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
-      "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sYou need to specify at least a tag to blacklist!",

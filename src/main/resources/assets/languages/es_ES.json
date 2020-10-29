@@ -239,11 +239,14 @@
       "too_many_errors": "%1$sMuchos errores en esta sesión, parando el reproductor...",
       "no_vc_found": "%1$sNo estoy conectado a ningún canal de voz siendo que debería estar en uno. Inténtalo de nuevo.",
       "queue": {
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Nada o título/duración no encontrado.",
         "header": "Cola para el servidor %1$s",
         "nothing_playing": "Nada por aquí, solo polvo. ¿Por qué no pones algunas canciones en la cola?\nSi crees que hay canciones por aquí pero no aparecen, intenta usar `~>queue 1`.",
         "nothing_playing_2": "**Si hay una canción reproduciendose y no has añadido más, entonces solamente hay polvo por aquí. Puedes poner más canciones en la cola a tu antojo!**",
         "np": "Reproduciendo actualmente",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Nada aquí, solo polvo. ¿Por qué no vas algunas páginas para atrás?",
         "page_overflow_2": "Si crees que hay canciones en esta cola pero no aparecen, intenta usar `~>queue 1`.",
         "total_queue_time": "Tiempo total de la cola",
@@ -1250,7 +1253,7 @@
       "bot_no_messages": "%1$sNo hay mensajes de bots ni llamadas a los bots por aquí...",
       "no_pins_no_messages": "%1$sNo hay ningun mensaje no anclado por aquí...",
       "mention_no_messages": "%1$sNo encuentro ningún mensaje de los usuarios que mencionaste por aquí.",
-      "too_few_messages": "%1$s¡Muy pocos mensajes para eliminar en masa! El mínimo son 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sEncontré un error desconocido mientras intentaba recuperar el historial de mensajes para eliminar. (Uso interno: %2$s: %3$s)",
       "invalid_number": "%1$sPor favor especifica un número válido.",
       "not_valid": "%1$s¡Ese no es un número válido de mensajes a eliminar!",
@@ -1341,12 +1344,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1441,7 +1446,8 @@
       "note": "**¡Si te gusta Mantaro, considera darnos like en** <https://discordbots.org/bot/mantaro> **o considera donar en Patreon o Paypal! Gracias~**"
     },
     "avatar": {
-      "result": "%1$sAvatar de: **%2$s**\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Información del Servidor",
@@ -1487,12 +1493,12 @@
     "help": {
       "title": "Ayuda de Mantaro",
       "base_category": "Lista de comandos para %1$s. Para una guia detallada, por favor revisa la [wiki]\n(https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[Si necesitas ayuda puedes unirte al servidor de soporte](https://support.mantaro.site). [puedes seguirme en twitter para ver las actualizaciones.](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[¡Necesitamos tu ayuda para mantener Mantaro a flote! Clickea aquí para más info.](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Solo mostrando los comandos habilitados. Comandos deshabilitados: %1$s",
       "channel_specific_disabled_commands": "\nSolo mostrando los comandos habilitados. Comandos deshabilitados en este canal: %1$s",
-      "footer": "Para revisar el uso de un comando, ejecuta %1$shelp <command> // -> Comandos: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "Comandos",
       "extended": {
         "no_help": "%1$sNo hay ayuda extendida para este comando.",
@@ -1858,28 +1864,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Necesitas especificar los usuarios que serán agregados al registro de mensajes de moderadores.**",
       "success": "%1$sUsuarios en la lista local de registro de mensajes de moderadores: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sLa protección de links ha sido cambiada a `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sNecesitas especificar que canal deseas excluir del eliminador de invitaciones.",
-      "success": "%1$s%2$s ahora puede recibir invitaciones de Discord."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sNecesitas especificar que canal deseas incluir en el eliminador de invitaciones (todos por defecto)",
-      "success": "%1$s%2$s ya no puede recibir invitaciones de Discord."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sNecesitas especificar que el usuario que deseas excluir del eliminador de invitaciones.",
-      "success": "%1$sCorrectamente agregado a la whitelist a %2$s#%3$s para postear invitaciones a otros canales de Discord.\n"
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sNecesitas mencionar a un usuario al cual se le prohiba publicar invitaciones!",
-      "not_whitelisted": "%1$sA este usuario no está en la lista que le permite enviar invitaciones!",
-      "success": "%1$sAl usuario %2$s#%3$s ahora se le prohibe publicar invitaciones."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sNecesitas especificar un tag para agregar a la lista negra!",
