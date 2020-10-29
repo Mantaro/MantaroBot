@@ -148,7 +148,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                showMarket(ctx, (item) -> item instanceof Potion);
+                showMarket(ctx, Potion.class::isInstance);
             }
         });
 

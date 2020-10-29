@@ -20,7 +20,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Potion extends Item {
-    private int maxUses;
+    private final int maxUses;
 
     public Potion(ItemType type, int maxUses, String emoji, String name, String translatedName,
                   String desc, long value, String recipe, int... recipeTypes) {

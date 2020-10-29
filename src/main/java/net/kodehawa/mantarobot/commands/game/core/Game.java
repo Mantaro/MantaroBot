@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Game<T> {
-    protected Config config = MantaroData.config().get();
+    protected final Config config = MantaroData.config().get();
     private int attempts = 1;
 
     public abstract void call(GameLobby lobby, List<String> players);

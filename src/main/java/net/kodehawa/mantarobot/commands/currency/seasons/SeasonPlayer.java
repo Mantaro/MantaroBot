@@ -40,7 +40,7 @@ public class SeasonPlayer implements ManagedObject {
     private final transient Inventory inventory = new Inventory();
     private Long money;
     private Long reputation;
-    private Season season;
+    private final Season season;
 
     @JsonCreator
     @ConstructorProperties({"id", "season", "money", "inventory", "reputation", "data"})
@@ -74,16 +74,16 @@ public class SeasonPlayer implements ManagedObject {
      * Adds x amount of money from the player.
      *
      * @param money How much?
-     * @return pls dont overflow.
      */
-    public boolean addMoney(long money) {
-        if (money < 0) return false;
+    public void addMoney(long money) {
+        if (money < 0) {
+            return;
+        }
+
         try {
             this.money = Math.addExact(this.money, money);
-            return true;
         } catch (ArithmeticException ignored) {
             this.money = 0L;
-            return false;
         }
     }
 
@@ -156,9 +156,8 @@ public class SeasonPlayer implements ManagedObject {
         return this.money;
     }
 
-    public SeasonPlayer setMoney(long money) {
+    public void setMoney(long money) {
         this.money = money < 0 ? 0 : money;
-        return this;
     }
 
     public Long getReputation() {

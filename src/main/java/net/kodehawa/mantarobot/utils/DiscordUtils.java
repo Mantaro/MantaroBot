@@ -328,12 +328,12 @@ public class DiscordUtils {
 
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                         IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
+        return listText(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
                                         IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
+        return listText(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
@@ -384,12 +384,16 @@ public class DiscordUtils {
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, int length,
                                     IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(new String[]{}));
+        return list(event, timeoutSeconds, canEveryoneUse, length, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
                                     IntIntObjectFunction<EmbedBuilder> supplier, List<String> parts) {
-        return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(new String[]{}));
+        // Passing an empty String[] array to List#toArray makes it convert to a array of strings, god knows why.
+        // Javadoc below just so I don't forget:
+        // (...) If the list fits in the specified array, it is returned therein.
+        // Otherwise, a new array is allocated with the runtime type of the specified array and the size of this list.
+        return list(event, timeoutSeconds, canEveryoneUse, MessageEmbed.TEXT_MAX_LENGTH, supplier, parts.toArray(StringUtils.EMPTY_ARRAY));
     }
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse,
@@ -529,17 +533,11 @@ public class DiscordUtils {
                 throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
             }
 
-            // Create the embeds.
+            // Create the embeds. Split if the final length is more than the allowed.
             if (stringBuilder.length() + finalLength > length) {
                 var embedBuilder = supplier.apply(embeds.size() + 1, total);
 
-                // Set the description of the new embed with the part that
-                // corresponds to it.
-                var desc = stringBuilder.toString();
-
-                // TODO: Hacky! Find the actual cause.
-                desc = desc.replace("\n\n", "\n");
-                embedBuilder.setDescription(desc);
+                embedBuilder.setDescription(stringBuilder.toString());
                 embeds.add(embedBuilder.build());
 
                 // Reset the string builder to build a new embed.
@@ -548,6 +546,7 @@ public class DiscordUtils {
 
             stringBuilder.append(part).append('\n');
         }
+
 
         // If we have a dangling builder, it means we didn't get to reset the builder
         // when building a new embed, and there's a dangling one:

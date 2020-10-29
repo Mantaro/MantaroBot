@@ -216,9 +216,8 @@ public class Player implements ManagedObject {
         return this.level;
     }
 
-    public Player setLevel(long level) {
+    public void setLevel(long level) {
         this.level = level;
-        return this;
     }
 
     @JsonIgnore

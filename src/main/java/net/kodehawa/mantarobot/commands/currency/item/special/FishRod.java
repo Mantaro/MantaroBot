@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FishRod extends Item implements Castable, Breakable, Salvageable {
-    private int level;
-    private int castLevelRequired;
-    private int maximumCastAmount;
-    private int maxDurability;
-    private List<Integer> salvageReturns;
+    private final int level;
+    private final int castLevelRequired;
+    private final int maximumCastAmount;
+    private final int maxDurability;
+    private final List<Integer> salvageReturns;
 
     public FishRod(ItemType type, int level, int castLevelRequired, int maximumCastAmount, String emoji, String name,
                    String translatedName, String desc, long value, String recipe, int maxDurability, int... recipeTypes) {

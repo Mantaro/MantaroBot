@@ -608,7 +608,7 @@ public class PetCmds {
                 player.save();
 
                 marriage.save();
-                ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, 15, pet.getThirst());
+                ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, increase, pet.getThirst());
             }
         });
 

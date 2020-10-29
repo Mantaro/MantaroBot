@@ -28,13 +28,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Axe extends Item implements Castable, Breakable, Salvageable {
-    private float chance;
+    private final float chance;
     //Wrench level, basically.
-    private int castLevelRequired;
-    private int maximumCastAmount;
-    private int maxDurability;
-    private int moneyIncrease;
-    private List<Integer> salvageReturns;
+    private final int castLevelRequired;
+    private final int maximumCastAmount;
+    private final int maxDurability;
+    private final int moneyIncrease;
+    private final List<Integer> salvageReturns;
 
     public Axe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount,
                String emoji, String name, String translatedName,

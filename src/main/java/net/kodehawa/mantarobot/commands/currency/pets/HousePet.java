@@ -27,7 +27,7 @@ import java.util.TimeZone;
 
 public class HousePet {
     @JsonIgnore
-    private static SecureRandom random = new SecureRandom();
+    private static final SecureRandom random = new SecureRandom();
 
     private String name;
     private HousePetType type;
@@ -302,8 +302,8 @@ public class HousePet {
         NO_ABILITY(false, ""), // No need, as it'll just be skipped.
         PASS(true, "commands.pet.activity.success");
 
-        boolean pass;
-        String i18n;
+        final boolean pass;
+        final String i18n;
         ActivityResult(boolean pass, String i18n) {
             this.pass = pass;
             this.i18n = i18n;

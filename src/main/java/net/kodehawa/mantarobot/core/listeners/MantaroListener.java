@@ -540,26 +540,19 @@ public class MantaroListener implements EventListener {
                 var embedBuilder = new EmbedBuilder()
                         .setThumbnail(jda.getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
-                        .setDescription("Welcome to **Mantaro**, a fun, quirky and complete Discord bot! " +
-                                "Thanks for adding me to your server, I highly appreciate it <3\n" +
-                                "We have music, currency (money/economy), games and way more stuff you can check out!\n" +
-                                "Make sure you use the `~>help` command " +
-                                "to make yourself comfy and to get started with the bot!\n\n" +
-                                "If you're interested in supporting Mantaro," +
-                                " check out our Patreon page below, it'll greatly help to improve the bot. " +
-                                "This message will only be shown once.")
-                        .addField("Important Links",
-                                "[Support Server](https://support.mantaro.site) - " +
-                                        "The place to check if you're lost or if there's an issue with the bot.\n" +
-                                        "[Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - " +
-                                        "Good place to check if you're lost.\n" +
-                                        "[Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - " +
-                                        "Great customizability for your server needs!\n" +
-                                        "[Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) - " +
-                                        " Customizability for your server needs!\n" +
-                                        "[Patreon](https://patreon.com/mantaro) - " +
-                                        "Help Mantaro's development directly by donating a small amount of money each month.\n" +
-                                        "[Official Website](https://mantaro.site) - A cool website.",
+                        .setDescription("""
+                                Welcome to **Mantaro**, a fun, quirky and complete Discord bot! Thanks for adding me to your server, I highly appreciate it <3
+                                We have music, currency (money/economy), games and way more stuff you can check out!
+                                Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!
+
+                                If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. This message will only be shown once.""")
+                        .addField("Important Links", """
+                                        [Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.
+                                        [Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.
+                                        [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!
+                                        [Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) -  Customizability for your server needs!
+                                        [Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.
+                                        [Official Website](https://mantaro.site) - A cool website.""",
                                 true
                         ).setFooter("We hope you enjoy using Mantaro! This will self-destruct in 2 minutes.");
 

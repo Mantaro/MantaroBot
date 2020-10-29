@@ -49,10 +49,10 @@ public class GeneralOptions extends OptionHandler {
             event.getChannel().sendMessageFormat(lang.get("options.lobby_reset.success"), EmoteReference.CORRECT).queue();
         });
 
-        registerOption("modlog:blacklist", "Prevents an user from appearing in modlogs",
-                "Prevents an user from appearing in modlogs.\n" +
-                        "You need the user mention.\n" +
-                        "Example: ~>opts modlog blacklist @user", (event, lang) -> {
+        registerOption("modlog:blacklist", "Prevents an user from appearing in modlogs", """
+                Prevents an user from appearing in modlogs.
+                You need the user mention.
+                Example: ~>opts modlog blacklist @user""", (event, lang) -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
                     if (mentioned.isEmpty()) {
                         event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.no_mentions"), EmoteReference.ERROR).queue();
@@ -71,10 +71,10 @@ public class GeneralOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.success"), EmoteReference.CORRECT, blacklisted).queue();
         });
 
-        registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)",
-                "Allows an user from appearing in modlogs.\n" +
-                        "You need the user mention.\n" +
-                        "Example: ~>opts modlog whitelist @user", (event, lang) -> {
+        registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)", """
+                Allows an user from appearing in modlogs.
+                You need the user mention.
+                Example: ~>opts modlog whitelist @user""", (event, lang) -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
                     if (mentioned.isEmpty()) {
                         event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.no_mentions"), EmoteReference.ERROR).queue();

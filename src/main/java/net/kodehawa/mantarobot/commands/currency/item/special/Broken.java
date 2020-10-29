@@ -22,11 +22,11 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Broken extends Item {
     //Repair cost it's usually Item value / 3
-    private int mainItem;
+    private final int mainItem;
     //EXAMPLE: 2,1;3,2 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
     //You can have as many types as you want.
     //If the recipe it's an empty string (or null), it means the item has no recipe.
-    private String recipe;
+    private final String recipe;
 
 
     public Broken(int mainItem, String emoji, String name, String translatedName,

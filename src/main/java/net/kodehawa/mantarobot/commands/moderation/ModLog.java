@@ -26,7 +26,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.Utils;
 
 public class ModLog {
-    private static ManagedDatabase db = MantaroData.db();
+    private static final ManagedDatabase db = MantaroData.db();
 
     public static void log(Member author, User target, String reason,
                            String channel, ModAction action, long caseNumber, int messagesDeleted) {

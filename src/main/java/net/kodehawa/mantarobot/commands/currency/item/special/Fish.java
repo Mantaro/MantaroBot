@@ -21,7 +21,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 
 public class Fish extends Item {
     public boolean isEdible;
-    private int level;
+    private final int level;
 
     public Fish(ItemType type, int level, String emoji, String name, String translatedName,
                 String desc, long value, String recipe, int... recipeTypes) {

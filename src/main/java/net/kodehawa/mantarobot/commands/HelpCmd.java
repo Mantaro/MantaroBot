@@ -209,8 +209,7 @@ public class HelpCmd {
                     if (help.getParameters().size() > 0) {
                         builder.addField("Parameters", help.getParameters().entrySet().stream()
                                         .map(entry -> "`%s` - *%s*".formatted(entry.getKey(), entry.getValue()))
-                                        .collect(Collectors.joining("\n")),
-                                false
+                                        .collect(Collectors.joining("\n")), false
                         );
                     }
 
@@ -259,7 +258,7 @@ public class HelpCmd {
 
                         if (stringBuilder.length() > 0) {
                             builder.addField("Sub-commands",
-                                    "**Append the main command to use any of this.**\n" + stringBuilder.toString(),
+                                    "**Append the main command to use any of this.**\n" + stringBuilder,
                                     false
                             );
                         }

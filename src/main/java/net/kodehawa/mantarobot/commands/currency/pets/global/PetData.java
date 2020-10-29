@@ -313,7 +313,7 @@ public class PetData {
         FISH, MINE, COLLECT, FIGHT;
 
         @JsonIgnore
-        static Random random = new Random();
+        static final Random random = new Random();
 
         public static PetSkill getRandom() {
             int x = random.nextInt(PetSkill.values().length);
@@ -324,8 +324,8 @@ public class PetData {
     public enum Level {
         BASIC("", 0), NORMAL("", 5), ADVANCED("", 20), LEGENDARY("", 50);
 
-        String recipe;
-        long levelRequired;
+        final String recipe;
+        final long levelRequired;
 
         Level(String recipe, long level) {
             this.recipe = recipe;

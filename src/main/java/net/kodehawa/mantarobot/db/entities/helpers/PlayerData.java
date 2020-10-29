@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerData {
     @JsonIgnore
-    private static Config config = MantaroData.config().get();
+    private static final Config config = MantaroData.config().get();
 
     public long experience = 0;
     public long newMoney = 0L;

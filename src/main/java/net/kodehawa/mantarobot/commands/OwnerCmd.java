@@ -307,15 +307,16 @@ public class OwnerCmd {
             }
 
             Player player = MantaroData.db().getPlayer(user);
-            player.getData().removeBadge(badge);
-            player.saveAsync();
+            if (player.getData().removeBadge(badge)) {
+                ctx.send("%sRemoved badge %s from %s (%s)".formatted(
+                        EmoteReference.CORRECT, badge,
+                        user.getAsTag(), user.getId())
+                );
+                player.saveAsync();
+            } else {
+                ctx.send("Player didn't have badge?");
+            }
 
-            ctx.send(
-                    "%sRemoved badge %s from %s (%s)".formatted(
-                            EmoteReference.CORRECT, badge,
-                            user.getAsTag(), user.getId()
-                    )
-            );
         }
     }
 

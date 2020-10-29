@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.Player;
 
 public class UnifiedPlayer {
-    private static ManagedDatabase managedDatabase = MantaroData.db();
+    private static final ManagedDatabase managedDatabase = MantaroData.db();
 
     public Player player;
     public SeasonPlayer seasonalPlayer;

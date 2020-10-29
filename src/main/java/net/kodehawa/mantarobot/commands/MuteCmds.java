@@ -44,10 +44,8 @@ import java.util.regex.Pattern;
 
 @Module
 public class MuteCmds {
-    @SuppressWarnings("Annotator")
     private static final Pattern timePattern =
             Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
-    @SuppressWarnings("Annotator")
     private static final Pattern muteTimePattern =
             Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
@@ -194,11 +192,11 @@ public class MuteCmds {
             }
         });
 
-        mute.addOption("defaultmutetimeout:set", new Option("Default mute timeout",
-                "Sets the default mute timeout for ~>mute.\n" +
-                        "This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**\n" +
-                        "**Example:** `~>opts defaultmutetimeout set 1m20s`\n" +
-                        "**Considerations:** Time is in 1m20s or 1h10m3s format, for example.", OptionType.GUILD)
+        mute.addOption("defaultmutetimeout:set", new Option("Default mute timeout", """
+                Sets the default mute timeout for ~>mute.
+                This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**
+                **Example:** `~>opts defaultmutetimeout set 1m20s`
+                **Considerations:** Time is in 1m20s or 1h10m3s format, for example.""", OptionType.GUILD)
                 .setActionLang((event, args, lang) -> {
                     if (args.length == 0) {
                         event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.not_specified"), EmoteReference.ERROR).queue();

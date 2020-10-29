@@ -59,46 +59,34 @@ public final class ReactionOperations {
 
     public static Future<Void> createOrGet(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
         //We should be getting Mantaro's messages
-        if (!message.getAuthor().equals(message.getJDA().getSelfUser()))
+        if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
 
         Future<Void> f = createOrGet(message.getIdLong(), timeoutSeconds, operation);
 
         if (defaultReactions.length > 0) {
-            AtomicInteger index = new AtomicInteger();
-            AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-
-            //Ignore errors (Like unknown message).
-            Consumer<Throwable> ignore = (t) -> {
-            };
-
-            c.set(ignored -> {
-                if (f.isCancelled())
-                    return;
-
-                int i = index.incrementAndGet();
-                if (i < defaultReactions.length) {
-                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
-                }
-            });
-
-            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
+            addReactions(f, message, defaultReactions);
         }
+
         return f;
     }
 
     public static Future<Void> createOrGet(long messageId, long timeoutSeconds, ReactionOperation operation) {
-        if (timeoutSeconds < 1)
+        if (timeoutSeconds < 1) {
             throw new IllegalArgumentException("Timeout is less than 1 second");
+        }
 
-        if (operation == null)
+        if (operation == null) {
             throw new IllegalArgumentException("Operation cannot be null!");
+        }
 
         RunningOperation o = OPERATIONS.get(messageId);
 
         //If we find an already-running one, return the running operation.
-        if (o != null)
+        if (o != null) {
             return o.future;
+        }
 
         o = new RunningOperation(operation, new OperationFuture(messageId));
         OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
@@ -107,30 +95,17 @@ public final class ReactionOperations {
     }
 
     public static Future<Void> create(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
-        if (!message.getAuthor().equals(message.getJDA().getSelfUser()))
+        if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
 
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
-        if (f == null) return null;
+        if (f == null) {
+            return null;
+        }
 
         if (defaultReactions.length > 0) {
-            AtomicInteger index = new AtomicInteger();
-            AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t) -> {
-            };
-
-            c.set(ignored -> {
-                //Ignore this if we already cancelled this operation.
-                if (f.isCancelled())
-                    return;
-
-                int i = index.incrementAndGet();
-                if (i < defaultReactions.length) {
-                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
-                }
-            });
-
-            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
+            addReactions(f, message, defaultReactions);
         }
 
         return f;
@@ -242,6 +217,26 @@ public final class ReactionOperations {
                 }
             }
         }
+    }
+
+    private static void addReactions(Future<Void> future, Message message, String... defaultReactions) {
+        AtomicInteger index = new AtomicInteger();
+        AtomicReference<Consumer<Void>> c = new AtomicReference<>();
+        Consumer<Throwable> ignore = (t) -> { };
+
+        c.set(ignored -> {
+            //Ignore this if we already cancelled this operation.
+            if (future.isCancelled()) {
+                return;
+            }
+
+            int i = index.incrementAndGet();
+            if (i < defaultReactions.length) {
+                message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
+            }
+        });
+
+        message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
     }
 
     private static class RunningOperation {

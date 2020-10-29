@@ -78,7 +78,7 @@ public class TextChannelGround {
 
     public static class Ground {
         @JsonProperty("groundItems")
-        Inventory groundItems = new Inventory();
+        final Inventory groundItems = new Inventory();
         int money;
         String channel;
 

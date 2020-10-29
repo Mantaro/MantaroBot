@@ -70,7 +70,7 @@ public enum ItemType {
 
     DEPRECATED(false);
 
-    private boolean cast;
+    private final boolean cast;
 
     ItemType(boolean cast) {
         this.cast = cast;

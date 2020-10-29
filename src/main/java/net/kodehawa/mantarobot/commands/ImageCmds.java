@@ -55,7 +55,7 @@ public class ImageCmds {
                                         Rating can be random if you specify it as random, in case you want to play a roulette.
                                         """;
 
-    private static String TAG_HELP = "The image tag you're looking for. You can see a list of valid tags on the %s website.";
+    private static final String TAG_HELP = "The image tag you're looking for. You can see a list of valid tags on the %s website.";
 
     private static final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private static final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;

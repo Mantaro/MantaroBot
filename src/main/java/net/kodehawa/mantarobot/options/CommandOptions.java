@@ -238,10 +238,10 @@ public class CommandOptions extends OptionHandler {
                 });
         addOptionAlias("server:channel:allow", "channel:enable");
 
-        registerOption("category:disable", "Disable categories",
-                "Disables a specified category.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
-                        "You need the category name, for example ` ~>opts category disable Action`",
+        registerOption("category:disable", "Disable categories", """
+                        Disables a specified category.
+                        If a non-valid category it's specified, it will display a list of valid categories
+                        You need the category name, for example ` ~>opts category disable Action`""",
                 "Disables a specified category", (event, args, lang) -> {
                     if (args.length == 0) {
                         event.getChannel().sendMessageFormat(lang.get("options.category_disable.no_category"), EmoteReference.ERROR).queue();
@@ -276,10 +276,10 @@ public class CommandOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.category_disable.success"), EmoteReference.CORRECT, lang.get(toDisable.toString())).queue();
                 });
 
-        registerOption("category:enable", "Enable categories",
-                "Enables a specified category.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
-                        "You need the category name, for example ` ~>opts category enable Action`",
+        registerOption("category:enable", "Enable categories", """
+                        Enables a specified category.
+                        If a non-valid category it's specified, it will display a list of valid categories
+                        You need the category name, for example ` ~>opts category enable Action`""",
                 "Enables a specified category", (event, args, lang) -> {
                     if (args.length == 0) {
                         event.getChannel().sendMessageFormat(lang.get("options.category_enable.no_category"), EmoteReference.ERROR).queue();
@@ -304,10 +304,10 @@ public class CommandOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.category_enable.success"), EmoteReference.CORRECT, lang.get(toEnable.toString())).queue();
                 });
 
-        registerOption("category:specific:disable", "Disable categories on a specific channel",
-                "Disables a specified category on a specific channel.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
-                        "You need the category name and the channel name, for example ` ~>opts category specific disable Action general`",
+        registerOption("category:specific:disable", "Disable categories on a specific channel", """
+                        Disables a specified category on a specific channel.
+                        If a non-valid category it's specified, it will display a list of valid categories
+                        You need the category name and the channel name, for example ` ~>opts category specific disable Action general`""",
                 "Disables a specified category", (event, args, lang) -> {
                     if (args.length < 2) {
                         event.getChannel().sendMessageFormat(lang.get("options.category_specific_disable.invalid"), EmoteReference.ERROR).queue();
@@ -355,10 +355,10 @@ public class CommandOptions extends OptionHandler {
                     }
                 });
 
-        registerOption("category:specific:enable", "Enable categories on a specific channel",
-                "Enables a specified category on a specific channel.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
-                        "You need the category name and the channel name, for example ` ~>opts category specific enable Action general`",
+        registerOption("category:specific:enable", "Enable categories on a specific channel", """
+                        Enables a specified category on a specific channel.
+                        If a non-valid category it's specified, it will display a list of valid categories
+                        You need the category name and the channel name, for example ` ~>opts category specific enable Action general`""",
                 "Enables a specified category", (event, args, lang) -> {
                     if (args.length < 2) {
                         event.getChannel().sendMessageFormat(lang.get("options.category_specific_enable.invalid"), EmoteReference.ERROR).queue();
@@ -406,9 +406,10 @@ public class CommandOptions extends OptionHandler {
                 });
 
 
-        registerOption("server:role:specific:disallow", "Disallows a role from executing an specific command", "Disallows a role from executing an specific command\n" +
-                "This command takes the command to disallow and the role name afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts server role specific disallow daily Member`", "Disallows a role from executing an specific command", (event, args, lang) -> {
+        registerOption("server:role:specific:disallow", "Disallows a role from executing an specific command", """
+                Disallows a role from executing an specific command
+                This command takes the command to disallow and the role name afterwards. If the role name contains spaces, wrap it in quotes "like this"
+                Example: `~>opts server role specific disallow daily Member`""", "Disallows a role from executing an specific command", (event, args, lang) -> {
             if (args.length < 2) {
                 event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_disallow.invalid"), EmoteReference.ERROR).queue();
                 return;
@@ -469,9 +470,10 @@ public class CommandOptions extends OptionHandler {
         addOptionAlias("server:role:specific:disallow", "role:specific:disable");
 
 
-        registerOption("server:role:specific:allow", "Allows a role from executing an specific command", "Allows a role from executing an specific command\n" +
-                "This command takes either the role name, id or mention and the command to disallow afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts server role specific allow daily Member`", "Allows a role from executing an specific command", (event, args, lang) -> {
+        registerOption("server:role:specific:allow", "Allows a role from executing an specific command", """
+                Allows a role from executing an specific command
+                This command takes either the role name, id or mention and the command to disallow afterwards. If the role name contains spaces, wrap it in quotes "like this"
+                Example: `~>opts server role specific allow daily Member`""", "Allows a role from executing an specific command", (event, args, lang) -> {
             if (args.length < 2) {
                 event.getChannel().sendMessageFormat(lang.get("options.server_role_specific_allow.invalid"), EmoteReference.ERROR).queue();
                 return;
@@ -519,9 +521,10 @@ public class CommandOptions extends OptionHandler {
         });
         addOptionAlias("server:role:specific:allow", "role:specific:enable");
 
-        registerOption("category:role:specific:disable", "Disables a role from executing commands in an specified category.", "Disables a role from executing commands in an specified category\n" +
-                "This command takes the category name and the role to disable afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts category role specific disable Currency Member`", "Disables a role from executing commands in an specified category.", (event, args, lang) -> {
+        registerOption("category:role:specific:disable", "Disables a role from executing commands in an specified category.", """
+                Disables a role from executing commands in an specified category
+                This command takes the category name and the role to disable afterwards. If the role name contains spaces, wrap it in quotes "like this"
+                Example: `~>opts category role specific disable Currency Member`""", "Disables a role from executing commands in an specified category.", (event, args, lang) -> {
             if (args.length < 2) {
                 event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_disable.invalid"), EmoteReference.ERROR).queue();
                 return;
@@ -577,9 +580,10 @@ public class CommandOptions extends OptionHandler {
             }
         });
 
-        registerOption("category:role:specific:enable", "Enables a role from executing commands in an specified category.", "Enables a role from executing commands in an specified category\n" +
-                "This command takes the category name and the role to enable afterwards. If the role name contains spaces, wrap it in quotes \"like this\"\n" +
-                "Example: `~>opts category role specific enable Currency Member`", "Enables a role from executing commands in an specified category.", (event, args, lang) -> {
+        registerOption("category:role:specific:enable", "Enables a role from executing commands in an specified category.", """
+                Enables a role from executing commands in an specified category
+                This command takes the category name and the role to enable afterwards. If the role name contains spaces, wrap it in quotes "like this"
+                Example: `~>opts category role specific enable Currency Member`""", "Enables a role from executing commands in an specified category.", (event, args, lang) -> {
             if (args.length < 2) {
                 event.getChannel().sendMessageFormat(lang.get("options.category_role_specific_enable.invalid"), EmoteReference.ERROR).queue();
                 return;

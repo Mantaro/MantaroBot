@@ -68,41 +68,42 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 @Module
 public class CustomCmds {
     public final static Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
-            INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
-            NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
+                                INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
+                                NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
+
     private static final Map<String, CustomCommand> customCommands = new ConcurrentHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(CustomCmds.class);
     private static final SecureRandom random = new SecureRandom();
 
-
-    public static boolean handle(String prefix, String cmdName, Context ctx, String args) {
+    public static void handle(String prefix, String cmdName, Context ctx, String args) {
         CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
         GuildData guildData = ctx.getDBGuild().getData();
 
-        if (customCommand == null)
-            return false;
+        if (customCommand == null) {
+            return;
+        }
 
         //CCS disable check start.
         if (guildData.getDisabledCommands().contains(cmdName)) {
-            return false;
+            return;
         }
 
         List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(ctx.getChannel().getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(cmdName)) {
-            return false;
+            return;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (ctx.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(),
                 s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(ctx.getMember())) {
-            return false;
+            return;
         }
         //CCS disable check end.
 
         List<String> values = customCommand.getValues();
         if (customCommand.getData().isNsfw() && !ctx.getChannel().isNSFW()) {
             ctx.sendLocalized("commands.custom.nsfw_not_nsfw", EmoteReference.ERROR);
-            return true;
+            return;
         }
 
         CommandStatsManager.log("custom command");
@@ -117,7 +118,6 @@ public class CustomCmds {
             e.printStackTrace();
         }
 
-        return true;
     }
 
     //Lazy-load custom commands into cache.
@@ -177,12 +177,13 @@ public class CustomCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("""
-                                        Manages the Custom Commands of the current server.
-                                        If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
-                                        Running the above isn't exactly recommended, but works for small servers.
-                                        See subcommands for more commands, or refer to the [wiki](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22)
-                                        """
+                        .setDescription(
+                                """
+                                Manages the Custom Commands of the current server.
+                                If you wish to allow normal people to make custom commands, run `~>opts admincustom false`.
+                                Running the above isn't exactly recommended, but works for small servers.
+                                See subcommands for more commands, or refer to the [wiki](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22)
+                                """
                         )
                         .setUsage("`~>custom <sub command>`")
                         .build();
@@ -223,8 +224,9 @@ public class CustomCmds {
                         .setThumbnail("https://images.emojiterra.com/twitter/v11/512px/1f6e0.png")
                         .setDescription(languageContext.get("commands.custom.ls.description") + "\n" +
                                 (commands.isEmpty() ? languageContext.get("general.dust") :
-                                        checkString(commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "))
-                                        ))
+                                        checkString(commands.stream().map(cc -> "*`" + cc + "`*")
+                                                .collect(Collectors.joining(", ")))
+                                )
                         ).setFooter(languageContext.get("commands.custom.ls.footer").formatted(commands.size()),
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         );
@@ -297,15 +299,16 @@ public class CustomCmds {
                 AtomicInteger count = new AtomicInteger();
                 for (String value : custom.getValues()) {
                     String val = value;
-                    if (value.length() > 900)
+                    if (value.length() > 900) {
                         val = Utils.paste(value);
+                    }
 
                     fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, false));
                 }
 
                 EmbedBuilder embed = baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.raw.header").formatted(command))
                         .setDescription(languageContext.get("commands.custom.raw.description"))
-                        .setFooter(languageContext.get("commands.custom.raw.amount").formatted(6, custom.getValues().size()),
+                        .setFooter(languageContext.get("commands.custom.raw.amount").formatted(count, custom.getValues().size()),
                                 null
                         );
 
@@ -419,8 +422,9 @@ public class CustomCmds {
                 customCommands.remove(custom.getId());
 
                 //clear commands if none
-                if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + content)))
+                if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + content))) {
                     customCommands.remove(content);
+                }
 
                 ctx.sendLocalized("commands.custom.remove.success", EmoteReference.PENCIL, content);
             }
@@ -460,7 +464,6 @@ public class CustomCmds {
                             return guild == null ? null : Pair.of(guild, customCommand);
                         })
                         .filter(Objects::nonNull)
-
                         .collect(Collectors.toList());
 
                 if (filtered.size() == 0) {
@@ -558,6 +561,7 @@ public class CustomCmds {
                     ctx.sendLocalized("commands.custom.edit.not_enough_args", EmoteReference.ERROR);
                     return;
                 }
+
                 var cmd = args[0];
                 CustomCommand custom = ctx.db().getCustomCommand(ctx.getGuild(), cmd);
                 if (custom == null) {
@@ -874,7 +878,7 @@ public class CustomCmds {
 
                     custom.getValues().addAll(c.getValues());
                 } else {
-                    //Are the first two checks redundant?
+                    // Are the first two checks redundant?
                     if (!ctx.getConfig().isPremiumBot() && !ctx.getDBGuild().isPremium() && db.getCustomCommands(ctx.getGuild()).size() > 100) {
                         ctx.sendLocalized("commands.custom.add.too_many_commands", EmoteReference.ERROR);
                         return;

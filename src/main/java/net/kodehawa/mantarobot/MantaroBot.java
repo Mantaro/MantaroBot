@@ -65,12 +65,16 @@ import java.util.stream.IntStream;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
+@SuppressWarnings("SameReturnValue")
 public class MantaroBot {
     private static final Logger log = LoggerFactory.getLogger(MantaroBot.class);
     private static MantaroBot instance;
 
     // Just in case
     static {
+        log.info("Starting up Mantaro {}, Git revision: {}", MantaroInfo.VERSION, MantaroInfo.GIT_REVISION);
+        log.info("Reporting UA {} for HTTP requests.", MantaroInfo.USER_AGENT);
+
         if (ExtraRuntimeOptions.VERBOSE) {
             System.setOut(new TracingPrintStream(System.out));
             System.setErr(new TracingPrintStream(System.err));
@@ -265,6 +269,7 @@ public class MantaroBot {
     }
 
     public void startCheckingBirthdays() {
+        log.info("Starting to check birthdays");
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2,
                 new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build()
         );

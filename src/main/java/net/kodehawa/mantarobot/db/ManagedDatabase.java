@@ -198,7 +198,6 @@ public class ManagedDatabase {
 
     @CheckReturnValue
     public long getAmountSeasonalPlayers() {
-        //noinspection ConstantConditions
         return r.table(SeasonPlayer.DB_TABLE).count().runAtom(conn, OptArgs.of("read_mode", "outdated"), Long.class);
     }
 

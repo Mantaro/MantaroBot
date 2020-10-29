@@ -31,9 +31,9 @@ import java.util.function.Predicate;
 
 public class PlayerEquipment {
     //int = itemId
-    private Map<EquipmentType, Integer> equipment;
-    private Map<EquipmentType, PotionEffect> effects;
-    private Map<EquipmentType, Integer> durability;
+    private final Map<EquipmentType, Integer> equipment;
+    private final Map<EquipmentType, PotionEffect> effects;
+    private final Map<EquipmentType, Integer> durability;
 
     @JsonCreator
     @ConstructorProperties({"equipment, effects"})
@@ -153,8 +153,8 @@ public class PlayerEquipment {
         POTION(item -> item.getItemType() == ItemType.POTION, 1),
         BUFF(item -> item.getItemType() == ItemType.BUFF, 1);
 
-        private Predicate<Item> predicate;
-        private int type;
+        private final Predicate<Item> predicate;
+        private final int type;
 
         EquipmentType(Predicate<Item> predicate, int type) {
             this.predicate = predicate;

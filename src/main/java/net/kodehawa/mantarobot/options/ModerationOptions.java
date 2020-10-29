@@ -46,10 +46,10 @@ public class ModerationOptions extends OptionHandler {
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("localblacklist:add", "Local Blacklist add",
-                "Adds someone to the local blacklist.\n" +
-                        "You need to mention the user. You can mention multiple users.\n" +
-                        "**Example:** `~>opts localblacklist add @user1 @user2`",
+        registerOption("localblacklist:add", "Local Blacklist add", """
+                        Adds someone to the local blacklist.
+                        You need to mention the user. You can mention multiple users.
+                        **Example:** `~>opts localblacklist add @user1 @user2`""",
                 "Adds someone to the local blacklist.", (event, args, lang) -> {
 
                     List<User> mentioned = event.getMessage().getMentionedUsers();
@@ -82,10 +82,10 @@ public class ModerationOptions extends OptionHandler {
                     event.getChannel().sendMessageFormat(lang.get("options.localblacklist_add.success"), EmoteReference.CORRECT, blacklisted).queue();
                 });
 
-        registerOption("localblacklist:remove", "Local Blacklist remove",
-                "Removes someone from the local blacklist.\n" +
-                        "You need to mention the user. You can mention multiple users.\n" +
-                        "**Example:** `~>opts localblacklist remove @user1 @user2`",
+        registerOption("localblacklist:remove", "Local Blacklist remove", """
+                        Removes someone from the local blacklist.
+                        You need to mention the user. You can mention multiple users.
+                        **Example:** `~>opts localblacklist remove @user1 @user2`""",
                 "Removes someone from the local blacklist.", (event, args, lang) -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
 

@@ -24,9 +24,9 @@ import java.util.List;
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CustomMessage {
-    private Message message;
-    private String prefix;
-    private List<Member> mentionedUsers;
+    private final Message message;
+    private final String prefix;
+    private final List<Member> mentionedUsers;
 
     public CustomMessage(Message message, String prefix, List<Member> mentionedUsers) {
         this.message = message;

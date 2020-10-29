@@ -196,6 +196,11 @@ public class MantaroCore {
                     GatewayIntent.GUILD_BANS // Receive guild bans, needed for moderation stuff.
             };
 
+            log.info("Using intents {}", Arrays.stream(toEnable)
+                    .map(Enum::name)
+                    .collect(Collectors.joining(", "))
+            );
+
             // This is used so we can fire PostLoadEvent properly.
             var shardStartListener = new ShardStartListener();
 
@@ -288,6 +293,7 @@ public class MantaroCore {
                 throw new IllegalStateException("Shard ids list must have the same size as latch count");
             }
 
+            // Use a LRU cache policy.
             shardManager.setMemberCachePolicy(new EvictingCachePolicy(shardIds, () -> leastRecentlyUsed(config.memberCacheSize)));
     
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
@@ -304,6 +310,8 @@ public class MantaroCore {
                 try {
                     shardStartListener.latch.await();
                     var elapsed = System.currentTimeMillis() - start;
+
+                    log.info("All shards logged in! Took {} seconds", TimeUnit.MILLISECONDS.toSeconds(elapsed));
                     this.shardManager.removeEventListener(shardStartListener);
                     startPostLoadProcedure(elapsed);
                 } catch (InterruptedException e) {
@@ -331,13 +339,16 @@ public class MantaroCore {
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
         }
 
-        new BannerPrinter(1).printBanner();
+        if (config.isShowBanner()) {
+            new BannerPrinter(1).printBanner();
+        }
 
         var commands = lookForAnnotatedOn(commandsPackage, Module.class);
         var options = lookForAnnotatedOn(optsPackage, Option.class);
 
         shardEventBus = new EventBus();
 
+        // Start the actual bot now.
         startShardedInstance();
 
         for (var commandClass : commands) {
@@ -359,10 +370,14 @@ public class MantaroCore {
         new Thread(() -> {
             // For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
-            // Registers all commands
+
+            log.info("Registering all commands (@Module)");
             shardEventBus.post(CommandProcessor.REGISTRY);
-            // Registers all options
+            log.info("Registered all commands (@Module)");
+
+            log.info("Registering all options (@Option)");
             shardEventBus.post(new OptionRegistryEvent());
+            log.info("Registered all options (@Option)");
         }, "Mantaro EventBus-Post").start();
     }
 
@@ -401,18 +416,20 @@ public class MantaroCore {
         //Start the reconnect queue.
         bot.getCore().markAsReady();
 
-        System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
+        log.info("Not aware of anything holding off boot now, considering bot as started up");
         LogUtils.shard(String.format("Loaded all %d (out of %d) shards and %d commands.\nTook %s.\nCross-node shard count is %d.", shardManager.getShardsRunning(),
                 bot.getManagedShards(), CommandProcessor.REGISTRY.commands().size(),
                 Utils.formatDuration(elapsed), shardManager.getShardsTotal())
         );
 
-        log.info("Loaded all shards successfully! Status: {}.", MantaroCore.getLoadState());
+        log.info("Loaded all shards successfully! Current status: {}", MantaroCore.getLoadState());
 
+        log.info("Firing PostLoadEvent...");
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
 
-        //Only update guild count from the master node.
-        if (bot.isMasterNode()) {
+        // Only update guild count from the master node.
+        // Might not wanna run this if it's self-hosted either.
+        if (bot.isMasterNode() && !config.isSelfHost()) {
             startUpdaters();
         }
 
@@ -420,6 +437,7 @@ public class MantaroCore {
     }
 
     private void startUpdaters() {
+        log.info("Starting bot list count executor...");
         Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
             try {
                 var serverCount = 0L;

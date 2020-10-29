@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Wrench extends Item implements Castable, Salvageable {
-    private float chance;
-    private int level;
-    private double multiplierReduction;
-    private List<Integer> salvageReturns;
+    private final float chance;
+    private final int level;
+    private final double multiplierReduction;
+    private final List<Integer> salvageReturns;
 
     public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
                   String translatedName, String desc, long value, boolean sellable, boolean buyable, String recipe,

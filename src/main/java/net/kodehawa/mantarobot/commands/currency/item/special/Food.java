@@ -42,7 +42,7 @@ public class Food extends Item {
     public static enum FoodType {
         CAT(HousePetType.CAT), DOG(HousePetType.DOG), HAMSTER(HousePetType.RAT), GENERAL(HousePetType.ALL);
 
-        HousePetType applicableType;
+        final HousePetType applicableType;
 
         FoodType(HousePetType applicable) {
             this.applicableType = applicable;

@@ -119,11 +119,10 @@ public class DBUser implements ManagedObject {
                             .retrieveUserById(key.getOwner())
                             .flatMap(User::openPrivateChannel)
                             .flatMap(privateChannel ->
-                                    privateChannel.sendMessage("Hello! Your key(s) seems to have expired, this usually only happens " +
-                                        "when your Patreon subscription is over (aka you cancelled it). If you didn't cancel your Patreon subscription, " +
-                                        "please check Patreon to see if your pledge went through.\n" +
-                                        "If you bought this key via PayPal, you can ignore this message.\n" +
-                                        "Thanks you for supporting Mantaro and I hope you have a good day! :heart:."
+                                    privateChannel.sendMessage("""
+                                            Hello! Your key(s) seems to have expired, this usually only happens when your Patreon subscription is over (aka you cancelled it). If you didn't cancel your Patreon subscription, please check Patreon to see if your pledge went through.
+                                            If you bought this key via PayPal, you can ignore this message.
+                                            Thanks you for supporting Mantaro and I hope you have a good day! :heart:."""
                                     )
                             ).queue();
 

@@ -21,7 +21,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class ItemStack {
-    public static int MAX_STACK_SIZE = 5000;
+    public static final int MAX_STACK_SIZE = 5000;
     private final int amount;
     private final Item item;
 

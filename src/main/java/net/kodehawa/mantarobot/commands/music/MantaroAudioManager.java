@@ -109,7 +109,7 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new BeamAudioSourceManager());
 
         if (!ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER) {
-            log.info("Enabled non-allocating audio buffer.");
+            log.info("Enabled non-allocating audio buffer");
             playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         }
     }

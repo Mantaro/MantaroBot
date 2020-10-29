@@ -784,8 +784,7 @@ public class ItemCmds {
                             languageContext.get(item.getDesc()) + "\n**" +
                                     languageContext.get("commands.salvage.ls.cost") + "**" +
                                     salvageCost + " " + languageContext.get("commands.gamble.credits") +
-                                    ".\n**" + languageContext.get("commands.salvage.ls.return") + "** " +
-                                    recipeString.toString(),
+                                    ".\n**" + languageContext.get("commands.salvage.ls.return") + "** " + recipeString,
                             false)
                     );
                 }

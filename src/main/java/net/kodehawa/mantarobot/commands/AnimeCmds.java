@@ -75,6 +75,7 @@ public class AnimeCmds {
                             ),
                             s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.selection_start"))
                                     .setDescription(s)
+                                    .setColor(Color.PINK)
                                     .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                     .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                     .build(),
@@ -134,6 +135,7 @@ public class AnimeCmds {
                                     character.getURL()
                             ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.information_footer"))
                                     .setDescription(s)
+                                    .setColor(Color.PINK)
                                     .setThumbnail("https://i.imgur.com/VwlGqdk.png")
                                     .setFooter(languageContext.get("commands.anime.information_footer"), ctx.getAuthor().getAvatarUrl())
                                     .build(),
@@ -192,9 +194,9 @@ public class AnimeCmds {
 
         //Start building the embedded message.
         var embed = new EmbedBuilder();
-        embed.setColor(Color.DARK_GRAY)
+        embed.setColor(Color.PINK)
                 .setAuthor(lang.get("commands.anime.information_header").formatted(title), null, imageUrl)
-                .setFooter(lang.get("commands.anime.information_notice"), null)
+                .setFooter(lang.get("commands.anime.information_notice"), event.getAuthor().getEffectiveAvatarUrl())
                 .setThumbnail(imageUrl)
                 .addField(lang.get("commands.anime.release_date"), releaseDate, true)
                 .addField(lang.get("commands.anime.end_date"),

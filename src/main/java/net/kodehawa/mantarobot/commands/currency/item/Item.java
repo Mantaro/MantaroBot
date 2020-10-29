@@ -33,14 +33,14 @@ public class Item {
     //EXAMPLE: 1;3 will mean require two items of type 1 and 3 of type 2. For example a pick will require 2 of type 1 and 1 of type 2.
     //You can have as many types as you want.
     //If the recipe it's an empty string (or null), it means the item has no recipe.
-    private String recipe;
-    private int[] recipeTypes;
-    private long price;
+    private final String recipe;
+    private final int[] recipeTypes;
+    private final long price;
     private BiPredicate<Context, Boolean> action;
-    private ItemType itemType;
-    private String translatedName;
-    private String alias;
-    private boolean petOnly;
+    private final ItemType itemType;
+    private final String translatedName;
+    private final String alias;
+    private final boolean petOnly;
 
     public Item(ItemType type, String emoji, String name, String alias, String translatedName,
                 String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize,

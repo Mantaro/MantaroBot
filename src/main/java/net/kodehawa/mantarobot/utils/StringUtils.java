@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
  */
 public class StringUtils {
     public static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
+    public static final String[] EMPTY_ARRAY = new String[0];
 
     public static String[] advancedSplitArgs(String args, int expectedArgs) {
         // Final result to work with.
@@ -83,7 +84,7 @@ public class StringUtils {
         }
 
         // Convert result to an string array.
-        var raw = result.toArray(new String[0]);
+        var raw = result.toArray(EMPTY_ARRAY);
 
         // If the amount of arguments this detected is less than one, just return the string as a whole.
         if (expectedArgs < 1) {

@@ -48,7 +48,7 @@ public class KitsuRetriever {
         var json = new JSONObject(body);
         var arr = json.getJSONArray("data");
 
-        return JsonDataManager.fromJson(arr.toString(), new TypeReference<List<CharacterData>>() { });
+        return JsonDataManager.fromJson(arr.toString(), new TypeReference<>() { });
     }
 
     public static List<AnimeData> searchAnime(String name) throws IOException {
@@ -68,6 +68,6 @@ public class KitsuRetriever {
 
         var json = new JSONObject(body);
         var arr = json.getJSONArray("data");
-        return JsonDataManager.fromJson(arr.toString(), new TypeReference<List<AnimeData>>() { });
+        return JsonDataManager.fromJson(arr.toString(), new TypeReference<>() { });
     }
 }

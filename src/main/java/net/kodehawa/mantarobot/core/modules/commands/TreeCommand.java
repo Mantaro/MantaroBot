@@ -28,7 +28,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class TreeCommand extends AbstractCommand implements ITreeCommand {
 
-    private Map<String, SubCommand> subCommands = new HashMap<>();
+    private final Map<String, SubCommand> subCommands = new HashMap<>();
     //By default let all commands pass.
     private Predicate<Context> predicate = event -> true;
 

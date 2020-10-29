@@ -127,7 +127,9 @@ public class MessageCmds {
                 if (args.length >= 1) {
                     try {
                         amount = Integer.parseInt(args[0]);
-                        if (amount < 3) amount = 3;
+                        if (amount < 3) {
+                            amount = 3;
+                        }
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
                         return;
@@ -165,7 +167,9 @@ public class MessageCmds {
                 if (args.length >= 1) {
                     try {
                         amount = Integer.parseInt(args[0]);
-                        if (amount < 3) amount = 3;
+                        if (amount < 3) {
+                            amount = 3;
+                        }
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.prune.not_valid", EmoteReference.ERROR);
                         return;

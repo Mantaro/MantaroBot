@@ -18,9 +18,9 @@ package net.kodehawa.mantarobot.commands.utils.reminders;
 
 //This just exists for the sake of serializing (!)
 public class ReminderObject {
-    public String id;
-    public String reminder;
-    public long time;
+    public final String id;
+    public final String reminder;
+    public final long time;
     private final long scheduledAtMillis;
     private final String userId;
     private final String guildId;

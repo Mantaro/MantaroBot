@@ -108,7 +108,7 @@ public class WeebAPIRequester {
             }
 
             var r = new Request.Builder()
-                    .url(API_BASE_URL + builder.toString())
+                    .url(API_BASE_URL + builder)
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .addHeader("Authorization", AUTH_HEADER)
                     .build();

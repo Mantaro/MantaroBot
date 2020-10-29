@@ -22,13 +22,9 @@ import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.LocalDate;
@@ -163,12 +159,12 @@ public enum ProfileComponent {
     }, false);
 
     //See: getTitle()
-    private EmoteReference emoji;
-    private Function<I18nContext, String> title;
+    private final EmoteReference emoji;
+    private final Function<I18nContext, String> title;
 
-    private BiFunction<Holder, I18nContext, String> content;
-    private boolean assignable;
-    private boolean inline;
+    private final BiFunction<Holder, I18nContext, String> content;
+    private final boolean assignable;
+    private final boolean inline;
 
     ProfileComponent(EmoteReference emoji, Function<I18nContext, String> title,
                      BiFunction<Holder, I18nContext, String> content, boolean isAssignable, boolean inline) {

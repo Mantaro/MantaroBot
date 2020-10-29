@@ -410,9 +410,10 @@ public class ProfileCmd {
         profileCommand.addSubCommand("displaybadge", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile badge.\n" +
-                        "Reset with `~>profile displaybadge reset`\n" +
-                        "No badge: `~>profile displaybadge none`";
+                return """
+                        Sets your profile badge.
+                        Reset with `~>profile displaybadge reset`
+                        No badge: `~>profile displaybadge none`""";
             }
 
             @Override

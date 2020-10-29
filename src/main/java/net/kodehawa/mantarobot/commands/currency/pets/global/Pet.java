@@ -66,11 +66,6 @@ public class Pet {
         return this;
     }
 
-    //TODO
-    public long calculateTier() {
-        return 1;
-    }
-
     public String getOwner() {
         return this.owner;
     }
@@ -164,7 +159,7 @@ public class Pet {
         //hello sukeban studios (https://va11halla.fandom.com/wiki/Lilim)
         SPACESHIP(""), CAT(""), DOG(""), ROBOT(""), LILIM(""), CATGIRL("");
 
-        public String image;
+        public final String image;
 
         ImageType(String image) {
             this.image = image;
@@ -178,8 +173,8 @@ public class Pet {
     public enum Type {
         EARTH("Earth", "commands.pet.types.earth"), WATER("Water", "commands.pet.types.water"), FIRE("Fire", "commands.pet.types.fire");
 
-        String readable;
-        String translatable;
+        final String readable;
+        final String translatable;
 
         Type(String readable, String translatable) {
             this.readable = readable;

@@ -179,7 +179,7 @@ public class InteractiveOperations {
         final InteractiveOperation operation;
         final long timeout;
         long timeoutTime;
-        long userId;
+        final long userId;
 
         //timeout (argument) is in millis, field is in nanos
         RunningOperation(InteractiveOperation operation, long userId, long channelId, long timeout) {

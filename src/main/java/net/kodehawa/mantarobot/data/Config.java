@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("CanBeFinal")
 public class Config {
     public String dbDb = "mantaro";
     public String dbHost = "localhost";
@@ -60,6 +61,8 @@ public class Config {
     public boolean isSelfHost = false;
     public int memberCacheSize = 10_000;
     public boolean handleRatelimits = true;
+
+    public boolean showBanner = true;
 
     public Config() { }
 
@@ -225,5 +228,9 @@ public class Config {
 
     public boolean isHandleRatelimits() {
         return handleRatelimits;
+    }
+
+    public boolean isShowBanner() {
+        return showBanner;
     }
 }

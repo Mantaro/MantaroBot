@@ -23,19 +23,18 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Pickaxe extends Item implements Castable, Breakable, Salvageable {
-    private float chance;
+    private final float chance;
     //Wrench level, basically.
-    private int castLevelRequired;
-    private int maximumCastAmount;
-    private int maxDurability;
-    private int moneyIncrease;
-    private List<Integer> salvageReturns;
+    private final int castLevelRequired;
+    private final int maximumCastAmount;
+    private final int maxDurability;
+    private final int moneyIncrease;
+    private final List<Integer> salvageReturns;
 
     public Pickaxe(ItemType type, float chance, int castLevelRequired, int maximumCastAmount,
                    String emoji, String name, String translatedName,

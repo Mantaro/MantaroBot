@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
  * Answer isn't the first one so gotta scroll up.
  * Decided to take this answer as I felt like it was the most complete one and had support for reversal.
  */
+@SuppressWarnings("ALL")
 public class RoundedMetricPrefixFormat extends Format {
     private static final long serialVersionUID = 1;
 

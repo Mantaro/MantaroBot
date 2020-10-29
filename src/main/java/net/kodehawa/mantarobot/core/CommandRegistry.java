@@ -87,7 +87,7 @@ public class CommandRegistry {
 
     //BEWARE OF INSTANCEOF CALLS
     //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
-    public boolean process(GuildMessageReceivedEvent event, String cmdName, String content, String prefix) {
+    public void process(GuildMessageReceivedEvent event, String cmdName, String content, String prefix) {
         final ManagedDatabase managedDatabase = MantaroData.db();
         long start = System.currentTimeMillis();
 
@@ -100,7 +100,7 @@ public class CommandRegistry {
 
         if (command == null) {
             CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(guildData, userData), content), content);
-            return false;
+            return;
         }
 
         if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
@@ -109,7 +109,7 @@ public class CommandRegistry {
                         "If you wish to get more details on why, don't hesitate to join the support server and ask, but be sincere."
                 ).queue();
             }
-            return false;
+            return;
         }
 
         //Variable used in lambda expression should be final or effectively final...
@@ -117,76 +117,76 @@ public class CommandRegistry {
 
         if (guildData.getDisabledCommands().contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND);
-            return false;
+            return;
         }
 
         List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);
-            return false;
+            return;
         }
 
         if (guildData.getDisabledUsers().contains(event.getAuthor().getId()) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.USER);
-            return false;
+            return;
         }
 
         if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (root(cmd).category() != CommandCategory.MODERATION)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
-            return false;
+            return;
         }
 
         if (guildData.getDisabledCategories().contains(
                 root(cmd).category()
-        ) && !cmdName.toLowerCase().equals("opts")) {
+        ) && !cmdName.equalsIgnoreCase("opts")) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CATEGORY);
-            return false;
+            return;
         }
 
         if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
                 new ArrayList<>()).contains(root(cmd).category())
-                && !cmdName.toLowerCase().equals("opts")) {
+                && !cmdName.equalsIgnoreCase("opts")) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_CATEGORY);
-            return false;
+            return;
         }
 
         if (guildData.getWhitelistedRole() != null) {
             Role whitelistedRole = event.getGuild().getRoleById(guildData.getWhitelistedRole());
             if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && isNotAdmin(event.getMember()))) {
-                return false;
+                return;
             }
             //else continue.
         }
 
         if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
-            return false;
+            return;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>())
                 .contains(name(cmd, cmdName))) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
-            return false;
+            return;
         }
 
         HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
         if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>())
                 .contains(root(cmd).category())) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
-            return false;
+            return;
         }
 
         //If we are in the patreon bot, deny all requests from unknown guilds.
         if (conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
                     "**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
-            return false;
+            return;
         }
 
         if (!cmd.permission().test(event.getMember())) {
             event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
-            return false;
+            return;
         }
 
         PremiumKey currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
@@ -253,7 +253,7 @@ public class CommandRegistry {
                         EmoteReference.ERROR + "There was an error parsing the arguments for this command. Please report this to the developers"
                 ).queue();
             }
-            return true;
+            return;
         }
         if (!executedNew) {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
@@ -270,7 +270,6 @@ public class CommandRegistry {
         }
 
         Metrics.COMMAND_LATENCY.observe(end - start);
-        return true;
     }
 
     public void register(Class<? extends NewCommand> clazz) {

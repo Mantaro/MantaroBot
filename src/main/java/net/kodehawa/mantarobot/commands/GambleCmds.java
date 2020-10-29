@@ -280,7 +280,7 @@ public class GambleCmds {
                         return;
                     }
 
-                    money += 58 * coinAmount;
+                    money += 58L * coinAmount;
                 }
 
                 if (args.length >= 1 && !coinSelect) {

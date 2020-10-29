@@ -144,7 +144,7 @@ public class OptsCmd {
                             if (++i < args.length) {
                                 a = Arrays.copyOfRange(args, i, args.length);
                             } else {
-                                a = new String[0];
+                                a = StringUtils.EMPTY_ARRAY;
                             }
 
                             callable.accept(ctx.getEvent(), a,

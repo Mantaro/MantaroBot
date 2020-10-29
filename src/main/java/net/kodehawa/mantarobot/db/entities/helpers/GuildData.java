@@ -218,6 +218,7 @@ public class GuildData {
     @JsonProperty("gameMultipleDisabled")
     private boolean gameMultipleDisabled = false;
 
+    @SuppressWarnings("CanBeFinal")
     @HiddenConfig // It's not unused, but this hides it from opts check data lol
     private List<String> allowedBirthdays = new ArrayList<>();
 

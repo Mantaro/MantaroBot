@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class UrbanData {
 
-    public ArrayList<List> list = new ArrayList<>();
+    public final ArrayList<List> list = new ArrayList<>();
 
     public UrbanData() { }
 

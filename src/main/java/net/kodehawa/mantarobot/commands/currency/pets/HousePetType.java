@@ -40,7 +40,7 @@ public enum HousePetType {
     public static enum PatReaction {
         CHEER("commands.pet.pet_reactions.cheer"), SCARE("commands.pet.pet_reactions.scare"), CUTE("commands.pet.pet_reactions.cute");
 
-        String message;
+        final String message;
         PatReaction(String i18n) {
             this.message = i18n;
         }
@@ -50,12 +50,12 @@ public enum HousePetType {
         }
     }
 
-    private EmoteReference emoji;
-    private String name;
-    private List<HousePetAbility> abilities;
-    private int cost;
-    private int maxCoinBuildup;
-    private boolean buyable;
+    private final EmoteReference emoji;
+    private final String name;
+    private final List<HousePetAbility> abilities;
+    private final int cost;
+    private final int maxCoinBuildup;
+    private final boolean buyable;
 
     HousePetType(EmoteReference emoji, String name, List<HousePetAbility> ability, int cost, int maxCoinBuildup, boolean buyable) {
         this.emoji = emoji;

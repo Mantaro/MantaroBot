@@ -25,13 +25,13 @@ import java.util.concurrent.TimeUnit;
 
 public class CachedLeaderboardMember {
     @JsonProperty("id")
-    private long id;
+    private final long id;
     @JsonProperty("name")
-    private String name;
+    private final String name;
     @JsonProperty("discriminator")
-    private String disriminator;
+    private final String disriminator;
     @JsonProperty("lastCachedAt")
-    private long lastCachedAt;
+    private final long lastCachedAt;
 
     @JsonCreator
     @ConstructorProperties({"id", "name", "discriminator", "lastCachedAt"})
