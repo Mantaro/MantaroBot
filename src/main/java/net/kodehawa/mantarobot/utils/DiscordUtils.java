@@ -209,7 +209,10 @@ public class DiscordUtils {
                 }
 
                 var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | " + "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                        event.getAuthor().getEffectiveAvatarUrl()
+                );
+
                 m.editMessage(toSend.build()).queue();
             } else if (contentRaw.equals("&p >>") || contentRaw.equals("&page >>")) {
                 if (index.get() + 1 >= parts.size()) {
@@ -218,7 +221,9 @@ public class DiscordUtils {
 
                 var toSend = addAllFields(base, parts.get(index.incrementAndGet()));
 
-                toSend.setFooter("Current page: " + (index.get() + 1) + " | " + "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+                toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                        event.getAuthor().getEffectiveAvatarUrl()
+                );
 
                 m.editMessage(toSend.build()).queue();
             }
@@ -404,7 +409,7 @@ public class DiscordUtils {
             return null;
         }
 
-        base.setFooter("Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl());
+        base.setFooter("Total Pages: %s | Thanks for using Mantaro ❤️".formatted(parts.size()), event.getAuthor().getEffectiveAvatarUrl());
 
         var index = new AtomicInteger();
         var message = event.getChannel().sendMessage(base.build()).complete();
@@ -421,8 +426,8 @@ public class DiscordUtils {
                     }
 
                     var toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: " + (index.get() + 1) + " | " +
-                            "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl()
+                    toSend.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                            event.getAuthor().getEffectiveAvatarUrl()
                     );
 
                     message.editMessage(toSend.build()).queue();
@@ -434,8 +439,8 @@ public class DiscordUtils {
                     }
 
                     var toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: " + (index.get() + 1) + " | " +
-                            "Total Pages: " + parts.size(), event.getAuthor().getEffectiveAvatarUrl()
+                    toSend1.setFooter("Current page: %,d | Total Pages: %,d".formatted((index.get() + 1), parts.size()),
+                            event.getAuthor().getEffectiveAvatarUrl()
                     );
                     message.editMessage(toSend1.build()).queue();
                 }

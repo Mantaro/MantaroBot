@@ -126,8 +126,9 @@ public class CurrencyCmds {
                             });
                         }
 
-                        var toShow = "\n" + languageContext.get("commands.inventory.brief_notice") +
-                                (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "");
+                        var toShow = languageContext.get("commands.inventory.brief_notice") +
+                                (r.nextInt(3) == 0 && !user.isPremium() ?
+                                        languageContext.get("general.sellout") : "");
 
                         DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(6, fields), toShow);
                         return;

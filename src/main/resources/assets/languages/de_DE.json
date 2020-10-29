@@ -1498,7 +1498,7 @@
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Zeige nur nicht deaktivierte Befehle. Gesamte deaktivierte Befehle: %1$s",
       "channel_specific_disabled_commands": "\nZeige nur nicht deaktivierte Befehle. Gesamte kanalspezifisch deaktivierte Befehle: %1$s",
-      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
+      "footer": "Thanks for using Mantaro ❤️ (Total Commands: %2$s)",
       "commands": "Befehle",
       "extended": {
         "no_help": "%1$sEs gibt keine weitere Hilfe für diesen Befehl.",

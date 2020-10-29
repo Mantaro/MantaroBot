@@ -91,8 +91,7 @@ public class HelpCmd {
                 .setColor(Color.PINK)
                 .setDescription(description.toString())
                 .setFooter(languageContext.get("commands.help.footer").formatted(
-                        prefix,
-                        CommandProcessor.REGISTRY.commands()
+                        "❤️", CommandProcessor.REGISTRY.commands()
                                 .values()
                                 .stream()
                                 .filter(c -> c.category() != null)

@@ -1498,7 +1498,7 @@
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "Thanks for using Mantaro \uD83E\uDD0D (Total Commands: %2$s)",
+      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
       "commands": "Commands",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
