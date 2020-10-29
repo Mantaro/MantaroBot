@@ -239,11 +239,14 @@
       "too_many_errors": "%1$sToo many errors on this session, stopping...",
       "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Niets, of de titel/afspeelduur niet gevonden.",
         "header": "afspeellijst voor de server %1$s",
         "nothing_playing": "Er wordt op dit moment geen muziek afgespeeld. Waarom zet je geen muziek in de afspeellijst?\nAls je denkt dat er wel nummers zijn maar ze verschijnen niet, probeer dan `~>queue 1`.",
         "nothing_playing_2": "**Als er een nummer wordt afgespeeld en er staan geen nummers in de wachtrij, dan wordt er geen muziek meer afgespeeld. Je kunt natuurlijk meer nummers in de wachtrij plaatsen!**",
         "np": "Speelt op dit moment",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Er is hier niets te zien, probeer eens een pagina terug te gaan",
         "page_overflow_2": "Als je dacht dat er hier nummers stonden maar ze verschijnen niet, probeer eens `~>queue 1`.",
         "total_queue_time": "Totale afspeellijst duur",
@@ -1250,7 +1253,7 @@
       "bot_no_messages": "%1$sEr zijn hier geen berichten van bots of botoproepen.",
       "no_pins_no_messages": "%1$sEr zijn hier geen berichten die niet gepind zijn ...",
       "mention_no_messages": "%1$sEr zijn geen berichten van gebruikers die je hier hebt genoemd.",
-      "too_few_messages": "%1$sTe weinig berichten om te verwijderen. Het minimum is 5.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sIk vond een onbekende fout tijdens het ophalen van de geschiedenis om de berichten te weg te halen (Internal: %2$s %3$s)",
       "invalid_number": "%1$sGeef een geldig nummer op.",
       "not_valid": "%1$sDat is geen geldig aantal te verwijderen berichten.",
@@ -1341,12 +1344,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1441,7 +1446,8 @@
       "note": "**Als je Mantaro leuk vindt, geef dan een upvote op** <https://discordbots.org/bot/mantaro> **en/of overweeg te doneren op Patreon of Paypal! Super bedankt!~**"
     },
     "avatar": {
-      "result": "%1$sAvatar voor: **%2$s**\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Server Informatie",
@@ -1487,12 +1493,12 @@
     "help": {
       "title": "Mantaro Help",
       "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nGuides: [Currency](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Welcome Messages](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[For help, you can join the support server](https://support.mantaro.site). [You can follow me on Twitter for updates.](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[We hebben je hulp nodig om Mantaro online te houden! Klik hier voor meer info](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
       "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde commandos weergeven. Totaal aantal kanaal-specifieke uitgeschakelde commandos: %1$s",
-      "footer": "Als je het gebruik van de commandos wilt controleren, typ je %1$shelp <commando> // -> Commandos: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "Commandos",
       "extended": {
         "no_help": "%1$sEr is geen uitgebreide hulp ingesteld voor deze opdracht.",
@@ -1858,28 +1864,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**Je moet de gebruikers specificeren die je lokaal op van de blacklist voor de mod-logs wilt afhalen..**",
       "success": "%1$sHeeft de volgende gebruikers succesvol van de blacklist voor de mod-logs afgehaald: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sHeeft de linkbescherming ingesteld als `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sJe moet opgeven welk kanaal je wilt uitsluiten van de uitnodigingscontrole.",
-      "success": "%1$s%2$s kan nu worden gebruikt om Discord uitnodigingen te verzenden."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sJe moet opgeven welk kanaal je wilt toevoegen van de uitnodigingscontrole. (Alle kanalen worden standaard toegevoegd)",
-      "success": "%1$s%2$s kan niet langer worden gebruikt om Discord uitnodigingen te verzenden."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sJe moet de naam van de gebruiker noemen die je van de blacklist wilt afhalen voor het inviten van mensen!",
-      "success": "%1$sHeeft de volgende gebruikers succesvol van de blacklist voor het inviten van mensen gehaald: %2$s#%3$s "
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sJe moet de gebruiker vermelden die je op de blacklist voor het plaatsen van uitnodigingen wilt toevoegen!",
-      "not_whitelisted": "%1$sDeze gebruiker staat niet op de invite posting whitelist!",
-      "success": "%1$sHeeft de volgende gebruikers succesvol op de blacklist voor het posten van discord gezet: %2$s#%3$s "
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sJe moet ten minste een tag opgeven om op de blacklist te zetten!",

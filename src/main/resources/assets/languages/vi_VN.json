@@ -239,11 +239,14 @@
       "too_many_errors": "%1$sQuá nhiều lỗi trong phiên phát nhạc này, dừng lại...",
       "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải thể? Thử lại đê.",
       "queue": {
+        "header_field": "Instructions",
+        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Không có gì hoặc không thể tìm thấy tên/thời lượng",
         "header": "Danh sách phát cho máy chủ %1$s",
         "nothing_playing": "Chả có gì ở đây cả, toàn bui. Tại sao bạn không bật vài bài hát?\nNếu bạn nghĩ rằng có những bài hát ở đây mà chúng không xuất hiện, thử dùng lệnh `~>queue 1`.",
         "nothing_playing_2": "**Nếu chỉ có duy nhất bài hát đang bật và bạn không thêm nhiều bài nữa thì thực sự sẽ chỉ còn bụi ở đâu thôi. Bạn có thể xếp nhiều bài hát hơn nếu bạn muốn!**",
         "np": "Đang phát",
+        "dj_np": "**Queued by:** ",
         "page_overflow": "Chả có gì ở đây hớt, toàn bụi. Sao bạn không quay lại mấy trang trước?",
         "page_overflow_2": "Nếu bạn nghĩ rằng có vài bài hát ở đây nhưng chúng lại không xuất hiện, hãy thử `~>queue 1`.",
         "total_queue_time": "Tổng thời gian của danh sách phát",
@@ -1250,7 +1253,7 @@
       "bot_no_messages": "%1$sKhông có tin nhắn của bot hoặc lệnh gọi bot ở đây.",
       "no_pins_no_messages": "%1$sKhông có tin nhắn không ghim ở đây...",
       "mention_no_messages": "%1$sKhông có tin nhắn từ người dùng bạn đề cập đến ở đây.",
-      "too_few_messages": "%1$sQuá ít tin nhắn để xoá. Cần ít nhất 5 tin nhắn.",
+      "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sHãy nhập một con số phù hợp.",
       "not_valid": "%1$sCon số đó không phù hợp để xoá tin nhắn.",
@@ -1341,12 +1344,14 @@
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now at %5$s%%",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
       },
       "water": {
         "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
+        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now at %3$s%%"
       },
       "activity": {
@@ -1441,7 +1446,8 @@
       "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
     },
     "avatar": {
-      "result": "%1$sAvatar for: **%2$s**\n%3$s"
+      "result": "Avatar for %1$s",
+      "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
       "header": "Server Information",
@@ -1487,12 +1493,12 @@
     "help": {
       "title": "Trợ giúp Mantaro",
       "base_category": "Danh sách lệnh cho loại lệnh %1$s. Để được hướng dẫn cụ thể, hãy xem [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Hướng dẫn mua bán](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Danh sách tất cả các lệnh**. Để được hướng dẫn cụ thể, hãy xem [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nCác hướng dẫn: [Mua bán](https://github.com/Mantaro/MantaroBot/wiki/Currency-101), [Lệnh tự tạo](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22), [Lời chào mừng](https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial)\n",
-      "support": "[Để được giúp đỡ, bạn có thể tham gia máy chủ hỗ trợ](https://support.mantaro.site). [Bạn có thể theo dõi tôi trên Twitter để biết thêm thông tin cập nhật.](https://twitter.com/mantarodiscord)\n",
-      "patreon": "[**We need your help to keep Mantaro online! Click here for more info.**](https://www.patreon.com/mantaro)",
+      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
+      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
+      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "To check command usage, type %1$shelp <command> // -> Commands: %2$s",
+      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
       "commands": "Các lệnh",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
@@ -1858,28 +1864,6 @@
     "modlog_whitelist": {
       "no_mentions": "%1$s**You need to specify the users to locally whitelist from mod logs.**",
       "success": "%1$sLocally un-blacklisted users from mod-log: **%2$s**"
-    },
-    "linkprotection_toggle": {
-      "success": "%1$sSet link protection to `%2$s`"
-    },
-    "linkprotection_channel_allow": {
-      "no_channel": "%1$sYou need to specify what channel you want to exclude from the invite checker.",
-      "success": "%1$s%2$s can now be used to send discord invites."
-    },
-    "linkprotection_channel_disallow": {
-      "no_channel": "%1$sYou need to specify what channel you want to include on the invite checker. (All channels included by default)",
-      "success": "%1$s%2$s cannot longer be used to send discord invites."
-    },
-    "linkprotection_user_allow": {
-      "no_user": "%1$sYou need to specify what user you want to exclude from the invite checker.",
-      "no_mentions": "%1$sYou need to mention the user to whitelist from posting invites!",
-      "success": "%1$sSuccessfully whitelisted %2$s#%3$s from posting discord invites."
-    },
-    "linkprotection_user_disallow": {
-      "no_user": "%1$sYou need to specify what user you want to include on the invite checker. (Everyone but admins included by default)",
-      "no_mentions": "%1$sYou need to mention the user to blacklist from posting invites!",
-      "not_whitelisted": "%1$sThis user isn't in the invite posting whitelist!",
-      "success": "%1$sSuccessfully blacklisted %2$s#%3$s from posting discord invites."
     },
     "imageboard_tags_blacklist_add": {
       "no_tag": "%1$sYou need to specify at least a tag to blacklist!",
