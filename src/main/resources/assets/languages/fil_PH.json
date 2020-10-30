@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sHindi ko mahanap ang potion o ang uri ng kagamitang iyan!",
       "potion_applied": "%1$sMatagumpay ang paglapat ng epektong **%2$s** na may uring *%3$s* (%4$dx). Tignan ang iyong makintab na bagong epekto gamit ang `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
     "campaigns": {
