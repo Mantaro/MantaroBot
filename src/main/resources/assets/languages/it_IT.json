@@ -600,7 +600,7 @@
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
         "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d)",
+        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name!",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
@@ -608,7 +608,7 @@
       },
       "buycar": {
         "no_house": "%1$sYou need to buy a house first! Check `~>marry buyhouse` and `~>help marry`",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d)",
+        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name!",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
@@ -1498,7 +1498,7 @@
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
+      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
       "commands": "Commands",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
@@ -2392,7 +2392,7 @@
       "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
       "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
       "incubator_egg": "TBD",
-      "water_bottle": "A item that magically heals your pet's thirst.",
+      "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!",
       "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
       "steak": "Very yummy if you're not vegetarian.",
