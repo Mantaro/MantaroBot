@@ -600,7 +600,7 @@
       "buyhouse": {
         "not_married": "%1$sVocê só pode comprar uma casa enquanto estiver casado. Isso pode mudar no futuro.",
         "no_house": "%1$sVocê precisa de um item de casa no seu inventário. Use `~>market buy house` para ter uma.",
-        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar uma casa. (Preço atual da casa: %2$d)",
+        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sVocê precisa dar um nome para a casa!",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pra casa é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
         "success": "%1$sVocê comprou com sucesso uma casa por %2$d. O nome da sua nova acolhedora casa é %3$s, aprecie!",
@@ -608,7 +608,7 @@
       },
       "buycar": {
         "no_house": "%1$sVocê precisa comprar uma casa primeiro! Cheque `~>marry buyhouse` e `~>help marry`",
-        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar um carro. (Preço atual do carro: %2$d)",
+        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sVocê precisar dar um nome para o carro!",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pro carro é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
         "success": "%1$sVocê comprou com sucesso um carro por %2$d. O nome do seu novo carro rápido é %3$s, aprecie!",
@@ -1498,7 +1498,7 @@
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
       "channel_specific_disabled_commands": "\nApenas mostrando comandos não-desativados. Total do canal-específico com comandos desativados: %1$s",
-      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
+      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
       "commands": "Comandos",
       "extended": {
         "no_help": "%1$sNão tem uma ajuda extendida para esse comando.",
@@ -2392,7 +2392,7 @@
       "broken_sparkle_rod": "Uma vara brilhante que se quebrou durante a mineração. Ainda recuperável.",
       "broken_star_rod": "Uma vara de estrela se que quebrou durante a mineração. Ainda recuperável.",
       "incubator_egg": "TBD",
-      "water_bottle": "Um item que cura magicamente a sede do seu pet.",
+      "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "Um relógio mágico que desacelera o tempo quando você precisar. Isso será automaticamente consumido para salvar seu combo no diário!",
       "pet_house": "Uma casa onde vive o seu pet. Talvez. Às vezes eles gostam de ficar do lado de fora.",
       "steak": "Muito gostoso se você não for vegetariano.",
