@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
       "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!",
       "potion_applied_multiple": "%1$sErfolgreich **%2$s** des Types *%3$s* angewendet.\nDu hattest den Effekt bereits, also haben wir ihn gestapelt. Aktuelle Stapelgröße: %4$s",
-      "max_stack_size": "%1$sDu hast bereits die maximale Stapelgröße von %2$s erreicht.",
-      "max_stack_size_2": "%1$sDu kannst nicht so viele %2$s stapeln.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$sDu hast bereits einen Trank des Types %2$s gestapelt, also kannst du keine Tränke des Types %3$s drüberstaplen."
     },
     "campaigns": {
