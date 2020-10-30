@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s找不到这种药水或装备类型!",
       "potion_applied": "%1$s成功应用类型为 *%3$s* (%4$dx) 的 **%2$s** 效果。使用 `~>profile stats` 来查看你的新效果",
       "potion_applied_multiple": "%1$s成功应用类型为 *%3$s* 的 **%2$s** 效果。\n但你已经有这种效果了，所以我们将它堆迭起来。当前堆迭数量: %4$s",
-      "max_stack_size": "%1$s你已经堆迭满 %2$s 了。",
-      "max_stack_size_2": "%1$s你不能一次堆迭那么多的 %2$s。",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$s你已经有堆迭种类为 %2$s 的药水且处于使用中，所以你不能再次堆迭种类 %3$s 的药水上去。"
     },
     "campaigns": {
