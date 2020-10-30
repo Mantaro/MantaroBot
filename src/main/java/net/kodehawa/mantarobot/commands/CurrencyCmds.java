@@ -479,6 +479,7 @@ public class CurrencyCmds {
 
             var currentPotion = equippedItems.getCurrentEffect(type);
             var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
+
             // This used to only check for activePotion.
             // The issue with this was that there could be one potion that was fully used, but there was another potion
             // waiting to be used. In that case the potion would get overridden.
@@ -493,15 +494,20 @@ public class CurrencyCmds {
                     return;
                 }
 
+                var amountEquipped = currentPotion.getAmountEquipped();
+                if (activePotion) {
+                    amountEquipped -= 1; // Active potion counts as equipped, but isn't!
+                }
+
                 // Currently has a potion equipped, and is of the same type.
-                if (currentPotion.getAmountEquipped() + amount < 10) {
+                if (amountEquipped + amount <= 15) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
                             activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
                     );
                 } else {
-                    // Too many stacked (max: 10).
+                    // Too many stacked (max: 15).
                     ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName());
                     return;
                 }
@@ -510,16 +516,15 @@ public class CurrencyCmds {
                 var effect = new PotionEffect(ItemHelper.idOf(item), 0, ItemType.PotionType.PLAYER);
 
                 // If there's more than 1, proceed to equip the stacks.
-                if (amount >= 10) {
-                    //Too many stacked (max: 10).
+                if (amount >= 15) {
+                    //Too many stacked (max: 15).
                     ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName());
                     return;
                 }
 
                 if (amount > 1) {
-                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
+                    effect.equip(amount - 1); // Amount - 1 because we're technically using one.
                 }
-
 
                 // Apply the effect.
                 equippedItems.applyEffect(effect);
