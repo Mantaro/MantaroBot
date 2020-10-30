@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s¡No puedo encontrar esa poción o tipo de equipamiento!",
       "potion_applied": "%1$sCorrectamente apliqué el efecto **%2$s** de tipo *%3$s* (%4$dx). Puedes ver tu efectos en `~>profile stats`",
       "potion_applied_multiple": "%1$sCorrectamente apliqué el efecto **%2$s** de tipo *%3$s*.\nYa tenías este efecto aplicado, así que lo stackeamos. Actual tamaño del stack: %4$s",
-      "max_stack_size": "%1$sYa stackeaste la cantidad máxima de %2$s posible.",
-      "max_stack_size_2": "%1$sNo puedes stackear tantos %2$s.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$sYa tienes una poción de tipo %2$s stackeada y activa, así que no puedes stackear una poción de tipo %3$s encima de ella."
     },
     "campaigns": {
