@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s Tôi không tìm thấy thuốc hay loại trang bị đó!",
       "potion_applied": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s* (%4$dx). Xem hiệu ứng mới đẹp đẽ của bạn tại `~>profile stats`",
       "potion_applied_multiple": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước hiện tại của chồng hiệu ứng là:%4$s",
-      "max_stack_size": "%1$s Bạn đã xếp chồng số lượng tối đa của %2$s mà bạn có thể.",
-      "max_stack_size_2": "%1$sBạn không thể xếp nhiều như vậy %2$s.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$s Thuốc loại %2$s đã được bạn dùng và xếp chồng lên, vì vậy bạn không thể xếp chồng thuốc loại %3$s lên đó."
     },
     "campaigns": {
