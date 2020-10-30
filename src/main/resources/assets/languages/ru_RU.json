@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sЯ не могу найти это зелье или экипировку!",
       "potion_applied": "%1$sУспешно применен эффект **%2$s** типа *%3$s* (%4$dx). Проверьте свои эффекты командой: `~>profile stats`",
       "potion_applied_multiple": "%1$sУспешно применен **%2$s** типа *%3$s*.\nВы уже активировали подобный эффект, поэтому мы сложили их: %4$s",
-      "max_stack_size": "%1$sВы уже сложили максимальное количество %2$s которое могли.",
-      "max_stack_size_2": "%1$sВы не можете одновременно использовать более %2$s.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$sВы уже имеете суммированное зелье %2$s, поэтому вы не можете сложить эффекты от %3$s."
     },
     "campaigns": {
