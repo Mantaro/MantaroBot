@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s그 물약이나 장비 종류를 찾을 수가 없었어요!",
       "potion_applied": "%1$s성공적으로 *%3$s*(%4$dx) 유형의 효과 **%2$s**을(를) 적용했어요. `~>profile stats`로 빛나는 새로운 효과를 확인하세요",
       "potion_applied_multiple": "%1$s성공적으로 *%3$s* 유형의 **%2$s**을(를) 적용했어요. \n이미 이 효과를 적용했으므로 누적했어요. 현재 누적 크기: %4$s",
-      "max_stack_size": "%1$s이미 가능한 최대 %2$s이 누적됐어요.",
-      "max_stack_size_2": "%1$s%2$s을(를) 많이 누적할 수 없어요.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$s이미 %2$s 유형의 물약을 누적 활성 상태여서 %3$s 유형의 물약을 그 안에 누적할 수 없어요."
     },
     "campaigns": {
