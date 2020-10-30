@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sلا يمكنني إيجاد الجرعه او نوع المعدات!",
       "potion_applied": "%1$sتم بنجاح تطبيق تأثير **%2$s** من *%3$s* (%4$dx). يمكنك الإطلاع على التاأثير الجديد عن طريق `~>profile stats`",
       "potion_applied_multiple": "%1$sتم بالفعل تطبيق **%2$s** من نوع *%3$s*. لديك بالفعل هذا التأثير مطبق, لذا تم تخزينه. الحجم المكدس حاليا: %4$s",
-      "max_stack_size": "%1$sلقد كدست بالفعل الحد الأقصى من %2$s المسموح به.",
-      "max_stack_size_2": "%1$sلايمكنك تكديس هذه الكميه %2$s.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
       "not_same_potion": "%1$sلديك بالفعل جرعة من نوع %2$s مخزنه ومفعله, لذا لايمكنك تكديس جرعة من نوع %3$s به."
     },
     "campaigns": {
