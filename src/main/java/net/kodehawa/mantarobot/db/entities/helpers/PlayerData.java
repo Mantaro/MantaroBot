@@ -70,6 +70,7 @@ public class PlayerData {
     private long lastSeenCampaign;
     private QuestTracker quests = new QuestTracker();
     private int questQuota = 3;
+    private boolean resetWarning = false;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -383,6 +384,14 @@ public class PlayerData {
 
     public void setLastSeenCampaign(long lastSeenCampaign) {
         this.lastSeenCampaign = lastSeenCampaign;
+    }
+
+    public boolean isResetWarning() {
+        return resetWarning;
+    }
+
+    public void setResetWarning(boolean resetWarning) {
+        this.resetWarning = resetWarning;
     }
 
     @JsonIgnore

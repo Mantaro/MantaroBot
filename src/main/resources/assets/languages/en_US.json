@@ -1559,7 +1559,8 @@
     "balance": {
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$,d credits.**",
-      "own_balance": "Your balance is **$%1$,d credits.**"
+      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "reset_notice": "If you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nThis will only be shown once."
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",

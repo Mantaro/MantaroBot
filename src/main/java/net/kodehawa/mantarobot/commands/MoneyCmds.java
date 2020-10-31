@@ -437,11 +437,21 @@ public class MoneyCmds {
                         return;
                     }
 
-                    var balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : ctx.getPlayer(user).getCurrentMoney();
+                    var player = ctx.getPlayer(user);
+                    var playerData = player.getData();
+
+                    var balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : player.getCurrentMoney();
+                    var extra = !playerData.isResetWarning() && !ctx.getConfig().isPremiumBot() ?
+                            languageContext.get("commands.balance.reset_notice") : "";
+
+                    if (!extra.isEmpty()) {
+                        playerData.setResetWarning(true);
+                        player.save();
+                    }
 
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?
                             languageContext.withRoot("commands", "balance.external_balance").formatted(user.getName(), balance) :
-                            languageContext.withRoot("commands", "balance.own_balance").formatted(balance))
+                            languageContext.withRoot("commands", "balance.own_balance").formatted(balance, extra))
                     );
 
                 });
