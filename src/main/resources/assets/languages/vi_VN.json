@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s Tôi không tìm thấy thuốc hay loại trang bị đó!",
       "potion_applied": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s* (%4$dx). Xem hiệu ứng mới đẹp đẽ của bạn tại `~>profile stats`",
       "potion_applied_multiple": "%1$s Áp dụng thành công hiệu ứng **%2$s** của loại *%3$s*.\nBạn đã sử dụng hiệu ứng này, vì vậy chúng tôi sẽ xếp chồng nó lên. Kích thước hiện tại của chồng hiệu ứng là:%4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$s Thuốc loại %2$s đã được bạn dùng và xếp chồng lên, vì vậy bạn không thể xếp chồng thuốc loại %3$s lên đó."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "Một cách thoải mái để dọn sạch bụi bẩn bám xung quanh bạn. Tôi khá chắc là có rất nhiều.",
       "claim_key": "Món đồ này giúp bạn không bị người khác nhận (làm waifu) khi gõ lệnh `~>profile claimlock`.",
       "coffee": "Một cách khoan khoái để bắt đầu ngày mới của bạn.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Cho bạn một cơ hội câu được cá cao hơn.",
       "diamond_pick": "Một chiếc cuốc bền hơn rất nhiều (độ bền 150). (công cụ `~>mine`(đào)).",
       "tv": "Cần... xem... TV...",
