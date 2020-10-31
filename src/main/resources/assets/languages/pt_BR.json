@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sEu não encontrei essa poção ou tipo de equipamento!",
       "potion_applied": "%1$sPoção aplicada com sucesso **%2$s** do tipo *%3$s* (%4$dx). Cheque seu novo efeito brilhante em `~>profile stats`",
       "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então empilhamos. Tamanho atual da pilha: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sVocê já acumulou o valor máximo de %2$s que você pode ter. (Máximo: 15)",
+      "max_stack_size_2": "%1$sVocê não pode acumular isso tudo %2$s. (Máximo: 15)",
       "not_same_potion": "%1$sVocê já tem uma poção do tipo %2$s empilhada e ativada, então você não pode empilhar poções do tipo %3$s nela."
     },
     "campaigns": {
@@ -600,7 +600,7 @@
       "buyhouse": {
         "not_married": "%1$sVocê só pode comprar uma casa enquanto estiver casado. Isso pode mudar no futuro.",
         "no_house": "%1$sVocê precisa de um item de casa no seu inventário. Use `~>market buy house` para ter uma.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar uma casa. (Preço atual da casa: %2$d créditos)",
         "no_name": "%1$sVocê precisa dar um nome para a casa!",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pra casa é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
         "success": "%1$sVocê comprou com sucesso uma casa por %2$d. O nome da sua nova acolhedora casa é %3$s, aprecie!",
@@ -608,7 +608,7 @@
       },
       "buycar": {
         "no_house": "%1$sVocê precisa comprar uma casa primeiro! Cheque `~>marry buyhouse` e `~>help marry`",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar um carro. (Preço atual do carro: %2$d créditos)",
         "no_name": "%1$sVocê precisar dar um nome para o carro!",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pro carro é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
         "success": "%1$sVocê comprou com sucesso um carro por %2$d. O nome do seu novo carro rápido é %3$s, aprecie!",
@@ -1446,8 +1446,8 @@
       "note": "**Se você gosta da Mantaro, por favor de um voto em** <https://discordbots.org/bot/mantaro> **e/ou considere doar no Patreon ou Paypal! Obrigada~**"
     },
     "avatar": {
-      "result": "Avatar for %1$s",
-      "footer": "Hopefully a very pretty one."
+      "result": "Avatar de %1$s",
+      "footer": "Um muito bonito, ainda bem."
     },
     "serverinfo": {
       "header": "Informação do Servidor",
@@ -1493,12 +1493,12 @@
     "help": {
       "title": "Ajuda da Mantaro",
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
-      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
-      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
+      "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se que você pode ter mais informações de um comando usando `~>help <name of command>`\n",
+      "support": "Se você ainda estiver perdido você pode entrar em nosso [servidor de suporte](https://support.mantaro.site). Você pode me seguir também no [Twitter](https://twitter.com/mantarodiscord) para updates.\n",
+      "patreon": "**[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)**",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
       "channel_specific_disabled_commands": "\nApenas mostrando comandos não-desativados. Total do canal-específico com comandos desativados: %1$s",
-      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
+      "footer": "Obrigado por usar a Mantaro %1$s (Total de comandos: %2$s)",
       "commands": "Comandos",
       "extended": {
         "no_help": "%1$sNão tem uma ajuda extendida para esse comando.",
@@ -2392,7 +2392,7 @@
       "broken_sparkle_rod": "Uma vara brilhante que se quebrou durante a mineração. Ainda recuperável.",
       "broken_star_rod": "Uma vara de estrela se que quebrou durante a mineração. Ainda recuperável.",
       "incubator_egg": "TBD",
-      "water_bottle": "An item that magically heals your pet's thirst.",
+      "water_bottle": "Um item que cura magicamente a sede do seu pet.",
       "magic_watch": "Um relógio mágico que desacelera o tempo quando você precisar. Isso será automaticamente consumido para salvar seu combo no diário!",
       "pet_house": "Uma casa onde vive o seu pet. Talvez. Às vezes eles gostam de ficar do lado de fora.",
       "steak": "Muito gostoso se você não for vegetariano.",
