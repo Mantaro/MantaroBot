@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sلا يمكنني إيجاد الجرعه او نوع المعدات!",
       "potion_applied": "%1$sتم بنجاح تطبيق تأثير **%2$s** من *%3$s* (%4$dx). يمكنك الإطلاع على التاأثير الجديد عن طريق `~>profile stats`",
       "potion_applied_multiple": "%1$sتم بالفعل تطبيق **%2$s** من نوع *%3$s*. لديك بالفعل هذا التأثير مطبق, لذا تم تخزينه. الحجم المكدس حاليا: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sلديك بالفعل جرعة من نوع %2$s مخزنه ومفعله, لذا لايمكنك تكديس جرعة من نوع %3$s به."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A very much stronger pick (150 durability). (`~>mine` tool).",
       "tv": "يجب... مشاهدة... التلفاز...",
