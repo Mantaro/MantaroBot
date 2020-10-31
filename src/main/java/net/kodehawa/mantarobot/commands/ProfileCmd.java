@@ -522,6 +522,10 @@ public class ProfileCmd {
                     }
 
                     var toLookup = member.getUser();
+                    if (toLookup.isBot()) {
+                        ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                        return;
+                    }
 
                     var player = ctx.getPlayer(toLookup);
                     var dbUser = ctx.getDBUser(toLookup);
