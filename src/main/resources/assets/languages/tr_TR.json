@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sO iksir veya ekipman tipini bulamadim!",
       "potion_applied": "%1$s**%2$s** efektinin *%3$s* (%4$dx) tipi basariyla aktif edildi. Parildayan yeni efektini `~>profile stats` ile kontrol edebilirsin!",
       "potion_applied_multiple": "%1$s**%2$s** efektinin *%3$s* tipi basariyla aktif edildi.\nYalniz bu efekt zaten vardi, ustune tekrar koyduk. Guncel: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sZaten %2$s tipi bir iksiriniz var, ust uste koymussunuz ve aktif etmisiniz, %3$s bu iksiri onun üzerine koyamazsin."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A very much stronger pick (20% breaking chance). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
