@@ -789,7 +789,7 @@
     "transfer": {
       "transfer_yourself_note": "%1$sNo puedes transferirte créditos a ti mismo.",
       "bot_notice": "%1$sNo puedes transferirle créditos a un bot.",
-      "no_amount": "%1$sNecesitas especificar el monto a transferir.",
+      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
       "no_money_specified_notice": "%1$sNo puedes mandar 0 créditos :P",
       "over_transfer_limit": "%1$sNo puedes transferir tantos créditos. (Límite: %2$d créditos)",
       "own_locked_notice": "%1$sNo puedes transferir créditos ahora.",
@@ -1289,7 +1289,7 @@
       "height": "Largo",
       "tags": "Etiquetas",
       "load_notice": "Si la imagen no carga, clickea el título.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere. If animated gifs/webm content doesn't play, click the link in the embed title.",
+      "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sEl comando de Yande.re solo puede ser usado en canales NSFW debido a numerosos reportes de este enviando imagenes sugerentes cuando se pedian imagenes no sugerentes.\nPuedes intentar usar `~>konachan` como reemplazo.",
       "e621_nsfw_notice": "%1$sEl comando e621 solo puede ser usado en canales NSFW."
     },
@@ -1374,7 +1374,7 @@
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for.",
+        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
         "author": "Pet information for type %1$s%2$s",
         "name": "Pet Name",
         "cost": "Pet Cost",
@@ -1559,7 +1559,8 @@
     "balance": {
       "bot_notice": "%1$sLos bots no pueden tener créditos...",
       "external_balance": "El balance de %1$s es **$%2$d créditos.**",
-      "own_balance": "Tu balance es **$%1$d créditos.**"
+      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nThis will only be shown once."
     },
     "daily": {
       "check": "%1$sPodrás acumular tus créditos diarios en: **%2$s.**",
