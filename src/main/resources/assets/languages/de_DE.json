@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sIch kann diesen Trank- bzw. Equipmenttyp nicht finden!",
       "potion_applied": "%1$sErfolgreich den Effekt **%2$s** des Types *%3$s* angewendet (%4$dx). Schau dir deinen tollen neuen Effekt unter `~>profile stats` an!",
       "potion_applied_multiple": "%1$sErfolgreich **%2$s** des Types *%3$s* angewendet.\nDu hattest den Effekt bereits, also haben wir ihn gestapelt. Aktuelle Stapelgröße: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sDu hast bereits einen Trank des Types %2$s gestapelt, also kannst du keine Tränke des Types %3$s drüberstaplen."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "Eine wunderbare Art, um all den Staub um dich herum wegzuwischen. Ich wette da ist viel.",
       "claim_key": "Dieser Gegenstand schützt dich als Waifu beansprucht zu werden, wenn du `~>profile claimlock` benutzt.",
       "coffee": "Ein wunderbarer Start in den Tag.",
-      "waifu_pill": "Gibt dir einen großen Vorteil beim Abbauen und Fischen, wenn eine deiner Waifus 10 Millionen wert ist. Hält 5 Runden.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Erhöht deine Wahrscheinlichkeit Fische zu fangen.",
       "diamond_pick": "Eine sehr viel stärkere Spitzhacke (150 Punkte Haltbarkeit). (`~>mine` Werkzeug).",
       "tv": "Muss... Fernsehen... schauen...",
