@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sI can't find that potion or equipment type!",
       "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) while having it on your inventory.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A very much stronger pick (150 durability). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
