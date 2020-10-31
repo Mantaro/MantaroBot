@@ -499,8 +499,9 @@ public class CurrencyCmds {
                     amountEquipped -= 1; // Active potion counts as equipped, but isn't!
                 }
 
+                var attempted = amountEquipped + amount;
                 // Currently has a potion equipped, and is of the same type.
-                if (amountEquipped + amount <= 15) {
+                if (attempted < 15) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
@@ -508,7 +509,7 @@ public class CurrencyCmds {
                     );
                 } else {
                     // Too many stacked (max: 15).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName());
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName(), attempted);
                     return;
                 }
             } else {
@@ -516,9 +517,9 @@ public class CurrencyCmds {
                 var effect = new PotionEffect(ItemHelper.idOf(item), 0, ItemType.PotionType.PLAYER);
 
                 // If there's more than 1, proceed to equip the stacks.
-                if (amount >= 15) {
+                if (amount > 15) {
                     //Too many stacked (max: 15).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName());
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName(), amount);
                     return;
                 }
 
