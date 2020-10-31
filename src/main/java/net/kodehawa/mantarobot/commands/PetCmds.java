@@ -596,7 +596,7 @@ public class PetCmds {
 
                 var increase = 15 * amount;
                 if ((pet.getThirst() + increase) > 100) {
-                    ctx.sendLocalized("commands.pet.thirst.too_much", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.pet.water.too_much", EmoteReference.ERROR);
                     return;
                 }
 
