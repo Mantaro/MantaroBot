@@ -1374,7 +1374,7 @@
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for.",
+        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
         "author": "Pet information for type %1$s%2$s",
         "name": "Pet Name",
         "cost": "Pet Cost",
