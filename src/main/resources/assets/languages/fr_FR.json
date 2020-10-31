@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sJe ne trouve pas ce type de potion ou d'équipement!",
       "potion_applied": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès (%4$dx). Regarde ton nouvel effet avec `~>profile stats`",
       "potion_applied_multiple": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès.\nTu l'avais déjà nous les avons donc additionné. Nombre d'effets accumulés : %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sTu as déjà accumulé 2 potions de type %2$s, tu ne peux donc pas y ajouter un potion de %3$s."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "Une bonne manière de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
       "claim_key": "Cet objet te rendre inobtenable (en tant que Waifu) dés que tu auras fais la commande `~>profile claimlock`.",
       "coffee": "Une très bonne façon de commencer votre journée",
-      "waifu_pill": "Te donne un avantage significatif sur le minage et la pêche si l’une de tes waifus est évaluée à plus de 10 millions. Dure 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Te donne une plus grande chance d'attraper du poisson.",
       "diamond_pick": "Une pioche bien plus résistante (Durabilité: 150). (`~>mine` tool).",
       "tv": "Doit... regarder... la... Télé...",
