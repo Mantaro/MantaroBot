@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sЯ не могу найти это зелье или экипировку!",
       "potion_applied": "%1$sУспешно применен эффект **%2$s** типа *%3$s* (%4$dx). Проверьте свои эффекты командой: `~>profile stats`",
       "potion_applied_multiple": "%1$sУспешно применен **%2$s** типа *%3$s*.\nВы уже активировали подобный эффект, поэтому мы сложили их: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sВы уже имеете суммированное зелье %2$s, поэтому вы не можете сложить эффекты от %3$s."
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "Замечательный способ убрать всю пыль в округе. Бьюсю об заклад, её много.",
       "claim_key": "Этот предмет позволяет перестать вам быть заключёнными как вайфу если использовать `~>profile claimlock`.",
       "coffee": "Замечательный способ начать свой день.",
-      "waifu_pill": "Даёт вам существенное преимущество в раскопках и рыбалке, если одна из ваших вайфу стоит больше, чем 10 миллионов. На последующие 5 действий.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Повышает твой шанс выловить рыбу.",
       "diamond_pick": "Крепкая кирка (20% шанс поломки). (`~>mine` tool).",
       "tv": "Нужно... смотреть... телевизор...",
