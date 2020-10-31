@@ -508,6 +508,10 @@ public class CurrencyCmds {
                             activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
                     );
                 } else {
+                    if (activePotion) {
+                        attempted += 1;
+                    }
+
                     // Too many stacked (max: 15).
                     ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName(), attempted);
                     return;
