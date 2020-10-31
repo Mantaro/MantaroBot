@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s找不到這種藥水或裝備類型!",
       "potion_applied": "%1$s成功應用類型為 *%3$s* (%4$dx) 的 **%2$s** 效果。使用 `~>profile stats` 來查看你的新效果",
       "potion_applied_multiple": "%1$s成功應用類型為 *%3$s* 的 **%2$s** 效果。\n但你已經有這種效果了，所以我們將它堆疊起來。當前堆疊數量: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15)",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$s你已經有堆疊種類為 %2$s 的藥水且處於使用中，所以你不能再次堆疊種類 %3$s 的藥水上去。"
     },
     "campaigns": {
@@ -2358,7 +2358,7 @@
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 10 million. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A very much stronger pick (150 durability). (`~>mine` tool).",
       "tv": "Must... watch... TV...",
