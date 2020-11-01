@@ -1294,7 +1294,7 @@
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
       "no_marriage": "%1$sYou need to be married to have a pet. For now.",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
@@ -1380,10 +1380,8 @@
         "cost": "Pet Cost",
         "abilities": "Abilities",
         "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1)",
-        "coin_buildup_100": "Coin Buildup (Lvl. 100)",
-        "item_buildup": "Item Buildup (Lvl. 1)",
-        "item_buildup_100": "Item Buildup (Lvl. 100)"
+        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
+        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
       }
     },
     "invite": {
@@ -1560,7 +1558,7 @@
       "bot_notice": "%1$sBot'ai neturi pinigų.",
       "external_balance": "%1$s balancas yra **$%2$d kreditų.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nThis will only be shown once."
+      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
       "check": "%1$sTu galėsi atsiimti savo kasdieninį atlygį:**%2$s.**",
