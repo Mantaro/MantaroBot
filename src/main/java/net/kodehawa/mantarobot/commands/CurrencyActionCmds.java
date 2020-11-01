@@ -120,8 +120,7 @@ public class CurrencyActionCmds {
                 var reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
                         languageContext.get("commands.mine.reminder") : "";
 
-                var message = (languageContext.get("commands.mine.success") + reminder)
-                        .formatted(item.getEmoji(), money, item.getName());
+                var message = "";
 
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
@@ -254,6 +253,8 @@ public class CurrencyActionCmds {
                 }
 
                 handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
+
+                message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmoji(), money, item.getName());
 
                 ctx.send(message);
             }
