@@ -174,9 +174,8 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        //Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
-        if (queue.stream()
-                .filter(track -> trackInfo.uri.equals(trackInfo.uri)).count() > fqSize && !silent) {
+        // Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
+        if (queue.stream().filter(track -> trackInfo.uri.equals(track.getInfo().uri)).count() > fqSize && !silent) {
             event.getChannel().sendMessageFormat(
                     language.get("commands.music_general.loader.fair_queue_limit_reached"),
                     EmoteReference.ERROR, fqSize + 1

@@ -136,8 +136,9 @@ public class CurrencyActionCmds {
                         money += rewards.getMoney();
                         message += rewards.getResult();
 
-                        if (rewards.getMoney() > 0)
+                        if (rewards.getMoney() > 0) {
                             petHelp = true;
+                        }
                     }
                 }
 
@@ -388,7 +389,7 @@ public class CurrencyActionCmds {
 
                     //Basically more chance if you have a better rod.
                     if (chance > (70 - nominalLevel)) {
-                        money = Math.max(25, random.nextInt(130 + (3 * nominalLevel)));
+                        money += Math.max(25, random.nextInt(130 + (3 * nominalLevel)));
                     }
 
                     //START OF WAIFU HELP IMPLEMENTATION
@@ -621,8 +622,9 @@ public class CurrencyActionCmds {
                         }
                     }
 
-                    if (hasPotion)
+                    if (hasPotion) {
                         amount += 3;
+                    }
 
                     // ---- Start of drop handling.
                     RandomCollection<Item> items = new RandomCollection<>();

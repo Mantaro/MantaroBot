@@ -518,7 +518,7 @@ public class MarryCmd {
                 }
 
                 if (!playerInventory.containsItem(ItemReference.CAR)) {
-                    ctx.sendLocalized("commands.marry.buycar.no_house", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.marry.buycar.no_car", EmoteReference.ERROR);
                     return;
                 }
 
