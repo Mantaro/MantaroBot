@@ -90,7 +90,7 @@ public class MantaroBot {
             ));
         }
 
-        log.info("Filtering all logs below " + LogFilter.LEVEL);
+        log.info("Filtering all logs below {}", LogFilter.LEVEL);
     }
 
     private final MantaroAudioManager audioManager;
@@ -154,8 +154,9 @@ public class MantaroBot {
         birthdayCacher = new BirthdayCacher();
         ItemHelper.setItemActions();
 
-        LogUtils.log("Startup", String.format("Starting up Mantaro %s (Git: %s) in Node %s\nHold your seatbelts! <3",
-                MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
+        LogUtils.log("Startup",
+                "Starting up Mantaro %s (Git: %s) in Node %s\nHold your seatbelts! <3"
+                        .formatted(MantaroInfo.VERSION, MantaroInfo.GIT_REVISION, getNodeNumber())
         );
 
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
@@ -310,12 +311,19 @@ public class MantaroBot {
                         .put("cached_users", jda.getUserCache().size())
                         .put("gateway_ping", jda.getGatewayPing())
                         .put("shard_status", jda.getStatus())
-                        .put("last_ping_diff", ((MantaroEventManager) jda.getEventManager()).lastJDAEventDiff())
+                        .put("last_ping_diff",
+                                ((MantaroEventManager) jda.getEventManager()).lastJDAEventDiff()
+                        )
                         .put("node_number", MantaroBot.getInstance().getNodeNumber())
                         .toString();
 
-                jedis.hset("shardstats-" + config.getClientId(), String.valueOf(jda.getShardInfo().getShardId()), json);
-                log.debug("Sent process shard stats to Redis (Global) [Running Shards: {}] -> {}", manager.getShardsRunning(), json);
+                jedis.hset("shardstats-" + config.getClientId(),
+                        String.valueOf(jda.getShardInfo().getShardId()), json
+                );
+
+                log.debug("Sent process shard stats to Redis (Global) [Running Shards: {}] -> {}",
+                        manager.getShardsRunning(), json
+                );
             }
         }
     }
