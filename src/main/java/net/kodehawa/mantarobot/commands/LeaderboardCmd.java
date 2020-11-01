@@ -201,7 +201,7 @@ public class LeaderboardCmd {
                     var indexName = seasonal ? "money" : "newMoney";
                     var moneyLeaderboard = getLeaderboard(tableName, indexName,
                             player -> player.g("id"),
-                            player -> player.pluck("id", "money"), 10
+                            player -> player.pluck("id", "newMoney", r.hashMap("data", "newMoney")), 10
                     );
 
                     ctx.send(
@@ -211,8 +211,17 @@ public class LeaderboardCmd {
                                             languageContext.get("commands.leaderboard.inner.seasonal_money").formatted(EmoteReference.MONEY) :
                                             languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", moneyLeaderboard,
-                                    map -> Pair.of(getMember(ctx, map.get("id").toString().split(":")[0]),
-                                            map.get("money").toString()), "%s**%s#%s** - $%,d", seasonal
+                                    map -> {
+                                        @SuppressWarnings("unchecked")
+                                        var money = ((Map<String, Object>) map.get("data")).get("newMoney");
+
+                                        return Pair.of(
+                                                getMember(
+                                                        ctx,
+                                                        map.get("id").toString().split(":")[0]
+                                                ), money.toString()
+                                        );
+                                    }, "%s**%s#%s** - $%,d", seasonal
                             ).build()
                     );
                 }
