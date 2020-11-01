@@ -1326,7 +1326,7 @@
       },
       "buy": {
         "not_enough_arguments": "%1$sVocê tem que especificar o nome do pet e o tipo do pet que quer comprar.",
-        "no_requirements": "%1$sVocê precisa de um carro e uma casa pra comprar um pet! Casa: %2$s, Carro: %3$s",
+        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
         "no_house": "%1$sVocê precisa ter uma casa de pet no seu inventário pra fazer isso.",
         "already_has_pet": "%1$sVocê já tem um pet.",
         "nothing_found": "%1$sNão foi possível encontrar o tipo de pet que você especificou. Você especificou: `%2$s`, Tipos válidos: `%3$s`",
