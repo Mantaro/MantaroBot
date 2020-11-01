@@ -515,7 +515,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (!playerInventory.containsItem(itemObject) && playerInventory.getAmount(itemObject) >= amount) {
+                if (amount > playerInventory.getAmount(itemObject)) {
                     ctx.sendLocalized("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
