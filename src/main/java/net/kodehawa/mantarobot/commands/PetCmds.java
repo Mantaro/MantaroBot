@@ -523,7 +523,7 @@ public class PetCmds {
                 var foodItem = (Food) itemObject;
 
                 if (foodItem.getType().getApplicableType() != pet.getType() &&
-                        !foodItem.getType().getApplicableType().equals(HousePetType.ALL)) {
+                        foodItem.getType() != Food.FoodType.GENERAL) {
                     ctx.sendLocalized("commands.pet.feed.not_applicable", EmoteReference.ERROR);
                     return;
                 }
@@ -638,7 +638,7 @@ public class PetCmds {
                 var food = Arrays.stream(ItemReference.ALL)
                         .filter(Food.class::isInstance)
                         .map(Food.class::cast)
-                        .filter(f -> (f.getType().getApplicableType() == lookup) || f.getType().equals(HousePetType.ALL))
+                        .filter(f -> (f.getType().getApplicableType() == lookup) || f.getType() == Food.FoodType.GENERAL)
                         .map(Item::toDisplayString)
                         .collect(Collectors.joining(", "));
 
