@@ -57,8 +57,8 @@
       "potion_not_found": "%1$s ik kan dat drankje of item niet vinden!",
       "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can.",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s.",
+      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
+      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
       "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
     },
     "campaigns": {
@@ -600,7 +600,7 @@
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
         "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d)",
+        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name!",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
@@ -608,7 +608,7 @@
       },
       "buycar": {
         "no_house": "%1$sYou need to buy a house first! Check `~>marry buyhouse` and `~>help marry`",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d)",
+        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name!",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
@@ -789,7 +789,7 @@
     "transfer": {
       "transfer_yourself_note": "%1$sJe kunt geen geld naar jezelf overmaken.",
       "bot_notice": "%1$sJe kunt geen geld overmaken naar een bot.",
-      "no_amount": "%1$sJe moet het bedrag opgeven.",
+      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
       "no_money_specified_notice": "%1$sJe kunt niet 'geen geld' overmaken :P",
       "over_transfer_limit": "%1$sJe kunt zoveel geld niet overmaken. (Limiet: %2$d credits)",
       "own_locked_notice": "%1$sJe kunt nu geen geld overmaken",
@@ -1289,7 +1289,7 @@
       "height": "Hoogte",
       "tags": "Tags",
       "load_notice": "Als de afbeelding niet wordt geladen, klik op de titel.",
-      "rule34_notice": "If you don't like the content on this command, you can use ~>yandere. If animated gifs/webm content doesn't play, click the link in the embed title.",
+      "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sHet commando Yandere kan alleen in NSFW-kanalen worden gebruikt vanwege verschillende rapporten waarin expliciete afbeeldingen worden verzonden die als veilig zijn gemarkeerd.\nJe kan proberen om `~>konachan` te gebruiken!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
@@ -1374,7 +1374,7 @@
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for.",
+        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
         "author": "Pet information for type %1$s%2$s",
         "name": "Pet Name",
         "cost": "Pet Cost",
@@ -1498,7 +1498,7 @@
       "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
       "disabled_commands": "Alleen niet-geblokkeerde commandos weergeven. Totaal uitgeschakelde commandos: %1$s",
       "channel_specific_disabled_commands": "\nAlleen niet-geblokkeerde commandos weergeven. Totaal aantal kanaal-specifieke uitgeschakelde commandos: %1$s",
-      "footer": "Thanks for using Mantaro 🤍 (Total Commands: %2$s)",
+      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
       "commands": "Commandos",
       "extended": {
         "no_help": "%1$sEr is geen uitgebreide hulp ingesteld voor deze opdracht.",
@@ -1559,7 +1559,8 @@
     "balance": {
       "bot_notice": "%1$sBots kunnen geen geld hebben.",
       "external_balance": "%1$s's balans is **$%2$.d credits.**",
-      "own_balance": "Jouw balans is **$%1$,d credits.**"
+      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nThis will only be shown once."
     },
     "daily": {
       "check": "%1$sJe kunt je daily weer ontvangen op: **%2$s.**",
@@ -2358,7 +2359,7 @@
       "mop": "Een heerlijke manier om al het stof weg te halen. Ik weet zeker dat er veel van is.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "Een heerlijke manier om je dag mee te beginnen.",
-      "waifu_pill": "Geeft je een aanzienlijk voordeel bij het mijnen en vissen als één van je waifus wordt gewaardeerd op meer dan 10 miljoen. Werkt voor 5 sessies.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
       "bait": "Geeft je een hogere kans om vis te vangen",
       "diamond_pick": "Een veel sterkere pikhouweel (Diamant). (`~>mine` tool).",
       "tv": "Moet....tv.....kijken....",
@@ -2392,7 +2393,7 @@
       "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
       "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
       "incubator_egg": "TBD",
-      "water_bottle": "A item that magically heals your pet's thirst.",
+      "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!",
       "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
       "steak": "Very yummy if you're not vegetarian.",
