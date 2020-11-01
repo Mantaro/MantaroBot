@@ -16,8 +16,8 @@
     "text_menu": "用 &page >> 和 &page << 改變頁數及 &cancel 結束",
     "not_found": "沒有找到",
     "no_results": "查無結果",
-    "timeout": "這將在 %1$d 內超時",
-    "reaction_timeout": "反應將在 %1$d 內超時",
+    "timeout": "這將在%1$d秒內超時",
+    "reaction_timeout": "反應將在%1$d秒內超時",
     "example": "範例",
     "definition": "定義",
     "name": "名稱",
@@ -57,14 +57,14 @@
       "potion_not_found": "%1$s找不到這種藥水或裝備類型!",
       "potion_applied": "%1$s成功應用類型為 *%3$s* (%4$dx) 的 **%2$s** 效果。使用 `~>profile stats` 來查看你的新效果",
       "potion_applied_multiple": "%1$s成功應用類型為 *%3$s* 的 **%2$s** 效果。\n但你已經有這種效果了，所以我們將它堆疊起來。當前堆疊數量: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
+      "max_stack_size": "%1$s你已經堆疊滿%2$s了。(最大: 15，堆疊後: %3$s)",
+      "max_stack_size_2": "%1$s你無法堆疊更多%2$s。(最大：15，堆疊後：%3$s)",
       "not_same_potion": "%1$s你已經有堆疊種類為 %2$s 的藥水且處於使用中，所以你不能再次堆疊種類 %3$s 的藥水上去。"
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
+        "generic_sellout": "我們需要你的幫助來持續運行/更新Mantaro！\n你可以透過Mantaro Premium獲得**各種福利和將近兩倍的金錢收入**！會員資格最低只需每月2美元，單純一杯珍奶的價格！\n瀏覽<https://patreon.com/mantaro>獲得更多資訊。:heart:",
+        "daily_sellout": "我們需要你的幫助來持續運行Mantaro！\n你可以透過Mantaro Premium獲得各種福利，**兩倍的每日獎勵**和使用`~>dailycrate`的資格！會員資格最低只需每月2美元，瀏覽<https://patreon.com/mantaro>獲得更多資訊。",
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
@@ -153,8 +153,8 @@
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把它們丟回水裡...",
       "success": "%1$s你全神貫注的釣完魚，找到了%2$s且把它們放到水桶裡了。",
-      "success_money": "%1$s你全神貫注的釣完魚，找到了%2$s和**$%3$d**且把它們放到口袋裡了。%4$s",
-      "success_money_noitem": "%1$s你全神貫注的釣完魚，找到了**$%2$d**且把它們放到口袋裡了。",
+      "success_money": "%1$s你全神貫注的釣完魚，找到了%2$s和**$%3$d**。%4$s",
+      "success_money_noitem": "%1$s你全神貫注的釣完魚，找到了**%2$d元**。",
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
@@ -327,7 +327,7 @@
       "vc_not_found": "%1$s無法找到語音頻道或者你沒有指明一個！"
     },
     "shard": {
-      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
+      "info": "我在Shard %1$d / %2$d (節點 %3$d / %4$d)!\n已緩存用戶: %5$,d\nShard伺服數: %6$,d\n如果需要協助，請瀏覽<https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -422,13 +422,13 @@
         "description": "這個清單包含所有此指令的原始回應(你創造給我的內容)。"
       },
       "clear": {
-        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
+        "success": "%1$s**已清除%2$d個自定義指令**。已上鎖/釘選指令未刪除，你需要先解鎖他們。"
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
+        "cancel": "%1$s指令創建已取消。",
         "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`.",
+        "success": "%1$s已加到指令`%2$s`.",
         "no_name_specified": "%1$s你尚未輸入你所要創建的自定義指令名稱！"
       },
       "eval": {
@@ -437,8 +437,8 @@
         "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`."
+        "no_command": "%1$s你需要告訴我你想取消哪條指令。",
+        "success": "%1$s指令已取消 `%2$s`."
       },
       "import": {
         "no_command": "%1$sYou need to tell me what command you want to import.",
