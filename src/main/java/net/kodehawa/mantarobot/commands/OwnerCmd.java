@@ -263,7 +263,7 @@ public class OwnerCmd {
             var badge = Badge.lookupFromString(toAdd);
             if (badge == null) {
                 ctx.send(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
-                        Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,")));
+                        Arrays.stream(Badge.values()).map(b1 -> "`" + b1.toString() + "`").collect(Collectors.joining(" ,")));
                 return;
             }
 

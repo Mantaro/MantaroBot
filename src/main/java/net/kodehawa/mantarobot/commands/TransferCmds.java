@@ -132,7 +132,7 @@ public class TransferCmds {
                 if (!partyRateLimiter.process(partyKey)) {
                     ctx.getChannel().sendMessage(
                             EmoteReference.STOPWATCH +
-                                    ctx.getLanguageContext().get("commands.transfer.party".formatted(giveTo.getName())) +
+                                    ctx.getLanguageContext().get("commands.transfer.party").formatted(giveTo.getName()) +
                                     " (Ratelimited)\n **You'll be able to transfer to this user again in " +
                                     Utils.formatDuration(partyRateLimiter.tryAgainIn(partyKey)) + ".**"
                     ).queue();

@@ -456,7 +456,7 @@ public class CurrencyCmds {
             int amount = 1;
             if (arguments.containsKey("amount")) {
                 try {
-                    amount = Integer.parseInt(arguments.get("amount"));
+                    amount = Math.abs(Integer.parseInt(arguments.get("amount")));
                 } catch (NumberFormatException e) {
                     ctx.sendLocalized("commands.useitem.invalid_amount", EmoteReference.WARNING);
                     return;

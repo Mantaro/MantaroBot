@@ -479,7 +479,7 @@ public class PetCmds {
 
                 if (args.length > 1) {
                     try {
-                        amount = Integer.parseInt(args[1]);
+                        amount = Math.abs(Integer.parseInt(args[1]));
                         // Only will go through if the amount parses properly :p
                         food = args[0];
                     } catch (Exception ignored) {
@@ -568,7 +568,7 @@ public class PetCmds {
 
                 if (!content.isEmpty()) {
                     try {
-                        amount = Integer.parseInt(content);
+                        amount = Math.abs(Integer.parseInt(content));
                     } catch (Exception ignored) { }
                 }
 
