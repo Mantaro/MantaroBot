@@ -54,8 +54,8 @@ public class PotionEffect {
     @JsonIgnore
     public void equip(int amount) {
         long newAmount = amountEquipped + amount;
-        if (newAmount >= 10) {
-            setAmountEquipped(9);
+        if (newAmount > 15) {
+            setAmountEquipped(15);
         } else {
             setAmountEquipped(newAmount);
         }

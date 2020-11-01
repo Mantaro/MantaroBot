@@ -422,11 +422,11 @@ public class GambleCmds {
                         .setUsage(
                                 """
                                 `~>slots` - Default one, 50 coins.
-                                `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of %s coins.
+                                `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 coins.
                                 `~>slots -useticket` - Rolls the slot machine with one slot coin.
                                 You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`).
                                 Using tickets increases your chance by 10%. Maximum amount of tickets allowed is 50.
-                                """.formatted(SLOTS_MAX_MONEY)
+                                """
                         ).build();
             }
         });

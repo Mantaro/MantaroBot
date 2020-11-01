@@ -111,9 +111,8 @@ public class CurrencyActionCmds {
                 var waifuHelp = false;
                 if (ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-
-                    if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
-                        money += Math.max(45, random.nextInt(200));
+                    if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
+                        money += Math.max(45, random.nextInt(250));
                         waifuHelp = true;
                     }
                 }
@@ -397,8 +396,8 @@ public class CurrencyActionCmds {
                     if (ItemHelper.handleEffect(
                             PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
 
-                        if (dbUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 10_000_000L)) {
-                            money += Math.max(10, random.nextInt(100));
+                        if (dbUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
+                            money += Math.max(10, random.nextInt(150));
                             waifuHelp = true;
                         }
                     }

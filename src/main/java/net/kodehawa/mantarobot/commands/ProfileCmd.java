@@ -135,6 +135,11 @@ public class ProfileCmd {
                             var userData = dbUser.getData();
                             var inv = player.getInventory();
 
+                            if (!playerData.isResetWarning() && !config.isPremiumBot()) {
+                                ctx.sendLocalized("commands.balance.reset_notice");
+                                playerData.setResetWarning(true);
+                            }
+
                             //Cache waifu value.
                             playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(userLooked).getFinalValue());
 
@@ -181,12 +186,17 @@ public class ProfileCmd {
 
                             var profileBuilder = new EmbedBuilder();
 
-                            profileBuilder.setAuthor((ringHolder ? EmoteReference.RING : "") +
-                                    String.format(languageContext.get("commands.profile.header"),
-                                            memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl()
-                            ).setDescription(player.getData().getDescription() == null ?
-                                    languageContext.get("commands.profile.no_desc") : player.getData().getDescription()
-                            ).setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
+                            var description = languageContext.get("commands.profile.no_desc");
+
+                            if (playerData.getDescription() != null) {
+                                description = player.getData().getDescription();
+                            }
+
+                            profileBuilder.setAuthor(
+                                    (ringHolder ? EmoteReference.RING : "") + String.format(languageContext.get("commands.profile.header"),
+                                            memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
+                                    .setDescription(description)
+                                    .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
 
                             var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                             var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
@@ -522,6 +532,10 @@ public class ProfileCmd {
                     }
 
                     var toLookup = member.getUser();
+                    if (toLookup.isBot()) {
+                        ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                        return;
+                    }
 
                     var player = ctx.getPlayer(toLookup);
                     var dbUser = ctx.getDBUser(toLookup);

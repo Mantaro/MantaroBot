@@ -126,8 +126,9 @@ public class CurrencyCmds {
                             });
                         }
 
-                        var toShow = "\n" + languageContext.get("commands.inventory.brief_notice") +
-                                (r.nextInt(3) == 0 && !user.isPremium() ? languageContext.get("general.sellout") : "");
+                        var toShow = languageContext.get("commands.inventory.brief_notice") +
+                                (r.nextInt(3) == 0 && !user.isPremium() ?
+                                        languageContext.get("general.sellout") : "");
 
                         DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(6, fields), toShow);
                         return;
@@ -478,6 +479,7 @@ public class CurrencyCmds {
 
             var currentPotion = equippedItems.getCurrentEffect(type);
             var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
+
             // This used to only check for activePotion.
             // The issue with this was that there could be one potion that was fully used, but there was another potion
             // waiting to be used. In that case the potion would get overridden.
@@ -492,16 +494,26 @@ public class CurrencyCmds {
                     return;
                 }
 
+                var amountEquipped = currentPotion.getAmountEquipped();
+                if (activePotion) {
+                    amountEquipped -= 1; // Active potion counts as equipped, but isn't!
+                }
+
+                var attempted = amountEquipped + amount;
                 // Currently has a potion equipped, and is of the same type.
-                if (currentPotion.getAmountEquipped() + amount < 10) {
+                if (attempted < 15) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
                             EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
                             activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
                     );
                 } else {
-                    // Too many stacked (max: 10).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName());
+                    if (activePotion) {
+                        attempted += 1;
+                    }
+
+                    // Too many stacked (max: 15).
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName(), attempted);
                     return;
                 }
             } else {
@@ -509,16 +521,15 @@ public class CurrencyCmds {
                 var effect = new PotionEffect(ItemHelper.idOf(item), 0, ItemType.PotionType.PLAYER);
 
                 // If there's more than 1, proceed to equip the stacks.
-                if (amount >= 10) {
-                    //Too many stacked (max: 10).
-                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName());
+                if (amount > 15) {
+                    //Too many stacked (max: 15).
+                    ctx.sendLocalized("general.misc_item_usage.max_stack_size_2", EmoteReference.ERROR, item.getName(), amount);
                     return;
                 }
 
                 if (amount > 1) {
-                    effect.equip(amount - 1); //Amount - 1 because we're technically using one.
+                    effect.equip(amount - 1); // Amount - 1 because we're technically using one.
                 }
-
 
                 // Apply the effect.
                 equippedItems.applyEffect(effect);
