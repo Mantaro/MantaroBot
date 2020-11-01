@@ -646,16 +646,15 @@ public class PetCmds {
                 var embed = new EmbedBuilder()
                         .setAuthor(String.format(languageContext.get("commands.pet.info.author"), emoji, name))
                         .setColor(Color.PINK)
+                        .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .addField(languageContext.get("commands.pet.info.name"), name, true)
-                        .addField(languageContext.get("commands.pet.info.cost"), cost + " credits", true)
+                        .addField(languageContext.get("commands.pet.info.cost"), "%,d credits".formatted(cost), true)
                         .addField(languageContext.get("commands.pet.info.abilities"), abilities, false)
                         .addField(languageContext.get("commands.pet.info.food"), food, false)
-                        .addField(languageContext.get("commands.pet.info.coin_buildup"), coinBuildup + " credits", true)
-                        .addBlankField(true)
-                        .addField(languageContext.get("commands.pet.info.coin_buildup_100"), coinBuildup100 + " credits", true)
-                        .addField(languageContext.get("commands.pet.info.item_buildup"), itemBuildup + " items", true)
-                        .addBlankField(true)
-                        .addField(languageContext.get("commands.pet.info.item_buildup_100"), itemBuildup100 + " items", true);
+                        .addField(languageContext.get("commands.pet.info.coin_buildup"),
+                                "%,d credits / %,d credits".formatted(coinBuildup, coinBuildup100), false)
+                        .addField(languageContext.get("commands.pet.info.item_buildup"),
+                                "%,d items / %,d items".formatted(itemBuildup, itemBuildup100), false);
 
                 ctx.send(embed.build());
             }

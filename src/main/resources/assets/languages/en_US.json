@@ -1380,10 +1380,8 @@
         "cost": "Pet Cost",
         "abilities": "Abilities",
         "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1)",
-        "coin_buildup_100": "Coin Buildup (Lvl. 100)",
-        "item_buildup": "Item Buildup (Lvl. 1)",
-        "item_buildup_100": "Item Buildup (Lvl. 100)"
+        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
+        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
       }
     },
     "invite": {
