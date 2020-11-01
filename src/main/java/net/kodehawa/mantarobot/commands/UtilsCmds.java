@@ -702,7 +702,7 @@ public class UtilsCmds {
                                 commandArguments[0]), urbanData.getPermalink(),
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         )
-                        .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+                        .setThumbnail("https://i.imgur.com/PbXqLrS.png")
                         .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
                         .setColor(Color.GREEN)
                         .addField(languageContext.get("general.definition"), StringUtils.limit(definition, 1000), false)

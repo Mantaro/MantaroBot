@@ -125,11 +125,17 @@ public class Trivia extends Game<String> {
             }
 
             eb.setAuthor("Trivia Game", null, lobby.getEvent().getAuthor().getAvatarUrl())
-                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+                    .setThumbnail("https://i.imgur.com/7TITtHb.png")
                     .setDescription("**" + qu + "**")
-                    .addField(languageContext.get("commands.game.trivia.possibilities"), sb.toString(), false)
-                    .addField(languageContext.get("commands.game.trivia.difficulty"), "`" + Utils.capitalize(diff) + "`", true)
-                    .addField(languageContext.get("commands.game.trivia.category"), "`" + category + "`", true)
+                    .addField(languageContext.get("commands.game.trivia.possibilities"),
+                            sb.toString(), false
+                    )
+                    .addField(languageContext.get("commands.game.trivia.difficulty"),
+                            "`" + Utils.capitalize(diff) + "`", true
+                    )
+                    .addField(languageContext.get("commands.game.trivia.category"),
+                            "`" + category + "`", true
+                    )
                     .setFooter(String.format(
                             languageContext.get("commands.game.trivia_end_footer"), isBool ? 1 : 2),
                             lobby.getEvent().getAuthor().getAvatarUrl()

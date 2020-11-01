@@ -35,14 +35,16 @@ public interface AssistedCommand extends Command {
     }
 
     default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
-        return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
+        return baseEmbed(event, name, event.getAuthor().getEffectiveAvatarUrl());
     }
 
     default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {
         return new EmbedBuilder()
                 .setAuthor(name, null, image)
                 .setColor(event.getMember().getColor())
-                .setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
+                .setFooter("Requested by: %s".formatted(event.getMember().getEffectiveName()),
+                        event.getGuild().getIconUrl()
+                );
     }
 
     default void doTimes(int times, Runnable runnable) {

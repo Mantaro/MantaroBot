@@ -79,7 +79,10 @@ public class FinderUtils {
                             EmoteReference.BLUE_SMALL_MARKER,
                             role.getName(), role.getId()
                     ),
-                    s -> optsCmd.baseEmbed(event, "Select the Role:").setDescription(s).build(), consumer
+                    s -> optsCmd.baseEmbed(event, "Select the Role:").
+                            setDescription(s)
+                            .build(),
+                    consumer
             );
         }
 

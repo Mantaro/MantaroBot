@@ -269,14 +269,11 @@ public class FunCmds {
                 var loveEmbed = new EmbedBuilder()
                         .setAuthor("\u2764 " + languageContext.get("commands.love.header") + " \u2764", null,
                                 ctx.getAuthor().getEffectiveAvatarUrl())
-                        .setThumbnail(
-                                "http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png"
-                        )
+                        .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription("\n**" + toDisplay + "**\n\n" +
                                 percentage + "% **\\|\\|**  " +
-                                CommandStatsManager.bar(percentage, 40) + "  **\\|\\|** \n\n" +
-                                "**" + languageContext.get("commands.love.result") + "** `"
-                                + result + "`"
+                                CommandStatsManager.bar(percentage, 30) + "  **\\|\\|** \n\n" +
+                                "**" + languageContext.get("commands.love.result") + "** " + result
                         ).setColor(ctx.getMember().getColor())
                         .build();
 

@@ -677,7 +677,6 @@ public class MarryCmd {
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
                                 EmoteReference.HEART,

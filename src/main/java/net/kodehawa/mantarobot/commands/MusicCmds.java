@@ -131,7 +131,7 @@ public class MusicCmds {
                 final var trackInfo = playingTrack.getInfo();
 
                 npEmbed.setAuthor(languageContext.get("commands.np.header"), null, ctx.getGuild().getIconUrl())
-                        .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+                        .setThumbnail("https://i.imgur.com/FWKIR7N.png")
                         .setDescription("""
                                         \u23ef %s
                                         

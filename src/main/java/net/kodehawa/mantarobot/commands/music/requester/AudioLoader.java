@@ -215,10 +215,15 @@ public class AudioLoader implements AudioLoadResultHandler {
                         AudioCmdUtils.getDurationMinutes(track.getInfo().length)
                 ), s -> new EmbedBuilder()
                         .setColor(Color.CYAN)
-                        .setAuthor(language.get("commands.music_general.loader.selection_text"), "https://i.imgur.com/sFDpUZy.png")
-                        .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+                        .setAuthor(language.get("commands.music_general.loader.selection_text"),
+                                "https://i.imgur.com/sFDpUZy.png",
+                                event.getAuthor().getEffectiveAvatarUrl()
+                        )
+                        .setThumbnail("https://i.imgur.com/FWKIR7N.png")
                         .setDescription(s)
-                        .setFooter(language.get("commands.music_general.loader.timeout_text"), null)
+                        .setFooter(language.get("commands.music_general.loader.timeout_text"),
+                                event.getAuthor().getEffectiveAvatarUrl()
+                        )
                         .build(),
                 selected -> loadSingle(selected, false)
         );

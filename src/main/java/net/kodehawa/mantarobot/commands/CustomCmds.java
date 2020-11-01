@@ -221,7 +221,7 @@ public class CustomCmds {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
                         .setColor(ctx.getMember().getColor())
-                        .setThumbnail("https://images.emojiterra.com/twitter/v11/512px/1f6e0.png")
+                        .setThumbnail("https://i.imgur.com/glP3VKI.png")
                         .setDescription(languageContext.get("commands.custom.ls.description") + "\n" +
                                 (commands.isEmpty() ? languageContext.get("general.dust") :
                                         checkString(commands.stream().map(cc -> "*`" + cc + "`*")
@@ -308,8 +308,9 @@ public class CustomCmds {
 
                 EmbedBuilder embed = baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.raw.header").formatted(command))
                         .setDescription(languageContext.get("commands.custom.raw.description"))
-                        .setFooter(languageContext.get("commands.custom.raw.amount").formatted(count, custom.getValues().size()),
-                                null
+                        .setFooter(languageContext.get("commands.custom.raw.amount")
+                                        .formatted(count.get(), custom.getValues().size()),
+                                ctx.getGuild().getIconUrl()
                         );
 
                 DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));

@@ -125,7 +125,7 @@ public class Poll extends Lobby {
                     .setDescription(String.format(languageContext.get("commands.poll.success"), name))
                     .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
                     .setColor(Color.CYAN)
-                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+                    .setThumbnail("https://i.imgur.com/7TITtHb.png")
                     .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), user.getAvatarUrl());
 
 

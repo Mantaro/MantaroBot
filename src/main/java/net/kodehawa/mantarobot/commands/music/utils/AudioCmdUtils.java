@@ -49,7 +49,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class AudioCmdUtils {
     private static final Logger log = LoggerFactory.getLogger(AudioCmdUtils.class);
-    private static final String icon = "http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png";
+    private static final String icon = "https://i.imgur.com/FWKIR7N.png";
 
     public static void embedForQueue(GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final var trackScheduler = musicManager.getTrackScheduler();
