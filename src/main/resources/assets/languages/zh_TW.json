@@ -13,7 +13,7 @@
     "daily": "一天",
     "total": "總計",
     "arrow_react": "使用箭號反應來改變頁數。",
-    "text_menu": "用 &page >> 和 &page << 改變頁數及 &cancel 結束",
+    "text_menu": "傳送 &page >> 和 &page << 來切換頁數或 &cancel 結束",
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在%1$d秒內超時",
@@ -68,14 +68,14 @@
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "你知道我們有Twitter帳號嗎？當然有！馬上跟隨 (at)mantarodiscord <https://twitter.com/mantarodiscord> 獲取最新消息。"
     },
     "mention_user_required": "%1$s請ping一位用戶",
     "invalid_character": "%1$s無效的字符。",
     "invalid_action": "你不能這樣做，傻瓜。",
     "interactive_running": "%1$s這個頻道裡已經有你與我的互動了。",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_react": "使用箭號反應改變頁數。\n%1$s",
+    "buy_sell_paged_text": "傳送 **&p >>** 或 **&p <<** 來切換頁數。\n%1$s",
     "buy_sell_paged_reference": "**提示: %1$s買 %2$s 賣。**",
     "cancelled": "%1$s已取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
@@ -88,7 +88,7 @@
       "spam_3": "\n你是不是應該出去放鬆一下了?",
       "spam_4": "\n你確定我還活著嗎?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "你可以考慮回報到我們的**官方伺服** (`https://support.mantaro.site`)，或是我們的GitHub頁面 (`https://github.com/Kodehawa/MantaroBot`)。別忘記一同回報錯誤ID，你使用的指令和你所在的節點 (使用`~>shard`檢查)！",
     "boom_quotes": [
       "看似惠惠把我們的城堡炸掉了...",
       "Uh oh... 我的主人好像把一些0和1留在桌上了 :<",
@@ -239,8 +239,8 @@
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道? 在試一次。",
       "queue": {
-        "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
+        "header_field": "使用說明",
+        "header_noreact": "傳送 `&p >>` 或 `&p <<` 來切換頁數。",
         "no_track_found_np": "找不到曲目或名稱/持續時間",
         "header": "%1$s播放清單",
         "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽?\n如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
