@@ -607,7 +607,7 @@
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
-        "no_house": "%1$sYou need to buy a house first! Check `~>marry buyhouse` and `~>help marry`",
+        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name!",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -1364,6 +1364,7 @@
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename.",
+        "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
         "no_content": "%1$sYou need to give me the new name of your pet.",
         "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
         "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
