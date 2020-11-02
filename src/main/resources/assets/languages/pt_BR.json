@@ -159,7 +159,7 @@
       "waifu_help": "Sua waifu veio e se juntou em sua aventura de pesca e você dois ganharam mais recursos!",
       "not_suitable": "%1$sVocê não pode usar isso para pescar.",
       "shark_success": "%1$sDe alguma forma, você conseguiu pegar um tubarão. Que vara maravilhosa, hein?",
-      "fossil_success": "%1$sVocê pegou um fóssil enquanto tentava achar um peixe. Isso pode valer um pouco ou ser usada para fundição, Eu acredito.",
+      "fossil_success": "%1$sVocê pegou um fóssil enquanto tentava achar um peixe. Isso pode valer um pouco ou ser usado para fundição, Eu acredito.",
       "bait": "O peixe comeu sua isca no processo!",
       "missing_equipped": "%1$sVocê tinha equipado uma %2$s vara, mas você não tem mais desse tipo no seu inventário! Vara equipada foi resetada.",
       "broken_drop": "%1$sSua vara quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
@@ -607,7 +607,7 @@
         "cancel_success": "%1$sOperação cancelada."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
+        "no_car": "%1$sVocê tem que comprar um carro primeiro! Use `~>market buy car` para ter um.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar um carro. (Preço atual do carro: %2$d créditos)",
         "no_name": "%1$sVocê precisar dar um nome para o carro!",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pro carro é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
@@ -1364,7 +1364,7 @@
       },
       "rename": {
         "no_pet": "%1$sVocê não tem um pet pra renomear.",
-        "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
+        "same_name": "%1$sO nome que você me deu é igual ao nome atual do seu pet.",
         "no_content": "%1$sVocê tem que me dizer o novo nome do seu pet.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fazer isso. Custo: %2%s, Atual: %3$s.",
         "success": "%1$sRenomeado com sucesso o seu pet de `%2$s` para `%3$s`. %4$s foi deduzido da sua carteira. Aprecie!"
