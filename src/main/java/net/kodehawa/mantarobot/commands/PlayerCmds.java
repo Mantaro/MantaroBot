@@ -327,6 +327,8 @@ public class PlayerCmds {
                             dbUserFinal.save();
                         }
 
+                        playerFinal.save();
+
                         ctx.sendFormat(languageContext.get("commands.profile.unequip.success") + part,
                                 EmoteReference.CORRECT, type.name().toLowerCase()
                         );
