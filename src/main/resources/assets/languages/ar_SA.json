@@ -1607,7 +1607,7 @@
       "lose": "%1$sللأسف, انت خسرت %2$s كريدت. %3$s",
       "lose_all": "all of your",
       "credits": "credits",
-      "too_much": "%1$sيمكنك المقامرة حتى 275 مليون بالمرة الواحدة. انت لا تريد الافلاس بالكامل اليس كذلك؟ *(حد المقامرة الواحدة: %2$,d كريدت)*",
+      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sلا يمكنك المقامرة على القليل من الكريدت (الحد الأدنى: 100 كريدت)"
     },
     "loot": {
