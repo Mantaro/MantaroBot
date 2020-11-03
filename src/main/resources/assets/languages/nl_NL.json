@@ -1607,7 +1607,7 @@
       "lose": "%1$sHelaas, je hebt %2$s credits verloren. %3$s",
       "lose_all": "al je",
       "credits": "credits",
-      "too_much": "%1$sJe kunt maximaal 275 miljoen tegelijk gokken. Je wilt toch niet in één keer blut zijn? *(Gok limiet per keer: %2$,d credits)*",
+      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sJe kunt niet zo weinig geld gokken (Minimaal: 100 credits)"
     },
     "loot": {
