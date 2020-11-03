@@ -1607,7 +1607,7 @@
       "lose": "%1$sК сожалению, вы потеряли %2$s кредитов. %3$s",
       "lose_all": "все ваши",
       "credits": "кредиты",
-      "too_much": "%1$sВы можете играть одновременно только до 275 миллионов. Вы не хотите разориться, не так ли? *(Единый лимит на азартные игры: %2$d кредиты) *",
+      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sВы не можете поставить так мало денег (минимум: 100 кредитов)"
     },
     "loot": {
