@@ -1607,7 +1607,7 @@
       "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
       "credits": "credits",
-      "too_much": "%1$sYou can only gamble up to 275 million at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
+      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
     },
     "loot": {
