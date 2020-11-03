@@ -786,7 +786,7 @@ public class MarryCmd {
                         ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
                         return Operation.COMPLETED;
                     } else if (content.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.divorce.cancelled");
+                        ctx.sendLocalized("commands.divorce.cancelled", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     }
 

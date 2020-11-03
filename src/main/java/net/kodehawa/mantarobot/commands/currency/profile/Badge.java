@@ -179,7 +179,7 @@ public enum Badge {
             91, 92,
             ((player, dbUser) -> player.getData().getFishingExperience() > 100000), false),
 
-    EXPERT_CHOPPER("Expert Fisher", "<:sparkle_axe:762027645155541002>",
+    EXPERT_CHOPPER("Expert Chopper", "<:sparkle_axe:762027645155541002>",
             "Get more than 100000 chopping experience.",
             91, 92,
             ((player, dbUser) -> player.getData().getChopExperience() > 100000), false),
@@ -279,7 +279,7 @@ public enum Badge {
 
     //Get extremely lucky with slots.
     LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0",
-            "Get more than 175 million in credits from slots.",
+            "Get more than 50,000 in credits from slots.",
             92, 92,
             (player, dbUser) -> false, false
     ),

@@ -155,7 +155,7 @@ public class CurrencyActionCmds {
                             amount += random.nextInt(2);
                         }
 
-                        if (item == ItemReference.SPARKLE_PICKAXE) {
+                        if (item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK) {
                             amount += random.nextInt(4);
                         }
 
@@ -200,8 +200,9 @@ public class CurrencyActionCmds {
 
                 //Sparkle find
                 if ((random.nextInt(400) > 395 && item == ItemReference.COMET_PICKAXE) ||
-                        (random.nextInt(400) > 390 && (item == ItemReference.STAR_PICKAXE ||
-                        item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
+                        (random.nextInt(400) > 390 &&
+                                (item == ItemReference.MOON_PICK || item == ItemReference.STAR_PICKAXE ||
+                                        item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
 
                     var gem = ItemReference.SPARKLE_FRAGMENT;
 
