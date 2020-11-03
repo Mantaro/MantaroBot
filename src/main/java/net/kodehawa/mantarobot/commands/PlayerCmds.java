@@ -266,6 +266,10 @@ public class PlayerCmds {
 
                 ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    if (interactiveEvent.getAuthor().getIdLong() != ctx.getAuthor().getIdLong()) {
+                        return InteractiveOperation.IGNORED;
+                    }
+
                     var ct = interactiveEvent.getMessage().getContentRaw();
                     var seasonalPlayerFinal = ctx.getSeasonPlayer();
                     var dbUserFinal = ctx.getDBUser();
