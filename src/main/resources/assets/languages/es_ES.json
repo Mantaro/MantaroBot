@@ -63,7 +63,7 @@
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
+        "generic_sellout": "Necesitamos tu ayuda para mantener a Mantaro viva y para mejorar sus servidores!\nPuedes conseguir bonos increíbles y hasta **el doble de creditos con Mantaro Premium**! Membresías empiezan en $2 por mes. Puedes conseguir más información en <https://patreon.com/mantaro>. Ayudanos a correr la voz también :heart:",
         "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
@@ -1398,6 +1398,7 @@
       "footer": "Esperamos que te diviertas con Mantaro."
     },
     "salvage": {
+      "not_broken": "%1$sYou can only salvage broken tools.",
       "no_item": "%1$sYou need to specify the item you want to salvage.",
       "no_item_found": "%1$sI can't find the item you specified.",
       "cant_salvage": "%1$sYou can't salvage this item.",
