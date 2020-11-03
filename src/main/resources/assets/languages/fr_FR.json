@@ -1607,7 +1607,7 @@
       "lose": "%1$sMalheureusement tu as perdu %2$s credits. %3$s",
       "lose_all": "tous tes",
       "credits": "credits",
-      "too_much": "%1$sTu pex seulement parier 275 million en une fois. Tu ne veux pas te ruiner quand même ? *(Limite de pari solitaire : %2$d credits)*",
+      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sTu ne peux pas parier si peu (Minimum: 100 credits)"
     },
     "loot": {
