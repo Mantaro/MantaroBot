@@ -1398,6 +1398,7 @@
       "footer": "Nós esperamos que você se divirta com o bot."
     },
     "salvage": {
+      "not_broken": "%1$sYou can only salvage broken tools.",
       "no_item": "%1$sVocê tem que especificar o item que quer resgatar.",
       "no_item_found": "%1$sEu consegui encontrar o item que você especificou.",
       "cant_salvage": "%1$sEu não consigo resgatar esse item.",
