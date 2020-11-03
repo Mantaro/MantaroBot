@@ -315,7 +315,7 @@ public class Utils {
     }
 
     public static boolean isValidTimeZone(final String timeZone) {
-        if (timeZone.equals("GMT")) {
+        if (timeZone.equals("GMT") || timeZone.equals("UTC")) {
             return true;
         } else {
             String id = TimeZone.getTimeZone(timeZone).getID();
