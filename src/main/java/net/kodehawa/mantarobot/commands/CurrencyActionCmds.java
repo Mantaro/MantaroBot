@@ -141,8 +141,17 @@ public class CurrencyActionCmds {
                     }
                 }
 
-                //Diamond find
-                if (random.nextInt(400) > (hasPotion || petHelp ? 290 : 350)) {
+                // Diamond find
+                var chance = 350;
+                if (hasPotion || petHelp) {
+                    chance = 290;
+                }
+
+                if (petHelp && hasPotion) {
+                    chance = 240;
+                }
+
+                if (random.nextInt(400) > chance) {
 
                     if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
@@ -150,13 +159,18 @@ public class CurrencyActionCmds {
                     } else {
                         var amount = 1;
 
-                        if (item == ItemReference.STAR_PICKAXE ||
-                                item == ItemReference.COMET_PICKAXE || item == ItemReference.MOON_PICK) {
+                        // TODO: Make this less silly
+                        // Everything but sparkle and hellfire
+                        if (item.getMaxDurability() < 430) {
                             amount += random.nextInt(2);
                         }
 
-                        if (item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK) {
+                        if (item == ItemReference.SPARKLE_PICKAXE) {
                             amount += random.nextInt(4);
+                        }
+
+                        if (item == ItemReference.HELLFIRE_PICK) {
+                            amount += random.nextInt(6);
                         }
 
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
@@ -167,8 +181,21 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.MINER);
                 }
 
-                //Gem find
-                if (random.nextInt(400) > (hasPotion ? 278 : (petHelp ? 250 : 325))) {
+                // Gem find
+                var gemChance = 325;
+                if (hasPotion) {
+                    gemChance = 325;
+                }
+
+                if (petHelp) {
+                    gemChance = 250;
+                }
+
+                if (petHelp && hasPotion) {
+                    gemChance = 210;
+                }
+
+                if (random.nextInt(400) > gemChance) {
 
                     List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
@@ -597,7 +624,7 @@ public class CurrencyActionCmds {
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
                 if (hasPotion) {
-                    chance += 10;
+                    chance += 9;
                 }
 
                 if (chance < 10) {
@@ -759,8 +786,9 @@ public class CurrencyActionCmds {
                                       SeasonPlayer seasonPlayer, String i18n, boolean isSeasonal) {
 
         var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
-        if (!breakage.getKey())
+        if (!breakage.getKey()) {
             return;
+        }
 
         //We need to get this again since reusing the old ones will cause :fire:
         var finalPlayer = breakage.getValue();

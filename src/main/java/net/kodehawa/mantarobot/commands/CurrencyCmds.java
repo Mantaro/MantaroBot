@@ -539,7 +539,7 @@ public class CurrencyCmds {
             }
 
 
-            if (amount == 9) {
+            if (amount > 12) {
                 player.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
             }
 
