@@ -501,11 +501,10 @@ public class CurrencyCmds {
 
                 var attempted = amountEquipped + amount;
                 // Currently has a potion equipped, and is of the same type.
-                if (attempted < 15) {
+                if (attempted < 16) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
-                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()),
-                            activePotion ? currentPotion.getAmountEquipped() : currentPotion.getAmountEquipped() - 1
+                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()
                     );
                 } else {
                     if (activePotion) {
@@ -539,7 +538,7 @@ public class CurrencyCmds {
             }
 
 
-            if (amount == 9) {
+            if (amount > 12) {
                 player.getData().addBadgeIfAbsent(Badge.MAD_SCIENTIST);
             }
 

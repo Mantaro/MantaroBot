@@ -201,7 +201,14 @@ public class LeaderboardCmd {
                     var indexName = seasonal ? "money" : "newMoney";
                     var moneyLeaderboard = getLeaderboard(tableName, indexName,
                             player -> player.g("id"),
-                            player -> player.pluck("id", "newMoney", r.hashMap("data", "newMoney")), 10
+                            player ->
+                            {
+                                if (seasonal) {
+                                    return player.pluck("id", "money");
+                                } else {
+                                    return player.pluck("id", "newMoney", r.hashMap("data", "newMoney"));
+                                }
+                            }, 10
                     );
 
                     ctx.send(
@@ -214,6 +221,10 @@ public class LeaderboardCmd {
                                     map -> {
                                         @SuppressWarnings("unchecked")
                                         var money = ((Map<String, Object>) map.get("data")).get("newMoney");
+
+                                        if (seasonal) {
+                                            money = map.get("money");
+                                        }
 
                                         return Pair.of(
                                                 getMember(

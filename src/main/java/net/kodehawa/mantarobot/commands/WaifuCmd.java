@@ -358,7 +358,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                if (waifuFinalValue > 1000000000) {
+                if (waifuFinalValue > 100_000) {
                     claimerPlayer.getData().addBadgeIfAbsent(Badge.GOLD_VALUE);
                 }
 
@@ -446,7 +446,8 @@ public class WaifuCmd {
                         return;
                     }
 
-                    long valuePayment = (long) (value * 0.15);
+                    var currentValue = calculateWaifuValue(toLookup).getFinalValue();
+                    long valuePayment = (long) (currentValue * 0.15);
 
                     //Send confirmation message.
                     ctx.sendLocalized("commands.waifu.unclaim.confirmation", EmoteReference.MEGA, name, valuePayment, EmoteReference.STOPWATCH);
@@ -600,8 +601,9 @@ public class WaifuCmd {
                 ((reputationScaling > 1 ? reputationScaling : 1) * 1.2)) / (divide > 1 ? divide : 3);
 
         //possible?
-        if (performance < 0)
+        if (performance < 0) {
             performance = 0;
+        }
 
 
         return new Waifu(moneyValue, badgeValue, experienceValue, reputationScaling, claimValue, finalValue, performance);

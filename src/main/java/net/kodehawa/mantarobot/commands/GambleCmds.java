@@ -392,8 +392,9 @@ public class GambleCmds {
                         player.getData().addBadgeIfAbsent(Badge.LUCKY_SEVEN);
                     }
 
-                    if (coinSelect && coinAmount > ItemStack.MAX_STACK_SIZE - random.nextInt(650))
+                    if (coinSelect && coinAmount > 45) {
                         player.getData().addBadgeIfAbsent(Badge.SENSELESS_HOARDING);
+                    }
 
                     if (season) {
                         seasonalPlayer.addMoney(gains + money);
@@ -439,7 +440,7 @@ public class GambleCmds {
 
         if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
-                if (gains > Integer.MAX_VALUE / 2) {
+                if (gains > 15_000L) {
                     if (!data.hasBadge(Badge.GAMBLER)) {
                         data.addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveAsync();

@@ -120,8 +120,7 @@ public class CurrencyActionCmds {
                 var reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
                         languageContext.get("commands.mine.reminder") : "";
 
-                var message = (languageContext.get("commands.mine.success") + reminder)
-                        .formatted(item.getEmoji(), money, item.getName());
+                var message = "";
 
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
@@ -136,13 +135,23 @@ public class CurrencyActionCmds {
                         money += rewards.getMoney();
                         message += rewards.getResult();
 
-                        if (rewards.getMoney() > 0)
+                        if (rewards.getMoney() > 0) {
                             petHelp = true;
+                        }
                     }
                 }
 
-                //Diamond find
-                if (random.nextInt(400) > (hasPotion || petHelp ? 290 : 350)) {
+                // Diamond find
+                var chance = 350;
+                if (hasPotion || petHelp) {
+                    chance = 290;
+                }
+
+                if (petHelp && hasPotion) {
+                    chance = 240;
+                }
+
+                if (random.nextInt(400) > chance) {
 
                     if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
@@ -150,13 +159,18 @@ public class CurrencyActionCmds {
                     } else {
                         var amount = 1;
 
-                        if (item == ItemReference.STAR_PICKAXE ||
-                                item == ItemReference.COMET_PICKAXE || item == ItemReference.MOON_PICK) {
+                        // TODO: Make this less silly
+                        // Everything but sparkle and hellfire
+                        if (item.getMaxDurability() < 430) {
                             amount += random.nextInt(2);
                         }
 
                         if (item == ItemReference.SPARKLE_PICKAXE) {
                             amount += random.nextInt(4);
+                        }
+
+                        if (item == ItemReference.HELLFIRE_PICK) {
+                            amount += random.nextInt(6);
                         }
 
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
@@ -167,8 +181,21 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.MINER);
                 }
 
-                //Gem find
-                if (random.nextInt(400) > (hasPotion ? 278 : (petHelp ? 250 : 325))) {
+                // Gem find
+                var gemChance = 325;
+                if (hasPotion) {
+                    gemChance = 325;
+                }
+
+                if (petHelp) {
+                    gemChance = 250;
+                }
+
+                if (petHelp && hasPotion) {
+                    gemChance = 210;
+                }
+
+                if (random.nextInt(400) > gemChance) {
 
                     List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
@@ -199,10 +226,20 @@ public class CurrencyActionCmds {
                 }
 
                 //Sparkle find
-                if ((random.nextInt(400) > 395 && item == ItemReference.COMET_PICKAXE) ||
-                        (random.nextInt(400) > 390 && (item == ItemReference.STAR_PICKAXE ||
-                        item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
+                var sparkleChance = 395;
+                if (item == ItemReference.MOON_PICK || item == ItemReference.STAR_PICKAXE) {
+                    sparkleChance = 390;
+                }
 
+                if (item == ItemReference.SPARKLE_PICKAXE) {
+                    sparkleChance = 385;
+                }
+
+                if (item == ItemReference.HELLFIRE_PICK) {
+                    sparkleChance = 380;
+                }
+
+                if (random.nextInt(400) > sparkleChance) {
                     var gem = ItemReference.SPARKLE_FRAGMENT;
 
                     if (inventory.getAmount(gem) + 1 >= 5000) {
@@ -253,6 +290,8 @@ public class CurrencyActionCmds {
                 }
 
                 handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
+
+                message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmoji(), money, item.getName());
 
                 ctx.send(message);
             }
@@ -388,7 +427,7 @@ public class CurrencyActionCmds {
 
                     //Basically more chance if you have a better rod.
                     if (chance > (70 - nominalLevel)) {
-                        money = Math.max(25, random.nextInt(130 + (3 * nominalLevel)));
+                        money += Math.max(25, random.nextInt(130 + (3 * nominalLevel)));
                     }
 
                     //START OF WAIFU HELP IMPLEMENTATION
@@ -564,7 +603,7 @@ public class CurrencyActionCmds {
                 final var languageContext = ctx.getLanguageContext();
 
                 final var player = ctx.getPlayer();
-                final var playerData = ctx.getPlayer().getData();
+                final var playerData = player.getData();
 
                 final var seasonPlayer = ctx.getSeasonPlayer();
                 final var dbUser = ctx.getDBUser();
@@ -594,7 +633,7 @@ public class CurrencyActionCmds {
                 var hasPotion = ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
                 if (hasPotion) {
-                    chance += 10;
+                    chance += 9;
                 }
 
                 if (chance < 10) {
@@ -621,8 +660,9 @@ public class CurrencyActionCmds {
                         }
                     }
 
-                    if (hasPotion)
+                    if (hasPotion) {
                         amount += 3;
+                    }
 
                     // ---- Start of drop handling.
                     RandomCollection<Item> items = new RandomCollection<>();
@@ -643,6 +683,7 @@ public class CurrencyActionCmds {
                         ita.add(new ItemStack(ItemReference.WOOD, Math.max(1, random.nextInt(7))));
                     } else if (found) {
                         // Guarantee at least one wood.
+                        found = true;
                         ita.add(new ItemStack(ItemReference.WOOD, 1));
                     }
 
@@ -755,8 +796,9 @@ public class CurrencyActionCmds {
                                       SeasonPlayer seasonPlayer, String i18n, boolean isSeasonal) {
 
         var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
-        if (!breakage.getKey())
+        if (!breakage.getKey()) {
             return;
+        }
 
         //We need to get this again since reusing the old ones will cause :fire:
         var finalPlayer = breakage.getValue();

@@ -57,8 +57,8 @@ import java.util.regex.Pattern;
 
 @Module
 public class MarryCmd {
-    private static final long housePrice = 5000;
-    private static final long carPrice = 1000;
+    private static final long housePrice = 5_000;
+    private static final long carPrice = 1_000;
 
     private static final Pattern offsetRegex =
             Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
@@ -518,7 +518,7 @@ public class MarryCmd {
                 }
 
                 if (!playerInventory.containsItem(ItemReference.CAR)) {
-                    ctx.sendLocalized("commands.marry.buycar.no_house", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.marry.buycar.no_car", EmoteReference.ERROR);
                     return;
                 }
 
@@ -786,7 +786,7 @@ public class MarryCmd {
                         ctx.sendLocalized("commands.divorce.success", EmoteReference.CORRECT, extra);
                         return Operation.COMPLETED;
                     } else if (content.equalsIgnoreCase("no")) {
-                        ctx.sendLocalized("commands.divorce.cancelled");
+                        ctx.sendLocalized("commands.divorce.cancelled", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     }
 

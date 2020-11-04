@@ -440,6 +440,11 @@ public class PetCmds {
                     return;
                 }
 
+                if (content.equals(pet.getName())) {
+                    ctx.sendLocalized("commands.pet.rename.same_name", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (player.getCurrentMoney() < cost) {
                     ctx.sendLocalized("commands.pet.rename.not_enough_money", EmoteReference.ERROR, cost, player.getCurrentMoney());
                     return;
