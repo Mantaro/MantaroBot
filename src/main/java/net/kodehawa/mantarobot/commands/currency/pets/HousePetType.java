@@ -31,7 +31,7 @@ public enum HousePetType {
             List.of(HousePetAbility.CHEER, HousePetAbility.FISH, HousePetAbility.CATCH, HousePetAbility.CHOP),
             3000000, 300, true
     ),
-    ROCK(EmoteReference.ROCK, "Rock", List.of(HousePetAbility.CHEER), 1, 1, true),
+    ROCK(EmoteReference.ROCK, "Rock", List.of(HousePetAbility.CHEER), 1000, 1, true),
     ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, false);
 
     public static enum HousePetAbility {
