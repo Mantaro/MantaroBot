@@ -263,6 +263,7 @@ public class PlayerCmds {
                 }
 
                 var equippedItem = ItemHelper.fromId(equipped);
+                var languageContext = ctx.getLanguageContext();
 
                 ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
@@ -271,46 +272,45 @@ public class PlayerCmds {
                     }
 
                     var ct = interactiveEvent.getMessage().getContentRaw();
-                    var seasonalPlayerFinal = ctx.getSeasonPlayer();
-                    var dbUserFinal = ctx.getDBUser();
-                    var playerFinal = ctx.getPlayer();
-                    var dbUserData = dbUserFinal.getData();
-                    var equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
-
                     if (ct.equalsIgnoreCase("yes")) {
-                        var languageContext = ctx.getLanguageContext();
+                        var seasonalPlayerFinal = ctx.getSeasonPlayer();
+                        var dbUserFinal = ctx.getDBUser();
+                        var playerFinal = ctx.getPlayer();
+                        var dbUserData = dbUserFinal.getData();
+                        var equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
+                        var equippedFinal = equipmentFinal.getEquipment().get(type);
+                        var equippedItemFinal = ItemHelper.fromId(equippedFinal);
 
                         var part = ""; //Start as an empty string.
-                        if (type == PlayerEquipment.EquipmentType.PICK || type == PlayerEquipment.EquipmentType.ROD ||type == PlayerEquipment.EquipmentType.AXE ) {
+                        if (equippedItemFinal instanceof Breakable) {
                             // Gotta check again, just in case...
-                            var equippedFinal = equipmentFinal.getEquipment().get(type);
                             if (equippedFinal == null) {
                                 ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                                 return InteractiveOperation.COMPLETED;
                             }
 
-                            if (equippedItem == null) {
+                            if (equippedItemFinal == null) {
                                 ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
                                 return InteractiveOperation.COMPLETED;
                             }
 
-                            var item = (Breakable) equippedItem;
+                            var item = (Breakable) equippedItemFinal;
 
                             var percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;
                             if (percentage == 100) { //Basically never used
-                                playerFinal.getInventory().process(new ItemStack(equippedItem, 1));
+                                playerFinal.getInventory().process(new ItemStack(equippedItemFinal, 1));
                                 part += String.format(
-                                        languageContext.get("commands.profile.unequip.equipment_recover"), equippedItem.getName()
+                                        languageContext.get("commands.profile.unequip.equipment_recover"), equippedItemFinal.getName()
                                 );
                             } else {
-                                var brokenItem = ItemHelper.getBrokenItemFrom(equippedItem);
+                                var brokenItem = ItemHelper.getBrokenItemFrom(equippedItemFinal);
                                 if (brokenItem != null) {
                                     playerFinal.getInventory().process(new ItemStack(brokenItem, 1));
                                     part += String.format(
                                             languageContext.get("commands.profile.unequip.broken_equipment_recover"), brokenItem.getName()
                                     );
                                 } else {
-                                    long money = equippedItem.getValue() / 2;
+                                    long money = equippedItemFinal.getValue() / 2;
                                     //Brom's Pickaxe, Diamond Pickaxe and normal rod and Diamond Rod will hit this condition.
                                     part += String.format(
                                             languageContext.get("commands.profile.unequip.broken_equipment_recover_none"), money
@@ -322,8 +322,7 @@ public class PlayerCmds {
                         equipmentFinal.resetOfType(type);
                         if (isSeasonal) {
                             seasonalPlayerFinal.save();
-                        }
-                        else {
+                        } else {
                             dbUserFinal.save();
                         }
 
