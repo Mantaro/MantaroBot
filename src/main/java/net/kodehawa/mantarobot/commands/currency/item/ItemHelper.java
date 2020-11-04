@@ -71,11 +71,12 @@ public class ItemHelper {
 
             if (dbUser.getData().getDustLevel() > 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
-                player.save();
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
-                playerInventory.process(new ItemStack(ItemReference.MOP, -1));
 
+                playerInventory.process(new ItemStack(ItemReference.MOP, -1));
                 userData.setDustLevel(0);
+
+                player.save();
                 dbUser.save();
             } else {
                 ctx.sendLocalized("general.misc_item_usage.mop_not_enough", EmoteReference.DUST);
@@ -92,10 +93,10 @@ public class ItemHelper {
             Inventory playerInventory = player.getInventory();
 
             userData.getEquippedItems().resetEffect(PlayerEquipment.EquipmentType.POTION);
-            dbUser.save();
-
             playerInventory.process(new ItemStack(ItemReference.POTION_CLEAN, -1));
+
             player.save();
+            dbUser.save();
 
             ctx.sendLocalized("general.misc_item_usage.milk", EmoteReference.CORRECT);
             return true;
@@ -106,8 +107,9 @@ public class ItemHelper {
         try {
             Item item = fromId(Integer.parseInt(any));
 
-            if (item != null)
+            if (item != null) {
                 return Optional.of(item);
+            }
         } catch (NumberFormatException ignored) { }
 
         return fromAnyNoId(any);
@@ -117,16 +119,19 @@ public class ItemHelper {
         Optional<Item> itemOptional;
 
         itemOptional = fromEmoji(any);
-        if (itemOptional.isPresent())
+        if (itemOptional.isPresent()) {
             return itemOptional;
+        }
 
         itemOptional = fromAlias(any);
-        if (itemOptional.isPresent())
+        if (itemOptional.isPresent()) {
             return itemOptional;
+        }
 
         itemOptional = fromName(any);
-        if (itemOptional.isPresent())
+        if (itemOptional.isPresent()) {
             return itemOptional;
+        }
 
         itemOptional = fromPartialName(any);
         return itemOptional;
