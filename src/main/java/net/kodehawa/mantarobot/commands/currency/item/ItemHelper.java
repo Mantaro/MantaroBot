@@ -400,24 +400,28 @@ public class ItemHelper {
             }
 
             String toReplace = languageContext.get("commands.mine.item_broke");
-            if (!user.getData().isAutoEquip())
+            if (!user.getData().isAutoEquip()) {
                 toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
+            }
 
             ctx.sendFormat(toReplace, EmoteReference.SAD, item.getName(), broken);
-            if (isSeasonal)
+
+            if (isSeasonal) {
                 seasonPlayer.save();
-            else
+            } else {
                 player.save();
+            }
 
             user.save();
 
             //is broken
             return Pair.of(true, player);
         } else {
-            if (isSeasonal)
+            if (isSeasonal) {
                 seasonPlayer.save();
-            else
+            } else {
                 player.save();
+            }
 
             user.save();
 
