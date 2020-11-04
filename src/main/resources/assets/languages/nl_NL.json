@@ -799,7 +799,7 @@
       "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
       "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
       "item_transfer": "%1$sJe kunt geen voorwerpen weggeven met behulp 'transfer', gebruik hiervoor het 'itemtransfer' commando.",
-      "party": "Je kunt maar één keer per 4 minuten geld overmaken naar dezelfde persoon (%1$s)."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
       "ls": {
@@ -2347,7 +2347,7 @@
       "pants": "In principe wat je om je benen draagt ... hopelijk.",
       "haste": "Hiermee kun je meer spullen verzamelen via commando's om buit te maken. Werkt voor 2 sessies.",
       "milky": "Wist alle tovereffecten.",
-      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Hiermee kun je vissen.",
       "fish": "Vis. Wordt gevangen tijdens het vissen.",
       "tropical_fish": "Een zeer tropische vis. Wordt gevangen tijdens het vissen.",
@@ -2406,12 +2406,12 @@
       "moon_pick": "A stronger pick. (320 durability)",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
-      "comet_axe": "A stronger axe (290 durability).",
-      "star_axe": "A stronger axe (370 durability).",
+      "comet_axe": "A stronger axe (170 durability).",
+      "star_axe": "A stronger axe (220 durability).",
       "moon_axe": "A stronger axe (330 durability).",
       "sparkle_axe": "A way stronger axe (500 durability).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod. (120 durability)",
+      "moon_rod": "A stronger rod. (170 durability)",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
