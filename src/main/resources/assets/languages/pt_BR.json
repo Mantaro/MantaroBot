@@ -799,7 +799,7 @@
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
       "item_transfer": "%1$sVocê não pode transferir itens usando transfer, use o comando `transferitems` em vez disso.",
-      "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 4 minutos."
+      "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 10 minutos."
     },
     "useitem": {
       "ls": {
@@ -1398,7 +1398,7 @@
       "footer": "Nós esperamos que você se divirta com o bot."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
+      "not_broken": "%1$sVocê só pode salvar ferramentas quebradas.",
       "no_item": "%1$sVocê tem que especificar o item que quer resgatar.",
       "no_item_found": "%1$sEu consegui encontrar o item que você especificou.",
       "cant_salvage": "%1$sEu não consigo resgatar esse item.",
@@ -1607,7 +1607,7 @@
       "lose": "%1$sInfelizmente, você perdeu %2$s créditos. %3$s",
       "lose_all": "todos os seus",
       "credits": "créditos",
-      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
+      "too_much": "%1$sVocê só pode apostar tanto de uma vez. Você não quer ir completamente a falência né? *(Limite único de aposta: %2$,d créditos)*",
       "too_little": "%1$sVocê não pode apostar pouco dinheiro (Mínimo: 100 créditos)"
     },
     "loot": {
@@ -2347,7 +2347,7 @@
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
       "haste": "Permite você coletar mais coisas de comandos de saque por 2 sessões.",
       "milky": "Limpa todos os efeitos de poção.",
-      "energy": "Faz uma picareta ou vara perder menos durabilidade durante uma jogada. Dura apenas 3 sessões de mineração/pesca.",
+      "energy": "Faz uma picareta, machado ou vara perder menos durabilidade durante uma jogada. Dura apenas 3 sessões de mineração/pesca.",
       "rod": "Permite que você pesque. (40 de durabilidade)",
       "fish": "Peixe. Pego na pesca.",
       "tropical_fish": "Um peixe muito tropical. Pego na pesca.",
@@ -2406,12 +2406,12 @@
       "moon_pick": "Uma picareta forte. (320 de durabilidade)",
       "hellfire_pick": "Uma Picareta muito OP (muita durabilidade, descubra ;)).",
       "axe": "Normal, um machado do-meio-da-estrada (35 de durabilidade).",
-      "comet_axe": "Um machado forte (290 de durabilidade).",
-      "star_axe": "Um machado forte (370 de durabilidade).",
+      "comet_axe": "Um machado forte (170 de durabilidade).",
+      "star_axe": "Um machado forte (220 de durabilidade).",
       "moon_axe": "Um machado forte (330 de durabilidade).",
       "sparkle_axe": "Um machado muito mais forte (500 de durabilidade).",
       "hellfire_axe": "Um machado muito OP (muita durabilidade, descubra ;)).",
-      "moon_rod": "Uma vara forte. (120 de durabilidade)",
+      "moon_rod": "Uma vara forte. (170 de durabilidade)",
       "hellfire_rod": "Uma vara muito OP (muita durabilidade, descubra ;)).",
       "leaves": "Um drop lento de uma árvore que você tentou cortar.",
       "apple": "Você por acaso cortou uma macieira e a maçã caiu na sua cabeça. Ouch.",
