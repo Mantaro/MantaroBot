@@ -77,7 +77,14 @@ public class InfoCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Shows how to change the server and user languages, along with a language list.")
+                        .setDescription(
+                                """
+                                Shows how to change the server and user languages, along with a language list.
+                                You can change the server language (if applicable) using `~>opts language set <language code>`. 
+                                Your personal language preferences can be changed using `~>profile lang <language code>`.
+                                Use the command to get a list of language codes.
+                                """
+                        )
                         .build();
             }
         });
