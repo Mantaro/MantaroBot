@@ -57,8 +57,8 @@ import java.util.regex.Pattern;
 
 @Module
 public class MarryCmd {
-    private static final long housePrice = 5000;
-    private static final long carPrice = 1000;
+    private static final long housePrice = 5_000;
+    private static final long carPrice = 1_000;
 
     private static final Pattern offsetRegex =
             Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
