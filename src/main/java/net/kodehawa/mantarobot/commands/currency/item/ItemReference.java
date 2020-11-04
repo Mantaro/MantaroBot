@@ -587,7 +587,7 @@ public class ItemReference {
             ),
 
             MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f,
-                    3, 7, EmoteReference.MOON_PICK.getDiscordNotation(),
+                    1, 7, EmoteReference.MOON_PICK.getDiscordNotation(),
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
                     1000, true, false,
                     "1;3;2;5;10", 320, 130,10, 83, 18, 76, 101
@@ -627,7 +627,7 @@ public class ItemReference {
             ),
 
             MOON_AXE = new Axe(ItemType.CHOP_RARE_AXE, 0.1f,
-                    3, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
+                    1, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
                     "Moon Axe", "items.moon_axe", "items.description.moon_axe",
                     1000, true, false,
                     "1;3;2;10", 330, 130, 104, 83, 18, 101
@@ -640,7 +640,7 @@ public class ItemReference {
                     "450;175;1;175;1;55;1;50;50", 3100, 900, 18, 48, 105, 49, 106, 74, 107, 101, 76
             ),
 
-            MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 3,
+            MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 1,
                     4, EmoteReference.MOON_ROD.getDiscordNotation(),
                     "Moon Rod", "items.moon_rod", "items.description.moon_rod",
                     800, "1;3;3", 170, 44, 83, 101
