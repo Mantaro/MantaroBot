@@ -48,15 +48,15 @@ public class TransferCmds {
             final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                     .spamTolerance(2)
                     .limit(1)
-                    .cooldown(10, TimeUnit.SECONDS)
-                    .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                    .cooldown(45, TimeUnit.SECONDS)
+                    .cooldownPenaltyIncrease(10, TimeUnit.SECONDS)
                     .maxCooldown(10, TimeUnit.MINUTES)
                     .pool(MantaroData.getDefaultJedisPool())
                     .prefix("transfer")
                     .build();
 
             //this still uses a normal RL
-            final RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 3);
+            final RateLimiter partyRateLimiter = new RateLimiter(TimeUnit.MINUTES, 10);
 
             @Override
             public void call(Context ctx, String content, String[] args) {
@@ -120,11 +120,6 @@ public class TransferCmds {
 
                 if (toTransfer.isLocked()) {
                     ctx.sendLocalized("commands.transfer.receipt_locked_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (toTransfer.getCurrentMoney() > (long) TRANSFER_LIMIT * 18) {
-                    ctx.sendLocalized("commands.transfer.receipt_over_limit", EmoteReference.ERROR);
                     return;
                 }
 
