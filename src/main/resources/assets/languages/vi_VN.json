@@ -799,7 +799,7 @@
       "receipt_over_limit": "%1$sNgười chơi này có quá nhiều tiền...",
       "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
       "item_transfer": "%1$sBạn không thể dùng lệnh chuyển tiền để chuyển đồ, hãy thử dùng lệnh `transferitems`.",
-      "party": "Bạn chỉ có thể chuyển tiền cho cùng một người (%1$s) 4 phút một lần."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
       "ls": {
@@ -2347,7 +2347,7 @@
       "pants": "Căn bản là thứ bạn mặc vào chân... mong là vậy.",
       "haste": "Cho phép bạn nhận được thêm nhiều thứ từ những lệnh cày tiền trong 2 lần.",
       "milky": "Vô hiệu hoá tất cả các công dụng thuốc.",
-      "energy": "Giúp cần câu hoặc cuốc giảm ít độ bền hơn mỗi lần dùng. Có hiệu lực trong 3 lần đào/câu.",
+      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Cho phép bạn câu cá. (độ bền 40)",
       "fish": "Cá. Bắt được khi câu cá.",
       "tropical_fish": "Một con cá chuẩn nhiệt đới. Bắt được khi câu cá.",
@@ -2406,12 +2406,12 @@
       "moon_pick": "A stronger pick. (320 durability)",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
-      "comet_axe": "A stronger axe (290 durability).",
-      "star_axe": "A stronger axe (370 durability).",
+      "comet_axe": "A stronger axe (170 durability).",
+      "star_axe": "A stronger axe (220 durability).",
       "moon_axe": "A stronger axe (330 durability).",
       "sparkle_axe": "A way stronger axe (500 durability).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod. (120 durability)",
+      "moon_rod": "A stronger rod. (170 durability)",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
