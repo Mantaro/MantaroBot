@@ -226,11 +226,20 @@ public class CurrencyActionCmds {
                 }
 
                 //Sparkle find
-                if ((random.nextInt(400) > 395 && item == ItemReference.COMET_PICKAXE) ||
-                        (random.nextInt(400) > 390 &&
-                                (item == ItemReference.MOON_PICK || item == ItemReference.STAR_PICKAXE ||
-                                        item == ItemReference.SPARKLE_PICKAXE || item == ItemReference.HELLFIRE_PICK))) {
+                var sparkleChance = 395;
+                if (item == ItemReference.MOON_PICK || item == ItemReference.STAR_PICKAXE) {
+                    sparkleChance = 390;
+                }
 
+                if (item == ItemReference.SPARKLE_PICKAXE) {
+                    sparkleChance = 385;
+                }
+
+                if (item == ItemReference.HELLFIRE_PICK) {
+                    sparkleChance = 380;
+                }
+
+                if (random.nextInt(400) > sparkleChance) {
                     var gem = ItemReference.SPARKLE_FRAGMENT;
 
                     if (inventory.getAmount(gem) + 1 >= 5000) {
