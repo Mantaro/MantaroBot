@@ -799,7 +799,7 @@
       "receipt_over_limit": "%1$sŠis narys ir taip turi per daug pinigų...",
       "success": "%1$sSėkmingai pervesta **%2$d** *(%3$d po 10%% mokesčio)* **%4$s**.",
       "item_transfer": "%1$sTu negali pervesti daiktų naudojant `transfer`, naudok `transferitems` komandą vietoje to.",
-      "party": "Tu gali pervesti pinigus tam pačiam žmogui (%1$s) tik kas 4 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
       "ls": {
@@ -2347,7 +2347,7 @@
       "pants": "Paprastai ką tu dėvi ant savo kojų... tikiuosi.",
       "haste": "Leidžia gauti daugiau daiktų iš komandų, kurios duoda kokių nors dalykų. Galioja tik 2 kartus.",
       "milky": "Išvalo visų eliksyrų poveikius.",
-      "energy": "Makes a pick or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Leidžia tau žvejoti",
       "fish": "Žuvis. Pagauta žvejojant.",
       "tropical_fish": "Labai tropinė žuvis. Pagauta žvejojant.",
@@ -2406,12 +2406,12 @@
       "moon_pick": "A stronger pick. (320 durability)",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
-      "comet_axe": "A stronger axe (290 durability).",
-      "star_axe": "A stronger axe (370 durability).",
+      "comet_axe": "A stronger axe (170 durability).",
+      "star_axe": "A stronger axe (220 durability).",
       "moon_axe": "A stronger axe (330 durability).",
       "sparkle_axe": "A way stronger axe (500 durability).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod. (120 durability)",
+      "moon_rod": "A stronger rod. (170 durability)",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
