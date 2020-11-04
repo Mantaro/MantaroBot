@@ -799,7 +799,7 @@
       "receipt_over_limit": "%1$sEse usuario ya tiene muchos créditos...",
       "success": "%1$sHas transferido **%2$d** *(%3$d despues de 8%% de impuestos)* créditos a **%4$s** correctamente.",
       "item_transfer": "%1$sNo puedes transferir items usando este comando, debes usar `transferitems`!",
-      "party": "Le puedes transferir a la misma persona (%1$s) una vez cada 4 minutos."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
       "ls": {
@@ -2347,7 +2347,7 @@
       "pants": "Espero que sea básicamente lo que te pones en las piernas.",
       "haste": "Te permite recoger mas cosas de los comandos loot por 2 usos.",
       "milky": "Limpia todos los efectos de pociones.",
-      "energy": "Hace que un pico o caña de pescar pierda menos durabilidad por uso. Dura 3 sesiones de minería/pesca.",
+      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Enables you to fish.",
       "fish": "Pescado. Capturado mientras pescabas.",
       "tropical_fish": "Un pescado muy tropical. Capturado mientras pescabas.",
@@ -2406,12 +2406,12 @@
       "moon_pick": "A stronger pick. (320 durability)",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
-      "comet_axe": "A stronger axe (290 durability).",
-      "star_axe": "A stronger axe (370 durability).",
+      "comet_axe": "A stronger axe (170 durability).",
+      "star_axe": "A stronger axe (220 durability).",
       "moon_axe": "A stronger axe (330 durability).",
       "sparkle_axe": "A way stronger axe (500 durability).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod. (120 durability)",
+      "moon_rod": "A stronger rod. (170 durability)",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
