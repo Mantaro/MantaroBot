@@ -799,7 +799,7 @@
       "receipt_over_limit": "%1$sTen użytkownik ma za dużo kasy...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 4 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
       "ls": {
@@ -2347,7 +2347,7 @@
       "pants": "Basically what you wear on your legs... hopefully.",
       "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
       "milky": "Clears all potion effects.",
-      "energy": "Gives less chance of a pick breaking while mining. Lasts only 3 mining sessions.",
+      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
       "rod": "Enables you to fish. (40 durability)",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",
@@ -2406,12 +2406,12 @@
       "moon_pick": "A stronger pick. (320 durability)",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
-      "comet_axe": "A stronger axe (290 durability).",
-      "star_axe": "A stronger axe (370 durability).",
+      "comet_axe": "A stronger axe (170 durability).",
+      "star_axe": "A stronger axe (220 durability).",
       "moon_axe": "A stronger axe (330 durability).",
       "sparkle_axe": "A way stronger axe (500 durability).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod. (120 durability)",
+      "moon_rod": "A stronger rod. (170 durability)",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
