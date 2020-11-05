@@ -195,8 +195,13 @@ public class AudioLoader implements AudioLoadResultHandler {
                 player.save();
             }
 
+            var duration = Utils.formatDuration(length);
+            if (length == Long.MAX_VALUE) {
+                duration = "stream";
+            }
+
             event.getChannel().sendMessageFormat(
-                    language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, Utils.formatDuration(length)
+                    language.get("commands.music_general.loader.loaded_song"), EmoteReference.CORRECT, title, duration
             ).queue();
         }
 
