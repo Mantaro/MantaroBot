@@ -286,7 +286,7 @@
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
         "over_32_minutes": "%1$s**Je n'ai pas pu ajouter `%2$s` à la file d'attente: Cette musique est plus longue que %3$s.**\n(La durée de ce morceau est %4$s).\nTu peux augmenter la limite de longueur des musique et des rediffusions de stream grâce à Mantaro Premium! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
         "fair_queue_limit_reached": "%1$s**Niveau de la file d'attente dépassé de %2$d (Trop de musiques similaires)**",
-        "loaded_song": "%1$sAjouté à la file d'attente -> **`%2$s`** **(Longueur: %3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
         "selection_text": "Sélection du morceau. Écris le numéro de la chanson pour continuer.",
         "timeout_text": "Cela expirera dans 30 secondes. Ecris &cancel pour annuler."
       },
@@ -1320,6 +1320,7 @@
       },
       "pet_reactions": {
         "cute": "%1$sYour pet happily wags their tail as you caress their head. **Pat counter: %2$s**.%3$s",
+        "cute_not_animal": "%1$sYour pet happily smiles as you caress their head. **Pat counter: %2$s**.%3$s",
         "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. **Pat counter: %2$s**.%3$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %2$s**.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
