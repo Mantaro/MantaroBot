@@ -129,7 +129,7 @@ public class ItemReference {
 
             DIAMOND = new Item(ItemType.COMMON, EmoteReference.DIAMOND.getUnicode(),
                     "Diamond", "items.diamond", "items.description.diamond",
-                    350, true
+                    200, true
             ),
 
             DRESS = new Item(ItemType.COMMON, EmoteReference.DRESS.getUnicode(), "Wedding Dress",
@@ -319,7 +319,7 @@ public class ItemReference {
 
             WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a",
                     "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill",
-                    670, true
+                    370, true
             ),
 
             FISHING_BAIT = new Potion(ItemType.BUFF, 1, "\uD83D\uDC1B",
@@ -457,7 +457,7 @@ public class ItemReference {
 
             SHARK = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88",
                     "Shark", "items.shark", "items.description.shark",
-                    600, false
+                    500, false
             ),
 
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 90,

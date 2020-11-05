@@ -379,7 +379,7 @@ public enum Badge {
 
     //Chop a tree.
     CHOPPER("Chopper", "\ud83e\udeb5",
-            "Find wood while chopping. How couldn't you?.",
+            "Find wood while chopping. How couldn't you?",
             91, 92,
             (player, dbUser) -> false, false
     ),
@@ -672,6 +672,7 @@ public enum Badge {
     private final int iconStartY;
     private final BiPredicate<Player, DBUser> badgePredicate;
 
+
     /**
      * Represents an user badge.
      * A badge is a "recognition" of an user achievements or contributions to Mantaro's code or just achievements inside Mantaro itself.
@@ -691,15 +692,16 @@ public enum Badge {
         this.iconStartY = iconStartY;
         this.badgePredicate = badgePredicate;
 
+        final byte[] emptyIcon = new byte[0];
         if (display.equals("User")) {
-            this.icon = new byte[0];
+            this.icon = emptyIcon;
         } else {
             try {
                 InputStream is = getClass().getClassLoader().getResourceAsStream("badges/" + display.toLowerCase() + ".png");
                 if (is == null) {
                     if (!placeholder) {
                         LoggerHolder.LOGGER.error("No badge found for '" + display + "'");
-                        this.icon = new byte[0];
+                        this.icon = emptyIcon;
                     } else {
                         //apply placeholder image
                         //noinspection ConstantConditions

@@ -254,6 +254,10 @@ public class HousePet {
             return random.nextBoolean() ? HousePetType.PatReaction.CUTE : HousePetType.PatReaction.SCARE;
         }
 
+        if (getType() == HousePetType.KODE) {
+            return HousePetType.PatReaction.CUTE_2;
+        }
+
         return HousePetType.PatReaction.CUTE;
     }
 

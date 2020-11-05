@@ -155,8 +155,7 @@ public class ProfileCmd {
                                 playerData.addBadgeIfAbsent(Badge.DEVELOPER);
                             }
 
-                            if (inv.asList().stream()
-                                    .anyMatch(stack -> stack.getItem().equals(ItemReference.CHRISTMAS_TREE_SPECIAL) ||
+                            if (inv.asList().stream().anyMatch(stack -> stack.getItem().equals(ItemReference.CHRISTMAS_TREE_SPECIAL) ||
                                             stack.getItem().equals(ItemReference.BELL_SPECIAL))) {
                                 playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
                             }
