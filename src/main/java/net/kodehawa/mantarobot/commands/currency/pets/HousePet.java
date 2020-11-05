@@ -255,7 +255,7 @@ public class HousePet {
         }
 
         if (getType() == HousePetType.KODE) {
-            return HousePetType.PatReaction.CUTE;
+            return HousePetType.PatReaction.CUTE_2;
         }
 
         return HousePetType.PatReaction.CUTE;
