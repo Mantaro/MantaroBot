@@ -17,15 +17,12 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.commands.utils.RoundedMetricPrefixFormat;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
@@ -150,39 +147,6 @@ public class GambleCmds {
 
                 final var finalLuck = luck;
                 final var finalGains = gains;
-
-                if (i >= 60000000) {
-                    player.setLocked(true);
-                    player.save();
-                    ctx.sendLocalized("commands.gamble.confirmation_message", EmoteReference.WARNING, i);
-                    InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, new InteractiveOperation() {
-                        @Override
-                        public int run(GuildMessageReceivedEvent e) {
-                            if (e.getAuthor().getId().equals(user.getId())) {
-                                if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
-                                    proceedGamble(ctx, player, finalLuck, i, finalGains, i);
-                                    return COMPLETED;
-                                } else if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
-                                    e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
-                                    player.setLocked(false);
-                                    player.saveAsync();
-                                    return COMPLETED;
-                                }
-                            }
-
-                            return IGNORED;
-                        }
-
-                        @Override
-                        public void onExpire() {
-                            ctx.sendLocalized("general.operation_timed_out", EmoteReference.ERROR2);
-                            player.setLocked(false);
-                            player.saveAsync();
-                        }
-                    });
-                    return;
-                }
-
                 proceedGamble(ctx, player, luck, i, gains, i);
             }
 
@@ -440,7 +404,7 @@ public class GambleCmds {
 
         if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
-                if (gains > 15_000L) {
+                if (gains > 5_000L) {
                     if (!data.hasBadge(Badge.GAMBLER)) {
                         data.addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveAsync();

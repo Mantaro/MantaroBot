@@ -226,7 +226,7 @@ public class CurrencyActionCmds {
                 }
 
                 //Sparkle find
-                var sparkleChance = 395;
+                var sparkleChance = 401; // Impossible w/o, since a bound of 400 should always drop less than 401
                 if (item == ItemReference.MOON_PICK || item == ItemReference.STAR_PICKAXE) {
                     sparkleChance = 390;
                 }
