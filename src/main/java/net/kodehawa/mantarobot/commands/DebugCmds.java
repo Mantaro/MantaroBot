@@ -131,7 +131,6 @@ public class DebugCmds {
                                 .count()
                         + "\n\n --------- Debug Information --------- \n\n"
                         + "Replies: " + "[ Discord: %,d, MAPI: %,d ]".formatted(responseTotal, mApiRequests) + "\n"
-                        + "Shard Info: " + jda.getShardInfo() + "\n"
                         + "Nodes: " + "%,d (Current: %,d)".formatted(clusterTotal, ctx.getBot().getNodeNumber()) + "\n"
                         + "CPU: " + "%.2f%% (Cores: %,d)".formatted(getInstanceCPUUsage() * 100, getAvailableProcessors()) + "\n"
                         + "Memory: " +  Utils.formatMemoryAmount(totalMemory) +
@@ -139,7 +138,7 @@ public class DebugCmds {
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + "%,d (Node: %,d)".formatted(guilds, shardManager.getGuildCache().size()) + "\n"
                         + "User Cache: " + "%,d (Node: %,d)".formatted(users, shardManager.getUserCache().size()) + "\n"
-                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardId() + ")" + "\n"
+                        + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardString() + ")" + "\n"
                         + "Threads: " + "%,d (Node: %,d)".formatted(totalThreadCount, Thread.activeCount()) + "\n"
                         + "Commands Used: " + "%,d (Node: %,d)".formatted(totalCommandCount, CommandListener.getCommandTotal()) + "\n"
                         + "Overall: " + "[ Players: %,d, Queue: %,d, Logs: %,d ]".formatted(players, queueSize, MantaroListener.getLogTotal()) + "\n"
