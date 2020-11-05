@@ -27,6 +27,8 @@ import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -58,7 +60,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void trackLoaded(AudioTrack track) {
-        loadSingle(track, false);
+        loadSingle(track, false, db.getGuild(event.getGuild()), db.getUser(event.getMember()));
     }
 
     @Override
@@ -67,7 +69,9 @@ public class AudioLoader implements AudioLoadResultHandler {
             if (!skipSelection) {
                 onSearch(playlist);
             } else {
-                loadSingle(playlist.getTracks().get(0), false);
+                loadSingle(playlist.getTracks().get(0), false,
+                        db.getGuild(event.getGuild()), db.getUser(event.getMember())
+                );
             }
 
             return;
@@ -82,7 +86,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             for (var track : playlist.getTracks()) {
                 if (guildData.getMusicQueueSizeLimit() != null) {
                     if (i < guildData.getMusicQueueSizeLimit()) {
-                        loadSingle(track, true);
+                        loadSingle(track, true, dbGuild, user);
                     } else {
                         event.getChannel().sendMessageFormat(
                                 language.get("commands.music_general.loader.over_limit"),
@@ -98,7 +102,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                         ).queue();
                         break; //stop adding songs
                     } else {
-                        loadSingle(track, true);
+                        loadSingle(track, true, dbGuild, user);
                     }
                 }
 
@@ -137,16 +141,12 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
     }
 
-    private void loadSingle(AudioTrack audioTrack, boolean silent) {
+    private void loadSingle(AudioTrack audioTrack, boolean silent, DBGuild dbGuild, DBUser dbUser) {
         final var trackInfo = audioTrack.getInfo();
-        final var managedDatabase = MantaroData.db();
+        final var trackScheduler = musicManager.getTrackScheduler();
+        final var guildData = dbGuild.getData();
 
         audioTrack.setUserData(event.getAuthor().getId());
-
-        final var trackScheduler = musicManager.getTrackScheduler();
-        final var dbGuild = managedDatabase.getGuild(event.getGuild());
-        final var dbUser = managedDatabase.getUser(event.getMember());
-        final var guildData = dbGuild.getData();
 
         final var title = trackInfo.title;
         final var length = trackInfo.length;
@@ -190,7 +190,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         trackScheduler.setRequestedChannel(event.getChannel().getIdLong());
 
         if (!silent) {
-            var player = managedDatabase.getPlayer(event.getAuthor());
+            var player = db.getPlayer(event.getAuthor());
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
@@ -231,7 +231,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                                 event.getAuthor().getEffectiveAvatarUrl()
                         )
                         .build(),
-                selected -> loadSingle(selected, false)
+                selected -> loadSingle(selected, false, db.getGuild(event.getGuild()), db.getUser(event.getMember()))
         );
 
         Metrics.TRACK_EVENTS.labels("tracks_search").inc();
