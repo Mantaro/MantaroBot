@@ -535,7 +535,7 @@ public class PetCmds {
 
                 var increase = foodItem.getHungerLevel() * amount;
 
-                if ((pet.getHunger() + increase) > 100) {
+                if ((pet.getHunger() + increase) > 115) {
                     ctx.sendLocalized("commands.pet.feed.too_much", EmoteReference.ERROR);
                     return;
                 }
@@ -601,7 +601,7 @@ public class PetCmds {
                 }
 
                 var increase = 15 * amount;
-                if ((pet.getThirst() + increase) > 100) {
+                if ((pet.getThirst() + increase) > 115) {
                     ctx.sendLocalized("commands.pet.water.too_much", EmoteReference.ERROR);
                     return;
                 }
