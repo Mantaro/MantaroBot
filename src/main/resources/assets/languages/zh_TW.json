@@ -286,7 +286,7 @@
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
-        "loaded_song": "%1$sAdded to queue -> **`%2$s`** **(Length: %3$s)**",
+        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
         "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
         "timeout_text": "這將在30秒內超時。輸入&cancel以取消。"
       },
@@ -1320,6 +1320,7 @@
       },
       "pet_reactions": {
         "cute": "%1$sYour pet happily wags their tail as you caress their head. **Pat counter: %2$s**.%3$s",
+        "cute_not_animal": "%1$sYour pet happily smiles as you caress their head. **Pat counter: %2$s**.%3$s",
         "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. **Pat counter: %2$s**.%3$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %2$s**.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
