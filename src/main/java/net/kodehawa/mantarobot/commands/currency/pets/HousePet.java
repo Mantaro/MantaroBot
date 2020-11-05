@@ -259,7 +259,7 @@ public class HousePet {
         }
 
         if (getType() == HousePetType.ROCK) {
-            return HousePetType.PatReaction.SILENT;
+            return HousePetType.PatReaction.NOTHING;
         }
 
         return HousePetType.PatReaction.CUTE;
