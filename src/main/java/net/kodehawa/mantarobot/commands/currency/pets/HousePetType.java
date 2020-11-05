@@ -40,7 +40,8 @@ public enum HousePetType {
 
     public static enum PatReaction {
         CHEER("commands.pet.pet_reactions.cheer"), SCARE("commands.pet.pet_reactions.scare"),
-        CUTE("commands.pet.pet_reactions.cute"), CUTE_2("commands.pet.pet_reactions.cute_not_animal");
+        CUTE("commands.pet.pet_reactions.cute"), CUTE_2("commands.pet.pet_reactions.cute_not_animal"),
+        SILENT("commands.pet.pet_reactions.silent");
 
         final String message;
         PatReaction(String i18n) {
