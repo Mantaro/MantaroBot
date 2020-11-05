@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.APIUtils;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -40,6 +41,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = TimeUnit.HOURS.toMillis(2);
+    private static final ManagedDatabase db = MantaroData.db();
     private final GuildMessageReceivedEvent event;
     private final boolean insertFirst;
     private final GuildMusicManager musicManager;
@@ -73,11 +75,11 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         try {
             var i = 0;
-            for (var track : playlist.getTracks()) {
-                var dbGuild = MantaroData.db().getGuild(event.getGuild());
-                var user = MantaroData.db().getUser(event.getMember());
-                var guildData = dbGuild.getData();
+            var dbGuild = db.getGuild(event.getGuild());
+            var user = db.getUser(event.getMember());
+            var guildData = dbGuild.getData();
 
+            for (var track : playlist.getTracks()) {
                 if (guildData.getMusicQueueSizeLimit() != null) {
                     if (i < guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true);
