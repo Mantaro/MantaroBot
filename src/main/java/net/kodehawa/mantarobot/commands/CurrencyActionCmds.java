@@ -112,7 +112,7 @@ public class CurrencyActionCmds {
                 if (ItemHelper.handleEffect(
                         PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                     if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
-                        money += Math.max(45, random.nextInt(250));
+                        money += Math.max(20, random.nextInt(100));
                         waifuHelp = true;
                     }
                 }
@@ -182,7 +182,7 @@ public class CurrencyActionCmds {
                 }
 
                 // Gem find
-                var gemChance = 325;
+                var gemChance = 330;
                 if (hasPotion) {
                     gemChance = 325;
                 }
@@ -221,8 +221,13 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
+                var bonus = money;
+                if (random.nextBoolean()) {
+                    bonus = money / 2;
+                }
+
                 if (dbUser.isPremium() && money > 0) {
-                    money += random.nextInt(money);
+                    money += random.nextInt(bonus);
                 }
 
                 //Sparkle find
@@ -517,8 +522,13 @@ public class CurrencyActionCmds {
                     }
 
 
+                    var bonus = money;
+                    if (random.nextBoolean()) {
+                        bonus = money / 2;
+                    }
+
                     if (dbUser.isPremium() && money > 0) {
-                        money += random.nextInt(money);
+                        money += random.nextInt(bonus);
                     }
 
                     if (playerData.shouldSeeCampaign()) {
@@ -702,8 +712,13 @@ public class CurrencyActionCmds {
                     }
 
                     // Ah yes, sellout
+                    var bonus = money;
+                    if (random.nextBoolean()) {
+                        bonus = money / 2;
+                    }
+
                     if (dbUser.isPremium() && money > 0) {
-                        money += random.nextInt(money);
+                        money += random.nextInt(bonus);
                     }
 
                     if (found) {
