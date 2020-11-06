@@ -46,12 +46,14 @@ public class PlayerEquipment {
     @JsonIgnore
     public boolean equipItem(Item item) {
         EquipmentType type = getTypeFor(item);
-        if (type == null || type.getType() != 0)
+        if (type == null || type.getType() != 0) {
             return false;
+        }
 
         equipment.put(type, ItemHelper.idOf(item));
-        if (item instanceof Breakable) //should always be?
+        if (item instanceof Breakable) {
             durability.put(type, ((Breakable) item).getMaxDurability());
+        }
 
         return true;
     }
@@ -59,8 +61,9 @@ public class PlayerEquipment {
     @JsonIgnore
     public void applyEffect(PotionEffect effect) {
         EquipmentType type = getTypeFor(ItemHelper.fromId(effect.getPotion()));
-        if (type == null || type.getType() != 1)
+        if (type == null || type.getType() != 1) {
             return;
+        }
 
         effects.put(type, effect);
     }

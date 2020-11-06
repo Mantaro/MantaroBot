@@ -362,7 +362,7 @@ public class ItemHelper {
         return null;
     }
 
-    public static Pair<Boolean, Player> handleDurability(Context ctx, Item item,
+    public static Pair<Boolean, Pair<Player, DBUser>> handleDurability(Context ctx, Item item,
                                                          Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
         Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
         PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
@@ -415,7 +415,7 @@ public class ItemHelper {
             user.save();
 
             //is broken
-            return Pair.of(true, player);
+            return Pair.of(true, Pair.of(player, user));
         } else {
             if (isSeasonal) {
                 seasonPlayer.save();
@@ -426,7 +426,7 @@ public class ItemHelper {
             user.save();
 
             //is not broken
-            return Pair.of(false, player);
+            return Pair.of(false, Pair.of(player, user));
         }
     }
 }

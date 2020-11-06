@@ -816,15 +816,17 @@ public class CurrencyActionCmds {
         }
 
         //We need to get this again since reusing the old ones will cause :fire:
-        var finalPlayer = breakage.getValue();
+        var finalPlayer = breakage.getValue().getKey();
+        var finalUser = breakage.getValue().getValue();
         var inventory = finalPlayer.getInventory();
+        var userData = finalUser.getData();
 
-        if (dbUser.getData().isAutoEquip() && inventory.containsItem(item)) {
-            dbUser.getData().getEquippedItems().equipItem(item);
+        if (userData.isAutoEquip() && inventory.containsItem(item)) {
+            userData.getEquippedItems().equipItem(item);
             inventory.process(new ItemStack(item, -1));
 
             finalPlayer.save();
-            dbUser.save();
+            finalUser.save();
 
             ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
         }

@@ -51,7 +51,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -186,13 +186,15 @@ public class PlayerCmds {
                 var userData = dbUser.getData();
                 var seasonalPlayer = ctx.getSeasonPlayer();
                 var seasonalPlayerData = seasonalPlayer.getData();
+                var seasonalPlayerInventory = seasonalPlayer.getInventory();
+                var playerInventory = player.getInventory();
 
                 if (item == null) {
                     ctx.sendLocalized("commands.profile.equip.no_item", EmoteReference.ERROR);
                     return;
                 }
 
-                var containsItem = isSeasonal ? seasonalPlayer.getInventory().containsItem(item) : player.getInventory().containsItem(item);
+                var containsItem = isSeasonal ? seasonalPlayerInventory.containsItem(item) : playerInventory.containsItem(item);
                 if (!containsItem) {
                     ctx.sendLocalized("commands.profile.equip.not_owned", EmoteReference.ERROR);
                     return;
@@ -208,10 +210,10 @@ public class PlayerCmds {
 
                 if (equipment.equipItem(item)) {
                     if (isSeasonal) {
-                        seasonalPlayer.getInventory().process(new ItemStack(item, -1));
+                        seasonalPlayerInventory.process(new ItemStack(item, -1));
                         seasonalPlayer.save();
                     } else {
-                        player.getInventory().process(new ItemStack(item, -1));
+                        playerInventory.process(new ItemStack(item, -1));
                         player.save();
                     }
 
