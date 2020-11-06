@@ -704,7 +704,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**Coleção de item de %1$s:** %2$s\n\n*Se você quiser uma versão mais detalhada disso, use `~>inventory -info`. Aprecie seu dia!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
@@ -813,7 +813,7 @@
       "no_item": "%1$sVocê não tem esse item no seu inventário...",
       "not_enough_items": "%1$sVocê não tem o suficiente deste item.",
       "too_little": "%1$sVocê não pode usar menos de 1 item.",
-      "invalid_amount": "%1$sA quantidade precisa ser um número válido entre `1` e `9`!"
+      "invalid_amount": "%1$sA quantidade precisa ser um número válido entre `1` e `15`!"
     },
     "opts": {
       "note": "%1$sEi, se você estiver perdido ou quer ajuda sobre o uso do opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar o opts.\nNota: Apenas administradores, pessoas com Gerenciar Servidor ou pessoas com o cargo Bot Commander podem usar esse comando!",
@@ -939,12 +939,12 @@
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
         "not_equipped": "%1$sVocê não te isso equipado.",
-        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara ou picareta) se você quiser desequipar."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
-        "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, rod`",
-        "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sVocê tem certeza que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
@@ -981,7 +981,7 @@
       "birthday": "Aniversário",
       "married": "Casado(a) com",
       "nobody": "Ninguém",
-      "inventory": "Item Collection (Top 15)",
+      "inventory": "Coleção de Item (Top 15)",
       "badges": "Top 5 Insígnias",
       "no_badges": "Sem insígnias (ainda!)",
       "no_timezone": "Não definido",
