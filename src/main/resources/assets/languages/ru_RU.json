@@ -813,7 +813,7 @@
       "no_item": "%1$sВ вашем инвентаре нет этого предмета...",
       "not_enough_items": "%1$sУ вас не хватет этого.",
       "too_little": "%1$sВы не можете использовать меньше одного предмета.",
-      "invalid_amount": "%1$sКоличество должно быть действительным числом от «1» до «9»!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sХей, проверь <https://github.com/Mantaro/MantaroBot/wiki/Configuration> там есть вся нужна информация по opts.\nЗаметка: Только администраторы или люди с ролью Bot Commander могут использовать эту команду!",
@@ -939,12 +939,12 @@
         "success": "%1$sВы успешно экипировали %2$s *%3$s*, он будет использован в следующий раз при использовании команды автоматически.",
         "not_suitable": "%1$sВы не можете это экипировать.",
         "not_equipped": "%1$sУ вас этого нет.",
-        "already_equipped": "%1$sУ вас уже экипирован предмет этого типа! Попробуйте `~>unequip <type>` (Типом может быть удочка или кирка) если хотите снять его."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sУ вас ничего не экипировано в данном слоте.",
-        "no_content": "%1$sВам надо уточнить тип прибора чтобы его снять, им могут быть одно из `pick, rod`",
-        "invalid_type": "%1$sНеверный тип. Допустимые типы: `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sУспешно снят ваш %2$s слот.",
         "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
