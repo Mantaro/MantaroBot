@@ -813,7 +813,7 @@
       "no_item": "%1$sDu besitzt diesen Gegenstand nicht.",
       "not_enough_items": "%1$sDu hast nicht genug von diesem Gegenstand.",
       "too_little": "%1$sDu kannst nicht weniger als 1 Gegenstand benutzen.",
-      "invalid_amount": "%1$sDie Anzahl muss eine gültige Zahl zwischen `1` und `9` sein!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sHey, wenn du verloren bist oder Hilfe bei der Verwendung von Optionen benötigst, besuche <https://github.com/Mantaro/MantaroBot/wiki/Configuration>, um eine Anleitung zur Verwendung von Optionen zu erhalten. \nHinweis: Nur Administratoren, Personen mit Server verwalten oder Personen mit der Bot-Commander-Rolle können diesen Befehl verwenden! ",
@@ -939,12 +939,12 @@
         "success": "%1$sDu hast erfolgreich %2$s *%3$s* ausgerüstet, was beim nächsten Ausführen des zugehörigen Befehls beachtet wird.",
         "not_suitable": "%1$sDu kannst das nicht ausrüsten.",
         "not_equipped": "%1$sDu hast das nicht ausgerüstet.",
-        "already_equipped": "%1$sDu hast bereits einen Gegenstand dieser Art ausgerüstet! Versiche `~>unequip <art>` (Art kann entweder `rod` oder `pick` sein), wenn du ihn ablegen willst."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sDu hast nichts von dieser Art ausgerüstet.",
-        "no_content": "%1$sDu musst ein Werkzeug zum Ablegen angeben, entweder `pick` oder `rod`.",
-        "invalid_type": "%1$sUngültige Art. Mögliche Arten sind: `pick` und `rod`.",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sDein Gegnestand im %2$s-Slot wurde erfolgreich abgelegt.",
         "equipment_recover": "\nDa du dein Werkzeug noch nie genutzt hast, hast du eine %1$s zurückbekommen!",
@@ -2371,7 +2371,7 @@
       "comet_pick": "Eine sehr viel stärkere Spitzhacke (160 Punkte Haltbarkeit). (`~>mine` Werkzeug).",
       "star_pick": "Eine sehr viel stärkere Spitzhacke (210 Punkte Haltbarkeit). (`~>mine` Werkzeug).",
       "sparkle": "Eines der seltensten Juwelen. Pass drauf auf. (Wird zum Herstellen von glitzernden Spitzhacken und glitzernden Angelrute genutzt)",
-      "sparkle_pick": "Die beste Spitzhacke (6% Bruchrate). (`~>mine` Werkzeug)",
+      "sparkle_pick": "Die beste Spitzhacke (450 Haltbarkeit). (`~>mine` Werkzeug)",
       "pizza": "Lecker.",
       "mine_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem crate` geöffnet werden",
       "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate treasure` geöffnet werden",
