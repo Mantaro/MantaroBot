@@ -81,6 +81,7 @@ public class ImageCmd extends NoArgsCommand {
 
     @Override
     protected void call(Context ctx, String content) {
+        final var builder = new EmbedBuilder();
         String random;
         var id = "";
 
@@ -96,20 +97,16 @@ public class ImageCmd extends NoArgsCommand {
             random = images.get(rand.nextInt(images.size()));
         }
 
-        var extension = random.substring(random.lastIndexOf("."));
-        var builder = new EmbedBuilder();
         builder.appendDescription(EmoteReference.TALKING.toString());
 
         if (!noMentions) {
-            var users = ctx.getMentionedUsers();
-            var names = users.stream().distinct()
+            var names = ctx.getMentionedUsers().stream()
+                    .distinct()
                     .map(User::getName)
                     .collect(Collectors.joining(", "));
 
             if (!names.isEmpty()) {
-                builder.appendDescription("**")
-                        .appendDescription(names)
-                        .appendDescription("**, ");
+                builder.appendDescription("**%s**, ".formatted(names));
             }
         }
 
