@@ -159,7 +159,7 @@
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
       "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛",
-      "fossil_success": "%1$s你在釣魚時順便釣到了化石，看起來像是鑄造的材料，我相信這可能非常值錢。",
+      "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
       "bait": "有隻魚在過程中把你的魚餌吃掉了!",
       "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了! 已裝備魚竿已重設。",
       "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修理它。得到損壞物品: %2$s *%3$s*",
@@ -417,7 +417,7 @@
       "raw": {
         "no_command": "%1$s你需要指出你想查看的指令名稱。",
         "not_found": "%1$s我找不到該指令。",
-        "header": "自定義指令原始回應：%1$s",
+        "header": "自定義指令%1$s原始回應。",
         "amount": "(包含%1$d個中的%2$d個)",
         "description": "這個清單包含所有此指令的原始回應(你創造給我的內容)。"
       },
@@ -425,34 +425,34 @@
         "success": "%1$s**已清除%2$d個自定義指令**。已上鎖/釘選指令未刪除，你需要先解鎖他們。"
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
+        "start_text": "%1$s**\"自定義指令 `%2$s` 創建開始\"**！\n傳送 `&~>stop` 停止創建**且放棄儲存**。\n傳送 `&~>save` 停止創建**並儲存自定義指令**。傳送以 `&` 開頭的任何文字將其加入到回應列表。傳送 `~>nsfw` 將其標記為NSFW，或 `~>sfw` 來還原。\n此程序將會於閒置60秒後自動退出且放棄儲存。",
         "cancel": "%1$s指令創建已取消。",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
+        "no_responses_added": "%1$s尚未添加回應。停止創建且不保存...",
         "success": "%1$s已加到指令`%2$s`.",
         "no_name_specified": "%1$s你尚未輸入你所要創建的自定義指令名稱！"
       },
       "eval": {
-        "not_specified": "你並沒有指出任何要eval的字符串。",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "not_specified": "你並沒有指出任何要測試的指令。",
+        "new_error": "%1$s運行此自定義指令時發生錯誤。\n**錯誤**：\n```%2$s```",
+        "error": "%1$s運行此自定義指令時發生錯誤！\n%2$s"
       },
       "remove": {
         "no_command": "%1$s你需要告訴我你想取消哪條指令。",
-        "success": "%1$s指令已取消 `%2$s`."
+        "success": "%1$s已移除自定義指令`%2$s`。"
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "no_command": "%1$s你需要告訴我你想匯入哪條指令。",
+        "not_found": "%1$s找不到符合此搜尋關鍵字的自定義指令。",
+        "header": "`%1$s` (回應：%2$s) - 伺服器：`%3$s`",
+        "selection": "選擇指令：",
+        "note": "(你只能選擇你所在伺服器中的自定義指令)",
+        "success": "從伺服器`%2$s`匯入了自定義指令`%1$s`的%3$d個回應。"
       },
       "edit": {
         "no_command": "%1$s你需要指出你想編輯的自定義指令名稱。",
         "invalid_number": "%1$s你需要指出你想編輯的回應編號。",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
-        "empty_response": "%1$sCannot edit to an empty response",
+        "no_index": "%1$s你無法編輯不存在的索引。",
+        "empty_response": "%1$s你無法編輯空白的回應。",
         "not_enough_args": "%1$s你需要指出指令名稱，回應編號及新的回應。",
         "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
       },
@@ -483,17 +483,17 @@
         "not_locked": "%1$sThis command isn't locked.",
         "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
+      "character_not_allowed": "%1$s自定義指令名稱內不允許使用這個字符。",
       "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
       "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
+      "no_cc": "%1$s該伺服器沒有任何自定義指令，只有灰塵。",
+      "admin_only": "此伺服器只接受來自管理員的自定義指令創建，編輯，匯入和測試。\n**這是目前的默認設置。**\n- 如果你是管理員，且想讓任何人執行這些，傳送`~>opts admincustom false`",
+      "not_found": "%1$s此伺服器內沒有自定義指令`%2$s`。",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
       "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
       "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
       "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$s你無法編輯或刪除已鎖定的指令，傳送 `~>custom unlockcommand <指令名稱>` 來解鎖他。"
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
@@ -813,7 +813,7 @@
       "no_item": "%1$sYou don't have this item in your inventory.",
       "not_enough_items": "%1$sYou don't have enough of this item.",
       "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
@@ -939,12 +939,12 @@
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
         "not_suitable": "%1$sYou can't equip this.",
         "not_equipped": "%1$sYou don't have this equipped.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
@@ -1895,10 +1895,10 @@
       "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
       "too_long": "%1$sDon't you think that's a bit too long?",
       "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$sYour server's custom prefix has been set to %2$s"
+      "success": "%1$s此伺服器的自定義詞頭已更改為 %2$s"
     },
     "prefix_clear": {
-      "success": "%1$sYour server's custom prefix has been disabled"
+      "success": "%1$s此伺服器的自定義詞頭已取消"
     },
     "autorole_set": {
       "no_role": "%1$sYou didn't tell me what role to look for!",
@@ -1978,8 +1978,8 @@
     },
     "admincustom": {
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
-      "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone.",
+      "admin_only": "自定義指令的創建已限制給管理員。",
+      "everyone": "自定義指令的創建已開放給任何人。",
       "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
     },
     "timedisplay_set": {
@@ -2120,7 +2120,7 @@
       "success": "%1$sSuccessfully set the DJ role to %2$s."
     },
     "djrole_reset": {
-      "not_set": "%1$sYou have no custom DJ role set.",
+      "not_set": "%1$s你目前還沒設定DJ身分組。",
       "success": "%1$sSuccessfully reset the DJ role."
     },
     "showdisablewarning": {
