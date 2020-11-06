@@ -813,7 +813,7 @@
       "no_item": "%1$sYou don't have this item in your inventory.",
       "not_enough_items": "%1$sYou don't have enough of this item.",
       "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `9`!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
@@ -939,12 +939,12 @@
         "success": "%1$sBaşarılı bir şekilde %2$s *%3$s* giydin, bu bir dahaki komut kullanışında hatırlanacak.",
         "not_suitable": "%1$sBunu giyemezsin.",
         "not_equipped": "%1$sYou don't have this equipped.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
