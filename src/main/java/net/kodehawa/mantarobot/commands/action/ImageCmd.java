@@ -16,7 +16,8 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
-import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -24,6 +25,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -95,29 +97,30 @@ public class ImageCmd extends NoArgsCommand {
         }
 
         var extension = random.substring(random.lastIndexOf("."));
-        var builder = new MessageBuilder();
-        builder.append(EmoteReference.TALKING);
+        var builder = new EmbedBuilder();
+        builder.appendDescription(EmoteReference.TALKING.toString());
 
         if (!noMentions) {
             var users = ctx.getMentionedUsers();
-            var names = users.stream().distinct().map(user -> {
-                var member = ctx.getGuild().getMember(user);
-                if (member == null) {
-                    return "unknown";
-                }
-
-                return member.getEffectiveName();
-            }).collect(Collectors.joining(", "));
+            var names = users.stream().distinct()
+                    .map(User::getName)
+                    .collect(Collectors.joining(", "));
 
             if (!names.isEmpty()) {
-                builder.append("**").append(names).append("**, ");
+                builder.appendDescription("**")
+                        .appendDescription(names)
+                        .appendDescription("**, ");
             }
         }
 
-        builder.append(ctx.getLanguageContext().get(toSend));
-        ctx.getChannel().sendMessage(
-                builder.build()).addFile(CACHE.getInput(random), imageName + "-" + id + "." + extension
-        ).queue();
+        builder.appendDescription("Y-You lewdie!");
+
+        var member = ctx.getMember();
+        builder.setColor(member.getColor() == null ? Color.PINK : member.getColor())
+                .setImage(random)
+                .build();
+
+        ctx.send(builder.build());
     }
 
     @Override
