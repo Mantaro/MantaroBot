@@ -813,7 +813,7 @@
       "no_item": "%1$sNo tienes ese item en tu inventario...",
       "not_enough_items": "%1$sNo tienes suficiente de este ítem.",
       "too_little": "%1$sNo puedes usar menos de 1 ítem.",
-      "invalid_amount": "%1$sLa cantidad necesita ser un número válido entre `1` y `9`!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sHey, si estás perdido intentando entender las opciones o no recuerdas este comando, revisa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para una guía de como usar opts (sólo en ingles).\nNota: Sólo los administradores, gente con Manejar Servidor o gente con el rol Bot Commander pueden usar este comando!",
@@ -939,12 +939,12 @@
         "success": "%1$sHas equipado %2$s *%3$s* exitosamente, lo cual será recordado la próxima vez que utilices el comando de dinero apropiado.",
         "not_suitable": "%1$sNo puedes equipar esto.",
         "not_equipped": "%1$sNo tienes esto equipado.",
-        "already_equipped": "%1$sYa tienes un ítem de este tipo equipado! Intenta `~>unequip <tipo>` (Tipo puede ser rod o pick) si quieres desequiparlo."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sNecesitas especificar un tipo de herramienta para desequipar, puede ser `pick` o `rod`",
-        "invalid_type": "%1$sTipo inválido. Tipos validos son `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sCorrectamente desequipado tu slot de %2$s.",
         "equipment_recover": "\n¡Ya que nunca has usado tu equipamiento, recibiste tu %1$s de vuelta!",
