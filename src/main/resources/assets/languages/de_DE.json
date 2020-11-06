@@ -704,7 +704,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHier haben Bots keine Inventare. Manchmal wünschst du dir vielleicht, dass sie eines hätten, aber dann wäre es auch nur `~>market dump`",
-      "brief": "**%1$ss Inventar:** %2$s\n\n*Wenn du eine detailliertere Version hiervon willst, nutze `~>inventory -info`. Schönen Tag!*",
+      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s erhält **%3$s Credits**, wenn alle Gegenstände verkauft werden!",
       "header": "%1$ss Inventar",
       "format": "**Preis**: 📥 %1$s 📤 %2$s\n%3$s",
@@ -981,7 +981,7 @@
       "birthday": "Geburtstag",
       "married": "Verheiratet mit",
       "nobody": "Niemandem",
-      "inventory": "Gegenstandssammlung",
+      "inventory": "Item Collection (Top 15)",
       "badges": "Top 5 Abzeichen",
       "no_badges": "Keine Abzeichen (noch!)",
       "no_timezone": "Nicht festgelegt",
