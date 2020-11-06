@@ -813,7 +813,7 @@
       "no_item": "%1$sBạn không có đồ này trong tủ đồ của bạn.",
       "not_enough_items": "%1$sBạn không có đủ số lượng đồ bạn đưa ra.",
       "too_little": "%1$sBạn không thể dùng một món đồ với số lượng ít hơn một.",
-      "invalid_amount": "%1$sSố lượng sử dụng cần trong khoảng từ `1` đến `9`!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sNày, nếu bạn đang lúng túng hoặc muốn được trợ giúp trong việc sử dụng lệnh cài đặt, hãy truy cập <https://github.com/Mantaro/MantaroBot/wiki/Configuration> để được hướng dẫn.\nLưu ý: Chỉ những được cấp quyền Người Quản Lý, Quản Lý Phòng hoặc những người có vai trò Quản Lý Bot mới được dùng lệnh này!",
@@ -939,12 +939,12 @@
         "success": "%1$sBạn đã trang bị thành công %2$s *%3$s*, và sẽ được ghi nhớ vào lần tiếp theo bạn sử dụng lệnh liên quan đến món đồ này.",
         "not_suitable": "%1$sBạn không thể trang bị đồ này.",
         "not_equipped": "%1$sBạn không có đồ trang bị này.",
-        "already_equipped": "%1$sBạn đã được trang bị sẵn đồ thuộc loại này! Hãy thử `~>unequip <loại đồ>` (Có thể là cần câu hoặc cuốc) nếu bạn muốn tháo trang bị."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sBạn cần nói rõ loại đồ bạn muốn tháo trang bị, có thể là `pick, rod`",
-        "invalid_type": "%1$sLoại đồ không hợp lệ. Những loiaj đồ hợp lệ là `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sĐã tháo trang bị thành công %2$s.",
         "equipment_recover": "\nDo bạn chưa từng sử dụng đồ trang bị này, nên bạn đã có lại được %1$s!",
