@@ -18,6 +18,8 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -29,6 +31,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -109,7 +112,12 @@ public enum ProfileComponent {
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
         var inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
-        return inv.asList().stream().map(i -> i.getItem().getEmoji()).collect(Collectors.joining("  "));
+        return inv.asList().stream()
+                .map(ItemStack::getItem)
+                .sorted(Comparator.comparingLong(Item::getValue).reversed())
+                .limit(15)
+                .map(Item::getEmoji)
+                .collect(Collectors.joining("  "));
     }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
         var displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));

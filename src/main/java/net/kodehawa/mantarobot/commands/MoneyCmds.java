@@ -281,8 +281,9 @@ public class MoneyCmds {
                         .setDescription("Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person). " +
                                 "Maximum amount it can give is ~2000 credits (a bit more for shared dailies)\n" +
                                 "This command gives a reward for claiming it every day (daily streak)")
-                        .setUsage("`~>daily [@user]`")
-                        .addParameter("@user", "The user to give your daily to. This is optional, without this it gives it to yourself.")
+                        .setUsage("`~>daily [@user] [-check]`")
+                        .addParameterOptional("@user", "The user to give your daily to, without this it gives it to yourself.")
+                        .addParameterOptional("-check", "Check the time left for you to be able to claim it.")
                         .build();
             }
         });

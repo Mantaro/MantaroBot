@@ -507,7 +507,7 @@ public class WaifuCmd {
         waifu.addSubCommand("buyslot", new SubCommand() {
             @Override
             public String description() {
-                return "Buys a new waifu slot. Maximum slots are 20, costs get increasingly higher.";
+                return "Buys a new waifu slot. Maximum slots are 30, costs get increasingly higher.";
             }
 
             @Override
@@ -537,7 +537,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                if (userData.getWaifuSlots() >= 20) {
+                if (userData.getWaifuSlots() >= 30) {
                     ctx.sendLocalized("commands.waifu.buyslot.too_many", EmoteReference.ERROR);
                     return;
                 }

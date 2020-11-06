@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -110,20 +111,23 @@ public class CurrencyCmds {
                         if (inventoryList.isEmpty())
                             builder.setDescription(languageContext.get("general.dust"));
                         else {
-                            playerInventory.asList().forEach(stack -> {
-                                long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                                long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                                fields.add(new MessageEmbed.Field(
-                                        "%s %s x %d".formatted(
-                                                stack.getItem().getEmoji(),
-                                                stack.getItem().getName(),
-                                                stack.getAmount()),
-                                        languageContext.get("commands.inventory.format").formatted(
-                                                buyValue, sellValue,
-                                                languageContext.get(stack.getItem().getDesc()
-                                        )), false)
-                                );
-                            });
+                            playerInventory.asList()
+                                    .stream()
+                                    .sorted((c, next) -> (int) (next.getItem().getValue() - c.getItem().getValue()))
+                                    .forEach(stack -> {
+                                        long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
+                                        long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
+                                        fields.add(new MessageEmbed.Field(
+                                                "%s %s x %d".formatted(
+                                                        stack.getItem().getEmoji(),
+                                                        stack.getItem().getName(),
+                                                        stack.getAmount()),
+                                                languageContext.get("commands.inventory.format").formatted(
+                                                        buyValue, sellValue,
+                                                        languageContext.get(stack.getItem().getDesc()
+                                                )), false)
+                                        );
+                                    });
                         }
 
                         var toShow = languageContext.get("commands.inventory.brief_notice") +
@@ -134,9 +138,16 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    ctx.sendStrippedLocalized("commands.inventory.brief",
-                            member.getEffectiveName(), ItemStack.toString(playerInventory.asList())
-                    );
+                    var inventory = "\n\n" + inventoryList.stream()
+                            .sorted((c, next) -> (int) (next.getItem().getValue() - c.getItem().getValue()))
+                            .map(is -> is.getItem().getEmoji() + " " + is.getAmount() + "x ")
+                            .collect(Collectors.joining(" "));
+
+                    var message = ctx.getLanguageContext().get("commands.inventory.brief")
+                            .formatted(member.getEffectiveName(), inventory);
+
+                    var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                    toSend.forEach(ctx::send);
                 });
             }
 
@@ -325,6 +336,7 @@ public class CurrencyCmds {
                                   You need a crate key to open any crate. Use `-check` to check when you can claim it.
                                   """
                         )
+                        .addParameterOptional("-check", "Check the time left for you to be able to claim it.")
                         .build();
             }
         });
