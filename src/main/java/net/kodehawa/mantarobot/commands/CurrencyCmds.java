@@ -124,8 +124,8 @@ public class CurrencyCmds {
                                                         stack.getAmount()),
                                                 languageContext.get("commands.inventory.format").formatted(
                                                         buyValue, sellValue,
-                                                        languageContext.get(stack.getItem().getDesc()
-                                                )), false)
+                                                        languageContext.get(stack.getItem().getDesc())
+                                                ), false)
                                         );
                                     });
                         }

@@ -804,8 +804,7 @@ public class ItemCmds {
                     return;
                 }
 
-                var itemOptional =
-                        ItemHelper.fromAnyNoId(content.replace("\"", ""));
+                var itemOptional = ItemHelper.fromAnyNoId(content.replace("\"", ""));
 
                 if (itemOptional.isEmpty()) {
                     ctx.sendLocalized("commands.iteminfo.no_item", EmoteReference.ERROR);
@@ -814,11 +813,13 @@ public class ItemCmds {
 
                 var item = itemOptional.get();
                 var description = ctx.getLanguageContext().get(item.getDesc());
+                var name = item.getTranslatedName();
+                var translatedName = item.getTranslatedName().isEmpty() ?
+                        item.getName() : ctx.getLanguageContext().get(item.getTranslatedName());
 
                 ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
                         item.getEmoji(), item.getName(),
-                        ctx.getLanguageContext().get(item.getTranslatedName()),
-                        item.getItemType(), description
+                        translatedName, item.getItemType(), description
                 );
             }
 
