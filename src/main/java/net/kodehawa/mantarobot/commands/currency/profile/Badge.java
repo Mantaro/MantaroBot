@@ -214,7 +214,7 @@ public enum Badge {
 
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2",
-            "Have more than 5000 items of any kind.",
+            "Have 5000 items of any kind.",
             91, 92,
             (player, dbUser) -> player.getInventory().asList().stream()
                     .filter(itemStack -> itemStack.getItem() != ItemReference.CLAIM_KEY)
