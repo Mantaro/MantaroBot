@@ -813,7 +813,7 @@
       "no_item": "%1$sلاتملك أي من هذا الغرض في مخزونك.",
       "not_enough_items": "%1$sلاتملك العدد الكافي من هذا الغرض! ",
       "too_little": "%1$sلايمكنك إستخدام أقل من 1 غرض.",
-      "invalid_amount": "%1$sالمبلغ يجب أن يكون عدد صحيح مابين `1` و `9`!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$s مهلا، إذا كنت فقدت أو تريد مساعدة على استخدام ال opts، تحقق من <https://github.com/Mantaro/MantaroBot/wiki/Configuration> للحصول على دليل حول كيفية استخدام opts.\nملاحظة: يمكن للمسؤولين فقط أو الأشخاص الذين يستخدمون خادم الإدارة أو الأشخاص الذين يتمتعون بدور القائد استخدام هذا الأمر!",
@@ -939,12 +939,12 @@
         "success": "%1$sتم بنجاح تركيب %2$s *%3$s*، و سوف نتذكر في المرة القادمة التي تستخدم العملة المناسبة للأمر. ",
         "not_suitable": "%1$sلايمكنك تركيب هذا الغرض.",
         "not_equipped": "%1$sلاتملك هذه مُجهزه.",
-        "already_equipped": "لديك بالفعل عنصر من هذا النوع مجهز! جرب `~>unequip <type>` (النوع يمكن أن يكون rod/سنارة أو pick/فأس) إذا كنت ترغب في عدم تجهيزه ذلك."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sليس لديك اي شيء مُجهز في هذا المكان.",
-        "no_content": "%1$sتحتاج لتحديد نوع الأداة لإلغاء تركيبه، `إما pick أو rod`",
-        "invalid_type": "%1$sنوع غير صحيح، الأنواع الصحيحة هي `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sتم بنجاح إلغاء تركيب %2$s بفتحتك الخاصة",
         "equipment_recover": "بما أنك لم تستخدم مُعداتك أبداً، حصلت على %1$s الخاص بك. ",
