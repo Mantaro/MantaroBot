@@ -704,7 +704,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
-      "brief": "**%1$s's inventory:** %2$s",
+      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s zal **%3$d credits** krijgen als alle items zijn verkocht.",
       "header": "%1$s's Inventaris",
       "format": "**Prijs**: 📥 %1$d 📤 %2$d\n%3$s",
@@ -981,7 +981,7 @@
       "birthday": "Verjaardag",
       "married": "Getrouwd met",
       "nobody": "Niemand",
-      "inventory": "Inventory",
+      "inventory": "Item Collection (Top 15)",
       "badges": "Top 5 Badges",
       "no_badges": "(nog!) geen badges",
       "no_timezone": "Geen tijdzone ingesteld",

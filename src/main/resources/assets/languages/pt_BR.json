@@ -286,7 +286,7 @@
         "over_queue_limit": "%1$s**Não foi possível coloar na fila `%2$s`: Limite de músicas na fila ultrapassado (%3$s)**",
         "over_32_minutes": "%1$s**Não foi possível colocar na fila `%2$s`: A música é maior que %3$s.** (Tamanho de músicas suportadas é %4$s).\nVocê pode ganhar uma maior duração de música e playback de livestream com Mantaro Premium!\nCheque <https://patreon.com/mantaro> para mais informações.",
         "fair_queue_limit_reached": "%1$s**Ultrapassou o nível da fila de %2$d (Muitas músicas que são exatamente iguais)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
+        "loaded_song": "%1$sAdicionado a fila -> **%2$s** *(%3$s)*",
         "selection_text": "Seleção de música. Digite o número da música para continuar.",
         "timeout_text": "Isso esgota em 30 segundos. Digite &cancel para cancelar."
       },
@@ -704,7 +704,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
-      "brief": "**Inventário de %1$s:** %2$s\n\n*Se você quiser uma versão mas detalhada sobre isso, use `~>inventory -info`. Aprecie seu dia!*",
+      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
@@ -981,7 +981,7 @@
       "birthday": "Aniversário",
       "married": "Casado(a) com",
       "nobody": "Ninguém",
-      "inventory": "Coleção de Item",
+      "inventory": "Item Collection (Top 15)",
       "badges": "Top 5 Insígnias",
       "no_badges": "Sem insígnias (ainda!)",
       "no_timezone": "Não definido",
@@ -1320,7 +1320,7 @@
       },
       "pet_reactions": {
         "cute": "%1$sSeu pet abana o rabo alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %2$s**.%3$s",
-        "cute_not_animal": "%1$sYour pet happily smiles as you caress their head. **Pat counter: %2$s**.%3$s",
+        "cute_not_animal": "%1$sSeu pet sorri alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %2$s**.%3$s",
         "cheer": "%1$sA reação do seu pet foi tão fofa que conseguiu te animar. **Contador de carinho: %2$s**.%3$s",
         "scare": "%1$sO pet ficou assustado quando você deu carinho pra ele. Talvez tenha sido muito inesperado? **Contador de carinho: %2$s**.%3$s",
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
