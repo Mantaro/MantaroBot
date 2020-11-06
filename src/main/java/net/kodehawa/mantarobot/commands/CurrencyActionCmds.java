@@ -85,7 +85,7 @@ public class CurrencyActionCmds {
 
                 final var dbUser = ctx.getDBUser();
                 final var userData = dbUser.getData();
-                final var marriage = userData.getMarriage();
+                final var marriage = ctx.getMarriage(userData);
 
                 final var inventory = isSeasonal ?
                         seasonalPlayer.getInventory() : player.getInventory();
@@ -340,7 +340,9 @@ public class CurrencyActionCmds {
 
                 final var seasonPlayer = ctx.getSeasonPlayer();
                 final var dbUser = ctx.getDBUser();
-                final var marriage = dbUser.getData().getMarriage();
+                final var userData = dbUser.getData();
+                final var marriage = ctx.getMarriage(userData);
+
                 final var playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
                 FishRod item;
@@ -349,7 +351,7 @@ public class CurrencyActionCmds {
                         //seasonal equipped
                         seasonPlayer.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD) :
                         //not seasonal
-                        dbUser.getData().getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
+                        userData.getEquippedItems().of(PlayerEquipment.EquipmentType.ROD);
 
                 if (equipped == 0) {
                     ctx.sendLocalized("commands.fish.no_rod_equipped", EmoteReference.ERROR);
@@ -370,7 +372,7 @@ public class CurrencyActionCmds {
 
                 if (chance < 10) {
                     //Here your fish rod got dusty. Yes, on the sea.
-                    var level = dbUser.getData().increaseDustLevel(random.nextInt(4));
+                    var level = userData.increaseDustLevel(random.nextInt(4));
                     ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                     dbUser.save();
 
@@ -402,7 +404,7 @@ public class CurrencyActionCmds {
                     var money = 0;
                     var buff = ItemHelper.handleEffect(
                             PlayerEquipment.EquipmentType.BUFF,
-                            dbUser.getData().getEquippedItems(),
+                            userData.getEquippedItems(),
                             ItemReference.FISHING_BAIT, dbUser
                     );
 
@@ -438,9 +440,9 @@ public class CurrencyActionCmds {
                     //START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
                     if (ItemHelper.handleEffect(
-                            PlayerEquipment.EquipmentType.POTION, dbUser.getData().getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+                            PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
 
-                        if (dbUser.getData().getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
+                        if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                             money += Math.max(10, random.nextInt(150));
                             waifuHelp = true;
                         }
@@ -539,7 +541,7 @@ public class CurrencyActionCmds {
                     //START OF REPLY HANDLING
                     //Didn't find a thingy thing.
                     if (money == 0 && !foundFish) {
-                        int level = dbUser.getData().increaseDustLevel(random.nextInt(4));
+                        int level = userData.increaseDustLevel(random.nextInt(4));
                         ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                         dbUser.save();
 
@@ -618,7 +620,7 @@ public class CurrencyActionCmds {
                 final var seasonPlayer = ctx.getSeasonPlayer();
                 final var dbUser = ctx.getDBUser();
                 final var userData = dbUser.getData();
-                final var marriage = userData.getMarriage();
+                final var marriage = ctx.getMarriage(userData);
                 final var playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
 
                 var extraMessage = "\n";
@@ -641,7 +643,9 @@ public class CurrencyActionCmds {
 
                 var chance = random.nextInt(100);
                 var hasPotion = ItemHelper.handleEffect(
-                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser);
+                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
+                );
+
                 if (hasPotion) {
                     chance += 9;
                 }

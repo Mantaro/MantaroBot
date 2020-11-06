@@ -31,7 +31,9 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import redis.clients.jedis.JedisPool;
@@ -194,6 +196,10 @@ public class Context {
 
     public Map<String, String> getOptionalArguments() {
         return StringUtils.parseArguments(getArguments());
+    }
+
+    public Marriage getMarriage(UserData userData) {
+        return MantaroData.db().getMarriage(userData.getMarriageId());
     }
 
     public void send(Message message) {

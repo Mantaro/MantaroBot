@@ -218,7 +218,6 @@ public class PlayerCmds {
                     }
 
                     dbUser.save();
-
                     ctx.sendLocalized("commands.profile.equip.success", EmoteReference.CORRECT, item.getEmoji(), item.getName());
                 } else {
                     ctx.sendLocalized("commands.profile.equip.not_suitable", EmoteReference.ERROR);

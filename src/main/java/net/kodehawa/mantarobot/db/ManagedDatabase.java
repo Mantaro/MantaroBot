@@ -232,8 +232,10 @@ public class ManagedDatabase {
 
     //Can be null and it's perfectly valid.
     public Marriage getMarriage(String marriageId) {
-        if (marriageId == null)
+        if (marriageId == null) {
             return null;
+        }
+
         log("Requesting marriage {} from rethink", marriageId);
         return r.table(Marriage.DB_TABLE).get(marriageId).runAtom(conn, Marriage.class);
     }
