@@ -704,7 +704,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sĐây, bot không có tủ đồ. Ừ thì, có thể bạn ước rằng nó có, nhưng nếu vậy nó sẽ là `~>market dump` (đồ bỏ đi)",
-      "brief": "**Tủ đồ của %1$s:** %2$s\n\n*Nếu bạn muốn có một bản chi tiết hơn, hãy dùng `~>inventory -info`. Chúc bạn một ngày tốt lành!*",
+      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s sẽ được **%3$,d tín** nếu tất cả các đồ trong tủ được bán.",
       "header": "Tủ đồ của %1$s",
       "format": "**Giá cả**: 📥 %1$,d 📤 %2$,d\n%3$s",
@@ -981,7 +981,7 @@
       "birthday": "Sinh nhật",
       "married": "Kết hôn với",
       "nobody": "Không ai",
-      "inventory": "Bộ sưu tập",
+      "inventory": "Item Collection (Top 15)",
       "badges": "5 huy hiệu giá trị nhất",
       "no_badges": "Không có huy hiệu (hoặc chưa có!)",
       "no_timezone": "Chưa đặt",
