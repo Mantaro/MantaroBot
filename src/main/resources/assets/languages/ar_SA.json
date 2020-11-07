@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
-        "non_existent": "%1$sلايمكن شراء غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sلايمكنك شراء غرض لايمكن شرائه!",
         "item_limit_reached": "%1$sلايمكنك شراء المزيد من هذا الغرض. ",
         "success": "%1$sتم بنجاح شراء %2$,d %3$s ب %4$,d مال. أنت الآن تملك %5$,d مال. ",
@@ -1687,6 +1687,7 @@
       "credits": "credits"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "قائمة المتصدرين في مانتارو",
       "header_seasonal": "قائمة متصدرين الموسم %1$s في مانتارو",
       "money": "قائمة متصدرين الاموال",
