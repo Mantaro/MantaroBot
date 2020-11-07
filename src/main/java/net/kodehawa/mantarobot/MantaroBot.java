@@ -196,6 +196,17 @@ public class MantaroBot {
         );
 
         postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
+
+        // This is basically done because Andesite doesn't destroy players on shutdown / WS close
+        // when using LL compat.
+        // This causes players to not work on next startup.
+        // This isn't really guaranteed to work, but might aswell?
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Destroying all active players...");
+            for (var players : audioManager.getMusicManagers().entrySet()) {
+                players.getValue().getLavaLink().destroy();
+            }
+        }));
     }
 
     public static void main(String[] args) {

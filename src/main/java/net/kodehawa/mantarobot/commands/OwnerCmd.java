@@ -148,7 +148,7 @@ public class OwnerCmd {
     public static class GiveItem extends NewCommand {
         @Override
         protected void process(NewContext ctx) {
-            var itemString = ctx.argument(Parsers.string(), "Invalid item");
+            var itemString = ctx.argument(Parsers.delimitedBy('"', false), "Invalid item");
             int amount = ctx.argument(Parsers.strictInt(), "Invalid item amount");
 
             var item = ItemHelper.fromAnyNoId(itemString).orElse(null);
