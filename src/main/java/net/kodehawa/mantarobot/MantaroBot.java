@@ -201,11 +201,14 @@ public class MantaroBot {
         // when using LL compat.
         // This causes players to not work on next startup.
         // This isn't really guaranteed to work, but might aswell?
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        var thread = new ThreadFactoryBuilder().setNameFormat("Mantaro Shutdown Hook").build();
+        Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
             log.info("Destroying all active players...");
             for (var players : audioManager.getMusicManagers().entrySet()) {
                 players.getValue().getLavaLink().destroy();
             }
+
+            log.info("Destroyed all players. Not aware of anything holding off shutdown now");
         }));
     }
 
