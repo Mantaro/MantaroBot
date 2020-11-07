@@ -197,10 +197,9 @@ public class MantaroBot {
 
         postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
 
-        // This is basically done because Andesite doesn't destroy players on shutdown / WS close
-        // when using LL compat.
-        // This causes players to not work on next startup.
-        // This isn't really guaranteed to work, but might aswell?
+        // This is basically done because Andesite doesn't destroy players on shutdown
+        // when using LL compat. This causes players to not work on next startup.
+        // Work around it by just killing/destroying all players before shutdown ends.
         var thread = new ThreadFactoryBuilder().setNameFormat("Mantaro Shutdown Hook").build();
         Runtime.getRuntime().addShutdownHook(thread.newThread(() -> {
             log.info("Destroying all active players...");
