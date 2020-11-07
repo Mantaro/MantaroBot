@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
+        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se estiver perdido, você pode digitar o nome abreviado ou coloca-lo entre aspas. Além disso, a quantidade do item vai antes do nome do item, exemplo: `~>market buy 15 energy`",
         "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
         "item_limit_reached": "%1$sVocê não pode comprar mais desse objeto.",
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
@@ -939,12 +939,12 @@
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
         "not_equipped": "%1$sVocê não te isso equipado.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
+        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara, machado ou picareta) se você quiser desequipar ele."
       },
       "unequip": {
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
+        "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, axe, rod`",
+        "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, axe, rod`",
         "confirm": "%1$sVocê tem certeza que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
@@ -1687,7 +1687,7 @@
       "credits": "créditos"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
+      "main_page_redirect": "Você pode ver `~>help leaderboard` para uma lista de leaderboards disponíveis.\nSe você estiver procurando o leaderboard de dinheiro, digite `~>leaderboard money`",
       "header": "Tabela de classificações da Mantaro",
       "header_seasonal": "Leaderboard da temporada %1$s da Mantaro",
       "money": "Classificações de Dinheiro",
