@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sDu musst den Gegenstand und die Anzahl (außer bei einem einzelnen Gegenstand) zum Kaufen angeben.",
         "invalid": "%1$sUngültige Anzahl zu kaufender Gegenstände.",
-        "non_existent": "%1$sDu kannst einen nicht existierenden Gegenstand nicht kaufen. Wenn du nicht weiter weißt kannst du versuchen die Kurzform des Namens zu verwenden, oder ihn in Anführungsstriche setzen.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sDu kannst einen Gegenstand, der nicht gekauft werden kann, nicht kaufen.",
         "item_limit_reached": "%1$sDu kannst nicht noch mehr von diesem Gegenstand kaufen.",
         "success": "%1$sDu hast %2$s %3$s für %4$s Credits gekauft. Du hast nun %5$s Credits.",
@@ -1687,6 +1687,7 @@
       "credits": "Credits"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Mantaros Rangliste",
       "header_seasonal": "Mantaros %1$s Saisonsrangliste",
       "money": "Geld Rangliste",
