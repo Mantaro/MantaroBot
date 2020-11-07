@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
-        "non_existent": "%1$sTu ne peux pas acheter un objet non existant! Si tu es perdu.e, tu peux essayer d'utiliser son nom abrégé ou de mettre son nom entre guillemets.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
         "item_limit_reached": "%1$sTu ne peux pas acheter plus de cet objet.",
         "success": "%1$sAchat de %2$,d %3$s pour %4$,d credits. Tu as désormais %5$,d credits.",
@@ -1687,6 +1687,7 @@
       "credits": "credits"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Classements Mantaro",
       "header_seasonal": "Classements Mantaro pour la saison sur %1$s",
       "money": "Classements Argent",
