@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -71,6 +72,12 @@ public class LeaderboardCmd {
                 .build();
 
         SimpleTreeCommand leaderboards = cr.register("leaderboard", new SimpleTreeCommand(CommandCategory.CURRENCY) {
+            @Override
+            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
+                ctx.sendLocalized("commands.leaderboard.main_page_redirect", EmoteReference.PENCIL);
+                return null;
+            }
+
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
