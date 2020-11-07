@@ -27,9 +27,8 @@ import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
@@ -49,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -72,69 +70,11 @@ public class LeaderboardCmd {
                 .prefix("leaderboard")
                 .build();
 
-        TreeCommand leaderboards = cr.register("leaderboard", new TreeCommand(CommandCategory.CURRENCY) {
-            @Override
-            public Command defaultTrigger(Context context, String commandName, String content) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        var gambleLeaderboard = getLeaderboard("playerstats", "gambleWinAmount",
-                                stats -> stats.pluck("id", "gambleWinAmount"), 5
-                        );
-                        var slotsLeaderboard = getLeaderboard("playerstats", "slotsWinAmount",
-                                stats -> stats.pluck("id", "slotsWinAmount"), 5
-                        );
-
-                        // This is such a cursed function, but I was duping this code lol
-                        BiFunction<Map<String, Object>, String,
-                                Pair<CachedLeaderboardMember, String>> mappingFunction = ((map, str) ->
-                                Pair.of(
-                                        getMember(ctx, map.get("id").toString().split(":")[0]),
-                                        map.get(str).toString()
-                                )
-                        );
-
-                        ctx.send(baseEmbed(ctx, languageContext.get("commands.leaderboard.header"))
-                                .setDescription(
-                                        """
-                                        %s**Main Leaderboard page.**
-                                        To check what leaderboards we have avaliable, please run `~>help leaderboard`.
-                                        %sThis page shows the top 5 in slots and gamble wins, both in amount and quantity.
-                                        The old money leaderboard is avaliable on `~>leaderboard money`
-                                        """.formatted(EmoteReference.DIAMOND, EmoteReference.TALKING)
-                                )
-                                .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
-                                .addField("Gamble", gambleLeaderboard.stream()
-                                        .map(map -> mappingFunction.apply(map, "gambleWinAmount"))
-                                        .filter(p -> Objects.nonNull(p.getKey())) // Filter null objects.
-                                        .map(p -> "%s**%s#%s** - $%,d".formatted(
-                                                EmoteReference.BLUE_SMALL_MARKER,
-                                                p.getKey().getName(),
-                                                p.getKey().getDiscriminator(),
-                                                Long.parseLong(p.getValue()))
-                                        ).collect(Collectors.joining("\n")), true
-                                )
-                                .addField("Slots", slotsLeaderboard.stream()
-                                        .map(map -> mappingFunction.apply(map, "slotsWinAmount"))
-                                        .filter(p -> Objects.nonNull(p.getKey())) // Filter null objects.
-                                        .map(p -> "%s**%s#%s** - $%,d".formatted(
-                                                EmoteReference.BLUE_SMALL_MARKER,
-                                                p.getKey().getName(),
-                                                p.getKey().getDiscriminator(),
-                                                Long.parseLong(p.getValue()))
-                                        ).collect(Collectors.joining("\n")), true
-                                )
-                                .setFooter(languageContext.get("general.requested_by").formatted(ctx.getAuthor().getName()), null)
-                                .build()
-                        );
-                    }
-                };
-            }
-
+        SimpleTreeCommand leaderboards = cr.register("leaderboard", new SimpleTreeCommand(CommandCategory.CURRENCY) {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Returns the currency leaderboard.")
+                        .setDescription("Returns the currency leaderboard. See subcommands for the available leaderboards.")
                         .build();
             }
         });
@@ -195,6 +135,7 @@ public class LeaderboardCmd {
                 }
 
                 @Override
+                @SuppressWarnings("unchecked")
                 protected void call(Context ctx, I18nContext languageContext, String content) {
                     var seasonal = ctx.isSeasonal();
                     var tableName = seasonal ? "seasonalplayers" : "players";
@@ -219,11 +160,12 @@ public class LeaderboardCmd {
                                             languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", moneyLeaderboard,
                                     map -> {
-                                        @SuppressWarnings("unchecked")
-                                        var money = ((Map<String, Object>) map.get("data")).get("newMoney");
+                                        Object money = null;
 
                                         if (seasonal) {
                                             money = map.get("money");
+                                        } else {
+                                            money = ((Map<String, Object>) map.get("data")).get("newMoney");
                                         }
 
                                         return Pair.of(
