@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$s存在しない商品を買うことができません。もし戸惑っていましたら、略名を使ったり、「\"」で商品名を包んだりしてみてください。",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$s売っていない商品を買うことができません。",
         "item_limit_reached": "%1$sもうこれ以上この商品を買うことができません。",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
@@ -1687,6 +1687,7 @@
       "credits": "credits"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Mantaro's Leaderboard",
       "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Money Leaderboard",
