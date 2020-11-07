@@ -161,7 +161,7 @@
       "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛",
       "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
       "bait": "有隻魚在過程中把你的魚餌吃掉了!",
-      "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了! 已裝備魚竿已重設。",
+      "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備魚竿已重設。",
       "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修理它。得到損壞物品: %2$s *%3$s*",
       "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿!"
     },
@@ -454,45 +454,45 @@
         "no_index": "%1$s你無法編輯不存在的索引。",
         "empty_response": "%1$s你無法編輯空白的回應。",
         "not_enough_args": "%1$s你需要指出指令名稱，回應編號及新的回應。",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "success": "%1$s已成功編輯指令`%3$s`的第**#%2$d**條回應"
       },
       "deleteresponse": {
         "no_command": "%1$s你需要指出你想移除回應的指令名稱。",
         "invalid_number": "%1$s你需要指出你想刪除的回應編號。",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
+        "no_index": "%1$s你無法移除不存在的索引。",
         "not_enough_args": "%1$s你需要指出你想刪除的指令名稱及回應編號。",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "success": "%1$s已成功移除指令`%3$s`的第**#%2$d**條回應"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$s已重新命名指令`%2$s`為`%3$s`"
       },
       "add": {
         "no_command": "%1$s你需要指出你想創建的指令名稱。",
         "not_enough_args": "%1$s你需要指出你想新增的指令名稱及回應。",
         "empty_content": "%1$s你需要指出這個自定義指令的內容。",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "success": "%1$s已加到指令`%2$s`",
+        "too_many_commands": "%1%s此伺服器的自定義指令數量已超過限制 (+100)，你無法再新增更多。高級伺服器將無視這個限制 (瀏覽<https://patreon.com/mantaro>)。"
       },
       "lockcommand": {
-        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
-        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "no_permission": "%1$s你需要權限**管理伺服器**才能夠鎖定和解鎖指令。",
+        "no_command": "%1$s你需要指出你想鎖定的指令名稱。",
+        "success": "%1$s已成功鎖定指令`%2$s`。你將需要解鎖他來進行編輯。"
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
-        "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "no_command": "%1$s你需要指出你想解鎖的指令名稱。",
+        "not_locked": "%1$s這條指令尚未被鎖定。",
+        "success": "%1$s已成功解鎖指令`%2$s`。你將需要鎖定他來避免編輯。"
       },
       "character_not_allowed": "%1$s自定義指令名稱內不允許使用這個字符。",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
+      "already_exists": "%1$s指令`%2$s`已經存在且是默認的指令。",
+      "name_too_long": "%1$s名稱過長。",
       "no_cc": "%1$s該伺服器沒有任何自定義指令，只有灰塵。",
       "admin_only": "此伺服器只接受來自管理員的自定義指令創建，編輯，匯入和測試。\n**這是目前的默認設置。**\n- 如果你是管理員，且想讓任何人執行這些，傳送`~>opts admincustom false`",
       "not_found": "%1$s此伺服器內沒有自定義指令`%2$s`。",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
+      "invalid_image": "%1$s這條指令包含無效的圖像，請將他移除...",
+      "invalid_string": "%1$s字串 `{%2$s}` 無效，或是長於2000字元。",
+      "invalid_json": "%1$s字串 `{%2$s}` 不是有效的JSON。",
+      "invalid_link": "%1$s字串 `%2$s` 不是有效的連結。",
       "locked_command": "%1$s你無法編輯或刪除已鎖定的指令，傳送 `~>custom unlockcommand <指令名稱>` 來解鎖他。"
     },
     "mute": {
@@ -567,20 +567,20 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
-        "empty": "%1$sYou cannot leave the love letter empty.",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
-        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
-        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
-        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
-        "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
-        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+        "no_letter": "%1$s你的背包裡沒有空白情書，所以你還無法將它寫下。",
+        "empty": "%1$s你無法將情書留白。",
+        "no_marriage": "%1$s你尚未結婚，不能寫情書給你自己...",
+        "not_proposing_player": "%1$s你不是提出這場婚姻的人！",
+        "already_done": "%1$s這條婚姻已經指定情書訊息。傳送`~>marry status`檢查",
+        "too_long": "%1$s情書訊息過長 (最長500字元)",
+        "cannot_see": "%1$s我找不到你的伴侶... 也許他們不在我的伺服器內。",
+        "confirmation": "%1$s你*確定*想寫這張情書給**%2$s#%3$s**嗎？這將會持續到婚姻結束。*情書內容：*%4$s",
+        "confirmed": "%1$s情書已成功傳遞給你的愛人！傳送`~>marry status`檢查。",
+        "scrapped": "%1$s你還有時間思考該寫什麼，不必著急！"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
-        "header": "Current Marriage Status",
+        "no_marriage": "%1$s你目前尚未結婚，所以你處在...\"單身狀態\" (如果你能在你的個人資料看到婚姻那表示你還處在舊的系統，試著重新結婚)",
+        "header": "目前婚姻狀況",
         "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
         "date": "Marriage Date",
         "love_letter": "Love Letter",
@@ -614,15 +614,15 @@
         "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
       },
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
-      "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
+      "no_mention": "%1$s請提及你想結婚的人。",
+      "marry_yourself_notice": "%1$s你無法與自己結婚，怎麼樣都不行。",
+      "marry_bot_notice": "%1$s你無法與機器人結婚，我不認為這是未來世界... 等等，機器人已經能與人類結婚了嗎？",
       "already_married_receipt": "%1$sYou're married with them already, aww.",
       "already_married": "%1$sYou're married already.",
       "receipt_married": "%1$sThat user is married already.",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
+      "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
       "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
       "denied": "%1$sDenied proposal from **%2$s**"
     },
@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
         "item_limit_reached": "%1$sYou cannot buy more of that object.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
@@ -1327,7 +1327,7 @@
       },
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
+        "no_requirements": "%1$s你需要汽車和房屋才能購買寵物！房屋：%2$s，汽車：%3$s\n使用 `~>marry buyhouse` 和 `~>marry buycar` 來購買 :heart:",
         "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
@@ -1687,6 +1687,7 @@
       "credits": "credits"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Mantaro's Leaderboard",
       "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Money Leaderboard",
@@ -1977,10 +1978,10 @@
       "success": "%1$sCleared all auto-assignable roles!"
     },
     "admincustom": {
-      "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
+      "no_args": "%1$s你需要指出true或false (true來將自定義指令創建限定給管理員)",
       "admin_only": "自定義指令的創建已限制給管理員。",
       "everyone": "自定義指令的創建已開放給任何人。",
-      "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
+      "not_bool": "%1$s那不是一個布林值 (true或false)！"
     },
     "timedisplay_set": {
       "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
