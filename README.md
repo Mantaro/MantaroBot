@@ -76,7 +76,6 @@ The above options can also be used as environment variables by removing `-D`, an
 *   [RethinkDB by the RethinkDB team](http://rethinkdb.com)
 *   [Redis by the redis team.](https://redis.io)
 *   [imageboard-api by Kodehawa](https://github.com/Kodehawa/imageboard-api)
-*   [java-eval by natanbc](https://github.com/natanbc/java-eval)
 *   And a lot more!
 
 ## Important Contributors
