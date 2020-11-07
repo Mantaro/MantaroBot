@@ -76,7 +76,7 @@ public class ReminderTask {
                                                         *Asked at:* %s%s""",
                                                 EmoteReference.POPPER,
                                                 reminder, Utils.formatDate(scheduledTime),
-                                                (guild != null ? "\n*Asked on: %s".formatted(guild.getName()) : "")
+                                                (guild != null ? "\n*Asked on: %s*".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {
                                     log.debug("Reminded {}. Removing from remind database", fullId);
