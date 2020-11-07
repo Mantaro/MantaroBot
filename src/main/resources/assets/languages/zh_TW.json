@@ -924,33 +924,33 @@
         "times": "time(s)",
         "days": "day(s)",
         "times_used": "Times Used",
-        "equipment": "Equipment",
-        "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip",
+        "equipment": "裝備",
+        "seasonal_equipment": "季節性裝備",
+        "autoequip": "自動裝備",
         "never": "Never"
       },
       "hide_tag": {
         "success": "%1$sTag hidden status is now: `%2$s`"
       },
       "equip": {
-        "no_content": "%1$sYou have to specify which item to equip!",
-        "no_item": "%1$sThis item doesn't exist",
-        "not_owned": "%1$sYou don't own this item!",
-        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
-        "not_suitable": "%1$sYou can't equip this.",
-        "not_equipped": "%1$sYou don't have this equipped.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
+        "no_content": "%1$s你需要指出你想裝備的物品！",
+        "no_item": "%1$s這個物品不存在",
+        "not_owned": "%1$s你沒有這個物品！",
+        "success": "%1$s成功裝備了 %2$s *%3$s*，下次你使用相對應的貨幣指令時，該物品將會自動被選擇。",
+        "not_suitable": "%1$s你無法裝備這個。",
+        "not_equipped": "%1$s你尚未裝備這個。",
+        "already_equipped": "%1$s你已經裝備了這種類型的物品！如果你想要取消裝備他的話，使用`~>unequip <類型>` (類型可以是鎬/魚竿或斧)。"
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
-        "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
-        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
-        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back.",
-        "cancelled": "%1$sCancelled operation."
+        "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
+        "no_content": "%1$s你需要指出你想取消裝備的類型，類型有 `鎬/魚竿/斧`",
+        "invalid_type": "%1$s類型無效。有效類型為 `鎬, 魚竿, 斧`",
+        "confirm": "%1$s你確定你想要**取消裝備**你的%2$s %3$s嗎？傳送 `yes` 確認，`no` 取消。",
+        "success": "%1$s已取消裝備你的%2$s欄位。",
+        "equipment_recover": "\n由於你從未使用過這個裝備，你拿回了你的%1$s！",
+        "broken_equipment_recover": "\n這個裝備已經使用過，所以你得到了%1$s，不過你還是可以修理他的！",
+        "broken_equipment_recover_none": "\n此裝備已被使用，且沒有損壞的類型，所以他消失到虛空裡了，不過你還是拿回了%1$s元。",
+        "cancelled": "%1$s操作取消。"
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users.",
@@ -966,8 +966,8 @@
         "no_key": "%1$sYou don't have a claim key to do this."
       },
       "autoequip": {
-        "disable": "%1$sSuccesfully disabled auto-equip.",
-        "success": "%1$sEnabled auto-equip."
+        "disable": "%1$s成功取消自動裝備。",
+        "success": "%1$s已開啟自動裝備。"
       },
       "badge_header": "%1$sDisplay Badge",
       "bot_notice": "%1$sBots don't have profiles.",
@@ -1627,7 +1627,7 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure!",
+      "not_equipped": "%1$s你沒有任何已裝備的鎬子。使用 `~>equip <鎬子名稱>` 來裝備鎬子並開始你的旅程！",
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`.",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
@@ -1650,19 +1650,19 @@
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$s自動裝備了**%2$s**到你的鎬子欄位。"
       },
       "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
-      "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
+      "item_broke_autoequip": "*提示：你可以使用 `~>profile autoequip` 來開啟自動裝備，當物品損壞時他將會為你自動裝備回相同物品，前提是你的背包內還有另外一個*",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
-      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
+      "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備鎬子已重設。",
       "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure!",
+      "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備斧頭並開始你的旅程！",
       "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+        "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
