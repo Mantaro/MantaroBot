@@ -53,8 +53,10 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import okhttp3.Request;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -660,7 +662,11 @@ public class ProfileCmd {
                             prettyDisplay(languageContext.get("commands.profile.stats.daily_at"),
                                     playerData.getLastDailyAt() == 0 ?
                                             languageContext.get("commands.profile.stats.never") :
-                                            new Date(playerData.getLastDailyAt()).toString()
+                                            Utils.formatDate(
+                                                    OffsetDateTime.ofInstant(
+                                                            Instant.ofEpochMilli(playerData.getLastDailyAt()), ZoneId.systemDefault()
+                                                    ), dbUser.getData().getLang()
+                                            )
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.waifu_claimed"),
