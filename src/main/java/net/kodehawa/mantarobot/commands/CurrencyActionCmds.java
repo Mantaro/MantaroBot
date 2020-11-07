@@ -75,8 +75,6 @@ public class CurrencyActionCmds {
                 final var isSeasonal = ctx.isSeasonal();
                 final var languageContext = ctx.getLanguageContext();
 
-                final var db = MantaroData.db();
-
                 final var player = ctx.getPlayer();
                 final var playerData = player.getData();
 
@@ -109,8 +107,7 @@ public class CurrencyActionCmds {
                 money += item.getMoneyIncrease();
 
                 var waifuHelp = false;
-                if (ItemHelper.handleEffect(
-                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
+                if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                     if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                         money += Math.max(20, random.nextInt(100));
                         waifuHelp = true;
@@ -152,7 +149,6 @@ public class CurrencyActionCmds {
                 }
 
                 if (random.nextInt(400) > chance) {
-
                     if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += ItemReference.DIAMOND.getValue() * 0.9;
@@ -259,9 +255,8 @@ public class CurrencyActionCmds {
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
                 }
 
-                var key = db.getPremiumKey(dbUser.getData().getPremiumKey());
+                var key = MantaroData.db().getPremiumKey(userData.getPremiumKey());
                 if (random.nextInt(400) > 392) {
-
                     var crate = (key != null && key.getDurationDays() > 1) ?
                             ItemReference.MINE_PREMIUM_CRATE : ItemReference.MINE_CRATE;
 
@@ -269,8 +264,8 @@ public class CurrencyActionCmds {
                         message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
                     } else {
                         inventory.process(new ItemStack(crate, 1));
-                        message += "\n" + EmoteReference.MEGA +
-                                languageContext.withRoot("commands", "mine.crate.success").formatted(crate.getEmoji(), crate.getName());
+                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.crate.success")
+                                .formatted(crate.getEmoji(), crate.getName());
                     }
                 }
 
@@ -295,7 +290,6 @@ public class CurrencyActionCmds {
                 }
 
                 handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
-
                 message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmoji(), money, item.getName());
 
                 ctx.send(message);
@@ -816,6 +810,10 @@ public class CurrencyActionCmds {
 
         var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
         if (!breakage.getKey()) {
+            return;
+        }
+
+        if (isSeasonal) {
             return;
         }
 

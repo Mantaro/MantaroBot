@@ -268,17 +268,20 @@ public class PlayerCmds {
 
                 ctx.sendLocalized("commands.profile.unequip.confirm", EmoteReference.WARNING, equippedItem.getEmoji(), equippedItem.getName());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
-                    if (interactiveEvent.getAuthor().getIdLong() != ctx.getAuthor().getIdLong()) {
+                    var author = interactiveEvent.getAuthor();
+                    if (author.getIdLong() != ctx.getAuthor().getIdLong()) {
                         return InteractiveOperation.IGNORED;
                     }
 
                     var ct = interactiveEvent.getMessage().getContentRaw();
                     if (ct.equalsIgnoreCase("yes")) {
-                        var seasonalPlayerFinal = ctx.getSeasonPlayer();
-                        var dbUserFinal = ctx.getDBUser();
-                        var playerFinal = ctx.getPlayer();
+                        var seasonalPlayerFinal = ctx.getSeasonPlayer(author);
+                        var dbUserFinal = ctx.getDBUser(author);
+                        var playerFinal = ctx.getPlayer(author);
                         var dbUserData = dbUserFinal.getData();
-                        var equipmentFinal = isSeasonal ? seasonalPlayerFinal.getData().getEquippedItems() : dbUserData.getEquippedItems();
+                        var seasonalPlayerData = seasonalPlayerFinal.getData();
+
+                        var equipmentFinal = isSeasonal ? seasonalPlayerData.getEquippedItems() : dbUserData.getEquippedItems();
                         var equippedFinal = equipmentFinal.getEquipment().get(type);
                         var equippedItemFinal = ItemHelper.fromId(equippedFinal);
 

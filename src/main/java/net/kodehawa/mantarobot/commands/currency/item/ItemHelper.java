@@ -364,10 +364,12 @@ public class ItemHelper {
 
     public static Pair<Boolean, Pair<Player, DBUser>> handleDurability(Context ctx, Item item,
                                                          Player player, DBUser user, SeasonPlayer seasonPlayer, boolean isSeasonal) {
-        Inventory playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
-        PlayerEquipment equippedItems = isSeasonal ? seasonPlayer.getData().getEquippedItems() : user.getData().getEquippedItems();
+        var playerInventory = isSeasonal ? seasonPlayer.getInventory() : player.getInventory();
+        var userData = user.getData();
+        var seasonPlayerData = seasonPlayer.getData();
+        var equippedItems = isSeasonal ? seasonPlayerData.getEquippedItems() : userData.getEquippedItems();
+        var subtractFrom = 0;
 
-        float subtractFrom = 0f;
         if (handleEffect(PlayerEquipment.EquipmentType.POTION, equippedItems, ItemReference.POTION_STAMINA, user)) {
             subtractFrom = random.nextInt(7);
         } else {
@@ -375,22 +377,22 @@ public class ItemHelper {
         }
 
         //We do validation before this...
-        PlayerEquipment.EquipmentType equipmentType = equippedItems.getTypeFor(item);
+        var equipmentType = equippedItems.getTypeFor(item);
 
         //This is important for previously equipped items before we implemented durability.
         if (!equippedItems.getDurability().containsKey(equipmentType) && item instanceof Breakable) {
             equippedItems.resetDurabilityTo(equipmentType, ((Breakable) item).getMaxDurability());
         }
 
-        int durability = equippedItems.reduceDurability(equipmentType, (int) Math.max(3, subtractFrom));
-        boolean assumeBroken = durability < 5;
-        I18nContext languageContext = ctx.getLanguageContext();
+        var durability = equippedItems.reduceDurability(equipmentType, Math.max(3, subtractFrom));
+        var assumeBroken = durability < 5;
+        var languageContext = ctx.getLanguageContext();
 
         if (assumeBroken) {
             equippedItems.resetOfType(equipmentType);
 
-            String broken = "";
-            Item brokenItem = getBrokenItemFrom(item);
+            var broken = "";
+            var brokenItem = getBrokenItemFrom(item);
             if (brokenItem != null && random.nextInt(100) > 20) {
                 broken = "\n" + String.format(languageContext.get("commands.mine.broken_drop"),
                         EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName()
@@ -399,8 +401,8 @@ public class ItemHelper {
                 playerInventory.process(new ItemStack(brokenItem, 1));
             }
 
-            String toReplace = languageContext.get("commands.mine.item_broke");
-            if (!user.getData().isAutoEquip()) {
+            var toReplace = languageContext.get("commands.mine.item_broke");
+            if (!userData.isAutoEquip() && !isSeasonal) {
                 toReplace += "\n" + languageContext.get("commands.mine.item_broke_autoequip");
             }
 
@@ -410,9 +412,8 @@ public class ItemHelper {
                 seasonPlayer.save();
             } else {
                 player.save();
+                user.save();
             }
-
-            user.save();
 
             //is broken
             return Pair.of(true, Pair.of(player, user));
@@ -421,9 +422,8 @@ public class ItemHelper {
                 seasonPlayer.save();
             } else {
                 player.save();
+                user.save();
             }
-
-            user.save();
 
             //is not broken
             return Pair.of(false, Pair.of(player, user));
