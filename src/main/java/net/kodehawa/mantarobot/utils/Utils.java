@@ -36,8 +36,10 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
@@ -359,8 +361,18 @@ public class Utils {
         return String.format("%d B", bytes);
     }
 
+    public static OffsetDateTime epochToDate(long epoch) {
+        return OffsetDateTime.ofInstant(Instant.ofEpochMilli(epoch), ZoneId.systemDefault());
+    }
+
     public static String formatDate(OffsetDateTime date) {
         return date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+    }
+
+    public static String formatDate(long epoch, String lang) {
+        return epochToDate(epoch)
+                .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(getLocaleFromLanguage(lang)));
     }
 
     public static String formatDate(OffsetDateTime date, String lang) {

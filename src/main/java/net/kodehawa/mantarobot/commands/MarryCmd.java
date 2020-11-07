@@ -49,8 +49,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -668,11 +666,7 @@ public class MarryCmd {
                 }
 
                 DBUser marriedDBUser = ctx.getDBUser(marriedTo);
-                LocalDateTime marriageDate = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(data.getMarriageCreationMillis()), ZoneId.systemDefault()
-                );
-
-                String dateFormat = Utils.formatDate(marriageDate, dbUser.getData().getLang());
+                String dateFormat = Utils.formatDate(data.getMarriageCreationMillis(), dbUser.getData().getLang());
 
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
