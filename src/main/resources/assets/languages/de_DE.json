@@ -727,7 +727,7 @@
       "ls": {
         "header": "Herstellbare Gegenstand-Liste",
         "cost": "Herstellungspreis: ",
-        "desc": "Dies ist eine Liste aller Gegenstände, die du mit `~>cast` herstellen kannst. Du musst den ganzen Namen oder die Abkürzung verwenden, um ihn herzustellen (Beispiel: `~>cast \"diamond pickaxe\"`, oder `~>cast \"diamond p\"`, funktioniert)\n**Herstellen kostet halb so viel, wie der Gegenstand. Der Herstellungspreis wird unten angezeigt."
+        "desc": "Dies ist eine Liste aller Gegenstände, die du mit `~>cast` herstellen kannst. Du musst den ganzen Namen oder die Abkürzung verwenden (Beispiel: `~>cast \"diamond pickaxe\"`, oder `~>cast \"diamond p\"`, funktioniert)\n**Herstellen kostet halb so viel, wie der Gegenstand. Der Herstellungspreis wird unten angezeigt**.\nSchraubenschlüssel Stufe 2 und 3 sind Komet und Glitzer."
       },
       "dust": "%1$sDu kannst nichts mit so einem staubigen Inventar herstellen! *(Verstaubung: %2$s%%)*. Warum machst du es nicht mit `~>useitem mop` sauber?",
       "wrench_multiple_use": "Tipp: *Du kannst den benutzten Schraubenschlüssel nicht gleichzeitig als Zutat verwenden!*"
