@@ -764,7 +764,7 @@
       "buy": {
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
         "invalid": "%1$sНедопустимое количество предметов для покупки.",
-        "non_existent": "%1$sВы не можете купить несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sВы не можете купить этот предмет.",
         "item_limit_reached": "%1$sВы не можете купить больше этого объекта.",
         "success": "%1$sУспешно куплены %2$,d %3$s за %4$,d кредитов. У вас осталось %5$,d кредитов.",
@@ -1687,6 +1687,7 @@
       "credits": "кредитов"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Доска лидеров Мантаро",
       "header_seasonal": "%1$s сезонная доска лидеров Мантаро",
       "money": "Доска лидеров по деньгам",
