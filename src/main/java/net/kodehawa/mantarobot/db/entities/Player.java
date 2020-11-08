@@ -222,7 +222,12 @@ public class Player implements ManagedObject {
 
     @JsonIgnore
     public Long getCurrentMoney() {
-        return config.isPremiumBot() ? this.oldMoney : data.newMoney;
+        boolean useOld = config.isPremiumBot() || config.isSelfHost();
+        if (useOld) {
+            return this.oldMoney;
+        } else {
+            return data.newMoney;
+        }
     }
 
     @JsonIgnore
