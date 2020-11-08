@@ -578,13 +578,13 @@ public class DiscordUtils {
                     newLine + String.format(languageContext.get("general.buy_sell_paged_react"), show)
             );
 
-            list(ctx.getEvent(), 45, false, builder, splitFields);
+            list(ctx.getEvent(), 120, false, builder, splitFields);
         } else {
             builder.appendDescription(
                     newLine + String.format(languageContext.get("general.buy_sell_paged_text"), show)
             );
 
-            listText(ctx.getEvent(), 45, false, builder, splitFields);
+            listText(ctx.getEvent(), 120, false, builder, splitFields);
         }
     }
 
