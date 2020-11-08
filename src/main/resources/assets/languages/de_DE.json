@@ -1237,7 +1237,7 @@
       "disabled_multiple": "%1$sDieser Server hat \"game multiple/lobby\" deaktiviert."
     },
     "opencrate": {
-      "no_crate": "%1$sDu hast keine Truhe (%2$s), dieser Art. :( (Wenn du versuchst eine spezielle Truhe zu öffnen, verwende den Namen nach dem Befehl. Wenn du das Sasions-Inventar verwenden willst, hänge `-s` an)",
+      "no_crate": "%1$sDu hast keine Truhe (%2$s), dieser Art. (Wenn du versuchst eine spezielle Truhe zu öffnen, verwende den Namen nach dem Befehl. Wenn du das Saisons-Inventar verwenden willst, hänge `-s` an)",
       "not_crate": "%1$sDas ist keine gültige Truhe."
     },
     "dailycrate": {
