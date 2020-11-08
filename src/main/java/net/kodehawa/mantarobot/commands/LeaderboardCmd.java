@@ -455,8 +455,9 @@ public class LeaderboardCmd {
                                 .map(mapFunction)
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> {
+                                    final var lbMember = p.getKey();
                                     //This is... an interesting place to do it lol
-                                    if (p.getKey().getId() == ctx.getAuthor().getIdLong()) {
+                                    if (lbMember.getId() == ctx.getAuthor().getIdLong()) {
                                         var player = MantaroData.db().getPlayer(ctx.getAuthor());
                                         if (player.getData().addBadgeIfAbsent(Badge.CHAMPION))
                                             player.saveAsync();
@@ -464,8 +465,9 @@ public class LeaderboardCmd {
 
                                     return format.formatted(
                                             EmoteReference.BLUE_SMALL_MARKER,
-                                            p.getKey().getName(),
-                                            p.getKey().getDiscriminator(),
+                                            lbMember.getName(),
+                                            config.isOwner(ctx.getAuthor()) ?
+                                                    lbMember.getDiscriminator() + " (" + lbMember.getId() + ")" : lbMember.getDiscriminator(),
                                             StringUtils.isNumeric(p.getValue()) ? Long.parseLong(p.getValue()) : p.getValue()
                                     );
                                 })

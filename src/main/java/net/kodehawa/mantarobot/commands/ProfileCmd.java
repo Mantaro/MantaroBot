@@ -150,7 +150,7 @@ public class ProfileCmd {
                             Badge.assignBadges(player, dbUser);
 
                             //Manual badges
-                            if (MantaroData.config().get().isOwner(userLooked)) {
+                            if (config.isOwner(userLooked)) {
                                 playerData.addBadgeIfAbsent(Badge.DEVELOPER);
                             }
 
