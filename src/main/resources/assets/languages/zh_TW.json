@@ -3,7 +3,7 @@
     "invalid_number": "%1$s那不是一個有效的數字!",
     "requested_by": "由 %1$s 請求。",
     "operation_timed_out": "%1$s回答此操作的時間已經用完。",
-    "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件? (舉例: 名字#判別數)\n**找到用戶:** %2$s",
+    "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件？(舉例：名字#判別數)\n**找到用戶：** %2$s",
     "search_no_result": "%1$s你的搜索沒有結果 :(",
     "unknown": "未知",
     "days": "天",
@@ -24,7 +24,7 @@
     "description": "說明",
     "options": "選項",
     "find_members_failure": "%1$s找不到符合你搜索條件的成員 :(",
-    "too_many_members": "%1$s找到太多成員了，試著改進你的搜索條件? (舉例: 名字#判別數)\n**找到成員:** %2$s",
+    "too_many_members": "%1$s找到太多成員了，試著改進你的搜索條件？(舉例：名字#判別數)\n**找到成員：** %2$s",
     "too_many_mentions": "%1$s查詢用戶時只能提及一個人。",
     "query_too_small": "%1$s搜尋關鍵字過少。請至少輸入四個字母。如果用戶名稱過短，使用 名稱#判別數 或用戶ID會是更好的選擇。",
     "dust": "這裡只有塵土。",
@@ -32,7 +32,7 @@
     "item_lookup": {
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
-      "not_found": "無法依據你的搜索條件找到任何結果。試著使用更短的名稱，範例: 使用 '能量' 代替 `能量飲料`。或將名稱用引號包起來。",
+      "not_found": "無法依據你的搜索條件找到任何結果。試著使用更簡短的名稱，範例：使用 '能量' 代替 `能量飲料`。或將他用引號包起來。",
       "claim_key": "你無法轉移鎖定鑰匙。"
     },
     "misc_item_usage": {
@@ -55,8 +55,8 @@
       },
       "potion_active": "%1$s你目前已經有最高數量的 **%2$s** 效果了!",
       "potion_not_found": "%1$s找不到這種藥水或裝備類型!",
-      "potion_applied": "%1$s成功應用類型為 *%3$s* (%4$dx) 的 **%2$s** 效果。使用 `~>profile stats` 來查看你的新效果",
-      "potion_applied_multiple": "%1$s成功應用類型為 *%3$s* 的 **%2$s** 效果。\n但你已經有這種效果了，所以我們將它堆疊起來。當前堆疊數量: %4$s",
+      "potion_applied": "%1$s成功使用類型為 *%3$s* (%4$dx) 的 **%2$s**。使用 `~>profile stats` 來查看你的新效果",
+      "potion_applied_multiple": "%1$s成功應用類型為 *%3$s* 的 **%2$s**。\n但你已經有這種效果了，所以我們將它疊加起來。當前堆疊數量: %4$s",
       "max_stack_size": "%1$s你已經堆疊滿%2$s了。(最大: 15，堆疊後: %3$s)",
       "max_stack_size_2": "%1$s你無法堆疊更多%2$s。(最大：15，堆疊後：%3$s)",
       "not_same_potion": "%1$s你已經有堆疊種類為 %2$s 的藥水且處於使用中，所以你不能再次堆疊種類 %3$s 的藥水上去。"
@@ -64,7 +64,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "我們需要你的幫助來持續運行/更新Mantaro！\n你可以透過Mantaro Premium獲得**各種福利和將近兩倍的金錢收入**！會員資格最低只需每月2美元，單純一杯珍奶的價格！\n瀏覽<https://patreon.com/mantaro>獲得更多資訊。:heart:",
-        "daily_sellout": "我們需要你的幫助來持續運行Mantaro！\n你可以透過Mantaro Premium獲得各種福利，**兩倍的每日獎勵**和使用`~>dailycrate`的資格！會員資格最低只需每月2美元，瀏覽<https://patreon.com/mantaro>獲得更多資訊。",
+        "daily_sellout": "我們需要你的幫助來持續運行Mantaro！\n你可以透過Mantaro Premium獲得各種福利，**兩倍的每日獎勵**和使用 `~>dailycrate` 的資格！會員資格最低只需每月2美元，瀏覽<https://patreon.com/mantaro>獲得更多資訊。",
         "thanks_message": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:",
         "thanks_message_daily": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:\n你還將獲得兩倍的金錢作為獎勵！"
       },
@@ -82,21 +82,21 @@
     "deprecated": "無法使用",
     "space_notice": "如果物品名稱有空格，試著把他 \"用引號包起來\"",
     "ratelimit": {
-      "header": "%1$s%2$s (限速中)\n **你能夠在%3$s內再次使用這個指令**",
+      "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
       "spam_2": "\n我覺得你真的該停了...",
-      "spam_3": "\n你是不是應該出去放鬆一下了?",
-      "spam_4": "\n你確定我還活著嗎?"
+      "spam_3": "\n你是不是應該出去放鬆一下了？",
+      "spam_4": "\n你確定我還活著嗎？"
     },
     "generic_error": "你可以考慮回報到我們的**官方伺服** (`https://support.mantaro.site`)，或是我們的GitHub頁面 (`https://github.com/Kodehawa/MantaroBot`)。別忘記一同回報錯誤ID，你使用的指令和你所在的節點 (使用`~>shard`檢查)！",
     "boom_quotes": [
       "看似惠惠把我們的城堡炸掉了...",
       "Uh oh... 我的主人好像把一些0和1留在桌上了 :<",
-      "等...等一下，怎麼回事?!",
+      "等...等一下，怎麼回事？！",
       "我...我覺得這裡好像失火了... 你可能得請我主人來看一下",
-      "我已經掌握了製造爆炸的技術，看到了嗎?",
+      "我已經掌握了製造爆炸的技術，看到了嗎？",
       "也許什麼變數出錯了，不過...啊...哈哈，我會把他修好的！",
-      "Uhhh...蛤? 你要幹嘛?"
+      "Uhhh...蛤？你要幹嘛？"
     ],
     "ratelimit_quotes": [
       "哇...你能不能不要一直叫我...我快頭暈了!",
@@ -107,7 +107,7 @@
       "如果我們還持續那麼快的話可能就要被開罰單了!",
       "我也想這樣做... 不過拜託先休息一下",
       "嘿 等一下! 我還沒吃完飯!",
-      "可以請你慢一點嗎?"
+      "可以請你慢一點嗎？"
     ],
     "mod_quotes": [
       "Uh oh 看來有人被正義之槌打中了!",
@@ -146,7 +146,7 @@
       },
       "crate": {
         "overflow": "你在釣魚的時候找到了**%1$s**，但是你已經有太多了，所以只能把它丟回水裡...",
-        "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <crate name>` 來開啟它! 別忘了你需要一個寶箱鑰匙!"
+        "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <crate name>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
@@ -158,30 +158,30 @@
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
-      "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛",
+      "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛，是不是？",
       "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
       "bait": "有隻魚在過程中把你的魚餌吃掉了!",
       "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備魚竿已重設。",
       "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修理它。得到損壞物品: %2$s *%3$s*",
-      "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿!"
+      "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！"
     },
     "softban": {
       "no_permission": "%1$s無法soft ban(軟驅逐): 你沒有*驅逐成員*權限。",
       "no_permission_self": "%1$s對不起! 我沒有驅逐成員的權限。",
       "no_users": "%1$s別忘了告知我你想soft ban(軟驅逐)的成員。",
       "hierarchy_conflict": "%1$s你無法soft ban(軟驅逐)一個身分組比你高的用戶",
-      "yourself_note": "%1$s你怎麼會想試著soft ban(軟驅逐)你自己?",
+      "yourself_note": "%1$s你怎麼會想試著soft ban(軟驅逐)你自己？",
       "self_hierarchy_conflict": "%1$s無法soft ban(軟驅逐)成員: %2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s. **%3$s 被soft ban(軟驅逐)了**",
       "error": "%1$ssoft ban(軟驅逐)錯誤 [%2$s]: (沒有權限: %3$s)",
-      "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s: *(Error? %3$s: %4$s)*"
+      "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s：*(Error? %3$s: %4$s)*"
     },
     "ban": {
       "no_permission": "%1$s你無法驅逐成員: 你需要*驅逐成員*權限。",
       "no_users": "%1$s你需要給我你想驅逐的成員。",
       "no_permission_self": "%1$s抱歉! 我沒有驅逐成員的權限。",
       "hierarchy_conflict": "%1$s你無法驅逐一個身分組比你高的成員! 想的美 %2$s",
-      "yourself_note": "%1$s為什麼你會想要驅逐你自己? 真愚蠢。",
+      "yourself_note": "%1$s為什麼你會想要驅逐你自己？真愚蠢。",
       "self_hierarchy_conflict": "%1$s無法驅逐成員: %2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s (%3$s 被驅逐了)",
       "success_multiple": "%1$s%2$s (%3$s 都被驅逐了)",
@@ -193,19 +193,19 @@
       "no_users": "%1$s你需要給我你想踢出的成員。",
       "no_permission_self": "%1$s抱歉! 我沒有踢出成員的權限。",
       "hierarchy_conflict": "%1$s你無法踢出一個身分組比你高的用戶",
-      "yourself_note": "%1$s為什麼你會想要踢出你自己? 真愚蠢。",
+      "yourself_note": "%1$s為什麼你會想要踢出你自己？真愚蠢。",
       "self_hierarchy_conflict": "%1$s無法踢出成員: %2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s (%3$s 被踢出了)",
       "error": "%1$s踢出錯誤 [%2$s]: (沒有權限: %3$s)",
       "unknown_error": "%1$s在嘗試踢出%2$s時發生未知錯誤"
     },
     "music_usage": {
-      "1": "*如何使用Mantaro的音樂功能?*",
-      "2": "- **加入YouTube或SoundCloud的歌曲到播放清單** 使用`~>play` 範例: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *我會自動連接到你所在的語音頻道*",
+      "1": "*如何使用Mantaro的音樂功能？*",
+      "2": "- **加入YouTube或SoundCloud的歌曲到播放清單** 使用 `~>play` 範例：`~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *我會自動連接到你所在的語音頻道*",
       "3": "- **搜尋YouTube上的歌曲** 使用 `~>play <關鍵詞>` (不包含<>) 範例: `~>play see you again` (然後你需要選擇歌曲號碼，只要在選擇結果出現後*輸入那個號碼*就好了!)",
       "4": "- **搜尋SoundCloud上的歌曲** 使用 `~>play soundcloud <關鍵詞>` 範例: `~>play soundcloud 鄧麗君`",
       "5": "- **檢查目前播放清單** `~>queue`",
-      "6": "- **從播放清單中移除歌曲** 使用 `~>removetrack` 加上歌曲的排序序號 (使用~>queue來檢查)",
+      "6": "- **從播放清單中移除歌曲** 使用 `~>removetrack` 加上歌曲的排序序號 (用 `~>queue` 來檢查)",
       "7": "- **暫停或繼續播放** `~>pause`",
       "8": "- **停止播放並退出語音頻道** `~>stop`",
       "9": "- **隨機播放目前清單** `~>shuffle`",
@@ -218,7 +218,7 @@
     },
     "season": {
       "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲譽排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使遊戲更加有趣 (金錢在之前是非常無用的)\n您可以使用`-season`訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
-      "info_2": "\n\n目前賽季是**%1$s**，且已經有**%2$s**個玩家在參與了!\n\n有趣的來了，記得檢查`~>leaderboard money -season` `~>leaderboard rep -season` 和 `~>leaderboard games -season`\n開始遊戲吧! <3\n感謝使用Mantaro。"
+      "info_2": "\n\n目前賽季是**%1$s**，且已經有**%2$s**個玩家在參與了!\n\n有趣的來了，記得檢查 `~>leaderboard money -season` `~>leaderboard rep -season` 和 `~>leaderboard games -season`\n開始遊戲吧! <3\n感謝使用Mantaro。"
     },
     "music_general": {
       "music_error": {
@@ -230,25 +230,25 @@
       "not_playing": "%1$s我目前不在播放任何音樂。如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>",
       "dj_only": "%1$s你需要成為DJ才能使用這個指令。",
       "enjoy_note": "享受音樂吧 <3",
-      "no_player": "%1$s目前沒有任何音樂正在播放... (先播一首試試看?)",
+      "no_player": "%1$s目前沒有任何音樂正在播放... (先播一首試試看？)",
       "not_connected": "%1$s你還沒進入到我目前正在播放的語音頻道! (如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>)",
       "np_message": "%1$s 現正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放這首曲目時發生了些問題! 不便之處敬請見諒，如果還有的話我會先播放下一首的。",
       "queue_finished": "%1$s目前清單已播放完畢! 希望你用得開心，如果需要任何幫助，請加入<https://support.mantaro.site>\n%2$s",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
-      "no_vc_found": "%1$s我還沒有連接到任何語音頻道? 在試一次。",
+      "no_vc_found": "%1$s我還沒有連接到任何語音頻道？再試一次。",
       "queue": {
         "header_field": "使用說明",
         "header_noreact": "傳送 `&p >>` 或 `&p <<` 來切換頁數。",
         "no_track_found_np": "找不到曲目或名稱/持續時間",
         "header": "%1$s播放清單",
-        "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽?\n如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
+        "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽？\n如果你認為這裡有歌曲還沒出現，試著使用 `~>queue 1`",
         "nothing_playing_2": "**如果這裡只有一首正在播放，那這邊真的就只剩灰塵了。你也可以加入更多歌曲!**",
         "np": "現正播放",
         "dj_np": "**Queued by:** ",
-        "page_overflow": "這裡啥都沒有。為何不返回一些頁面?",
-        "page_overflow_2": "如果你認為這裡有歌曲還沒出現，試著使用`~>queue 1`",
+        "page_overflow": "這裡啥都沒有。為何不返回一些頁面？",
+        "page_overflow_2": "如果你認為這裡有歌曲還沒出現，試著使用 `~>queue 1`",
         "total_queue_time": "總播放時間",
         "total_size": "總播放量",
         "togglers": "重複 / 暫停",
@@ -269,8 +269,8 @@
         "missing_permissions_connect": "%1$s我需要權限(%2$s)才能連接到這個頻道。",
         "missing_permission_speak": "%1$s我需要權限(%2$s)才能播放音樂。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
-        "already_connected": "%1$s我已經在**%2$s**裡面了! (使用`move`指令來移動我)",
-        "attempting_to_connect": "%1$s我正在連接到**%2$s**! (使用`move`指令來移動我)"
+        "already_connected": "%1$s我已經在**%2$s**裡面了! (使用 `move` 指令來移動我)",
+        "attempting_to_connect": "%1$s我正在連接到**%2$s**! (使用 `move` 指令來移動我)"
       },
       "listener": {
         "paused": "%1$s我被靜音了，暫停播放中 :(",
@@ -281,16 +281,16 @@
       "loader": {
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
-        "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用`~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
+        "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用 `~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
         "error_loading": "%1$s取得歌曲時出錯: %2$s",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
         "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
         "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
-        "timeout_text": "這將在30秒內超時。輸入&cancel以取消。"
+        "timeout_text": "這將在30秒內超時。傳送 &cancel 以取消。"
       },
-      "premium_beg": "%1$s如果你喜歡我，請考慮在 <https://patreon.com/mantaro> 贊助我，即使是微小的贊助也能給我更多動力!\n(Check `~>donate` for more info!)",
+      "premium_beg": "%1$s如果你喜歡我，請考慮在 <https://patreon.com/mantaro> 贊助我，即使是微小的贊助也能給我更多動力！\n(查看 `~>donate` 獲得更多消息！)",
       "closed_connection": "%1$s已關閉音訊連接，取消綁定播放器中..."
     },
     "forceskip": {
@@ -305,7 +305,7 @@
       "unpaused": "已回復播放 *(原本狀態為暫停中)*."
     },
     "rewind": {
-      "no_time": "%1$s你需要告訴我你想倒轉的長度 *(範例: `~>rewind 1m45s`將會倒轉1分45秒)*",
+      "no_time": "%1$s你需要告訴我你想倒轉的長度 *(範例：`~>rewind 1m45s`將會倒轉1分45秒)*",
       "negative": "%1$s僅限正整數",
       "before_beginning": "%1$s你無法倒轉至歌曲開頭之前",
       "success": "%1$s倒轉歌曲至: %2$s。"
@@ -314,7 +314,7 @@
       "success": "%1$s已重新播放目前歌曲。"
     },
     "skipahead": {
-      "no_time": "%1$s你需要告訴我你想快轉的長度 *(範例: `~>skipahead 1m45s`將會從所在位置跳過1分45秒)*",
+      "no_time": "%1$s你需要告訴我你想快轉的長度 *(範例：`~>skipahead 1m45s` 將會從所在位置跳過1分45秒)*",
       "past_duration": "%1$s你無法快轉超過歌曲長度",
       "success": "%1$s已跳至%2$s。"
     },
@@ -389,19 +389,19 @@
       "footer": "感謝使用Mantaro呀！頁數: %1$d, 總頁數:%2$d"
     },
     "prefix": {
-      "header": "%1$s 我默認的指令詞頭是 %2$s。 (用哪個都是OK的！) 此伺服器的自訂的指令詞頭是 `%3$s`。 (只可以在這伺服器上使用) 你可以訂造一個新的詞頭通過輸入 `~>opts prefix set <prefix>`，記得不要輸入那兩個<>唷。\n有任何疑問的話，你可以加入<https://support.mantaro.site> 看看。",
+      "header": "%1$s 我默認的指令詞頭是 %2$s。 (用哪個都是OK的！) 此伺服器的自訂的指令詞頭是 `%3$s`。 (只可以在這伺服器上使用) 你可以通過輸入 `~>opts prefix set <prefix>` 設定一個新的詞頭，記得不要輸入那兩個<>唷。\n有任何疑問的話，你可以加入<https://support.mantaro.site> 看看。",
       "none": "此伺服器暫時沒有自訂的指令詞頭。"
     },
     "custom": {
       "no_args": "%1$s你需要說明你用此指令想做些甚麼。運行指令 help 來看更多資訊！",
       "incorrect_args": "%1$s你輸入了錯誤的參數。看看 `~>help custom` 或https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands 來獲取如何使用這指令的資訊。如果在閱讀Wiki之後還有其他問題，請參考<https://support.mantaro.site>",
       "error_running": "%1$s執行自定義指令時發生錯誤... 請檢查回應內容及長度 (無法超過2000字元)",
-      "error_running_new": "%1$s執行自定義指令時發生錯誤。請檢查回應內容及長度。\n**錯誤:**\n```%2$s``",
+      "error_running_new": "%1$s執行自定義指令時發生錯誤。請檢查回應內容及長度。\n**錯誤：**\n```%2$s```",
       "not_loaded": "我還沒有完全載入完成... 自定義指令將會馬上開放使用!",
       "nsfw_enabled": "%1$s此指令已成功標記為NSFW。",
       "nsfw_disabled": "%1$s此指令已成功標記為SFW。",
       "nsfw_not_nsfw": "%1$s此指令已被標記為NSFW，只能被使用於NSFW頻道裡。",
-      "new_error": "%1$s你正在新增的自訂指令有錯誤 (v3，檢查內容)。\n**錯誤:**\n```%2$s```",
+      "new_error": "%1$s你正在新增的自訂義指令有錯誤 (v3，檢查內容)。\n**錯誤：**\n```%2$s```",
       "ls": {
         "header": "此伺服的自訂指令。",
         "description": "**這裡會顯示此伺服的所有自定義指令。**這裡的每個指令都跟Mantaro自身沒有任何關聯。\n\n自定義指令為用戶(通常是管理員)能夠因應各種場合自己創造的指令。\n如需更多資訊，請參與我們的Wiki頁面。(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**清單：**",
@@ -428,17 +428,17 @@
         "start_text": "%1$s**\"自定義指令 `%2$s` 創建開始\"**！\n傳送 `&~>stop` 停止創建**且放棄儲存**。\n傳送 `&~>save` 停止創建**並儲存自定義指令**。傳送以 `&` 開頭的任何文字將其加入到回應列表。傳送 `~>nsfw` 將其標記為NSFW，或 `~>sfw` 來還原。\n此程序將會於閒置60秒後自動退出且放棄儲存。",
         "cancel": "%1$s指令創建已取消。",
         "no_responses_added": "%1$s尚未添加回應。停止創建且不保存...",
-        "success": "%1$s已加到指令`%2$s`.",
+        "success": "%1$s已加到指令 `%2$s`.",
         "no_name_specified": "%1$s你尚未輸入你所要創建的自定義指令名稱！"
       },
       "eval": {
         "not_specified": "你並沒有指出任何要測試的指令。",
-        "new_error": "%1$s運行此自定義指令時發生錯誤。\n**錯誤**：\n```%2$s```",
+        "new_error": "%1$s測試此自定義指令時發生錯誤。\n**錯誤**：\n```%2$s```",
         "error": "%1$s運行此自定義指令時發生錯誤！\n%2$s"
       },
       "remove": {
         "no_command": "%1$s你需要告訴我你想取消哪條指令。",
-        "success": "%1$s已移除自定義指令`%2$s`。"
+        "success": "%1$s已移除自定義指令 `%2$s`。"
       },
       "import": {
         "no_command": "%1$s你需要告訴我你想匯入哪條指令。",
@@ -446,7 +446,7 @@
         "header": "`%1$s` (回應：%2$s) - 伺服器：`%3$s`",
         "selection": "選擇指令：",
         "note": "(你只能選擇你所在伺服器中的自定義指令)",
-        "success": "從伺服器`%2$s`匯入了自定義指令`%1$s`的%3$d個回應。"
+        "success": "從伺服器 `%2$s` 匯入了自定義指令 `%1$s` 的%3$d個回應。"
       },
       "edit": {
         "no_command": "%1$s你需要指出你想編輯的自定義指令名稱。",
@@ -454,41 +454,41 @@
         "no_index": "%1$s你無法編輯不存在的索引。",
         "empty_response": "%1$s你無法編輯空白的回應。",
         "not_enough_args": "%1$s你需要指出指令名稱，回應編號及新的回應。",
-        "success": "%1$s已成功編輯指令`%3$s`的第**#%2$d**條回應"
+        "success": "%1$s已成功編輯指令 `%3$s` 的第**#%2$d**條回應"
       },
       "deleteresponse": {
         "no_command": "%1$s你需要指出你想移除回應的指令名稱。",
         "invalid_number": "%1$s你需要指出你想刪除的回應編號。",
         "no_index": "%1$s你無法移除不存在的索引。",
         "not_enough_args": "%1$s你需要指出你想刪除的指令名稱及回應編號。",
-        "success": "%1$s已成功移除指令`%3$s`的第**#%2$d**條回應"
+        "success": "%1$s已成功移除指令 `%3$s` 的第**#%2$d**條回應"
       },
       "rename": {
-        "success": "%1$s已重新命名指令`%2$s`為`%3$s`"
+        "success": "%1$s已重新命名指令 `%2$s` 為 `%3$s`"
       },
       "add": {
         "no_command": "%1$s你需要指出你想創建的指令名稱。",
         "not_enough_args": "%1$s你需要指出你想新增的指令名稱及回應。",
         "empty_content": "%1$s你需要指出這個自定義指令的內容。",
-        "success": "%1$s已加到指令`%2$s`",
+        "success": "%1$s已加到指令 `%2$s`",
         "too_many_commands": "%1%s此伺服器的自定義指令數量已超過限制 (+100)，你無法再新增更多。高級伺服器將無視這個限制 (瀏覽<https://patreon.com/mantaro>)。"
       },
       "lockcommand": {
         "no_permission": "%1$s你需要權限**管理伺服器**才能夠鎖定和解鎖指令。",
         "no_command": "%1$s你需要指出你想鎖定的指令名稱。",
-        "success": "%1$s已成功鎖定指令`%2$s`。你將需要解鎖他來進行編輯。"
+        "success": "%1$s已成功鎖定指令 `%2$s`。你將需要解鎖他來進行編輯。"
       },
       "unlockcommand": {
         "no_command": "%1$s你需要指出你想解鎖的指令名稱。",
         "not_locked": "%1$s這條指令尚未被鎖定。",
-        "success": "%1$s已成功解鎖指令`%2$s`。你將需要鎖定他來避免編輯。"
+        "success": "%1$s已成功解鎖指令 `%2$s`。你將需要鎖定他來避免編輯。"
       },
       "character_not_allowed": "%1$s自定義指令名稱內不允許使用這個字符。",
-      "already_exists": "%1$s指令`%2$s`已經存在且是默認的指令。",
+      "already_exists": "%1$s指令 `%2$s` 已經存在且是默認的指令。",
       "name_too_long": "%1$s名稱過長。",
       "no_cc": "%1$s該伺服器沒有任何自定義指令，只有灰塵。",
-      "admin_only": "此伺服器只接受來自管理員的自定義指令創建，編輯，匯入和測試。\n**這是目前的默認設置。**\n- 如果你是管理員，且想讓任何人執行這些，傳送`~>opts admincustom false`",
-      "not_found": "%1$s此伺服器內沒有自定義指令`%2$s`。",
+      "admin_only": "此伺服器只接受來自管理員的自定義指令創建，編輯，匯入和測試。\n**這是目前的默認設置。**\n- 如果你是管理員，且想讓任何人執行這些，運行 `~>opts admincustom false`",
+      "not_found": "%1$s此伺服器內沒有自定義指令 `%2$s`。",
       "invalid_image": "%1$s這條指令包含無效的圖像，請將他移除...",
       "invalid_string": "%1$s字串 `{%2$s}` 無效，或是長於2000字元。",
       "invalid_json": "%1$s字串 `{%2$s}` 不是有效的JSON。",
@@ -571,60 +571,60 @@
         "empty": "%1$s你無法將情書留白。",
         "no_marriage": "%1$s你尚未結婚，不能寫情書給你自己...",
         "not_proposing_player": "%1$s你不是提出這場婚姻的人！",
-        "already_done": "%1$s這條婚姻已經指定情書訊息。傳送`~>marry status`檢查",
+        "already_done": "%1$s這條婚姻已經指定情書訊息。傳送 `~>marry status` 檢查",
         "too_long": "%1$s情書訊息過長 (最長500字元)",
         "cannot_see": "%1$s我找不到你的伴侶... 也許他們不在我的伺服器內。",
         "confirmation": "%1$s你*確定*想寫這張情書給**%2$s#%3$s**嗎？這將會持續到婚姻結束。*情書內容：*%4$s",
-        "confirmed": "%1$s情書已成功傳遞給你的愛人！傳送`~>marry status`檢查。",
+        "confirmed": "%1$s情書已成功傳遞給你的愛人！傳送 `~>marry status` 檢查。",
         "scrapped": "%1$s你還有時間思考該寫什麼，不必著急！"
       },
       "status": {
         "no_marriage": "%1$s你目前尚未結婚，所以你處在...\"單身狀態\" (如果你能在你的個人資料看到婚姻那表示你還處在舊的系統，試著重新結婚)",
         "header": "目前婚姻狀況",
-        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
-        "date": "Marriage Date",
-        "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "description_format": "%1$s**%2$s#%3$s**與**%4$s#%5$s**的婚姻關係",
+        "date": "結婚日期",
+        "love_letter": "情書訊息",
+        "waifus": "Waifu所有權",
+        "house": "房屋名稱",
+        "car": "汽車名稱",
+        "pet": "寵物名稱 (種類)"
       },
       "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+        "no_content": "%1$s你需要指定此婚姻的時區。",
+        "invalid": "%1$s那不是有效的時區或區域ID。",
+        "success": "%1$s成功將婚姻時區設置為%2$s。寵物時間將與婚姻時區相同。"
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$s你還沒結婚。"
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
-        "no_name": "%1$sYou need to give your house a name!",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "not_married": "%1$s你只能再已婚時買房子。這將有可能在未來更改。",
+        "no_house": "%1$s你需要先購買一個房屋。使用 `~>market buy house` 來購買。",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
+        "no_name": "%1$s你需要給你的房屋起一個名字！",
+        "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
+        "success": "%1$s你成功用%2$d元買了一棟房子！你的新房屋的名字是%3$s，恭喜！",
+        "cancel_success": "%1$s操作取消。"
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
-        "no_name": "%1$sYou need to give your car a name!",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "no_car": "%1$s你需要先買一台車！使用 `~>market buy car` 來購買。",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
+        "no_name": "%1$s你需要給你的車子起一個名字！",
+        "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
+        "success": "%1$s你成功用%2$d元買了一台汽車！你的新車子的名字是%3$s，恭喜！",
+        "cancel_success": "%1$s操作取消。"
       },
       "no_mention": "%1$s請提及你想結婚的人。",
       "marry_yourself_notice": "%1$s你無法與自己結婚，怎麼樣都不行。",
       "marry_bot_notice": "%1$s你無法與機器人結婚，我不認為這是未來世界... 等等，機器人已經能與人類結婚了嗎？",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
+      "already_married_receipt": "%1$s你已經是他們的伴侶了，Aww",
+      "already_married": "%1$s你已經有伴侶了。",
+      "receipt_married": "%1$s他們已經有伴侶了。",
+      "no_ring": "%1$s你需要兩個戒指才能求婚！使用 `~>market buy 2 ring` 購買後再試著求婚一次 <3",
+      "confirmation": "%1$s%2$s，傳送 **yes** 或 **no** 來決定你是否願意與%3$s結婚\n%4$s這將在120秒內超時。",
       "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**"
+      "accepted": "%1$s**%2$s#%3$s**接受了**%4$s#%5$s**的求婚！",
+      "denied": "%1$s已拒絕**%2$s**的求婚"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel.",
@@ -939,7 +939,7 @@
         "success": "%1$s成功裝備了 %2$s *%3$s*，下次你使用相對應的貨幣指令時，該物品將會自動被選擇。",
         "not_suitable": "%1$s你無法裝備這個。",
         "not_equipped": "%1$s你尚未裝備這個。",
-        "already_equipped": "%1$s你已經裝備了這種類型的物品！如果你想要取消裝備他的話，使用`~>unequip <類型>` (類型可以是鎬/魚竿或斧)。"
+        "already_equipped": "%1$s你已經裝備了這種類型的物品！如果你想要取消裝備他的話，使用 `~>unequip <類型>` (類型可以是鎬/魚竿或斧)。"
       },
       "unequip": {
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
@@ -2226,7 +2226,7 @@
     "bell": "聖誕鈴鐺",
     "tree": "聖誕樹",
     "pants": "褲子",
-    "haste": "急迫藥水",
+    "haste": "勤奮藥水",
     "milky": "白色藥水",
     "energy": "能量飲料",
     "rod": "釣魚竿",
@@ -2311,12 +2311,12 @@
       "kick_boot": "管理員留下來的。",
       "floppy": "裡面應該有一些遊戲。不要複製這一片。",
       "maths": "喔，我忘記我的筆記了。",
-      "racket": "我在上次跟Discord玩乒乓球的時候贏了幾毫秒。應該吧。",
+      "racket": "我上次在跟Discord玩乒乓球的時候贏了幾毫秒。應該吧。",
       "loaded_die": "從 `~>roll` 指令偷來的。",
       "forgotten": "我從來都沒下載過。應該已經有版權了。",
       "pencil": "我們有很多！",
       "moneybag": "不然你要什麼？",
-      "pick": "那個人太喜歡Minecraft了 (耐久度 40)。(`~>mine`的工具)",
+      "pick": "那個人太喜歡Minecraft了 (耐久度 40)。(`~>mine` 的工具)",
       "milk": "有總比沒有好。",
       "beverage": "這會產生大量奇怪的事情。好吧，取決於哪種類型 ;)",
       "lewd": "Too many lewd commands. Way too many. Had fun?",
@@ -2347,9 +2347,9 @@
       "bell": "Christmas reward. Gives you a cozy christmas feeling on your tree.",
       "tree": "Christmas reward. Who doesn't like a christmas tree?.",
       "pants": "Basically what you wear on your legs... hopefully.",
-      "haste": "Allows you to collect more stuff from lootable commands for 2 sessions.",
+      "haste": "Allows you to collect more stuff from currency commands for 2 sessions.",
       "milky": "Clears all potion effects.",
-      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 3 sessions.",
       "rod": "Enables you to fish. (40 durability)",
       "fish": "Fish. Caught in fishing.",
       "tropical_fish": "A very tropical fish. Caught in fishing.",
@@ -2417,7 +2417,7 @@
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
-      "pear": "You happened to chop an apple tree and the pear fell on your head. Ouch.",
+      "pear": "You happened to chop an pear tree and the pear fell on your head. Ouch.",
       "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
       "rock": "A rock. Yep. It's very hard, isn't it?",
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
