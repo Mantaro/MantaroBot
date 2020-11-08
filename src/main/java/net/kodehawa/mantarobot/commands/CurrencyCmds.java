@@ -78,13 +78,13 @@ public class CurrencyCmds {
                     final var user = ctx.getDBUser(member);
                     final var seasonPlayer = ctx.getSeasonPlayer(member);
                     final var languageContext = ctx.getLanguageContext();
-
                     var playerInventory = player.getInventory();
-                    final var inventoryList = playerInventory.asList();
 
                     if (ctx.isSeasonal()) {
                         playerInventory = seasonPlayer.getInventory();
                     }
+
+                    final var inventoryList = playerInventory.asList();
 
                     if (arguments.containsKey("calculate") || arguments.containsKey("calc") || arguments.containsKey("c")) {
                         long all = playerInventory.asList().stream()
