@@ -1,6 +1,6 @@
 {
   "general": {
-    "invalid_number": "%1$s不是一個有效的數字!",
+    "invalid_number": "%1$s那不是一個有效的數字!",
     "requested_by": "由 %1$s 請求。",
     "operation_timed_out": "%1$s回答此操作的時間已經用完。",
     "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件? (舉例: 名字#判別數)\n**找到用戶:** %2$s",
@@ -65,8 +65,8 @@
       "premium": {
         "generic_sellout": "我們需要你的幫助來持續運行/更新Mantaro！\n你可以透過Mantaro Premium獲得**各種福利和將近兩倍的金錢收入**！會員資格最低只需每月2美元，單純一杯珍奶的價格！\n瀏覽<https://patreon.com/mantaro>獲得更多資訊。:heart:",
         "daily_sellout": "我們需要你的幫助來持續運行Mantaro！\n你可以透過Mantaro Premium獲得各種福利，**兩倍的每日獎勵**和使用`~>dailycrate`的資格！會員資格最低只需每月2美元，瀏覽<https://patreon.com/mantaro>獲得更多資訊。",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "thanks_message": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:",
+        "thanks_message_daily": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:\n你還將獲得兩倍的金錢作為獎勵！"
       },
       "twitter": "你知道我們有Twitter帳號嗎？當然有！馬上跟隨 (at)mantarodiscord <https://twitter.com/mantarodiscord> 獲取最新消息。"
     },
@@ -380,7 +380,7 @@
       "check": "%1$s這一節的音量是: %2$d \n\n%3$s",
       "success": "%1$s音量設置為 %2$d\n\n%3$s",
       "no_args": "%1$s你需要告訴我你想我設置音量為多少。(5至 100)",
-      "premium_only": "%1$s這是僅限高級用戶的功能。為了獲得像這個的高級功能，你可以贊助我們的 Patreon (https://www.patreon.com/mantaro) 感謝您的理解哦！\n高級功能可以綁定到一位用戶或一個伺服器上。如果你贊助了我們，請加入Mantaro的伺服器來領取。"
+      "premium_only": "%1$s這是僅限Premium用戶的功能。為了獲得像這個的高級功能，你可以贊助我們的Patreon (https://www.patreon.com/mantaro)。感謝您的理解哦！\n高級功能可以綁定到一位用戶或一個伺服器上。如果你贊助了我們，請加入Mantaro的伺服器來領取。"
     },
     "lyrics": {
       "no_current_track": "%1$s現在並沒有任何播放中的歌曲！",
@@ -953,7 +953,7 @@
         "cancelled": "%1$s操作取消。"
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users.",
+        "not_premium": "%1$s個人資料部件個人化僅適用於Premium用戶。",
         "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
         "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
@@ -1075,9 +1075,9 @@
       },
       "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
       "invalid_key": "%1$sYou provided an invalid or already enabled key",
-      "guild_already_premium": "%1$sThis server already has a premium subscription",
+      "guild_already_premium": "%1$s此伺服器已訂閱Mantaro premium",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "user_already_premium": "%1$sYou're already premium :heart:",
+      "user_already_premium": "%1$s你已經有Premium了 :heart:",
       "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
     },
@@ -1091,30 +1091,30 @@
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
-        "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$s%2$s is not premium :c",
-        "premium": "**Premium user! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "你的Premium狀態",
+        "header_other": "%1$s的Premium狀態",
+        "not_premium": "%1$s%2$s還不是Premium :c",
+        "premium": "**Premium用戶！<3**",
+        "old_system": "**還處在舊系統下的Premium用戶！別擔心，你還是Premium，也會繼續享有你的福利！**"
       },
       "guild": {
-        "header": "%1$s's Premium Status",
-        "not_premium": "%1$sThis guild isn't premium :c",
-        "premium": "**Premium guild! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "header": "%1$s的Premium狀態",
+        "not_premium": "%1$s此伺服器還不是Premium :c",
+        "premium": "**Premium伺服器！<3**",
+        "old_system": "**還處在舊系統下的Premium伺服器！別擔心，你還是Premium，也會繼續享有你的福利！**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
-      "valid_for_old": "Valid for",
-      "old_days_more": "%1$,d days more",
-      "thank_note": "Thanks you for your support <3",
-      "expire": "Expires in",
-      "key_duration": "Key total duration",
-      "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments...",
-      "patreon": "Pledge",
-      "linked": "Linked",
-      "linked_to": "Linked to",
-      "keys_claimed": "Extra Keys Claimed"
+      "description": "金鑰將會保持有效至你停止贊助，除非另有說明。感謝你的贊助 <3",
+      "valid_for_old": "有效至",
+      "old_days_more": "%1$,d日剩餘",
+      "thank_note": "感謝你的支持 <3",
+      "expire": "期限剩餘",
+      "key_duration": "金鑰期限",
+      "key_owner": "金鑰持有者",
+      "wrong_args": "%1$s參數錯誤...",
+      "patreon": "已贊助",
+      "linked": "已連結",
+      "linked_to": "連結到",
+      "keys_claimed": "已領取的額外金鑰"
     },
     "support": {
       "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
@@ -1243,7 +1243,7 @@
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
+      "not_premium": "%1$s你還不是Premium！\nPremium用戶能夠領取包含許多特別物品的高級每日寶箱！到<https://patreon.com/mantaro>獲得更多資訊。\n此指令冷卻時間為24小時。",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
     },
     "prune": {
@@ -1590,7 +1590,7 @@
       "credits": "%1$sYou got **$%2$,d** daily credits.",
       "sellout": {
         "get_premium": "我們需要你的幫助來持續運行/更新Mantaro！瀏覽<https://patreon.com/mantaro>獲得更多資訊。**你可以透過Premium獲得兩倍的每日獎勵！**會員資格最低只需每月2美元，單純一杯珍奶的價格！",
-        "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+        "already_premium": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:"
       },
       "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
       "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
