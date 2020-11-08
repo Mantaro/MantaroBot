@@ -50,11 +50,11 @@ public enum ProfileComponent {
             return String.format("**%s**\n", holder.getBadges().get(0));
     }, true, false),
     CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
-            "$ " + (holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getCurrentMoney()),
+            "$ %,d".formatted(holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getCurrentMoney()),
             true, false
     ),
     OLD_CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.old_credits"), (holder, i18nContext) ->
-            "$ " + holder.getPlayer().getOldMoney(),
+            "$ %,d".formatted(holder.getPlayer().getOldMoney()),
             true, false
     ),
     REPUTATION(EmoteReference.REP, i18nContext -> i18nContext.get("commands.profile.rep"), (holder, i18nContext) ->
@@ -62,7 +62,7 @@ public enum ProfileComponent {
     ),
     LEVEL(EmoteReference.ZAP, i18nContext -> i18nContext.get("commands.profile.level"), (holder, i18nContext) -> {
         var player = holder.getPlayer();
-        return String.format("%d (%s: %d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
+        return String.format("%d (%s: %,d)", player.getLevel(), i18nContext.get("commands.profile.xp"), player.getData().getExperience());
     }),
     BIRTHDAY(EmoteReference.POPPER, i18nContext -> i18nContext.get("commands.profile.birthday"), (holder, i18nContext) -> {
         var data = holder.getDbUser().getData();
