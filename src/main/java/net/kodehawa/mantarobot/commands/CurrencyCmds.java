@@ -138,7 +138,7 @@ public class CurrencyCmds {
                     }
 
                     var inventory = "\n\n" + inventoryList.stream()
-                            .sorted((c, next) -> (int) (next.getItem().getValue() - c.getItem().getValue()))
+                            .sorted(Comparator.comparingLong(ItemStack::getAmount).reversed())
                             .map(is -> is.getItem().getEmoji() + " " + is.getAmount() + "x ")
                             .collect(Collectors.joining(" "));
 
