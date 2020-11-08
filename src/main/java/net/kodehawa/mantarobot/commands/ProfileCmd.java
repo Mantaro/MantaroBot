@@ -84,7 +84,7 @@ public class ProfileCmd {
 
         //I actually do need this, sob.
         LinkedList<ProfileComponent> defaultOrder;
-        if (config.isPremiumBot()) {
+        if (config.isPremiumBot() || config.isSelfHost()) {
             defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
         } else {
             defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
