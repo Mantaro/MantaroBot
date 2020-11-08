@@ -720,6 +720,10 @@ public class MarryCmd {
 
                 ctx.sendLocalized("commands.divorce.confirm", EmoteReference.WARNING);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 45, interactiveEvent -> {
+                    if (!interactiveEvent.getAuthor().getId().equals(ctx.getAuthor().getId())) {
+                        return Operation.IGNORED;
+                    }
+
                     String content = interactiveEvent.getMessage().getContentRaw();
 
                     if (content.equalsIgnoreCase("yes")) {
