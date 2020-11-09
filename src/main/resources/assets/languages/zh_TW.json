@@ -39,9 +39,9 @@
       "mop": "%1$s你已經 (可能) 清理完了您家中的所有塵土。",
       "mop_not_enough": "%1$s你的粉塵高度少於5%%， 所以掃除不會有用。",
       "milk": "%1$s藥水效果已清除。",
-      "stamina": "%1$s已激活耐力，持續三次採礦。",
+      "stamina": "%1$s已激活耐力，可維持三次採礦。",
       "stamina_used": "%1$s你目前已經有耐力效果了！",
-      "haste": "%1$s已激活勤奮，持續兩次活動。",
+      "haste": "%1$s已激活勤奮，可維持兩次活動。",
       "haste_used": "%1$s你目前已經有勤奮效果了！",
       "bait": "%1$s勾上了你的魚餌! (可使用一次)",
       "bait_used": "%1$s你目前已經有魚餌了!",
@@ -50,14 +50,14 @@
       "crate": {
         "no_key": "%1$s你需要一個寶箱鑰匙才能開啟寶箱。他們都是鎖住的!",
         "no_crate": "%1$s你目前沒有寶箱! 不然你要怎麼使用寶箱鑰匙 >.>",
-        "success": "%1$s你開啟了一個寶箱且得到了: %2$s%3$s。恭喜!",
-        "overflow": "但是你已經有太多了，所以你決定將多出來的丟掉"
+        "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜!",
+        "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
       "potion_active": "%1$s你目前已經有最高數量的 **%2$s** 效果了!",
       "potion_not_found": "%1$s找不到這種藥水或裝備類型!",
       "potion_applied": "%1$s成功使用類型為 *%3$s* (%4$dx) 的 **%2$s**。使用 `~>profile stats` 來查看你的新效果",
-      "potion_applied_multiple": "%1$s成功應用類型為 *%3$s* 的 **%2$s**。\n但你已經有這種效果了，所以我們將它疊加起來。當前堆疊數量: %4$s",
-      "max_stack_size": "%1$s你已經堆疊滿%2$s了。(最大: 15，堆疊後: %3$s)",
+      "potion_applied_multiple": "%1$s成功應用類型為 *%3$s* 的 **%2$s**。\n但你已經有這種效果了，所以我們將它疊加起來。當前堆疊數量：%4$s",
+      "max_stack_size": "%1$s你已經堆疊滿%2$s了。(最大：15，堆疊後：%3$s)",
       "max_stack_size_2": "%1$s你無法堆疊更多%2$s。(最大：15，堆疊後：%3$s)",
       "not_same_potion": "%1$s你已經有堆疊種類為 %2$s 的藥水且處於使用中，所以你不能再次堆疊種類 %3$s 的藥水上去。"
     },
@@ -76,7 +76,7 @@
     "interactive_running": "%1$s這個頻道裡已經有你與我的互動了。",
     "buy_sell_paged_react": "使用箭號反應改變頁數。\n%1$s",
     "buy_sell_paged_text": "傳送 **&p >>** 或 **&p <<** 來切換頁數。\n%1$s",
-    "buy_sell_paged_reference": "**提示: %1$s買 %2$s 賣。**",
+    "buy_sell_paged_reference": "**提示：%1$s買 %2$s 賣。**",
     "cancelled": "%1$s已取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
@@ -146,7 +146,7 @@
       },
       "crate": {
         "overflow": "你在釣魚的時候找到了**%1$s**，但是你已經有太多了，所以只能把它丟回水裡...",
-        "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <crate name>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
+        "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
@@ -162,48 +162,48 @@
       "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
       "bait": "有隻魚在過程中把你的魚餌吃掉了!",
       "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備魚竿已重設。",
-      "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修理它。得到損壞物品: %2$s *%3$s*",
+      "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修理它。得到損壞物品：%2$s *%3$s*",
       "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！"
     },
     "softban": {
-      "no_permission": "%1$s無法soft ban(軟驅逐): 你沒有*驅逐成員*權限。",
+      "no_permission": "%1$s無法soft ban(軟驅逐)：你沒有*驅逐成員*權限。",
       "no_permission_self": "%1$s對不起! 我沒有驅逐成員的權限。",
       "no_users": "%1$s別忘了告知我你想soft ban(軟驅逐)的成員。",
       "hierarchy_conflict": "%1$s你無法soft ban(軟驅逐)一個身分組比你高的用戶",
       "yourself_note": "%1$s你怎麼會想試著soft ban(軟驅逐)你自己？",
-      "self_hierarchy_conflict": "%1$s無法soft ban(軟驅逐)成員: %2$s，他的身分組跟我一樣或比我高!",
+      "self_hierarchy_conflict": "%1$s無法soft ban(軟驅逐)成員：%2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s. **%3$s 被soft ban(軟驅逐)了**",
-      "error": "%1$ssoft ban(軟驅逐)錯誤 [%2$s]: (沒有權限: %3$s)",
-      "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s：*(Error? %3$s: %4$s)*"
+      "error": "%1$ssoft ban(軟驅逐)錯誤 [%2$s]：(沒有權限：%3$s)",
+      "unknown_error": "%1$s在嘗試soft ban(軟驅逐)的時候發生未知錯誤 %2$s：*(Error? %3$s：%4$s)*"
     },
     "ban": {
-      "no_permission": "%1$s你無法驅逐成員: 你需要*驅逐成員*權限。",
+      "no_permission": "%1$s你無法驅逐成員：你需要*驅逐成員*權限。",
       "no_users": "%1$s你需要給我你想驅逐的成員。",
       "no_permission_self": "%1$s抱歉! 我沒有驅逐成員的權限。",
       "hierarchy_conflict": "%1$s你無法驅逐一個身分組比你高的成員! 想的美 %2$s",
       "yourself_note": "%1$s為什麼你會想要驅逐你自己？真愚蠢。",
-      "self_hierarchy_conflict": "%1$s無法驅逐成員: %2$s，他的身分組跟我一樣或比我高!",
+      "self_hierarchy_conflict": "%1$s無法驅逐成員：%2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s (%3$s 被驅逐了)",
       "success_multiple": "%1$s%2$s (%3$s 都被驅逐了)",
-      "error": "%1$s驅逐錯誤 %2$s: (我需要%3$s權限)",
+      "error": "%1$s驅逐錯誤 %2$s：(我需要%3$s權限)",
       "unknown_error": "%1$s在驅逐 %2$s 時發生未知錯誤"
     },
     "kick": {
-      "no_permission": "%1$s無法踢出成員: 你需要*踢出成員*權限。",
+      "no_permission": "%1$s無法踢出成員：你需要*踢出成員*權限。",
       "no_users": "%1$s你需要給我你想踢出的成員。",
       "no_permission_self": "%1$s抱歉! 我沒有踢出成員的權限。",
       "hierarchy_conflict": "%1$s你無法踢出一個身分組比你高的用戶",
       "yourself_note": "%1$s為什麼你會想要踢出你自己？真愚蠢。",
-      "self_hierarchy_conflict": "%1$s無法踢出成員: %2$s，他的身分組跟我一樣或比我高!",
+      "self_hierarchy_conflict": "%1$s無法踢出成員：%2$s，他的身分組跟我一樣或比我高!",
       "success": "%1$s%2$s (%3$s 被踢出了)",
-      "error": "%1$s踢出錯誤 [%2$s]: (沒有權限: %3$s)",
+      "error": "%1$s踢出錯誤 [%2$s]：(沒有權限：%3$s)",
       "unknown_error": "%1$s在嘗試踢出%2$s時發生未知錯誤"
     },
     "music_usage": {
       "1": "*如何使用Mantaro的音樂功能？*",
       "2": "- **加入YouTube或SoundCloud的歌曲到播放清單** 使用 `~>play` 範例：`~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *我會自動連接到你所在的語音頻道*",
-      "3": "- **搜尋YouTube上的歌曲** 使用 `~>play <關鍵詞>` (不包含<>) 範例: `~>play see you again` (然後你需要選擇歌曲號碼，只要在選擇結果出現後*輸入那個號碼*就好了!)",
-      "4": "- **搜尋SoundCloud上的歌曲** 使用 `~>play soundcloud <關鍵詞>` 範例: `~>play soundcloud 鄧麗君`",
+      "3": "- **搜尋YouTube上的歌曲** 使用 `~>play <關鍵詞>` (不包含<>) 範例：`~>play see you again` (然後你需要選擇歌曲號碼，只要在選擇結果出現後*輸入那個號碼*就好了!)",
+      "4": "- **搜尋SoundCloud上的歌曲** 使用 `~>play soundcloud <關鍵詞>` 範例：`~>play soundcloud 鄧麗君`",
       "5": "- **檢查目前播放清單** `~>queue`",
       "6": "- **從播放清單中移除歌曲** 使用 `~>removetrack` 加上歌曲的排序序號 (用 `~>queue` 來檢查)",
       "7": "- **暫停或繼續播放** `~>pause`",
@@ -217,16 +217,16 @@
       "info": "%1$s你可以更改綁定到這個伺服器的語言 (如果適合的話) 使用 `~>opts language set <語言代碼>`，或是使用 `~>profile lang <語言代碼>` 來改變你的偏好語言。\n**可用語言:** `%2$s`\n如果我沒有你想要的語言，歡迎加入我們的翻譯團隊並參與翻譯工作!"
     },
     "season": {
-      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲譽排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使遊戲更加有趣 (金錢在之前是非常無用的)\n您可以使用`-season`訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
+      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲譽排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
       "info_2": "\n\n目前賽季是**%1$s**，且已經有**%2$s**個玩家在參與了!\n\n有趣的來了，記得檢查 `~>leaderboard money -season` `~>leaderboard rep -season` 和 `~>leaderboard games -season`\n開始遊戲吧! <3\n感謝使用Mantaro。"
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$s無法連接至%2$s: 連線超時。試著改變伺服器區域並再試一次。",
-        "unknown": "%1$s無法連接至%2$s: 未知錯誤。"
+        "timeout": "%1$s無法連接至%2$s：連線超時。試著改變伺服器區域並再試一次。",
+        "unknown": "%1$s無法連接至%2$s：未知錯誤。"
       },
       "not_working": "%1$s由於YouTube阻止了許多大型伺服器的訪問，因此Mantaro音樂功能目前無法正常運作。我們的Mantaro Patreon還能正常運行，如果你想試試看的話，請考慮每月贊助我們4元美金，同時幫助我們維持Mantaro的正常運作及硬體更新。\n訪問 <https://patreon.com/mantaro> 取得更多資訊\n\n我們非常抱歉造成你的不便。別忘了還能使用SoundCloud搜尋! `(~>play soundcloud <關鍵詞>)`",
-      "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字: YouTube, SoundCloud, Twitch)*",
+      "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字：YouTube, SoundCloud, Twitch)*",
       "not_playing": "%1$s我目前不在播放任何音樂。如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>",
       "dj_only": "%1$s你需要成為DJ才能使用這個指令。",
       "enjoy_note": "享受音樂吧 <3",
@@ -253,7 +253,7 @@
         "total_size": "總播放量",
         "togglers": "重複 / 暫停",
         "playing_in": "正在播放",
-        "footer": "總頁數: %1$d%2$s 目前頁數: %3$d",
+        "footer": "總頁數：%1$d%2$s 目前頁數：%3$d",
         "multiple_pages": " -> 使用 ~>queue <頁數> 改變頁數",
         "page_react": " -> 反應以更改頁數",
         "no_channel": "沒有頻道 :(",
@@ -282,7 +282,7 @@
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用 `~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
-        "error_loading": "%1$s取得歌曲時出錯: %2$s",
+        "error_loading": "%1$s取得歌曲時出錯：%2$s",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
@@ -308,7 +308,7 @@
       "no_time": "%1$s你需要告訴我你想倒轉的長度 *(範例：`~>rewind 1m45s`將會倒轉1分45秒)*",
       "negative": "%1$s僅限正整數",
       "before_beginning": "%1$s你無法倒轉至歌曲開頭之前",
-      "success": "%1$s倒轉歌曲至: %2$s。"
+      "success": "%1$s倒轉歌曲至：%2$s。"
     },
     "restartsong": {
       "success": "%1$s已重新播放目前歌曲。"
@@ -321,13 +321,13 @@
     "move": {
       "attempt": "%1$s我會試著移至你所在的頻道",
       "error_moving": "%1$s切換頻道失敗。",
-      "cannot_connect": "%1$s無法連接: 我沒有說話或移動成員的權限。",
+      "cannot_connect": "%1$s無法連接：我沒有說話或移動成員的權限。",
       "non_existent_channel": "%1$s我無法移動到一個不存在的頻道！",
       "success": "%1$s已把機器人移動去頻道 `%2$s` 了。",
       "vc_not_found": "%1$s無法找到語音頻道或者你沒有指明一個！"
     },
     "shard": {
-      "info": "我在Shard %1$d / %2$d (節點 %3$d / %4$d)!\n已緩存用戶: %5$,d\nShard伺服數: %6$,d\n如果需要協助，請瀏覽<https://support.mantaro.site>"
+      "info": "我在Shard %1$d / %2$d (節點 %3$d / %4$d)!\n已緩存用戶：%5$,d\nShard伺服數：%6$,d\n如果需要協助，請瀏覽<https://support.mantaro.site>"
     },
     "queue": {
       "clear": {
@@ -344,7 +344,7 @@
     },
     "nextsong": {
       "no_song_next": "%1$s哎，之後沒有任何歌曲了。",
-      "format": "%1$s隊列的下一首歌曲是: **%2$s** (%3$s) | * 隊列中總共有: %4$,d 首歌曲*"
+      "format": "%1$s隊列的下一首歌曲是：**%2$s** (%3$s) | * 隊列中總共有：%4$,d 首歌曲*"
     },
     "shuffle": {
       "success": "%1$s隨機地把目前的佇列中的次序打亂了。"
@@ -377,7 +377,7 @@
       "cleanup": "%1$s已從佇列中移除了 **%2$d 首歌曲**"
     },
     "volume": {
-      "check": "%1$s這一節的音量是: %2$d \n\n%3$s",
+      "check": "%1$s這一階段的音量是：%2$d \n\n%3$s",
       "success": "%1$s音量設置為 %2$d\n\n%3$s",
       "no_args": "%1$s你需要告訴我你想我設置音量為多少。(5至 100)",
       "premium_only": "%1$s這是僅限Premium用戶的功能。為了獲得像這個的高級功能，你可以贊助我們的Patreon (https://www.patreon.com/mantaro)。感謝您的理解哦！\n高級功能可以綁定到一位用戶或一個伺服器上。如果你贊助了我們，請加入Mantaro的伺服器來領取。"
@@ -386,7 +386,7 @@
       "no_current_track": "%1$s現在並沒有任何播放中的歌曲！",
       "error_searching": "%1$s 搜尋此歌曲時發生了錯誤，或是沒有此歌曲的結果。",
       "header": "%1$s %2$s 的歌詞",
-      "footer": "感謝使用Mantaro呀！頁數: %1$d, 總頁數:%2$d"
+      "footer": "感謝使用Mantaro呀！頁數：%1$d, 總頁數:%2$d"
     },
     "prefix": {
       "header": "%1$s 我默認的指令詞頭是 %2$s。 (用哪個都是OK的！) 此伺服器的自訂的指令詞頭是 `%3$s`。 (只可以在這伺服器上使用) 你可以通過輸入 `~>opts prefix set <prefix>` 設定一個新的詞頭，記得不要輸入那兩個<>唷。\n有任何疑問的話，你可以加入<https://support.mantaro.site> 看看。",
@@ -405,7 +405,7 @@
       "ls": {
         "header": "此伺服的自訂指令。",
         "description": "**這裡會顯示此伺服的所有自定義指令。**這裡的每個指令都跟Mantaro自身沒有任何關聯。\n\n自定義指令為用戶(通常是管理員)能夠因應各種場合自己創造的指令。\n如需更多資訊，請參與我們的Wiki頁面。(https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**清單：**",
-        "footer": "此伺服器的自定義指令數量: %1$s"
+        "footer": "此伺服器的自定義指令數量：%1$s"
       },
       "invalid": "%1$s指令選擇範圍無效。檢查指令幫助 (`help custom`)",
       "view": {
@@ -806,10 +806,10 @@
         "header": "Interactive Items List",
         "desc": "This is a list of all interactive items in Mantaro. For more info about interactive items check the wiki!"
       },
-      "use_command": "%1$sFor this item you need to use the command that's linked to the item! (mine for pick, fish for the fishing rod)",
+      "use_command": "%1$s對於此物品，你需要使用相對應的指令來使用他！(鎬子用mine，釣竿用fish等等)",
       "no_items_specified": "%1$sYou need to specify what item to use.",
       "not_interactive": "%1$sYou cannot interact with this item.",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
+      "interactive_no_action": "%1$s這個物品已被標記為可互動的，但並沒有任何動作。也許他有自己的指令？例如像鎬子的 `~>mine`。",
       "no_item": "%1$sYou don't have this item in your inventory.",
       "not_enough_items": "%1$sYou don't have enough of this item.",
       "too_little": "%1$sYou can't use less than 1 item.",
@@ -908,8 +908,8 @@
         "buff": "Buff",
         "buff_type": "Buff Type",
         "experience": "Experience",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
+        "mine_xp": "採礦經驗值",
+        "fish_xp": "釣魚經驗值",
         "chop_xp": "Chopping Experience",
         "sharks_caught": "Sharks Caught",
         "crates_open": "Crates Opened",
@@ -1294,7 +1294,7 @@
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠拍拍他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
       "no_marriage": "%1$sYou need to be married to have a pet. For now.",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
@@ -1312,7 +1312,7 @@
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
-        "abilities": "*Fish*: Useful for `~>fish`\n*Catch*: Useful for `~>mine`\n*Chop*: Useful for `~>chop`\n*Cheer*: Gives you a nice morale boost.",
+        "abilities": "*Fish*：對 `~>fish` 有用\n*Catch*：對 `~>mine` 有用\n*Chop*：對 `~>chop` 有用\n*Cheer*：鼓舞你的情緒",
         "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
       "pat": {
@@ -1629,34 +1629,34 @@
     "mine": {
       "not_equipped": "%1$s你沒有任何已裝備的鎬子。使用 `~>equip <鎬子名稱>` 來裝備鎬子並開始你的旅程！",
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`.",
-      "not_suitable": "%1$sThis is not a pick you can use to mine!",
-      "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
-      "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
+      "not_suitable": "%1$s你無法使用這個來挖礦！",
+      "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
+      "success": "%1$s你用*%3$s*開採了價值**%2$,d元**的礦物",
+      "reminder": "\n*你可以使用採礦時獲得的寶石來鑄造更好的鎬子。使用 `~>cast ls` 來查看所有你能鑄造的東西*",
       "diamond": {
-        "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
-        "success": "Huh! You got lucky and found %1$s diamond(s) while mining, check your inventory!"
+        "overflow": "你在採礦時時發現了一顆鑽石，但是你已經擁有太多了，所以我為你出售了。",
+        "success": "你在採礦時幸運的找到了%1$s顆鑽石，檢查你的背包！"
       },
       "gem": {
-        "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
-        "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory."
+        "overflow": "你在採礦時時發現了 *%1$s*，但是你已經擁有太多了，所以我為你出售了。",
+        "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。"
       },
       "sparkle": {
-        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
-        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+        "overflow": "你找到了閃閃發光的寶石，不過你好像已經擁有太多了，所以我為你出售了。",
+        "success": "耶！你找到了一個%1$s閃閃發光的寶石。記得別把它弄丟，檢查你的背包。"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "你在挖礦時找到了一個 **%1$s**，不過你因為擁有太多了，就把他拋在後面了...",
+        "success": "你在挖礦的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的鎬子欄位。"
       },
-      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
+      "item_broke": "%1$s你的%2$s壞了 :( %3$s",
       "item_broke_autoequip": "*提示：你可以使用 `~>profile autoequip` 來開啟自動裝備，當物品損壞時他將會為你自動裝備回相同物品，前提是你的背包內還有另外一個*",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
+      "waifu_help": "你的waifu加入了你的採礦冒險，你們都得到了更多的收穫!",
       "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備鎬子已重設。",
-      "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
+      "broken_drop": "%1$s你的工具壞掉了，但是你還可以修理它。得到損壞物品：%2$s *%3$s*"
     },
     "chop": {
       "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備斧頭並開始你的旅程！",
@@ -2350,34 +2350,34 @@
       "haste": "Allows you to collect more stuff from currency commands for 2 sessions.",
       "milky": "Clears all potion effects.",
       "energy": "Makes a tool lose less durability per swing. Lasts 3 sessions.",
-      "rod": "Enables you to fish. (40 durability)",
-      "fish": "Fish. Caught in fishing.",
-      "tropical_fish": "A very tropical fish. Caught in fishing.",
-      "blowfish": "I wonder... is this good? Caught in fishing.",
+      "rod": "讓你釣魚用的。(耐久度 40)",
+      "fish": "魚。釣魚時釣到的。",
+      "tropical_fish": "一條非常熱帶的魚。釣魚時釣到的。",
+      "blowfish": "我在想... 這東西好嗎？釣魚時釣到的。",
       "comet_gem": "Fragments of a comet you found while mining. Useful for casting.",
       "star_gem": "Fragments of a fallen star you found while mining.",
-      "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
+      "cobweb": "地底內蜘蛛殘留下來的。也許它值得一些錢。",
       "fragment": "Fragment of an ancient gem. Useful for casting.",
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
       "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
-      "bait": "Gives you a higher chance of catching fish.",
-      "diamond_pick": "A very much stronger pick (150 durability). (`~>mine` tool).",
+      "waifu_pill": "當你的其中一個Waifu價值高於20000時，將帶給你挖礦和釣魚時的顯著優勢。可維持五次活動。",
+      "bait": "使你更有機會釣到魚。",
+      "diamond_pick": "一個很堅固的鎬子 (耐久度 150)。(`~>mine` 的工具)。",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
       "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
       "motorcycle": "Going around, the cool way.",
-      "comet_pick": "A very much stronger pick (160 durability). (`~>mine` tool).",
-      "star_pick": "A very much stronger pick (210 durability). (`~>mine` tool).",
+      "comet_pick": "一個很堅固的鎬子 (耐久度 160)。(`~>mine` 的工具)。",
+      "star_pick": "一個很堅固的鎬子 (耐久度 210)。(`~>mine` 的工具)。",
       "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe & sparkle rods)",
-      "sparkle_pick": "The strongest pick out there (450 durability). (`~>mine` tool)",
+      "sparkle_pick": "最堅固的鎬子 (耐久度 450)。(`~>mine` 的工具)。",
       "pizza": "Yummy.",
-      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "mine_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem crate` 開啟",
+      "fish_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate treasure` 開啟",
+      "mine_premium_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem premium crate` 開啟",
+      "fish_premium_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate premium treasure` 開啟",
       "comet_rod": "A slightly stronger rod. (90 durability)",
       "star_rod": "A stronger rod. (130 durability)",
       "sparkle_rod": "A way stronger rod. (250 durability)",
@@ -2391,9 +2391,9 @@
       "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
       "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
       "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
-      "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
-      "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
+      "broken_comet_rod": "釣魚時釣斷了的彗星釣竿。還是可回收的。",
+      "broken_sparkle_rod": "釣魚時釣斷了的火花釣竿。還是可回收的。",
+      "broken_star_rod": "釣魚時釣斷了的星星釣竿。還是可回收的。",
       "incubator_egg": "TBD",
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!",
@@ -2401,7 +2401,7 @@
       "steak": "Very yummy if you're not vegetarian.",
       "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
       "milk_3": "Very good food for cats, I've heard.",
-      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
+      "dog_food": "你的狗狗可能很喜歡的食物。或是他們更喜歡麵包，像我的。",
       "cat_food": "Food your cat might like a lot.",
       "hamster_food": "Food your hamster might enjoy.",
       "wood": "Common drop from trees. Useful for casting.",
@@ -2422,7 +2422,7 @@
       "rock": "A rock. Yep. It's very hard, isn't it?",
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
       "broken_moon_axe": "A moon axe that broke while chopping. Still salvageable.",
-      "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
+      "broken_moon_rod": "釣魚時釣斷了的月亮釣竿。還是可回收的。",
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable."
