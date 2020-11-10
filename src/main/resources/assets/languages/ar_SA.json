@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sهنا, البوتات ليس لديها مخزون. حسناََ, افي بعض الأحيان قد ترغب في أن يكون لديهم واحد ولكن بعد ذلك سيكون فقط  `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s ستحصل على **%3$,d مال** إذا تم بيع جميع أغراضك. ",
       "header": "مخزون %1$s",
       "format": "**سعر**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sالمخزون هذا فاضي! :(",
-      "brief_notice": "يمكنك إستخدام `~>inventory -brief` للحصول على نسخة صديقة للهاتف."
+      "brief_notice": "يمكنك إستخدام `~>inventory -brief` للحصول على نسخة صديقة للهاتف.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sلم أجد اي غرض يُطابق هذا، اذا اسم الغرض يحتوي على مسافات، ضعه في \"اقتباسات\"",
@@ -898,6 +899,10 @@
         "reset_success": "%1$sتم بنجاح إعادة تعيين إعدادات لغتك الخاصة.",
         "success": "%1$sسيتحدث لك مونتارو الآن في `%2$s`",
         "invalid": "%1$sهذه اللغة غير موجودة! يمكنك إستخدام أمر `reset` لإعادة تعيين إعدادات لغتك. "
+      },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
       "stats": {
         "header": "إحصائيات الملف ل %1$s",
