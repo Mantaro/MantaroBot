@@ -54,10 +54,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import okhttp3.Request;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -286,7 +283,7 @@ public class ProfileCmd {
                 if (type == null) {
                     ctx.sendLocalized("commands.profile.inventorysort.not_valid",
                             EmoteReference.ERROR, Arrays.stream(InventorySortType.values())
-                                    .map(b1 -> "`" + b1.toString() + "`")
+                                    .map(b1 -> b1.toString().toLowerCase())
                                     .collect(Collectors.joining(" ,"))
                     );
                     return;
