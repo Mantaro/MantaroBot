@@ -138,10 +138,15 @@ public class CurrencyCmds {
                     }
 
                     var inventory = languageContext.get("commands.inventory.sorted_by")
-                            .formatted(playerData.getInventorySortType().toString().toLowerCase()) + "\n\n" +
+                            .formatted(playerData
+                                    .getInventorySortType()
+                                    .toString()
+                                    .toLowerCase()
+                                    .replace("_", " ")
+                            ) + "\n\n" +
                             inventoryList.stream()
                                     .sorted(playerData.getInventorySortType().getSort().getComparator())
-                                    .map(is -> is.getItem().getEmoji() + " x" + is.getAmount() + " ")
+                                    .map(is -> is.getItem().getEmoji() + " x" + is.getAmount() + " \u2009\u2009")
                                     .collect(Collectors.joining(" "));
 
                     var message = ctx.getLanguageContext().get("commands.inventory.brief")
