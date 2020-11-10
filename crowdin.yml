@@ -1,4 +1,4 @@
-"commit_message": "Add(lang): New translations %original_file_name% from Crowdin"
+"commit_message": "Add(lang): New translations on %locale_with_underscore% (%original_file_name%)"
 "append_commit_message": false
 
 files:
