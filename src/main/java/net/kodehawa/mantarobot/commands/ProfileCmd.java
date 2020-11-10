@@ -273,7 +273,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("inventorysort", new SubCommand() {
             @Override
             public String description() {
-                return "Sets how you wanna sort your inventory. Possible values: `VALUE, AMOUNT, TYPE`.";
+                return "Sets how you wanna sort your inventory. Possible values: `VALUE, VALUE_TOTAL, AMOUNT, TYPE, RANDOM`.";
             }
 
             @Override
