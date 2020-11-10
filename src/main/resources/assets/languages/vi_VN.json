@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sĐây, bot không có tủ đồ. Ừ thì, có thể bạn ước rằng nó có, nhưng nếu vậy nó sẽ là `~>market dump` (đồ bỏ đi)",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s sẽ được **%3$,d tín** nếu tất cả các đồ trong tủ được bán.",
       "header": "Tủ đồ của %1$s",
       "format": "**Giá cả**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sTủ đồ này đang trống! :(",
-      "brief_notice": "Bạn có thể ra lệnh `~>inventory -brief` để lấy bản phù hợp với điện thoại."
+      "brief_notice": "Bạn có thể ra lệnh `~>inventory -brief` để lấy bản phù hợp với điện thoại.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sTôi không tìm thấy đồ nào như vậy. Nếu tên đồ có dấu cách, hãy cho nó vào trong \"dấu ngoặc kép\"",
@@ -898,6 +899,10 @@
         "reset_success": "%1$sĐã đặt lại thành công cài đặt ngôn ngữ cá nhân.",
         "success": "%1$sMantaro sẽ nói chuyện với bạn bằng tiếng `%2$s` kể từ lúc này",
         "invalid": "%1$sNgôn ngữ này hiện chưa có! Bạn có thể dùng `reset` để đặt lại cài đặt ngôn ngữ."
+      },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
       "stats": {
         "header": "Hồ sơ thống kê cho %1$s",
