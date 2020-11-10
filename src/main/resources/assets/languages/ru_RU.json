@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sУ ботов не бывает инвентаря. Используйте команду: `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s получили бы **%3$d кредитов** если бы продали все предметы.",
       "header": "%1$s's инвентарь",
       "format": "**Цена**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sЭтот инвентарь пуст! :(",
-      "brief_notice": "Используйте `~>inventory -brief` чтобы получить мобильную версию."
+      "brief_notice": "Используйте `~>inventory -brief` чтобы получить мобильную версию.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sЯ не нашел предеметов подходящих под это.",
@@ -898,6 +899,10 @@
         "reset_success": "%1$sУспешно сброшены настройки вашего личного языка.",
         "success": "%1$sMantaro общается теперь с вами на `%2$s`",
         "invalid": "%1$sТакого языка не существует! Вы можете использовать `reset` для сброса настроек языка."
+      },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
       "stats": {
         "header": "Статистика профиля %1$s",
