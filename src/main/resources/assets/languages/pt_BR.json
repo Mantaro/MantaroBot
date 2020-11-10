@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sEsse inventário está vazio! :(",
-      "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis."
+      "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sEu não achei nenhum item correspondente.",
@@ -764,7 +765,7 @@
       "buy": {
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
-        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
+        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se estiver perdido, você pode digitar o nome abreviado ou coloca-lo entre aspas. Além disso, a quantidade do item vai antes do nome do item, exemplo: `~>market buy 15 energy`",
         "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
         "item_limit_reached": "%1$sVocê não pode comprar mais desse objeto.",
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
@@ -813,7 +814,7 @@
       "no_item": "%1$sVocê não tem esse item no seu inventário...",
       "not_enough_items": "%1$sVocê não tem o suficiente deste item.",
       "too_little": "%1$sVocê não pode usar menos de 1 item.",
-      "invalid_amount": "%1$sA quantidade precisa ser um número válido entre `1` e `9`!"
+      "invalid_amount": "%1$sA quantidade precisa ser um número válido entre `1` e `15`!"
     },
     "opts": {
       "note": "%1$sEi, se você estiver perdido ou quer ajuda sobre o uso do opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar o opts.\nNota: Apenas administradores, pessoas com Gerenciar Servidor ou pessoas com o cargo Bot Commander podem usar esse comando!",
@@ -899,6 +900,10 @@
         "success": "%1$sMantaro agora irá falar com você em `%2$s`",
         "invalid": "%1$sEssa língua não existe! Você pode usar `reset` para resetar sua configuração de idioma."
       },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+      },
       "stats": {
         "header": "Estatísticas do Perfil Para %1$s",
         "wins": "Vitórias no Casino",
@@ -939,12 +944,12 @@
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
         "not_equipped": "%1$sVocê não te isso equipado.",
-        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara ou picareta) se você quiser desequipar."
+        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (Tipo pode ser vara, machado ou picareta) se você quiser desequipar ele."
       },
       "unequip": {
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
-        "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, rod`",
-        "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, rod`",
+        "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, axe, rod`",
+        "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, axe, rod`",
         "confirm": "%1$sVocê tem certeza que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
@@ -981,7 +986,7 @@
       "birthday": "Aniversário",
       "married": "Casado(a) com",
       "nobody": "Ninguém",
-      "inventory": "Item Collection (Top 15)",
+      "inventory": "Coleção de Item (Top 15)",
       "badges": "Top 5 Insígnias",
       "no_badges": "Sem insígnias (ainda!)",
       "no_timezone": "Não definido",
@@ -1687,6 +1692,7 @@
       "credits": "créditos"
     },
     "leaderboard": {
+      "main_page_redirect": "Você pode ver `~>help leaderboard` para uma lista de leaderboards disponíveis.\nSe você estiver procurando o leaderboard de dinheiro, digite `~>leaderboard money`",
       "header": "Tabela de classificações da Mantaro",
       "header_seasonal": "Leaderboard da temporada %1$s da Mantaro",
       "money": "Classificações de Dinheiro",
@@ -2346,9 +2352,9 @@
       "bell": "Recompensa de natal. Dá-lhe um sentimento de natal a sua árvore.",
       "tree": "Recompensa de natal. Quem não gosta de uma árvore de natal?.",
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
-      "haste": "Permite você coletar mais coisas de comandos de saque por 2 sessões.",
+      "haste": "Permite que você colete mais coisas de comandos de moeda por 2 sessões.",
       "milky": "Limpa todos os efeitos de poção.",
-      "energy": "Faz uma picareta, machado ou vara perder menos durabilidade durante uma jogada. Dura apenas 3 sessões de mineração/pesca.",
+      "energy": "Faz uma ferramenta perder menos durabilidade por uso. Dura 3 sessões.",
       "rod": "Permite que você pesque. (40 de durabilidade)",
       "fish": "Peixe. Pego na pesca.",
       "tropical_fish": "Um peixe muito tropical. Pego na pesca.",
@@ -2416,7 +2422,7 @@
       "hellfire_rod": "Uma vara muito OP (muita durabilidade, descubra ;)).",
       "leaves": "Um drop lento de uma árvore que você tentou cortar.",
       "apple": "Você por acaso cortou uma macieira e a maçã caiu na sua cabeça. Ouch.",
-      "pear": "Você por acaso cortou uma macieira e uma pera caiu na sua cabeça. Ouch.",
+      "pear": "Você por acaso cortou uma pereira e uma pera caiu na sua cabeça. Ouch.",
       "cherry_blossom": "Um drop muito lento de uma cerejeira. Adorável, hein?",
       "rock": "Uma pedra. Sim. É muito dura, não é?",
       "broken_moon_pick": "Uma picareta de lua que quebrou enquanto minerava. Ainda recuperável.",

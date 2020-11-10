@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sУ ботов не бывает инвентаря. Используйте команду: `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s получили бы **%3$d кредитов** если бы продали все предметы.",
       "header": "%1$s's инвентарь",
       "format": "**Цена**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sЭтот инвентарь пуст! :(",
-      "brief_notice": "Используйте `~>inventory -brief` чтобы получить мобильную версию."
+      "brief_notice": "Используйте `~>inventory -brief` чтобы получить мобильную версию.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sЯ не нашел предеметов подходящих под это.",
@@ -764,7 +765,7 @@
       "buy": {
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
         "invalid": "%1$sНедопустимое количество предметов для покупки.",
-        "non_existent": "%1$sВы не можете купить несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sВы не можете купить этот предмет.",
         "item_limit_reached": "%1$sВы не можете купить больше этого объекта.",
         "success": "%1$sУспешно куплены %2$,d %3$s за %4$,d кредитов. У вас осталось %5$,d кредитов.",
@@ -813,7 +814,7 @@
       "no_item": "%1$sВ вашем инвентаре нет этого предмета...",
       "not_enough_items": "%1$sУ вас не хватет этого.",
       "too_little": "%1$sВы не можете использовать меньше одного предмета.",
-      "invalid_amount": "%1$sКоличество должно быть действительным числом от «1» до «9»!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sХей, проверь <https://github.com/Mantaro/MantaroBot/wiki/Configuration> там есть вся нужна информация по opts.\nЗаметка: Только администраторы или люди с ролью Bot Commander могут использовать эту команду!",
@@ -899,6 +900,10 @@
         "success": "%1$sMantaro общается теперь с вами на `%2$s`",
         "invalid": "%1$sТакого языка не существует! Вы можете использовать `reset` для сброса настроек языка."
       },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+      },
       "stats": {
         "header": "Статистика профиля %1$s",
         "wins": "Выигрышей в казино",
@@ -939,12 +944,12 @@
         "success": "%1$sВы успешно экипировали %2$s *%3$s*, он будет использован в следующий раз при использовании команды автоматически.",
         "not_suitable": "%1$sВы не можете это экипировать.",
         "not_equipped": "%1$sУ вас этого нет.",
-        "already_equipped": "%1$sУ вас уже экипирован предмет этого типа! Попробуйте `~>unequip <type>` (Типом может быть удочка или кирка) если хотите снять его."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sУ вас ничего не экипировано в данном слоте.",
-        "no_content": "%1$sВам надо уточнить тип прибора чтобы его снять, им могут быть одно из `pick, rod`",
-        "invalid_type": "%1$sНеверный тип. Допустимые типы: `pick, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sУспешно снят ваш %2$s слот.",
         "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
@@ -1687,6 +1692,7 @@
       "credits": "кредитов"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Доска лидеров Мантаро",
       "header_seasonal": "%1$s сезонная доска лидеров Мантаро",
       "money": "Доска лидеров по деньгам",
@@ -2346,9 +2352,9 @@
       "bell": "Нагарда за рождественский ивент 2017/2018. Делает твою ёлку немного уютнее.",
       "tree": "Нагарда за рождественский ивент 2017/2018. Кому не нравятся рождественские ёлки?.",
       "pants": "По идее, ты носишь это на ногах... обнадёживающе.",
-      "haste": "Позволяет получать больше вещей от раскопок на 2 действия.",
+      "haste": "Allows you to collect more stuff from currency commands for 2 sessions.",
       "milky": "Убирает все негативные эффекты.",
-      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 3 sessions.",
       "rod": "Позволяет ловить рыбу. (20% шанс поломки)",
       "fish": "Рыба. Поймана на рыбалке.",
       "tropical_fish": "Очень тропическая рыба. Поймана на рыбалке.",
@@ -2416,7 +2422,7 @@
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
-      "pear": "You happened to chop an apple tree and the pear fell on your head. Ouch.",
+      "pear": "You happened to chop a pear tree and the pear fell on your head. Ouch.",
       "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
       "rock": "A rock. Yep. It's very hard, isn't it?",
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
