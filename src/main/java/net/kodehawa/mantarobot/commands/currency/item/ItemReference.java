@@ -354,14 +354,14 @@ public class ItemReference {
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 160, 100, 10, 48, 101
+                    "1;2;7", 180, 100, 10, 48, 101
             ),
 
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f,
                     1, 10, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
                     350, true, false,
-                    "1;2;7", 210, 100,10, 49, 101
+                    "1;2;7", 220, 100,10, 49, 101
             ),
 
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55",
@@ -414,14 +414,14 @@ public class ItemReference {
                     1, 15, EmoteReference.COMET_ROD.getDiscordNotation(),
                     "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod",
                     150,
-                    "1;3;3", 90, 44, 48, 101
+                    "1;3;3", 130, 44, 48, 101
             ),
 
             STAR_ROD = new FishRod(ItemType.FISHROD, 9,
                     2, 10, EmoteReference.STAR_ROD.getDiscordNotation(),
                     "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod",
                     250,
-                    "1;3;3", 130, 44, 49, 101
+                    "1;3;3", 170, 44, 49, 101
             ),
 
             OLD_SPARKLE_ROD = new FishRod(ItemType.DEPRECATED, 3,
@@ -447,7 +447,7 @@ public class ItemReference {
                     3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),
                     "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod",
                     800,
-                    "1;3;1;3", 250, 44, 74, 18, 101
+                    "1;3;1;3", 300, 44, 74, 18, 101
             ),
 
             SHELL = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A",
@@ -630,7 +630,7 @@ public class ItemReference {
                     1, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
                     "Moon Axe", "items.moon_axe", "items.description.moon_axe",
                     1000, true, false,
-                    "1;3;2;10", 330, 130, 104, 83, 18, 101
+                    "1;3;2;10", 350, 130, 104, 83, 18, 101
             ),
 
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE_NODROP, 0.00001f,
@@ -643,7 +643,7 @@ public class ItemReference {
             MOON_ROD = new FishRod(ItemType.FISHROD_RARE, 12, 1,
                     4, EmoteReference.MOON_ROD.getDiscordNotation(),
                     "Moon Rod", "items.moon_rod", "items.description.moon_rod",
-                    800, "1;3;3", 170, 44, 83, 101
+                    800, "1;3;3", 200, 44, 83, 101
             ),
 
             HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 14,
