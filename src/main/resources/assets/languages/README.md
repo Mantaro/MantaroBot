@@ -27,13 +27,12 @@ You may add yourself to this table or ask to be added while making a translation
 
 | Language | Name |
 |:--------:|:-----|
-| Spanish (CL) | Kodehawa#3457 ([@Kodehawa](https://github.com/Kodehawa)) |
-| Spanish (ES) | agupal#4466 |
-| German (DE) | Vrontis#8513 ([@Vrontis](https://github.com/Vrontis)), Five#0001, Tamos#0534 |
-| Lithuanian (LT) | Ghostwolf#0001 ([@TheOnlyGhostwolf](https://github.com/TheOnlyGhostwolf)) |
-| Dutch (NL) | JynXi#4043 (No GitHub) |
-| French (FR) | Baba#3647 ([@thebaba98](https://github.com/thebaba98)) |
-| Arabic (AR) | ZeusRoyal#8888 |
+| Spanish | Kodehawa#3457 ([@Kodehawa](https://github.com/Kodehawa)), agupal#4466 |
+| German | Vrontis#8513 ([@Vrontis](https://github.com/Vrontis)), Five#0001, Tamos#0534 |
+| Lithuanian | Ghostwolf#0001 ([@TheOnlyGhostwolf](https://github.com/TheOnlyGhostwolf)) |
+| Dutch | JynXi#4043 |
+| French | Baba#3647 ([@thebaba98](https://github.com/thebaba98)) |
+| Arabic | ZeusRoyal#8888 |
 | Filipino | FlightlessAzrael#8086
 | Japanese | NDQ1049#1231, tuna#0660 |
 | Dutch | rabbit#0001, ~ Pixi#9999 |
