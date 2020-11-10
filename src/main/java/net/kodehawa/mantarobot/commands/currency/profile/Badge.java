@@ -624,7 +624,7 @@ public enum Badge {
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E",
             "Have more than 8 billion credits at any given time (pre-reset).",
             92, 92,
-            ((player, dbUser) -> player.getOldMoney() > 7526527671L), false
+            ((player, dbUser) -> false), false
     ),
 
     //Legacy Badge DJ
