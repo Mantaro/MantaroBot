@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
       "header": "Inwentarz %1$s",
       "format": "**Cena**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sTen inwentarz jest pusty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version."
+      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
@@ -898,6 +899,10 @@
         "reset_success": "%1$sSuccessfully reset your personal language settings.",
         "success": "%1$sMantaro will now talk to you in `%2$s`",
         "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+      },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
       "stats": {
         "header": "Statystyki profilu %1$s",
