@@ -666,15 +666,15 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.experience"),
-                                     "%,d/%,d XP".formatted(playerData.getExperience(), experienceNext)
+                                    "%,d/%,d XP".formatted(playerData.getExperience(), experienceNext)
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.mine_xp"),
-                                     "%,d XP".formatted(playerData.getMiningExperience())
+                                    "%,d XP".formatted(playerData.getMiningExperience())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.chop_xp"),
-                                     "%,d XP".formatted(playerData.getChopExperience())
+                                    "%,d XP".formatted(playerData.getChopExperience())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
@@ -712,7 +712,7 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.dust"),
-                                    "%d %".formatted(data.getDustLevel())
+                                    "%d".formatted(data.getDustLevel())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.reminders"),
@@ -732,7 +732,6 @@ public class ProfileCmd {
                                     )
                             )
                     );
-
 
                     ctx.send(new EmbedBuilder()
                             .setThumbnail(toLookup.getEffectiveAvatarUrl())
