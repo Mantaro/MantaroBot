@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
-      "brief": "**Coleção de item de %1$s:** %2$s\n\n*Se você quiser uma versão mais detalhada disso, use `~>inventory -info`. Aprecie seu dia!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sEsse inventário está vazio! :(",
-      "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis."
+      "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sEu não achei nenhum item correspondente.",
@@ -898,6 +899,10 @@
         "reset_success": "%1$sRedefinida com sucesso sua configuração pessoal de idioma.",
         "success": "%1$sMantaro agora irá falar com você em `%2$s`",
         "invalid": "%1$sEssa língua não existe! Você pode usar `reset` para resetar sua configuração de idioma."
+      },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
       "stats": {
         "header": "Estatísticas do Perfil Para %1$s",
