@@ -414,14 +414,14 @@ public class ItemReference {
                     1, 15, EmoteReference.COMET_ROD.getDiscordNotation(),
                     "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod",
                     150,
-                    "1;3;3", 130, 44, 48, 101
+                    "1;2;3", 130, 44, 48, 101
             ),
 
             STAR_ROD = new FishRod(ItemType.FISHROD, 9,
                     2, 10, EmoteReference.STAR_ROD.getDiscordNotation(),
                     "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod",
                     250,
-                    "1;3;3", 170, 44, 49, 101
+                    "1;2;3", 170, 44, 49, 101
             ),
 
             OLD_SPARKLE_ROD = new FishRod(ItemType.DEPRECATED, 3,
@@ -643,7 +643,7 @@ public class ItemReference {
             MOON_ROD = new FishRod(ItemType.FISHROD_RARE, 12, 1,
                     4, EmoteReference.MOON_ROD.getDiscordNotation(),
                     "Moon Rod", "items.moon_rod", "items.description.moon_rod",
-                    800, "1;3;3", 200, 44, 83, 101
+                    800, "1;2;3", 200, 44, 83, 101
             ),
 
             HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 14,
