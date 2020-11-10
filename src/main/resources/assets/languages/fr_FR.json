@@ -57,8 +57,8 @@
       "potion_not_found": "%1$sJe ne trouve pas ce type de potion ou d'équipement!",
       "potion_applied": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès (%4$dx). Regarde ton nouvel effet avec `~>profile stats`",
       "potion_applied_multiple": "%1$sEffet **%2$s** du type *%3$s* appliqué avec succès.\nTu l'avais déjà nous les avons donc additionné. Nombre d'effets accumulés : %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
+      "max_stack_size": "%1$sTu as déjà regroupé le maximum de %2$s que possible. (Maximum: 15, Après regroupement: %3$s)",
+      "max_stack_size_2": "%1$sTu ne peux pas regrouper autant de %2$s. (Maximum: 15, Tentative: %3$s)",
       "not_same_potion": "%1$sTu as déjà accumulé 2 potions de type %2$s, tu ne peux donc pas y ajouter un potion de %3$s."
     },
     "campaigns": {
@@ -68,14 +68,14 @@
         "thanks_message": "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:",
         "thanks_message_daily": "Merci de soutenir Mantaro. Sans l'aide de gens comme toi on ne pourrait pas garder Mantaro en vie :heart:\nObtiens également double crédits en guise de bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Savais-tu que nous avons un Twitter? Eh oui! suis nous à (at)mantarodiscord <https://twitter.com/mantarodiscord> pour des mises à jour et quelques bricoles."
     },
     "mention_user_required": "%1$sTu as besoin de mentionner un utilisateur.",
     "invalid_character": "%1$sCe n'est pas un caractère valide.",
     "invalid_action": "Tu ne peux pas faire ça, idiot.",
     "interactive_running": "%1$sIl y a déjà une opération interactive (qui t'appartient) sur ce salon.",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_react": "Utilise les réactions pour naviguer entre les pages.\n%1$s",
+    "buy_sell_paged_text": "Utilise **&p >>** et **&p <<** pour naviguer à travers les pages.\n%1$s",
     "buy_sell_paged_reference": "**Référence %1$s Acheter %2$s Vendre.**",
     "cancelled": "%1$sDemande annulée.",
     "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
@@ -88,7 +88,7 @@
       "spam_3": "\nCe serait pas mieux si tu sortais un peu?",
       "spam_4": "\nEst-ce que ce truc est allumé au moins?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Si tu veux, rejoins notre **serveur de support**, (`https://support.mantaro.site`), ou va voir notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). Dis leur de cesser de me faire imploser s'il te plait et n'oublie pas l'ID de l'erreur, la commande que tu as utilisée et ta node (vue grâce à `~>shard`) lorsque tu remontes un souci!",
     "boom_quotes": [
       "Apparemment, Megumin a fait exploser notre château ... ",
       " Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol :<",
@@ -240,13 +240,13 @@
       "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
       "queue": {
         "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
+        "header_noreact": "Utilise `&p >>` et `&p <<` pour naviguer à travers les pages.",
         "no_track_found_np": "Rien ou titre/ durée non trouvé",
         "header": "Lise de lecture du serveur %1$s",
         "nothing_playing": "Rien ici, que de la poussière. Pourquoi n'ajoutes tu pas des chansons à la liste de lecture ?\nSi tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "nothing_playing_2": "**S'il y a un morceau en train de jouer et que tu n'as pas ajouté de musique, alors c'est qu'il n'y a que de la poussière ici. Tu peux ajouter d'autres musiques à la liste de lecture !!**",
         "np": "Joue en ce moment",
-        "dj_np": "**Queued by:** ",
+        "dj_np": "**Mis dans la liste par:** ",
         "page_overflow": "Rien ici, que de la poussière. Pourquoi ne pas revenir en arrière de quelques pages ?",
         "page_overflow_2": "Si tu penses qu'il y a des chansons ici mais qu'elles n'apparaissent pas, essaies d'utiliser `~>queue 1`.",
         "total_queue_time": "Durée total de la liste de lecture",
@@ -286,7 +286,7 @@
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
         "over_32_minutes": "%1$s**Je n'ai pas pu ajouter `%2$s` à la file d'attente: Cette musique est plus longue que %3$s.**\n(La durée de ce morceau est %4$s).\nTu peux augmenter la limite de longueur des musique et des rediffusions de stream grâce à Mantaro Premium! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
         "fair_queue_limit_reached": "%1$s**Niveau de la file d'attente dépassé de %2$d (Trop de musiques similaires)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
+        "loaded_song": "%1$sAjouté à la liste -> **%2$s** *(%3$s)*",
         "selection_text": "Sélection du morceau. Écris le numéro de la chanson pour continuer.",
         "timeout_text": "Cela expirera dans 30 secondes. Ecris &cancel pour annuler."
       },
@@ -585,34 +585,34 @@
         "date": "Date de mariage",
         "love_letter": "Lettre d'amour",
         "waifus": "Possession de Waifu",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "house": "Nom de la maison",
+        "car": "Nom de la voiture",
+        "pet": "Nom de l'animal de compagnie (Type)"
       },
       "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+        "no_content": "%1$sTu dois spécifier le fuseau horaire si tu veux que ce mariage soit suivi.",
+        "invalid": "%1$sFuseau horaire ou ID de zone invalide.",
+        "success": "%1$sFuseau horaire du mariage réglé sur %2$s avec succès. Ce sera le même pour les animaux de compagnie."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sTu n'es pas marié.e."
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
-        "no_name": "%1$sYou need to give your house a name!",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "not_married": "%1$sTu ne peux acheter une maison qu'en étant marié.e. Cela pourrait changer à l'avenir.",
+        "no_house": "%1$sTu dois posséder une maison dans ton inventaire. Utilises  `~>market buy house` pour en avoir une.",
+        "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter plus d'emplacements! (Prix actuel d'une maison: %2$d credits.)",
+        "no_name": "%1$sVous devez donner un nom à la maison!",
+        "confirm": "%1$sTu es sûr.e de vouloir acheter cette maison? Le prix déduit de ton portefeuille est %2$d et le nom de ta maison sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
+        "success": "%1$sTu as acheté ta maison pour %2$d credits avec succès. Le nom de ton nouveau nid douillet est %3$s, profites-en!",
+        "cancel_success": "%1$sOpération annulée."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
-        "no_name": "%1$sYou need to give your car a name!",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "no_car": "%1$sTu dois d'abord acheter une voiture! Utilise `~>market buy car` pour ce faire.",
+        "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter une voiture! (Prix actuel d'une voiture: %2$d credits.)",
+        "no_name": "%1$sVous devez donner un nom à la voiture!",
+        "confirm": "%1$sTu es sûr.e de vouloir acheter cette voiture? Le prix déduit de ton portefeuille est %2$d et le nom de ta voiture sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
+        "success": "%1$sTu as acheté ta voiture pour %2$d credits avec succès. Le nom de ton nouveau bolide est %3$s, profites-en!",
+        "cancel_success": "%1$sOpération annulée."
       },
       "no_mention": "%1$sMentionne l'utilisateur auquel tu veux te marier.",
       "marry_yourself_notice": "%1$sTu ne peux pas te marier à toi-même, même si tu le souhaites vraiment.",
@@ -627,11 +627,11 @@
       "denied": "%1$sa refusé la demande de **%2$s**"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel.",
-      "cancelled": "%1$sCancelled divorce.",
+      "confirm": "%1$sEs-tu sûr.e de vouloir divorcer? L'argent dépensé en animaux de compagnie, maisons et voitures sera divisé entre vous. Envoie `oui` pour continuer ou `no` pour annuler.",
+      "cancelled": "%1$sDivorce annulé.",
       "not_married": "%1$sTu n'es marié.s à personne, pourquoi ne trouves-tu pas cette personne spéciale?",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
+      "success": "%1$sMaintenant tu es célibataire. Super je suppose.\n%2$s",
+      "split": "L'argent restant à été partagé entre les deux conjoint.e.s par la vente de leurs biens( animal, maison, voiture). Chacun d'eux en garde **%1$d** credits."
     },
     "waifu": {
       "bot": "%1$sUn bot ne peut pas être une waifu, même si tu le souhaites vraiment...",
@@ -704,12 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `~>market dump`",
-      "brief": "**%1$s's item collection:** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s's item collection** %2$s\n\n*If you want a more detailed version of this, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
       "format": "**Prix**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sCet inventaire est vide! :(",
-      "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile."
+      "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile.",
+      "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sJe n'ai trouvé aucun objet qui corresponde à ça.",
@@ -764,7 +765,7 @@
       "buy": {
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
-        "non_existent": "%1$sTu ne peux pas acheter un objet non existant! Si tu es perdu.e, tu peux essayer d'utiliser son nom abrégé ou de mettre son nom entre guillemets.",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
         "item_limit_reached": "%1$sTu ne peux pas acheter plus de cet objet.",
         "success": "%1$sAchat de %2$,d %3$s pour %4$,d credits. Tu as désormais %5$,d credits.",
@@ -813,7 +814,7 @@
       "no_item": "%1$sTu n'as pas cet objet dans ton inventaire...",
       "not_enough_items": "%1$sTu n'en as pas assez.",
       "too_little": "%1$sTu ne peux pas utiliser moins d'un objet.",
-      "invalid_amount": "%1$sLe montant doit être un nombre compris entre `1` et `9`!"
+      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
     },
     "opts": {
       "note": "%1$sHey, si tu es perdu.e ou que tu veux de l'aide pour utiliser opts, va sur <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour avoir le guide d'utilisation d'opts.\nNote: Seuls les administrateurs, les gens avec la permission Manage Server ou ceux avec le rôle Bot Commander peuvent utiliser cette commande!",
@@ -899,6 +900,10 @@
         "success": "%1$sMantaro s'adressera désormais à toi en `%2$s`",
         "invalid": "%1$sCette langue n'existe pas! Tu peux utiliser `reset` pour réinitialiser tes paramètres de langue."
       },
+      "inventorysort": {
+        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+      },
       "stats": {
         "header": "Statistique de profil de %1$s",
         "wins": "Gains au casino",
@@ -939,12 +944,12 @@
         "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
         "not_suitable": "%1$sTu ne peux pas équiper cela.",
         "not_equipped": "%1$sTu n'as pas équipé ça.",
-        "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod ou pick) pour le déséquiper."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sTu n'as rien d'équipé à cet emplacement.",
-        "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, rod`(pioche, canne à pêche).",
-        "invalid_type": "%1$sLes types d'objets valides sont `pick, rod` pioche et canne à pêche en anglais.",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
         "equipment_recover": "\nPuisque tu ne l'avais pas utilisée, tu la retrouve dans ton inventaire (équipement retrouvé: %1$s)!",
@@ -1687,6 +1692,7 @@
       "credits": "credits"
     },
     "leaderboard": {
+      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
       "header": "Classements Mantaro",
       "header_seasonal": "Classements Mantaro pour la saison sur %1$s",
       "money": "Classements Argent",
@@ -2346,9 +2352,9 @@
       "bell": "Récompense de l'événement de noël 2017/2018. Ça te donne un sentiment de fête sur ton sapin de noël.",
       "tree": "Récompense de l'événement de noël 2017/2018. Qui n'aime pas les sapins de noël ?",
       "pants": "C'est ce que tu portes en bas, du moins je l'espère.",
-      "haste": "Ça te permet de trouver plus de chose en fouillant (valable pour 2 utilisation de la commande `~>loot`).",
+      "haste": "Allows you to collect more stuff from currency commands for 2 sessions.",
       "milky": "Ça te débarrasse des effets de potions.",
-      "energy": "Makes a pick, axe or rod lose less durability per swing. Lasts only 3 mining/fishing sessions.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 3 sessions.",
       "rod": "Te permets de pêcher. (Durabilité: 40)",
       "fish": "Poisson attrapé en pêchant.",
       "tropical_fish": "Un poisson assez tropical pêché.",
@@ -2416,7 +2422,7 @@
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
-      "pear": "You happened to chop an apple tree and the pear fell on your head. Ouch.",
+      "pear": "You happened to chop a pear tree and the pear fell on your head. Ouch.",
       "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
       "rock": "A rock. Yep. It's very hard, isn't it?",
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
