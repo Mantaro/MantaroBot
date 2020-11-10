@@ -25,21 +25,21 @@ import java.util.UUID;
 
 // Enums can't have type values, so I need to make this a class instead
 public class InventorySort<T extends ItemStack> {
-    public static InventorySort<ItemStack> SORT_AMOUNT = new InventorySort<>(Comparator.comparingInt(ItemStack::getAmount).reversed());
-    public static InventorySort<ItemStack> SORT_RANDOM = new InventorySort<>(shuffle());
+    public static final InventorySort<ItemStack> SORT_AMOUNT = new InventorySort<>(Comparator.comparingInt(ItemStack::getAmount).reversed());
+    public static final InventorySort<ItemStack> SORT_RANDOM = new InventorySort<>(shuffle());
 
     // Using Comparator.comparingLong here fails horribly and makes a InventorySort<Item>, while I need a InventorySort<ItemStack> :)
     // Why can't I use Comparator#reverse here? It makes it Comparator<Object>... oh well, reverse manually.
-    public static InventorySort<ItemStack> SORT_VALUE =
+    public static final InventorySort<ItemStack> SORT_VALUE =
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue(), (o1, o2) -> (int) (o2 - o1)));
-    public static InventorySort<ItemStack> SORT_VALUE_SUM =
+    public static final InventorySort<ItemStack> SORT_VALUE_SUM =
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue() * t.getAmount(), (o1, o2) -> (int) (o2 - o1)));
-    public static InventorySort<ItemStack> SORT_TYPE =
+    public static final InventorySort<ItemStack> SORT_TYPE =
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getItemType(), Comparator.comparingInt(Enum::ordinal)));
 
     private final Comparator<T> comparator;
 
-    public InventorySort(Comparator<T> comparator) {
+    public InventorySort(final Comparator<T> comparator) {
         this.comparator = comparator;
     }
 
