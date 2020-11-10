@@ -19,17 +19,21 @@ package net.kodehawa.mantarobot.commands.currency.profile.inventory;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 
 import java.util.Comparator;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.UUID;
 
 // Enums can't have type values, so I need to make this a class instead
 public class InventorySort<T extends ItemStack> {
-    // This is the only sane one, LMAO
     public static InventorySort<ItemStack> SORT_AMOUNT = new InventorySort<>(Comparator.comparingInt(ItemStack::getAmount).reversed());
+    public static InventorySort<ItemStack> SORT_RANDOM = new InventorySort<>(shuffle());
 
     // Using Comparator.comparingLong here fails horribly and makes a InventorySort<Item>, while I need a InventorySort<ItemStack> :)
     // Why can't I use Comparator#reverse here? It makes it Comparator<Object>... oh well, reverse manually.
     public static InventorySort<ItemStack> SORT_VALUE =
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue(), (o1, o2) -> (int) (o2 - o1)));
-
+    public static InventorySort<ItemStack> SORT_VALUE_SUM =
+            new InventorySort<>(Comparator.comparing((t) -> t.getItem().getValue() * t.getAmount(), (o1, o2) -> (int) (o2 - o1)));
     public static InventorySort<ItemStack> SORT_TYPE =
             new InventorySort<>(Comparator.comparing((t) -> t.getItem().getItemType(), Comparator.comparingInt(Enum::ordinal)));
 
@@ -41,5 +45,14 @@ public class InventorySort<T extends ItemStack> {
 
     public Comparator<T> getComparator() {
         return comparator;
+    }
+
+    // This is midly cursed code for a joke :)
+    public static <T> Comparator<T> shuffle() {
+        Map<Object, UUID> randomIds = new IdentityHashMap<>();
+        Map<Object, Integer> uniqueIds = new IdentityHashMap<>();
+
+        return Comparator.comparing((T e) -> randomIds.computeIfAbsent(e, k -> UUID.randomUUID()))
+                .thenComparing(e -> uniqueIds.computeIfAbsent(e, k -> uniqueIds.size()));
     }
 }

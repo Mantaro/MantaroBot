@@ -19,7 +19,8 @@ package net.kodehawa.mantarobot.commands.currency.profile.inventory;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 
 public enum InventorySortType {
-    VALUE(InventorySort.SORT_VALUE), AMOUNT(InventorySort.SORT_AMOUNT), TYPE(InventorySort.SORT_TYPE);
+    VALUE(InventorySort.SORT_VALUE), AMOUNT(InventorySort.SORT_AMOUNT), TYPE(InventorySort.SORT_TYPE),
+    RANDOM(InventorySort.SORT_RANDOM), VALUE_TOTAL(InventorySort.SORT_VALUE_SUM);
 
     // We don't know the type on enums, shouldn't matter.
     final InventorySort<? super ItemStack> sort;
