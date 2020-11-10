@@ -302,6 +302,7 @@ public class ItemCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var castableItems = Arrays.stream(ItemReference.ALL)
+                        .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
                         .filter(i -> i.getItemType().isCastable() && i.getRecipeTypes() != null && i.getRecipe() != null)
                         .collect(Collectors.toList());
 
@@ -536,6 +537,7 @@ public class ItemCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var repairableItems = Arrays.stream(ItemReference.ALL)
+                        .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
                         .filter(Broken.class::isInstance)
                         .map(Broken.class::cast)
                         .collect(Collectors.toList());
@@ -743,6 +745,7 @@ public class ItemCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var broken = Arrays.stream(ItemReference.ALL)
+                        .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
                         .filter(Broken.class::isInstance)
                         .map(Broken.class::cast)
                         .collect(Collectors.toList());

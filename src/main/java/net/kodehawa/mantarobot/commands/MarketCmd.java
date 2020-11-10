@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.awt.*;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -521,6 +522,7 @@ public class MarketCmd {
 
         List<MessageEmbed.Field> fields = new LinkedList<>();
         Stream.of(ItemReference.ALL)
+                .sorted(Comparator.comparingInt(i -> i.getItemType().ordinal()))
                 .filter(predicate)
                 .filter(item -> !item.isHidden())
                 .forEach(item -> {
