@@ -45,9 +45,6 @@ public enum ItemType {
     // Wrenches
     WRENCH(true),
 
-    // Broken items
-    BROKEN(false),
-
     // Waifu stuff, only has one little type tho.
     WAIFU(false),
 
@@ -65,6 +62,9 @@ public enum ItemType {
     CHOP_AXE(true),
     CHOP_RARE_AXE(true),
     CHOP_RARE_AXE_NODROP(true),
+
+    // Broken items
+    BROKEN(false),
 
     //Pet items don't appear in the normal market.
     PET(true),
