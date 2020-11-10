@@ -288,7 +288,7 @@ public class ProfileCmd {
                 playerData.setInventorySortType(type);
                 player.save();
 
-                ctx.sendLocalized("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString());
+                ctx.sendLocalized("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
             }
         });
 
