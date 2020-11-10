@@ -75,7 +75,10 @@ public class ProfileCmd {
     private static final String SEPARATOR = "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009";
     private static final String SEPARATOR_MID = "\u2009\u2009\u2009\u2009";
     private static final String SEPARATOR_ONE = "\u2009\u2009";
-    private static final String LIST_MARKER = "●";
+    private static final String SEPARATOR_HALF = "\u2009";
+
+    // A small white square.
+    private static final String LIST_MARKER = "\u25AB\uFE0F";
 
     @Subscribe
     public void profile(CommandRegistry cr) {
@@ -626,7 +629,7 @@ public class ProfileCmd {
                     //This is definitely painful and goes on for 100 lines lol
                     var s = String.join("\n",
                             prettyDisplay(languageContext.get("commands.profile.stats.market"),
-                                    playerData.getMarketUsed() + " " + languageContext.get("commands.profile.stats.times")
+                                    "%,d %s".formatted(playerData.getMarketUsed(), languageContext.get("commands.profile.stats.times"))
                             ),
 
                             //Potion display
@@ -634,7 +637,7 @@ public class ProfileCmd {
                                     noPotion ? "None" : String.format("%s (%dx)", potion.getName(), potionEquipped)
                             ),
 
-                            "\u3000 " +
+                            "\u3000 " + SEPARATOR_HALF +
                                     EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
                                     (noPotion ? "Not equipped" :
                                             potionEffect.getTimesUsed() + " " +
@@ -644,7 +647,7 @@ public class ProfileCmd {
                                     String.format("%s (%dx)", buff.getName(), buffEquipped)
                             ),
 
-                            "\u3000 " +
+                            "\u3000 " + SEPARATOR_HALF +
                                     EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
                                     (noBuff ? "Not equipped" : buffEffect.getTimesUsed() + " " +
                                             languageContext.get("commands.profile.stats.times")),
@@ -663,35 +666,35 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.experience"),
-                                    playerData.getExperience() + "/" + experienceNext + " XP"
+                                     "%,d/%,d XP".formatted(playerData.getExperience(), experienceNext)
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.mine_xp"),
-                                    playerData.getMiningExperience() + " XP"
+                                     "%,d XP".formatted(playerData.getMiningExperience())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.chop_xp"),
-                                    playerData.getChopExperience() + " XP"
+                                     "%,d XP".formatted(playerData.getChopExperience())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.fish_xp"),
-                                    playerData.getFishingExperience() + " XP"
+                                    "%,d XP".formatted(playerData.getFishingExperience())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.sharks_caught"),
-                                    String.valueOf(playerData.getSharksCaught())
+                                    "%,d".formatted(playerData.getSharksCaught())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.crates_open"),
-                                    String.valueOf(playerData.getCratesOpened())
+                                    "%,d".formatted(playerData.getCratesOpened())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.times_mop"),
-                                    String.valueOf(playerData.getTimesMopped())
+                                    "%,d".formatted(playerData.getTimesMopped())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.daily"),
-                                    playerData.getDailyStreak() + " " + languageContext.get("commands.profile.stats.days")
+                                    "%,d %s".formatted(playerData.getDailyStreak(), languageContext.get("commands.profile.stats.days"))
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.daily_at"),
@@ -701,7 +704,7 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.waifu_claimed"),
-                                    data.getTimesClaimed() + " " + languageContext.get("commands.profile.stats.times")
+                                    "%,d %s".formatted(data.getTimesClaimed(), languageContext.get("commands.profile.stats.times"))
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.waifu_locked"),
@@ -709,11 +712,11 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.dust"),
-                                    data.getDustLevel() + "%"
+                                    "%d %".formatted(data.getDustLevel())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.reminders"),
-                                    data.getRemindedTimes() + " " + languageContext.get("commands.profile.stats.times")
+                                    "%,d %s".formatted(data.getRemindedTimes(), languageContext.get("commands.profile.stats.times"))
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.lang"),
@@ -722,9 +725,10 @@ public class ProfileCmd {
 
                             prettyDisplay(languageContext.get("commands.profile.stats.wins"),
                                     String.format("\n\u3000%1$s" +
-                                                    "%2$s%3$sGamble: %4$d, Slots: %5$d, Game: %6$d (times)",
+                                                    "%2$s%3$sGamble: %4$,d, Slots: %5$,d, Game: %6$,d (times)",
                                             SEPARATOR_ONE, EmoteReference.CREDITCARD, SEPARATOR_ONE,
-                                            playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()
+                                            playerStats.getGambleWins(), playerStats.getSlotsWins(),
+                                            playerData.getGamesWon()
                                     )
                             )
                     );
@@ -732,9 +736,11 @@ public class ProfileCmd {
 
                     ctx.send(new EmbedBuilder()
                             .setThumbnail(toLookup.getEffectiveAvatarUrl())
-                            .setAuthor(String.format(languageContext.get("commands.profile.stats.header"), toLookup.getName()), null, toLookup.getEffectiveAvatarUrl())
+                            .setAuthor(languageContext.get("commands.profile.stats.header").formatted(toLookup.getName()),
+                                    null, toLookup.getEffectiveAvatarUrl()
+                            )
                             .setDescription("\n" + s)
-                            .setFooter("This shows stuff usually not shown on the profile card. Content might change", null)
+                            .setFooter("Thanks for using Mantaro! %s".formatted(EmoteReference.HEART), ctx.getGuild().getIconUrl())
                             .build()
                     );
                 });
@@ -850,7 +856,7 @@ public class ProfileCmd {
 
     public String parsePlayerEquipment(PlayerEquipment equipment) {
         var toolsEquipment = equipment.getEquipment();
-        var separator = SEPARATOR + SEPARATOR_ONE + LIST_MARKER + SEPARATOR_MID;
+        var separator = SEPARATOR + SEPARATOR_HALF + LIST_MARKER + SEPARATOR_HALF;
 
         if (toolsEquipment.isEmpty()) {
             return separator + "None";
@@ -860,8 +866,8 @@ public class ProfileCmd {
             var item = ItemHelper.fromId(entry.getValue());
 
             return separator + Utils.capitalize(entry.getKey().toString()) + ": " + SEPARATOR_ONE +
-                    item.toDisplayString() +
-                    " [" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability() + "]";
+                    item.toDisplayString() + SEPARATOR_HALF + " [%,d / %,d]"
+                    .formatted(equipment.getDurability().get(entry.getKey()), ((Breakable) item).getMaxDurability());
         }).collect(Collectors.joining("\n"));
     }
 }
