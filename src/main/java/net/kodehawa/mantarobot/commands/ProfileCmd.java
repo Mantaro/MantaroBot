@@ -720,9 +720,9 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.wins"),
-                                    String.format("\n\u3000 %1$s" +
+                                    String.format("\n\u3000%1$s" +
                                                     "%2$s%3$sGamble: %4$d, Slots: %5$d, Game: %6$d (times)",
-                                            SEPARATOR_MID, EmoteReference.CREDITCARD, SEPARATOR_ONE,
+                                            SEPARATOR_ONE, EmoteReference.CREDITCARD, SEPARATOR_ONE,
                                             playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()
                                     )
                             )
@@ -857,7 +857,7 @@ public class ProfileCmd {
         return toolsEquipment.entrySet().stream().map((entry) -> {
             var item = ItemHelper.fromId(entry.getValue());
 
-            return SEPARATOR + "\uD83D\uDF84 " + SEPARATOR_ONE +
+            return SEPARATOR + SEPARATOR_ONE + "\uD83D\uDF84 " + SEPARATOR_ONE +
                     Utils.capitalize(entry.getKey().toString()) + ": " + SEPARATOR_ONE +
                     item.toDisplayString() +
                     " [" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability() + "]";
