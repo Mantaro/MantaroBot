@@ -370,8 +370,9 @@ public class PetCmds {
 
                 ctx.sendLocalized("commands.pet.buy.confirm", EmoteReference.WARNING, name, type, toBuy.getCost());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
-                    if (!e.getAuthor().equals(ctx.getAuthor()))
+                    if (!e.getAuthor().equals(ctx.getAuthor())) {
                         return Operation.IGNORED;
+                    }
 
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         var playerConfirmed = ctx.getPlayer();
@@ -380,12 +381,12 @@ public class PetCmds {
                         var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
 
                         // People like to mess around lol.
-                        if (!playerInventory.containsItem(ItemReference.PET_HOUSE)) {
+                        if (!playerInventoryConfirmed.containsItem(ItemReference.PET_HOUSE)) {
                             ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                             return Operation.COMPLETED;
                         }
 
-                        if (player.getCurrentMoney() < toBuy.getCost()) {
+                        if (playerConfirmed.getCurrentMoney() < toBuy.getCost()) {
                             ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
                             return Operation.COMPLETED;
                         }
