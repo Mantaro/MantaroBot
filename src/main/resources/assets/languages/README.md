@@ -18,7 +18,7 @@
 
 
 # To have in mind
-If you can't DM Kodehawa, add him as a friend. Please ping him in Mantaro Hub before adding, so he knows who you are. 
+If you can't DM Kodehawa, add them as a friend. Please ping them in Mantaro Hub before adding, so he knows who you are. 
 
 Thank you.
 

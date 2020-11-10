@@ -143,7 +143,7 @@ public enum Badge {
     // --- END OF FIRST SEASON BADGES (Top 2 - 5) ---
 
     MARATHON_WINNER("Marathon Winner", "\uD83C\uDFC5",
-            "Get to level 200 in Mantaro.",
+            "Get to level 200.",
             91, 92,
             (player, dbUser) -> player.getLevel() >= 200, false
     ),
@@ -156,7 +156,7 @@ public enum Badge {
 
     //Get claimed 1000 times as a waifu.
     BEST_WAIFU("Best Waifu", "\uD83D\uDC9B",
-            "Get waifu claimed 1000 times (how?).",
+            "Get waifu claimed 1,000 times (how?).",
             91, 92,
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1000, false
     ),
@@ -174,31 +174,31 @@ public enum Badge {
     ),
 
     EXPERT_MINER("Expert Miner", "<:sparkle_pick:492882143404359690>",
-            "Get more than 100000 mining experience.",
+            "Get more than 100,000 mining experience.",
             91, 92,
             ((player, dbUser) -> player.getData().getMiningExperience() > 100000), false
     ),
 
     EXPERT_FISHER("Expert Fisher", "<:sparkle_rod:492882143505154048>",
-            "Get more than 100000 fishing experience.",
+            "Get more than 100,000 fishing experience.",
             91, 92,
             ((player, dbUser) -> player.getData().getFishingExperience() > 100000), false
     ),
 
     EXPERT_CHOPPER("Expert Chopper", "<:sparkle_axe:762027645155541002>",
-            "Get more than 100000 chopping experience.",
+            "Get more than 100,000 chopping experience.",
             91, 92,
             ((player, dbUser) -> player.getData().getChopExperience() > 100000), false
     ),
 
     MARATHON_RUNNER("Marathon Runner", "\uD83C\uDF96",
-            "Get to level 150 in Mantaro.",
+            "Get to level 150.",
             91, 92,
             (player, dbUser) -> player.getLevel() >= 150, false
     ),
 
     FAST_RUNNER("Fast Runner", "\uD83D\uDEA9",
-            "Get to level 100 in Mantaro.",
+            "Get to level 100.",
             91, 92,
             (player, dbUser) -> player.getLevel() >= 100, false
     ),
@@ -231,7 +231,7 @@ public enum Badge {
 
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2",
-            "Have 5000 items of any kind.",
+            "Have 5,000 items of any kind.",
             91, 92,
             (player, dbUser) -> player.getInventory().asList().stream()
                     .filter(itemStack -> itemStack.getItem() != ItemReference.CLAIM_KEY)
@@ -239,16 +239,23 @@ public enum Badge {
     ),
 
     EXPERIENCED_MINER("Experienced Miner", "<:star_pick:492882142993580038>",
-            "Get more than 10000 mining experience.",
+            "Get more than 10,000 mining experience.",
             91, 92,
             ((player, dbUser) -> player.getData().getMiningExperience() > 10000), false
     ),
 
     EXPERIENCED_FISHER("Experienced Fisher", "<:star_rod:492882143354028064>",
-            "Get more than 10000 fishing experience.",
+            "Get more than 10,000 fishing experience.",
             91, 92,
             ((player, dbUser) -> player.getData().getFishingExperience() > 10000), false
     ),
+
+    EXPERIENCED_CHOPPER("Experienced Chopper", "<:star_axe:762027644996157451>",
+            "Get more than 10,000 chopping experience.",
+            91, 92,
+            ((player, dbUser) -> player.getData().getChopExperience() > 10000), false
+    ),
+
 
     CELEBRITY("Celebrity", "\uD83E\uDD48",
             "Earn 100 reputation.",
@@ -339,6 +346,44 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
+    CLEANER("Cleaner", "\uD83E\uDDF9",
+            "Clean your inventory more than 50 times.",
+            91, 92,
+            (player, dbUser) -> player.getData().getTimesMopped() > 50, false
+    ),
+
+    //Self-explanatory. (Description)
+    RUNNER("Runner", "\uD83D\uDCCD",
+            "Get to level 50.",
+            91, 92,
+            (player, dbUser) -> player.getLevel() >= 50, false
+    ),
+
+    FIRST_MINER("First Time Miner", "<:comet_pick:492882142788059146>",
+            "Get more than 1,000 mining experience.",
+            91, 92,
+            ((player, dbUser) -> player.getData().getMiningExperience() > 1000), false
+    ),
+
+    FIRST_FISHER("First Time Fisher", "<:comet_rod:492882142779670528>",
+            "Get more than 1,000 fishing experience.",
+            91, 92,
+            ((player, dbUser) -> player.getData().getFishingExperience() > 1000), false
+    ),
+
+    FIRST_CHOPPER("First Time Chopper", "<:comet_axe:762027646439129169>",
+            "Get more than 1,000 chopping experience.",
+            91, 92,
+            ((player, dbUser) -> player.getData().getChopExperience() > 1000), false
+    ),
+
+    //Self-explanatory. (Description)
+    WALKER("Walker", "\uD83C\uDFF7",
+            "Get to level 10.",
+            91, 92,
+            (player, dbUser) -> player.getLevel() >= 10, false
+    ),
+
     //Mine a diamond.
     MINER("Miner", "\u26cf",
             "Find a diamond while mining.",
@@ -360,38 +405,6 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    CLEANER("Cleaner", "\uD83E\uDDF9",
-            "Clean your inventory more than 50 times.",
-            91, 92,
-            (player, dbUser) -> player.getData().getTimesMopped() > 50, false
-    ),
-
-    //Self-explanatory. (Description)
-    RUNNER("Runner", "\uD83D\uDCCD",
-            "Get to level 50 in Mantaro.",
-            91, 92,
-            (player, dbUser) -> player.getLevel() >= 50, false
-    ),
-
-    FIRST_MINER("First Time Miner", "<:comet_pick:492882142788059146>",
-            "Get more than 1000 mining experience.",
-            91, 92,
-            ((player, dbUser) -> player.getData().getMiningExperience() > 1000), false
-    ),
-
-    FIRST_FISHER("First Time Fisher", "<:comet_rod:492882142779670528>",
-            "Get more than 1000 fishing experience.",
-            91, 92,
-            ((player, dbUser) -> player.getData().getFishingExperience() > 1000), false
-    ),
-
-    //Self-explanatory. (Description)
-    WALKER("Walker", "\uD83C\uDFF7",
-            "Get to level 10 in Mantaro.",
-            91, 92,
-            (player, dbUser) -> player.getLevel() >= 10, false
-    ),
-
     //Open a loot crate.
     THE_SECRET("The Secret", "\uD83D\uDCBC",
             "Open a loot crate.",
@@ -406,7 +419,7 @@ public enum Badge {
     ),
 
     MAD_SCIENTIST("Mad Scientist", "\u2697",
-            "Used a ton of potions at once.",
+            "Used 15 potions or buffs at once.",
             91, 92,
             (player, dbUser) -> false, false
     ),
@@ -439,7 +452,7 @@ public enum Badge {
     ),
 
     CLAIMED("Claimed", "\uD83D\uDCFF",
-            "Got claimed as a waifu.",
+            "Got claimed as a waifu by someone.",
             91, 92,
             (player, dbUser) -> false, false
     ),
