@@ -110,7 +110,7 @@ public class ImageCmd extends NoArgsCommand {
             }
         }
 
-        builder.appendDescription("Y-You lewdie!");
+        builder.appendDescription(desc);
 
         var member = ctx.getMember();
         builder.setColor(member.getColor() == null ? Color.PINK : member.getColor())
