@@ -288,10 +288,10 @@ public class ItemHelper {
                 common.forEach(i -> items.add(20, i));
                 break; //fallthrough intended until here.
             case FISH_PREMIUM:
-                premiumFish.forEach(i -> items.add(5, i));
+                premiumFish.forEach(i -> items.add(8, i));
                 break;
             case MINE_PREMIUM:
-                premiumMine.forEach(i -> items.add(5, i));
+                premiumMine.forEach(i -> items.add(8, i));
                 break;
             case MINE:
                 mine.forEach(i -> items.add(8, i));
