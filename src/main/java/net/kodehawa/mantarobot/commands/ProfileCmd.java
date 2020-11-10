@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -53,6 +54,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import okhttp3.Request;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -258,6 +260,35 @@ public class ProfileCmd {
                 ctx.sendLocalized("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.save();
+            }
+        });
+
+        profileCommand.addSubCommand("inventorysort", new SubCommand() {
+            @Override
+            public String description() {
+                return "Sets how you wanna sort your inventory. Possible values: `VALUE, AMOUNT, TYPE`.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                final var type = Utils.lookupEnumString(content, InventorySortType.class);
+
+                if (type == null) {
+                    ctx.sendLocalized("commands.profile.inventorysort.not_valid",
+                            EmoteReference.ERROR, Arrays.stream(InventorySortType.values())
+                                    .map(b1 -> "`" + b1.toString() + "`")
+                                    .collect(Collectors.joining(" ,"))
+                    );
+                    return;
+                }
+
+                final var player = ctx.getPlayer();
+                final var playerData = player.getData();
+
+                playerData.setInventorySortType(type);
+                player.save();
+
+                ctx.sendLocalized("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString());
             }
         });
 

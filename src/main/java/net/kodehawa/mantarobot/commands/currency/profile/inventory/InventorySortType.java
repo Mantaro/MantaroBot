@@ -11,11 +11,24 @@
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.game;
+package net.kodehawa.mantarobot.commands.currency.profile.inventory;
 
-public enum TriviaDifficulty {
-    EASY, MEDIUM, HARD
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+
+public enum InventorySortType {
+    VALUE(InventorySort.SORT_VALUE), AMOUNT(InventorySort.SORT_AMOUNT), TYPE(InventorySort.SORT_TYPE);
+
+    // We don't know the type on enums, shouldn't matter.
+    final InventorySort<? super ItemStack> sort;
+
+    InventorySortType(final InventorySort<? super ItemStack> sort) {
+        this.sort = sort;
+    }
+
+    public InventorySort<? super ItemStack> getSort() {
+        return sort;
+    }
 }

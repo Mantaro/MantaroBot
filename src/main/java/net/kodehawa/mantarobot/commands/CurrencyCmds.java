@@ -41,8 +41,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
-import java.util.List;
+import java.awt.Color;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -75,6 +74,7 @@ public class CurrencyCmds {
                     }
 
                     final var player = ctx.getPlayer(member);
+                    final var playerData = player.getData();
                     final var user = ctx.getDBUser(member);
                     final var seasonPlayer = ctx.getSeasonPlayer(member);
                     final var languageContext = ctx.getLanguageContext();
@@ -113,7 +113,7 @@ public class CurrencyCmds {
                         else {
                             playerInventory.asList()
                                     .stream()
-                                    .sorted((c, next) -> (int) (next.getItem().getValue() - c.getItem().getValue()))
+                                    .sorted(playerData.getInventorySortType().getSort().getComparator())
                                     .forEach(stack -> {
                                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
@@ -137,10 +137,12 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    var inventory = "\n\n" + inventoryList.stream()
-                            .sorted(Comparator.comparingLong(ItemStack::getAmount).reversed())
-                            .map(is -> is.getItem().getEmoji() + " " + is.getAmount() + "x ")
-                            .collect(Collectors.joining(" "));
+                    var inventory = languageContext.get("commands.inventory.sorted_by")
+                            .formatted(playerData.getInventorySortType().toString().toLowerCase()) + "\n\n" +
+                            inventoryList.stream()
+                                    .sorted(playerData.getInventorySortType().getSort().getComparator())
+                                    .map(is -> is.getItem().getEmoji() + " x" + is.getAmount() + " ")
+                                    .collect(Collectors.joining(" "));
 
                     var message = ctx.getLanguageContext().get("commands.inventory.brief")
                             .formatted(member.getEffectiveName(), inventory);

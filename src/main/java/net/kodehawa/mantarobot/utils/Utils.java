@@ -531,6 +531,16 @@ public class Utils {
         return builder.append(BLOCK_INACTIVE).toString();
     }
 
+    public static <T extends Enum<T>> T lookupEnumString(String name, Class<T> enumType) {
+        for (var t : enumType.getEnumConstants()) {
+            if (t.name().equalsIgnoreCase(name)) {
+                return t;
+            }
+        }
+
+        return null;
+    }
+
     public enum HushType {
         ANIME, CHARACTER, MUSIC
     }

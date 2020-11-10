@@ -168,7 +168,7 @@ public class GameCmds {
                 TriviaDifficulty difficulty = null;
                 if (arguments.containsKey(difficultyArgument) && arguments.get(difficultyArgument) != null) {
                     var diff = arguments.get(difficultyArgument);
-                    var enumDiff = TriviaDifficulty.lookupFromString(diff);
+                    var enumDiff = Utils.lookupEnumString(diff, TriviaDifficulty.class);
                     if (enumDiff != null) {
                         difficulty = enumDiff;
                         content = content.replace(diff, "").trim();
@@ -240,7 +240,7 @@ public class GameCmds {
 
                 if (arguments.containsKey(difficultyArgument) && arguments.get(difficultyArgument) != null) {
                     var d = arguments.get(difficultyArgument);
-                    var enumDiff = TriviaDifficulty.lookupFromString(d);
+                    var enumDiff = Utils.lookupEnumString(d, TriviaDifficulty.class);
 
                     if (enumDiff != null) {
                         difficulty = enumDiff;
@@ -331,7 +331,7 @@ public class GameCmds {
                     diff = args[0].toLowerCase();
                 }
 
-                var difficulty = TriviaDifficulty.lookupFromString(diff);
+                var difficulty = Utils.lookupEnumString(diff, TriviaDifficulty.class);
 
                 if (difficulty == null && (mentions.isEmpty() && roleMentions.isEmpty()) && !content.isEmpty()) {
                     ctx.sendLocalized("commands.game.trivia.wrong_diff", EmoteReference.ERROR);

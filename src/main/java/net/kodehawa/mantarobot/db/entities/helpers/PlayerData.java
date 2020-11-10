@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.PotionEffect;
 import net.kodehawa.mantarobot.commands.currency.pets.global.Pet;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
+import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
@@ -71,6 +72,7 @@ public class PlayerData {
     private QuestTracker quests = new QuestTracker();
     private int questQuota = 3;
     private boolean resetWarning = false;
+    private InventorySortType inventorySortType = InventorySortType.AMOUNT;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -392,6 +394,14 @@ public class PlayerData {
 
     public void setResetWarning(boolean resetWarning) {
         this.resetWarning = resetWarning;
+    }
+
+    public InventorySortType getInventorySortType() {
+        return inventorySortType;
+    }
+
+    public void setInventorySortType(InventorySortType inventorySortType) {
+        this.inventorySortType = inventorySortType;
     }
 
     @JsonIgnore
