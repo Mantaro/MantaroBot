@@ -68,7 +68,13 @@ import static net.kodehawa.mantarobot.utils.Utils.*;
 
 @Module
 public class ProfileCmd {
-    private final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+    private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+
+    // Discord makes it so multiple spaces get only rendered as one, but half-width spaces don't.
+    // So therefore you get this cursed *thing* for formatting.
+    private static final String SEPARATOR = "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009";
+    private static final String SEPARATOR_MID = "\u2009\u2009\u2009\u2009";
+    private static final String SEPARATOR_ONE = "\u2009\u2009";
 
     @Subscribe
     public void profile(CommandRegistry cr) {
@@ -714,9 +720,11 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.wins"),
-                                    String.format("\n\u3000\u2009\u2009\u2009\u2009" +
-                                                    "%1$sGamble: %2$d, Slots: %3$d, Game: %4$d (times)",
-                                            EmoteReference.CREDITCARD, playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon())
+                                    String.format("\n\u3000 %1$s" +
+                                                    "%2$s%3$sGamble: %4$d, Slots: %5$d, Game: %6$d (times)",
+                                            SEPARATOR_MID, EmoteReference.CREDITCARD, SEPARATOR_ONE,
+                                            playerStats.getGambleWins(), playerStats.getSlotsWins(), playerData.getGamesWon()
+                                    )
                             )
                     );
 
@@ -826,8 +834,9 @@ public class ProfileCmd {
 
             var body = res.body();
 
-            if (body == null)
+            if (body == null) {
                 throw new IOException("body is null");
+            }
 
             bytes = body.bytes();
             res.close();
@@ -842,14 +851,14 @@ public class ProfileCmd {
         var toolsEquipment = equipment.getEquipment();
 
         if (toolsEquipment.isEmpty()) {
-            return "None";
+            return SEPARATOR + "\uD83D\uDF84 " + SEPARATOR_ONE + "None";
         }
 
         return toolsEquipment.entrySet().stream().map((entry) -> {
             var item = ItemHelper.fromId(entry.getValue());
 
-            return "- " +
-                    Utils.capitalize(entry.getKey().toString()) + ": " +
+            return SEPARATOR + "\uD83D\uDF84 " + SEPARATOR_ONE +
+                    Utils.capitalize(entry.getKey().toString()) + ": " + SEPARATOR_ONE +
                     item.toDisplayString() +
                     " [" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability() + "]";
         }).collect(Collectors.joining("\n"));
