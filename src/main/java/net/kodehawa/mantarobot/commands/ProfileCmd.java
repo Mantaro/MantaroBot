@@ -75,6 +75,7 @@ public class ProfileCmd {
     private static final String SEPARATOR = "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009";
     private static final String SEPARATOR_MID = "\u2009\u2009\u2009\u2009";
     private static final String SEPARATOR_ONE = "\u2009\u2009";
+    private static final String LIST_MARKER = "●";
 
     @Subscribe
     public void profile(CommandRegistry cr) {
@@ -849,16 +850,16 @@ public class ProfileCmd {
 
     public String parsePlayerEquipment(PlayerEquipment equipment) {
         var toolsEquipment = equipment.getEquipment();
+        var separator = SEPARATOR + SEPARATOR_ONE + LIST_MARKER + SEPARATOR_MID;
 
         if (toolsEquipment.isEmpty()) {
-            return SEPARATOR + "\uD83D\uDF84 " + SEPARATOR_ONE + "None";
+            return separator + "None";
         }
 
         return toolsEquipment.entrySet().stream().map((entry) -> {
             var item = ItemHelper.fromId(entry.getValue());
 
-            return SEPARATOR + SEPARATOR_ONE + "\uD83D\uDF84 " + SEPARATOR_ONE +
-                    Utils.capitalize(entry.getKey().toString()) + ": " + SEPARATOR_ONE +
+            return separator + Utils.capitalize(entry.getKey().toString()) + ": " + SEPARATOR_ONE +
                     item.toDisplayString() +
                     " [" + equipment.getDurability().get(entry.getKey()) + " / " + ((Breakable) item).getMaxDurability() + "]";
         }).collect(Collectors.joining("\n"));
