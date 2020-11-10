@@ -447,7 +447,7 @@ public class ItemReference {
                     3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),
                     "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod",
                     800,
-                    "1;3;1;3", 300, 44, 74, 18, 101
+                    "1;2;1;3", 300, 44, 74, 18, 101
             ),
 
             SHELL = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A",
