@@ -271,7 +271,8 @@ public class ItemHelper {
         );
 
         List<Item> premiumFish = handleItemDrop(i ->
-                i.getItemType() == ItemType.CAST_FISH ||
+                i.getItemType() == ItemType.FISHROD ||
+                i.getItemType() == ItemType.FISHROD_RARE ||
                 i.getItemType() == ItemType.FISHING ||
                 i.getItemType() == ItemType.FISHING_RARE
         );

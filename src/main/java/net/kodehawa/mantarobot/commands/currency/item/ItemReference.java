@@ -256,7 +256,7 @@ public class ItemReference {
                     450, true
             ),
 
-            FISHING_ROD = new FishRod(ItemType.COMMON, 3, 1, 25,
+            FISHING_ROD = new FishRod(ItemType.FISHROD, 3, 1, 25,
                     "\uD83C\uDFA3",
                     "Fishing Rod", "Rod", "items.rod", "items.description.rod",
                     65, true,
@@ -410,14 +410,14 @@ public class ItemReference {
                             ItemHelper.openLootCrate(ctx, ItemType.LootboxType.MINE_PREMIUM, 69, EmoteReference.PREMIUM_MINE_CRATE, 5, season)
             ),
 
-            COMET_ROD = new FishRod(ItemType.CAST_FISH, 6,
+            COMET_ROD = new FishRod(ItemType.FISHROD, 6,
                     1, 15, EmoteReference.COMET_ROD.getDiscordNotation(),
                     "Comet Gem Rod", "Comet Rod", "items.comet_rod", "items.description.comet_rod",
                     150,
                     "1;3;3", 90, 44, 48, 101
             ),
 
-            STAR_ROD = new FishRod(ItemType.CAST_FISH, 9,
+            STAR_ROD = new FishRod(ItemType.FISHROD, 9,
                     2, 10, EmoteReference.STAR_ROD.getDiscordNotation(),
                     "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod",
                     250,
@@ -443,7 +443,7 @@ public class ItemReference {
                     605, false
             ),
 
-            SPARKLE_ROD = new FishRod(ItemType.CAST_FISH, 14,
+            SPARKLE_ROD = new FishRod(ItemType.FISHROD_RARE, 14,
                     3, 4, EmoteReference.SPARKLE_ROD.getDiscordNotation(),
                     "Sparkle Rod", "items.sparkle_rod", "items.description.sparkle_rod",
                     800,
@@ -640,13 +640,13 @@ public class ItemReference {
                     "450;175;1;175;1;55;1;50;50", 3100, 900, 18, 48, 105, 49, 106, 74, 107, 101, 76
             ),
 
-            MOON_ROD = new FishRod(ItemType.CAST_FISH, 12, 1,
+            MOON_ROD = new FishRod(ItemType.FISHROD_RARE, 12, 1,
                     4, EmoteReference.MOON_ROD.getDiscordNotation(),
                     "Moon Rod", "items.moon_rod", "items.description.moon_rod",
                     800, "1;3;3", 170, 44, 83, 101
             ),
 
-            HELLFIRE_ROD = new FishRod(ItemType.FISHING_RARE_NODROP, 14,
+            HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 14,
                     3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(),
                     "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod",
                     15000,
