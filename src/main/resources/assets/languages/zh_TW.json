@@ -873,15 +873,15 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone.",
-        "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone.",
+        "not_specified": "%1$s你需要指出時區。",
+        "reset": "%1$s時區已重設。",
+        "invalid": "%1$s時區錯誤。",
         "success": "%1$s時區已儲存，你的個人時區為：**%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "reset_success": "%1$s時區已重設。"
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
-        "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
+        "no_argument": "%1$s你需要提供參數！(set 或 remove)\n範例：~>profile description set Hi there!",
+        "no_content": "%1$s你需要指出你的個人簡介。\n範例：~>profile description set Hi there!",
         "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
         "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sSuccessfully cleared description."
