@@ -703,7 +703,7 @@
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
+      "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>market dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
       "header": "%1$s's Inventory",
@@ -735,46 +735,46 @@
     },
     "market": {
       "dump": {
-        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
-        "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
+        "no_item": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想丟棄的物品名稱。",
+        "invalid": "%1$s物品丟棄數量無效。",
+        "non_existent": "%1$s你無法丟棄不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
+        "player_no_item": "%1$s你無法丟棄你不擁有的物品！",
+        "more_items_than_player": "%1$s你丟棄的數量不能超過你所擁有的數量。",
+        "success": "%1$s已把%2$,d個 **%3$s %4$s** 丟至垃圾桶。"
       },
       "price": {
-        "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
-        "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
+        "non_existent": "%1$s你無法查看不存在物品的價格！試著使用更簡短的名稱或將他\"用引號包起來\"。",
+        "no_price": "%1$s你無法購買或售出這個物品 (也許是收藏品)",
+        "collectible": "%1$s這是一個收藏品。(售出價格：%2$,d 元)",
+        "success": "%1$s%2$s**%3$s** 在市場內的出售價格是 %4$s 元，買入價格為 %5$s 元。"
       },
       "sell": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
-        "invalid": "%1$sNot a valid number of items to sell.",
+        "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
+        "invalid": "%1$s物品出售數量無效。",
         "all": {
-          "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
-          "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "confirmation": "%1$s你真的*確定*要出售你**所有**的物品嗎？這將會清除你的*整個*背包。如果你想出售個別的物品，別忘記加上數量。傳送 *yes* 確認或 *no* 取消",
+          "success": "%1$s你出售了你的所有物品且獲得了 %2$,d 元！",
+          "cancelled": "%1$s取消成功。"
         },
-        "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
-        "no_item_player": "%1$sYou cannot sell an item you don't have.",
-        "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
-        "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
+        "non_existent": "%1$s你無法出售不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
+        "no_sell_price": "%1$s你無法出售不能出售的物品。(不過你還是可以使用 `~>market dump` 來丟棄他)",
+        "no_item_player": "%1$s你無法出售你不擁有的物品。",
+        "more_items_than_player": "%1$s你出售的數量不能超過你所擁有的數量。",
+        "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
       },
       "buy": {
-        "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
-        "invalid": "%1$sNot a valid number of items to buy.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
-        "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
-        "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
+        "invalid": "%1$s物品購買數量無效。",
+        "non_existent": "%1$s你無法購買不存在的物品。試著使用更簡短的名稱或將他\"用引號包起來\"。記得把數量放在名稱前面，像是：`~>market buy 15 energy`",
+        "no_buy_price": "%1$s你無法購買不能被購買的物品。",
+        "item_limit_reached": "%1$s你無法購買更多該物品。",
+        "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
+        "not_enough_money": "%1$s你沒有足夠的金錢來購買這個物品。"
       },
-      "header": "Mantaro's Market",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "header": "Mantaro市場",
+      "reference": "\n你可以使用 `~>market buy <物品名稱>` 和 `~>market sell <物品名稱>` 來購買和出售物品至市場。查看 `~>help market` 獲得更多資訊，你也可以用 `~>market tools` 等指令查看更簡短的清單。",
+      "sell_price": "- **出售價格：**",
+      "buy_price": "- **購買價格：**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
