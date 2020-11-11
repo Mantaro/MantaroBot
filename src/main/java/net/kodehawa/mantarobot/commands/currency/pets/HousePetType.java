@@ -86,10 +86,18 @@ public enum HousePetType {
     }
 
     public int getMaxCoinBuildup(long level) {
+        if (this == ROCK) {
+            return 0;
+        }
+
         return (int) (maxCoinBuildup + (4 * level));
     }
 
     public int getMaxItemBuildup(long level) {
+        if (this == ROCK) {
+            return 0;
+        }
+
         return (int) (3 + (0.1 * level));
     }
 
