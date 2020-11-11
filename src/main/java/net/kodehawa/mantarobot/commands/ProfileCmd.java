@@ -284,7 +284,7 @@ public class ProfileCmd {
                     ctx.sendLocalized("commands.profile.inventorysort.not_valid",
                             EmoteReference.ERROR, Arrays.stream(InventorySortType.values())
                                     .map(b1 -> b1.toString().toLowerCase())
-                                    .collect(Collectors.joining(" ,"))
+                                    .collect(Collectors.joining(", "))
                     );
                     return;
                 }
