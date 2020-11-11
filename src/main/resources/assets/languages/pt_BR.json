@@ -674,7 +674,7 @@
       },
       "optout": {
         "notice": "%1$sVocê optou por sair de todo o sistema de waifu, então você não pode usar isso.",
-        "warning": "%1$sVocê deseja sair do sistema de waifu? ISSO É PERMANENTE E NÃO PODE SER REVERTIDO. \nSe você quer apenas sair de novas reivindicações e quer usar o sistema de waifu como sempre, por favor use `~>profile claimlock` ao invés disso.\nVocê não será capaz de reivindicar ou ser reivindicado, e todas as reivindicações sobre você serão removidas.\nDigite `Yes, I want to opt out of the waifu system completely and irreversibly` ou `no`.\nDigitando yes você irá sair, no irá cancelar.",
+        "warning": "%1$sVocê quer sair do sistema de waifu? ISSO É PERMANENTE E NÃO PODE SER REVERTIDO. \nSe você quiser apenas sair do sistema de novas reivindicações e usar o sistema de waifu como de costume, por favor use `~>profile claimlock` ao invés disso.\nVocê não poderá reivindicar ou ser reivindicado, e todas as reivindicações sobre você vão ser removidas.\nDigite `Yes, I want to opt out of the waifu system completely and irreversibly` ou `no`.\nDigitando a mensagem de confirmação irá remover você, no irá cancelar.",
         "success": "%1$sVocê saiu com sucesso do sistema de waifu.",
         "cancelled": "%1$sOperação de saída cancelada.",
         "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu."
@@ -704,13 +704,13 @@
     },
     "inventory": {
       "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**Coleção de itens de %1$s** %2$s\n\n*Para uma versão detalhada, use `~>inventory -info`. Aprecie seu dia!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
       "format": "**Preço**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sEsse inventário está vazio! :(",
       "brief_notice": "Você pode usar `~>inventory -brief` para obter uma versão otimizada para dispositivos móveis.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(Classificado por: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sEu não achei nenhum item correspondente.",
@@ -901,8 +901,8 @@
         "invalid": "%1$sEssa língua não existe! Você pode usar `reset` para resetar sua configuração de idioma."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$sEsse tipo de classificação não é válido. Tipos válidos: `%2$s`",
+        "success": "%1$sAlterado com sucesso o tipo classificado do seu inventário, agora é: **%2$s**"
       },
       "stats": {
         "header": "Estatísticas do Perfil Para %1$s",
@@ -2374,18 +2374,18 @@
       "star_wrench": "Ferramenta de fusão. Útil para juntar coisas. Menos chances de quebrar, necessário para fundir vários itens de uma só vez. Tier 2.",
       "sparkle_wrench": "Feramenta de fusão. Útil para juntar coisas. Menos chances de quebrar. Menos custo por fusão. Tier 3.",
       "motorcycle": "Dando umas voltas, da maneira mais legal.",
-      "comet_pick": "A very much stronger pick (180 durability)..",
-      "star_pick": "A very much stronger pick (220 durability)..",
+      "comet_pick": "Uma picareta muito mais forte (180 de durabilidade)..",
+      "star_pick": "Uma picareta muito mais forte (220 de durabilidade)..",
       "sparkle": "Uma das jóias mais raras daqui. Certifique-se de mantê-la. (Usado para fundir uma picareta brilhante & vara brilhante)",
-      "sparkle_pick": "One of the strongests pick out there (450 durability).",
+      "sparkle_pick": "Uma das picaretas mais fortes daqui (450 de durabilidade).",
       "pizza": "Delicioso.",
       "mine_crate": "Uma gema, você encontra durante a mineração. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate gem crate`",
       "fish_crate": "Um tesouro que você encontra enquanto pesca. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate treasure`",
       "mine_premium_crate": "Uma gema que você encontra durante a mineração. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate gem premium crate`",
       "fish_premium_crate": "Um tesouro que você encontra enquanto pesca. Pode ter algumas coisas legais dentro. Pode ser aberto com `~>opencrate premium treasure`",
-      "comet_rod": "A slightly stronger rod. (130 durability)",
-      "star_rod": "A stronger rod. (170 durability)",
-      "sparkle_rod": "A way stronger rod. (300 durability)",
+      "comet_rod": "Uma vara um pouco mais forte. (130 de durabilidade)",
+      "star_rod": "Uma vara forte. (170 de durabilidade)",
+      "sparkle_rod": "Uma vara até que forte. (300 de durabilidade)",
       "shell": "Encontrada no fundo do oceano. O que poderia valer a pena?",
       "shark": "Woah. Como você pegou *isso*?",
       "crab": "Um caranguejo. Ele dança, talvez.",
@@ -2415,7 +2415,7 @@
       "axe": "Normal, um machado do-meio-da-estrada (35 de durabilidade).",
       "comet_axe": "Um machado forte (170 de durabilidade).",
       "star_axe": "Um machado forte (220 de durabilidade).",
-      "moon_axe": "A stronger axe (350 durability).",
+      "moon_axe": "Um machado forte (350 de durabilidade).",
       "sparkle_axe": "Um machado muito mais forte (500 de durabilidade).",
       "hellfire_axe": "Um machado muito OP (muita durabilidade, descubra ;)).",
       "moon_rod": "Uma vara forte. (170 de durabilidade)",
