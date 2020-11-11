@@ -674,7 +674,7 @@
       },
       "optout": {
         "notice": "%1$sTu as été complètement enlevé.e du système de Waifu, tu ne peux donc pas l'utiliser.",
-        "warning": "%1$sVeux-tu vraiment être enlevé.e du système de Waifu? C'EST PERMANENT ET IRRÉVERSIBLE!\nSi tu veux simplement éviter d'être acheté.e et que tu veux utiliser le système de Waifu comme d'habitude, utilise la commande `~>profile claimlock` à la place.\nTu ne pourras plus acheter de Waifus ni être acheté.e et tout tes achats seront annulés.\nEnvoie `Yes, I want to be opt out of the waifu system completely and irreversibly` ou `no`. Le `yes I want...` t'enlèvera du système tandis que le `no` annulera ta demande.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
         "cancelled": "%1$sOpération d'extraction annulée avec succès.",
         "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système."
