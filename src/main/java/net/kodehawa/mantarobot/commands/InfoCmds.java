@@ -393,7 +393,6 @@ public class InfoCmds {
                         %1$s **%6$s:** %7$s
                         %1$s **%8$s:** %9$s
                         %1$s **%10$s:** %11$s
-                        %1$s **%12$s:** %13$s
                         """.formatted(BLUE_SMALL_MARKER,
                         lang.get("commands.roleinfo.id"),
                         role.getId(),
@@ -403,13 +402,6 @@ public class InfoCmds {
                         role.getColor() == null ?
                                 lang.get("general.none") :
                                 "#%s".formatted(Integer.toHexString(role.getColor().getRGB()).substring(2)),
-                        lang.get("commands.roleinfo.members"),
-                        String.valueOf(ctx.getGuild()
-                                .getMembers()
-                                .stream()
-                                .filter(member -> member.getRoles().contains(role))
-                                .count()
-                        ),
                         lang.get("commands.roleinfo.position"), role.getPosition(),
                         lang.get("commands.roleinfo.hoisted"), role.isHoisted()
                 );
