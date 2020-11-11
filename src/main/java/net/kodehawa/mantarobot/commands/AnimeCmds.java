@@ -200,19 +200,16 @@ public class AnimeCmds {
                 .setThumbnail(imageUrl)
                 .addField(lang.get("commands.anime.release_date"), releaseDate, true)
                 .addField(lang.get("commands.anime.end_date"),
-                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate),
-                        true
+                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate), true
                 )
                 .addField(lang.get("commands.anime.favorite_count"), favoriteCount, true)
                 .addField(lang.get("commands.anime.type"), animeType, true)
                 .addField(lang.get("commands.anime.episodes"), episodes, true)
                 .addField(lang.get("commands.anime.episode_duration"),
-                        episodeDuration + " " + lang.get("commands.anime.minutes"),
-                        true
+                        episodeDuration + " " + lang.get("commands.anime.minutes"), true
                 )
                 .addField(lang.get("commands.anime.description"),
-                        StringUtils.limit(animeDescription, 850),
-                        false
+                        StringUtils.limit(animeDescription, 850), false
                 );
 
         event.getChannel().sendMessage(embed.build()).queue();

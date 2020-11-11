@@ -497,16 +497,19 @@ public class CurrencyCmds {
 
             var currentPotion = equippedItems.getCurrentEffect(type);
             var activePotion = equippedItems.isEffectActive(type, ((Potion) item).getMaxUses());
+            var isActive = currentPotion != null && currentPotion.getAmountEquipped() > 1;
 
             // This used to only check for activePotion.
             // The issue with this was that there could be one potion that was fully used, but there was another potion
             // waiting to be used. In that case the potion would get overridden.
             // In case you have more than a potion equipped, we'll just stack the rest as necessary.
-            if (activePotion || (currentPotion != null && currentPotion.getAmountEquipped() > 1)) {
+            if (activePotion || isActive) {
                 //Currently has a potion equipped, but wants to stack a potion of other type.
                 if (currentPotion.getPotion() != ItemHelper.idOf(item)) {
                     ctx.sendLocalized("general.misc_item_usage.not_same_potion",
-                            EmoteReference.ERROR, ItemHelper.fromId(currentPotion.getPotion()).getName(), item.getName()
+                            EmoteReference.ERROR,
+                            ItemHelper.fromId(currentPotion.getPotion()).getName(),
+                            item.getName()
                     );
 
                     return;

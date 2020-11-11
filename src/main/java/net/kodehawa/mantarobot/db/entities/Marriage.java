@@ -72,12 +72,13 @@ public class Marriage implements ManagedObject {
 
     @JsonIgnore
     public String getOtherPlayer(String id) {
-        if (player1.equals(id))
+        if (player1.equals(id)) {
             return player2;
-        else if (player2.equals(id))
+        } else if (player2.equals(id)) {
             return player1;
-        else
+        } else {
             return null;
+        }
     }
 
     public String getPlayer1() {

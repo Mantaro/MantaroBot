@@ -296,7 +296,7 @@ public class PetCmds {
                 var message = pet.handlePat().getMessage();
                 var extraMessage = "";
                 if (pet.getPatCounter() % 100 == 0) {
-                    extraMessage += "\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
+                    extraMessage += "\n\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
                 }
 
                 pet.increasePats();
