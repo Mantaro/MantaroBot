@@ -674,7 +674,7 @@
       },
       "optout": {
         "notice": "%1$sلقد اخترت الخروج من نظام الوايفو بأكمله ، لذلك لا يمكنك استخدام هذا.\n",
-        "warning": "%1$sهل تريد الانسحاب من نظام waifu؟ هذا دائم ولا يمكن التراجع عنه.\nإذا كنت ترغب فقط في إلغاء الاشتراك في المطالبات الجديدة وتريد استخدام نظام waifu كالمعتاد ، فيرجى استخدام\n `~>profile claimlock`بدلاً من ذلك.\nلن تتمكن من المطالبة ولن يتمكن احد بمطالبتك ، وستتم إزالة جميع المطالبات المتعلقة بك.\nقم بكتابة `Yes, I want to opt out of the waifu system completely and irreversibly`للانسحاب من نظام ال waifu و `no` للالغاء.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sاخترت بنجاح الخروج من نظام الوايفو.",
         "cancelled": "%1$sإلغاء عملية إلغاء الاشتراك.",
         "claim_notice": "%1$sالمستخدم الذي تحاول المطالبة به قام بإلغاء الاشتراك."
