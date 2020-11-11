@@ -135,7 +135,7 @@
   },
   "commands": {
     "fish": {
-      "dust": "%1$s時機已經過了，你的桶子只有粉塵。(粉塵高度 %2$s%%)",
+      "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
       "no_rod": "%1$s你沒有釣魚竿怎麼釣魚! (試著使用另一種釣竿)",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
@@ -571,11 +571,11 @@
         "empty": "%1$s你無法將情書留白。",
         "no_marriage": "%1$s你尚未結婚，不能寫情書給你自己...",
         "not_proposing_player": "%1$s你不是提出這場婚姻的人！",
-        "already_done": "%1$s這條婚姻已經指定情書訊息。傳送 `~>marry status` 檢查",
+        "already_done": "%1$s這條婚姻已經指定情書訊息。使用 `~>marry status` 查看。",
         "too_long": "%1$s情書訊息過長 (最長500字元)",
         "cannot_see": "%1$s我找不到你的伴侶... 也許他們不在我的伺服器內。",
         "confirmation": "%1$s你*確定*想寫這張情書給**%2$s#%3$s**嗎？這將會持續到婚姻結束。*情書內容：*%4$s",
-        "confirmed": "%1$s情書已成功傳遞給你的愛人！傳送 `~>marry status` 檢查。",
+        "confirmed": "%1$s情書已成功傳遞給你的愛人！使用 `~>marry status` 查看。",
         "scrapped": "%1$s你還有時間思考該寫什麼，不必著急！"
       },
       "status": {
@@ -713,25 +713,25 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
-      "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "no_item_found": "%1$s找不到該物品。如果物品名稱包含空格，將他用\"引號包起來\"",
+      "item_not_cast": "%1$s你無法鑄造此物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果物品名稱包含空格，將他用\"引號包起來\"。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
+      "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
+      "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。",
+      "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造。**(需求：%3$s，擁有：%4$s)**",
+      "success": "%1$s你成功的用 %4$s 元*鑄造了 %2$s %3$s*。*鑄造消耗：%5$s*",
+      "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！記得：你需要擁有兩個相同類型的扳手來進行鑄造。",
+      "item_broke": "\n可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
+      "too_many": "%1$s如果持續進行的話，你將擁有5000個以上該物品。試著鑄造少一點的數量？",
+      "low_tier": "%1$s你需要使用2級以上扳手 (至少為彗星扳手) 來一次鑄造多個物品。你目前擁有%2$s級扳手。記得：你需要擁有兩個相同類型的扳手來進行鑄造。",
+      "not_enough_wrench_level": "%1$s你的扳手等級不足以鑄造這個物品。也許指定一隻更強壯的扳手？*扳手等級：%2$s，需求等級：%3$s*。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
+      "too_many_amount": "%1$s你無法一次鑄造這麼多物品！最高：%2$s，嘗試：%3$s。順帶一提，火花扳手將使數量限制加倍！除非你已經在使用了。",
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast \"diamond pickaxe\"`, or `~>cast \"diamond p\"`, works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "header": "可鑄造物品清單",
+        "cost": "鑄造消耗：",
+        "desc": "這是你能使用 `~>cast` 鑄造的物品清單。\n你可以使用全名或更簡短的名稱 (範例：`~>cast \"diamond pickaxe\"` 或 `~>cast \"diamond p\"` 都能使用)\n**鑄造的最低費用為該物品價格的一半。鑄造價格將顯示在下方。**\n扳手等級2和3分別是彗星與火花。"
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "dust": "%1$s你的背包太骯髒了，無法鑄造！*(灰塵高度：%2$s%%)*。為何不用 `~>useitem mop` 來清理呢？",
+      "wrench_multiple_use": "小提示：*你無法使用要鑄造的扳手作為原料！*"
     },
     "market": {
       "dump": {
@@ -918,12 +918,12 @@
         "chop_xp": "伐木經驗值",
         "sharks_caught": "鯊魚捕獲次數",
         "crates_open": "寶箱開啟次數",
-        "times_mop": "粉塵掃除次數",
+        "times_mop": "灰塵掃除次數",
         "daily": "連續簽到次數",
         "daily_at": "上次簽到時間",
         "waifu_claimed": "被認領為Waifu次數",
         "waifu_locked": "Waifu認領鎖",
-        "dust": "粉塵高度",
+        "dust": "灰塵高度",
         "lang": "偏好語言",
         "reminders": "被提醒次數",
         "times": "次",
@@ -1326,6 +1326,7 @@
       "pet_reactions": {
         "cute": "%1$sYour pet happily wags their tail as you caress their head. **Pat counter: %2$s**.%3$s",
         "cute_not_animal": "%1$sYour pet happily smiles as you caress their head. **Pat counter: %2$s**.%3$s",
+        "nothing": "%1$sYour pet just sits there, doing nothing.. **Pat counter: %2$s**.%3$s",
         "cheer": "%1$sThe reaction of your pet was so cute it managed to cheer you up. **Pat counter: %2$s**.%3$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %2$s**.%3$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
@@ -1578,18 +1579,18 @@
         "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
       },
       "streak": {
-        "up": "Streak up! Current streak: `%1$,dx`",
-        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
+        "up": "簽到成功！目前連續簽到數：`%1$,dx`",
+        "first_time": "你是第一次簽到，祝你玩得開心！(明天繼續簽到來獲得更多獎金！)",
         "lost_streak": {
-          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
-          "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+          "normal": "你已經超過兩天尚未簽到，因此你的 `%1$dx` 連續簽到被重置了 :(",
+          "watch": "你的`魔法手錶`無法停止這麼長的時間流動。用完了你所有的魔法手錶後，你的 `%1$dx` 連續簽到還是被重置了 :("
         },
-        "bonus": "You won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "bonus": "你已經連續簽到了五天或更久，獲得了 %1$s 元作為獎勵！",
         "given": {
-          "up": "Streak up! Current streak: `%1$,dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%2$,d for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "up": "簽到成功！目前連續簽到數：`%1$,dx`\n*以儲存至你的個人資料！*",
+          "bonus": "你已經連續簽到了五天或更久，%1$s 獲得了 $%2$,d 元作為獎勵！"
         },
-        "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
+        "watch_used": "你的`魔法手錶`成功拯救了你的簽到！你總共用了 `%1$d` 個來延長你的簽到時長至 %2$dx，剩餘 `%3$d` 個魔法手錶！"
       },
       "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
       "credits": "%1$sYou got **$%2$,d** daily credits.",
@@ -1597,8 +1598,8 @@
         "get_premium": "我們需要你的幫助來持續運行/更新Mantaro！瀏覽<https://patreon.com/mantaro>獲得更多資訊。**你可以透過Premium獲得兩倍的每日獎勵！**會員資格最低只需每月2美元，單純一杯珍奶的價格！",
         "already_premium": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:"
       },
-      "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
-      "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
+      "crate": "你的連續簽到數是20的倍數！恭喜你獲得了一個`戰利品箱`！",
+      "watch_get": "你的連續簽到數是50的倍數！恭喜你獲得了一個`魔法手錶`！"
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
@@ -1665,7 +1666,7 @@
     },
     "chop": {
       "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備斧頭並開始你的旅程！",
-      "dust": "%1$s那棵樹太脆弱了，你只得到了木屑。(粉塵高度 %2$d%%)",
+      "dust": "%1$s那棵樹太脆弱了，你只得到了木屑。(灰塵高度 %2$d%%)",
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
@@ -1699,7 +1700,7 @@
       "reputation": "Reputation Leaderboard",
       "gamble": "Gamble Wins Leaderboard",
       "slots": "Slots Wins Leaderboard",
-      "daily": "Daily Streak Leaderboard",
+      "daily": "連續簽到排行榜",
       "level": "Level leaderboard",
       "game": "Game Wins leaderboard",
       "waifu": "Waifu Value leaderboard",
@@ -1712,7 +1713,7 @@
         "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
         "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
         "rep": "%1sThis page shows the top 10 people with the most reputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
+        "streak": "%1s此頁面包含連續每日簽到時長最長的前十名用戶。\n\n查看 `~>help daily` 獲得更多消息",
         "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
         "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
         "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
