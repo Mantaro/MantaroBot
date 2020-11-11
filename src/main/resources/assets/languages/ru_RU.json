@@ -674,7 +674,7 @@
       },
       "optout": {
         "notice": "%1$sВы отказались от всей системы вайфу, поэтому не можете это использовать.",
-        "warning": "%1$sВы хотите отказаться от системы Вайфу? ЭТО ПОСТОЯННО И ОТМЕНИТЬ НЕВОЗМОЖНО.\nЕсли вы хотите отказаться от новых заявок и хотите использовать систему вайфу как обычно, используйте вместо этого `~>profileclaimlock`.\nВы не сможете быть чьим-то вайфу или взять других, отношения с вами будут удалены.\nВведите `Yes, I want to opt out of the waifu system completely and irreversibly` или `no`. При вводе первого вы откажетесь от участия, второго - отмените заявку.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sВы успешно отказались от вайфу системы.",
         "cancelled": "%1$sОтменена заявка на отказ.",
         "claim_notice": "%1$sПользователь которого вы пытаетесь взять отказался от вайфу системы."
