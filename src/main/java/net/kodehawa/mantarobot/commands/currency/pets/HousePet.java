@@ -258,6 +258,10 @@ public class HousePet {
             return HousePetType.PatReaction.CUTE_2;
         }
 
+        if (getType() == HousePetType.ROCK) {
+            return HousePetType.PatReaction.NOTHING;
+        }
+
         return HousePetType.PatReaction.CUTE;
     }
 

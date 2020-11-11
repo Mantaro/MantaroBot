@@ -31,6 +31,7 @@ public enum HousePetType {
             List.of(HousePetAbility.CHEER, HousePetAbility.FISH, HousePetAbility.CATCH, HousePetAbility.CHOP),
             3000000, 300, true
     ),
+    ROCK(EmoteReference.ROCK, "Rock", List.of(HousePetAbility.CHEER), 1000, 1, true),
     ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, false);
 
     public static enum HousePetAbility {
@@ -39,7 +40,8 @@ public enum HousePetType {
 
     public static enum PatReaction {
         CHEER("commands.pet.pet_reactions.cheer"), SCARE("commands.pet.pet_reactions.scare"),
-        CUTE("commands.pet.pet_reactions.cute"), CUTE_2("commands.pet.pet_reactions.cute_not_animal");
+        CUTE("commands.pet.pet_reactions.cute"), CUTE_2("commands.pet.pet_reactions.cute_not_animal"),
+        NOTHING("commands.pet.pet_reactions.nothing");
 
         final String message;
         PatReaction(String i18n) {
