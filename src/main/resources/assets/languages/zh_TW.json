@@ -265,7 +265,7 @@
         "success": "%1$s成功連接到**%2$s**!",
         "full_channel": "%1$s頻道人數已滿!",
         "non_existent_channel": "%1$s頻道不存在，可能是被你主動刪除了。\n 我順便幫你重設了音樂頻道，試著再次播播看。",
-        "user_no_vc": "%1$s**請加入語音頻道**。如果你還在語音頻道內但我突然離開了，請重新加入頻道。",
+        "user_no_vc": "%1$s**請加入語音頻道**。如果你還在頻道內但我突然離開了，請重新加入頻道。",
         "missing_permissions_connect": "%1$s我需要權限(%2$s)才能連接到這個頻道。",
         "missing_permission_speak": "%1$s我需要權限(%2$s)才能播放音樂。",
         "channel_locked": "%1$s我只能在**%2$s**裡播放。",
@@ -327,7 +327,7 @@
       "vc_not_found": "%1$s無法找到語音頻道或者你沒有指明一個！"
     },
     "shard": {
-      "info": "我在Shard %1$d / %2$d (節點 %3$d / %4$d)!\n已緩存用戶：%5$,d\nShard伺服數：%6$,d\n如果需要協助，請瀏覽<https://support.mantaro.site>"
+      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
@@ -919,7 +919,7 @@
         "sharks_caught": "鯊魚捕獲次數",
         "crates_open": "寶箱開啟次數",
         "times_mop": "灰塵掃除次數",
-        "daily": "連續簽到次數",
+        "daily": "連續簽到天數",
         "daily_at": "上次簽到時間",
         "waifu_claimed": "被認領為Waifu次數",
         "waifu_locked": "Waifu認領鎖",
@@ -974,7 +974,7 @@
         "disable": "%1$s成功取消自動裝備。",
         "success": "%1$s已開啟自動裝備。"
       },
-      "badge_header": "%1$sDisplay Badge",
+      "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
       "no_desc": "No description set",
@@ -986,8 +986,8 @@
       "birthday": "Birthday",
       "married": "Married with",
       "nobody": "Nobody",
-      "inventory": "Item Collection (Top 15)",
-      "badges": "Top 5 Badges",
+      "inventory": "Item Collection (Top 10)",
+      "badges": "Badge Collection (Top 5)",
       "no_badges": "No badges (yet!)",
       "no_timezone": "Not set",
       "timezone_user": "User's timezone: %1$s",
@@ -1303,8 +1303,8 @@
       "no_marriage": "%1$sYou need to be married to have a pet. For now.",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
-        "header": "Status for Pet %1$s",
-        "description": "Remember to take care and love your pet :heart:.\nSee `~>pet` and `~>help pet` for an explanation.",
+        "header": "Status for %1$s",
+        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
         "cost": "Price",
         "type": "Type",
         "abilities": "Abilities",
@@ -1313,7 +1313,7 @@
         "thirst": "Thirst",
         "hunger": "Hunger",
         "pet": "Pats",
-        "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
+        "footer": "Thanks you for using Mantaro! <3"
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
