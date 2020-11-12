@@ -39,8 +39,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.commands.MusicCmds.isDJ;
-import static net.kodehawa.mantarobot.commands.MusicCmds.isNotInCondition;
+import static net.kodehawa.mantarobot.commands.MusicCmds.*;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -93,7 +92,7 @@ public class MusicUtilCmds {
                     return;
                 }
 
-                if (isDJ(ctx, ctx.getMember())) {
+                if (isSongOwner(manager.getTrackScheduler(), ctx.getAuthor()) || isDJ(ctx, ctx.getMember())) {
                     try {
                         var amt = Utils.parseTime(args[0]);
                         if (amt < 0) {
@@ -150,7 +149,7 @@ public class MusicUtilCmds {
                     return;
                 }
 
-                if (isDJ(ctx, ctx.getMember())) {
+                if (isSongOwner(manager.getTrackScheduler(), ctx.getAuthor()) || isDJ(ctx, ctx.getMember())) {
                     try {
                         var amt = Utils.parseTime(args[0]);
                         if (amt < 0) {

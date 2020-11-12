@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.StatsManager;
@@ -433,8 +434,7 @@ public class MusicCmds {
                     }
 
                     var author = ctx.getAuthor();
-                    if (scheduler.getCurrentTrack().getUserData() != null &&
-                            String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId()) || isDJ(ctx, ctx.getMember())) {
+                    if (isSongOwner(scheduler, author) || isDJ(ctx, ctx.getMember())) {
                         ctx.sendLocalized("commands.skip.dj_skip", EmoteReference.CORRECT);
                         scheduler.nextTrack(true, true);
                         return;
@@ -733,8 +733,11 @@ public class MusicCmds {
             customDjRole = member.getGuild().getRoleById(guildData.getDjRoleId());
         }
 
-        return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(Permission.ADMINISTRATOR) ||
-                (djRole != null && member.getRoles().contains(djRole)) || (customDjRole != null && member.getRoles().contains(customDjRole));
+        return member.isOwner()
+                || member.hasPermission(Permission.MANAGE_SERVER)
+                || member.hasPermission(Permission.ADMINISTRATOR)
+                || (djRole != null && member.getRoles().contains(djRole))
+                || (customDjRole != null && member.getRoles().contains(customDjRole));
     }
 
     private static void sendNotConnectedToMyChannel(TextChannel channel, I18nContext lang) {
@@ -769,6 +772,10 @@ public class MusicCmds {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isSongOwner(TrackScheduler scheduler, User author) {
+        return scheduler.getCurrentTrack().getUserData() != null && String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(author.getId());
     }
 
     public static boolean isNotInCondition(Context ctx, JdaLink player) {
