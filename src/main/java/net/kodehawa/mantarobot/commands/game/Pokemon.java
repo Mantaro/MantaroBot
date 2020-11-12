@@ -32,7 +32,7 @@ import java.util.List;
 
 public class Pokemon extends ImageGame {
     private static final Logger log = LoggerFactory.getLogger("Game [Pokemon Trivia]");
-    private final int maxAttempts = 5;
+    private static final int maxAttempts = 5;
     private List<String> expectedAnswer;
 
     public Pokemon() {

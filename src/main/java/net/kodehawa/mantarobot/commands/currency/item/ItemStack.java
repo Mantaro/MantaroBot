@@ -47,8 +47,9 @@ public class ItemStack {
     }
 
     public static String toString(List<ItemStack> list) {
-        if (list.isEmpty())
+        if (list.isEmpty()) {
             return "There's only dust.";
+        }
 
         return list.stream().filter(stack -> stack.getAmount() != 0)
                 .sorted(Comparator.comparingInt(ItemStack::getAmount).reversed())

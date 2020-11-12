@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Module
 public class TransferCmds {
-    private final int TRANSFER_LIMIT = 1_000_000;
+    private static final int TRANSFER_LIMIT = 500_000;
 
     @Subscribe
     public void transfer(CommandRegistry cr) {

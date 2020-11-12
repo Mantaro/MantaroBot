@@ -97,8 +97,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var gambleLeaderboard = getLeaderboard("playerstats", "gambleWins",
-                        player -> player.pluck("id", "gambleWins"), 10
-                );
+                        player -> player.pluck("id", "gambleWins"));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -120,8 +119,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var slotsLeaderboard = getLeaderboard("playerstats", "slotsWins",
-                        player -> player.pluck("id", "slotsWins"), 10
-                );
+                        player -> player.pluck("id", "slotsWins"));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -350,8 +348,7 @@ public class LeaderboardCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 List<Map<String, Object>> claimLeaderboard = getLeaderboard("users", "timesClaimed",
-                        player -> player.pluck("id", r.hashMap("data", "timesClaimed")), 10
-                );
+                        player -> player.pluck("id", r.hashMap("data", "timesClaimed")));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -414,8 +411,8 @@ public class LeaderboardCmd {
         cr.registerAlias("leaderboard", "lb");
     }
 
-    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction, int limit) {
-        return getLeaderboard(table, index, m -> true, mapFunction, limit);
+    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction) {
+        return getLeaderboard(table, index, m -> true, mapFunction, 10);
     }
 
     private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {

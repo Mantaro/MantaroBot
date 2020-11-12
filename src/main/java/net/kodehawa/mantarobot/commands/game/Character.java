@@ -35,7 +35,7 @@ import java.util.List;
 
 public class Character extends ImageGame {
     private static final Logger log = LoggerFactory.getLogger("Game [Character]");
-    private final int maxAttempts = 5;
+    private static final int maxAttempts = 5;
     private String characterName;
     private List<String> characterNameL;
 

@@ -36,6 +36,7 @@ class DelimiterContext {
                 escaped = true;
                 continue;
             }
+
             builder.append(c);
         }
         return insideBlock || escaped;

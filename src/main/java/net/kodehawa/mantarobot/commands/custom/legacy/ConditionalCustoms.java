@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
 import java.util.HashMap;
@@ -140,7 +141,7 @@ public class ConditionalCustoms {
             Function<String[], String> f = functions.get(name);
 
             if (parts.length == 1) {
-                return f.apply(new String[0]);
+                return f.apply(StringUtils.EMPTY_ARRAY);
             }
 
             return f.apply(SPLITTER.split(parts[1], -1));

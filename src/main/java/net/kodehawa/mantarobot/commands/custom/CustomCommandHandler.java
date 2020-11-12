@@ -197,14 +197,17 @@ public class CustomCommandHandler {
 
     private boolean specialHandling() {
         int c = response.indexOf(':');
-        if (c == -1) return false;
+        if (c == -1) {
+            return false;
+        }
 
         String prefix = response.substring(0, c);
         String value = response.substring(c + 1);
 
         Func func = specialHandlers.get(prefix);
-        if (func == null)
+        if (func == null) {
             return false;
+        }
 
         func.handle(ctx, value, args);
 

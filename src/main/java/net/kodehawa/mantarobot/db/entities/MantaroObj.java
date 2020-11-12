@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MantaroObj implements ManagedObject {
     public static final String DB_TABLE = "mantaro";
-    public final String id = "mantaro";
+    public static final String id = "mantaro";
     public List<String> blackListedGuilds;
     public List<String> blackListedUsers;
     public List<String> patreonUsers;

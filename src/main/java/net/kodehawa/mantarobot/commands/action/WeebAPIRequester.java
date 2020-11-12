@@ -32,8 +32,8 @@ public class WeebAPIRequester {
     private static final String ALL_TAGS = "/tags";
     private static final String ALL_TYPES = "/types";
     private static final String API_BASE_URL = "https://api.weeb.sh/images";
-    private final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
-    private final String RANDOM_IMAGE = "/random";
+    private static final String AUTH_HEADER = "Bearer " + MantaroData.config().get().weebapiKey;
+    private static final String RANDOM_IMAGE = "/random";
 
     public Pair<String, String> getRandomImageByType(String type, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();

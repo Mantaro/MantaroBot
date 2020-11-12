@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GuessTheNumber extends Game<Object> {
-    private final int maxAttempts = 5;
+    private static final int maxAttempts = 5;
     private final Random r = new Random();
     private int attempts = 1;
     private int number = 0; //set to random number on game start
