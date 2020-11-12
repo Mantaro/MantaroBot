@@ -380,7 +380,7 @@
       "check": "%1$s这一节的音量是: %2$d \n\n%3$s",
       "success": "%1$s音量设置为 %2$d\n\n%3$s",
       "no_args": "%1$s你需要告诉我你想我设置音量为多少。(5至 100)",
-      "premium_only": "%1$s这是仅限高级用户的功能。为了获得像这个的高级功能，你可以贊助我们的 Patreon (https://www.patreon.com/mantaro) 感谢您的理解哦！\n高级功能可以绑定到一位用户或一个伺服器上。如果你贊助了我们，请加入Mantaro的伺服器来领取。"
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
       "no_current_track": "%1$s现在并没有任何播放中的歌曲！",
