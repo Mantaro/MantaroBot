@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 
+import java.awt.Color;
 import java.util.function.Consumer;
 
 public abstract class ImageGame extends Game<String> {
@@ -36,7 +37,11 @@ public abstract class ImageGame extends Game<String> {
         var eb = new EmbedBuilder();
         embedConfigurator.accept(eb);
 
-        eb.setImage("attachment://image.png");
-        return channel.sendMessage(new MessageBuilder().setEmbed(eb.build()).build()).addFile(cache.getInput(url), "image.png");
+        eb.setImage("attachment://image.png")
+                .setColor(Color.PINK);
+
+        var message = new MessageBuilder().setEmbed(eb.build());
+        return channel.sendMessage(message.build())
+                .addFile(cache.getInput(url), "image.png");
     }
 }

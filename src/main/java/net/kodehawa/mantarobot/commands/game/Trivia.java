@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.Color;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -127,6 +128,7 @@ public class Trivia extends Game<String> {
             eb.setAuthor("Trivia Game", null, lobby.getEvent().getAuthor().getAvatarUrl())
                     .setThumbnail("https://i.imgur.com/7TITtHb.png")
                     .setDescription("**" + qu + "**")
+                    .setColor(Color.PINK)
                     .addField(languageContext.get("commands.game.trivia.possibilities"),
                             sb.toString(), false
                     )
