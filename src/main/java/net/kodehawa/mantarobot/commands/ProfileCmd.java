@@ -427,8 +427,10 @@ public class ProfileCmd {
 
                 var split = SPLIT_PATTERN.split(content, 2);
                 var desc = content;
+                var old = false;
                 if (split[0].equals("set")) {
                     desc = content.replaceFirst("set ", "");
+                    old = true;
                 }
 
                 var MAX_LENGTH = 300;
@@ -437,7 +439,7 @@ public class ProfileCmd {
                     MAX_LENGTH = 500;
                 }
 
-                if (args.length < 2) {
+                if (args.length < (old ? 2 : 1)) {
                     ctx.sendLocalized("commands.profile.description.no_content", EmoteReference.ERROR);
                     return;
                 }
