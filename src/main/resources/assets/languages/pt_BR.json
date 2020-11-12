@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sCanal de voz não encontrado ou você não especificou um!"
     },
     "shard": {
-      "info": "Estou na shard %1$d / %2$d (Node %3$d / %4$d)!\nUsuários em Cache: %5$,d\nGuildas em Shard: %6$,d\nSe você precisar de ajuda, por favor vá para <https://support.mantaro.site>"
+      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
@@ -974,7 +974,7 @@
         "disable": "%1$sAuto-equipar desativado com sucesso.",
         "success": "%1$sAuto-equipar ativado."
       },
-      "badge_header": "%1$sInsígnia Exibida",
+      "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots não têm perfil.",
       "header": "Perfil de %1$s",
       "no_desc": "Sem descrição definida",
@@ -986,8 +986,8 @@
       "birthday": "Aniversário",
       "married": "Casado(a) com",
       "nobody": "Ninguém",
-      "inventory": "Coleção de Item (Top 15)",
-      "badges": "Top 5 Insígnias",
+      "inventory": "Item Collection (Top 10)",
+      "badges": "Badge Collection (Top 5)",
       "no_badges": "Sem insígnias (ainda!)",
       "no_timezone": "Não definido",
       "timezone_user": "Fuso horário do usuário: %1$s",
@@ -1303,8 +1303,8 @@
       "no_marriage": "%1$sVocê precisar ser casado para ter um pet. Por enquanto.",
       "status": {
         "no_pet": "%1$sVocê não tem nenhum pet para checar os status. Cheque `~>pet` para uma explicação.",
-        "header": "Status do Pet %1$s",
-        "description": "Lembre-se de dar amor e carinho para seu pet :heart:.\nVeja `~>pet` e `~>help pet` para uma explicação.",
+        "header": "Status for %1$s",
+        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
         "cost": "Preço",
         "type": "Tipo",
         "abilities": "Habilidades",
@@ -1313,7 +1313,7 @@
         "thirst": "Sede",
         "hunger": "Fome",
         "pet": "Carinhos",
-        "footer": "Obrigado por usa a Mantaro! Qualquer semelhança com eventos da vida real é mera coincidência."
+        "footer": "Thanks you for using Mantaro! <3"
       },
       "list": {
         "summary": "%1$s **Nome:** %2$s, **Habilidades:** `%3$s`, **Valor:** %4$,d créditos",
