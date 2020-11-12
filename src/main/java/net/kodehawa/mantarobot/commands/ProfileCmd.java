@@ -596,14 +596,14 @@ public class ProfileCmd {
                     var potionEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.POTION);
                     var buffEffect = equippedItems.getCurrentEffect(PlayerEquipment.EquipmentType.BUFF);
 
-                    var isPotionActive =
-                            potion != null &&
-                                    (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses()) ||
-                                            potionEffect.getAmountEquipped() > 1);
-                    var isBuffActive =
-                            buff != null &&
-                                    (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses()) ||
-                                            buffEffect.getAmountEquipped() > 1);
+                    var isPotionActive = potion != null &&
+                            (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.POTION, potion.getMaxUses())
+                            || potionEffect.getAmountEquipped() > 1);
+
+                    var isBuffActive = buff != null &&
+                            (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses())
+                            || buffEffect.getAmountEquipped() > 1);
+
 
                     var potionEquipped = 0L;
                     var buffEquipped = 0L;
@@ -769,15 +769,13 @@ public class ProfileCmd {
                 var playerData = player.getData();
 
                 if (content.equalsIgnoreCase("ls") || content.equalsIgnoreCase("Is")) {
-                    ctx.sendFormat(languageContext.get("commands.profile.display.ls") + languageContext.get("commands.profile.display.example"),
-                            EmoteReference.ZAP,
-                            EmoteReference.BLUE_SMALL_MARKER,
-
-                            defaultOrder.stream()
-                                    .map(Enum::name)
-                                    .collect(Collectors.joining(", ")),
-
-                            playerData.getProfileComponents().size() == 0 ? "Not personalized" :
+                    ctx.sendFormat(
+                            languageContext.get("commands.profile.display.ls") +
+                                    languageContext.get("commands.profile.display.example"),
+                            EmoteReference.ZAP, EmoteReference.BLUE_SMALL_MARKER,
+                            defaultOrder.stream().map(Enum::name).collect(Collectors.joining(", ")),
+                            playerData.getProfileComponents().size() == 0 ?
+                                    "Not personalized" :
                                     playerData.getProfileComponents().stream()
                                             .map(Enum::name)
                                             .collect(Collectors.joining(", "))

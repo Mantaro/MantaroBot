@@ -683,14 +683,14 @@ public class MarryCmd {
                         ).addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
-                        .setFooter("Marriage ID: " + currentMarriage.getId(), null);
+                        .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
 
                 if (data.hasHouse()) {
-                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), data.getHouseName(), false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), data.getHouseName(), true);
                 }
 
                 if (data.hasCar()) {
-                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), data.getCarName(), false);
+                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), data.getCarName(), true);
                 }
 
                 if (data.getPet() != null) {
