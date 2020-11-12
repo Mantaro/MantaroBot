@@ -271,7 +271,7 @@ public class DebugCmds {
                     );
                 }
 
-                DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
+                DiscordUtils.list(ctx.getEvent(), 150, false, messages);
             }
 
             @Override
