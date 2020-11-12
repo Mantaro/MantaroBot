@@ -380,7 +380,7 @@
       "check": "%1$sLe volume actuel de cette session est: %2$d\n\n%3$s",
       "success": "%1$sVolume défini à %2$d\n\n%3$s",
       "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100).",
-      "premium_only": "%1$sCeci est une fonctionnalité premium uniquement. Pour bénéficier d'avantages comme celui-ci, tu peux faire un don sur le site Patreon (https://www.patreon.com/mantaro). Merci de ta compréhension.\nLes fonctionnalités premiums peuvent être liées à un utilisateur ou à un serveur. Si tu fais un don, rejoins la guilde d'assistance et demande ta clé premium..."
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
       "no_current_track": "%1$sIl n'y a pas de musique en cours de lecture sur ce serveur!",
