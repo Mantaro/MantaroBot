@@ -368,7 +368,10 @@ public class DiscordUtils {
 
                     m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
                 }
-                case "\u274c" -> m.delete().queue();
+                case "\u274c" -> {
+                    m.delete().queue();
+                    return Operation.COMPLETED;
+                }
                 default -> { } // Do nothing, but make codefactor happy lol
             }
 

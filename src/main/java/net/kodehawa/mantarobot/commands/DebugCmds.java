@@ -266,8 +266,8 @@ public class DebugCmds {
                 List<String> messages = new LinkedList<>();
 
                 for (String shard : m) {
-                    messages.add("%s\n```prolog\n%s```"
-                            .formatted("**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", shard)
+                    messages.add("%s\n\n```prolog\n%s```"
+                            .formatted("**Mantaro's Shard Information**", shard)
                     );
                 }
 
