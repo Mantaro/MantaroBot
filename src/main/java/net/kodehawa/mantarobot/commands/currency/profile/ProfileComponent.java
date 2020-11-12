@@ -41,15 +41,17 @@ public enum ProfileComponent {
     HEADER(null,
             i18nContext -> String.format(i18nContext.get("commands.profile.badge_header"), EmoteReference.TROPHY), (holder, i18nContext) -> {
         PlayerData playerData = holder.getPlayer().getData();
-        if (holder.getBadges().isEmpty() || !playerData.isShowBadge())
-            return "None";
+        if (holder.getBadges().isEmpty() || !playerData.isShowBadge()) {
+            return " \u2009\u2009None";
+        }
 
-        if (playerData.getMainBadge() != null)
-            return String.format("**%s**\n", playerData.getMainBadge());
-        else
-            return String.format("**%s**\n", holder.getBadges().get(0));
+        if (playerData.getMainBadge() != null) {
+            return String.format(" \u2009\u2009**%s**\n", playerData.getMainBadge());
+        } else {
+            return String.format(" \u2009\u2009**%s**\n", holder.getBadges().get(0));
+        }
     }, true, false),
-    CREDITS(EmoteReference.DOLLAR, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
+    CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->
             "$ %,d".formatted(holder.isSeasonal() ? holder.getSeasonalPlayer().getMoney() : holder.getPlayer().getCurrentMoney()),
             true, false
     ),
@@ -75,8 +77,6 @@ public enum ProfileComponent {
                 var parsed = LocalDate.parse(data.getBirthday(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                 // Then format it back to a readable format for a human. A little annoying, but works.
                 var readable = DateTimeFormatter.ofPattern("MMM d", Utils.getLocaleFromLanguage(data.getLang()));
-
-                // Finally...
                 return String.format("%s (%s)", readable.format(parsed), data.getBirthday().substring(0, 5));
             }
         } catch (Exception e) {
@@ -85,7 +85,6 @@ public enum ProfileComponent {
         }
     }, true, false),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
-        //New marriage support.
         var userData = holder.getDbUser().getData();
         var currentMarriage = userData.getMarriage();
         User marriedTo = null;
@@ -115,12 +114,16 @@ public enum ProfileComponent {
         return inv.asList().stream()
                 .map(ItemStack::getItem)
                 .sorted(Comparator.comparingLong(Item::getValue).reversed())
-                .limit(15)
+                .limit(10)
                 .map(Item::getEmoji)
-                .collect(Collectors.joining("  "));
+                .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
-        var displayBadges = holder.getBadges().stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
+        var displayBadges = holder.getBadges()
+                .stream()
+                .limit(5)
+                .map(Badge::getUnicode)
+                .collect(Collectors.joining(" \u2009\u2009"));
 
         if (displayBadges.isEmpty()) {
             return i18nContext.get("commands.profile.no_badges");
@@ -217,7 +220,7 @@ public enum ProfileComponent {
     }
 
     public String getTitle(I18nContext context) {
-        return (emoji == null ? "" : emoji) + title.apply(context);
+        return (emoji == null ? "" : emoji) + " " + title.apply(context);
     }
 
     public BiFunction<Holder, I18nContext, String> getContent() {

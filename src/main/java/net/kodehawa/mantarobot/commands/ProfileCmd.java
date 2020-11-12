@@ -53,6 +53,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import okhttp3.Request;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -203,7 +204,11 @@ public class ProfileCmd {
                                     (ringHolder ? EmoteReference.RING : "") + String.format(languageContext.get("commands.profile.header"),
                                             memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
                                     .setDescription(description)
-                                    .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext), null);
+                                    .setColor(memberLooked.getColor() == null ? Color.PINK : memberLooked.getColor())
+                                    .setFooter(
+                                            ProfileComponent.FOOTER.getContent().apply(holder, languageContext),
+                                            ctx.getAuthor().getEffectiveAvatarUrl()
+                                    );
 
                             var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                             var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
