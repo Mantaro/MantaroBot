@@ -380,7 +380,7 @@
       "check": "%1$sDie momentane Lautstärke ist: %2$d\n\n%3$s",
       "success": "%1$sLautstärke ist nun %2$d\n\n%3$s",
       "no_args": "%1$sDu musst mir sagen, auf welche Lautstärke du die Musik stellen willst (4 bis 100).",
-      "premium_only": "%1$sDies ist eine Premiumfunktion. Um solche Vorteile zu bekommen, spende auf Patreon (https://www.patreon.com/mantaro). Danke für dein Verständnis.\nPremiumfunktionen können entweder für Nutzer oder für Server freigeschaltet werden, solltest du spenden, tritt bitte dem Support-Server bei und frage nach deinem entsprechenden Schlüssel."
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
       "no_current_track": "%1$sAktuell läut kein Lied auf diesem Server!",
