@@ -111,6 +111,6 @@ public class Character extends ImageGame {
     }
 
     public int getMaxAttempts() {
-        return this.maxAttempts;
+        return maxAttempts;
     }
 }

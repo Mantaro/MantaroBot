@@ -59,7 +59,7 @@ public class MantaroObj implements ManagedObject {
 
     @Nonnull
     public String getId() {
-        return this.id;
+        return id;
     }
 
     @JsonIgnore
