@@ -380,7 +380,7 @@
       "check": "%1$sТекущая громкость: %2$d\n\n%3$s",
       "success": "%1$sГромкость установлена на %2$d\n\n%3$s",
       "no_args": "%1$sВы не указали какую громкость установить, укажите ее (от 4 до 100).",
-      "premium_only": "%1$sФункция доступна только для премиумов. Чтобы получить доступ к командам премиума посетите наш patreon (https://www.patreon.com/mantaro). Благодарим за понимание.\nКупленный премиум можно привязать к серверу или на личный аккаунт, пожалуйста, если вы задонатили, посетите сервер поддержки и уточните."
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
       "no_current_track": "%1$sВ данный момент на сервере не играет музыка!",
