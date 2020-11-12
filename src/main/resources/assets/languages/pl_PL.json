@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
     },
     "shard": {
-      "info": "I'm in shard %1$d / %2$d (Node %3$d / %4$d)!\nCached Users: %5$,d\nShard Guilds: %6$,d\nIf you need any help, please head to <https://support.mantaro.site>"
+      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
@@ -974,7 +974,7 @@
         "disable": "%1$sSuccesfully disabled auto-equip.",
         "success": "%1$sEnabled auto-equip."
       },
-      "badge_header": "%1$sDisplay Badge",
+      "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
       "no_desc": "No description set",
@@ -986,8 +986,8 @@
       "birthday": "Urodziny",
       "married": "Ożeniony z",
       "nobody": "Nikt",
-      "inventory": "Item Collection (Top 15)",
-      "badges": "Top 5 Badges",
+      "inventory": "Item Collection (Top 10)",
+      "badges": "Badge Collection (Top 5)",
       "no_badges": "No badges (yet!)",
       "no_timezone": "Nie ustawione",
       "timezone_user": "User's timezone: %1$s",
@@ -1303,8 +1303,8 @@
       "no_marriage": "%1$sYou need to be married to have a pet. For now.",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
-        "header": "Status for Pet %1$s",
-        "description": "Remember to take care and love your pet :heart:.\nSee `~>pet` and `~>help pet` for an explanation.",
+        "header": "Status for %1$s",
+        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
         "cost": "Price",
         "type": "Type",
         "abilities": "Abilities",
@@ -1313,7 +1313,7 @@
         "thirst": "Thirst",
         "hunger": "Hunger",
         "pet": "Pats",
-        "footer": "Thanks you for using Mantaro! Any resemblance to real life events is merely coincidental."
+        "footer": "Thanks you for using Mantaro! <3"
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
