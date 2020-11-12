@@ -419,42 +419,43 @@ public class ProfileCmd {
                     return;
                 }
 
-                if (args[0].equals("set")) {
-                    var MAX_LENGTH = 300;
-
-                    if (dbUser.isPremium()) {
-                        MAX_LENGTH = 500;
-                    }
-
-                    if (args.length < 2) {
-                        ctx.sendLocalized("commands.profile.description.no_content", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    var desc = SPLIT_PATTERN.split(content, 2)[1];
-
-                    if (desc.length() > MAX_LENGTH) {
-                        ctx.sendLocalized("commands.profile.description.too_long", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
-                    desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
-
-                    player.getData().setDescription(desc);
-
-                    ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER, desc);
-
-                    player.getData().addBadgeIfAbsent(Badge.WRITER);
-                    player.save();
-                    return;
-                }
-
                 if (args[0].equals("clear")) {
                     player.getData().setDescription(null);
                     ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     player.save();
                 }
+
+                var split = SPLIT_PATTERN.split(content, 2);
+                var desc = content;
+                if (split[0].equals("set")) {
+                    desc = content.replaceFirst("set ", "");
+                }
+
+                var MAX_LENGTH = 300;
+
+                if (dbUser.isPremium()) {
+                    MAX_LENGTH = 500;
+                }
+
+                if (args.length < 2) {
+                    ctx.sendLocalized("commands.profile.description.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (desc.length() > MAX_LENGTH) {
+                    ctx.sendLocalized("commands.profile.description.too_long", EmoteReference.ERROR);
+                    return;
+                }
+
+                desc = Utils.DISCORD_INVITE.matcher(desc).replaceAll("-discord invite link-");
+                desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
+
+                player.getData().setDescription(desc);
+
+                ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER, desc);
+
+                player.getData().addBadgeIfAbsent(Badge.WRITER);
+                player.save();
             }
         });
 
