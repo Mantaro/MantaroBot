@@ -380,7 +380,7 @@
       "check": "%1$sDabartinis garsumas šiai sesijai yra: %2$d\n\n%3$s",
       "success": "%1$sGarsumas nustatytas į %2$d\n\n%3$s",
       "no_args": "%1$sTuri nurodyti, kokiu garsumu man groti muziką (nuo 5 iki 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
       "no_current_track": "%1$sThere's no song currently playing on this server!",
