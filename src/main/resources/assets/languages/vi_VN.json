@@ -380,7 +380,7 @@
       "check": "%1$sÂm lượng hiện tại là: %2$d\n\n%3$s",
       "success": "%1$sÂm lượng được đặt thành %2$d\n\n%3$s",
       "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt nhạc là gì (từ 5 đến 100).",
-      "premium_only": "%1$sĐây là tính năng chỉ có ở tài khoản cao cấp. Để có được những tiện lợi này bạn có thể đăng kí trên patreon (https://www.patreon.com/mantaro). Cảm ơn vì đã hiểu.\nCác tính năng cao cấp có thể bị ràng buộc bởi người dùng hoặc máy chủ. Nếu bạn đã ủng hộ, vui lòng tham gia máy chủ hỗ trợ và hỏi về nó."
+      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
       "no_current_track": "%1$sKhông có bài hát nào đang được chơi ở máy chủ này!",
