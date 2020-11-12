@@ -50,9 +50,16 @@ public class MavenClassLoader extends ClassLoader {
     }
     
     @Override
+    @SuppressWarnings("try")
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         var is = getResourceAsStream(name.replace('.', '/') + ".class");
-        if(is == null) throw new ClassNotFoundException(name);
+        if(is == null) {
+            throw new ClassNotFoundException(name);
+        }
+
+        // It's meant to be this way, we just want the InputStream
+        // to be closed, but we don't need to use it anymore.
+        // Warning is supressed above, else compiler complains :)
         try(var __ = is) {
             var bytes = is.readAllBytes();
             return super.defineClass(name, bytes, 0, bytes.length);

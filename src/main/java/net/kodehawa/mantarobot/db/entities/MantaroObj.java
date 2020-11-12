@@ -50,8 +50,7 @@ public class MantaroObj implements ManagedObject {
         this.mutes = mutes;
     }
 
-    public MantaroObj() {
-    }
+    public MantaroObj() { }
 
     public static MantaroObj create() {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new ConcurrentHashMap<>());
