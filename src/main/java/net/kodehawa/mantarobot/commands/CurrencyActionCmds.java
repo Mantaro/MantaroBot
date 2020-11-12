@@ -54,7 +54,7 @@ import static net.kodehawa.mantarobot.commands.currency.item.ItemHelper.handleDu
 
 @Module
 public class CurrencyActionCmds {
-    private final SecureRandom random = new SecureRandom();
+    private static final SecureRandom random = new SecureRandom();
 
     @Subscribe
     public void mine(CommandRegistry cr) {

@@ -48,6 +48,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
+import java.awt.Color;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -671,7 +672,8 @@ public class MarryCmd {
                 boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.marry.status.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setAuthor(languageContext.get("commands.marry.status.header"), null, author.getEffectiveAvatarUrl())
+                        .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
                         .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
                                 EmoteReference.HEART,
                                 author.getName(),
