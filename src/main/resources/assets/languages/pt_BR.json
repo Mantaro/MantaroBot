@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sCanal de voz não encontrado ou você não especificou um!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Estou em shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Guildas em Shard:** %5$,d servidores\n**Usuários em Cache:** %6$,d usuários\n**Membros em Cache:** %7$,d membros\n\nSe você precisar de alguma ajuda, por favor vá para <https://support.mantaro.site>. Obrigado por usar a Mantaro!"
     },
     "queue": {
       "clear": {
@@ -380,7 +380,7 @@
       "check": "%1$sO volume atual desta sessão é: %2$d\n\n%3$s",
       "success": "%1$sVolume definido para %2$d\n\n%3$s",
       "no_args": "%1$sVocê precisa me dizer o volume que você quer que eu defina na música (4 para 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$sEste é um recurso somente premium. A fim de obter benefícios premium como este você pode se comprometer com o patreon (https://www.patreon.com/mantaro). Obrigado pela compreensão.\nRecursos premium podem ser vinculados a um usuário ou servidor, por favor, se você doar, participe do servidor de suporte e peça."
     },
     "lyrics": {
       "no_current_track": "%1$sNão tem nenhuma música tocando atualmente neste servidor!",
@@ -974,7 +974,7 @@
         "disable": "%1$sAuto-equipar desativado com sucesso.",
         "success": "%1$sAuto-equipar ativado."
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$sInsígnia Exibida",
       "bot_notice": "%1$sBots não têm perfil.",
       "header": "Perfil de %1$s",
       "no_desc": "Sem descrição definida",
@@ -986,8 +986,8 @@
       "birthday": "Aniversário",
       "married": "Casado(a) com",
       "nobody": "Ninguém",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "inventory": "Coleção de Item (Top 10)",
+      "badges": "Coleção de Insígnia (Top 5)",
       "no_badges": "Sem insígnias (ainda!)",
       "no_timezone": "Não definido",
       "timezone_user": "Fuso horário do usuário: %1$s",
@@ -1303,8 +1303,8 @@
       "no_marriage": "%1$sVocê precisar ser casado para ter um pet. Por enquanto.",
       "status": {
         "no_pet": "%1$sVocê não tem nenhum pet para checar os status. Cheque `~>pet` para uma explicação.",
-        "header": "Status for %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
+        "header": "Status de %1$s",
+        "description": "Lembre-se de dar amor e carinho ao seu pet. :heart:\nVeja `~>pet` e `~>help pet` para uma explicação.",
         "cost": "Preço",
         "type": "Tipo",
         "abilities": "Habilidades",
@@ -1313,7 +1313,7 @@
         "thirst": "Sede",
         "hunger": "Fome",
         "pet": "Carinhos",
-        "footer": "Thanks you for using Mantaro! <3"
+        "footer": "Obrigado por usar a Mantaro! <3"
       },
       "list": {
         "summary": "%1$s **Nome:** %2$s, **Habilidades:** `%3$s`, **Valor:** %4$,d créditos",
@@ -1326,7 +1326,7 @@
       "pet_reactions": {
         "cute": "%1$sSeu pet abana o rabo alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %2$s**.%3$s",
         "cute_not_animal": "%1$sSeu pet sorri alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %2$s**.%3$s",
-        "nothing": "%1$sYour pet just sits there, doing nothing. **Pat counter: %2$s**.%3$s",
+        "nothing": "%1$sSeu pet fica sentado ali, sem fazer nada. **Contado de carinho: %2$s**.%3$s",
         "cheer": "%1$sA reação do seu pet foi tão fofa que conseguiu te animar. **Contador de carinho: %2$s**.%3$s",
         "scare": "%1$sO pet ficou assustado quando você deu carinho pra ele. Talvez tenha sido muito inesperado? **Contador de carinho: %2$s**.%3$s",
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
