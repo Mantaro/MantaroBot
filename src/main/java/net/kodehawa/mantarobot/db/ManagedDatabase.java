@@ -290,7 +290,7 @@ public class ManagedDatabase {
 
         r.table(object.getTableName())
                 .insert(object)
-                .optArg("conflict", "replace")
+                .optArg("conflict", "update")
                 .runNoReply(conn);
     }
 

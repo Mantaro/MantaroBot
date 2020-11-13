@@ -42,8 +42,7 @@ public class MavenClassLoader extends ClassLoader {
             if(entry != null) {
                 try {
                     return f.jf.getInputStream(entry);
-                } catch(IOException ignored) {
-                }
+                } catch(IOException ignored) { }
             }
         }
         return null;
