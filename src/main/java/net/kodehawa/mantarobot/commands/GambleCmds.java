@@ -147,7 +147,8 @@ public class GambleCmds {
 
                 final var finalLuck = luck;
                 final var finalGains = gains;
-                proceedGamble(ctx, player, luck, i, gains, i);
+                // Get the player again, to make sure the entry is not stale.
+                proceedGamble(ctx, ctx.getPlayer(), luck, i, gains, i);
             }
 
             @Override

@@ -92,13 +92,30 @@ public class CommandListener implements EventListener {
 
             if (commandProcessor.run(event)) {
                 commandTotal++;
+
+                // Remove running flag
+                try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                    jedis.del("commands-running-" + event.getAuthor().getId());
+                }
+
             } else {
-                //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
+                // Only run experience if no command has been executed, avoids weird race conditions when saving player status.
+                // With nodes, this could still be a little cursed. Maybe a redis lock?
                 try {
-                    //Only run experience if the user is not rate limited (clears every 30 seconds)
-                    if (random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
-                        if (event.getMember() == null) {
-                            return;
+                    // Only run experience if the user is not rate limited (clears every 30 seconds)
+                    // And don't run it if it's a webhook message, if the user is not a bot, if the message is not a webhook message
+                    // and if the member is not null.
+                    if (random.nextInt(15) > 7 && !event.getAuthor().isBot() &&
+                            !event.isWebhookMessage() && event.getMember() != null && experienceRatelimiter.process(event.getAuthor())) {
+
+                        // If a command is running on another node, don't handle (this is an issue due to multiple different Player objects)
+                        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+                            var running = jedis.get("commands-running-" + event.getAuthor().getId());
+                            System.out.println(running);
+
+                            if (running != null) {
+                                return;
+                            }
                         }
 
                         //Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
@@ -109,35 +126,35 @@ public class CommandListener implements EventListener {
 
                         var player = MantaroData.db().getPlayer(event.getAuthor());
                         var data = player.getData();
-                        var dbGuild = MantaroData.db().getGuild(event.getGuild());
-                        var guildData = dbGuild.getData();
 
                         if (player.isLocked()) {
                             return;
                         }
-
-                        // ---------- GLOBAL EXPERIENCE CHECK ---------- //
 
                         //Set level to 1 if level is zero.
                         if (player.getLevel() == 0) {
                             player.setLevel(1);
                         }
 
-                        //Set player experience to a random number between 1 and 5.
-                        data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
+                        // Increment player experience by a random number between 1 and 5.
+                        data.setExperience(data.getExperience() + random.nextInt(5));
+                        // Apply some black magic.
+                        var level = player.getLevel();
+                        if (data.getExperience() > (level * Math.log10(player.getLevel()) * 1000) + (50 * level / 2D)) {
+                            player.setLevel(level + 1);
+                            var newLevel = player.getLevel();
 
-                        //Apply some black magic.
-                        if (data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2D)) {
-                            player.setLevel(player.getLevel() + 1);
-                            //Check if the member is not null, just to be sure it happened in-between.
-                            if (player.getLevel() > 1 && event.getMember() != null) {
+                            if (newLevel > 1) {
+                                var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                                var guildData = dbGuild.getData();
+
                                 if (guildData.isEnabledLevelUpMessages()) {
                                     String levelUpChannel = guildData.getLevelUpChannel();
                                     String levelUpMessage = guildData.getLevelUpMessage();
 
                                     //Player has leveled up!
                                     if (levelUpMessage != null && levelUpChannel != null) {
-                                        processMessage(String.valueOf(player.getLevel()), levelUpMessage, levelUpChannel, event);
+                                        processMessage(newLevel, levelUpMessage, levelUpChannel, event);
                                     }
                                 }
                             }
@@ -195,7 +212,7 @@ public class CommandListener implements EventListener {
         }
     }
 
-    private void processMessage(String level, String message, String channel, GuildMessageReceivedEvent event) {
+    private void processMessage(long level, String message, String channel, GuildMessageReceivedEvent event) {
         var tc = event.getGuild().getTextChannelById(channel);
 
         if (tc == null) {
@@ -205,7 +222,7 @@ public class CommandListener implements EventListener {
         if (message.contains("$(")) {
             message = new DynamicModifiers()
                     .mapEvent("", "event", event)
-                    .set("level", level)
+                    .set("level", String.valueOf(level))
                     .resolve(message);
         }
 

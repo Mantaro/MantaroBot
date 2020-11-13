@@ -44,8 +44,9 @@ public class CommandProcessor {
         String lowerRawCmd = rawCmd.toLowerCase();
 
         for (String s : prefix) {
-            if (lowerRawCmd.startsWith(s))
+            if (lowerRawCmd.startsWith(s)) {
                 usedPrefix = s;
+            }
         }
 
         if (usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
@@ -55,6 +56,13 @@ public class CommandProcessor {
             usedPrefix = customPrefix;
         } else if (usedPrefix == null) {
             return false;
+        }
+
+        // This could be done using a lock
+        // But that would be a little too blocking IMO.
+        // So just set a flag.
+        try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            jedis.set("commands-running-" + event.getAuthor().getId(), String.valueOf(1));
         }
 
         String[] parts = splitArgs(rawCmd, 2);

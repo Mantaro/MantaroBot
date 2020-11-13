@@ -338,8 +338,9 @@ public class MoneyCmds {
 
                 if (random.nextInt(100) > 95) {
                     ground.dropItem(ItemReference.LOOT_CRATE);
-                    if (playerData.addBadgeIfAbsent(Badge.LUCKY))
-                        player.saveAsync();
+                    if (playerData.addBadgeIfAbsent(Badge.LUCKY)) {
+                        player.saveUpdating();
+                    }
                 }
 
                 var loot = ground.collectItems();

@@ -39,10 +39,20 @@ public interface ManagedObject {
         MantaroData.db().delete(this);
     }
 
+    /**
+     * Saves an object to the database.
+     * This will save the object by REPLACING it, instead of updating.
+     * Useful sometimes.
+     */
     default void save() {
         MantaroData.db().save(this);
     }
 
+    /**
+     * Saves an object to the database.
+     * This will save the object by updating it.
+     * Useful sometimes.
+     */
     default void saveUpdating() {
         MantaroData.db().saveUpdating(this);
     }
