@@ -111,8 +111,6 @@ public class CommandListener implements EventListener {
                         // If a command is running on another node, don't handle (this is an issue due to multiple different Player objects)
                         try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
                             var running = jedis.get("commands-running-" + event.getAuthor().getId());
-                            System.out.println(running);
-
                             if (running != null) {
                                 return;
                             }
