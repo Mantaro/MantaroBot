@@ -788,6 +788,8 @@
       "no_item_mention": "%1$sيجب أن تحدد عضو لتحويل غرض له وأيضا يجب أن تحدد الغرض المراد تحويله."
     },
     "transfer": {
+      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
       "transfer_yourself_note": "%1$sلايمكنك تحويل مال لنفسك.",
       "bot_notice": "%1$sلايمكنك تحويل مال لبوت.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
