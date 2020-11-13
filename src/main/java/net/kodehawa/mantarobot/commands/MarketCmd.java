@@ -336,7 +336,7 @@ public class MarketCmd {
                                 player.addMoney(all);
 
                                 ctx.sendLocalized("commands.market.sell.all.success", EmoteReference.MONEY, all);
-                                player.saveAsync();
+                                player.save();
                                 return Operation.COMPLETED;
                             } else if (c.equalsIgnoreCase("no")) {
                                 ctx.sendLocalized("commands.market.sell.all.cancelled", EmoteReference.CORRECT);
@@ -393,7 +393,7 @@ public class MarketCmd {
 
                     player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
                     ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount);
-                    player.saveAsync();
+                    player.save();
 
                     if (isSeasonal)
                         seasonalPlayer.saveAsync();

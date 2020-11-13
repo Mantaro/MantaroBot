@@ -97,13 +97,15 @@ public class CommandListener implements EventListener {
                 try {
                     //Only run experience if the user is not rate limited (clears every 30 seconds)
                     if (random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
-                        if (event.getMember() == null)
+                        if (event.getMember() == null) {
                             return;
+                        }
 
                         //Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
                         //some nasty race conditions involving player save.
-                        if (InteractiveOperations.get(event.getChannel()).size() > 0)
+                        if (InteractiveOperations.get(event.getChannel()).size() > 0) {
                             return;
+                        }
 
                         var player = MantaroData.db().getPlayer(event.getAuthor());
                         var data = player.getData();
@@ -141,8 +143,7 @@ public class CommandListener implements EventListener {
                             }
                         }
 
-                        //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
-                        player.saveAsync();
+                        player.saveUpdating();
                     }
                 } catch (Exception ignored) { }
             }

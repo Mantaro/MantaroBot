@@ -286,7 +286,16 @@ public class ManagedDatabase {
     }
 
     public void save(@Nonnull ManagedObject object) {
-        log("Saving {} {}:{} to rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        log("Saving {} {}:{} to rethink (replacing)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+
+        r.table(object.getTableName())
+                .insert(object)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void saveUpdating(@Nonnull ManagedObject object) {
+        log("Saving {} {}:{} to rethink (updating)", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
 
         r.table(object.getTableName())
                 .insert(object)

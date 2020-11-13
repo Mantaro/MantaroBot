@@ -328,22 +328,24 @@ public class ItemHelper {
                 return false;
             }
 
-            //Effect is active when it's been used less than the max amount
+            // Effect is active when it's been used less than the max amount
             if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
-                //Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
+                // Reset effect if the current amount equipped is 0. Else, subtract one from the current amount equipped.
                 if (!equipment.getCurrentEffect(type).use()) { //This call subtracts one from the current amount equipped.
                     equipment.resetEffect(type);
-                    //This has to go twice, because I have to return on the next statement.
+                    // This has to go twice, because I have to return on the next statement.
+                    // We remove something from a HashMap here, and somehow
+                    // removing it from a HashMap will need a full replace (why?)
                     user.save();
 
                     return false;
                 } else {
-                    user.save();
+                    user.saveUpdating();
                     return true;
                 }
             } else {
                 equipment.incrementEffectUses(type);
-                user.save();
+                user.saveUpdating();
 
                 return true;
             }
@@ -412,7 +414,9 @@ public class ItemHelper {
             if (isSeasonal) {
                 seasonPlayer.save();
             } else {
-                player.save();
+                player.saveUpdating();
+                // We remove something from a HashMap here, and somehow
+                // removing it from a HashMap will need a full replace (why?)
                 user.save();
             }
 
@@ -420,10 +424,10 @@ public class ItemHelper {
             return Pair.of(true, Pair.of(player, user));
         } else {
             if (isSeasonal) {
-                seasonPlayer.save();
+                seasonPlayer.saveUpdating();
             } else {
-                player.save();
-                user.save();
+                player.saveUpdating();
+                user.saveUpdating();
             }
 
             //is not broken

@@ -302,7 +302,7 @@ public class PetCmds {
                 }
 
                 pet.increasePats();
-                marriage.save();
+                marriage.saveUpdating();
 
                 ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getPatCounter(), extraMessage);
             }
@@ -457,8 +457,8 @@ public class PetCmds {
                 pet.setName(content);
                 player.removeMoney(cost);
 
-                marriage.save();
-                player.save();
+                marriage.saveUpdating();
+                player.saveUpdating();
 
                 ctx.sendLocalized("commands.pet.rename.success", EmoteReference.POPPER, oldName, content, cost);
             }
@@ -548,9 +548,9 @@ public class PetCmds {
                 pet.increaseStamina();
 
                 playerInventory.process(new ItemStack(itemObject, -amount));
-                player.save();
+                player.saveUpdating();
 
-                marriage.save();
+                marriage.saveUpdating();
                 ctx.sendLocalized("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
             }
         });
@@ -614,9 +614,10 @@ public class PetCmds {
                 pet.increaseStamina();
 
                 playerInventory.process(new ItemStack(item, -amount));
-                player.save();
 
-                marriage.save();
+                player.saveUpdating();
+                marriage.saveUpdating();
+
                 ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, increase, pet.getThirst());
             }
         });

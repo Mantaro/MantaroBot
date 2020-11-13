@@ -254,7 +254,7 @@ public class MoneyCmds {
                 }
 
                 toAddMoneyTo.addMoney(dailyMoney);
-                toAddMoneyTo.save();
+                toAddMoneyTo.saveUpdating();
 
 
                 // Build Message
@@ -396,7 +396,7 @@ public class MoneyCmds {
                 }
 
 
-                unifiedPlayer.saveAsync();
+                unifiedPlayer.saveUpdating();
             }
 
             @Override
@@ -447,7 +447,7 @@ public class MoneyCmds {
 
                     if (!extra.isEmpty()) {
                         playerData.setResetWarning(true);
-                        player.save();
+                        player.saveUpdating();
                     }
 
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?

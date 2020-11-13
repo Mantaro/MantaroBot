@@ -146,7 +146,7 @@ public class PlayerCmds {
 
                     var player = UnifiedPlayer.of(usr, ctx.getConfig().getCurrentSeason());
                     player.addReputation(1L);
-                    player.save();
+                    player.saveUpdating();
 
                     ctx.sendStrippedLocalized("commands.rep.success", EmoteReference.CORRECT, member.getEffectiveName());
                 });

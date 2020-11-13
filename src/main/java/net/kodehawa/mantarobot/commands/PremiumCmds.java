@@ -288,7 +288,7 @@ public class PremiumCmds {
                             if (!marked && isLookup) {
                                 Player player = db.getPlayer(owner);
                                 if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2))
-                                    player.saveAsync();
+                                    player.saveUpdating();
                             }
 
                             var patreonInformation = APIUtils.getPledgeInformation(owner.getId());

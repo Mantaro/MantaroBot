@@ -288,9 +288,9 @@ public class GambleCmds {
                     if (playerInventory.containsItem(ItemReference.SLOT_COIN)) {
                         playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -coinAmount));
                         if (season)
-                            seasonalPlayer.saveAsync();
+                            seasonalPlayer.save();
                         else
-                            player.saveAsync();
+                            player.save();
 
                         slotsChance = slotsChance + 10;
                     } else {
@@ -303,7 +303,7 @@ public class GambleCmds {
                         seasonalPlayer.saveAsync();
                     } else {
                         player.removeMoney(money);
-                        player.saveAsync();
+                        player.saveUpdating();
                     }
                 }
 
@@ -362,10 +362,10 @@ public class GambleCmds {
 
                     if (season) {
                         seasonalPlayer.addMoney(gains + money);
-                        seasonalPlayer.saveAsync();
+                        seasonalPlayer.saveUpdating();
                     } else {
                         player.addMoney(gains + money);
-                        player.saveAsync();
+                        player.saveUpdating();
                     }
                 } else {
                     stats.getData().incrementSlotsLose();
@@ -374,7 +374,7 @@ public class GambleCmds {
                     );
                 }
 
-                stats.saveAsync();
+                stats.saveUpdating();
 
                 message.append("\n");
                 ctx.send(message.toString());
@@ -407,7 +407,7 @@ public class GambleCmds {
                 if (gains > 5_000L) {
                     if (!data.hasBadge(Badge.GAMBLER)) {
                         data.addBadgeIfAbsent(Badge.GAMBLER);
-                        player.saveAsync();
+                        player.saveUpdating();
                     }
                 }
 
@@ -434,7 +434,7 @@ public class GambleCmds {
         }
 
         player.setLocked(false);
-        player.saveAsync();
-        stats.saveAsync();
+        player.saveUpdating();
+        stats.saveUpdating();
     }
 }

@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -35,8 +36,11 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
 
 import java.text.ParsePosition;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 @Module
 public class TransferCmds {
@@ -77,8 +81,22 @@ public class TransferCmds {
                     return;
                 }
 
+                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+
+                //Didn't want to repeat the code twice, lol.
+                if (!oldEnough.test(ctx.getAuthor())) {
+                    ctx.sendLocalized("commands.transfer.new_account_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!oldEnough.test(giveTo)) {
+                    ctx.sendLocalized("commands.transfer.new_account_notice", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
+
 
                 var toSend = 0L; // = 0 at the start
 
@@ -140,10 +158,10 @@ public class TransferCmds {
 
                 if (toTransfer.addMoney(amountTransfer)) {
                     transferPlayer.removeMoney(toSend);
-                    transferPlayer.saveAsync();
+                    transferPlayer.saveUpdating();
 
                     ctx.sendLocalized("commands.transfer.success", EmoteReference.CORRECT, toSend, amountTransfer, giveTo.getName());
-                    toTransfer.saveAsync();
+                    toTransfer.saveUpdating();
                     rateLimiter.limit(toTransfer.getUserId());
                 } else {
                     ctx.sendLocalized("commands.transfer.receipt_overflow_notice", EmoteReference.ERROR);
@@ -251,8 +269,8 @@ public class TransferCmds {
                         ctx.sendLocalized("commands.itemtransfer.multiple_items_error", EmoteReference.ERROR);
                     }
 
-                    player.saveAsync();
-                    giveToPlayer.saveAsync();
+                    player.save();
+                    giveToPlayer.save();
                     return;
                 }
 
@@ -284,8 +302,8 @@ public class TransferCmds {
                     );
                 }
 
-                player.saveAsync();
-                giveToPlayer.saveAsync();
+                player.save();
+                giveToPlayer.save();
             }
 
             @Override

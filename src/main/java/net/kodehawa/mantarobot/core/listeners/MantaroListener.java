@@ -257,7 +257,7 @@ public class MantaroListener implements EventListener {
                                                 + "`\nThanks you soo much for donating and helping to keep Mantaro alive! :heart:"
                                         ).queue(sent -> {
                                             dbUser.getData().setHasReceivedFirstKey(true);
-                                            dbUser.saveAsync();
+                                            dbUser.saveUpdating();
                                         }
                                 );
 

@@ -276,17 +276,17 @@ public class CurrencyActionCmds {
 
                 if (isSeasonal) {
                     seasonalPlayer.addMoney(money);
-                    seasonalPlayer.saveAsync();
+                    seasonalPlayer.saveUpdating();
                 } else {
                     playerData.incrementMiningExperience(random);
                     player.addMoney(money);
                 }
 
                 //Due to badges.
-                player.save();
+                player.saveUpdating();
 
                 if (marriage != null) {
-                    marriage.save();
+                    marriage.saveUpdating();
                 }
 
                 handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
@@ -368,7 +368,7 @@ public class CurrencyActionCmds {
                     //Here your fish rod got dusty. Yes, on the sea.
                     var level = userData.increaseDustLevel(random.nextInt(4));
                     ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
-                    dbUser.save();
+                    dbUser.saveUpdating();
 
                     handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
                     return;
@@ -537,7 +537,7 @@ public class CurrencyActionCmds {
                     if (money == 0 && !foundFish) {
                         int level = userData.increaseDustLevel(random.nextInt(4));
                         ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
-                        dbUser.save();
+                        dbUser.saveUpdating();
 
                         handleItemDurability(item, ctx, player, dbUser, seasonPlayer,
                                 "commands.fish.autoequip.success", isSeasonal
@@ -559,15 +559,15 @@ public class CurrencyActionCmds {
                 }
 
                 //Save all changes to the player object.
-                player.save();
+                player.saveUpdating();
 
                 if (isSeasonal) {
-                    seasonPlayer.save();
+                    seasonPlayer.saveUpdating();
                 }
 
                 // Save pet stats.
                 if (marriage != null) {
-                    marriage.save();
+                    marriage.saveUpdating();
                 }
 
                 handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);

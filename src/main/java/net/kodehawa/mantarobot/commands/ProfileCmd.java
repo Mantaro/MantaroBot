@@ -225,7 +225,7 @@ public class ProfileCmd {
                                     userLooked, profileBuilder
                             );
 
-                            player.saveAsync();
+                            player.saveUpdating();
                         });
 
                     }
@@ -785,7 +785,7 @@ public class ProfileCmd {
 
                 if (content.equalsIgnoreCase("reset")) {
                     playerData.getProfileComponents().clear();
-                    player.saveAsync();
+                    player.save();
 
                     ctx.sendLocalized("commands.profile.display.reset", EmoteReference.CORRECT);
                     return;
@@ -810,7 +810,7 @@ public class ProfileCmd {
                 }
 
                 playerData.setProfileComponents(newComponents);
-                player.saveAsync();
+                player.save();
 
                 ctx.sendLocalized("commands.profile.display.success",
                         EmoteReference.CORRECT, newComponents.stream().map(Enum::name).collect(Collectors.joining(", "))

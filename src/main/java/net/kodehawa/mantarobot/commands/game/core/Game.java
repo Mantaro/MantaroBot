@@ -96,7 +96,7 @@ public abstract class Game<T> {
 
                 seasonalPlayerData.setGamesWon(seasonalPlayerData.getGamesWon() + 1);
                 data.setGamesWon(data.getGamesWon() + 1);
-                unifiedPlayer.save();
+                unifiedPlayer.saveUpdating();
 
                 TextChannelGround.of(e).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                 channel.sendMessageFormat(

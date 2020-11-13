@@ -107,6 +107,11 @@ public class UnifiedPlayer {
         seasonalPlayer.save();
     }
 
+    public void saveUpdating() {
+        player.saveUpdating();
+        seasonalPlayer.saveUpdating();
+    }
+
     public void saveAsync() {
         player.saveAsync();
         seasonalPlayer.saveAsync();

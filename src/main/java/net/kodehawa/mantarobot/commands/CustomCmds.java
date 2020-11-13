@@ -693,7 +693,7 @@ public class CustomCmds {
                 }
 
                 cmd.getData().setLocked(true);
-                cmd.save();
+                cmd.saveUpdating();
 
                 ctx.sendLocalized("commands.custom.lockcommand.success", EmoteReference.CORRECT, content);
             }

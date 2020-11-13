@@ -113,7 +113,7 @@ public class GuessTheNumber extends Game<Object> {
                             player.getData().addBadgeIfAbsent(Badge.APPROACHING_DESTINY);
                         }
 
-                        unifiedPlayer.save();
+                        unifiedPlayer.saveUpdating();
 
                         TextChannelGround.of(e).dropItemWithChance(ItemReference.FLOPPY_DISK, 3);
                         channel.sendMessageFormat(languageContext.get("commands.game.lobby.won_game"),

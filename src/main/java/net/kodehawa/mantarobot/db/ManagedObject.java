@@ -43,6 +43,10 @@ public interface ManagedObject {
         MantaroData.db().save(this);
     }
 
+    default void saveUpdating() {
+        MantaroData.db().saveUpdating(this);
+    }
+
     default void deleteAsync() {
         MantaroData.queue(this::delete);
     }
