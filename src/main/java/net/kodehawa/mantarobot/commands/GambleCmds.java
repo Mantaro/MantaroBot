@@ -98,11 +98,13 @@ public class GambleCmds {
                         }
                         case "half" -> {
                             i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 2;
+
                             multiplier = 1.2d + (secureRandom.nextInt(1350) / 1000d);
                             luck = 18 + (int) (multiplier * 13) + secureRandom.nextInt(18);
                         }
                         case "quarter" -> {
                             i = player.getCurrentMoney() == 1 ? 1 : player.getCurrentMoney() / 4;
+
                             multiplier = 1.1d + (secureRandom.nextInt(1250) / 1000d);
                             luck = 18 + (int) (multiplier * 12) + secureRandom.nextInt(18);
                         }
@@ -110,7 +112,11 @@ public class GambleCmds {
                             i = content.endsWith("%")
                                     ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getCurrentMoney())
                                     : new RoundedMetricPrefixFormat().parseObject(content, new ParsePosition(0));
-                            if (i > player.getCurrentMoney() || i < 0) throw new UnsupportedOperationException();
+
+                            if (i > player.getCurrentMoney() || i < 0) {
+                                throw new UnsupportedOperationException();
+                            }
+
                             multiplier = 1.1d + (i / ((double) player.getCurrentMoney()) * secureRandom.nextInt(1300) / 1000d);
                             luck = 17 + (int) (multiplier * 13) + secureRandom.nextInt(12);
                         }

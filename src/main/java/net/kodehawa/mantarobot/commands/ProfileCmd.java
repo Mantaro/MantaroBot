@@ -644,9 +644,8 @@ public class ProfileCmd {
 
                             "\u3000 " + SEPARATOR_HALF +
                                     EmoteReference.BOOSTER + languageContext.get("commands.profile.stats.times_used") + ": " +
-                                    (noPotion ? "Not equipped" :
-                                            potionEffect.getTimesUsed() + " " +
-                                                    languageContext.get("commands.profile.stats.times")),
+                                    (noPotion ? "Not equipped" : potionEffect.getTimesUsed() + " " +
+                                            languageContext.get("commands.profile.stats.times")),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.buff"), noBuff ? "None" :
                                     String.format("%s (%dx)", buff.getName(), buffEquipped)

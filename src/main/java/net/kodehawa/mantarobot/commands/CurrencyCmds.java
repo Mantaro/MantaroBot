@@ -516,7 +516,7 @@ public class CurrencyCmds {
                 }
 
                 var amountEquipped = currentPotion.getAmountEquipped();
-                if (activePotion) {
+                if (activePotion || isActive) {
                     amountEquipped -= 1; // Active potion counts as equipped, but isn't!
                 }
 
