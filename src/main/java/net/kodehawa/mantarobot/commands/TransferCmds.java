@@ -82,15 +82,13 @@ public class TransferCmds {
                 }
 
                 Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
-
-                //Didn't want to repeat the code twice, lol.
                 if (!oldEnough.test(ctx.getAuthor())) {
-                    ctx.sendLocalized("commands.transfer.new_account_notice", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.transfer.new_account_notice_yourself", EmoteReference.ERROR);
                     return;
                 }
 
                 if (!oldEnough.test(giveTo)) {
-                    ctx.sendLocalized("commands.transfer.new_account_notice", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.transfer.new_account_notice_other", EmoteReference.ERROR);
                     return;
                 }
 
@@ -221,6 +219,17 @@ public class TransferCmds {
                     return;
                 }
 
+                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+                if (!oldEnough.test(ctx.getAuthor())) {
+                    ctx.sendLocalized("commands.transfer.new_account_notice_yourself", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!oldEnough.test(giveTo.getUser())) {
+                    ctx.sendLocalized("commands.transfer.new_account_notice_other", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
                 }
@@ -323,6 +332,5 @@ public class TransferCmds {
 
         cr.registerAlias("itemtransfer", "transferitems");
         cr.registerAlias("itemtransfer", "transferitem");
-
     }
 }
