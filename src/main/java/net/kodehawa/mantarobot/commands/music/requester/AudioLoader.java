@@ -194,7 +194,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             var badge = APIUtils.getHushBadge(audioTrack.getIdentifier(), Utils.HushType.MUSIC);
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
-                player.save();
+                player.saveUpdating();
             }
 
             var duration = Utils.formatDuration(length);

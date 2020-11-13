@@ -189,7 +189,7 @@ public class AnimeCmds {
         final var badge = APIUtils.getHushBadge(title, Utils.HushType.ANIME);
         if (badge != null) {
             player.getData().addBadgeIfAbsent(badge);
-            player.save();
+            player.saveUpdating();
         }
 
         //Start building the embedded message.
@@ -243,7 +243,7 @@ public class AnimeCmds {
 
             if (badge != null) {
                 player.getData().addBadgeIfAbsent(badge);
-                player.save();
+                player.saveUpdating();
             }
 
             var embed = new EmbedBuilder();

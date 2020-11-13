@@ -188,7 +188,7 @@ public class CommandListener implements EventListener {
             ).queue();
 
             if (player.getData().addBadgeIfAbsent(Badge.FIRE)) {
-                player.saveAsync();
+                player.saveUpdating();
             }
 
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);

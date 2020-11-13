@@ -126,8 +126,8 @@ public class MuteCmds {
                         }
 
                         data.getMutes().put(user.getIdLong(), Pair.of(ctx.getGuild().getId(), time));
-                        data.save();
-                        dbGuild.save();
+                        data.saveUpdating();
+                        dbGuild.saveUpdating();
                     } else {
                         if (time > 0) {
                             if (time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
@@ -136,8 +136,8 @@ public class MuteCmds {
                             }
 
                             data.getMutes().put(user.getIdLong(), Pair.of(ctx.getGuild().getId(), time));
-                            data.save();
-                            dbGuild.save();
+                            data.saveUpdating();
+                            dbGuild.saveUpdating();
                         } else {
                             ctx.sendLocalized("commands.mute.no_time", EmoteReference.ERROR);
                             return;

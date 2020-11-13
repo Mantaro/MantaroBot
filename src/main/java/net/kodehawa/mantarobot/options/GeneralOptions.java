@@ -107,7 +107,7 @@ public class GeneralOptions extends OptionHandler {
                         guildData.getBlackListedImageTags().add(tag.toLowerCase());
                     }
 
-                    dbGuild.saveAsync();
+                    dbGuild.saveUpdating();
                     event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.success"),
                             EmoteReference.CORRECT, String.join(" ,", args)
                     ).queue();

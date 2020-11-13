@@ -279,7 +279,7 @@ public class MarryCmd {
                                 // Well, we have a badge for this too. Consolation prize I guess.
                                 final Player proposingPlayer = ctx.getPlayer(proposingUser);
                                 proposingPlayer.getData().addBadgeIfAbsent(Badge.DENIED);
-                                proposingPlayer.saveAsync();
+                                proposingPlayer.saveUpdating();
                                 return Operation.COMPLETED;
                             }
 

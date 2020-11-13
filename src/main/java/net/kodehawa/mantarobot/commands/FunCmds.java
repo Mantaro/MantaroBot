@@ -176,7 +176,7 @@ public class FunCmds {
                 if (size == 6 && result == 6) {
                     var player = MantaroData.db().getPlayer(ctx.getAuthor());
                     player.getData().addBadgeIfAbsent(Badge.LUCK_BEHIND);
-                    player.saveAsync();
+                    player.saveUpdating();
                 }
 
                 ctx.sendLocalized("commands.roll.success",

@@ -236,14 +236,19 @@ public class ItemHelper {
 
         data.setCratesOpened(data.getCratesOpened() + 1);
         player.saveAsync();
-        seasonPlayer.saveAsync();
+
+        if (seasonal) {
+            seasonPlayer.saveAsync();
+        }
 
         I18nContext lang = ctx.getLanguageContext();
 
+        var toShow = ItemStack.reduce(ita);
+
         ctx.sendFormat(lang.get("general.misc_item_usage.crate.success"),
                 typeEmote.getDiscordNotation() + " ",
-                toAdd.stream()
-                        .map(item -> item.getEmoji() + " " + item.getName())
+                toShow.stream()
+                        .map(itemStack -> "x%,d %s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
                         .collect(Collectors.joining(", ")),
                 overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "");
     }

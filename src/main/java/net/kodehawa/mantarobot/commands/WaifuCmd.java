@@ -214,7 +214,7 @@ public class WaifuCmd {
                     if (c.equalsIgnoreCase("Yes, I want to opt out of the waifu system completely and irreversibly")) {
                         player.getData().setWaifuout(true);
                         ctx.sendLocalized("commands.waifu.optout.success", EmoteReference.CORRECT);
-                        player.saveAsync();
+                        player.saveUpdating();
                         return Operation.COMPLETED;
                     } else if (c.equalsIgnoreCase("no")) {
                         ctx.sendLocalized("commands.waifu.optout.cancelled", EmoteReference.CORRECT);

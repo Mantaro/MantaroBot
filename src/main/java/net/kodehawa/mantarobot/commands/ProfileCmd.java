@@ -258,7 +258,7 @@ public class ProfileCmd {
                 if (content.equals("remove")) {
                     player.getData().setClaimLocked(false);
                     ctx.sendLocalized("commands.profile.claimlock.removed", EmoteReference.CORRECT);
-                    player.save();
+                    player.saveUpdating();
                     return;
                 }
 
@@ -271,7 +271,7 @@ public class ProfileCmd {
                 player.getData().setClaimLocked(true);
                 ctx.sendLocalized("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
-                player.save();
+                player.saveUpdating();
             }
         });
 
@@ -298,7 +298,7 @@ public class ProfileCmd {
                 final var playerData = player.getData();
 
                 playerData.setInventorySortType(type);
-                player.save();
+                player.saveUpdating();
 
                 ctx.sendLocalized("commands.profile.inventorysort.success", EmoteReference.CORRECT, type.toString().toLowerCase());
             }
@@ -318,13 +318,13 @@ public class ProfileCmd {
                 if (content.equals("disable")) {
                     data.setAutoEquip(false);
                     ctx.sendLocalized("commands.profile.autoequip.disable", EmoteReference.CORRECT);
-                    user.save();
+                    user.saveUpdating();
                     return;
                 }
 
                 data.setAutoEquip(true);
                 ctx.sendLocalized("commands.profile.autoequip.success", EmoteReference.CORRECT);
-                user.save();
+                user.saveUpdating();
             }
         });
 
@@ -341,7 +341,7 @@ public class ProfileCmd {
                 var data = user.getData();
 
                 data.setPrivateTag(!data.isPrivateTag());
-                user.save();
+                user.saveUpdating();
 
                 ctx.sendLocalized("commands.profile.hide_tag.success", EmoteReference.POPPER, data.isPrivateTag());
             }
@@ -389,11 +389,11 @@ public class ProfileCmd {
 
                 var player = ctx.getPlayer();
                 if (player.getData().addBadgeIfAbsent(Badge.CALENDAR)) {
-                    player.save();
+                    player.saveUpdating();
                 }
 
                 dbUser.getData().setTimezone(timezone);
-                dbUser.saveAsync();
+                dbUser.saveUpdating();
                 ctx.sendLocalized("commands.profile.timezone.success", EmoteReference.CORRECT, timezone);
             }
         });
@@ -422,7 +422,7 @@ public class ProfileCmd {
                 if (args[0].equals("clear")) {
                     player.getData().setDescription(null);
                     ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
-                    player.save();
+                    player.saveUpdating();
                 }
 
                 var split = SPLIT_PATTERN.split(content, 2);
@@ -457,7 +457,7 @@ public class ProfileCmd {
                 ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER, desc);
 
                 player.getData().addBadgeIfAbsent(Badge.WRITER);
-                player.save();
+                player.saveUpdating();
             }
         });
 
@@ -485,7 +485,7 @@ public class ProfileCmd {
                 if (arg.equalsIgnoreCase("none")) {
                     data.setShowBadge(false);
                     ctx.sendLocalized("commands.profile.displaybadge.reset_success", EmoteReference.CORRECT);
-                    player.saveAsync();
+                    player.saveUpdating();
                     return;
                 }
 
@@ -493,7 +493,7 @@ public class ProfileCmd {
                     data.setMainBadge(null);
                     data.setShowBadge(true);
                     ctx.sendLocalized("commands.profile.displaybadge.important_success", EmoteReference.CORRECT);
-                    player.saveAsync();
+                    player.saveUpdating();
                     return;
                 }
 
@@ -521,7 +521,7 @@ public class ProfileCmd {
 
                 data.setShowBadge(true);
                 data.setMainBadge(badge);
-                player.saveAsync();
+                player.saveUpdating();
                 ctx.sendLocalized("commands.profile.displaybadge.success", EmoteReference.CORRECT, badge.display);
             }
         });
@@ -543,7 +543,7 @@ public class ProfileCmd {
 
                 if (content.equalsIgnoreCase("reset")) {
                     dbUser.getData().setLang(null);
-                    dbUser.save();
+                    dbUser.saveUpdating();
                     ctx.sendLocalized("commands.profile.lang.reset_success", EmoteReference.CORRECT);
                     return;
                 }
@@ -553,7 +553,7 @@ public class ProfileCmd {
                     //Create new I18n context based on the new language choice.
                     var newContext = new I18nContext(ctx.getDBGuild().getData(), dbUser.getData());
 
-                    dbUser.save();
+                    dbUser.saveUpdating();
                     ctx.getChannel().sendMessageFormat(newContext.get("commands.profile.lang.success"), EmoteReference.CORRECT, content).queue();
                 } else {
                     ctx.sendLocalized("commands.profile.lang.invalid", EmoteReference.ERROR);

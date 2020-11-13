@@ -457,7 +457,7 @@ public class LeaderboardCmd {
                                     if (lbMember.getId() == ctx.getAuthor().getIdLong()) {
                                         var player = MantaroData.db().getPlayer(ctx.getAuthor());
                                         if (player.getData().addBadgeIfAbsent(Badge.CHAMPION))
-                                            player.saveAsync();
+                                            player.saveUpdating();
                                     }
 
                                     return format.formatted(

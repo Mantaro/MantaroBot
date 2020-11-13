@@ -78,7 +78,7 @@ public class GuildOptions extends OptionHandler {
             }
 
             guildData.setLang(language);
-            dbGuild.save();
+            dbGuild.saveUpdating();
             event.getChannel().sendMessageFormat("%sSuccessfully set the language of this server to `%s`", EmoteReference.CORRECT, language).queue();
         }));
 
@@ -197,7 +197,7 @@ public class GuildOptions extends OptionHandler {
                         String roleId = roleObj.getId();
                         guildData.setBirthdayChannel(channelId);
                         guildData.setBirthdayRole(roleId);
-                        dbGuild.saveAsync();
+                        dbGuild.saveUpdating();
                         event.getChannel().sendMessageFormat(lang.get("options.birthday_enable.success"), EmoteReference.MEGA,
                                 channelObj.getName(), channelId, role, roleId
                         ).queue();

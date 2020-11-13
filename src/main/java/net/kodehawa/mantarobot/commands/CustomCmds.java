@@ -731,7 +731,7 @@ public class CustomCmds {
                 }
 
                 data.setLocked(false);
-                cmd.save();
+                cmd.saveUpdating();
 
                 ctx.sendLocalized("commands.custom.unlockcommand.success", EmoteReference.CORRECT, content);
             }

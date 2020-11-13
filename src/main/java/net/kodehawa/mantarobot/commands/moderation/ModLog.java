@@ -56,7 +56,7 @@ public class ModLog {
 
         if (!playerData.hasBadge(Badge.POWER_USER)) {
             playerData.addBadgeIfAbsent(Badge.POWER_USER);
-            player.saveAsync();
+            player.saveUpdating();
         }
 
         if (guildDB.getData().getGuildLogChannel() != null) {

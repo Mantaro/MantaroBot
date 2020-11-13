@@ -239,7 +239,7 @@ public class ModerationCmds {
                     guild.ban(member, 7).reason(finalReason).queue(
                             success -> {
                                 db.getData().setCases(db.getData().getCases() + 1);
-                                db.saveAsync();
+                                db.saveUpdating();
 
                                 if (mentionedMembers.size() == 1)
                                     ctx.sendLocalized("commands.ban.success", EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName());
