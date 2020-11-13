@@ -350,6 +350,16 @@ public class ItemHelper {
                 }
             } else {
                 equipment.incrementEffectUses(type);
+                if (!equipment.isEffectActive(type, ((Potion) item).getMaxUses())) {
+                    // Get the new amount. If the effect is not active we need to remove it
+                    // This is obviously a little hacky, but that's what I get for not thinking about it before.
+                    // This option will blow through the stack if the used amount > allowed amount,
+                    // but we check if the effect is not active, therefore it will only go through and delete
+                    // the element from the stack only when there's no more uses remaining on that part of the stack :)
+                    // This bug took me two god damn years to fix.
+                    equipment.getCurrentEffect(type).use();
+                }
+
                 user.saveUpdating();
 
                 return true;

@@ -516,22 +516,17 @@ public class CurrencyCmds {
                 }
 
                 var amountEquipped = currentPotion.getAmountEquipped();
-                if (activePotion || isActive) {
-                    amountEquipped -= 1; // Active potion counts as equipped, but isn't!
-                }
-
                 var attempted = amountEquipped + amount;
+
                 // Currently has a potion equipped, and is of the same type.
                 if (attempted < 16) {
                     currentPotion.equip(activePotion ? amount : Math.max(1, amount - 1));
+                    var equipped = currentPotion.getAmountEquipped();
+
                     ctx.sendLocalized("general.misc_item_usage.potion_applied_multiple",
-                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), currentPotion.getAmountEquipped()
+                            EmoteReference.CORRECT, item.getName(), Utils.capitalize(type.toString()), equipped
                     );
                 } else {
-                    if (activePotion) {
-                        attempted += 1;
-                    }
-
                     // Too many stacked (max: 15).
                     ctx.sendLocalized("general.misc_item_usage.max_stack_size", EmoteReference.ERROR, item.getName(), attempted);
                     return;
