@@ -788,6 +788,8 @@
       "no_item_mention": "%1$sВы не указали человека, которому передаете предмет."
     },
     "transfer": {
+      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
       "transfer_yourself_note": "%1$sВы не можете передать деньги самому себе.",
       "bot_notice": "%1$sВы не можете передать деньги боту.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
