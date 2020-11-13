@@ -47,7 +47,7 @@ Make sure you pay close attention to the [License](https://github.com/Mantaro/Ma
 4.  Run `gradlew shadowJar`
 5.  Grab the jar from `build/libs`
 6.  Install `rethinkdb` and `redis`
-7.  Create the `mantaro` database with the following tables: mantaro, players, marriages, playerstats, users, guilds, keys, commands, seasonalplayers
+7.  Create the `mantaro` database with the following tables: `mantaro, players, marriages, playerstats, users, guilds, keys, commands, seasonalplayers`
 8.  Run it and prepare yourself to start filling in some config values (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill). You don't need to fill all values, though. The token and the user id are necessary to start up, you wanna set the owner IDs aswell.
 9.  In config.json, set the value needApi to false. (Or clone and run [the API](https://github.com/Kodehawa/mantaro-api))
 
