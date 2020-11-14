@@ -276,7 +276,7 @@
         "paused": "%1$sPausing player because I got muted :(",
         "resumed": "%1$sResuming playback because someone joined!",
         "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "leave": "%1$s 誰も **%2$s** に居ないため切断しました。:("
       },
       "loader": {
         "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
@@ -350,7 +350,7 @@
       "success": "%1$sRandomized the order of the current queue."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sDJがこの曲を飛ばすことにしました。",
       "vote": {
         "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
         "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
