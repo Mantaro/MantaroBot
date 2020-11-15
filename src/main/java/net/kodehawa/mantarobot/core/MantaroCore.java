@@ -79,7 +79,7 @@ public class MantaroCore {
     private static LoadState loadState = PRELOAD;
     private final Map<Integer, Shard> shards = new ConcurrentHashMap<>();
     private final ExecutorService threadPool = Executors.newCachedThreadPool(
-            new ThreadFactoryBuilder().setNameFormat("Mantaro-Thread-%d").build()
+            new ThreadFactoryBuilder().setNameFormat("Mantaro Thread-%d").build()
     );
     private final Config config;
     private final boolean isDebug;
@@ -193,7 +193,6 @@ public class MantaroCore {
                     GatewayIntent.GUILD_MESSAGE_REACTIONS,  // Receive message reactions, used for reaction menus.
                     GatewayIntent.GUILD_MEMBERS, // Receive member events, needed for mod features *and* welcome/leave messages.
                     GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
-                    GatewayIntent.GUILD_BANS // Receive guild bans, needed for moderation stuff.
             };
 
             log.info("Using intents {}", Arrays.stream(toEnable)

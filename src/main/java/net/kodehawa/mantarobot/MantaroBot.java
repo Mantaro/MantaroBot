@@ -56,6 +56,7 @@ import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -100,7 +101,7 @@ public class MantaroBot {
 
     private final BirthdayCacher birthdayCacher;
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(
-            3, new ThreadFactoryBuilder().setNameFormat("Mantaro-ScheduledExecutor Thread-%d").build()
+            3, new ThreadFactoryBuilder().setNameFormat("Mantaro Scheduled Executor Thread-%d").build()
     );
 
     private MantaroBot() throws Exception {
@@ -169,7 +170,7 @@ public class MantaroBot {
 
         // Handle the removal of mutes.
         ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("Mantaro-MuteTask").build()
+                new ThreadFactoryBuilder().setNameFormat("Mantaro Mute Task").build()
         );
 
         muteExecutor.scheduleAtFixedRate(MuteTask::handle, 0, 1, TimeUnit.MINUTES);
@@ -177,7 +178,7 @@ public class MantaroBot {
         // Handle the delivery of reminders, assuming this is the master node.
         if (isMasterNode()) {
             ScheduledExecutorService reminderExecutor = Executors.newSingleThreadScheduledExecutor(
-                    new ThreadFactoryBuilder().setNameFormat("Mantaro-Reminder-Handler").build()
+                    new ThreadFactoryBuilder().setNameFormat("Mantaro Reminder Handler").build()
             );
 
             reminderExecutor.scheduleAtFixedRate(ReminderTask::handle, 0, 30, TimeUnit.SECONDS);
@@ -185,14 +186,14 @@ public class MantaroBot {
 
         // Yes, this is needed.
         ScheduledExecutorService ratelimitMapExecutor = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("Mantaro-Ratelimit-Clean").build()
+                new ThreadFactoryBuilder().setNameFormat("Mantaro Ratelimit Clear").build()
         );
 
         ratelimitMapExecutor.scheduleAtFixedRate(RatelimitUtils.ratelimitedUsers::clear, 0, 24, TimeUnit.HOURS);
 
         // Handle posting statistics.
         ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("Mantaro-StatPosting").build()
+                new ThreadFactoryBuilder().setNameFormat("Mantaro Statistics Posting").build()
         );
 
         postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
@@ -285,7 +286,7 @@ public class MantaroBot {
     public void startCheckingBirthdays() {
         log.info("Starting to check birthdays");
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2,
-                new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayExecutor Thread-%d").build()
+                new ThreadFactoryBuilder().setNameFormat("Mantaro Birthday Executor Thread-%d").build()
         );
 
         Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
@@ -304,8 +305,12 @@ public class MantaroBot {
         for (var shard : core.getShards()) {
             log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shard.getId(), millisecondsUntilTomorrow);
 
+            // Back off this call up to 3 seconds to avoid sending a bunch of requests to discord at the same time
+            // This will happen anywhere from 0 seconds after 00:00 to 3 seconds after 00:00
+            // Shouldn't matter much for the end user, but makes so batch requests don't fuck over ratelimits inmediatly.
+            var randomBackoff = new Random().nextInt(3000);
             executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
-                    millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+                    millisecondsUntilTomorrow + randomBackoff, TimeUnit.DAYS.toMillis(1) + randomBackoff, TimeUnit.MILLISECONDS);
         }
 
         // Start the birthday cacher.

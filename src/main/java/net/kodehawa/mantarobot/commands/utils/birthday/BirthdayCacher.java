@@ -39,8 +39,8 @@ import static com.rethinkdb.RethinkDB.r;
 public class BirthdayCacher {
     private static final Logger log = LoggerFactory.getLogger(BirthdayCacher.class);
     private final ExecutorService executorService =
-            Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro-BirthdayAssignerExecutor").build());
-    public final Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
+            Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro Birthday Assigner Executor").build());
+    private Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;
 
     public BirthdayCacher() {
@@ -58,13 +58,18 @@ public class BirthdayCacher {
                 cachedBirthdays.clear();
 
                 for (Map<Object, Object> r : m) {
+                    var id = String.valueOf(r.get("id"));
+                    // Why?
+                    if (cachedBirthdays.containsKey(id))
+                        continue;
+
                     //Blame rethinkdb for the casting hell thx
                     @SuppressWarnings("unchecked")
                     var birthday = ((Map<String, String>) r.get("data")).get("birthday");
                     if (birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
                         var bd = birthday.split("-");
-                        cachedBirthdays.put(String.valueOf(r.get("id")), new BirthdayData(birthday, bd[0], bd[1]));
+                        cachedBirthdays.put(id, new BirthdayData(birthday, bd[0], bd[1]));
                     }
                 }
 
@@ -75,6 +80,10 @@ public class BirthdayCacher {
                 e.printStackTrace();
             }
         });
+    }
+
+    public Map<String, BirthdayData> getCachedBirthdays() {
+        return cachedBirthdays;
     }
 
     public static class BirthdayData {
@@ -110,6 +119,11 @@ public class BirthdayCacher {
 
         public void setMonth(String month) {
             this.month = month;
+        }
+
+        @Override
+        public String toString() {
+            return birthday;
         }
     }
 }

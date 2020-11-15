@@ -23,10 +23,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.*;
-import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.api.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
@@ -59,12 +57,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -138,16 +135,6 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        if (event instanceof GuildUnbanEvent) {
-            logUnban((GuildUnbanEvent) event);
-            return;
-        }
-
-        if (event instanceof GuildBanEvent) {
-            logBan((GuildBanEvent) event);
-            return;
-        }
-
         MantaroBot instance = MantaroBot.getInstance();
 
         //Internal events
@@ -208,13 +195,17 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-
         if (event instanceof ExceptionEvent) {
             onException((ExceptionEvent) event);
             return;
         }
 
         if (event instanceof HttpRequestEvent) {
+            // We've fucked up big time if we reach this
+            if (((HttpRequestEvent) event).isRateLimit()) {
+                Metrics.HTTP_429_REQUESTS.inc();
+            }
+
             Metrics.HTTP_REQUESTS.inc();
         }
     }
@@ -273,32 +264,6 @@ public class MantaroListener implements EventListener {
                     }
                 }
             });
-        }
-    }
-
-    private void logBan(GuildBanEvent event) {
-        final var hour = df.format(new Date(System.currentTimeMillis()));
-        final var data = MantaroData.db().getGuild(event.getGuild()).getData();
-        final var logChannel = data.getGuildLogChannel();
-        final var user = event.getUser();
-
-        if (logChannel != null) {
-            var tc = event.getGuild().getTextChannelById(logChannel);
-            if (tc != null) {
-                String message;
-                if (data.getBannedMemberLog() != null) {
-                    message = new DynamicModifiers()
-                            .set("hour", hour)
-                            .mapEvent("event", event)
-                            .mapUser("event.user", user)
-                            .resolve(data.getBannedMemberLog());
-                } else {
-                    message = EmoteReference.WARNING + "`[" + hour + "]` " +
-                            user.getAsTag() + " just got banned.";
-                }
-                tc.sendMessage(message).queue();
-                logTotal++;
-            }
         }
     }
 
@@ -470,38 +435,6 @@ public class MantaroListener implements EventListener {
         }
 
         this.updateStats(event.getJDA());
-    }
-
-    private void logUnban(GuildUnbanEvent event) {
-        try {
-            var hour = df.format(new Date(System.currentTimeMillis()));
-            var data = MantaroData.db().getGuild(event.getGuild()).getData();
-            var logChannel = data.getGuildLogChannel();
-            if (logChannel != null) {
-                TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if (tc != null) {
-                    String message;
-                    if (data.getUnbannedMemberLog() != null) {
-                        message = new DynamicModifiers()
-                                .set("hour", hour)
-                                .mapEvent("event", event)
-                                .mapUser("event.user", event.getUser())
-                                .resolve(data.getUnbannedMemberLog());
-                    } else {
-                        message = String.format(EmoteReference.WARNING +
-                                        "`[%s]` %s#%s just got unbanned.",
-                                hour, event.getUser().getName(), event.getUser().getDiscriminator()
-                        );
-                    }
-                    tc.sendMessage(message).queue();
-                    logTotal++;
-                }
-            }
-        } catch (Exception e) {
-            if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                log.warn("Unexpected error while logging an unban.", e);
-            }
-        }
     }
 
     private void onDisconnect(DisconnectEvent event) {

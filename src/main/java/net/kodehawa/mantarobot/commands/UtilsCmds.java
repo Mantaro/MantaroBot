@@ -216,8 +216,10 @@ public class UtilsCmds {
                 try {
                     // Why would this happen is out of my understanding.
                     if (cacher != null) {
+                        var guildCurrentBirthdays = cacher.getCachedBirthdays();
+
                         // same as above unless testing?
-                        if (cacher.cachedBirthdays.isEmpty()) {
+                        if (guildCurrentBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
@@ -227,7 +229,6 @@ public class UtilsCmds {
                         var data = ctx.getDBGuild().getData();
 
                         var ids = data.getAllowedBirthdays();
-                        var guildCurrentBirthdays = cacher.cachedBirthdays;
 
                         // No birthdays to be seen here? (This month)
                         if (guildCurrentBirthdays.isEmpty()) {
@@ -330,7 +331,7 @@ public class UtilsCmds {
                     //Why would this happen is out of my understanding.
                     if (cacher != null) {
                         //same as above unless testing?
-                        if (cacher.cachedBirthdays.isEmpty()) {
+                        if (cacher.getCachedBirthdays().isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
@@ -345,7 +346,7 @@ public class UtilsCmds {
                         var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
 
                         //~100k repetitions rip
-                        for (var birthdays : cacher.cachedBirthdays.entrySet()) {
+                        for (var birthdays : cacher.getCachedBirthdays().entrySet()) {
                             //Why was the birthday saved on this outdated format again?
                             //Check if this guild contains x user and that the month matches.
                             if (ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {
