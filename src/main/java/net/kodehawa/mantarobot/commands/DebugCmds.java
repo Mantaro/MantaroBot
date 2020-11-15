@@ -96,10 +96,16 @@ public class DebugCmds {
                     clusterTotal = clusters.size();
                 }
 
+                // We don't need to account for node stats delay here
+                if (config.isPremiumBot()) {
+                    queueSize = ctx.getBot().getAudioManager().getTotalQueueSize();
+                }
+
                 List<LavalinkSocket> lavaLinkSockets = ctx.getBot().getLavaLink().getNodes();
                 for (var lavaLink : lavaLinkSockets) {
-                    if (lavaLink.isAvailable() && lavaLink.getStats() != null) // Andesite compatibility fix.
+                    if (lavaLink.isAvailable() && lavaLink.getStats() != null) {
                         players += lavaLink.getStats().getPlayingPlayers();
+                    }
                 }
 
                 var responseTotal = bot.getShardManager().getShardCache()
