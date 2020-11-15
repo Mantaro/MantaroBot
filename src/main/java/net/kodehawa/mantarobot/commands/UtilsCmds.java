@@ -229,22 +229,25 @@ public class UtilsCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
+
                 try {
                     // Why would this happen is out of my understanding.
                     if (cacher != null) {
                         var globalBirthdays = cacher.getCachedBirthdays();
-
-                        // same as above unless testing?
                         if (globalBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
 
-                        // O(1) lookups. Probably.
                         var guild = ctx.getGuild();
                         var data = ctx.getDBGuild().getData();
-
                         var ids = data.getAllowedBirthdays();
+
+                        if (ids.isEmpty()) {
+                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+                            return;
+                        }
+
                         ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
                         var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
 
@@ -363,8 +366,6 @@ public class UtilsCmds {
                     //Why would this happen is out of my understanding.
                     if (cacher != null) {
                         final var cachedBirthdays = cacher.getCachedBirthdays();
-
-                        //same as above unless testing?
                         if (cachedBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
@@ -373,6 +374,11 @@ public class UtilsCmds {
                         ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
                         var data = ctx.getDBGuild().getData();
                         var ids = data.getAllowedBirthdays();
+
+                        if (ids.isEmpty()) {
+                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+                            return;
+                        }
 
                         //Try not to die. I mean get calendar month and sum 1.
                         var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
