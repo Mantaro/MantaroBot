@@ -23,7 +23,7 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
-    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     //Builds docker images
     id 'com.palantir.docker' version '0.25.0'
 }
