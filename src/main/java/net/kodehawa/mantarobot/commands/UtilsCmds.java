@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -50,12 +52,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
-import java.awt.*;
+import java.awt.Color;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
@@ -66,6 +69,10 @@ public class UtilsCmds {
     private static final Logger log = LoggerFactory.getLogger(UtilsCmds.class);
     private static final Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     private static final Random random = new Random();
+    private static final Cache<String, ConcurrentHashMap<String, BirthdayCacher.BirthdayData>> guildBirthdayCache = CacheBuilder.newBuilder()
+            .maximumSize(1000)
+            .expireAfterWrite(Duration.ofHours(6))
+            .build();
 
     protected static String dateGMT(Guild guild, String tz) {
         var format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -160,6 +167,15 @@ public class UtilsCmds {
                 var guildData = dbGuild.getData();
 
                 guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
+
+                var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
+                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser());
+                // Organically grow the cache...
+                if (cached != null && cached.size() >= 1 && cachedBirthday != null) {
+                    cached.put(ctx.getUser().getId(), cachedBirthday);
+                    guildBirthdayCache.put(ctx.getGuild().getId(), cached);
+                }
+
                 dbGuild.save();
 
                 ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
@@ -216,10 +232,10 @@ public class UtilsCmds {
                 try {
                     // Why would this happen is out of my understanding.
                     if (cacher != null) {
-                        var guildCurrentBirthdays = cacher.getCachedBirthdays();
+                        var globalBirthdays = cacher.getCachedBirthdays();
 
                         // same as above unless testing?
-                        if (guildCurrentBirthdays.isEmpty()) {
+                        if (globalBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
@@ -229,6 +245,22 @@ public class UtilsCmds {
                         var data = ctx.getDBGuild().getData();
 
                         var ids = data.getAllowedBirthdays();
+                        ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
+                        var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
+
+                        if (cached != null && cached.size() >= 1) {
+                            guildCurrentBirthdays = cached;
+                        } else {
+                            for (var birthdays : globalBirthdays.entrySet()) {
+                                if (ids.contains(birthdays.getKey())) {
+                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                                }
+                            }
+
+                            if (guildCurrentBirthdays.size() >= 1) {
+                                guildBirthdayCache.put(guild.getId(), guildCurrentBirthdays);
+                            }
+                        }
 
                         // No birthdays to be seen here? (This month)
                         if (guildCurrentBirthdays.isEmpty()) {
@@ -338,8 +370,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new HashMap<>();
-
+                        ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
                         var data = ctx.getDBGuild().getData();
                         var ids = data.getAllowedBirthdays();
 
@@ -347,13 +378,20 @@ public class UtilsCmds {
                         var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
                         var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
 
-                        //~100k repetitions rip
-                        for (var birthdays : cachedBirthdays.entrySet()) {
-                            //Why was the birthday saved on this outdated format again?
-                            //Check if this guild contains x user and that the month matches.
-                            if (ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {
-                                //Insert into current month bds.
-                                guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                        var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
+                        if (cached != null && cached.size() >= 1) {
+                            guildCurrentBirthdays = cached;
+                        } else {
+                            for (var birthdays : cachedBirthdays.entrySet()) {
+                                //Check if this guild contains x user and that the month matches.
+                                if (ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {
+                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                                }
+                            }
+
+                            // Populate guild cache
+                            if (guildCurrentBirthdays.size() >= 1) {
+                                guildBirthdayCache.put(ctx.getGuild().getId(), guildCurrentBirthdays);
                             }
                         }
 
@@ -785,5 +823,9 @@ public class UtilsCmds {
                         ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:**" +
                                 " https://github.com/Mantaro/MantaroBot/wiki/Birthday-101"))
         );
+    }
+
+    public static Cache<String, ConcurrentHashMap<String, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {
+        return guildBirthdayCache;
     }
 }

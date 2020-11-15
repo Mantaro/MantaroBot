@@ -37,6 +37,7 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.UtilsCmds;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -46,7 +47,6 @@ import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -461,9 +461,9 @@ public class MantaroListener implements EventListener {
         final var mantaroData = MantaroData.db().getMantaroData();
 
         try {
-            if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) ||
-                    mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
-                event.getGuild().leave().queue();
+            if (mantaroData.getBlackListedGuilds().contains(guild.getId()) ||
+                    mantaroData.getBlackListedUsers().contains(guild.getOwner().getUser().getId())) {
+                guild.leave().queue();
                 return;
             }
 
@@ -489,30 +489,30 @@ public class MantaroListener implements EventListener {
                                 true
                         ).setFooter("We hope you enjoy using Mantaro! This will self-destruct in 2 minutes.");
 
-                DBGuild dbGuild = db.getGuild(guild);
+                final var dbGuild = db.getGuild(guild);
+                final var guildData = dbGuild.getData();
 
                 guild.getChannels().stream().filter(channel -> channel.getType() == ChannelType.TEXT &&
                         channelNames.contains(channel.getName())).findFirst().ifPresentOrElse(ch -> {
                     var channel = (TextChannel) ch;
-                    if (channel.canTalk() && !dbGuild.getData().hasReceivedGreet()) {
+                    if (channel.canTalk() && !guildData.hasReceivedGreet()) {
                         channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
-                        dbGuild.getData().setHasReceivedGreet(true);
+
+                        guildData.setHasReceivedGreet(true);
                         dbGuild.save();
                     } // else ignore
                 }, () -> {
                     //Attempt to find the first channel we can talk to.
                     var channel = (TextChannel) guild.getChannels().stream()
-                            .filter(guildChannel ->
-                                    guildChannel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk()
-                            )
+                            .filter(guildChannel -> guildChannel.getType() == ChannelType.TEXT && ((TextChannel) guildChannel).canTalk())
                             .findFirst()
                             .orElse(null);
 
                     //Basically same code as above, but w/e.
-                    if (channel != null && !dbGuild.getData().hasReceivedGreet()) {
-                        channel.sendMessage(embedBuilder.build())
-                                .queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
-                        dbGuild.getData().setHasReceivedGreet(true);
+                    if (channel != null && !guildData.hasReceivedGreet()) {
+                        channel.sendMessage(embedBuilder.build()).queue(m -> m.delete().queueAfter(2, TimeUnit.MINUTES));
+
+                        guildData.setHasReceivedGreet(true);
                         dbGuild.save();
                     }
                 });
@@ -537,6 +537,8 @@ public class MantaroListener implements EventListener {
 
             // Clear guild's TextChannel ground.
             guild.getTextChannelCache().stream().forEach(TextChannelGround::delete);
+            // Clear per-guild birthday cache
+            UtilsCmds.getGuildBirthdayCache().invalidate(guild.getId());
 
             if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) ||
                     mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
@@ -557,21 +559,22 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserJoin(GuildMemberJoinEvent event) {
-        final var dbg = MantaroData.db().getGuild(event.getGuild());
-        final var data = dbg.getData();
+        final var guild = event.getGuild();
+        final var dbGuild = MantaroData.db().getGuild(guild);
+        final var guildData = dbGuild.getData();
         final var user = event.getUser();
 
         try {
-            var role = data.getGuildAutoRole();
+            var role = guildData.getGuildAutoRole();
 
             var hour = df.format(new Date(System.currentTimeMillis()));
             if (role != null) {
                 try {
-                    if (!(user.isBot() && data.isIgnoreBotsAutoRole())) {
-                        var toAssign = event.getGuild().getRoleById(role);
+                    if (!(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
+                        var toAssign = guild.getRoleById(role);
                         if (toAssign != null) {
-                            if (event.getGuild().getSelfMember().canInteract(toAssign)) {
-                                event.getGuild().addRoleToMember(event.getMember(), toAssign)
+                            if (guild.getSelfMember().canInteract(toAssign)) {
+                                guild.addRoleToMember(event.getMember(), toAssign)
                                         .reason("Autorole assigner.")
                                         .queue(s -> log.debug("Successfully added a new role to " + event.getMember()));
 
@@ -582,14 +585,15 @@ public class MantaroListener implements EventListener {
                 } catch (Exception ignored) { }
             }
 
-            var logChannel = data.getGuildLogChannel();
+            var logChannel = guildData.getGuildLogChannel();
             if (logChannel != null) {
-                TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+                var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
                             hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            event.getGuild().getName(), event.getUser().getId())
+                            guild.getName(), event.getUser().getId())
                     ).queue();
+
                     logTotal++;
                 }
             }
@@ -598,22 +602,22 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            if (user.isBot() && data.isIgnoreBotsWelcomeMessage()) {
+            if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
                 return;
             }
 
-            var joinChannel = data.getLogJoinChannel();
-            if (joinChannel == null || event.getGuild().getTextChannelById(joinChannel) == null) {
-                joinChannel = data.getLogJoinLeaveChannel();
+            var joinChannel = guildData.getLogJoinChannel();
+            if (joinChannel == null || guild.getTextChannelById(joinChannel) == null) {
+                joinChannel = guildData.getLogJoinLeaveChannel();
             }
 
             if (joinChannel == null) {
                 return;
             }
 
-            var joinMessage = data.getJoinMessage();
-            sendJoinLeaveMessage(event.getUser(), event.getGuild(),
-                    event.getGuild().getTextChannelById(joinChannel), data.getExtraJoinMessages(), joinMessage
+            var joinMessage = guildData.getJoinMessage();
+            sendJoinLeaveMessage(event.getUser(), guild,
+                    guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage
             );
 
             Metrics.ACTIONS.labels("join_messages").inc();
@@ -623,23 +627,24 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserLeave(GuildMemberRemoveEvent event) {
-        var dbg = MantaroData.db().getGuild(event.getGuild());
-        var data = dbg.getData();
+        final var guild = event.getGuild();
+        final var user = event.getUser();
+        final var dbGuild = MantaroData.db().getGuild(guild);
+        final var guildData = dbGuild.getData();
 
         try {
-            String hour = df.format(new Date(System.currentTimeMillis()));
-
-            if (event.getUser().isBot() && data.isIgnoreBotsWelcomeMessage()) {
+            var hour = df.format(new Date(System.currentTimeMillis()));
+            if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
                 return;
             }
 
-            var logChannel = data.getGuildLogChannel();
+            var logChannel = guildData.getGuildLogChannel();
             if (logChannel != null) {
-                TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+                TextChannel tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(ID: %s)`",
-                            hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                            event.getGuild().getName(), event.getUser().getId())
+                            hour, user.getName(), user.getDiscriminator(),
+                            guild.getName(), user.getId())
                     ).queue();
                     logTotal++;
                 }
@@ -649,22 +654,22 @@ public class MantaroListener implements EventListener {
         }
 
         try {
-            if (event.getUser().isBot() && data.isIgnoreBotsWelcomeMessage()) {
+            if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
                 return;
             }
 
-            var leaveChannel = data.getLogLeaveChannel();
-            if (leaveChannel == null || event.getGuild().getTextChannelById(leaveChannel) == null) {
-                leaveChannel = data.getLogJoinLeaveChannel();
+            var leaveChannel = guildData.getLogLeaveChannel();
+            if (leaveChannel == null || guild.getTextChannelById(leaveChannel) == null) {
+                leaveChannel = guildData.getLogJoinLeaveChannel();
             }
 
             if (leaveChannel == null) {
                 return;
             }
 
-            var leaveMessage = data.getLeaveMessage();
-            sendJoinLeaveMessage(event.getUser(), event.getGuild(),
-                    event.getGuild().getTextChannelById(leaveChannel), data.getExtraLeaveMessages(), leaveMessage
+            var leaveMessage = guildData.getLeaveMessage();
+            sendJoinLeaveMessage(user, guild,
+                    guild.getTextChannelById(leaveChannel), guildData.getExtraLeaveMessages(), leaveMessage
             );
 
             Metrics.ACTIONS.labels("leave_messages").inc();
@@ -672,9 +677,17 @@ public class MantaroListener implements EventListener {
             log.error("Failed to send leave message!", e);
         }
 
-        if (data.getAllowedBirthdays().contains(event.getUser().getId())) {
-            data.getAllowedBirthdays().remove(event.getUser().getId());
-            dbg.saveAsync();
+        var allowedBirthdays = guildData.getAllowedBirthdays();
+        if (allowedBirthdays.contains(user.getId())) {
+            allowedBirthdays.remove(user.getId());
+            dbGuild.saveAsync();
+
+            var cachedBirthdayGuild = UtilsCmds.getGuildBirthdayCache();
+            var bdCacheMap = cachedBirthdayGuild.getIfPresent(guild.getId());
+            if (bdCacheMap != null) {
+                bdCacheMap.remove(user.getId());
+                cachedBirthdayGuild.put(guild.getId(), bdCacheMap);
+            }
         }
     }
 
