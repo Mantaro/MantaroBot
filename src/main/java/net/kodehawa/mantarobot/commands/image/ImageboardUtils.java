@@ -151,6 +151,8 @@ public class ImageboardUtils {
                     }
 
                     var filter = requestedImages.stream()
+                            // This is a pain and a half.
+                            .filter(img -> !img.isPending())
                             // Somehow Danbooru and e621 are returning null images when a image is deleted?
                             .filter(img -> img.getURL() != null)
                             // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
