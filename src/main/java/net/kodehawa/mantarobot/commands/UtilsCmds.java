@@ -330,8 +330,10 @@ public class UtilsCmds {
                 try {
                     //Why would this happen is out of my understanding.
                     if (cacher != null) {
+                        final var cachedBirthdays = cacher.getCachedBirthdays();
+
                         //same as above unless testing?
-                        if (cacher.getCachedBirthdays().isEmpty()) {
+                        if (cachedBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_global_birthdays", EmoteReference.SAD);
                             return;
                         }
@@ -346,7 +348,7 @@ public class UtilsCmds {
                         var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
 
                         //~100k repetitions rip
-                        for (var birthdays : cacher.getCachedBirthdays().entrySet()) {
+                        for (var birthdays : cachedBirthdays.entrySet()) {
                             //Why was the birthday saved on this outdated format again?
                             //Check if this guild contains x user and that the month matches.
                             if (ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {

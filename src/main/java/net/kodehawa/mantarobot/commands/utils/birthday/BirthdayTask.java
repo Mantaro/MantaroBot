@@ -243,6 +243,7 @@ public class BirthdayTask {
             // Send the backoff sending comment above, this basically avoids hitting
             // discord with one billion requests at once.
             var backoff = 400;
+            var roleBackoff = 100;
             backOffPool.submit(() -> {
                 log.info("Backoff messages: {}. Sending them with {}ms backoff.", toSend.size(), backoff);
                 var startMessage = System.currentTimeMillis();
@@ -281,7 +282,7 @@ public class BirthdayTask {
             });
 
             backOffRolePool.submit(() -> {
-                log.info("Backoff roles (add): {}. Sending them with {}ms backoff.", roleBackoffAdd.size(), backoff);
+                log.info("Backoff roles (add): {}. Sending them with {}ms backoff.", roleBackoffAdd.size(), roleBackoff);
                 var startRole = System.currentTimeMillis();
                 for (var roleInfo : roleBackoffAdd) {
                     try {
@@ -293,13 +294,13 @@ public class BirthdayTask {
                                 .reason(modLogMessage)
                                 .queue();
 
-                        Thread.sleep(backoff);
+                        Thread.sleep(roleBackoff);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
 
-                log.info("Backoff roles (remove): {}. Sending them with {}ms backoff.", roleBackoffRemove.size(), backoff);
+                log.info("Backoff roles (remove): {}. Sending them with {}ms backoff.", roleBackoffRemove.size(), roleBackoff);
                 for (var roleInfo : roleBackoffRemove) {
                     try {
                         var guild = bot.getShardManager().getGuildById(roleInfo.guildId);
@@ -310,7 +311,7 @@ public class BirthdayTask {
                                 .reason(modLogMessage)
                                 .queue();
 
-                        Thread.sleep(backoff);
+                        Thread.sleep(roleBackoff);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -320,7 +321,7 @@ public class BirthdayTask {
                 roleBackoffAdd.clear();
                 roleBackoffRemove.clear();
 
-                log.info("All roles done (add and removal), backoff was {}ms (double). Took {}ms", backoff, endRole - startRole);
+                log.info("All roles done (add and removal), backoff was {}ms. Took {}ms", roleBackoff, endRole - startRole);
             });
         } catch (Exception e) {
             e.printStackTrace();
