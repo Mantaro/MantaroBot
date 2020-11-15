@@ -885,12 +885,12 @@
         "no_argument": "%1$s你需要提供參數！(set 或 remove)\n範例：~>profile description set Hi there!",
         "no_content": "%1$s你需要指出你的個人簡介。\n範例：~>profile description set Hi there!",
         "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-        "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
+        "success": "%1$s已設定簡介為：**%2$s**\n用 `~>profile` 來查看你的新簡介",
         "clear_success": "%1$sSuccessfully cleared description."
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge!",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
+        "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
         "important_success": "%1$sYour display badge is now the most important one.",
         "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
         "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
@@ -961,11 +961,11 @@
       },
       "display": {
         "not_premium": "%1$s個人資料部件個人化僅適用於Premium用戶。",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
-        "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
-        "reset": "%1$sSuccessfully reset profile widget order.",
-        "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "not_enough": "%1$s部件數量不足以放置在你的個人資料上 (最少：3)。如果你忘記了，查看 `~>profile widgets ls`",
+        "success": "%1$s成功設定你的個人資料佈局。新佈局為 `%2$s`",
+        "ls": "%1$s個人資料部件清單：\n%2$s **原始部件配置：**`%3$s`\n%2$s **你的部件配置：**`%4$s`\n你可以使用 `~>profile widgets reset` 來重設你的部件配置",
+        "reset": "%1$s成功重設個人資料部件配置。",
+        "example": "\n範例：`~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*任何順序都可以，這邊的順序就是你個人資料部件的顯示順序*"
       },
       "claimlock": {
         "removed": "%1$sSuccesfully reset your claim lock status.",
@@ -977,8 +977,8 @@
         "success": "%1$s已開啟自動裝備。"
       },
       "badge_header": "%1$s Display Badge",
-      "bot_notice": "%1$sBots don't have profiles.",
-      "header": "%1$s's Profile",
+      "bot_notice": "%1$s機器人沒有個人資料。",
+      "header": "%1$s的個人資料",
       "no_desc": "No description set",
       "credits": "Credits",
       "old_credits": "Legacy Credits",
