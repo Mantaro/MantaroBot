@@ -240,6 +240,10 @@ public class CurrencyActionCmds {
                     sparkleChance = 380;
                 }
 
+                if (sparkleChance <= 385 && petHelp) {
+                    sparkleChance = sparkleChance - 10;
+                }
+
                 if (random.nextInt(400) > sparkleChance) {
                     var gem = ItemReference.SPARKLE_FRAGMENT;
 
