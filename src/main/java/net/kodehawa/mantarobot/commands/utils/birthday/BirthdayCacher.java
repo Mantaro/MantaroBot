@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.utils.birthday;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.utils.Types;
+import net.kodehawa.mantarobot.commands.UtilsCmds;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import org.slf4j.Logger;
@@ -74,6 +75,8 @@ public class BirthdayCacher {
                 }
 
                 log.debug("-> [CACHE] Birthdays: {}", cachedBirthdays);
+                log.info("Clearing previous guild birthday cache...");
+                UtilsCmds.getGuildBirthdayCache().invalidateAll();
                 isDone = true;
                 log.info("Cached all birthdays!");
             } catch (Exception e) {
