@@ -207,7 +207,7 @@ public class UtilsCmds {
                     cached.remove(ctx.getUser().getId());
                 }
 
-                ctx.sendLocalized("commands.birthday.denied_server", EmoteReference.CORRECT);
+                ctx.sendLocalized("commands.birthday.denied", EmoteReference.CORRECT);
             }
         });
 
