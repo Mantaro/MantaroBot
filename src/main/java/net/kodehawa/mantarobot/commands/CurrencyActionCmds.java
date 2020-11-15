@@ -241,7 +241,7 @@ public class CurrencyActionCmds {
                 }
 
                 if (sparkleChance <= 385 && petHelp) {
-                    sparkleChance = sparkleChance - 10;
+                    sparkleChance = sparkleChance - 5;
                 }
 
                 if (random.nextInt(400) > sparkleChance) {
