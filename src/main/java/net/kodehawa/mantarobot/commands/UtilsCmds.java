@@ -394,8 +394,7 @@ public class UtilsCmds {
                             guildCurrentBirthdays = cached;
                         } else {
                             for (var birthdays : cachedBirthdays.entrySet()) {
-                                //Check if this guild contains x user and that the month matches.
-                                if (ids.contains(birthdays.getKey()) && birthdays.getValue().month.equals(currentMonth)) {
+                                if (ids.contains(birthdays.getKey())) {
                                     guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
                                 }
                             }
@@ -406,14 +405,14 @@ public class UtilsCmds {
                             }
                         }
 
-                        //No birthdays to be seen here? (This month)
                         if (guildCurrentBirthdays.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_guild_month_birthdays", EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER);
+                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
                         //Build the message.
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
+                                .filter(bds -> bds.getValue().month.equals(currentMonth))
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .map((entry) -> {
                                     Guild guild = ctx.getGuild();
@@ -431,6 +430,15 @@ public class UtilsCmds {
                                             birthday[0] + "-" + birthday[1]
                                     );
                                 }).collect(Collectors.joining("\n"));
+
+                        //No birthdays to be seen here? (This month)
+                        if (birthdays.trim().isEmpty()) {
+                            ctx.sendLocalized("commands.birthday.no_guild_month_birthdays",
+                                    EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER
+                            );
+
+                            return;
+                        }
 
                         var parts = DiscordUtils.divideString(1000, birthdays);
                         List<String> messages = new LinkedList<>();

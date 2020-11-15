@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.awt.Color;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -264,9 +265,11 @@ public class ImageboardUtils {
         var builder = new EmbedBuilder();
         builder.setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
                 .setImage(url)
+                .setColor(Color.PINK)
                 .setDescription(String.format(languageContext.get("commands.imageboard.description_image"),
                         rating.getLongName(), imageboard)
-                ).addField(languageContext.get("commands.imageboard.width"), width, true)
+                )
+                .addField(languageContext.get("commands.imageboard.width"), width, true)
                 .addField(languageContext.get("commands.imageboard.height"), height, true)
                 .addField(languageContext.get("commands.imageboard.tags"), "`" + (tags == null ? "None" : tags) + "`", false)
                 .setFooter(languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " +
