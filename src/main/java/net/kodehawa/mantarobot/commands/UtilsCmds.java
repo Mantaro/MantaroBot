@@ -166,14 +166,18 @@ public class UtilsCmds {
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
 
+                if (guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
+                    ctx.sendLocalized("commands.birthday.already_allowed", EmoteReference.ERROR);
+                    return;
+                }
+
                 guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
                 var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser());
-                if (cached != null && cached.size() >= 1 && cachedBirthday != null) {
+                if (cached != null && cachedBirthday != null) {
                     cached.put(ctx.getUser().getId(), cachedBirthday);
-                    guildBirthdayCache.put(ctx.getGuild().getId(), cached);
                 }
 
                 ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
@@ -199,10 +203,8 @@ public class UtilsCmds {
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
-                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser());
-                if (cached != null && cached.size() >= 1 && cachedBirthday != null) {
+                if (cached != null) {
                     cached.remove(ctx.getUser().getId());
-                    guildBirthdayCache.put(ctx.getGuild().getId(), cached);
                 }
 
                 ctx.sendLocalized("commands.birthday.denied_server", EmoteReference.CORRECT);

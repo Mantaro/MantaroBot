@@ -685,11 +685,9 @@ public class MantaroListener implements EventListener {
             allowedBirthdays.remove(user.getId());
             dbGuild.saveAsync();
 
-            var cachedBirthdayGuild = UtilsCmds.getGuildBirthdayCache();
-            var bdCacheMap = cachedBirthdayGuild.getIfPresent(guild.getId());
+            var bdCacheMap = UtilsCmds.getGuildBirthdayCache().getIfPresent(guild.getId());
             if (bdCacheMap != null) {
                 bdCacheMap.remove(user.getId());
-                cachedBirthdayGuild.put(guild.getId(), bdCacheMap);
             }
         }
     }
