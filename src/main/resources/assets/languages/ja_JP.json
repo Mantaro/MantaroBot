@@ -96,10 +96,10 @@
       "I-I think we got some fire going on here... you might want to tell my master to take a look.",
       "I've mastered explosion magic, you see?",
       "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "うーん... 何がしたかったのですか？"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
+      "あぁ... 呼び出されすぎてめまいがしそう...",
       "欲張らないでください！",
       "は、早く呼びすぎて目が回る…",
       "ちょっと待ちましょう！",
@@ -114,7 +114,7 @@
       "Just wholesome admin work happening over here...",
       "The boot has been thrown!",
       "You'll be missed... not really",
-      "I hope I did the right thing...",
+      "間違っていなければ良いのですが...",
       "Woah there, mods have spoken!",
       "U-Uh... w-well, someone just went through the door."
     ]
@@ -125,9 +125,9 @@
     "misc": "その他",
     "moderation": "管理",
     "owner": "オーナー",
-    "image": "Image",
+    "image": "画像",
     "utils": "ユーティリティ",
-    "fun": "Fun",
+    "fun": "娯楽",
     "games": "ゲーム",
     "info": "情報",
     "currency": "通貨",
@@ -364,7 +364,7 @@
       "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
       "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
       "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "not_dj": "%1$sこれを実行するためにはDJでないといけません。"
     },
     "stop": {
       "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
