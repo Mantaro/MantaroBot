@@ -194,7 +194,7 @@ public class UtilsCmds {
                 var dbGuild = ctx.getDBGuild();
                 var guildData = dbGuild.getData();
 
-                if (guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
+                if (!guildData.getAllowedBirthdays().contains(ctx.getAuthor().getId())) {
                     ctx.sendLocalized("commands.birthday.already_denied", EmoteReference.CORRECT);
                     return;
                 }
