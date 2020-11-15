@@ -439,11 +439,11 @@ public class MantaroListener implements EventListener {
 
     private void onDisconnect(DisconnectEvent event) {
         if (event.isClosedByServer()) {
-            log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
+            log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%,d] %s%n",
                     event.getServiceCloseFrame().getCloseCode(), event.getCloseCode())
             );
         } else {
-            log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
+            log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%,d] %s%n",
                     event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason())
             );
         }
@@ -479,13 +479,14 @@ public class MantaroListener implements EventListener {
                                 Make sure you use the `~>help` command to make yourself comfy and to get started with the bot!
 
                                 If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. This message will only be shown once.""")
-                        .addField("Important Links", """
-                                        [Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.
-                                        [Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.
-                                        [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!
-                                        [Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) -  Customizability for your server needs!
-                                        [Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.
-                                        [Official Website](https://mantaro.site) - A cool website.""",
+                        .addField("Important Links",
+                        """
+                                [Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.
+                                [Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.
+                                [Custom Commands](https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22) - Great customizability for your server needs!
+                                [Configuration](https://github.com/Mantaro/MantaroBot/wiki/Configuration) -  Customizability for your server needs!
+                                [Patreon](https://patreon.com/mantaro) - Help Mantaro's development directly by donating a small amount of money each month.
+                                [Official Website](https://mantaro.site) - A cool website.""",
                                 true
                         ).setFooter("We hope you enjoy using Mantaro! This will self-destruct in 2 minutes.");
 
@@ -534,15 +535,17 @@ public class MantaroListener implements EventListener {
             final var jda = event.getJDA();
             final var mantaroData = MantaroData.db().getMantaroData();
             final var guild = event.getGuild();
+            final var guildBirthdayCache = UtilsCmds.getGuildBirthdayCache();
 
             // Clear guild's TextChannel ground.
             guild.getTextChannelCache().stream().forEach(TextChannelGround::delete);
             // Clear per-guild birthday cache
-            UtilsCmds.getGuildBirthdayCache().invalidate(guild.getId());
+            guildBirthdayCache.invalidate(guild.getId());
+            guildBirthdayCache.cleanUp();
 
             if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId()) ||
                     mantaroData.getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
-                log.info("Left " + event.getGuild() + " because of a blacklist entry. (O:" + event.getGuild().getOwner() + ")");
+                log.info("Left {} because of a blacklist entry. (Owner ID: {})", event.getGuild(), event.getGuild().getOwner().getId());
                 return;
             }
 

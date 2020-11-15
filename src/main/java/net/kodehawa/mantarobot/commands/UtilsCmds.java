@@ -70,7 +70,7 @@ public class UtilsCmds {
     private static final Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     private static final Random random = new Random();
     private static final Cache<String, ConcurrentHashMap<String, BirthdayCacher.BirthdayData>> guildBirthdayCache = CacheBuilder.newBuilder()
-            .maximumSize(1000)
+            .maximumSize(2500)
             .expireAfterWrite(Duration.ofHours(6))
             .build();
 
@@ -167,16 +167,14 @@ public class UtilsCmds {
                 var guildData = dbGuild.getData();
 
                 guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
+                dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
                 var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser());
-                // Organically grow the cache...
                 if (cached != null && cached.size() >= 1 && cachedBirthday != null) {
                     cached.put(ctx.getUser().getId(), cachedBirthday);
                     guildBirthdayCache.put(ctx.getGuild().getId(), cached);
                 }
-
-                dbGuild.save();
 
                 ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
             }
@@ -199,6 +197,13 @@ public class UtilsCmds {
 
                 guildData.getAllowedBirthdays().remove(ctx.getAuthor().getId());
                 dbGuild.save();
+
+                var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
+                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser());
+                if (cached != null && cached.size() >= 1 && cachedBirthday != null) {
+                    cached.remove(ctx.getUser().getId());
+                    guildBirthdayCache.put(ctx.getGuild().getId(), cached);
+                }
 
                 ctx.sendLocalized("commands.birthday.denied_server", EmoteReference.CORRECT);
             }
