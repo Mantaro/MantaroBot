@@ -253,24 +253,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
-                        var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
-
-                        if (cached != null && cached.size() >= 1) {
-                            guildCurrentBirthdays = cached;
-                        } else {
-                            for (var birthdays : globalBirthdays.entrySet()) {
-                                if (ids.contains(birthdays.getKey())) {
-                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
-                                }
-                            }
-
-                            if (guildCurrentBirthdays.size() >= 1) {
-                                guildBirthdayCache.put(guild.getId(), guildCurrentBirthdays);
-                            }
-                        }
-
-                        // No birthdays to be seen here? (This month)
+                        var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getId(), ids);
                         if (guildCurrentBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
@@ -376,9 +359,9 @@ public class UtilsCmds {
                             return;
                         }
 
-                        ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
                         var data = ctx.getDBGuild().getData();
                         var ids = data.getAllowedBirthdays();
+                        var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getId(), ids);
 
                         if (ids.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
@@ -388,27 +371,6 @@ public class UtilsCmds {
                         //Try not to die. I mean get calendar month and sum 1.
                         var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
                         var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
-
-                        var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
-                        if (cached != null && cached.size() >= 1) {
-                            guildCurrentBirthdays = cached;
-                        } else {
-                            for (var birthdays : cachedBirthdays.entrySet()) {
-                                if (ids.contains(birthdays.getKey())) {
-                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
-                                }
-                            }
-
-                            // Populate guild cache
-                            if (guildCurrentBirthdays.size() >= 1) {
-                                guildBirthdayCache.put(ctx.getGuild().getId(), guildCurrentBirthdays);
-                            }
-                        }
-
-                        if (guildCurrentBirthdays.isEmpty()) {
-                            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
-                            return;
-                        }
 
                         //Build the message.
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
@@ -846,5 +808,28 @@ public class UtilsCmds {
 
     public static Cache<String, ConcurrentHashMap<String, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {
         return guildBirthdayCache;
+    }
+
+    private ConcurrentHashMap<String, BirthdayCacher.BirthdayData> getBirthdayMap(String guildId, List<String> allowed) {
+        ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
+        final var cachedBirthdays = MantaroBot.getInstance().getBirthdayCacher().getCachedBirthdays();
+
+        var cached = guildBirthdayCache.getIfPresent(guildId);
+        if (cached != null && cached.size() >= 1) {
+            guildCurrentBirthdays = cached;
+        } else {
+            for (var birthdays : cachedBirthdays.entrySet()) {
+                if (allowed.contains(birthdays.getKey())) {
+                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                }
+            }
+
+            // Populate guild cache
+            if (guildCurrentBirthdays.size() >= 1) {
+                guildBirthdayCache.put(guildId, guildCurrentBirthdays);
+            }
+        }
+
+        return guildCurrentBirthdays;
     }
 }
