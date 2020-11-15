@@ -175,7 +175,7 @@ public class UtilsCmds {
                 dbGuild.save();
 
                 var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
-                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser());
+                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser().getId());
                 if (cached != null && cachedBirthday != null) {
                     cached.put(ctx.getUser().getId(), cachedBirthday);
                 }
