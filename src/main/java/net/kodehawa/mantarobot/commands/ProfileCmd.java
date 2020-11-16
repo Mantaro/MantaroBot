@@ -19,7 +19,9 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
@@ -43,7 +45,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.I18n;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
@@ -55,7 +56,10 @@ import okhttp3.Request;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -80,7 +84,7 @@ public class ProfileCmd {
 
     @Subscribe
     public void profile(CommandRegistry cr) {
-        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+        final var rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(2) //twice every 10m
                 .spamTolerance(1)
                 .cooldown(10, TimeUnit.MINUTES)
@@ -90,10 +94,9 @@ public class ProfileCmd {
                 .prefix("profile")
                 .build();
 
-        final Config config = MantaroData.config().get();
+        final var config = MantaroData.config().get();
 
-        //I actually do need this, sob.
-        LinkedList<ProfileComponent> defaultOrder;
+        List<ProfileComponent> defaultOrder;
         if (config.isPremiumBot() || config.isSelfHost()) {
             defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
         } else {
@@ -169,16 +172,21 @@ public class ProfileCmd {
                                 playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
                             }
 
-                            if (mhMember != null && mhMember.getRoles()
-                                    .stream()
-                                    .anyMatch(r -> r.getIdLong() == 406920476259123201L)) {
-                                playerData.addBadgeIfAbsent(Badge.HELPER_2);
-                            }
+                            if (mhMember != null) {
+                                // Helper
+                                if (containsRole(mhMember, 315910951994130432L, 642089477828902912L)) {
+                                    playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
+                                }
 
-                            if (mhMember != null && mhMember.getRoles()
-                                    .stream()
-                                    .anyMatch(r -> r.getIdLong() == 290257037072531466L || r.getIdLong() == 290902183300431872L)) {
-                                playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+                                // Patron - Donator
+                                if (containsRole(mhMember, 290902183300431872L, 290257037072531466L)) {
+                                    playerData.addBadgeIfAbsent(Badge.DONATOR_2);
+                                }
+
+                                // Translator
+                                if (containsRole(mhMember, 407156441812828162L)) {
+                                    playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
+                                }
                             }
                             //end of badge assigning
 
@@ -863,5 +871,9 @@ public class ProfileCmd {
                     item.toDisplayString() + SEPARATOR_HALF + " [%,d / %,d]"
                     .formatted(equipment.getDurability().get(entry.getKey()), ((Breakable) item).getMaxDurability());
         }).collect(Collectors.joining("\n"));
+    }
+
+    private boolean containsRole(Member member, long... roles) {
+        return member.getRoles().stream().map(Role::getIdLong).anyMatch(id -> Arrays.stream(roles).anyMatch(i -> i == id));
     }
 }

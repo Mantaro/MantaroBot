@@ -75,31 +75,6 @@ public class MarryCmd {
                             return;
                         }
 
-                        // MARRIAGE SYSTEM EXPLANATION.
-                        // UserData stores marriage UUID, Marriages table on rethink stores the Marriage document based on the UUID assigned.
-                        // Onto the UUID we need to encode userId + timestamp of the proposing player and the proposed to player after the acceptance is done.
-                        // Scrapping a marriage is easy, just remove the document from the db and reset marriageId field on the User.
-                        // A marriage IS only between 2 people,
-                        // but a waifu system will be implemented down the road (waifus field in UserData being a List of User)
-                        // To check whether the person is married to the person proposing to,
-                        // we can check if their Marriage ID is the same instead of all this bullshit.
-                        // If the marriageId field exists but it's missing the document on the marriages db,
-                        // we can scrape that as non existent (race condition?)
-                        // Already-married people will just be checked whether the getMarriage is not null on UserData
-                        // (that redirects to the db call to get the Marriage object,
-                        // not only the id.
-                        // Person proposing NEEDS 2 rings and them deducted from their inventory.
-                        // A love letter can be randomly dropped.
-                        // After the love letter is dropped, the proposing person can write on it and
-                        // transfer the written letter to their loved one, as a read-only receipt that
-                        // will be scrapped completely after the marriage ends.
-                        // Marriage date will be saved as Instant.now().toEpochMilli().
-                        // A denied marriage will give the denied badge, a successful one will give the married badge.
-                        // A successfully delivered love letter will give you the lover badge.
-                        // CANNOT marry bots, yourself, people already married, if you're married.
-                        // Confirmation cannot happen if the rings are missing. Timeout for confirmation is at MOST 2 minutes.
-                        // If the receipt has more than 5000 rings, remove rings from the person giving it and scrape them.
-
                         //We don't need to change those. I sure fucking hope we don't.
                         final DBGuild dbGuild = ctx.getDBGuild();
 
@@ -189,15 +164,12 @@ public class MarryCmd {
                                 // User and Marriage objects once again
                                 // to avoid race conditions or changes on those that might have happened on the 120 seconds that this lasted for.
                                 // We need to check if the marriage is empty once again before continuing, also if we have enough rings!
-                                // USE THOSE VARIABLES TO MODIFY DATA,
-                                // NOT THE ONES USED TO CHECK BEFORE THE CONFIRMATION MESSAGE. THIS IS EXTREMELY IMPORTANT.
                                 // Else we end up with really annoying to debug bugs, lol.
                                 Player proposingPlayer = ctx.getPlayer(proposingUser);
                                 Player proposedToPlayer = ctx.getPlayer(proposedToUser);
                                 DBUser proposingUserDB = ctx.getDBUser(proposingUser);
                                 DBUser proposedToUserDB = ctx.getDBUser(proposedToUser);
 
-                                // ---------------- START OF FINAL MARRIAGE CHECK ----------------
                                 final Marriage proposingMarriageFinal = proposingUserDB.getData().getMarriage();
                                 final Marriage proposedToMarriageFinal = proposedToUserDB.getData().getMarriage();
 
@@ -210,9 +182,7 @@ public class MarryCmd {
                                     ctx.sendLocalized("commands.marry.receipt_married", EmoteReference.ERROR);
                                     return Operation.COMPLETED;
                                 }
-                                // ---------------- END OF FINAL MARRIAGE CHECK ----------------
 
-                                // ---------------- START OF INVENTORY CHECKS ----------------
                                 //LAST inventory check and ring assignment is gonna happen using those.
                                 final Inventory proposingPlayerFinalInventory = proposingPlayer.getInventory();
                                 final Inventory proposedToPlayerInventory = proposedToPlayer.getInventory();
@@ -229,9 +199,8 @@ public class MarryCmd {
                                 if (proposedToPlayerInventory.getAmount(ItemReference.RING) < 5000) {
                                     proposedToPlayerInventory.process(new ItemStack(ItemReference.RING, 1));
                                 }
-                                // ---------------- END OF INVENTORY CHECKS ----------------
 
-                                // ---------------- START OF MARRIAGE ASSIGNMENT ----------------
+
                                 final long marriageCreationMillis = Instant.now().toEpochMilli();
                                 // Onto the UUID we need to encode userId + timestamp of
                                 // the proposing player and the proposed to player after the acceptance is done.
@@ -247,7 +216,6 @@ public class MarryCmd {
                                 proposedToUserDB.getData().setMarriageId(marriageId);
                                 proposingUserDB.save();
                                 proposedToUserDB.save();
-                                //---------------- END OF MARRIAGE ASSIGNMENT ----------------
 
                                 // Send marriage confirmation message.
                                 ctx.sendLocalized("commands.marry.accepted",
@@ -260,11 +228,13 @@ public class MarryCmd {
                                 proposedToPlayer.getData().addBadgeIfAbsent(Badge.MARRIED);
 
                                 // Give a love letter both to the proposing player and the one who was proposed to.
-                                if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000)
+                                if (proposingPlayerFinalInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
                                     proposingPlayerFinalInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
+                                }
 
-                                if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000)
+                                if (proposedToPlayerInventory.getAmount(ItemReference.LOVE_LETTER) < 5000) {
                                     proposedToPlayerInventory.process(new ItemStack(ItemReference.LOVE_LETTER, 1));
+                                }
 
                                 // Badge assignment saving.
                                 proposingPlayer.save();

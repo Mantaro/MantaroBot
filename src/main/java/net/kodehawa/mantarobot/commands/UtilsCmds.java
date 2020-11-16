@@ -292,10 +292,10 @@ public class UtilsCmds {
                     return;
                 }
 
-                var parsed = LocalDateTime.now(Utils.timezoneToZoneID(timezone));
-
                 ctx.sendLocalized("commands.time.success",
-                        EmoteReference.CLOCK, Utils.formatDate(parsed, userData.getLang()), timezone
+                        EmoteReference.CLOCK,
+                        Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), userData.getLang()),
+                        timezone
                 );
             }
 

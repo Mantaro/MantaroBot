@@ -47,6 +47,11 @@ public class FinderUtils {
     public static Role findRole(GuildMessageReceivedEvent event, String content) {
         List<Role> found = findRole0(event, content);
 
+        // Ah yes, null return null.
+        if (found == null) {
+            return null;
+        }
+
         if (found.size() > 1 && !content.isEmpty()) {
             event.getChannel().sendMessage(String.format(
                     "%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
