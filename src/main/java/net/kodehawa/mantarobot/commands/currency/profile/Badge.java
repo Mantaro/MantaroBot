@@ -173,16 +173,16 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    BADGE_HUNTER("Badge Hunter", "\uD83C\uDFF5",
-            "Get more than 40 badges",
-            91, 92,
-            (player,  dbUser) -> player.getData().getBadges().size() > 40, false
-    ),
-
     CHAMPION("Champion", "\uD83D\uDC51",
             "See yourself in a leaderboard.",
             91, 92,
             (player, dbUser) -> false, false
+    ),
+
+    EXPERIENCED_BADGE_HUNTER("Experienced Badge Hunter", "\uD83D\uDC40",
+            "Get more than 60 badges",
+            91, 92,
+            (player,  dbUser) -> player.getData().getBadges().size() > 60, false
     ),
 
     EXPERT_MINER("Expert Miner", "<:sparkle_pick:492882143404359690>",
@@ -213,6 +213,12 @@ public enum Badge {
             "Get to level 100.",
             91, 92,
             (player, dbUser) -> player.getLevel() >= 100, false
+    ),
+
+    BADGE_HUNTER("Badge Hunter", "\uD83C\uDFF5",
+            "Get more than 40 badges",
+            91, 92,
+            (player,  dbUser) -> player.getData().getBadges().size() > 40, false
     ),
 
     //Win more than 1000 games
