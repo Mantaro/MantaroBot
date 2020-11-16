@@ -344,7 +344,12 @@ public class MoneyCmds {
                 }
 
                 var loot = ground.collectItems();
-                var moneyFound = ground.collectMoney() + Math.max(0, random.nextInt(50) - 10);
+                var moneyFound = ground.collectMoney() + Math.max(0, random.nextInt(70));
+
+                // Make the credits minimum 10, instead of... 1
+                if (moneyFound != 0) {
+                    moneyFound = Math.max(10, moneyFound);
+                }
 
                 if (dbUser.isPremium() && moneyFound > 0) {
                     int extra = (int) (moneyFound * 1.5);
@@ -358,6 +363,7 @@ public class MoneyCmds {
                     extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
                     playerData.markCampaignAsSeen();
                 }
+
 
                 if (!loot.isEmpty()) {
                     var stack = ItemStack.toString(ItemStack.reduce(loot));
