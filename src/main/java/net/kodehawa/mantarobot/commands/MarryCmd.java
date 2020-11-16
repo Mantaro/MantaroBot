@@ -616,13 +616,6 @@ public class MarryCmd {
                     return;
                 }
 
-                try {
-                    UtilsCmds.dateGMT(ctx.getGuild(), timezone);
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.marry.timezone.invalid", EmoteReference.ERROR);
-                    return;
-                }
-
                 if (!RatelimitUtils.ratelimit(tzRatelimit, ctx)) {
                     return;
                 }

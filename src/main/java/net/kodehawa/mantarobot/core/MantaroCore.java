@@ -416,9 +416,9 @@ public class MantaroCore {
         bot.getCore().markAsReady();
 
         log.info("Not aware of anything holding off boot now, considering bot as started up");
-        LogUtils.shard(String.format("Loaded all %d (out of %d) shards and %d commands.\nTook %s.\nCross-node shard count is %d.", shardManager.getShardsRunning(),
-                bot.getManagedShards(), CommandProcessor.REGISTRY.commands().size(),
-                Utils.formatDuration(elapsed), shardManager.getShardsTotal())
+        LogUtils.shard(String.format("Loaded all %d shards and %d commands.\nTook %s to start this node (%d).\nCross-node shard count is %d.",
+                shardManager.getShardsRunning(), CommandProcessor.REGISTRY.commands().size(),
+                Utils.formatDuration(elapsed), bot.getNodeNumber(), shardManager.getShardsTotal())
         );
 
         log.info("Loaded all shards successfully! Current status: {}", MantaroCore.getLoadState());

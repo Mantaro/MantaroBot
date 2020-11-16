@@ -380,13 +380,6 @@ public class ProfileCmd {
                     return;
                 }
 
-                try {
-                    UtilsCmds.dateGMT(ctx.getGuild(), timezone);
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
-                    return;
-                }
-
                 var player = ctx.getPlayer();
                 if (player.getData().addBadgeIfAbsent(Badge.CALENDAR)) {
                     player.saveUpdating();

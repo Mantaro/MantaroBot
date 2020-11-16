@@ -325,6 +325,10 @@ public class Utils {
         }
     }
 
+    public static ZoneId timezoneToZoneID(final String timeZone) {
+        return TimeZone.getTimeZone(timeZone).toZoneId();
+    }
+
     public static String prettyDisplay(String header, String body) {
         return BLUE_SMALL_MARKER + "**" + header + "**: " + body;
     }

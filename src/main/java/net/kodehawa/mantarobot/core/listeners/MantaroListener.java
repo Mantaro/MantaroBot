@@ -37,7 +37,7 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.UtilsCmds;
+import net.kodehawa.mantarobot.commands.BirthdayCmd;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
@@ -535,7 +535,7 @@ public class MantaroListener implements EventListener {
             final var jda = event.getJDA();
             final var mantaroData = MantaroData.db().getMantaroData();
             final var guild = event.getGuild();
-            final var guildBirthdayCache = UtilsCmds.getGuildBirthdayCache();
+            final var guildBirthdayCache = BirthdayCmd.getGuildBirthdayCache();
 
             // Clear guild's TextChannel ground.
             guild.getTextChannelCache().stream().forEach(TextChannelGround::delete);
@@ -685,7 +685,7 @@ public class MantaroListener implements EventListener {
             allowedBirthdays.remove(user.getId());
             dbGuild.saveAsync();
 
-            var bdCacheMap = UtilsCmds.getGuildBirthdayCache().getIfPresent(guild.getId());
+            var bdCacheMap = BirthdayCmd.getGuildBirthdayCache().getIfPresent(guild.getId());
             if (bdCacheMap != null) {
                 bdCacheMap.remove(user.getId());
             }

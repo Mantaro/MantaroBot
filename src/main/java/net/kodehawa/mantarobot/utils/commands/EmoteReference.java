@@ -32,6 +32,7 @@ public enum EmoteReference {
     POPPER(":tada:", "\uD83C\uDF89"),
     ZAP(":zap:", "\u26a1"),
     MEGA(":mega:", "\uD83D\uDCE3"),
+    CLOCK(":clock1:", "\uD83D\uDD50"),
     CONFUSED(":confused:", "\uD83D\uDE15"),
     WORRIED(":worried:", "\uD83D\uDE1F"),
     THINKING(":thinking:", "\uD83E\uDD14"),
