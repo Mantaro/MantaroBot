@@ -426,7 +426,7 @@ public class CurrencyActionCmds {
                             HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
                             amount += rewards.getItems();
                             money += rewards.getMoney();
-                            extraMessage += rewards.getResult();
+                            extraMessage += "\n" + rewards.getResult();
                         }
                     }
 
