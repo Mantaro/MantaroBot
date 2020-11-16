@@ -161,6 +161,18 @@ public enum Badge {
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1000, false
     ),
 
+    BI_YEARLY_CLAIMER("Bi-Yearly Claimer", "\uD83D\uDD65",
+            "Claim daily more than 730 days in a row (such dedication)",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    YEARLY_CLAIMER("Yearly Claimer", "\uD83D\uDD50",
+            "Claim daily more than 365 days in a row.",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     BADGE_HUNTER("Badge Hunter", "\uD83C\uDFF5",
             "Get more than 40 badges",
             91, 92,
@@ -222,6 +234,13 @@ public enum Badge {
             (player, dbUser) -> player.getData().getSharksCaught() >= 35, false
     ),
 
+    //Claim daily more than 100 days in a row.
+    BIG_CLAIMER("Big Claimer", "\uD83C\uDF8A",
+            "Claim daily more than 180 days in a row.",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     //Get a loot crate.
     LUCKY("Lucky", "\uD83C\uDF40",
             "Be lucky enough to loot a loot crate.",
@@ -269,18 +288,10 @@ public enum Badge {
             (player, dbUser) -> player.getReputation() >= 10, false
     ),
 
-
     //Get extremely lucky with slots.
     LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0",
             "Get more than 50,000 in credits from slots.",
             92, 92,
-            (player, dbUser) -> false, false
-    ),
-
-    //Claim daily more than 100 days in a row.
-    BIG_CLAIMER("Big Claimer", "\uD83C\uDF8A",
-            "Claim daily more than 100 days in a row.",
-            91, 92,
             (player, dbUser) -> false, false
     ),
 

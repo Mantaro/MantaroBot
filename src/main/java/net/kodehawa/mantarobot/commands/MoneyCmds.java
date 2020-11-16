@@ -212,8 +212,16 @@ public class MoneyCmds {
                         if (streak > 15){
                             bonus += Math.min(targetOther ? 1700 : 700, Math.floor(150 * streak / (targetOther ? 10D : 15D)));
 
-                            if (streak > 100) {
+                            if (streak >= 180) {
                                 authorPlayerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
+                            }
+
+                            if (streak >= 365) {
+                                authorPlayerData.addBadgeIfAbsent(Badge.YEARLY_CLAIMER);
+                            }
+
+                            if (streak >= 730) {
+                                authorPlayerData.addBadgeIfAbsent(Badge.BI_YEARLY_CLAIMER);
                             }
                         }
                     }
