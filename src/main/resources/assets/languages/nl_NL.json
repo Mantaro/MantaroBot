@@ -66,9 +66,9 @@
         "generic_sellout": "We hebben uw hulp nodig om Mantaro in leven te houden en de servers van Mantaro te verbeteren!\nMet Mantaro Premium ** kun je geweldige voordelen en ** tot verdubbeling van de credits krijgen! Lidmaatschappen beginnen bij $ 2 per maand, de prijs van een snack! Bekijk meer op <https://patreon.com/mantaro>. Het verder vertellen aan anderen helpt ook :heart:",
         "daily_sellout": "We hebben jouw hulp nodig om Mantaro in leven te houden!\nU kunt geweldige voordelen krijgen en ** de dagelijkse credits verdubbelen** en toegang krijgen tot `~>dailycrate`! Lidmaatschappen beginnen bij slechts $2 per maand, kijk voor meer informatie op <https://patreon.com/mantaro>.",
         "thanks_message": "Bedankt voor het steunen van Mantaro. Zonder hulp van mensen zoals jij konden we Mantaro niet in leven houden :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "thanks_message_daily": "Bedankt voor het steunen van Mantaro. Zonder hulp van mensen zoals jij konden we Mantaro niet in leven houden :heart: \nJe krijgt ook het dubbele van de credits als bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Wist je dat we een Twitter-account hebben? Ja dat doen we! Volg ons op (at)mantarodiscord <https://twitter.com/mantarodiscord> voor updates en gekke dingen."
     },
     "mention_user_required": "%1$sJe moet een gebruiker vermelden.",
     "invalid_character": "%1$sDat is geen toegestaan karakter.",
@@ -82,41 +82,41 @@
     "deprecated": "Niet langer in gebruik",
     "space_notice": "Als de naam ervan spaties bevat, probeer het dan \"tussen aanhalingstekens te plaatsen\"",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
+      "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
       "spam_2": "Ik denk dat stoppen voorlopig de beste optie is...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
+      "spam_3": "\nZou het niet beter zijn als je even naar buiten gaat?",
       "spam_4": "\nIs dit ding aan?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Als je wilt, word dan lid van onze **support server** (`https://support.mantaro.site`), of bekijk onze GitHub-pagina (`https://github.com/Kodehawa/MantaroBot`). Zeg alsjeblieft dat ze moeten stoppen met het exploderen van mij en vergeet alsjeblieft de Error ID, het commando dat je hebt gebruikt en je node (te zien in `~>shard`) niet bij het rapporteren!",
     "boom_quotes": [
       "Schijnbaar ontplofte Megumin ons kasteel...",
-      "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
+      "Uh-oh, schijnbaar vergat mijn meester enkele nullen en enen op de vloer :<",
       "W-Wacht, wat is er juist gebeurd?",
-      "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-      "I've mastered explosion magic, you see?",
-      "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-      "U-Uhh.. What did you want?"
+      "I-Ik denk dat er hier wat in de brand staat... misschien wil je mijn meester zeggen dat hij even moet kijken.",
+      "Ik heb explosiemagie onder de knie, zie je?",
+      "Misschien is er hier gewoon iets misgegaan, maar, u-uh, ik kan het oplossen!",
+      "U-Uhh.. Wat wilde je?"
     ],
     "ratelimit_quotes": [
-      "Woah... you're calling me a bit too fast... I might get dizzy!",
+      "Woah... je wilt een beetje te snel... Ik kan misschien duizelig worden!",
       "Niet gierig worden!",
-      "Y-You're calling me so fast that I'm getting dizzy...",
-      "Halt in there buddy!",
+      "J-Je gaat ​​zo snel dat ik duizelig word...",
+      "Stop daar maatje!",
       "Wacht nog een kleeeiiiin beetje meer uwu",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
-      "I wanna do this... but halt for a bit please.",
-      "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "Het lijkt erop dat we een snelheidsticket krijgen als we zo snel doorgaan!",
+      "Ik wil dit doen... maar stop even alsjeblieft.",
+      "Hé, wacht even, ik ben nog niet klaar met mijn pauze!",
+      "Kun je een beetje langzamer gaan?"
     ],
     "mod_quotes": [
-      "Uh-oh, seems like someone just got hit hard!",
-      "Just wholesome admin work happening over here...",
-      "The boot has been thrown!",
-      "You'll be missed... not really",
+      "Uh-oh, het lijkt alsof iemand zojuist hard is geraakt!",
+      "Gewoon gezond administratief werk dat hier gebeurt...",
+      "De laars is gegooid!",
+      "Je zult worden gemist... maar niet heus",
       "Ik hoop dat ik het juiste gedaan heb...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "Woah daar, mods hebben gesproken!",
+      "U-Uh... n-nou, iemand ging net door de deur."
     ]
   },
   "categories": {
@@ -145,11 +145,11 @@
         "extra": "En je vond ook %1$s, je hebt geluk!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Je vond een **%1$s** tijdens het vissen, maar je had er al te veel, dus we gooiden het terug in de oceaan...",
+        "success": "Je hebt een %1$s **%2$s** gevonden tijdens het vissen en je bent verder gegaan met het omhoog halen. Ga en open het met `~>opencrate <crate name>`. Je hebt een kist sleutel nodig!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$sAutomatisch uitgerust met een **%2$s** op uw vis slot."
       },
       "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien ...",
       "success": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en deze heb je in je emmer bewaard.",
@@ -158,12 +158,12 @@
       "rod_broke": "%1$sJe vishengel ging kapot terwijl je een vis probeerde te vangen :(",
       "waifu_help": "Je waifu kwam langs en deed mee aan je visavontuur waardoor jullie allebei een grotere vangst krijgen!",
       "not_suitable": "%1$sJe kan hier niet mee vissen.",
-      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!",
-      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "shark_success": "%1$sOp de een of andere manier heb je een haai kunnen vangen. Wat een geweldige hengel, hè?",
+      "fossil_success": "%1$sJe hebt een fossiel gevangen terwijl je een vis probeerde te vinden. Dit is misschien een behoorlijk wat waard, of wordt gebruikt voor het gieten, denk ik.",
+      "bait": "De vis at je aas tijdens het proces!",
+      "missing_equipped": "%1$sJe had een %2$s hengel uitgerust, maar je hebt niets meer van deze soort in je inventaris! Uitgeruste hengel is gereset.",
+      "broken_drop": "%1$sJe hengel is kapot gegaan, maar je kunt hem repareren. ontvangen gebroken item: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sJe hebt geen hengel uitgerust. Om er een uit te rusten moet je `~>equip <rod name>` gebruiken om je avontuur te beginnen!"
     },
     "softban": {
       "no_permission": "%1$sJe kunt niet soft-bannen: Je hebt de `Soft-ban gebruikers` toestemming nodig.",
@@ -184,7 +184,7 @@
       "yourself_note": "%1$sWaarom probeer je jezelf te bannen, gekkie?",
       "self_hierarchy_conflict": "%1$sKan de gebruiker niet bannen: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
       "success": "%1$s%2$s (%3$s is verbannen)",
-      "success_multiple": "%1$s%2$s (%3$s people got banned)",
+      "success_multiple": "%1$s%2$s (%3$s is gebannen)",
       "error": "%1$sFoutmelding tijdens het bannen %2$s: (Ik heb eerst toestemming nodig: %3$s)",
       "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het bannen %2$s"
     },
@@ -217,8 +217,8 @@
       "info": "%1$sJe kunt de server taal wijzigen (indien beschikbaar) door middel van  `~>opts language set <taal code>`. Je persoonlijke taalvoorkeur kan gewijzigd worden met `~>profile lang <taal code>`.\n**Beschikbare talen:** `%2$s`"
     },
     "season": {
-      "info": "A *season* is the span of time, of usually 6 months where players compete for the top 10 slots on the money or reputation leaderboard. The winners will get badges and prizes based on their seasonal performance.\nThis is to allow a more competitive frame (before, money was pretty much stale) and to make the game a bit more fun.\nYou can access seasonal stuff using `-season`. Commands like profile, mine, fish and balance will require it, while games, loot, daily and reputation will give money/rep to both your global and seasonal profile.",
-      "info_2": "\n\nThe current season is **%1$s** and **%2$s** players are currently taking part on it!\n\nThe fun begins, check `~>leaderboard money -season`; `~>leaderboard rep -season` and `~>leaderboard games -season`.\nGame on! <3\nThanks for enjoying Mantaro."
+      "info": "Een * seizoen * is de tijdspan van gewoonlijk 6 maanden waarin spelers strijden om de top 10 slots op het geld- of reputatieklassement. De winnaars ontvangen badges en prijzen op basis van hun seizoensprestaties.\nDit is om een ​​competitiever frame mogelijk te maken (voorheen was het geld behoorlijk oud en saai) en om het spel een beetje leuker te maken.\nJe hebt toegang tot seizoensgebonden dingen met behulp van `-season`. Commando's zoals profile, mine, fish en balance zullen het vereisen, terwijl games, loot, daily en reputation geld/rep opleveren voor zowel je globale als seizoensprofiel.",
+      "info_2": "\n\nHet huidige seizoen is **%1$s** en **%2$s** spelers nemen er momenteel aan deel!\n\nHet plezier begint, kijk bij `~>leaderboard money -season`; `~>leaderboard rep -season` en `~>leaderboard games -season`.\nGame on! <3\nBedankt dat je van Mantaro geniet."
     },
     "music_general": {
       "music_error": {
@@ -714,11 +714,11 @@
     },
     "cast": {
       "no_item_found": "%1$sIk kan geen voorwerpen vinden die hieraan voldoen.",
-      "item_not_cast": "%1$sJe kunt dit voorwerp niet casten. Je kan de castable voorwerpen bekijken via `~>cast ls`.",
-      "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te casten. **(Kost: %2$s)**",
-      "no_item": "%1$sJe hebt het voorwerp *%2$s* niet dat nodig is om verder te gaan met deze cast.",
+      "item_not_cast": "%1$sJe kunt dit voorwerp niet gieten. Je kan de gietbare voorwerpen bekijken via `~>cast ls`",
+      "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te gieten. **(Kost: %2$s)**",
+      "no_item": "%1$sJe hebt het voorwerp *%2$s* niet dat nodig is om verder te gaan met dit afgietsel.",
       "not_enough_items": "%1$sJe hebt niet genoeg van het voorwerp *%2$s* om verder te gaan. **(Nodig: %3$s, Huidig: %4$s)**",
-      "success": "%1$sJe hebt succesvol *%2$s %3$s gecast* voor %4$s credits. *Cast gebruikt: %5$s*",
+      "success": "%1$sJe hebt succesvol *%2$s %3$s gegoten* voor %4$s credits. *giet gebruikt: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nHelaas, je moersleutel brak tijdens het proces, maar je hebt wel je voorwerp gekregen!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
@@ -726,11 +726,11 @@
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
-        "header": "Castable Voorwerp Lijst",
-        "cost": "Cast Kost: ",
-        "desc": "Dit is een lijst van de voorwerpen die je kan casten met `~>cast`. Je kan de volledige of korte naam gebruiken om te casten (bijvoorbeeld: `~>cast diamond pickaxe` of `~>cast diamond p` werkt)\n**Casten kost de helft van de prijs van het voorwerp. De castprijs wordt onderaan weergeven.**"
+        "header": "Gietbare Voorwerp Lijst",
+        "cost": "Giet Kost: ",
+        "desc": "Dit is een lijst van de voorwerpen die je kan gieten met `~>cast`. Je kan de volledige of korte naam gebruiken om te gieten (bijvoorbeeld: `~>cast diamond pickaxe` of `~>cast diamond p` werkt)\n**Gieten kost de helft van de prijs van het voorwerp. De gietprijs wordt onderaan weergeven.**."
       },
-      "dust": "%1$sJe kan niet casten met zo'n stoffige inventaris! *(Dust level: %2$s%%)*. Waarom kuis je het niet op met `~>useitem mop`?",
+      "dust": "%1$sJe kan niet gieten met zo'n stoffige inventaris! *(Dust level: %2$s%%)*. Waarom kuis je het niet op met `~>useitem mop`?",
       "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
@@ -2363,7 +2363,7 @@
       "fish": "Vis. Wordt gevangen tijdens het vissen.",
       "tropical_fish": "Een zeer tropische vis. Wordt gevangen tijdens het vissen.",
       "blowfish": "Ik vraag me af.....is dit goed? Wordt gevangen tijdens het vissen.",
-      "comet_gem": "Fragmenten van een komeet die je tijdens het mijnen vond. Handig voor het gieten van spullen.",
+      "comet_gem": "Fragmenten van een komeet die je tijdens het mijnen vond. Handig voor het gieten.",
       "star_gem": "Fragmenten van een gevallen ster die je tijdens het mijnen vond.",
       "cobweb": "Iets wat een spin heeft achtergelaten in de mijn. Ik vraag me af of het iets waard is.",
       "fragment": "Fragment van een oude edelsteen. Handig voor het gieten.",
