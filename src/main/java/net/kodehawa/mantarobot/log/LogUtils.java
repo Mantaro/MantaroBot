@@ -21,12 +21,13 @@ import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,7 @@ public class LogUtils {
             SHARD_WEBHOOK.send(new WebhookEmbed(
                     null, Color.PINK.getRGB(), message,
                     null, null,
-                    new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedFooter(Utils.formatDate(OffsetDateTime.now()), ICON_URL),
                     new WebhookEmbed.EmbedTitle("Shard", null), null,
                     new ArrayList<>()));
         } catch (Exception e) {
@@ -91,7 +92,7 @@ public class LogUtils {
             LOGBACK_WEBHOOK.send(new WebhookEmbed(
                     null, Color.PINK.getRGB(), message,
                     null, null,
-                    new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedFooter(Utils.formatDate(OffsetDateTime.now()), ICON_URL),
                     new WebhookEmbed.EmbedTitle(title, null), null,
                     new ArrayList<>()));
         } catch (Exception e) {
@@ -108,7 +109,7 @@ public class LogUtils {
             LOGBACK_WEBHOOK.send(new WebhookEmbed(
                     null, Color.PINK.getRGB(), message,
                     null, null,
-                    new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    new WebhookEmbed.EmbedFooter(Utils.formatDate(OffsetDateTime.now()), ICON_URL),
                     new WebhookEmbed.EmbedTitle("Log", null), null,
                     new ArrayList<>()));
         } catch (Exception e) {
@@ -173,7 +174,7 @@ public class LogUtils {
 
             SPAMBOT_WEBHOOK.send(new WebhookEmbed(null, Color.PINK.getRGB(),
                     null, user.getEffectiveAvatarUrl(),
-                    null, new WebhookEmbed.EmbedFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL),
+                    null, new WebhookEmbed.EmbedFooter(Utils.formatDate(OffsetDateTime.now()), ICON_URL),
                     new WebhookEmbed.EmbedTitle("Possible spambot detected", null), null, fields));
 
         } catch (Exception e) {

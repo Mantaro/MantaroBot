@@ -21,7 +21,9 @@ import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -98,7 +100,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
     }
 
     public DynamicModifiers mapEvent(String botPrefix, String prefix, GenericGuildMessageEvent event) {
-        return this.set(prefix, "timestamp", new Date(System.currentTimeMillis()).toString())
+        return this.set(prefix, "timestamp", Utils.formatDate(OffsetDateTime.now()))
                 .mapChannel(k(prefix, "channel"), event.getChannel())
                 .mapGuild(k(prefix, "guild"), event.getGuild())
                 .mapMember(k(prefix, "me"), event.getGuild().getSelfMember());

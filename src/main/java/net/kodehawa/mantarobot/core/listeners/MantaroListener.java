@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
@@ -269,13 +270,12 @@ public class MantaroListener implements EventListener {
 
     private void logDelete(GuildMessageDeleteEvent event) {
         try {
-            final var hour = df.format(new Date(System.currentTimeMillis()));
             final var db = MantaroData.db();
-
             final var dbGuild = db.getGuild(event.getGuild());
             final var data = dbGuild.getData();
             final var logChannel = data.getGuildLogChannel();
 
+            final var hour = Utils.formatHours(OffsetDateTime.now(), data.getLang());
             if (logChannel != null) {
                 var tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null) {
@@ -341,10 +341,11 @@ public class MantaroListener implements EventListener {
 
     private void logEdit(GuildMessageUpdateEvent event) {
         try {
-            var hour = df.format(new Date(System.currentTimeMillis()));
             final var db = MantaroData.db();
             final var guildData = db.getGuild(event.getGuild()).getData();
+
             var logChannel = guildData.getGuildLogChannel();
+            final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
 
             if (logChannel != null) {
                 var tc = event.getGuild().getTextChannelById(logChannel);
@@ -570,7 +571,7 @@ public class MantaroListener implements EventListener {
         try {
             var role = guildData.getGuildAutoRole();
 
-            var hour = df.format(new Date(System.currentTimeMillis()));
+            final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
             if (role != null) {
                 try {
                     if (!(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
@@ -636,7 +637,7 @@ public class MantaroListener implements EventListener {
         final var guildData = dbGuild.getData();
 
         try {
-            var hour = df.format(new Date(System.currentTimeMillis()));
+            final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
             if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
                 return;
             }

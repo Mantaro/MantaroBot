@@ -373,6 +373,14 @@ public class Utils {
         return date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 
+    public static String formatHours(OffsetDateTime date, String locale) {
+        return date.format(DateTimeFormatter.ofPattern("HH:mm:ss").withLocale(getLocaleFromLanguage(locale)));
+    }
+
+    public static String formatHours(OffsetDateTime date) {
+        return formatHours(date, "en_US");
+    }
+
     public static String formatDate(long epoch, String lang) {
         return epochToDate(epoch)
                 .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)

@@ -412,13 +412,26 @@ public class MantaroCore {
     private void startPostLoadProcedure(long elapsed) {
         var bot = MantaroBot.getInstance();
 
-        //Start the reconnect queue.
+        // Start the reconnect queue.
         bot.getCore().markAsReady();
 
+        // Get the amount of clusters
+        int clusterTotal = 1;
+        try(var jedis = MantaroData.getDefaultJedisPool().getResource()) {
+            var clusters = jedis.hgetAll("node-stats-" + config.getClientId());
+            clusterTotal = clusters.size();
+        }
+
         log.info("Not aware of anything holding off boot now, considering bot as started up");
-        LogUtils.shard(String.format("Loaded all %d shards and %d commands.\nTook %s to start this node (%d).\nCross-node shard count is %d.",
-                shardManager.getShardsRunning(), CommandProcessor.REGISTRY.commands().size(),
-                Utils.formatDuration(elapsed), bot.getNodeNumber(), shardManager.getShardsTotal())
+        LogUtils.shard(
+                """
+                Loaded all %d shards and %d commands.
+                Took %s to start this node (%d). Total nodes: %d.
+                Cross-node shard count is %d.""".formatted(
+                        shardManager.getShardsRunning(), CommandProcessor.REGISTRY.commands().size(),
+                        Utils.formatDuration(elapsed), bot.getNodeNumber(), clusterTotal,
+                        shardManager.getShardsTotal()
+                )
         );
 
         log.info("Loaded all shards successfully! Current status: {}", MantaroCore.getLoadState());
