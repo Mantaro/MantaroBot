@@ -152,7 +152,7 @@ public class CurrencyCmds {
                     var message = ctx.getLanguageContext().get("commands.inventory.brief")
                             .formatted(member.getEffectiveName(), inventory);
 
-                    var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                    var toSend = new MessageBuilder().append(message).buildAll(MessageBuilder.SplitPolicy.SPACE);
                     toSend.forEach(ctx::send);
                 });
             }
