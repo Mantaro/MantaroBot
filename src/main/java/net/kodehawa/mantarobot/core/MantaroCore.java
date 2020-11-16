@@ -450,7 +450,7 @@ public class MantaroCore {
 
     private void startUpdaters() {
         log.info("Starting bot list count executor...");
-        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-ServerCountUpdate")).scheduleAtFixedRate(() -> {
+        Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "Mantaro-Server Count Update")).scheduleAtFixedRate(() -> {
             try {
                 var serverCount = 0L;
                 //Fetch actual guild count.

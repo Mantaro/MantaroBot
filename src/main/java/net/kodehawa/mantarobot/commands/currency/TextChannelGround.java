@@ -149,6 +149,10 @@ public class TextChannelGround {
 
         @JsonIgnore
         public void dropItem(Item item) {
+            if (groundItems.getAmount(item) >= ItemStack.MAX_STACK_SIZE) {
+                return;
+            }
+
             dropItems(new ItemStack(item, 1));
             save();
         }
@@ -157,6 +161,10 @@ public class TextChannelGround {
         public void dropItemWithChance(Item item, int weight) {
             var doDrop = random.nextInt(weight) == 0;
             if (doDrop) {
+                if (groundItems.getAmount(item) >= ItemStack.MAX_STACK_SIZE) {
+                    return;
+                }
+
                 dropItem(item);
                 save();
             }
@@ -164,6 +172,10 @@ public class TextChannelGround {
 
         @JsonIgnore
         public void dropItemWithChance(int item, int weight) {
+            if (groundItems.getAmount(ItemHelper.fromId(item)) >= ItemStack.MAX_STACK_SIZE) {
+                return;
+            }
+
             dropItemWithChance(ItemHelper.fromId(item), weight);
             save();
         }
