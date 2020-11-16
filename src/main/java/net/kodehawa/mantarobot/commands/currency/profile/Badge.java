@@ -27,51 +27,44 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.function.BiPredicate;
 
+// If the predicate always returns false it means the handling is done elsewhere.
 public enum Badge {
-    //IF THE PREDICATE RETURNS FALSE IT MEANS THAT ITS EITHER HANDLED MANUALLY OR ELSEWHERE, NOT IN THE AUTOMATIC PROFILE CHECK.
-    //Self-explanatory.
     DEVELOPER("Developer", "\uD83D\uDEE0",
             "Currently a developer of Mantaro.",
             91, 92,
             ((player, dbUser) -> false), false
     ),
 
-    //Contributed in any way to Mantaro's development.
     CONTRIBUTOR("Contributor", "\u2b50",
             "Contributed to Mantaro's Development.",
             92, 91,
             ((player, dbUser) -> false), false
     ),
 
-    //Because lars asked for it.
     COMMUNITY_ADMIN("Community Admin", "\uD83D\uDEE1",
             "Helps to maintain the Mantaro Hub community.",
             92, 93,
             ((player, dbUser) -> false), false
     ),
 
-    //Contributed in any way to Mantaro's development.
     TRANSLATOR("Translator", "\uD83C\uDF10",
             "Helped translate part of Mantaro to another language.",
             92, 91,
             ((player, dbUser) -> false), false
     ),
 
-    //Is a helper, owo.
     HELPER_2("Helper", "\uD83D\uDC9A",
             "Helps to maintain the support influx on Mantaro Hub.",
             92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    //Self-explanatory.
     DONATOR_2("Donator", "\u2764",
             "Actively helps on keeping Mantaro alive <3",
             92, 94,
             ((player, dbUser) -> false), false
     ),
 
-    //Helps find important bugs.
     BUG_HUNTER("Bug Hunter", "\uD83D\uDC7E",
             "Has reported one or more important bugs with details.",
             92, 94,
@@ -154,7 +147,6 @@ public enum Badge {
             (player, dbUser) -> player.getReputation() >= 1000, false
     ),
 
-    //Get claimed 1000 times as a waifu.
     BEST_WAIFU("Best Waifu", "\uD83D\uDC9B",
             "Get waifu claimed 1,000 times (how?).",
             91, 92,
@@ -179,7 +171,7 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    EXPERIENCED_BADGE_HUNTER("Experienced Badge Hunter", "\uD83D\uDC40",
+    EXPERIENCED_BADGE_HUNTER("Experienced Badge Hunter", "\uD83D\uDD2B",
             "Get more than 60 badges",
             91, 92,
             (player,  dbUser) -> player.getData().getBadges().size() > 60, false
@@ -240,21 +232,18 @@ public enum Badge {
             (player, dbUser) -> player.getData().getSharksCaught() >= 35, false
     ),
 
-    //Claim daily more than 100 days in a row.
     BIG_CLAIMER("Big Claimer", "\uD83C\uDF8A",
             "Claim daily more than 180 days in a row.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Get a loot crate.
     LUCKY("Lucky", "\uD83C\uDF40",
             "Be lucky enough to loot a loot crate.",
             92, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2",
             "Have 5,000 items of any kind.",
             91, 92,
@@ -294,56 +283,48 @@ public enum Badge {
             (player, dbUser) -> player.getReputation() >= 10, false
     ),
 
-    //Get extremely lucky with slots.
     LUCKY_SEVEN("Lucky 7", "\uD83C\uDFB0",
             "Get more than 50,000 in credits from slots.",
             92, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Claim daily more than 10 days in a row.
     CLAIMER("Claimer", "\uD83C\uDF89",
             "Claim daily more than 10 days in a row.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Win more than 100 games
     GAMER("Gamer", "\uD83D\uDD79",
             "Win 100 games.",
             91, 92,
             (player, dbUser) -> player.getData().getGamesWon() >= 100, false
     ),
 
-    // Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0",
             "Gambled their life away.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Get claimed 100 times as a waifu.
     KNOWN_WAIFU("Known Waifu", "\uD83D\uDC9A",
             "Get waifu claimed 100 times.",
             91, 92,
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 100, false
     ),
 
-    //Get claimed 10 times as waifu.
     POPULAR_WAIFU("Popular Waifu", "\uD83D\uDC99",
             "Get waifu claimed 10 times.",
             91, 92,
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 10, false
     ),
 
-    //Be the waifu of your waifu.
     MUTUAL("Mutual", "\uD83C\uDF8E",
             "The waifu of your waifu.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Get claimed once as a waifu.
     WAIFU("Waifu", "\ud83d\udda4",
             "Get waifu claimed once.",
             91, 92,
@@ -356,7 +337,6 @@ public enum Badge {
             (player, dbUser) -> dbUser.getData().getRemindedTimes() > 100, false
     ),
 
-    //Find a gem.
     GEM_FINDER("Gem Finder", "\uD83D\uDC8E",
             "Find a gem while mining.",
             91, 92,
@@ -369,7 +349,6 @@ public enum Badge {
             (player, dbUser) -> player.getData().getTimesMopped() > 50, false
     ),
 
-    //Self-explanatory. (Description)
     RUNNER("Runner", "\uD83D\uDCCD",
             "Get to level 50.",
             91, 92,
@@ -394,35 +373,30 @@ public enum Badge {
             ((player, dbUser) -> player.getData().getChopExperience() > 1000), false
     ),
 
-    //Self-explanatory. (Description)
     WALKER("Walker", "\uD83C\uDFF7",
             "Get to level 10.",
             91, 92,
             (player, dbUser) -> player.getLevel() >= 10, false
     ),
 
-    //Mine a diamond.
     MINER("Miner", "\u26cf",
             "Find a diamond while mining.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Chop a tree.
     CHOPPER("Chopper", "\ud83e\udeb5",
             "Find wood while chopping. How couldn't you?",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Find a fish.
     FISHER("Fisher", "\uD83D\uDC1F",
             "Find a fish while fishing. How calm.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Open a loot crate.
     THE_SECRET("The Secret", "\uD83D\uDCBC",
             "Open a loot crate.",
             92, 92,
@@ -441,21 +415,18 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    // Use market more than 1000 times.
     COMPULSIVE_BUYER("Compulsive Buyer", "\uD83D\uDDDE",
-            "Succesfully use market buy or sell more than 1000 times.",
+            "Succesfully use market buy or sell more than 1,000 times.",
             91, 92,
             (player, dbUser) -> player.getData().getMarketUsed() > 1000, false
     ),
 
-    // Get an unexpected exception.
     FIRE("Fire", "\uD83D\uDD25",
             "Ouch, ouch, someone please extinguish it!",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Marry to someone.
     MARRIED("Married", "\uD83D\uDC8D",
             "Find your loved one.",
             91, 92,
@@ -474,42 +445,36 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    // Divorce.
     HEART_BROKEN("Heart Broken", "\uD83D\uDC94",
             "Ouch, was good while it lasted.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    // Get your marriage proposal turned down.
     DENIED("Denied", "\u26d4",
             "Get your marriage proposal turned down :(.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Use a mod action with mantaro
     POWER_USER("Power User", "\uD83D\uDD27",
             "Do mod stuff with Mantaro.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Use opts properly
     DID_THIS_WORK("Configurator", "\u2699",
             "Use any `~>opts` configuration successfully.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    //Used one of the many NSFW image commands at least once.
     LEWDIE("Lewdie", "\uD83D\uDC40",
             "Used a lewd command.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    // Buy something from the market.
     BUYER("Buyer", "\uD83D\uDECD",
             "Buy something from the market.",
             91, 92,
@@ -528,14 +493,12 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    // Participated on the christmas 2017 event
     CHRISTMAS("Christmas Spirit", "\uD83C\uDF85",
             "Participated in the christmas 2017 event!",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    // Hush-Hush
     NUMERIC_LUCK("Numeric Luck", "\uD83D\uDD36",
             "All the numbers had a party, somehow they all ended up with the same dress.",
             91, 92,
@@ -647,7 +610,7 @@ public enum Badge {
             (player, dbUser) -> false, true
     ),
 
-    // ---------------------------------- LEGACY BADGES START HERE ----------------------------------
+    // Legacy badges start (unobtainable, basically)
 
     // Have more than 8 billion credits.
     // Not obtainable anymore.
@@ -685,15 +648,10 @@ public enum Badge {
             (player, dbUser) -> false, false
     );
 
-
-    // ---------------------------------- LEGACY BADGES END HERE ----------------------------------
-
     //What does the fox say?
     public final String description;
-
     //The name to display.
     public final String display;
-
     //What to put on the user's avatar
     public final byte[] icon;
     //The unicode to display.
