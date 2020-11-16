@@ -1032,7 +1032,7 @@
       "cache_not_running": "%1$sКажется Кэш дней рождения не работает (внутренняя ошибка) :(",
       "error": "%1$sПри получении дат дней рождения что-то пошло не так (внутренняя ошибка) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s. Remember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
+      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
       "invalid_date": "%1$sНе действительная дата или её формат.\nПомните что формат даты это `дд-мм` (день-месяц)",
       "error_date": "%1$s%2$s не является действительной датой или я не могу это разобрать. Пожалуйста попробуйте с правильной формировкой даты. Помните что правильный формат для даты это `дд/мм`",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1041,7 +1041,8 @@
       "new_format": "%1$sНовый формат даты это просто `дд-мм` (день-месяц, для примера 20-10 это 20-ое Октября). Теперь не надо вписывать год, вы можете пропустить эту часть.",
       "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
       "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default."
+      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default.",
+      "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
       "nothing_to": "%1$sВы должны указать что выбрать. (К примеру: `~>choose anime manga`)",
