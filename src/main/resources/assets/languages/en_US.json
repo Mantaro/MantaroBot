@@ -2381,7 +2381,7 @@
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A stronger pick (180 durability).",
       "star_pick": "A much stronger pick (220 durability).",
-      "sparkle": "One of the rarest gems around. Make sure to keep it. (Used to cast sparkle pickaxe & sparkle rods.)",
+      "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
       "sparkle_pick": "One of the strongests pick out there (450 durability).",
       "pizza": "Yummy.",
       "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`.",
