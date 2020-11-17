@@ -154,8 +154,7 @@ public class LeaderboardCmd {
                                 } else {
                                     return player.pluck("id", "newMoney", r.hashMap("data", "newMoney"));
                                 }
-                            }, 10
-                    );
+                            });
 
                     ctx.send(
                             generateLeaderboardEmbed(
@@ -201,8 +200,7 @@ public class LeaderboardCmd {
                 var tableName = "players";
                 var moneyLeaderboard = getLeaderboard(tableName, "money",
                         player -> player.g("id"),
-                        player -> player.pluck("id", "money"), 10
-                );
+                        player -> player.pluck("id", "money"));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -226,8 +224,7 @@ public class LeaderboardCmd {
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var levelLeaderboard = getLeaderboard("players", "level",
                         player -> player.g("id"),
-                        player -> player.pluck("id", "level", r.hashMap("data", "experience")), 10
-                );
+                        player -> player.pluck("id", "level", r.hashMap("data", "experience")));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -258,8 +255,7 @@ public class LeaderboardCmd {
                 var tableName = seasonal ? "seasonalplayers" : "players";
                 var reputationLeaderboard = getLeaderboard(tableName, "reputation",
                         player -> player.g("id"),
-                        player -> player.pluck("id", "reputation"), 10
-                );
+                        player -> player.pluck("id", "reputation"));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -286,8 +282,7 @@ public class LeaderboardCmd {
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dailyLeaderboard = getLeaderboard("players", "userDailyStreak",
                         player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "dailyStrike")), 10
-                );
+                        player -> player.pluck("id", r.hashMap("data", "dailyStrike")));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -319,8 +314,7 @@ public class LeaderboardCmd {
 
                 var waifuLeaderboard = getLeaderboard(tableName, "waifuCachedValue",
                         player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")), 10
-                );
+                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -380,8 +374,7 @@ public class LeaderboardCmd {
 
                 List<Map<String, Object>> gameLeaderboard = getLeaderboard(tableName, "gameWins",
                         player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "gamesWon")), 10
-                );
+                        player -> player.pluck("id", r.hashMap("data", "gamesWon")));
 
                 ctx.send(
                         generateLeaderboardEmbed(ctx,
@@ -412,16 +405,16 @@ public class LeaderboardCmd {
     }
 
     private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction) {
-        return getLeaderboard(table, index, m -> true, mapFunction, 10);
+        return getLeaderboard(table, index, m -> true, mapFunction);
     }
 
-    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction, int limit) {
+    private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 filterFunction, ReqlFunction1 mapFunction) {
         return r.table(table)
                 .orderBy()
                 .optArg("index", r.desc(index))
                 .filter(filterFunction)
+                .limit(10)
                 .map(mapFunction)
-                .limit(limit)
                 .run(leaderboardConnection,
                         // This basically just means read from the available data
                         // Instead of trying to get the latest data available.
