@@ -32,7 +32,7 @@
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
       "no_item_name": "Er is geen voorwerp gekoppeld aan deze naam.",
-      "not_found": "Kon geen gerelateerde voorwerpen vinden met jouw zoekopdracht.",
+      "not_found": "Kon geen gerelateerde voorwerpen vinden met jouw zoekopdracht. Als je verdwaald bent, probeer dan de korte naam te gebruiken, bijvoorbeeld voor `Energie drank`, gebruik `energie`. Of plaats de naam tussen aanhalingstekens.",
       "claim_key": "Je kunt geen claim sleutel overdragen."
     },
     "misc_item_usage": {
