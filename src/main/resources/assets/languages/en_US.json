@@ -1148,6 +1148,7 @@
         "holdhands": "*holds your hand*",
         "cuddle": "*cuddles you*",
         "nuzzle": "*nuzzles you*",
+        "blush": "*blushes at you*",
         "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
       },
       "self": {
@@ -1167,6 +1168,7 @@
         "holdhands": "o-oh... ;//;",
         "cuddle": "That's cute!",
         "nuzzle": "Awwiee, cute!",
+        "blush": ";////;",
         "bloodsuck": "Are you a vampire now?, oh!"
       },
       "pat": "%1$s you have been patted by %2$s",
@@ -1186,6 +1188,7 @@
       "cuddle": "%1$s you have been cuddled by %2$s",
       "nuzzle": "%1$s is nuzzling %2$s",
       "bloodsuck": "%1$s is sucking the blood of %2$s!",
+      "blush": "%1$s is blushing at %2$s",
       "nom": "Yummy.",
       "facedesk": "*facedesks*",
       "lewd": "Y-You lewdie!",

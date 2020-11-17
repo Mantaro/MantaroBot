@@ -119,6 +119,10 @@ public class ActionCmds {
         cr.register("cuddle", new ImageActionCmd("Cuddle", "Cuddles someone", EmoteReference.HEART,
                 "commands.action.cuddle", "cuddle", "commands.action.lonely.cuddle", "commands.action.self.cuddle"));
 
+        //blush();
+        cr.register("blush", new ImageActionCmd("Blush", "Blushes at someone", EmoteReference.HEART,
+                "commands.action.blush", "blush", "commands.action.lonely.blush", "commands.action.self.blush", true));
+
         //tsundere();
         cr.register("tsundere", new TextActionCmd("Y-You baka!", EmoteReference.MEGA + "%s", TSUNDERE.get()));
 
