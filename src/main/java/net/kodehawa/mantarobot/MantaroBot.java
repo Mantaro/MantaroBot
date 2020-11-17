@@ -305,10 +305,10 @@ public class MantaroBot {
         for (var shard : core.getShards()) {
             log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shard.getId(), millisecondsUntilTomorrow);
 
-            // Back off this call up to 3 seconds to avoid sending a bunch of requests to discord at the same time
-            // This will happen anywhere from 0 seconds after 00:00 to 3 seconds after 00:00
+            // Back off this call up to 10 seconds to avoid sending a bunch of requests to discord at the same time
+            // This will happen anywhere from 0 seconds after 00:00 to 10 seconds after 00:00
             // Shouldn't matter much for the end user, but makes so batch requests don't fuck over ratelimits inmediatly.
-            var randomBackoff = new Random().nextInt(3000);
+            var randomBackoff = new Random().nextInt(10_000);
             executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
                     millisecondsUntilTomorrow + randomBackoff, TimeUnit.DAYS.toMillis(1) + randomBackoff, TimeUnit.MILLISECONDS);
         }
