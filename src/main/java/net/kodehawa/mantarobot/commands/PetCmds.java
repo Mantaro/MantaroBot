@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
+import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
@@ -98,7 +99,7 @@ public class PetCmds {
                 return new HelpContent.Builder()
                         .setDescription(
                                 """
-                                Pet commands. 
+                                Pet commands.
                                 For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
                                 This command contains an explanation of what pets are. Check subcommands for the available actions.
                                 """
@@ -271,42 +272,59 @@ public class PetCmds {
         pet.addSubCommand("pet", new SubCommand() {
             @Override
             public String description() {
-                return "Pets your pet. Usage: `~>pet pet`. Cute.";
+                return "Pets your pet or someone else's pet. Usage: `~>pet pet [user]`. Cute.";
             }
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var dbUser = ctx.getDBUser();
-                var marriage = dbUser.getData().getMarriage();
+                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                    var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
+                    if (member == null) {
+                        return;
+                    }
 
-                if (marriage == null) {
-                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
-                    return;
-                }
+                    var dbUser = ctx.getDBUser(member);
+                    var marriage = dbUser.getData().getMarriage();
+                    var isCallerPetOwner = member.getId().equals(ctx.getUser().getId()) ||
+                        (marriage != null && member.getId().equals(marriage.getOtherPlayer(ctx.getUser().getId())));
 
-                var pet = marriage.getData().getPet();
+                    if (marriage == null) {
+                        if (isCallerPetOwner) {
+                            ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
+                        } else {
+                            ctx.sendLocalized("commands.pet.no_marriage_other", EmoteReference.ERROR, member.getEffectiveName());
+                        }
+                        return;
+                    }
 
-                if (pet == null) {
-                    ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR);
-                    return;
-                }
+                    var pet = marriage.getData().getPet();
 
-                if (!RatelimitUtils.ratelimit(patRatelimiter, ctx, null, false)) {
-                    return;
-                }
+                    if (pet == null) {
+                        if (isCallerPetOwner) {
+                            ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR);
+                        } else {
+                            ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
+                        }
+                        return;
+                    }
 
-                var message = pet.handlePat().getMessage();
-                var extraMessage = "";
-                pet.increasePats();
+                    if (!RatelimitUtils.ratelimit(patRatelimiter, ctx, null, false)) {
+                        return;
+                    }
 
-                if (pet.getPatCounter() % 100 == 0) {
-                    extraMessage += "\n\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
-                }
+                    var message = pet.handlePat().getMessage();
+                    var extraMessage = "";
+                    pet.increasePats();
 
-                marriage.saveUpdating();
+                    if (pet.getPatCounter() % 100 == 0) {
+                        extraMessage += "\n\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
+                    }
 
-                ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getPatCounter(), extraMessage);
-            }
+                    marriage.saveUpdating();
+
+                    ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
+                });
+            };
         });
 
         pet.addSubCommand("buy", new SubCommand() {
