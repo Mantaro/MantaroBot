@@ -1356,7 +1356,7 @@
         "no_need": "%1$sDein Haustier ist nicht hungrig, also will es gerade auch nichts essen.",
         "not_inventory": "%1$sDu hast den Gegenstand, den du deinem Haustier verfüttern willst nicht. Stelle sicher, dass du ihn im Inventar hast und die richtige Anzahl (%2$s) besitzt.",
         "not_applicable": "%1$sDu kannst dieses Essen nicht diesem Haustier füttern.",
-        "success": "%1$sYay! Dein Haustier wurde erfolgreich mit `%2$s` x%3$s gefüttert und hat %4$s%% seines Hungers gesättigt. Sein Hunger ist jetzt bei %5$s%%",
+        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sGib ihm vielleicht ein bisschen weniger Futter? Du würdest sonst Futter verschwenden! (Erhöhung wäre über dem Benötigten, um 100%% zu erreichen)"
       },
       "water": {
@@ -1365,7 +1365,7 @@
         "not_inventory": "%1$sDu hast keine Wasserflasche im Inventar.",
         "not_enough_inventory": "%1$sDu hast nicht genügend Wasserflaschen in deinem Inventar! Du brauchst %2$s.",
         "too_much": "%1$sGib ihm vielleicht etwas weniger Wasser? Du würdest sonst Wasser verschwenden! (Erhöhung wäre über dem Benötigten, um 100%% zu erreichen)",
-        "success": "%1$sYay! Du hast deinem Haustier erfolgreich Wasser gegeben und es hat %2$s%% seines Durstes gelöscht. Sein Durst ist jetzt bei %3$s%%"
+        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now %3$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$sDein Haustier hat sehr wenig Ausdauer. Gib ihm Essen/Trinken zum auffüllen.",
