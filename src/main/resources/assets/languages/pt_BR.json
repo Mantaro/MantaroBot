@@ -1356,7 +1356,7 @@
         "no_need": "%1$sSeu pet não está faminto, então ele não quer comer agora.",
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
-        "success": "%1$sYay! Pet alimentando com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%%",
+        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sTalvez dê um pouco menos de comida? Você estaria desperdiçando comida caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)"
       },
       "water": {
@@ -1365,7 +1365,7 @@
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
         "too_much": "%1$sTalvez dê um pouco menos de água? Você estaria desperdiçando água caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)",
-        "success": "%1$sYay! Pet hidratado com sucesso e ele recuperou %2$s%% de sua sede. A sede agora está %3$s%%"
+        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now %3$s%% quenched."
       },
       "activity": {
         "low_stamina": "%1$sSeu pet tem uma estâmina muito baixa. Dê a ele comida/água para reabastecer.",
