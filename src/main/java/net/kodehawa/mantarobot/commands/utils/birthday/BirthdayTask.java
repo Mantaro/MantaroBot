@@ -37,6 +37,8 @@ import java.util.stream.Collectors;
 public class BirthdayTask {
     private static final Logger log = LoggerFactory.getLogger(BirthdayTask.class);
     private static final FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
+    private static final FastDateFormat monthFormat = FastDateFormat.getInstance("MM");
+
     private static final String modLogMessage = "Birthday assigner." +
             " If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable";
 
@@ -63,6 +65,7 @@ public class BirthdayTask {
                 return;
             }
 
+            final var start = System.currentTimeMillis();
             var membersAssigned = 0;
             var membersDivested = 0;
 
@@ -73,16 +76,16 @@ public class BirthdayTask {
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
 
-            final var start = System.currentTimeMillis();
+            // Isn't Calendar old aswell? Maybe use Instant?
             final var cal = Calendar.getInstance();
             // Example: 25-02
             final var now = dateFormat.format(cal.getTime()).substring(0, 5);
             // Example: 02
-            final var month = dateFormat.format(cal.getTime()).substring(3, 5);
+            final var month = monthFormat.format(cal.getTime());
             // Example: 01
             final var lastMonthCal = Calendar.getInstance();
             lastMonthCal.add(Calendar.MONTH, -1);
-            final var lastMonth = dateFormat.format(lastMonthCal.getTime()).substring(3, 5);
+            final var lastMonth = monthFormat.format(lastMonthCal.getTime());
 
             final var cached = cache.getCachedBirthdays();
             final var guilds = jda.getGuildCache();
