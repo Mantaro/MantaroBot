@@ -320,7 +320,7 @@ public class ItemHelper {
 
         return all.stream()
                 .filter(predicate)
-                .filter(item -> item.value <= 400 || random.nextBoolean())
+                .filter(item -> item.value <= 340 || random.nextBoolean())
                 .sorted(Comparator.comparingLong(i -> i.value))
                 .collect(Collectors.toList());
     }
