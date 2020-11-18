@@ -147,11 +147,6 @@ public class ProfileCmd {
                             var userData = dbUser.getData();
                             var inv = player.getInventory();
 
-                            if (!playerData.isResetWarning() && !config.isPremiumBot()) {
-                                ctx.sendLocalized("commands.balance.reset_notice");
-                                playerData.setResetWarning(true);
-                            }
-
                             //Cache waifu value.
                             playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(userLooked).getFinalValue());
 

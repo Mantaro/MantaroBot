@@ -327,20 +327,18 @@ public class MusicUtilCmds {
                     }
                 }
 
-                // Removing an element by index on a List causes the next element to be
-                // shifted by one. This bug was here for 4 (four!) years. Nobody notices.
-                // I feel like removing this command after this, lmfao.
-
                 // Iterators have no concept of index so just make it ourselves.
                 int itv = 0;
                 var initialSize = selected.size();
+
+                // Removing an element by index on a List causes the next element to be
+                // shifted by one, just use an iterator instead.
                 for (Iterator<AudioTrack> it = queue.iterator(); it.hasNext();) {
                     // No need to loop if empty.
                     if (selected.isEmpty()) {
                         break;
                     }
 
-                    // Why is this so cursed.
                     AudioTrack element = it.next();
                     if (selected.contains(itv)) {
                         it.remove();

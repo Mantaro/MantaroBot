@@ -457,10 +457,10 @@ public class MoneyCmds {
                     var playerData = player.getData();
 
                     var balance = isSeasonal ? ctx.getSeasonPlayer(user).getMoney() : player.getCurrentMoney();
-                    var extra = !playerData.isResetWarning() && !ctx.getConfig().isPremiumBot() ?
-                            languageContext.get("commands.balance.reset_notice") : "";
+                    var extra = "";
 
-                    if (!extra.isEmpty()) {
+                    if (!playerData.isResetWarning() && !ctx.getConfig().isPremiumBot() && ctx.getPlayer().getOldMoney() > 10_000) {
+                        extra = languageContext.get("commands.balance.reset_notice");
                         playerData.setResetWarning(true);
                         player.saveUpdating();
                     }
