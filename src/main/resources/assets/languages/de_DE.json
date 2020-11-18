@@ -627,7 +627,7 @@
       "denied": "%1$sAntrag von **%2$s** abgelehnt."
     },
     "divorce": {
-      "confirm": "%1$sBist du dir sicher, dass du diese Ehe beenden willst? Das Geld, das für Haustiere, Häuser und Autos ausgegeben wurde, wird geteilt. Schreibe `yes` (Ja), um fortzufahren und `no` (Nein), um abzubrechen.",
+      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
       "cancelled": "%1$sSchreidung abgebrochen.",
       "not_married": "%1$sDu bist mit niemandem verheiratet, warum findest du nicht diesen einen besonderen Menschen?",
       "success": "%1$sJetzt bist du Single. Das ist nett, denke ich zumindest.\n%2$s",
@@ -1307,6 +1307,7 @@
     "pet": {
       "explanation": "Haustiere sind nützliche Begleiter beim Geldverdienen!\nSie helfen dir mehr Geld, mehr Loot und verschiedenste Sachen beim Bergbau, Baumfällen und sogar beim Fischen zu bekommen. Desto höher das Level, desto größer die Belohnungen!\nEs ist wichtig das richtige Haustier für deine Tätigkeiten zu finden, also prüf immer den Typ und die Fähigkeiten des Tiers, das du wählen willst!\nBeachte, dass du deinem Haustier Essen und Trinken geben musst, und ihm auch mal Ruhe zum Entspannen und Erholen geben solltest, genau wie einem echten Haustier! Du kannst es sogar streicheln :)\nFür weitere Hilfe, schau unter `~>help pet` und `~>pet list` für eine Liste von Haustieren.",
       "no_marriage": "%1$sDu musst verheiratet sein, um ein Haustier zu haben. Erstmal.",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now.",
       "status": {
         "no_pet": "%1$sDu hast keine Haustiere, deren Status du prüfen könntest. Schau unter `~>pet` für eine Erklärung.",
         "header": "Status für %1$s",
@@ -1327,14 +1328,15 @@
         "header": "%1$s**Aktuell verfügbare Haustiere**\n\n%2$s\n\n%3$s**Fähigkeitserklärung:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sDu hast keine Haustiere, die du streicheln könntest. Schau unter `~>pet` für eine Erklärung."
+        "no_pet": "%1$sDu hast keine Haustiere, die du streicheln könntest. Schau unter `~>pet` für eine Erklärung.",
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
-        "cute": "%1$sDein Haustier wackelt fröhlich mit seinem Schwanz, während du seinen Kopf streichelst. **Streichelzähler: %2$s**.%3$s",
-        "cute_not_animal": "%1$sDein Haustier schaut dich fröhlich an, während du seinen Kopf streichelst. **Streichelzähler: %2$s**.%3$s",
-        "nothing": "%1$sDein Haustier sitzt nur da und macht nichts. **Streichelzähler: %2$s**.%3$s",
-        "cheer": "%1$sDie Reaktion von deinem Haustier war so niedlich, dass es dich aufgeheitert hat. **Streichelzähler: %2$s**%3$s",
-        "scare": "%1$sDein Haustier hat sich erschreckt, als du es gestreichelt hast. War es eventuell etwas zu plötzlich? **Streichelzähler: %2$s**.%3$s",
+        "cute": "%1$s%2$s happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
+        "cute_not_animal": "%1$s%2$s happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
+        "nothing": "%1$s%2$s just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
+        "cheer": "%1$s%2$s's reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
+        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sEs scheint, als würde der Kopf von so vielen Streicheleinheiten anfangen zu glänzen."
       },
       "buy": {
