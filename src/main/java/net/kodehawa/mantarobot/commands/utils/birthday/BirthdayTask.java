@@ -42,11 +42,11 @@ public class BirthdayTask {
     private static final String modLogMessage = "Birthday assigner." +
             " If you see this happening for every member of your server, or in unintended ways, please do ~>opts birthday disable";
 
-    private static final ScheduledExecutorService backOffPool = Executors.newSingleThreadScheduledExecutor(
+    private static final ScheduledExecutorService backOffPool = Executors.newScheduledThreadPool(2,
             new ThreadFactoryBuilder().setNameFormat("Birthday Backoff Message Thread").build()
     );
 
-    private static final ScheduledExecutorService backOffRolePool = Executors.newSingleThreadScheduledExecutor(
+    private static final ScheduledExecutorService backOffRolePool = Executors.newScheduledThreadPool(4,
             new ThreadFactoryBuilder().setNameFormat("Birthday Backoff Role Thread").build()
     );
 
@@ -283,7 +283,10 @@ public class BirthdayTask {
                     }
                 }
 
-                log.info("Backoff roles (remove): {}. Sending them with {}ms backoff.", roleBackoffRemove.size(), roleBackoff);
+                log.info("{} (birthdays): Backoff roles (remove): {}. Sending them with {}ms backoff.",
+                        jda.getShardInfo(), roleBackoffRemove.size(), roleBackoff
+                );
+
                 for (var roleInfo : roleBackoffRemove) {
                     try {
                         var guild = bot.getShardManager().getGuildById(roleInfo.guildId);
