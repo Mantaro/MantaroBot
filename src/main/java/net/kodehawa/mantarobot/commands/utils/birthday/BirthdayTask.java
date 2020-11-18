@@ -126,6 +126,7 @@ public class BirthdayTask {
                         // @formatter:off
                         Map<String, BirthdayCacher.BirthdayData> guildMap = cached.entrySet()
                                 .stream()
+                                .filter(map -> guildData.getAllowedBirthdays().contains(map.getValue()))
                                 .filter(map ->
                                         // Only check for current month or last month!
                                         map.getValue().getBirthday().substring(3, 5).equals(month) ||
