@@ -51,9 +51,8 @@ public class BirthdayTask {
 
     public static void handle(int shardId) {
         final var bot = MantaroBot.getInstance();
-
         try {
-            BirthdayCacher cache = bot.getBirthdayCacher();
+            final var cache = bot.getBirthdayCacher();
             // There's no cache to be seen here
             if (cache == null) {
                 return;
@@ -67,19 +66,26 @@ public class BirthdayTask {
             var membersAssigned = 0;
             var membersDivested = 0;
 
-            var jda = bot.getShardManager().getShardById(shardId);
+            final var jda = bot.getShardManager().getShardById(shardId);
             if (jda == null) { // To be fair, this shouldn't be possible as it only starts it with the shards it knows...
                 return;
             }
 
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo().getShardId());
 
-            var start = System.currentTimeMillis();
+            final var start = System.currentTimeMillis();
+            final var cal = Calendar.getInstance();
+            // Example: 25-02
+            final var now = dateFormat.format(cal.getTime()).substring(0, 5);
+            // Example: 02
+            final var month = dateFormat.format(cal.getTime()).substring(3, 5);
+            // Example: 01
+            final var lastMonthCal = Calendar.getInstance();
+            lastMonthCal.add(Calendar.MONTH, -1);
+            final var lastMonth = dateFormat.format(lastMonthCal.getTime()).substring(3, 5);
 
-            var cal = Calendar.getInstance();
-            var now = dateFormat.format(cal.getTime()).substring(0, 5);
-            var cached = cache.getCachedBirthdays();
-            var guilds = jda.getGuildCache();
+            final var cached = cache.getCachedBirthdays();
+            final var guilds = jda.getGuildCache();
 
             // Backoff sending: we need to backoff the birthday requests,
             // else we're gonna find ourselves quite often hitting ratelimits, which might slow the whole
@@ -90,15 +96,15 @@ public class BirthdayTask {
             List<BirthdayRoleInfo> roleBackoffRemove = new ArrayList<>();
 
             // For all current -cached- guilds.
-            for (var guild : guilds) {
+            for (final var guild : guilds) {
                 // This is quite a db spam, lol
-                var dbGuild = MantaroData.db().getGuild(guild);
-                var guildData = dbGuild.getData();
+                final var dbGuild = MantaroData.db().getGuild(guild);
+                final var guildData = dbGuild.getData();
 
                 // If we have a birthday guild and channel here, continue
                 if (guildData.getBirthdayChannel() != null && guildData.getBirthdayRole() != null) {
-                    var birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
-                    var channel = guild.getTextChannelById(guildData.getBirthdayChannel());
+                    final var birthdayRole = guild.getRoleById(guildData.getBirthdayRole());
+                    final var channel = guild.getTextChannelById(guildData.getBirthdayChannel());
 
                     if (channel != null && birthdayRole != null) {
                         if (!guild.getSelfMember().canInteract(birthdayRole))
@@ -114,47 +120,43 @@ public class BirthdayTask {
 
                         // Guild map is now created from allowed birthdays. This is a little hacky, but we don't really care.
                         // The other solution would have been just disabling this completely, which would have been worse.
-                        Map<String, BirthdayCacher.BirthdayData> guildMap =
-                                cached.entrySet().stream().filter(map -> guildData.getAllowedBirthdays().contains(map.getKey()))
-                                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        // @formatter:off
+                        Map<String, BirthdayCacher.BirthdayData> guildMap = cached.entrySet()
+                                .stream()
+                                .filter(map ->
+                                        // Only check for current month or last month!
+                                        map.getValue().getBirthday().substring(3, 5).equals(month) ||
+                                        map.getValue().getBirthday().substring(3, 5).equals(lastMonth)
+                                ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        // @formatter:on
 
                         var birthdayAnnouncerText = new MessageBuilder();
                         birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
                         int birthdayNumber = 0;
 
                         List<String> nullMembers = new ArrayList<>();
-
                         for (var data : guildMap.entrySet()) {
-                            // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
-                            Member member = null;
-                            try {
-                                member = guild.retrieveMemberById(data.getKey(), false).complete();
-                            } catch (Exception ignored) { }
-
-                            var birthday = data.getValue().birthday;
-
-                            // shut up warnings
-                            if (member == null) {
-                                nullMembers.add(data.getKey());
-                                continue;
-                            }
-
-                            if (guildData.getBirthdayBlockedIds().contains(member.getId())) {
+                            final var birthday = data.getValue().getBirthday();
+                            if (guildData.getBirthdayBlockedIds().contains(data.getKey())) {
                                 continue;
                             }
 
                             if (birthday == null) {
-                                log.debug("Birthday is null? Removing role if present and continuing to next iteration...");
-                                if (member.getRoles().contains(birthdayRole)) {
-                                    guild.removeRoleFromMember(member, birthdayRole)
-                                            .reason(modLogMessage)
-                                            .queue();
-                                }
-                                continue; //shouldn't happen
+                                log.debug("Birthday is null? Continuing...");
+                                nullMembers.add(data.getKey());
+                                continue;
                             }
-                            //else start the assigning
 
-                            //:tada:!
+                            // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
+                            Member member = null;
+                            try {
+                                // This is expensive!
+                                member = guild.retrieveMemberById(data.getKey(), false).complete();
+                            } catch (Exception ex) {
+                                nullMembers.add(data.getKey());
+                                continue;
+                            }
+
                             if (birthday.substring(0, 5).equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 var tempBirthdayMessage =
@@ -168,32 +170,26 @@ public class BirthdayTask {
                                             .replace("$(tag)", member.getUser().getAsTag());
                                 }
 
-                                //Variable used in lambda expression should be final or effectively final...
+                                // Variable used in lambda expression should be final or effectively final...
                                 final var birthdayMessage = tempBirthdayMessage;
 
                                 if (!member.getRoles().contains(birthdayRole)) {
-                                    try {
-                                        log.debug("Backing off adding birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
-                                        // We can pretty much do all of this only based on the IDs
-                                        roleBackoffAdd.add(new BirthdayRoleInfo(guild.getId(), member.getId(), birthdayRole));
-                                        Metrics.BIRTHDAY_COUNTER.inc();
-                                        birthdayAnnouncerText.append(birthdayMessage).append("\n");
-                                        membersAssigned++;
-                                        birthdayNumber++;
-                                    } catch (Exception e) { //Something went boom, ignore and continue
-                                        log.debug("Something went boom while assigning a birthday role?...", e);
-                                    }
+                                    log.debug("Backing off adding birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
+
+                                    // We can pretty much do all of this only based on the IDs
+                                    roleBackoffAdd.add(new BirthdayRoleInfo(guild.getId(), member.getId(), birthdayRole));
+                                    birthdayAnnouncerText.append(birthdayMessage).append("\n");
+                                    membersAssigned++;
+                                    birthdayNumber++;
+
+                                    Metrics.BIRTHDAY_COUNTER.inc();
                                 }
                             } else {
                                 //day passed
                                 if (member.getRoles().contains(birthdayRole)) {
-                                    try {
-                                        log.debug("Backing off removing birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
-                                        roleBackoffRemove.add(new BirthdayRoleInfo(guild.getId(), member.getId(), birthdayRole));
-                                        membersDivested++;
-                                    } catch (Exception e) { //Something went boom, ignore and continue
-                                        log.debug("Something went boom while removing a birthday role?...", e);
-                                    }
+                                    log.debug("Backing off removing birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
+                                    roleBackoffRemove.add(new BirthdayRoleInfo(guild.getId(), member.getId(), birthdayRole));
+                                    membersDivested++;
                                 }
                             }
                         }
@@ -203,26 +199,6 @@ public class BirthdayTask {
                                     new BirthdayGuildInfo(guild.getId(), channel.getId()),
                                     birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
                             );
-                        } else {
-                            if (!guildData.isNotifiedFromBirthdayChange()) {
-                                birthdayAnnouncerText.append("\n")
-                                        .append("**No birthdays? We've just changed how the birthday system works!**\n")
-                                        .append("Give the changes a read on:" +
-                                                " https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system ")
-                                        .append("and if you don't understand," +
-                                                " join the support server at <https://support.mantaro.site> and ask in #support.\n")
-                                        .append("Thanks for using Mantaro! " +
-                                                "If you don't remember setting up birthday announcements, you can disable them.\n")
-                                        .append("This warning message will only appear once.");
-
-                                guildData.setNotifiedFromBirthdayChange(true);
-                                dbGuild.save();
-
-                                toSend.put(
-                                        new BirthdayGuildInfo(guild.getId(), channel.getId()),
-                                        birthdayAnnouncerText.buildAll(MessageBuilder.SplitPolicy.NEWLINE)
-                                );
-                            } //If it was notified, no need.
                         }
 
                         // If any of the member lookups to discord returned null, remove them.
@@ -234,32 +210,34 @@ public class BirthdayTask {
                 }
             }
 
-            var end = System.currentTimeMillis();
-            log.info("Finished checking birthdays for shard {}, people assigned: {}, people divested: {}, took {}ms",
-                    jda.getShardInfo().getShardId(), membersAssigned, membersDivested, (end - start)
+            final var end = System.currentTimeMillis();
+            log.info("Shard {} (birthdays): people assigned: {}, people divested: {}, took {}ms",
+                    jda.getShardInfo(), membersAssigned, membersDivested, (end - start)
             );
 
             // A poll inside a pool?
             // Send the backoff sending comment above, this basically avoids hitting
             // discord with one billion requests at once.
-            var backoff = 400;
-            var roleBackoff = 100;
+            final var backoff = 400;
+            final var roleBackoff = 100;
             backOffPool.submit(() -> {
-                log.info("Backoff messages: {}. Sending them with {}ms backoff.", toSend.size(), backoff);
-                var startMessage = System.currentTimeMillis();
+                log.info("Shard {} (birthdays): Backoff messages: {}. Sending them with {}ms backoff.",
+                        jda.getShardInfo(), toSend.size(), backoff
+                );
 
+                final var startMessage = System.currentTimeMillis();
                 for (var entry : toSend.entrySet()) {
                     try {
-                        var info = entry.getKey();
-                        var guildId = info.guildId;
-                        var channelId = info.channelId;
-                        var messages = entry.getValue();
+                        final var info = entry.getKey();
+                        final var guildId = info.guildId;
+                        final var channelId = info.channelId;
+                        final var messages = entry.getValue();
 
-                        var guild = bot.getShardManager().getGuildById(guildId);
+                        final var guild = bot.getShardManager().getGuildById(guildId);
                         if (guild == null)
                             continue;
 
-                        var channel = guild.getTextChannelById(channelId);
+                        final var channel = guild.getTextChannelById(channelId);
                         if (channel == null)
                             continue;
 
@@ -275,15 +253,17 @@ public class BirthdayTask {
                     }
                 }
 
-                var endMessage = System.currentTimeMillis();
+                final var endMessage = System.currentTimeMillis();
                 toSend.clear();
-
                 log.info("Sent all birthday backoff messages, backoff was {}ms, took {}ms", backoff, endMessage - startMessage);
             });
 
             backOffRolePool.submit(() -> {
-                log.info("Backoff roles (add): {}. Sending them with {}ms backoff.", roleBackoffAdd.size(), roleBackoff);
-                var startRole = System.currentTimeMillis();
+                log.info("Shard {} (birthdays): Backoff roles (add): {}. Sending them with {}ms backoff.",
+                        jda.getShardInfo(), roleBackoffAdd.size(), roleBackoff
+                );
+
+                final var startRole = System.currentTimeMillis();
                 for (var roleInfo : roleBackoffAdd) {
                     try {
                         var guild = bot.getShardManager().getGuildById(roleInfo.guildId);
@@ -317,11 +297,13 @@ public class BirthdayTask {
                     }
                 }
 
-                var endRole = System.currentTimeMillis();
+                final var endRole = System.currentTimeMillis();
                 roleBackoffAdd.clear();
                 roleBackoffRemove.clear();
 
-                log.info("All roles done (add and removal), backoff was {}ms. Took {}ms", roleBackoff, endRole - startRole);
+                log.info("Shard {} (birthdays): All roles done (add and removal), backoff was {}ms. Took {}ms",
+                        jda.getShardInfo(), roleBackoff, endRole - startRole
+                );
             });
         } catch (Exception e) {
             e.printStackTrace();

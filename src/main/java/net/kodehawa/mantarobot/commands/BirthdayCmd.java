@@ -68,12 +68,12 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        //Twice. Yep.
+                        // Twice. Yep.
                         var parseFormat = new SimpleDateFormat("dd-MM-yyyy");
                         var displayFormat = new SimpleDateFormat("dd-MM");
                         Date birthdayDate;
 
-                        //This code hurts to read, lol.
+                        // This code hurts to read, lol.
                         try {
                             String birthday;
                             birthday = content.replace("/", "-");
@@ -104,9 +104,8 @@ public class BirthdayCmd {
                         //Actually save it to the user's profile.
                         DBUser dbUser = ctx.getDBUser();
                         dbUser.getData().setBirthday(birthdayFormat);
-                        dbUser.save();
+                        dbUser.saveUpdating();
 
-                        //Yes, very.
                         ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, displayFormat.format(birthdayDate));
                     }
                 };
@@ -204,7 +203,6 @@ public class BirthdayCmd {
                 BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
 
                 try {
-                    // Why would this happen is out of my understanding.
                     if (cacher != null) {
                         var globalBirthdays = cacher.getCachedBirthdays();
                         if (globalBirthdays.isEmpty()) {
@@ -227,7 +225,6 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        // Build the message. This is duplicated on birthday month with a lil different.
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .filter(birthday -> ids.contains(birthday.getKey()))
@@ -264,8 +261,6 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        // Show the message.
-                        // Probably a p big one tbh.
                         if (hasReactionPerms) {
                             DiscordUtils.list(ctx.getEvent(), 45, false, messages);
                         } else {
@@ -307,7 +302,7 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        //Substract here so we can do the check properly up there.
+                        // Substract here so we can do the check properly up there.
                         month = month - 1;
                     } catch (NumberFormatException e) {
                         ctx.sendLocalized("commands.birthday.invalid_month", EmoteReference.ERROR);
@@ -315,11 +310,9 @@ public class BirthdayCmd {
                     }
                 }
 
-                //Inspection excluded below not needed, I'm passing a proper value.
                 calendar.set(calendar.get(Calendar.YEAR), month, Calendar.MONDAY);
 
                 try {
-                    //Why would this happen is out of my understanding.
                     if (cacher != null) {
                         final var cachedBirthdays = cacher.getCachedBirthdays();
                         if (cachedBirthdays.isEmpty()) {
@@ -336,11 +329,8 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        //Try not to die. I mean get calendar month and sum 1.
                         var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
                         var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
-
-                        //Build the message.
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .filter(bds -> bds.getValue().month.equals(currentMonth))
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
@@ -361,7 +351,7 @@ public class BirthdayCmd {
                                     );
                                 }).collect(Collectors.joining("\n"));
 
-                        //No birthdays to be seen here? (This month)
+                        // No birthdays to be seen here? (This month)
                         if (birthdays.trim().isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_month_birthdays",
                                     EmoteReference.ERROR, month + 1, EmoteReference.BLUE_SMALL_MARKER

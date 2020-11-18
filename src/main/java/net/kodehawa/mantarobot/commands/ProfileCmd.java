@@ -18,13 +18,9 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -52,10 +48,8 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
-import okhttp3.Request;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -117,58 +111,56 @@ public class ProfileCmd {
                         var finalContent = content;
                         ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
                             SeasonPlayer seasonalPlayer = null;
-
                             var userLooked = ctx.getAuthor();
                             var memberLooked = ctx.getMember();
 
-                            var player = ctx.getPlayer();
-                            var dbUser = ctx.getDBUser();
-
                             if (!finalContent.isEmpty()) {
                                 var found = CustomFinderUtil.findMember(finalContent, members, ctx);
-                                if (found != null) {
-                                    userLooked = found.getUser();
-                                    memberLooked = found;
-
-                                    if (userLooked.isBot()) {
-                                        ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
-                                        return;
-                                    }
-
-                                    //Re-assign.
-                                    dbUser = ctx.getDBUser(userLooked);
-                                    player = ctx.getPlayer(userLooked);
-                                } else {
+                                if (found == null) {
                                     return;
                                 }
+
+                                userLooked = found.getUser();
+                                memberLooked = found;
                             }
+
+                            if (userLooked.isBot()) {
+                                ctx.sendLocalized("commands.profile.bot_notice", EmoteReference.ERROR);
+                                return;
+                            }
+
+                            var player = ctx.getPlayer(userLooked);
+                            var dbUser = ctx.getDBUser(userLooked);
 
                             var playerData = player.getData();
                             var userData = dbUser.getData();
                             var inv = player.getInventory();
 
-                            //Cache waifu value.
+                            // Cache waifu value.
                             playerData.setWaifuCachedValue(WaifuCmd.calculateWaifuValue(userLooked).getFinalValue());
 
-                            //start of badge assigning
+                            // start of badge assigning
                             var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
                             var mhMember = mh == null ? null : ctx.retrieveMemberById(memberLooked.getUser().getId(), false);
 
-                            //Badge assigning code
                             Badge.assignBadges(player, dbUser);
+                            var christmasBadgeAssign = inv.asList()
+                                    .stream()
+                                    .map(ItemStack::getItem)
+                                    .anyMatch(it -> it.equals(ItemReference.CHRISTMAS_TREE_SPECIAL) || it.equals(ItemReference.BELL_SPECIAL));
 
-                            //Manual badges
+                            // Manual badges
                             if (config.isOwner(userLooked)) {
                                 playerData.addBadgeIfAbsent(Badge.DEVELOPER);
                             }
 
-                            if (inv.asList().stream().anyMatch(stack -> stack.getItem().equals(ItemReference.CHRISTMAS_TREE_SPECIAL) ||
-                                            stack.getItem().equals(ItemReference.BELL_SPECIAL))) {
+                            if (christmasBadgeAssign) {
                                 playerData.addBadgeIfAbsent(Badge.CHRISTMAS);
                             }
 
+                            // Requires a valid Member in Mantaro Hub.
                             if (mhMember != null) {
-                                // Helper
+                                // Admin
                                 if (containsRole(mhMember, 315910951994130432L, 642089477828902912L)) {
                                     playerData.addBadgeIfAbsent(Badge.COMMUNITY_ADMIN);
                                 }
@@ -183,7 +175,7 @@ public class ProfileCmd {
                                     playerData.addBadgeIfAbsent(Badge.TRANSLATOR);
                                 }
                             }
-                            //end of badge assigning
+                            // end of badge assigning
 
                             var badges = playerData.getBadges();
                             Collections.sort(badges);
@@ -194,9 +186,7 @@ public class ProfileCmd {
 
                             var ringHolder = player.getInventory().containsItem(ItemReference.RING) && userData.getMarriage() != null;
                             var holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
-
                             var profileBuilder = new EmbedBuilder();
-
                             var description = languageContext.get("commands.profile.no_desc");
 
                             if (playerData.getDescription() != null) {
@@ -207,9 +197,9 @@ public class ProfileCmd {
                                     (ringHolder ? EmoteReference.RING : "") + String.format(languageContext.get("commands.profile.header"),
                                             memberLooked.getEffectiveName()), null, userLooked.getEffectiveAvatarUrl())
                                     .setDescription(description)
+                                    .setThumbnail(userLooked.getEffectiveAvatarUrl())
                                     .setColor(memberLooked.getColor() == null ? Color.PINK : memberLooked.getColor())
-                                    .setFooter(
-                                            ProfileComponent.FOOTER.getContent().apply(holder, languageContext),
+                                    .setFooter(ProfileComponent.FOOTER.getContent().apply(holder, languageContext),
                                             ctx.getAuthor().getEffectiveAvatarUrl()
                                     );
 
@@ -222,12 +212,7 @@ public class ProfileCmd {
                                 );
                             }
 
-                            applyBadge(ctx.getChannel(),
-                                    badges.isEmpty() ? null :
-                                            (playerData.getMainBadge() == null ? badges.get(0) : playerData.getMainBadge()),
-                                    userLooked, profileBuilder
-                            );
-
+                            ctx.send(profileBuilder.build());
                             player.saveUpdating();
                         });
 
@@ -812,43 +797,6 @@ public class ProfileCmd {
                 );
             }
         });
-    }
-
-    private void applyBadge(MessageChannel channel, Badge badge, User author, EmbedBuilder builder) {
-        if (badge == null) {
-            channel.sendMessage(builder.build()).queue();
-            return;
-        }
-
-        var message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
-        byte[] bytes;
-
-        try {
-            var url = author.getEffectiveAvatarUrl();
-
-            if (url.endsWith(".gif")) {
-                url = url.substring(0, url.length() - 3) + "png";
-            }
-
-            var res = httpClient.newCall(new Request.Builder()
-                    .url(url)
-                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
-                    .build()
-            ).execute();
-
-            var body = res.body();
-
-            if (body == null) {
-                throw new IOException("body is null");
-            }
-
-            bytes = body.bytes();
-            res.close();
-        } catch (IOException e) {
-            throw new AssertionError("io error", e);
-        }
-
-        channel.sendMessage(message).addFile(badge.apply(bytes), "avatar.png").queue();
     }
 
     public String parsePlayerEquipment(PlayerEquipment equipment) {

@@ -46,9 +46,9 @@ public enum ProfileComponent {
         }
 
         if (playerData.getMainBadge() != null) {
-            return String.format(" \u2009\u2009**%s**\n", playerData.getMainBadge());
+            return String.format(" \u2009**%s**\n", playerData.getMainBadge());
         } else {
-            return String.format(" \u2009\u2009**%s**\n", holder.getBadges().get(0));
+            return String.format(" \u2009**%s**\n", holder.getBadges().get(0));
         }
     }, true, false),
     CREDITS(EmoteReference.MONEY, i18nContext -> i18nContext.get("commands.profile.credits"), (holder, i18nContext) ->

@@ -765,7 +765,7 @@ public enum Badge {
      */
     @Override
     public String toString() {
-        return (unicode == null ? "" : " " + unicode + " ") + display;
+        return (unicode == null ? "" : " " + unicode + " ") + "\u2009" + display;
     }
 
     public String getDescription() {
