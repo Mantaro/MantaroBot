@@ -233,7 +233,7 @@ public class PetCmds {
                 if (!RatelimitUtils.ratelimit(petRemoveRatelimiter, ctx, null, false))
                     return;
 
-                var toRefund = pet.getType().getCost() / 2;
+                var toRefund = (pet.getType().getCost() / 2) * 0.9;
                 ctx.sendLocalized("commands.pet.remove.confirm", EmoteReference.WARNING, toRefund);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 50, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))

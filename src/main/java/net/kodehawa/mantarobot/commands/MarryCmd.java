@@ -719,15 +719,15 @@ public class MarryCmd {
                         var moneySplit = 0L;
 
                         if (marriageData.hasHouse()) {
-                            moneySplit += housePrice * 0.9;
+                            moneySplit += housePrice;
                         }
 
                         if (marriageData.hasCar()) {
-                            moneySplit += carPrice * 0.9;
+                            moneySplit += carPrice;
                         }
 
                         if (marriageData.getPet() != null) {
-                            moneySplit += marriageData.getPet().getType().getCost() * 0.7;
+                            moneySplit += marriageData.getPet().getType().getCost() * 0.9;
                         }
 
                         //Scrape this marriage.
