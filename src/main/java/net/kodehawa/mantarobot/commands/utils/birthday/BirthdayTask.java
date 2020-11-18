@@ -214,7 +214,7 @@ public class BirthdayTask {
             }
 
             final var end = System.currentTimeMillis();
-            log.info("Shard {} (birthdays): people assigned: {}, people divested: {}, took {}ms",
+            log.info("{} (birthdays): people assigned: {}, people divested: {}, took {}ms",
                     jda.getShardInfo(), membersAssigned, membersDivested, (end - start)
             );
 
@@ -224,7 +224,7 @@ public class BirthdayTask {
             final var backoff = 400;
             final var roleBackoff = 100;
             backOffPool.submit(() -> {
-                log.info("Shard {} (birthdays): Backoff messages: {}. Sending them with {}ms backoff.",
+                log.info("{} (birthdays): Backoff messages: {}. Sending them with {}ms backoff.",
                         jda.getShardInfo(), toSend.size(), backoff
                 );
 
@@ -262,7 +262,7 @@ public class BirthdayTask {
             });
 
             backOffRolePool.submit(() -> {
-                log.info("Shard {} (birthdays): Backoff roles (add): {}. Sending them with {}ms backoff.",
+                log.info("{} (birthdays): Backoff roles (add): {}. Sending them with {}ms backoff.",
                         jda.getShardInfo(), roleBackoffAdd.size(), roleBackoff
                 );
 
@@ -304,7 +304,7 @@ public class BirthdayTask {
                 roleBackoffAdd.clear();
                 roleBackoffRemove.clear();
 
-                log.info("Shard {} (birthdays): All roles done (add and removal), backoff was {}ms. Took {}ms",
+                log.info("{} (birthdays): All roles done (add and removal), backoff was {}ms. Took {}ms",
                         jda.getShardInfo(), roleBackoff, endRole - startRole
                 );
             });
