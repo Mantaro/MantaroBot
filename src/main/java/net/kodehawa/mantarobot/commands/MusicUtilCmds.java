@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -35,6 +36,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -260,7 +262,8 @@ public class MusicUtilCmds {
         cr.register("removetrack", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                final var trackScheduler = musicManager.getTrackScheduler();
 
                 if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
@@ -271,68 +274,87 @@ public class MusicUtilCmds {
                     return;
                 }
 
-                ctx.getAudioManager().getMusicManager(ctx.getGuild()).getTrackScheduler()
-                        .getQueueAsList(list -> {
-                            HashSet<Integer> selected = new HashSet<>();
-                            var last = Integer.toString(list.size() - 1);
+                var queue = trackScheduler.getQueueAsList();
+                HashSet<Integer> selected = new HashSet<>();
+                var last = Integer.toString(queue.size());
 
-                            for (var param : args) {
-                                var arg = replaceEach(
-                                        param,
-                                        new String[]{"first", "next", "last", "all"},
-                                        new String[]{"0", "0", last, "0-" + last}
-                                );
+                for (var param : args) {
+                    var arg = replaceEach(
+                            param,
+                            new String[]{"first", "next", "last", "all"},
+                            new String[]{"1", "1", last, "0-" + last}
+                    );
 
-                                if (arg.contains("-") || arg.contains("~")) {
-                                    var range = content.split("[-~]");
+                    if (arg.contains("-") || arg.contains("~")) {
+                        var range = content.split("[-~]");
+                        if (range.length != 2) {
+                            ctx.sendLocalized("commands.removetrack.invalid_range", EmoteReference.ERROR, param);
+                            return;
+                        }
 
-                                    if (range.length != 2) {
-                                        ctx.sendLocalized("commands.removetrack.invalid_range", EmoteReference.ERROR, param);
-                                        return;
-                                    }
-
-                                    try {
-                                        int iStart = Integer.parseInt(range[0]) - 1, iEnd = Integer.parseInt(range[1]) - 1;
-
-                                        if (iStart < 0 || iStart >= list.size()) {
-                                            ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, iStart);
-                                            return;
-                                        }
-
-                                        if (iEnd < 0 || iEnd >= list.size()) {
-                                            ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, iEnd);
-                                            return;
-                                        }
-
-                                        selected.addAll(IntStream.rangeClosed(iStart, iEnd).boxed().collect(Collectors.toList()));
-                                    } catch (NumberFormatException ex) {
-                                        ctx.sendLocalized("commands.removetrack.invalid_number", EmoteReference.ERROR, param);
-                                        return;
-                                    }
-                                } else {
-                                    try {
-                                        var i = Integer.parseInt(content) - 1;
-
-                                        if (i < 0 || i >= list.size()) {
-                                            ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, i);
-                                            return;
-                                        }
-
-                                        selected.add(i);
-                                    } catch (NumberFormatException ex) {
-                                        ctx.sendLocalized("commands.removetrack.invalid_number_range", EmoteReference.ERROR, arg);
-                                        return;
-                                    }
-                                }
+                        try {
+                            int iStart = Integer.parseInt(range[0]) - 1, iEnd = Integer.parseInt(range[1]) - 1;
+                            if (iStart < 0 || iStart >= queue.size()) {
+                                ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, iStart);
+                                return;
                             }
 
-                            for (var integer : selected) {
-                                list.remove(integer);
+                            if (iEnd < 0 || iEnd >= queue.size()) {
+                                ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, iEnd);
+                                return;
                             }
 
-                            ctx.sendLocalized("commands.removetrack.success", EmoteReference.CORRECT, selected.size());
-                            TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
-                        });
+                            var toRemove = IntStream.rangeClosed(iStart, iEnd).boxed().collect(Collectors.toList());
+                            selected.addAll(toRemove);
+                        } catch (NumberFormatException ex) {
+                            ctx.sendLocalized("commands.removetrack.invalid_number", EmoteReference.ERROR, param);
+                            return;
+                        }
+                    } else {
+                        try {
+                            var i = Integer.parseInt(arg) - 1;
+
+                            if (i < 0 || i >= queue.size()) {
+                                ctx.sendLocalized("commands.removetrack.no_track", EmoteReference.ERROR, i);
+                                return;
+                            }
+
+                            selected.add(i);
+                        } catch (NumberFormatException ex) {
+                            ctx.sendLocalized("commands.removetrack.invalid_number_range", EmoteReference.ERROR, arg);
+                            return;
+                        }
+                    }
+                }
+
+                // Removing an element by index on a List causes the next element to be
+                // shifted by one. This bug was here for 4 (four!) years. Nobody notices.
+                // I feel like removing this command after this, lmfao.
+
+                // Iterators have no concept of index so just make it ourselves.
+                int itv = 0;
+                var initialSize = selected.size();
+                for (Iterator<AudioTrack> it = queue.iterator(); it.hasNext();) {
+                    // No need to loop if empty.
+                    if (selected.isEmpty()) {
+                        break;
+                    }
+
+                    // Why is this so cursed.
+                    AudioTrack element = it.next();
+                    if (selected.contains(itv)) {
+                        it.remove();
+                        selected.remove(itv);
+                    }
+
+                    itv++;
+                }
+
+                // Accept the changed queue instead of the old one.
+                trackScheduler.acceptNewQueue(queue);
+
+                ctx.sendLocalized("commands.removetrack.success", EmoteReference.CORRECT, initialSize);
+                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
             }
 
             @Override

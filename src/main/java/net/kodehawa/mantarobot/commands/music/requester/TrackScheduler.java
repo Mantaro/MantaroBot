@@ -33,10 +33,10 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class TrackScheduler extends PlayerEventListenerAdapter {
     private final String guildId;
@@ -239,11 +239,13 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
         onStop();
     }
 
-    public void getQueueAsList(Consumer<List<AudioTrack>> list) {
-        List<AudioTrack> tempList = new ArrayList<>(getQueue());
-        list.accept(tempList);
+    public List<AudioTrack> getQueueAsList() {
+        return new LinkedList<>(getQueue());
+    }
+
+    public void acceptNewQueue(List<AudioTrack> newQueue) {
         queue.clear();
-        queue.addAll(tempList);
+        queue.addAll(newQueue);
     }
 
     private void onStop() {

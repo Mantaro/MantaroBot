@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 public class MuteCmds {
     private static final Pattern timePattern =
             Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    //Regex by Fabricio20
     private static final Pattern muteTimePattern =
             Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
@@ -94,7 +95,6 @@ public class MuteCmds {
                 }
 
                 reason = Utils.mentionPattern.matcher(reason).replaceAll("");
-                //Regex from: Fabricio20
                 final var finalReason = muteTimePattern.matcher(reason).replaceAll("");
 
                 var data = db.getMantaroData();
