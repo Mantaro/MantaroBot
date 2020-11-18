@@ -294,6 +294,7 @@ public class PetCmds {
                         } else {
                             ctx.sendLocalized("commands.pet.no_marriage_other", EmoteReference.ERROR, member.getEffectiveName());
                         }
+
                         return;
                     }
 
@@ -305,6 +306,7 @@ public class PetCmds {
                         } else {
                             ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
                         }
+
                         return;
                     }
 
@@ -321,7 +323,6 @@ public class PetCmds {
                     }
 
                     marriage.saveUpdating();
-
                     ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
                 });
             };

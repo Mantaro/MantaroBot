@@ -317,7 +317,7 @@ public class ItemReference {
                     10, true
             ),
 
-            WAIFU_PILL = new Potion(ItemType.POTION, 2, "\ud83d\udc8a",
+            WAIFU_PILL = new Potion(ItemType.POTION, 3, "\ud83d\udc8a",
                     "Waifu Pill", "items.waifu_pill", "items.description.waifu_pill",
                     370, true
             ),
