@@ -627,7 +627,7 @@
       "denied": "%1$sProposta de **%2$s** negada"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
+      "confirm": "%1$sVocê tem certeza que quer terminar esse casamento? O dinheiro gasto em pets, casas e carros será dividido por dois. Digite `yes` para continuar e `no` para cancelar. **Seu pet vai desaparecer, já que está vinculado ao casamento**",
       "cancelled": "%1$sDivórcio cancelado.",
       "not_married": "%1$sVocê não é casado com ninguém, por que você não acha aquele alguém especial?",
       "success": "%1$sAgora você é solteiro. Isso é bom eu acho.\n%2$s",
@@ -1307,7 +1307,7 @@
     "pet": {
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, cortar árvores e até pegar peixe. Mais level, mais alta as recompensas!\nObtendo o pet certo para sua atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se que você precisa alimentar seu pet e dar água pra ele, também eixar ele descansar e recarregar a energia de vez e quando, como um pet real! Você ainda pode acariciar ele :)\nPara mais ajuda, use `~>help pet` e `~>pet list` para uma lista de pets.",
       "no_marriage": "%1$sVocê precisar ser casado para ter um pet. Por enquanto.",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now.",
+      "no_marriage_other": "%1$s%2$s precisa ser casado para ter um pet. Por enquanto.",
       "status": {
         "no_pet": "%1$sVocê não tem nenhum pet para checar os status. Cheque `~>pet` para uma explicação.",
         "header": "Status de %1$s",
@@ -1329,14 +1329,14 @@
       },
       "pat": {
         "no_pet": "%1$sVocê não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação."
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** abana o rabo alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %3$s**.%4$s",
+        "cute_not_animal": "%1$s**%2$s** sorri alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %3$s**.%4$s",
+        "nothing": "%1$s**%2$s** apenas senta ali, sem fazer nada. **Contador de carinho: %3$s**.%4$s",
+        "cheer": "%1$s a reação de **%2$s** foi tão fofa que conseguiu te animar. **Contador de carinho: %3$s**.%4$s",
+        "scare": "%1$sO pet ficou assustando quando você deu carinho pra ele. Talvez tenha sido muito inesperado? **Contador de carinho: %3$s**.%4$s",
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
       },
       "buy": {
@@ -2375,7 +2375,7 @@
       "mop": "Uma maneira deliciosa de limpar toda a poeira que você tem por perto. Eu aposto que há muito disso.",
       "claim_key": "Este item faz você não reivindicável (como waifu) quando você usa `~>profile claimlock`.",
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
+      "waifu_pill": "Te dá uma vantagem signficativa em mineração e pesca se uma de suas waifus está avaliada em mais de 20,000. Dura 3 sessões.",
       "bait": "Dá uma chance maior de pegar peixes.",
       "diamond_pick": "Uma picareta forte (150 de durabilidade).",
       "tv": "Devo... assistir... TV...",
