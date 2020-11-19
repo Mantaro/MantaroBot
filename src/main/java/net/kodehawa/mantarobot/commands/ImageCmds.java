@@ -59,6 +59,7 @@ public class ImageCmds {
 
     private static final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private static final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
+    private static final ImageBoard<SafeFurryImage> e926 = DefaultImageBoards.E926;
     private static final ImageBoard<KonachanImage> konachan = DefaultImageBoards.KONACHAN;
     private static final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;
     private static final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
@@ -172,6 +173,42 @@ public class ImageCmds {
                                  """
                         )
                         .addParameter("tag", TAG_HELP.formatted("e621"))
+                        .build();
+            }
+        });
+    }
+
+
+    @Subscribe
+    public void e926(CommandRegistry cr) {
+        cr.register("e926", new SimpleCommand(CommandCategory.IMAGE) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.e926_nsfw_notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                sendImage(ctx, e926, false, "e926", args);
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription(
+                                """
+                                Retrieves images from the e926 (furry) image board.
+                                This command can be only used in NSFW channels, as the rating is inconsistent.
+                                It **should** be a safe mirror of e621, though.
+                                """
+                        )
+                        .setUsage(
+                                """
+                                `~>e926` - Retrieves a random image.
+                                `~>e926 <tag>` - Fetches an image with the respective tag and specified parameters.
+                                """
+                        )
+                        .addParameter("tag", TAG_HELP.formatted("e926"))
                         .build();
             }
         });
