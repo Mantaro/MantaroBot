@@ -568,7 +568,7 @@ public class PetCmds {
                 pet.increaseStamina();
 
                 playerInventory.process(new ItemStack(itemObject, -amount));
-                player.saveUpdating();
+                player.save();
 
                 marriage.saveUpdating();
                 ctx.sendLocalized("commands.pet.feed.success", EmoteReference.POPPER, foodItem.getName(), amount, increase, pet.getHunger());
@@ -635,7 +635,7 @@ public class PetCmds {
 
                 playerInventory.process(new ItemStack(item, -amount));
 
-                player.saveUpdating();
+                player.save();
                 marriage.saveUpdating();
 
                 ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, increase, pet.getThirst());
