@@ -1521,23 +1521,23 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
-      "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
-      "no_main_item": "%1$sYou don't have the item you need to repair this!",
-      "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
-      "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
-      "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair.",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item.",
-      "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
-      "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "no_item": "%1$s你需要指出你想修復的物品。如果名稱含有空格，記得使用引號。",
+      "no_item_found": "%1$s找不到該物品。如果名稱含有空格，記得使用引號。",
+      "no_main_item": "%1$s你沒有該物品！",
+      "cant_repair": "%1$s**%2$s** 不是你能修復的物品。你只能修復壞掉的物品。",
+      "no_tool": "%1$s你需要使用2級以上扳手 (至少為彗星扳手) 來修復此物品。確認你擁有他且在指令裡指出他。如果名稱含有空格，記得使用引號。",
+      "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
+      "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
+      "not_enough_level": "%1$s你需要更高級別的扳手才能進行此修復。",
+      "not_enough_money": "%1$s你沒有足夠的金錢來修復這個物品。",
+      "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
+      "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來進行修復。**(需求：%3$s，擁有：%4$s)**",
+      "item_broke": "可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
+      "success": "%1$s修復成功！已修復物品 %2$s **%3$s** -> %4$s **%5$s**。此修復費用為*%6$s*元，材料為 *%7$s*。",
       "ls": {
-        "header": "Repair-able Items List",
-        "cost": "Repair Cost: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
+        "header": "可修復物品清單",
+        "cost": "修復花費：",
+        "desc": "這是你能使用 `~>repair` 修復的物品清單。\n你可以使用全名或更簡短的名稱，或該物品的表情符號。\n修復的最低費用為該物品價格的三分之一。修復價格與所需材料將顯示在下方。"
       }
     },
     "anime": {
