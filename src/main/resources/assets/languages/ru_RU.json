@@ -1332,10 +1332,10 @@
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
-        "cute": "%1$s%2$s happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s%2$s happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s%2$s just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s%2$s's reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
@@ -2375,7 +2375,7 @@
       "mop": "Замечательный способ убрать всю пыль в округе. Бьюсю об заклад, её много.",
       "claim_key": "Этот предмет позволяет перестать вам быть заключёнными как вайфу если использовать `~>profile claimlock`.",
       "coffee": "Замечательный способ начать свой день.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Повышает твой шанс выловить рыбу.",
       "diamond_pick": "A strong-ish pick (150 durability).",
       "tv": "Нужно... смотреть... телевизор...",
