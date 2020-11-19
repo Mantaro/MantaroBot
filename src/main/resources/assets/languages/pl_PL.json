@@ -640,7 +640,7 @@
       "stats": {
         "header": "Statystkyki Waifu",
         "header_other": "%1$s statystki Waifu",
-        "format": "%1$s **Wartość wagi pieniądza:**%2$,d\n%1$s **Wartość wagi plakietki:**%3$,d\n%1$s **Wartość wagi doświadczenia:**%4$,d\n%1$s **Wartość wagi roszczenia:**%5$,d\n%1$s **Mnożnik reputacji:**%6$.2fx",
+        "format": "%1$s **Wartość wagi pieniądza:** %2$,d\n%1$s **Wartość wagi plakietki:** %3$,d\n%1$s **Wartość wagi doświadczenia:** %4$,d\n%1$s **Wartość wagi roszczenia:** %5$,d\n%1$s **Mnożnik reputacji:** %6$.2fx",
         "value": "Totalna wartość waifu",
         "credits": "%1$,d Kredyty",
         "performance": "Punkty Wydajności Waifu"
