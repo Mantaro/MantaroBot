@@ -540,7 +540,7 @@ public class ProfileCmd {
                     ctx.sendLocalized("commands.profile.lang.invalid", EmoteReference.ERROR);
                 }
             }
-        });
+        }).createSubCommandAlias("lang", "language");
 
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
