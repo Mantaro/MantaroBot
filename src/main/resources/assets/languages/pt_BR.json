@@ -1332,10 +1332,10 @@
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
-        "cute": "%1$s%2$s happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s%2$s happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s%2$s just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s%2$s's reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
       },
@@ -2375,7 +2375,7 @@
       "mop": "Uma maneira deliciosa de limpar toda a poeira que você tem por perto. Eu aposto que há muito disso.",
       "claim_key": "Este item faz você não reivindicável (como waifu) quando você usa `~>profile claimlock`.",
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
-      "waifu_pill": "Te dá uma vantagem significativa em mineração e pesca se uma de suas waifus está avaliada em mais de 20,000. Dura 5 sessões.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Dá uma chance maior de pegar peixes.",
       "diamond_pick": "Uma picareta forte (150 de durabilidade).",
       "tv": "Devo... assistir... TV...",
