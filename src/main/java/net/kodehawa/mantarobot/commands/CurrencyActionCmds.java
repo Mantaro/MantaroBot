@@ -695,7 +695,6 @@ public class CurrencyActionCmds {
                         ita.add(new ItemStack(ItemReference.WOOD, Math.max(1, random.nextInt(7))));
                     } else if (found) {
                         // Guarantee at least one wood.
-                        found = true;
                         ita.add(new ItemStack(ItemReference.WOOD, 1));
                     }
 
