@@ -1302,7 +1302,8 @@
       "load_notice": "Se a imagem não carrega, clica no título.",
       "rule34_notice": "Se você não gosta do conteúdo deste comando, você pode usar `~>yandere`. Se gifs/webm animados não tocar, clique no link no título da embed.",
       "yandere_nsfw_notice": "%1$sO Comando Yande.re só pode ser usado em canal NSFW devido a inúmeros relatos dele enviando imagens explícitas que estão marcados como seguros ao seu lado.\nVocê pode tentar usar `~>konachan` ao invés disso!",
-      "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW."
+      "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW.",
+      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
       "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, cortar árvores e até pegar peixe. Mais level, mais alta as recompensas!\nObtendo o pet certo para sua atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se que você precisa alimentar seu pet e dar água pra ele, também eixar ele descansar e recarregar a energia de vez e quando, como um pet real! Você ainda pode acariciar ele :)\nPara mais ajuda, use `~>help pet` e `~>pet list` para uma lista de pets.",
@@ -2423,7 +2424,7 @@
       "hellfire_pick": "Uma Picareta muito OP (muita durabilidade, descubra ;)).",
       "axe": "Normal, um machado do-meio-da-estrada (35 de durabilidade).",
       "comet_axe": "Um machado forte (170 de durabilidade).",
-      "star_axe": "A much stronger axe (220 durability).",
+      "star_axe": "Um machado muito mais forte (220 de durabilidade).",
       "moon_axe": "Um machado muitíssimo forte (350 de durabilidade).",
       "sparkle_axe": "Um machado muito mais forte (500 de durabilidade).",
       "hellfire_axe": "Um machado muito OP (muita durabilidade, descubra ;)).",
