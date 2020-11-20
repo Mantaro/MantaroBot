@@ -390,18 +390,18 @@
     },
     "prefix": {
       "header": "%1$sDe standaard voorvoegsels prefixes zijn %2$s (Ik reageer op beide!). De server prefix is `%3$s` (werkt alleen op deze server). Je kunt een nieuw prefix instellen met `~>opts prefix set <prefix>`. De <> niet gebruiken.\nAls je vragen hebt, kun je lid worden van <https://support.mantaro.site>",
-      "none": "There's no custom prefix set on this server."
+      "none": "Er is geen aangepaste prefix ingesteld op deze server."
     },
     "custom": {
       "no_args": "%1$sJe moet opgeven wat je wilt doen met dit commando. Check het help commando voor meer informatie!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
+      "incorrect_args": "%1$sOnjuiste argumenten. Kijk op `~>help custom` of https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands voor meer hulp bij het gebruik hiervan. Als je nog meer problemen hebt na het lezen van de wiki, ga dan naar <https://support.mantaro.site>",
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen commando ... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
+      "error_running_new": "%1$sFoutmelding in custom command. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
       "not_loaded": "De bot is nog niet volledig opgestart... eigen commando's zullen snel weer beschikbaar zijn!",
       "nsfw_enabled": "%1$sDit commando is succesvol gemarkeerd als NSFW.",
       "nsfw_disabled": "%1$sDit commando is succesvol gemarkeerd als SFW.",
       "nsfw_not_nsfw": "%1$sDit commando is gemarkeerd als NSFW waardoor je het alleen kunt gebruiken in NSFW kanalen.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "new_error": "%1$sDe custom command die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
       "ls": {
         "header": "Commando's voor deze guild",
         "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
