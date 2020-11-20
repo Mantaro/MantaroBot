@@ -289,6 +289,8 @@ public class MantaroBot {
                 new ThreadFactoryBuilder().setNameFormat("Mantaro Birthday Executor Thread-%d").build()
         );
 
+        var random = new Random();
+
         Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
 
         // How much until tomorrow? That's the initial delay, then run it once a day.
@@ -308,7 +310,8 @@ public class MantaroBot {
             // Back off this call up to 10 seconds to avoid sending a bunch of requests to discord at the same time
             // This will happen anywhere from 0 seconds after 00:00 to 120 seconds after 00:00 (so 00:02)
             // Shouldn't matter much for the end user, but makes so batch requests don't fuck over ratelimits inmediatly.
-            var randomBackoff = new Random().nextInt(120_000);
+            var maxBackoff = 300_000; // In millis
+            var randomBackoff = random.nextBoolean() ? -random.nextInt(maxBackoff) : random.nextInt(maxBackoff);
             executorService.scheduleWithFixedDelay(() -> BirthdayTask.handle(shard.getId()),
                     millisecondsUntilTomorrow + randomBackoff, TimeUnit.DAYS.toMillis(1) + randomBackoff, TimeUnit.MILLISECONDS);
         }

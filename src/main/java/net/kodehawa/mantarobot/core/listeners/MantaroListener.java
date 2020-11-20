@@ -63,7 +63,10 @@ import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -746,12 +749,15 @@ public class MantaroListener implements EventListener {
                         return;
                     }
                 } catch (Exception e) {
-                    if (e.getLocalizedMessage().contains("URL must be a valid http(s) or attachment url")) {
-                        tc.sendMessage("Failed to send join/leave message: " +
-                                "Wrong image URL in thumbnail, image, footer and/or author.").queue();
+                    if (e.getMessage().toLowerCase().contains("url must be a valid")) {
+                        tc.sendMessage(
+                                "Failed to send join/leave message: Wrong image URL in thumbnail, image, footer and/or author."
+                        ).queue();
                     } else {
-                        tc.sendMessage("Failed to send join/leave message: " +
-                                "Unknown error, try checking your message.").queue();
+                        tc.sendMessage(
+                                "Failed to send join/leave message: Unknown error, try checking your message."
+                        ).queue();
+
                         e.printStackTrace();
                     }
                 }
