@@ -5,8 +5,8 @@
 *   Try your luck at the local casino with `~>gamble` and `~>slots`
 *   Enjoy a detailed casting (crafting) system
 *   Enjoy a more competitive experience using seasonal currency! `~>season`
-*   Much more to explore and to come!
 *   Pet system! Enjoy buffs and more rewards by having your own pet! `~>pet`
+*   Much more to explore and to come!
 
 ### Games
 
