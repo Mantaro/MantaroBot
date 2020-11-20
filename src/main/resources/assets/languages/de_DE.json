@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "**Ich laufe auf Shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Server:** %5$,d Server\n**Gecachete Nutzer:** %6$,d Nutzer\n**Gecachete Mitglieder:** %7$,d Mitglieder\n\nWenn du Hilfe brauchst, schau auf <https://support.mantaro.site> vorbei. Danke für's Nutzen von Mantaro!"
+      "info": "**Ich laufe auf Shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Server:** %5$d Server\n**Gecachete Nutzer:** %6$d Nutzer\n**Gecachete Mitglieder:** %7$d Mitglieder\n\nWenn du Hilfe brauchst, schau auf <https://support.mantaro.site> vorbei. Danke für's Nutzen von Mantaro!"
     },
     "queue": {
       "clear": {
@@ -1324,7 +1324,7 @@
         "footer": "Danke, dass du Mantaro nutzt! <3"
       },
       "list": {
-        "summary": "%1$s **Name:** %2$s, **Fähigkeiten:** `%3$s`, **Wert:** %4$,d Credits",
+        "summary": "%1$s **Name:** %2$s, **Fähigkeiten:** `%3$s`, **Wert:** %4$d Credits",
         "abilities": "*Fish*: Nützlich für `~>fish`\n*Catch*: Nützlich für `~>mine`\n*Chop*: Nützlich für `~>chop`\n*Cheer*: Hebt die Moral.",
         "header": "%1$s**Aktuell verfügbare Haustiere**\n\n%2$s\n\n%3$s**Fähigkeitserklärung:**\n%4$s"
       },
@@ -1346,8 +1346,8 @@
         "no_house": "%1$sDu brauchst ein Haustierhaus in deinem Inventar, um dies zu tun.",
         "already_has_pet": "%1$sDu hast bereits ein Haustier.",
         "nothing_found": "%1$sKonnte die Haustierart nicht finden. Angegeben: `%2$s`, Gültige Arten: `%3$s`",
-        "not_enough_money": "%1$sDu hast nicht genug Geld, um dieses Haustier zu kaufen. Wert: %2$,d Credits, Geldbeutel: %3$,d Credits",
-        "confirm": "%1$sBist du dir sicher, dass du dieses Haustier kaufen willst? Name: %2$s, Art: %3$s, Kosten: %4$,d Credits. Gebe `yes` ein, um fortzufahren, sonst `no`.",
+        "not_enough_money": "%1$sDu hast nicht genug Geld, um dieses Haustier zu kaufen. Wert: %2$d Credits, Geldbeutel: %3$d Credits",
+        "confirm": "%1$sBist du dir sicher, dass du dieses Haustier kaufen willst? Name: %2$s, Art: %3$s, Kosten: %4$d Credits. Gebe `yes` ein, um fortzufahren, sonst `no`.",
         "success": "%1$sGlückwunsch! Ihr beiden seid jetzt stolze Besitzer von einem `%2$s%3$s` und es wurde `%4$s` genannt. Die Kosten für dieses Haustier waren %5$s.",
         "cancel_success": "%1$sKauf abgebrochen."
       },
@@ -1575,7 +1575,7 @@
     "balance": {
       "bot_notice": "%1$sBots können kein Geld haben.",
       "external_balance": "%1$ss Guthaben lautet **$%2$s Credits.**",
-      "own_balance": "Dein Guthaben ist **$%1$,d Credits.**%2$s",
+      "own_balance": "Dein Guthaben ist **$%1$d Credits.**%2$s",
       "reset_notice": "\nWenn du wissen möchtest, was mit deinem Geld passiert ist, lies <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nDu hast dein altes Geld nicht komplett verloren, es ist immer noch sichtbar mit `~>profile` :heart:\nDein Inventar hast du behalten, vielleicht könntest du etwas verkaufen?\nDies wird nur ein mal gezeigt. Lies die verlinkte Seite für mehr Details."
     },
     "daily": {
@@ -1623,7 +1623,7 @@
       "lose": "%1$sLeider verlierst du %2$s Credits. %3$s",
       "lose_all": "alle deine",
       "credits": "Credits",
-      "too_much": "%1$sDu kannst nur so viel auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$,d Credits)*",
+      "too_much": "%1$sDu kannst nur so viel auf einmal setzen. Du möchtest nicht vollkommen pleite gehen, oder? *(Einsatzlimit: %2$d Credits)*",
       "too_little": "%1$sDu kannst nicht so wenig setzen (Minimum: 100 Credits)"
     },
     "loot": {
