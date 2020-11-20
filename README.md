@@ -76,6 +76,7 @@ The above options can also be used as environment variables by removing `-D`, an
 *   [RethinkDB by the RethinkDB team](http://rethinkdb.com)
 *   [Redis by the redis team.](https://redis.io)
 *   [imageboard-api by Kodehawa](https://github.com/Kodehawa/imageboard-api)
+*   [Crowdin](https://translate.mantaro.site/) 
 *   And a lot more!
 
 ## Important Contributors
@@ -90,6 +91,8 @@ And a lot more people. Check the *[Contributors](https://github.com/Mantaro/Mant
 
 Want to contribute? Join our [server](https://support.mantaro.site) and ask in the support channel for what we need help with (you may need to wait with receiving an answer.).\
 Alternatively send us a Pull Request with what you see fit/think we need. However, this process may end in a rejected PR more easily.
+
+Thanks to Crowdin for providing our project with a free OSS license to continue our localization efforts.
 
 # Legal Stuff
 
