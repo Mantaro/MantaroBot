@@ -1302,7 +1302,8 @@
       "load_notice": "Wenn das Bild nicht geladen wird, klicke den Titel.",
       "rule34_notice": "Wenn du den Inhalt dieses Befehls nicht magst kannst du `~>yandere` benutzen. Wenn animierte Gifs/webm nicht abspielen, klick den Link im eingebeteten Titel.",
       "yandere_nsfw_notice": "%1$sDie Yande.re und Gelbooru Befehle können nur in NSFW-Kanälen verwendet werden, da er zahlreiche explizite Bilder sendet, die auf der Seite als sicher gekennzeichnet sind.\nDu kannst stattdessen `~>konachan` verwenden!",
-      "e621_nsfw_notice": "%1$sDer e621-Befehl kann nur in NSFW Kanälen benutzt werden."
+      "e621_nsfw_notice": "%1$sDer e621-Befehl kann nur in NSFW Kanälen benutzt werden.",
+      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
       "explanation": "Haustiere sind nützliche Begleiter beim Geldverdienen!\nSie helfen dir mehr Geld, mehr Loot und verschiedenste Sachen beim Bergbau, Baumfällen und sogar beim Fischen zu bekommen. Desto höher das Level, desto größer die Belohnungen!\nEs ist wichtig das richtige Haustier für deine Tätigkeiten zu finden, also prüf immer den Typ und die Fähigkeiten des Tiers, das du wählen willst!\nBeachte, dass du deinem Haustier Essen und Trinken geben musst, und ihm auch mal Ruhe zum Entspannen und Erholen geben solltest, genau wie einem echten Haustier! Du kannst es sogar streicheln :)\nFür weitere Hilfe, schau unter `~>help pet` und `~>pet list` für eine Liste von Haustieren.",
