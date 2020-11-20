@@ -262,7 +262,7 @@
         "clear_success": "%1$sPomyślnie oczyszczono obecną kolejkę. Kolejka miała wielkość %2$s"
       },
       "connect": {
-        "success": "%1$s Pomyślnie połączono z kanałem**%2$s**!",
+        "success": "%1$s Pomyślnie połączono z kanałem **%2$s**!",
         "full_channel": "%1$sNie mogę się połączyć z tym kanałem, ponieważ jest pełny!",
         "non_existent_channel": "%1$sW odpowiedzi otrzymałem nieistniejący kanał. Jeśli ustawisz kanał głosowy, a następnie go usuniesz, może to być przyczyną. Zresetujemy Twój kanał muzyczny dla Ciebie, spróbuj odtworzyć muzykę ponownie.",
         "user_no_vc": "%1$s**Proszę dołączyć do kanału głosowego**. Jeśli jesteś w kanale głosowym, a bot właśnie się rozłączył, proszę ponownie dołączyć do kanału.",
@@ -567,7 +567,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sNie masz żadnych listów miłosnych w swoim inwentarzu, więc nie masz na co pisać listu.",
+        "no_letter": "%1$sNie masz żadnych listów miłosnych w swoim ekwipunku, więc nie masz na co pisać listu.",
         "empty": "%1$sNie możesz zostawić listu miłosnego pustego.",
         "no_marriage": "%1$sNie jesteś żonaty, nie możesz napisać listu miłosnego dla siebie...",
         "not_proposing_player": "%1$sNie jesteś graczem, który zaproponował to małżeństwo!",
@@ -706,9 +706,9 @@
       "bot_notice": "%1$sTutaj boty nie mają zapasów. Cóż, czasami możesz chcieć, żeby go mieli, ale wtedy byłby to tylko `~>market dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s dostanie **%3$,d kredytów** jeśli wszystkie przedmioty zostaną sprzedane.",
-      "header": "Inwentarz %1$s",
+      "header": "Ekwipunek %1$s",
       "format": "**Cena**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sTen inwentarz jest pusty! :(",
+      "empty": "%1$sTen ekwipunek jest pusty! :(",
       "brief_notice": "Możesz użyć `~>inventory -brief` aby uzyskać wersję przyjazną dla telefonów komórkowych.",
       "sorted_by": " *(sorted by: %1$s)*"
     },
@@ -813,7 +813,7 @@
       "no_items_specified": "%1$sMusisz określić, który przedmiot chcesz użyć.",
       "not_interactive": "%1$sNie możesz interaktować z tym przedmiotem.",
       "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`.",
-      "no_item": "%1$sNie masz tego przedmiotu w swoim inwentarzu.",
+      "no_item": "%1$sNie masz tego przedmiotu w swoim ekwipunku.",
       "not_enough_items": "%1$sNie masz wystarczająco tego przedmiotu.",
       "too_little": "%1$sNie możesz użyć więcej niż 1 przedmiot.",
       "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
@@ -1302,7 +1302,8 @@
       "load_notice": "If the image doesn't load, click the title.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
-      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels."
+      "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
+      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
