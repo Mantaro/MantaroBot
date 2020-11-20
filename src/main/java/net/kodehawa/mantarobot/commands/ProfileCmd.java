@@ -97,6 +97,8 @@ public class ProfileCmd {
             defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
         }
 
+        List<ProfileComponent> noOldOlder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+
         ITreeCommand profileCommand = cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
@@ -205,6 +207,10 @@ public class ProfileCmd {
 
                             var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                             var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
+
+                            if (!config.isPremiumBot() && player.getOldMoney() < 5000) {
+                                usedOrder = noOldOlder;
+                            }
 
                             for (var component : usedOrder) {
                                 profileBuilder.addField(
