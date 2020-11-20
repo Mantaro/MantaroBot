@@ -20,7 +20,7 @@
 *   Want to hug your friends? Sure can just use `~>hug`
 *   Someone made you blush? `~>blush`
 *   Want to pat someone's head? `~>pat`
-*   Want to slab that annoying kid? (Please don't) `~>slab`
+*   Want to slap that annoying kid? (Please don't) `~>slap`
 *   there is way more, all with images to go along with them!
 
 ### Moderation
