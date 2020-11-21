@@ -995,7 +995,8 @@
       "timezone_user": "Zeitzone des Benutzers: %1$s",
       "not_specified": "Nicht angegeben.",
       "potion": "Aktiver Trank",
-      "no_potion": "Keine aktiven Tränke."
+      "no_potion": "Keine aktiven Tränke.",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
