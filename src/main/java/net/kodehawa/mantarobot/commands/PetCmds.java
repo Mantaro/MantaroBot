@@ -56,7 +56,7 @@ public class PetCmds {
         var rl = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(5, TimeUnit.SECONDS)
+                .cooldown(2, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.SECONDS)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
