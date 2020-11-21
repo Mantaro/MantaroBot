@@ -269,7 +269,7 @@ public class ProfileCmd {
         });
 
         if (!config.isPremiumBot()) {
-            profileCommand.addSubCommand("hidelegacy", new SubCommand() {
+            profileCommand.addSubCommand("togglelegacy", new SubCommand() {
                 @Override
                 public String description() {
                     return "Hides/unhides legacy credits.";
@@ -530,7 +530,7 @@ public class ProfileCmd {
             }
         });
 
-        profileCommand.addSubCommand("lang", new SubCommand() {
+        profileCommand.addSubCommand("language", new SubCommand() {
             @Override
             public String description() {
                 return "Sets your profile language. Available langs: `~>lang`";
@@ -563,7 +563,7 @@ public class ProfileCmd {
                     ctx.sendLocalized("commands.profile.lang.invalid", EmoteReference.ERROR);
                 }
             }
-        }).createSubCommandAlias("lang", "language");
+        }).createSubCommandAlias("language", "lang");
 
         profileCommand.addSubCommand("stats", new SubCommand() {
             @Override
