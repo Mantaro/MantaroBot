@@ -418,7 +418,7 @@ public class ItemReference {
             ),
 
             STAR_ROD = new FishRod(ItemType.FISHROD, 9,
-                    2, 10, EmoteReference.STAR_ROD.getDiscordNotation(),
+                    1, 10, EmoteReference.STAR_ROD.getDiscordNotation(),
                     "Star Gem Rod", "Star Rod", "items.star_rod", "items.description.star_rod",
                     250,
                     "1;2;3", 170, 44, 49, 101
