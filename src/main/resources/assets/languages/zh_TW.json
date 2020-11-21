@@ -3,7 +3,7 @@
     "invalid_number": "%1$s那不是一個有效的數字!",
     "requested_by": "由 %1$s 請求。",
     "operation_timed_out": "%1$s回答此操作的時間已經用完。",
-    "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件？(舉例：名字#判別數)\n**找到用戶：** %2$s",
+    "too_many_users_found": "%1$s找到太多用戶了，試著改進你的搜索條件？(舉例：名稱#tag)\n**找到用戶：** %2$s",
     "search_no_result": "%1$s你的搜索沒有結果 :(",
     "unknown": "未知",
     "days": "天",
@@ -24,16 +24,16 @@
     "description": "說明",
     "options": "選項",
     "find_members_failure": "%1$s找不到符合你搜索條件的成員 :(",
-    "too_many_members": "%1$s找到太多成員了，試著改進你的搜索條件？(舉例：名字#判別數)\n**找到成員：** %2$s",
+    "too_many_members": "%1$s找到太多成員了，試著改進你的搜索條件？(舉例：名稱#tag)\n**找到成員：** %2$s",
     "too_many_mentions": "%1$s查詢用戶時只能提及一個人。",
-    "query_too_small": "%1$s搜尋關鍵字過少。請至少輸入四個字母。如果用戶名稱過短，使用 名稱#判別數 或用戶ID會是更好的選擇。",
+    "query_too_small": "%1$s搜尋關鍵字過少。請至少輸入四個字母。如果用戶名稱過短，使用 名稱#tag 或用戶ID會是更好的選擇。",
     "dust": "這裡只有塵土。",
     "invalid_syntax": "無效語法。",
     "item_lookup": {
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
       "not_found": "無法依據你的搜索條件找到任何結果。試著使用更簡短的名稱，範例：使用 '能量' 代替 `能量飲料`。或將他用引號包起來。",
-      "claim_key": "你無法轉移鎖定鑰匙。"
+      "claim_key": "你無法轉移認領鑰匙。"
     },
     "misc_item_usage": {
       "mop": "%1$s你已經 (可能) 清理完了您家中的所有塵土。",
@@ -704,12 +704,12 @@
     },
     "inventory": {
       "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>market dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s 的所有物品** %2$s\n\n*使用 `~>inventory -info` 取得更詳細的版本。祝你玩得開心！*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
+      "header": "%1$s 的背包",
       "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
+      "empty": "%1$s這個背包是空的！:(",
+      "brief_notice": "你可以使用 `~>inventory -brief` 取得較適合手機的版本。",
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
@@ -884,27 +884,27 @@
       "description": {
         "no_argument": "%1$s你需要提供參數！(set 或 remove)\n範例：~>profile description set Hi there!",
         "no_content": "%1$s你需要指出你的個人簡介。\n範例：~>profile description set Hi there!",
-        "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
+        "too_long": "%1$s簡介過長！`(一般用戶最多300字元，Premium用戶為500字元)`",
         "success": "%1$s已設定簡介為：**%2$s**\n用 `~>profile` 來查看你的新簡介",
-        "clear_success": "%1$sSuccessfully cleared description."
+        "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge!",
+        "not_specified": "%1$s你需要指出你的主徽章！",
         "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
-        "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "important_success": "%1$s你的展示徽章現在是你最有價值的徽章。",
+        "no_such_badge": "%1$s找不到該徽章...\n你可用的徽章：%2$s",
+        "player_missing_badge": "%1$s你沒有該徽章。\n你可用的徽章：%2$s",
+        "success": "%1$s你的展示徽章現在為：**%2$s**"
       },
       "lang": {
-        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
-        "reset_success": "%1$sSuccessfully reset your personal language settings.",
-        "success": "%1$sMantaro will now talk to you in `%2$s`",
-        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+        "nothing_specified": "%1$s你需要指出語言代碼或使用 `reset` 來重設你的偏好語言。",
+        "reset_success": "%1$s成功重置你的偏好語言。",
+        "success": "%1$sMantaro將用 `%2$s` 和你對話",
+        "invalid": "%1$s該語言不存在！你可以使用 `reset` 來重設你的偏好語言。"
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$s此排序類型無效。可用類型：`%2$s`",
+        "success": "%1$s成功更改了你的背包排序，現在是：**%2$s**"
       },
       "stats": {
         "header": "%1$s 的統計資訊",
@@ -937,7 +937,7 @@
         "never": "從未"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sTag隱藏狀態為：`%2$s`"
       },
       "equip": {
         "no_content": "%1$s你需要指出你想裝備的物品！",
@@ -968,34 +968,34 @@
         "example": "\n範例：`~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*任何順序都可以，這邊的順序就是你個人資料部件的顯示順序*"
       },
       "claimlock": {
-        "removed": "%1$sSuccesfully reset your claim lock status.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
-        "no_key": "%1$sYou don't have a claim key to do this."
+        "removed": "%1$s成功重置你的認領鎖狀態。",
+        "success": "%1$s你將無法再被認領為Waifu。已使用一個認領鑰匙。",
+        "no_key": "%1$s你沒有認領鑰匙來進行此操作。"
       },
       "autoequip": {
         "disable": "%1$s成功取消自動裝備。",
         "success": "%1$s已開啟自動裝備。"
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$s 展示徽章",
       "bot_notice": "%1$s機器人沒有個人資料。",
       "header": "%1$s的個人資料",
-      "no_desc": "No description set",
-      "credits": "Credits",
-      "old_credits": "Legacy Credits",
-      "level": "Level",
-      "xp": "XP",
-      "rep": "Reputation",
-      "birthday": "Birthday",
-      "married": "Married with",
-      "nobody": "Nobody",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
-      "no_badges": "No badges (yet!)",
-      "no_timezone": "Not set",
-      "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified.",
-      "potion": "Active Potion",
-      "no_potion": "No active potions."
+      "no_desc": "沒有簡介",
+      "credits": "金錢",
+      "old_credits": "舊版金錢",
+      "level": "等級",
+      "xp": "經驗值",
+      "rep": "聲譽",
+      "birthday": "生日",
+      "married": "伴侶",
+      "nobody": "無",
+      "inventory": "物品收集 (前10)",
+      "badges": "徽章收集 (前5)",
+      "no_badges": "還沒有徽章！",
+      "no_timezone": "未設置",
+      "timezone_user": "個人時區：%1$s",
+      "not_specified": "未設置",
+      "potion": "藥水效果",
+      "no_potion": "沒有藥水效果。"
     },
     "badges": {
       "info": {
@@ -1005,7 +1005,7 @@
         "achieved": "Achieved"
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
+      "profile_notice": "如果你認為你得到了新徽章，但還沒出現在這邊，請使用 `~>profile` 然後再次運行此指令。\n",
       "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
@@ -1307,30 +1307,30 @@
     },
     "pet": {
       "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now.",
+      "no_marriage": "%1$s你目前需要先結婚才能飼養寵物。",
       "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now.",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
-        "header": "Status for %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
-        "cost": "Price",
-        "type": "Type",
-        "abilities": "Abilities",
-        "level": "Level",
-        "health": "Health",
-        "thirst": "Thirst",
-        "hunger": "Hunger",
+        "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。",
+        "header": "%1$s 的狀態",
+        "description": "記得定時照顧你的寵物 :heart:\n查看 `~>pet` 和 `~>help pet` 獲得更多說明。",
+        "cost": "價格",
+        "type": "類型",
+        "abilities": "能力",
+        "level": "等級",
+        "health": "生命值",
+        "thirst": "口渴度",
+        "hunger": "飢餓度",
         "stamina": "Stamina",
-        "pet": "Pats",
-        "footer": "Thanks you for using Mantaro! <3"
+        "pet": "撫摸次數",
+        "footer": "感謝使用Mantaro！<3"
       },
       "list": {
-        "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
+        "summary": "%1$s **名稱：**%2$s，**能力：**`%3$s`，**價格：**%4$,d元",
         "abilities": "*Fish*：對 `~>fish` 有用\n*Catch*：對 `~>mine` 有用\n*Chop*：對 `~>chop` 有用\n*Cheer*：鼓舞你的情緒",
-        "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
+        "header": "%1$s**目前可用的寵物**\n\n%2$s\n\n%3$s**能力說明：**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
+        "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
@@ -2255,7 +2255,7 @@
     "cobweb": "蜘蛛網",
     "fragment": "寶石碎片",
     "mop": "拖把",
-    "claim_key": "鎖定鑰匙",
+    "claim_key": "認領鑰匙",
     "coffee": "咖啡",
     "waifu_pill": "Waifu藥丸",
     "bait": "魚餌",
