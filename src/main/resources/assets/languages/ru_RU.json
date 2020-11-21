@@ -995,7 +995,8 @@
       "timezone_user": "Пользовательский часовой пояс: %1$s",
       "not_specified": "Не указано.",
       "potion": "Активное зелье",
-      "no_potion": "Нет активных зелий."
+      "no_potion": "Нет активных зелий.",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
