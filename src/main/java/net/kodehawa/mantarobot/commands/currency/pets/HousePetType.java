@@ -35,7 +35,19 @@ public enum HousePetType {
     ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, false);
 
     public static enum HousePetAbility {
-        FISH, CATCH, CHOP, CHEER;
+        FISH(HousePet.ActivityResult.PASS_FISH),
+        CATCH(HousePet.ActivityResult.PASS_MINE),
+        CHOP(HousePet.ActivityResult.PASS_CHOP),
+        CHEER(HousePet.ActivityResult.PASS);
+
+        private HousePet.ActivityResult passActivity;
+        HousePetAbility(HousePet.ActivityResult passActivity) {
+            this.passActivity = passActivity;
+        }
+
+        public HousePet.ActivityResult getPassActivity() {
+            return passActivity;
+        }
     }
 
     public static enum PatReaction {

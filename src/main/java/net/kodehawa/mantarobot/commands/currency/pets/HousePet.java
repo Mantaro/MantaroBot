@@ -22,8 +22,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.beans.ConstructorProperties;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.util.TimeZone;
 
 public class HousePet {
     @JsonIgnore
@@ -206,18 +204,6 @@ public class HousePet {
     }
 
     @JsonIgnore
-    public boolean isSleepy(String timezone) {
-        TimeZone tz = TimeZone.getDefault();
-        if (timezone != null) {
-            tz = TimeZone.getTimeZone(timezone);
-        }
-
-        var time = LocalDateTime.now().atZone(tz.toZoneId());
-
-        return time.getHour() < 7;
-    }
-
-    @JsonIgnore
     public ActivityResult handleAbility(HousePetType.HousePetAbility neededAbility) {
         if (!type.getAbilities().contains(neededAbility))
             return ActivityResult.NO_ABILITY;
@@ -240,12 +226,12 @@ public class HousePet {
         decreaseThirst();
         increaseExperience();
 
-        return ActivityResult.PASS;
+        return neededAbility.getPassActivity();
     }
 
     @JsonIgnore
     public String buildMessage(ActivityResult result, I18nContext language, int money, int items) {
-        return String.format(language.get(result.getLanguageString()), getType().getEmoji(), money, items);
+        return String.format(language.get(result.getLanguageString()), getType().getEmoji(), getName(), money, items);
     }
 
     @JsonIgnore
@@ -306,9 +292,11 @@ public class HousePet {
         LOW_HEALTH(false, "commands.pet.activity.low_health"),
         LOW_HUNGER(false, "commands.pet.activity.low_hunger"),
         LOW_THIRST(false, "commands.pet.activity.low_thirst"),
-        SLEEPY(false, "commands.pet.activity.sleepy"),
-        NO_ABILITY(false, ""), // No need, as it'll just be skipped.
-        PASS(true, "commands.pet.activity.success");
+        PASS(true, "commands.pet.activity.success"),
+        PASS_MINE(true, "commands.pet.activity.success_mine"),
+        PASS_CHOP(true, "commands.pet.activity.success_chop"),
+        PASS_FISH(true, "commands.pet.activity.success_chop"),
+        NO_ABILITY(false, ""); // No need, as it'll just be skipped.
 
         final boolean pass;
         final String i18n;

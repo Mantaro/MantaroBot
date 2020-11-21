@@ -1320,6 +1320,7 @@
         "health": "Health",
         "thirst": "Thirst",
         "hunger": "Hunger",
+        "stamina": "Stamina",
         "pet": "Pats",
         "footer": "Thanks you for using Mantaro! <3"
       },
@@ -1348,7 +1349,7 @@
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$s.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
         "cancel_success": "%1$sCancelled operation."
       },
       "feed": {
@@ -1371,12 +1372,13 @@
         "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now %3$s%% quenched."
       },
       "activity": {
-        "low_stamina": "%1$sYour pet has a really low stamina. Give it food/water to replenish.",
+        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
         "low_health": "%1$sThe health of your pet is too low. Give it food and let it rest for a while to replenish",
-        "low_hunger": "%1$sYour pet is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$sYour pet is too thirsty to do anything right now.",
-        "sleepy": "%1$sYour pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
-        "success": "%1$sYour pet successfully helped you! You got a buff and extra credits **(%2$s extra credits, %3$s extra items)** -included on what you got- thanks to the extra work your pet was able to do for you!"
+        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
+        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename.",

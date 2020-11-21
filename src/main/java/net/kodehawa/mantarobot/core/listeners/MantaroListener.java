@@ -731,7 +731,7 @@ public class MantaroListener implements EventListener {
                             embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
                         } catch (Exception e) {
                             tc.sendMessage(EmoteReference.ERROR2 +
-                                    "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                                    "The string\n```json\n{" + v + "}```\nIs not a valid JSON (failed to Convert to EmbedJSON).").queue();
                             e.printStackTrace();
                             return;
                         }

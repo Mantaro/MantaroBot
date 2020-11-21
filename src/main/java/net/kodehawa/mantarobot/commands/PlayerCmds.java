@@ -139,7 +139,6 @@ public class PlayerCmds {
                         return;
                     }
 
-                    //Check for RL.
                     if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                         return;
                     }

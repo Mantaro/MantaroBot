@@ -659,7 +659,7 @@ public class CurrencyActionCmds {
                 } else {
                     var money = chance > 50 ? random.nextInt(100) : 0;
                     var amount = random.nextInt(8);
-                    money += item.getMoneyIncrease();
+                    money += Math.max(item.getMoneyIncrease() / 4, random.nextInt(item.getMoneyIncrease()));
 
                     if (marriage != null && marriage.getData().getPet() != null) {
                         var pet = marriage.getData().getPet();
@@ -786,7 +786,7 @@ public class CurrencyActionCmds {
                 itemIncrease = random.nextInt(pet.getType().getMaxItemBuildup(pet.getLevel()));
             }
 
-            var moneyIncrease = random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel()));
+            var moneyIncrease = Math.max(1, random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel())));
             var message = "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, itemIncrease);
 
             return new HousePet.ActivityReward(itemIncrease, moneyIncrease, message);

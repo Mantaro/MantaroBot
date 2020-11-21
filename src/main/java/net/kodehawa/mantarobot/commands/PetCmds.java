@@ -42,7 +42,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
@@ -169,37 +169,37 @@ public class PetCmds {
                                 EmoteReference.MONEY + " " + language.get("commands.pet.status.cost"),
                                 "%,d".formatted(pet.getType().getCost()), true
                         )
-                        .addBlankField(true)
                         .addField(
                                 EmoteReference.ZAP + " " + language.get("commands.pet.status.type"),
                                 pet.getType().getEmoji() + pet.getType().getName(), true
                         )
                         .addField(
                                 EmoteReference.WRENCH + language.get("commands.pet.status.abilities"),
-                                pet.getType().getStringAbilities(), true
-                        )
-                        .addBlankField(true)
-                        .addField(
-                                EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
-                                "%,d".formatted(pet.getPatCounter()), true
+                                pet.getType().getStringAbilities(), false
                         )
                         .addField(
                                 EmoteReference.ZAP + " "  + language.get("commands.pet.status.level"),
                                 "**%,d (XP: %,d)**".formatted(pet.getLevel(), pet.getExperience()), true
                         )
-                        .addBlankField(true)
+                        .addField(
+                                EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
+                                "%,d".formatted(pet.getPatCounter()), true
+                        )
                         .addField(
                                 EmoteReference.HEART + " " + language.get("commands.pet.status.health"),
-                                "**" + pet.getHealth() + " / 100**", true
+                                "**%,d / 100**".formatted(pet.getHealth()), true
+                        )
+                        .addField(
+                                EmoteReference.RUNNER + " " + language.get("commands.pet.status.stamina"),
+                                "**%,d / 100**".formatted(pet.getStamina()), true
                         )
                         .addField(
                                 EmoteReference.DROPLET + " " + language.get("commands.pet.status.thirst"),
-                                "**" + pet.getThirst() + " / 100**", true
+                                "**%,d / 100**".formatted(pet.getThirst()), true
                         )
-                        .addBlankField(true)
                         .addField(
                                 EmoteReference.CHOCOLATE + " " + language.get("commands.pet.status.hunger"),
-                                "**" + pet.getHunger() + " / 100**", true
+                                "**%,d / 100**".formatted(pet.getHunger()), true
                         )
                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .setFooter(language.get("commands.pet.status.footer"));
