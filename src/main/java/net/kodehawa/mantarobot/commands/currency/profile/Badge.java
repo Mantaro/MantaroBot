@@ -576,7 +576,7 @@ public enum Badge {
     ),
 
     GOLD_VALUE("Gold Value", "\uD83D\uDD36",
-            "Nine gold tails and a person. Finding it might not be an ordeal, but the deal is not favorable.",
+            "Six gold tails and a person. Finding it might not be an ordeal, but the deal is not favorable.",
             91, 92,
             (player, dbUser) -> false, true
     ),
