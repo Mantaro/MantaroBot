@@ -995,7 +995,8 @@
       "timezone_user": "Nario laiko juosta: %1$s",
       "not_specified": "Nenurodyta.",
       "potion": "Aktyvus eliksyras",
-      "no_potion": "Jokių aktyvių eliksyrų."
+      "no_potion": "Jokių aktyvių eliksyrų.",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
