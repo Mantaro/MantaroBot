@@ -487,7 +487,8 @@ public class PetCmds {
         pet.addSubCommand("feed", new SubCommand() {
             @Override
             public String description() {
-                return "Feeds your pet. Types of food may vary per pet. Usage: `~>pet feed <food> [<amount>]`";
+                return "Feeds your pet. Types of food may vary per pet. " +
+                       "Usage: `~>pet feed <food> [<amount>]`. Use full instead of amount to replenish all.";
             }
 
             @Override
@@ -505,13 +506,19 @@ public class PetCmds {
                     return;
                 }
 
+                var isFull = false;
                 if (args.length > 1) {
-                    try {
-                        amount = Math.abs(Integer.parseInt(args[1]));
-                        // Only will go through if the amount parses properly :p
+                    food = args[0];
+                    if (args[1].equalsIgnoreCase("full")) {
                         food = args[0];
-                    } catch (Exception ignored) {
-                        food = content;
+                        isFull = true;
+                    } else {
+                        try {
+                            amount = Math.abs(Integer.parseInt(args[1]));
+                            food = args[0];
+                        } catch (Exception ignored) {
+                            food = content;
+                        }
                     }
                 }
 
@@ -543,12 +550,23 @@ public class PetCmds {
                     return;
                 }
 
+                var foodItem = (Food) itemObject;
+                var baseline = foodItem.getHungerLevel();
+                var increase = baseline * amount;
+
+                if (isFull) {
+                    amount = (100 - pet.getHunger()) / baseline;
+                    if (pet.getHunger() + increase < 100 || amount == 0) {
+                        amount += 1;
+                    }
+
+                    increase = foodItem.getHungerLevel() * amount;
+                }
+
                 if (amount > playerInventory.getAmount(itemObject)) {
                     ctx.sendLocalized("commands.pet.feed.not_inventory", EmoteReference.ERROR, amount);
                     return;
                 }
-
-                var foodItem = (Food) itemObject;
 
                 if (foodItem.getType().getApplicableType() != pet.getType() &&
                         foodItem.getType() != Food.FoodType.GENERAL) {
@@ -556,9 +574,8 @@ public class PetCmds {
                     return;
                 }
 
-                var increase = foodItem.getHungerLevel() * amount;
 
-                if ((pet.getHunger() + increase) > (91 + increase)) {
+                if ((pet.getHunger() + increase) > (91 + foodItem.getHungerLevel())) {
                     ctx.sendLocalized("commands.pet.feed.too_much", EmoteReference.ERROR);
                     return;
                 }
@@ -578,7 +595,7 @@ public class PetCmds {
         pet.addSubCommand("hydrate", new SubCommand() {
             @Override
             public String description() {
-                return "Hydrates your pet. Usage: `~>pet hydrate [<amount>]`";
+                return "Hydrates your pet. Usage: `~>pet hydrate [<amount>]`. Use full instead of amount to replenish all.";
             }
 
             @Override
@@ -588,16 +605,22 @@ public class PetCmds {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
                 int amount = 1;
+                var baseline = 15;
 
                 if (marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;
                 }
 
+                var isFull = false;
                 if (!content.isEmpty()) {
-                    try {
-                        amount = Math.abs(Integer.parseInt(content));
-                    } catch (Exception ignored) { }
+                    if (content.equalsIgnoreCase("full")) {
+                        isFull = true;
+                    } else {
+                        try {
+                            amount = Math.abs(Integer.parseInt(content));
+                        } catch (Exception ignored) { }
+                    }
                 }
 
                 var pet = marriage.getData().getPet();
@@ -613,6 +636,15 @@ public class PetCmds {
                 }
 
                 var item = ItemReference.WATER_BOTTLE;
+
+                if (isFull) {
+                    amount = (100 - pet.getThirst()) / baseline;
+                    if (pet.getThirst() + (baseline * amount) < 100 || amount == 0) {
+                        amount += 1;
+                    }
+                }
+
+                var increase = baseline * amount;
                 if (!playerInventory.containsItem(item)) {
                     ctx.sendLocalized("commands.pet.water.not_inventory", EmoteReference.ERROR);
                     return;
@@ -623,8 +655,7 @@ public class PetCmds {
                     return;
                 }
 
-                var increase = 15 * amount;
-                if ((pet.getThirst() + increase) > 107) {
+                if ((pet.getThirst() + increase) > 110) {
                     ctx.sendLocalized("commands.pet.water.too_much", EmoteReference.ERROR);
                     return;
                 }
@@ -638,7 +669,7 @@ public class PetCmds {
                 player.save();
                 marriage.saveUpdating();
 
-                ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, increase, pet.getThirst());
+                ctx.sendLocalized("commands.pet.water.success", EmoteReference.POPPER, amount, increase, pet.getThirst());
             }
         });
 
