@@ -73,6 +73,7 @@ public class PlayerData {
     private int questQuota = 3;
     private boolean resetWarning = false;
     private InventorySortType inventorySortType = InventorySortType.AMOUNT;
+    private boolean hiddenLegacy = false;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -402,6 +403,14 @@ public class PlayerData {
 
     public void setInventorySortType(InventorySortType inventorySortType) {
         this.inventorySortType = inventorySortType;
+    }
+
+    public void setHiddenLegacy(boolean hiddenLegacy) {
+        this.hiddenLegacy = hiddenLegacy;
+    }
+
+    public boolean isHiddenLegacy() {
+        return hiddenLegacy;
     }
 
     @JsonIgnore

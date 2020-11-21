@@ -630,7 +630,7 @@ public class ItemReference {
                     2, 7, EmoteReference.MOON_AXE.getDiscordNotation(),
                     "Moon Axe", "items.moon_axe", "items.description.moon_axe",
                     1000, true, false,
-                    "1;3;2;10", 350, 130, 104, 83, 18, 101
+                    "1;3;2;3;10", 350, 130, 104, 83, 18, 76, 101
             ),
 
             HELLFIRE_AXE = new Axe(ItemType.CHOP_RARE_AXE_NODROP, 0.00001f,

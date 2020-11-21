@@ -995,7 +995,8 @@
       "timezone_user": "User's timezone: %1$s",
       "not_specified": "Not specified.",
       "potion": "Active Potion",
-      "no_potion": "No active potions."
+      "no_potion": "No active potions.",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {

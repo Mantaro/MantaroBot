@@ -207,7 +207,7 @@ public class ProfileCmd {
 
                             var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                             var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
-                            if (!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) {
+                            if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) || playerData.isHiddenLegacy()) {
                                 usedOrder = noOldOlder;
                             }
 
@@ -267,6 +267,24 @@ public class ProfileCmd {
                 player.saveUpdating();
             }
         });
+
+        if (!config.isPremiumBot()) {
+            profileCommand.addSubCommand("hidelegacy", new SubCommand() {
+                @Override
+                public String description() {
+                    return "Hides/unhides legacy credits.";
+                }
+
+                @Override
+                protected void call(Context ctx, I18nContext languageContext, String content) {
+                    final var player = ctx.getPlayer();
+                    final var data = player.getData();
+                    data.setHiddenLegacy(!data.isHiddenLegacy());
+
+                    ctx.sendLocalized("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
+                }
+            });
+        }
 
         profileCommand.addSubCommand("inventorysort", new SubCommand() {
             @Override
