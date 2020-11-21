@@ -1320,6 +1320,7 @@
         "health": "Gesundheit",
         "thirst": "Durst",
         "hunger": "Hunger",
+        "stamina": "Stamina",
         "pet": "Streicheleinheiten",
         "footer": "Danke, dass du Mantaro nutzt! <3"
       },
@@ -1348,7 +1349,7 @@
         "nothing_found": "%1$sKonnte die Haustierart nicht finden. Angegeben: `%2$s`, Gültige Arten: `%3$s`",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um dieses Haustier zu kaufen. Wert: %2$d Credits, Geldbeutel: %3$d Credits",
         "confirm": "%1$sBist du dir sicher, dass du dieses Haustier kaufen willst? Name: %2$s, Art: %3$s, Kosten: %4$d Credits. Gebe `yes` ein, um fortzufahren, sonst `no`.",
-        "success": "%1$sGlückwunsch! Ihr beiden seid jetzt stolze Besitzer von einem `%2$s%3$s` und es wurde `%4$s` genannt. Die Kosten für dieses Haustier waren %5$s.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
         "cancel_success": "%1$sKauf abgebrochen."
       },
       "feed": {
@@ -1368,15 +1369,16 @@
         "not_inventory": "%1$sDu hast keine Wasserflasche im Inventar.",
         "not_enough_inventory": "%1$sDu hast nicht genügend Wasserflaschen in deinem Inventar! Du brauchst %2$s.",
         "too_much": "%1$sGib ihm vielleicht etwas weniger Wasser? Du würdest sonst Wasser verschwenden! (Erhöhung wäre über dem Benötigten, um 100%% zu erreichen)",
-        "success": "%1$sYay! Du hast deinem Haustier erfolgreich Wasser gegeben und es hat %2$s%% seines Durstes gelöscht. Es ist jetzt zu %3$s%% sitt."
+        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
-        "low_stamina": "%1$sDein Haustier hat sehr wenig Ausdauer. Gib ihm Essen/Trinken zum auffüllen.",
-        "low_health": "%1$sDie Gesundheit deines Haustieres ist sehr gering. Gib ihm Essen und lass es sich etwas ausruhen",
-        "low_hunger": "%1$sDein Haustier ist gerade zu hungrig, um etwas zu machen. *Esseeen~*",
-        "low_thirst": "%1$sDein Haustier ist gerade zu durstig, um etwas zu machen.",
-        "sleepy": "%1$sDein Haustier ist gerade zu schläfrig, um irgendwas zu machen. Du hast es sogar geweckt :<. Solltest du nicht auch schlafen?",
-        "success": "%1$sDein Haustier hat dir erfolgreich geholfen! Du hast einen Buff und zusätzliche Credits erhalten **(%2$s zusätzliche Credits, %3$s zusätzliche Gegenstände)** -enthalten in dem, was du bekommen hast- dank der extra Arbeit, die dein Haustier für dich leisten konnte!"
+        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish",
+        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
+        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sDu hast kein Haustier zum umbenennen.",
