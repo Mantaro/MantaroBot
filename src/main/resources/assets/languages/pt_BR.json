@@ -1320,7 +1320,7 @@
         "health": "Saúde",
         "thirst": "Sede",
         "hunger": "Fome",
-        "stamina": "Stamina",
+        "stamina": "Estâmina",
         "pet": "Carinhos",
         "footer": "Obrigado por usar a Mantaro! <3"
       },
@@ -1349,7 +1349,7 @@
         "nothing_found": "%1$sNão foi possível encontrar o tipo de pet que você especificou. Você especificou: `%2$s`, Tipos válidos: `%3$s`",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse pet. Valor: %2$,d créditos, Carteira: %3$,d créditos",
         "confirm": "%1$sVocê tem certeza que quer comprar esse pet? Nome: %2$s, Tipo: %3$s, Custo: %4$,d créditos. Digite `yes` para continuar, `no` caso contrário.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
+        "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse foi %5$,d créditos.",
         "cancel_success": "%1$sOperação cancelada."
       },
       "feed": {
@@ -1369,16 +1369,16 @@
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
         "too_much": "%1$sTalvez dê um pouco menos de água? Você estaria desperdiçando água caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)",
-        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
+        "success": "%1$sYay! %2$d de água foi dada com sucesso ao seu pet e ele recuperou %3$s%% de sua sede. A sede dele agora está %4$s%% apagada."
       },
       "activity": {
-        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish",
-        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "low_stamina": "%1$s**%2$s** tem uma estâmina muito baixa. Dê a ele comida/água para reabastecer.",
+        "low_health": "%1$s**%2$s** tem uma saúde muito baixa. Dê a ele comida/água e deixe-o descansar um pouco para reabastecer",
+        "low_hunger": "%1$s**%2$s** está com muita fome pra fazer alguma coisa agora. *Coooomida~*",
+        "low_thirst": "%1$s**%2$s** está com muita sede pra fazer alguma coisa agora.",
+        "success_fish": "%1$s**%2$s** ajudou você a pescar com sucesso! Você ganhou um buff e créditos extras **(%3$,d créditos extras, %4$,d itens extras)** agradeça ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou* ",
+        "success_chop": "%1$s**%2$s** ajudou você a cortar uma árvore com sucesso! Você ganhou um buff e créditos extras **( %3$,d créditos extras, %4$,d itens extras)** agradeça ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*",
+        "success_mine": "%1$s**%2$s** ajudou você a minerar com sucesso! Você ganhou um buff e créditos extras **(%3$,d créditos extras, e uma chance extra de drop de item)** agradeça ao trabalho extra que seu pet foi capaz de fazer por você! *incluído no que você ganhou*"
       },
       "rename": {
         "no_pet": "%1$sVocê não tem um pet pra renomear.",
