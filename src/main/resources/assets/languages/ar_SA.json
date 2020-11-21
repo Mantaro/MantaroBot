@@ -995,7 +995,8 @@
       "timezone_user": "المنطقة الزمنية للعضو: %1$s",
       "not_specified": "غير محدد.",
       "potion": "جرعة نشطة",
-      "no_potion": "لا توجد جرعات نشطة"
+      "no_potion": "لا توجد جرعات نشطة",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
