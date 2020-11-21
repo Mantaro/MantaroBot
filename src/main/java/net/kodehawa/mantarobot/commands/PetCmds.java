@@ -331,7 +331,8 @@ public class PetCmds {
         pet.addSubCommand("buy", new SubCommand() {
             @Override
             public String description() {
-                return "Buys a pet to have adventures with. You need to buy a pet house in market first. Usage: `~>pet buy <name> <type>`";
+                return "Buys a pet to have adventures with. You need to buy a pet house in market first. " +
+                       "Usage: `~>pet buy <name> <type>`";
             }
 
             @Override
@@ -420,7 +421,10 @@ public class PetCmds {
                         marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.pet.buy.success", EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name, toBuy.getCost());
+                        ctx.sendLocalized("commands.pet.buy.success",
+                                EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name, toBuy.getCost()
+                        );
+
                         return Operation.COMPLETED;
                     }
 
@@ -488,7 +492,7 @@ public class PetCmds {
             @Override
             public String description() {
                 return "Feeds your pet. Types of food may vary per pet. " +
-                       "Usage: `~>pet feed <food> [<amount>]`. Use full instead of amount to replenish all.";
+                       "Usage: `~>pet feed <food> [amount]`. Use full instead of amount to replenish all.";
             }
 
             @Override
@@ -595,7 +599,7 @@ public class PetCmds {
         pet.addSubCommand("hydrate", new SubCommand() {
             @Override
             public String description() {
-                return "Hydrates your pet. Usage: `~>pet hydrate [<amount>]`. Use full instead of amount to replenish all.";
+                return "Hydrates your pet. Usage: `~>pet hydrate [amount]`. Use full instead of amount to replenish all.";
             }
 
             @Override
