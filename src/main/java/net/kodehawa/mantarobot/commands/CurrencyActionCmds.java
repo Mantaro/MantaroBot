@@ -148,7 +148,7 @@ public class CurrencyActionCmds {
                     chance = 240;
                 }
 
-                if (random.nextInt(400) > chance) {
+                if (random.nextInt(400) >= chance) {
                     if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
                         message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
                         money += ItemReference.DIAMOND.getValue() * 0.9;
@@ -191,7 +191,7 @@ public class CurrencyActionCmds {
                     gemChance = 210;
                 }
 
-                if (random.nextInt(400) > gemChance) {
+                if (random.nextInt(400) >= gemChance) {
 
                     List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
@@ -244,7 +244,7 @@ public class CurrencyActionCmds {
                     sparkleChance = sparkleChance - 5;
                 }
 
-                if (random.nextInt(400) > sparkleChance) {
+                if (random.nextInt(400) >= sparkleChance) {
                     var gem = ItemReference.SPARKLE_FRAGMENT;
 
                     if (inventory.getAmount(gem) + 1 >= 5000) {
@@ -260,7 +260,7 @@ public class CurrencyActionCmds {
                 }
 
                 var key = MantaroData.db().getPremiumKey(userData.getPremiumKey());
-                if (random.nextInt(400) > 392) {
+                if (random.nextInt(400) >= 392) {
                     var crate = (key != null && key.getDurationDays() > 1) ?
                             ItemReference.MINE_PREMIUM_CRATE : ItemReference.MINE_CRATE;
 
