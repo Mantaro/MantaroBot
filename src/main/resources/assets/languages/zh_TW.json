@@ -995,7 +995,8 @@
       "timezone_user": "個人時區：%1$s",
       "not_specified": "未設置",
       "potion": "藥水效果",
-      "no_potion": "沒有藥水效果。"
+      "no_potion": "沒有藥水效果。",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
