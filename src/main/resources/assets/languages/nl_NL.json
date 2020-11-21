@@ -995,7 +995,8 @@
       "timezone_user": "Gebruiker's tijdzone: %1$s",
       "not_specified": "Niet ingesteld.",
       "potion": "Actieve Toverdrank",
-      "no_potion": "Geen actieve Toverdrankjes."
+      "no_potion": "Geen actieve Toverdrankjes.",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
