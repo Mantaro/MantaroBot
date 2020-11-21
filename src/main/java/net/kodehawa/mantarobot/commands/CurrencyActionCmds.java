@@ -178,17 +178,17 @@ public class CurrencyActionCmds {
                 }
 
                 // Gem find
-                var gemChance = 330;
+                var gemChance = 350;
                 if (hasPotion) {
-                    gemChance = 325;
+                    gemChance = 335;
                 }
 
                 if (petHelp) {
-                    gemChance = 250;
+                    gemChance = 310;
                 }
 
                 if (petHelp && hasPotion) {
-                    gemChance = 210;
+                    gemChance = 280;
                 }
 
                 if (random.nextInt(400) >= gemChance) {
