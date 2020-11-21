@@ -643,7 +643,7 @@ public class ItemReference {
             MOON_ROD = new FishRod(ItemType.FISHROD_RARE, 12, 2,
                     4, EmoteReference.MOON_ROD.getDiscordNotation(),
                     "Moon Rod", "items.moon_rod", "items.description.moon_rod",
-                    800, "1;2;3", 200, 44, 83, 101
+                    800, "1;2;3;3", 200, 44, 83, 76, 101
             ),
 
             HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 14,
