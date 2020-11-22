@@ -996,7 +996,7 @@
       "not_specified": "Não especificado.",
       "potion": "Poção Ativa",
       "no_potion": "Sem poções ativas.",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$sStatus de créditos legados mostrado agora é: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1579,7 +1579,7 @@
       "bot_notice": "%1$sBots não podem ter dinheiro.",
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
-      "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `~>profile` :heart:\nSeu inventário foi mantido, talvez venda algumas coisas pra ganhar um dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
+      "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `~>profile` :heart:\nSeu inventário foi mantido, talvez venda algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
     },
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
