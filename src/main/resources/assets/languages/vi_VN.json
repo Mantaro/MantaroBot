@@ -1130,7 +1130,8 @@
     },
     "action": {
       "no_mention": "%1$sBạn cần đề cập một người dùng",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error)",
+      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
+      "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
       "lonely": {
         "pat": "Ỏoo, tôi thấy bạn có vẻ đang cô đơn, nhận một cái vỗ vai nè <3",
