@@ -208,10 +208,10 @@ public class PetCmds {
             }
         }).createSubCommandAlias("status", "stats");
 
-        pet.addSubCommand("remove", new SubCommand() {
+        pet.addSubCommand("sell", new SubCommand() {
             @Override
             public String description() {
-                return "Removes this pet. This will *reset all pet stats*. Just like buying a new tamagotchi.";
+                return "Sells this pet. This will *reset all pet stats*. Just like buying a new tamagotchi.";
             }
 
             @Override
@@ -267,7 +267,7 @@ public class PetCmds {
                 });
 
             }
-        });
+        }).createSubCommandAlias("sell", "remove");
 
         pet.addSubCommand("pet", new SubCommand() {
             @Override
