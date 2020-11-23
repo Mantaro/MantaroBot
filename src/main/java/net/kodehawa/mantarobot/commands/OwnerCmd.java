@@ -48,7 +48,7 @@ import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.eval.JavaEvaluator;
 import net.kodehawa.mantarobot.utils.eval.MavenDependencies;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -541,7 +541,11 @@ public class OwnerCmd {
                         .setColor(errored ? Color.RED : Color.GREEN)
                         .setDescription(result == null ?
                                 "Executed successfully with no objects returned" :
-                                ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result.toString())
+                                ("Executed " + (errored ? "and errored: " : "successfully and returned: ") +
+                                        // We need to codeblock this as the compiler output expects a monospace font
+                                        // More ternary hell but it's w/e
+                                        (errored ? "```\n%s```".formatted(result.toString()) : result.toString())
+                                )
                         ).setFooter(
                                 "Asked by: " + ctx.getAuthor().getName(),
                                 null
