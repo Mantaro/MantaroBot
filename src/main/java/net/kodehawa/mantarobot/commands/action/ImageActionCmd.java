@@ -28,7 +28,7 @@ import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -70,7 +70,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.desc = desc;
         this.format = format;
         this.emoji = emoji;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
+        this.images = Collections.emptyList();
         this.lonelyLine = lonelyLine;
         this.type = type;
         this.botLine = botLine;
@@ -84,7 +84,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.desc = desc;
         this.format = format;
         this.emoji = emoji;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
+        this.images = Collections.emptyList();
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
         this.type = type;
@@ -113,7 +113,7 @@ public class ImageActionCmd extends NoArgsCommand {
         var languageContext = ctx.getGuildLanguageContext();
         var random = "";
 
-        if (images.size() == 1) {
+        try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, "gif");
                 var image = result.getKey();
@@ -125,9 +125,13 @@ public class ImageActionCmd extends NoArgsCommand {
 
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).
+            } else {
+                ctx.sendLocalized("commands.action.no_type", EmoteReference.ERROR);
+                return;
             }
-        } else {
-            random = images.get(rand.nextInt(images.size()));
+        } catch (Exception e) {
+            ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.ERROR);
+            return;
         }
 
         try {
@@ -176,6 +180,7 @@ public class ImageActionCmd extends NoArgsCommand {
             );
 
             ctx.getChannel().sendMessage(toSend.build()).queue();
+
         } catch (Exception e) {
             e.printStackTrace();
             ctx.sendLocalized("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);

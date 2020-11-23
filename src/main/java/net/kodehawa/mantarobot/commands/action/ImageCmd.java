@@ -64,7 +64,7 @@ public class ImageCmd extends NoArgsCommand {
         super(CommandCategory.ACTION);
         this.desc = desc;
         this.imageName = imageName;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null).getKey());
+        this.images = Collections.emptyList();
         this.toSend = toSend;
         this.type = type;
     }
@@ -73,7 +73,7 @@ public class ImageCmd extends NoArgsCommand {
         super(CommandCategory.ACTION);
         this.desc = desc;
         this.imageName = imageName;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null).getKey());
+        this.images = Collections.emptyList();
         this.toSend = toSend;
         this.noMentions = noMentions;
         this.type = type;
@@ -85,16 +85,19 @@ public class ImageCmd extends NoArgsCommand {
         String random;
         var id = "";
 
-        if (images.size() == 1) {
+        try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, null);
                 images = Collections.singletonList(result.getKey());
                 id = result.getValue();
+                random = images.get(0); //Guaranteed random selection :^).
+            } else {
+                ctx.sendLocalized("commands.action.no_type", EmoteReference.ERROR);
+                return;
             }
-
-            random = images.get(0); //Guaranteed random selection :^).
-        } else {
-            random = images.get(rand.nextInt(images.size()));
+        } catch (Exception e) {
+            ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.ERROR);
+            return;
         }
 
         builder.appendDescription(EmoteReference.TALKING.toString());
