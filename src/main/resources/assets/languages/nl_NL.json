@@ -404,8 +404,8 @@
       "new_error": "%1$sDe custom command die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
       "ls": {
         "header": "Commando's voor deze guild",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
-        "footer": "Total custom commands on this server: %1$s"
+        "description": "**Dit toont alle custom (door de gebruiker gemaakte) commands van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nCustom commands zijn commando's gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actiecommando's.\nVoor meer informatie over het maken van eigen custom commands refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
+        "footer": "Totaal aantal custom commands op deze server: %1$s"
       },
       "invalid": "%1$sOngeldig commando selectie. Controlleer commando help (`help custom`).",
       "view": {
@@ -419,10 +419,10 @@
         "not_found": "%1$sIk kan dit commando niet vinden.",
         "header": "Commando \"%1$s\":",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
       },
       "clear": {
-        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
+        "success": "%1$s** %2$d Custom Commands gewist**. Vergrendelde/vastgezette opdrachten zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
       },
       "make": {
         "start_text": "%1$sGestart met het **\"maken van Eigen Commando `%2$s`\"**!\nTyp `&~>stop` om het af te sluiten **zonder het commando op te slaan**.\nTyp `&~>save` om het af te sluiten en **het nieuwe commando op te slaan**. Typ een tekst die begint met `&` om deze toe ge voegen aan de Commando Antwoorden. Typ `~>nsfw` om het commando als NSFW te markeren en `~>sfw` om dit terug te draaien.\nDeze interactieve bewerking eindigt na 60 seconden inactiviteit zonder dat er iets wordt opgeslagen.",
@@ -443,7 +443,7 @@
       "import": {
         "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt importeren.",
         "not_found": "%1$sEr zijn geen eigen commando's gevonden die voldoen aan je zoekopdracht.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
+        "header": "`%1$s` (Reacties: %2$s) - Guild: `%3$s`",
         "selection": "Selecteer het Commando:",
         "note": "(Je kunt alleen eigen commando's selecteren van de Guild waarvan je lid bent)",
         "success": "Het eigen commando `%1$s` van Guild `%2$s` met een totaal van %3$d antwoorden is geïmporteerd."
@@ -453,11 +453,11 @@
         "invalid_number": "%1$sJe moet een bestaand nummer opgeven om te wijzigen.",
         "no_index": "%1$sJe kunt geen niet bestaande index bewerken.",
         "empty_response": "%1$sKan geen leeg antwoord wijzigen.",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
+        "not_enough_args": "%1$sJe moet het commando, de index en het nieuwe antwoord specificeren",
         "success": "%1$sAntwoord **#%2$d** van het commando `%3$s` is succesvol aangepast."
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
+        "no_command": "%1$sJe moet het commando specificeren waaruit u een antwoord wilt verwijderen.",
         "invalid_number": "%1$sYou need to specify a correct number to change.",
         "no_index": "%1$sYou cannot remove a non-existent index.",
         "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
