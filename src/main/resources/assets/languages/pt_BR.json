@@ -1130,7 +1130,8 @@
     },
     "action": {
       "no_mention": "%1$sVocê tem que mencionar um usuário",
-      "error_retrieving": "%1$sEu achei um erro enquanto buscava o próximo gif para essa ação... (erro externo)",
+      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
+      "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sD-Desculpa! Eu deixei cair a imagem. (Provavelmente eu não tenho permissão para mandar isso)",
       "lonely": {
         "pat": "Aww, Eu vejo que você está sozinho, tome um carinho <3",
