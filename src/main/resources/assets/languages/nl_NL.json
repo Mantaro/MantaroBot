@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sHet spraak-kanaal is niet gevonden of je hebt geen naam opgegeven!"
     },
     "shard": {
-      "info": "**Ik zit in %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard server:** %5$,d servers\n**Gebruikers in cache:** %6$,d gebruikers\n**Leden in cache:** %7$,d leden\n\nAls je hulp nodig hebt, ga dan naar <https://support.mantaro.site>. Bedankt voor het gebruik van Mantaro!"
+      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
