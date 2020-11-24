@@ -132,6 +132,7 @@ public class MusicUtilCmds {
         });
 
         cr.registerAlias("forward", "skipahead");
+        cr.registerAlias("forward", "seek");
     }
 
     @Subscribe
