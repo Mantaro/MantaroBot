@@ -1,5 +1,5 @@
 Thanks for your interest on contributing to Mantaro. The guidelines for doing such are explained below, they're usually pretty simple, and most of 
-what you want to read is the code guidelines, to make sure we don't request style changes.
+what you want to read is the code guidelines to make sure we don't request style changes.
 
 ### Features
 1. Any and all features have to first be approved on the support server at https://support.mantaro.site. Feel free to discuss about them on #bot-discussions.
@@ -38,5 +38,5 @@ And module can be:
 If the module isn't clear or found there, you can omit it, your message should look like:
 
 * `Add(mine): Add new drop when mining with sparkle`
-* `Fix(equip)`: Fix equipment dissapearing if it's a full moon and you ate a taco.
+* `Fix(equip): Fix equipment dissapearing if it's a full moon and you ate a taco.`
 
