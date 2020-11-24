@@ -29,6 +29,7 @@ Where action can be:
 * Fix - Fixes a bug or issue with the code.
 * Add - Adds a new feature or new stuff.
 * Refactor - Refactors a part of Mantaro's code.
+* Chore - Probably just a dependency bump.
 
 And module can be:
 * Any command (mine, fish, profile, etc)
@@ -39,4 +40,4 @@ If the module isn't clear or found there, you can omit it, your message should l
 
 * `Add(mine): Add new drop when mining with sparkle`
 * `Fix(equip): Fix equipment disappearing if it's a full moon and you ate a taco.`
-
+* `Chore: Update JDA from 4.2.0_167 to 4.2.0_178`
