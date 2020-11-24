@@ -140,15 +140,15 @@ public class CustomCmds {
             String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
             log.info("Custom Command with Invalid Characters {} found. Replacing with '_'", custom.getName());
 
-            custom.deleteAsync();
+            custom.delete();
             custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
-            custom.saveAsync();
+            custom.save();
         }
 
         if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
-            custom.deleteAsync();
+            custom.delete();
             custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
-            custom.saveAsync();
+            custom.save();
         }
 
         //add to registry

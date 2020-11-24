@@ -292,7 +292,7 @@ public class TransferCmds {
                         }
 
                         if (giveToPlayer.getInventory().getAmount(item) + amount > 5000) {
-                            ctx.sendLocalized("commands.itemtransfer.overflow", EmoteReference.ERROR);
+                            ctx.sendLocalized("commands.itemtransfer.overflow_after", EmoteReference.ERROR);
                             return;
                         }
 
