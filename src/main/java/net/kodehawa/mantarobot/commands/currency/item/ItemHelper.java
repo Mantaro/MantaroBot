@@ -412,7 +412,7 @@ public class ItemHelper {
 
             var broken = "";
             var brokenItem = getBrokenItemFrom(item);
-            if (brokenItem != null && random.nextInt(100) > 20) {
+            if (brokenItem != null && random.nextInt(100) >= 20) {
                 broken = "\n" + String.format(languageContext.get("commands.mine.broken_drop"),
                         EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName()
                 );

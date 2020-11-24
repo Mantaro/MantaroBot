@@ -108,7 +108,9 @@ public class CurrencyActionCmds {
 
                 var waifuHelp = false;
                 if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-                    if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
+                    final var waifus = userData.getWaifus().entrySet();
+
+                    if (waifus.stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                         money += Math.max(20, random.nextInt(100));
                         waifuHelp = true;
                     }

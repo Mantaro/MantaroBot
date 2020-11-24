@@ -253,6 +253,14 @@ public class FunCmds {
                 var percentage = (ids[0] == ids[1] ? 101 : random.nextInt(101)); //last value is exclusive, so 101.
                 var languageContext = ctx.getLanguageContext();
 
+                final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
+                if (marriage != null) {
+                    final var other = marriage.getOtherPlayer(ctx.getAuthor().getId());
+                    if (other == mentioned.get(0).getId()) {
+                        percentage = 100;
+                    }
+                }
+
                 if (percentage < 45) {
                     result = languageContext.get("commands.love.not_ideal");
                 } else if (percentage < 75) {
