@@ -1,9 +1,5 @@
 # Mantaro's Code of Conduct
 
-Article 1. This is the Code of Conduct.
-
-Article 2. Anyone advocating or suggesting modifications to this Code of Conduct shall be immediately removed and banished from this organization.
-
-Article 3. Nobody shall bring politics into talk.
-
-Article 4. There is no Article 4 or any other substance to this Code of Conduct beyond this Article, Article 4.
+1. Don't be mean. That's it. Be civil to everyone, and try to be as nice as you can.
+2. Avoid bringing politics into talk here. We know OSS can get political, but this is a Discord bot, for hecks sake.
+3. We won't change this code of conduct for another one. Most of the wording on them can be twisted too much. Being nice is enough. People should know how to respect each other. I hope.
