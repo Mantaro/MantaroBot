@@ -3,12 +3,12 @@ what you want to read is the code guidelines to make sure we don't request style
 
 ### Features
 1. Any and all features have to first be approved on the support server at https://support.mantaro.site. Feel free to discuss about them on #bot-discussions.
-2. If a feature was approved or given an OK by a developer, but there's no progress on its implementation, you're free to skip the above point.
+2. If a feature was already approved by a developer, but there's no progress on its implementation, you're free to skip the above point.
 3. All feature additions have to be done through a PR/MR. Please ask in the support server if you're not sure about it (though I guess most of us are past e-mail diff sending :P)
 
 ### Bug fixing 
 1. First report the bug on #bug-reports on the support server said above. If the fix is trivial, we can probably push a quick commit.
-2. If there's a long-lasting bug you want to fix but nothing has been doing about it, feel free to do so in a PR.
+2. If there's a long-lasting bug you want to fix but nothing has been done about it, feel free to do so in a PR.
 
 ### Code guidelines
 This is not a definitive guide, and the code does not follow all of them consistently. 
@@ -29,15 +29,17 @@ Where action can be:
 * Fix - Fixes a bug or issue with the code.
 * Add - Adds a new feature or new stuff.
 * Refactor - Refactors a part of Mantaro's code.
-* Chore - Probably just a dependency bump.
+* Chore - Probably just a dependency bump-, or fixes to the docker/CI configs.
 
 And module can be:
 * Any command (mine, fish, profile, etc)
 * A internal part of Mantaro (cc, evalsystem, finderutil, core, command, option)
 * A external part included on Mantaro's code (lavalink-client)
+* Dependencies (deps), CI stuff (ci) and Docker configs (docker)
+* One of the .md files (features, coc, contrib, readme)
 
 If the module isn't clear or found there, you can omit it, your message should look like:
 
 * `Add(mine): Add new drop when mining with sparkle`
 * `Fix(equip): Fix equipment disappearing if it's a full moon and you ate a taco.`
-* `Chore: Update JDA from 4.2.0_167 to 4.2.0_178`
+* `Chore(deps): Update JDA from 4.2.0_167 to 4.2.0_178`
