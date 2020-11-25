@@ -409,7 +409,7 @@ public class UtilsCmds {
                         "https://github.com/Mantaro/MantaroBot/wiki/Configuration"))
                 .addSubCommand("custom", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
-                                "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-%22v3%22"))
+                                "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101"))
                 .addSubCommand("modifiers", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
                                 "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers"))
