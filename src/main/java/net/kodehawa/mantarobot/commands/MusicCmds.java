@@ -43,6 +43,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -669,11 +670,12 @@ public class MusicCmds {
                     return;
                 }
 
-                var lyrics = results.getString("content");
+                // Replace more than 2 line breaks with 2 line breaks.
+                var lyrics = StringEscapeUtils.unescapeHtml4(results.getString("content").replaceAll("\n\n\n+", "\n\n"));
                 var songObject = results.getJSONObject("song");
                 var fullTitle = songObject.getString("full_title");
                 var icon = songObject.getString("icon");
-                var divided = DiscordUtils.divideString(900, lyrics.trim());
+                var divided = DiscordUtils.divideString(500, lyrics.trim());
                 var languageContext = ctx.getLanguageContext();
 
                 DiscordUtils.list(ctx.getEvent(), 30, false, 900, (p, total) -> {
