@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sCanal de voz não encontrado ou você não especificou um!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Estou em shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Guildas em Shard:** %5$,d servidores\n**Usuários em Cache:** %6$,d usuários\n**Membros em Cache:** %7$,d membros\n\nSe você precisar de alguma ajuda, por favor vá para <https://support.mantaro.site>. Obrigado por usar a Mantaro!"
     },
     "queue": {
       "clear": {
@@ -781,8 +781,8 @@
       "bot_notice": "%1$sVocê não pode transferir itens para um bot.",
       "locked_notice": "%1$sVocê não pode transferir itens agora. (O jogador está bloqueado)",
       "hidden_item": "%1$sVocê não pode transferir esse item!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
+      "overflow": "%1$sEste jogador tem a quantidade máxima (5000) deste item.",
+      "overflow_after": "%1$sDepois de transferir esse item, o jogador teria mais do que o valor máximo (5000) deste item.",
       "success": "%1$s%2$s deu **%3$s** **%4$s** para %5$s",
       "multiple_items_error": "%1$sVocê não tem nenhum desses itens no seu inventário",
       "error": "%1$sVocê não tem o suficiente deste item em seu inventário para fazer isso!",
@@ -894,7 +894,7 @@
         "reset_success": "%1$sNenhuma insignia será mostrada no topo do seu perfil!",
         "important_success": "%1$sSua insignia exibida agora é a mais importante.",
         "no_such_badge": "%1$sNão existe essa insignia...\nSuas insignias disponíveis: %2$s",
-        "player_missing_badge": "%1$sVocê não tem essa insignia.\nSuas insignias disponíveis: %2$s",
+        "player_missing_badge": "%1$sVocê não tem essa insígnia.\nSuas insignias disponíveis: %2$s",
         "success": "%1$sSua insignia exibida agora é: **%2$s**"
       },
       "lang": {
@@ -972,7 +972,7 @@
         "removed": "%1$sResetado com sucesso seu status de claim lock.",
         "success": "%1$sVocê não pode mais ser reivindicado como waifu. Isso custou uma chave de reivindicação.",
         "no_key": "%1$sVocê não tem uma chave de reivindicação para fazer isso.",
-        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
+        "already_locked": "%1$sVocê já está bloqueado de reivindicações. Use `~>profile claimlock remove` para remover."
       },
       "autoequip": {
         "disable": "%1$sAuto-equipar desativado com sucesso.",
@@ -1089,7 +1089,7 @@
       "guild_already_premium": "%1$sEsse servidor já em uma inscrição premium",
       "guild_successful": "%1$sEsse servidor agora é **Premium** :heart: (Por: %2$d dias)",
       "user_already_premium": "%1$sVocê já é premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "user_successful": "%1$sVocê agora é **Premium** :heart:\nSe você está comprometido com o Patreon, essa key está linkada com o seu comprometimento.",
       "mp": "Mantaro Patreon não usa keys, ao invés disso, é dada que é premium pelo fato do bot em si funcionar."
     },
     "claimkey": {
@@ -1132,8 +1132,8 @@
     },
     "action": {
       "no_mention": "%1$sVocê tem que mencionar um usuário",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
-      "no_type": "%1$sThis action command has no type. (internal error)",
+      "error_retrieving": "%1$sEu achei um erro enquanto buscava o próximo gif para essa ação... (erro externo, talvez o WeebAPI caiu?)",
+      "no_type": "%1$sEsse comando de ação não tem tipo. (erro interno)",
       "permission_or_unexpected_error": "%1$sD-Desculpa! Eu deixei cair a imagem. (Provavelmente eu não tenho permissão para mandar isso)",
       "lonely": {
         "pat": "Aww, Eu vejo que você está sozinho, tome um carinho <3",
@@ -2403,7 +2403,7 @@
       "star_rod": "Uma vara forte (170 de durabilidade).",
       "sparkle_rod": "Uma vara até que forte (300 de durabilidade).",
       "shell": "Encontrada no fundo do oceano. O que poderia valer a pena?",
-      "shark": "Woah. How did you catch this?",
+      "shark": "Woah. Como você pegou isso?",
       "crab": "Um caranguejo. Ele dança, talvez.",
       "squid": "Não confundir com Lula Molusco.",
       "shrimp": "Material rosado. Eu acho.",
