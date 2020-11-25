@@ -971,7 +971,8 @@
       "claimlock": {
         "removed": "%1$sУспешно сброшен статус вашего вайфу замка.",
         "success": "%1$sВы больше не можете стать чьим-то вайфу. На это был потрачен ключ.",
-        "no_key": "%1$sУ вас нет вайфу ключа чтобы сделать это."
+        "no_key": "%1$sУ вас нет вайфу ключа чтобы сделать это.",
+        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
         "disable": "%1$sУспешно отключёна авто-экипировка.",
@@ -1088,7 +1089,7 @@
       "guild_already_premium": "%1$sНа этом сервере уже активирован премиум ключ",
       "guild_successful": "%1$sЭтот сервер теперь **Премиум** :heart: (Осталось: %2$d дней)",
       "user_already_premium": "%1$sВы уже премиум :heart:",
-      "user_successful": "%1$sТеперь вы **Премиум** :heart: (Осталось: %2$d дней)",
+      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon не использует ключей, за премиум считается сам бот."
     },
     "claimkey": {
