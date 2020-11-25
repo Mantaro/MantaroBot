@@ -99,7 +99,9 @@ public class ImageboardUtils {
 
         final var dbGuild = ctx.getDBGuild();
         final var data = dbGuild.getData();
-        if (list.stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
+        final var blackListedImageTags = data.getBlackListedImageTags();
+
+        if (list.stream().anyMatch(blackListedImageTags::contains)) {
             ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
@@ -111,22 +113,18 @@ public class ImageboardUtils {
                         return;
                     }
 
-                    try {
-                        var filter = filterImages(requestedImages, ctx);
-                        if (filter == null) {
-                            return;
-                        }
-
-                        final var image = filter.get(r.nextInt(filter.size()));
-                        if (image.getTags().stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
-                            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        sendImage(ctx, imageboard, image, dbGuild);
-                    } catch (Exception e) {
-                        ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
+                    var filter = filterImages(requestedImages, ctx);
+                    if (filter == null) {
+                        return;
                     }
+
+                    final var image = filter.get(r.nextInt(filter.size()));
+                    if (image.getTags().stream().anyMatch(blackListedImageTags::contains)) {
+                        ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    sendImage(ctx, imageboard, image, dbGuild);
                 }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
             } catch (NumberFormatException nex) {
                 ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
@@ -139,22 +137,18 @@ public class ImageboardUtils {
                     return;
                 }
 
-                try {
-                    var filter = filterImages(requestedImages, ctx);
-                    if (filter == null) {
-                        return;
-                    }
-
-                    final var image = filter.get(r.nextInt(filter.size()));
-                    if (image.getTags().stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
-                        ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    sendImage(ctx, imageboard, image, ctx.getDBGuild());
-                } catch (Exception e) {
-                    ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
+                var filter = filterImages(requestedImages, ctx);
+                if (filter == null) {
+                    return;
                 }
+
+                final var image = filter.get(r.nextInt(filter.size()));
+                if (image.getTags().stream().anyMatch(blackListedImageTags::contains)) {
+                    ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+                    return;
+                }
+
+                sendImage(ctx, imageboard, image, ctx.getDBGuild());
             }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
         }
     }
@@ -182,27 +176,29 @@ public class ImageboardUtils {
     }
 
     private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
+        final var tags = image.getTags();
+        final var blackListedImageTags = dbGuild.getData().getBlackListedImageTags();
+
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
-        if ((containsExcludedTags(image.getTags()) || image.hasChildren()) && image.getRating() != Rating.SAFE) {
+        if ((containsExcludedTags(tags) || image.hasChildren()) && image.getRating() != Rating.SAFE) {
             ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
 
-        if (image.getTags().stream().anyMatch(tag -> dbGuild.getData().getBlackListedImageTags().contains(tag))) {
+        if (tags.stream().anyMatch(blackListedImageTags::contains)) {
             ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
             return;
         }
 
         // Format the tags output so it's actually human-readable.
-        var imageTags = String.join(", ", image.getTags());
-
+        var imageTags = String.join(", ", tags);
         imageEmbed(
                 ctx.getLanguageContext(), image.getURL(), String.valueOf(image.getWidth()),
                 String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, ctx.getChannel()
         );
 
-        if (image.getRating().equals(Rating.EXPLICIT)) {
+        if (image.getRating().equals(Rating.EXPLICIT) && r.nextBoolean()) {
             var player = ctx.getPlayer();
             if (player.getData().addBadgeIfAbsent(Badge.LEWDIE)) {
                 player.saveUpdating();
