@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class HelpUtils {
             return "`Disabled`";
         }
 
-        return "``" + values.stream().sorted()
-                .collect(Collectors.joining("`` ``")) + "``";
+        return "\u2009\u2009`" + values.stream().sorted()
+                .collect(Collectors.joining("` `")) + "`";
     }
 }
