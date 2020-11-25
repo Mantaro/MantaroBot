@@ -64,7 +64,7 @@ public class MarryCmd {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        ITreeCommand marryCommand = cr.register("marry", new TreeCommand(CommandCategory.FUN) {
+        ITreeCommand marryCommand = cr.register("marry", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -674,7 +674,7 @@ public class MarryCmd {
 
     @Subscribe
     public void divorce(CommandRegistry cr) {
-        cr.register("divorce", new SimpleCommand(CommandCategory.FUN) {
+        cr.register("divorce", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String cn, String[] args) {
                 //We, indeed, have no marriage here.

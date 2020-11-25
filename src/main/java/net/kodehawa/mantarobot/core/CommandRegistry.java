@@ -395,9 +395,9 @@ public class CommandRegistry {
         COMMAND_SPECIFIC("Disabled command on specific channel"),
         GUILD("Disabled command on this server"),
         ROLE("Disabled role on this server"),
-        ROLE_CATEGORY("Disabled role for this category"),
-        SPECIFIC_ROLE("Disabled role on this channel"),
-        SPECIFIC_ROLE_CATEGORY("Disabled role on this channel for this category"),
+        ROLE_CATEGORY("Disabled role for this category in this server"),
+        SPECIFIC_ROLE("Disabled role for this command in this server"),
+        SPECIFIC_ROLE_CATEGORY("Disabled role for this category in this server"),
         CHANNEL("Disabled channel"),
         USER("Disabled user");
 

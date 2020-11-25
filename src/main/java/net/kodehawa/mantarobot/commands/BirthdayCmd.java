@@ -73,11 +73,10 @@ public class BirthdayCmd {
                         var displayFormat = new SimpleDateFormat("dd-MM");
                         Date birthdayDate;
 
-                        // This code hurts to read, lol.
                         try {
                             String birthday;
                             birthday = content.replace("/", "-");
-                            var parts = new ArrayList<>(Arrays.asList(birthday.split("-"))); //Cursed.
+                            var parts = new ArrayList<>(Arrays.asList(birthday.split("-")));
 
                             if (Integer.parseInt(parts.get(0)) > 31 || Integer.parseInt(parts.get(1)) > 12) {
                                 ctx.sendLocalized("commands.birthday.invalid_date", EmoteReference.ERROR);
@@ -91,7 +90,6 @@ public class BirthdayCmd {
 
                             //Add a year so it parses and saves using the old format. Yes, this is also cursed.
                             parts.add("2037");
-
                             var date = String.join("-", parts);
                             birthdayDate = parseFormat.parse(date);
                         } catch (Exception e) {

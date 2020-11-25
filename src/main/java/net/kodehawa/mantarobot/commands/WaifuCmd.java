@@ -45,7 +45,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class WaifuCmd {
                 .build();
 
 
-        TreeCommand waifu = cr.register("waifu", new TreeCommand(CommandCategory.FUN) {
+        TreeCommand waifu = cr.register("waifu", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {

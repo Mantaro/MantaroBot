@@ -41,7 +41,10 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Module
@@ -132,7 +135,7 @@ public class MiscCmds {
 
     @Subscribe
     public void eightBall(CommandRegistry cr) {
-        cr.register("8ball", new SimpleCommand(CommandCategory.MISC) {
+        cr.register("8ball", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -167,7 +170,7 @@ public class MiscCmds {
 
     @Subscribe
     public void iam(CommandRegistry cr) {
-        TreeCommand iamCommand = cr.register("iam", new TreeCommand(CommandCategory.MISC) {
+        TreeCommand iamCommand = cr.register("iam", new TreeCommand(CommandCategory.UTILS) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -270,7 +273,7 @@ public class MiscCmds {
 
     @Subscribe
     public void iamnot(CommandRegistry cr) {
-        cr.register("iamnot", new SimpleCommand(CommandCategory.MISC) {
+        cr.register("iamnot", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
@@ -294,7 +297,7 @@ public class MiscCmds {
 
     @Subscribe
     public void randomFact(CommandRegistry cr) {
-        cr.register("randomfact", new SimpleCommand(CommandCategory.MISC) {
+        cr.register("randomfact", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 ctx.send(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1)));
@@ -313,7 +316,7 @@ public class MiscCmds {
 
     @Subscribe
     public void createPoll(CommandRegistry registry) {
-        registry.register("createpoll", new SimpleCommand(CommandCategory.MISC) {
+        registry.register("createpoll", new SimpleCommand(CommandCategory.UTILS) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 var opts = ctx.getOptionalArguments();
