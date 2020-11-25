@@ -246,12 +246,18 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var player = ctx.getPlayer();
+                final var player = ctx.getPlayer();
+                final var playerData = player.getData();
 
                 if (content.equals("remove")) {
-                    player.getData().setClaimLocked(false);
+                    playerData.setClaimLocked(false);
                     ctx.sendLocalized("commands.profile.claimlock.removed", EmoteReference.CORRECT);
                     player.saveUpdating();
+                    return;
+                }
+
+                if (playerData.isClaimLocked()) {
+                    ctx.sendLocalized("commands.profile.claimlock.already_locked", EmoteReference.CORRECT);
                     return;
                 }
 
@@ -261,7 +267,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                player.getData().setClaimLocked(true);
+                playerData.setClaimLocked(true);
                 ctx.sendLocalized("commands.profile.claimlock.success", EmoteReference.CORRECT);
                 inventory.process(new ItemStack(ItemReference.CLAIM_KEY, -1));
                 player.saveUpdating();
