@@ -22,7 +22,6 @@ import java.util.OptionalInt;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class ExtraRuntimeOptions {
-    public static final boolean DISABLE_NON_ALLOCATING_BUFFER = getValue("mantaro.disable-non-allocating-buffer") != null;
     public static final boolean DEBUG = getValue("mantaro.debug") != null;
     public static final boolean DEBUG_LOGS = getValue("mantaro.debug_logs") != null;
     public static final boolean LOG_DB_ACCESS = getValue("mantaro.log_db_access") != null;

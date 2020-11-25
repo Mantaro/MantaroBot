@@ -35,7 +35,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -78,14 +78,14 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         try {
-            var i = 0;
+            var count = 0;
             var dbGuild = db.getGuild(event.getGuild());
             var user = db.getUser(event.getMember());
             var guildData = dbGuild.getData();
 
             for (var track : playlist.getTracks()) {
                 if (guildData.getMusicQueueSizeLimit() != null) {
-                    if (i < guildData.getMusicQueueSizeLimit()) {
+                    if (count <= guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true, dbGuild, user);
                     } else {
                         event.getChannel().sendMessageFormat(
@@ -95,7 +95,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                         break;
                     }
                 } else {
-                    if (i > MAX_QUEUE_LENGTH && (!dbGuild.isPremium() && !user.isPremium())) {
+                    if (count >= MAX_QUEUE_LENGTH && (!dbGuild.isPremium() && !user.isPremium())) {
                         event.getChannel().sendMessageFormat(
                                 language.get("commands.music_general.loader.over_limit"),
                                 EmoteReference.WARNING, MAX_QUEUE_LENGTH
@@ -106,11 +106,11 @@ public class AudioLoader implements AudioLoadResultHandler {
                     }
                 }
 
-                i++;
+                count++;
             }
 
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.loaded_playlist"),
-                    EmoteReference.CORRECT, i, playlist.getName(),
+                    EmoteReference.CORRECT, count, playlist.getName(),
                     Utils.formatDuration(
                             playlist.getTracks()
                                     .stream()

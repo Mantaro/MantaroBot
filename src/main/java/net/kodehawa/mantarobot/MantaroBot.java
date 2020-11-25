@@ -398,7 +398,6 @@ public class MantaroBot {
     private void printStartVariables() {
         log.info("""
                         Environment variables set on this startup:
-                        DISABLE_NON_ALLOCATING_BUFFER = {}
                         VERBOSE_SHARD_LOGS = {}
                         DEBUG = {}
                         DEBUG_LOGS = {}
@@ -410,7 +409,6 @@ public class MantaroBot {
                         TO_SHARD = {}
                         SHARD_COUNT = {}
                         NODE_NUMBER = {}""",
-                ExtraRuntimeOptions.DISABLE_NON_ALLOCATING_BUFFER,
                 ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.DEBUG,
                 ExtraRuntimeOptions.DEBUG_LOGS,
