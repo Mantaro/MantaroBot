@@ -53,7 +53,6 @@ public class ImageboardUtils {
     public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, Context ctx) {
         var rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
-
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
 
         var needRating = list.size() >= 2;
@@ -68,8 +67,9 @@ public class ImageboardUtils {
             // Try with short name
             rating = lookupShortRating(list.get(1));
 
-            if (rating != null)
+            if (rating != null) {
                 list.remove(rating.getShortName());
+            }
         }
 
         // Allow for more tags after declaration.
@@ -78,7 +78,6 @@ public class ImageboardUtils {
             list.remove(rating.getLongName());
             list.remove("random"); // remove "random" declaration.
             list.remove("r"); // Remove short-hand random declaration.
-
         } else {
             finalRating = Rating.SAFE;
         }
@@ -88,59 +87,47 @@ public class ImageboardUtils {
             return;
         }
 
-        if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true))
+        if (!Optional.ofNullable(imageboardUsesRating.get(api)).orElse(true)) {
             finalRating = null;
+        }
 
         var limit = Optional.ofNullable(maxQuerySize.get(api)).orElse(10);
-
         if (list.size() > limit) {
             ctx.sendLocalized("commands.imageboard.too_many_tags", EmoteReference.ERROR, imageboard, limit);
             return;
         }
 
+        final var dbGuild = ctx.getDBGuild();
+        final var data = dbGuild.getData();
+        if (list.stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
+            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            return;
+        }
+
         if (type == ImageRequestType.TAGS) {
             try {
-                var dbGuild = ctx.getDBGuild();
-                var data = dbGuild.getData();
-
-                if (list.stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
-                    ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
-                    return;
-                }
-
                 api.search(list, finalRating).async(requestedImages -> {
-                    // Account for this, somehow this happens sometimes.
                     if (isListNull(requestedImages, ctx)) {
                         return;
                     }
 
                     try {
-                        var filter = requestedImages.stream()
-                                // This is a pain and a half.
-                                .filter(img -> !img.isPending())
-                                // Somehow Danbooru and e621 are returning null images when a image is deleted?
-                                .filter(img -> img.getURL() != null)
-                                // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
-                                // This is more of a quality-of-life improvement, don't make them search again if random happened
-                                // to pick undesirable lewd content.
-                                // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
-                                .filter(img -> !containsExcludedTags(img.getTags()))
-                                .collect(Collectors.toList());
-
-                        if (filter.isEmpty()) {
-                            ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
+                        var filter = filterImages(requestedImages, ctx);
+                        if (filter == null) {
                             return;
                         }
 
-                        BoardImage image = filter.get(r.nextInt(filter.size()));
+                        final var image = filter.get(r.nextInt(filter.size()));
+                        if (image.getTags().stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
+                            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+                            return;
+                        }
+
                         sendImage(ctx, imageboard, image, dbGuild);
                     } catch (Exception e) {
                         ctx.sendLocalized("commands.imageboard.no_results", EmoteReference.SAD);
                     }
-                }, failure -> {
-                    ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
-                    failure.printStackTrace();
-                });
+                }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
             } catch (NumberFormatException nex) {
                 ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
             } catch (Exception ex) {
@@ -148,42 +135,50 @@ public class ImageboardUtils {
             }
         } else if (type == ImageRequestType.RANDOM) {
             api.search(list, finalRating).async(requestedImages -> {
+                if (isListNull(requestedImages, ctx)) {
+                    return;
+                }
+
                 try {
-                    if (isListNull(requestedImages, ctx)) {
+                    var filter = filterImages(requestedImages, ctx);
+                    if (filter == null) {
                         return;
                     }
 
-                    var filter = requestedImages.stream()
-                            // This is a pain and a half.
-                            .filter(img -> !img.isPending())
-                            // Somehow Danbooru and e621 are returning null images when a image is deleted?
-                            .filter(img -> img.getURL() != null)
-                            // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
-                            // This is more of a quality-of-life improvement, don't make them search again if random happened
-                            // to pick undesirable lewd content.
-                            // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
-                            .filter(img -> !containsExcludedTags(img.getTags()))
-                            .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
-                            .collect(Collectors.toList());
-
-                    if (filter.isEmpty()) {
-                        ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
+                    final var image = filter.get(r.nextInt(filter.size()));
+                    if (image.getTags().stream().anyMatch(tag -> data.getBlackListedImageTags().contains(tag))) {
+                        ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
                         return;
                     }
-
-                    var number = r.nextInt(filter.size());
-                    var image = filter.get(number);
 
                     sendImage(ctx, imageboard, image, ctx.getDBGuild());
                 } catch (Exception e) {
                     ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
-                    e.printStackTrace();
                 }
-            }, failure -> {
-                ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD);
-                failure.printStackTrace();
-            });
+            }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
         }
+    }
+
+    private static <T extends BoardImage> List<T> filterImages(List<T> images, Context ctx) {
+        final var filter = images.stream()
+                // This is a pain and a half.
+                .filter(img -> !img.isPending())
+                // Somehow Danbooru and e621 are returning null images when a image is deleted?
+                .filter(img -> img.getURL() != null)
+                // There should be no need for searches to contain loli content anyway, if it's gonna get locked away.
+                // This is more of a quality-of-life improvement, don't make them search again if random happened
+                // to pick undesirable lewd content.
+                // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
+                .filter(img -> !containsExcludedTags(img.getTags()))
+                .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
+                .collect(Collectors.toList());
+
+        if (filter.isEmpty()) {
+            ctx.sendLocalized("commands.imageboard.no_images", EmoteReference.SAD);
+            return null;
+        }
+
+        return filter;
     }
 
     private static void sendImage(Context ctx, String imageboard, BoardImage image, DBGuild dbGuild) {
@@ -253,8 +248,8 @@ public class ImageboardUtils {
         return false;
     }
 
-    private static boolean isListNull(List<?> l, Context ctx) {
-        if (l == null) {
+    private static boolean isListNull(List<?> list, Context ctx) {
+        if (list == null) {
             ctx.sendLocalized("commands.imageboard.null_image_notice", EmoteReference.ERROR);
             return true;
         }
@@ -273,15 +268,18 @@ public class ImageboardUtils {
                 )
                 .addField(languageContext.get("commands.imageboard.width"), width, true)
                 .addField(languageContext.get("commands.imageboard.height"), height, true)
-                .addField(languageContext.get("commands.imageboard.tags"), "`" + (tags == null ? "None" : tags) + "`", false)
-                .setFooter(languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " +
+                .addField(languageContext.get("commands.imageboard.tags"),
+                        "`" + (tags == null ? "None" : tags) + "`", false
+                )
+                .setFooter(
+                        languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " +
                         languageContext.get("commands.imageboard.rule34_notice") : ""), null
                 );
 
         channel.sendMessage(builder.build()).queue();
     }
 
-    //This is so random is a valid rating.
+    // This is so random is a valid rating.
     private static Rating lookupRating(String rating) {
         if (rating.equalsIgnoreCase("random")) {
             var values = Rating.values();
@@ -291,7 +289,7 @@ public class ImageboardUtils {
         }
     }
 
-    //This is so random (R) is a valid rating.
+    // This is so random (R) is a valid rating.
     private static Rating lookupShortRating(String shortRating) {
         if (shortRating.equalsIgnoreCase("r")) {
             var values = Rating.values();
