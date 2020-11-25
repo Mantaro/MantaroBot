@@ -135,7 +135,7 @@ public class MiscCmds {
 
     @Subscribe
     public void eightBall(CommandRegistry cr) {
-        cr.register("8ball", new SimpleCommand(CommandCategory.UTILS) {
+        cr.register("8ball", new SimpleCommand(CommandCategory.FUN) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
