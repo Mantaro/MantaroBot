@@ -21,9 +21,9 @@ The reason for this is not only that the builds in here can be highly unstable, 
 
 ### Prerequisite:
 
-You will need the following to utilize all of Mantaro's features (items marked with a star are optional):
+You will need the following to utilize all of Mantaro's features when building your own instance (items marked with a star are optional):
 * RethinkDB, at least version 2.4
-* Java Development Kit, version 15
+* Java Development Kit, version 15 (not lower!)
 * Redis, at least version 6
 * Wolke's Weeb API (For most of the action commands)*
 
