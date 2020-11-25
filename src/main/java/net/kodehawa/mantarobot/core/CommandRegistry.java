@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
 import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
@@ -57,9 +56,7 @@ public class CommandRegistry {
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
 
     private final Map<String, Command> commands;
-    private final Config conf = MantaroData.config().get();
-    private boolean logCommands = false;
-
+    private final Config config = MantaroData.config().get();
     private final CommandManager newCommands = new CommandManager();
     private final RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
 
@@ -84,29 +81,35 @@ public class CommandRegistry {
     //BEWARE OF INSTANCEOF CALLS. I know there are better approaches to this: THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix) {
         final var managedDatabase = MantaroData.db();
-        long start = System.currentTimeMillis();
+        final var start = System.currentTimeMillis();
 
         var command = commands.get(cmdName.toLowerCase());
-        var dbUser = managedDatabase.getUser(event.getAuthor());
-        var userData = dbUser.getData();
         var guildData = dbGuild.getData();
 
         if (command == null) {
-            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(guildData, userData), content), guildData, content);
+            // We will create a proper I18nContext once the custom command goes through, if it does. We don't need it otherwise.
+            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(), content), guildData, content);
             return;
         }
 
-        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
-            if (rl.process(event.getAuthor())) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "You have been blacklisted from using all of Mantaro's functions. " +
-                        "If you wish to get more details on why, don't hesitate to join the support server and ask, but be sincere."
-                ).queue();
-            }
-            return;
-        }
-
+        final var author = event.getAuthor();
+        final var channel = event.getChannel();
         // Variable used in lambda expression should be final or effectively final...
         final var cmd = command;
+
+        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(author.getId())) {
+            if (!rl.process(author)) {
+                return;
+            }
+
+            channel.sendMessage(
+                    """
+                    :x: You have been blacklisted from using all of Mantaro's functions, likely for botting or hitting the spam filter.
+                    If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
+                    """
+            ).queue();
+            return;
+        }
 
         // !! Permission check start
         if (guildData.getDisabledCommands().contains(name(cmd, cmdName))) {
@@ -114,80 +117,85 @@ public class CommandRegistry {
             return;
         }
 
-        List<String> channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        final var member = event.getMember();
+        final var guild = event.getGuild();
+        final var roles = member.getRoles();
+
+        final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);
             return;
         }
 
-        if (guildData.getDisabledUsers().contains(event.getAuthor().getId()) && isNotAdmin(event.getMember())) {
+        if (guildData.getDisabledUsers().contains(author.getId()) && isNotAdmin(member)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.USER);
             return;
         }
 
-        if (guildData.getDisabledChannels().contains(event.getChannel().getId()) && (root(cmd).category() != CommandCategory.MODERATION)) {
+        var isOptions = cmdName.equalsIgnoreCase("opts");
+        if (guildData.getDisabledChannels().contains(channel.getId()) && !isOptions) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CHANNEL);
             return;
         }
 
-        if (guildData.getDisabledCategories().contains(
-                root(cmd).category()
-        ) && !cmdName.equalsIgnoreCase("opts")) {
+        if (guildData.getDisabledCategories().contains(root(cmd).category()) && !isOptions) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.CATEGORY);
             return;
         }
 
-        if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), c ->
-                new ArrayList<>()).contains(root(cmd).category())
-                && !cmdName.equalsIgnoreCase("opts")) {
+        if (guildData.getChannelSpecificDisabledCategories().computeIfAbsent(
+                channel.getId(), c -> new ArrayList<>()).contains(root(cmd).category()) && !isOptions) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_CATEGORY);
             return;
         }
 
-        if (guildData.getWhitelistedRole() != null) {
-            Role whitelistedRole = event.getGuild().getRoleById(guildData.getWhitelistedRole());
-            if ((whitelistedRole != null && event.getMember().getRoles().stream()
-                    .noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && isNotAdmin(event.getMember()))) {
+        if (guildData.getWhitelistedRole() != null && isNotAdmin(member)) {
+            var whitelistedRole = guild.getRoleById(guildData.getWhitelistedRole());
+            if (whitelistedRole != null && roles.stream().noneMatch(r -> whitelistedRole.getId().equals(r.getId()))) {
                 return;
             }
             // else continue.
         }
 
-        if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream()
-                .anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(event.getMember())) {
+        if (!guildData.getDisabledRoles().isEmpty() && roles.stream().anyMatch(
+                r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(member)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
             return;
         }
 
-        HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
-        if (event.getMember().getRoles().stream()
-                .anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>())
-                        .contains(name(cmd, cmdName))) && isNotAdmin(event.getMember())) {
+        final var roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
+        if (roles.stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(
+                r.getId(), s -> new ArrayList<>()).contains(name(cmd, cmdName))) && isNotAdmin(member)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
             return;
         }
 
-        HashMap<String, List<CommandCategory>> roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
-        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(r.getId(), s -> new ArrayList<>())
-                .contains(root(cmd).category())) && isNotAdmin(event.getMember())) {
+        final var roleSpecificDisabledCategories = guildData.getRoleSpecificDisabledCategories();
+        if (roles.stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(
+                r.getId(), s -> new ArrayList<>()).contains(root(cmd).category())) && isNotAdmin(member)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
             return;
         }
 
         // If we are in the patreon bot, deny all requests from unknown guilds.
-        if (conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbGuild.isPremium()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR +
-                    "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
-                    "**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
+        if (config.isPremiumBot() && !config.isOwner(author) && !dbGuild.isPremium()) {
+            channel.sendMessage("""
+                            :x: Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium.
+                            **If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**
+                            If you didn't contact Kodehawa prior to adding this bot to this server, please do so so we can link it to your pledge.
+                            """
+            ).queue();
             return;
         }
 
-        if (!cmd.permission().test(event.getMember())) {
-            event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
+        if (!cmd.permission().test(member)) {
+            channel.sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
             return;
         }
         // !! Permission check end
 
+        final var dbUser = managedDatabase.getUser(author);
+        final var userData = dbUser.getData();
         final var currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
         final var guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
         if (currentKey != null) {
@@ -195,8 +203,7 @@ public class CommandRegistry {
             if (currentKey.validFor() <= 10 && currentKey.validFor() > 1) {
                 // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
                 if (!currentKey.renew() && !userData.hasReceivedExpirationWarning()) {
-                    // Send message if the person can't be seen as a patron. Maybe they're still pledging, or wanna pledge again.
-                    event.getAuthor().openPrivateChannel().queue(privateChannel ->
+                    author.openPrivateChannel().queue(privateChannel ->
                             privateChannel.sendMessage(
                                 """
                                 %1$sYour premium key is about to expire in **%2$,d** days**!
@@ -213,17 +220,14 @@ public class CommandRegistry {
                     );
                 }
 
-                // Set expiration warning flag to true and save.
                 userData.setReceivedExpirationWarning(true);
-                dbUser.save();
+                dbUser.saveUpdating();
             }
         }
 
         // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
-        if (guildKey != null) {
-            if (guildKey.validFor() <= 10 && guildKey.validFor() > 1) {
-                guildKey.renew();
-            }
+        if (guildKey != null && guildKey.validFor() <= 10 && guildKey.validFor() > 1) {
+            guildKey.renew();
         }
 
         // Used a command on the new system?
@@ -236,13 +240,14 @@ public class CommandRegistry {
             );
         } catch (ArgumentParseError e) {
             if (e.getMessage() != null) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + e.getMessage()).queue();
+                channel.sendMessage(EmoteReference.ERROR + e.getMessage()).queue();
             } else {
                 e.printStackTrace();
-                event.getChannel().sendMessage(
+                channel.sendMessage(
                         EmoteReference.ERROR + "There was an error parsing the arguments for this command. Please report this to the developers"
                 ).queue();
             }
+
             return;
         }
 
@@ -251,11 +256,12 @@ public class CommandRegistry {
         }
 
         log.debug("!! COMMAND INVOKE: command:{}, user:{}, guild:{}, channel:{}",
-                cmdName, event.getAuthor().getAsTag(), event.getGuild().getId(), event.getChannel().getId()
+                cmdName, author.getAsTag(), guild.getId(), channel.getId()
         );
 
-        long end = System.currentTimeMillis();
-        var category = root(cmd).category() == null ? "custom" : root(cmd).category().name().toLowerCase();
+        final var end = System.currentTimeMillis();
+        final var category = root(cmd).category() == null ? "custom" : root(cmd).category().name().toLowerCase();
+
         CommandStatsManager.log(name(cmd, cmdName));
         CategoryStatsManager.log(category);
 
@@ -300,11 +306,7 @@ public class CommandRegistry {
             event.getChannel().sendMessageFormat("%sThis command is disabled on this server. Reason: %s",
                     EmoteReference.ERROR, Utils.capitalize(level.getName())
             ).queue();
-        } //else don't
-    }
-
-    public void setLogCommands(boolean logCommands) {
-        this.logCommands = logCommands;
+        } // else don't
     }
 
     private static String name(Command c, String userInput) {
@@ -385,7 +387,6 @@ public class CommandRegistry {
         }
     }
 
-    //lol @ this
     enum CommandDisableLevel {
         NONE("None"),
         CATEGORY("Disabled category on server"),

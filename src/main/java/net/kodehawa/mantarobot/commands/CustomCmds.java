@@ -92,12 +92,16 @@ public class CustomCmds {
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
-        if (ctx.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(),
-                s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(ctx.getMember())) {
+        if (ctx.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(ctx.getMember())) {
             return;
         }
         // !! CCS disable check end.
 
+        // Create a new language context only if the command goes through.
+        // This avoids getting a user everytime a command is ran, even if the command is not valid.
+        ctx.setLanguageContext(new I18nContext(guildData, db().getUser(ctx.getAuthor()).getData()));
+
+        // Run the actual custom command.
         List<String> values = customCommand.getValues();
         if (customCommand.getData().isNsfw() && !ctx.getChannel().isNSFW()) {
             ctx.sendLocalized("commands.custom.nsfw_not_nsfw", EmoteReference.ERROR);

@@ -48,8 +48,8 @@ public class Context {
     private final Config config = MantaroData.config().get();
 
     private final GuildMessageReceivedEvent event;
-    private final I18nContext languageContext;
     private final String content;
+    private I18nContext languageContext;
 
     public Context(GuildMessageReceivedEvent event, I18nContext languageContext, String content) {
         this.event = event;
@@ -273,5 +273,9 @@ public class Context {
 
     public JedisPool getJedisPool() {
         return MantaroData.getDefaultJedisPool();
+    }
+
+    public void setLanguageContext(I18nContext languageContext) {
+        this.languageContext = languageContext;
     }
 }
