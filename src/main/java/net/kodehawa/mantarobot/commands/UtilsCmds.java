@@ -434,9 +434,9 @@ public class UtilsCmds {
                 .addSubCommand("currency", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a Currency guide, please visit:** " +
                                 "https://github.com/Mantaro/MantaroBot/wiki/Currency-101"))
-                .addSubCommand("collectibles", (ctx, s) ->
+                .addSubCommand("items", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a list of collectables, please visit:**" +
-                                " https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items"))
+                                " https://github.com/Mantaro/MantaroBot/wiki/Item-Documentation"))
                 .addSubCommand("birthday", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:**" +
                                 " https://github.com/Mantaro/MantaroBot/wiki/Birthday-101"))
