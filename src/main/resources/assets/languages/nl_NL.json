@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sHet spraak-kanaal is niet gevonden of je hebt geen naam opgegeven!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Ik zit in %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard server:** %5$,d servers\n**Gebruikers in cache:** %6$,d gebruikers\n**Leden in cache:** %7$,d leden\n\nAls je hulp nodig hebt, ga dan naar <https://support.mantaro.site>. Bedankt voor het gebruik van Mantaro!"
     },
     "queue": {
       "clear": {
@@ -458,8 +458,8 @@
       },
       "deleteresponse": {
         "no_command": "%1$sJe moet het commando specificeren waaruit u een antwoord wilt verwijderen.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
+        "invalid_number": "%1$sJe moet een juist nummer opgeven om te wijzigen.",
+        "no_index": "%1$sJe kunt geen niet bestaande index bewerken.",
         "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
@@ -467,7 +467,7 @@
         "success": "%1$sNaam van commando gewijzigd van `%2$s` naar `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
+        "no_command": "%1$sJe moet aangeven welk commando je wilt toevoegen.",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "success": "%1$sOpgeslagen aan commando `%2$s`",
@@ -475,11 +475,11 @@
       },
       "lockcommand": {
         "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
+        "no_command": "%1$sJe moet aangeven welk commando je wilt vast zetten.",
         "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
+        "no_command": "%1$sJe moet aangeven welk commando je wilt ontgrendelen.",
         "not_locked": "%1$sThis command isn't locked.",
         "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
@@ -2163,7 +2163,7 @@
       },
       "enable": {
         "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "success": "%1$sSpellobby/multiple met succes ingeschakeld. (Als het eerder was uitgeschakeld)"
       }
     },
     "invalid_category": "%1$sJe hebt een ongeldige categorie ingevoerd. Een lijst met geldige categorieën om uit te schakelen (hoofdletterongevoelig) wordt hieronder weergegeven```md\n%2$s```",
@@ -2237,9 +2237,9 @@
     "berserk": "Gek",
     "Companion": "Metgezel",
     "special_ring": "Speciale Ring",
-    "enchancer": "Enchancer",
+    "enchancer": "Versterker",
     "prize": "Prijs",
-    "crate": "Buit kist",
+    "crate": "Buit Kist",
     "prize_2": "Prijs 2",
     "slot_ticket": "Slot Kaartje",
     "house": "Huis",
@@ -2266,18 +2266,18 @@
     "diamond_pick": "Diamant Pikhouweel",
     "tv": "Televisie",
     "wrench": "Moersleutel",
-    "star_wrench": "Star Wrench",
+    "star_wrench": "Ster Moersleutel",
     "sparkle_wrench": "Fonkelende Moersleutel",
     "motorcycle": "Motorfiets",
-    "comet_pick": "Comet Pickaxe",
-    "star_pick": "Star Pickaxe",
+    "comet_pick": "Komeet Pikhouweel",
+    "star_pick": "Ster Pikhouweel",
     "sparkle": "Fonkelende Materie",
     "sparkle_pick": "Fonkelende Pickhouweel",
     "pizza": "Pizza",
     "mine_crate": "Edelsteen Kist",
     "fish_crate": "Vis schat",
-    "mine_premium_crate": "Gem Premium Crate",
-    "fish_premium_crate": "Fish Premium Treasure",
+    "mine_premium_crate": "Edelsteen Premium Kist",
+    "fish_premium_crate": "Vis Premium Kist",
     "comet_rod": "Komeet Edelsteen Hengel",
     "star_rod": "Ster Edelsteen Hengel",
     "sparkle_rod": "Fonkelende Hengel",
@@ -2337,7 +2337,7 @@
       "forgotten": "Nooit gedownload. Is waarschijnlijk auteursrechtelijk beschermd.",
       "pencil": "We hebben er hier heel veel van!",
       "moneybag": "Wat anders?",
-      "pick": "A basic pick for your regularly scheduled mining (40 durability).",
+      "pick": "Een basis pickhouweek voor je standaard geplande mijnbouw (40 duurzaamheid).",
       "milk": "Misschien is het handig om er een aantal te hebben.",
       "beverage": "Is echt raar spul in grote hoeveelheden. Hoewel, het hangt af van wat voor soort ;)",
       "lewd": "Te veel lewd commando's. Veel te veel. Had je plezier?",
@@ -2358,9 +2358,9 @@
       "berserk": "Valuta Berserker? Iemand? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.'",
       "companion": "Ach, zo'n schattige hond. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.'",
       "special_ring": "Het is zo speciaal, het is niet eens een ring. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.'",
-      "enchancer": "Een kapotte tovenaar, ik vraag me af of het kan worden opgelost? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.\"",
+      "enchancer": "Een kapotte versterker, ik vraag me af of het kan worden opgelost? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.\"",
       "prize": "Vrijwel dit, hè? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`.",
+      "crate": "Je kunt dit samen met een buit kist sleutel om een buit kist te openen! Kan geopend worden met `~>opencrate`.",
       "prize_2": "In de eerste plaats, hoe heb je zoveel geld gekregen?",
       "slot_ticket": "Geeft je extra kans bij de slotmachine, werkt ook als bulkopslag.",
       "house": "Gezellige plek om in te wonen.",
@@ -2370,8 +2370,8 @@
       "pants": "In principe wat je om je benen draagt ... hopelijk.",
       "haste": "Hiermee kun je meer spullen verzamelen via commando's om buit te maken. Werkt voor 2 sessies.",
       "milky": "Wist alle tovereffecten.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 sessions.",
-      "rod": "A basic rod for your fishing activities (40 durability).",
+      "energy": "Maakt dat een stuk gereedschap minder duurzaamheid verliest per zwaai. Gaat 3 sessies mee.",
+      "rod": "Een basishengel voor je vis activiteiten (40 duurzaamheid).",
       "fish": "Vis. Wordt gevangen tijdens het vissen.",
       "tropical_fish": "Een zeer tropische vis. Wordt gevangen tijdens het vissen.",
       "blowfish": "Ik vraag me af.....is dit goed? Wordt gevangen tijdens het vissen.",
@@ -2384,7 +2384,7 @@
       "coffee": "Een heerlijke manier om je dag mee te beginnen.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Geeft je een hogere kans om vis te vangen",
-      "diamond_pick": "A strong-ish pick (150 durability).",
+      "diamond_pick": "Een soort van sterkere pikhouweel (150 duurzaamheid).",
       "tv": "Moet....tv.....kijken....",
       "wrench": "Gietgereedschap. Handig om spullen bij elkaar te voegen.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
