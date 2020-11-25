@@ -36,12 +36,8 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.options.core.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -85,21 +81,18 @@ public class CommandRegistry {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    //BEWARE OF INSTANCEOF CALLS
-    //I know there are better approaches to this, THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
-    public void process(GuildMessageReceivedEvent event, String cmdName, String content, String prefix) {
-        final ManagedDatabase managedDatabase = MantaroData.db();
+    //BEWARE OF INSTANCEOF CALLS. I know there are better approaches to this: THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
+    public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix) {
+        final var managedDatabase = MantaroData.db();
         long start = System.currentTimeMillis();
 
-        Command command = commands.get(cmdName.toLowerCase());
-
-        DBGuild dbg = managedDatabase.getGuild(event.getGuild());
-        DBUser dbUser = managedDatabase.getUser(event.getAuthor());
-        UserData userData = dbUser.getData();
-        GuildData guildData = dbg.getData();
+        var command = commands.get(cmdName.toLowerCase());
+        var dbUser = managedDatabase.getUser(event.getAuthor());
+        var userData = dbUser.getData();
+        var guildData = dbGuild.getData();
 
         if (command == null) {
-            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(guildData, userData), content), content);
+            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(guildData, userData), content), guildData, content);
             return;
         }
 
@@ -112,9 +105,10 @@ public class CommandRegistry {
             return;
         }
 
-        //Variable used in lambda expression should be final or effectively final...
-        final Command cmd = command;
+        // Variable used in lambda expression should be final or effectively final...
+        final var cmd = command;
 
+        // !! Permission check start
         if (guildData.getDisabledCommands().contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND);
             return;
@@ -152,20 +146,23 @@ public class CommandRegistry {
 
         if (guildData.getWhitelistedRole() != null) {
             Role whitelistedRole = event.getGuild().getRoleById(guildData.getWhitelistedRole());
-            if ((whitelistedRole != null && event.getMember().getRoles().stream().noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && isNotAdmin(event.getMember()))) {
+            if ((whitelistedRole != null && event.getMember().getRoles().stream()
+                    .noneMatch(r -> whitelistedRole.getId().equalsIgnoreCase(r.getId())) && isNotAdmin(event.getMember()))) {
                 return;
             }
-            //else continue.
+            // else continue.
         }
 
-        if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(event.getMember())) {
+        if (!guildData.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream()
+                .anyMatch(r -> guildData.getDisabledRoles().contains(r.getId())) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.ROLE);
             return;
         }
 
         HashMap<String, List<String>> roleSpecificDisabledCommands = guildData.getRoleSpecificDisabledCommands();
-        if (event.getMember().getRoles().stream().anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>())
-                .contains(name(cmd, cmdName))) && isNotAdmin(event.getMember())) {
+        if (event.getMember().getRoles().stream()
+                .anyMatch(r -> roleSpecificDisabledCommands.computeIfAbsent(r.getId(), s -> new ArrayList<>())
+                        .contains(name(cmd, cmdName))) && isNotAdmin(event.getMember())) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE);
             return;
         }
@@ -177,9 +174,10 @@ public class CommandRegistry {
             return;
         }
 
-        //If we are in the patreon bot, deny all requests from unknown guilds.
-        if (conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
+        // If we are in the patreon bot, deny all requests from unknown guilds.
+        if (conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbGuild.isPremium()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR +
+                    "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
                     "**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
             return;
         }
@@ -188,65 +186,57 @@ public class CommandRegistry {
             event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
             return;
         }
+        // !! Permission check end
 
-        PremiumKey currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
-        PremiumKey guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
-
+        final var currentKey = managedDatabase.getPremiumKey(userData.getPremiumKey());
+        final var guildKey = managedDatabase.getPremiumKey(guildData.getPremiumKey());
         if (currentKey != null) {
-            //10 days before expiration or best fit.
+            // 10 days before expiration or best fit.
             if (currentKey.validFor() <= 10 && currentKey.validFor() > 1) {
-                //Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
+                // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
                 if (!currentKey.renew() && !userData.hasReceivedExpirationWarning()) {
-                    //Send message if the person can't be seen as a patron. Maybe they're still pledging, or wanna pledge again.
+                    // Send message if the person can't be seen as a patron. Maybe they're still pledging, or wanna pledge again.
                     event.getAuthor().openPrivateChannel().queue(privateChannel ->
-                            privateChannel.sendMessage(EmoteReference.WARNING + "Your premium key is about to run out in **" + Math.max(1, currentKey.validFor()) + " days**!\n" +
-                                    EmoteReference.HEART + "*If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel. " +
-                                    "In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features! " +
-                                    "**If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**\n\n" +
-                                    "Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.\n" +
-                                    "With love, Kodehawa#3457 " + EmoteReference.HEART + ". This will only be sent once (hopefully).").queue()
+                            privateChannel.sendMessage(
+                                """
+                                %1$sYour premium key is about to expire in **%2$,d** days**!
+                                :heart: *If you're still pledging to Mantaro* you can ask Kodehawa#3457 for a key renewal in the #donators channel.*
+                                In the case that you're not longer a patron, you cannot renew, but I sincerely hope you had a good time with the bot and its features!
+                                **If you ever want to pledge again you can check the patreon link at <https://patreon.com/mantaro>**
+                                
+                                Thanks you so much for your support to keep Mantaro alive! It wouldn't be possible without the help of all of you.
+                                With love, Kodehawa and the Mantaro team :heart:
+                                
+                                This will only be sent once (hopefully). Thanks again!
+                                """.formatted(EmoteReference.WARNING, Math.max(1, currentKey.validFor()))
+                            ).queue()
                     );
                 }
 
-                //Set expiration warning flag to true and save.
+                // Set expiration warning flag to true and save.
                 userData.setReceivedExpirationWarning(true);
                 dbUser.save();
             }
         }
 
-        //Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
+        // Handling is done inside the PremiumKey#renew method. This only gets fired if the key has less than 10 days left.
         if (guildKey != null) {
             if (guildKey.validFor() <= 10 && guildKey.validFor() > 1) {
                 guildKey.renew();
             }
         }
 
-        //COMMAND LOGGING
-        long end = System.currentTimeMillis();
-        Metrics.COMMAND_COUNTER.labels(name(cmd, cmdName)).inc();
-
-        if (logCommands) {
-            log.info("COMMAND INVOKE: command:{}, user:{}#{}, userid:{}, guild:{}, channel:{}",
-                    cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), event.getAuthor().getId(),
-                    event.getGuild().getId(), event.getChannel().getId()
-            );
-        } else {
-            log.debug("COMMAND INVOKE: command:{}, user:{}#{}, guild:{}, channel:{}",
-                    cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(),
-                    event.getGuild().getId(), event.getChannel().getId()
-            );
-        }
-
+        // Used a command on the new system?
+        // sort-of-fix: remove if statement when we port all commands
         boolean executedNew;
         try {
             executedNew = newCommands.execute(new NewContext(event.getMessage(),
                     new I18nContext(guildData, userData),
-                    event.getMessage().getContentRaw().substring(prefix.length())));
+                    event.getMessage().getContentRaw().substring(prefix.length()))
+            );
         } catch (ArgumentParseError e) {
             if (e.getMessage() != null) {
-                event.getChannel().sendMessage(
-                        EmoteReference.ERROR + e.getMessage()
-                ).queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + e.getMessage()).queue();
             } else {
                 e.printStackTrace();
                 event.getChannel().sendMessage(
@@ -255,20 +245,22 @@ public class CommandRegistry {
             }
             return;
         }
+
         if (!executedNew) {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
         }
 
-        //Logging
-        if (root(cmd).category() != null) {
-            if (!root(cmd).category().name().isEmpty()) {
-                Metrics.CATEGORY_COUNTER.labels(root(cmd).category().name().toLowerCase()).inc();
+        log.debug("!! COMMAND INVOKE: command:{}, user:{}, guild:{}, channel:{}",
+                cmdName, event.getAuthor().getAsTag(), event.getGuild().getId(), event.getChannel().getId()
+        );
 
-                CommandStatsManager.log(name(cmd, cmdName));
-                CategoryStatsManager.log(root(cmd).category().name().toLowerCase());
-            }
-        }
+        long end = System.currentTimeMillis();
+        var category = root(cmd).category() == null ? "custom" : root(cmd).category().name().toLowerCase();
+        CommandStatsManager.log(name(cmd, cmdName));
+        CategoryStatsManager.log(category);
 
+        Metrics.CATEGORY_COUNTER.labels(category).inc();
+        Metrics.COMMAND_COUNTER.labels(name(cmd, cmdName)).inc();
         Metrics.COMMAND_LATENCY.observe(end - start);
     }
 

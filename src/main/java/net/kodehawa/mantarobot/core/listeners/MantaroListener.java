@@ -103,7 +103,7 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        // Member events start
+        // !! Member events start
         if (event instanceof GuildMemberJoinEvent) {
             threadPool.execute(() -> onUserJoin((GuildMemberJoinEvent) event));
             return;
@@ -118,9 +118,9 @@ public class MantaroListener implements EventListener {
             handleNewPatron((GuildMemberRoleAddEvent) event);
             return;
         }
-        // Member events end
+        // !! Member events end
 
-        // Events needed for the log feature start
+        // !! Events needed for the log feature start
         if (event instanceof GuildMessageUpdateEvent) {
             threadPool.execute(() -> logEdit((GuildMessageUpdateEvent) event));
             return;
@@ -130,6 +130,9 @@ public class MantaroListener implements EventListener {
             threadPool.execute(() -> logDelete((GuildMessageDeleteEvent) event));
             return;
         }
+
+        // After this point we always use this variable.
+        final var shardManager = bot.getShardManager();
 
         if (event instanceof GuildJoinEvent) {
             var joinEvent = (GuildJoinEvent) event;
@@ -141,27 +144,25 @@ public class MantaroListener implements EventListener {
             onJoin(joinEvent);
 
             if (MantaroCore.hasLoadedCompletely()) {
-                Metrics.GUILD_COUNT.set(bot.getShardManager().getGuildCache().size());
-                Metrics.USER_COUNT.set(bot.getShardManager().getUserCache().size());
+                Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
+                Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
 
             return;
         }
 
         if (event instanceof GuildLeaveEvent) {
-            GuildLeaveEvent guildLeaveEvent = (GuildLeaveEvent) event;
-            onLeave(guildLeaveEvent);
-
+            onLeave((GuildLeaveEvent) event);
             if (MantaroCore.hasLoadedCompletely()) {
-                Metrics.GUILD_COUNT.set(bot.getShardManager().getGuildCache().size());
-                Metrics.USER_COUNT.set(bot.getShardManager().getUserCache().size());
+                Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
+                Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
 
             return;
         }
-        // Events needed for the log feature end
+        // !! Events needed for the log feature end
 
-        // Internal event start
+        // !! Internal event start
         if (event instanceof StatusChangeEvent) {
             logStatusChange((StatusChangeEvent) event);
             return;
@@ -186,7 +187,7 @@ public class MantaroListener implements EventListener {
 
             Metrics.HTTP_REQUESTS.inc();
         }
-        // Internal event end
+        // !! Internal event end
     }
 
     /**
@@ -200,7 +201,7 @@ public class MantaroListener implements EventListener {
      */
     private void handleNewPatron(GuildMemberRoleAddEvent event) {
         //Only in mantaro's guild...
-        if (event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot()) {
+        if (event.getGuild().getIdLong() == 213468583252983809L && !CONFIG.isPremiumBot()) {
             threadPool.execute(() -> {
                 var hasPatronRole = event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"));
                 // No patron role to be seen here.
@@ -211,7 +212,7 @@ public class MantaroListener implements EventListener {
                 // We don't need to fetch anything unless the user got a Patron role.
                 var user = event.getUser();
                 var dbUser = DATABASE.getUser(user);
-                var currentKey = MantaroData.db().getPremiumKey(dbUser.getData().getPremiumKey());
+                var currentKey = DATABASE.getPremiumKey(dbUser.getData().getPremiumKey());
 
                 // Already received key.
                 if (dbUser.getData().hasReceivedFirstKey()) {

@@ -75,15 +75,13 @@ public class CustomCmds {
     private static final Logger log = LoggerFactory.getLogger(CustomCmds.class);
     private static final SecureRandom random = new SecureRandom();
 
-    public static void handle(String prefix, String cmdName, Context ctx, String args) {
+    public static void handle(String prefix, String cmdName, Context ctx, GuildData guildData, String args) {
         CustomCommand customCommand = getCustomCommand(ctx.getGuild().getId(), cmdName);
-        GuildData guildData = ctx.getDBGuild().getData();
-
         if (customCommand == null) {
             return;
         }
 
-        //CCS disable check start.
+        // !! CCS disable check start.
         if (guildData.getDisabledCommands().contains(cmdName)) {
             return;
         }
@@ -98,7 +96,7 @@ public class CustomCmds {
                 s -> new ArrayList<>()).contains(cmdName)) && !CommandPermission.ADMIN.test(ctx.getMember())) {
             return;
         }
-        //CCS disable check end.
+        // !! CCS disable check end.
 
         List<String> values = customCommand.getValues();
         if (customCommand.getData().isNsfw() && !ctx.getChannel().isNSFW()) {

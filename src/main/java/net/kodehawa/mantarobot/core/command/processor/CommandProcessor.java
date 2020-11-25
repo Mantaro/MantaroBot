@@ -30,25 +30,28 @@ public class CommandProcessor {
             .register();
 
     public boolean run(GuildMessageReceivedEvent event) {
-        //When did we start processing this command?...
-        long start = System.currentTimeMillis();
-        //The command executed, in raw form.
-        String rawCmd = event.getMessage().getContentRaw();
-        //Mantaro prefixes.
-        String[] prefix = MantaroData.config().get().prefix;
-        //Guild-specific prefix.
-        String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-        //What prefix did this person use.
-        String usedPrefix = null;
-        //Lower-case raw cmd check, only used for prefix checking.
-        String lowerRawCmd = rawCmd.toLowerCase();
+        final long start = System.currentTimeMillis();
 
+        // The command executed, in raw form.
+        var rawCmd = event.getMessage().getContentRaw();
+        // Lower-case raw cmd check, only used for prefix checking.
+        final var lowerRawCmd = rawCmd.toLowerCase();
+
+        // Mantaro prefixes.
+        String[] prefix = MantaroData.config().get().prefix;
+        // Guild-specific prefix.
+        final var dbGuild = MantaroData.db().getGuild(event.getGuild());
+        var customPrefix = dbGuild.getData().getGuildCustomPrefix();
+
+        // What prefix did this person use.
+        String usedPrefix = null;
         for (String s : prefix) {
             if (lowerRawCmd.startsWith(s)) {
                 usedPrefix = s;
             }
         }
 
+        // Remove prefix from arguments.
         if (usedPrefix != null && lowerRawCmd.startsWith(usedPrefix.toLowerCase())) {
             rawCmd = rawCmd.substring(usedPrefix.length());
         } else if (customPrefix != null && lowerRawCmd.startsWith(customPrefix.toLowerCase())) {
@@ -58,21 +61,20 @@ public class CommandProcessor {
             return false;
         }
 
-        // This could be done using a lock
-        // But that would be a little too blocking IMO.
-        // So just set a flag.
+        // This could be done using a lock, but that would be a little too blocking. So just set a flag.
         try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
             jedis.set("commands-running-" + event.getAuthor().getId(), String.valueOf(1));
         }
 
+        // The command arguments to parse.
         String[] parts = splitArgs(rawCmd, 2);
         String cmdName = parts[0], content = parts[1];
 
-        REGISTRY.process(event, cmdName, content, usedPrefix);
+        // Run the actual command here.
+        REGISTRY.process(event, dbGuild, cmdName, content, usedPrefix);
 
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
         commandTime.observe(end - start);
-
         return true;
     }
 }

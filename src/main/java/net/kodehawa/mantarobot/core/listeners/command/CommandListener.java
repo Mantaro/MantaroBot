@@ -91,23 +91,19 @@ public class CommandListener implements EventListener {
             }
 
             if (commandProcessor.run(event)) {
-                commandTotal++;
-
                 // Remove running flag
                 try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
                     jedis.del("commands-running-" + event.getAuthor().getId());
                 }
 
+                commandTotal++;
             } else {
                 // Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 // With nodes, this could still be a little cursed. Maybe a redis lock?
                 try {
-                    // Only run experience if the user is not rate limited (clears every 30 seconds)
-                    // And don't run it if it's a webhook message, if the user is not a bot, if the message is not a webhook message
-                    // and if the member is not null.
-                    if (random.nextInt(15) > 7 && !event.getAuthor().isBot() &&
-                            !event.isWebhookMessage() && event.getMember() != null && experienceRatelimiter.process(event.getAuthor())) {
-
+                    // Only run experience if the user is not rate limited (clears every 30 seconds) and if the member is not null.
+                    // This will never get here if it's a bot or a webhook message due to the check we do on line 78.
+                    if (random.nextInt(15) > 7 && event.getMember() != null && experienceRatelimiter.process(event.getAuthor())) {
                         // If a command is running on another node, don't handle (this is an issue due to multiple different Player objects)
                         try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {
                             var running = jedis.get("commands-running-" + event.getAuthor().getId());
