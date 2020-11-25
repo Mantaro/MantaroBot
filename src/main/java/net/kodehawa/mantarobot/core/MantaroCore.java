@@ -244,7 +244,7 @@ public class MantaroCore {
                     shardManager.setShardsTotal(config.totalShards);
                     log.info("Using {} shards from config (totalShards != 0)", shardCount);
                 } else {
-                    //Count specified on runtime options or recommended count by discord.
+                    //Count specified on runtime options or recommended count by Discord.
                     shardCount = ExtraRuntimeOptions.SHARD_COUNT.orElseGet(() -> getInstanceShards(config.token));
                     shardManager.setShardsTotal(shardCount);
                     if (ExtraRuntimeOptions.SHARD_COUNT.isPresent()) {
@@ -273,7 +273,7 @@ public class MantaroCore {
                     latchCount = shardCount;
                 }
     
-                // use latchCount instead of shardCount
+                // We need to use latchCount instead of shardCount
                 // latchCount is the number of shards on this process
                 // shardCount is the total number of shards in all processes
                 var gatewayThreads = Math.max(1, latchCount / 16);

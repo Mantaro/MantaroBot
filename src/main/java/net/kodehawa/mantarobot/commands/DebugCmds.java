@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.JDAInfo;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
-import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -146,7 +145,7 @@ public class DebugCmds {
                         + "Shards: " + bot.getShardManager().getShardsTotal() + " (This: " + jda.getShardInfo().getShardString() + ")" + "\n"
                         + "Threads: " + "%,d (Node: %,d)".formatted(totalThreadCount, Thread.activeCount()) + "\n"
                         + "Commands Used: " + "%,d (Node: %,d)".formatted(totalCommandCount, CommandListener.getCommandTotal()) + "\n"
-                        + "Overall: " + "[ Players: %,d, Queue: %,d, Logs: %,d ]".formatted(players, queueSize, MantaroListener.getLogTotal()) + "\n"
+                        + "Overall: " + "[ Players: %,d, Queue: %,d ]".formatted(players, queueSize) + "\n"
                         + "```"
                 );
             }

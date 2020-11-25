@@ -43,7 +43,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -139,7 +139,7 @@ public class PremiumCmds {
                     }
 
                     key.activate(ctx.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
-                    ctx.sendLocalized("commands.activatekey.user_successful", EmoteReference.POPPER, key.getDurationDays());
+                    ctx.sendLocalized("commands.activatekey.user_successful", EmoteReference.POPPER);
                     dbUser.getData().setPremiumKey(key.getId());
                     dbUser.saveAsync();
                 }

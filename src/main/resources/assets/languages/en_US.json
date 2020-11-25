@@ -1088,7 +1088,7 @@
       "guild_already_premium": "%1$sThis server already has a premium subscription",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
     },
     "claimkey": {
