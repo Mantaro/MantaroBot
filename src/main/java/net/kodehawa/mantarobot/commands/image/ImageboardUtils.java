@@ -83,7 +83,7 @@ public class ImageboardUtils {
         }
 
         if (!nsfwCheck(ctx, nsfwOnly, false, finalRating)) {
-            ctx.sendLocalized("commands.imageboard.nsfw_no_nsfw", EmoteReference.ERROR);
+            ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
             return;
         }
 
@@ -212,17 +212,12 @@ public class ImageboardUtils {
         }
 
         var finalRating = rating == null ? Rating.SAFE : rating;
-        var trigger = finalRating.equals(Rating.SAFE) && !isGlobal;
-
-        if (!trigger) {
-            if (sendMessage) {
-                ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
-            }
-
-            return false;
+        var safe = finalRating.equals(Rating.SAFE) && !isGlobal;
+        if (!safe && sendMessage) {
+            ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
         }
 
-        return true;
+        return safe;
     }
 
     // The list of tags to exclude from searches.
