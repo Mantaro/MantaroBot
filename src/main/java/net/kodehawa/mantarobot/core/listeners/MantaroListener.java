@@ -133,16 +133,18 @@ public class MantaroListener implements EventListener {
 
         if (event instanceof GuildJoinEvent) {
             var joinEvent = (GuildJoinEvent) event;
-            if (joinEvent.getGuild().getSelfMember().getTimeJoined().isBefore(OffsetDateTime.now().minusSeconds(30))) {
+            var self = joinEvent.getGuild().getSelfMember();
+            if (self.getTimeJoined().isBefore(OffsetDateTime.now().minusSeconds(30))) {
                 return;
             }
+
+            onJoin(joinEvent);
 
             if (MantaroCore.hasLoadedCompletely()) {
                 Metrics.GUILD_COUNT.set(bot.getShardManager().getGuildCache().size());
                 Metrics.USER_COUNT.set(bot.getShardManager().getUserCache().size());
             }
 
-            onJoin(joinEvent);
             return;
         }
 
@@ -332,9 +334,8 @@ public class MantaroListener implements EventListener {
                 final var editedMessage = messageCache.get(event.getMessage().getIdLong(), Optional::empty).orElse(null);
                 final var content = editedMessage.getContent();
                 if (editedMessage != null && !content.isEmpty() && !event.getChannel().getId().equals(logChannel)) {
-
                     // Update message in cache in any case.
-                    Message originalMessage = event.getMessage();
+                    final var originalMessage = event.getMessage();
                     messageCache.put(originalMessage.getIdLong(), Optional.of(
                             new CachedMessage(
                                     event.getGuild().getIdLong(),
@@ -404,7 +405,7 @@ public class MantaroListener implements EventListener {
         if (ExtraRuntimeOptions.VERBOSE_SHARD_LOGS || ExtraRuntimeOptions.VERBOSE) {
             LOG.info("Shard #{}: Changed from {} to {}", shardId, event.getOldStatus(), event.getNewStatus());
         } else {
-            //Very janky solution lol.
+            // Very janky solution lol.
             if (event.getNewStatus().ordinal() > JDA.Status.LOADING_SUBSYSTEMS.ordinal()) {
                 LOG.info("Shard #{}: {}", shardId, event.getNewStatus());
             } else {
@@ -416,14 +417,14 @@ public class MantaroListener implements EventListener {
     }
 
     private void onDisconnect(DisconnectEvent event) {
+
         if (event.isClosedByServer()) {
-            LOG.warn(String.format("---- DISCONNECT [SERVER] CODE: [%,d] %s%n",
-                    event.getServiceCloseFrame().getCloseCode(), event.getCloseCode())
-            );
+            LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [%,d] %s%n"
+                    .formatted(event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()));
         } else {
-            LOG.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%,d] %s%n",
-                    event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason())
-            );
+            final var clientCloseFrame = event.getClientCloseFrame();
+            LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [%,d] %s%n"
+                    .formatted(clientCloseFrame.getCloseCode(), clientCloseFrame.getCloseReason()));
         }
     }
 
@@ -441,7 +442,7 @@ public class MantaroListener implements EventListener {
             final var jda = event.getJDA();
             // Don't send greet message for MP. Not necessary.
             if (!CONFIG.isPremiumBot()) {
-                var embedBuilder = new EmbedBuilder()
+                final var embedBuilder = new EmbedBuilder()
                         .setThumbnail(jda.getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription("""
@@ -562,11 +563,9 @@ public class MantaroListener implements EventListener {
             if (logChannel != null) {
                 var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(
-                            String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
                                     hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                                    guild.getName(), event.getUser().getId()
-                            )
+                                    guild.getName(), event.getUser().getId())
                     ).queue();
                 }
             }
@@ -588,11 +587,8 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
-            var joinMessage = guildData.getJoinMessage();
-            sendJoinLeaveMessage(event.getUser(), guild,
-                    guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage
-            );
-
+            final var joinMessage = guildData.getJoinMessage();
+            sendJoinLeaveMessage(event.getUser(), guild, guild.getTextChannelById(joinChannel), guildData.getExtraJoinMessages(), joinMessage);
             Metrics.ACTIONS.labels("join_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send join message!", e);
@@ -613,7 +609,7 @@ public class MantaroListener implements EventListener {
 
             var logChannel = guildData.getGuildLogChannel();
             if (logChannel != null) {
-                TextChannel tc = guild.getTextChannelById(logChannel);
+                final var tc = guild.getTextChannelById(logChannel);
                 if (tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format(
                             "`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(ID: %s)`",
@@ -640,11 +636,8 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
-            var leaveMessage = guildData.getLeaveMessage();
-            sendJoinLeaveMessage(user, guild,
-                    guild.getTextChannelById(leaveChannel), guildData.getExtraLeaveMessages(), leaveMessage
-            );
-
+            final var leaveMessage = guildData.getLeaveMessage();
+            sendJoinLeaveMessage(user, guild, guild.getTextChannelById(leaveChannel), guildData.getExtraLeaveMessages(), leaveMessage);
             Metrics.ACTIONS.labels("leave_messages").inc();
         } catch (Exception e) {
             LOG.error("Failed to send leave message!", e);
@@ -703,7 +696,6 @@ public class MantaroListener implements EventListener {
                         }
 
                         var builder = new MessageBuilder().setEmbed(embed.gen(null));
-
                         if (!extra.isEmpty()) {
                             builder.append(extra);
                         }
