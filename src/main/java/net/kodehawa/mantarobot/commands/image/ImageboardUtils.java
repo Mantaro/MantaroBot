@@ -109,10 +109,6 @@ public class ImageboardUtils {
         if (type == ImageRequestType.TAGS) {
             try {
                 api.search(list, finalRating).async(requestedImages -> {
-                    if (isListNull(requestedImages, ctx)) {
-                        return;
-                    }
-
                     var filter = filterImages(requestedImages, ctx);
                     if (filter == null) {
                         return;
@@ -133,10 +129,6 @@ public class ImageboardUtils {
             }
         } else if (type == ImageRequestType.RANDOM) {
             api.search(list, finalRating).async(requestedImages -> {
-                if (isListNull(requestedImages, ctx)) {
-                    return;
-                }
-
                 var filter = filterImages(requestedImages, ctx);
                 if (filter == null) {
                     return;
@@ -154,6 +146,11 @@ public class ImageboardUtils {
     }
 
     private static <T extends BoardImage> List<T> filterImages(List<T> images, Context ctx) {
+        if (images == null) {
+            ctx.sendLocalized("commands.imageboard.null_image_notice", EmoteReference.ERROR);
+            return null;
+        }
+
         final var filter = images.stream()
                 // This is a pain and a half.
                 .filter(img -> !img.isPending())
@@ -239,15 +236,6 @@ public class ImageboardUtils {
             if (tags.contains(tag)) {
                 return true;
             }
-        }
-
-        return false;
-    }
-
-    private static boolean isListNull(List<?> list, Context ctx) {
-        if (list == null) {
-            ctx.sendLocalized("commands.imageboard.null_image_notice", EmoteReference.ERROR);
-            return true;
         }
 
         return false;
