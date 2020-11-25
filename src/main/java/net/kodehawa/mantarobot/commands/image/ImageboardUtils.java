@@ -206,34 +206,28 @@ public class ImageboardUtils {
         }
     }
 
-    public static boolean nsfwCheck(Context ctx, boolean isGlobal, boolean sendMessage, Rating rating) {
+    public static boolean nsfwCheck(Context ctx, boolean nsfwImageboard, boolean sendMessage, Rating rating) {
         if (ctx.getChannel().isNSFW()) {
             return true;
         }
 
         var finalRating = rating == null ? Rating.SAFE : rating;
-        var safe = finalRating.equals(Rating.SAFE) && !isGlobal;
-        if (!safe && sendMessage) {
+        var isSafe = finalRating.equals(Rating.SAFE) && !nsfwImageboard;
+        if (!isSafe && sendMessage) {
             ctx.sendLocalized("commands.imageboard.non_nsfw_channel", EmoteReference.ERROR);
         }
 
-        return safe;
+        return isSafe;
     }
 
     // The list of tags to exclude from searches.
-    private final static String[] excludedTags = {
+    private final static List<String> excludedTags = List.of(
             "loli", "shota", "lolicon", "shotacon", "child", "underage", "young", "younger",
             "under_age", "cub", "tagme"
-    };
+    );
 
     private static boolean containsExcludedTags(List<String> tags) {
-        for(var tag : excludedTags) {
-            if (tags.contains(tag)) {
-                return true;
-            }
-        }
-
-        return false;
+        return tags.stream().anyMatch(excludedTags::contains);
     }
 
     private static void imageEmbed(I18nContext languageContext, String url, String width, String height,
