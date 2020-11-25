@@ -971,7 +971,8 @@
       "claimlock": {
         "removed": "%1$sRéinitialisation de ton statut de verrouillage Waifu opéré avec succès.",
         "success": "%1$sTu ne peux plus devenir Waifu! Cette commande agis comme la clé Waifu.",
-        "no_key": "%1$sTu n'as pas la clé nécessaire pour faire ça."
+        "no_key": "%1$sTu n'as pas la clé nécessaire pour faire ça.",
+        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
         "disable": "%1$sAuto-equip désactivé.",
@@ -1088,7 +1089,7 @@
       "guild_already_premium": "%1$sCe serveur est déjà premium.",
       "guild_successful": "%1$sCe serveur est désormais **Premium** :heart: (Pour: %2$d jours)",
       "user_already_premium": "%1$sTu es déjà premium :heart:",
-      "user_successful": "%1$sTu es désormais **Premium** :heart: (Pour: %2$d jours)",
+      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon n'utilise pas de clé, il est déjà premium du simple fait que le bot fonctionne."
     },
     "claimkey": {
