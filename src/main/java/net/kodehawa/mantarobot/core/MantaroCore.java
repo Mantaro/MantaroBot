@@ -52,7 +52,6 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import net.kodehawa.mantarobot.utils.external.BotListPost;
 import okhttp3.Request;
@@ -336,10 +335,6 @@ public class MantaroCore {
 
         if (optsPackage == null) {
             throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
-        }
-
-        if (config.isShowBanner()) {
-            new BannerPrinter(1).printBanner();
         }
 
         var commands = lookForAnnotatedOn(commandsPackage, Module.class);

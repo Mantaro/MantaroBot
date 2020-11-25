@@ -78,7 +78,7 @@ public class BirthdayCacher {
                 log.info("Clearing previous guild birthday cache...");
                 BirthdayCmd.getGuildBirthdayCache().invalidateAll();
                 isDone = true;
-                log.info("Cached all birthdays!");
+                log.info("Cached all birthdays. Current size is {}", cachedBirthdays.size());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -284,15 +284,13 @@ public class MantaroBot {
     }
 
     public void startCheckingBirthdays() {
-        log.info("Starting to check birthdays");
+        Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
+        log.info("Starting to check birthdays...");
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2,
                 new ThreadFactoryBuilder().setNameFormat("Mantaro Birthday Executor Thread-%d").build()
         );
 
         var random = new Random();
-
-        Metrics.THREAD_POOL_COLLECTOR.add("birthday-tracker", executorService);
-
         // How much until tomorrow? That's the initial delay, then run it once a day.
         var zoneId = ZoneId.of("America/Chicago");
         var now = ZonedDateTime.now(zoneId);
@@ -307,8 +305,9 @@ public class MantaroBot {
         for (var shard : core.getShards()) {
             log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shard.getId(), millisecondsUntilTomorrow);
 
-            // Back off this call up to 10 seconds to avoid sending a bunch of requests to discord at the same time
-            // This will happen anywhere from 0 seconds after 00:00 to 120 seconds after 00:00 (so 00:02)
+            // Back off this call up to 300 seconds to avoid sending a bunch of requests to discord at the same time
+            // This will happen anywhere from 0 seconds after 00:00 to 300 seconds after or before 00:00 (so 23:57 or 00:03)
+            // This back-off is per-shard, so this makes it so the requests are more spaced out.
             // Shouldn't matter much for the end user, but makes so batch requests don't fuck over ratelimits inmediatly.
             var maxBackoff = 300_000; // In millis
             var randomBackoff = random.nextBoolean() ? -random.nextInt(maxBackoff) : random.nextInt(maxBackoff);

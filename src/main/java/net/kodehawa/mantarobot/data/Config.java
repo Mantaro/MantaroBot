@@ -62,8 +62,6 @@ public class Config {
     public int memberCacheSize = 10_000;
     public boolean handleRatelimits = true;
 
-    public boolean showBanner = true;
-
     public Config() { }
 
     public boolean isOwner(Member member) {
@@ -228,9 +226,5 @@ public class Config {
 
     public boolean isHandleRatelimits() {
         return handleRatelimits;
-    }
-
-    public boolean isShowBanner() {
-        return showBanner;
     }
 }
