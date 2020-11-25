@@ -971,7 +971,8 @@
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
         "success": "%1$s你將無法再被認領為Waifu。已使用一個認領鑰匙。",
-        "no_key": "%1$s你沒有認領鑰匙來進行此操作。"
+        "no_key": "%1$s你沒有認領鑰匙來進行此操作。",
+        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
         "disable": "%1$s成功取消自動裝備。",
@@ -1088,7 +1089,7 @@
       "guild_already_premium": "%1$s此伺服器已訂閱Mantaro premium",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "user_already_premium": "%1$s你已經有Premium了 :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
     },
     "claimkey": {
