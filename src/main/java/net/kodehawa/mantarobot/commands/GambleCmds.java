@@ -411,7 +411,7 @@ public class GambleCmds {
 
         if (luck > random.nextInt(140)) {
             if (player.addMoney(gains)) {
-                if (gains > 5_000L) {
+                if (gains >= 4_950L) {
                     if (!data.hasBadge(Badge.GAMBLER)) {
                         data.addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveUpdating();

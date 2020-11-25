@@ -54,8 +54,8 @@ public class ImageboardUtils {
         var rating = Rating.SAFE;
         List<String> list = new ArrayList<>(Arrays.asList(args));
         list.remove("tags"); // remove tags from argument list. (BACKWARDS COMPATIBILITY)
-
         var needRating = list.size() >= 2;
+
         if (needRating && !nsfwOnly) {
             rating = lookupRating(list.get(1));
         } else if (!needRating && !list.isEmpty()) {
@@ -66,7 +66,6 @@ public class ImageboardUtils {
         if (rating == null && needRating) {
             // Try with short name
             rating = lookupShortRating(list.get(1));
-
             if (rating != null) {
                 list.remove(rating.getShortName());
             }
@@ -189,7 +188,7 @@ public class ImageboardUtils {
         }
 
         // Format the tags output so it's actually human-readable.
-        var imageTags = String.join(", ", tags);
+        final var imageTags = String.join(", ", tags);
         imageEmbed(
                 ctx.getLanguageContext(), image.getURL(), String.valueOf(image.getWidth()),
                 String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, ctx.getChannel()
@@ -232,8 +231,8 @@ public class ImageboardUtils {
 
     private static void imageEmbed(I18nContext languageContext, String url, String width, String height,
                                    String tags, Rating rating, String imageboard, TextChannel channel) {
-        var builder = new EmbedBuilder();
-        builder.setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
+        var builder = new EmbedBuilder()
+                .setAuthor(languageContext.get("commands.imageboard.found_image"), url, null)
                 .setImage(url)
                 .setColor(Color.PINK)
                 .setDescription(String.format(languageContext.get("commands.imageboard.description_image"),
@@ -245,8 +244,9 @@ public class ImageboardUtils {
                         "`" + (tags == null ? "None" : tags) + "`", false
                 )
                 .setFooter(
-                        languageContext.get("commands.imageboard.load_notice") + (imageboard.equals("rule34") ? " " +
-                        languageContext.get("commands.imageboard.rule34_notice") : ""), null
+                        languageContext.get("commands.imageboard.load_notice") +
+                                (imageboard.equals("rule34") ? " " + languageContext.get("commands.imageboard.rule34_notice") : ""),
+                        null
                 );
 
         channel.sendMessage(builder.build()).queue();
