@@ -671,7 +671,7 @@ public class MusicCmds {
                 }
 
                 // Replace more than 2 line breaks with 2 line breaks.
-                var lyrics = StringEscapeUtils.unescapeHtml4(results.getString("content").replaceAll("\n\n\n+", "\n\n"));
+                var lyrics = StringEscapeUtils.unescapeHtml4(results.getString("content").replaceAll("\n{2,}", "\n\n"));
                 var songObject = results.getJSONObject("song");
                 var fullTitle = songObject.getString("full_title");
                 var icon = songObject.getString("icon");
