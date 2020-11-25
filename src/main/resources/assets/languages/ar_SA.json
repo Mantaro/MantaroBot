@@ -971,7 +971,8 @@
       "claimlock": {
         "removed": "%1$sتم بنجاح إعادة تعيين حالة قفل المُطالبة.",
         "success": "%1$s لا يمكن أن تتم مُطالبتك ك وايفو بعد الآن. هذا استخدم مفتاح المطالبة.",
-        "no_key": "%1$sلا تملك مفتاح المُطالبة للقيام بهذا!"
+        "no_key": "%1$sلا تملك مفتاح المُطالبة للقيام بهذا!",
+        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
         "disable": "%1$sتم بنجاح إلغاء التركيب التلقائي. ",
@@ -1088,7 +1089,7 @@
       "guild_already_premium": "%1$sيحتوي هذا السيرفر بالفعل على اشتراك بريميوم",
       "guild_successful": "%1$sهذا السيرفر الآن **Premium** :heart: (لعدد من الأيام : %2$d)\nإذا كنت مُتعهد في Patreon، هذا المفتاح مرتبط بتعهدك.\n",
       "user_already_premium": "%1$sأنت بالفعل بريميوم :heart:",
-      "user_successful": "%1$sأنت الآن **Premium** :heart: (لعدد من الأيام: %2$d)\nإذا كنت مُتعهد في Patreon، هذا المفتاح مرتبط بتعهدك.",
+      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "مونتارو Patreon لا يستخدم مفاتيح ، بدلا من ذلك ،نظرا لأنه بريميوم من حقيقة أن بوت نفسه يعمل."
     },
     "claimkey": {
