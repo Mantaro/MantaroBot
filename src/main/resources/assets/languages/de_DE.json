@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sSprachkanal nicht gefunden oder du hast keinen angegeben!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Ich laufe auf Shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Server:** %5$d Server\n**Gecachete Nutzer:** %6$d Nutzer\n**Gecachete Mitglieder:** %7$d Mitglieder\n\nWenn du Hilfe brauchst, schau auf <https://support.mantaro.site> vorbei. Danke für's Nutzen von Mantaro!"
     },
     "queue": {
       "clear": {
@@ -781,8 +781,8 @@
       "bot_notice": "%1$sDu kannst keinen Gegenstand an einen Bot senden.",
       "locked_notice": "%1$sDu kannst momentan keine Gegenstände senden. (Nutzer gesperrt)",
       "hidden_item": "%1$sDu kannst diesen Gegenstand nicht versenden!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
+      "overflow": "%1$sDieser Nutzer hat bereits das Maximum von diesem Gegenstand (5000).",
+      "overflow_after": "%1$sNach der Übergabe des Gegenstands hätte der Spieler mehr als das Maximum von diesem Gegenstand (5000).",
       "success": "%1$s%2$s gab **%3$s** **%4$s** an %5$s",
       "multiple_items_error": "%1$sDu hast diesen Gegenstand nicht.",
       "error": "%1$sDu hast nicht genügend von diesem Gegenstand!",
@@ -924,7 +924,7 @@
         "times_mop": "Male gewischt",
         "daily": "Tägliche Strähne",
         "daily_at": "Letzte Strähne",
-        "waifu_claimed": "Beanspruchte Waifus",
+        "waifu_claimed": "Anzahl wie oft man beansprucht wurde",
         "waifu_locked": "Waifu-Schutz",
         "dust": "Staubniveau",
         "lang": "Anzeigesprache",
@@ -972,7 +972,7 @@
         "removed": "%1$sDein Beanspruchungsschutz wurde erfolgreich zurückgesetzt.",
         "success": "%1$sDu kannst nicht mehr als Waifu beansprucht werden. Das hat einen .",
         "no_key": "%1$sDu hast keinen Anspruchsschlüssel, um dies zu tun.",
-        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
+        "already_locked": "%1$sDu bist schon vor Beanspruchung geschützt. Nutze `~>profile claimlock remove`, um diesen Schutz zu entfernen."
       },
       "autoequip": {
         "disable": "%1$sAuomatischen Ausrüsten wurde deaktiviert.",
@@ -1089,7 +1089,7 @@
       "guild_already_premium": "%1$sDieser Server hat bereits ein Premium-Abonnement!",
       "guild_successful": "%1$sDieser Server ist jetzt **Premium** :heart: (Für: %2$d Tage)",
       "user_already_premium": "%1$sDu bist bereits Premium :heart:!",
-      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "user_successful": "%1$sDu bist nun **Premium** :heart:\nWenn du auf Patreon unterstützt, ist dieser Premium-Schlüssel mit deiner Unterstützung verlinkt.",
       "mp": "Mantaro Patreon nutzt keine Premium-Schlüssel, da es ein Fakt ist, dass es Premium ist dadurch, dass der Bot funktioniert."
     },
     "claimkey": {
@@ -1132,8 +1132,8 @@
     },
     "action": {
       "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen.",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
-      "no_type": "%1$sThis action command has no type. (internal error)",
+      "error_retrieving": "%1$sBeim Abrufen des Gifs für diese Aktion ist ein Fehler aufgetreten... (external error, vielleicht funktioniert WeebAPI nicht?)",
+      "no_type": "%1$sDieser Aktionsbefehl hat keinen Typ. (internal error)",
       "permission_or_unexpected_error": "%1$sT-Tut mir leid, aber ich habe das Bild fallen gelassen. (Wahrscheinlich habe ich keine Berechtigung, es zu senden.)",
       "lonely": {
         "pat": "Aww, Ich sehe, du bist einsam. *streichelt deinen Kopf* <3",
@@ -1582,7 +1582,7 @@
       "bot_notice": "%1$sBots können kein Geld haben.",
       "external_balance": "%1$ss Guthaben lautet **$%2$s Credits.**",
       "own_balance": "Dein Guthaben ist **$%1$d Credits.**%2$s",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "reset_notice": "\nWenn du wissen möchtest, was mit deinem Geld passiert ist, lies <<https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>>\nDu hast dein altes Geld nicht komplett verloren, es ist immer noch sichtbar mit `~>profile` :heart:\nDein Inventar hast du behalten, vielleicht könntest du etwas verkaufen?\nDies wird nur ein mal gezeigt. Lies die verlinkte Seite für mehr Details."
     },
     "daily": {
       "check": "%1$s`Du kannst deine täglichen Credits in **%2$s** abholen.",
@@ -2403,7 +2403,7 @@
       "star_rod": "Eine stärkere Angel (170 Haltbarkeit).",
       "sparkle_rod": "Eine viel stärkere Angel (300 Haltbarkeit).",
       "shell": "Am Grunde des Ozeans gefunden. Wofür könnte es nützlich sein?",
-      "shark": "Woah. How did you catch this?",
+      "shark": "Woah. Wie hast du das gefangen?",
       "crab": "Eine Krabbe. Sie tanzt, vielleicht.",
       "squid": "Nicht mit Thaddäus zu verwechseln.",
       "shrimp": "Pinkes Zeug. Denke ich.",
