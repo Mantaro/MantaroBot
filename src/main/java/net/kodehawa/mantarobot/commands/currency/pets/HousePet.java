@@ -295,7 +295,7 @@ public class HousePet {
         PASS(true, "commands.pet.activity.success"),
         PASS_MINE(true, "commands.pet.activity.success_mine"),
         PASS_CHOP(true, "commands.pet.activity.success_chop"),
-        PASS_FISH(true, "commands.pet.activity.success_chop"),
+        PASS_FISH(true, "commands.pet.activity.success_fish"),
         NO_ABILITY(false, ""); // No need, as it'll just be skipped.
 
         final boolean pass;

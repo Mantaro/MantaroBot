@@ -256,7 +256,7 @@ public class FunCmds {
                 final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
                 if (marriage != null) {
                     final var other = marriage.getOtherPlayer(ctx.getAuthor().getId());
-                    if (other == mentioned.get(0).getId()) {
+                    if (other.equals(mentioned.get(0).getId())) {
                         percentage = 100;
                     }
                 }

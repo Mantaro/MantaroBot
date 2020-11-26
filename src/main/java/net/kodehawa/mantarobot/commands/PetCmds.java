@@ -560,11 +560,11 @@ public class PetCmds {
 
                 if (isFull) {
                     amount = (100 - pet.getHunger()) / baseline;
-                    if (pet.getHunger() + increase < 100 || amount == 0) {
+                    if (pet.getHunger() + (baseline * amount) < 100 || amount == 0) {
                         amount += 1;
                     }
 
-                    increase = foodItem.getHungerLevel() * amount;
+                    increase = baseline * amount;
                 }
 
                 if (amount > playerInventory.getAmount(itemObject)) {
