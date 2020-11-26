@@ -104,7 +104,8 @@ public class CurrencyActionCmds {
                 }
 
                 var money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
-                money += item.getMoneyIncrease();
+                var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
+                money += random.nextInt(moneyIncrease);
 
                 var waifuHelp = false;
                 if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
@@ -661,7 +662,8 @@ public class CurrencyActionCmds {
                 } else {
                     var money = chance > 50 ? random.nextInt(100) : 0;
                     var amount = random.nextInt(8);
-                    money += Math.max(item.getMoneyIncrease() / 4, random.nextInt(item.getMoneyIncrease()));
+                    var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
+                    money += Math.max(moneyIncrease / 4, moneyIncrease);
 
                     if (marriage != null && marriage.getData().getPet() != null) {
                         var pet = marriage.getData().getPet();
