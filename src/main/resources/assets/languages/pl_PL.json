@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sNie znaleziono kanału głosowego lub nie określono go!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Jestem we fragmencie %1$d/%2$d** (Węzeł %3$d/%4$d)\n\n**Gildie odłamków: **%5$,d serwerów\n**Użytkownicy w pamięci podręcznej: **%6$,d użytkowników\n**Członkowie w pamięci podręcznej: **%7$,d członków\n\nJeśli potrzebujesz pomocy, przejdź do <https://support.mantaro.site>. Dziękujemy za korzystanie z Mantaro!"
     },
     "queue": {
       "clear": {
@@ -658,26 +658,26 @@
       },
       "unclaim": {
         "no_user": "%1$sMusisz wspomnieć o waifu, żeby je wycofać.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
+        "not_claimed": "%1$sTen użytkownik nie jest twoim waifu!",
+        "confirmation": "%1$sCzy jesteście *pewni*, że chcecie zrezygnować z roszczenia %2$s? Koszt wyłączenia tego waifu wynosi **%3$s kredytów**. Wpisz *yes* aby potwierdzić lub *no* aby anulować\n%4$sTo upłynie za 1 minutę.",
+        "not_enough_money": "%1$sNie masz wystarczająco dużo pieniędzy, aby anulować odebranie tego waifu!",
+        "player_locked": "%1$sW tej chwili nie możesz tego zrobić.",
         "scrapped": "%1$sAnulowano ...",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID and append `-unknown` at the end."
+        "success": "%1$sPomyślnie nieodebrano `%2$s` za koszt **%3$s kredytów**.",
+        "not_found": "%1$sNie mogę znaleźć żadnego użytkownika z tym zapytaniem. Jeśli chcesz usunąć nieznanego użytkownika, użyj jego ID i dodaj `-unknown` na końcu."
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
+        "locked": "%1$sObecnie nie jesteś w stanie wykonać tej czynności.",
         "not_enough_money": "%1$sNie masz wystarczająco pieniędzy, aby kupić więcej miejsc! potrzebujesz %2$,d kredytów.",
         "success": "%1$sPomyślnie kupiono miejsce za %2$s posiadasz obecnie %3$s miejsca i %4$s dostępnych miejsc.",
         "too_many": "%1$sMasz za dużo miejsc!"
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "notice": "%1$sZrezygnowałeś z całego systemu waifu, więc nie możesz tego użyć.",
+        "warning": "%1$sChcesz zrezygnować z systemu waifu? TO JEST STAŁE I NIE MOŻE BYĆ\nODWRÓCONE. \nJeśli tylko chcesz być wyłączony z nowych roszczeń i chcesz korzystać z systemu waifu jak zwykle, proszę użyć `~>profile claimlock` zamiast. Nie będziesz mógł zgłaszać roszczeń, a wszystkie roszczenia wobec Ciebie zostaną usunięte. Wpisz `yes, chcę zrezygnować z systemu waifu całkowicie i nieodwracalnie` lub `no`. Wpisanie komunikatu potwierdzającego wykluczy Cię, nie anuluje go.",
+        "success": "%1$sPomyślnie zrezygnowałeś z systemu waifu.",
+        "cancelled": "%1$sAnulowano operację rezygnacji.",
+        "claim_notice": "%1$sUżytkownik, którego chcesz zgłosić, zrezygnował."
       },
       "header": "Lista Wiafu",
       "description_header": "Oto lista z wszystkimi twoimi ukochanymi waifusami, posortowanymi według daty dodania. *Możesz mieć maksymalnie %1$,d waifus od teraz.*\n \nJeśli chcesz sprawdzić swoje statystyki waifu, użyj `~>waifu stats`\n\n",
@@ -704,7 +704,7 @@
     },
     "inventory": {
       "bot_notice": "%1$sTutaj boty nie mają zapasów. Cóż, czasami możesz chcieć, żeby go mieli, ale wtedy byłby to tylko `~>market dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**%1$s`s Kolekcja przedmiotów** %2$s\n\n*Aby uzyskać szczegółową wersję, użyj `~>inventory -info`. Ciesz się dniem!*",
       "calculate": "%1$s%2$s dostanie **%3$,d kredytów** jeśli wszystkie przedmioty zostaną sprzedane.",
       "header": "Ekwipunek %1$s",
       "format": "**Cena**: 📥 %1$,d 📤 %2$,d\n%3$s",
