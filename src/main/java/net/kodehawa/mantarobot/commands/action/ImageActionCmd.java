@@ -126,8 +126,12 @@ public class ImageActionCmd extends NoArgsCommand {
                 images = Collections.singletonList(image);
                 random = images.get(0); //Guaranteed random selection :^).
             } else {
-                ctx.sendLocalized("commands.action.no_type", EmoteReference.ERROR);
-                return;
+                if (images.isEmpty()) {
+                    ctx.sendLocalized("commands.action.no_type", EmoteReference.ERROR);
+                    return;
+                }
+
+                random = images.get(rand.nextInt(images.size()));
             }
         } catch (Exception e) {
             ctx.sendLocalized("commands.action.error_retrieving", EmoteReference.ERROR);
