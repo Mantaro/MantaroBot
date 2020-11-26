@@ -105,7 +105,7 @@ public class CurrencyActionCmds {
 
                 var money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
                 var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
-                money += random.nextInt(moneyIncrease);
+                money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
                 var waifuHelp = false;
                 if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {

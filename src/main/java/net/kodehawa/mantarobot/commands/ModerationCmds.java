@@ -43,17 +43,17 @@ public class ModerationCmds {
         cr.register("softban", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
+                    ctx.sendLocalized("commands.softban.no_permission", EmoteReference.ERROR);
+                    return;
+                }
+
                 var guild = ctx.getGuild();
                 var author = ctx.getAuthor();
                 var reason = content;
 
                 if (ctx.getMentionedUsers().isEmpty()) {
                     ctx.sendLocalized("commands.softban.no_users", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-                    ctx.sendLocalized("commands.softban.no_permission", EmoteReference.ERROR);
                     return;
                 }
 
@@ -171,6 +171,11 @@ public class ModerationCmds {
         cr.register("ban", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
+                    ctx.sendLocalized("commands.ban.no_permission", EmoteReference.ERROR);
+                    return;
+                }
+
                 var guild = ctx.getGuild();
                 var author = ctx.getAuthor();
                 var reason = content;
@@ -178,11 +183,6 @@ public class ModerationCmds {
 
                 if (mentionedMembers.isEmpty()) {
                     ctx.sendLocalized("commands.ban.no_users", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (!ctx.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-                    ctx.sendLocalized("commands.ban.no_permission", EmoteReference.ERROR);
                     return;
                 }
 
@@ -224,7 +224,7 @@ public class ModerationCmds {
 
                     final var db = MantaroData.db().getGuild(ctx.getGuild());
 
-                    // DM's before success, because it might be the last mutual guild.
+                    // DM's before success, because it might be the "c"ast mutual guild.
                     user.openPrivateChannel().queue(privateChannel -> {
                         if (!user.isBot()) {
                             privateChannel.sendMessage("%sYou were **kicked** by %s with reason: %s on server **%s**.".formatted(
@@ -280,19 +280,18 @@ public class ModerationCmds {
         cr.register("kick", new SimpleCommand(CommandCategory.MODERATION) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                var guild = ctx.getGuild();
-                var reason = content;
+                if (!ctx.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+                    ctx.sendLocalized("commands.kick.no_permission", EmoteReference.ERROR2);
+                    return;
+                }
+
 
                 if (args.length == 0) {
                     ctx.sendLocalized("commands.kick.no_users", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!ctx.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-                    ctx.sendLocalized("commands.kick.no_permission", EmoteReference.ERROR2);
-                    return;
-                }
-
+                var guild = ctx.getGuild();
                 var selfMember = guild.getSelfMember();
 
                 if (!selfMember.hasPermission(Permission.KICK_MEMBERS)) {
@@ -300,6 +299,7 @@ public class ModerationCmds {
                     return;
                 }
 
+                var reason = content;
                 if (args.length > 1) {
                     reason = StringUtils.splitArgs(content, 2)[1];
                 }

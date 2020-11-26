@@ -230,7 +230,7 @@ public class CommandListener implements EventListener {
                 try {
                     embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
                 } catch (Exception ignored) {
-                    tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                    tc.sendMessage(EmoteReference.ERROR2 + "The string `{" + v + "}` isn't a valid JSON.").queue();
                     return;
                 }
 
