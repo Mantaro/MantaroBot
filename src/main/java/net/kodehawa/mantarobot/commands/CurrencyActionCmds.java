@@ -722,7 +722,7 @@ public class CurrencyActionCmds {
                         bonus = money / 2;
                     }
 
-                    if (dbUser.isPremium() && money > 0) {
+                    if (dbUser.isPremium() && money > 0 && bonus > 0) {
                         money += random.nextInt(bonus);
                     }
 
