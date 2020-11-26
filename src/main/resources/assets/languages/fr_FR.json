@@ -327,7 +327,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)!\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
@@ -781,7 +781,8 @@
       "bot_notice": "%1$sTu ne peux pas transférer des objets à un bot!",
       "locked_notice": "%1$sTu ne peux pas transférer des objets pour le moment. (Le joueur est bloqué)",
       "hidden_item": "%1$sTu ne peux pas transférer cet objet.",
-      "overflow": "%1$sCe joueur à le nombre maximum possible de cet objet (5000).",
+      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
+      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
       "success": "%1$s%2$s a donné **%3$s** **%4$s** à %5$s",
       "multiple_items_error": "%1$sTu n'as aucun de ces objets dans ton inventaire",
       "error": "%1$sTu n'as pas cet objet en quantité suffisante pour faire ça!",
@@ -970,7 +971,8 @@
       "claimlock": {
         "removed": "%1$sRéinitialisation de ton statut de verrouillage Waifu opéré avec succès.",
         "success": "%1$sTu ne peux plus devenir Waifu! Cette commande agis comme la clé Waifu.",
-        "no_key": "%1$sTu n'as pas la clé nécessaire pour faire ça."
+        "no_key": "%1$sTu n'as pas la clé nécessaire pour faire ça.",
+        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
         "disable": "%1$sAuto-equip désactivé.",
@@ -995,7 +997,8 @@
       "timezone_user": "Fuseau horaire: %1$s",
       "not_specified": "Non spécifié",
       "potion": "Potion active",
-      "no_potion": "Aucune potion active."
+      "no_potion": "Aucune potion active.",
+      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1086,7 +1089,7 @@
       "guild_already_premium": "%1$sCe serveur est déjà premium.",
       "guild_successful": "%1$sCe serveur est désormais **Premium** :heart: (Pour: %2$d jours)",
       "user_already_premium": "%1$sTu es déjà premium :heart:",
-      "user_successful": "%1$sTu es désormais **Premium** :heart: (Pour: %2$d jours)",
+      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
       "mp": "Mantaro Patreon n'utilise pas de clé, il est déjà premium du simple fait que le bot fonctionne."
     },
     "claimkey": {
@@ -1129,7 +1132,8 @@
     },
     "action": {
       "no_mention": "%1$sTu dois mentionner un utilisateur",
-      "error_retrieving": "%1$sUne erreur s'est produite en recherchant ce gif.",
+      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
+      "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sD-Désolé je ne peux pas envoyer l'image. (Je n'en ai probablement pas la permission)",
       "lonely": {
         "pat": "Ohh, je vois que tu es seul.e, voici une caresse <3",
@@ -1302,7 +1306,8 @@
       "load_notice": "Si l'image ne charge pas cliques sur le titre.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!",
-      "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW."
+      "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW.",
+      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
@@ -1319,6 +1324,7 @@
         "health": "Health",
         "thirst": "Thirst",
         "hunger": "Hunger",
+        "stamina": "Stamina",
         "pet": "Pats",
         "footer": "Thanks you for using Mantaro! <3"
       },
@@ -1332,10 +1338,10 @@
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
       },
       "pet_reactions": {
-        "cute": "%1$s%2$s happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s%2$s happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s%2$s just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s%2$s's reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
+        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
+        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
+        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
@@ -1347,7 +1353,7 @@
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$s.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
         "cancel_success": "%1$sCancelled operation."
       },
       "feed": {
@@ -1367,15 +1373,16 @@
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
         "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
         "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
-        "success": "%1$sYay! Succesfully gave your pet water and it recovered %2$s%% of their thirst. Their thirst is now %3$s%% quenched."
+        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
-        "low_stamina": "%1$sYour pet has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$sThe health of your pet is too low. Give it food and let it rest for a while to replenish",
-        "low_hunger": "%1$sYour pet is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$sYour pet is too thirsty to do anything right now.",
-        "sleepy": "%1$sYour pet is too sleepy to do much of anything. In fact, you woke them up :<. Shouldn't you be sleeping aswell?",
-        "success": "%1$sYour pet successfully helped you! You got a buff and extra credits **(%2$s extra credits, %3$s extra items)** -included on what you got- thanks to the extra work your pet was able to do for you!"
+        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish",
+        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
+        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
+        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
+        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
         "no_pet": "%1$sYou don't have a pet to rename.",
@@ -1575,7 +1582,7 @@
       "bot_notice": "%1$sLes bots ne peuvent pas avoir d'argent.",
       "external_balance": "Le solde de %1$s est de **$%2$d crédits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset:-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
       "check": "%1$sTu pourras réclamer ton gain journalier dans : **%2$s.**",
@@ -2375,7 +2382,7 @@
       "mop": "Une bonne manière de nettoyer toute la poussière qui vous entoure. Je suis sûr qu'il y en a beaucoup.",
       "claim_key": "Cet objet te rendre inobtenable (en tant que Waifu) dés que tu auras fais la commande `~>profile claimlock`.",
       "coffee": "Une très bonne façon de commencer votre journée",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 5 sessions.",
+      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Te donne une plus grande chance d'attraper du poisson.",
       "diamond_pick": "A strong-ish pick (150 durability).",
       "tv": "Doit... regarder... la... Télé...",
@@ -2396,7 +2403,7 @@
       "star_rod": "A stronger rod (170 durability).",
       "sparkle_rod": "A way stronger rod (300 durability).",
       "shell": "Trouvée au fond de l'océan. Combien cela pourrait-il valoir ?",
-      "shark": "Wow. Comment as-tu attrapé *ça*?",
+      "shark": "Woah. How did you catch this?",
       "crab": "Un crabe! Il danse peut-être.",
       "squid": "À ne pas confondre avec le calamar.",
       "shrimp": "Truc rose.",
