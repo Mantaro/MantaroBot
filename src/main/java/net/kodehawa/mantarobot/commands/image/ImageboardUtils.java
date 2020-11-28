@@ -222,7 +222,7 @@ public class ImageboardUtils {
     // The list of tags to exclude from searches.
     private final static List<String> excludedTags = List.of(
             "loli", "shota", "lolicon", "shotacon", "child", "underage", "young", "younger",
-            "under_age", "cub", "tagme"
+            "under_age", "cub", "tagme", "bestiality"
     );
 
     private static boolean containsExcludedTags(List<String> tags) {

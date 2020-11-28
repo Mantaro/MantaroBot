@@ -231,6 +231,7 @@ public class MantaroListener implements EventListener {
                             """
                             %1$sYou received a premium key due to your donation to Mantaro. 
                             If you have any doubts or questions, please contact Kodehawa#3457 or ask in the support server.
+                            
                             Instructions: **Apply this key to yourself!**. This key is a subscription to Mantaro Premium, and will last as long as you pledge.
                             If you want more keys (>$2 donation) or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.
                             To apply this key, run the following command in any channel where Mantaro can reply: `~>activatekey %2$s`
