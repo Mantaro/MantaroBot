@@ -27,7 +27,8 @@ Commits should follow the following convention: `Action(module): message`.
 Where action can be:
 
 * Fix - Fixes a bug or issue with the code.
-* Add - Adds a new feature or new stuff.
+* Add - Adds a new thing to an existing feature.
+* Feat - Adds a completely new feature.
 * Refactor - Refactors a part of Mantaro's code.
 * Chore - Probably just a dependency bump-, or fixes to the docker/CI configs.
 
