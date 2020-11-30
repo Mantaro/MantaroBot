@@ -177,7 +177,7 @@ public class ImageboardUtils {
 
         // This is the last line of defense. It should filter *all* minor tags from all sort of images on
         // the method that calls this.
-        if ((containsExcludedTags(tags) || image.hasChildren()) && image.getRating() != Rating.SAFE) {
+        if (containsExcludedTags(tags) && image.getRating() != Rating.SAFE) {
             ctx.sendLocalized("commands.imageboard.loli_content_disallow", EmoteReference.WARNING);
             return;
         }
@@ -231,7 +231,8 @@ public class ImageboardUtils {
             // you know what the other one means
             "tagme", "bestiality",
             // very nsfl tags
-            "dismemberment", "death", "decapitation", "guro", "eye_socket"
+            "dismemberment", "death", "decapitation", "guro", "eye_socket", "necrophilia",
+            "rape", "gangrape", "gore"
     );
 
     private static boolean containsExcludedTags(List<String> tags) {

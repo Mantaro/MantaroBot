@@ -360,17 +360,17 @@ public class PlayerData {
 
     @JsonIgnore
     public void incrementMiningExperience(Random random) {
-        this.miningExperience = miningExperience + random.nextInt(5);
+        this.miningExperience = miningExperience + (random.nextInt(5) + 1);
     }
 
     @JsonIgnore
     public void incrementFishingExperience(Random random) {
-        this.fishingExperience = fishingExperience + random.nextInt(5);
+        this.fishingExperience = fishingExperience + (random.nextInt(5) + 1);
     }
 
     @JsonIgnore
     public void incrementChopExperience(Random random) {
-        this.chopExperience = chopExperience + random.nextInt(5);
+        this.chopExperience = chopExperience + (random.nextInt(5) + 1);
     }
 
     public long getNewMoney() {
