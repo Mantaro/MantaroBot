@@ -396,16 +396,16 @@
       "no_args": "%1$sJe moet opgeven wat je wilt doen met dit commando. Check het help commando voor meer informatie!",
       "incorrect_args": "%1$sOnjuiste argumenten. Kijk op `~>help custom` of https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands voor meer hulp bij het gebruik hiervan. Als je nog meer problemen hebt na het lezen van de wiki, ga dan naar <https://support.mantaro.site>",
       "error_running": "%1$sFout tijdens het uitvoeren van het eigen commando ... controleer de inhoud en lengte van de reactie (mag niet meer zijn dan 2000 tekens).",
-      "error_running_new": "%1$sFoutmelding in custom command. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
+      "error_running_new": "%1$sFoutmelding in eigen command. Controleer reactie, inhoud en lengte.\n**Foutmelding:**\n```%2$s```",
       "not_loaded": "De bot is nog niet volledig opgestart... eigen commando's zullen snel weer beschikbaar zijn!",
       "nsfw_enabled": "%1$sDit commando is succesvol gemarkeerd als NSFW.",
       "nsfw_disabled": "%1$sDit commando is succesvol gemarkeerd als SFW.",
       "nsfw_not_nsfw": "%1$sDit commando is gemarkeerd als NSFW waardoor je het alleen kunt gebruiken in NSFW kanalen.",
-      "new_error": "%1$sDe custom command die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
+      "new_error": "%1$sDe eigen command die u probeert te maken, bevat een foutmelding (v3, controleer inhoud).\n**Foutmelding:**\n```%2$s```",
       "ls": {
         "header": "Commando's voor deze guild",
-        "description": "**Dit toont alle custom (door de gebruiker gemaakte) commands van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nCustom commands zijn commando's gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actiecommando's.\nVoor meer informatie over het maken van eigen custom commands refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
-        "footer": "Totaal aantal custom commands op deze server: %1$s"
+        "description": "**Dit toont alle eigen (door de gebruiker gemaakte) commands van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nEigen commands zijn commando's gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actiecommando's.\nVoor meer informatie over het maken van eigen commands refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
+        "footer": "Totaal aantal eigen commands op deze server: %1$s"
       },
       "invalid": "%1$sOngeldig commando selectie. Controlleer commando help (`help custom`).",
       "view": {
@@ -422,7 +422,7 @@
         "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
       },
       "clear": {
-        "success": "%1$s** %2$d Custom Commands gewist**. Vergrendelde/vastgezette opdrachten zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
+        "success": "%1$s** %2$d Eigen Commands gewist**. Vergrendelde/vastgezette opdrachten zijn niet verwijderd. Ontgrendel ze eerst als je dat wel wilt."
       },
       "make": {
         "start_text": "%1$sGestart met het **\"maken van Eigen Commando `%2$s`\"**!\nTyp `&~>stop` om het af te sluiten **zonder het commando op te slaan**.\nTyp `&~>save` om het af te sluiten en **het nieuwe commando op te slaan**. Typ een tekst die begint met `&` om deze toe ge voegen aan de Commando Antwoorden. Typ `~>nsfw` om het commando als NSFW te markeren en `~>sfw` om dit terug te draaien.\nDeze interactieve bewerking eindigt na 60 seconden inactiviteit zonder dat er iets wordt opgeslagen.",
@@ -433,8 +433,8 @@
       },
       "eval": {
         "not_specified": "%1$sJe hebt niet opgegeven wat je wilt contorleren.",
-        "new_error": "%1$sEr is een error ontstaan bij het evalueren van het commando.\n**Foutmelding**:\n```%2$s```",
-        "error": "%1$sEr is een error ontstaan bij het evalueren van het commando!%2$s"
+        "new_error": "%1$sEr is een error ontstaan bij het evalueren van het eigen commando.\n**Foutmelding**:\n```%2$s```",
+        "error": "%1$sEr is een error ontstaan bij het evalueren van het eigen commando!%2$s"
       },
       "remove": {
         "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt verwijderen.",
@@ -460,15 +460,15 @@
         "no_command": "%1$sJe moet het commando specificeren waaruit u een antwoord wilt verwijderen.",
         "invalid_number": "%1$sJe moet een juist nummer opgeven om te wijzigen.",
         "no_index": "%1$sJe kunt geen niet bestaande index bewerken.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "not_enough_args": "%1$sJe moet het commando en de index specificeren die u wilt verwijderen.",
+        "success": "%1$sReactie verwijderd **#%2$d** van het commando `%3$s` correct"
       },
       "rename": {
         "success": "%1$sNaam van commando gewijzigd van `%2$s` naar `%3$s`"
       },
       "add": {
         "no_command": "%1$sJe moet aangeven welk commando je wilt toevoegen.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
+        "not_enough_args": "%1$sJe moet de commando naam specificeren en het antwoord van de opdracht die u wilt toevoegen.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "success": "%1$sOpgeslagen aan commando `%2$s`",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
@@ -2000,8 +2000,8 @@
     },
     "admincustom": {
       "no_args": "%1$sJe moet aangeven of u wilt dat het true of false is (true om CC-creatie alleen aan Admins / Bot Commander te geven)",
-      "admin_only": "Het maken van aangepaste commando`s is nu alleen voor Admins beschikbaar.",
-      "everyone": "Het maken van aangepaste commando`s is nu voor iedereen beschikbaar.",
+      "admin_only": "Het maken van eigen commando`s is nu alleen voor Admins beschikbaar.",
+      "everyone": "Het maken van eigen commando`s is nu voor iedereen beschikbaar.",
       "not_bool": "%1$sGekkie, dat is geen boolean waarde (true of false)!"
     },
     "timedisplay_set": {
