@@ -597,7 +597,7 @@ public class ItemReference {
                     3, 1, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
                     "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick",
                     15000, true, false,
-                    "450;1;175;1;175;1;55;1;50;50", 3000, 1500,18, 57, 48, 61, 49, 62, 74, 73, 101, 76
+                    "450;1;175;1;175;1;55;1;50;50", 3000, 1500, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76
             ),
 
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93",

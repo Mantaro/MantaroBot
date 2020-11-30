@@ -221,8 +221,17 @@ public class ImageboardUtils {
 
     // The list of tags to exclude from searches.
     private final static List<String> excludedTags = List.of(
+            // minor tags
             "loli", "shota", "lolicon", "shotacon", "child", "underage", "young", "younger",
-            "under_age", "cub", "tagme", "bestiality"
+            "under_age", "cub",
+            // questionable whether this one leads to minor images or not, but
+            // sometimes they're tagged like this and not with any of the tags above
+            "flat_chest",
+            // tagme means it hasn't been tagged yet, so it's very unsafe to show
+            // you know what the other one means
+            "tagme", "bestiality",
+            // very-not-nsfl tags
+            "dismemberment", "death", "decapitation", "guro", "eye_socket"
     );
 
     private static boolean containsExcludedTags(List<String> tags) {

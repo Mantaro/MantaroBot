@@ -42,5 +42,5 @@ And module can be:
 If the module isn't clear or found there, you can omit it, your message should look like:
 
 * `Add(mine): Add new drop when mining with sparkle`
-* `Fix(equip): Fix equipment disappearing if it's a full moon and you ate a taco.`
+* `Fix(equip): Fix equipment disappearing if it's a full moon and you ate a taco`
 * `Chore(deps): Update JDA from 4.2.0_167 to 4.2.0_178`
