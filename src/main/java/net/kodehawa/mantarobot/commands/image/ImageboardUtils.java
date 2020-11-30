@@ -230,7 +230,7 @@ public class ImageboardUtils {
             // tagme means it hasn't been tagged yet, so it's very unsafe to show
             // you know what the other one means
             "tagme", "bestiality",
-            // very-not-nsfl tags
+            // very nsfl tags
             "dismemberment", "death", "decapitation", "guro", "eye_socket"
     );
 
