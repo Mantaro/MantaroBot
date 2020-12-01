@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
+import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -118,6 +119,11 @@ public class CommandListener implements EventListener {
                             return;
                         }
 
+                        // Same reason as above, but twice as cursed.
+                        if (GameLobby.LOBBYS.containsKey(event.getChannel().getIdLong())) {
+                            return;
+                        }
+
                         var player = MantaroData.db().getPlayer(event.getAuthor());
                         var data = player.getData();
 
@@ -170,21 +176,34 @@ public class CommandListener implements EventListener {
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
         } catch (PermissionException e) {
             if (e.getPermission() != Permission.UNKNOWN) {
-                event.getChannel().sendMessage(String.format("%sI don't have permission to do this :(\nI need the permission: **%s**", EmoteReference.ERROR, e.getPermission().getName())).queue();
+                event.getChannel().sendMessageFormat(
+                        "%sI don't have permission to do this :(\nI need the permission: **%s**",
+                        EmoteReference.ERROR, e.getPermission().getName()
+                ).queue();
             } else {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot perform this action due to the lack of permission! Is the role I might be trying to assign" +
-                        " higher than my role? Do I have the correct permissions/hierarchy to perform this action?").queue();
+                event.getChannel().sendMessage(
+                        EmoteReference.ERROR +
+                        "I cannot perform this action due to the lack of permission! Is the role I might be trying to assign " +
+                        "higher than my role? Do I have the correct permissions/hierarchy to perform this action?"
+                ).queue();
             }
         } catch (LanguageKeyNotFoundException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
-            event.getChannel().sendMessageFormat("%sWrong I18n key found, please report on the support server " +
-                    "(Link at `support.mantaro.site`) with error ID `%s`.\n%sMessage: *%s*", EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()).queue();
+            event.getChannel().sendMessageFormat(
+                    "%sWrong I18n key found, please report on the support server (Link at `support.mantaro.site`) with error ID `%s`.\n%sMessage: *%s*",
+                    EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()
+            ).queue();
+
             log.warn("Missing i18n key. Check this. ID: {}", id, e);
         } catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
-            event.getChannel().sendMessageFormat("%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +
-                    "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, Just in case, check command help! " +
-                    "(Support server link can be found at `support.mantaro.site`)", EmoteReference.ERROR, id, EmoteReference.WARNING).queue();
+            event.getChannel().sendMessageFormat(
+                    "%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +
+                    "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, " +
+                    "Just in case, check command help! (Support server link can be found at `support.mantaro.site`)",
+                    EmoteReference.ERROR, id, EmoteReference.WARNING
+            ).queue();
+
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
         } catch (ReqlError e) {
             //So much just went wrong...
@@ -195,7 +214,8 @@ public class CommandListener implements EventListener {
             var player = MantaroData.db().getPlayer(event.getAuthor());
 
             event.getChannel().sendMessageFormat(
-                    "%s%s (Unexpected error, ID: `%s`)\n" + context.get("general.generic_error"), EmoteReference.ERROR, context.get("general.boom_quotes"), id
+                    "%s%s (Unexpected error, ID: `%s`)\n%s",
+                    EmoteReference.ERROR, context.get("general.boom_quotes"), id, context.get("general.generic_error")
             ).queue();
 
             if (player.getData().addBadgeIfAbsent(Badge.FIRE)) {

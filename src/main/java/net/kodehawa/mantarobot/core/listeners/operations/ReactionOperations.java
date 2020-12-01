@@ -35,7 +35,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public final class ReactionOperations {
-
     //The listener used to check reactions
     private static final EventListener LISTENER = new ReactionListener();
 
@@ -45,8 +44,9 @@ public final class ReactionOperations {
             .build();
 
     public static Future<Void> get(Message message) {
-        if (!message.getAuthor().equals(message.getJDA().getSelfUser()))
+        if (!message.getAuthor().equals(message.getJDA().getSelfUser())) {
             throw new IllegalArgumentException("Must provide a message sent by the bot");
+        }
 
         return get(message.getIdLong());
     }
@@ -135,8 +135,9 @@ public final class ReactionOperations {
     }
 
     private static String reaction(String r) {
-        if (r.startsWith("<"))
+        if (r.startsWith("<")) {
             return r.replaceAll("<:(\\S+?)>", "$1");
+        }
 
         return r;
     }
@@ -153,8 +154,9 @@ public final class ReactionOperations {
                 long messageId = event.getMessageIdLong();
                 RunningOperation o = OPERATIONS.get(messageId);
 
-                if (o == null)
+                if (o == null) {
                     return;
+                }
 
                 //Forward this event to the anonymous class.
                 int i = o.operation.add(event);
@@ -179,8 +181,9 @@ public final class ReactionOperations {
                 long messageId = event.getMessageIdLong();
                 RunningOperation o = OPERATIONS.get(messageId);
 
-                if (o == null)
+                if (o == null) {
                     return;
+                }
 
                 //Forward this event to the anonymous class.
                 int i = o.operation.remove(event);
@@ -201,8 +204,9 @@ public final class ReactionOperations {
                 MessageReactionRemoveAllEvent event = (MessageReactionRemoveAllEvent) e;
                 long messageId = event.getMessageIdLong();
                 RunningOperation o = OPERATIONS.get(messageId);
-                if (o == null)
+                if (o == null) {
                     return;
+                }
 
                 //Forward this event to the anonymous class.
                 int i = o.operation.removeAll(event);
@@ -261,8 +265,9 @@ public final class ReactionOperations {
             super.cancel(mayInterruptIfRunning);
             RunningOperation o = OPERATIONS.remove(id);
 
-            if (o == null)
+            if (o == null) {
                 return false;
+            }
 
             o.operation.onCancel();
             return true;

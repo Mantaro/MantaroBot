@@ -151,8 +151,9 @@ public class InteractiveOperations {
             long channelId = event.getChannel().getIdLong();
             List<RunningOperation> l = OPS.get(channelId);
 
-            if (l == null || l.isEmpty())
+            if (l == null || l.isEmpty()) {
                 return;
+            }
 
             l.removeIf (o -> {
                 try {
@@ -173,7 +174,7 @@ public class InteractiveOperations {
         }
     }
 
-    //Represents an eventually-running Operation.
+    // Represents an eventually-running Operation.
     private static final class RunningOperation {
         final OperationFuture future;
         final InteractiveOperation operation;
@@ -181,7 +182,7 @@ public class InteractiveOperations {
         long timeoutTime;
         final long userId;
 
-        //timeout (argument) is in millis, field is in nanos
+        // timeout (argument) is in millis, field is in nanos
         RunningOperation(InteractiveOperation operation, long userId, long channelId, long timeout) {
             this.operation = operation;
             this.future = new OperationFuture(channelId, this);
@@ -212,8 +213,9 @@ public class InteractiveOperations {
         public boolean cancel(boolean mayInterruptIfRunning) {
             List<RunningOperation> l = OPS.get(id);
 
-            if (l == null || !l.remove(operation))
+            if (l == null || !l.remove(operation)) {
                 return false;
+            }
 
             operation.operation.onCancel();
             return true;

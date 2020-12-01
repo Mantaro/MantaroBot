@@ -78,7 +78,7 @@ public class MantaroListener implements EventListener {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\b\\p{L}*:\\b");
-    //Channels we could send the greet message to.
+    // Channels we could send the greet message to.
     private static final List<String> CHANNEL_NAMES = List.of("general", "general-chat", "chat", "lounge", "main-chat", "main");
 
     private final ExecutorService threadPool;
