@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sJe bent niet getrouwd, dus ik denk dat je status \"niet getrouwd\" is...",
         "header": "Huidige huwelijks status",
-        "description_format": "%1$sHuwelijks status tussen **%2$s#%3$s** en **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Huwelijksdatum",
         "love_letter": "Liefdesbrief",
         "waifus": "Waifu Eigendom",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "Als je denkt dat je een nieuwe badge hebt gekregen maar deze verschijnt niet, probeer dan eerst het commando `~>profile` te gebruiken en daarna dit commando\n",
-      "info_notice": "Gebruik `~>badges info <badge naam>` om meer informatie te krijgen over een badge.\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Je kunt een badge krijgen door het [supporten van de development van Mantaro!](https://patreon.com/mantaro)!** (Het kan even duren voordat je de badge ontvangt)\n\n",
       "no_badges": "(Nog!) geen badges om te laten zien",
       "header": "Badges behaald door %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sJe moet me vertellen waar ik tussen moet kiezen. (bijvoorbeeld: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sI kies `%2$s`"
     },
     "remindme": {
