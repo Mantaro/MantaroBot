@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
         "header": "Current Marriage Status",
-        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Marriage Date",
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**%1$s adlı kişinin rozetleri:**\n%2$s",
       "profile_notice": "Bir rozet kazandığını düşünüyor ve burada görmüyorsan `~>profile` yaz ve komutu tekrar çalıştır.\n",
-      "info_notice": "`~>badges info <rozet adı>` kullanarak rozet hakkında bilgi edinebilirsin. [Tabi wikimiz de var.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Bir rozet kazanabilirsin [Mantaronun gelişimini destekleyerek!](https://patreon.com/mantaro)!** (İşlenmesi biraz sürebilir.)\n\n",
       "no_badges": "Gösterilecek bir rozet yok",
       "header": "Kazanılmış rozetler %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sBana ne hakkında seçim yapmam gerektiğini söylemelisin. (örnek: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sBence `%2$s`"
     },
     "remindme": {
