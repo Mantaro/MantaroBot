@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sNo estás casado asi que asumo que tu estado es... \"soltero\"",
         "header": "Estado actual del casamiento",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Fecha de casamiento",
         "love_letter": "Carta de amor",
         "waifus": "Waifus",
