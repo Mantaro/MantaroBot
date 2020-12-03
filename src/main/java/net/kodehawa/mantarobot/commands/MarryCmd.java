@@ -661,11 +661,13 @@ public class MarryCmd {
                         .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
 
                 if (data.hasHouse()) {
-                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), data.getHouseName(), true);
+                    var houseName = data.getHouseName().replace("\n", "").trim();
+                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), houseName, true);
                 }
 
                 if (data.hasCar()) {
-                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), data.getCarName(), true);
+                    var carName = data.getCarName().replace("\n", "").trim();
+                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), carName, true);
                 }
 
                 if (data.getPet() != null) {
