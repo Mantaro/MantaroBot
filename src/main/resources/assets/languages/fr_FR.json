@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sTu n'est pas marié.e, donc je suppose que ton statuts est euh... \"pas marié.e\" (Si tu vois un mariage sur ton profil et que tu vois ce message, cela signifie que tu es sous l'ancien système, essaie de te remarier)",
         "header": "Statuts de mariage actuel",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Date de mariage",
         "love_letter": "Lettre d'amour",
         "waifus": "Possession de Waifu",
