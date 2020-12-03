@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sNo estás casado asi que asumo que tu estado es... \"soltero\"",
         "header": "Estado actual del casamiento",
-        "description_format": "%1$sEstado de pareja entre **%2$s#%3$s** y **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Fecha de casamiento",
         "love_letter": "Carta de amor",
         "waifus": "Waifus",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**Trofeos de %1$s**\n%2$s",
       "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
-      "info_notice": "Usa `~>badges info <nombre del trofeo>` para ver información sobre un trofeo. [También puedes revisar la documentación online.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
       "no_badges": "No hay trofeos para mostrar (¡aún!)",
       "header": "Trofeos logrados por %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sNecesitas decirme sobre qué elegir! (Ejemplo: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sEscojo `%2$s`"
     },
     "remindme": {
