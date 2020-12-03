@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sVocê não é casado, então eu acho que seu status é uh... \"não casado\" (Se você ver um casamento em seu perfil e ver esta mensagem, isso significa que você está no sistema antigo. Tente se casar novamente)",
         "header": "Estado atual do casamento",
-        "description_format": "%1$sEstado do casamento entre **%2$s#%3$s** e **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Data de casamento",
         "love_letter": "Carta de amor",
         "waifus": "Propriedade da Waifu",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
-      "info_notice": "Use `~>badges info <nome da insígnia>` para ter mais informações sobre uma insígnia. [Você também pode checar a wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Você pode ganhar uma insígnia por [apoiar o desenvolvimento da Mantaro!](https://patreon.com/mantaro)!** (Isso pode levar alguns minutos para processar)\n\n",
       "no_badges": "Sem insígnias para mostrar (ainda!)",
       "header": "Insígnias obtidas por %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sVocê já permitiu que esse servidor mostre seu aniversário."
     },
     "choose": {
-      "nothing_to": "%1$sVocê precisa me dizer o que escolher entre. (exemplo: `~>choose anime mangá`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sEu escolho `%2$s`"
     },
     "remindme": {
