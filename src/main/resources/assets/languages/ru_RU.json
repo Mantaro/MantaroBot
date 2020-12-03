@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sВы ещё не женаты, поэтому ваш статус... \"не в браке\" (Если в вашем профиле указано то, что вы уже в браке, то скорее всего вы находитесь в старой версии, попробуйте жениться ещё раз  )",
         "header": "Текущий статус брака",
-        "description_format": "%1$sБрак **%2$s#%3$s** и **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Дата свадьбы",
         "love_letter": "Любовное письмо",
         "waifus": "Владелец вайфу",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**%1$s's значки:**\n%2$s",
       "profile_notice": "Если вы уверены в том, что получили новый значок но он тут не отображается, используйте `~>profile` и после повторите запрос.\n",
-      "info_notice": "Используйте `~>badges info <название значка>` чтобы получить больше информации о нем. [Вы можете посмотреть wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Вы можете получить значок за [поддержку разработчиков Mantaro!](https://patreon.com/mantaro)!** (Процесс может занять несколько минут)\n\n",
       "no_badges": "Нет значков для отображения (пока что!)",
       "header": "Полученные значки %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sВы должны указать что выбрать. (К примеру: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sЯ выбрал `%2$s`"
     },
     "remindme": {
