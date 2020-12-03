@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sDu bist nicht verheiratet, also denke ich dein Status ist uh... \"unverheiratet\"  (Wenn du eine Ehe in deinem Profil und diese Nachricht hier siehst, heißt das, dass du im alten System verheiratet bist. Versucht nochmal zu heiraten)",
         "header": "Aktueller Ehestatus",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sEhestatus von **%2$s** und **%3$s**",
         "date": "Hochzeitstag",
         "love_letter": "Liebesbrief",
         "waifus": "Waifu Besitz",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
       "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Verwende `~>badges info <Abzeichenname>`, um mehr Information über ein Abzeichen zu erhalten. [Du kannst auch ins Wiki schauen](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s",
@@ -1034,7 +1034,7 @@
       "no_guild_month_birthdays": "%1$sEs gibt offenbar keine Geburtstage für diesen Monat (%2$s) hier :(\n%3$sWenn du gerade erst die Geburtstagsankündigungen eingerichtet hast, warte bitte ein wenig, bevor du es nochmal versuchst. (Der Cache aktualisiert sich alle 23 Stunden)\nBeachte, dass Leute jetzt `~>birthday allowserver` eingeben müssen, damit ihr Geburtstag auf diesem Server verkündet wird.",
       "cache_not_running": "%1$sDer Geburtstags-Cacher scheint nicht zu laufen (internal error) :(",
       "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
+      "header": "**%1$ss Geburtstage für %2$s**\nDer Geburtstagscache wird alle 23 Stunden aktualisiert, sollte dein Geburtstag nicht auftauchen brauchst du dich also nicht zu erschrecken, sondern nur warten.\n",
       "full_header": "**%1$ss Geburtstage**\n%2$s\nBeachte, dass Geburtstage alle 23 Stunden gecached werden, und dass Nutzer den Befehl `~>birthday allowserver` ausführen müssen",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, `~>birthday 02/11` for the 2nd of November)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, `~>birthday 02/11` for the 2nd of November)",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sDu hast diesem Server schon erlaubt, deinen Geburtstag zu zeigen."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
+      "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sIch wähle `%2$s`"
     },
     "remindme": {
