@@ -113,7 +113,13 @@ public class MuteCmds {
                             return;
                         }
 
-                        time = System.currentTimeMillis() + Utils.parseTime(opts.get("time"));
+                        var timeParsed = Utils.parseTime(opts.get("time"));
+                        time = System.currentTimeMillis() + timeParsed;
+
+                        if (timeParsed < 10000) {
+                            ctx.sendLocalized("commands.mute.time_too_little", EmoteReference.ERROR);
+                            return;
+                        }
 
                         if (time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
                             ctx.sendLocalized("commands.mute.time_too_long", EmoteReference.ERROR);
