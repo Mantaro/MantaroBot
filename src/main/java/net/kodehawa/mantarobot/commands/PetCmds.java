@@ -356,7 +356,7 @@ public class PetCmds {
                     return;
                 }
 
-                var name = args[0];
+                var name = args[0].replace("\n", "").trim();
                 var type = args[1];
 
                 if (!marriageData.hasCar() || !marriageData.hasHouse()) {
@@ -467,6 +467,7 @@ public class PetCmds {
                     return;
                 }
 
+                content = content.replace("\n", "").trim();
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.pet.rename.no_content", EmoteReference.ERROR);
                     return;
