@@ -41,7 +41,6 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.MarriageData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -605,44 +604,43 @@ public class MarryCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                final User author = ctx.getAuthor();
-                DBUser dbUser = ctx.getDBUser();
-                final Marriage currentMarriage = dbUser.getData().getMarriage();
+                final var author = ctx.getAuthor();
+                final var dbUser = ctx.getDBUser();
+                final var dbUserData = dbUser.getData();
+                final var currentMarriage = dbUserData.getMarriage();
                 //What status would we have without marriage? Well, we can be unmarried omegalul.
                 if (currentMarriage == null) {
                     ctx.sendLocalized("commands.marry.status.no_marriage", EmoteReference.SAD);
                     return;
                 }
 
-                MarriageData data = currentMarriage.getData();
+                final var data = currentMarriage.getData();
 
                 //Can we find the user this is married to?
-                final User marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
+                final var marriedTo = ctx.retrieveUserById(currentMarriage.getOtherPlayer(author.getId()));
                 if (marriedTo == null) {
                     ctx.sendLocalized("commands.marry.loveletter.cannot_see", EmoteReference.ERROR);
                     return;
                 }
 
                 //Get the current love letter.
-                String loveLetter = data.getLoveLetter();
+                var loveLetter = data.getLoveLetter();
                 if (loveLetter == null || loveLetter.isEmpty()) {
                     loveLetter = "None.";
                 }
 
-                DBUser marriedDBUser = ctx.getDBUser(marriedTo);
-                String dateFormat = Utils.formatDate(data.getMarriageCreationMillis(), dbUser.getData().getLang());
-
-                boolean eitherHasWaifus = !(dbUser.getData().getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
+                final var marriedDBUser = ctx.getDBUser(marriedTo);
+                final var dateFormat = Utils.formatDate(data.getMarriageCreationMillis(), dbUserData.getLang());
+                final var eitherHasWaifus = !(dbUserData.getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
+                final var marriedToName = dbUserData.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
+                final var authorName = dbUserData.isPrivateTag() ? author.getName() : author.getAsTag();
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
+                        .setThumbnail(author.getEffectiveAvatarUrl())
                         .setAuthor(languageContext.get("commands.marry.status.header"), null, author.getEffectiveAvatarUrl())
                         .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
                         .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
-                                EmoteReference.HEART,
-                                author.getName(),
-                                author.getDiscriminator(),
-                                marriedTo.getName(),
-                                marriedTo.getDiscriminator())
+                                EmoteReference.HEART, authorName, marriedToName)
                         ).addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
