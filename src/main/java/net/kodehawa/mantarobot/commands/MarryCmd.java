@@ -422,6 +422,11 @@ public class MarryCmd {
                     return;
                 }
 
+                if (content.length() > 150) {
+                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
+                    return;
+                }
+
                 ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, content);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
@@ -497,6 +502,11 @@ public class MarryCmd {
 
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.marry.buycar.no_name", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (content.length() > 150) {
+                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
                     return;
                 }
 

@@ -390,6 +390,10 @@ public class PetCmds {
                     return;
                 }
 
+                if (name.length() > 150) {
+                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
+                    return;
+                }
 
                 ctx.sendLocalized("commands.pet.buy.confirm", EmoteReference.WARNING, name, type, toBuy.getCost());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
@@ -464,6 +468,11 @@ public class PetCmds {
 
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.pet.rename.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (content.length() > 150) {
+                    ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
                     return;
                 }
 

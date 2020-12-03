@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,4 +95,7 @@ public class JsonDataManager<T> implements DataManager<T> {
         return mapper.readValue(json, type);
     }
 
+    public static <T> T fromJson(String json, JavaType type) throws JsonProcessingException {
+        return mapper.readValue(json, type);
+    }
 }

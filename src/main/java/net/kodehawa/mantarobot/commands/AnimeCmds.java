@@ -38,7 +38,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.stream.Collectors;
 
 @Module
@@ -87,6 +87,7 @@ public class AnimeCmds {
                     npe.printStackTrace();
                     ctx.sendLocalized("commands.anime.malformed_result", EmoteReference.ERROR);
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     ctx.sendLocalized("commands.anime.error", EmoteReference.ERROR, ex.getClass().getSimpleName());
                 }
             }

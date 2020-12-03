@@ -111,9 +111,7 @@ public class GameCmds {
             }
         }));
 
-        gameCommand.setPredicate(ctx ->
-                RatelimitUtils.ratelimit(rateLimiter, ctx, null)
-        );
+        gameCommand.setPredicate(ctx -> RatelimitUtils.ratelimit(rateLimiter, ctx, null));
 
         //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
