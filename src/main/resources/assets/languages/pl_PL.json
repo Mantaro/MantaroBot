@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sNie jesteś żonaty, więc myślę, że twój status to uh... \"nie żonaty\" (Jeśli widzisz małżeństwo w swoim profilu i widzisz tę wiadomość, która oznacza, że jesteś w starym systemie, spróbuj ponownie się ożenić)",
         "header": "Obecny status ślubu",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Data ślubu",
         "love_letter": "List Miłosny",
         "waifus": "Własność Waifu",
