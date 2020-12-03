@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sNie jesteś żonaty, więc myślę, że twój status to uh... \"nie żonaty\" (Jeśli widzisz małżeństwo w swoim profilu i widzisz tę wiadomość, która oznacza, że jesteś w starym systemie, spróbuj ponownie się ożenić)",
         "header": "Obecny status ślubu",
-        "description_format": "%1$sStan małżeństwa między **%2$s #%3$s** a **%4$s #%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Data ślubu",
         "love_letter": "List Miłosny",
         "waifus": "Własność Waifu",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sI choose `%2$s`"
     },
     "remindme": {
