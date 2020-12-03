@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$s你目前尚未結婚，所以你處在...\"單身狀態\" (如果你能在你的個人資料看到婚姻那表示你還處在舊的系統，試著重新結婚)",
         "header": "目前婚姻狀況",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "結婚日期",
         "love_letter": "情書訊息",
         "waifus": "Waifu所有權",
