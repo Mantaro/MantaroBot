@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sأنت لست متزوجًا ، لذا أعتقد أن حالتك أه... \"غير متزوج\" (إذا رأيت زواجًا في ملفك الشخصي وشاهدت هذه الرسالة التي تعني أنك في النظام القديم ، فحاول الزواج مرة أخرى)",
         "header": "حالة الزواج الحالية",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "موعد الزواج",
         "love_letter": "رسالة الحب",
         "waifus": "ملكية الوايفو",
