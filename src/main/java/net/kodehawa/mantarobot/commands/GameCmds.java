@@ -148,34 +148,24 @@ public class GameCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var guildData = ctx.getDBGuild().getData();
-
                 if (guildData.isGameMultipleDisabled()) {
                     ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
                     return;
                 }
 
-                var arguments = ctx.getOptionalArguments();
-                var difficultyArgument = "diff";
-                content = Utils.replaceArguments(arguments, content, difficultyArgument);
+                var args = ctx.getOptionalArguments();
+                var difficulty = getTriviaDifficulty(ctx);
+                content = Utils.replaceArguments(args, content, "diff");
+                if (difficulty != null) {
+                    content = content.replace(args.get("diff"), "").trim();
+                }
 
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.game.nothing_specified", EmoteReference.ERROR);
                     return;
                 }
 
-                TriviaDifficulty difficulty = null;
-                if (arguments.containsKey(difficultyArgument) && arguments.get(difficultyArgument) != null) {
-                    var diff = arguments.get(difficultyArgument);
-                    var enumDiff = Utils.lookupEnumString(diff, TriviaDifficulty.class);
-                    if (enumDiff != null) {
-                        difficulty = enumDiff;
-                        content = content.replace(diff, "").trim();
-                    }
-                }
-
-                //Stripe all mentions from this.
                 var split = Utils.mentionPattern.matcher(content).replaceAll("").split(", ");
-
                 if (split.length <= 1) {
                     ctx.sendLocalized("commands.game.not_enough_games", EmoteReference.ERROR);
                     return;
@@ -223,33 +213,25 @@ public class GameCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var guildData = ctx.getDBGuild().getData();
-
                 if (guildData.isGameMultipleDisabled()) {
                     ctx.sendLocalized("commands.game.disabled_multiple", EmoteReference.ERROR);
                     return;
                 }
 
-                var arguments = ctx.getOptionalArguments();
-                var difficultyArgument = "diff";
-                content = Utils.replaceArguments(arguments, content, difficultyArgument);
-
-                //Trivia difficulty handling.
-                TriviaDifficulty difficulty = null;
-
-                if (arguments.containsKey(difficultyArgument) && arguments.get(difficultyArgument) != null) {
-                    var d = arguments.get(difficultyArgument);
-                    var enumDiff = Utils.lookupEnumString(d, TriviaDifficulty.class);
-
-                    if (enumDiff != null) {
-                        difficulty = enumDiff;
-                        content = content.replace(d, "").trim();
-                    }
+                content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "diff");
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.game.nothing_specified", EmoteReference.ERROR);
+                    return;
                 }
-                //End of trivia difficulty handling.
+
+                var difficulty = getTriviaDifficulty(ctx);
+                var args = ctx.getOptionalArguments();
+                if (difficulty != null) {
+                    content = content.replace(args.get("diff"), "").trim();
+                }
 
                 var strippedContent = Utils.mentionPattern.matcher(content).replaceAll("");
                 var values = SPLIT_PATTERN.split(strippedContent, 2);
-
                 if (values.length < 2) {
                     ctx.sendLocalized("commands.game.multiple.invalid", EmoteReference.ERROR);
                     return;
@@ -428,5 +410,19 @@ public class GameCmds {
 
         // not currently running
         return false;
+    }
+
+    private TriviaDifficulty getTriviaDifficulty(Context ctx) {
+        var arguments = ctx.getOptionalArguments();
+        TriviaDifficulty difficulty = null;
+        var arg = arguments.get("diff");
+        if (arg != null) {
+            var enumDiff = Utils.lookupEnumString(arg, TriviaDifficulty.class);
+            if (enumDiff != null) {
+                difficulty = enumDiff;
+            }
+        }
+
+        return difficulty;
     }
 }

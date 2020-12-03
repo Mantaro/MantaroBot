@@ -35,7 +35,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -297,6 +297,7 @@ public class InfoCmds {
                             %1$s **%6$s:** %7$s
                             %1$s **%8$s:** %9$s
                             %1$s **%10$s:** %11$s
+                            %1$s **%12$s:** %13$s
                             """.formatted(BLUE_SMALL_MARKER,
                             languageContext.get("commands.userinfo.id"), user.getId(),
                             languageContext.get("commands.userinfo.join_date"),
