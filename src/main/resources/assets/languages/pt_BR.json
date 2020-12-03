@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sVocê não é casado, então eu acho que seu status é uh... \"não casado\" (Se você ver um casamento em seu perfil e ver esta mensagem, isso significa que você está no sistema antigo. Tente se casar novamente)",
         "header": "Estado atual do casamento",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sEstado do casamento entre **%2$s** e **%3$s**",
         "date": "Data de casamento",
         "love_letter": "Carta de amor",
         "waifus": "Propriedade da Waifu",
