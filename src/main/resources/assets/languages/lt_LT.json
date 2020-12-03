@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sTu neturi antrosios pusės, tad tavo statusas yra uhhh... \"vienišas/vieniša\"",
         "header": "Dabartinis santykių statusas",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Santuokos data",
         "love_letter": "Meilės laiškas",
         "waifus": "Waifu priklausomybė",
