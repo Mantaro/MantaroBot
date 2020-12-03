@@ -161,8 +161,9 @@ public class PetCmds {
 
                 }
 
+                var name = pet.getName().replace("\n", "").trim();
                 EmbedBuilder status = new EmbedBuilder()
-                        .setAuthor(String.format(language.get("commands.pet.status.header"), pet.getName()), null, ctx.getUser().getEffectiveAvatarUrl())
+                        .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getUser().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
                         .setDescription(language.get("commands.pet.status.description"))
                         .addField(

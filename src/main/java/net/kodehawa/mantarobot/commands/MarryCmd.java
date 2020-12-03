@@ -417,6 +417,7 @@ public class MarryCmd {
                     return;
                 }
 
+                content = content.replace("\n", "").trim();
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.marry.buyhouse.no_name", EmoteReference.ERROR);
                     return;
@@ -427,6 +428,7 @@ public class MarryCmd {
                     return;
                 }
 
+                var finalContent = content;
                 ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, content);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
@@ -455,10 +457,10 @@ public class MarryCmd {
                         playerConfirmed.save();
 
                         marriageConfirmed.getData().setHasHouse(true);
-                        marriageConfirmed.getData().setHouseName(content);
+                        marriageConfirmed.getData().setHouseName(finalContent);
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER, housePrice, content);
+                        ctx.sendLocalized("commands.marry.buyhouse.success", EmoteReference.POPPER, housePrice, finalContent);
                         return Operation.COMPLETED;
                     }
 
@@ -505,11 +507,13 @@ public class MarryCmd {
                     return;
                 }
 
+                content = content.replace("\n", "").trim();
                 if (content.length() > 150) {
                     ctx.sendLocalized("commands.pet.buy.too_long", EmoteReference.ERROR);
                     return;
                 }
 
+                var finalContent = content;
                 ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, carPrice, content);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
@@ -537,10 +541,10 @@ public class MarryCmd {
                         playerConfirmed.save();
 
                         marriageConfirmed.getData().setHasCar(true);
-                        marriageConfirmed.getData().setCarName(content);
+                        marriageConfirmed.getData().setCarName(finalContent);
                         marriageConfirmed.save();
 
-                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER, carPrice, content);
+                        ctx.sendLocalized("commands.marry.buycar.success", EmoteReference.POPPER, carPrice, finalContent);
                         return Operation.COMPLETED;
                     }
 
