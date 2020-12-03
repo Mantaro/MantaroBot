@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sBạn chưa cưới, nên tình trạng hôn nhân của bạn chắc là ờm... \"độc thân\" (Nếu bạn thấy một cuộc hôn nhân trong hồ sơ của bạn thì nghĩa là bạn đang trong hệ thống cũ, hãy thử tái hôn)",
         "header": "Tình trạng hôn nhân hiện tại",
-        "description_format": "%1$sTình trạng hôn nhân giữa **%2$s#%3$s** và **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
         "date": "Ngày cưới",
         "love_letter": "Thư tình",
         "waifus": "Quyền sở hữu Waifu",
@@ -1009,7 +1009,7 @@
       },
       "brief_success": "**Huy hiệu của %1$s:**\n%2$s",
       "profile_notice": "Nếu bạn nghĩ mình đã đạt được một huy hiệu mới nhưng nó không xuất hiện ở đây, hãy dùng `~>profile` rồi sau đó dùng lại lệnh này.\n",
-      "info_notice": "Dùng `~>badges info <tên huy hiệu>` để biết thêm thông tin của một huy hiệu. [Bạn cũng có thể xem tại wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Bạn có thể nhận được huy hiệu cho việc [hỗ trợ phát triển Mantaro!](https://patreon.com/mantaro)!** (Việc nhận huy hiệu có thể sẽ mất chút thời gian)\n\n",
       "no_badges": "Không có huy hiệu để xem (hoặc chưa có!)",
       "header": "Thành tích huy hiệu của %1$s",
@@ -1048,7 +1048,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sBạn cần cho tôi một trường từ để chọn. (ví dụ: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sTôi chọn `%2$s`"
     },
     "remindme": {
