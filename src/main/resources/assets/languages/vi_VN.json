@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sBạn chưa cưới, nên tình trạng hôn nhân của bạn chắc là ờm... \"độc thân\" (Nếu bạn thấy một cuộc hôn nhân trong hồ sơ của bạn thì nghĩa là bạn đang trong hệ thống cũ, hãy thử tái hôn)",
         "header": "Tình trạng hôn nhân hiện tại",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Ngày cưới",
         "love_letter": "Thư tình",
         "waifus": "Quyền sở hữu Waifu",
