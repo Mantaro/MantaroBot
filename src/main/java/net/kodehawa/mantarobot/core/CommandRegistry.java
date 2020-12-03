@@ -120,7 +120,6 @@ public class CommandRegistry {
         final var member = event.getMember();
         final var guild = event.getGuild();
         final var roles = member.getRoles();
-
         final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.COMMAND_SPECIFIC);

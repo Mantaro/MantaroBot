@@ -147,12 +147,8 @@ public class GambleCmds {
                     return;
                 }
 
-                var user = ctx.getAuthor();
                 var gains = (long) (i * multiplier);
                 gains = Math.round(gains * 0.45);
-
-                final var finalLuck = luck;
-                final var finalGains = gains;
                 // Get the player again, to make sure the entry is not stale.
                 proceedGamble(ctx, ctx.getPlayer(), luck, i, gains, i);
             }

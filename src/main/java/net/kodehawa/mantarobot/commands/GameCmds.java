@@ -428,7 +428,7 @@ public class GameCmds {
             }
         }
 
-        //not currently running
+        // not currently running
         return false;
     }
 }

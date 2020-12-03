@@ -62,7 +62,7 @@ public class ImageCmds {
     private static final ImageBoard<SafeFurryImage> e926 = DefaultImageBoards.E926;
     private static final ImageBoard<KonachanImage> konachan = DefaultImageBoards.KONACHAN;
     private static final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;
-    private static final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
+    private static final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU;
     private static final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
     private static final ImageBoard<GelbooruImage> gelbooru = DefaultImageBoards.GELBOORU;
     private static final WeebAPIRequester weebAPIRequester = new WeebAPIRequester();

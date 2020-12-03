@@ -22,10 +22,10 @@ import java.util.regex.Pattern;
 // Thanks: https://stackoverflow.com/a/35024121
 public class RPGDice {
     private static final Pattern DICE_PATTERN = Pattern.compile("(?<A>\\d*)d(?<B>\\d+)(?>(?<MULT>[x/])(?<C>\\d+))?(?>(?<ADD>[+-])(?<D>\\d+))?");
-    private int rolls = 0;
-    private int faces = 0;
-    private int multiplier = 0;
-    private int additive = 0;
+    private final int rolls;
+    private final int faces;
+    private final int multiplier;
+    private final int additive;
 
     public RPGDice(int rolls, int faces, int multiplier, int additive) {
         this.rolls = rolls;

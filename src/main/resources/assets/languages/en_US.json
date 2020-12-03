@@ -319,6 +319,7 @@
       "success": "%1$sSkipped ahead to %2$s."
     },
     "move": {
+      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
       "attempt": "%1$sI will try to move to the channel you're in",
       "error_moving": "%1$sFailed to switch voice channels.",
       "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",

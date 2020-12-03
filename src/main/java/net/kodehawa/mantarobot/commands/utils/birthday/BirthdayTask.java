@@ -152,7 +152,7 @@ public class BirthdayTask {
                             }
 
                             // This needs to be a retrieveMemberById call, sadly. This will get cached, though.
-                            Member member = null;
+                            Member member;
                             try {
                                 // This is expensive!
                                 member = guild.retrieveMemberById(data.getKey(), false).complete();
@@ -245,7 +245,7 @@ public class BirthdayTask {
                         if (channel == null)
                             continue;
 
-                        entry.getValue().forEach(message -> channel.sendMessage(message).queue());
+                        messages.forEach(message -> channel.sendMessage(message).queue());
                         // If 100 guilds (about 1/10th of all the shard guilds! so very unlikely) do
                         // get a birthday now, the maximum delay will be 40,000ms, which is 40 seconds.
                         // Not much of an issue for the end user, but avoid sending too many requests

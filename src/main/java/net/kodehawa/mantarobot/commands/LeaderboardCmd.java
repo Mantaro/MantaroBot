@@ -164,8 +164,7 @@ public class LeaderboardCmd {
                                             languageContext.get("commands.leaderboard.inner.money").formatted(EmoteReference.MONEY),
                                     "commands.leaderboard.money", moneyLeaderboard,
                                     map -> {
-                                        Object money = null;
-
+                                        Object money;
                                         if (seasonal) {
                                             money = map.get("money");
                                         } else {

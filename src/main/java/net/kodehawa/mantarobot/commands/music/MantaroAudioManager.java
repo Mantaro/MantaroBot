@@ -37,8 +37,6 @@ import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Lazy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -55,8 +53,6 @@ public class MantaroAudioManager {
                     .setDaemon(true)
                     .build()
     ));
-
-    private static final Logger log = LoggerFactory.getLogger(MantaroAudioManager.class);
 
     private final Map<String, GuildMusicManager> musicManagers;
     private final AudioPlayerManager playerManager;

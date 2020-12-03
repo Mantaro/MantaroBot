@@ -325,7 +325,7 @@ public class PetCmds {
                     marriage.saveUpdating();
                     ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
                 });
-            };
+            }
         });
 
         pet.addSubCommand("buy", new SubCommand() {
@@ -512,7 +512,6 @@ public class PetCmds {
 
                 var isFull = false;
                 if (args.length > 1) {
-                    food = args[0];
                     if (args[1].equalsIgnoreCase("full")) {
                         food = args[0];
                         isFull = true;

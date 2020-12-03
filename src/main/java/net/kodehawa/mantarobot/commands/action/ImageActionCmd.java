@@ -112,7 +112,6 @@ public class ImageActionCmd extends NoArgsCommand {
 
         var languageContext = ctx.getGuildLanguageContext();
         var random = "";
-
         try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, "gif");

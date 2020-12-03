@@ -51,15 +51,6 @@ public class ImageCmd extends NoArgsCommand {
         this.toSend = toSend;
     }
 
-    public ImageCmd(String desc, String imageName, List<String> images, String toSend, boolean noMentions) {
-        super(CommandCategory.ACTION);
-        this.desc = desc;
-        this.imageName = imageName;
-        this.images = images;
-        this.toSend = toSend;
-        this.noMentions = noMentions;
-    }
-
     public ImageCmd(String desc, String imageName, String type, String toSend) {
         super(CommandCategory.ACTION);
         this.desc = desc;
@@ -83,13 +74,10 @@ public class ImageCmd extends NoArgsCommand {
     protected void call(Context ctx, String content) {
         final var builder = new EmbedBuilder();
         String random;
-        var id = "";
-
         try {
             if (type != null) {
                 var result = weebapi.getRandomImageByType(type, false, null);
                 images = Collections.singletonList(result.getKey());
-                id = result.getValue();
                 random = images.get(0); //Guaranteed random selection :^).
             } else {
                 if (images.isEmpty()) {

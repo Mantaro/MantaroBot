@@ -76,11 +76,10 @@ public class MessageCmds {
                                     messageHistory -> getMessageHistory(ctx, messageHistory,
                                             "commands.prune.mention_no_messages",
                                             message -> users.contains(message.getAuthor().getIdLong())
-                                    ), error -> {
-                                        ctx.sendLocalized("commands.prune.error_retrieving",
-                                                EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
-                                        );
-                                    });
+                                    ), error ->
+                                            ctx.sendLocalized("commands.prune.error_retrieving",
+                                                    EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
+                                    ));
 
                             return;
                         }
@@ -119,7 +118,6 @@ public class MessageCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var args = ctx.getArguments();
-
                 var amount = 100;
                 if (args.length >= 1) {
                     try {
@@ -159,7 +157,6 @@ public class MessageCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var args = ctx.getArguments();
-
                 var amount = 100;
                 if (args.length >= 1) {
                     try {

@@ -34,13 +34,13 @@ public enum HousePetType {
     ROCK(EmoteReference.ROCK, "Rock", List.of(HousePetAbility.CHEER), 1000, 1, true),
     ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, false);
 
-    public static enum HousePetAbility {
+    public enum HousePetAbility {
         FISH(HousePet.ActivityResult.PASS_FISH),
         CATCH(HousePet.ActivityResult.PASS_MINE),
         CHOP(HousePet.ActivityResult.PASS_CHOP),
         CHEER(HousePet.ActivityResult.PASS);
 
-        private HousePet.ActivityResult passActivity;
+        private final HousePet.ActivityResult passActivity;
         HousePetAbility(HousePet.ActivityResult passActivity) {
             this.passActivity = passActivity;
         }
@@ -50,7 +50,7 @@ public enum HousePetType {
         }
     }
 
-    public static enum PatReaction {
+    public enum PatReaction {
         CHEER("commands.pet.pet_reactions.cheer"), SCARE("commands.pet.pet_reactions.scare"),
         CUTE("commands.pet.pet_reactions.cute"), CUTE_2("commands.pet.pet_reactions.cute_not_animal"),
         NOTHING("commands.pet.pet_reactions.nothing");

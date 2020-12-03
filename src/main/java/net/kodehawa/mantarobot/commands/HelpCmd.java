@@ -48,10 +48,6 @@ public class HelpCmd {
         var dbGuild = ctx.getDBGuild();
         var guildData = dbGuild.getData();
         var dbUser = ctx.getDBUser();
-
-        String defaultPrefix = ctx.getConfig().prefix[0], guildPrefix = guildData.getGuildCustomPrefix();
-        var prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
-
         var languageContext = ctx.getLanguageContext();
 
         // Start building the help description.

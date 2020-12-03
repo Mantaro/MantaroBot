@@ -228,7 +228,7 @@ public class BirthdayCmd {
                                 .filter(birthday -> ids.contains(birthday.getKey()))
                                 .map((entry) -> {
                                     var birthday = entry.getValue().getBirthday().split("-");
-                                    Member member = null;
+                                    Member member;
                                     try {
                                         member = guild.retrieveMemberById(entry.getKey(), false).complete();
                                     } catch (Exception e) {
@@ -336,7 +336,7 @@ public class BirthdayCmd {
                                     Guild guild = ctx.getGuild();
                                     var birthday = entry.getValue().getBirthday().split("-");
 
-                                    Member member = null;
+                                    Member member;
                                     try {
                                         member = guild.retrieveMemberById(entry.getKey(), false).complete();
                                     } catch (Exception e) {

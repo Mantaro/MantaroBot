@@ -59,28 +59,6 @@ public class WeebAPIRequester {
         return Pair.of(object.getString("url"), object.getString("id"));
     }
 
-    public String getRandomImageByTags(String tags, boolean nsfw, String filetype) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("tags", tags);
-
-        if (nsfw) {
-            queryParams.put("nsfw", "only");
-        } else {
-            queryParams.put("nsfw", false);
-        }
-
-        if (filetype != null) {
-            queryParams.put("filetype", filetype);
-        }
-
-        var req = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
-        if (req == null) {
-            return null;
-        }
-
-        return new JSONObject(req).getString("url");
-    }
-
     public JSONObject getTypes() {
         var req = request(ALL_TYPES, null);
         if (req == null) {

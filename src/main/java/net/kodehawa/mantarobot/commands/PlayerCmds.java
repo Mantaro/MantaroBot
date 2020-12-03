@@ -282,21 +282,15 @@ public class PlayerCmds {
 
                         var equipmentFinal = isSeasonal ? seasonalPlayerData.getEquippedItems() : dbUserData.getEquippedItems();
                         var equippedFinal = equipmentFinal.getEquipment().get(type);
-                        var equippedItemFinal = ItemHelper.fromId(equippedFinal);
+                        if (equippedFinal == null) {
+                            ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
+                            return InteractiveOperation.COMPLETED;
+                        }
 
+                        var equippedItemFinal = ItemHelper.fromId(equippedFinal);
                         var part = ""; //Start as an empty string.
                         if (equippedItemFinal instanceof Breakable) {
                             // Gotta check again, just in case...
-                            if (equippedFinal == null) {
-                                ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
-                                return InteractiveOperation.COMPLETED;
-                            }
-
-                            if (equippedItemFinal == null) {
-                                ctx.sendLocalized("commands.profile.unequip.not_equipped", EmoteReference.ERROR);
-                                return InteractiveOperation.COMPLETED;
-                            }
-
                             var item = (Breakable) equippedItemFinal;
 
                             var percentage = ((float) equipmentFinal.getDurability().get(type) / (float) item.getMaxDurability()) * 100.0f;

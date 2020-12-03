@@ -332,7 +332,7 @@ public class UtilsCmds {
 
                 var url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(commandArguments[0], StandardCharsets.UTF_8);
                 var json = Utils.httpRequest(url);
-                UrbanData data = null;
+                UrbanData data;
 
                 try {
                     data = JsonDataManager.fromJson(json, UrbanData.class);

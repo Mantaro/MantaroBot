@@ -75,7 +75,6 @@ public class MantaroListener implements EventListener {
     private static final Logger LOG = LoggerFactory.getLogger(MantaroListener.class);
     private static final Config CONFIG = MantaroData.config().get();
     private static final ManagedDatabase DATABASE = MantaroData.db();
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final Pattern MODIFIER_PATTERN = Pattern.compile("\\b\\p{L}*:\\b");
     // Channels we could send the greet message to.
@@ -269,10 +268,9 @@ public class MantaroListener implements EventListener {
                 }
 
                 final var deletedMessage = messageCache.get(event.getMessageIdLong(), Optional::empty).orElse(null);
-                final var author = deletedMessage.getAuthor();
-
                 if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)
-                        && !author.getId().equals(event.getJDA().getSelfUser().getId())) {
+                        && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
+                    final var author = deletedMessage.getAuthor();
                     if (data.getModlogBlacklistedPeople().contains(author.getId())) {
                         return;
                     }
@@ -334,8 +332,8 @@ public class MantaroListener implements EventListener {
                 }
 
                 final var editedMessage = messageCache.get(event.getMessage().getIdLong(), Optional::empty).orElse(null);
-                final var content = editedMessage.getContent();
-                if (editedMessage != null && !content.isEmpty() && !event.getChannel().getId().equals(logChannel)) {
+                if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
+                    final var content = editedMessage.getContent();
                     // Update message in cache in any case.
                     final var originalMessage = event.getMessage();
                     messageCache.put(originalMessage.getIdLong(), Optional.of(
@@ -421,12 +419,22 @@ public class MantaroListener implements EventListener {
     private void onDisconnect(DisconnectEvent event) {
 
         if (event.isClosedByServer()) {
-            LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [%,d] %s%n"
-                    .formatted(event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()));
+            final var clientCloseFrame = event.getClientCloseFrame();
+            if (clientCloseFrame == null) {
+                LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [null close frame], disconnected with code {}",
+                        event.getCloseCode());
+            } else {
+                LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [%,d] %s%n"
+                        .formatted(clientCloseFrame.getCloseCode(), event.getCloseCode()));
+            }
         } else {
             final var clientCloseFrame = event.getClientCloseFrame();
-            LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [%,d] %s%n"
-                    .formatted(clientCloseFrame.getCloseCode(), clientCloseFrame.getCloseReason()));
+            if (clientCloseFrame == null) {
+                LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [null close frame?]");
+            } else {
+                LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [%,d] %s%n"
+                        .formatted(clientCloseFrame.getCloseCode(), clientCloseFrame.getCloseReason()));
+            }
         }
     }
 
@@ -436,7 +444,7 @@ public class MantaroListener implements EventListener {
 
         try {
             if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
-                LOG.info("Left {} because of a blacklist entry. (Owner ID: {})", guild.getId(), guild.getOwner().getId());
+                LOG.info("Left {} because of a blacklist entry. (Owner: {})", guild.getId(), guild.getOwner());
                 guild.leave().queue();
                 return;
             }

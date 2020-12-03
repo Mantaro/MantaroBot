@@ -41,7 +41,7 @@ public class BirthdayCacher {
     private static final Logger log = LoggerFactory.getLogger(BirthdayCacher.class);
     private final ExecutorService executorService =
             Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro Birthday Assigner Executor").build());
-    private Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
+    private final Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;
 
     public BirthdayCacher() {

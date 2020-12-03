@@ -227,15 +227,14 @@ public class AnimeCmds {
                     StringEscapeUtils.unescapeHtml4(
                             attributes.getDescription().replace("<br>", "\n")
                                     .replaceAll("<.*?>", "")
-                    ); //This is silly.
+                    ); // This is silly.
 
             var charDescription = "";
-
             if (attributes.getDescription() == null || attributes.getDescription().isEmpty()) {
                 charDescription = lang.get("commands.character.no_info");
+            } else {
+                charDescription = StringUtils.limit(characterDescription, 1016);
             }
-
-            charDescription = StringUtils.limit(characterDescription, 1016);
 
             var player = MantaroData.db().getPlayer(event.getAuthor());
             var badge =

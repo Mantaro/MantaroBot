@@ -290,6 +290,7 @@ public class InfoCmds {
                             .collect(Collectors.joining(", "));
 
                     var languageContext = ctx.getLanguageContext();
+                    var voiceState = member.getVoiceState();
                     var str = """
                             %1$s **%2$s:** %3$s
                             %1$s **%4$s:** %5$s
@@ -307,8 +308,8 @@ public class InfoCmds {
                                     System.currentTimeMillis() - user.getTimeCreated().toInstant().toEpochMilli())
                                     + " " + languageContext.get("general.days"),
                             languageContext.get("commands.userinfo.vc"),
-                            member.getVoiceState().getChannel() != null ?
-                                    member.getVoiceState().getChannel().getName() : languageContext.get("general.none"),
+                            voiceState != null && voiceState.getChannel() != null ?
+                                    voiceState.getChannel().getName() : languageContext.get("general.none"),
                             languageContext.get("commands.userinfo.color"),
                             member.getColor() == null ? languageContext.get("commands.userinfo.default") :
                                     "#%s".formatted(Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase())

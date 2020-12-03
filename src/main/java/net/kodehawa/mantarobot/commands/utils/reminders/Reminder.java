@@ -139,7 +139,7 @@ public class Reminder {
         }
     }
 
-    public static enum CancelReason {
+    public enum CancelReason {
         CANCEL, REMINDED, ERROR_DELIVERING
     }
 }

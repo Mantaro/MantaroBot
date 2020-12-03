@@ -287,7 +287,7 @@ public class HousePet {
         }
     }
 
-    public static enum ActivityResult {
+    public enum ActivityResult {
         LOW_STAMINA(false, "commands.pet.activity.low_stamina"),
         LOW_HEALTH(false, "commands.pet.activity.low_health"),
         LOW_HUNGER(false, "commands.pet.activity.low_hunger"),

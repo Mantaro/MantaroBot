@@ -53,7 +53,7 @@ public class AudioCmdUtils {
 
     public static void embedForQueue(GuildMessageReceivedEvent event, GuildMusicManager musicManager, I18nContext lang) {
         final var trackScheduler = musicManager.getTrackScheduler();
-        final var toSend = getQueueList(trackScheduler.getQueue(), musicManager);
+        final var toSend = getQueueList(trackScheduler.getQueue());
         final var guild = event.getGuild();
         final var musicPlayer = trackScheduler.getMusicPlayer();
         final var playingTrack = musicPlayer.getPlayingTrack();
@@ -345,7 +345,7 @@ public class AudioCmdUtils {
         );
     }
 
-    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue, GuildMusicManager manager) {
+    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue) {
         var sb = new StringBuilder();
         var num = 1;
 

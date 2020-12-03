@@ -794,7 +794,7 @@ public class CurrencyActionCmds {
             var message = "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, itemIncrease);
 
             return new HousePet.ActivityReward(itemIncrease, moneyIncrease, message);
-        } else if (!ability.passed() && !ability.getLanguageString().isEmpty()) {
+        } else if (!ability.getLanguageString().isEmpty()) {
             var message = "\n" + pet.buildMessage(ability, languageContext, 0, 0);
             return new HousePet.ActivityReward(0, 0, message);
         }
