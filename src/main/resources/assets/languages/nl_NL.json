@@ -581,7 +581,7 @@
       "status": {
         "no_marriage": "%1$sJe bent niet getrouwd, dus ik denk dat je status \"niet getrouwd\" is...",
         "header": "Huidige huwelijks status",
-        "description_format": "%1$sMarriage status between **%2$s** and **3$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Huwelijksdatum",
         "love_letter": "Liefdesbrief",
         "waifus": "Waifu Eigendom",
