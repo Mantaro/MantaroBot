@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
     },
     "ping": {
-      "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
-        "69": "6... 69! <:MantaroGasm:318869352851963904>",
-        "100": "太棒了! :smiley:",
-        "200": "很好! :slight_smile:",
-        "300": "不錯。:neutral_face:",
-        "400": "一般一般... :confused:",
-        "500": "有點慢。:slight_frown:",
-        "600": "滿卡的... :frowning2:",
-        "700": "卡... :worried:",
-        "800": "太卡了。:disappointed:",
-        "900": "糟糕。:sob: (救救我)",
-        "1600": "#BlameDiscord。:angry:",
-        "10000": "這根本就沒道理 :thinking: #BlameSteven",
-        "default": "卡。:dizzy_face:"
-      },
       "display": [
         "我-我夠快嗎？",
         "你在做什麼？",
@@ -555,7 +538,7 @@
         "Ping-pong？ 耶！",
         "嗯...嗯 嗨...嗨"
       ],
-      "text": "%1$s*%2$s* - 我的Ping：%3$,d ms (%4$s) `Websocket:%5$,dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
