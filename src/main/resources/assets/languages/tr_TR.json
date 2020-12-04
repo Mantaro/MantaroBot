@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
     },
     "ping": {
-      "quotes": {
-        "1": "supersonic hiz! :upside_down:",
-        "10": "Sonicten hizli! :smiley:",
-        "69": "s-sapik! <:MantaroGasm:318869352851963904>",
-        "100": "harika! :smiley:",
-        "200": "güzel! :slight_smile:",
-        "300": "müthiş. :neutral_face:",
-        "400": "ortalama... :confused:",
-        "500": "hafiften yavaş sanki. :slight_frown:",
-        "600": "yavaş sayılır.. :frowning2:",
-        "700": "yavaş.. :worried:",
-        "800": "çok yavaş. :disappointed:",
-        "900": "kötü. :sob: (yardim!)",
-        "1600": "#DiscorduSucla. :angry:",
-        "10000": "Hic bir anlami yok :thinking: #SteveniSucla",
-        "default": "yavas iste amk. :dizzy_face:"
-      },
       "display": [
         "Y-yeterince hizli miydim?",
         "Napıyorsun?",
@@ -555,7 +538,7 @@
         "Ping-pong? Yay!",
         "U-Uh... h-hi"
       ],
-      "text": "%1$s*%2$s* - Ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sBir kullanıcıdan bahsetmelisin.",
