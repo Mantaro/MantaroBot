@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
     },
     "ping": {
-      "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "소닉보다 빨라요! :smiley:",
-        "69": "서..선정적이야! <:MantaroGasm:318869352851963904>",
-        "100": "좋아요! :smiley:",
-        "200": "멋있네요! :slight_smile:",
-        "300": "괜찮아요. :neutral_face:",
-        "400": "평균이네요... :confused:",
-        "500": "약간 느려요. :slight_frown:",
-        "600": "좀 느려요.. :frowning2:",
-        "700": "느려요.. :worried:",
-        "800": "매우 느려요. :disappointed:",
-        "900": "나빠요. :sob: (도와줘요)",
-        "1600": "#Discord책임져. :angry:",
-        "10000": "이건 말도 안 돼요 :thinking: #Steven책임져",
-        "default": "느리게. :dizzy_face:"
-      },
       "display": [
         "ㅈ..제가 충분히 빠른가요?",
         "지금 무엇을 하고 있나요?",
@@ -555,7 +538,7 @@
         "Ping-pong? Yay!",
         "ㅇ..음...ㅇ..안녕"
       ],
-      "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
