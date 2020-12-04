@@ -72,11 +72,14 @@ public class MessageCmds {
 
                         if (!mentionedUsers.isEmpty()) {
                             List<Long> users = mentionedUsers.stream().map(User::getIdLong).collect(Collectors.toList());
-                            ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
-                                    messageHistory -> getMessageHistory(ctx, messageHistory,
-                                            "commands.prune.mention_no_messages",
-                                            message -> users.contains(message.getAuthor().getIdLong())
-                                    ), error ->
+                            final var finalAmount = amount;
+                            ctx.getChannel().getHistory().retrievePast(100).queue(
+                                    messageHistory -> {
+                                        getMessageHistory(ctx, messageHistory, finalAmount,
+                                                "commands.prune.mention_no_messages",
+                                                message -> users.contains(message.getAuthor().getIdLong())
+                                        );
+                                    }, error ->
                                             ctx.sendLocalized("commands.prune.error_retrieving",
                                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
                                     ));
@@ -134,9 +137,10 @@ public class MessageCmds {
                 ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
                         messageHistory -> {
                             String prefix = MantaroData.db().getGuild(ctx.getGuild()).getData().getGuildCustomPrefix();
-                            getMessageHistory(ctx, messageHistory, "commands.prune.bots_no_messages",
-                                    message -> message.getAuthor().isBot() ||
-                                            message.getContentRaw().startsWith(prefix == null ? "~>" : prefix));
+                            getMessageHistory(ctx, messageHistory, -1,
+                                    "commands.prune.bots_no_messages",
+                                    message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix)
+                            );
                         }, error -> {
                             ctx.sendLocalized("commands.prune.error_retrieving",
                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
@@ -172,7 +176,8 @@ public class MessageCmds {
 
                 ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
                         messageHistory -> getMessageHistory(ctx, messageHistory,
-                                "commands.prune.no_pins_no_messages", message -> !message.isPinned()
+                                -1, "commands.prune.no_pins_no_messages",
+                                message -> !message.isPinned()
                         ), error -> {
                             ctx.sendLocalized("commands.prune.error_retrieving",
                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
@@ -200,9 +205,13 @@ public class MessageCmds {
         });
     }
 
-    private void getMessageHistory(Context ctx, List<Message> messageHistory, String i18n, Predicate<Message> predicate) {
-        messageHistory = messageHistory.stream().filter(predicate).collect(Collectors.toList());
+    private void getMessageHistory(Context ctx, List<Message> messageHistory, int limit, String i18n, Predicate<Message> predicate) {
+        var stream = messageHistory.stream().filter(predicate);
+        if (limit != -1) {
+            stream = stream.limit(limit);
+        }
 
+        messageHistory = stream.collect(Collectors.toList());
         if (messageHistory.isEmpty()) {
             ctx.sendLocalized(i18n, EmoteReference.ERROR);
             return;
