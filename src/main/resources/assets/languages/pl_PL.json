@@ -319,6 +319,7 @@
       "success": "%1$sPrzeskoczono do %2$s."
     },
     "move": {
+      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
       "attempt": "%1$sPostaram się przejść na kanał, na którym jesteś",
       "error_moving": "%1$s Nie powiodło się zmienianje kanału głosowego.",
       "cannot_connect": "%1$sNie mogę się połączyć: albo nie mam pozwolenia na rozmowę, albo na przenoszenie kanałów.",
@@ -505,6 +506,7 @@
       "time_not_specified": "%1$sChciałeś czasu, ale nie sprecyzowałeś na jak długo.",
       "negative_time_notice": "%1$sNie można kogoś wyciszyć na czas negatywny. Chyba, że potrafisz zginać czasoprzestrzeń, to znaczy.",
       "default_time_too_long": "%1$sDomyślny czas trwania wyciszenia jest zbyt długi (maksymalnie 10 dni)...",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sPodana długość przerwy w wyciszeniu jest zbyt długa (maksymalnie 10 dni)...",
       "already_muted": "%1$sTen użytkownik ma już rolę wyciszonego. Proszę wpisz `~>un-mute` aby odciszych użytkownika.",
       "self_hierarchy_error": "%1$sNie mogę przypisać temu użytkownikowi roli niemego, ponieważ znajduje się on w wyższej hierarchii niż ja, lub rola jest w wyższej hierarchii!",
@@ -581,7 +583,7 @@
       "status": {
         "no_marriage": "%1$sNie jesteś żonaty, więc myślę, że twój status to uh... \"nie żonaty\" (Jeśli widzisz małżeństwo w swoim profilu i widzisz tę wiadomość, która oznacza, że jesteś w starym systemie, spróbuj ponownie się ożenić)",
         "header": "Obecny status ślubu",
-        "description_format": "%1$sStan małżeństwa między **%2$s #%3$s** a **%4$s #%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Data ślubu",
         "love_letter": "List Miłosny",
         "waifus": "Własność Waifu",
@@ -710,17 +712,17 @@
       "format": "**Cena**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sTen ekwipunek jest pusty! :(",
       "brief_notice": "Możesz użyć `~>inventory -brief` aby uzyskać wersję przyjazną dla telefonów komórkowych.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(posortowane według: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sNie znalazłem żadnego przedmiotu, który by do tego pasował. Jeśli nazwa pozycji ma spacje, zawiń ją w \"cudzysłowy\"",
       "item_not_cast": "%1$sNie możesz przesłać tego elementu. Możesz sprawdzić `~>cast ls`, aby zobaczyć listę elementów, które można przesłać. Jeśli nazwa elementu zawiera spacje, zawiń ją w cudzysłów. Przykład: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
-      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "not_enough_money": "%1$sNie masz wystarczająco dużo pieniędzy, żeby to rzucić. **(Koszt: %2$s)**",
+      "no_item": "%1$sNie masz wymaganego elementu *%2$s*, aby kontynuować przesyłanie.",
+      "not_enough_items": "%1$sNie masz wystarczającej ilości elementu *%2$s*, aby kontynuować. **(potrzebne: %3$s, bieżące: %4$s)**",
+      "success": "%1$sUdało Ci się *przesłać %2$s %3$s* za %4$s kredytów. *Używane przesyłanie: %5$s*",
+      "no_tool": "%1$sAby kontynuować rzucanie, musisz mieć %2$s! Pamiętaj: aby kontynuować rzucanie, musisz mieć dwa klucze tego samego wymaganego typu.",
+      "item_broke": "\nNiestety, twój klucz się złamał, ale masz swój przedmiot!",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
@@ -1009,7 +1011,7 @@
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s",
@@ -1034,10 +1036,10 @@
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1048,7 +1050,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sI choose `%2$s`"
     },
     "remindme": {
@@ -1354,7 +1356,8 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
         "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$sCancelled operation.",
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",

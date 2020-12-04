@@ -319,6 +319,7 @@
       "success": "%1$sتخطي الى %2$s"
     },
     "move": {
+      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
       "attempt": "%1$sسأحاول الانتقال الى القناة التي أنت بها",
       "error_moving": "%1$sفشل في تبديل القنوات الصوتية",
       "cannot_connect": "%1$sفشل الإتصال: إما ليس لدي الصلاحية للتحدث أو لنقل القنوات.",
@@ -505,6 +506,7 @@
       "time_not_specified": "%1$sأنت تريد وقت ولكن لم تحدد المدة.",
       "negative_time_notice": "%1$sلا يمكنك إسكات شخص للوقت السلبي. الا اذا كنت تستطيع ثني وقت الفضاء.. هذا هو. ",
       "default_time_too_long": "%1$sمدة الإسكات الافتراضي طويله جداً (الحد الاقصى: 10 أيام)...",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sمدة الإسكات المُحدد طويله جداً (الحد الاقصى: 10 أيام)...",
       "already_muted": "%1$sهذا العضو لديه بالفعل رتبة الإسكات. استخدم `~>unmute` لعدم إسكاته.",
       "self_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنا عليه. ",
@@ -581,7 +583,7 @@
       "status": {
         "no_marriage": "%1$sأنت لست متزوجًا ، لذا أعتقد أن حالتك أه... \"غير متزوج\" (إذا رأيت زواجًا في ملفك الشخصي وشاهدت هذه الرسالة التي تعني أنك في النظام القديم ، فحاول الزواج مرة أخرى)",
         "header": "حالة الزواج الحالية",
-        "description_format": "%1$sحالة الزواج بين **%2$s#%3$s** و **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "موعد الزواج",
         "love_letter": "رسالة الحب",
         "waifus": "ملكية الوايفو",
@@ -1009,7 +1011,7 @@
       },
       "brief_success": "**ميداليات %1$s.**\n%2$s",
       "profile_notice": "إذا إعتقدت أنك حصلت على ميدالية جديدة ولم تظهر هُنا، إستخدم أمر `~>profile` وبعدها إستخدم الأمر مرة أخرى. ",
-      "info_notice": "استخدم `~>badges info <اسم الميدالية>` لمعرفة المزيد عن الميدالية، يمكنك ايضاً التحقق من ال wiki :\n(https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**يمكنك الحصول على ميدالية لدعم تطوير مونتارو! (https://patreon.com/mantaro)!**\n(من الممكن أن يأخذ بعض الدقائق)",
       "no_badges": "لايوجد ميداليات لعرضها (بَعد:)!)",
       "header": "الميداليات التي تحققت من قبل %1$s",
@@ -1034,10 +1036,10 @@
       "no_guild_month_birthdays": "%1$sلا يوجد اعياد ميلاد لهذا الشهر (%2$s) هنا :(.\n%3$sإذا قمت للتو بإعداد مُعلن عيد الميلاد ، يرجى الانتظار قليلاً قبل استعمال الأمر مرة أخرى. (يتم تحديث ذاكرة التخزين المؤقت كل 23 ساعة)\nتذكر انه يتعين على الأعضاء الان استعمال الأمر\n `~>birthday allowserver` للسماح للسيرفر بالاعلان عن اعياد ميلادهم .",
       "cache_not_running": "%1$sيبدو أن ميلاد ساشير لايمكن إستخدامه (خطأ داخلي) :(.",
       "error": "%1$sحصل شئ خطأ ما بينما كنت تحاول الحصول على عيدميلاد (خطأ داخلي) :(.",
-      "header": "**%1$s اعياد الميلاد لـ %2$s**\nيتم تحديث الذاكرة المؤقتة كل 23 ساعة. لذلك اذا لم يظهر عيد ميلادك هنا, لا تشعر بالفزع.\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
-      "invalid_date": "%1$sتاريخ غير صحيح او صيغة خاطئة.\nتذكر ان الصيغة الصحيحة للتاريخ هي `dd-mm` (يوم-شهر)",
-      "error_date": "%1$s%2$s هو اما تاريخ غير صالح او لم اتمكن من تحليله بشكل صحيح. يرجى المحاولة بالصيغة الصحيحة\nتذكر ان الصيغة الصحيحة هي `dd/mm`",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sتم اضافة تاريخ الميلاد بنجاح. تاريخ الميلاد الجديد: %2$s *(الصيغة: dd-MM)* [day-month]. للسماح لهذا السيرفر بالاعلان عن عيد ميلادك يجب عليك استخدام الأمر:\n `~>birthday allowserver`",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
       "no_content": "%1$sيجب عليك تحديد تاريخ ميلادك, `remove` لإعادة ضبط تاريخ ميلادك أو `month` لعرض اعياد الميلاد بهذا الشهر. للسماح لهذا السيرفر بالاعلان عن عيد ميلادك, يجب عليك استعمال الأمر \n`~>birthday allowserver`",
@@ -1048,7 +1050,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sيجب أن تخبرني ما الذي أختار هُنا. (مثال: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sأنا أختار `%2$s` :)"
     },
     "remindme": {
@@ -1354,7 +1356,8 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
         "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$sCancelled operation.",
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",

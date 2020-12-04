@@ -25,36 +25,36 @@
     "options": "オプション",
     "find_members_failure": "%1$sその検索基準ではメンバーは見つかりませんでした (´_｀)",
     "too_many_members": "%1$sたくさんのメンバーが見つかりました。検索を改善してみてはどうですか？（例：ユーザー名#区別番号）\n**検索結果：** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sメンバー検索の際は、一人のユーザーのみ指定してください。",
+    "query_too_small": "%1$s検索条件が少なすぎます。 少なくとも4文字以上を指定していることをご確認ください。 もしも、ユーザー名が短すぎる場合は、ユーザー名#ディスコードタグ を使用するか、ユーザーIDを使用してください。",
     "dust": "ここには埃しかありません。",
     "invalid_syntax": "無効な構文です。",
     "item_lookup": {
       "no_item_emoji": "この絵文字に関連する商品が見つかりませんでした。",
       "no_item_name": "この名前に関連する商品が見つかりませんでした。",
-      "not_found": "Couldn't find any related items with your search. If you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "もし迷っていたら、短い名称などを使ってみてください。例えば、「エナジードリンク」の代わりに「エナジー」など。もしくは、検索用語を「\"」でくくってください。",
       "claim_key": "クレームキーを渡すことができません。"
     },
     "misc_item_usage": {
       "mop": "%1$s（恐らく）全ての埃を拭き取りました。",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
+      "mop_not_enough": "%1$sホコリレベルは5%%よりも少ないです。なので、モップ掛けはあまり役に立ちません。",
       "milk": "%1$s全てのポーション効果を解除しました。",
-      "stamina": "%1$sActivated stamina for 3 mining sessions.",
+      "stamina": "%1$s採掘三回分のスタミナを有効化しました。",
       "stamina_used": "%1$sスタミナはすでに有効化されています。",
-      "haste": "%1$sActivated Haste for 2 sessions.",
-      "haste_used": "%1$sYou already have an active haste effect!",
-      "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
+      "haste": "%1$s採掘強化を2回分有効化しました。",
+      "haste_used": "%1$s採掘強化はすでに有効化されています！",
+      "bait": "%1$s釣り餌をセットしました！ 良いものが釣れると良いですね！ (1回のみ有効)",
       "bait_used": "%1$s釣り餌がすでに設置されています！",
       "pill": "%1$sYou drank a waifu pill! (Activated for 5 sessions)",
       "pill_used": "%1$sYou already have an active waifu pill!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
-        "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
-        "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
+        "no_key": "%1$s開けるには鍵が必要です。鍵がかかっています！",
+        "no_crate": "%1$sルートクレートが必要です！ 他にどこで鍵を使うのですか...",
+        "success": "%1$sあなたはクレートを開いて当たり: %2$s%3$sを引きました！おめでとう！",
         "overflow": "すでにたくさん持っていたので、あなたは余ったものを捨てることにしました。"
       },
-      "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
-      "potion_not_found": "%1$sI can't find that potion or equipment type!",
+      "potion_active": "%1$sすでに**%2$s**ポーションのエフェクトが有効です。また、すでに最大量を使用しています。",
+      "potion_not_found": "%1$sその種類のポーションや装備品が見つかりません！",
       "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
       "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
@@ -76,13 +76,13 @@
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
-    "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
+    "buy_sell_paged_reference": "**目安: %1$s 購入 %2$s 売却**",
     "cancelled": "%1$sリクエストをキャンセルしました。",
-    "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
+    "sellout": "もし気に入っていただけたら、[Patreon](https://www.patreon.com/mantaro)での支援をご検討ください。少額でもBotの存続に貢献できます！",
     "deprecated": "もう使用できません。",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "space_notice": "もし名前にスペースが入る場合、\"このようにダブルクオーテーションでくくってみてください\"",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
+      "header": "%1$s%2$s (使用制限)\n **このコマンドが使用可能になるまで\n%3$s**",
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
       "spam_2": "\n今はやめておいたほうが良いかもしれません…",
       "spam_3": "\n少し外へ出てみるのはいかがですか？",
@@ -104,7 +104,7 @@
       "は、早く呼びすぎて目が回る…",
       "ちょっと待ちましょう！",
       "ちょっと待ってください、あともーうちょっと",
-      "Seems like we're gonna get a speed ticket if we continue going this fast!",
+      "このまま速すぎるようでしたらスピード違反にひっかかりますね！",
       "I wanna do this... but halt for a bit please.",
       "Hey, wait up, I'm not done with my break yet!",
       "もう少しゆっくりしてください。"
@@ -135,7 +135,7 @@
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
+      "dust": "%1$s今日はおしまい。あなたのバケツは埃だけを集めました。 (埃レベル %2$s%%)",
       "no_rod": "%1$sYou don't have a fish rod to fish with! (try with another rod)",
       "trash": {
         "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
@@ -146,7 +146,7 @@
       },
       "crate": {
         "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "success": "あなたは釣りをしている際に、 %1$s **%2$s** を見つけて拾い上げました。 `~>opencrate <crate name>` で開けることが出来ます。開封にはクレートキーが必要です！"
       },
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
@@ -168,20 +168,20 @@
     "softban": {
       "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
       "no_permission_self": "%1$sごめんなさい! 私はこのサーバーでメンバーをBANする権限を所持していません。",
-      "no_users": "%1$sYou need to give me an user to soft-ban.",
+      "no_users": "%1$s一時BANを行うためには、ユーザーを指定する必要があります。",
       "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
-      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
-      "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
+      "yourself_note": "%1$s自身に一時BANは実行できません。",
+      "self_hierarchy_conflict": "%1$s %2$s を一時BANできません。 対象は私より高い権限か同等の権限を持っています。",
+      "success": "%1$s%2$s **(%3$s は一時BANを受けました)**",
+      "error": "%1$s一時BANの試行中にエラーが発生しました。 [%2$s]: (権限: %3$sを所有していません。)",
+      "unknown_error": "%1$s 対象 %2$s の一時BAN試行中に不明なエラーが発生しました。 *(エラー？ %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me a user to ban.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
-      "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
+      "no_permission": "%1$sあなたはBANを実行できません。: 権限 `メンバーをBAN ` が必要です。",
+      "no_users": "%1$sBANを行うためにはユーザーを指定する必要があります。",
+      "no_permission_self": "%1$sごめんなさい！ 私はこのサーバーでメンバーをBANする権限を持っていません。",
+      "hierarchy_conflict": "%1$sあなたより高い権限を持っている人をBANすることはできません！ 残念 %2$s!",
+      "yourself_note": "%1$s残念ですが、自分自身をBANすることはできません。",
       "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
       "success": "%1$s%2$s (%3$s got banned)",
       "success_multiple": "%1$s%2$s (%3$s people got banned)",
@@ -189,27 +189,27 @@
       "unknown_error": "%1$sHuh, I encountered an unknown error while banning %2$s"
     },
     "kick": {
-      "no_permission": "%1$sCannot kick: You have no Kick Members permission.",
-      "no_users": "%1$sYou need to give me a user to kick.",
-      "no_permission_self": "%1$sSorry! I don't have permission to kick members in this server.",
-      "hierarchy_conflict": "%1$sYou cannot kick an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to kick yourself, silly?",
+      "no_permission": "%1$sKickできません。: 権限 `メンバーをKick` を所持していません。",
+      "no_users": "%1$sキックを行うにはユーザーを指定する必要があります。",
+      "no_permission_self": "%1$sごめんなさい！ 私はこのサーバーでメンバーをkickする権限を持っていません。",
+      "hierarchy_conflict": "%1$sあなたは対象のユーザーよりも権限が低い為キックできません。",
+      "yourself_note": "%1$s残念ですが、自分自身をkickすることはできません。",
       "self_hierarchy_conflict": "%1$sこのメンバーをキックできません。 %2$s キック対象は私よりも高い権限か、同等の権限を持っています。",
       "success": "%1$s%2$s(%3$s はキックされました)",
       "error": "%1$s キックの試行中にエラーが発生しました。%2$s: (権限を所持していません: %3$s)",
-      "unknown_error": "%1$sUnknown error while attempting to kick %2$s"
+      "unknown_error": "%1$sKickの試行中に不明なエラーが発生しました。 %2$s"
     },
     "music_usage": {
-      "1": "*How to use music in Mantaro?*",
-      "2": "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *It will connect automatically to the voice channel you are in*",
-      "3": "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` (You need to select the number, just *type the number* after the selection box pops up!)",
-      "4": "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`",
-      "5": "- To **check the queue** you just type `~>queue`",
-      "6": "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)",
-      "7": "- To **pause or unpause** just use `~>pause`",
-      "8": "- To **stop the music and unbind the player** use `~>stop`",
-      "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
+      "1": "*Mantaroを使って音楽を流す方法は？*",
+      "2": "**YoutubeやSoundcloudを使って再生リストに追加できます。** 使い方 `~>play` 例: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs ` *コマンド実行時、あなたが既にボイスチャンネルに参加している場合、ボットは自動的にボイスチャンネルに接続します。*",
+      "3": "**Youtubeの音楽を検索する方法** 使い方 `~>play <search term>`(<>は除く) 例: `~>play see you again` (実行後に選択候補が表示されます。 任意の番号を選んで送信してください。)",
+      "4": "**Soundcloudの音楽を検索する方法** 使い方 `~>play soundcloud <search term>` 例 `~>play soundcloud hot milk`",
+      "5": "**再生リストのチェック** `~>queue` を実行。",
+      "6": "**再生リストから曲を削除する** `~>removetrack` コマンドを使用して曲を再生リストから削除できます。削除には再生リストの曲番号を入力する必要があります。(曲番号は`~>queue`コマンドのリストから探すことができます。)",
+      "7": "**一時停止 もしくは 再開** `~>pause`を使用して一時停止または再開が可能です。",
+      "8": "**音楽を停止しmantaroを退出** `~>stop` を使用して可能です。",
+      "9": "**再生リストをシャッフル** `~>shuffle`を使用して可能です。",
+      "10": "最後に。 **曲をリピート** `~>repeat `を使用して曲をリピートできます。 **再生リストをリピート** `~>repeat queue `を使用して再生リストをリピートできます。 どちらも、リピートが有効の状態で `~>reprat `を使用することでリピートの解除が可能です。\n",
       "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Enjoy your music and thanks for using Mantaro!"
     },
@@ -222,10 +222,10 @@
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+        "timeout": "%1$s %2$sへの接続に失敗しました。接続がタイムアウトしました。 サーバー地域を変更して再度コマンドを実行してみてください。",
+        "unknown": "%1$s %2$sへの接続に失敗しました。: 不明なエラー。"
       },
-      "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$s音楽再生機能はYoutubeからbotトラフィックをブロックされているため有名なbotでは現在使用不可能になっています。\n私達のPatreon botでは今現在も使用可能です。\nMantaroに4$/月 寄付いただけるとPatreon botが使用出来るほか、現在発生している問題の修正の取り組みにも役立ちます。\n\nこちらをご覧ください。<https://patreon.com/mantaro>\n\nご不便をおかけして申し訳ございません。\n問題解決までSoundcloudの使用をご検討ください! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
       "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
       "dj_only": "%1$sYou need to be a DJ to use this command.",
@@ -235,7 +235,7 @@
       "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
       "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
       "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it. If you need help with the bot, you can join <https://support.mantaro.site>\n%2$s",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
+      "soundcloud_no_args": "%1$s曲名を指定してください… 私は魔法使いではないので考えを読み取ることはできません…(-_-;)",
       "too_many_errors": "%1$sToo many errors on this session, stopping...",
       "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
@@ -247,13 +247,13 @@
         "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
         "np": "Currently playing",
         "dj_np": "**Queued by:** ",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`.",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
+        "page_overflow": "ここには何もありません、あるのは埃だけ。なぜ、他のページに戻らないのです？",
+        "page_overflow_2": "もしも、キューに音楽を追加したのにも関わらず。表示されない場合は、`~queue 1 `をお試しください。",
+        "total_queue_time": "合計再生時間",
+        "total_size": "合計再生量",
+        "togglers": "リピート / 一時停止",
+        "playing_in": "プレイ中",
+        "footer": "全ページ %1$d%2$s 中 %3$dページ目",
         "multiple_pages": " -> Use ~>queue <page> to change pages",
         "page_react": " -> React to change pages",
         "no_channel": "No channel :(",
@@ -262,9 +262,9 @@
         "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
+        "success": "%1$sチャンネル **%2$s** への接続に成功しました！",
+        "full_channel": "%1$sチャンネルが満員のため参加できません!",
+        "non_existent_channel": "%1$s存在しないチャンネルを確認しました。 ボイスチャンネルを設定後そのチャンネルを削除したことが原因で起きることがあります。\nミュージックチャンネルをリセットしました、再度お試しください。",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
         "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
         "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
@@ -319,6 +319,7 @@
       "success": "%1$sSkipped ahead to %2$s."
     },
     "move": {
+      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
       "attempt": "%1$sI will try to move to the channel you're in",
       "error_moving": "%1$sFailed to switch voice channels.",
       "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
@@ -484,8 +485,8 @@
         "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
+      "already_exists": "%1$sこのコマンド `%2$s` はすでに存在しこのデフォルトで用意されているコマンドです。",
+      "name_too_long": "%1$s名前が長すぎます。",
       "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
       "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
       "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
@@ -505,6 +506,7 @@
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
@@ -581,7 +583,7 @@
       "status": {
         "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
         "header": "Current Marriage Status",
-        "description_format": "%1$sMarriage status between **%2$s#%3$s** and **%4$s#%5$s**",
+        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Marriage Date",
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership",
@@ -1009,7 +1011,7 @@
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s",
@@ -1034,10 +1036,10 @@
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic.\n",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (day-month)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm`",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1048,7 +1050,7 @@
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga`)",
+      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sI choose `%2$s`"
     },
     "remindme": {
@@ -1354,7 +1356,8 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
         "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$sCancelled operation.",
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",

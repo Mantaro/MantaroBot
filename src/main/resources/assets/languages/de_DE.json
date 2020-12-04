@@ -319,6 +319,7 @@
       "success": "%1$sVorgesprungen zu %2$s."
     },
     "move": {
+      "no_voice": "%1$sEntweder bist du in keinem Sprach-Kanal, oder der Bot ist in keinem.",
       "attempt": "%1$sIch werde versuchen, zu dem Kanal zu wechseln, in dem du dich befindest",
       "error_moving": "%1$sFehler beim Wechseln der Sprachkanäle.",
       "cannot_connect": "%1$sVerbindung nicht möglich: Ich bin entweder nicht berechtigt zu sprechen oder den Kanal zu betreten.",
@@ -505,6 +506,7 @@
       "time_not_specified": "%1$sDu wolltest eine Mute-Zeit, hast aber nicht angeben für wie lange.",
       "negative_time_notice": "%1$sDu kannst niemanden für einen negativen Zeitraum muten! Außer du kannst die Raumzeit beeinflussen...",
       "default_time_too_long": "%1$sDie Standard Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sDie angegebene Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
       "already_muted": "%1$sDieser Benutzer ist bereits gemuted. Nutze `~>unmute`, um denjenigen zu entmuten.",
       "self_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in der Hierarchie höher als ich befindet oder die Rolle in der Hierarchie höher ist!",
@@ -581,7 +583,7 @@
       "status": {
         "no_marriage": "%1$sDu bist nicht verheiratet, also denke ich dein Status ist uh... \"unverheiratet\"  (Wenn du eine Ehe in deinem Profil und diese Nachricht hier siehst, heißt das, dass du im alten System verheiratet bist. Versucht nochmal zu heiraten)",
         "header": "Aktueller Ehestatus",
-        "description_format": "%1$sEhestatus von **%2$s#%3$s** und **%4$s#%5$s**",
+        "description_format": "%1$sEhestatus von **%2$s** und **%3$s**",
         "date": "Hochzeitstag",
         "love_letter": "Liebesbrief",
         "waifus": "Waifu Besitz",
@@ -1009,7 +1011,7 @@
       },
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
       "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
-      "info_notice": "Verwende `~>badges info <Abzeichenname>`, um mehr Information über ein Abzeichen zu erhalten. [Du kannst auch ins Wiki schauen.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Verwende `~>badges info <Abzeichenname>`, um mehr Information über ein Abzeichen zu erhalten. [Du kannst auch ins Wiki schauen](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Du kannst ein Abzeichen für das [Unterstützung von Mantaros Entwicklung bekommen](https://patreon.com/mantaro)!** (Es könnte ein paar Minuten zum Verarbeiten brauchen)\n\n",
       "no_badges": "Keine Abzeichen (noch!)",
       "header": "Abzeichen erreicht von %1$s",
@@ -1034,10 +1036,10 @@
       "no_guild_month_birthdays": "%1$sEs gibt offenbar keine Geburtstage für diesen Monat (%2$s) hier :(\n%3$sWenn du gerade erst die Geburtstagsankündigungen eingerichtet hast, warte bitte ein wenig, bevor du es nochmal versuchst. (Der Cache aktualisiert sich alle 23 Stunden)\nBeachte, dass Leute jetzt `~>birthday allowserver` eingeben müssen, damit ihr Geburtstag auf diesem Server verkündet wird.",
       "cache_not_running": "%1$sDer Geburtstags-Cacher scheint nicht zu laufen (internal error) :(",
       "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. (internal error) :(",
-      "header": "**%1$ss Geburtstage für %2$s**\nDer Geburtstagscache wird alle 23 Stunden aktualisiert, sollte dein Geburtstag nicht auftauchen brauchst du dich also nicht zu erschrecken.\n",
+      "header": "**%1$ss Geburtstage für %2$s**\nDer Geburtstagscache wird alle 23 Stunden aktualisiert, sollte dein Geburtstag nicht auftauchen brauchst du dich also nicht zu erschrecken, sondern nur warten.\n",
       "full_header": "**%1$ss Geburtstage**\n%2$s\nBeachte, dass Geburtstage alle 23 Stunden gecached werden, und dass Nutzer den Befehl `~>birthday allowserver` ausführen müssen",
-      "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-MM` (Tag-Monat)",
-      "error_date": "%1$s%2$s ist entweder kein valides Datum, oder ich kann es nicht richtig verarbeiten. Bitte versuche es mit dem korrekten Format reneut.\nDas korrekte Format ist `tt-MM` (Tag-Monat)",
+      "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
+      "error_date": "%1$s%2$s ist entweder kein valides Datum, oder ich kann es nicht richtig verarbeiten. Bitte versuche es mit dem korrekten Format erneut.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
       "added_birthdate": "%1$sGeburtsdatum wurde erfolgreich hinzugefügt. Neues Geburtsdatum: %2$s *(Format: tt-MM)* [Tag-Monat].\nDamit dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
       "no_content": "%1$sDu musst deinen Geburtstag, `remove` zum Zurücksetzen oder `month` zum Überprüfen der Geburtstage des aktuellen Monats angeben. Damit dann dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
@@ -1048,7 +1050,7 @@
       "already_allowed": "%1$sDu hast diesem Server schon erlaubt, deinen Geburtstag zu zeigen."
     },
     "choose": {
-      "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose Anime Manga`)",
+      "nothing_to": "%1$sDu musst mir sagen, zwischen was ich aussuchen soll. (Beispiel: `~>choose anime manga \"sleeping out\"`)",
       "success": "%1$sIch wähle `%2$s`"
     },
     "remindme": {
@@ -1354,7 +1356,8 @@
         "not_enough_money": "%1$sDu hast nicht genug Geld, um dieses Haustier zu kaufen. Wert: %2$d Credits, Geldbeutel: %3$d Credits",
         "confirm": "%1$sBist du dir sicher, dass du dieses Haustier kaufen willst? Name: %2$s, Art: %3$s, Kosten: %4$d Credits. Gebe `yes` ein, um fortzufahren, sonst `no`.",
         "success": "%1$sGlückwunsch! Ihr beiden seid jetzt stolze Besitzer von einem `%2$s%3$s` und es wurde `%4$s` genannt. Die Kosten für dieses Haustier waren %5$d Credits.",
-        "cancel_success": "%1$sKauf abgebrochen."
+        "cancel_success": "%1$sKauf abgebrochen.",
+        "too_long": "%1$sDieser Name ist zu lang. Er muss kürzer als 150 Zeichen sein."
       },
       "feed": {
         "no_pet": "%1$sDu hast keine Haustiere, die du füttern könntest. Schau unter `~>pet` für eine Erklärung.",
