@@ -134,10 +134,11 @@ public class MessageCmds {
                     }
                 }
 
-                ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
+                final var finalAmount = amount;
+                ctx.getChannel().getHistory().retrievePast(100).queue(
                         messageHistory -> {
                             String prefix = MantaroData.db().getGuild(ctx.getGuild()).getData().getGuildCustomPrefix();
-                            getMessageHistory(ctx, messageHistory, -1,
+                            getMessageHistory(ctx, messageHistory, finalAmount,
                                     "commands.prune.bots_no_messages",
                                     message -> message.getAuthor().isBot() || message.getContentRaw().startsWith(prefix == null ? "~>" : prefix)
                             );
@@ -174,11 +175,14 @@ public class MessageCmds {
                     }
                 }
 
-                ctx.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(
-                        messageHistory -> getMessageHistory(ctx, messageHistory,
-                                -1, "commands.prune.no_pins_no_messages",
-                                message -> !message.isPinned()
-                        ), error -> {
+                final var finalAmount = amount;
+                ctx.getChannel().getHistory().retrievePast(100).queue(
+                        messageHistory ->
+                                getMessageHistory(ctx, messageHistory, finalAmount,
+                                        "commands.prune.no_pins_no_messages",
+                                        message -> !message.isPinned()
+                                ),
+                        error -> {
                             ctx.sendLocalized("commands.prune.error_retrieving",
                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
                             );
