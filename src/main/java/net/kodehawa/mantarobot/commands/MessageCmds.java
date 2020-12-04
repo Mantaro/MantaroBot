@@ -74,15 +74,15 @@ public class MessageCmds {
                             List<Long> users = mentionedUsers.stream().map(User::getIdLong).collect(Collectors.toList());
                             final var finalAmount = amount;
                             ctx.getChannel().getHistory().retrievePast(100).queue(
-                                    messageHistory -> {
+                                    messageHistory ->
                                         getMessageHistory(ctx, messageHistory, finalAmount,
                                                 "commands.prune.mention_no_messages",
                                                 message -> users.contains(message.getAuthor().getIdLong())
-                                        );
-                                    }, error ->
+                                        ), error ->
                                             ctx.sendLocalized("commands.prune.error_retrieving",
                                                     EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage()
-                                    ));
+                                            )
+                            );
 
                             return;
                         }

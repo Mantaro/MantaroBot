@@ -217,8 +217,7 @@ public class DebugCmds {
                     //display: show a random quote, translated.
                     v.editMessageFormat(
                             languageContext.get("commands.ping.text"), EmoteReference.MEGA,
-                            languageContext.get("commands.ping.display"), ping, ratePing(ping, languageContext),
-                            ctx.getJDA().getGatewayPing()
+                            languageContext.get("commands.ping.display"), ping, ctx.getJDA().getGatewayPing()
                     ).queue();
                 });
             }
@@ -286,39 +285,6 @@ public class DebugCmds {
                         .build();
             }
         });
-    }
-
-    private String ratePing(long ping, I18nContext languageContext) {
-        if (ping == 69)
-            return languageContext.get("commands.ping.quotes.69");
-        if (ping <= 1)
-            return languageContext.get("commands.ping.quotes.1"); //just in case...
-        if (ping <= 10)
-            return languageContext.get("commands.ping.quotes.10");
-        if (ping <= 100)
-            return languageContext.get("commands.ping.quotes.100");
-        if (ping <= 200)
-            return languageContext.get("commands.ping.quotes.200");
-        if (ping <= 300)
-            return languageContext.get("commands.ping.quotes.300");
-        if (ping <= 400)
-            return languageContext.get("commands.ping.quotes.400");
-        if (ping <= 500)
-            return languageContext.get("commands.ping.quotes.500");
-        if (ping <= 600)
-            return languageContext.get("commands.ping.quotes.600");
-        if (ping <= 700)
-            return languageContext.get("commands.ping.quotes.700");
-        if (ping <= 800)
-            return languageContext.get("commands.ping.quotes.800");
-        if (ping <= 900)
-            return languageContext.get("commands.ping.quotes.900");
-        if (ping <= 1600)
-            return languageContext.get("commands.ping.quotes.1600");
-        if (ping <= 10000)
-            return languageContext.get("commands.ping.quotes.10000");
-
-        return languageContext.get("commands.ping.quotes.default");
     }
 
     @Subscribe

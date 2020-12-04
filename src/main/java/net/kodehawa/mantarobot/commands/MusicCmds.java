@@ -120,7 +120,6 @@ public class MusicCmds {
                 final var trackScheduler = musicManager.getTrackScheduler();
                 final var audioPlayer = trackScheduler.getMusicPlayer();
                 final var playingTrack = audioPlayer.getPlayingTrack();
-
                 if (playingTrack == null) {
                     ctx.sendLocalized("commands.np.no_track", EmoteReference.ERROR);
                     return;
