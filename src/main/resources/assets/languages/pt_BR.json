@@ -319,6 +319,7 @@
       "success": "%1$sPulando música para %2$s."
     },
     "move": {
+      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
       "attempt": "%1$sVou tentar mudar para o canal em que você está",
       "error_moving": "%1$sNão foi possível alternar os canais de voz.",
       "cannot_connect": "%1$sNão foi possível conectar-se: não tenho permissão para falar ou mover canais.",
@@ -505,6 +506,7 @@
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
       "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
       "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sO tempo de silenciado especificado é muito longo (Máximo: 10 dias)...",
       "already_muted": "%1$sEsse usuário já tem um cargo de silenciado atribuído. Por favor use `~>unmute` para reativa-lo.",
       "self_hierarchy_error": "%1$sEu não posso atribuir o cargo de silenciado para esse usuário pois ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior!",
@@ -581,7 +583,7 @@
       "status": {
         "no_marriage": "%1$sVocê não é casado, então eu acho que seu status é uh... \"não casado\" (Se você ver um casamento em seu perfil e ver esta mensagem, isso significa que você está no sistema antigo. Tente se casar novamente)",
         "header": "Estado atual do casamento",
-        "description_format": "%1$sEstado do casamento entre **%2$s#%3$s** e **%4$s#%5$s**",
+        "description_format": "%1$sEstado do casamento entre **%2$s** e **%3$s**",
         "date": "Data de casamento",
         "love_letter": "Carta de amor",
         "waifus": "Propriedade da Waifu",
@@ -1009,7 +1011,7 @@
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
-      "info_notice": "Use `~>badges info <nome da insígnia>` para ter mais informações sobre uma insígnia. [Você também pode checar a wiki.](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Use `~>badges info <badge name>` para ter mais informações sobre uma insígnia. [Você também pode checar a wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**Você pode ganhar uma insígnia por [apoiar o desenvolvimento da Mantaro!](https://patreon.com/mantaro)!** (Isso pode levar alguns minutos para processar)\n\n",
       "no_badges": "Sem insígnias para mostrar (ainda!)",
       "header": "Insígnias obtidas por %1$s",
@@ -1034,10 +1036,10 @@
       "no_guild_month_birthdays": "%1$sNão têm aniversário para este mês (%2$s) aqui :(\n%3$sSe você configurou o anunciador de aniversário, por favor espere um pouco antes de executar isso de novo (O cache atualiza a cada 23h)\nLembre-se que as pessoas agora têm que executar `~>birthday allowserver` para permitir que este servidor anuncie seus aniversários.",
       "cache_not_running": "%1$sO cacher de aniversário não parece estar funcionando (erro interno) :(",
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
-      "header": "**%1$s Aniversários em %2$s**\nO cache de aniversário é atualizado a cada 23 horas, se o seu aniversário não aparecer aqui, não entre em pânico.\n",
+      "header": "**%1$s Aniversários em%2$s**\nO cache de aniversário é atualizado a cada 23 horas, se o seu aniversário não aparecer aqui, não entre em pânico e espere.\n",
       "full_header": "**%1$s Aniversários**\n%2$s\nLembre-se que aniversários são armazenados em cache a cada 23 horas e que eles terão que executar `~>birthday allowserver`",
-      "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se de que o formato da data é `dd-mm` (dia-mês)",
-      "error_date": "%1$s%2$s ou não é uma data válida ou eu não posso analisar corretamente. Por favor tente com a formatação correta.\nLembre-se que o formato da data é `dd/mm`",
+      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de aniversário: %2$s *(Formato: dd-MM)* [day-month]. Para que este servidor anuncie seu aniversário, você agora tem que executar `~>birthday allowserver`",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
       "no_content": "%1$sVocê tem que especificar seu aniversário, `remove` para remover seu aniversário ou `month` para checar a lista de aniversários do mês. Depois, para este servidor anunciar seu aniversário, você agora tem que executar `~>birthday allowserver`",
@@ -1048,7 +1050,7 @@
       "already_allowed": "%1$sVocê já permitiu que esse servidor mostre seu aniversário."
     },
     "choose": {
-      "nothing_to": "%1$sVocê precisa me dizer o que escolher entre. (exemplo: `~>choose anime mangá`)",
+      "nothing_to": "%1$sVocê precisa me dizer o que escolher entre. (exemplo: `~>choose anime mangá \"dormindo fora\"`)",
       "success": "%1$sEu escolho `%2$s`"
     },
     "remindme": {
@@ -1354,7 +1356,8 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse pet. Valor: %2$,d créditos, Carteira: %3$,d créditos",
         "confirm": "%1$sVocê tem certeza que quer comprar esse pet? Nome: %2$s, Tipo: %3$s, Custo: %4$,d créditos. Digite `yes` para continuar, `no` caso contrário.",
         "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse foi %5$,d créditos.",
-        "cancel_success": "%1$sOperação cancelada."
+        "cancel_success": "%1$sOperação cancelada.",
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
         "no_pet": "%1$sVocê não tem nenhum pet pra alimentar. Cheque `~>pet` para uma explicação.",
