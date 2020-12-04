@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sEste usuario no está muteado..."
     },
     "ping": {
-      "quotes": {
-        "1": "velocidad supersónica! :upside_down:",
-        "10": "mas rápido que Sonic! :smiley:",
-        "69": "p-pervertido(a) <:MantaroGasm:318869352851963904>",
-        "100": "bien! :smiley:",
-        "200": "suficiente, :slight_smile:",
-        "300": "decente. :neutral_face:",
-        "400": "promedio... :confused:",
-        "500": "relativamente lento... :slight_frown:",
-        "600": "un poco lento-.. :frowning2:",
-        "700": "lento... :worried:",
-        "800": "muy lento. :disappointed:",
-        "900": "mal. :sob: (helpme)",
-        "1600": "#CulpaDeDiscord. :angry:",
-        "10000": "esto no tiene mucho sentido :thinking: #BlameSteven",
-        "default": "jodidamente lento. :dizzy_face:"
-      },
       "display": [
         "¿Fui lo suficientemente rápida?",
         "¿Que haces?",
@@ -555,7 +538,7 @@
         "Ping-Pong? Yay!",
         "U-Uh... h-holi"
       ],
-      "text": "%1$s*%2$s* - Mi ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sNecesitas mencionar al menos un usuario.",
