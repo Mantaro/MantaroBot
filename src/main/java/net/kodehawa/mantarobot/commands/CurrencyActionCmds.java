@@ -663,7 +663,7 @@ public class CurrencyActionCmds {
                     var money = chance > 50 ? random.nextInt(100) : 0;
                     var amount = random.nextInt(8);
                     var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
-                    money += Math.max(moneyIncrease / 4, moneyIncrease);
+                    money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
 
                     if (marriage != null && marriage.getData().getPet() != null) {
                         var pet = marriage.getData().getPet();
