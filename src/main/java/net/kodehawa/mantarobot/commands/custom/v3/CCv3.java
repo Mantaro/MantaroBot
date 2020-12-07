@@ -365,7 +365,7 @@ public class CCv3 {
         }
 
         builder.setEmbed(embed == null ? null : embed.gen(ctx.getMember()))
-                .denyMentions(Message.MentionType.ROLE, Message.MentionType.USER, Message.MentionType.EVERYONE, Message.MentionType.HERE);
+                .denyMentions(Message.MentionType.ROLE, Message.MentionType.EVERYONE, Message.MentionType.HERE);
 
         ctx.send(builder.build());
     }
