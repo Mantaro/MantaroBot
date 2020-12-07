@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sAan deze gebruiker is geen mute-rol toegewezen."
     },
     "ping": {
-      "quotes": {
-        "1": "supersonic snelheid! :upside_down:",
-        "10": "sneller dan Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "super! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "redelijk. :neutral_face:",
-        "400": "gemiddeld... :confused:",
-        "500": "beetje traag. :slight_frown:",
-        "600": "beetje sloom.. :frowning2:",
-        "700": "sloom.. :worried:",
-        "800": "te sloom. :disappointed:",
-        "900": "slecht. :sob: (helpme)",
-        "1600": "#BlameDiscord. :angry:",
-        "10000": "dit slaat nergens op :thinking: #BlameSteven",
-        "default": "sloom af*. :dizzy_face:"
-      },
       "display": [
         "W-Was ik snel genoeg?",
         "Wat ben je aan het doen?",
@@ -555,7 +538,7 @@
         "Pingpong? Yay!",
         "Euhm.. h-hallo"
       ],
-      "text": "%1$s*%2$s* - Mijn ping: %3$d ms (%4$s) `Websocket:%5$dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sJe moet minimaal 1 gebruiker vermelden.",

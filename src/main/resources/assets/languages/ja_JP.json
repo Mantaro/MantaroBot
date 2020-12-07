@@ -266,16 +266,16 @@
         "full_channel": "%1$sチャンネルが満員のため参加できません!",
         "non_existent_channel": "%1$s存在しないチャンネルを確認しました。 ボイスチャンネルを設定後そのチャンネルを削除したことが原因で起きることがあります。\nミュージックチャンネルをリセットしました、再度お試しください。",
         "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "missing_permissions_connect": "%1$s権限 (%2$s) が制限されているため、接続することができません。",
+        "missing_permission_speak": "%1$s権限 (%2$s) が制限されているため、喋ることができません。",
+        "channel_locked": "%1$s私はこのチャンネル **%2$s** でのみ音楽再生が可能です。",
+        "already_connected": "%1$sすでにチャンネル **%2$s** に参加しています! (`move`コマンドを使用して他のチャンネルに移動させることができます。)",
+        "attempting_to_connect": "%1$sすでにチャンネル **%2$s** に参加を試行中です! (`move`コマンドを使用して他のチャンネルに移動させることができます)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
+        "paused": "%1$sミュートされたため、再生を一時停止します。 (・_・、)",
         "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
+        "left_alone": "%1$s 誰も **%2$s** に居ないため、2分以内に切断します。 (・_・、)",
         "leave": "%1$s 誰も **%2$s** に居ないため切断しました。:("
       },
       "loader": {
@@ -321,66 +321,66 @@
     "move": {
       "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
       "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "error_moving": "%1$sボイスチャンネルの切り替えに失敗しました。",
+      "cannot_connect": "%1$s接続できません: 私は発言する権限と移動する権限が与えられていません。",
+      "non_existent_channel": "%1$s存在しないチャンネルには移動できません！",
+      "success": "%1$sbotを `%2$s ` に移動しました。",
+      "vc_not_found": "%1$sボイスチャンネルが見つからないか、もしくは指定されていません！"
     },
     "shard": {
       "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sDJが再生リストを削除しました！",
+        "success": "%1$s **%2$d 曲**を再生リストから削除しました。",
+        "error": "%1$sあなたはボイスチャンネルに接続していないか、DJ権限を持っていません。"
       }
     },
     "repeat": {
       "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
+      "queue_repeat": "%1$s現在の再生リストを繰り返します。",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "song_repeat": "%1$s現在の曲を繰り返します。取り消すには、このコマンドをもう一度使ってください。"
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$s次の曲がないですね。",
+      "format": "%1$s再生リストの次の曲: **%2$s** (%3$s) | *再生リストの曲数: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$s現在の再生リストの順番をランダムに並び替えました。"
     },
     "skip": {
       "dj_skip": "%1$sDJがこの曲を飛ばすことにしました。",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**あなたの票が入りました** スキップにはあと %2$d票 必要です！",
+        "remove": "%1$s**あなたの票を取り消しました** スキップにはあと %2$d票 必要です！"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$s必要な票数を獲得しました、曲をスキップします…",
+      "no_track": "%1$sスキップするための曲がなさそうです、私には何もできません…"
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
+      "invalid_range": "%1$s`%2$s` は有効な範囲ではありません。",
+      "no_track": "%1$sその曲順には曲がありません `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
+      "invalid_number_range": "%1$s `%2$s` は有効な数値または範囲ではありません！",
+      "success": "%1$s再生リストから**%2$d**曲取り消しました。",
       "not_dj": "%1$sこれを実行するためにはDJでないといけません。"
     },
     "stop": {
       "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**あなたの票が入りました** 停止するにはあと %2$d票 必要です！",
+        "remove": "%1$s**あなたの票を取り消しました** 停止するにはあと %2$d票 必要です！"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$s必要な票数を獲得しました、音楽プレイヤーを停止します…",
+      "no_player": "%1$s停止する音楽プレイヤーがなさそうです、私には何もできません…",
+      "cleanup": "%1$s **%2$d 曲**を再生リストから削除しました。"
     },
     "volume": {
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
+      "check": "%1$sこのセッションの音量は: %2$d\n\n%3$s",
+      "success": "%1$s音量をセット %2$d\n\n%3$s",
+      "no_args": "%1$s音量を変更するには数値を指定してください(5 ~ 100)。",
       "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
     },
     "lyrics": {
@@ -444,23 +444,23 @@
       "import": {
         "no_command": "%1$sYou need to tell me what command you want to import.",
         "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
+        "header": "`%1$s` (応答: %2$s) - サーバー: `%3$s`",
+        "selection": "コマンドを選択:",
+        "note": "(自分が所属しているサーバーからのみカスタムコマンドを選択することができます)",
         "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
+        "no_command": "%1$s編集したいコマンドを指定してください。",
+        "invalid_number": "%1$s変更には正確な値が必要です。",
+        "no_index": "%1$s存在しないインデックスを編集することはできません。",
         "empty_response": "%1$sCannot edit to an empty response",
         "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
         "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
       },
       "deleteresponse": {
         "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
+        "invalid_number": "%1$s変更には正確な値が必要です。",
+        "no_index": "%1$s存在しないインデックスを削除することはできません。",
         "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
@@ -468,10 +468,10 @@
         "success": "%1$sRenamed command `%2$s` to `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
+        "no_command": "%1$s追加したいコマンドを指定してください。",
         "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
         "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$sコマンド `%2$s` を保存しました。",
         "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
     },
     "ping": {
-      "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "faster than Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "great! :smiley:",
-        "200": "nice! :slight_smile:",
-        "300": "decent. :neutral_face:",
-        "400": "average... :confused:",
-        "500": "slightly slow. :slight_frown:",
-        "600": "kinda slow.. :frowning2:",
-        "700": "slow.. :worried:",
-        "800": "too slow. :disappointed:",
-        "900": "bad. :sob: (help me)",
-        "1600": "#BlameDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
-      },
       "display": [
         "W-Was I fast enough?",
         "What are you doing?",
@@ -555,7 +538,7 @@
         "Ping-pong? Yay!",
         "U-Uh... h-hi"
       ],
-      "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
@@ -571,7 +554,7 @@
       "loveletter": {
         "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
         "empty": "%1$sYou cannot leave the love letter empty.",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
+        "no_marriage": "%1$sあなたは結婚していません、自分自身にラブレターを書くことはできません...",
         "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
         "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
@@ -606,22 +589,22 @@
         "no_name": "%1$sYou need to give your house a name!",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$s処理をキャンセルしました。"
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
-        "no_name": "%1$sYou need to give your car a name!",
+        "no_car": "%1$s車を購入している必要があります！ `~>market buy car` を使用して購入可能です。",
+        "not_enough_money": "%1$s車を買うのに十分なお金を所持していません。(現在の車の価格: %2$d クレジット)",
+        "no_name": "%1$s車には名前を付ける必要があります！",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$s処理をキャンセルしました。"
       },
-      "no_mention": "%1$sMention the user you want to marry.",
-      "marry_yourself_notice": "%1$sYou cannot marry yourself, as much as you may want to.",
+      "no_mention": "%1$s結婚したいユーザーをメンションしてください。",
+      "marry_yourself_notice": "%1$s自分自身と結婚したくても、することは出来ません。",
       "marry_bot_notice": "%1$sYou cannot marry a bot. I don't think this is Futurama... yet. Wait, could bots and humans marry there?",
-      "already_married_receipt": "%1$sYou're married with them already, aww.",
-      "already_married": "%1$sYou're married already.",
-      "receipt_married": "%1$sThat user is married already.",
+      "already_married_receipt": "%1$sあなたは既に彼らと結婚しています。",
+      "already_married": "%1$sあなたは既に結婚しています。",
+      "receipt_married": "%1$sこのユーザーとは既に結婚しています。",
       "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
@@ -708,18 +691,18 @@
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
+      "header": "%1$sのインベントリー",
+      "format": "**価格**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "empty": "%1$sこのインベントリーは空です！(´·ω·`)",
+      "brief_notice": "`~>inventory -brief`を実行すると、モバイル機器に最適化されたインベントリを見れます。",
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
+      "no_item_found": "%1$s該当するアイテムが見つかりませんでした。 アイテム名にスペースがある場合は \"引用符\" で囲んでください。",
+      "item_not_cast": "%1$sこのアイテムをキャストすることはできません。キャスト可能な項目のリストは `~cast ls`を使って調べることができます。　アイテム名にスペースがある場合は引用符で囲ってください。 例: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
+      "no_item": "%1$sこのキャストを進化させるには *%2$s*が必要です。",
+      "not_enough_items": "%1$s*%2$s*が足りないため進化できません。 **(必要: %3$s, 保有:%4$s)**",
       "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
@@ -895,15 +878,15 @@
         "not_specified": "%1$sYou need to specify your main badge!",
         "reset_success": "%1$sNo badge will show on the top of your profile now!",
         "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "no_such_badge": "%1$sそのようなバッジはありません...\nあなたが所持しているのは: %2$s",
+        "player_missing_badge": "%1$sあなたはこのバッジを所持していません。\nあなたが所持しているのは: %2$s",
+        "success": "%1$s表示されるバッジは **%2$s** になりました。"
       },
       "lang": {
-        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
-        "reset_success": "%1$sSuccessfully reset your personal language settings.",
-        "success": "%1$sMantaro will now talk to you in `%2$s`",
-        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+        "nothing_specified": "%1$s使用する言語を指定する必要があります。もしくは `reset` を使用して言語設定をリセットが可能です。",
+        "reset_success": "%1$sあなたの個人言語設定はリセットされました。",
+        "success": "%1$sMantaroは今からここ `%2$s` でお話します。",
+        "invalid": "%1$sその言語は存在していません！ `reset`を使用してあなたの言語設定をリセット可能です。"
       },
       "inventorysort": {
         "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
@@ -911,32 +894,32 @@
       },
       "stats": {
         "header": "Profile Statistics for %1$s",
-        "wins": "Casino Wins",
-        "market": "Market Used",
-        "potion": "Active Potion",
-        "potion_type": "Potion Type",
-        "buff": "Buff",
-        "buff_type": "Buff Type",
-        "experience": "Experience",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
+        "wins": "カジノ勝利回数",
+        "market": "マーケット使用回数",
+        "potion": "使用中のポーション",
+        "potion_type": "ポーションの種類",
+        "buff": "バフ",
+        "buff_type": "バフの種類",
+        "experience": "経験値",
+        "mine_xp": "採掘経験値",
+        "fish_xp": "釣り経験値",
         "chop_xp": "Chopping Experience",
-        "sharks_caught": "Sharks Caught",
+        "sharks_caught": "サメの確保回数",
         "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "times_mop": "モップ掛け回数",
         "daily": "Daily Streak",
         "daily_at": "Last Daily",
         "waifu_claimed": "Times Waifu Claimed",
         "waifu_locked": "Waifu Lock",
-        "dust": "Dust Level",
-        "lang": "Display Language",
-        "reminders": "Times Reminded",
-        "times": "time(s)",
-        "days": "day(s)",
-        "times_used": "Times Used",
-        "equipment": "Equipment",
+        "dust": "埃レベル",
+        "lang": "表示言語",
+        "reminders": "リマインダー設定回数",
+        "times": "回",
+        "days": "日間",
+        "times_used": "使用回数",
+        "equipment": "装備",
         "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip",
+        "autoequip": "自動装備",
         "never": "Never"
       },
       "hide_tag": {
@@ -945,14 +928,14 @@
       "equip": {
         "no_content": "%1$sYou have to specify which item to equip!",
         "no_item": "%1$sこの商品は存在していません",
-        "not_owned": "%1$sYou don't own this item!",
+        "not_owned": "%1$sこの商品を持っていません！",
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
-        "not_suitable": "%1$sYou can't equip this.",
+        "not_suitable": "%1$sこれを装備することはできません。",
         "not_equipped": "%1$sYou don't have this equipped.",
         "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
+        "not_equipped": "%1$sこのスロットにあなたは何も装備していません。",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
@@ -981,25 +964,25 @@
         "success": "%1$sEnabled auto-equip."
       },
       "badge_header": "%1$s Display Badge",
-      "bot_notice": "%1$sBots don't have profiles.",
-      "header": "%1$s's Profile",
+      "bot_notice": "%1$sボットにプロフィールは存在しません。",
+      "header": "%1$sのプロフィール",
       "no_desc": "No description set",
-      "credits": "Credits",
+      "credits": "クレジット",
       "old_credits": "Legacy Credits",
-      "level": "Level",
-      "xp": "XP",
-      "rep": "Reputation",
-      "birthday": "Birthday",
-      "married": "Married with",
+      "level": "レベル",
+      "xp": "経験値",
+      "rep": "評判",
+      "birthday": "誕生日",
+      "married": "結婚相手",
       "nobody": "Nobody",
       "inventory": "Item Collection (Top 10)",
       "badges": "Badge Collection (Top 5)",
       "no_badges": "No badges (yet!)",
       "no_timezone": "Not set",
       "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified.",
-      "potion": "Active Potion",
-      "no_potion": "No active potions.",
+      "not_specified": "指定なし。",
+      "potion": "使用中のポーション",
+      "no_potion": "現在使用中のポーションがありません。",
       "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
@@ -1266,7 +1249,7 @@
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
       "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
-      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
+      "no_permissions_user": "%1$sあなたにメッセージの管理権限がないため、このサーバーのメッセージを削除することができません。",
       "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
       "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
       "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
@@ -1524,7 +1507,7 @@
       "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
       "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
-      "commands": "Commands",
+      "commands": "コマンド",
       "extended": {
         "no_help": "%1$sThere's no extended help set for this command.",
         "not_found": "%1$sA command with this name doesn't exist"
@@ -1631,7 +1614,7 @@
       "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
       "lose": "%1$sSadly, you lost %2$s credits. %3$s",
       "lose_all": "all of your",
-      "credits": "credits",
+      "credits": "クレジット",
       "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
       "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
     },
@@ -1708,7 +1691,7 @@
       "win": "And you won **%1$,d** credits and got to keep what you bet (%2$,d credits)! Lucky!",
       "lose": "And you lost %1$s\nI hope you do better next time!",
       "tickets": "slots ticket(s)",
-      "credits": "credits"
+      "credits": "クレジット"
     },
     "leaderboard": {
       "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
@@ -2214,7 +2197,7 @@
     "kick_boot": "キックブーツ",
     "floppy": "Floppy Disk",
     "maths": "計算メモ",
-    "racket": "Ping Racket",
+    "racket": "卓球ラケット",
     "loaded_die": "サイコロ",
     "forgotten": "忘却のソナタ",
     "pencil": "鉛筆",
@@ -2251,7 +2234,7 @@
     "tree": "クリスマスツリー",
     "pants": "ズボン",
     "haste": "Haste Potion",
-    "milky": "Milky Potion",
+    "milky": "ミルキー・ポーション",
     "energy": "Energy Beverage",
     "rod": "釣竿",
     "fish": "魚",

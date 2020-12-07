@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sŠis narys neturi priskirtos užtildymo rolės."
     },
     "ping": {
-      "quotes": {
-        "1": "šviesos greičiu! :upside_down:",
-        "10": "greičiau negu Sonic'as! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "puiku! :smiley:",
-        "200": "gerai! :slight_smile:",
-        "300": "normaliai. :neutral_face:",
-        "400": "vidutiniškai... :confused:",
-        "500": "biškutį per lėtai. :slight_frown:",
-        "600": "lėtokai.. :frowning2:",
-        "700": "lėtai.. :worried:",
-        "800": "per lėtai. :disappointed:",
-        "900": "blogai. :sob: (padėk man)",
-        "1600": "#KaltinkimDiscord. :angry:",
-        "10000": "tai visiškai nesuprantama :thinking: #KaltinkimStyveną",
-        "default": "aš mirštu. :dizzy_face: padėk man"
-      },
       "display": [
         "W-Was I fast enough?",
         "What are you doing?",
@@ -555,7 +538,7 @@
         "Ping-pong? Yay!",
         "U-Uh... L-Labas"
       ],
-      "text": "%1$s*%2$s* - Mano greitis: %3$d ms (%4$s) `Websocket'as:%5$dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sTuri paminėti bent vieną narį.",

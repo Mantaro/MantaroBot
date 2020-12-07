@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sNgười dùng này không bị tắt tiếng."
     },
     "ping": {
-      "quotes": {
-        "1": "tốc độ siêu âm! :upside_down:",
-        "10": "nhanh hơn cả Sonic! :smiley:",
-        "69": "ewwwwwwwwwwwwwww! <:MantaroGasm:318869352851963904>",
-        "100": "tuyệt vời! :smiley:",
-        "200": "tốt! :slight_smile:",
-        "300": "khá tốt. :neutral_face:",
-        "400": "trung bình... :confused:",
-        "500": "hơi chậm. :slight_frown:",
-        "600": "khá chậm.. :frowning2:",
-        "700": "chậm.. :worried:",
-        "800": "quá chậm. :disappointed:",
-        "900": "tệ. :sob: (cứu)",
-        "1600": "#tại_thằng_Discord :angry:",
-        "10000": "chả có nghĩa gì cả :thinking: #tại_thằng_Steven",
-        "default": "chậm vãi. :dizzy_face:"
-      },
       "display": [
         "Đ...đủ nhanh chưa?",
         "Bạn đang làm gì thế?",
@@ -555,7 +538,7 @@
         "Ping-pong? Yê!",
         "Ừm... hiiiii"
       ],
-      "text": "%1$s*%2$s* -Ping của tôi: %3$,d ms (%4$s) `Websocket:%5$,dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sBạn phải đề cập đến ít nhất 1 người dùng.",

@@ -520,23 +520,6 @@
       "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
     },
     "ping": {
-      "quotes": {
-        "1": "supersonic speed! :upside_down:",
-        "10": "rychlejší než Sonic! :smiley:",
-        "69": "l-lewd! <:MantaroGasm:318869352851963904>",
-        "100": "skvělý!:smiley:",
-        "200": "dobrý! :slight_smile:",
-        "300": "slušný. :neutral_face:",
-        "400": "normální... :confused:",
-        "500": "trošku pomalý. :slight_frown:",
-        "600": "trochu pomalý.. :frowning2:",
-        "700": "pomalý.. :worried:",
-        "800": "příliš pomalý. :disappointed:",
-        "900": "špatný. :sob: (pomoz mi)",
-        "1600": "#ObviňujDiscord. :angry:",
-        "10000": "this makes no sense :thinking: #BlameSteven",
-        "default": "slow af. :dizzy_face:"
-      },
       "display": [
         "B-Byl jsem dost rychlý?",
         "Co děláš?",
@@ -555,7 +538,7 @@
         "Ping-pong? Yay!",
         "U-Uh... h-hi"
       ],
-      "text": "%1$s*%2$s* - My ping: %3$,d ms (%4$s) `Websocket:%5$,dms`"
+      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sYou need to mention at least 1 user.",
