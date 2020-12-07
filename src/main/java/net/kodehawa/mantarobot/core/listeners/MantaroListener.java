@@ -60,8 +60,6 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -132,7 +130,6 @@ public class MantaroListener implements EventListener {
 
         // After this point we always use this variable.
         final var shardManager = bot.getShardManager();
-
         if (event instanceof GuildJoinEvent) {
             var joinEvent = (GuildJoinEvent) event;
             var self = joinEvent.getGuild().getSelfMember();
@@ -146,7 +143,6 @@ public class MantaroListener implements EventListener {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
-
             return;
         }
 
@@ -156,7 +152,6 @@ public class MantaroListener implements EventListener {
                 Metrics.GUILD_COUNT.set(shardManager.getGuildCache().size());
                 Metrics.USER_COUNT.set(shardManager.getUserCache().size());
             }
-
             return;
         }
         // !! Events needed for the log feature end
@@ -180,10 +175,11 @@ public class MantaroListener implements EventListener {
 
         if (event instanceof HttpRequestEvent) {
             // We've fucked up big time if we reach this
-            if (((HttpRequestEvent) event).isRateLimit()) {
+            final var httpRequestEvent = (HttpRequestEvent) event;
+            if (httpRequestEvent.isRateLimit()) {
+                LOG.error("!!! Reached 429 on: {}", httpRequestEvent.getRoute());
                 Metrics.HTTP_429_REQUESTS.inc();
             }
-
             Metrics.HTTP_REQUESTS.inc();
         }
         // !! Internal event end
@@ -268,47 +264,55 @@ public class MantaroListener implements EventListener {
                 }
 
                 final var deletedMessage = messageCache.get(event.getMessageIdLong(), Optional::empty).orElse(null);
-                if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)
-                        && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
-                    final var author = deletedMessage.getAuthor();
-                    if (data.getModlogBlacklistedPeople().contains(author.getId())) {
-                        return;
-                    }
-
-                    if (data.getLogExcludedChannels().contains(event.getChannel().getId())) {
-                        return;
-                    }
-
-                    if (!data.getModLogBlacklistWords().isEmpty()) {
-                        //This is not efficient at all I'm pretty sure, is there a better way?
-                        List<String> splitMessage = Arrays.asList(deletedMessage.getContent().split("\\s+"));
-                        if (data.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
-                            return;
-                        }
-                    }
-
-                    String message;
-                    if (data.getDeleteMessageLog() != null) {
-                        message = new DynamicModifiers()
-                                .set("hour", hour)
-                                .set("content", deletedMessage.getContent().replace("```", ""))
-                                .mapEvent("event", event)
-                                .mapChannel("event.channel", event.getChannel())
-                                .mapUser("event.user", author)
-                                .set("event.message.id", event.getMessageId())
-                                .resolve(data.getDeleteMessageLog());
-                    } else {
-                        message = String.format(EmoteReference.WARNING +
-                                        "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
-                                        "```diff\n-%s```", hour, event.getMessageId(), author.getName(),
-                                author.getDiscriminator(),
-                                author.getId(), event.getChannel().getName(),
-                                deletedMessage.getContent().replace("```", "")
-                        );
-                    }
-
-                    tc.sendMessage(message).queue();
+                if (deletedMessage == null) {
+                    return;
                 }
+
+                final var selfUser = event.getJDA().getSelfUser();
+                final var textChannel = event.getChannel();
+                final var content = deletedMessage.getContent();
+                final var author = deletedMessage.getAuthor();
+                final var authorId = author.getId();
+                if (content.isEmpty() || textChannel.getId().equals(logChannel) || authorId.equals(selfUser.getId())) {
+                    return;
+                }
+
+                if (data.getModlogBlacklistedPeople().contains(authorId)) {
+                    return;
+                }
+
+                if (data.getLogExcludedChannels().contains(textChannel.getId())) {
+                    return;
+                }
+
+                if (!data.getModLogBlacklistWords().isEmpty()) {
+                    // This is not efficient at all I'm pretty sure, is there a better way?
+                    List<String> splitMessage = Arrays.asList(content.split("\\s+"));
+                    if (data.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
+                        return;
+                    }
+                }
+
+                String message;
+                if (data.getDeleteMessageLog() != null) {
+                    message = new DynamicModifiers()
+                            .set("hour", hour)
+                            .set("content", content.replace("```", ""))
+                            .mapEvent("event", event)
+                            .mapChannel("event.channel", textChannel)
+                            .mapUser("event.user", author)
+                            .set("event.message.id", event.getMessageId())
+                            .resolve(data.getDeleteMessageLog());
+                } else {
+                    message = String.format(EmoteReference.WARNING +
+                                    "`[%s]` Message (ID: %s) created by **%s#%s** (ID: %s) in channel **%s** was deleted.\n" +
+                                    "```diff\n-%s```",
+                            hour, event.getMessageId(), author.getName(), author.getDiscriminator(),
+                            authorId, textChannel.getName(), content.replace("```", "")
+                    );
+                }
+
+                tc.sendMessage(message).queue();
             }
         } catch (Exception e) {
             if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)
@@ -331,64 +335,68 @@ public class MantaroListener implements EventListener {
                     return;
                 }
 
-                final var editedMessage = messageCache.get(event.getMessage().getIdLong(), Optional::empty).orElse(null);
-                if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
-                    final var content = editedMessage.getContent();
-                    // Update message in cache in any case.
-                    final var originalMessage = event.getMessage();
-                    messageCache.put(originalMessage.getIdLong(), Optional.of(
-                            new CachedMessage(
-                                    event.getGuild().getIdLong(),
-                                    event.getAuthor().getIdLong(),
-                                    originalMessage.getContentDisplay()
-                            ))
-                    );
-
-                    if (guildData.getLogExcludedChannels().contains(event.getChannel().getId())) {
-                        return;
-                    }
-
-                    if (guildData.getModlogBlacklistedPeople().contains(editedMessage.getAuthor().getId())) {
-                        return;
-                    }
-
-                    // Don't log if content is equal but update in cache (cc: message is still relevant).
-                    if (originalMessage.getContentDisplay().equals(content)) {
-                        return;
-                    }
-
-                    if (!guildData.getModLogBlacklistWords().isEmpty()) {
-                        // This is not efficient at all I'm pretty sure, is there a better way?
-                        List<String> splitMessage = Arrays.asList(content.split("\\s+"));
-                        if (guildData.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
-                            return;
-                        }
-                    }
-
-                    String message;
-                    if (guildData.getEditMessageLog() != null) {
-                        message = new DynamicModifiers()
-                                .set("hour", hour)
-                                .set("old", content.replace("```", ""))
-                                .set("new", originalMessage.getContentDisplay().replace("```", ""))
-                                .mapEvent("event", event)
-                                .mapChannel("event.channel", event.getChannel())
-                                .mapUser("event.user", editedMessage.getAuthor())
-                                .mapMessage("event.message", originalMessage)
-                                .resolve(guildData.getEditMessageLog());
-                    } else {
-                        final var author = event.getAuthor();
-                        message = String.format(EmoteReference.WARNING +
-                                        "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified." +
-                                        "\n```diff\n-%s\n+%s```",
-                                hour, originalMessage.getId(), author.getName(), author.getDiscriminator(),
-                                event.getChannel().getName(), content.replace("```", ""),
-                                originalMessage.getContentDisplay().replace("```", "")
-                        );
-                    }
-
-                    tc.sendMessage(message).queue();
+                final var originalMessage = event.getMessage();
+                final var editedMessage = messageCache.get(originalMessage.getIdLong(), Optional::empty).orElse(null);
+                if (editedMessage == null) {
+                    return;
                 }
+
+                final var selfUser = event.getJDA().getSelfUser();
+                final var channel = event.getChannel();
+                final var content = editedMessage.getContent();
+                final var author = editedMessage.getAuthor();
+                if (content.isEmpty() || channel.getId().equals(logChannel) || author.getId().equals(selfUser.getId())) {
+                    return;
+                }
+
+                // Update message in cache in any case.
+                messageCache.put(originalMessage.getIdLong(), Optional.of(
+                        new CachedMessage(event.getGuild().getIdLong(), event.getAuthor().getIdLong(), originalMessage.getContentDisplay()))
+                );
+
+                if (guildData.getLogExcludedChannels().contains(channel.getId())) {
+                    return;
+                }
+
+                if (guildData.getModlogBlacklistedPeople().contains(author.getId())) {
+                    return;
+                }
+
+                // Don't log if content is equal but update in cache (cc: message is still relevant).
+                if (originalMessage.getContentDisplay().equals(content)) {
+                    return;
+                }
+
+                if (!guildData.getModLogBlacklistWords().isEmpty()) {
+                    // This is not efficient at all I'm pretty sure, is there a better way?
+                    List<String> splitMessage = Arrays.asList(content.split("\\s+"));
+                    if (guildData.getModLogBlacklistWords().stream().anyMatch(splitMessage::contains)) {
+                        return;
+                    }
+                }
+
+                String message;
+                if (guildData.getEditMessageLog() != null) {
+                    message = new DynamicModifiers()
+                            .set("hour", hour)
+                            .set("old", content.replace("```", ""))
+                            .set("new", originalMessage.getContentDisplay().replace("```", ""))
+                            .mapEvent("event", event)
+                            .mapChannel("event.channel", channel)
+                            .mapUser("event.user", author)
+                            .mapMessage("event.message", originalMessage)
+                            .resolve(guildData.getEditMessageLog());
+                } else {
+                    message = String.format(EmoteReference.WARNING +
+                                    "`[%s]` Message (ID: %s) created by **%s#%s** in channel **%s** was modified." +
+                                    "\n```diff\n-%s\n+%s```",
+                            hour, originalMessage.getId(), author.getName(), author.getDiscriminator(),
+                            channel.getName(), content.replace("```", ""),
+                            originalMessage.getContentDisplay().replace("```", "")
+                    );
+                }
+
+                tc.sendMessage(message).queue();
             }
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) &&
@@ -417,14 +425,13 @@ public class MantaroListener implements EventListener {
     }
 
     private void onDisconnect(DisconnectEvent event) {
-
         if (event.isClosedByServer()) {
             final var clientCloseFrame = event.getClientCloseFrame();
             if (clientCloseFrame == null) {
                 LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [null close frame], disconnected with code {}",
                         event.getCloseCode());
             } else {
-                LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [%,d] %s%n"
+                LOG.warn("!! SHARD DISCONNECT [SERVER] CODE: [%d] %s%n"
                         .formatted(clientCloseFrame.getCloseCode(), event.getCloseCode()));
             }
         } else {
@@ -432,7 +439,7 @@ public class MantaroListener implements EventListener {
             if (clientCloseFrame == null) {
                 LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [null close frame?]");
             } else {
-                LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [%,d] %s%n"
+                LOG.warn("!! SHARD DISCONNECT [CLIENT] CODE: [%d] %s%n"
                         .formatted(clientCloseFrame.getCloseCode(), clientCloseFrame.getCloseReason()));
             }
         }
@@ -551,43 +558,34 @@ public class MantaroListener implements EventListener {
         final var role = guildData.getGuildAutoRole();
         final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
         final var user = event.getUser();
+        final var member = event.getMember();
 
-        try {
-            if (role != null) {
-                if (!(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
-                    var toAssign = guild.getRoleById(role);
-                    if (toAssign != null) {
-                        if (guild.getSelfMember().canInteract(toAssign)) {
-                            try {
-                                guild.addRoleToMember(event.getMember(), toAssign).reason("Autorole assigner.")
-                                        .queue(s -> LOG.debug("Successfully added a new role to " + event.getMember()));
-                            } catch (Exception ignored) { }
-
-                            Metrics.ACTIONS.labels("join_autorole").inc();
-                        }
-                    }
-                }
+        if (role != null &&  !(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
+            var toAssign = guild.getRoleById(role);
+            if (toAssign != null && guild.getSelfMember().canInteract(toAssign)) {
+                // This only throws if member == null (can't be!) or if role == null
+                // which we check above.
+                guild.addRoleToMember(member, toAssign).reason("Autorole assigner").queue();
+                Metrics.ACTIONS.labels("join_autorole").inc();
             }
+        }
 
-            final var logChannel = guildData.getGuildLogChannel();
-            if (logChannel != null) {
-                var tc = guild.getTextChannelById(logChannel);
-                if (tc != null && tc.canTalk()) {
-                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
-                                    hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                                    guild.getName(), event.getUser().getId())
-                    ).queue();
-                }
+        final var logChannel = guildData.getGuildLogChannel();
+        if (logChannel != null) {
+            var tc = guild.getTextChannelById(logChannel);
+            if (tc != null && tc.canTalk()) {
+                tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
+                        hour, event.getUser().getName(), event.getUser().getDiscriminator(),
+                        guild.getName(), event.getUser().getId())
+                ).queue();
             }
-        } catch (Exception e) {
-            LOG.error("Failed to process log join message!", e);
+        }
+
+        if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
+            return;
         }
 
         try {
-            if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
-                return;
-            }
-
             var joinChannel = guildData.getLogJoinChannel();
             if (joinChannel == null || guild.getTextChannelById(joinChannel) == null) {
                 joinChannel = guildData.getLogJoinLeaveChannel();
@@ -682,16 +680,21 @@ public class MantaroListener implements EventListener {
 
             var modIndex = message.indexOf(':');
             if (modIndex != -1) {
-                //Wonky?
+                // Wonky?
                 var matcher = MODIFIER_PATTERN.matcher(message);
                 var modifier = "none";
-                //Find the first occurrence of a modifier (word:)
+                // Find the first occurrence of a modifier (word:)
                 if (matcher.find()) {
                     modifier = matcher.group().replace(":", "");
                 }
 
                 var json = message.substring(modIndex + 1);
-                var extra = message.substring(0, modIndex - modifier.length()).trim();
+                var extra = "";
+
+                // Somehow (?) this fails sometimes? I really dunno how, but sure.
+                try {
+                    extra = message.substring(0, modIndex - modifier.length()).trim();
+                } catch (Exception ignored) { }
 
                 try {
                     if (modifier.equals("embed")) {
