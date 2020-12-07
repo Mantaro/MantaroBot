@@ -207,7 +207,10 @@ public class GameCmds {
         gameCommand.addSubCommand("multiple", new SubCommand() {
             @Override
             public String description() {
-                return "Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times.";
+                return """
+                        Starts multiple instances of one game. For example `~>game multiple trivia 5` will start trivia 5 times.
+                        To do it with multiple users, you can use `~>game multiple <game> [@user...] <amount>`
+                        """;
             }
 
             @Override
