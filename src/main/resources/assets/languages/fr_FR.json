@@ -946,7 +946,7 @@
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
-        "not_premium": "%1$sLes gadget de personnalisation de profil sont réservés aux utilisateurs premium.",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sPas assez de gadgets valides à mettre sur ton profil (minimum: 3). Si tu es perdu.e, regarde `~>profile widgets ls`",
         "success": "%1$sTon nouveau fond a bien été appliqué à ton profil. Ton nouveau fond est `%2$s`",
         "ls": "%1$sListe des composants du profil:\n%2$s **Gadgets dans l'ordre par défaut:** `%3$s`\n%2$s **Tes gadgets:** `%4$s`\nTu peux utiliser `~>profile widgets reset` pour réinitialiser tes préférences d'affichage",
@@ -956,7 +956,7 @@
       "claimlock": {
         "removed": "%1$sRéinitialisation de ton statut de verrouillage Waifu opéré avec succès.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sTu n'as pas la clé nécessaire pour faire ça.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1243,7 +1243,7 @@
     "dailycrate": {
       "check": "%1$sTu pourras réclamer ton coffre quotidien à: **%2$s.**",
       "key": "%1$sTu as besoin d'une clé pour ouvrir ce coffre! Achètes-en une et reviens me voir!",
-      "not_premium": "%1$sTu peux ouvrir un coffre premium avec plus de chance d'avoir de bons objets quotidiennement si tu deviens premium! Rendez-vous sur <https://patreon.com/mantaro>. Ça peut être fait toutes les 24 heures.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
       "success": "%1$sTu as obtenu un **%2$s**! Reviens dans 24h pour en avoir un autre! Tu peux l'ouvrir grâce à la commande `~>opencrate <nom du coffre>` et surtout tu as besoin d'acheter une clé pour l'ouvrir."
     },
     "prune": {
