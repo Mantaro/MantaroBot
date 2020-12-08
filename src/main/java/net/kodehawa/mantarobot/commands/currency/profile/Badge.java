@@ -519,7 +519,7 @@ public enum Badge {
     HACKING_ADDICTION("Hacking Addiction", "\uD83D\uDD36",
             "Playing and slashing away your time, with a thousand addictions and thirty-something deeds, meeting together.",
             91, 92,
-            (player, dbUser) -> player.getData().getGamesWon() == 1337, true //lol
+            (player, dbUser) -> player.getData().getGamesWon() >= 1337, true //lol
     ),
 
     PATHWAY_SKY("Pathway to Sky", "\uD83D\uDD36",
