@@ -955,7 +955,7 @@
       },
       "claimlock": {
         "removed": "%1$sSuccesfully reset your claim lock status.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
         "no_key": "%1$sYou don't have a claim key to do this.",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
