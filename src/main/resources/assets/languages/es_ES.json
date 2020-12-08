@@ -946,7 +946,7 @@
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
-        "not_premium": "%1$sLa personalización de los widgets de tu perfil solo está disponible para usuarios premium.",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sNo hay suficientes widgets válidos para poner en tu perfil (mínimo: 3). Si estas perdido, revisa `~>profile widgets ls`",
         "success": "%1$sCorrectamente cambiada la disposición de tu perfil. La nueva disposición es `%2$s`",
         "ls": "%1$sLista de los componentes del perfil:\n%2$s **Orden por defecto de los Widgets:** `%3$s`\n%2$s **Tus widgets:** `%4$s`\nPuedes usar `~>profile widgets reset` para reiniciar tus componentes",
@@ -956,7 +956,7 @@
       "claimlock": {
         "removed": "%1$sHe reiniciado el estado de tu bloqueo de reclamaciones.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sNo tienes una llave de reclamo para hacer esto.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1243,7 +1243,7 @@
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sNecesitas una llave de crate para hacer esto! Por favor compra una y inténtalo de nuevo!",
-      "not_premium": "%1$sNo eres premium!\nPuedes abrir una premium crate diariamente con un alto chance de encontrar buenos ítems con premium! Por favor revisa más en <https://patreon.com/mantaro>.\nEste comando puede ser usado cada 24 horas.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
       "success": "%1$s¡Acabas de conseguir un **%2$s**! ¡Vuelve en 24 horas para conseguir otra! Puedes abrir esto usando `~>opencrate <crate name>`. Necesitas comprar una crate key para abrirla."
     },
     "prune": {
