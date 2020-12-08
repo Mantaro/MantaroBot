@@ -946,7 +946,7 @@
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
-        "not_premium": "%1$sProfil kişileştirme widget'ı sadece premium kullanıcılar içindir.",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sProfiline koymak için yeterli widget'ın yok (minimum: 3). Sıkıntı varsa, kontrol etmek için `~>profile widgets ls`",
         "success": "%1$sYeni profil şemanı değiştirdin, şu anki şema: `%2$s`",
         "ls": "%1$sProfil maddeleri:\n%2$s **Varsayılan sıralama:** `%3$s`\n%2$s **Senin widgetların:** `%4$s`\n`~>profile widgets reset` kullanarak eski haline döndürebilirsin.",
@@ -956,7 +956,7 @@
       "claimlock": {
         "removed": "%1$sSuccesfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1243,7 +1243,7 @@
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>.\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
     },
     "prune": {
