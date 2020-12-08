@@ -946,7 +946,7 @@
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
-        "not_premium": "%1$sChức năng cá nhân hoá hồ sơ chỉ dành cho người dùng cao cấp.",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
         "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
         "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
@@ -956,7 +956,7 @@
       "claimlock": {
         "removed": "%1$sSuccesfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sBạn chưa có chìa khoá nhận để làm điều này.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1243,7 +1243,7 @@
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "key": "%1$sBạn cần chìa khoá hòm để mở! Hãy mua một cái rồi thử lại!",
-      "not_premium": "%1$stài khoản của bạn không phải là cao cấp!\nBạn có thể mở hòm cao cấp hàng ngày với một cơ hội trúng được đồ tốt cao hơn bằng cách dùng tài khoản cao cấp! Hãy xem thêm tại <https://patreon.com/mantaro>.\nLệnh này có thể được chạy mỗi 24 tiếng.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
     },
     "prune": {
