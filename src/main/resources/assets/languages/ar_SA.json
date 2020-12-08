@@ -955,7 +955,7 @@
       },
       "claimlock": {
         "removed": "%1$sتم بنجاح إعادة تعيين حالة قفل المُطالبة.",
-        "success": "%1$s لا يمكن أن تتم مُطالبتك ك وايفو بعد الآن. هذا استخدم مفتاح المطالبة.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
         "no_key": "%1$sلا تملك مفتاح المُطالبة للقيام بهذا!",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
