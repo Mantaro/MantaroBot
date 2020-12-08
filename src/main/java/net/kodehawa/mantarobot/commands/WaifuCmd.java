@@ -304,15 +304,17 @@ public class WaifuCmd {
                     return;
                 }
 
-                final Player claimerPlayer = ctx.getPlayer();
-                final DBUser claimerUser = ctx.getDBUser();
-                final UserData claimerUserData = claimerUser.getData();
+                final var claimerPlayer = ctx.getPlayer();
+                final var claimerPlayerData = claimerPlayer.getData();
+                final var claimerUser = ctx.getDBUser();
+                final var claimerUserData = claimerUser.getData();
 
-                final Player claimedPlayer = ctx.getPlayer(toLookup);
-                final DBUser claimedUser = ctx.getDBUser(toLookup);
-                final UserData claimedUserData = claimedUser.getData();
+                final var claimedPlayer = ctx.getPlayer(toLookup);
+                final var claimedPlayerData = claimedPlayer.getData();
+                final var claimedUser = ctx.getDBUser(toLookup);
+                final var claimedUserData = claimedUser.getData();
 
-                if (claimedPlayer.getData().isWaifuout()) {
+                if (claimedPlayerData.isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.claim_notice", EmoteReference.ERROR);
                     return;
                 }
@@ -334,7 +336,7 @@ public class WaifuCmd {
                 }
 
                 //If the to-be claimed has the claim key in their inventory, it cannot be claimed.
-                if (claimedPlayer.getData().isClaimLocked()) {
+                if (claimedPlayerData.isClaimLocked()) {
                     ctx.sendLocalized("commands.waifu.claim.key_locked", EmoteReference.ERROR);
                     return;
                 }
@@ -359,21 +361,21 @@ public class WaifuCmd {
                 }
 
                 if (waifuFinalValue > 100_000) {
-                    claimerPlayer.getData().addBadgeIfAbsent(Badge.GOLD_VALUE);
+                    claimerPlayerData.addBadgeIfAbsent(Badge.GOLD_VALUE);
                 }
 
                 //Add waifu to claimer list.
-                claimerUser.getData().getWaifus().put(toLookup.getId(), waifuFinalValue);
+                claimerUserData.getWaifus().put(toLookup.getId(), waifuFinalValue);
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
                 //Add badges
-                if (claimedUserData.getWaifus().containsKey(claimerPlayer.getId()) || claimerUserData.getWaifus().containsKey(claimedPlayer.getId())) {
-                    claimerPlayer.getData().addBadgeIfAbsent(Badge.MUTUAL);
-                    claimedPlayer.getData().addBadgeIfAbsent(Badge.MUTUAL);
+                if (claimedUserData.getWaifus().containsKey(ctx.getAuthor().getId()) || claimerUserData.getWaifus().containsKey(toLookup.getId())) {
+                    claimerPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
+                    claimedPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
                 }
 
-                claimerPlayer.getData().addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
-                claimedPlayer.getData().addBadgeIfAbsent(Badge.CLAIMED);
+                claimerPlayerData.addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
+                claimedPlayerData.addBadgeIfAbsent(Badge.CLAIMED);
 
                 //Massive saving operation owo.
                 claimerPlayer.saveAsync();
