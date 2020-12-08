@@ -389,7 +389,7 @@ public class MarryCmd {
             }
         });
 
-        marryCommand.addSubCommand("buyhouse", new SubCommand() {
+        marryCommand.addSubCommand("house", new SubCommand() {
             @Override
             public String description() {
                 return "Buys a house to live in. You need to buy a house in market first. Usage: `~>marry buyhouse <name>`";
@@ -472,9 +472,9 @@ public class MarryCmd {
                     return Operation.IGNORED;
                 });
             }
-        });
+        }).createSubCommandAlias("house", "buyhouse");
 
-        marryCommand.addSubCommand("buycar", new SubCommand() {
+        marryCommand.addSubCommand("car", new SubCommand() {
             @Override
             public String description() {
                 return "Buys a car to travel in. You need to buy a ~~cat~~ car in market first. Usage: `~>marry buycar <name>`";
@@ -556,7 +556,7 @@ public class MarryCmd {
                     return Operation.IGNORED;
                 });
             }
-        });
+        }).createSubCommandAlias("car", "buycar");
 
         IncreasingRateLimiter tzRatelimit = new IncreasingRateLimiter.Builder()
                 .limit(1)
