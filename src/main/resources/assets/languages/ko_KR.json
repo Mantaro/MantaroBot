@@ -25,8 +25,8 @@
     "options": "옵션",
     "find_members_failure": "%1$s검색 조건을 가진 멤버를 찾지 못했어요 ㅠㅠ",
     "too_many_members": "%1$s너무 많은 멤버를 찾았는데 검색을 개선해 주실 수 있나요? (ex. example#0000)\n**유저 찾음:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$s멤버를 보려면 한 사람만 멘션하세요.",
+    "query_too_small": "%1$s검색 쿼리가 너무 작음. 적어도 4 글자를 찾고 있는지 확인하세요. 사용자 이름이 너무 짧으면 사용자 이름#태그 또는 사용자 ID를 사용하는 것이 좋아요.",
     "dust": "여기는 먼지밖에 없네요.",
     "invalid_syntax": "올바르지 않은 구문 구조.",
     "item_lookup": {
@@ -83,7 +83,7 @@
     "space_notice": "이름에 공백이 있는 경우 \"따옴표로 묶기\"를 해보세요",
     "ratelimit": {
       "header": "%1$s%2$s (제한된 속도)\n **%3$s초 후 이 명령어를 다시 사용할 수 있어요.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "건강을 위해서 쉬세요. **재사용 대기시간이 재설정되기 전에 시도하면 제한된 속도가 계속 증가한다는 것을 기억하세요!**",
       "spam_2": "\n제가 생각하기에는 지금 멈추는 게 가장 좋은 선택 같아요...",
       "spam_3": "\n잠깐 밖에 나가 있는 게 낫지 않을까요?",
       "spam_4": "\n이거 켜는 거 맞나요?"
@@ -265,7 +265,7 @@
         "success": "%1$s성공적으로 **%2$s** 채널에 연결했어요!",
         "full_channel": "%1$s채널이 꽉 차서 제가 연결이 안 돼요!",
         "non_existent_channel": "%1$s존재하지 않는 채널을 응답으로 받았어요. 음성 채널을 설정한 다음 삭제하면 그 원인이 될 수 있어요.\n 음악 채널을 다시 설정했어요. 음악을 재생해 보세요.",
-        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
+        "user_no_vc": "%1$s**음성 채널**에 참여하세요. 음성 채널에 있는데 봇 연결이 끊겼으면 대신 채널을 다시 참여하세요.",
         "missing_permissions_connect": "%1$s권한이 부족해서 이 채널에 연결할 수 없어요 (%2$s).",
         "missing_permission_speak": "%1$s권한이 부족해서 이 채널에서 말할 수 없어요 (%2$s).",
         "channel_locked": "%1$s**%2$s**에서만 오직 음악을 재생할 수 있어요.",
@@ -489,27 +489,27 @@
       "name_too_long": "%1$s이름이 너무 길어요.",
       "no_cc": "%1$s이 길드에 등록된 사용자 정의 명령어가 없네요. 약간의 먼지만 있어요.",
       "admin_only": "이 길드는 관리자로부터 사용자 지정 명령 작성, 편집, 가져오기 및 평가만 허용해요.\n**이제 디폴트(DEFAULT) 설정이에요.**\n- 모든 사용자에게 이 작업을 허용하고 싶다면 관리자(Bot Commander 역할 또는 서버 관리 권한)인 경우 `~>opts admincustom false`를 실행하세요.",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
+      "not_found": "%1$s이 길드에 `%2$s` 커스텀 커맨드가 없네요.",
+      "invalid_image": "%1$s이 명령에 잘못된 이미지가 포함되어 있으니까 수정하세요...",
+      "invalid_string": "%1$s`{%2$s}` 문자열이 잘못되었거나 출력이 2000자를 초과했어요.",
       "invalid_json": "%1$s`{%2$s}` 문자열은 유효한 JSON이 아니에요.",
       "invalid_link": "%1$s`%2$s` 문자열은 유효한 링크가 아니에요.",
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
+      "no_permissions": "%1$s멤버를 음소거하기 위해서는 차단 또는 추방 권한이 있어야 해요.",
+      "no_mute_role": "%1$s음소거 역할이 이 서버에 설정되어 있지 않아요. `~opts muterole set <role>`을 사용하여 설정할 수 있어요.",
+      "null_mute_role": "%1$s이 서버에 이전에 구성된 음소거 역할이 현재 존재하지 않아요.",
+      "no_users": "%1$s채팅 금지를 할 사용자를 알려주셔야 해요.",
+      "no_manage_roles": "%1$s 이 서버에서 역할을 관리할 권한이 없어요.",
+      "no_time": "%1$s 시간을 지정하지 않았어요. '-time' 인수를 추가하고 거기에 명시해야 한다는 것을 기억하세요.",
+      "time_not_specified": "%1$s 당신은 시간을 원했지만 얼마나 오랫동안인지 명시하지 않았어요.",
+      "negative_time_notice": "%1$s 부정적으로 누군가를 침묵시킬 수는 없어요. 만약 당신이 시공간을 바꿀 수 없다면요.",
       "default_time_too_long": "%1$s기본 채팅 금지 시간 초과, 시간이 너무 길어요 (최대: 10일)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
+      "time_too_long": "%1$s지정된 채팅 금지 시간 초과, 시간이 너무 길어요 (최대: 10일)...",
+      "already_muted": "%1$s이 사용자는 이미 채팅 금지 역할이 부여되어 있습니다. 채팅 금지 해제하려면 `~>unmute`를 입력하세요.",
+      "self_hierarchy_error": "%1$s제가 저 사용자 분보다 권한이 낮거나 역할의 위치가 낮아서 채팅 금지 역할을 부여할 수 없어요.",
       "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
       "success": "%1$sAdded mute role to **%2$s** for around %3$s"
     },
@@ -523,12 +523,12 @@
       "display": [
         "ㅈ..제가 충분히 빠른가요?",
         "지금 무엇을 하고 있나요?",
-        "W-What are you looking at?!",
+        "뭘 보는 거야?!",
         "흠.",
-        "Did I do well?",
-        "What do you think?",
-        "Does this happen often?",
-        "Am I performing p-properly?",
+        "내가 잘했니?",
+        "어떻게 생각해?",
+        "이런 일이 자주 일어나니?",
+        "제대로 수행 중인가?",
         "<3",
         "*머리를 쓰다듬음*",
         "Pong.",
@@ -544,10 +544,10 @@
       "no_mention": "%1$sYou need to mention at least 1 user.",
       "not_ideal": "다음 기회를 이용해 보세요...",
       "decent": "좋은 편이에요!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
+      "nice": "좋은 매치!",
+      "perfect": "완벽한 매치!",
+      "yourself_note": "당신은 특별한 존재고 누구보다도 자신을 사랑해야 해요 <3",
+      "header": "사랑 측정기",
       "result": "결과:"
     },
     "marry": {
@@ -565,14 +565,14 @@
       },
       "status": {
         "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
-        "header": "Current Marriage Status",
+        "header": "현재 결혼 상태",
         "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
-        "date": "Marriage Date",
-        "love_letter": "Love Letter",
-        "waifus": "Waifu Ownership",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "date": "결혼 날짜",
+        "love_letter": "러브레터",
+        "waifus": "와이푸 소유권",
+        "house": "집 이름",
+        "car": "차 이름",
+        "pet": "펫 이름(유형)"
       },
       "timezone": {
         "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
@@ -589,7 +589,7 @@
         "no_name": "%1$sYou need to give your house a name!",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "cancel_success": "%1$s작업을 취소했어요."
       },
       "buycar": {
         "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
@@ -627,8 +627,8 @@
         "header_other": "%1$s's waifu stats",
         "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
         "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "credits": "%1$,d 크레딧",
+        "performance": "Waifu 성능 포인트"
       },
       "claim": {
         "no_user": "%1$sYou didn't mention any user to claim.",
@@ -637,8 +637,8 @@
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
+        "yourself": "%1$s자기 자신을 살 수 없어요!",
+        "already_claimed": "%1$s이미 이 와이프를 보유하고 있어요.",
         "not_found": "%1$sI can't find any user with this query. "
       },
       "unclaim": {
@@ -664,12 +664,12 @@
         "cancelled": "%1$sCancelled opt-out operation.",
         "claim_notice": "%1$sThe user you're trying to claim opted out."
       },
-      "header": "Waifu List",
+      "header": "와이푸 리스트",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
       "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
       "footer": "Total waifus: %1$,d - available slots: %2$s",
-      "value_format": "**Value:**",
-      "value_b_format": "**Bought for:**",
+      "value_format": "**값:**",
+      "value_b_format": "**구매 대상:**",
       "credits_format": " 크레딧.",
       "waifu_header": "**Your waifus:**",
       "not_claimed": "%1$sYou haven't claimed this waifu."
@@ -691,9 +691,9 @@
       "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
+      "header": "%1$s의 보관함",
       "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
+      "empty": "%1$s이 보관함은 비어있어요! :(",
       "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
       "sorted_by": " *(sorted by: %1$s)*"
     },
@@ -712,7 +712,7 @@
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "ls": {
         "header": "Castable Item List",
-        "cost": "Cast Cost: ",
+        "cost": "캐스트 비용: ",
         "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name (example: `~>cast \"diamond pickaxe\"`, or `~>cast \"diamond p\"`, works)\n**Casting has a minimum cost of half the price of the item. The casting price will be shown down below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
@@ -739,7 +739,7 @@
         "all": {
           "confirmation": "%1$sAre you *sure* you want to sell **all** of your items? This will clear your *whole* inventory. If you wanna sell individual items please use the amount. Type *yes* to confirm and *no* to cancel",
           "success": "%1$sYou sold all your inventory items and gained %2$,d credits!",
-          "cancelled": "%1$sCancelled successfully."
+          "cancelled": "%1$s성공적으로 취소됨."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
         "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
@@ -756,10 +756,10 @@
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "not_enough_money": "%1$sYou don't have enough money to buy this item."
       },
-      "header": "Mantaro's Market",
+      "header": "만타로(Mantaro)의 마켓",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
-      "sell_price": "- **Sell Price:**",
-      "buy_price": "- **Buy Price:**"
+      "sell_price": "- **판매가:**",
+      "buy_price": "- **구매가:**"
     },
     "itemtransfer": {
       "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
@@ -818,10 +818,10 @@
     },
     "iam": {
       "list": {
-        "name": "Auto-role name: ",
+        "name": "자동-역할 이름: ",
         "role": "역할:",
         "category": "카테고리: ",
-        "header": "Auto-roles list",
+        "header": "자동-역할 리스트",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
       },
@@ -854,9 +854,9 @@
       "result_header": "투표 결과",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
+      "thank_note": "투표해 줘서 고마워요",
       "results": "결과",
-      "cancelled": "%1$sCancelled poll",
+      "cancelled": "%1$s투표가 취소됨",
       "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
     },
     "profile": {
@@ -894,33 +894,33 @@
       },
       "stats": {
         "header": "Profile Statistics for %1$s",
-        "wins": "Casino Wins",
-        "market": "Market Used",
-        "potion": "Active Potion",
-        "potion_type": "Potion Type",
+        "wins": "카지노 승리",
+        "market": "상점 사용",
+        "potion": "물약 활성화",
+        "potion_type": "물약 유형",
         "buff": "버프",
         "buff_type": "버프 유형",
         "experience": "경험치",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
+        "mine_xp": "채광 경험치",
+        "fish_xp": "낚시 경험치",
         "chop_xp": "Chopping Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
+        "sharks_caught": "잡은 상어",
+        "crates_open": "열은 상자",
         "times_mop": "Times Mopped",
-        "daily": "Daily Streak",
-        "daily_at": "Last Daily",
+        "daily": "일간 연속",
+        "daily_at": "최근 출석체크",
         "waifu_claimed": "Times Waifu Claimed",
         "waifu_locked": "Waifu Lock",
-        "dust": "Dust Level",
-        "lang": "Display Language",
+        "dust": "먼지 레벨",
+        "lang": "표시 언어",
         "reminders": "Times Reminded",
-        "times": "time(s)",
-        "days": "day(s)",
-        "times_used": "Times Used",
-        "equipment": "Equipment",
-        "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip",
-        "never": "Never"
+        "times": "회",
+        "days": "일",
+        "times_used": "사용 시간",
+        "equipment": "장비",
+        "seasonal_equipment": "시즌 장비",
+        "autoequip": "자동 장비",
+        "never": "안함"
       },
       "hide_tag": {
         "success": "%1$sTag hidden status is now: `%2$s`"
@@ -966,23 +966,23 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
-      "no_desc": "No description set",
-      "credits": "Credits",
+      "no_desc": "설명 없음",
+      "credits": "크레딧",
       "old_credits": "Legacy Credits",
-      "level": "Level",
+      "level": "레벨",
       "xp": "XP",
-      "rep": "Reputation",
-      "birthday": "Birthday",
+      "rep": "평판",
+      "birthday": "생일",
       "married": "Married with",
-      "nobody": "Nobody",
+      "nobody": "아무도",
       "inventory": "Item Collection (Top 10)",
       "badges": "Badge Collection (Top 5)",
-      "no_badges": "No badges (yet!)",
-      "no_timezone": "Not set",
-      "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified.",
-      "potion": "Active Potion",
-      "no_potion": "No active potions.",
+      "no_badges": "배지 없음 (아직!)",
+      "no_timezone": "설정되지 않음",
+      "timezone_user": "유저의 시간대: %1$s",
+      "not_specified": "지정되지 않음.",
+      "potion": "활성화된 물약",
+      "no_potion": "활성화된 물약이 없음",
       "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
     },
     "badges": {
@@ -990,7 +990,7 @@
         "not_specified": "%1$sYou need to specify a badge to see the info of.",
         "not_found": "%1$sThere's no such badge...",
         "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "achieved": "달성"
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
@@ -1087,10 +1087,10 @@
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
+        "header": "프리미엄 상태",
         "header_other": "%1$s's Premium Status",
         "not_premium": "%1$s%2$s is not premium :c",
-        "premium": "**Premium user! <3**",
+        "premium": "**프리미엄 유저! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
       "guild": {
@@ -1463,8 +1463,8 @@
       "users": "Users",
       "created": "Creation Date",
       "channels": "Voice/Text Channels",
-      "owner": "Owner",
-      "region": "Region",
+      "owner": "소유자",
+      "region": "지역",
       "roles": "Roles (%1$,d)",
       "id_show": "Server ID: %1$s"
     },
