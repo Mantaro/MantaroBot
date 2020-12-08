@@ -319,7 +319,7 @@
       "success": "%1$sPulando música para %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sVocê não está em um canal de voz, ou o bot não está em um.",
       "attempt": "%1$sVou tentar mudar para o canal em que você está",
       "error_moving": "%1$sNão foi possível alternar os canais de voz.",
       "cannot_connect": "%1$sNão foi possível conectar-se: não tenho permissão para falar ou mover canais.",
@@ -506,7 +506,7 @@
       "time_not_specified": "%1$sVocê queria um tempo mas não especificou quanto.",
       "negative_time_notice": "%1$sVocê não pode silenciar alguém por tempo negativo. A menos que você possa dobrar o espaço-tempo que aí assim.",
       "default_time_too_long": "%1$sO tempo atual de silenciado é muito longo (Máximo: 10 dias)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sO tamanho do tempo de mute especificado é menor que 20 segundos.\nVocê tem certeza de que usou o formato certo? Para 20 minutos, use 20m, para 1 hora, use 1h, ou qualquer combinação de ambos (1h45m) por exemplo.",
       "time_too_long": "%1$sO tempo de silenciado especificado é muito longo (Máximo: 10 dias)...",
       "already_muted": "%1$sEsse usuário já tem um cargo de silenciado atribuído. Por favor use `~>unmute` para reativa-lo.",
       "self_hierarchy_error": "%1$sEu não posso atribuir o cargo de silenciado para esse usuário pois ele tem uma hierarquia maior que eu, ou o cargo está em uma hierarquia maior!",
@@ -538,7 +538,7 @@
         "Ping-pong? Yay!",
         "U-Uh... o-oi"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Meu ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sVocê precisa mencionar pelo menos 1 usuário.",
@@ -946,7 +946,7 @@
         "cancelled": "%1$sOperação cancelada."
       },
       "display": {
-        "not_premium": "%1$sA personalização de widget no perfil está disponível apenas para usuários premium.",
+        "not_premium": "%1$sA personalização do widget de perfil está disponível apenas para usuários premium. Para obter mais vantagens, você pode verificar <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sNão há widgets válidos suficientes para colocar em seu perfil (mínimo: 3). Se você estiver perdido, cheque `~>profile widgets ls`",
         "success": "%1$sDefinido com sucesso seu novo layout de perfil. Novo layout é `%2$s`",
         "ls": "%1$sLista de componentes do perfil:\n%2$s **Widgets na Ordem Padrão:** `%3$s`\n%2$s **Seus widgets:** `%4$s`\nVocê pode usar `~>profile widgets reset` para resetar suas referências de exibição no perfil",
@@ -955,8 +955,8 @@
       },
       "claimlock": {
         "removed": "%1$sResetado com sucesso seu status de claim lock.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sVocê não tem uma chave de reivindicação para fazer isso.",
+        "success": "%1$sVocê não pode mais ser reivindicado como waifu. Isso usou uma chave de reivindicação. Use `~>profile claimlock remove` pra remover depois.",
+        "no_key": "%1$sVocê não tem uma chave de reivindicação pra fazer isso. Você pode comprar uma no mercado usando `~>market buy \"claim key\"`",
         "already_locked": "%1$sVocê já está bloqueado de reivindicações. Use `~>profile claimlock remove` para remover."
       },
       "autoequip": {
@@ -1021,8 +1021,8 @@
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**%1$s Aniversários em%2$s**\nO cache de aniversário é atualizado a cada 23 horas, se o seu aniversário não aparecer aqui, não entre em pânico e espere.\n",
       "full_header": "**%1$s Aniversários**\n%2$s\nLembre-se que aniversários são armazenados em cache a cada 23 horas e que eles terão que executar `~>birthday allowserver`",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se que o formato de data é `dd-mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro)",
+      "error_date": "%1$s%2$s ou não é uma data válida ou eu não consigo analisar corretamente. Por favor tente com a formatação correta.\nLembre-se que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11 para 16 de Novembro)",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de aniversário: %2$s *(Formato: dd-MM)* [day-month]. Para que este servidor anuncie seu aniversário, você agora tem que executar `~>birthday allowserver`",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
       "no_content": "%1$sVocê tem que especificar seu aniversário, `remove` para remover seu aniversário ou `month` para checar a lista de aniversários do mês. Depois, para este servidor anunciar seu aniversário, você agora tem que executar `~>birthday allowserver`",
@@ -1243,7 +1243,7 @@
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu caixote diário em: **%2$s.**",
       "key": "%1$sVocê precisa de uma chave do caixote para usar isso! Por favor compre uma e tente novamente!",
-      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber itens bons com premium! Por favor confira mais em <https://patreon.com/mantaro>.\nIsso pode ser usado a cada 24 horas.",
+      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber itens bons com premium! Por favor confira mais em <https://patreon.com/mantaro>\nIsso pode ser usado a cada 24 horas.",
       "success": "%1$sVocê ganhou uma **%2$s**! Venha novamente em 24 horas para receber outra! Você pode abrir isso usando `~>opencrate <nome do caixote>`. Você precisa comprar uma chave do caixote pra abri-la."
     },
     "prune": {
@@ -1340,7 +1340,7 @@
         "confirm": "%1$sVocê tem certeza que quer comprar esse pet? Nome: %2$s, Tipo: %3$s, Custo: %4$,d créditos. Digite `yes` para continuar, `no` caso contrário.",
         "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse foi %5$,d créditos.",
         "cancel_success": "%1$sOperação cancelada.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
+        "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres."
       },
       "feed": {
         "no_pet": "%1$sVocê não tem nenhum pet pra alimentar. Cheque `~>pet` para uma explicação.",
