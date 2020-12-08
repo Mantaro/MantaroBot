@@ -56,22 +56,13 @@ public class PetCmds {
         var rl = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(2, TimeUnit.SECONDS)
+                .cooldown(3, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.SECONDS)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("pet")
                 .build();
 
-        var patRatelimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(40, TimeUnit.SECONDS)
-                .maxCooldown(3, TimeUnit.MINUTES)
-                .randomIncrement(true)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("pet-pat")
-                .build();
 
         var petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
@@ -308,10 +299,6 @@ public class PetCmds {
                             ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
                         }
 
-                        return;
-                    }
-
-                    if (!RatelimitUtils.ratelimit(patRatelimiter, ctx, null, false)) {
                         return;
                     }
 

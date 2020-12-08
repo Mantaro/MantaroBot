@@ -54,8 +54,8 @@ public class GameCmds {
     public void game(CommandRegistry cr) {
         final var rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
-                .spamTolerance(1)
-                .cooldown(7, TimeUnit.SECONDS)
+                .spamTolerance(3)
+                .cooldown(5, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(10, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())

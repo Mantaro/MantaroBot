@@ -80,7 +80,7 @@ public class ProfileCmd {
     public void profile(CommandRegistry cr) {
         final var rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(2) //twice every 10m
-                .spamTolerance(1)
+                .spamTolerance(2)
                 .cooldown(10, TimeUnit.MINUTES)
                 .cooldownPenaltyIncrease(10, TimeUnit.SECONDS)
                 .maxCooldown(15, TimeUnit.MINUTES)

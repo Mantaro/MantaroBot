@@ -123,7 +123,8 @@ public class RatelimitUtils {
     private static void onRateLimit(User user, String guildId, String channelId, String messageId) {
         var ratelimitedTimes = ratelimitedUsers.computeIfAbsent(user.getIdLong(), __ -> new AtomicInteger()).incrementAndGet();
 
-        if (ratelimitedTimes > 800 && !loggedSpambotUsers.contains(user.getId())) {
+        // Remember to update this if you make a command that has rls
+        if (ratelimitedTimes > 1450 && !loggedSpambotUsers.contains(user.getId())) {
             loggedSpambotUsers.add(user.getId());
             LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.BLATANT);
         }

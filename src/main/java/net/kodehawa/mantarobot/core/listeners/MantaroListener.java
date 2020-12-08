@@ -420,8 +420,6 @@ public class MantaroListener implements EventListener {
                 LOG.debug("Shard #{}: Changed from {} to {}", shardId, event.getOldStatus(), event.getNewStatus());
             }
         }
-
-        this.updateStats(event.getJDA());
     }
 
     private void onDisconnect(DisconnectEvent event) {
@@ -448,15 +446,12 @@ public class MantaroListener implements EventListener {
     private void onJoin(GuildJoinEvent event) {
         final var guild = event.getGuild();
         final var mantaroData = MantaroData.db().getMantaroData();
+        final var jda = event.getJDA();
+        // Post bot statistics to the main API.
+        this.updateStats(jda);
+        Metrics.GUILD_ACTIONS.labels("join").inc();
 
         try {
-            if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
-                LOG.info("Left {} because of a blacklist entry. (Owner: {})", guild.getId(), guild.getOwner());
-                guild.leave().queue();
-                return;
-            }
-
-            final var jda = event.getJDA();
             // Don't send greet message for MP. Not necessary.
             if (!CONFIG.isPremiumBot()) {
                 final var embedBuilder = new EmbedBuilder()
@@ -512,10 +507,6 @@ public class MantaroListener implements EventListener {
                     }
                 });
             }
-
-            // Post bot statistics to the main API.
-            this.updateStats(jda);
-            Metrics.GUILD_ACTIONS.labels("join").inc();
         } catch (Exception e) {
             if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
                 LOG.error("Unexpected error while processing a join event", e);
