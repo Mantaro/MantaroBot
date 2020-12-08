@@ -955,7 +955,7 @@
       },
       "claimlock": {
         "removed": "%1$sResetado com sucesso seu status de claim lock.",
-        "success": "%1$sVocê não pode mais ser reivindicado como waifu. Isso custou uma chave de reivindicação.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
         "no_key": "%1$sVocê não tem uma chave de reivindicação para fazer isso.",
         "already_locked": "%1$sVocê já está bloqueado de reivindicações. Use `~>profile claimlock remove` para remover."
       },
