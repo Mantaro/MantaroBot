@@ -955,7 +955,7 @@
       },
       "claimlock": {
         "removed": "%1$sУспешно сброшен статус вашего вайфу замка.",
-        "success": "%1$sВы больше не можете стать чьим-то вайфу. На это был потрачен ключ.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
         "no_key": "%1$sУ вас нет вайфу ключа чтобы сделать это.",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
