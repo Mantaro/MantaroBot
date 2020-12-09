@@ -56,10 +56,10 @@
       "potion_active": "%1$sMayroon kanang aktibong **%2$s** na epekto ng potion at ang pinaka mataas na halaga nito!",
       "potion_not_found": "%1$sHindi ko mahanap ang potion o ang uri ng kagamitang iyan!",
       "potion_applied": "%1$sMatagumpay ang paglapat ng epektong **%2$s** na may uring *%3$s* (%4$dx). Tignan ang iyong makintab na bagong epekto gamit ang `~>profile stats`",
-      "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
+      "potion_applied_multiple": "%1$sMatagumpay ang paglapat ng **%2$s** na may uring *%3$s*.\nInilapat mo na ang epektong ito noon, kaya sinalansan namin ito. Kasalukuyang laki ng salansan: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
+      "not_same_potion": "%1$sMayroon kanang potion na may uring %2$s na nakasalansan at aktibo, kaya't hindi ka makakasalansan ng mga potion na may uring %3$s nito."
     },
     "campaigns": {
       "premium": {
@@ -78,7 +78,7 @@
     "buy_sell_paged_text": "Gamitin ang **&p>>** at **&p<<** upang lumipat sa mga pahina.\n%1$s",
     "buy_sell_paged_reference": "**Reference %1$s Buy %2$s Sell.**",
     "cancelled": "%1$sCancelled request.",
-    "sellout": "Consider donating on [Patreon](https://www.patreon.com/mantaro) if you like me, even a small donation will help towards keeping the bot alive!",
+    "sellout": "Isaalang-alang ang pagdodonate sa [Patreon](https://www.patreon.com/mantaro) kung nagustuhan mo ako, kahit konting donasyon lang ay makakatulong na ito upang mapanatili akong buhay!",
     "deprecated": "Hindi na ginagamit",
     "space_notice": "Kung ang pangalan nyan ay naglalaman ng puwang, subukang \"i-wrap ito gamit ang mga panipi\"",
     "ratelimit": {
@@ -103,7 +103,7 @@
       "Wag kang sakim!",
       "Nahihilo na ako sa mabilisang pagtatawag mo sakin...",
       "Halt in there buddy!",
-      "Wait just a tiiiiny bit more uwu",
+      "Maghintay ka lang nang saglit UwU",
       "Mukhang makakuha tayo nito ng speed ticket nito pag nagpatuloy pa tayo nang ganito kabilis!",
       "Gusto kong gawin to... pero paki hinto muna ng saglit.",
       "Uy, teka lang, di pa ako tapos sa pagpapahinga!",
@@ -111,10 +111,10 @@
     ],
     "mod_quotes": [
       "Aruy! Mukhang may natamaan!",
-      "Just wholesome admin work happening over here...",
+      "Wholesome lamang na trabaho ng admin na nagaganap dito...",
       "The boot has been thrown!",
       "Mami-miss ka namin... pero joke lang! :stuck_out_tongue_closed_eyes: ",
-      "I hope I did the right thing...",
+      "Sana'y nagawa ko ang tamang bagay...",
       "Uy! Nagsalita na ang mga mods!",
       "U-Uhm... mukhang may pinalabas sa pinto ah..."
     ]
@@ -124,65 +124,65 @@
     "action": "Aksyon",
     "misc": "Misc",
     "moderation": "Moderation",
-    "owner": "Owner",
-    "image": "Image",
+    "owner": "May-aring",
+    "image": "Imahe",
     "utils": "Utility",
-    "fun": "Fun",
-    "games": "Games",
-    "info": "Info",
-    "currency": "Currency",
-    "pet": "Pet"
+    "fun": "Pang-katuwaang",
+    "games": "Panlarong",
+    "info": "Impormasyong",
+    "currency": "Pang-salaping",
+    "pet": "Pang-alagang"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have a fish rod to fish with! (try with another rod)",
+      "dust": "%1$sNatapos na ang araw, at ang iyong balde ng isda ay nakakakuha lamang ng alikabok. (Lebel ng alikabok %2$s%%)",
+      "no_rod": "%1$sWala kang pamingwit para mangisda! (subukan gamit ang ibang pamingwit)",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$sNakakuha ka ng basura habang nangingisda, pero yung imbentaryo mo ay puno, kaya tinapon nalang namin pabalik sa tubig...",
+        "success": "%1$sHabang nangingisda nang mapayapa, nakakita ka ng lumulutang na %2$s pero mukhang basura lang iyon pala :("
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "At nakakita ka rin ng %1$s, ang swerte mo!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Nakakita ka ng **%1$s** habang nangingisda, pero masyadong marami kana nito, kaya itinapon namin ito pabalik sa dagat...",
+        "success": "Nakakita ka ng %1$s **%2$s** habang nangingisda at pinulot mo ito. Buksan mo ito gamit ang `~>opencrate <crate name>`. Kailangan mo ng susi sa crate!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$sAwtomatikong inequip ang **%2$s** sa iyong fish slot."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water...",
-      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
-      "not_suitable": "%1$sYou can't use this to fish.",
-      "shark_success": "%1$sSomehow, you managed to catch a shark. What a wonderful rod, huh?",
-      "fossil_success": "%1$sYou caught a fossil while trying to find a fish. This might be worth a fair bit or be used for casting, I believe.",
-      "bait": "The fish ate your bait in the process!",
-      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
-      "broken_drop": "%1$sYour rod broke, but you can repair it. Got broken item: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
+      "overflow": "%1$sNakahuli ka ng mga isda, pero yung parte ng iyong imbentaryo ay puno na, kaya't tinapon namin ang ilan sa iyong mga huli pabalik sa tubig...",
+      "success": "%1$sHabang nangingisda nang mapayapa, nakakita ka ng %2$s at inilagay mo sa iyong balde.",
+      "success_money": "%1$sHabang nangingisda nang mapayapa, nakakita ka ng %2$s at **$%3$d credits** at inilagay mo ito sa iyong balde.%4$s",
+      "success_money_noitem": "%1$sHabang nangingisda nang mapayapa, nakakita ka ng **$%2$d credits** at inilagay mo ito sa iyong bulsa.",
+      "rod_broke": "%1$sNasira ang iyong pamingwit habang sinubukan mong mangisda :(",
+      "waifu_help": "Ang iyong waifu ay dumating at sumali sa iyong pangingisda at nakakuha kayong dalawa ng mas malaking huli!",
+      "not_suitable": "%1$sHindi mo ito maaaring gamitin upang mamingwit.",
+      "shark_success": "%1$sSa paanuman, nakahuli ka ng pating. Ang ganda ng pamingwit mo, hindi ba?",
+      "fossil_success": "%1$sNakahuli ka ng fossil habang naghahanap ka ng isda. Sa palagay ko, baka may konting halaga ito o ito'y maaaring gamitin sa paghahagis.",
+      "bait": "Kinain ng isda ang iyong pain habang ika'y nangingisda!",
+      "missing_equipped": "%1$sMayroon kang naka-equip na %2$s rod, pero wala kanang kahit ano ng uri nito sa iyong imbentaryo! Ni-reset na ang naka-equip na rod.",
+      "broken_drop": "%1$sNasira ang iyong pamingwit, pero pwede mo itong ayusin. Nakuha ang sirang aytem: %2$s*%3$s*",
+      "no_rod_equipped": "%1$sWala kang pamingwit na naka-equip. Para mag-equip ng isa, kailangan mong patakbuhin ang command na `~>equip <rod name>` para simulan ang iyong adbentura!"
     },
     "softban": {
-      "no_permission": "%1$sCannot soft ban: You don't have the Ban Members permission.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
-      "no_users": "%1$sYou need to give me an user to soft-ban.",
-      "hierarchy_conflict": "%1$sYou cannot soft-ban an user in a higher hierarchy than you",
-      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
-      "self_hierarchy_conflict": "%1$sCannot soft-ban member: %2$s, they are higher or the same hierarchy than I am!",
-      "success": "%1$s%2$s. **(%3$s got soft-banned)**",
+      "no_permission": "%1$sHindi maaaring mag-soft ban: Wala kang pahintulot sa Ban Members.",
+      "no_permission_self": "%1$sPasensiya ka na! Wala akong pahintulot para i-ban ang mga miyembro ng server na ito.",
+      "no_users": "%1$sKailangang bigyan mo ako ng user na iso-soft ban ko.",
+      "hierarchy_conflict": "%1$sHindi mo maaaring i-soft ban ang user na may mas mataas na ranggo kaysa sa iyo",
+      "yourself_note": "%1$sBakit mo bang sinusubukang i-soft ban ang iyong sarili?",
+      "self_hierarchy_conflict": "%1$sHindi mai-soft ban ang miyembro: %2$s, mas mataas o parehas sa akin ang kanilang ranggo!",
+      "success": "%1$s%2$s. **(Na-soft ban si %3$s)**",
       "error": "%1$sError soft-banning [%2$s]: (No permission provided: %3$s)",
-      "unknown_error": "%1$sUnknown error while soft-banning %2$s: *(Error? %3$s: %4$s)*"
+      "unknown_error": "%1$sMay di-matukoy na problema habang sinosoft-ban si %2$s: *(Error? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sYou can't ban: You need the `Ban Users` permission.",
-      "no_users": "%1$sYou need to give me a user to ban.",
-      "no_permission_self": "%1$sSorry! I don't have permission to ban members in this server.",
+      "no_permission": "%1$sHindi ka maaaring mag ban: Kailangan mo ang `Ban Users` na permiso.",
+      "no_users": "%1$sKailangang bigyan mo ako ng user na iba-ban.",
+      "no_permission_self": "%1$sPasensya na! Wala akong pahintulot para i-ban ang mga miyembro ng server na ito.",
       "hierarchy_conflict": "%1$sYou cannot ban an user who's higher than you in the server hierarchy! Nice try %2$s",
       "yourself_note": "%1$sWhy are you trying to ban yourself, silly?",
-      "self_hierarchy_conflict": "%1$sCannot ban member: %2$s, they are higher or the same hierarchy than I am!",
+      "self_hierarchy_conflict": "%1$sHindi mai-ban ang miyembro: %2$s, mas mataas o parehas sa akin ang kanilang ranggo!",
       "success": "%1$s%2$s (%3$s got banned)",
       "success_multiple": "%1$s%2$s (%3$s people got banned)",
       "error": "%1$sError banning %2$s: (I need the permission %3$s)",
@@ -1126,9 +1126,9 @@
         "kiss": "Aww, I see you are lonely, *kisses*",
         "poke": "Aww, I see you are lonely, *pokes you*",
         "slap": "Hmm, why do you want this? Uh, I guess... *slaps you*",
-        "bite": "*bites you*",
-        "lick": "*licks you*",
-        "tickle": "*tickles you*",
+        "bite": "*kinagat ka*",
+        "lick": "*dinilaan ka*",
+        "tickle": "*kiniliti ka*",
         "highfive": "*highfives*",
         "pout": "*pouts, hmph*",
         "teehee": "*teases you*",
@@ -1285,8 +1285,8 @@
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
       "found_image": "Found an image",
       "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
-      "width": "Width",
-      "height": "Height",
+      "width": "Lapad",
+      "height": "Taas",
       "tags": "Tags",
       "load_notice": "If the image doesn't load, click the title.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
@@ -1302,9 +1302,9 @@
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
         "header": "Status for %1$s",
         "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
-        "cost": "Price",
-        "type": "Type",
-        "abilities": "Abilities",
+        "cost": "Presyo",
+        "type": "Uri",
+        "abilities": "Mga abilidad",
         "level": "Level",
         "health": "Health",
         "thirst": "Thirst",
@@ -1387,7 +1387,7 @@
         "author": "Pet information for type %1$s%2$s",
         "name": "Pet Name",
         "cost": "Pet Cost",
-        "abilities": "Abilities",
+        "abilities": "Mga abilidad",
         "food": "Edibles",
         "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
@@ -1477,7 +1477,7 @@
       "account_age": "Account Age",
       "mutual_guilds": "Mutual Guilds",
       "vc": "Voice Channel",
-      "color": "Color",
+      "color": "Kulay",
       "status": "Status",
       "nothing": "Nothing",
       "default": "Default"
@@ -1489,7 +1489,7 @@
       "age": "Role Age",
       "color": "Color",
       "members": "Members",
-      "position": "Position",
+      "position": "Posisyon",
       "hoisted": "Hoisted",
       "managed": "Managed",
       "permissions": "Permissions: [%1$,d]"
