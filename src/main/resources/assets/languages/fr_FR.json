@@ -1363,10 +1363,10 @@
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
         "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
