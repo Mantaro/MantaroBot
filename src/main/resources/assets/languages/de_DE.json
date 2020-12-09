@@ -1363,10 +1363,10 @@
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** hat sehr wenig Ausdauer. Gib ihm Essen/Trinken zum auffüllen.",
-        "low_health": "%1$s**%2$s** hat sehr wenig Gesundheit. Gib ihm Essen/Trinken und lass es sich ausruhen.",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
         "low_hunger": "%1$s**%2$s** ist gerade zu hungrig, um etwas zu machen. *Esseeen~*",
         "low_thirst": "%1$s**%2$s** ist gerade zu durstig, um etwas zu machen.",
-        "success_fish": "%1$s**%2$s** hat dir erfolgreich beim Fischfang geholfen! Du hast einen Buff und extra Credits **(%3$,d extra Credits, %4$,d extra Gegenstände)** dank der extra Arbeit, die dein Haustier für dich leisten konnte, bekommen! *enthalten in dem, was du bekommen hast*",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** hat dir erfolgreich beim Holz Fällen geholfen! Du hast einen Buff und extra Credits **(%3$,d extra Credits, %4$,d extra Gegenstände)** dank der extra Arbeit, die dein Haustier für dich leisten konnte, bekommen! *enthalten in dem, was du bekommen hast*",
         "success_mine": "%1$s**%2$s** hat dir erfolgreich beim Abbauen geholfen! Du hast einen Buff und extra Credits **(%3$,d extra Credits, und eine erhöhte Chance auf Gegenstände)** dank der extra Arbeit, die dein Haustier für dich leisten konnte, bekommen! *enthalten in dem, was du bekommen hast*"
       },
