@@ -46,9 +46,8 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.security.SecureRandom;
-import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -576,11 +575,10 @@ public class ItemCmds {
                     var repairCost = item.getValue() / 3;
 
                     fields.add(new MessageEmbed.Field("%s %s".formatted(item.getEmoji(), item.getName()),
-                            "%s\n**%s** %s.\n**Recipe: **%s\n**Item: ** %s %s".formatted(
+                            "%s\n**%s** %s %s\n**Recipe: **%s\n**Item: ** %s %s".formatted(
                                     languageContext.get(item.getDesc()),
                                     languageContext.get("commands.repair.ls.cost"),
-                                    repairCost,
-                                    languageContext.get("commands.gamble.credits"),
+                                    repairCost, languageContext.get("commands.gamble.credits"),
                                     recipe,
                                     mainItem.getEmoji(), mainItem.getName()
                             ), false)
