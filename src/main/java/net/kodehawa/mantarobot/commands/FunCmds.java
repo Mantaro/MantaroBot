@@ -254,9 +254,9 @@ public class FunCmds {
                 var languageContext = ctx.getLanguageContext();
 
                 final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
-                if (marriage != null) {
+                if (marriage != null && mentioned.size() == 1) {
                     final var other = marriage.getOtherPlayer(ctx.getAuthor().getId());
-                    if (other.equals(mentioned.get(0).getId()) && mentioned.size() == 1) {
+                    if (other.equals(mentioned.get(0).getId())) {
                         percentage = 100;
                     }
                 }
