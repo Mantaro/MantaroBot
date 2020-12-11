@@ -48,8 +48,8 @@
       "pill": "%1$sYou drank a waifu pill! (Activated for 5 sessions)",
       "pill_used": "%1$sYou already have an active waifu pill!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked!",
-        "no_crate": "%1$sYou need a loot crate! How else would you use your key >.>... oh",
+        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
         "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
         "overflow": "But you already had too much, so you decided to throw away the excess"
       },

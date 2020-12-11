@@ -250,13 +250,13 @@ public class FunCmds {
                     ids[1] = mentioned.get(0).getIdLong();
                 }
 
-                var percentage = (ids[0] == ids[1] ? 101 : random.nextInt(101)); //last value is exclusive, so 101.
+                var percentage = (ids[0] == ids[1] ? 101 : random.nextInt(101)); // last value is exclusive, so 101.
                 var languageContext = ctx.getLanguageContext();
 
                 final var marriage = ctx.getMarriage(ctx.getDBUser().getData());
                 if (marriage != null) {
                     final var other = marriage.getOtherPlayer(ctx.getAuthor().getId());
-                    if (other.equals(mentioned.get(0).getId())) {
+                    if (other.equals(mentioned.get(0).getId()) && mentioned.size() == 1) {
                         percentage = 100;
                     }
                 }
