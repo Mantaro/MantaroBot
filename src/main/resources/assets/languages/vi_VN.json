@@ -48,8 +48,8 @@
       "pill": "%1$s Bạn đã uống một viên con nhộng waifu! (Có tác dụng trong 5 phiên)",
       "pill_used": "%1$s Bạn đã uống viên con nhộng waifu rồi!",
       "crate": {
-        "no_key": "%1$s Bạn cần chìa khóa hòm thính để mở cái hòm này. Nó bị khóa!",
-        "no_crate": "%1$s Bạn cần phải có hòm thính! Chứ bạn nghĩ làm sao để dùng cái chìa khóa này =='",
+        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
         "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn cần quyết định vứt đồ thừa đi"
       },
@@ -863,7 +863,7 @@
       "timezone": {
         "not_specified": "%1$sBạn cần nói rõ múi giờ của bạn.",
         "reset": "%1$sĐã đặt lại múi giờ.",
-        "invalid": "%1$sMúi giờ không hợp lệ.",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
         "success": "%1$sĐã lưu múi giờ, múi giờ cho hồ sơ của bạn giờ là: **%2$s**",
         "reset_success": "%1$sĐã đặt lại múi giờ thành công."
       },
@@ -987,7 +987,7 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sBạn cần nói rõ tên một huy hiệu để biết thêm thông tin về nó.",
+        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sKhông có huy hiệu nào như vậy cả...",
         "header": "Thông tin cho huy hiệu %1$s",
         "achieved": "Đã đạt được"
@@ -1242,9 +1242,8 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "key": "%1$sBạn cần chìa khoá hòm để mở! Hãy mua một cái rồi thử lại!",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sBạn chưa nói bạn muốn xoá tin nhắn nào.",
@@ -1257,7 +1256,7 @@
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sHãy nhập một con số phù hợp.",
       "not_valid": "%1$sCon số đó không phù hợp để xoá tin nhắn.",
-      "less_than_five": "%1$sBạn cần cung cấp ít nhất 5 tin nhắn.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `~>prune 20` to delete 20 messages.",
       "messages_too_old": "%1$sKhông có tin nhắn nào mới hơn 2 tuần, discord sẽ không cho tôi xoá đâu.",
       "success": "%1$sĐã xoá thành công %2$s tin nhắn trong kênh này.",
       "lack_perms": "%1$sThiếu quyền hạn trong lúc xoá tin nhắn (Không có quyền được cung cấp: %2$s)",
@@ -1331,7 +1330,7 @@
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
         "already_has_pet": "%1$sYou already have a pet.",
@@ -1344,7 +1343,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with.",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -1410,7 +1409,7 @@
       "no_item": "%1$sYou need to specify the item you want to salvage.",
       "no_item_found": "%1$sI can't find the item you specified.",
       "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
@@ -1521,7 +1520,7 @@
       "no_tool": "%1$sBạn cần cờ lê cấp 2 (ít nhất là cờ lê sao chổi) hoặc hơn để sửa món đồ này. Hãy chắc chắn rằng bạn có nó và bạn đã gọi đúng tên của nó trong trường hợp bạn nhắc đến tên. Hãy nhớ dùng dấu ngoặc kép cho tên có chứa dấu cách.",
       "dust": "%1$sTủ đồ của bạn quá bẩn để thực hiện một sửa chữa. Bụi cấp: %2$s",
       "not_wrench": "%1$sBạn không thể dùng đồ này làm cờ lê. Nhớ dùng ngoặc kép nếu tên của đồ có chứa dấu cách.",
-      "not_enough_level": "%1$sBạn cần một cờ lê cấp cao hơn để thực hiện quá trình sửa chữa này.",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
       "not_enough_money": "%1$sBạn không đủ tiền để sửa chữa đồ vật này.",
       "no_item_recipe": "%1$sBạn không có *%2$s* để thực hiện quá trình sửa chữa này.",
       "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để sửa chữa.**(Cần: %3$s, Hiện có: %4$s)**",
@@ -1654,7 +1653,7 @@
       },
       "crate": {
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
       },
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
