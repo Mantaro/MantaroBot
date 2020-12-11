@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -40,7 +41,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -498,10 +499,17 @@ public class MarketCmd {
 
                         var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
 
-                        ctx.sendLocalized("commands.market.buy.success",
-                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
-                                playerMoney
-                        );
+                        if (itemToBuy instanceof Breakable) {
+                            ctx.sendLocalized("commands.market.buy.success_breakable",
+                                    EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
+                                    playerMoney
+                            );
+                        } else {
+                            ctx.sendLocalized("commands.market.buy.success",
+                                    EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
+                                    playerMoney
+                            );
+                        }
                     } else {
                         ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP);
                     }
