@@ -48,8 +48,8 @@
       "pill": "%1$s¡Tomaste una pastilla de waifu! (Activada por 5 sesiones)",
       "pill_used": "%1$s¡Ya tienes una pastilla de waifu activada!",
       "crate": {
-        "no_key": "%1$sNecesitas una loot crate key para abrir una loot crate. ¡Está bloqueada!",
-        "no_crate": "%1$sNecesitas una loot crate! De que otra forma podría usar esa llave >.>... oh",
+        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
         "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
@@ -863,7 +863,7 @@
       "timezone": {
         "not_specified": "%1$sNecesitas especificar una zona horaria.",
         "reset": "%1$sTu zona horaria fue correctamente limpiada de tu perfil.",
-        "invalid": "%1$sZona horaria inválida.",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
         "success": "%1$sZona horaria guardada. La zona horaria en tu perfil ahora es: **%2$s**",
         "reset_success": "%1$sTu zona horaria fue reiniciada correctamente."
       },
@@ -987,7 +987,7 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sNecesitas decirme que trofeo deseas revisar.",
+        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sEse trofeo no existe...",
         "header": "Información para el trofeo %1$s",
         "achieved": "Logrado"
@@ -1242,9 +1242,8 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "key": "%1$sNecesitas una llave de crate para hacer esto! Por favor compra una y inténtalo de nuevo!",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
-      "success": "%1$s¡Acabas de conseguir un **%2$s**! ¡Vuelve en 24 horas para conseguir otra! Puedes abrir esto usando `~>opencrate <crate name>`. Necesitas comprar una crate key para abrirla."
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",
@@ -1257,7 +1256,7 @@
       "error_retrieving": "%1$sEncontré un error desconocido mientras intentaba recuperar el historial de mensajes para eliminar. (Uso interno: %2$s: %3$s)",
       "invalid_number": "%1$sPor favor especifica un número válido.",
       "not_valid": "%1$s¡Ese no es un número válido de mensajes a eliminar!",
-      "less_than_five": "%1$sNecesitas al menos 5 mensajes.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `~>prune 20` to delete 20 messages.",
       "messages_too_old": "%1$sTodos los mensajes aquí son de al menos 2 semanas de antiguedad. No puedo eliminar mensajes tan antiguos.",
       "success": "%1$s¡He eliminado %2$s mensajes en masa de este canal!",
       "lack_perms": "%1$sMe faltan permisos para eliminar mensajes en masa... (Falta de permisos: %2$s)",
@@ -1331,7 +1330,7 @@
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
         "already_has_pet": "%1$sYou already have a pet.",
@@ -1344,7 +1343,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with.",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -1410,7 +1409,7 @@
       "no_item": "%1$sYou need to specify the item you want to salvage.",
       "no_item_found": "%1$sI can't find the item you specified.",
       "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
@@ -1521,7 +1520,7 @@
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sTu inventario está muy sucio para reparar cosas. Nivel de polvo: %2$s",
       "not_wrench": "%1$sNo puedes usar esto como una llave inglesa. Recuerda poner el nombre entre comillas si el nombre tiene espacios.",
-      "not_enough_level": "%1$sNecesitas una llave inglesa de mayor nivel para hacer esta reparación.",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
       "not_enough_money": "%1$sNo tienes suficiente dinero para reparar este ítem.",
       "no_item_recipe": "%1$sNo tienes el *%2$s* necesario para realizar esta reparación.",
       "not_enough_items": "%1$sNo tienes suficiente de *%2$s* para realizar esta reparación. **(Necesitas: %3$s, Tienes: %4$s)**",
@@ -1654,7 +1653,7 @@
       },
       "crate": {
         "overflow": "Encontraste una **%1$s** mientras minabas, pero tenías demasiadas y las dejaste atrás...",
-        "success": "Encontraste un %1$s **%2$s** mientras minabas y procedes a recogerla. Anda y ábrelo con `~>opencrate <nombre de la loot crate>`. Necesitas una llave para abrir la caja!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
       },
       "autoequip": {
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de minería."
