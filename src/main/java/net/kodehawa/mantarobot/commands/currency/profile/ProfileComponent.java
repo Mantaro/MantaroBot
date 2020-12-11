@@ -111,7 +111,12 @@ public enum ProfileComponent {
     }, true, false),
     INVENTORY(EmoteReference.POUCH, i18nContext -> i18nContext.get("commands.profile.inventory"), (holder, i18nContext) -> {
         var inv = holder.isSeasonal() ? holder.getSeasonalPlayer().getInventory() : holder.getPlayer().getInventory();
-        return inv.asList().stream()
+        final var stackList = inv.asList();
+        if (stackList.isEmpty()) {
+            return i18nContext.get("general.dust");
+        }
+
+        return stackList.stream()
                 .map(ItemStack::getItem)
                 .sorted(Comparator.comparingLong(Item::getValue).reversed())
                 .limit(10)
@@ -119,7 +124,12 @@ public enum ProfileComponent {
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     BADGES(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.badges"), (holder, i18nContext) -> {
-        var displayBadges = holder.getBadges()
+        final var badges = holder.getBadges();
+        if (badges.isEmpty()) {
+            return i18nContext.get("general.dust");
+        }
+
+        var displayBadges = badges
                 .stream()
                 .limit(5)
                 .map(Badge::getUnicode)
