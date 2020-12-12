@@ -62,7 +62,6 @@ public class GameCmds {
                 .premiumAware(true)
                 .prefix("game")
                 .build();
-        final var db = MantaroData.db();
 
         games.put("pokemon", (d) -> new Pokemon());
         games.put("number", (d) -> new GuessTheNumber());
@@ -129,7 +128,7 @@ public class GameCmds {
                     }
 
                     ctx.sendStrippedLocalized("commands.game.won_games",
-                            EmoteReference.POPPER, member.getEffectiveName(), db.getPlayer(member).getData().getGamesWon()
+                            EmoteReference.POPPER, member.getEffectiveName(), ctx.getPlayer(member).getData().getGamesWon()
                     );
                 });
             }
@@ -171,8 +170,8 @@ public class GameCmds {
                     return;
                 }
 
-                var userData = db.getUser(ctx.getAuthor()).getData();
-                var key = db.getPremiumKey(userData.getPremiumKey());
+                var userData = ctx.getDBUser().getData();
+                var key = MantaroData.db().getPremiumKey(userData.getPremiumKey());
                 var premium = key != null && key.getDurationDays() > 1;
                 if (split.length > (premium ? 8 : 5)) {
                     ctx.sendLocalized("commands.game.too_many_games", EmoteReference.ERROR);

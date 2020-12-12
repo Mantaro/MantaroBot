@@ -22,7 +22,6 @@ import lavalink.client.io.LavalinkSocket;
 import lavalink.client.io.RemoteStats;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -38,18 +37,14 @@ import net.kodehawa.mantarobot.utils.Utils;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
-
 @Module
 public class StatsCmd {
-    private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
-
     @Subscribe
     public void stats(CommandRegistry cr) {
         SimpleTreeCommand statsCommand = cr.register("stats", new SimpleTreeCommand(CommandCategory.INFO) {
@@ -60,37 +55,6 @@ public class StatsCmd {
                         .setUsage("~>stats <option>` - Returns statistical information.")
                         .addParameter("option", "What to check for. See subcommands")
                         .build();
-            }
-        });
-
-        statsCommand.addSubCommand("usage", new SubCommand() {
-            @Override
-            public String description() {
-                return "The bot's (and JVM) hardware usage";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.send(new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.stats.usage.header"), null, ctx.getSelfUser().getAvatarUrl())
-                        .setDescription(languageContext.get("commands.stats.usage.description"))
-                        .setThumbnail(ctx.getSelfUser().getAvatarUrl())
-                        .addField(languageContext.get("commands.stats.usage.threads"),
-                                getThreadCount() + " Threads", false)
-                        .addField(languageContext.get("commands.stats.usage.memory_usage"),
-                                Utils.formatMemoryUsage(getTotalMemory() - getFreeMemory(), getMaxMemory()), false)
-                        .addField(languageContext.get("commands.stats.usage.cores"),
-                                getAvailableProcessors() + " Cores", true)
-                        .addField(languageContext.get("commands.stats.usage.cpu_usage"),
-                                "%.2f%%".formatted(getInstanceCPUUsage() * 100), true)
-                        .addField(languageContext.get("commands.stats.usage.assigned_mem"),
-                                Utils.formatMemoryAmount(getTotalMemory()), false)
-                        .addField(languageContext.get("commands.stats.usage.assigned_remaining"),
-                                Utils.formatMemoryAmount(getFreeMemory()), true)
-                        .build()
-                );
-
-                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(4, 5);
             }
         });
 
@@ -174,6 +138,10 @@ public class StatsCmd {
                     }
 
                     RemoteStats stats = node.getStats();
+                    if (stats == null) {
+                        continue;
+                    }
+
                     fields.add(new MessageEmbed.Field(node.getName(),
                             """
                             **Uptime:** %s
@@ -203,54 +171,26 @@ public class StatsCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                String[] args = ctx.getArguments();
-                if (args.length > 0) {
-                    String what = args[0];
-                    if (what.equals("total")) {
-                        ctx.send(CommandStatsManager.fillEmbed(
-                                DefaultBucket.TOTAL, baseEmbed(ctx, "Command Stats | Total")
-                        ).build());
-
-                        return;
-                    }
-
-                    if (what.equals("daily")) {
-                        ctx.send(CommandStatsManager.fillEmbed(
-                                DefaultBucket.DAY, baseEmbed(ctx, "Command Stats | Daily")
-                        ).build());
-
-                        return;
-                    }
-
-                    if (what.equals("hourly")) {
-                        ctx.send(CommandStatsManager.fillEmbed(
-                                DefaultBucket.HOUR, baseEmbed(ctx, "Command Stats | Hourly")
-                        ).build());
-
-                        return;
-                    }
-
-                    if (what.equals("now")) {
-                        ctx.send(CommandStatsManager.fillEmbed(
-                                DefaultBucket.MINUTE, baseEmbed(ctx, "Command Stats | Now")
-                        ).build());
-
-                        return;
-                    }
+                if (content.equalsIgnoreCase("total")) {
+                    ctx.send(CommandStatsManager.fillEmbed(DefaultBucket.TOTAL, baseEmbed(ctx, "Command Stats | Total")).build());
+                    return;
                 }
-
                 ctx.send(
                         baseEmbed(ctx, "Command Stats")
-                                .addField(languageContext.get("general.now"),
+                                .addField(
+                                        languageContext.get("general.now"),
                                         CommandStatsManager.resume(DefaultBucket.MINUTE), false
                                 )
-                                .addField(languageContext.get("general.hourly"),
+                                .addField(
+                                        languageContext.get("general.hourly"),
                                         CommandStatsManager.resume(DefaultBucket.HOUR), false
                                 )
-                                .addField(languageContext.get("general.daily"),
+                                .addField(
+                                        languageContext.get("general.daily"),
                                         CommandStatsManager.resume(DefaultBucket.DAY), false
                                 )
-                                .addField(languageContext.get("general.total"),
+                                .addField(
+                                        languageContext.get("general.total"),
                                         CommandStatsManager.resume(DefaultBucket.TOTAL), false
                                 ).build()
                 );
@@ -258,6 +198,8 @@ public class StatsCmd {
         });
 
         statsCommand.addSubCommand("category", new SubCommand() {
+            private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
+
             @Override
             public String description() {
                 return "The bot's category usage";
@@ -265,54 +207,29 @@ public class StatsCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                String[] args = ctx.getArguments();
-                if (args.length > 0) {
-                    String what = args[0];
-
-                    if (what.equals("total")) {
-                        ctx.send(categoryStatsManager.fillEmbed(
-                                CategoryStatsManager.TOTAL_CATS, baseEmbed(ctx, "Category Stats | Total")).build()
-                        );
-
-                        return;
-                    }
-
-                    if (what.equals("daily")) {
-                        ctx.send(categoryStatsManager.fillEmbed(
-                                CategoryStatsManager.DAY_CATS, baseEmbed(ctx, "Category Stats | Daily")
-                        ).build());
-
-                        return;
-                    }
-
-                    if (what.equals("hourly")) {
-                        ctx.send(categoryStatsManager.fillEmbed(
-                                CategoryStatsManager.HOUR_CATS, baseEmbed(ctx, "Category Stats | Hourly")
-                        ).build());
-
-                        return;
-                    }
-
-                    if (what.equals("now")) {
-                        ctx.send(categoryStatsManager.fillEmbed(
-                                CategoryStatsManager.MINUTE_CATS, baseEmbed(ctx, "Category Stats | Now")
-                        ).build());
-
-                        return;
-                    }
+                if (content.equalsIgnoreCase("total")) {
+                    ctx.send(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(ctx, "Category Stats | Total")).build());
+                    return;
                 }
 
                 ctx.send(
                         baseEmbed(ctx, "Category Stats")
-                                .addField(languageContext.get("general.now"),
-                                        categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
-                                .addField(languageContext.get("general.hourly"),
-                                        categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
-                                .addField(languageContext.get("general.daily"),
-                                        categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
-                                .addField(languageContext.get("general.total"),
-                                        categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
-                                .build()
+                                .addField(
+                                        languageContext.get("general.now"),
+                                        categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false
+                                )
+                                .addField(
+                                        languageContext.get("general.hourly"),
+                                        categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false
+                                )
+                                .addField(
+                                        languageContext.get("general.daily"),
+                                        categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false
+                                )
+                                .addField(
+                                        languageContext.get("general.total"),
+                                        categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false
+                                ).build()
                 );
             }
         });
