@@ -2012,16 +2012,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sDefinido entrada/saída do bot ignorar: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sDefinida mensagem de level up para: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sVocê tem que especificar a mensagem que você quer que mostre no level-up do usuário. *Dica: O nome de usuário da pessoa é feito usando o argumento $(user) na mensagem*",
-      "success": "%1$sMensagem de level-up do servidor definida para: `%2$s`"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sApagada todas as mensagens delevel-up!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sVocê tem que especificar um canal para mostrar as mensagens de level-up!",
       "success": "%1$sO canal de level-up foi definido para: %2$s"
