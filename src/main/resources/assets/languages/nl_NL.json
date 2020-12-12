@@ -2012,16 +2012,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sDe join/leave ignore van de bot staat nu op: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sStel level-up berichten in op: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sJe moet het bericht opgeven dat je wilt weergeven als een gebruiker level up gaat. *Tip: De gebruikersnaam van de persoon wordt weergegeven met behulp van het $(user) argument in het bericht*",
-      "success": "%1$sServer level-up bericht ingesteld op: %2$s"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sHet level-up bericht is gewist!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sJe moet een kanaal opgeven om level-up berichten te plaatsen!",
       "success": "%1$sHet level-up-kanaal is ingesteld op: %2$s"
