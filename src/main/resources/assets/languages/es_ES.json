@@ -2012,16 +2012,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sIgnorar bots a la hora de enviar mensaje de entrada/salida: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sMostrar mensajes a la hora de subir de nivel: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sNecesitas especificar el mensaje que desees mostrar cuando un usuario suba de nivel. *Tip: El nombre de la persona se pone usando $(user) en el mensaje*",
-      "success": "%1$sEl nuevo mensaje a la hora de subir de nivel es: %2$s"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sReiniciado el mensaje a la hora de subir de nivel!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sNecesitas especificar un canal donde deseas que muestre los mensajes de subida de nivel.",
       "success": "%1$sEl canal para los mensajes de subir de nivel ahora es: %2$s"
