@@ -67,15 +67,15 @@ public class CommandListener implements EventListener {
     public void onEvent(@NotNull GenericEvent event) {
         if (event instanceof GuildMessageReceivedEvent) {
             var msg = (GuildMessageReceivedEvent) event;
-            //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
-            messageCache.put(msg.getMessage().getIdLong(), Optional.of(
-                    new CachedMessage(msg.getGuild().getIdLong(), msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay()))
-            );
-
-            //Ignore myself and bots.
+            // Ignore myself and bots.
             if (msg.getAuthor().isBot() || msg.isWebhookMessage() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) {
                 return;
             }
+
+            // Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
+            messageCache.put(msg.getMessage().getIdLong(), Optional.of(
+                    new CachedMessage(msg.getGuild().getIdLong(), msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay()))
+            );
 
             threadPool.execute(() -> onCommand(msg));
         }
