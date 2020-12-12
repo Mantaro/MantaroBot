@@ -2012,16 +2012,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sSchalte das Ignorieren vom Beitreten und Austreten von Bots auf: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sSetze Level-Up-Nachricht auf: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sDu musst die Level-Up-Nachricht angeben. *Tipp: Der Nutzername ist $(user) innerhalb der Nachricht*",
-      "success": "%1$sServer-Level-Up-Nachricht geändert auf: `%2$s`"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sLevel-Up-Nachricht zurückgesetzt!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sDu musst einen Kanal für die Level-Up-Nachrichten angeben!",
       "success": "%1$sDer Level-Up-Kanal wurde gesetzt auf: %2$s"
