@@ -2012,16 +2012,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sÉviter de dire bienvenue/aurevoir aux bots: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sLe message de niveau est: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sTu dois spécifier le message à afficher lorsqu'un utilisateur monte de niveau. *Conseil : tu peux insérer le nom de l'utilisateur en mettant $(user) dans ton message*",
-      "success": "%1$sLe message de monté de niveau du serveur est: `%2$s`"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sMessage de changement de niveau effacé!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sTu dois spécifier le salon dans lequel le message de changement de niveau sera envoyé!",
       "success": "%1$sLe salon de niveaux d'expérience est: %2$s"
