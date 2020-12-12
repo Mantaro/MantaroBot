@@ -169,8 +169,13 @@ public class TransferCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Transfers money from you to another player.\n" +
-                                "The maximum amount you can transfer at once is " + TRANSFER_LIMIT + " credits.")
+                        .setDescription(
+                                """
+                                Transfers money from you to another player.
+                                The maximum amount you can transfer at once is %s credits.
+                                Current tax rate is 8%%.
+                                """.formatted(TRANSFER_LIMIT)
+                        )
                         .setUsage("`~>transfer <@user> <money>` - Transfers money to x player")
                         .addParameter("@user", "The user to send the money to. You have to mention (ping) the user.")
                         .addParameter("money", "How much money to transfer.")
