@@ -24,8 +24,6 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
-import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
@@ -36,7 +34,6 @@ import net.kodehawa.mantarobot.utils.LanguageKeyNotFoundException;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RateLimiter;
-import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 public class CommandListener implements EventListener {
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 18);
     private static final Logger log = LoggerFactory.getLogger(CommandListener.class);
-    //Commands ran this session.
+    // Commands ran this session.
     private static int commandTotal = 0;
     private final Random random = new Random();
     private final CommandProcessor commandProcessor;
@@ -138,26 +135,11 @@ public class CommandListener implements EventListener {
 
                         // Increment player experience by a random number between 1 and 5.
                         data.setExperience(data.getExperience() + random.nextInt(5));
+
                         // Apply some black magic.
                         var level = player.getLevel();
                         if (data.getExperience() > (level * Math.log10(player.getLevel()) * 1000) + (50 * level / 2D)) {
                             player.setLevel(level + 1);
-                            var newLevel = player.getLevel();
-
-                            if (newLevel > 1) {
-                                var dbGuild = MantaroData.db().getGuild(event.getGuild());
-                                var guildData = dbGuild.getData();
-
-                                if (guildData.isEnabledLevelUpMessages()) {
-                                    String levelUpChannel = guildData.getLevelUpChannel();
-                                    String levelUpMessage = guildData.getLevelUpMessage();
-
-                                    //Player has leveled up!
-                                    if (levelUpMessage != null && levelUpChannel != null) {
-                                        processMessage(newLevel, levelUpMessage, levelUpChannel, event);
-                                    }
-                                }
-                            }
                         }
 
                         player.saveUpdating();
@@ -224,41 +206,5 @@ public class CommandListener implements EventListener {
 
             log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
-    }
-
-    private void processMessage(long level, String message, String channel, GuildMessageReceivedEvent event) {
-        var tc = event.getGuild().getTextChannelById(channel);
-
-        if (tc == null) {
-            return;
-        }
-
-        if (message.contains("$(")) {
-            message = new DynamicModifiers()
-                    .mapEvent("", "event", event)
-                    .set("level", String.valueOf(level))
-                    .resolve(message);
-        }
-
-        var c = message.indexOf(':');
-        if (c != -1) {
-            var m = message.substring(0, c);
-            var v = message.substring(c + 1);
-
-            if (m.equals("embed")) {
-                EmbedJSON embed;
-                try {
-                    embed = JsonDataManager.fromJson('{' + v + '}', EmbedJSON.class);
-                } catch (Exception ignored) {
-                    tc.sendMessage(EmoteReference.ERROR2 + "The string `{" + v + "}` isn't a valid JSON.").queue();
-                    return;
-                }
-
-                tc.sendMessage(embed.gen(event.getMember())).queue();
-                return;
-            }
-        }
-
-        tc.sendMessage(message).queue();
     }
 }

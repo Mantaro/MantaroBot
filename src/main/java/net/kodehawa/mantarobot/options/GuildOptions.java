@@ -1015,69 +1015,6 @@ public class GuildOptions extends OptionHandler {
             event.getChannel().sendMessageFormat(lang.get("options.server_ignorebots_joinleave_toggle.success"), EmoteReference.CORRECT, guildData.isIgnoreBotsWelcomeMessage()).queue();
         });
 
-        registerOption("levelupmessages:toggle", "Level-up toggle",
-                "Toggles level up messages, remember that after this you have to set thee channel and the message!", (event, lang) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean ignore = guildData.isEnabledLevelUpMessages();
-            guildData.setEnabledLevelUpMessages(!ignore);
-            dbGuild.saveAsync();
-
-            event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_toggle.success"), EmoteReference.CORRECT, guildData.isEnabledLevelUpMessages()).queue();
-        });
-
-        registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",
-                "Sets the level up message", (event, args, lang) -> {
-            if (args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.no_message"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            String levelUpMessage = String.join(" ", args);
-            guildData.setLevelUpMessage(levelUpMessage);
-            dbGuild.saveAsync();
-            event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_set.success"), EmoteReference.CORRECT, levelUpMessage).queue();
-        });
-
-        registerOption("levelupmessages:message:clear", "Level-up message clear", "Clears the message to display on level up",
-                "Clears the message to display on level up", (event, args, lang) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-
-            guildData.setLevelUpMessage(null);
-            dbGuild.saveAsync();
-
-            event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_message_clear.success"), EmoteReference.CORRECT).queue();
-        });
-
-        registerOption("levelupmessages:channel:set", "Level-up message channel",
-                "Sets the channel to display level up messages", "Sets the channel to display level up messages",
-                (event, args, lang) -> {
-            if (args.length == 0) {
-                event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.no_channel"), EmoteReference.ERROR).queue();
-                return;
-            }
-
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            String channelName = args[0];
-
-            Consumer<TextChannel> consumer = textChannel -> {
-                guildData.setLevelUpChannel(textChannel.getId());
-                dbGuild.saveAsync();
-                event.getChannel().sendMessageFormat(lang.get("options.levelupmessages_channel_set.success"), EmoteReference.OK, textChannel.getAsMention()).queue();
-            };
-
-            TextChannel channel = FinderUtils.findChannelSelect(event, channelName, consumer);
-
-            if (channel != null) {
-                consumer.accept(channel);
-            }
-        });
-
         registerOption("birthday:message:set", "Birthday message", "Sets the message to display on a new birthday",
                 "Sets the birthday message", (event, args, lang) -> {
             if (args.length == 0) {
