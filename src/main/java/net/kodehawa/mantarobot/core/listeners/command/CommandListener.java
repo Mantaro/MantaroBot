@@ -84,7 +84,7 @@ public class CommandListener implements EventListener {
     private void onCommand(GuildMessageReceivedEvent event) {
         try {
             var self = event.getGuild().getSelfMember();
-            if (!self.hasPermission(event.getChannel(), Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR)) {
+            if (!event.getChannel().canTalk()) {
                 return;
             }
 
