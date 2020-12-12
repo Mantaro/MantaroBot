@@ -84,7 +84,7 @@ public class CommandListener implements EventListener {
     private void onCommand(GuildMessageReceivedEvent event) {
         try {
             var self = event.getGuild().getSelfMember();
-            if (!self.getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR)) {
+            if (!self.hasPermission(event.getChannel(), Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR)) {
                 return;
             }
 
@@ -96,9 +96,8 @@ public class CommandListener implements EventListener {
 
                 commandTotal++;
             } else {
-                // Only run experience if no command has been executed, avoids weird race conditions when saving player status.
-                // With nodes, this could still be a little cursed. Maybe a redis lock?
                 try {
+                    // Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                     // Only run experience if the user is not rate limited (clears every 30 seconds) and if the member is not null.
                     // This will never get here if it's a bot or a webhook message due to the check we do on line 78.
                     if (random.nextInt(15) > 7 && event.getMember() != null && experienceRatelimiter.process(event.getAuthor())) {
@@ -123,7 +122,6 @@ public class CommandListener implements EventListener {
 
                         var player = MantaroData.db().getPlayer(event.getAuthor());
                         var data = player.getData();
-
                         if (player.isLocked()) {
                             return;
                         }
@@ -135,8 +133,6 @@ public class CommandListener implements EventListener {
 
                         // Increment player experience by a random number between 1 and 5.
                         data.setExperience(data.getExperience() + random.nextInt(5));
-
-                        // Apply some black magic.
                         var level = player.getLevel();
                         if (data.getExperience() > (level * Math.log10(player.getLevel()) * 1000) + (50 * level / 2D)) {
                             player.setLevel(level + 1);
@@ -148,11 +144,9 @@ public class CommandListener implements EventListener {
             }
         } catch (IndexOutOfBoundsException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
-            event.getChannel().sendMessage(EmoteReference.ERROR +
-                    String.format(
-                            "Your query returned no results or you used the incorrect arguments, seemingly (Error ID: `%s`). Just in case, check command help!",
-                            id
-                    )
+            event.getChannel().sendMessageFormat(
+                    "%sYour query returned no results or you used the incorrect arguments, seemingly (Error ID: `%s`). Just in case, check command help!",
+                    EmoteReference.ERROR, id
             ).queue();
 
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
@@ -172,7 +166,7 @@ public class CommandListener implements EventListener {
         } catch (LanguageKeyNotFoundException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sWrong I18n key found, please report on the support server (Link at `support.mantaro.site`) with error ID `%s`.\n%sMessage: *%s*",
+                    "%sWrong I18n key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s`.\n%sMessage: *%s*",
                     EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()
             ).queue();
 
@@ -180,15 +174,15 @@ public class CommandListener implements EventListener {
         } catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sI think you forgot something on the floor. (Maybe we threw it there? Just in case, the error id is `%s`)\n" +
+                    "%sI think you forgot something on the floor. (Error ID: `%s`)\n" +
                     "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, " +
-                    "Just in case, check command help! (Support server link can be found at `support.mantaro.site`)",
+                    "Just in case, check command help! (If you need further help, go to <https://support.mantaro.site>)",
                     EmoteReference.ERROR, id, EmoteReference.WARNING
             ).queue();
 
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
         } catch (ReqlError e) {
-            //So much just went wrong...
+            // So much just went wrong...
             e.printStackTrace();
         } catch (Exception e) {
             var context = I18n.of(event.getGuild());

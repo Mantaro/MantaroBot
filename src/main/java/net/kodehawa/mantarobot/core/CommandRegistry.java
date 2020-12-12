@@ -78,7 +78,6 @@ public class CommandRegistry {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    //BEWARE OF INSTANCEOF CALLS. I know there are better approaches to this: THIS IS JUST A WORKAROUND, DON'T TRY TO REPLICATE THIS.
     public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix) {
         final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
@@ -310,9 +309,9 @@ public class CommandRegistry {
 
     private static String name(Command c, String userInput) {
         if (c instanceof AliasCommand) {
-            //Return the original command name here for all intents and purposes.
-            //This is because in the check for command disable (which is what this is used for), the
-            //command disabled will be the original command, and the check expects that.
+            // Return the original command name here for all intents and purposes.
+            // This is because in the check for command disable (which is what this is used for), the
+            // command disabled will be the original command, and the check expects that.
             return ((AliasCommand) c).getOriginalName();
         }
 
