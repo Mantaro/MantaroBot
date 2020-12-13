@@ -29,11 +29,11 @@ You will need the following to utilize all of Mantaro's features when building y
 
 **We will not provide any support whatsoever in obtaining any of the above.**
 
-<sub>Note: The bot does not necessarily need these keys to function, but some functionality might be limited by the lack of them *(ex. without Wolke's API keys, you can't use the action commands, and they won't register)*. Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code.</sub> 
+<sub>Note: The bot does not necessarily need the Weeb API key to function, but some functionality might be limited by the lack of them (no action commands). Due to the closed nature of that API, we encourage you to submit a patch that would allow custom images to be used on self-hosted instances if you'd like (ex. by pushing your own -local- API server), but keep them in line with the rest of the code.</sub> 
 
 ### Editing Code:
-Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything -should- still work. The exception are some Modules that are required by other Modules.
-Make sure you pay close attention to the [License](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
+Mantaro isn't a modular bot (sadly), but removing features is fairly easy. You can just remove the respective command or the Module file on the commands directory and everything *should* still work. The exception are some Modules that are required by other Modules.
+Make sure you pay close attention to the [license](https://github.com/Mantaro/MantaroBot/blob/master/LICENSE) as you will be required to disclose your source as well as state any changes made.
 
 ### Steps for building:
 <sub>Please do note that you will not receive any help whatsoever while trying to make your own Mantaro build (see above).</sub>
