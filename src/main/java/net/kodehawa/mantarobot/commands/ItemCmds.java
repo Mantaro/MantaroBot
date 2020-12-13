@@ -38,13 +38,13 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
 import java.security.SecureRandom;
@@ -548,7 +548,6 @@ public class ItemCmds {
                         .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName(), null));
 
                 for (var item : repairableItems) {
-                    //Build recipe explanation
                     if (item.getRecipe().isEmpty()) {
                         continue;
                     }
@@ -562,8 +561,7 @@ public class ItemCmds {
                         var amount = Integer.parseInt(split[0]);
                         var needed = ItemHelper.fromId(Integer.parseInt(split[1]));
 
-                        recipeString
-                                .append(needed.getEmoji())
+                        recipeString.append(needed.getEmoji())
                                 .append(" ")
                                 .append(amount).append("x ")
                                 .append(" *")
@@ -571,8 +569,6 @@ public class ItemCmds {
                                 .append("*|");
                     }
 
-                    //End of build recipe explanation
-                    //This is still, but if it works it works.
                     var recipe = String.join(", ", recipeString.toString().split("\\|"));
                     var repairCost = item.getValue() / 3;
 
@@ -647,7 +643,6 @@ public class ItemCmds {
 
                         final var broken = (Broken) item;
                         final var original = ItemHelper.fromId(broken.getMainItem());
-
                         if (!(original instanceof Salvageable)) {
                             ctx.sendLocalized("commands.salvage.cant_salvage", EmoteReference.ERROR, item.getName());
                             return;

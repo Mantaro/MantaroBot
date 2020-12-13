@@ -36,10 +36,10 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.RandomCollection;
-import net.kodehawa.mantarobot.utils.RatelimitUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;

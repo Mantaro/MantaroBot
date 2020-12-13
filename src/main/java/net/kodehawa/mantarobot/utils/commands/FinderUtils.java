@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
 
 import java.util.List;
 import java.util.function.Consumer;

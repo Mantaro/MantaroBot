@@ -34,12 +34,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Color;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
