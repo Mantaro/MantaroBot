@@ -562,8 +562,10 @@ public class ItemCmds {
                         var amount = Integer.parseInt(split[0]);
                         var needed = ItemHelper.fromId(Integer.parseInt(split[1]));
 
-                        recipeString.append(amount).append("x ")
+                        recipeString
                                 .append(needed.getEmoji())
+                                .append(" ")
+                                .append(amount).append("x ")
                                 .append(" *")
                                 .append(needed.getName())
                                 .append("*|");
