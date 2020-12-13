@@ -77,17 +77,18 @@ public class CommandListener implements EventListener {
                     new CachedMessage(msg.getGuild().getIdLong(), msg.getAuthor().getIdLong(), msg.getMessage().getContentDisplay()))
             );
 
+            // We can't talk here, so we don't need to run anything.
+            // Run this check before executing on the pool to avoid wasting a thread.
+            if (!msg.getChannel().canTalk()) {
+                return;
+            }
+
             threadPool.execute(() -> onCommand(msg));
         }
     }
 
     private void onCommand(GuildMessageReceivedEvent event) {
         try {
-            var self = event.getGuild().getSelfMember();
-            if (!event.getChannel().canTalk()) {
-                return;
-            }
-
             if (commandProcessor.run(event)) {
                 // Remove running flag
                 try (var jedis = MantaroData.getDefaultJedisPool().getResource()) {

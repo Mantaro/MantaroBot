@@ -129,7 +129,10 @@ public enum EmoteReference {
     BROKEN_STAR_AXE("<:star_axe_broken:762027644874915845>", null),
     BROKEN_MOON_ROD("<:moon_rod_broken:762027645054484510>", null),
     BROKEN_MOON_PICK("<:moon_pick_broken:762027644802957365>", null),
-    PET_HOUSE("<:dog_house:762425894857605150>", null);
+    PET_HOUSE("<:dog_house:762425894857605150>", null),
+    BROKEN_HELLFIRE_PICK("<:broken_hellfire_pick_plh:787798181018075166>", null),
+    BROKEN_HELLFIRE_AXE("<:broken_hellfire_axe_plh:787798180724211729>", null),
+    BROKEN_HELLFIRE_ROD("<:broken_hellfire_rod_plh:787798180598251520>", null);
 
     final String discordNotation;
     final String unicode;

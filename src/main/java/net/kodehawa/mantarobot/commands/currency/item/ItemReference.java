@@ -32,7 +32,8 @@ public class ItemReference {
             BROKEN_STAR_PICK, BROKEN_COMET_ROD, BROKEN_STAR_ROD, BROKEN_SPARKLE_ROD, INCUBATOR_EGG, WATER_BOTTLE, MAGIC_WATCH, STEAK,
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
-            BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE;
+            BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -697,8 +698,7 @@ public class ItemReference {
                     30, "1,49;3,84;2,50"
             ),
 
-            BROKEN_SPARKLE_AXE = new Broken(107
-                    , EmoteReference.BROKEN_SPARKLE_AXE.getDiscordNotation(),
+            BROKEN_SPARKLE_AXE = new Broken(107, EmoteReference.BROKEN_SPARKLE_AXE.getDiscordNotation(),
                     "Broken Sparkle Axe", "items.broken_sparkle_axe", "items.description.broken_sparkle_axe",
                     100, "1,74;5,84;3,50"
             ),
@@ -706,6 +706,21 @@ public class ItemReference {
             BROKEN_MOON_AXE = new Broken(108, EmoteReference.BROKEN_MOON_AXE.getDiscordNotation(),
                     "Broken Moon Axe", "items.broken_moon_axe", "items.description.broken_moon_axe",
                     30, "1,83;5,84;3,50"
+            ),
+
+            BROKEN_HELLFIRE_PICK = new Broken(103, EmoteReference.BROKEN_HELLFIRE_PICK.getDiscordNotation(),
+                    "Broken Hellfire Pick", "items.broken_hellfire_pick", "items.description.broken_hellfire_pick",
+                    5000, "80,48;80,49;20,74;25,101;25,76;10,84;15,50"
+            ),
+
+            BROKEN_HELLFIRE_AXE = new Broken(109, EmoteReference.BROKEN_HELLFIRE_AXE.getDiscordNotation(),
+                    "Broken Hellfire Axe", "items.broken_hellfire_axe", "items.description.broken_hellfire_axe",
+                    5000, "80,48;80,49;20,74;25,101;25,76;10,84;15,50"
+            ),
+
+            BROKEN_HELLFIRE_ROD = new Broken(111, EmoteReference.BROKEN_HELLFIRE_ROD.getDiscordNotation(),
+                    "Broken Hellfire Rod", "items.broken_hellfire_rod", "items.description.broken_hellfire_rod",
+                    5000, "80,48;80,49;20,74;18,101;25,76;10,84;15,50"
             ),
     };
 }
