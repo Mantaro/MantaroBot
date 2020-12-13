@@ -1,4 +1,4 @@
-<img alt="Mantaro" src="https://i.imgur.com/b00buRW.png"/>
+<img alt="Mantaro" src="https://i.imgur.com/NSBZtuM.png"/>
 
 **Complete and configurable music, currency and games multipurpose Discord bot**
 
