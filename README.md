@@ -1,6 +1,6 @@
 <img alt="Mantaro" src="https://i.imgur.com/NSBZtuM.png"/>
 
-**Complete and configurable music, currency and games multipurpose Discord bot**
+<center><b>Complete and configurable music, currency and games multipurpose Discord bot</b></center>
 
 # Using the Official Mantaro Bot
 
