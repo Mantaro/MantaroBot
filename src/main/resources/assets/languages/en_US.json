@@ -1530,7 +1530,7 @@
       "ls": {
         "header": "Repair-able Items List",
         "cost": "Repair Cost: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something. The price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
