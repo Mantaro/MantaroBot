@@ -1045,7 +1045,7 @@
         "select": "Wählen Sie die Erinnerung aus, die Sie abbrechen möchten."
       },
       "no_time": "Du hast mir kein `-time` Argument gegeben! (Beispiel: `-time 1h`)",
-      "too_little_time": "%1$sDas ist zu wenig Zeit (Minimum: 1 Minute)!",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
       "too_long": "Das ist zu lang... (Maximum: 3 Monate)",
       "success": "%1$sIch werde dich (%2$s#%3$s) an `%4$s` in %5$s erinnern.",
       "too_many_reminders": "%1$sDu hast zu viele Erinnerungen! Versuch vielleicht welche zu löschen?"
@@ -1530,7 +1530,7 @@
       "ls": {
         "header": "Liste reparierbarer Gegenstände",
         "cost": "Reparaturkosten: ",
-        "desc": "Dies ist eine Liste der Gegenstände, die du mit `~>repair` reparieren kannst.\nDu kannst den kompletten oder gekürzten Namen, oder den Emoji verwenden.\nReparieren kostet mindestens ein Drittel der Gegenstandskosten. Der Preis wird unten angezeigt, zusammen mit den benötigten Materialien."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -2302,6 +2302,9 @@
     "broken_star_axe": "Kaputte Sternenaxt",
     "broken_comet_axe": "Kaputte Kometenaxt",
     "broken_sparkle_axe": "Kaputte Glitzeraxt",
+    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_axe": "Broken Hellfire Axe",
+    "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
       "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
       "ban_hammer": "Von einem Admin da gelassen.",
@@ -2422,7 +2425,10 @@
       "broken_moon_rod": "Eine Mondangel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_star_axe": "Eine Sternenaxt, die beim Hacken beschädigt worden ist. Reparierbar.",
       "broken_comet_axe": "Eine Kometenaxt, die beim Hacken beschädigt worden ist. Reparierbar.",
-      "broken_sparkle_axe": "Eine glitzernde Axt, die beim Hacken beschädigt worden ist. Reparierbar."
+      "broken_sparkle_axe": "Eine glitzernde Axt, die beim Hacken beschädigt worden ist. Reparierbar.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
     }
   },
   "test": {
