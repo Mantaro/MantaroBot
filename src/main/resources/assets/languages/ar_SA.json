@@ -1045,7 +1045,7 @@
         "select": "إختار التذكير المُراد إلغاءه. "
       },
       "no_time": "لم تعطني وقت `-time` (مثال: `-time 1h`)\n",
-      "too_little_time": "%1$sهذا وقت قصير جداً! (الحد الأدني :1 دقيقة) ",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
       "too_long": "هذا وقت طويل جداً! (الحد الأقصى: 3 أشهر)",
       "success": "%1$sسأقوم بتذكيرك (%2$s#%3$s) من `%4$s` في %5$s",
       "too_many_reminders": "%1$sلديك الكثير من التذكيرات! جرب حذف بعضها؟"
@@ -1530,7 +1530,7 @@
       "ls": {
         "header": "Repair-able Items List",
         "cost": "Repair Cost: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. The price will be shown below, alongside the needed materials."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -2302,6 +2302,9 @@
     "broken_star_axe": "Broken Star Axe",
     "broken_comet_axe": "Broken Comet Axe",
     "broken_sparkle_axe": "Broken Sparkle Axe",
+    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_axe": "Broken Hellfire Axe",
+    "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
@@ -2422,7 +2425,10 @@
       "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
-      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable."
+      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
     }
   },
   "test": {
