@@ -48,8 +48,8 @@
       "pill": "%1$sTu as pris une pilule waifu! (Activé pour 5 sessions)",
       "pill_used": "%1$sTu as déjà pris une pilule waifu!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sVous avez besoin d'une clé pour ouvrir ce coffre. Il est fermé à clé ! Vous pouvez en acheter une en utilisant `~>market buy key`",
+        "no_crate": "%1$sTu as besoin d'un coffre de butin! Tu peux trouver des coffres dans les commandes de devise.",
         "success": "%1$s**Tu as gagné:** %2$s%3$s",
         "overflow": "Mais tu en avais déjà trop, alors tu as décidé de jeter l'excédent"
       },
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sLa journée est finie et ton seau à poisson ne peut recueillir que de la poussière.(Niveau de poussière %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
+      "no_rod": "%1$sTu n'as pas de canne à pêche équipée, Utilise `~>equip <rod name>` pour équiper ta canne à pêche et commencer à pêcher! Si tu ne possèdes pas de canne à pêche, fais `~>market buy rod` d'abord",
       "trash": {
         "overflow": "%1$sTu as trouvé des déchets en pêchant, mais ton inventaire était plein, alors nous avons dû les jeter à l’eau...",
         "success": "%1$sEn pêchant tranquillement, tu as trouvé %2$s flottant, mais il semble que ce ne soit que des déchets :("
@@ -319,7 +319,7 @@
       "success": "%1$sChanson avancé à %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sTu n'es pas dans un salon vocal, ou le bot ne l'est pas.",
       "attempt": "%1$sJe vais essayer de me déplacer dans le salon vocal dans lequel tu te trouves",
       "error_moving": "%1$sImpossible de changer de salon vocal.",
       "cannot_connect": "%1$sConnexion impossible: Je ne suis pas autorisé soit à parler soit à changer de salon vocal.",
@@ -328,7 +328,7 @@
       "vc_not_found": "%1$sSalon vocal introuvable ou tu ne l'a pas spécifié!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Je suis dans l'éclat %1$d / %2$d** (Nœud %3$d / %4$d)!\n\n**Guildes d'éclats:** %5$,d serveurs\n**Utilisateurs en cache:** %6$,d utilisateurs\n**Membres en cache:** %7$,d membres\n\nBesoin d'aide? Va sur <https://support.mantaro.site>. Merci d'utiliser Mantaro!"
     },
     "queue": {
       "clear": {
@@ -381,7 +381,7 @@
       "check": "%1$sLe volume actuel de cette session est: %2$d\n\n%3$s",
       "success": "%1$sVolume défini à %2$d\n\n%3$s",
       "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$sCeci est une fonction prime-seulement. Pour accéder aux avantages prime comme celui-ci, tu peux faire un don sur le site Patreon (https://www.patreon.com/mantaro). Merci pour ta compréhension. Les fonctions primes peuvent être liées à un utilisateur ou à un serveur, alors si tu fais un don, s'il te plait, joins-toi à la guilde de support et demande pour ta clé prime."
     },
     "lyrics": {
       "no_current_track": "%1$sIl n'y a pas de musique en cours de lecture sur ce serveur!",
@@ -506,7 +506,7 @@
       "time_not_specified": "%1$sTu voulais ajouter une durée mais tu n'as pas précisé pendant combien de temps tu souhaites que le mute soit effectif.",
       "negative_time_notice": "%1$sTu ne peux pas rendre muet un membre pendant un temps négatif. Sauf si tu peux courber l'espace-temps",
       "default_time_too_long": "%1$sLa durée par défaut du mute est trop longue (maximum: 10 jours)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sLa durée du délai de sourdine spécifié est de moins de 20 secondes.\nEs-tu sûr.e d'avoir utilisé le bon format? Pour 20 minutes, utilise 20m, pour 1 heure, utilise 1h, ou toute combinaison des deux (1h45) par exemple.",
       "time_too_long": "%1$sLa durée du mute est trop longue (maximum: 10 jours...",
       "already_muted": "%1$sCet utilisateur a déjà un rôle muet attribué. Ecris `~>unmute` pour annuler le mute.",
       "self_hierarchy_error": "%1$sJe ne peux pas attribuer le rôle muet à cet utilisateur, car il appartient à une hiérarchie supérieure à la mienne ou le rôle est supérieur dans la hiérarchie!",
@@ -1045,7 +1045,7 @@
         "select": "Sélectionne le rappel que tu veux supprimer."
       },
       "no_time": "Tu ne m'a pas donner de timing à l'aide de l'argument `-time`! (Exemple : `-time 1h`)",
-      "too_little_time": "%1$sC'est un délais trop court (Minimum: 10 secondes)",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
       "too_long": "Le délais est trop long... (Maximum : 3 mois)",
       "success": "%1$sJe te rappellerai (%2$s#%3$s) de `%4$s` dans %5$s",
       "too_many_reminders": "%1$sTu as beaucoup trop de rappels! Essaie d'en supprimer peut-être?"
@@ -1530,7 +1530,7 @@
       "ls": {
         "header": "Liste d'objets réparables",
         "cost": "Cout de la réparation: ",
-        "desc": "Voici la liste des objets réparables à l'aide de la commande `~>repair`.\nTu peux utiliser le nom complet, l'abrégé ou l'emoji.\nLa réparation coute au moins un tier du prix de l'objet réparé. Le prix est affiché avec les matériaux nécessaires."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -2302,6 +2302,9 @@
     "broken_star_axe": "Broken Star Axe",
     "broken_comet_axe": "Broken Comet Axe",
     "broken_sparkle_axe": "Broken Sparkle Axe",
+    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_axe": "Broken Hellfire Axe",
+    "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
       "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Ça doit quand même valoir quelque chose",
       "ban_hammer": "Laissé là par un admin.",
@@ -2422,7 +2425,10 @@
       "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
-      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable."
+      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
     }
   },
   "test": {
