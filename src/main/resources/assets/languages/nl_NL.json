@@ -2302,9 +2302,9 @@
     "broken_star_axe": "Gebroken Ster Bijl",
     "broken_comet_axe": "Gebroken Komeet Bijl",
     "broken_sparkle_axe": "Gebroken Fonkelende Bijl",
-    "broken_hellfire_pick": "Broken Hellfire Pick",
-    "broken_hellfire_axe": "Broken Hellfire Axe",
-    "broken_hellfire_rod": "Broken Hellfire Rod",
+    "broken_hellfire_pick": "Gebroken Hellevuur Pikhouweel",
+    "broken_hellfire_axe": "Gebroken Hellevuur Bijl",
+    "broken_hellfire_rod": "Gebroken Hellevuur Hengel",
     "description": {
       "headphones": "Dat gebeurd er wanneer je naar teveel muziek luistert. Het zou wat waard moeten zijn eigenlijks.",
       "ban_hammer": "Achtergelaten door een Beheerder",
@@ -2372,7 +2372,7 @@
       "comet_pick": "Een sterkere pikhouweel (180 duurzaamheid).",
       "star_pick": "Een veel meer pikhouweel (220 duurzaamheid).",
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
-      "sparkle_pick": "One of the strongests pick out there (450 durability).",
+      "sparkle_pick": "Een van de sterkste pikhouwelen die er zijn (450 duurzaamheid).",
       "pizza": "Lekker.",
       "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`.",
       "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`.",
@@ -2426,9 +2426,9 @@
       "broken_star_axe": "Een ster bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_comet_axe": "Een komeet bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_sparkle_axe": "Een fonkelende bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
+      "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
+      "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden."
     }
   },
   "test": {
