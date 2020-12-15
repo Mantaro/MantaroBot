@@ -378,6 +378,7 @@
       "cleanup": "%1$sUsunięto **%2$d piosenek** z kolejki."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sBieżąca głośność w tej sesji wynosi: %2$d\n\n%3$s",
       "success": "%1$sGłośność ustawiono na %2$d\n\n%3$s",
       "no_args": "%1$sMusisz mi powiedzieć, jaki poziom głośności chcesz, żebym ustawił muzykę na (5 do 100).",
@@ -1231,6 +1232,7 @@
       "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
       "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error. Maybe Kitsu is having issues?",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Zgadnij postać",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
