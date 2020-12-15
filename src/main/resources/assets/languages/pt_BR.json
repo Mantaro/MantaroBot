@@ -378,6 +378,7 @@
       "cleanup": "%1$sRemovendo **%2$d músicas** da fila."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sO volume atual desta sessão é: %2$d\n\n%3$s",
       "success": "%1$sVolume definido para %2$d\n\n%3$s",
       "no_args": "%1$sVocê precisa me dizer o volume que você quer que eu defina na música (4 para 100).",
@@ -1231,6 +1232,7 @@
       "end_footer": "Você tem 5 tentativas e 60 segundos. (Digite end para terminar o jogo)",
       "trivia_end_footer": "Você tem %1$s tentativas e 60 segundos. (Digite end para terminar o jogo)",
       "error": "%1$sI found an error while setting up the game... (erro interno)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sRelate isso no servidor oficial por favor. Falha ao configurar o jogo para um personagem pré-gravado: %2$s",
       "character_request_error": "%1$sErro ao solicitar esse personagem no API do AniList.",
       "character_start": "Adivinhe o personagem",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sVocê não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
-        "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação."
+        "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** abana o rabo alegremente enquanto você acaricia sua cabeça. **Contador de carinho: %3$s**.%4$s",
