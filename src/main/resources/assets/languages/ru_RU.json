@@ -378,6 +378,7 @@
       "cleanup": "%1$sУдалено **%2$d трека** из очереди."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sТекущая громкость: %2$d\n\n%3$s",
       "success": "%1$sГромкость установлена на %2$d\n\n%3$s",
       "no_args": "%1$sВы не указали какую громкость установить, укажите ее (от 4 до 100).",
@@ -1231,6 +1232,7 @@
       "end_footer": "У вас есть 5 попыток и 60 секунд. (Введите end, чтобы завершить игру)",
       "trivia_end_footer": "У вас есть %1$s попыток и 60 секунд. (Введите end, чтобы завершить игру)",
       "error": "%1$sЯ обнаружил ошибку, когда настраивал игру... (Внутренняя ошибка)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sПожалуйста, сообщите об этом на официальный сервер. Ошибка установки заранее скачанных персонажей: %2$s",
       "character_request_error": "%1$sОшибка запроса персонажа с API AniList.",
       "character_start": "Угадайте персонажа",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
