@@ -1045,7 +1045,7 @@
         "select": "Selecione o lembrete que você deseja cancelar."
       },
       "no_time": "Você não me deu um argumento de `-time`! (Exemplo: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
+      "too_little_time": "%1$sÉ muito pouco tempo (Mínimo: 1 minuto, Exemplo: `-time 1m`)",
       "too_long": "Isso é muito tempo... (Máximo: 3 meses)",
       "success": "%1$sVou te lembrar (%2$s#%3$s) de `%4$s` em %5$s",
       "too_many_reminders": "%1$sVocê tem muitos lembretes! Poderia cancelar alguns?"
@@ -1530,7 +1530,7 @@
       "ls": {
         "header": "Lista de Itens reparáveis ",
         "cost": "Custo de reparo: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
+        "desc": "Essa é uma lista de itens que você pode reparar usando `~>repair`.\nVocê pode usar o nome completo ou um nome curto, ou o emoji.\nReparar tem um custo mínimo de 1/3 do custo do item. Você precisa de pelo menos uma Chave Inglesa de Cometa para reparar alguma coisa.\nO preço será mostrado abaixo, junto com os materiais necessários.\nA sintaxe completa do reparo é `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -2302,9 +2302,9 @@
     "broken_star_axe": "Machado de Estrela Quebrado",
     "broken_comet_axe": "Machado de Cometa Quebrado",
     "broken_sparkle_axe": "Machado Brilhante Quebrado",
-    "broken_hellfire_pick": "Broken Hellfire Pick",
-    "broken_hellfire_axe": "Broken Hellfire Axe",
-    "broken_hellfire_rod": "Broken Hellfire Rod",
+    "broken_hellfire_pick": "Picareta de Fogo do Inferno Quebrada",
+    "broken_hellfire_axe": "Machado de Fogo do Inferno quebrado",
+    "broken_hellfire_rod": "Vara de Fogo do Inferno quebrada",
     "description": {
       "headphones": "Isso é o que acontece quando você ouve muita música. Embora, deve valer alguma coisa.",
       "ban_hammer": "Deixado por um administrador.",
@@ -2426,9 +2426,9 @@
       "broken_star_axe": "Um machado de estrela que quebrou enquanto cortava. Ainda recuperável.",
       "broken_comet_axe": "Um machado de cometa que quebrou enquanto cortava. Ainda recuperável.",
       "broken_sparkle_axe": "Um machado brilhante que quebrou enquanto cortava. Ainda recuperável.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
+      "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
+      "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável."
     }
   },
   "test": {
