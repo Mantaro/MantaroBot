@@ -33,6 +33,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kodehawa.mantarobot.ExtraRuntimeOptions;
@@ -68,7 +69,6 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("CatchMayIgnoreException")
 public class MantaroListener implements EventListener {
     private static final Logger LOG = LoggerFactory.getLogger(MantaroListener.class);
     private static final Config CONFIG = MantaroData.config().get();
@@ -314,12 +314,11 @@ public class MantaroListener implements EventListener {
 
                 tc.sendMessage(message).queue();
             }
+        } catch (NullPointerException | IllegalArgumentException |
+                CacheLoader.InvalidCacheLoadException | PermissionException | ErrorResponseException ignored) {
+            // ignore
         } catch (Exception e) {
-            if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)
-                    && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException) &&
-                    !(e instanceof ErrorResponseException)) {
-                LOG.warn("Unexpected exception while logging a deleted message.", e);
-            }
+            LOG.warn("Unexpected error while logging a deleted message.", e);
         }
     }
 
@@ -398,12 +397,11 @@ public class MantaroListener implements EventListener {
 
                 tc.sendMessage(message).queue();
             }
+        } catch (NullPointerException | IllegalArgumentException |
+                CacheLoader.InvalidCacheLoadException | PermissionException | ErrorResponseException ignored) {
+            // ignore
         } catch (Exception e) {
-            if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) &&
-                    !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException) &&
-                    !(e instanceof ErrorResponseException)) { // Also ignore unknown users.
-                LOG.warn("Unexpected error while logging a edit.", e);
-            }
+            LOG.warn("Unexpected error while logging a edit.", e);
         }
     }
 
@@ -445,7 +443,6 @@ public class MantaroListener implements EventListener {
 
     private void onJoin(GuildJoinEvent event) {
         final var guild = event.getGuild();
-        final var mantaroData = MantaroData.db().getMantaroData();
         final var jda = event.getJDA();
         // Post bot statistics to the main API.
         this.updateStats(jda);
@@ -507,10 +504,10 @@ public class MantaroListener implements EventListener {
                     }
                 });
             }
+        } catch (InsufficientPermissionException | NullPointerException | IllegalArgumentException ignored) {
+            // We don't need to catch those
         } catch (Exception e) {
-            if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                LOG.error("Unexpected error while processing a join event", e);
-            }
+            LOG.error("Unexpected error while processing a join event", e);
         }
     }
 
@@ -535,10 +532,10 @@ public class MantaroListener implements EventListener {
             // Post bot statistics to the main API.
             this.updateStats(jda);
             Metrics.GUILD_ACTIONS.labels("leave").inc();
+        } catch (NullPointerException | IllegalArgumentException ignored) {
+            // ignore
         } catch (Exception e) {
-            if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                LOG.error("Unexpected error while processing a leave event", e);
-            }
+            LOG.error("Unexpected error while processing a leave event", e);
         }
     }
 

@@ -121,7 +121,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
 
             //What kind of massive meme is this? part 2
             if (voiceState == null) {
-                this.getAudioPlayer().disconnect();
+                this.getAudioPlayer().destroy();
                 return;
             }
 
@@ -130,7 +130,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             //What kind of massive meme is this?
             //It's called mantaro
             if (voiceChannel == null) {
-                this.getAudioPlayer().disconnect();
                 this.getAudioPlayer().destroy();
                 return;
             }

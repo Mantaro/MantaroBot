@@ -100,7 +100,7 @@ public class MantaroCore {
     }
 
     public static LoadState getLoadState() {
-        return MantaroCore.loadState;
+        return loadState;
     }
 
     public static void setLoadState(LoadState loadState) {

@@ -538,67 +538,62 @@ public class MusicCmds {
 
     @Subscribe
     public void volume(CommandRegistry cr) {
-        TreeCommand volumeCommand = cr.register("volume", new TreeCommand(CommandCategory.MUSIC) {
+        cr.register("volume", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
-            public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(Context ctx, I18nContext languageContext, String content) {
-                        if (ctx.getDBUser().isPremium() || ctx.getDBGuild().isPremium() || ctx.getConfig().getOwners().contains(ctx.getAuthor().getId())) {
-                            var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+            protected void call(Context ctx, String content, String[] args) {
+                if (ctx.getDBUser().isPremium() || ctx.getDBGuild().isPremium() || ctx.getConfig().getOwners().contains(ctx.getAuthor().getId())) {
+                    var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                    var lavalink = musicManager.getLavaLink();
 
-                            if (isNotInCondition(ctx, musicManager.getLavaLink())) {
-                                return;
-                            }
-
-                            if (content.isEmpty()) {
-                                ctx.sendLocalized("commands.volume.no_args", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            var player = musicManager.getLavaLink();
-
-                            int volume;
-                            try {
-                                volume = Math.max(4, Math.min(100, Integer.parseInt(content)));
-                            } catch (Exception e) {
-                                ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            player.getPlayer().setVolume(volume);
-                            ctx.sendLocalized("commands.volume.success",
-                                    EmoteReference.OK, volume, StatsManager.bar(volume, 50)
-                            );
-                        } else {
-                            ctx.sendLocalized("commands.volume.premium_only", EmoteReference.ERROR);
+                    if (content.isEmpty() || content.equals("check")) { // just in case
+                        var player = lavalink.getPlayer();
+                        if (player.getPlayingTrack() == null) {
+                            ctx.sendLocalized("commands.volume.no_player", EmoteReference.ERROR);
+                            return;
                         }
+
+                        final var filters = player.getFilters();
+                        var volume = (int) (filters.getVolume() * 100);
+                        ctx.sendLocalized("commands.volume.check", EmoteReference.ZAP, volume, StatsManager.bar(volume, 50));
+                        return;
                     }
-                };
+
+                    if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                        return;
+                    }
+
+                    int volume;
+                    try {
+                        volume = Math.max(4, Math.min(100, Integer.parseInt(content)));
+                    } catch (Exception e) {
+                        ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    float finalVolume = volume / 100.0f;
+                    lavalink.getPlayer().getFilters()
+                            .setVolume(finalVolume)
+                            .commit();
+
+                    ctx.sendLocalized("commands.volume.success",
+                            EmoteReference.OK, volume, StatsManager.bar(volume, 50)
+                    );
+                } else {
+                    ctx.sendLocalized("commands.volume.premium_only", EmoteReference.ERROR);
+                }
             }
 
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Sets the playback volume. **This is a *donator-only* feature!**")
-                        .setUsage("`~>volume <number>`")
-                        .addParameter("number", "The number, 4 to 100 that you want to set the volume to.")
+                        .setDescription(
+                                """
+                                Sets the playback volume. Use `~>volume` to check the volume.
+                                **This is a *donator-only* feature!**
+                                """
+                        ).setUsage("`~>volume <volume>`")
+                        .addParameter("volume", "The volume, a number from 4 to 100 that you want to set it to.")
                         .build();
-            }
-        });
-
-        volumeCommand.addSubCommand("check", new SubCommand() {
-            @Override
-            public String description() {
-                return "Checks the current volume";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var link = ctx.getAudioManager().getMusicManager(ctx.getGuild()).getLavaLink();
-                var player = link.getPlayer();
-
-                ctx.sendLocalized("commands.volume.check", EmoteReference.ZAP, player.getVolume(), StatsManager.bar(player.getVolume(), 50));
             }
         });
     }

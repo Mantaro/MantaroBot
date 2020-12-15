@@ -112,6 +112,21 @@ public class MessageCmds {
             }
         });
 
+
+        pruneCmd.setPredicate(ctx -> {
+            if (!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                ctx.sendLocalized("commands.prune.no_permissions_user", EmoteReference.ERROR);
+                return false;
+            }
+
+            if (!ctx.getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                ctx.sendLocalized("commands.prune.no_permissions", EmoteReference.ERROR);
+                return false;
+            }
+
+            return true;
+        });
+
         pruneCmd.addSubCommand("bot", new SubCommand() {
             @Override
             public String description() {
@@ -192,20 +207,6 @@ public class MessageCmds {
                 );
 
             }
-        });
-
-        pruneCmd.setPredicate(ctx -> {
-            if (!ctx.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                ctx.sendLocalized("commands.prune.no_permissions_user", EmoteReference.ERROR);
-                return false;
-            }
-
-            if (!ctx.getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                ctx.sendLocalized("commands.prune.no_permissions", EmoteReference.ERROR);
-                return false;
-            }
-
-            return true;
         });
     }
 

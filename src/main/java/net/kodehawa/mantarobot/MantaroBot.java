@@ -118,7 +118,6 @@ public class MantaroBot {
                         .build();
 
                 Response httpResponse = Utils.httpClient.newCall(request).execute();
-
                 if (httpResponse.code() != 200) {
                     log.error(
                             "Cannot connect to the API! Wrong status code? Returned: {}, Expected: 200",
@@ -142,15 +141,15 @@ public class MantaroBot {
                 shardId -> getShardManager().getShardById(shardId)
         );
 
-        for (String node : config.getLavalinkNodes()) {
+        for (var node : config.getLavalinkNodes()) {
             lavaLink.addNode(new URI(node), config.lavalinkPass);
         }
 
         // Choose the server with the lowest player amount
         lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getPlayerPenalty);
+        lavaLink.getLoadBalancer().addPenalty(LavalinkLoadBalancer.Penalties::getCpuPenalty);
 
         core = new MantaroCore(config, ExtraRuntimeOptions.DEBUG);
-
         audioManager = new MantaroAudioManager();
         birthdayCacher = new BirthdayCacher();
         ItemHelper.setItemActions();

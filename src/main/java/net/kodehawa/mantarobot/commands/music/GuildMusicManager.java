@@ -45,7 +45,6 @@ public class GuildMusicManager {
         var guild = trackScheduler.getGuild();
 
         if (guild == null) {
-            getLavaLink().disconnect();
             getLavaLink().destroy();
             return;
         }
@@ -91,7 +90,6 @@ public class GuildMusicManager {
     public void onDestroy() {
         getLavaLink().getPlayer().removeListener(trackScheduler);
         getLavaLink().resetPlayer();
-        getLavaLink().disconnect();
         getLavaLink().destroy();
     }
 

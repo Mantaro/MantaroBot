@@ -34,6 +34,7 @@ public class LessAnnoyingJdaLavalink extends JdaLavalink {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         if (userId == null) {
             throw new IllegalStateException("We need a userId to connect to Lavalink");
         }
@@ -42,6 +43,7 @@ public class LessAnnoyingJdaLavalink extends JdaLavalink {
         headers.put("Authorization", password);
         headers.put("Num-Shards", Integer.toString(numShards));
         headers.put("User-Id", userId);
+        headers.put("Client-Name", "Lavalink-Client");
 
         var socket = new LessAnnoyingLavalinkSocket(name, this, serverUri, new Draft_6455(), headers);
         socket.connect();

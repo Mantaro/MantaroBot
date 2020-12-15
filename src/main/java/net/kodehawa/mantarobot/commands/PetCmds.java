@@ -306,6 +306,11 @@ public class PetCmds {
                     var extraMessage = "";
                     pet.increasePats();
 
+                    if (pet.getPatCounter() > 50_000_000) { // how?
+                        ctx.sendLocalized("commands.pet.pat.too_many");
+                        return;
+                    }
+
                     if (pet.getPatCounter() % 100 == 0) {
                         extraMessage += "\n\n" + String.format(ctx.getLanguageContext().get("commands.pet.pet_reactions.counter_100"), EmoteReference.BLUE_HEART);
                     }

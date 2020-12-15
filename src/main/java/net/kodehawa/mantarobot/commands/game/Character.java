@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.kodehawa.mantarobot.commands.game.core.AnimeGameData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
@@ -97,6 +98,9 @@ public class Character extends ImageGame {
                     languageContext.get("commands.game.character_load_error"), EmoteReference.WARNING, characterName
             ).queue();
 
+            return false;
+        } catch (InsufficientPermissionException ex) {
+            lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error_missing_permissions"), EmoteReference.ERROR).queue();
             return false;
         } catch (Exception e) {
             lobby.getChannel().sendMessageFormat(languageContext.get("commands.game.error"), EmoteReference.ERROR).queue();
