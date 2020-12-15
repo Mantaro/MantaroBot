@@ -378,6 +378,7 @@
       "cleanup": "%1$sHeeft **%2$d ** nummer(s) verwijderd uit de afspeellijst."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sHet huidige volume van deze sessie is: %2$d\n\n%3$s",
       "success": "%1$sVolume is gewijzigd naar %2$d\n\n%3$s",
       "no_args": "%1$sJe moet me vertellen op welk volume je wilt dat ik de muziek instel (5 tot 100).",
@@ -1231,6 +1232,7 @@
       "end_footer": "Je hebt 5 pogingen en 60 seconden. (Typ 'end' om het spel te beëindigen)",
       "trivia_end_footer": "Je hebt %1$s pogingen en 60 seconden. (Typ 'end' om het spel te beëindigen)",
       "error": "%1$sIk heb een fout gevonden tijdens het instellen van de game... (internal error)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sRapporteer dit alstublieft op de officiële server. Het instellen van de game is mislukt voor het vooraf opgeslagen personage: %2$s",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Raad het personage",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
