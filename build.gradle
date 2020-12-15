@@ -75,7 +75,7 @@ dependencies {
     // Core
     implementation 'io.github.classgraph:classgraph:4.8.94'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation 'com.google.guava:guava:30.0-jre'
+    implementation 'com.google.guava:guava:30.1-jre'
 
     // Database
     implementation 'com.rethinkdb:rethinkdb-driver:2.4.4'
