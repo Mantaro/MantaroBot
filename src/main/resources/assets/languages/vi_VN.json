@@ -378,6 +378,7 @@
       "cleanup": "%1$sĐã xóa **%2$d bài hát** khỏi danh sách chờ."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sÂm lượng hiện tại là: %2$d\n\n%3$s",
       "success": "%1$sÂm lượng được đặt thành %2$d\n\n%3$s",
       "no_args": "%1$sBạn cần phải nói cho tôi biết âm lượng mà bạn muốn tôi đặt nhạc là gì (từ 5 đến 100).",
@@ -1231,6 +1232,7 @@
       "end_footer": "Bạn có 5 lần đoán với 60 giây. (Gõ \"end\" để kết thúc trò chơi)",
       "trivia_end_footer": "Bạn có %1$s lần đoán với 60 giây. (Gõ \"end\" để kết thúc trò chơi)",
       "error": "%1$sTôi tìm thấy một lỗi trong lúc khởi động trò chơi... (lỗi phần mềm)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Đoán nhân vật",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
