@@ -48,8 +48,8 @@
       "pill": "%1$s¡Tomaste una pastilla de waifu! (Activada por 5 sesiones)",
       "pill_used": "%1$s¡Ya tienes una pastilla de waifu activada!",
       "crate": {
-        "no_key": "%1$sNecesitas una loot crate key para abrir una loot crate. ¡Está bloqueada!",
-        "no_crate": "%1$sNecesitas una loot crate! De que otra forma podría usar esa llave >.>... oh",
+        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
         "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
-      "no_rod": "%1$sNo tienes una caña de pescar para pescar!",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
       "trash": {
         "overflow": "%1$sEncontraste un poco de basura pescando, pero tu inventario está lleno, asi que no puedes recogerla...",
         "success": "%1$sMientras pescabas calmadamente, encontraste %2$s flotando, pero parece que solo es un poco de basura... :("
@@ -378,6 +378,7 @@
       "cleanup": "%1$sSe han eliminado **%2$d cancion(es)** de la cola."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sEl volumen de esta sesión de musica es: %2$d\n\n%3$s",
       "success": "%1$sVolumen ajustado a %2$d\n\n%3$s",
       "no_args": "%1$sNecesitas decirme a que volumen deseas escuchar la música (5 a 100)",
@@ -586,7 +587,7 @@
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
         "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
-        "no_name": "%1$sYou need to give your house a name!",
+        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
@@ -594,7 +595,7 @@
       "buycar": {
         "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
-        "no_name": "%1$sYou need to give your car a name!",
+        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
         "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
@@ -649,7 +650,7 @@
         "player_locked": "%1$sNo puedes hacer eso en este momento.",
         "scrapped": "%1$sHas decidido no remover tu waifu.",
         "success": "%1$sWaifu **%2$s** removida correctamente por el precio de **%3$s créditos**.",
-        "not_found": "%1$sNo puedo encontrar ningún usuario con este término de búsqueda. Si necesitas unclaimear a un usuario desconocido, usa su ID y pon `-unknown` al final del comando."
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
       "buyslot": {
         "locked": "%1$sNo puedes realizar esta acción en este momento.",
@@ -684,7 +685,7 @@
     },
     "coinflip": {
       "over_limit": "%1$sEspera! El límite es de 1000 vueltas de la moneda",
-      "no_repetitions": "%1$sNecesitas especificar un numero entero para las repeticiones",
+      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
       "success": "%1$s Tu resultado por **%2$d** veces sacó **%3$d** caras y **%4$d** sellos"
     },
     "inventory": {
@@ -754,6 +755,7 @@
         "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
         "item_limit_reached": "%1$sNo puedes comprar mas de este objeto.",
         "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
+        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este item."
       },
       "header": "La tiendita de Mantaro",
@@ -861,9 +863,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sNecesitas especificar una zona horaria.",
+        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
         "reset": "%1$sTu zona horaria fue correctamente limpiada de tu perfil.",
-        "invalid": "%1$sZona horaria inválida.",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
         "success": "%1$sZona horaria guardada. La zona horaria en tu perfil ahora es: **%2$s**",
         "reset_success": "%1$sTu zona horaria fue reiniciada correctamente."
       },
@@ -875,7 +877,7 @@
         "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil."
       },
       "displaybadge": {
-        "not_specified": "%1$sNecesitas decime que trofeo quieres mostrar",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
         "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfil desde ahora.",
         "important_success": "%1$sSe mostrará el trofeo más importante (por jerarquía) en tu perfil desde ahora.",
         "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
@@ -946,7 +948,7 @@
         "cancelled": "%1$sCancelled operation."
       },
       "display": {
-        "not_premium": "%1$sLa personalización de los widgets de tu perfil solo está disponible para usuarios premium.",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sNo hay suficientes widgets válidos para poner en tu perfil (mínimo: 3). Si estas perdido, revisa `~>profile widgets ls`",
         "success": "%1$sCorrectamente cambiada la disposición de tu perfil. La nueva disposición es `%2$s`",
         "ls": "%1$sLista de los componentes del perfil:\n%2$s **Orden por defecto de los Widgets:** `%3$s`\n%2$s **Tus widgets:** `%4$s`\nPuedes usar `~>profile widgets reset` para reiniciar tus componentes",
@@ -955,8 +957,8 @@
       },
       "claimlock": {
         "removed": "%1$sHe reiniciado el estado de tu bloqueo de reclamaciones.",
-        "success": "%1$sYa no puedes ser reclamado como waifu. Esto usó una llave de reclamo.",
-        "no_key": "%1$sNo tienes una llave de reclamo para hacer esto.",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -987,7 +989,7 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sNecesitas decirme que trofeo deseas revisar.",
+        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sEse trofeo no existe...",
         "header": "Información para el trofeo %1$s",
         "achieved": "Logrado"
@@ -1044,7 +1046,7 @@
         "select": "Selecciona el recordatorio que desees cancelar."
       },
       "no_time": "No me diste el argumento `-time`! (Ejemplo: `-time 1h`)",
-      "too_little_time": "%1$sEso es muy poco tiempo! (Mínimo: 1 minuto)",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
       "too_long": "Eso es mucho tiempo... (Máximo: 3m)...",
       "success": "%1$sTe recordaré (%2$s#%3$s) de `%4$s` en %5$s",
       "too_many_reminders": "%1$s¡Tienes muchos recordatorios! ¿Intenta cancelar alguno?"
@@ -1116,7 +1118,7 @@
       "info": "%1$sSi necesitas soporte, anda al servidor de soporte en <https://support.mantaro.site> y pregunta en el canal #support!"
     },
     "action": {
-      "no_mention": "%1$sNecesitas mencionar un usuario",
+      "no_mention": "%1$sYou need to mention a user.",
       "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
       "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$s¡L-Lo siento! boté la imagen... (Probablemente me faltan permisos para enviarla)",
@@ -1186,7 +1188,7 @@
     "game": {
       "won_games": "%1$s%2$s ha ganado **%3$s juegos**!",
       "nothing_specified": "%1$sNo especificaste nada que jugar.",
-      "not_enough_games": "%1$sNecesitas decirme al menos dos juegos.",
+      "not_enough_games": "%1$sYou need to specify two games at least (For example: `~>game lobby pokemon,trivia`)",
       "invalid_selection": "%1$sNecesitas especificar al menos dos juegos. (Juegos válidos: character, pokemon, number, trivia)!",
       "multiple": {
         "invalid": "%1$sNecesitas especificar el juego y cuantas veces deseas jugarlo.",
@@ -1230,6 +1232,7 @@
       "end_footer": "Tienes 5 intentos y 60 segundos. (Escribe end para terminar el juego)",
       "trivia_end_footer": "Tienes %1$s intentos y 60 segundos. (Escribe end para terminar el juego)",
       "error": "%1$sEncontré un error mientras iniciaba el juego... (error interno)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sFavor reportar esto en el servidor de soporte. Fallo al iniciar juego para personaje pre-definido: %2$s",
       "character_request_error": "%1$sError al obtener este personaje desde la API de Kitsu.",
       "character_start": "¡Adivina el personaje!",
@@ -1242,9 +1245,8 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "key": "%1$sNecesitas una llave de crate para hacer esto! Por favor compra una y inténtalo de nuevo!",
-      "not_premium": "%1$sNo eres premium!\nPuedes abrir una premium crate diariamente con un alto chance de encontrar buenos ítems con premium! Por favor revisa más en <https://patreon.com/mantaro>.\nEste comando puede ser usado cada 24 horas.",
-      "success": "%1$s¡Acabas de conseguir un **%2$s**! ¡Vuelve en 24 horas para conseguir otra! Puedes abrir esto usando `~>opencrate <crate name>`. Necesitas comprar una crate key para abrirla."
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",
@@ -1257,7 +1259,7 @@
       "error_retrieving": "%1$sEncontré un error desconocido mientras intentaba recuperar el historial de mensajes para eliminar. (Uso interno: %2$s: %3$s)",
       "invalid_number": "%1$sPor favor especifica un número válido.",
       "not_valid": "%1$s¡Ese no es un número válido de mensajes a eliminar!",
-      "less_than_five": "%1$sNecesitas al menos 5 mensajes.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `~>prune 20` to delete 20 messages.",
       "messages_too_old": "%1$sTodos los mensajes aquí son de al menos 2 semanas de antiguedad. No puedo eliminar mensajes tan antiguos.",
       "success": "%1$s¡He eliminado %2$s mensajes en masa de este canal!",
       "lack_perms": "%1$sMe faltan permisos para eliminar mensajes en masa... (Falta de permisos: %2$s)",
@@ -1296,8 +1298,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now.",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now.",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
         "header": "Status for %1$s",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
@@ -1331,9 +1334,9 @@
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
+        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
@@ -1344,7 +1347,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with.",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -1363,10 +1366,10 @@
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
         "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
@@ -1410,7 +1413,7 @@
       "no_item": "%1$sYou need to specify the item you want to salvage.",
       "no_item_found": "%1$sI can't find the item you specified.",
       "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
@@ -1521,7 +1524,7 @@
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
       "dust": "%1$sTu inventario está muy sucio para reparar cosas. Nivel de polvo: %2$s",
       "not_wrench": "%1$sNo puedes usar esto como una llave inglesa. Recuerda poner el nombre entre comillas si el nombre tiene espacios.",
-      "not_enough_level": "%1$sNecesitas una llave inglesa de mayor nivel para hacer esta reparación.",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
       "not_enough_money": "%1$sNo tienes suficiente dinero para reparar este ítem.",
       "no_item_recipe": "%1$sNo tienes el *%2$s* necesario para realizar esta reparación.",
       "not_enough_items": "%1$sNo tienes suficiente de *%2$s* para realizar esta reparación. **(Necesitas: %3$s, Tienes: %4$s)**",
@@ -1530,7 +1533,7 @@
       "ls": {
         "header": "Lista de ítems que puedes reparar",
         "cost": "Costo de reparación: ",
-        "desc": "Esta es una lista de los ítems que puedes reparar usando `~>repair`.\nPuedes usar el nombre completo, acortado, o el emoji.\nReparar tiene un costo mínimo de 1/3 del valor del ítem. El precio será mostrado abajo, con los materiales que necesitas."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -1634,7 +1637,7 @@
       "easter": "\n¡Parece que hay mucho polvo por aquí! Te recomendaría limpiar un poquito esto..."
     },
     "mine": {
-      "not_equipped": "%1$sNo tienes ningún pico equipado. Usa `~>equip <nombre del pico>` para equipar uno y empezar tu aventura!",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>market buy pick`",
       "no_pick": "%1$sNo tienes ningún pico para minar! Si quieres usar otra picota, usa `~>mine <nombre de la picota>`",
       "not_suitable": "%1$sNo puedes minar con esto!",
       "not_in_inventory": "%1$sNo tienes esta picota en tu inventario, usaré la picota por defecto.",
@@ -1654,7 +1657,7 @@
       },
       "crate": {
         "overflow": "Encontraste una **%1$s** mientras minabas, pero tenías demasiadas y las dejaste atrás...",
-        "success": "Encontraste un %1$s **%2$s** mientras minabas y procedes a recogerla. Anda y ábrelo con `~>opencrate <nombre de la loot crate>`. Necesitas una llave para abrir la caja!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
       },
       "autoequip": {
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de minería."
@@ -1666,7 +1669,7 @@
       "broken_drop": "%1$sTu herramienta se ha roto, pero puedes repararla. Obtienes el ítem roto: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure!",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>market buy axe`",
       "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
@@ -2012,16 +2015,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sIgnorar bots a la hora de enviar mensaje de entrada/salida: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sMostrar mensajes a la hora de subir de nivel: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sNecesitas especificar el mensaje que desees mostrar cuando un usuario suba de nivel. *Tip: El nombre de la persona se pone usando $(user) en el mensaje*",
-      "success": "%1$sEl nuevo mensaje a la hora de subir de nivel es: %2$s"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sReiniciado el mensaje a la hora de subir de nivel!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sNecesitas especificar un canal donde deseas que muestre los mensajes de subida de nivel.",
       "success": "%1$sEl canal para los mensajes de subir de nivel ahora es: %2$s"
@@ -2312,6 +2305,9 @@
     "broken_star_axe": "Broken Star Axe",
     "broken_comet_axe": "Broken Comet Axe",
     "broken_sparkle_axe": "Broken Sparkle Axe",
+    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_axe": "Broken Hellfire Axe",
+    "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
       "headphones": "Eso es lo que pasa cuando escuchas mucha música. Debería valer algo, eso si.",
       "ban_hammer": "Dejado por un administrador.",
@@ -2401,7 +2397,7 @@
       "broken_comet_rod": "Una caña de pescar de cometa que se rompió mientras pescabas. Aún se puede salvar.",
       "broken_sparkle_rod": "Una caña de pescar brillante que se rompió mientras pescabas. Aún se puede salvar.",
       "broken_star_rod": "Una caña de pescar de estrella que se rompió mientras pescabas. Aún se puede salvar.",
-      "incubator_egg": "TBD",
+      "incubator_egg": "Does still not have an use. It's an egg, though. Maybe.",
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "Un reloj mágico que ralentiza el tiempo cuando lo necesitas. ¡Esto será consumido automáticamente para salvar tu racha diaria!",
       "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
@@ -2432,7 +2428,10 @@
       "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
-      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable."
+      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
     }
   },
   "test": {

@@ -48,8 +48,8 @@
       "pill": "%1$sDu hast eine Waifu-Pille genommen! (Aktiviert für 5 Benutzungen)",
       "pill_used": "%1$sDu hast bereits eine aktive Waifu-Pille!",
       "crate": {
-        "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen!",
-        "no_crate": "%1$sDu brauchst eine Truhe! Wie sonst möchtest du deinen Schlüssel benutzen >.>... oh",
+        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
         "success": "%1$sDu hast eine Truhe geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
         "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
       },
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sDer Tag ist zu Ende und dein Eimer hat nur Staub gesammelt. (Verstaubung %2$s%%)",
-      "no_rod": "%1$sDu hast keine Angel mit der du Angeln kannst!",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
       "trash": {
         "overflow": "%1$sDu hast beim Angeln etwas Müll gefunden, aber dein Inventar war voll, also mussten wir es ins Wasser werfen...",
         "success": "%1$sWährend du ruhig angelst, findest du %2$s, aber es scheint nur Müll zu sein :("
@@ -378,6 +378,7 @@
       "cleanup": "%1$s**%2$d Songs** von der Warteschlange entfernt."
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$sDie momentane Lautstärke ist: %2$d\n\n%3$s",
       "success": "%1$sLautstärke ist nun %2$d\n\n%3$s",
       "no_args": "%1$sDu musst mir sagen, auf welche Lautstärke du die Musik stellen willst (4 bis 100).",
@@ -506,7 +507,7 @@
       "time_not_specified": "%1$sDu wolltest eine Mute-Zeit, hast aber nicht angeben für wie lange.",
       "negative_time_notice": "%1$sDu kannst niemanden für einen negativen Zeitraum muten! Außer du kannst die Raumzeit beeinflussen...",
       "default_time_too_long": "%1$sDie Standard Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sDie angegebene Mute-Zeit ist weniger als 20 Sekunden.\nBist du dir sicher, dass du das richtige Format genutzt hast? Für 20 Minuten, nutze 20m, für 1 Stunde, nutze 1h, oder jede Kombination aus beiden (1h45m) als Beispiel.",
       "time_too_long": "%1$sDie angegebene Mute-Zeit ist zu lang (Maximum: 10 Tage)...",
       "already_muted": "%1$sDieser Benutzer ist bereits gemuted. Nutze `~>unmute`, um denjenigen zu entmuten.",
       "self_hierarchy_error": "%1$sIch kann diesem Benutzer die Mute-Rolle nicht zuweisen, da derjenige sich in der Hierarchie höher als ich befindet oder die Rolle in der Hierarchie höher ist!",
@@ -538,7 +539,7 @@
         "Ping-pong? Yay!",
         "U-uhm... H-hi."
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Meine Latenz: %3$d ms** (Websocket: %4$d ms)"
     },
     "love": {
       "no_mention": "%1$sDu musst mindestens einen Benutzer erwähnen.",
@@ -586,7 +587,7 @@
         "not_married": "%1$sDu kannst nur ein Haus kaufen, wenn du verheiratet bist. Dies könnte sich in Zukunft ändern.",
         "no_house": "%1$sDu brauchst ein Haus-Gegenstand in deinem Inventar. Nutze `~>market buy house` to get one.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um ein Haus zu kaufen. (Aktueller Hauspreis: %2$d Credits)",
-        "no_name": "%1$sDu musst deinem Haus einen Namen geben!",
+        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sBist du dir sicher, dass du dieses Haus kaufen möchtest? Der Preis beträgt %2$d und der Name, welchen du dem Haus gibst, wird %3$s sein.\nGebe `yes` ein, um zu bestätigen oder `no`, um abzubrechen.",
         "success": "%1$sDu hast erfolgreich ein Haus für %2$d gekauft. Der Name deines neuen gemütlichen Zuhauses ist %3$s, viel Spaß!",
         "cancel_success": "%1$sKauf abgebrochen."
@@ -594,7 +595,7 @@
       "buycar": {
         "no_car": "%1$sDu musst zuerst ein Auto kaufen! Nutze `~>market buy car`, um eins zu bekommen.",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um ein Auto zu kaufen. (Aktueller Autopreis: %2$d Credits)",
-        "no_name": "%1$sDu musst deinem Auto einen Namen geben!",
+        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sBist du dir sicher, dass du dieses Auto kaufen möchtest? Der Preis beträgt %2$d und der Name, welchen du dem Auto gibst, wird %3$s sein.\nGebe `yes` ein, um zu bestätigen oder `no`, um abzubrechen.",
         "success": "%1$sDu hast erfolgreich ein Auto für %2$d gekauft. Der Name deines neuen schnellen Autos ist %3$s, viel Spaß!",
         "cancel_success": "%1$sKauf abgebrochen."
@@ -649,7 +650,7 @@
         "player_locked": "%1$sDu kannst das aktuell nicht tun.",
         "scrapped": "%1$sWaifu-Verzicht abgebrochen.",
         "success": "%1$sErfolgreich auf `%2$s` verzichtet, mit den Kosten von **%3$s Credits**.",
-        "not_found": "%1$sIch konnte keine Nutzer mit dieser Anfrage finden. Wenn du auf einen unbekannten Nutzer verzichten willst, nutze ihre ID und füge `-unknown` am Ende hinzu."
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
       "buyslot": {
         "locked": "%1$sDu kannst das aktuell nicht tun.",
@@ -684,7 +685,7 @@
     },
     "coinflip": {
       "over_limit": "%1$sHalt dich dort fest! Das Limit ist 1.000 Münzwürfe.",
-      "no_repetitions": "%1$sDu musst eine ganze Zahl für die Anzahl der Wiederholungen angeben.",
+      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
       "success": "%1$s Die Ergebnisse von **%2$s** Wurf/Würfen ergaben **%3$s** Kopf und **%4$s** Zahl"
     },
     "inventory": {
@@ -754,6 +755,7 @@
         "no_buy_price": "%1$sDu kannst einen Gegenstand, der nicht gekauft werden kann, nicht kaufen.",
         "item_limit_reached": "%1$sDu kannst nicht noch mehr von diesem Gegenstand kaufen.",
         "success": "%1$sDu hast %2$s %3$s für %4$s Credits gekauft. Du hast nun %5$s Credits.",
+        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "not_enough_money": "%1$sDu hast nicht genügend Credits, um diesen Gegenstand zu kaufen."
       },
       "header": "Mantaros Markt",
@@ -861,9 +863,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sSie müssen die Zeitzone angeben.",
+        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
         "reset": "%1$sZeitzone zurückgesetzt",
-        "invalid": "%1$sUngültige Zeitzone",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
         "success": "%1$sZeitzone gespeichert, Ihre Profilzeitzone ist jetzt: **%2$s**",
         "reset_success": "%1$sZeitzone erfolgreich zurückgesetzt."
       },
@@ -875,7 +877,7 @@
         "clear_success": "%1$sBeschreibung erfolgreich gelöscht."
       },
       "displaybadge": {
-        "not_specified": "%1$sDu musst dein Hauptabzeichen angeben!",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
         "reset_success": "%1$sKein Abzeichen wird jetzt oben auf deinem Profil angezeigt!",
         "important_success": "%1$sDein Display-Abzeichen ist jetzt das wichtigste.",
         "no_such_badge": "%1$sEs gibt kein solches Abzeichen...\nDeine verfügbaren Abzeichen: %2$s",
@@ -946,7 +948,7 @@
         "cancelled": "%1$sAblegen abgebrochen."
       },
       "display": {
-        "not_premium": "%1$sProfilwidgetpersonalisierung ist nur für Premiumnutzer zugänglich.",
+        "not_premium": "%1$sProfilwidgetpersonalisierung ist nur für Premiumnutzer verfügbar. Für mehr Vorteile, siehe <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sNicht genügend gültige Widgets für dein Profil (Minimum: 3). Wenn du nicht weiter weißt, schau dir `~>profile widgets ls` an",
         "success": "%1$sDein neues Profillayout wurde erfolgreich angewendet. Das neue Layout ist `%2$s`",
         "ls": "%1$sListe der Profilkomponenten:\n%2$s **Widgets in Standardreihenfolge:** `%3$s`\n%2$s **Deine Widgets:** `%4$s`\nDu kannst `~>profile widgets reset` nutzen, um deine Profilanzeigepräferenzen zurückzusetzen.",
@@ -955,8 +957,8 @@
       },
       "claimlock": {
         "removed": "%1$sDein Beanspruchungsschutz wurde erfolgreich zurückgesetzt.",
-        "success": "%1$sDu kannst nicht mehr als Waifu beansprucht werden. Das hat einen .",
-        "no_key": "%1$sDu hast keinen Anspruchsschlüssel, um dies zu tun.",
+        "success": "%1$sDu kannst nicht mehr als Waifu beansprucht werden. Dies hat einen Anspruchsschlüssel gekostet. Nutze `~>profile claimlock remove`, um dies rückgängig zu machen.",
+        "no_key": "%1$sDu hast keinen Anspruchsschlüssel. Du kannst einen im Markt mittels `~>market buy \"claim key\"` kaufen",
         "already_locked": "%1$sDu bist schon vor Beanspruchung geschützt. Nutze `~>profile claimlock remove`, um diesen Schutz zu entfernen."
       },
       "autoequip": {
@@ -987,7 +989,7 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sDu musst ein Abzeichen angeben, von dem du die Informationen sehen willst.",
+        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sEs gibt kein solches Abzeichen...",
         "header": "Abzeichen Informationen für %1$s",
         "achieved": "Erreicht"
@@ -1044,7 +1046,7 @@
         "select": "Wählen Sie die Erinnerung aus, die Sie abbrechen möchten."
       },
       "no_time": "Du hast mir kein `-time` Argument gegeben! (Beispiel: `-time 1h`)",
-      "too_little_time": "%1$sDas ist zu wenig Zeit (Minimum: 1 Minute)!",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
       "too_long": "Das ist zu lang... (Maximum: 3 Monate)",
       "success": "%1$sIch werde dich (%2$s#%3$s) an `%4$s` in %5$s erinnern.",
       "too_many_reminders": "%1$sDu hast zu viele Erinnerungen! Versuch vielleicht welche zu löschen?"
@@ -1116,7 +1118,7 @@
       "info": "%1$sSolltest du Hilfe benötigen, schau auf dem Supportserver (<https://support.mantaro.site>) vorbei und stell deine Frage im #support-Channel!"
     },
     "action": {
-      "no_mention": "%1$sDu musst mindestens einen Nutzer erwähnen.",
+      "no_mention": "%1$sYou need to mention a user.",
       "error_retrieving": "%1$sBeim Abrufen des Gifs für diese Aktion ist ein Fehler aufgetreten... (external error, vielleicht funktioniert WeebAPI nicht?)",
       "no_type": "%1$sDieser Aktionsbefehl hat keinen Typ. (internal error)",
       "permission_or_unexpected_error": "%1$sT-Tut mir leid, aber ich habe das Bild fallen gelassen. (Wahrscheinlich habe ich keine Berechtigung, es zu senden.)",
@@ -1186,7 +1188,7 @@
     "game": {
       "won_games": "%1$s%2$s hat **%3$s Spiele** gewonnen!",
       "nothing_specified": "%1$sDu hast nichts zum Spielen angegeben!",
-      "not_enough_games": "%1$sDu musst mindestens zwei Spiele angeben!",
+      "not_enough_games": "%1$sYou need to specify two games at least (For example: `~>game lobby pokemon,trivia`)",
       "invalid_selection": "%1$sDu musst mindestens zwei Spiele angeben (gültige Spiele: character, pokemon, number, trivia)!",
       "multiple": {
         "invalid": "%1$sDu musst das Spiel und die Häufigkeit angeben.",
@@ -1230,6 +1232,7 @@
       "end_footer": "Du hast 5 Versuche und 60 Sekunden. (Schreibe end, um das Spiel zu beenden)",
       "trivia_end_footer": "Du hast %1$s Versuche und 60 Sekunden. (Gebe end ein, um das Spiel zu beenden)",
       "error": "%1$sFehler beim Einrichten eines Spiels. (internal error)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sMelden Sie dies bitte im offiziellen Server. Fehler beim Einrichten des Spiels für den zuvor gespeicherten Charakter: %2$s",
       "character_request_error": "%1$sFehler beim Anfordern des Charakters von Kitsus API.",
       "character_start": "Rate den Charakter",
@@ -1242,9 +1245,8 @@
     },
     "dailycrate": {
       "check": "%1$s`Du kannst deine täglichen Kiste in **%2$s** abholen.",
-      "key": "%1$sDu brauchst einen Truhenschlüssel, um das zu benutzen! Bitte kaufe einen und versuch es erneut!",
-      "not_premium": "%1$sDu hast kein Premium!\nDu kannst eine täglich Premium-Truhe öffnen, wenn du Premium hast, sie hat eine hohe Chance für gute Items! Für mehr schaue bitte hier: <https://patreon.com/mantaro>.\nDies kann alle 24 Stunden genutzt werden.",
-      "success": "%1$sDu hast eine **%2$s** erhalten! Komme in 24 Stunden zurück, um eine weitere zu erhalten! Du kannst sie mit `~>opencrate <crate name>` öffnen. Du musst einen Truhenschlüssel kaufen, um sie zu öffnen."
+      "not_premium": "%1$sDu hast kein Premium!\nDu kannst eine täglich Premium-Truhe öffnen, wenn du Premium hast, sie hat eine hohe Chance für gute Items! Für mehr schaue bitte hier: <https://patreon.com/mantaro>\nDies kann alle 24 Stunden genutzt werden.",
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sDu hast keine zu löschenden Nachrichten angegeben.",
@@ -1257,7 +1259,7 @@
       "error_retrieving": "%1$sUnbekannter Fehler beim Abrufen des Verlaufs, um die Nachrichten zu löschen (Internal: %2$s %3$s)",
       "invalid_number": "%1$sBitte geben eine gültige Nummer an.",
       "not_valid": "%1$sDas ist keine gültige Anzahl zu löschender Nachrichten!",
-      "less_than_five": "%1$sSie müssen mindestens 5 Nachrichten bereitstellen.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `~>prune 20` to delete 20 messages.",
       "messages_too_old": "%1$sEs gibt keine Nachrichten, die jünger als 2 Wochen sind, Discord lässt mich nicht löschen.",
       "success": "%1$sIn diesem Kanal wurden %2$s Nachrichten erfolgreich gelöscht.",
       "lack_perms": "%1$sFehlende Erlaubnis zum Löschen von Nachrichten (Erlaubnis nicht zur Verfügung gestellt: %2$s)",
@@ -1296,8 +1298,8 @@
     },
     "pet": {
       "explanation": "Haustiere sind nützliche Begleiter beim Geldverdienen!\nSie helfen dir mehr Geld, mehr Loot und verschiedenste Sachen beim Bergbau, Baumfällen und sogar beim Fischen zu bekommen. Desto höher das Level, desto größer die Belohnungen!\nEs ist wichtig das richtige Haustier für deine Tätigkeiten zu finden, also prüf immer den Typ und die Fähigkeiten des Tiers, das du wählen willst!\nBeachte, dass du deinem Haustier Essen und Trinken geben musst, und ihm auch mal Ruhe zum Entspannen und Erholen geben solltest, genau wie einem echten Haustier! Du kannst es sogar streicheln :)\nFür weitere Hilfe, schau unter `~>help pet` und `~>pet list` für eine Liste von Haustieren.",
-      "no_marriage": "%1$sDu musst verheiratet sein, um ein Haustier zu haben. Erstmal.",
-      "no_marriage_other": "%1$s%2$s muss verheiratet sein, um ein Haustier zu haben. Erstmal.",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
       "status": {
         "no_pet": "%1$sDu hast keine Haustiere, deren Status du prüfen könntest. Schau unter `~>pet` für eine Erklärung.",
         "header": "Status für %1$s",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$sDu hast keine Haustiere, die du streicheln könntest. Schau unter `~>pet` für eine Erklärung.",
-        "no_pet_other": "%1$s%2$s hat keine Haustiere, die du streicheln könntest. Schau unter `~>pet` für eine Erklärung."
+        "no_pet_other": "%1$s%2$s hat keine Haustiere, die du streicheln könntest. Schau unter `~>pet` für eine Erklärung.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** wackelt fröhlich mit seinem Schwanz, während du seinen Kopf streichelst. **Streichelzähler: %3$s**.%4$s",
@@ -1331,9 +1334,9 @@
         "counter_100": "%1$sEs scheint, als würde der Kopf von so vielen Streicheleinheiten anfangen zu glänzen."
       },
       "buy": {
-        "not_enough_arguments": "%1$sdu musst den Namen und die Art für das Haustier angeben, das du kaufen willst.",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sDu brauchst sowohl ein Auto, als auch ein Haus, um ein Haustier zu kaufen! Haus: %2$s, Auto: %3$s\nUm ein Haus und ein Auto zu kaufen, nutze `~>marry buyhouse` und `~>marry buycar` :heart:",
-        "no_house": "%1$sDu brauchst ein Haustierhaus in deinem Inventar, um dies zu tun.",
+        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sDu hast bereits ein Haustier.",
         "nothing_found": "%1$sKonnte die Haustierart nicht finden. Angegeben: `%2$s`, Gültige Arten: `%3$s`",
         "not_enough_money": "%1$sDu hast nicht genug Geld, um dieses Haustier zu kaufen. Wert: %2$d Credits, Geldbeutel: %3$d Credits",
@@ -1344,7 +1347,7 @@
       },
       "feed": {
         "no_pet": "%1$sDu hast keine Haustiere, die du füttern könntest. Schau unter `~>pet` für eine Erklärung.",
-        "no_content": "%1$sDu musst angeben, was du an dein Haustier füttern willst.",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sIch habe den angegebenen Gegenstand nicht gefunden.",
         "not_food": "%1$sHey! Das ist kein Essen!",
         "no_need": "%1$sDein Haustier ist nicht hungrig, also will es gerade auch nichts essen.",
@@ -1363,10 +1366,10 @@
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** hat sehr wenig Ausdauer. Gib ihm Essen/Trinken zum auffüllen.",
-        "low_health": "%1$s**%2$s** hat sehr wenig Gesundheit. Gib ihm Essen/Trinken und lass es sich ausruhen.",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
         "low_hunger": "%1$s**%2$s** ist gerade zu hungrig, um etwas zu machen. *Esseeen~*",
         "low_thirst": "%1$s**%2$s** ist gerade zu durstig, um etwas zu machen.",
-        "success_fish": "%1$s**%2$s** hat dir erfolgreich beim Fischfang geholfen! Du hast einen Buff und extra Credits **(%3$,d extra Credits, %4$,d extra Gegenstände)** dank der extra Arbeit, die dein Haustier für dich leisten konnte, bekommen! *enthalten in dem, was du bekommen hast*",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** hat dir erfolgreich beim Holz Fällen geholfen! Du hast einen Buff und extra Credits **(%3$,d extra Credits, %4$,d extra Gegenstände)** dank der extra Arbeit, die dein Haustier für dich leisten konnte, bekommen! *enthalten in dem, was du bekommen hast*",
         "success_mine": "%1$s**%2$s** hat dir erfolgreich beim Abbauen geholfen! Du hast einen Buff und extra Credits **(%3$,d extra Credits, und eine erhöhte Chance auf Gegenstände)** dank der extra Arbeit, die dein Haustier für dich leisten konnte, bekommen! *enthalten in dem, was du bekommen hast*"
       },
@@ -1410,7 +1413,7 @@
       "no_item": "%1$sDu musst den Gegenstand, den du ausschlachten möchtest, angeben.",
       "no_item_found": "%1$sIch kann den angegebenen Gegenstand nicht finden.",
       "cant_salvage": "%1$sDu kannst diesen Gegenstand nicht ausschlachten.",
-      "not_wrench": "%1$sDu brauchst zum Ausschlachten einen Schraubenschlüssel.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sZum Ausschlachten dieses Gegenstands brauchst du mindestens einen Level 2 Schraubenschlüssel.",
       "no_main_item": "%1$sEs scheint, als hättest du den Gegenstand, den du ausschlachten möchtest, nicht.",
       "no_tool": "%1$sDu hast diesen Schraubenschlüssel nicht. Versuche ihn anzugeben, oder einen anderen Schraubenschlüssel anzugeben.",
@@ -1521,7 +1524,7 @@
       "no_tool": "%1$sDu brauchst einen Stufe 2 Schraubenschlüssel (mindestens einen Kometenschraubenschlüssel) oder höher, um diesen Gegenstand zu reparieren. Prüfe, ob du den richtigen Schraubenschlüssel angegeben hast, im Falle dessen, dass du einen angegeben hast. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
       "dust": "%1$sDein Inventar ist zu verstaubt, um eine Reparatur durchzuführen. Staublevel: %2$s",
       "not_wrench": "%1$sDu kannst das nicht als Schraubenschlüssel verwenden. Vergiss nicht Anführungszeichen zu verwenden, falls der Name Leerzeichen beinhaltet.",
-      "not_enough_level": "%1$sDu brauchst einen besseren Schraubenschlüssel, um diese Reparatur durchzuführen.",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
       "not_enough_money": "%1$sDu hast nicht genug Geld, um diesen Gegenstand zu reparieren.",
       "no_item_recipe": "%1$sDu hast nicht die benötigten *%2$s*, um diese Reparatur durchzuführen.",
       "not_enough_items": "%1$sDu hast nicht genug von *%2$s*, um diese Reparatur durchzuführen. **(Benötigt: %3$s, Aktuell: %4$s)**",
@@ -1530,7 +1533,7 @@
       "ls": {
         "header": "Liste reparierbarer Gegenstände",
         "cost": "Reparaturkosten: ",
-        "desc": "Dies ist eine Liste der Gegenstände, die du mit `~>repair` reparieren kannst.\nDu kannst den kompletten oder gekürzten Namen, oder den Emoji verwenden.\nReparieren kostet mindestens ein Drittel der Gegenstandskosten. Der Preis wird unten angezeigt, zusammen mit den benötigten Materialien."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -1634,7 +1637,7 @@
       "easter": "\nSchaut so aus, als ob du hier sehr viel Staub hast... Du solltest hier vielleicht mal putzen, bevor es hier zu unordentlich wird!"
     },
     "mine": {
-      "not_equipped": "%1$sDu hast keine Spitzhacke ausgerüstet. Nutze `~>equip <Typ>`, um eine Spitzhacke auszurüsten und dein Abenteuer anzufangen!",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>market buy pick`",
       "no_pick": "%1$sDu hast keine Spitzhacke zum Abbauen. Wenn du eine andere Spitzhacke verwenden willst nutze `~>mine <Typ>`.",
       "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
       "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
@@ -1654,7 +1657,7 @@
       },
       "crate": {
         "overflow": "Du hast eine **%1$s** beim Graben gefunden, aber du hattest schon zu viele, also hast du sie zurückgelassen...",
-        "success": "Du hast eine %1$s **%2$s** beim Graben gefunden und mitgenommen. Los, öffne sie mit `~>opencrate <Truhenname>`. Du brauchst einen Truhenschlüssel!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
       },
       "autoequip": {
         "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Spitzhackenslot ausgerüstet."
@@ -1666,7 +1669,7 @@
       "broken_drop": "%1$sDeine Spitzhacke ist kaputt gegangen, aber du kannst sie reparieren. Kaputten Gegenstand erhalten: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sDu hast keine Axt ausgerüstet. Nutze `~>equip <Name der Axt>`, um eine Axt auszurüsten und dein Abenteuer zu beginnen!",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>market buy axe`",
       "dust": "%1$sDer Baum war zu brüchig und du bekamst nur Sägespäne (Verstaubung: %2$d%%)",
       "autoequip": {
         "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Axtslot ausgerüstet."
@@ -2012,16 +2015,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sSchalte das Ignorieren vom Beitreten und Austreten von Bots auf: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sSetze Level-Up-Nachricht auf: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sDu musst die Level-Up-Nachricht angeben. *Tipp: Der Nutzername ist $(user) innerhalb der Nachricht*",
-      "success": "%1$sServer-Level-Up-Nachricht geändert auf: `%2$s`"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sLevel-Up-Nachricht zurückgesetzt!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sDu musst einen Kanal für die Level-Up-Nachrichten angeben!",
       "success": "%1$sDer Level-Up-Kanal wurde gesetzt auf: %2$s"
@@ -2038,7 +2031,7 @@
       "wrong_format": "%1$sFalsches Zeitformat. Du musst eine Zeitüberschreitung im Format 1m20s, beispielsweise, angeben.",
       "too_long": "%1$sDie angegebene Zeit ist zu lang...",
       "negative_notice": "Du kannst niemanden für eine negative Zeit stummschalten!",
-      "success": "%1$sErfolgreich die Moderationszeitüberschreitung auf `%2$s` (%3$dms) gesetzt."
+      "success": "%1$sErfolgreich die standardmäßige Moderationszeitüberschreitung auf *%2$s* (%3$dms) gesetzt."
     },
     "defaultmutetimeout_reset": {
       "success": "%1$sErfolgreich die Zeitüberschreitung zurückgesetzt."
@@ -2312,6 +2305,9 @@
     "broken_star_axe": "Kaputte Sternenaxt",
     "broken_comet_axe": "Kaputte Kometenaxt",
     "broken_sparkle_axe": "Kaputte Glitzeraxt",
+    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_axe": "Broken Hellfire Axe",
+    "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
       "headphones": "Das passiert, wenn du zu viel Musik hörst. Sollte aber was wert sein.",
       "ban_hammer": "Von einem Admin da gelassen.",
@@ -2401,7 +2397,7 @@
       "broken_comet_rod": "Eine Kometenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_sparkle_rod": "Eine glitzernde Angel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_star_rod": "Eine Sternenangel, die beim Fischen beschädigt worden ist. Reparierbar.",
-      "incubator_egg": "NOCH FESTZULEGEN",
+      "incubator_egg": "Hat immer noch keine Verwendung. Es ist aber ein Ei. Vielleicht.",
       "water_bottle": "Ein Gegenstand, der auf magische Weise den Durst deines Haustiers heilt.",
       "magic_watch": "Eine magische Uhr, die die Zeit verlangsamt, wenn du es nötig hast. Sie wird automatisch genutzt, um deine tägliche Strähne zu sichern.",
       "pet_house": "Ein Haus, in dem dein Haustier lebt. Vielleicht. Manchmal bleiben sie auch lieber draußen.",
@@ -2432,7 +2428,10 @@
       "broken_moon_rod": "Eine Mondangel, die beim Fischen beschädigt worden ist. Reparierbar.",
       "broken_star_axe": "Eine Sternenaxt, die beim Hacken beschädigt worden ist. Reparierbar.",
       "broken_comet_axe": "Eine Kometenaxt, die beim Hacken beschädigt worden ist. Reparierbar.",
-      "broken_sparkle_axe": "Eine glitzernde Axt, die beim Hacken beschädigt worden ist. Reparierbar."
+      "broken_sparkle_axe": "Eine glitzernde Axt, die beim Hacken beschädigt worden ist. Reparierbar.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
     }
   },
   "test": {

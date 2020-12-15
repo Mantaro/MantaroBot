@@ -48,8 +48,8 @@
       "pill": "%1$s你吃了一個waifu藥丸! (可使用5回)",
       "pill_used": "%1$s你目前已經有waifu藥丸了!",
       "crate": {
-        "no_key": "%1$s你需要一個寶箱鑰匙才能開啟寶箱。他們都是鎖住的!",
-        "no_crate": "%1$s你目前沒有寶箱! 不然你要怎麼使用寶箱鑰匙 >.>",
+        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$s你沒有釣魚竿怎麼釣魚! (試著使用另一種釣竿)",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
@@ -378,6 +378,7 @@
       "cleanup": "%1$s已從佇列中移除了 **%2$d 首歌曲**"
     },
     "volume": {
+      "no_player": "%1$sThere's nothing playing here.",
       "check": "%1$s這一階段的音量是：%2$d \n\n%3$s",
       "success": "%1$s音量設置為 %2$d\n\n%3$s",
       "no_args": "%1$s你需要告訴我你想我設置音量為多少。(5至 100)",
@@ -586,7 +587,7 @@
         "not_married": "%1$s你只能再已婚時買房子。這將有可能在未來更改。",
         "no_house": "%1$s你需要先購買一個房屋。使用 `~>market buy house` 來購買。",
         "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
-        "no_name": "%1$s你需要給你的房屋起一個名字！",
+        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
         "success": "%1$s你成功用%2$d元買了一棟房子！你的新房屋的名字是%3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
@@ -594,7 +595,7 @@
       "buycar": {
         "no_car": "%1$s你需要先買一台車！使用 `~>market buy car` 來購買。",
         "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
-        "no_name": "%1$s你需要給你的車子起一個名字！",
+        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
         "success": "%1$s你成功用%2$d元買了一台汽車！你的新車子的名字是%3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
@@ -649,7 +650,7 @@
         "player_locked": "%1$sYou cannot do this at the moment.",
         "scrapped": "%1$sCancelled waifu un-claiming.",
         "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID and append `-unknown` at the end."
+        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
       "buyslot": {
         "locked": "%1$sYou're currently unable to perform this action.",
@@ -684,7 +685,7 @@
     },
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions",
+      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
@@ -754,6 +755,7 @@
         "no_buy_price": "%1$s你無法購買不能被購買的物品。",
         "item_limit_reached": "%1$s你無法購買更多該物品。",
         "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
+        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "not_enough_money": "%1$s你沒有足夠的金錢來購買這個物品。"
       },
       "header": "Mantaro市場",
@@ -861,9 +863,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$s你需要指出時區。",
+        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
         "reset": "%1$s時區已重設。",
-        "invalid": "%1$s時區錯誤。",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
         "success": "%1$s時區已儲存，你的個人時區為：**%2$s**",
         "reset_success": "%1$s時區已重設。"
       },
@@ -875,7 +877,7 @@
         "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
-        "not_specified": "%1$s你需要指出你的主徽章！",
+        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
         "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
         "important_success": "%1$s你的展示徽章現在是你最有價值的徽章。",
         "no_such_badge": "%1$s找不到該徽章...\n你可用的徽章：%2$s",
@@ -946,7 +948,7 @@
         "cancelled": "%1$s操作取消。"
       },
       "display": {
-        "not_premium": "%1$s個人資料部件個人化僅適用於Premium用戶。",
+        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$s部件數量不足以放置在你的個人資料上 (最少：3)。如果你忘記了，查看 `~>profile widgets ls`",
         "success": "%1$s成功設定你的個人資料佈局。新佈局為 `%2$s`",
         "ls": "%1$s個人資料部件清單：\n%2$s **原始部件配置：**`%3$s`\n%2$s **你的部件配置：**`%4$s`\n你可以使用 `~>profile widgets reset` 來重設你的部件配置",
@@ -955,8 +957,8 @@
       },
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
-        "success": "%1$s你將無法再被認領為Waifu。已使用一個認領鑰匙。",
-        "no_key": "%1$s你沒有認領鑰匙來進行此操作。",
+        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -987,7 +989,7 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of.",
+        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sThere's no such badge...",
         "header": "Badge information for %1$s",
         "achieved": "Achieved"
@@ -1044,7 +1046,7 @@
         "select": "Select the reminder you want to cancel."
       },
       "no_time": "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute)",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
       "too_long": "時間太長了... (最長為3個月)",
       "success": "%1$sI'll remind you (%2$s#%3$s) of `%4$s` in %5$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
@@ -1116,7 +1118,7 @@
       "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
     },
     "action": {
-      "no_mention": "%1$sYou need to mention a user",
+      "no_mention": "%1$sYou need to mention a user.",
       "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
       "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sS-Sorry! I dropped the image. (Probably I don't have permissions to send it)",
@@ -1186,7 +1188,7 @@
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
       "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least",
+      "not_enough_games": "%1$sYou need to specify two games at least (For example: `~>game lobby pokemon,trivia`)",
       "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it.",
@@ -1230,6 +1232,7 @@
       "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
       "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
       "error": "%1$sI found an error while setting up the game... (internal error)",
+      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Guess the character",
@@ -1242,9 +1245,8 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "key": "%1$sYou need a crate key to use this! Please buy one and try again!",
-      "not_premium": "%1$s你還不是Premium！\nPremium用戶能夠領取包含許多特別物品的高級每日寶箱！到<https://patreon.com/mantaro>獲得更多資訊。\n此指令冷卻時間為24小時。",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key to open it."
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -1257,7 +1259,7 @@
       "error_retrieving": "%1$sI found an unknown error while retrieving the history to prune the messages (Internal: %2$s %3$s)",
       "invalid_number": "%1$sPlease specify a valid number.",
       "not_valid": "%1$sThat's not a valid number of messages to delete.",
-      "less_than_five": "%1$sYou need to provide at least 5 messages.",
+      "less_than_five": "%1$sYou need to provide at least 5 messages. For example, use `~>prune 20` to delete 20 messages.",
       "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
       "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
       "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
@@ -1296,8 +1298,8 @@
     },
     "pet": {
       "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
-      "no_marriage": "%1$s你目前需要先結婚才能飼養寵物。",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now.",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
       "status": {
         "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。",
         "header": "%1$s 的狀態",
@@ -1320,7 +1322,8 @@
       },
       "pat": {
         "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation."
+        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
@@ -1331,9 +1334,9 @@
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy.",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$s你需要汽車和房屋才能購買寵物！房屋：%2$s，汽車：%3$s\n使用 `~>marry buyhouse` 和 `~>marry buycar` 來購買 :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this.",
+        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
@@ -1344,7 +1347,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with.",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -1363,10 +1366,10 @@
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish",
+        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
         "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got* ",
+        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
@@ -1410,7 +1413,7 @@
       "no_item": "%1$sYou need to specify the item you want to salvage.",
       "no_item_found": "%1$sI can't find the item you specified.",
       "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item.",
+      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
@@ -1521,7 +1524,7 @@
       "no_tool": "%1$s你需要使用2級以上扳手 (至少為彗星扳手) 來修復此物品。確認你擁有他且在指令裡指出他。如果名稱含有空格，記得使用引號。",
       "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
       "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
-      "not_enough_level": "%1$s你需要更高級別的扳手才能進行此修復。",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
       "not_enough_money": "%1$s你沒有足夠的金錢來修復這個物品。",
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
       "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來進行修復。**(需求：%3$s，擁有：%4$s)**",
@@ -1530,7 +1533,7 @@
       "ls": {
         "header": "可修復物品清單",
         "cost": "修復花費：",
-        "desc": "這是你能使用 `~>repair` 修復的物品清單。\n你可以使用全名或更簡短的名稱，或該物品的表情符號。\n修復的最低費用為該物品價格的三分之一。修復價格與所需材料將顯示在下方。"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
       }
     },
     "anime": {
@@ -1634,7 +1637,7 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "not_equipped": "%1$s你沒有任何已裝備的鎬子。使用 `~>equip <鎬子名稱>` 來裝備鎬子並開始你的旅程！",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>market buy pick`",
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`.",
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
@@ -1654,7 +1657,7 @@
       },
       "crate": {
         "overflow": "你在挖礦時找到了一個 **%1$s**，不過你因為擁有太多了，就把他拋在後面了...",
-        "success": "你在挖礦的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
       },
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的鎬子欄位。"
@@ -1666,7 +1669,7 @@
       "broken_drop": "%1$s你的工具壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備斧頭並開始你的旅程！",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>market buy axe`",
       "dust": "%1$s那棵樹太脆弱了，你只得到了木屑。(灰塵高度 %2$d%%)",
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
@@ -2012,16 +2015,6 @@
     "server_ignorebots_joinleave_toggle": {
       "success": "%1$sSet bot join/leave ignore to: **%2$s**"
     },
-    "levelupmessages_toggle": {
-      "success": "%1$sSet level up messages to: **%2$s**"
-    },
-    "levelupmessages_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on user level-up. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer level-up message set to: `%2$s`"
-    },
-    "levelupmessages_message_clear": {
-      "success": "%1$sCleared level-up message!"
-    },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
       "success": "%1$sThe level-up channel has been set to: %2$s"
@@ -2312,6 +2305,9 @@
     "broken_star_axe": "壞掉的星星斧",
     "broken_comet_axe": "壞掉的彗星斧",
     "broken_sparkle_axe": "壞掉的火花斧",
+    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_axe": "Broken Hellfire Axe",
+    "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
       "headphones": "這就是你聽太多音樂時會發生的事情。應該還是值一些錢的...吧。",
       "ban_hammer": "管理員留下來的。",
@@ -2401,7 +2397,7 @@
       "broken_comet_rod": "釣魚時釣斷了的彗星釣竿。還是可回收的。",
       "broken_sparkle_rod": "釣魚時釣斷了的火花釣竿。還是可回收的。",
       "broken_star_rod": "釣魚時釣斷了的星星釣竿。還是可回收的。",
-      "incubator_egg": "TBD 有待完善",
+      "incubator_egg": "Does still not have an use. It's an egg, though. Maybe.",
       "water_bottle": "用來魔法地降低你寵物的口渴程度。",
       "magic_watch": "一支神奇的手錶，在你需要時減慢時間。這將會自動被使用掉來拯救你忘記的簽到！",
       "pet_house": "給你寵物居住的房子。應該吧。有時候他們只想在外面玩。",
@@ -2432,7 +2428,10 @@
       "broken_moon_rod": "釣魚時釣斷了的月亮釣竿。還是可回收的。",
       "broken_star_axe": "砍樹時砍斷了的星星斧頭。還是可回收的。",
       "broken_comet_axe": "砍樹時砍斷了的彗星斧頭。還是可回收的。",
-      "broken_sparkle_axe": "砍樹時砍斷了的火花斧頭。還是可回收的。"
+      "broken_sparkle_axe": "砍樹時砍斷了的火花斧頭。還是可回收的。",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
     }
   },
   "test": {
