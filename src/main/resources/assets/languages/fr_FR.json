@@ -378,7 +378,7 @@
       "cleanup": "%1$sSupression de **%2$d chanson(s)** de la file d'attente."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$sIl n'y a rien en cours de lecture.",
       "check": "%1$sLe volume actuel de cette session est: %2$d\n\n%3$s",
       "success": "%1$sVolume défini à %2$d\n\n%3$s",
       "no_args": "%1$sTu dois me dire le volume tu souhaites (de 5 à 100).",
@@ -531,15 +531,17 @@
         "Est-ce que ça souvent ?",
         "Est-ce que je fonctionne c-correctement ?",
         "<3",
-        "* tapote *",
+        "pat pat",
         "Pong !",
         "Pang.",
         "Pung.",
         "Peng.",
-        " Ping pong? Yay! ",
-        " U-Uh ... s-salut"
+        "Wondering how I'd do",
+        "Any issue?",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Mon ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sTu dois mentionner au moins 1 utilisateur.",
@@ -567,7 +569,7 @@
       "status": {
         "no_marriage": "%1$sTu n'est pas marié.e, donc je suppose que ton statuts est euh... \"pas marié.e\" (Si tu vois un mariage sur ton profil et que tu vois ce message, cela signifie que tu es sous l'ancien système, essaie de te remarier)",
         "header": "Statuts de mariage actuel",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$sStatut de mariage entre **%2$s** et**%3$s**",
         "date": "Date de mariage",
         "love_letter": "Lettre d'amour",
         "waifus": "Possession de Waifu",
@@ -587,7 +589,7 @@
         "not_married": "%1$sTu ne peux acheter une maison qu'en étant marié.e. Cela pourrait changer à l'avenir.",
         "no_house": "%1$sTu dois posséder une maison dans ton inventaire. Utilises  `~>market buy house` pour en avoir une.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter plus d'emplacements! (Prix actuel d'une maison: %2$d credits.)",
-        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
+        "no_name": "%1$sVous devez nommer votre maison! Par exemple, `~>marry house cozy house`",
         "confirm": "%1$sTu es sûr.e de vouloir acheter cette maison? Le prix déduit de ton portefeuille est %2$d et le nom de ta maison sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
         "success": "%1$sTu as acheté ta maison pour %2$d credits avec succès. Le nom de ton nouveau nid douillet est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
@@ -595,7 +597,7 @@
       "buycar": {
         "no_car": "%1$sTu dois d'abord acheter une voiture! Utilise `~>market buy car` pour ce faire.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter une voiture! (Prix actuel d'une voiture: %2$d credits.)",
-        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
+        "no_name": "%1$sVous devez nommer votre voiture! Par exemple, `~>marry car vroom`",
         "confirm": "%1$sTu es sûr.e de vouloir acheter cette voiture? Le prix déduit de ton portefeuille est %2$d et le nom de ta voiture sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
         "success": "%1$sTu as acheté ta voiture pour %2$d credits avec succès. Le nom de ton nouveau bolide est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
@@ -613,7 +615,7 @@
       "denied": "%1$sa refusé la demande de **%2$s**"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
+      "confirm": "%1$sÊtes vous sûr.e.s de vouloir divorcer? L'argent dépensé en animaux de compagnie, maisons et voitures sera divisé entre vous. Écris `yes` pour continuer ou `no` pour annuler. Votre animal disparaitra, puisqu'il est lié au mariage.",
       "cancelled": "%1$sDivorce annulé.",
       "not_married": "%1$sTu n'es marié.s à personne, pourquoi ne trouves-tu pas cette personne spéciale?",
       "success": "%1$sMaintenant tu es célibataire. Super je suppose.\n%2$s",
@@ -650,7 +652,7 @@
         "player_locked": "%1$sTu ne pas faire ça pour le moment.",
         "scrapped": "%1$sRejet de waifu annulé.",
         "success": "%1$s`%2$s` Rejeté avec succès avec un coût de **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
+        "not_found": "%1$sJe n'ai pas réussi à trouver un utilisateur avec ce `@...`. Si tu as besoin de renier un utilisateur inconnu, utilise son ID(`~>waifu -id`) et ajoute `-unknown` à la fin."
       },
       "buyslot": {
         "locked": "%1$sTu n'as mentionné aucun utilisateur à réclamer.",
@@ -660,7 +662,7 @@
       },
       "optout": {
         "notice": "%1$sTu as été complètement enlevé.e du système de Waifu, tu ne peux donc pas l'utiliser.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sEs-tu certain.e que tu veux t'enlever du système de Waifu? CETTE DÉCISION EST PERMANENTE ET NE PEUT PAS ÊTRE INVERSÉE. \nSi tu ne veux plus être acquis.e et continuer à utiliser le système Waifu comme d'habitude, s'il te plait utilise `~>profile claimlock` à la place.\nTu seras enlevé du système d'acquisition, tu ne pourras plus être acquis.e ni acquérir qui que ce soit et toutes tes acquisition seront annulées.\nRéponds `Yes, I want to opt out of the waifu system completely and irreversibly`(Oui je veux être enlevé.e du système Waifu entièrement et irréversiblement) ou `no`. En répondant avec le message affirmatif, je t'enlèverai du système, et en répondant avec no j'annulerai la commande.",
         "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
         "cancelled": "%1$sOpération d'extraction annulée avec succès.",
         "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système."
@@ -685,18 +687,18 @@
     },
     "coinflip": {
       "over_limit": "%1$sAttend un peu! La limite est de 1,000 pile-ou-faces",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
+      "no_repetitions": "%1$sTu dois spécifier un nombre entier pour le nombre de répétitions (Par exemple, `~>roll 100`)",
       "success": "%1$s Ton résultat des **%2$d** pile-ou-faces a abouti à **%3$d** piles et **%4$d** faces"
     },
     "inventory": {
       "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `~>market dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Belle journée!*",
       "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
       "format": "**Prix**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sCet inventaire est vide! :(",
       "brief_notice": "Tu peux utiliser `~>inventory -brief` pour avoir une meilleure version pour mobile.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(classé par: %1$s)*"
     },
     "cast": {
       "no_item_found": "%1$sJe n'ai trouvé aucun objet qui corresponde à ça.",
@@ -705,10 +707,10 @@
       "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour le faire. **(Nécessaires : %3$s, Possédés : %4$s)**",
       "success": "%1$sTu as *fabriqué %2$s %3$s* avec succès pour %4$s credits. *Matériaux utilisés : %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
+      "no_tool": "%1$sTu as besoin d'un%2$s pour forger! N'oublie pas que tu as besoin de deux clés du même type pour pouvoir forger cet objet.",
       "item_broke": "\nMalheureusement, ton marteau s'est cassé dans le processus, mais tu as reçu ton objet!",
       "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?!",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
+      "low_tier": "%1$sTu as besoin d'une clé de niveau 2 minimum ( au moins une 'Comet Wrench' ) pour fabriquer plus d'objets par commande. Tu as besoin d'une clé de niveau %2$s. N'oublie pas: tu as besoin de deux clés du même type pour forger cet objet.",
       "not_enough_wrench_level": "%1$sTa clé n'est pas assez puissante pour forger cet objet. Spécifie peut-être une plus puissante ? *Niveau de ta clé : %2$s, Niveau nécessaire : %3$s*. Exemple : `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais : %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
       "ls": {
@@ -759,7 +761,7 @@
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet."
       },
       "header": "Marché de Mantaro",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
+      "reference": "\nTu peux acheter et vendre des objets en utilisant `~>market buy <item>` et `~>market sell <item>`. Utilise `~>help market` pour plus d'informations, ou tu peux aussi voir une version courte du marché avec `~>market tools`.",
       "sell_price": "- **Prix de vente:**",
       "buy_price": "- **Prix d'achat:**"
     },
@@ -1232,7 +1234,7 @@
       "end_footer": "Tu as 5 essais et 60 secondes. (Envoie end pour arrêter la partie)",
       "trivia_end_footer": "Tu as %1$s essais et 60 secondes. (Envoie end pour arrêter la partie)",
       "error": "%1$sJ'ai rencontré une erreur en préparant le jeu... (erreur interne)",
-      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
+      "error_missing_permissions": "%1$sJe ne peux pas ajouter de fichier. Vérifie mes permissions s'il te plait.",
       "character_load_error": "%1$sRapporte ça sur le serveur officiel s'il te plait. Échec de mise en place du jeu pour le personnage pré-sauvegardé : %2$s",
       "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
       "character_start": "Devine le personnage",
@@ -1317,25 +1319,25 @@
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
-        "abilities": "*Fish*: Useful for `~>fish`\n*Catch*: Useful for `~>mine`\n*Chop*: Useful for `~>chop`\n*Cheer*: Gives you a nice morale boost.",
+        "abilities": "*Pêche*: utile pour `~>fish`\n*Capture*: utile pour `~>mine`\n*Hacher*: utile pour `~>chop`\n*Sourire*: te donne un bonus de moral.",
         "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "too_many": "How did you even get this many pats?"
+        "too_many": "Comment as-tu obtenu autant de caresses?"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "cute_not_animal": "%1$s**%2$s** sourit joyeusement pendant que vous caressez sa tête. **Compteur de caresses:%3$s**.%4$s",
+        "nothing": "%1$s**%2$s** reste assis.e à ne rien faire. **Compteur de caresses: %3$s**.%4$s ",
+        "cheer": "%1$sLa réaction de **%2$s** est si mignonne qu'elle te redonne le sourire. **Compteur de caresses: %3$s**.%4$s ",
+        "scare": "%1$sL'animal s'est effrayé lorsque tu as tenté de le caresser. Trop brusque peut-être? **Compteur de caresses: %3$s**.%4$s ",
+        "counter_100": "%1$sOn dirait que sa tête va finir par briller avec autant de caresses."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
+        "not_enough_arguments": "%1$sTu dois spécifier le nom et le type de l'animal que tu veux acheter. (Par exemple: `~>pet buy hello dog`)",
+        "no_requirements": "%1$sVous avez besoin d'une voiture __**et**__ d'une maison pour acheter un animal! Maison: %2$s, Voiture: %3$s\nPour acheter une maison et une voiture, utilisez `~>marry buyhouse` et `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
@@ -2426,12 +2428,12 @@
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
       "broken_moon_axe": "A moon axe that broke while chopping. Still salvageable.",
       "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
-      "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
-      "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
-      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_star_axe": "Une hache des étoiles qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
+      "broken_comet_axe": "Une hache de comète qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
+      "broken_sparkle_axe": "Une hache scintillante qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
+      "broken_hellfire_pick": "Une pioche des enfer qui s'est éteinte durant une session de minage, il y a toujours de l'espoir pour la réparer.",
+      "broken_hellfire_axe": "Une hache des enfer qui s'est éteinte durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
+      "broken_hellfire_rod": "Une canne à pêche des enfer qui s'est éteinte durant une session de pêche, il y a toujours de l'espoir pour la réparer."
     }
   },
   "test": {
