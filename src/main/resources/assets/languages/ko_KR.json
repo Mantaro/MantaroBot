@@ -531,13 +531,15 @@
         "이런 일이 자주 일어나니?",
         "제대로 수행 중인가?",
         "<3",
-        "*머리를 쓰다듬음*",
+        "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
+        "Wondering how I'd do",
+        "Any issue?",
         "Ping-pong? Yay!",
-        "ㅇ..음...ㅇ..안녕"
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
