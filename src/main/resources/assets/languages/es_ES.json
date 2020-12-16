@@ -50,7 +50,7 @@
       "crate": {
         "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
         "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
-        "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
+        "success": "%1$sAbriste una crate y ganaste: %2$s%3$s. ¡Felicidades!",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
       "potion_active": "%1$sYa tienes una poción **%2$s** activa y tienes el stack máximo posible!",
