@@ -531,13 +531,15 @@
         "Czy to się dzieje często?",
         "Am I performing p-properly?",
         "<3",
-        "*głaska*",
+        "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
-        "Ping-pong? Jej!",
-        "U-Uh... cz-cześć"
+        "Wondering how I'd do",
+        "Any issue?",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
