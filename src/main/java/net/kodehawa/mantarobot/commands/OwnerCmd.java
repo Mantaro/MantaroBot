@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -151,7 +152,7 @@ public class OwnerCmd {
             var itemString = ctx.argument(Parsers.delimitedBy('"', false), "Invalid item");
             int amount = ctx.argument(Parsers.strictInt(), "Invalid item amount");
 
-            var item = ItemHelper.fromAnyNoId(itemString).orElse(null);
+            var item = ItemHelper.fromAnyNoId(itemString, new I18nContext()).orElse(null);
 
             if (item == null) {
                 ctx.send(EmoteReference.ERROR + "I didn't find that item.");

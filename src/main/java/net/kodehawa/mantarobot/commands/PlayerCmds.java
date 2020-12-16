@@ -178,7 +178,8 @@ public class PlayerCmds {
                 var isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(ctx.getOptionalArguments(), content, "s", "season");
 
-                var item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                var item = ItemHelper.fromAnyNoId(content.replace("\"", ""), ctx.getLanguageContext())
+                        .orElse(null);
 
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();

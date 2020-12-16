@@ -395,18 +395,18 @@ public class MantaroBot {
     // This will print if the MANTARO_PRINT_VARIABLES env variable is present.
     private void printStartVariables() {
         log.info("""
-                        Environment variables set on this startup:
-                        VERBOSE_SHARD_LOGS = {}
-                        DEBUG = {}
-                        DEBUG_LOGS = {}
-                        LOG_DB_ACCESS = {}
-                        TRACE_LOGS = {}
-                        VERBOSE = {}
-                        VERBOSE_SHARD_LOGS = {}
-                        FROM_SHARD = {}
-                        TO_SHARD = {}
-                        SHARD_COUNT = {}
-                        NODE_NUMBER = {}""",
+                Environment variables set on this startup:
+                VERBOSE_SHARD_LOGS = {}
+                DEBUG = {}
+                DEBUG_LOGS = {}
+                LOG_DB_ACCESS = {}
+                TRACE_LOGS = {}
+                VERBOSE = {}
+                VERBOSE_SHARD_LOGS = {}
+                FROM_SHARD = {}
+                TO_SHARD = {}
+                SHARD_COUNT = {}
+                NODE_NUMBER = {}""",
                 ExtraRuntimeOptions.VERBOSE_SHARD_LOGS,
                 ExtraRuntimeOptions.DEBUG,
                 ExtraRuntimeOptions.DEBUG_LOGS,

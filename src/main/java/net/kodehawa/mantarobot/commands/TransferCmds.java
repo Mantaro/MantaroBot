@@ -111,7 +111,7 @@ public class TransferCmds {
                     return;
                 }
 
-                if (ItemHelper.fromAnyNoId(args[1]).isPresent()) {
+                if (ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).isPresent()) {
                     ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
                     return;
                 }
@@ -239,9 +239,9 @@ public class TransferCmds {
                     return;
                 }
 
-                var item = ItemHelper.fromAnyNoId(args[1]).orElse(null);
+                var item = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).orElse(null);
                 if (item == null) {
-                    item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
+                    item = ItemHelper.fromAnyNoId(args[0], ctx.getLanguageContext()).orElse(null);
                     if (item == null) {
                         ctx.sendLocalized("general.item_lookup.no_item_emoji");
                         return;

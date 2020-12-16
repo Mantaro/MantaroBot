@@ -63,7 +63,6 @@ public class PetCmds {
                 .prefix("pet")
                 .build();
 
-
         var petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
@@ -539,7 +538,7 @@ public class PetCmds {
                     return;
                 }
 
-                var item = ItemHelper.fromAnyNoId(food);
+                var item = ItemHelper.fromAnyNoId(food, ctx.getLanguageContext());
                 if (item.isEmpty()) {
                     ctx.sendLocalized("commands.pet.feed.no_item", EmoteReference.ERROR);
                     return;

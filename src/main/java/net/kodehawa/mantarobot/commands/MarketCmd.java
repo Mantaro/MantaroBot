@@ -211,7 +211,7 @@ public class MarketCmd {
                     }
                 }
 
-                var item = ItemHelper.fromAny(itemName).orElse(null);
+                var item = ItemHelper.fromAnyNoId(itemName, ctx.getLanguageContext()).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.dump.non_existent", EmoteReference.ERROR);
@@ -257,7 +257,7 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                var item = ItemHelper.fromAny(content).orElse(null);
+                var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
 
                 if (item == null) {
                     ctx.sendLocalized("commands.market.price.non_existent", EmoteReference.ERROR);
@@ -356,7 +356,8 @@ public class MarketCmd {
                         itemName = content.replace("allof", "").trim();
                     }
 
-                    var toSell = ItemHelper.fromAny(itemName.replace("\"", "")).orElse(null);
+                    var toSell = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
+                            .orElse(null);
 
                     if (toSell == null) {
                         ctx.sendLocalized("commands.market.sell.non_existent", EmoteReference.ERROR);
@@ -461,8 +462,8 @@ public class MarketCmd {
                     }
                 }
 
-                final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", "")).orElse(null);
-
+                final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
+                        .orElse(null);
                 if (itemToBuy == null) {
                     ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
                     return;

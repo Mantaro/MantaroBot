@@ -97,11 +97,11 @@ public class ItemCmds {
                         var userData = user.getData();
 
                         //Why
-                        var toCast = ItemHelper.fromAnyNoId(arguments[0]);
+                        var toCast = ItemHelper.fromAnyNoId(arguments[0], ctx.getLanguageContext());
                         Optional<Item> optionalWrench = Optional.empty();
 
                         if (arguments.length > 1)
-                            optionalWrench = ItemHelper.fromAnyNoId(arguments[1]);
+                            optionalWrench = ItemHelper.fromAnyNoId(arguments[1], ctx.getLanguageContext());
 
                         if (toCast.isEmpty()) {
                             ctx.sendLocalized("commands.cast.no_item_found", EmoteReference.ERROR);
@@ -390,13 +390,13 @@ public class ItemCmds {
                         var user = ctx.getDBUser();
 
                         var itemString = args[0];
-                        var item = ItemHelper.fromAnyNoId(itemString).orElse(null);
+                        var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
                         var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                         var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
                                 ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
 
                         if (args.length > 1) {
-                            wrench = ItemHelper.fromAnyNoId(args[1]).orElse(null);
+                            wrench = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).orElse(null);
                         }
 
                         if (item == null) {
@@ -621,13 +621,13 @@ public class ItemCmds {
 
                         final var args = ctx.getArguments();
                         final var itemString = args[0];
-                        final var item = ItemHelper.fromAnyNoId(itemString).orElse(null);
+                        final var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
                         final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                         var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
                                 ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
                         var custom = false;
                         if (args.length > 1) {
-                            wrench = ItemHelper.fromAnyNoId(args[1]).orElse(null);
+                            wrench = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).orElse(null);
                             custom = true;
                         }
 
@@ -802,8 +802,7 @@ public class ItemCmds {
                     return;
                 }
 
-                var itemOptional = ItemHelper.fromAnyNoId(content.replace("\"", ""));
-
+                var itemOptional = ItemHelper.fromAnyNoId(content.replace("\"", ""), ctx.getLanguageContext());
                 if (itemOptional.isEmpty()) {
                     ctx.sendLocalized("commands.iteminfo.no_item", EmoteReference.ERROR);
                     return;

@@ -235,7 +235,8 @@ public class CurrencyCmds {
 
                 var player = ctx.getPlayer();
                 var seasonPlayer = ctx.getSeasonPlayer();
-                var item = ItemHelper.fromAnyNoId(content.replace("\"", "")).orElse(null);
+                var item = ItemHelper.fromAnyNoId(content.replace("\"", ""), ctx.getLanguageContext())
+                        .orElse(null);
 
                 //Open default crate if nothing's specified.
                 if (item == null || content.isEmpty()) {
@@ -364,7 +365,7 @@ public class CurrencyCmds {
                             return;
                         }
 
-                        var item = ItemHelper.fromAnyNoId(args[0]).orElse(null);
+                        var item = ItemHelper.fromAnyNoId(args[0], ctx.getLanguageContext()).orElse(null);
 
                         //Well, shit.
                         if (item == null) {

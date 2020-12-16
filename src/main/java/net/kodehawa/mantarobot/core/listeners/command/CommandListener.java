@@ -199,7 +199,7 @@ public class CommandListener implements EventListener {
                 player.saveUpdating();
             }
 
-            log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
+            log.error("Error happened on command: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
     }
 }

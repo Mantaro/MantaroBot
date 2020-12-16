@@ -103,7 +103,7 @@ public class ItemHelper {
         });
     }
 
-    public static Optional<Item> fromAny(String any) {
+    public static Optional<Item> fromAny(String any, I18nContext languageContext) {
         try {
             Item item = fromId(Integer.parseInt(any));
 
@@ -112,10 +112,10 @@ public class ItemHelper {
             }
         } catch (NumberFormatException ignored) { }
 
-        return fromAnyNoId(any);
+        return fromAnyNoId(any, languageContext);
     }
 
-    public static Optional<Item> fromAnyNoId(String any) {
+    public static Optional<Item> fromAnyNoId(String any, I18nContext languageContext) {
         Optional<Item> itemOptional;
 
         itemOptional = fromEmoji(any);
@@ -128,12 +128,12 @@ public class ItemHelper {
             return itemOptional;
         }
 
-        itemOptional = fromName(any);
+        itemOptional = fromName(any, languageContext);
         if (itemOptional.isPresent()) {
             return itemOptional;
         }
 
-        itemOptional = fromPartialName(any);
+        itemOptional = fromPartialName(any, languageContext);
         return itemOptional;
     }
 
@@ -147,9 +147,19 @@ public class ItemHelper {
         return ItemReference.ALL[id];
     }
 
-    public static Optional<Item> fromName(String name) {
+    public static Optional<Item> fromName(String name, I18nContext languageContext) {
         return Arrays.stream(ItemReference.ALL)
-                .filter(item -> item.getName().toLowerCase().trim().equals(name.toLowerCase().trim()))
+                .filter(item -> {
+                    final var itemName = item.getName().toLowerCase().trim();
+                    final var lookup = name.toLowerCase().trim();
+                    final var translatedName = item.getTranslatedName();
+
+                    // Either name or translated name
+                    return itemName.equals(lookup) || (
+                            !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
+                            languageContext.get(translatedName).toLowerCase().trim().equals(lookup)
+                    );
+                })
                 .findFirst();
     }
 
@@ -166,9 +176,18 @@ public class ItemHelper {
         }).findFirst();
     }
 
-    public static Optional<Item> fromPartialName(String name) {
+    public static Optional<Item> fromPartialName(String name, I18nContext languageContext) {
         return Arrays.stream(ItemReference.ALL)
-                .filter(item -> item.getName().toLowerCase().trim().contains(name.toLowerCase().trim()))
+                .filter(item -> {
+                    final var itemName = item.getName().toLowerCase().trim();
+                    final var lookup = name.toLowerCase().trim();
+                    final var translatedName = item.getTranslatedName();
+
+                    return itemName.contains(lookup) || (
+                            !translatedName.isEmpty() && !languageContext.getContextLanguage().equals("en_US") &&
+                            languageContext.get(translatedName).toLowerCase().trim().contains(lookup)
+                    );
+                })
                 .findFirst();
     }
 
