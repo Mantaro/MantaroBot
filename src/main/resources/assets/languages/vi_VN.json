@@ -531,13 +531,15 @@
         "Điều này có xảy ra thường xuyên không?",
         "Tôi đang thể hiện t...tốt chứ?",
         "<3",
-        "*bẹp bẹp*",
+        "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
-        "Ping-pong? Yê!",
-        "Ừm... hiiiii"
+        "Wondering how I'd do",
+        "Any issue?",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
