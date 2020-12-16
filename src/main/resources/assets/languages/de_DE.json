@@ -531,13 +531,15 @@
         "Passiert das häufiger?",
         "Leiste Ich g-genug?",
         "<3",
-        "*tätschel*",
+        "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
+        "Wondering how I'd do",
+        "Any issue?",
         "Ping-pong? Yay!",
-        "U-uhm... H-hi."
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **Meine Latenz: %3$d ms** (Websocket: %4$d ms)"
     },
