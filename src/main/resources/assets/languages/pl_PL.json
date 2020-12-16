@@ -319,7 +319,7 @@
       "success": "%1$sPrzeskoczono do %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sNie jesteś na kanale głosowym lub nie ma w nim bota.",
       "attempt": "%1$sPostaram się przejść na kanał, na którym jesteś",
       "error_moving": "%1$s Nie powiodło się zmienianje kanału głosowego.",
       "cannot_connect": "%1$sNie mogę się połączyć: albo nie mam pozwolenia na rozmowę, albo na przenoszenie kanałów.",
@@ -378,7 +378,7 @@
       "cleanup": "%1$sUsunięto **%2$d piosenek** z kolejki."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$sNie ma tu nic do grania.",
       "check": "%1$sBieżąca głośność w tej sesji wynosi: %2$d\n\n%3$s",
       "success": "%1$sGłośność ustawiono na %2$d\n\n%3$s",
       "no_args": "%1$sMusisz mi powiedzieć, jaki poziom głośności chcesz, żebym ustawił muzykę na (5 do 100).",
@@ -507,7 +507,7 @@
       "time_not_specified": "%1$sChciałeś czasu, ale nie sprecyzowałeś na jak długo.",
       "negative_time_notice": "%1$sNie można kogoś wyciszyć na czas negatywny. Chyba, że potrafisz zginać czasoprzestrzeń, to znaczy.",
       "default_time_too_long": "%1$sDomyślny czas trwania wyciszenia jest zbyt długi (maksymalnie 10 dni)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sOkreślony limit czasu wyciszenia jest krótszy niż 20 sekund.\nJesteś pewien, że użyłeś właściwego formatu? Na 20 minut użyj 20 m, na 1 godzinę, użyj 1h lub dowolnej kombinacji obu (na przykład 1h45m).",
       "time_too_long": "%1$sPodana długość przerwy w wyciszeniu jest zbyt długa (maksymalnie 10 dni)...",
       "already_muted": "%1$sTen użytkownik ma już rolę wyciszonego. Proszę wpisz `~>un-mute` aby odciszych użytkownika.",
       "self_hierarchy_error": "%1$sNie mogę przypisać temu użytkownikowi roli niemego, ponieważ znajduje się on w wyższej hierarchii niż ja, lub rola jest w wyższej hierarchii!",
