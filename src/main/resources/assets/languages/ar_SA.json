@@ -1049,7 +1049,7 @@
       },
       "no_time": "لم تعطني وقت `-time` (مثال: `-time 1h`)\n",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
-      "too_long": "هذا وقت طويل جداً! (الحد الأقصى: 3 أشهر)",
+      "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sسأقوم بتذكيرك (%2$s#%3$s) من `%4$s` في %5$s",
       "too_many_reminders": "%1$sلديك الكثير من التذكيرات! جرب حذف بعضها؟"
     },
