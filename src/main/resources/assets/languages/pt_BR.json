@@ -48,8 +48,8 @@
       "pill": "%1$sVocê tomou uma pílula de waifu! (Ativada por 5 sessões)",
       "pill_used": "%1$sVocê já tem uma pílula de waifu ativa!",
       "crate": {
-        "no_key": "%1$sVocê precisa de uma chave do caixote pra abrir um caixote. Está fechado! Você pode comprar um usando `~>market buy key`",
-        "no_crate": "%1$sVocê precisa de um caixote de saque! Você geralmente ganha caixotes dos comandos de moeda.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sVocê abriu o caixote e ganhou: %2$s%3$s. Parabéns!",
         "overflow": "Mas você já teve demais, então resolveu jogar fora o excesso"
       },
@@ -1282,8 +1282,9 @@
       "error": "%1$sHouve um erro ao procurar uma imagem...",
       "wrong_argument": "%1$sTipo de argumento errado. Cheque ~>help %2$s",
       "blacklisted_tag": "%1$sEsta tag de imagem foi colocada na lista negra por um administrador.",
-      "error_tag": "%1$sHouve um erro ao procurar esta tag...",
-      "error_random": "%1$sHouve um erro ao procurar por uma imagem aleatória...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNão estou em um canal NSFW. Não é possível enviar imagens sensuais.\n**Lembrete:** Você pode transformar esse canal em NSFW indo para as configurações do canal e checando `Tranformar esse Canal em NSFW`.",
       "loli_content_disallow": "%1$sInfelizmente, não consigo exibir imagens que supostamente contêm `loli` ou `shota` com conteúdo sensual/NSFW porque o Discord proíbe. (Filtro: Imagem que contém uma tag de loli ou shota tag é NSFW)",
       "null_list_notice": "%1$sOops... algo deu errado ao pesquisar... (Se você usou uma tag, a tag pode não existir",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "Um machado de estrela que quebrou enquanto cortava. Ainda recuperável.",
       "broken_comet_axe": "Um machado de cometa que quebrou enquanto cortava. Ainda recuperável.",
       "broken_sparkle_axe": "Um machado brilhante que quebrou enquanto cortava. Ainda recuperável.",
-      "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
-      "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
