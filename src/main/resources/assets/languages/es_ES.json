@@ -48,8 +48,8 @@
       "pill": "%1$s¡Tomaste una pastilla de waifu! (Activada por 5 sesiones)",
       "pill_used": "%1$s¡Ya tienes una pastilla de waifu activada!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
@@ -1282,8 +1282,9 @@
       "error": "%1$sEncontré un error mientras intentaba buscarte una imagen...",
       "wrong_argument": "%1$sArgumento inválido. Revisa ~>help %2$s",
       "blacklisted_tag": "%1$sEste tag ha sido puesto en la lista negra por un administrador.",
-      "error_tag": "%1$sEncontré un error mientras intentaba buscarte una imagen con este tag...",
-      "error_random": "%1$sEncontré un error mientras intentaba buscarte una imagen aleatoria...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNo estás en un canal NSFW. No puedo enviar imagenes sugerentes.\n**Recordatorio:** Puedes marcar este canal como NSFW si vas a la configuración del canal y habilitar 'Canal NSFW'.",
       "loli_content_disallow": "%1$sNo podemos mostrar imagenes que contengan los tags `loli` o `shota` y contenido sugerente porque discord lo prohibe.",
       "null_list_notice": "%1$sOops... algo salió muy mal mientras buscaba una imagen... (Si usaste un tag, capáz que este no exista)",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
