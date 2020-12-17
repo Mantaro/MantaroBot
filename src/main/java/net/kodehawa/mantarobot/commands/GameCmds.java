@@ -271,7 +271,7 @@ public class GameCmds {
                     gameList.add(g);
                 }
 
-                //No games queued?
+                // No games queued?
                 if (gameList.isEmpty()) {
                     ctx.sendLocalized("commands.game.multiple.invalid", EmoteReference.ERROR);
                     return;

@@ -453,12 +453,12 @@ public class ItemReference {
 
             SHELL = new Fish(ItemType.FISHING_RARE, 5, "\uD83D\uDC1A",
                     "Shell", "items.shell", "items.description.shell",
-                    1150, false
+                    800, false
             ),
 
             SHARK = new Fish(ItemType.FISHING_RARE, 10, "\uD83E\uDD88",
                     "Shark", "items.shark", "items.description.shark",
-                    500, false
+                    1000, false
             ),
 
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 90,
