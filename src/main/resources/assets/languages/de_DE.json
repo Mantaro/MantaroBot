@@ -48,8 +48,8 @@
       "pill": "%1$sDu hast eine Waifu-Pille genommen! (Aktiviert für 5 Benutzungen)",
       "pill_used": "%1$sDu hast bereits eine aktive Waifu-Pille!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sDu hast eine Truhe geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
         "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
       },
@@ -1282,8 +1282,9 @@
       "error": "%1$sBeim Suchen nach einem Bild ist ein Fehler aufgetreten...",
       "wrong_argument": "%1$sFalscher Argumenttyp. Überprüfe ~>help %2$s",
       "blacklisted_tag": "%1$sDieses Bild-Tag wurde hier von einem Administrator auf die schwarze Liste gesetzt.",
-      "error_tag": "%1$sBeim Suchen nach diesem Tag ist ein Fehler aufgetreten...",
-      "error_random": "%1$sBeim Suchen nach einem zufälligen Bild ist ein Fehler aufgetreten...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNicht in einem NSFW-Kanal. Ich kann keine unanständigen Bilder senden.\n**Erinnerung:**  Du kannst diesen Kanal als NSFW einstellen, indem Sie zu den Kanaleinstellungen gehen und `NSFW-Kanal` auswählst.",
       "loli_content_disallow": "%1$sLeider können wir keine Bilder anzeigen, die `loli` oder `shota` als Tag haben und explizit/fraglich gewertet sind, weil Discord dies verbietet. (Filter: Bild enthält loli oder shota als Tag und es ist NSFW)",
       "null_list_notice": "%1$sUps... bei der Suche ist etwas schief gelaufen... (Wenn du ein Tag verwendet hast, ist es möglich das dieser Tag nicht existiert)",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "Eine Sternenaxt, die beim Hacken beschädigt worden ist. Reparierbar.",
       "broken_comet_axe": "Eine Kometenaxt, die beim Hacken beschädigt worden ist. Reparierbar.",
       "broken_sparkle_axe": "Eine glitzernde Axt, die beim Hacken beschädigt worden ist. Reparierbar.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
