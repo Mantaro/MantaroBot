@@ -48,8 +48,8 @@
       "pill": "%1$sWypiłeś pigułkę waifu! (Aktywowany na 5 sesji)",
       "pill_used": "%1$sMasz już aktywną pigułkę waifu!",
       "crate": {
-        "no_key": "%1$sPotrzebujesz klucza do skrzynki z łupami, żeby ją otworzyć. Zamknięte! Możesz go kupić za pomocą `~>market buy key`",
-        "no_crate": "%1$sPotrzebujesz skrzynki z łupami! Zwykle dostajesz skrzynki od komend walutowych.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sOtworzyłeś skrzynię i wygrałeś: %2$s%3$s. Gratulacje!",
         "overflow": "Ale miałeś już za dużo, więc postanowiłeś wyrzucić nadmiar"
       },
@@ -536,12 +536,12 @@
         "Pang.",
         "Pung.",
         "Peng.",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "Zastanawiam się, jak bym to zrobił",
+        "Jakiś problem?",
+        "Ping-pong? Jej!",
+        "U-Uh... cz-cześć"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* - **Mój ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sMusisz oznaczyć przynajmniej 1-ego użytkownika.",
@@ -569,7 +569,7 @@
       "status": {
         "no_marriage": "%1$sNie jesteś żonaty, więc myślę, że twój status to uh... \"nie żonaty\" (Jeśli widzisz małżeństwo w swoim profilu i widzisz tę wiadomość, która oznacza, że jesteś w starym systemie, spróbuj ponownie się ożenić)",
         "header": "Obecny status ślubu",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$sStan małżeństwa między **%2$s** a **%3$s**",
         "date": "Data ślubu",
         "love_letter": "List Miłosny",
         "waifus": "Własność Waifu",
@@ -1282,8 +1282,9 @@
       "error": "%1$sThere was an error while looking for an image...",
       "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
       "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
-      "error_tag": "%1$sThere was an error while looking for this tag...",
-      "error_random": "%1$sThere was an error while looking for a random image...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
       "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
