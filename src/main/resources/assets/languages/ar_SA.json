@@ -48,8 +48,8 @@
       "pill": "%1$sلقد شربت حبة الـ\"وايفو\"! (مفعل ل5 مواسم)",
       "pill_used": "%1$sلديك بالفعل حبة وايفو مفعله!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sلقد فتحت صندوق وربحت %2$s%3$s. مبروك!",
         "overflow": "ولكن بالفعل لديك الكثير لذلك قررت رميه بعيدا"
       },
@@ -1282,8 +1282,9 @@
       "error": "%1$sThere was an error while looking for an image...",
       "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
       "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
-      "error_tag": "%1$sThere was an error while looking for this tag...",
-      "error_random": "%1$sحدث خطأ اثناء البحث عن صورة عشوائية...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sلست في روم NSFW. لايُمكن ارسال صور بذيئة.\n**تذكير:** يمكنك تعيين الروم على انه NSFW وذلك بالذهاب الى اعدادات الروم وتحديد `تعيين هذا الروم على أنه NSFW.",
       "loli_content_disallow": "%1$sI cannot display images that allegedly contain `loli` or `shota` (or related tags) lewd/NSFW content because discord prohibits it. Try again with other tags?",
       "null_list_notice": "%1$sاوه... حدث خطأ اثناء البحث... (اذا استخدمت وسم في البحث, ربما يكون هذا الوسم غير موجود)",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
