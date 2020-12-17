@@ -48,8 +48,8 @@
       "pill": "%1$sTu as pris une pilule waifu! (Activé pour 5 sessions)",
       "pill_used": "%1$sTu as déjà pris une pilule waifu!",
       "crate": {
-        "no_key": "%1$sVous avez besoin d'une clé pour ouvrir ce coffre. Il est fermé à clé ! Vous pouvez en acheter une en utilisant `~>market buy key`",
-        "no_crate": "%1$sTu as besoin d'un coffre de butin! Tu peux trouver des coffres dans les commandes de devise.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$s**Tu as gagné:** %2$s%3$s",
         "overflow": "Mais tu en avais déjà trop, alors tu as décidé de jeter l'excédent"
       },
@@ -1282,8 +1282,9 @@
       "error": "%1$sUne erreur s'est produite en cherchant une image...",
       "wrong_argument": "%1$sMauvais type d'argument. Fait ~>help %2$s",
       "blacklisted_tag": "%1$sCette image a été blacklistée par un administrateur.",
-      "error_tag": "%1$sUne erreur s'est produite en cherchant ce tag...",
-      "error_random": "%1$sUne erreur s'est produite en cherchant une image au hasard...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sCe canal n'est pas NSFW. Impossible d'envoyer du lewd.\n**Rappel:** Tu peux le rendre NSFW en modifiant cela dans les paramètres.",
       "loli_content_disallow": "%1$sMalheureusement je ne peux pas afficher d'images contenant des contenu `loli` ou `shota` lewd/NSFW parce que Discord l'interdit. (Filtre : Image contenant des loli ou des shota étant NSFW)",
       "null_list_notice": "%1$sOups... S'est mal passé durant la recherche... (Si tu as utilisé un tag il n'existe peut-être pas.)",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "Une hache des étoiles qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
       "broken_comet_axe": "Une hache de comète qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
       "broken_sparkle_axe": "Une hache scintillante qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
-      "broken_hellfire_pick": "Une pioche des enfer qui s'est éteinte durant une session de minage, il y a toujours de l'espoir pour la réparer.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "Une hache des enfer qui s'est éteinte durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
-      "broken_hellfire_rod": "Une canne à pêche des enfer qui s'est éteinte durant une session de pêche, il y a toujours de l'espoir pour la réparer."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
