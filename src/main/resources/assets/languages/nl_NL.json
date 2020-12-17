@@ -48,8 +48,8 @@
       "pill": "%1$s Je hebt een waifu pil gedronken! (Geactiveerd voor 5 sessies)",
       "pill_used": "%1$s Je hebt al een actieve waifu pil!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$s**Je hebt gewonnen:** %2$s%3$s",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
@@ -1282,8 +1282,9 @@
       "error": "%1$sEr is een fout opgetreden tijdens het zoeken naar een afbeelding...",
       "wrong_argument": "%1$sVerkeerd argument type. Check ~>help %2$s",
       "blacklisted_tag": "%1$sDeze afbeeldingstag is hier op een zwarte lijst geplaatst door een beheerder.",
-      "error_tag": "%1$sEr is een fout opgetreden bij het zoeken naar deze tag...",
-      "error_random": "%1$sEr is een fout opgetreden bij het zoeken naar een willekeurige afbeelding...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNiet op een NSFW-kanaal. Kan geen lewd afbeeldingen verzenden.\n**Herinnering:** Je kunt dit kanaal instellen als NSFW door naar de kanaalinstellingen te gaan en 'Dit kanaal instellen als NSFW` te selecteren.",
       "loli_content_disallow": "%1$sHelaas kan ik geen afbeeldingen weergeven die naar verluidt 'loli' of 'shota' lwed/NSFW-inhoud bevatten omdat Discord dit verbiedt. (Filter uitgevoerd: afbeelding bevat een loli of shota-tag en het is NSFW)",
       "null_list_notice": "%1$sOeps ... er is iets mis gegaan bij het zoeken ... (Als u een tag heeft gebruikt, bestaat de tag mogelijk niet)",
@@ -2431,9 +2432,9 @@
       "broken_star_axe": "Een ster bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_comet_axe": "Een komeet bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_sparkle_axe": "Een fonkelende bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
