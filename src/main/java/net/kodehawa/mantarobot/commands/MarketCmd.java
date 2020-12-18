@@ -55,10 +55,9 @@ public class MarketCmd {
     public void market(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
-                .spamTolerance(2)
+                .spamTolerance(4)
                 .cooldown(3, TimeUnit.SECONDS)
-                .maxCooldown(3, TimeUnit.SECONDS)
-                .randomIncrement(true)
+                .maxCooldown(10, TimeUnit.SECONDS)
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("market")
                 .premiumAware(true)

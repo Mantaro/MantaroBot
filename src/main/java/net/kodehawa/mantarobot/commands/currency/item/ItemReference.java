@@ -651,7 +651,7 @@ public class ItemReference {
                     3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(),
                     "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod",
                     15000,
-                    "450;175;1;175;1;50;1;35;50", 2300, 18, 48, 70, 49, 71, 74, 75, 101, 76
+                    "450;175;1;175;1;50;1;35;50", 2500, 18, 48, 70, 49, 71, 74, 75, 101, 76
             ),
 
             LEAVES = new Item(ItemType.CHOP_DROP, "\ud83c\udf43",
@@ -710,17 +710,17 @@ public class ItemReference {
 
             BROKEN_HELLFIRE_PICK = new Broken(103, EmoteReference.BROKEN_HELLFIRE_PICK.getDiscordNotation(),
                     "Broken Hellfire Pick", "items.broken_hellfire_pick", "items.description.broken_hellfire_pick",
-                    5000, "90,18;80,48;80,49;20,74;25,76;10,84;30,50"
+                    5000, "90,18;50,48;50,49;20,74;25,76;10,84;30,50"
             ),
 
             BROKEN_HELLFIRE_AXE = new Broken(109, EmoteReference.BROKEN_HELLFIRE_AXE.getDiscordNotation(),
                     "Broken Hellfire Axe", "items.broken_hellfire_axe", "items.description.broken_hellfire_axe",
-                    5000, "90,18;80,48;80,49;20,74;25,76;10,84;30,50"
+                    5000, "90,18;50,48;50,49;20,74;25,76;10,84;30,50"
             ),
 
             BROKEN_HELLFIRE_ROD = new Broken(111, EmoteReference.BROKEN_HELLFIRE_ROD.getDiscordNotation(),
                     "Broken Hellfire Rod", "items.broken_hellfire_rod", "items.description.broken_hellfire_rod",
-                    5000, "90,18;80,48;80,49;20,74;25,76;10,84;30,50"
+                    5000, "90,18;50,48;50,49;20,74;25,76;10,84;30,50"
             ),
     };
 }
