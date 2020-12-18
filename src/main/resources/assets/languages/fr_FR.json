@@ -753,11 +753,11 @@
       "buy": {
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
+        "non_existent": "%1$sTu ne peux pas acheter un objet inexistant. Si tu es perdu, tu peux essayer de taper le nom raccourci ou de mettre le nom entre guillemets. De plus, le nombre d'objets doit être présent avant le nom de l'objet, par exemple : `~>market buy 15 energy`",
         "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
         "item_limit_reached": "%1$sTu ne peux pas acheter plus de cet objet.",
         "success": "%1$sAchat de %2$,d %3$s pour %4$,d credits. Tu as désormais %5$,d credits.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
+        "success_breakable": "%1$sAcheté%2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux équiper cet objet avec `~>equip <item name>`",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet."
       },
       "header": "Marché de Mantaro",
@@ -770,19 +770,19 @@
       "bot_notice": "%1$sTu ne peux pas transférer des objets à un bot!",
       "locked_notice": "%1$sTu ne peux pas transférer des objets pour le moment. (Le joueur est bloqué)",
       "hidden_item": "%1$sTu ne peux pas transférer cet objet.",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
+      "overflow": "%1$sCe joueur a la nombre maximum (5000) de cet objet.",
+      "overflow_after": "%1$sAprès avoir transféré l'objet, le joueur aurait plus que le maximum (5000) de cet objet.",
       "success": "%1$s%2$s a donné **%3$s** **%4$s** à %5$s",
       "multiple_items_error": "%1$sTu n'as aucun de ces objets dans ton inventaire",
       "error": "%1$sTu n'as pas cet objet en quantité suffisante pour faire ça!",
       "no_item_mention": "%1$sTu dois spécifier la personne à qui tu transfère l'objet ainsi que l'objet lui-même."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sTon compte doit avoir au moins 7 jours d'ancienneté pour transférer de l'argent.",
+      "new_account_notice_other": "%1$sLe compte sur lequel tu transfères doit avoir au moins 7 jours d'ancienneté.",
       "transfer_yourself_note": "%1$sTu ne peux pas t'envoyer de l'argent à toi-même.",
       "bot_notice": "%1$sTu ne peux pas envoyer de l'argent à un bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
+      "no_amount": "%1$sTu dois spécifier le montant. Utilise la commande `transferitems` si tu veux transférer un objet.",
       "no_money_specified_notice": "%1$sTu ne peux pas transférer d'argent :P",
       "over_transfer_limit": "%1$sTu ne peux pas envoyer autant d'argent. (Limite : %2$d credits)",
       "own_locked_notice": "%1$sTu ne peux pas transférer d'argent pour le moment.",
@@ -792,7 +792,7 @@
       "receipt_over_limit": "%1$sCet utilisateur a déjà assez d'argent...",
       "success": "%1$sEnvoyé **%2$d** *(%3$d après taxe de 8%%)* à **%4$s** avec succès.",
       "item_transfer": "%1$sTu ne peux pas transférer d'objets avec 'transfer', merci d'utiliser `transferitems` à la place.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "Tu peux transférer à la même personne (%1$s) toutes les 10 minutes."
     },
     "useitem": {
       "ls": {
@@ -806,7 +806,7 @@
       "no_item": "%1$sTu n'as pas cet objet dans ton inventaire...",
       "not_enough_items": "%1$sTu n'en as pas assez.",
       "too_little": "%1$sTu ne peux pas utiliser moins d'un objet.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
+      "invalid_amount": "%1$sLe montant doit être un nombre compris entre `1` et `15`!"
     },
     "opts": {
       "note": "%1$sHey, si tu es perdu.e ou que tu veux de l'aide pour utiliser opts, va sur <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour avoir le guide d'utilisation d'opts.\nNote: Seuls les administrateurs, les gens avec la permission Manage Server ou ceux avec le rôle Bot Commander peuvent utiliser cette commande!",
@@ -865,9 +865,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
+        "not_specified": "%1$sTu dois spécifier le fuseau horaire. Un fuseau horaire valide serait, par exemple `GMT-3` ou `America/Chicago` (ZoneId).",
         "reset": "%1$sFuseau horaire reset.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
+        "invalid": "%1$sFuseau horaire invalide. Un fuseau horaire serait, par exemple `GMT-3` ou `America/Chicago` (ZoneId). Tu peux trouver ton fuseau horaire en recherchant \"quel est mon fuseau horaire\"",
         "success": "%1$sFuseau horaire sauvegardé, ton fuseau horaire est désormais: **%2$s**",
         "reset_success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
       },
@@ -879,7 +879,7 @@
         "clear_success": "%1$sDescription supprimée avec succès."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$sTu dois spécifier ton badge principal! Par exemple, `~>profile displaybadge claimer`",
         "reset_success": "%1$sAucun badge ne seras montré en haut de ton profil à compter de maintenant!",
         "important_success": "%1$sTon badge accroché est vraiment le plus important.",
         "no_such_badge": "%1$sIl n'existe pas de tel badge...\nTes badges: %2$s",
@@ -893,7 +893,7 @@
         "invalid": "%1$sCette langue n'existe pas! Tu peux utiliser `reset` pour réinitialiser tes paramètres de langue."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
+        "not_valid": "%1$sCette sorte de tri n'est pas valide. Sortes disponibles: `%2$s`",
         "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
       "stats": {
