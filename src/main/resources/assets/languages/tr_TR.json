@@ -13,7 +13,7 @@
     "daily": "gunluk",
     "total": "toplam",
     "arrow_react": "Ok tepkilerini kullanarak sayfalari degistirebilirsiniz.",
-    "text_menu": "&page >> ve &page << kullanarak sayfalar arasinda gecis yapin &cancel ile bitirin",
+    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Bulunamadi",
     "no_results": "Sonuc yok.",
     "timeout": "%1$d saniye icinde bitecek.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Bu emoji ile alakali esya yok.",
       "no_item_name": "Bu tanimlama ile alakali bir esya yok.",
-      "not_found": "Aramaniz ile alakali bir esya yok. Eger bulamiyorsan kisaltma yapmayi deneyebilirsiniz, ornegin `Platonik Ask`, yerine `platonik` kullanabilirsiniz. Ya da ismi tırnak işareti içine alın.",
+      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "Anahtarinizi transfer edemediniz."
     },
     "misc_item_usage": {
-      "mop": "%1$sSanirim tum o maden girisimlerinizde topladigin tozlari temizledin lol.",
+      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sTum iksir etkileri temizlendi.",
+      "milk": "%1$sCleared all potion effects.",
       "stamina": "%1$s3 maden girismi icin dayaniklik iksirini aktive ettin.",
       "stamina_used": "%1$sDayaniklik iksirini zaten icmissin (yan etkisi olur)!",
       "haste": "%1$s2 deneme icin hiz etkisini aktif ettin.",
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$sOtomatik olarak **%2$s** balık slotuna kuşanıldı."
       },
-      "overflow": "%1$sBiraz balık tuttun ama envanterinin bir kısmı doluydu o açıdan suya geri fırlatmak zorunda kaldın...",
+      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sBalık tutarken, %2$s buldun ve cebine attın.",
       "success_money": "%1$sBalık tutarken, %2$s **$%3$d kredi** buldun ve cebine attın.%4$s",
       "success_money_noitem": "%1$sBalık tutarken, **$%2$d kredi** buldun ve cebine atıtn.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$s %2$s bağlanamıyor: bağlantı zaman aşımına uğradı. Sunucu yerini değiştirip, komutu tekrar dene.",
-        "unknown": "%1$s %2$s bağlanamıyor: bilinmeyen hata"
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
       "not_working": "%1$sMüzik şuanda çalışmıyor çünkü YouTube büyük botların trafiğini engelliyor. Patreon botumuz çalışıyor, deneyebilirsin. Mantaro'ya $4/aylık bağış yapmak isterseyebilirsiniz. Aynı zamanda müziği düzeltme çabalarımıza katkı sağlayacaktır. Lütfen kontrol edin <https://patreon.com/mantaro>\n\nRahatsızlık verdiğimiz için üzgünüz. Soundcloud aramasını deneyin! (`~>play <içerik>`)",
       "no_song": "%1$sHangi şarkıyı çalmak istediğini söylemelisin! *(YouTube, Soundcloud, Twitch URL veya otomatik aramalar kabul edilebilir)*",
@@ -302,7 +302,7 @@
     },
     "pause": {
       "paused": "Müzik çalar durakladı. *(Daha önce müzik çalar devam etmişti!)*",
-      "unpaused": "Müzik çalar devam ettirildi. *(Daha önce müzik çalar duraklatılmıştı!)*."
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sNe kadar geriye almam gerektiğini söylemelisin. *(Örneğin: `~>rewind 1m45s` şarkıyı 1 dakika 45 saniye geri alır!)*",
@@ -409,7 +409,7 @@
         "description": "**Bu sunucunun tüm özel (yetkilinin komutlarını) gösterir.** Buradaki komutlar genel bot yapısıyla ilgili değil, sunucu ile ilgilidir.\n\nÖzel komutlar kullancılar tarafından oluşturulur (genelde yetkililer) bu komutlar onlar tarafından kullanılır ve ona göre şekillenir.\nÖzel komut yapmak için bu siteden yararlanabilirsiniz (https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Liste:**",
         "footer": "Bu sunucudaki toplam özel komut sayısı: %1$s"
       },
-      "invalid": "%1$sYanlış komut seçimi. (custom help) komutunu kullanarak yardım alın.",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sKomutu ve cevap numarasını belirlemeniz gerekli!",
         "not_found": "%1$sO isimde bir özel komut burada yok.",
@@ -636,7 +636,7 @@
       "claim": {
         "no_user": "%1$sYou didn't mention any user to claim.",
         "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s)**",
         "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
@@ -658,11 +658,11 @@
         "locked": "%1$sYou're currently unable to perform this action.",
         "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$d credits.",
         "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
-        "too_many": "%1$sYou already have too many slots!"
+        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
         "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
         "claim_notice": "%1$sThe user you're trying to claim opted out."
@@ -701,7 +701,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\"",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
@@ -758,7 +758,8 @@
         "item_limit_reached": "%1$sYou cannot buy more of that object.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Mantaro's Market",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
@@ -1352,7 +1353,7 @@
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
         "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food!",
+        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
@@ -1728,7 +1729,7 @@
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for!",
+      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sThere's no item matching your search query.",
       "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
