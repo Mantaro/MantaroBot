@@ -13,7 +13,7 @@
     "daily": "Diário",
     "total": "Total",
     "arrow_react": "Use as reações das setas para mudar as páginas.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "Use &p >> e &p << para mudar as páginas e &cancel para terminar.",
     "not_found": "Não encontrado",
     "no_results": "Sem resultados.",
     "timeout": "Isso esgota em %1$d seconds.",
