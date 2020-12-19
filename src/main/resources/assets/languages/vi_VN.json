@@ -13,7 +13,7 @@
     "daily": "Hàng ngày",
     "total": "Tổng",
     "arrow_react": "Sử dụng các biểu tượng cảm xúc hình mũi tên để chuyển trang.",
-    "text_menu": "Dùng &page >> hoặc &page<< để đổi trang cùng với &cancel để kết thúc",
+    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Không tìm thấy",
     "no_results": "Không có kết quả.",
     "timeout": "Sẽ hết thời gian trong %1$d giây nữa.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Không có đồ nào phù hợp với biểu biểu tượng này.",
       "no_item_name": "Không có đồ nào phù hợp với tên này.",
-      "not_found": "Không tìm thấy đồ nào phù hợp với tìm kiếm của bạn. Nếu bạn đang lúng túng, hãy cố gắng dùng tên ngắn, chẳng hạn như với `Vò năng lượng`, dùng `năng lượng`. Hoặc cho tên vào trong ngoặc kép.",
+      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "Bạn không thể chuyển giao chìa khoá xác nhận."
     },
     "misc_item_usage": {
-      "mop": "%1$s Bạn đã (có thể) dọn sạch toàn bộ bụi bạn tích lũy từ các lần khai thác trước.",
+      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$s Đã xóa bỏ hiệu ứng thuốc.",
+      "milk": "%1$sCleared all potion effects.",
       "stamina": "%1$s Kích hoạt thể lực cho 3 phiên khai thác.",
       "stamina_used": "%1$s Bạn đã bật hiệu ứng thể lực!",
       "haste": "%1$s Kích hoạt thuốc năng suất cho 2 phiên.",
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$sĐã tự động trang bị một **%2$s** từ bộ cần câu của bạn."
       },
-      "overflow": "%1$sBạn câu được một số cá, nhưng do một phần của tủ đồ đã đầy, chúng tôi đã phải thả nó đi...",
+      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s và cho được chúng vào trong xô cá.",
       "success_money": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s và **$%3$d tín** và cho được chúng vào trong xô cá. %4$s",
       "success_money_noitem": "%1$sTrong lúc ngồi câu điềm tĩnh, bạn câu được **$%2$d tín** và dúi được vào trong túi áo.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sKhông thể kết nối với %2$s: kết nối hết giờ. Hãy thử đổi vùng máy chủ và chạy lại lệnh một lần nữa.",
-        "unknown": "%1$sKhông thể kết nối với %2$s: lỗi không xác định"
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
       "not_working": "%1$sKhông thể nghe nhạc vì Youtube đang chặn lượng truy cập từ các bot lớn. Tuy nhiên bot Mantaro Patreon của chúng tôi vẫn nghe nhạc được, vì vậy bạn có thể thử nó nếu bạn đóng góp cho Mantaro 93.770 VND (4$) một tháng. Điều này sẽ chuyển hướng những nỗ lực của chúng tôi trong việc sửa chữa tính năng nghe nhạc nói chung.\nHãy vào <https://patreon.com/mantaro> để biết thêm thông tin\n\nChúng tôi rất xin lỗi vì sự bất tiện này. Hãy thử nghe nhạc trên soundcloud! `(~>play soundcloud <tên bài hát>)`",
       "no_song": "%1$sBạn cần phải nói cho tôi biết bạn muốn nghe bài nào! *(Youtube, Soundcloud, Twitch URL hoặc các câu hỏi tìm kiếm đều được)*",
@@ -302,7 +302,7 @@
     },
     "pause": {
       "paused": "Tạm dừng phát nhạc. *(trình phát nhạc vẫn phát bình thường trước đó)*",
-      "unpaused": "Tiếp tục phát nhạc *(Trình phát nhạc bị tạm dừng trước đó)*."
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bao nhiêu phút trong bài hát: *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45s của bài hát)*",
@@ -409,7 +409,7 @@
         "description": "**Mục này cho thấy tất cả các lệnh tùy chỉnh (do người dùng tạo ra) của máy chủ này** Tất cả các lệnh ở đây không được liên hệ với bot chính ở bất kì hình thức nào\n\nLệnh tùy chỉnh là các lệnh được tạo bởi  người dùng (thường là quản lý máy chủ) nó có thể xử lý các tình huống khác nhau như là mô các lệnh hành động.\nĐể biết thêm thông tin chi tiết về cách tạo các lệnh tùy chỉnh, hãy tham khảo [trang wiki này.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n\n**List:**",
         "footer": "Tổng số lệnh tùy chỉnh trong máy chủ: %1$s"
       },
-      "invalid": "%1$sLựa chọn lệnh không hợp lệ. kiểm tra trợ giúp lệnh (`help custom`).",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sBạn cần chỉ định lệnh và số phản hồi!",
         "not_found": "%1$sKhông có lệnh tùy chỉnh với tên đó ở đây.",
@@ -636,7 +636,7 @@
       "claim": {
         "no_user": "%1$sBạn chưa đề cập đến người dùng bạn muốn nhận.",
         "locked": "%1$sBạn không thể thực hiện hành động này.",
-        "key_locked": "%1$s Người dùng mà bạn đang cố thu thập đã khóa bằng chìa và không thể thu thập được.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sBạn không có đủ tiền để thu thập waifu này **(Cần: %2$s tín)**",
         "not_enough_slots": "%1$sBạn không còn đủ chỗ trống để thu thập waifu này. (Tổng số vị trí:%2$s, đã dùng:%3$s)",
         "success": "%1$sĐã nhận `%2$s` làm waifu với giá %3$,d thành công. Ghế đã dùng: %4$s",
@@ -658,11 +658,11 @@
         "locked": "%1$sBạn tạm thời không thể thực hiện hành động này.",
         "not_enough_money": "%1$sBạn không có đủ tiền để mua thêm chỗ cho waifu! Bạn cần %2$,d tín.",
         "success": "%1$sĐã mua thành công chỗ này cho waifu với giá %2$s, Bạn giờ có tổng cộng %3$s chỗ và còn %4$s chỗ trống.",
-        "too_many": "%1$sBạn đã có quá nhiều chỗ cho waifu!"
+        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
         "notice": "%1$sBạn đã chọn bỏ toàn bộ hệ thống waifu, nên bạn không thể dùng nó.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sBạn đã bỏ thành công toàn bộ hệ thống waifu.",
         "cancelled": "%1$sĐã huỷ lệnh bỏ hệ thống.",
         "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống."
@@ -701,7 +701,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sTôi không tìm thấy đồ nào như vậy. Nếu tên đồ có dấu cách, hãy cho nó vào trong \"dấu ngoặc kép\"",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sBạn không thể chế tạo được món đồ này. Bạn có thể gõ `~>cast ls` để xem danh sách những đồ vật có thể chế tạo. Nếu tên của đồ có dấu cách, hãy cho chúng vào trong ngoặc kép. Ví dụ: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
       "no_item": "%1$sBạn không có *%2$s* để thực hiện quá trình chế tạo này.",
@@ -758,7 +758,8 @@
         "item_limit_reached": "%1$sBạn không thể mua thêm đồ vật đó được.",
         "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d tín. Giờ bạn còn %5$,d tín.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "not_enough_money": "%1$sBạn không đủ tiền để mua đồ vật này."
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Chợ Mantaro",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
@@ -1352,7 +1353,7 @@
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
         "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food!",
+        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
@@ -1728,7 +1729,7 @@
       }
     },
     "iteminfo": {
-      "no_content": "%1$sBạn chưa chỉ rõ đồ bạn tìm kiếm!",
+      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sKhông có món đồ nào khớp với tìm kiếm của bạn.",
       "success": "%1$s**Thông tin cho** %2$s **%3$s** (%4$s) (Loại đồ: %5$s): *%6$s*"
     },
