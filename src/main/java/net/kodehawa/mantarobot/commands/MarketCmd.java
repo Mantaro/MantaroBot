@@ -482,8 +482,9 @@ public class MarketCmd {
                         return;
                     }
 
-                    var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(itemToBuy.getValue() * itemNumber) :
-                            player.removeMoney(itemToBuy.getValue() * itemNumber);
+                    var value = itemToBuy.getValue() * itemNumber;
+                    var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(value) :
+                            player.removeMoney(value);
 
                     if (removedMoney) {
                         playerInventory.process(new ItemStack(itemToBuy, itemNumber));
@@ -498,20 +499,19 @@ public class MarketCmd {
                         }
 
                         var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
-
+                        var message = "commands.market.buy.success";
                         if (itemToBuy instanceof Breakable) {
-                            ctx.sendLocalized("commands.market.buy.success_breakable",
-                                    EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
-                                    playerMoney
-                            );
-                        } else {
-                            ctx.sendLocalized("commands.market.buy.success",
-                                    EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber,
-                                    playerMoney
-                            );
+                            message = "commands.market.buy.success_breakable";
                         }
+
+                        if (itemToBuy instanceof Potion) {
+                            message = "commands.market.buy.success_potion";
+                        }
+
+                        ctx.sendLocalized(message, EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
+
                     } else {
-                        ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP);
+                        ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP, player.getCurrentMoney(), value);
                     }
                 } catch (Exception e) {
                     ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
