@@ -13,7 +13,7 @@
     "daily": "Diário",
     "total": "Total",
     "arrow_react": "Use as reações das setas para mudar as páginas.",
-    "text_menu": "Use &page >> e &page << para mudar as páginas e &cancel para terminar",
+    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Não encontrado",
     "no_results": "Sem resultados.",
     "timeout": "Isso esgota em %1$d seconds.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Não há um item associado a esse emoji.",
       "no_item_name": "Não há um item associado a este nome.",
-      "not_found": "Não foi possível encontrar itens relacionados com sua pesquisa. Se você está perdido, tente usar um nome curto, por exemplo para `Energy Beverage`, use `energy`. Ou envolva o nome entre aspas.",
+      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "Você não pode transferir uma chave de reivindicação."
     },
     "misc_item_usage": {
-      "mop": "%1$sVocê (talvez) limpou todas as poeiras que você tinha acumulado sobre todas as sessões de mineração.",
+      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sSeu nível de poeira é 5%%, então limpar não será muito útil.",
-      "milk": "%1$sEfeitos de poção removidos.",
+      "milk": "%1$sCleared all potion effects.",
       "stamina": "%1$sEstâmina ativada para 5 sessões de mineração.",
       "stamina_used": "%1$sVocê já tem um efeito de estâmina usado!",
       "haste": "%1$sPressa ativada por 2 sessões.",
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
       },
-      "overflow": "%1$sVocê encontrou alguns peixes, mas uma parte do seu inventário está cheia, então tivemos que jogar um pouco de volta na água...",
+      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sEnquanto você calmamente pescava, você encontrou %2$s e você prossegue para salvá-lo em seu balde.",
       "success_money": "%1$sEnquanto você calmamente pescava, você encontrou %2$s e **$%3$d créditos** e você prossegue para salvá-lo em seu balde.%4$s",
       "success_money_noitem": "%1$sEnquanto calmamente pescava, você encontrou **$%2$d créditos** e você prossegue para salvá-lo em seu balde.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sImpossível conectar no %2$s: conexão esgotada. Tente mudar a região do servidor e fazer o comando novamente.",
-        "unknown": "%1$sImpossível conectar no %2$s: erro desconhecido"
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
       "not_working": "%1$sMúsica não está funcionando no momento devido ao Youtube bloquear o tráfego da maioria dos bots grandes. Nosso bot Patreon ainda está funcionando, você pode usa-lo doando $4/mês para Mantaro. Isso também ajudará a redirecionar nossos esforços para corrigir o comando de música como um todo.\nPor favor cheque <https://patreon.com/mantaro>\n\nPedimos desculpas pela inconveniência. Tente pesquisar pelo soundcloud! (`~>play soundcloud <procurar termo>)`",
       "no_song": "%1$sVocê tem que me dizer qual música você quer que toque! *(YouTube, Soundcloud, URL da Twitch ou consultas de pesquisa são permitidas)*",
@@ -302,7 +302,7 @@
     },
     "pause": {
       "paused": "Player pausado. *(O player foi despausado anteriormente)*",
-      "unpaused": "Player despausado *(O player foi pausado anteriormente)*."
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sVocê tem que me dizer o quanto você quer voltar a música. *(Exemplo: `~>rewind 1m45s` irá retornar 1 minuto e 45 segundos da música)*",
@@ -409,7 +409,7 @@
         "description": "**Isso mostra todo o comandos (feito pelo usuário) customizados desse servidor.** Todo comando aqui não está associado com o bot em qualquer formato.\n\nComandos personalizados são comandos criados pelos usuários (geralmente admins do servidor) que podem lidar com um monte de situações diferentes, até emular comandos de ação.\nPara obter mais informações sobre como fazer comandos personalizados, consulte [essa página da wiki.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lista:**",
         "footer": "Total de comandos personalizados neste servidor: %1$s"
       },
-      "invalid": "%1$sSeleção de comando inválida. Cheque o comando de ajuda (`help custom`).",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sVocê precisa especificar o comando e o número da resposta!",
         "not_found": "%1$sNão há um comando personalizado com esse nome aqui.",
@@ -636,7 +636,7 @@
       "claim": {
         "no_user": "%1$sVocê não mencionou nenhum usuário para reivindicar.",
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
-        "key_locked": "%1$sO usuário que você tentou reivindicar está com uma chave o bloqueando e não pode ser reivindicado.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para reivindicar esta waifu **(Custo: %2$s)**",
         "not_enough_slots": "%1$sVocê não tem slots disponíveis para reivindicar esta waifu. (Total de slots: %2$s, Slots usados: %3$s)",
         "success": "%1$sReivindicado com sucesso `%2$s` por %3$,d. Espaços usados: %4$s",
@@ -658,11 +658,11 @@
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar mais espaços! Você precisa de %2$d créditos.",
         "success": "%1$sEspaço comprado com sucesso por %2$s, você atualmente tem %3s espaços no total e %4$s espaços disponíveis.",
-        "too_many": "%1$sVocê já tem muitos espaços!"
+        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
         "notice": "%1$sVocê optou por sair de todo o sistema de waifu, então você não pode usar isso.",
-        "warning": "%1$sVocê quer sair do sistema de waifu? ISSO É PERMANENTE E NÃO PODE SER REVERTIDO. \nSe você quiser apenas sair do sistema de novas reivindicações e usar o sistema de waifu como de costume, por favor use `~>profile claimlock` ao invés disso.\nVocê não poderá reivindicar ou ser reivindicado, e todas as reivindicações sobre você vão ser removidas.\nDigite `Yes, I want to opt out of the waifu system completely and irreversibly` ou `no`.\nDigitando a mensagem de confirmação irá remover você, no irá cancelar.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sVocê saiu com sucesso do sistema de waifu.",
         "cancelled": "%1$sOperação de saída cancelada.",
         "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu."
@@ -701,7 +701,7 @@
       "sorted_by": " *(Classificado por: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sEu não achei nenhum item correspondente.",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de itens que podem ser fundidos. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
@@ -758,7 +758,8 @@
         "item_limit_reached": "%1$sVocê não pode comprar mais desse objeto.",
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
         "success_breakable": "%1$sComprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos. Você pode equipar isso usando `~>equip <item name>`",
-        "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar este item."
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Mercado da Mantaro",
       "reference": "\nVocê pode comprar e vender itens usando `~>market buy <item>` e `~>market sell <item>`. Cheque `~>help market` para mais informações, você ainda pode ver listas de mercados mais curtas, como `~>market tools`.",
@@ -1352,7 +1353,7 @@
         "no_pet": "%1$sVocê não tem nenhum pet pra alimentar. Cheque `~>pet` para uma explicação.",
         "no_content": "%1$sVocê precisa especificar o que você quer dar pro pet comer (por exemplo, `~>pet feed steak`)",
         "no_item": "%1$sEu não encontrei o item que você especificou.",
-        "not_food": "%1$sUé! Isso não é comida!",
+        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sSeu pet não está faminto, então ele não quer comer agora.",
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
@@ -1728,7 +1729,7 @@
       }
     },
     "iteminfo": {
-      "no_content": "%1$sVocê não especificou nenhum item para procurar!",
+      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sNão há itens que correspondam à sua pesquisa.",
       "success": "%1$s**Informação do Item** %2$s **%3$s** (%4$s) (Tipo: %5$s): *%6$s*"
     },
