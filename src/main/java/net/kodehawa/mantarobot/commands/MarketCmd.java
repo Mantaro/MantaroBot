@@ -256,6 +256,11 @@ public class MarketCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.market.price.no_item", EmoteReference.ERROR);
+                    return;
+                }
+
                 var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
 
                 if (item == null) {
@@ -475,9 +480,7 @@ public class MarketCmd {
                     }
 
                     var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    var stack = playerInventory.getStackOf(itemToBuy);
-                    if ((stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) || itemNumber > 5000) {
-                        //assume overflow
+                    if (playerInventory.getAmount(itemToBuy) + itemNumber >= 5000) {
                         ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                         return;
                     }
