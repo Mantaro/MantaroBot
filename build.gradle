@@ -59,7 +59,7 @@ task generateLanguageList {
 dependencies {
     // Base
     implementation 'net.dv8tion:JDA:4.2.0_222'
-    implementation 'club.minnced:discord-webhooks:0.5.3'
+    implementation 'club.minnced:discord-webhooks:0.5.4'
 
     // Music
     implementation ('com.github.FredBoat:Lavalink-Client:eb26770e9b') {
