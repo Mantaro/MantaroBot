@@ -80,7 +80,7 @@
     "cancelled": "%1$s已取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
-    "space_notice": "如果物品名稱有空格，試著把他 \"用引號包起來\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
@@ -731,6 +731,7 @@
         "success": "%1$s已把%2$,d個 **%3$s %4$s** 丟至垃圾桶。"
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$s你無法查看不存在物品的價格！試著使用更簡短的名稱或將他\"用引號包起來\"。",
         "no_price": "%1$s你無法購買或售出這個物品 (也許是收藏品)",
         "collectible": "%1$s這是一個收藏品。(售出價格：%2$,d 元)",
@@ -755,7 +756,7 @@
         "invalid": "%1$s物品購買數量無效。",
         "non_existent": "%1$s你無法購買不存在的物品。試著使用更簡短的名稱或將他\"用引號包起來\"。記得把數量放在名稱前面，像是：`~>market buy 15 energy`",
         "no_buy_price": "%1$s你無法購買不能被購買的物品。",
-        "item_limit_reached": "%1$s你無法購買更多該物品。",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
