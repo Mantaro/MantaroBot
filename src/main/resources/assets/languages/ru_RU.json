@@ -13,7 +13,7 @@
     "daily": "Ежедневно",
     "total": "Всего",
     "arrow_react": "Используйте стрелки, чтобы сменить страницу.",
-    "text_menu": "Используйте &page >> и &page << для того чтобы сменить страницу и &cancel для того чтобы завершить настройку",
+    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Не найдено",
     "no_results": "Не дало результата.",
     "timeout": "Пропадет через %1$d секунд.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Нет предмета связанного с этим эмодзи.",
       "no_item_name": "Нет предмета связанного с этим именем.",
-      "not_found": "Не удалось найти запрашиваемый вами предмет. Попробуйте использовать сокращенное название, к примеру не `Energy Beverage`, а `energy` или заключите название в кавычки.",
+      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "Вы не можете передать вайфу ключ."
     },
     "misc_item_usage": {
-      "mop": "%1$sВы (возможно) почистили всю пыль, накопленную за всё время.",
+      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sСнялись все эффекты зелий.",
+      "milk": "%1$sCleared all potion effects.",
       "stamina": "%1$sАктивирована выносливость на 3 сессии добычи полезных ископаемых.",
       "stamina_used": "%1$sУ вас уже активировано зелье выносливости!",
       "haste": "%1$sАктивирует ускорение на 2 действия.",
@@ -48,8 +48,8 @@
       "pill": "%1$sВы использовали пилюлю вайфу! (Активно на 5 действий)",
       "pill_used": "%1$sВы уже активировали пилюлю вайфу!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sВы успешно открыли сундук и получили: %2$s%3$s. Поздравляю!",
         "overflow": "Но у вас уже их слишком много, поэтому вы решили выбросить лишнее"
       },
@@ -80,7 +80,7 @@
     "cancelled": "%1$sЗапрос отменен.",
     "sellout": "Посмотреть возможности донатеров [Patreon](https://www.patreon.com/mantaro) если вам нравится бот, то даже небольшое пожертвование поможет жизни бота!",
     "deprecated": "Больше не используется",
-    "space_notice": "Если имя содержит пробелы, попробуйте \"заключить его в кавычки\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова через %3$s.**",
       "spam_1": "Остановитесь и отдохните, это полезно для вашего здоровья. **Время запроса продолжит увеличиваться, если вы продолжишь спамить!**",
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$sАвтоматически экипирована **%2$s** в слот для рыбы."
       },
-      "overflow": "%1$sВы поймали много рыбы, но ваш инвентарь был немного переполнен, поэтому нам пришлось выбросить часть обратно в воду...",
+      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sВо время рыбалки вы поймали %2$s и отправили ее в ведро с уловом.",
       "success_money": "%1$sВо время рыбалки вы нашли %2$s and **$%3$d кредитов** и отправили ее в ведро с уловом.%4$s",
       "success_money_noitem": "%1$sВо время рыбалки вы нашли **$%2$d кредитов** и положили их в карман.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sНевозможно подключиться к %2$s: время подключения вышло. Попробуйте сменить регион сервера и повторить запрос.",
-        "unknown": "%1$sНевозможно подключиться к %2$s: неизвестная ошибка"
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
       "not_working": "%1$sМузыка в настоящий момент не работает из-за того что, Youtube блокирует трафик для самых больших ботов. Наш Патреон бот до сих пор работает, так что вы можете попробовать его по желанию, пожертвовав $4/месяц для Мантаро. Это также поможет нам перенаправить наши усилия на улучшение музыки в целом. Пожалуйста проверьте <https://patreon.com/mantaro> \n\nМы приносим свои извинения за неудобства. Попробуйте использовать поисковик soundcloud! (`~>play soundcloud <search term>)`\n",
       "no_song": "%1$sВы должны мне дать название песни которую нужно проиграть! *(YouTube, Soundcloud, Twitch URL и другие поисковые запросы разрешены)*",
@@ -302,7 +302,7 @@
     },
     "pause": {
       "paused": "Воспроизведение приостановлено. *(Плеер был снят с паузы)*",
-      "unpaused": "Воспроизведение возобновлено. *(Плеер был поставлен на паузу)*."
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sВы должны указать на какой момент перемотать песню. *(Пример: `~>rewind 1m45s` переключит песню на момент: 1 минута 45 секунд)*",
@@ -409,7 +409,7 @@
         "description": "**Все кастомные (сделанные пользователями) команды на этом сервере.** Любая из этих команд никак не связана с ботом.\n\nКастомные команды, это команды сделанные пользователями (чаще всего администрацией) которые могут обрабатывать множество действий или эмулировать действия.\nДля получения дополнительной информации о том, как сделать кастомные команды прочитайте [эту статью с википедии.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Список:**",
         "footer": "Общее количество кастомных команд на этом сервере: %1$s"
       },
-      "invalid": "%1$sНеверная команда, проверьте (`help custom`).",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sВам необходимо указать команду!",
         "not_found": "%1$sЗдесь нет кастомной команды с таким именем.",
@@ -531,13 +531,15 @@
         "Такое часто бывает?",
         "Я сделал все п-правильно?",
         "<3",
-        "*погладил*",
+        "pat pat",
         "Поньк.",
         "Кчау.",
         "Ыыыы.",
         "Чпоньк.",
-        "Пинг-понг? Ну да!",
-        "Ох...п-привет"
+        "Wondering how I'd do",
+        "Any issue?",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
@@ -634,7 +636,7 @@
       "claim": {
         "no_user": "%1$sВы не указали пользователя, которого вы покупаете.",
         "locked": "%1$sВ настоящее время вы не можете это сделать.",
-        "key_locked": "%1$sПользователь которого вы пытаетесь купить не может быть купленным.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sУ вас недостаточно денег для покупки вайфу **(Цена: %2$s)**",
         "not_enough_slots": "%1$sВы не имеете достаточное количество слотов для вайфу. (Всего слотов: %2$s, Использовано слотов: %3$s)",
         "success": "%1$sУспешно куплен `%2$s` для %3$,d. Слотов использовано: %4$s",
@@ -656,11 +658,11 @@
         "locked": "%1$sВы не можете выполнить это действие.",
         "not_enough_money": "%1$sУ вас не хватает денег для того чтобы купить слоты! Вам нужно %2$d кредитов.",
         "success": "%1$sУспешно куплено %2$s, на данный момент у вас %3s слот(ов) и %4$s свободных слотов.",
-        "too_many": "%1$sУ вас и так много слотов!"
+        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
         "notice": "%1$sВы отказались от всей системы вайфу, поэтому не можете это использовать.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sВы успешно отказались от вайфу системы.",
         "cancelled": "%1$sОтменена заявка на отказ.",
         "claim_notice": "%1$sПользователь которого вы пытаетесь взять отказался от вайфу системы."
@@ -699,7 +701,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sЯ не нашел предеметов подходящих под это.",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sВы не можете сделать этот предмет. Проверьте `~>cast ls` чтобы узнать все предметы, которые возможны.",
       "not_enough_money": "%1$sУ вас не хвататет денег чтобы создать это. **(Цена: %2$s)**",
       "no_item": "%1$sУ вас нет необходимых предметов *%2$s* чтобы создать это.",
@@ -729,6 +731,7 @@
         "success": "%1$sОтправлено %2$dx **%3$s %4$s** в помойку."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sНевозможно проверить цену несуществующего предмета! Если вы запутались, попробуйте ввести краткое имя или вписать его в ковычки.",
         "no_price": "%1$sЭтот предмет недоступен для продажи или покупки, возможно он эксклюзивный или коллекционный",
         "collectible": "%1$sЭто коллекционный предмет. (Цена продажи: %2$d кредитов)",
@@ -753,10 +756,11 @@
         "invalid": "%1$sНедопустимое количество предметов для покупки.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sВы не можете купить этот предмет.",
-        "item_limit_reached": "%1$sВы не можете купить больше этого объекта.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sУспешно куплены %2$,d %3$s за %4$,d кредитов. У вас осталось %5$,d кредитов.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "not_enough_money": "%1$sУ вас не хватает денег для покупки этого предмета."
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Магазин Mantaro",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
@@ -1047,7 +1051,7 @@
       },
       "no_time": "Вы не указали аргумент `-time`! (К примеру: `-time 1h`)",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
-      "too_long": "Слишком много времени... (Максимум: 3 месяца)",
+      "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sЯ напомню тебе (%2$s#%3$s) об этом: `%4$s` в %5$s",
       "too_many_reminders": "%1$sУ вас слишком много напоминаний! Попробуйте отменить несколько?"
     },
@@ -1280,8 +1284,9 @@
       "error": "%1$sПри поиске изображения произошла ошибка...",
       "wrong_argument": "%1$sОшибка в типе аргумента. Проверьте ~>help %2$s",
       "blacklisted_tag": "%1$sЭтот тег был внесён в черный список администратором.",
-      "error_tag": "%1$sВо время поиска изображений произошла ошибка...",
-      "error_random": "%1$sПри поиске случайного изображений произошла ошибка...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sНе NSFW канал. Нельзя отправлять пошлые изображения.\n**Напоминание:** Вы можете назначить этот канал NSFW в настройках через `Установить этот канал NSFW`.",
       "loli_content_disallow": "%1$sК сожалению, я не могу отправлять нелегальные изображения с тегом `лоли` или `шота` пошлый/NSFW контент, ибо дискорд запрещает это. (Фильтр запущен: изображения с тегом лоли или шота это NSFW контент)",
       "null_list_notice": "%1$sУуупс... во время поиска что-то пошло не так... (Если вы использовали тег, возможно, его не существует)",
@@ -1349,7 +1354,7 @@
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
         "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food!",
+        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
@@ -1725,7 +1730,7 @@
       }
     },
     "iteminfo": {
-      "no_content": "%1$sВы не указали название предмета, про который хотите узнать!",
+      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sПо вашему запросу нет результатов.",
       "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
@@ -2429,9 +2434,9 @@
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {

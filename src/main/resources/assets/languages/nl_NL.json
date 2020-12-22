@@ -13,7 +13,7 @@
     "daily": "Dagelijks",
     "total": "Totaal",
     "arrow_react": "Gebruik de berichtreacties om van pagina te veranderen",
-    "text_menu": "Gebruik &page >> en &page << om pagina's te veranderen, en &cancel om te beëindigen",
+    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Niet gevonden",
     "no_results": "Geen resultaten.",
     "timeout": "Dit geeft een timeout in %1$d seconden.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
       "no_item_name": "Er is geen voorwerp gekoppeld aan deze naam.",
-      "not_found": "Kon geen gerelateerde voorwerpen vinden met jouw zoekopdracht. Als je verdwaald bent, probeer dan de korte naam te gebruiken, bijvoorbeeld voor `Energie drank`, gebruik `energie`. Of plaats de naam tussen aanhalingstekens.",
+      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "Je kunt geen claim sleutel overdragen."
     },
     "misc_item_usage": {
-      "mop": "%1$sAl het stof in je kamer is opgeruimd. Yay.",
+      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sJe stof level is minder dan 5%%, dus afstoffen zal niet zo nuttig zijn.",
-      "milk": "%1$sHet Toverdrank effect is opgeheven.",
+      "milk": "%1$sCleared all potion effects.",
       "stamina": "%1$sStamina is geactiveerd voor 5 mining sessies.",
       "stamina_used": "%1$s Je hebt al een actief uithoudingsvermogen effect!",
       "haste": "%1$sHaast is geactiveerd voor 2 minuten.",
@@ -48,8 +48,8 @@
       "pill": "%1$s Je hebt een waifu pil gedronken! (Geactiveerd voor 5 sessies)",
       "pill_used": "%1$s Je hebt al een actieve waifu pil!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$s**Je hebt gewonnen:** %2$s%3$s",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
@@ -80,7 +80,7 @@
     "cancelled": "%1$sVerzoek geannuleerd.",
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
     "deprecated": "Niet langer in gebruik",
-    "space_notice": "Als de naam ervan spaties bevat, probeer het dan \"tussen aanhalingstekens te plaatsen\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
       "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$sAutomatisch uitgerust met een **%2$s** op uw vis slot."
       },
-      "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien ...",
+      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en deze heb je in je emmer bewaard.",
       "success_money": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en **$%3$d credits** en deze heb je in je emmer bewaard.%4$s",
       "success_money_noitem": "%1$s Terwijl je rustig aan het vissen was, vond je **$%2$d credits** en deze heb je in je zak bewaard.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer de opdracht opnieuw uit.",
-        "unknown": "%1$sKan geen verbinding maken met %2$s: onbekende fout"
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
       "not_working": "%1$sMusic werkt momenteel niet omdat YouTube verkeer van de meeste grote bots blokkeert. Onze Patreon-bot werkt nog steeds, dus je kunt het proberen als je wilt door $ 4 / maand te doneren aan Mantaro. Dit zal ons ook helpen onze inspanningen om te buigen naar het repareren van muziek als geheel.\nalsjeblieft kijk op <https://patreon.com/mantaro>\n\nExcuses voor het ongemak. Probeer SoundCloud! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sJe moet me vertellen welk nummer je wilt afspelen! *(YouTube, Soundcloud, Twitch URL of zoektermen zijn toegestaan)*",
@@ -302,7 +302,7 @@
     },
     "pause": {
       "paused": "Muziekspeler gepauzeerd. *(Muziekspeler was eerder hervat)*",
-      "unpaused": "Muziekspeler hervat *(Muziekspeler was eerder gepauzeerd)*."
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sJe zult me moeten vertellen hoeveel je het nummer wilt terugspoelen. *(Bijvoorbeeld: `~>rewind 1m45s` zal het nummer 1 minuut en 45 seconden terugspoelen)*",
@@ -409,7 +409,7 @@
         "description": "**Dit toont alle eigen (door de gebruiker gemaakte) commands van deze server.** Elke opdracht hier is in geen enkele vorm aan de bot zelf gekoppeld.\n\nEigen commands zijn commando's gemaakt door gebruikers (meestal serverbeheerders) die een heleboel verschillende situaties aankunnen, zoals het emuleren van actiecommando's.\nVoor meer informatie over het maken van eigen commands refereer je naar [deze wikipagina.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Lijs:**",
         "footer": "Totaal aantal eigen commands op deze server: %1$s"
       },
-      "invalid": "%1$sOngeldig commando selectie. Controlleer commando help (`help custom`).",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sJe moet het commando en het antwoordnummer opgegeven",
         "not_found": "%1$sEr is hier geen eigen commando met deze naam.",
@@ -531,13 +531,15 @@
         "Gebeurd dit vaker?",
         "Am I performing p-properly?",
         "<3",
-        "*Aaien*",
+        "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
-        "Pingpong? Yay!",
-        "Euhm.. h-hallo"
+        "Wondering how I'd do",
+        "Any issue?",
+        "Ping-pong? Yay!",
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
@@ -634,7 +636,7 @@
       "claim": {
         "no_user": "%1$sJe hebt geen gebruiker genoemd om te claimen.",
         "locked": "%1$sJe kunt op dit moment deze actie niet uitvoeren.",
-        "key_locked": "%1$sDe gebruiker die je probeert te claimen is key-locked en kan niet geclaimed worden.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te claimen **(Kosten: %2$s)**",
         "not_enough_slots": "%1$sJe hebt niet genoeg plek beschikbaar om deze waifu te claimen (Totaal aantal slots: %2$s, Gebruikt aantal slots: %3$s)",
         "success": "%1$sHeeft `%2$s` succesvol geclaimed voor %3$,d. Slots gebruikt: %4$s",
@@ -656,11 +658,11 @@
         "locked": "%1$sJe kunt deze actie op dit moment niet uitvoeren.",
         "not_enough_money": "%1$sJe hebt niet genoeg geld om meer sloten te kopen! Je hebt %2$d credits nodig.",
         "success": "%1$sDit slot is succesvol aangekocht voor %2$s, je hebt op dit moment in totaal %3s sloten en %4$s hiervan zijn beschikbare sloten.",
-        "too_many": "%1$sJe hebt al teveel sloten!"
+        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
         "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
         "claim_notice": "%1$sThe user you're trying to claim opted out."
@@ -699,7 +701,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sIk kan geen voorwerpen vinden die hieraan voldoen.",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sJe kunt dit voorwerp niet gieten. Je kan de gietbare voorwerpen bekijken via `~>cast ls`",
       "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te gieten. **(Kost: %2$s)**",
       "no_item": "%1$sJe hebt het voorwerp *%2$s* niet dat nodig is om verder te gaan met dit afgietsel.",
@@ -729,6 +731,7 @@
         "success": "%1$sHeeft %2$dx **%3$s %4$s** weggegooid."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sKan de prijs van een niet-bestaand voorwerp niet controleren.",
         "no_price": "%1$sDit voorwerp is niet beschikbaar om te verkopen of te kopen (kan een exclusief verzamelvoorwerp zijn)",
         "collectible": "%1$sDit is een verzamelvoorwerp. (Verkoopwaarde: %2$d credits)",
@@ -753,10 +756,11 @@
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Mantaro's Markt",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
@@ -1047,7 +1051,7 @@
       },
       "no_time": "Je gaf me geen `-time` argument! (bijvoorbeeld: `-time 1h`)",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
-      "too_long": "Dat is te veel tijd... (Maximaal: 3 maanden)",
+      "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sIk zal je herinneren (%2$s#%3$s) aan `%4$s` over %5$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
     },
@@ -1280,8 +1284,9 @@
       "error": "%1$sEr is een fout opgetreden tijdens het zoeken naar een afbeelding...",
       "wrong_argument": "%1$sVerkeerd argument type. Check ~>help %2$s",
       "blacklisted_tag": "%1$sDeze afbeeldingstag is hier op een zwarte lijst geplaatst door een beheerder.",
-      "error_tag": "%1$sEr is een fout opgetreden bij het zoeken naar deze tag...",
-      "error_random": "%1$sEr is een fout opgetreden bij het zoeken naar een willekeurige afbeelding...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNiet op een NSFW-kanaal. Kan geen lewd afbeeldingen verzenden.\n**Herinnering:** Je kunt dit kanaal instellen als NSFW door naar de kanaalinstellingen te gaan en 'Dit kanaal instellen als NSFW` te selecteren.",
       "loli_content_disallow": "%1$sHelaas kan ik geen afbeeldingen weergeven die naar verluidt 'loli' of 'shota' lwed/NSFW-inhoud bevatten omdat Discord dit verbiedt. (Filter uitgevoerd: afbeelding bevat een loli of shota-tag en het is NSFW)",
       "null_list_notice": "%1$sOeps ... er is iets mis gegaan bij het zoeken ... (Als u een tag heeft gebruikt, bestaat de tag mogelijk niet)",
@@ -1349,7 +1354,7 @@
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
         "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food!",
+        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
@@ -1725,7 +1730,7 @@
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for!",
+      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sThere's no item matching your search query.",
       "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
@@ -2429,9 +2434,9 @@
       "broken_star_axe": "Een ster bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_comet_axe": "Een komeet bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_sparkle_axe": "Een fonkelende bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {

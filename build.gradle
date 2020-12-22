@@ -58,14 +58,14 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.2.0_222'
+    implementation 'net.dv8tion:JDA:4.2.0_223'
     implementation 'club.minnced:discord-webhooks:0.5.3'
 
     // Music
     implementation ('com.github.FredBoat:Lavalink-Client:eb26770e9b') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
-    implementation 'com.sedmelluq:lavaplayer:1.3.64'
+    implementation 'com.sedmelluq:lavaplayer:1.3.65'
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // JSON
@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
 
     // Core
-    implementation 'io.github.classgraph:classgraph:4.8.95'
+    implementation 'io.github.classgraph:classgraph:4.8.97'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'com.google.guava:guava:30.1-jre'
 
