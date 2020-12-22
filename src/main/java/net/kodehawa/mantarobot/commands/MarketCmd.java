@@ -480,7 +480,7 @@ public class MarketCmd {
                     }
 
                     var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    if (playerInventory.getAmount(itemToBuy) + itemNumber >= 5000) {
+                    if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
                         ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
                         return;
                     }
