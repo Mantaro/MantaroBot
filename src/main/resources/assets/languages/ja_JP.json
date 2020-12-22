@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sこのアイテムをキャストすることはできません。キャスト可能な項目のリストは `~cast ls`を使って調べることができます。　アイテム名にスペースがある場合は引用符で囲ってください。 例: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sこのキャストを進化させるには *%2$s*が必要です。",
-      "not_enough_items": "%1$s*%2$s*が足りないため進化できません。 **(必要: %3$s, 保有:%4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
