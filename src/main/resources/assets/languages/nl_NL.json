@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sJe kunt dit voorwerp niet gieten. Je kan de gietbare voorwerpen bekijken via `~>cast ls`",
       "not_enough_money": "%1$sJe hebt niet genoeg geld om dit te gieten. **(Kost: %2$s)**",
       "no_item": "%1$sJe hebt het voorwerp *%2$s* niet dat nodig is om verder te gaan met dit afgietsel.",
-      "not_enough_items": "%1$sJe hebt niet genoeg van het voorwerp *%2$s* om verder te gaan. **(Nodig: %3$s, Huidig: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sJe hebt succesvol *%2$s %3$s gegoten* voor %4$s credits. *giet gebruikt: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nHelaas, je moersleutel brak tijdens het proces, maar je hebt wel je voorwerp gekregen!",
