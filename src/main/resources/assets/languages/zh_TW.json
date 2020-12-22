@@ -705,7 +705,7 @@
       "item_not_cast": "%1$s你無法鑄造此物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果物品名稱包含空格，將他用\"引號包起來\"。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
       "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。",
-      "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造。**(需求：%3$s，擁有：%4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$s你成功的用 %4$s 元*鑄造了 %2$s %3$s*。*鑄造消耗：%5$s*",
       "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！記得：你需要擁有兩個相同類型的扳手來進行鑄造。",
       "item_broke": "\n可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
