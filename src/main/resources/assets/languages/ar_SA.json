@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sلايمكنك صَب هذا الغرض. يمكنك التحقق من `~>cast ls` للمزيد من الأغراض القابلة للصب. إذا الاسم يحتوي على مسافات، ضعه في \"اقتباسات\". مثال: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sلاتملك المال الكافي للصب هذا الغرض **(التكلفة: %2$s)**",
       "no_item": "%1$sلاتملك الغرض اللام *%2$s* للمضي قدماً في عملية الصب هذه. ",
-      "not_enough_items": "%1$sلاتملك الغرض الكافي *%2$s* للمضي قدماً. \n**(تحتاج: %3$s، الحالي: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sتم بنجاح صب * %2$s %3$s* مقابل %4$s مال *الصب المُستخدمه: %5$s* ",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "للأسف، المفك إنكسر بينما كنت تصب، ولكن حصلت على غرضك! ",
