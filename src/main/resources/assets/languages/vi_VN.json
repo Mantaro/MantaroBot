@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sBạn không thể chế tạo được món đồ này. Bạn có thể gõ `~>cast ls` để xem danh sách những đồ vật có thể chế tạo. Nếu tên của đồ có dấu cách, hãy cho chúng vào trong ngoặc kép. Ví dụ: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
       "no_item": "%1$sBạn không có *%2$s* để thực hiện quá trình chế tạo này.",
-      "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để chế tạo.**(Cần: %3$s, Hiện có: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sBạn *đã chế tạo %2$s %3$s* thành công và tiêu %4$s tín. *Quá trình chế tạo dùng:%5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nRất tiếc, cờ lê của bạn đã bị gãy trong quá trình chế tạo, nhưng bạn đã có được đồ của bạn!",
