@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -113,8 +112,7 @@ public class ModerationCmds {
                             dbGuild.saveAsync();
 
                             ctx.sendLocalized("commands.softban.success", EmoteReference.ZAP, languageContext.get("general.mod_quotes"), user.getName());
-                            guild.unban(user).reason(finalReason).queue(aVoid -> {
-                            }, error -> {
+                            guild.unban(user).reason(finalReason).queue(__ -> { }, error -> {
                                 if (error instanceof PermissionException) {
                                     ctx.sendLocalized("commands.softban.error", EmoteReference.ERROR,
                                             user.getName(), ((PermissionException) error).getPermission()
@@ -130,8 +128,7 @@ public class ModerationCmds {
 
                             ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.KICK, dbGuild.getData().getCases());
                             TextChannelGround.of(ctx.getEvent()).dropItemWithChance(2, 2);
-                        },
-                        error -> {
+                        }, error -> {
                             if (error instanceof PermissionException) {
                                 ctx.sendLocalized("commands.softban.error", EmoteReference.ERROR,
                                         user.getName(), ((PermissionException) error).getPermission()
@@ -222,7 +219,7 @@ public class ModerationCmds {
                         return;
                     }
 
-                    final var db = MantaroData.db().getGuild(ctx.getGuild());
+                    final var db = ctx.getDBGuild();
 
                     // DM's before success, because it might be the "c"ast mutual guild.
                     user.openPrivateChannel().queue(privateChannel -> {
@@ -334,8 +331,7 @@ public class ModerationCmds {
                         return;
                     }
 
-                    final var db = MantaroData.db().getGuild(ctx.getGuild());
-
+                    final var db = ctx.getDBGuild();
                     if (!user.isBot()) {
                         user.openPrivateChannel()
                                 .flatMap(privateChannel ->
@@ -343,7 +339,8 @@ public class ModerationCmds {
                                                 EmoteReference.MEGA,
                                                 ctx.getAuthor().getAsTag(),
                                                 finalReason,
-                                                ctx.getGuild().getName()))
+                                                ctx.getGuild().getName())
+                                        )
                                 ).queue();
                     }
 
@@ -355,8 +352,7 @@ public class ModerationCmds {
                                 ctx.sendLocalized("commands.kick.success", EmoteReference.ZAP, ctx.getLanguageContext().get("general.mod_quotes"), user.getName());
                                 ModLog.log(ctx.getMember(), user, finalReason, ctx.getChannel().getName(), ModLog.ModAction.KICK, db.getData().getCases());
                                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(2, 2);
-                            },
-                            error -> {
+                            }, error -> {
                                 if (error instanceof PermissionException) {
                                     ctx.sendLocalized("commands.kick.error", EmoteReference.ERROR, user.getName(),
                                             ((PermissionException) error).getPermission().getName()

@@ -165,6 +165,7 @@ public class OwnerCmd {
                 player.getInventory().process(new ItemStack(item, amount));
             } else {
                 ctx.send(EmoteReference.ERROR + "Too many of this item already.");
+                return;
             }
 
             player.saveAsync();

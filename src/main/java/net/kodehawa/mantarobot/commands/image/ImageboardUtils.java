@@ -105,43 +105,36 @@ public class ImageboardUtils {
             return;
         }
 
-        if (type == ImageRequestType.TAGS) {
-            try {
-                api.search(list, finalRating).async(requestedImages -> {
-                    var filter = filterImages(requestedImages, ctx);
-                    if (filter == null) {
-                        return;
-                    }
-
-                    final var image = filter.get(r.nextInt(filter.size()));
-                    if (image.getTags().stream().anyMatch(blackListedImageTags::contains)) {
-                        ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    sendImage(ctx, imageboard, image, dbGuild);
-                }, failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD));
-            } catch (NumberFormatException nex) {
-                ctx.sendLocalized("commands.imageboard.wrong_argument", EmoteReference.ERROR, imageboard);
-            } catch (Exception ex) {
-                ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.SAD);
+        try {
+            if (type == ImageRequestType.TAGS) {
+                api.search(list, finalRating).async(
+                        requestedImages -> sendImage0(ctx, requestedImages, imageboard, blackListedImageTags),
+                        failure -> ctx.sendLocalized("commands.imageboard.error_tag", EmoteReference.ERROR)
+                );
+            } else if (type == ImageRequestType.RANDOM) {
+                api.search(finalRating).async(
+                        requestedImages -> sendImage0(ctx, requestedImages, imageboard, blackListedImageTags),
+                        failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.ERROR)
+                );
             }
-        } else if (type == ImageRequestType.RANDOM) {
-            api.search(list, finalRating).async(requestedImages -> {
-                var filter = filterImages(requestedImages, ctx);
-                if (filter == null) {
-                    return;
-                }
-
-                final var image = filter.get(r.nextInt(filter.size()));
-                if (image.getTags().stream().anyMatch(blackListedImageTags::contains)) {
-                    ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
-                    return;
-                }
-
-                sendImage(ctx, imageboard, image, ctx.getDBGuild());
-            }, failure -> ctx.sendLocalized("commands.imageboard.error_random", EmoteReference.SAD));
+        } catch (Exception e) {
+            ctx.sendLocalized("commands.imageboard.error_general", EmoteReference.ERROR);
         }
+    }
+
+    private static <T extends BoardImage> void sendImage0(Context ctx, List<T> images, String imageboard, Set<String> blacklisted) {
+        var filter = filterImages(images, ctx);
+        if (filter == null) {
+            return;
+        }
+
+        final var image = filter.get(r.nextInt(filter.size()));
+        if (image.getTags().stream().anyMatch(blacklisted::contains)) {
+            ctx.sendLocalized("commands.imageboard.blacklisted_tag", EmoteReference.ERROR);
+            return;
+        }
+
+        sendImage(ctx, imageboard, image, ctx.getDBGuild());
     }
 
     private static <T extends BoardImage> List<T> filterImages(List<T> images, Context ctx) {
@@ -160,7 +153,9 @@ public class ImageboardUtils {
                 // to pick undesirable lewd content.
                 // This also gets away with the need to re-roll, unless they looked up a prohibited tag.
                 .filter(img -> !containsExcludedTags(img.getTags()))
-                .filter(img -> !(img.getRating() == Rating.EXPLICIT && img.hasChildren()))
+                // Safe images can have undesirable tags too
+                // Say, stuff that isn't so safe.
+                .filter(img -> img.getRating() != Rating.SAFE || !containsSafeExcludedTags(img.getTags()))
                 .collect(Collectors.toList());
 
         if (filter.isEmpty()) {
@@ -219,6 +214,16 @@ public class ImageboardUtils {
         return isSafe;
     }
 
+    // List of tags to exclude from *safe* searches
+    // This isn't exactly safe wdym
+    private final static List<String> excludedSafeTags = List.of(
+            "underwear", "bikini", "ass", "wet", "see_through"
+    );
+
+    private static boolean containsSafeExcludedTags(List<String> tags) {
+        return tags.stream().anyMatch(excludedSafeTags::contains);
+    }
+
     // The list of tags to exclude from searches.
     private final static List<String> excludedTags = List.of(
             // minor tags
@@ -229,10 +234,13 @@ public class ImageboardUtils {
             "flat_chest",
             // tagme means it hasn't been tagged yet, so it's very unsafe to show
             // you know what the other one means
-            "tagme", "bestiality",
+            "tagme",
+            // why
+            "bestiality", "zoophilia",
             // very nsfl tags
             "dismemberment", "death", "decapitation", "guro", "eye_socket", "necrophilia",
-            "rape", "gangrape", "gore"
+            "rape", "gangrape", "gore", "gross", "bruise", "asphyxiation", "scat",
+            "strangling", "torture"
     );
 
     private static boolean containsExcludedTags(List<String> tags) {

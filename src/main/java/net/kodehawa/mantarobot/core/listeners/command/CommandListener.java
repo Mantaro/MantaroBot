@@ -68,7 +68,9 @@ public class CommandListener implements EventListener {
         if (event instanceof GuildMessageReceivedEvent) {
             var msg = (GuildMessageReceivedEvent) event;
             // Ignore myself and bots.
-            if (msg.getAuthor().isBot() || msg.isWebhookMessage() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) {
+            // Technically ignoring oneself is an extra step -- we're a bot, and we ignore bots.
+            var isSelf = msg.getAuthor().getIdLong() == msg.getJDA().getSelfUser().getIdLong();
+            if (msg.getAuthor().isBot() || msg.isWebhookMessage() || isSelf) {
                 return;
             }
 
@@ -110,8 +112,8 @@ public class CommandListener implements EventListener {
                             }
                         }
 
-                        //Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
-                        //some nasty race conditions involving player save.
+                        // Don't run the experience handler on this channel if there's an InteractiveOperation running as there might be issues with
+                        // some nasty race conditions involving player save.
                         if (InteractiveOperations.get(event.getChannel()).size() > 0) {
                             return;
                         }
@@ -127,7 +129,7 @@ public class CommandListener implements EventListener {
                             return;
                         }
 
-                        //Set level to 1 if level is zero.
+                        // Set level to 1 if level is zero.
                         if (player.getLevel() == 0) {
                             player.setLevel(1);
                         }
