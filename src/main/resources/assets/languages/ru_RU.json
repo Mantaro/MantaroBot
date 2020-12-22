@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sВы не можете сделать этот предмет. Проверьте `~>cast ls` чтобы узнать все предметы, которые возможны.",
       "not_enough_money": "%1$sУ вас не хвататет денег чтобы создать это. **(Цена: %2$s)**",
       "no_item": "%1$sУ вас нет необходимых предметов *%2$s* чтобы создать это.",
-      "not_enough_items": "%1$sВам не хватает *%2$s* для этого. **(Нужно: %3$s, Имеется: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sВы успешно *создали %2$s %3$s* за %4$s кредитов. *Использовано: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nПечально, ваш гаечный ключ был сломан в процессе, но предмет вы создали!",
