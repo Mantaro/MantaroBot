@@ -80,7 +80,7 @@
     "cancelled": "%1$sAtšauktas prašymas.",
     "sellout": "Pasvarstyk apie galimybę paremti mane svetainėje [Patreon](https://www.patreon.com/mantaro), jeigu aš tau patinku. Netgi mažas parėmimas padeda man išlikti gyvai!",
     "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
@@ -731,6 +731,7 @@
         "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sCannot check the price of a non-existent item.",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
@@ -755,7 +756,7 @@
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
