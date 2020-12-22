@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
