@@ -80,7 +80,7 @@
     "cancelled": "%1$sリクエストをキャンセルしました。",
     "sellout": "もし気に入っていただけたら、[Patreon](https://www.patreon.com/mantaro)での支援をご検討ください。少額でもBotの存続に貢献できます！",
     "deprecated": "もう使用できません。",
-    "space_notice": "もし名前にスペースが入る場合、\"このようにダブルクオーテーションでくくってみてください\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (使用制限)\n **このコマンドが使用可能になるまで\n%3$s**",
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
@@ -731,6 +731,7 @@
         "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$s存在しない商品の値段を見ることができません。もし戸惑っていましたら、略名を使ったり、「\"」で商品名を包んだりしてみてください。",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
@@ -755,7 +756,7 @@
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$s売っていない商品を買うことができません。",
-        "item_limit_reached": "%1$sもうこれ以上この商品を買うことができません。",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
