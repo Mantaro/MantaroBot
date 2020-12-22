@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de itens que podem ser fundidos. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
-      "not_enough_items": "%1$sVocê não tem o suficiente do item *%2$s* para prosseguir. **(Necessário: %3$s, Atual: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sCom sucesso você *fundiu %2$s %3$s* por %4$s créditos. *Fundição usada: %5$s*",
       "no_tool": "%1$sVocê tem quer ter %2$s para prosseguir com a fusão! Lembre-se: Você precisa ter duas chaves inglesas do mesmo tipo requerido para proceder com a fusão.",
       "item_broke": "\nInfelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
