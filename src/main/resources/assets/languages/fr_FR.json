@@ -80,7 +80,7 @@
     "cancelled": "%1$sDemande annulée.",
     "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
-    "space_notice": "Si le nom de celui-ci contient des espaces, essaie \"de le placer entre guillemets\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
       "spam_1": "S'il te plait repose toi, c'est bon pour ta santé. **N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!**",
@@ -731,6 +731,7 @@
         "success": "%1$s a envoyé %2$dx **%3$s %4$s** à la poubelle."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sImpossible de vérifier le prix un élément inexistant.",
         "no_price": "%1$sCet objet est indisponible soit à la vente soit à l'achat (peut-être un objet exclusif)",
         "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente : %2$d credits)",
@@ -755,7 +756,7 @@
         "invalid": "%1$sNombre d'objets à acheter invalide.",
         "non_existent": "%1$sTu ne peux pas acheter un objet inexistant. Si tu es perdu, tu peux essayer de taper le nom raccourci ou de mettre le nom entre guillemets. De plus, le nombre d'objets doit être présent avant le nom de l'objet, par exemple : `~>market buy 15 energy`",
         "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
-        "item_limit_reached": "%1$sTu ne peux pas acheter plus de cet objet.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sAchat de %2$,d %3$s pour %4$,d credits. Tu as désormais %5$,d credits.",
         "success_breakable": "%1$sAcheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux équiper cet objet avec `~>equip <item name>`",
         "success_potion": "%1$sAcheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux utiliser cet objet avec `~>useitem <item name>`",
