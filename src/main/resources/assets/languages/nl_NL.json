@@ -80,7 +80,7 @@
     "cancelled": "%1$sVerzoek geannuleerd.",
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
     "deprecated": "Niet langer in gebruik",
-    "space_notice": "Als de naam ervan spaties bevat, probeer het dan \"tussen aanhalingstekens te plaatsen\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
       "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
@@ -731,6 +731,7 @@
         "success": "%1$sHeeft %2$dx **%3$s %4$s** weggegooid."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sKan de prijs van een niet-bestaand voorwerp niet controleren.",
         "no_price": "%1$sDit voorwerp is niet beschikbaar om te verkopen of te kopen (kan een exclusief verzamelvoorwerp zijn)",
         "collectible": "%1$sDit is een verzamelvoorwerp. (Verkoopwaarde: %2$d credits)",
@@ -755,7 +756,7 @@
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
