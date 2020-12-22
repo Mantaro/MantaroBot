@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht herstellen. Du kannst `~>cast ls` nutzen, um eine Liste der herstellbaren Gegenständen zu sehen. Wenn der Itemname Leerzeichen enthält, verwende Anführungszeichen. Beispiel: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sDu hast nicht genug Geld, um dies herzustellen. **(Kosten: %2$s)**",
       "no_item": "%1$sDu hast nicht den benötigten Gegenstand *%2$s*, um fortzufahren.",
-      "not_enough_items": "%1$sDu hast nicht  genug von *%2$s*, um fortzufahren. **(Benötigt: %3$s, Aktuell: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sDu hast erfolgreich *%2$s %3$s* für %4$s Credits hergestellt. *Herstellung kostete: %5$s*",
       "no_tool": "%1$sDu musst %2$s haben, um mit dieser Herstellung fortzufahren! Beachte: Du brauchst zwei Schraubenschlüssel derselben Art, um fortzufahren.",
       "item_broke": "\nLeider brach dein Schraubenschlüssel, aber du bekamst deinen Gegenstand!",
