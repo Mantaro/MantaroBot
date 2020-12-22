@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sNie możesz przesłać tego elementu. Możesz sprawdzić `~>cast ls`, aby zobaczyć listę elementów, które można przesłać. Jeśli nazwa elementu zawiera spacje, zawiń ją w cudzysłów. Przykład: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sNie masz wystarczająco dużo pieniędzy, żeby to rzucić. **(Koszt: %2$s)**",
       "no_item": "%1$sNie masz wymaganego elementu *%2$s*, aby kontynuować przesyłanie.",
-      "not_enough_items": "%1$sNie masz wystarczającej ilości elementu *%2$s*, aby kontynuować. **(potrzebne: %3$s, bieżące: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sUdało Ci się *przesłać %2$s %3$s* za %4$s kredytów. *Używane przesyłanie: %5$s*",
       "no_tool": "%1$sAby kontynuować rzucanie, musisz mieć %2$s! Pamiętaj: aby kontynuować rzucanie, musisz mieć dwa klucze tego samego wymaganego typu.",
       "item_broke": "\nNiestety, twój klucz się złamał, ale masz swój przedmiot!",
