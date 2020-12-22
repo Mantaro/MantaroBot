@@ -13,7 +13,7 @@
     "daily": "Kas dieną",
     "total": "Viso",
     "arrow_react": "Naudok rodyklių reakcijas, kad pakeistum puslapius.",
-    "text_menu": "Naudok &page >> ir &page <<, kad pakeistum puslapius ir &cancel, kad pabaigtum.",
+    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Nerasta",
     "no_results": "Jokių rezultatų.",
     "timeout": "Tai nebegalios po %1$d sekundžių.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Čia nėra daikto, susijusio su šiuo emotikonu.",
       "no_item_name": "Čia nėra daikto, susijusio su šiuo pavadinimu.",
-      "not_found": "Negaliu rasti jokių daiktų pagal tavo paiešką.",
+      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
       "claim_key": "Tu negali pervesti atsiėmimo rakto."
     },
     "misc_item_usage": {
-      "mop": "%1$sIšvaliau visas dulkes iš tavo kambario. Yay.",
+      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sIšvaliau visus stebuklingo gėrimo efektus.",
+      "milk": "%1$sCleared all potion effects.",
       "stamina": "%1$sActivated stamina for 5 mining sessions.",
       "stamina_used": "%1$sYou already have an active stamina effect!",
       "haste": "%1$sActivated Haste for 2 minutes.",
@@ -48,8 +48,8 @@
       "pill": "%1$sYou drank a waifu pill! (Activated for 5 sessions)",
       "pill_used": "%1$sYou already have an active waifu pill!",
       "crate": {
-        "no_key": "%1$sYou need a loot crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a loot crate! You usually get crates from currency commands.",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$s**Tu laimėjai:** %2$s%3$s",
         "overflow": "Bet tu ir taip turėjai per daug, taigi tu nusprendei išmesti lauk likusius"
       },
@@ -80,7 +80,7 @@
     "cancelled": "%1$sAtšauktas prašymas.",
     "sellout": "Pasvarstyk apie galimybę paremti mane svetainėje [Patreon](https://www.patreon.com/mantaro), jeigu aš tau patinku. Netgi mažas parėmimas padeda man išlikti gyvai!",
     "deprecated": "No longer used",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\"",
+    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **You'll be able to use this command again in %3$s.**",
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
       },
-      "overflow": "%1$sTu radai kažkiek žuvies, bet inventorius buvo beveik pilnas, taigi mes turėjome išmesti dalį žuvies atgal į vandenį...",
+      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$s Kol ramiai žvejojai, tu radai %2$s ir tu įsimetei tai į savo kibirą.",
       "success_money": "%1$s Kol ramiai žvejojai, tu radai %2$s ir **$%3$d kreditų**, ir tu tai įsimeteį į savo kibirą.%4$s",
       "success_money_noitem": "%1$s Kol ramiai žvejojai, tu radai **$%2$d kreditų** ir tu juos įsidėjai į savo kišenę.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sUnable to connect to %2$s: connection timed out. Try changing the server region and running the command again.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error"
+        "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
       "not_working": "%1$sMusic is currently not working due to Youtube blocking traffic from most big bots. Our Patreon bot still is working, so you can try it if you wish by donating $4/month to Mantaro. This will also help us redirect our efforts towards fixing music as a whole.\nPlease check <https://patreon.com/mantaro>\n\nWe're sorry for the inconveniences. Try using soundcloud search! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sTuri nurodyti, kokią dainą man groti! *(YouTube, Soundcloud, Twitch URL arba paieškos žodžiai yra leistini)*",
@@ -302,7 +302,7 @@
     },
     "pause": {
       "paused": "Grotuvas pristabdytas. *(Praeitą kartą grotuvas buvo paleistas)*",
-      "unpaused": "Grotuvas paleistas. *(Praeitą kartą grotuvas buvo pristabdytas)*."
+      "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
       "no_time": "%1$sTuri nurodyti, iki kurio laiko man atsukti dainą. *(Pavyzdžiui: `~>rewind 1m45s` atsuks dainą iki 1 minutės ir 45 sekundžių)*",
@@ -409,7 +409,7 @@
         "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
         "footer": "Total custom commands on this server: %1$s"
       },
-      "invalid": "%1$sNeteisingas komandos pasirinkimas. Patikrink komandos pagalbą (`help custom`).",
+      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sTuri nurodyti komandą ir atsakymo numerį!",
         "not_found": "%1$sNėra pasirinktinės komandos šiuo pavadinimu.",
@@ -531,13 +531,15 @@
         "Does this happen often?",
         "Am I performing p-properly?",
         "<3",
-        "*pats*",
+        "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
+        "Wondering how I'd do",
+        "Any issue?",
         "Ping-pong? Yay!",
-        "U-Uh... L-Labas"
+        "U-Uh... h-hi"
       ],
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
@@ -634,7 +636,7 @@
       "claim": {
         "no_user": "%1$sTu nepaminėjai jokio nario, kuri pasiimti.",
         "locked": "%1$sTu kolkas negali atlikti šio veiksmo.",
-        "key_locked": "%1$sNarys, kurį bandai pasiimti, yra apsaugotas raktu ir negali būti pasiimtas.",
+        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$Tu neturi užtektinai pinigų, kad galėtum pasiimti narį **(Kaina: %2$s)**",
         "not_enough_slots": "%1$sTu neturi užtektinai vietos šiai Waifu. (Viso vietos: %2$s, Naudojama vietos: %3$s)",
         "success": "%1$sSėkmingai pasiimta %2$s už %3$,d. Naudojama vietos: %4$s",
@@ -656,11 +658,11 @@
         "locked": "%1$sKolkas negali atlikti šio veiksmo.",
         "not_enough_money": "%1$sNu neturi užtektinai pinigų, kad galėtum nusipirkti naują vietą! Tau reikia %2$d kreditų.",
         "success": "%1$sSėkmingai nusipirkta ši vieta už %2$s, išvis tu turi %3s vietų ir %4$s laisvų vietų.",
-        "too_many": "%1$sTu ir taip turi per daug vietos!"
+        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
         "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. \nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
+        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
         "claim_notice": "%1$sThe user you're trying to claim opted out."
@@ -699,7 +701,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sNeradau jokio panašaus daikto.",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
@@ -729,6 +731,7 @@
         "success": "%1$sSent %2$dx **%3$s %4$s** to the trash."
       },
       "price": {
+        "no_item": "%1$sYou need to specify the item you want to check the price of.",
         "non_existent": "%1$sCannot check the price of a non-existent item.",
         "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
         "collectible": "%1$sThis is a collectible item. (Sell value: %2$d credits)",
@@ -753,10 +756,11 @@
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
         "no_buy_price": "%1$sYou cannot buy an item that cannot be bought.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object.",
+        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item."
+        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Mantaro parduotuvė",
       "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
@@ -1047,7 +1051,7 @@
       },
       "no_time": "You didn't give me a `-time` argument! (Example: `-time 1h`)",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
-      "too_long": "That's too much time... (Maximum: 3 months)",
+      "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sI'll remind you of `%2$s` in %3$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
     },
@@ -1280,8 +1284,9 @@
       "error": "%1$sThere was an error while looking for an image...",
       "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
       "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
-      "error_tag": "%1$sThere was an error while looking for this tag...",
-      "error_random": "%1$sThere was an error while looking for a random image...",
+      "error_tag": "%1$sThere was an error while looking for this tag.",
+      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
       "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
@@ -1349,7 +1354,7 @@
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
         "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
         "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food!",
+        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
         "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
         "not_applicable": "%1$sYou can't feed this food to your pet type.",
@@ -1725,7 +1730,7 @@
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for!",
+      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sThere's no item matching your search query.",
       "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
@@ -2429,9 +2434,9 @@
       "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
       "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while chopping. Still salvageable.",
+      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while chopping. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
     }
   },
   "test": {
