@@ -705,7 +705,7 @@
       "item_not_cast": "%1$sNo puedes crear este item. Revisa `~>cast ls` para una lista de items creables.",
       "not_enough_money": "%1$sNo tienes suficiente dinero para crear este item. **(Costo: %2$s)**",
       "no_item": "%1$sNo tienes el item necesario (*%2$s*) para proceder con la creación de este ítem.",
-      "not_enough_items": "%1$sNo tienes suficiente del item *%2$s* para proceder. **(Necesitas: %3$s, Tienes: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sCreaste *%2$s %3$s* por %4$s créditos. *Receta usada: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "Lamentablemente, tu llave inglesa se rompió, pero lograste crear el item.",
