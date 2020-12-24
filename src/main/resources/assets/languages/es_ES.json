@@ -260,7 +260,8 @@
         "no_channel": "Sin canal :(",
         "songs": "canción(es)",
         "clear_error": "%1$sO no estás conectado a un VC o no eres un DJ.",
-        "clear_success": "%1$sHe limpiado la cola actual correctamente. El tamaño de la cola era %2$s"
+        "clear_success": "%1$sHe limpiado la cola actual correctamente. El tamaño de la cola era %2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sConectado al canal de voz **%2$s**!",
