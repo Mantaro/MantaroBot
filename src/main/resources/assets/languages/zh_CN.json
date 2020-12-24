@@ -260,7 +260,8 @@
         "no_channel": "没有频道 :(",
         "songs": "曲目",
         "clear_error": "%1$s你目前尚未连接到任何语音频道，或者你不是DJ",
-        "clear_success": "%1$s成功清除播放清单，大小为%2$s"
+        "clear_success": "%1$s成功清除播放清单，大小为%2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$s成功连接到**%2$s**!",
