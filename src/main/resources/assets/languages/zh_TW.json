@@ -237,6 +237,7 @@
       "queue_finished": "%1$s目前清單已播放完畢! 希望你用得開心，如果需要任何幫助，請加入<https://support.mantaro.site>\n%2$s",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道？再試一次。",
       "queue": {
         "header_field": "使用說明",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$s你需要指出你想刪除的回應編號。",
         "no_index": "%1$s你無法移除不存在的索引。",
         "not_enough_args": "%1$s你需要指出你想刪除的指令名稱及回應編號。",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$s已成功移除指令 `%3$s` 的第**#%2$d**條回應"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
       "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
       "success_money_noitem": "%1$s你在伐木時找到了**%2$d元**且把他們放進口袋裡了。"
