@@ -237,6 +237,7 @@
       "queue_finished": "%1$sListe de lecture terminée! J'espère que tu as apprécié.\n%2$s",
       "soundcloud_no_args": "%1$sTu dois me donner le nom de la chanson, je ne suis pas un magicien, je ne peux pas le deviner :(",
       "too_many_errors": "%1$sIl y a trop d'erreurs sur cette session, arrêt en cours...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
       "queue": {
         "header_field": "Instructions",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$sTu dois spécifier un numéro correct à changer.",
         "no_index": "%1$sTu ne peux pas supprimer un index inexistant.",
         "not_enough_args": "%1$sTu dois spécifier la commande et l'index de la réponse que tu veux supprimer.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sa supprimé la réponse **#%2$d** de la commande `%3$s` avec succès."
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sTu as choisi d'activer l'auto-équip, j'ai donc remplacé ta **%2$s** automatiquement."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s, tu les as gardés.",
       "success": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s et **$%3$d crédits** et tu les as gardés.",
       "success_money_noitem": "%1$sEn coupant du bois tranquillement, tu as trouvé **$%2$d crédits** et tu les as gardés dans ta poche."
