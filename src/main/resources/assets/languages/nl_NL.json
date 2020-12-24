@@ -237,6 +237,7 @@
       "queue_finished": "%1$sIk ben klaar met het afspelen van de afspeellijst! Ik hoop dat je er van genoten hebt.\n%2$s",
       "soundcloud_no_args": "%1$sJe moet me de naam van het nummer geven, ik kan helaas je gedachten niet lezen :(",
       "too_many_errors": "%1$sTe veel fouten in deze sessie, gestopt...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sIk ben niet verbonden met een spraak-kanaal, hoewel ik dat wel zou moeten zijn? Probeer het opnieuw.",
       "queue": {
         "header_field": "Instructies",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$sJe moet een juist nummer opgeven om te wijzigen.",
         "no_index": "%1$sJe kunt geen niet bestaande index bewerken.",
         "not_enough_args": "%1$sJe moet het commando en de index specificeren die u wilt verwijderen.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sReactie verwijderd **#%2$d** van het commando `%3$s` correct"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
