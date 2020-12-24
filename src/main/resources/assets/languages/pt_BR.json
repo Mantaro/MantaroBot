@@ -237,6 +237,7 @@
       "queue_finished": "%1$sTerminei de tocar a fila atual! Espero que tenha gostado.\n%2$s",
       "soundcloud_no_args": "%1$sVocê tem que me dar o nome de uma música para tocar, Eu não sou um mágico, então não posso adivinhar :(",
       "too_many_errors": "%1$sMuitos erros nesta sessão, Parando...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sEu não estou conectada a nenhum CdV mesmo que eu deveria estar? Tente novamente.",
       "queue": {
         "header_field": "Instruções",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$sVocê precisa especificar um número correto para mudar.",
         "no_index": "%1$sVocê não pode remover um índice não-existente.",
         "not_enough_args": "%1$sVocê precisa especificar o comando e o índice que você quer deletar.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sResposta removida **#%2$d** do comando`%3$s` corretamente"
       },
       "rename": {
@@ -756,7 +758,7 @@
         "invalid": "%1$sNão é um número válido de itens para comprar.",
         "non_existent": "%1$sVocê não pode comprar um item inexistente. Se estiver perdido, você pode digitar o nome abreviado ou coloca-lo entre aspas. Além disso, a quantidade do item vai antes do nome do item, exemplo: `~>market buy 15 energy`",
         "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
+        "item_limit_reached": "%1$sVocê não pode comprar deste objeto. Você só pode ter um máximo de 5000 de cada item.",
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
         "success_breakable": "%1$sComprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos. Você pode equipar isso usando `~>equip <item name>`",
         "success_potion": "%1$sComprou %2$,d%3$s por %4$,d créditos com sucesso. Você agora têm %5$,d créditos. Você pode equipar essa poção ou buff usando `~>useitem <item name>`",
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
       "success": "%1$sEnquanto cortava as árvores, você encontrou %2$s e **$%3$d créditos** e prossegue para salvar em seu inventário.",
       "success_money_noitem": "%1$sEnquanto cortava as árvores, você encontrou **$%2$d créditos** e prossegue para salvar em seu bolso."
