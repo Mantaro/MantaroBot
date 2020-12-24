@@ -260,7 +260,8 @@
         "no_channel": "لايوجد قناة :(",
         "songs": "الأغاني",
         "clear_error": "%1$sإما أنت غير متصل بال VC أو أنت لست DJ",
-        "clear_success": "%1$sتم بنجاح مسح قائمة الأغاني. حجم القائمة كان %2$s"
+        "clear_success": "%1$sتم بنجاح مسح قائمة الأغاني. حجم القائمة كان %2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sتم بنجاح الإتصال بالقناة **%2$s**!",
