@@ -187,7 +187,9 @@ public class Context {
     }
 
     public boolean hasReactionPerms() {
-        return getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION);
+        return getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION) &&
+                // Somehow also needs this?
+                getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_HISTORY);
     }
 
     public String[] getArguments() {

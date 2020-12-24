@@ -88,7 +88,7 @@ public class ModerationCmds {
 
                 //If one of them is in a higher hierarchy than the bot, cannot ban.
                 if (!selfMember.canInteract(member)) {
-                    ctx.sendLocalized("commands.softban.self_hierarchy_conflict", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.softban.self_hierarchy_conflict", EmoteReference.ERROR, user.getName());
                     return;
                 }
 

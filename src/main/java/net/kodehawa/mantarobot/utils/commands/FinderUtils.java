@@ -67,7 +67,13 @@ public class FinderUtils {
             return found.get(0);
         }
 
-        return event.getMember().getRoles().get(0);
+        final var roles = event.getMember().getRoles();
+        if (roles.isEmpty() && found.isEmpty()) {
+            event.getChannel().sendMessage("I can't find any suitable role with this search.").queue();
+            return null;
+        }
+
+        return roles.get(0);
     }
 
     public static Role findRoleSelect(GuildMessageReceivedEvent event,

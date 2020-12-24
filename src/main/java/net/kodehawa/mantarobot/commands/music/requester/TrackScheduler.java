@@ -174,8 +174,10 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                     )
                                     .build()
                     ).queue(message -> {
-                        lastMessageSentAt = System.currentTimeMillis();
-                        message.delete().queueAfter(90, TimeUnit.SECONDS);
+                        if (getRequestedTextChannel() != null) {
+                            lastMessageSentAt = System.currentTimeMillis();
+                            message.delete().queueAfter(90, TimeUnit.SECONDS);
+                        }
                     });
                 }
             }
@@ -275,7 +277,12 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                                 String.format(language.get("commands.music_general.premium_beg"),
                                         EmoteReference.HEART
                                 )
-                ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
+                ).queue(message -> {
+                    // This can happen...
+                    if (getRequestedTextChannel() != null) {
+                        message.delete().queueAfter(30, TimeUnit.SECONDS);
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();

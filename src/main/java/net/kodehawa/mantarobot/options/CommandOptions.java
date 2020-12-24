@@ -20,8 +20,8 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.CustomCmds;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -127,7 +127,7 @@ public class CommandOptions extends OptionHandler {
                     }
 
                     if (commandName.equals("opts") || commandName.equals("help")) {
-                        event.getChannel().sendMessageFormat(lang.get("options.opts_help_notice"), EmoteReference.ERROR).queue();
+                        event.getChannel().sendMessageFormat(lang.get("options.help_opts_notice"), EmoteReference.ERROR).queue();
                         return;
                     }
 

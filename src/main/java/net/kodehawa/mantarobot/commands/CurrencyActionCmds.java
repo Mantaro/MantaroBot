@@ -682,10 +682,21 @@ public class CurrencyActionCmds {
                     RandomCollection<Item> items = new RandomCollection<>();
                     var toDrop = handleChopDrop();
                     toDrop.forEach(i -> items.add(3, i));
+                    boolean overflow = false;
 
                     List<Item> list = new ArrayList<>(amount);
                     for (int i = 0; i < amount; i++) {
+                        Item it = items.next();
+                        if (playerInventory.getAmount(it) >= 5000) {
+                            overflow = true;
+                            continue;
+                        }
+
                         list.add(items.next());
+                    }
+
+                    if (overflow) {
+                        extraMessage += "\n" + languageContext.get("commands.chop.overflow").formatted(EmoteReference.SAD);
                     }
 
                     ArrayList<ItemStack> ita = new ArrayList<>();

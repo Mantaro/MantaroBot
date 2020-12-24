@@ -21,6 +21,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -212,6 +213,12 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     private void onSearch(AudioPlaylist playlist) {
         var list = playlist.getTracks();
+        
+        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+            event.getChannel().sendMessageFormat(language.get("commands.music_general.missing_embed_permissions"), EmoteReference.ERROR).queue();
+            return;
+        }
+
         DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format(
                         "%s**[%s](%s)** (%s)",

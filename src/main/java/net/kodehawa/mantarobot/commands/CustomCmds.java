@@ -103,6 +103,12 @@ public class CustomCmds {
 
         // Run the actual custom command.
         List<String> values = customCommand.getValues();
+
+        // what
+        if (values.isEmpty()) {
+            return;
+        }
+
         if (customCommand.getData().isNsfw() && !ctx.getChannel().isNSFW()) {
             ctx.sendLocalized("commands.custom.nsfw_not_nsfw", EmoteReference.ERROR);
             return;
@@ -662,6 +668,12 @@ public class CustomCmds {
                 }
 
                 custom.getValues().remove(where - 1);
+
+                if (custom.getValues().isEmpty()) {
+                    custom.delete();
+                    ctx.sendLocalized("commands.custom.deleteresponse.no_responses_left", EmoteReference.CORRECT);
+                    return;
+                }
 
                 custom.saveAsync();
                 customCommands.put(custom.getId(), custom);
