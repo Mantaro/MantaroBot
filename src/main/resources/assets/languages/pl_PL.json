@@ -260,7 +260,8 @@
         "no_channel": "Brak kanału :(",
         "songs": "utwory",
         "clear_error": "%1$sAlbo nie jesteś podłączony do VC, albo nie jesteś DJ-em.",
-        "clear_success": "%1$sPomyślnie oczyszczono obecną kolejkę. Kolejka miała wielkość %2$s"
+        "clear_success": "%1$sPomyślnie oczyszczono obecną kolejkę. Kolejka miała wielkość %2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$s Pomyślnie połączono z kanałem **%2$s**!",
