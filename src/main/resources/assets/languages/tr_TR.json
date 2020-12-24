@@ -260,7 +260,8 @@
         "no_channel": "Kanal yok ki :(",
         "songs": "şarkı(lar)",
         "clear_error": "%1$sYa sesli konuşmaya katılmamışsınız ya da diji nikiniz yok.",
-        "clear_success": "%1$sGüncel şarkı listesini başarılı bir şekilde temizlediniz. Şarkı listesinde %2$s kadar şarkı vardı"
+        "clear_success": "%1$sGüncel şarkı listesini başarılı bir şekilde temizlediniz. Şarkı listesinde %2$s kadar şarkı vardı",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
