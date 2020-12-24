@@ -237,7 +237,7 @@
       "queue_finished": "%1$sTerminei de tocar a fila atual! Espero que tenha gostado.\n%2$s",
       "soundcloud_no_args": "%1$sVocê tem que me dar o nome de uma música para tocar, Eu não sou um mágico, então não posso adivinhar :(",
       "too_many_errors": "%1$sMuitos erros nesta sessão, Parando...",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sVocê tem que dar ao bot a permissão de Inserir Link para que ela exiba o menu. Se você quiser pular o menu, use `~>forceplay` ao invés disso, que irá tocar o primeiro resultado.",
       "no_vc_found": "%1$sEu não estou conectada a nenhum CdV mesmo que eu deveria estar? Tente novamente.",
       "queue": {
         "header_field": "Instruções",
@@ -464,7 +464,7 @@
         "invalid_number": "%1$sVocê precisa especificar um número correto para mudar.",
         "no_index": "%1$sVocê não pode remover um índice não-existente.",
         "not_enough_args": "%1$sVocê precisa especificar o comando e o índice que você quer deletar.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
+        "no_responses_left": "%1$sNão havia respostas sobrando, então eu removi o comando.",
         "success": "%1$sResposta removida **#%2$d** do comando`%3$s` corretamente"
       },
       "rename": {
@@ -1681,7 +1681,7 @@
       "autoequip": {
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
+      "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
       "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
       "success": "%1$sEnquanto cortava as árvores, você encontrou %2$s e **$%3$d créditos** e prossegue para salvar em seu inventário.",
       "success_money_noitem": "%1$sEnquanto cortava as árvores, você encontrou **$%2$d créditos** e prossegue para salvar em seu bolso."
