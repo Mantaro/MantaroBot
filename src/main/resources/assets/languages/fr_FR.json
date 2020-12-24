@@ -260,7 +260,8 @@
         "no_channel": "Aucun salon vocal :(",
         "songs": "chanson(s)",
         "clear_error": "%1$sSoit tu n'es pas connecté au salon vocal, soit tu n'es pas DJ.",
-        "clear_success": "%1$sListe de lecture en cours effacée avec succès."
+        "clear_success": "%1$sListe de lecture en cours effacée avec succès.",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
