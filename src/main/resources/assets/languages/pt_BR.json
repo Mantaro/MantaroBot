@@ -260,7 +260,8 @@
         "no_channel": "Sem canal :(",
         "songs": "música(s)",
         "clear_error": "%1$sOu você não está conectado no CdV ou você não é o DJ.",
-        "clear_success": "%1$sFila limpada com sucesso."
+        "clear_success": "%1$sFila limpada com sucesso.",
+        "no_embed": "%1$sVocê tem que dar ao bot a permissão de Inserir Links para ele exibir a embed da fila."
       },
       "connect": {
         "success": "%1$sConectada com sucesso no canal **%2$s**!",
