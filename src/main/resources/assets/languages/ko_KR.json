@@ -260,7 +260,8 @@
         "no_channel": "채널 없음 ㅠㅠ",
         "songs": "음악",
         "clear_error": "%1$s음성 채널에 연결되어 있지 않거나 DJ가 아니예요.",
-        "clear_success": "%1$s성공적으로 현재 대기열을 지웠어요. 대기열 크기는 %2$s 이에요"
+        "clear_success": "%1$s성공적으로 현재 대기열을 지웠어요. 대기열 크기는 %2$s 이에요",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$s성공적으로 **%2$s** 채널에 연결했어요!",
