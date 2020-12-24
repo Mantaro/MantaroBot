@@ -260,7 +260,8 @@
         "no_channel": "Kein Kanal :(",
         "songs": "Song(s)",
         "clear_error": "%1$sEntweder bist du nicht im Sprachkanal verbunden, oder du bist nicht der DJ.",
-        "clear_success": "%1$sAktuelle Warteschlange erfolgreich geleert."
+        "clear_success": "%1$sAktuelle Warteschlange erfolgreich geleert.",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sVerbunden mit Kanal **%2$s**!",
