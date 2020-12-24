@@ -260,7 +260,8 @@
         "no_channel": "No channel :(",
         "songs": "song(s)",
         "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s"
+        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display embeds."
       },
       "connect": {
         "success": "%1$sSuccessfully connected to channel **%2$s**!",
