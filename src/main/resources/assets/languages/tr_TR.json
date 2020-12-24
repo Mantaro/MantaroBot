@@ -237,6 +237,7 @@
       "queue_finished": "%1$sŞarkı listesini oynatmayı bitirdim! Umarım eğlenmişsinizdir.\n%2$s",
       "soundcloud_no_args": "%1$sBir şarkı ismi söylemelisin, ben büyücü değilim ki :(",
       "too_many_errors": "%1$sBurada çok fazla hata var, durduruluyor...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sHerhangi bir SK'ya bağlı değilim. Tekrar deneyin.",
       "queue": {
         "header_field": "Instructions",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$sDüzenlemek için doğru sayı belirtmen gerekli.",
         "no_index": "%1$sOlmayan bir dizini silemezsin.",
         "not_enough_args": "%1$sSilmek istediğin komutu ve dizini belirtmelisin.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$s`%3$s` komutundaki **#%2$d** yanıtı başarıyla silindi"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
