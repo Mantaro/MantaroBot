@@ -237,6 +237,7 @@
       "queue_finished": "%1$sĐã phát hết các bài trong danh sách! Mong là bạn thích nó. Nếu bạn cần giúp đỡ gì về tôi, bạn có thể vào <https://support.mantaro.site> %2$s",
       "soundcloud_no_args": "%1$sBạn cần phải cho cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
       "too_many_errors": "%1$sQuá nhiều lỗi trong phiên phát nhạc này, dừng lại...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sTôi không được kết nối với bất kì kênh thoại nào mặc dù tôi cần phải thể? Thử lại đê.",
       "queue": {
         "header_field": "Instructions",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$sBạn cần phải chỉ ra chính xác một số để thay đổi.",
         "no_index": "%1$sBạn không thể xóa một chỉ số không tồn tại.",
         "not_enough_args": "%1$sBạn cần chỉ ra chính xác lệnh và chỉ số mà bạn muốn xóa.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sĐã xóa phản hồi **#%2$d** của lệnh `%3$s` thành công"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
