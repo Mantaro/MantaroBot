@@ -260,7 +260,8 @@
         "no_channel": "Geen kanaal :(",
         "songs": "nummer(s)",
         "clear_error": "%1$sJe hebt, of geen verbinding met het spraak-kanaal, of je bent geen DJ.",
-        "clear_success": "%1$sDe huidige wachtrij is succesvol gewist. De wachtrij was %2$s"
+        "clear_success": "%1$sDe huidige wachtrij is succesvol gewist. De wachtrij was %2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
