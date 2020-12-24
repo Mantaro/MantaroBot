@@ -237,6 +237,7 @@
       "queue_finished": "%1$s目前清单已播放完毕! 希望你用得开心，如果需要任何帮助，请加入<https://support.mantaro.site>\n%2$s",
       "soundcloud_no_args": "%1$s你需要给我歌曲名称，我可不是随猜即中的魔法师 :(",
       "too_many_errors": "%1$s此次工作阶段發生太多错误，停止中...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$s我还没有连接到任何语音频道? 在试一次。",
       "queue": {
         "header_field": "Instructions",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$s你需要指出你想删除的回应编号。",
         "no_index": "%1$sYou cannot remove a non-existent index.",
         "not_enough_args": "%1$s你需要指出你想删除的指令名称及回应编号。",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
