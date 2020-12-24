@@ -260,7 +260,8 @@
         "no_channel": "Нет канала :(",
         "songs": "трек(ов)",
         "clear_error": "%1$sСкорее всего вы не подключены к голосовому каналу или вы не DJ.",
-        "clear_success": "%1$sТекущая очередь успешно очищена."
+        "clear_success": "%1$sТекущая очередь успешно очищена.",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sУспешно подключен к каналу **%2$s**!",
