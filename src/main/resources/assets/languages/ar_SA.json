@@ -237,6 +237,7 @@
       "queue_finished": "%1$sانتهى تشغيل قائمة الانتظار الحالية! اتمنى ان تكون قد استمتعت به. إذا كنت بحاجة إلى مساعدة في الروبوت ، يمكنك الانضمام<https://support.mantaro.site>%2$s",
       "soundcloud_no_args": "%1$sيجب ان تعطيني اسم الاغنية, أنا لست ساحرًا لذا لا يمكنني تخمين ذلك :(",
       "too_many_errors": "%1$sالكثير من الاخطاء في هذه الجلسة, توقف...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sانا لست متصلاََ بقناة صوتيه على الرغم من أنني يجب أن أكون؟ حاول مجددا.",
       "queue": {
         "header_field": "Instructions",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$sيجب ان تحدد الرقم الصحيح لتغيره.",
         "no_index": "%1$sلا تستطيع تعديل امر ليس موجود في المؤشر.",
         "not_enough_args": "%1$sتحتاج الى تحديد الأمر والمؤشر المراد مسحه. ",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sتمت إزالة الإستجابة **#%2$d** للأمر `%3$s`بشكل صحيح"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
