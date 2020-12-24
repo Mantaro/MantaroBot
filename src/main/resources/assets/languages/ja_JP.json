@@ -237,6 +237,7 @@
       "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it. If you need help with the bot, you can join <https://support.mantaro.site>\n%2$s",
       "soundcloud_no_args": "%1$s曲名を指定してください… 私は魔法使いではないので考えを読み取ることはできません…(-_-;)",
       "too_many_errors": "%1$sToo many errors on this session, stopping...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
         "header_field": "Instructions",
@@ -463,6 +464,7 @@
         "invalid_number": "%1$s変更には正確な値が必要です。",
         "no_index": "%1$s存在しないインデックスを削除することはできません。",
         "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
@@ -1679,6 +1681,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
