@@ -274,12 +274,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                     beg = String.format(language.get("commands.music_general.premium_beg"), EmoteReference.HEART);
                 }
 
-                ch.sendMessageFormat(language.get("commands.music_general.queue_finished"), EmoteReference.MEGA, beg).queue(message -> {
-                    // This can happen...
-                    if (getRequestedTextChannel() != null) {
-                        message.delete().queueAfter(30, TimeUnit.SECONDS);
-                    }
-                });
+                ch.sendMessageFormat(language.get("commands.music_general.queue_finished"), EmoteReference.MEGA, beg).queue();
             }
         } catch (Exception e) {
             e.printStackTrace();

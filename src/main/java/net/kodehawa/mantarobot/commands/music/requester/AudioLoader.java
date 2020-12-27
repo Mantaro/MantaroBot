@@ -153,18 +153,19 @@ public class AudioLoader implements AudioLoadResultHandler {
         final var title = trackInfo.title;
         final var length = trackInfo.length;
 
-        var queueLimit = guildData.getMusicQueueSizeLimit() == null || guildData.getMusicQueueSizeLimit() < 1 ?
-                MAX_QUEUE_LENGTH : guildData.getMusicQueueSizeLimit();
+        long queueLimit = MAX_QUEUE_LENGTH;
+        if (guildData.getMusicQueueSizeLimit() != null && guildData.getMusicQueueSizeLimit() > 1) {
+            queueLimit = guildData.getMusicQueueSizeLimit();
+        }
 
         var fqSize = guildData.getMaxFairQueue();
         ConcurrentLinkedDeque<AudioTrack> queue = trackScheduler.getQueue();
 
         if (queue.size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if (!silent) {
-                event.getChannel().sendMessageFormat(
-                        language.get("commands.music_general.loader.over_queue_limit"),
+                event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.over_queue_limit"),
                         EmoteReference.WARNING, title, queueLimit
-                ).queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
+                ).queue();
             }
             return;
         }

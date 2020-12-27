@@ -165,9 +165,7 @@ public class VoiceChannelListener implements EventListener {
                     textChannel.sendMessageFormat(scheduler.getLanguage().get(
                             "commands.music_general.listener.left_alone"),
                             EmoteReference.THINKING, vc.getName()
-                    ).queue(m -> m.delete()
-                            .queueAfter(30, TimeUnit.SECONDS)
-                    );
+                    ).queue();
                 }
             }
 
