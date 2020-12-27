@@ -366,7 +366,7 @@
       "no_track": "%1$sNie ma utworu w kolejce na pozycji `%2$d`!",
       "invalid_number": "(%1$s`%2$s`) Jeden z zakresów nie jest poprawną liczbą!",
       "invalid_number_range": "%1$s`%2$s` to nieważny numer lub zakres!",
-      "success": "%1$sUsunięto **%2$d piosene(k)** z kolejki.",
+      "success": "%1$sUsunięto **%2$d piosenkę(ki)** z kolejki.",
       "not_dj": "%1$sMusisz być DJ-em, żeby wykonać tę akcję."
     },
     "stop": {
