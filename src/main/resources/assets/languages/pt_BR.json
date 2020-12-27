@@ -232,7 +232,7 @@
       "enjoy_note": "Aprecie a música! <3",
       "no_player": "%1$sEu não consigo achar nenhum player de música aqui... (tente tocar algo novamente?)",
       "not_connected": "%1$sVocê não está conectado no canal de voz no qual estou tocando atualmente! (Se você acha que isso é um erro, por favor reporte no servidor de suporte)",
-      "np_message": "%1$s Agora tocando **%2$s** (%3$s) no **%4$s** | %5$s",
+      "np_message": "%1$s Tocando agora **%2$s** (%3$s) no **%4$s** | %5$s",
       "track_error": "%1$sOuch, alguma coisa deu errado enquanto tocava essa música! Desculpe pelo inconveniente, Eu vou tentar tocar a próxima se tiver uma disponível.",
       "queue_finished": "%1$sTerminei de tocar a fila atual! Espero que tenha gostado.\n%2$s",
       "soundcloud_no_args": "%1$sVocê tem que me dar o nome de uma música para tocar, Eu não sou um mágico, então não posso adivinhar :(",
@@ -246,7 +246,7 @@
         "header": "Fila para o servidor %1$s",
         "nothing_playing": "Nada aqui, apenas poeira. Por que você não coloca algumas músicas?\nSe você acha que existem músicas aqui, mas elas não aparecem, tente usar `~>queue 1`.",
         "nothing_playing_2": "**Se houver uma música tocando e você não adicionar mais músicas, então há apenas poeira aqui. Você pode colocar mais músicas como deseja!**",
-        "np": "Agora tocando",
+        "np": "Tocando agora",
         "dj_np": "**Colocado por:** ",
         "page_overflow": "Nada aqui, apenas poeira. Por que você não volta algumas páginas??",
         "page_overflow_2": "Se você acha que existem músicas aqui, mas elas não aparecem, tente usar `~>queue 1`.",
@@ -300,7 +300,7 @@
     },
     "np": {
       "no_track": "%1$sOu não há uma música tocando ou não conseguimos encontrá-la, tente colocar outra música",
-      "header": "Agora Tocando"
+      "header": "Tocando Agora"
     },
     "pause": {
       "paused": "Player pausado. *(O player foi despausado anteriormente)*",
