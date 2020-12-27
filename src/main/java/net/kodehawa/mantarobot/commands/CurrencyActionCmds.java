@@ -716,8 +716,6 @@ public class CurrencyActionCmds {
                         }
                     }
 
-
-
                     // Reduce item stacks (aka join them) and process it.
                     var reducedStack = ItemStack.reduce(ita);
                     var itemDisplay = ItemStack.toString(reducedStack);

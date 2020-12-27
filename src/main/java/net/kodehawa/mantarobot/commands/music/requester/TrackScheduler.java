@@ -33,10 +33,13 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class TrackScheduler extends PlayerEventListenerAdapter {
     private static final Random random = new Random();
+    private static final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     private final String guildId;
     private final ConcurrentLinkedDeque<AudioTrack> queue;
     private final List<String> voteSkips;
@@ -174,7 +177,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                     ).queue(message -> {
                         if (getRequestedTextChannel() != null) {
                             lastMessageSentAt = System.currentTimeMillis();
-                            message.delete().queueAfter(90, TimeUnit.SECONDS);
+                            message.delete().queueAfter(90, TimeUnit.SECONDS, scheduledExecutor);
                         }
                     });
                 }
@@ -196,9 +199,7 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             //Avoid massive spam of when song error in mass.
             if ((lastErrorSentAt == 0 || lastErrorSentAt + 60000 < System.currentTimeMillis()) && errorCount < 10) {
                 lastErrorSentAt = System.currentTimeMillis();
-                getRequestedTextChannel().sendMessageFormat(
-                        language.get("commands.music_general.track_error"), EmoteReference.SAD
-                ).queue();
+                getRequestedTextChannel().sendMessageFormat(language.get("commands.music_general.track_error"), EmoteReference.SAD).queue();
             }
 
             errorCount++;
