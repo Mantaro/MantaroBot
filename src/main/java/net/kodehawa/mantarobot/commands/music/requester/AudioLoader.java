@@ -23,6 +23,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.I18n;
@@ -212,10 +213,17 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     private void onSearch(AudioPlaylist playlist) {
-        var list = playlist.getTracks();
+        final var list = playlist.getTracks();
         
         if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessageFormat(language.get("commands.music_general.missing_embed_permissions"), EmoteReference.ERROR).queue();
+
+            // Destroy connection if there's nothing playing
+            final var trackScheduler = musicManager.getTrackScheduler();
+            if (trackScheduler.getQueue().isEmpty() && trackScheduler.getCurrentTrack() == null) {
+                MantaroBot.getInstance().getAudioManager().resetMusicManagerFor(event.getGuild().getId());
+            }
+
             return;
         }
 

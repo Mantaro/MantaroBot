@@ -274,12 +274,6 @@ public class AudioCmdUtils {
 
             // If the link is not currently connected or connecting, accept connection and call openAudioConnection
             if (linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) {
-                log.debug(
-                        "Connected to channel {}. Reason: Link is not CONNECTED or CONNECTING " +
-                        "and we requested a connection from connectToVoiceChannel (custom music channel)",
-                        voiceChannel.getId()
-                );
-
                 return openAudioConnection(event, link, voiceChannel, lang)
                         .thenApply(__ -> true);
             }
@@ -327,11 +321,6 @@ public class AudioCmdUtils {
 
         // If the link is not currently connected or connecting, accept connection and call openAudioConnection
         if ((linkState != Link.State.CONNECTED && linkState != Link.State.CONNECTING) || cursed) {
-            log.debug("Connected to voice channel {}. " +
-                    "Reason: Link is not CONNECTED or CONNECTING and we requested a connection from connectToVoiceChannel",
-                    voiceChannel.getId()
-            );
-
             if (cursed) {
                 log.debug("We seemed to hit a Lavalink/JDA bug? Null voice channel, but {} state.", linkState);
             }
