@@ -692,7 +692,7 @@ public class CurrencyActionCmds {
                             continue;
                         }
 
-                        list.add(items.next());
+                        list.add(it);
                     }
 
                     if (overflow) {
@@ -705,11 +705,18 @@ public class CurrencyActionCmds {
 
                     // Make so it drops some decent amount of wood lol
                     if (ita.stream().anyMatch(is -> is.getItem() == ItemReference.WOOD)) {
-                        ita.add(new ItemStack(ItemReference.WOOD, Math.max(1, random.nextInt(7))));
+                        int am = Math.max(1, random.nextInt(7));
+                        if (playerInventory.getAmount(ItemReference.WOOD) + am <= 5000) {
+                            ita.add(new ItemStack(ItemReference.WOOD, am));
+                        }
                     } else if (found) {
                         // Guarantee at least one wood.
-                        ita.add(new ItemStack(ItemReference.WOOD, 1));
+                        if (playerInventory.getAmount(ItemReference.WOOD) < 5000) {
+                            ita.add(new ItemStack(ItemReference.WOOD, 1));
+                        }
                     }
+
+
 
                     // Reduce item stacks (aka join them) and process it.
                     var reducedStack = ItemStack.reduce(ita);
