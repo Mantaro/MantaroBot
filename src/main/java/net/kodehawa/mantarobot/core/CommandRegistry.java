@@ -101,8 +101,7 @@ public class CommandRegistry {
                 return;
             }
 
-            channel.sendMessage(
-                    """
+            channel.sendMessage("""
                     :x: You have been blacklisted from using all of Mantaro's functions, likely for botting or hitting the spam filter.
                     If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
                     """

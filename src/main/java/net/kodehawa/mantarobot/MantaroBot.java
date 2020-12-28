@@ -197,6 +197,13 @@ public class MantaroBot {
 
         postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
 
+        // Handle cleaning up stray lavalink players.
+        ScheduledExecutorService lavalinkCleanExecutor = Executors.newSingleThreadScheduledExecutor(
+                new ThreadFactoryBuilder().setNameFormat("Mantaro Player Cleaner").build()
+        );
+
+        postExecutor.scheduleAtFixedRate(this::cleanPlayers, 10, 10, TimeUnit.MINUTES);
+
         // This is basically done because Andesite doesn't destroy players on shutdown
         // when using LL compat. This causes players to not work on next startup.
         // Work around it by just killing/destroying all players before shutdown ends.
@@ -343,6 +350,17 @@ public class MantaroBot {
                 log.debug("Sent process shard stats to Redis (Global) [Running Shards: {}] -> {}",
                         manager.getShardsRunning(), json
                 );
+            }
+        }
+    }
+
+    private void cleanPlayers() {
+        for (var manager : getAudioManager().getMusicManagers().entrySet()) {
+            var musicManager = manager.getValue();
+            final var trackScheduler = musicManager.getTrackScheduler();
+            // We have no track, no queue, and it's not awaiting to be killed.
+            if (trackScheduler.getCurrentTrack() == null && trackScheduler.getQueue().isEmpty() && !musicManager.isAwaitingDeath()) {
+                musicManager.onDestroy();
             }
         }
     }
