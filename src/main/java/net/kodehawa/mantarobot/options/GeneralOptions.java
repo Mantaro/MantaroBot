@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
@@ -38,69 +37,72 @@ import java.util.stream.Collectors;
 public class GeneralOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (event, lang) -> {
-            GameLobby.LOBBYS.remove(event.getChannel().getIdLong());
-            Poll.getRunningPolls().remove(event.getChannel().getId());
+        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", (ctx) -> {
+            GameLobby.LOBBYS.remove(ctx.getChannel().getIdLong());
+            Poll.getRunningPolls().remove(ctx.getChannel().getId());
 
-            List<Future<Void>> stuck = InteractiveOperations.get(event.getChannel());
+            List<Future<Void>> stuck = InteractiveOperations.get(ctx.getChannel());
             if (stuck.size() > 0)
                 stuck.forEach(f -> f.cancel(true));
 
-            event.getChannel().sendMessageFormat(lang.get("options.lobby_reset.success"), EmoteReference.CORRECT).queue();
+            ctx.sendLocalized("options.lobby_reset.success", EmoteReference.CORRECT);
         });
 
         registerOption("modlog:blacklist", "Prevents an user from appearing in modlogs", """
                 Prevents an user from appearing in modlogs.
                 You need the user mention.
-                Example: ~>opts modlog blacklist @user""", (event, lang) -> {
-                    List<User> mentioned = event.getMessage().getMentionedUsers();
+                Example: ~>opts modlog blacklist @user""", (ctx) -> {
+                    List<User> mentioned = ctx.getMentionedUsers();
                     if (mentioned.isEmpty()) {
-                        event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.no_mentions"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.modlog_blacklist.no_mentions", EmoteReference.ERROR);
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    DBGuild dbGuild = ctx.getDBGuild();
                     GuildData guildData = dbGuild.getData();
 
                     List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-                    String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+                    String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
+                            .collect(Collectors.joining(","));
 
                     guildData.getModlogBlacklistedPeople().addAll(toBlackList);
                     dbGuild.save();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.modlog_blacklist.success"), EmoteReference.CORRECT, blacklisted).queue();
+                    ctx.sendLocalized("options.modlog_blacklist.success", EmoteReference.CORRECT, blacklisted);
         });
 
         registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)", """
                 Allows an user from appearing in modlogs.
                 You need the user mention.
-                Example: ~>opts modlog whitelist @user""", (event, lang) -> {
-                    List<User> mentioned = event.getMessage().getMentionedUsers();
+                Example: ~>opts modlog whitelist @user""", (ctx) -> {
+                    List<User> mentioned = ctx.getMentionedUsers();
                     if (mentioned.isEmpty()) {
-                        event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.no_mentions"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.modlog_whitelist.no_mentions", EmoteReference.ERROR);
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    DBGuild dbGuild = ctx.getDBGuild();
                     GuildData guildData = dbGuild.getData();
 
                     List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-                    String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+                    String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
+                            .collect(Collectors.joining(","));
 
                     guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
                     dbGuild.save();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.modlog_whitelist.success"), EmoteReference.CORRECT, unBlacklisted).queue();
+                    ctx.sendLocalized("options.modlog_whitelist.success", EmoteReference.CORRECT, unBlacklisted);
         });
 
-        registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
-                "Blacklist imageboard tags", (event, args, lang) -> {
+        registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", 
+                "Blacklists the specified imageboard tag from being looked up.",
+                "Blacklist imageboard tags", (ctx, args) -> {
                     if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.no_tag"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.imageboard_tags_blacklist_add.no_tag", EmoteReference.ERROR);
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    DBGuild dbGuild = ctx.getDBGuild();
                     GuildData guildData = dbGuild.getData();
 
                     for (String tag : args) {
@@ -108,19 +110,20 @@ public class GeneralOptions extends OptionHandler {
                     }
 
                     dbGuild.saveUpdating();
-                    event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_add.success"),
+                    ctx.sendLocalized("options.imageboard_tags_blacklist_add.success",
                             EmoteReference.CORRECT, String.join(" ,", args)
-                    ).queue();
+                    );
         });
 
-        registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", "Un-blacklist the specified imageboard tag from being looked up.",
-                "Un-blacklist imageboard tags", (event, args, lang) -> {
+        registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", 
+                "Un-blacklist the specified imageboard tag from being looked up.",
+                "Un-blacklist imageboard tags", (ctx, args) -> {
                     if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.no_tag"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.imageboard_tags_blacklist_remove.no_tag", EmoteReference.ERROR);
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    DBGuild dbGuild = ctx.getDBGuild();
                     GuildData guildData = dbGuild.getData();
 
                     for (String tag : args) {
@@ -128,9 +131,7 @@ public class GeneralOptions extends OptionHandler {
                     }
 
                     dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.imageboard_tags_blacklist_remove.success"),
-                            EmoteReference.CORRECT, String.join(" ,", args)
-                    ).queue();
+                    ctx.sendLocalized("options.imageboard_tags_blacklist_remove.success", EmoteReference.CORRECT, String.join(" ,", args));
         });
     }
 

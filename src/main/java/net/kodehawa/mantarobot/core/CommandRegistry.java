@@ -78,7 +78,7 @@ public class CommandRegistry {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix) {
+    public void process(GuildMessageReceivedEvent event, DBGuild dbGuild, String cmdName, String content, String prefix, boolean isMention) {
         final var managedDatabase = MantaroData.db();
         final var start = System.currentTimeMillis();
 
@@ -87,7 +87,7 @@ public class CommandRegistry {
 
         if (command == null) {
             // We will create a proper I18nContext once the custom command goes through, if it does. We don't need it otherwise.
-            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(), content), guildData, content);
+            CustomCmds.handle(prefix, cmdName, new Context(event, new I18nContext(), content, isMention), guildData, content);
             return;
         }
 
@@ -250,7 +250,7 @@ public class CommandRegistry {
         }
 
         if (!executedNew) {
-            cmd.run(new Context(event, new I18nContext(guildData, userData), content), cmdName, content);
+            cmd.run(new Context(event, new I18nContext(guildData, userData), content, isMention), cmdName, content);
         }
 
         log.debug("!! COMMAND INVOKE: command:{}, user:{}, guild:{}, channel:{}",

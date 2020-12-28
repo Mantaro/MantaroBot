@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.utils.concurrent.Task;
 import net.dv8tion.jda.internal.utils.concurrent.task.GatewayTask;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -158,7 +157,7 @@ public class CustomFinderUtil {
     }
 
     // This whole thing is hacky as FUCK
-    public static Task<List<Member>> lookupMember(Guild guild, Message message, Context context, String query) {
+    public static Task<List<Member>> lookupMember(Guild guild, Context context, String query) {
         if (query.trim().isEmpty()) {
             // This is next-level hacky, LMAO.
             // Basically we handle giving an empty value to this, and just return an empty list in that case.
@@ -166,8 +165,8 @@ public class CustomFinderUtil {
         }
 
         // Handle user mentions.
-        if (USER_MENTION.matcher(query).matches() && message.getMentionedMembers().size() > 0) {
-            if (message.getMentionedMembers().size() > 1) {
+        if (USER_MENTION.matcher(query).matches() && context.getMentionedMembers().size() > 0) {
+            if (context.getMentionedMembers().size() > 1) {
                 context.sendLocalized("general.too_many_mentions", EmoteReference.ERROR);
                 return emptyMemberTask();
             }
@@ -175,7 +174,7 @@ public class CustomFinderUtil {
             // If we get a user mention we actually DO get a "fake" member and can use it.
             // This avoids sending a new request to discord completely.
             CompletableFuture<List<Member>> result = new CompletableFuture<>();
-            result.complete(Collections.singletonList(message.getMentionedMembers().get(0)));
+            result.complete(Collections.singletonList(context.getMentionedMembers().get(0)));
             return new GatewayTask<>(result, () -> {});
         }
 

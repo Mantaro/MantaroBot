@@ -36,9 +36,9 @@ sourceCompatibility = 15
 targetCompatibility = 15
 
 repositories {
-    mavenLocal()
-    jcenter()
     mavenCentral()
+    jcenter()
+
     maven { url "https://dl.bintray.com/kodehawa/maven" }
     maven { url 'https://dl.bintray.com/natanbc/maven' }
     maven { url 'https://dl.bintray.com/sedmelluq/com.sedmelluq' }

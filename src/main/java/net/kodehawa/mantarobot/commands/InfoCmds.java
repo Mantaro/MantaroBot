@@ -143,12 +143,8 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                var owner = guild.getOwner();
-                //This is wank lol
-                if (owner == null) {
-                    owner = guild.retrieveOwner(false).complete();
-                }
-
+                // Retrieves from cache if we have it.
+                var owner = guild.retrieveOwner(false).complete();
                 var languageContext = ctx.getLanguageContext();
                 var str = """
                         **%1$s**

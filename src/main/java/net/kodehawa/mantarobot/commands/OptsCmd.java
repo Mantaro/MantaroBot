@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -28,7 +27,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.options.core.Option;
@@ -144,7 +142,7 @@ public class OptsCmd {
                                 a = StringUtils.EMPTY_ARRAY;
                             }
 
-                            callable.accept(ctx.getEvent(), a, new I18nContext(ctx.getDBGuild().getData(), ctx.getDBUser().getData()));
+                            callable.accept(ctx, a);
                             var player = MantaroData.db().getPlayer(ctx.getAuthor());
                             if (player.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 player.saveUpdating();
@@ -168,20 +166,22 @@ public class OptsCmd {
                         .build();
             }
         }).addOption("check:data", new Option("Data check.",
-                "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**. If you wanna send this to the support server, use -print at the end.", OptionType.GENERAL)
-                .setActionLang((event, args, lang) -> {
-                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                "Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**. " +
+                            "If you wanna send this to the support server, use -print at the end.", OptionType.GENERAL
+                ).setAction((ctx, args) -> {
+                    var dbGuild = ctx.getDBGuild();
                     var guildData = dbGuild.getData();
+                    var lang = ctx.getLanguageContext();
 
-                    //Map as follows: name, value
-                    //This filters out unused configs.
+                    // Map as follows: name, value
+                    // This filters out unused configs.
                     var fieldMap = mapConfigObjects(guildData);
-
                     if (fieldMap == null) {
-                        event.getChannel().sendMessage(String.format(lang.get("options.check_data.retrieve_failure"), EmoteReference.ERROR)).queue();
+                        ctx.sendLocalized("options.check_data.retrieve_failure", EmoteReference.ERROR);
                         return;
                     }
 
+                    final var guild = ctx.getGuild();
                     var opts = StringUtils.parseArguments(args);
                     if (opts.containsKey("print")) {
                         var builder = new StringBuilder();
@@ -189,18 +189,20 @@ public class OptsCmd {
                             builder.append("* ").append(entry.getKey()).append(": ").append(entry.getValue().getRight()).append("\n");
                         }
 
-                        event.getChannel().sendMessage("Send this: " + Utils.paste(builder.toString())).queue();
+                        ctx.send("Send this: " + Utils.paste(builder.toString()));
                         return;
                     }
 
                     var embedBuilder = new EmbedBuilder();
-                    embedBuilder.setAuthor("Option Debug", null, event.getAuthor().getEffectiveAvatarUrl())
-                            .setDescription(String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"),
-                                    event.getGuild().getName())
-                            ).setThumbnail(event.getGuild().getIconUrl())
+                    embedBuilder.setAuthor("Option Debug", null, ctx.getAuthor().getEffectiveAvatarUrl())
+                            .setDescription(
+                                    String.format(lang.get("options.check_data.header") + lang.get("options.check_data.terminology"),
+                                    guild.getName())
+                            )
+                            .setThumbnail(guild.getIconUrl())
                             .setFooter(lang.get("options.check_data.footer"), null);
-                    List<MessageEmbed.Field> fields = new LinkedList<>();
 
+                    List<MessageEmbed.Field> fields = new LinkedList<>();
                     for (var e : fieldMap.entrySet()) {
                         fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + e.getKey() + ":\n" + e.getValue().getLeft() + "",
                                 e.getValue() == null ? lang.get("options.check_data.null_set") : String.valueOf(e.getValue().getRight()),
@@ -209,20 +211,19 @@ public class OptsCmd {
                     }
 
                     var splitFields = DiscordUtils.divideFields(6, fields);
-                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-
-                    if (hasReactionPerms) {
-                        DiscordUtils.list(event, 200, false, embedBuilder, splitFields);
+                    if (ctx.hasReactionPerms()) {
+                        DiscordUtils.list(ctx.getEvent(), 200, false, embedBuilder, splitFields);
                     }
                     else {
-                        DiscordUtils.listText(event, 200, false, embedBuilder, splitFields);
+                        DiscordUtils.listText(ctx.getEvent(), 200, false, embedBuilder, splitFields);
                     }
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
-                "Resets all options set on this server.", OptionType.GENERAL).setActionLang((event, lang) -> {
+                "Resets all options set on this server.", OptionType.GENERAL).setAction((ctx) -> {
                     //Temporary stuff.
-                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    var temp = MantaroData.db().getGuild(event.getGuild()).getData();
+                    var dbGuild = ctx.getDBGuild();
+                    // New object?
+                    var temp = ctx.getDBGuild().getData();
 
                     //The persistent data we wish to maintain.
                     var premiumKey = temp.getPremiumKey();
@@ -243,7 +244,7 @@ public class OptsCmd {
 
                     newDbGuild.saveAsync();
 
-                    event.getChannel().sendMessage(String.format(lang.get("options.reset_all.success"), EmoteReference.CORRECT)).queue();
+                    ctx.sendLocalized("options.reset_all.success", EmoteReference.CORRECT);
                 })
         );
     }
