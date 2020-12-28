@@ -383,7 +383,7 @@ public class MantaroListener implements EventListener {
                             .mapEvent("event", event)
                             .mapChannel("event.channel", channel)
                             .mapUser("event.user", author)
-                            .mapMessage("event.message", originalMessage)
+                            .mapMessage("event.message", originalMessage, false)
                             .resolve(guildData.getEditMessageLog());
                 } else {
                     message = String.format(EmoteReference.WARNING +

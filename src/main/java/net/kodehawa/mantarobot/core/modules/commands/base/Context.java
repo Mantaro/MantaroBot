@@ -211,6 +211,10 @@ public class Context {
                 getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_HISTORY);
     }
 
+    public String getContent() {
+        return content;
+    }
+
     public String[] getArguments() {
         return StringUtils.advancedSplitArgs(content, 0);
     }

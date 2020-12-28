@@ -262,7 +262,6 @@ public class MuteCmds {
                     var roleName = String.join(" ", args);
                     var dbGuild = ctx.getDBGuild();
                     var guildData = dbGuild.getData();
-
                     Consumer<Role> consumer = (role) -> {
                         guildData.setMutedRole(role.getId());
                         dbGuild.saveAsync();

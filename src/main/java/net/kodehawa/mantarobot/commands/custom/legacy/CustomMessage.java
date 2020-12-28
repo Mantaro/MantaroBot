@@ -17,48 +17,31 @@
 package net.kodehawa.mantarobot.commands.custom.legacy;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
-
 public class CustomMessage {
-    private final Message message;
-    private final String prefix;
+    private final String message;
     private final List<Member> mentionedUsers;
+    private final boolean mentionPrefix;
 
-    public CustomMessage(Message message, String prefix, List<Member> mentionedUsers) {
+    public CustomMessage(String message, List<Member> mentionedUsers, boolean isMentionPrefix) {
         this.message = message;
-        this.prefix = prefix;
         this.mentionedUsers = mentionedUsers;
+        this.mentionPrefix = isMentionPrefix;
     }
 
     public String getContentRaw() {
-        if (prefix == null || prefix.isEmpty()) {
-            return splitArgs(message.getContentRaw(), 2)[1];
-        }
-
-        return splitArgs(message.getContentRaw().replace(prefix, "").trim(), 2)[1];
-    }
-
-    public String getContentDisplay() {
-        if (prefix == null || prefix.isEmpty()) {
-            return splitArgs(message.getContentDisplay(), 2)[1];
-        }
-
-        return splitArgs(message.getContentDisplay().replace(prefix, "").trim(), 2)[1];
-    }
-
-    public String getContentStripped() {
-        if (prefix == null || prefix.isEmpty()) {
-            return splitArgs(message.getContentStripped(), 2)[1];
-        }
-
-        return splitArgs(message.getContentStripped().replace(prefix, "").trim(), 2)[1];
+        return message;
     }
 
     public List<Member> getMentionedUsers() {
+        if (mentionPrefix) {
+            var mutable = new LinkedList<>(mentionedUsers);
+            mutable.remove(0);
+            return mutable;
+        }
         return mentionedUsers;
     }
 }
