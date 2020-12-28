@@ -465,6 +465,12 @@ public class MoneyCmds {
                         player.saveUpdating();
                     }
 
+                    if (balance < 300 && playerData.getExperience() < 3400 && !playerData.isNewPlayerNotice()) {
+                        extra = languageContext.get("commands.balance.new_player");
+                        playerData.setNewPlayerNotice(true);
+                        player.saveUpdating();
+                    }
+
                     ctx.send(EmoteReference.DIAMOND + (isExternal ?
                             languageContext.withRoot("commands", "balance.external_balance").formatted(user.getName(), balance) :
                             languageContext.withRoot("commands", "balance.own_balance").formatted(balance, extra))

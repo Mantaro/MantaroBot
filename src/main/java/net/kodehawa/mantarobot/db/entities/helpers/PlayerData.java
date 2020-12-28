@@ -74,6 +74,7 @@ public class PlayerData {
     private boolean resetWarning = false;
     private InventorySortType inventorySortType = InventorySortType.AMOUNT;
     private boolean hiddenLegacy = false;
+    private boolean newPlayerNotice = false;
 
     //lol?
     //this is needed so it actually works, even though it does absolutely nothing
@@ -411,6 +412,14 @@ public class PlayerData {
 
     public boolean isHiddenLegacy() {
         return hiddenLegacy;
+    }
+
+    public boolean isNewPlayerNotice() {
+        return newPlayerNotice;
+    }
+
+    public void setNewPlayerNotice(boolean newPlayerNotice) {
+        this.newPlayerNotice = newPlayerNotice;
     }
 
     @JsonIgnore
