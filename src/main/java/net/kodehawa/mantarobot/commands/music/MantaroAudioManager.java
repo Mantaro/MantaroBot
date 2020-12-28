@@ -109,7 +109,7 @@ public class MantaroAudioManager {
 
     public void resetMusicManagerFor(String id) {
         var previousManager = musicManagers.get(id);
-        previousManager.onDestroy();
+        previousManager.destroy();
 
         musicManagers.remove(id);
     }

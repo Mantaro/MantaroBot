@@ -358,9 +358,10 @@ public class MantaroBot {
         for (var manager : getAudioManager().getMusicManagers().entrySet()) {
             var musicManager = manager.getValue();
             final var trackScheduler = musicManager.getTrackScheduler();
+            final var guild = trackScheduler.getGuild();
             // We have no track, no queue, and it's not awaiting to be killed.
-            if (trackScheduler.getCurrentTrack() == null && trackScheduler.getQueue().isEmpty() && !musicManager.isAwaitingDeath()) {
-                musicManager.onDestroy();
+            if (trackScheduler.getCurrentTrack() == null && trackScheduler.getQueue().isEmpty() && !musicManager.isAwaitingDeath() && guild != null) {
+                audioManager.resetMusicManagerFor(guild.getId());
             }
         }
     }

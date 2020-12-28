@@ -87,7 +87,7 @@ public class GuildMusicManager {
         return this.trackScheduler;
     }
 
-    public void onDestroy() {
+    public void destroy() {
         getLavaLink().getPlayer().removeListener(trackScheduler);
         getLavaLink().resetPlayer();
         getLavaLink().destroy();
