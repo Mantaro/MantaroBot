@@ -466,7 +466,7 @@ public class MoneyCmds {
                     }
 
                     if (balance < 300 && playerData.getExperience() < 3400 && !playerData.isNewPlayerNotice()) {
-                        extra = languageContext.get("commands.balance.new_player");
+                        extra += (extra.isEmpty() ? "" : "\n") + languageContext.get("commands.balance.new_player");
                         playerData.setNewPlayerNotice(true);
                         player.saveUpdating();
                     }
