@@ -13,7 +13,7 @@
     "daily": "一天",
     "total": "總計",
     "arrow_react": "使用箭號反應來改變頁數。",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "傳送 &p >> 和 &p << 來切換頁數或 &cancel 結束。",
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在%1$d秒內超時",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "無法依據你的搜索條件找到任何結果。\n試著使用更簡短的名稱，範例：使用 '能量' 代替 `能量飲料`。或將他用引號包起來。",
       "claim_key": "你無法轉移認領鑰匙。"
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
+      "mop": "%1$s你已經清理完了你家中的所有塵土。",
       "mop_not_enough": "%1$s你的粉塵高度少於5%%， 所以掃除不會有什麼作用。",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": "%1$s所有藥水效果已清除。",
       "stamina": "%1$s已激活耐力，可維持三次採礦。",
       "stamina_used": "%1$s你目前已經有耐力效果了！",
       "haste": "%1$s已激活勤奮，可維持兩次活動。",
@@ -48,8 +48,8 @@
       "pill": "%1$s你吃了一個waifu藥丸! (可使用5回)",
       "pill_used": "%1$s你目前已經有waifu藥丸了!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$s你需要一個寶箱鑰匙來開啟寶箱。他是鎖住的！你能使用 `~>market buy key` 來購買他。",
+        "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
@@ -80,7 +80,7 @@
     "cancelled": "%1$s已取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "如果名稱包含空格，試著將他\"用引號包起來\"。也許help指令能告訴你更多資訊。",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
+      "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>market buy rod` 來購買一隻。",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
+      "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
       "success": "%1$s在安靜的釣魚時，你找到了%2$s且把它們放到水桶裡了。",
       "success_money": "%1$s在安靜的釣魚時，你找到了%2$s和**%3$d元**。%4$s",
       "success_money_noitem": "%1$s在安靜的釣魚時，你找到了**%2$d元**且把它們放進口袋裡了。",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$s無法連接至%2$s：連線超時。試著改變伺服器區域並再試一次。",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$s無法連接至%2$s：未知錯誤。"
       },
       "not_working": "%1$s由於YouTube阻止了許多大型伺服器的訪問，因此Mantaro音樂功能目前無法正常運作。我們的Mantaro Patreon還能正常運行，如果你想試試看的話，請考慮每月贊助我們4元美金，同時幫助我們維持Mantaro的正常運作及硬體更新。\n訪問 <https://patreon.com/mantaro> 取得更多資訊\n\n我們非常抱歉造成你的不便。別忘了還能使用SoundCloud搜尋! `(~>play soundcloud <關鍵詞>)`",
       "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字：YouTube, SoundCloud, Twitch)*",
@@ -237,7 +237,7 @@
       "queue_finished": "%1$s目前清單已播放完畢! 希望你用得開心，如果需要任何幫助，請加入<https://support.mantaro.site>\n%2$s",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$s你需要給我嵌入連結權限才能顯示菜單。如果你想要跳過菜單，使用 `~>forceplay` ，這將會直接播放第一個結果。",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道？再試一次。",
       "queue": {
         "header_field": "使用說明",
@@ -261,7 +261,7 @@
         "songs": "曲目",
         "clear_error": "%1$s你目前尚未連接到任何語音頻道，或者你不是DJ",
         "clear_success": "%1$s成功清除播放清單，大小為%2$s",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "no_embed": "%1$s你需要給我嵌入連結權限才能顯示歌曲佇列。"
       },
       "connect": {
         "success": "%1$s成功連接到**%2$s**!",
@@ -1306,8 +1306,8 @@
     },
     "pet": {
       "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage": "%1$s你需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`。",
+      "no_marriage_other": "%1$s%2$s 需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`。",
       "status": {
         "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。",
         "header": "%1$s 的狀態",
@@ -1319,7 +1319,7 @@
         "health": "生命值",
         "thirst": "口渴度",
         "hunger": "飢餓度",
-        "stamina": "Stamina",
+        "stamina": "耐力",
         "pet": "撫摸次數",
         "footer": "感謝使用Mantaro！<3"
       },
@@ -1330,78 +1330,78 @@
       },
       "pat": {
         "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "too_many": "How did you even get this many pats?"
+        "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
+        "too_many": "你是怎麼撫摸那麼多次的？"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "cute": "%1$s你一邊撫摸**%2$s**，他也一邊搖搖尾巴。**撫摸次數：%3$s**。%4$s",
+        "cute_not_animal": "%1$s你一邊輕拍**%2$s**，他也一邊快樂地露出笑容。**撫摸次數：%3$s**。%4$s",
+        "nothing": "%1$s**%2$s**只是坐在那邊，什麼也不做。**撫摸次數：%3$s**。%4$s",
+        "cheer": "%1$s**%2$s**的反應使你感到非常快樂。**撫摸次數：%3$s**。%4$s",
+        "scare": "%1$s你的寵物在被你撫摸時嚇到了。也許你來的太突然了？**撫摸次數：%3$s**。%4$s",
+        "counter_100": "%1$s看來他們的頭會被你拍得很閃亮。"
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
+        "not_enough_arguments": "%1$s你需要指出寵物名稱和你想購買的種類。(範例，`~>pet buy hello dog`)",
         "no_requirements": "%1$s你需要汽車和房屋才能購買寵物！房屋：%2$s，汽車：%3$s\n使用 `~>marry buyhouse` 和 `~>marry buycar` 來購買 :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
-        "already_has_pet": "%1$sYou already have a pet.",
-        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
-        "cancel_success": "%1$sCancelled operation.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
+        "no_house": "%1$s你需要寵物小屋才能購買寵物。你能在市場購買。",
+        "already_has_pet": "%1$s你已經擁有寵物了。",
+        "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
+        "confirm": "%1$s你確定你要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。傳送 `yes` 確認或 `no` 取消。",
+        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買。",
+        "cancel_success": "%1$s操作取消。",
+        "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
-        "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
-        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
-        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
-        "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
+        "no_pet": "%1$s你沒有任何寵物可以餵養。使用 `~>pet` 獲得更多說明。",
+        "no_content": "%1$s你需要指出要用來餵養寵物的食物 (範例，`~>pet feed steak`)",
+        "no_item": "%1$s找不到你指定的物品。",
+        "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
+        "no_need": "%1$s你的寵物目前還不餓，他們還不想吃東西。",
+        "not_inventory": "%1$s你沒有該物品。確定你擁有他且有正確的數量 (%2$s)。",
+        "not_applicable": "%1$s你不能將這種食物餵給你的寵物。",
+        "success": "%1$s太棒了！成功餵養你的寵物 %3$s 個 `%2$s`，他回復了 %4$s%% 飢餓度。現在為 %5$s%%。",
+        "too_much": "%1$s也許給他少一點食物看看？不要浪費食物！(增加的數量將超過100%%)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
-        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
-        "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
-        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
-        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
+        "no_pet": "%1$s你沒有任何寵物想要喝水。使用 `~>pet` 獲得更多說明。",
+        "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
+        "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
+        "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
+        "too_much": "%1$s也許給他少一點水看看？不要浪費水！(增加的數量將超過100%%)",
+        "success": "%1$s太棒了！成功給了你的寵物 %2$d 個水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
       },
       "activity": {
-        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
-        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "low_stamina": "%1$s**%2$s** 的耐力過低。給他一些水和食物來補充。",
+        "low_health": "%1$s**%2$s** 的血量過低。給他一些水和食物來補充。",
+        "low_hunger": "%1$s**%2$s** 的肚子太餓了，無法做任何事。*食物啊~*",
+        "low_thirst": "%1$s**%2$s** 太渴了，無法做任何事。",
+        "success_fish": "%1$s**%2$s** 成功的幫助你抓到魚了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
+        "success_chop": "%1$s**%2$s** 成功的幫助你伐木了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
+        "success_mine": "%1$s**%2$s** 成功的幫助你挖礦了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和額外的物品掉落機會)**！*已經包含在你得到的掉落物中*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename.",
-        "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
-        "no_content": "%1$sYou need to give me the new name of your pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+        "no_pet": "%1$s你沒有寵物可以重命名。",
+        "same_name": "%1$s你指定的名稱跟目前的一樣。",
+        "no_content": "%1$s你需要指定你寵物的新名稱。",
+        "not_enough_money": "%1$s你沒有足夠的錢來這樣做。價格：%2%s，你擁有：%3$s。",
+        "success": "%1$s成功將你的寵物 `%2$s` 重命名為 `%3$s`。已經從你的錢包扣除 %4$s 元，好好享受吧！"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+        "no_pet": "%1$s你沒有寵物可以丟棄。",
+        "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
+        "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。"
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
-        "author": "Pet information for type %1$s%2$s",
-        "name": "Pet Name",
-        "cost": "Pet Cost",
-        "abilities": "Abilities",
-        "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
-        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
+        "not_found": "%1$s找不到你指出的寵物類型。使用`~>pet list` 查看現有的類型。",
+        "author": "寵物種類 %1$s%2$s 的信息",
+        "name": "寵物名稱",
+        "cost": "寵物價格",
+        "abilities": "能力",
+        "food": "喜愛食物",
+        "coin_buildup": "金錢累積 (等級 1 / 100)",
+        "item_buildup": "物品累積 (等級 1 / 100)"
       }
     },
     "invite": {
