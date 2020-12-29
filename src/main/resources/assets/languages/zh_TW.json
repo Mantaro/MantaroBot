@@ -217,7 +217,7 @@
       "info": "%1$s你可以更改綁定到這個伺服器的語言 (如果適合的話) 使用 `~>opts language set <語言代碼>`，或是使用 `~>profile lang <語言代碼>` 來改變你的偏好語言。\n**可用語言:** `%2$s`\n如果我沒有你想要的語言，歡迎加入我們的翻譯團隊並參與翻譯工作!"
     },
     "season": {
-      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲譽排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
+      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲望排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
       "info_2": "\n\n目前賽季是**%1$s**，且已經有**%2$s**個玩家在參與了!\n\n有趣的來了，記得檢查 `~>leaderboard money -season` `~>leaderboard rep -season` 和 `~>leaderboard games -season`\n開始遊戲吧! <3\n感謝使用Mantaro。"
     },
     "music_general": {
@@ -534,17 +534,17 @@
         "這常常發生嗎？",
         "我還正-正常嗎？",
         "<3",
-        "pat pat",
+        "摸摸",
         "Pong。",
         "Pang。",
         "Pung。",
         "Peng。",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "不知道我做得怎麼樣",
+        "有問題嗎？",
+        "打乒乓球？耶！",
+        "ㄣ-嗯... ㄏ-嗨..."
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* - **我的Ping：%3$,d ms** (Websocket：%4$,d ms)"
     },
     "love": {
       "no_mention": "%1$s請提及至少一位用戶。",
@@ -980,7 +980,7 @@
       "old_credits": "舊版金錢",
       "level": "等級",
       "xp": "經驗值",
-      "rep": "聲譽",
+      "rep": "聲望",
       "birthday": "生日",
       "married": "伴侶",
       "nobody": "無",
