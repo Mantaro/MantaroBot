@@ -547,14 +547,14 @@
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$s請提及至少一位用戶。",
+      "not_ideal": "下次再試...",
+      "decent": "很棒了！",
+      "nice": "很好的一對！",
+      "perfect": "完美的一對！",
+      "yourself_note": "你是一個特別的人，你應該比任何人都愛自己 <3",
+      "header": "愛情測試器",
+      "result": "結果："
     },
     "marry": {
       "loveletter": {
