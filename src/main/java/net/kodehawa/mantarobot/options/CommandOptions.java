@@ -46,10 +46,10 @@ public class CommandOptions extends OptionHandler {
 
     @Subscribe
     public void onRegister(OptionRegistryEvent e) {
-        registerOption("server:command:disallow", "Command disallow",
-                "Disallows a command from being triggered at all. Use the command name\n" +
-                        "**Example:** `~>opts server command disallow 8ball`",
-                "Disallows a command from being triggered at all.", (ctx, args) -> {
+        registerOption("server:command:disallow", "Command disallow", """
+                Disallows a command from being triggered at all. Use the command name
+                **Example:** `~>opts server command disallow 8ball`
+                """, "Disallows a command from being triggered at all.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_command_disallow.no_command", EmoteReference.ERROR);
                 return;
@@ -77,10 +77,10 @@ public class CommandOptions extends OptionHandler {
         });
         addOptionAlias("server:command:disallow", "command:disable");
 
-        registerOption("server:command:allow", "Command allow",
-                "Allows a command from being triggered. Use the command name\n" +
-                        "**Example:** `~>opts server command allow 8ball`",
-                "Allows a command from being triggered.", (ctx, args) -> {
+        registerOption("server:command:allow", "Command allow", """
+                Allows a command from being triggered. Use the command name
+                **Example:** `~>opts server command allow 8ball`
+                """, "Allows a command from being triggered.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_command_allow.no_command", EmoteReference.ERROR);
                 return;
@@ -104,10 +104,10 @@ public class CommandOptions extends OptionHandler {
         });
         addOptionAlias("server:command:allow", "command:enable");
 
-        registerOption("server:command:specific:disallow", "Specific command disallow",
-                "Disallows a command from being triggered at all in a specific channel. Use the channel **name** and command name\n" +
-                        "**Example:** `~>opts server command specific disallow general 8ball`",
-                "Disallows a command from being triggered at all in a specific channel.", (ctx, args) -> {
+        registerOption("server:command:specific:disallow", "Specific command disallow", """
+                Disallows a command from being triggered at all in a specific channel. Use the channel **name** and command name
+                **Example:** `~>opts server command specific disallow general 8ball`
+                """, "Disallows a command from being triggered at all in a specific channel.", (ctx, args) -> {
             if (args.length < 2) {
                 ctx.sendLocalized("options.server_command_specific_disallow.invalid", EmoteReference.ERROR);
                 return;
@@ -145,10 +145,10 @@ public class CommandOptions extends OptionHandler {
         });
         addOptionAlias("server:command:specific:disallow", "command:specific:disable");
 
-        registerOption("server:command:specific:allow", "Specific command allow",
-                "Re-allows a command from being triggered in a specific channel. Use the channel **name** and command name\n" +
-                        "**Example:** `~>opts server command specific allow general 8ball`",
-                "Re-allows a command from being triggered in a specific channel.", ((ctx, args) -> {
+        registerOption("server:command:specific:allow", "Specific command allow", """
+                Re-allows a command from being triggered in a specific channel. Use the channel **name** and command name
+                **Example:** `~>opts server command specific allow general 8ball`
+                """, "Re-allows a command from being triggered in a specific channel.", ((ctx, args) -> {
             if (args.length < 2) {
                 ctx.sendLocalized("options.server_command_specific_allow.invalid", EmoteReference.ERROR);
                 return;
@@ -180,10 +180,10 @@ public class CommandOptions extends OptionHandler {
         }));
         addOptionAlias("server:command:specific:allow", "command:specific:enable");
 
-        registerOption("server:channel:disallow", "Channel disallow",
-                "Disallows a channel from commands. Use the channel **name**\n" +
-                        "**Example:** `~>opts server channel disallow general`",
-                "Disallows a channel from commands.", (ctx, args) -> {
+        registerOption("server:channel:disallow", "Channel disallow", """
+                Disallows a channel from commands. Use the channel **name**
+                **Example:** `~>opts server channel disallow general`
+                """, "Disallows a channel from commands.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_channel_disallow.no_channel", EmoteReference.ERROR);
                 return;
@@ -211,10 +211,10 @@ public class CommandOptions extends OptionHandler {
         });
         addOptionAlias("server:channel:disallow", "channel:disable");
 
-        registerOption("server:channel:allow", "Channel allow",
-                "Allows a channel from commands. Use the channel **name**\n" +
-                        "**Example:** `~>opts server channel allow general`",
-                "Re-allows a channel from commands.", (ctx, args) -> {
+        registerOption("server:channel:allow", "Channel allow", """
+                Allows a channel from commands. Use the channel **name**
+                **Example:** `~>opts server channel allow general`
+                """, "Re-allows a channel from commands.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_channel_allow.no_channel", EmoteReference.ERROR);
                 return;

@@ -73,10 +73,10 @@ public class MusicOptions extends OptionHandler {
             dbGuild.save();
         });
 
-        registerOption("music:channel", "Music VC lock",
-                "Locks the bot to a VC. You need the VC name.\n" +
-                        "Example: `~>opts music channel Music`",
-                "Locks the music feature to the specified VC.", (ctx, args) -> {
+        registerOption("music:channel", "Music VC lock", """
+                Locks the bot to a VC. You need the VC name.
+                Example: `~>opts music channel Music`
+                """, "Locks the music feature to the specified VC.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.music_channel.no_channel", EmoteReference.ERROR);
                 return;

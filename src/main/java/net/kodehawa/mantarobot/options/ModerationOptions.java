@@ -132,12 +132,11 @@ public class ModerationOptions extends OptionHandler {
             }
         });
 
-        registerOption("logs:exclude", "Exclude log channel.",
-                "Excludes a channel from logging. You need to use the channel name, *not* the mention.\n" +
-                        "**Example:** `~>opts logs exclude staff`. " +
-                        "The `opts logs exclude clearchannels` clears all of the log exclusions, " +
-                        "and `opts logs exclude remove <channel>` removes a single channel from the exclusion list.",
-                "Excludes a channel from logging.", (ctx, args) -> {
+        registerOption("logs:exclude", "Exclude log channel.", """
+                Excludes a channel from logging. You need to use the channel name, *not* the mention.
+                **Example:** `~>opts logs exclude staff`
+                The `opts logs exclude clearchannels` command clears all of the log exclusions, and `opts logs exclude remove <channel>` removes a single channel from the exclusion list.
+                """, "Excludes a channel from logging.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.logs_exclude.no_args", EmoteReference.ERROR);
                 return;

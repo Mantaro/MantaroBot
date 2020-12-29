@@ -51,12 +51,12 @@ public class GuildOptions extends OptionHandler {
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("language:set", "Sets the language of this guild",
-                "Sets the language of this guild. Languages use a language code (example en_US or de_DE).\n" +
-                "**Example:** `~>opts language set es_CL`", "Sets the language of this guild", ((ctx, args) -> {
+        registerOption("language:set", "Sets the language of this guild", """
+                Sets the language of this guild. Languages use a language code (example en_US or de_DE).
+                **Example:** `~>opts language set de_DE` for German. See `~>lang` for a full list.
+                """, "Sets the language of this guild", ((ctx, args) -> {
             if (args.length < 1) {
-                ctx.sendFormat(
-                        "%1$sYou need to specify the display language that you want the bot to use on this server. (To see avaliable lang codes, use `~>lang`)",
+                ctx.sendFormat("%1$sYou need to specify the display language that you want the bot to use on this server. (To see avaliable lang codes, use `~>lang`)",
                         EmoteReference.ERROR
                 );
 
@@ -139,10 +139,10 @@ public class GuildOptions extends OptionHandler {
             });
         });
 
-        registerOption("birthday:enable", "Birthday Monitoring enable",
-                "Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
-                        "**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
-                "Enables birthday monitoring.", (ctx, args) -> {
+        registerOption("birthday:enable", "Birthday Monitoring enable", """
+                Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)
+                **Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`
+                """, "Enables birthday monitoring.", (ctx, args) -> {
             if (args.length < 2) {
                 ctx.sendLocalized("options.birthday_enable.no_args", EmoteReference.ERROR);
                 return;
@@ -219,10 +219,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.birthday_disable.success", EmoteReference.MEGA);
         });
         
-        registerOption("prefix:set", "Prefix set",
-                "Sets the server prefix.\n" +
-                        "**Example:** `~>opts prefix set .`",
-                "Sets the server prefix.", (ctx, args) -> {
+        registerOption("prefix:set", "Prefix set", """
+                Sets the server prefix. 
+                **Example:** `~>opts prefix set .` 
+                """, "Sets the server prefix.", (ctx, args) -> {
             if (args.length < 1) {
                 ctx.sendLocalized("options.prefix_set.no_prefix", EmoteReference.ERROR);
                 return;
@@ -269,11 +269,11 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.prefix_clear.success", EmoteReference.MEGA);
         });
         
-        registerOption("autorole:set", "Autorole set",
-                "Sets the server autorole. This means every user who joins will get this role. **You need to use the role name, if it contains spaces" +
-                        " you need to wrap it in quotation marks**\n" +
-                        "**Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`",
-                "Sets the server autorole.", (ctx, args) -> {
+        registerOption("autorole:set", "Autorole set", """
+                Sets the server autorole. This means every user who joins will get this role.
+                **You need to use the role name, if it contains spaces you need to wrap it in quotation marks**
+                Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`
+                """, "Sets the server autorole.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.autorole_set.no_role", EmoteReference.ERROR);
                 return;
@@ -305,10 +305,10 @@ public class GuildOptions extends OptionHandler {
             }
         });
         
-        registerOption("autorole:unbind", "Autorole clear",
-                "Clear the server autorole.\n" +
-                        "**Example:** `~>opts autorole unbind`",
-                "Resets the servers autorole.", (ctx, args) -> {
+        registerOption("autorole:unbind", "Autorole clear", """
+                Clear the server autorole.
+                **Example:** `~>opts autorole unbind`
+                """, "Resets the servers autorole.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
             guildData.setGuildAutoRole(null);
@@ -316,10 +316,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.autorole_unbind.success", EmoteReference.OK);
         });
         
-        registerOption("usermessage:resetchannel", "Reset message channel",
-                "Clears the join/leave message channel.\n" +
-                        "**Example:** `~>opts usermessage resetchannel`",
-                "Clears the join/leave message channel.", (ctx, args) -> {
+        registerOption("usermessage:resetchannel", "Reset message channel", """
+                Clears the join/leave message channel.
+                **Example:** `~>opts usermessage resetchannel`
+                """, "Clears the join/leave message channel.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
             guildData.setLogJoinLeaveChannel(null);
@@ -328,10 +328,10 @@ public class GuildOptions extends OptionHandler {
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_resetchannel.success", EmoteReference.CORRECT);
         });
-        registerOption("usermessage:resetdata", "Reset join/leave message data",
-                "Resets the join/leave message data.\n" +
-                        "**Example:** `~>opts usermessage resetdata`",
-                "Resets the join/leave message data.", (ctx, args) -> {
+        registerOption("usermessage:resetdata", "Reset join/leave message data", """
+                Resets the join/leave message data.
+                Example:** `~>opts usermessage resetdata`
+                """, "Resets the join/leave message data.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
             guildData.setLeaveMessage(null);
@@ -342,9 +342,11 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.usermessage_resetdata.success", EmoteReference.CORRECT);
         });
 
-        registerOption("usermessage:join:channel", "Sets the join message channel", "Sets the join channel, you need the channel **name**\n" +
-                "**Example:** `~>opts usermessage join channel join-magic`\n" +
-                "You can reset it by doing `~>opts usermessage join resetchannel`", "Sets the join message channel", (ctx, args) -> {
+        registerOption("usermessage:join:channel", "Sets the join message channel", """
+                Sets the join channel, you need the channel **name**.
+                **Example:** `~>opts usermessage join channel join-magic`
+                You can reset it by doing `~>opts usermessage join resetchannel`
+                """, "Sets the join message channel", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_join_channel.no_channel", EmoteReference.ERROR);
                 return;
@@ -377,9 +379,10 @@ public class GuildOptions extends OptionHandler {
         addOptionAlias("usermessage:join:resetchannel", "resetjoinchannel");
 
 
-        registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
-                "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
-                "You can reset it by doing `~>opts usermessage leave resetchannel`", "Sets the leave message channel", (ctx, args) -> {
+        registerOption("usermessage:leave:channel", "Sets the leave message channel", """
+                Sets the leave channel, you need the channel **name**.
+                You can reset it by doing `~>opts usermessage leave resetchannel` 
+                """, "Sets the leave message channel", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_leave_channel.no_channel", EmoteReference.ERROR);
                 return;
@@ -412,11 +415,11 @@ public class GuildOptions extends OptionHandler {
         });
         addOptionAlias("usermessage:leave:resetchannel", "resetleavechannel");
 
-        registerOption("usermessage:channel", "Set message channel",
-                "Sets the join/leave message channel. You need the channel **name**\n" +
-                        "**Example:** `~>opts usermessage channel join-magic`\n" +
-                        "Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.",
-                "Sets the join/leave message channel.", (ctx, args) -> {
+        registerOption("usermessage:channel", "Set message channel", """
+                Sets the join/leave message channel. You need the channel **name**.
+                **Example:** `~>opts usermessage channel join-magic`
+                Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.
+                """, "Sets the join/leave message channel.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_channel.no_channel", EmoteReference.ERROR);
                 return;
@@ -439,10 +442,10 @@ public class GuildOptions extends OptionHandler {
             }
         });
         
-        registerOption("usermessage:joinmessage", "User join message",
-                "Sets the join message.\n" +
-                        "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`",
-                "Sets the join message.", (ctx, args) -> {
+        registerOption("usermessage:joinmessage", "User join message", """
+                Sets the join message.
+                **Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`
+                """, "Sets the join message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_joinmessage.no_message", EmoteReference.ERROR);
                 return;
@@ -460,19 +463,19 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("usermessage:resetjoinmessage", "Reset join message",
                 "Resets the join message", "Resets the join message.", (ctx, args) -> {
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    guildData.setJoinMessage(null);
-                    dbGuild.save();
-                    ctx.sendLocalized("options.usermessage_joinmessage_reset.success", EmoteReference.CORRECT);
-                });
+            guildData.setJoinMessage(null);
+            dbGuild.save();
+            ctx.sendLocalized("options.usermessage_joinmessage_reset.success", EmoteReference.CORRECT);
+        });
         addOptionAlias("usermessage:resetjoinmessage", "resetjoinmessage");
 
-        registerOption("usermessage:leavemessage", "User leave message",
-                "Sets the leave message.\n" +
-                        "**Example:** `~>opts leavemessage Sad to see you depart, $(event.user.name)`",
-                "Sets the leave message.", (ctx, args) -> {
+        registerOption("usermessage:leavemessage", "User leave message", """
+                Sets the leave message.
+                **Example:** `~>opts leavemessage Sad to see you depart, $(event.user.name)`
+                """, "Sets the leave message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_leavemessage.no_message", EmoteReference.ERROR);
                 return;
@@ -490,17 +493,19 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("usermessage:resetleavemessage", "Reset leave message",
                 "Resets the leave message","Resets the leave message.", (ctx, args) -> {
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    guildData.setLeaveMessage(null);
-                    dbGuild.save();
-                    ctx.sendLocalized("options.usermessage_leavemessage_reset.success", EmoteReference.CORRECT);
-                });
+            guildData.setLeaveMessage(null);
+            dbGuild.save();
+            ctx.sendLocalized("options.usermessage_leavemessage_reset.success", EmoteReference.CORRECT);
+        });
         addOptionAlias("usermessage:resetleavemessage", "resetleavemessage");
 
-        registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
-                "**Example**: `~>opts usermessage joinmessages add hi`", "Adds a new join message", ((ctx, args) -> {
+        registerOption("usermessage:joinmessages:add", "Join Message extra messages add", """
+                Adds a new join message
+                **Example**: `~>opts usermessage joinmessages add hi`
+                """, "Adds a new join message", ((ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_joinmessages_add.no_message", EmoteReference.ERROR);
                 return;
@@ -517,8 +522,10 @@ public class GuildOptions extends OptionHandler {
         }));
         addOptionAlias("usermessage:joinmessages:add", "joinmessages:add");
 
-        registerOption("usermessage:joinmessages:remove", "Join Message extra messages remove", "Removes a join message\n" +
-                "**Example**: `~>opts usermessage joinmessages remove 0`", "Removes a join message", ((ctx, args) -> {
+        registerOption("usermessage:joinmessages:remove", "Join Message extra messages remove", """
+                Removes a join message.
+                **Example**: `~>opts usermessage joinmessages remove 1`
+                """, "Removes a join message", ((ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_joinmessages_remove.no_message", EmoteReference.ERROR);
                 return;
@@ -546,8 +553,10 @@ public class GuildOptions extends OptionHandler {
         }));
         addOptionAlias("usermessage:joinmessages:remove", "joinmessages:remove");
 
-        registerOption("usermessage:joinmessages:clear", "Join Message extra messages clear", "Clears all extra join messages\n" +
-                "**Example**: `~>opts usermessage joinmessages clear`", "Clears all extra join messages", ((ctx, args) -> {
+        registerOption("usermessage:joinmessages:clear", "Join Message extra messages clear", """
+                Clears all extra join messages.
+                **Example**: `~>opts usermessage joinmessages clear`"
+                """, "Clears all extra join messages", ((ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             dbGuild.getData().getExtraJoinMessages().clear();
             dbGuild.save();
@@ -556,8 +565,10 @@ public class GuildOptions extends OptionHandler {
         }));
         addOptionAlias("usermessage:joinmessages:clear", "joinmessages:clear");
 
-        registerOption("usermessage:joinmessages:list", "Join Message extra messages list", "Lists all extra join messages\n" +
-                "**Example**: `~>opts usermessage joinmessages list`", "Lists all extra join messages", ((ctx, args) -> {
+        registerOption("usermessage:joinmessages:list", "Join Message extra messages list", """
+                Lists all extra join messages
+                **Example**: `~>opts usermessage joinmessages list`", 
+                """, "Lists all extra join messages", ((ctx, args) -> {
             StringBuilder builder = new StringBuilder();
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData data = dbGuild.getData();
@@ -592,8 +603,10 @@ public class GuildOptions extends OptionHandler {
             }
         }));
 
-        registerOption("usermessage:leavemessages:add", "Leave Message extra messages add", "Adds a new leave message\n" +
-                "**Example**: `~>opts usermessage leavemessages add hi`", "Adds a new leave message", ((ctx, args) -> {
+        registerOption("usermessage:leavemessages:add", "Leave Message extra messages add", """
+                Adds a new leave message
+                **Example**: `~>opts usermessage leavemessages add hi`
+                """, "Adds a new leave message", ((ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_leavemessages_add.no_message", EmoteReference.ERROR);
                 return;
@@ -608,8 +621,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.usermessage_leavemessage_add.success", EmoteReference.CORRECT, message);
         }));
 
-        registerOption("usermessage:leavemessages:remove", "Leave Message extra messages remove", "Removes a leave message\n" +
-                "**Example**: `~>opts usermessage leavemessages remove 0`", "Removes a leave message", ((ctx, args) -> {
+        registerOption("usermessage:leavemessages:remove", "Leave Message extra messages remove", """
+                Removes a leave message.
+                **Example**: `~>opts usermessage leavemessages remove 0`
+                """, "Removes a leave message", ((ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.usermessage_leavemessages_remove.no_message", EmoteReference.ERROR);
                 return;
@@ -637,8 +652,10 @@ public class GuildOptions extends OptionHandler {
             }
         }));
 
-        registerOption("usermessage:leavemessages:clear", "Leave Message extra messages clear", "Clears all extra leave messages\n" +
-                "**Example**: `~>opts usermessage leavemessages clear`", "Clears all extra leave messages", ((ctx, args) -> {
+        registerOption("usermessage:leavemessages:clear", "Leave Message extra messages clear", """
+                Clears all extra leave messages
+                **Example**: `~>opts usermessage leavemessages clear`
+                """, "Clears all extra leave messages", ((ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             dbGuild.getData().getExtraLeaveMessages().clear();
             dbGuild.save();
@@ -646,8 +663,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.usermessage_leavemessage_clear.success", EmoteReference.CORRECT);
         }));
 
-        registerOption("usermessage:leavemessages:list", "Leave Message extra messages list", "Lists all extra leave messages\n" +
-                "**Example**: `~>opts usermessage leavemessages list`", "Lists all extra leave messages", ((ctx, args) -> {
+        registerOption("usermessage:leavemessages:list", "Leave Message extra messages list", """
+                Lists all extra leave messages
+                **Example**: `~>opts usermessage leavemessages list`
+                """, "Lists all extra leave messages", ((ctx, args) -> {
             StringBuilder builder = new StringBuilder();
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData data = dbGuild.getData();
@@ -683,11 +702,11 @@ public class GuildOptions extends OptionHandler {
             }
         }));
         
-        registerOption("autoroles:add", "Autoroles add",
-                "Adds a role to the `~>iam` list.\n" +
-                        "You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.\n" +
-                        "**Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`",
-                "Adds an auto-assignable role to the iam lists.", (ctx, args) -> {
+        registerOption("autoroles:add", "Autoroles add", """
+                Adds a role to the `~>iam` list.
+                You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.
+                **Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`
+                """, "Adds an auto-assignable role to the iam lists.", (ctx, args) -> {
             if (args.length < 2) {
                 ctx.sendLocalized("options.autoroles_add.no_args", EmoteReference.ERROR);
                 return;
@@ -718,31 +737,31 @@ public class GuildOptions extends OptionHandler {
                 dbGuild.saveAsync();
                 ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, args[0], role.getName());
             } else {
-                DiscordUtils.selectList(ctx.getEvent(), roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                        role.getId(), role.getPosition()), s -> optsCmd.baseEmbed(ctx.getEvent(), "Select the Role:").setDescription(s).build(),
+                DiscordUtils.selectList(ctx.getEvent(), roleList,
+                        role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
+                        s -> optsCmd.baseEmbed(ctx.getEvent(), "Select the Role:").setDescription(s).build(),
                         role -> {
-                            if (!ctx.getMember().canInteract(role)) {
-                                ctx.sendLocalized("options.autoroles_add.hierarchy_conflict", EmoteReference.ERROR);
-                                return;
-                            }
+                    if (!ctx.getMember().canInteract(role)) {
+                        ctx.sendLocalized("options.autoroles_add.hierarchy_conflict", EmoteReference.ERROR);
+                        return;
+                    }
 
-                            if (!ctx.getSelfMember().canInteract(role)) {
-                                ctx.sendLocalized("options.autoroles_add.self_hierarchy_conflict", EmoteReference.ERROR);
-                                return;
-                            }
+                    if (!ctx.getSelfMember().canInteract(role)) {
+                        ctx.sendLocalized("options.autoroles_add.self_hierarchy_conflict", EmoteReference.ERROR);
+                        return;
+                    }
 
-                            guildData.getAutoroles().put(args[0], role.getId());
-                            dbGuild.saveAsync();
-                            ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, args[0], role.getName());
-                        });
-                }
+                    guildData.getAutoroles().put(args[0], role.getId());
+                    dbGuild.saveAsync();
+                    ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, args[0], role.getName());
+                });
+            }
         });
 
-        registerOption("autoroles:remove", "Autoroles remove",
-                "Removes a role from the `~>iam` list.\n" +
-                        "You need the name of the iam.\n" +
-                        "**Example:** `~>opts autoroles remove iamname`",
-                "Removes an auto-assignable role from iam.", (ctx, args) -> {
+        registerOption("autoroles:remove", "Autoroles remove", """
+                Removes a role from the `~>iam` list. You need the name of the iam.
+                **Example:** `~>opts autoroles remove iamname`
+                """, "Removes an auto-assignable role from iam.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.autoroles_add.no_args", EmoteReference.ERROR);
                 return;
@@ -842,10 +861,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.autoroles_category_remove.success_new", EmoteReference.CORRECT, category);
         });
 
-        registerOption("admincustom", "Admin custom commands",
-                "Locks custom commands to admin-only.\n" +
-                        "Example: `~>opts admincustom true`",
-                "Locks custom commands to admin-only.", (ctx, args) -> {
+        registerOption("admincustom", "Admin custom commands", """
+                Locks or unlocks custom commands to/from admin-only. Default is admin-locked.
+                Example: `~>opts admincustom true`
+                """, "Locks custom commands to admin-only or unlocks them. Default is locked.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.admincustom.no_args", EmoteReference.ERROR);
                 return;
@@ -859,15 +878,20 @@ public class GuildOptions extends OptionHandler {
             try {
                 guildData.setCustomAdminLockNew(Boolean.parseBoolean(action));
                 dbGuild.save();
-                String toSend = String.format("%s%s", EmoteReference.CORRECT, Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone"));
+                String toSend = String.format("%s%s", EmoteReference.CORRECT,
+                        Boolean.parseBoolean(action) ? lang.get("options.admincustom.admin_only") : lang.get("options.admincustom.everyone")
+                );
+
                 ctx.send(toSend);
             } catch (Exception ex) {
                 ctx.sendLocalized("options.admincustom.not_bool", EmoteReference.ERROR);
             }
         });
 
-        registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
-                "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (ctx, args) -> {
+        registerOption("timedisplay:set", "Time display set", """
+                Toggles between 12h and 24h time display.
+                Example: `~>opts timedisplay 24h`
+                """, "Toggles between 12h and 24h time display.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
@@ -893,9 +917,11 @@ public class GuildOptions extends OptionHandler {
             }
         });
 
-        registerOption("server:role:disallow", "Role disallow", "Disallows all users with a role from executing commands.\n" +
-                        "You need to provide the name of the role to disallow from mantaro.\n" +
-                        "Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`",
+        registerOption("server:role:disallow", "Role disallow", """
+                Disallows all users with a role from executing commands.
+                You need to provide the name of the role to disallow from Mantaro on this server.
+                Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`
+                """,
                 "Disallows all users with a role from executing commands.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_role_disallow.no_name", EmoteReference.ERROR);
@@ -924,10 +950,11 @@ public class GuildOptions extends OptionHandler {
             }
         });
 
-        registerOption("server:role:allow", "Role allow", "Allows all users with a role from executing commands.\n" +
-                        "You need to provide the name of the role to allow from mantaro. Has to be already disabled.\n" +
-                        "Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`",
-                "Allows all users with a role from executing commands (Has to be already disabled)", (ctx, args) -> {
+        registerOption("server:role:allow", "Role allow", """
+                Allows all users with a role from executing commands.
+                You need to provide the name of the role to allow from mantaro. Has to be already disabled.
+                Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`
+                """, "Allows all users with a role from executing commands (Has to be already disabled)", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.server_role_allow.no_name", EmoteReference.ERROR);
                 return;
@@ -1004,10 +1031,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.birthday_message_clear.success", EmoteReference.CORRECT);
         });
 
-        registerOption("modlog:blacklistwords:add", "Modlog Word Blacklist add",
-                "Adds a word to the modlog word blacklist (won't add any messages with that word). Can contain spaces.\n" +
-                        "**Example:** `~>opts modlog blacklistwords add mood`",
-                "Sets the join message.", (ctx, args) -> {
+        registerOption("modlog:blacklistwords:add", "Modlog Word Blacklist add", """
+                Adds a word to the modlog word blacklist (won't add any messages with that word). Can contain spaces.
+                **Example:** `~>opts modlog blacklistwords add mood`
+                """, "Sets the join message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.modlog_blacklistwords_add.no_word", EmoteReference.ERROR);
                 return;
@@ -1027,10 +1054,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.modlog_blacklistwords_add.success", EmoteReference.CORRECT, word);
         });
         
-        registerOption("modlog:blacklistwords:remove", "Modlog Word Blacklist remove",
-                "Removes a word from the modlog word blacklist. Can contain spaces\n" +
-                        "**Example:** `~>opts modlog blacklistwords remove mood`",
-                "Sets the join message.", (ctx, args) -> {
+        registerOption("modlog:blacklistwords:remove", "Modlog word blacklist remove", """
+                Removes a word from the modlog word blacklist. Can contain spaces
+                **Example:** `~>opts modlog blacklistwords remove mood`
+                """, "Sets the join message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.modlog_blacklistwords_add.no_word", EmoteReference.ERROR);
                 return;
@@ -1051,12 +1078,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.modlog_blacklistwords_remove.success", EmoteReference.CORRECT, word);
         });
         
-        registerOption("logs:editmessage", "Edit log message",
-                "Sets the edit message.\n" +
-                        "**Example:** `~>opts logs editmessage " +
-                        "[$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified." +
-                        "\n```diff\n-$(old)\n+$(new)````",
-                "Sets the edit message.", (ctx, args) -> {
+        registerOption("logs:editmessage", "Edit log message", """
+                Sets the edit message.
+                **Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.\n```diff\n-$(old)\n+$(new)````
+                """, "Sets the edit message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.logs_editmessage.no_message", EmoteReference.ERROR);
                 return;
@@ -1079,10 +1104,10 @@ public class GuildOptions extends OptionHandler {
         });
         addOptionAlias("logs:editmessage", "editmessage");
 
-        registerOption("logs:deletemessage", "Delete log message",
-                "Sets the delete message.\n" +
-                        "**Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `",
-                "Sets the delete message.", (ctx, args) -> {
+        registerOption("logs:deletemessage", "Delete log message", """
+                Sets the delete message.
+                **Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `
+                """, "Sets the delete message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.logs_deletemessage.no_message", EmoteReference.ERROR);
                 return;
@@ -1157,7 +1182,8 @@ public class GuildOptions extends OptionHandler {
         });
         addOptionAlias("logs:unbanmessage", "unbanmessage");
 
-        registerOption("commands:showdisablewarning", "Show disable warning", "Toggles on/off the disabled command warning.",
+        registerOption("commands:showdisablewarning", "Show disable warning",
+                "Toggles on/off the disabled command warning.",
                 "Toggles on/off the disabled command warning.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
@@ -1167,7 +1193,8 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.showdisablewarning.success", EmoteReference.CORRECT, guildData.isCommandWarningDisplay());
         });
 
-        registerOption("commands:birthdayblacklist:add", "Add someone to the birthday blacklist", "Adds a person to the birthday blacklist",
+        registerOption("commands:birthdayblacklist:add", "Add someone to the birthday blacklist",
+                "Adds a person to the birthday blacklist",
                 "Add someone to the birthday blacklist", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
@@ -1187,7 +1214,8 @@ public class GuildOptions extends OptionHandler {
             });
         });
 
-        registerOption("commands:birthdayblacklist:remove", "Removes someone to the birthday blacklist", "Removes a person from the birthday blacklist",
+        registerOption("commands:birthdayblacklist:remove", "Removes someone to the birthday blacklist",
+                "Removes a person from the birthday blacklist",
                 "Remove someone to the birthday blacklist", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
@@ -1207,7 +1235,8 @@ public class GuildOptions extends OptionHandler {
             });
         });
 
-        registerOption("commands:lobby:disable", "Disables game multiple and lobby.", "Disables game multiple and lobby.",
+        registerOption("commands:lobby:disable", "Disables game multiple and lobby.",
+                "Disables game multiple and lobby.",
                 "Disables game multiple and lobby.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
@@ -1218,7 +1247,8 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.lobby.disable.success", EmoteReference.CORRECT);
         });
 
-        registerOption("commands:lobby:enable", "Enables game multiple and lobby.", "Enables game multiple and lobby.",
+        registerOption("commands:lobby:enable", "Enables game multiple and lobby.",
+                "Enables game multiple and lobby.",
                 "Enables game multiple and lobby.", (ctx, args) -> {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
@@ -1234,10 +1264,10 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.lobby.enable.success", EmoteReference.CORRECT);
         });
 
-        registerOption("djrole:set", "Set a custom DJ role",
-                "Sets a custom DJ role. This role will be used to control music." +
-                        "**Example:** `~>opts djrole set DJ`, `~>opts djrole set \"Magic Role\"`",
-                "Sets the DJ role.", (ctx, args) -> {
+        registerOption("djrole:set", "Set a custom DJ role", """
+                Sets a custom DJ role. This role will be used to control music.
+                **Example:** `~>opts djrole set DJ`, `~>opts djrole set \"Magic Role\"`
+                """, "Sets the DJ role.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.djrole_set.no_role", EmoteReference.ERROR);
                 return;
