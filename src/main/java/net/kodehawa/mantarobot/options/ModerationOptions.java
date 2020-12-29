@@ -142,6 +142,7 @@ public class ModerationOptions extends OptionHandler {
                 ctx.sendLocalized("options.logs_exclude.no_args", EmoteReference.ERROR);
                 return;
             }
+
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
