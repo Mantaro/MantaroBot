@@ -623,6 +623,71 @@ public class CommandOptions extends OptionHandler {
                 consumer.accept(role);
             }
         });
+
+        registerOption("server:role:disallow", "Role disallow", """
+                Disallows all users with a role from executing commands.
+                You need to provide the name of the role to disallow from Mantaro on this server.
+                Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`
+                """,
+                "Disallows all users with a role from executing commands.", (ctx, args) -> {
+                    if (args.length == 0) {
+                        ctx.sendLocalized("options.server_role_disallow.no_name", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    DBGuild dbGuild = ctx.getDBGuild();
+                    GuildData guildData = dbGuild.getData();
+                    String roleName = String.join(" ", args);
+
+                    Consumer<Role> consumer = (role) -> {
+                        guildData.getDisabledRoles().add(role.getId());
+                        dbGuild.saveAsync();
+                        ctx.sendLocalized("options.server_role_disallow.success", EmoteReference.CORRECT, role.getName());
+                    };
+
+                    Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
+
+                    if (role != null && role.isPublicRole()) {
+                        ctx.sendLocalized("options.server_role_disallow.public_role", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    if (role != null) {
+                        consumer.accept(role);
+                    }
+                });
+
+        registerOption("server:role:allow", "Role allow", """
+                Allows all users with a role from executing commands.
+                You need to provide the name of the role to allow from mantaro. Has to be already disabled.
+                Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`
+                """, "Allows all users with a role from executing commands (Has to be already disabled)", (ctx, args) -> {
+            if (args.length == 0) {
+                ctx.sendLocalized("options.server_role_allow.no_name", EmoteReference.ERROR);
+                return;
+            }
+
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
+            String roleName = String.join(" ", args);
+
+            Consumer<Role> consumer = (role) -> {
+                if (!guildData.getDisabledRoles().contains(role.getId())) {
+                    ctx.sendLocalized("options.server_role_allow.not_disabled", EmoteReference.ERROR);
+                    return;
+                }
+
+                guildData.getDisabledRoles().remove(role.getId());
+                dbGuild.saveAsync();
+                ctx.sendLocalized("options.server_role_allow.success", EmoteReference.CORRECT, role.getName());
+            };
+
+            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
+
+            if (role != null) {
+                consumer.accept(role);
+            }
+        });
     }
 
     @Override
