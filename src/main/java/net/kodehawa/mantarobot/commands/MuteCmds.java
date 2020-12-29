@@ -227,6 +227,11 @@ public class MuteCmds {
                         return;
                     }
 
+                    if (time < 10000) {
+                        ctx.sendLocalized("commands.defaultmutetimeout_set.too_short", EmoteReference.ERROR);
+                        return;
+                    }
+
                     var dbGuild = ctx.getDBGuild();
                     var guildData = dbGuild.getData();
 

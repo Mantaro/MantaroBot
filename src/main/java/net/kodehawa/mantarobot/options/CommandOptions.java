@@ -546,7 +546,6 @@ public class CommandOptions extends OptionHandler {
                     return;
                 }
 
-                //reusing strings v2
                 if (role.isPublicRole()) {
                     ctx.sendLocalized("options.server_role_disallow.public_role", EmoteReference.ERROR);
                     return;
