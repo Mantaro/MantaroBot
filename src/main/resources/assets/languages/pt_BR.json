@@ -1579,6 +1579,7 @@
       "bot_notice": "%1$sBots não podem ter dinheiro.",
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
+      "new_player": "Olá! Vejo que você pode ser novo aqui. Este guia vai te ajudar muito: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Isso só será mostrado uma vez.",
       "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `~>profile` :heart:\nSeu inventário foi mantido, talvez venda algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
     },
     "daily": {
