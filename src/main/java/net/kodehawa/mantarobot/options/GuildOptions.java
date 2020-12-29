@@ -499,7 +499,6 @@ public class GuildOptions extends OptionHandler {
                 });
         addOptionAlias("usermessage:resetleavemessage", "resetleavemessage");
 
-
         registerOption("usermessage:joinmessages:add", "Join Message extra messages add", "Adds a new join message\n" +
                 "**Example**: `~>opts usermessage joinmessages add hi`", "Adds a new join message", ((ctx, args) -> {
             if (args.length == 0) {
@@ -516,6 +515,7 @@ public class GuildOptions extends OptionHandler {
 
             ctx.sendLocalized("options.usermessage_joinmessage_add.success", EmoteReference.CORRECT, message);
         }));
+        addOptionAlias("usermessage:joinmessages:add", "joinmessages:add");
 
         registerOption("usermessage:joinmessages:remove", "Join Message extra messages remove", "Removes a join message\n" +
                 "**Example**: `~>opts usermessage joinmessages remove 0`", "Removes a join message", ((ctx, args) -> {
@@ -544,6 +544,7 @@ public class GuildOptions extends OptionHandler {
                 ctx.sendLocalized("options.usermessage_joinmessage_remove.wrong_index", EmoteReference.ERROR);
             }
         }));
+        addOptionAlias("usermessage:joinmessages:remove", "joinmessages:remove");
 
         registerOption("usermessage:joinmessages:clear", "Join Message extra messages clear", "Clears all extra join messages\n" +
                 "**Example**: `~>opts usermessage joinmessages clear`", "Clears all extra join messages", ((ctx, args) -> {
@@ -553,6 +554,7 @@ public class GuildOptions extends OptionHandler {
 
             ctx.sendLocalized("options.usermessage_joinmessage_clear.success", EmoteReference.CORRECT);
         }));
+        addOptionAlias("usermessage:joinmessages:clear", "joinmessages:clear");
 
         registerOption("usermessage:joinmessages:list", "Join Message extra messages list", "Lists all extra join messages\n" +
                 "**Example**: `~>opts usermessage joinmessages list`", "Lists all extra join messages", ((ctx, args) -> {
