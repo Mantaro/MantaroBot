@@ -38,95 +38,93 @@ public class MusicOptions extends OptionHandler {
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
         registerOption("fairqueue:max", "Fair queue maximum",
-                "Sets the maximum fairqueue value (max amount of the same song any user can add).\n" +
-                        "Example: `~>opts fairqueue max 5`",
+                "Sets the maximum fairqueue value (max amount of the same song any user can add).\n" + "Example: `~>opts fairqueue max 5`",
                 "Sets the maximum fairqueue value.", (ctx, args) -> {
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    if (args.length == 0) {
-                        ctx.sendLocalized("options.fairqueue_max.invalid", EmoteReference.ERROR);
-                        return;
-                    }
+            if (args.length == 0) {
+                ctx.sendLocalized("options.fairqueue_max.invalid", EmoteReference.ERROR);
+                return;
+            }
 
-                    String much = args[0];
-                    final int fq;
-                    try {
-                        fq = Integer.parseInt(much);
-                    } catch (Exception ex) {
-                        ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
-                        return;
-                    }
+            String much = args[0];
+            final int fq;
+            try {
+                fq = Integer.parseInt(much);
+            } catch (Exception ex) {
+                ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
+                return;
+            }
 
-                    guildData.setMaxFairQueue(fq);
-                    dbGuild.save();
-                    ctx.sendLocalized("options.fairqueue_max.success", EmoteReference.CORRECT, fq);
-                });
+            guildData.setMaxFairQueue(fq);
+            dbGuild.save();
+            ctx.sendLocalized("options.fairqueue_max.success", EmoteReference.CORRECT, fq);
+        });
 
-        registerOption("musicannounce:toggle", "Music announce toggle", "Toggles whether the bot will announce the new song playing or no.",
-                (ctx) -> {
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
-                    boolean t1 = guildData.isMusicAnnounce();
+        registerOption("musicannounce:toggle", "Music announce toggle",
+                "Toggles whether the bot will announce the new song playing or no.", (ctx) -> {
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
+            boolean t1 = guildData.isMusicAnnounce();
 
-                    guildData.setMusicAnnounce(!t1);
-                    ctx.sendLocalized("options.musicannounce_toggle.success", EmoteReference.CORRECT, !t1);
-                    dbGuild.save();
-                });
+            guildData.setMusicAnnounce(!t1);
+            ctx.sendLocalized("options.musicannounce_toggle.success", EmoteReference.CORRECT, !t1);
+            dbGuild.save();
+        });
 
         registerOption("music:channel", "Music VC lock",
                 "Locks the bot to a VC. You need the VC name.\n" +
                         "Example: `~>opts music channel Music`",
                 "Locks the music feature to the specified VC.", (ctx, args) -> {
-                    if (args.length == 0) {
-                        ctx.sendLocalized("options.music_channel.no_channel", EmoteReference.ERROR);
-                        return;
-                    }
+            if (args.length == 0) {
+                ctx.sendLocalized("options.music_channel.no_channel", EmoteReference.ERROR);
+                return;
+            }
 
-                    String channelName = String.join(" ", args);
+            String channelName = String.join(" ", args);
 
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
-                    Consumer<VoiceChannel> consumer = voiceChannel -> {
-                        guildData.setMusicChannel(voiceChannel.getId());
-                        dbGuild.save();
-                        ctx.sendLocalized("options.music_channel.success", EmoteReference.OK, voiceChannel.getName());
-                    };
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
+            Consumer<VoiceChannel> consumer = voiceChannel -> {
+                guildData.setMusicChannel(voiceChannel.getId());
+                dbGuild.save();
+                ctx.sendLocalized("options.music_channel.success", EmoteReference.OK, voiceChannel.getName());
+            };
 
-                    VoiceChannel channel = FinderUtils.findVoiceChannelSelect(ctx.getEvent(), channelName, consumer);
+            VoiceChannel channel = FinderUtils.findVoiceChannelSelect(ctx.getEvent(), channelName, consumer);
 
-                    if (channel != null) {
-                        consumer.accept(channel);
-                    }
-                });
+            if (channel != null) {
+                consumer.accept(channel);
+            }
+        });
 
         registerOption("music:queuelimit", "Music queue limit",
-                "Sets a custom queue limit.\n" +
-                        "Example: `~>opts music queuelimit 90`",
+                "Sets a custom queue limit.\nExample: `~>opts music queuelimit 90`",
                 "Sets a custom queue limit.", (ctx, args) -> {
-                    if (args.length == 0) {
-                        ctx.sendLocalized("options.music_queuelimit.no_args", EmoteReference.ERROR);
-                        return;
-                    }
+            if (args.length == 0) {
+                ctx.sendLocalized("options.music_queuelimit.no_args", EmoteReference.ERROR);
+                return;
+            }
 
-                    boolean isNumber = args[0].matches("^[0-9]*$");
-                    if (!isNumber) {
-                        ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
-                        return;
-                    }
+            boolean isNumber = args[0].matches("^[0-9]*$");
+            if (!isNumber) {
+                ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
+                return;
+            }
 
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
-                    try {
-                        int finalSize = Integer.parseInt(args[0]);
-                        int applySize = Math.min(finalSize, 300);
-                        guildData.setMusicQueueSizeLimit((long) applySize);
-                        dbGuild.save();
-                        ctx.sendLocalized("options.music_queuelimit.success", EmoteReference.MEGA, applySize);
-                    } catch (NumberFormatException ex) {
-                        ctx.sendLocalized("options.music_queuelimit.invalid", EmoteReference.ERROR);
-                    }
-                });
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
+            try {
+                int finalSize = Integer.parseInt(args[0]);
+                int applySize = Math.min(finalSize, 300);
+                guildData.setMusicQueueSizeLimit((long) applySize);
+                dbGuild.save();
+                ctx.sendLocalized("options.music_queuelimit.success", EmoteReference.MEGA, applySize);
+            } catch (NumberFormatException ex) {
+                ctx.sendLocalized("options.music_queuelimit.invalid", EmoteReference.ERROR);
+            }
+        });
 
         registerOption("music:clearchannel", "Music channel clear", "Clears the specific music channel.", (ctx) -> {
             DBGuild dbGuild = ctx.getDBGuild();

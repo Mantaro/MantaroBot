@@ -51,9 +51,8 @@ public class GuildOptions extends OptionHandler {
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        //region opts language
-        //ironically, don't translate this one.
-        registerOption("language:set", "Sets the language of this guild", "Sets the language of this guild. Languages use a language code (example en_US or de_DE).\n" +
+        registerOption("language:set", "Sets the language of this guild",
+                "Sets the language of this guild. Languages use a language code (example en_US or de_DE).\n" +
                 "**Example:** `~>opts language set es_CL`", "Sets the language of this guild", ((ctx, args) -> {
             if (args.length < 1) {
                 ctx.sendFormat(
@@ -69,7 +68,9 @@ public class GuildOptions extends OptionHandler {
             String language = args[0];
 
             if (!I18n.isValidLanguage(language)) {
-                ctx.sendFormat("%s`%s` is not a valid language or it's not yet supported by Mantaro.", EmoteReference.ERROR2, language);
+                ctx.sendFormat("%s`%s` is not a valid language or it's not yet supported by Mantaro. Check `~>lang` for a list of available languages",
+                        EmoteReference.ERROR2, language
+                );
                 return;
             }
 
@@ -77,9 +78,7 @@ public class GuildOptions extends OptionHandler {
             dbGuild.saveUpdating();
             ctx.sendFormat("%sSuccessfully set the language of this server to `%s`", EmoteReference.CORRECT, language);
         }));
-
-        //endregion
-        //region opts birthday
+        
         registerOption("birthday:test", "Tests if the birthday assigner works.",
                 "Tests if the birthday assigner works properly. You need to input an user mention/id/tag to test it with.",
                 "Tests if the birthday assigner works.", (ctx, args) -> {
@@ -219,10 +218,7 @@ public class GuildOptions extends OptionHandler {
             dbGuild.saveAsync();
             ctx.sendLocalized("options.birthday_disable.success", EmoteReference.MEGA);
         });
-        //endregion
-
-        //region prefix
-        //region set
+        
         registerOption("prefix:set", "Prefix set",
                 "Sets the server prefix.\n" +
                         "**Example:** `~>opts prefix set .`",
@@ -262,9 +258,8 @@ public class GuildOptions extends OptionHandler {
             dbGuild.save();
 
             ctx.sendLocalized("options.prefix_set.success", EmoteReference.MEGA, prefix);
-        });//endregion
-
-        //region clear
+        });
+        
         registerOption("prefix:clear", "Prefix clear",
                 "Clear the server prefix.\n**Example:** `~>opts prefix clear`", (ctx) -> {
             DBGuild dbGuild = ctx.getDBGuild();
@@ -272,11 +267,8 @@ public class GuildOptions extends OptionHandler {
             guildData.setGuildCustomPrefix(null);
             dbGuild.save();
             ctx.sendLocalized("options.prefix_clear.success", EmoteReference.MEGA);
-        });//endregion
-        // endregion
-
-        //region autorole
-        //region set
+        });
+        
         registerOption("autorole:set", "Autorole set",
                 "Sets the server autorole. This means every user who joins will get this role. **You need to use the role name, if it contains spaces" +
                         " you need to wrap it in quotation marks**\n" +
@@ -311,9 +303,8 @@ public class GuildOptions extends OptionHandler {
             if (role != null) {
                 consumer.accept(role);
             }
-        });//endregion
-
-        //region unbind
+        });
+        
         registerOption("autorole:unbind", "Autorole clear",
                 "Clear the server autorole.\n" +
                         "**Example:** `~>opts autorole unbind`",
@@ -323,11 +314,8 @@ public class GuildOptions extends OptionHandler {
             guildData.setGuildAutoRole(null);
             dbGuild.saveAsync();
             ctx.sendLocalized("options.autorole_unbind.success", EmoteReference.OK);
-        });//endregion
-        //endregion
-
-        //region usermessage
-        //region resetchannel
+        });
+        
         registerOption("usermessage:resetchannel", "Reset message channel",
                 "Clears the join/leave message channel.\n" +
                         "**Example:** `~>opts usermessage resetchannel`",
@@ -339,9 +327,7 @@ public class GuildOptions extends OptionHandler {
             guildData.setLogJoinChannel(null);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_resetchannel.success", EmoteReference.CORRECT);
-        });//endregion
-
-        //region resetdata
+        });
         registerOption("usermessage:resetdata", "Reset join/leave message data",
                 "Resets the join/leave message data.\n" +
                         "**Example:** `~>opts usermessage resetdata`",
@@ -355,9 +341,6 @@ public class GuildOptions extends OptionHandler {
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_resetdata.success", EmoteReference.CORRECT);
         });
-        //endregion
-
-        //region channel
 
         registerOption("usermessage:join:channel", "Sets the join message channel", "Sets the join channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage join channel join-magic`\n" +
@@ -454,9 +437,8 @@ public class GuildOptions extends OptionHandler {
             if (channel != null) {
                 consumer.accept(channel);
             }
-        });//endregion
-
-        //region joinmessage
+        });
+        
         registerOption("usermessage:joinmessage", "User join message",
                 "Sets the join message.\n" +
                         "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`",
@@ -473,11 +455,9 @@ public class GuildOptions extends OptionHandler {
             guildData.setJoinMessage(joinMessage);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_joinmessage.success", EmoteReference.CORRECT, joinMessage);
-        });//endregion
+        });
         addOptionAlias("usermessage:joinmessage", "joinmessage");
 
-
-        //region joinmessage
         registerOption("usermessage:resetjoinmessage", "Reset join message",
                 "Resets the join message", "Resets the join message.", (ctx, args) -> {
                     DBGuild dbGuild = ctx.getDBGuild();
@@ -486,11 +466,9 @@ public class GuildOptions extends OptionHandler {
                     guildData.setJoinMessage(null);
                     dbGuild.save();
                     ctx.sendLocalized("options.usermessage_joinmessage_reset.success", EmoteReference.CORRECT);
-                });//endregion
+                });
         addOptionAlias("usermessage:resetjoinmessage", "resetjoinmessage");
 
-
-        //region leavemessage
         registerOption("usermessage:leavemessage", "User leave message",
                 "Sets the leave message.\n" +
                         "**Example:** `~>opts leavemessage Sad to see you depart, $(event.user.name)`",
@@ -507,10 +485,9 @@ public class GuildOptions extends OptionHandler {
             guildData.setLeaveMessage(leaveMessage);
             dbGuild.save();
             ctx.sendLocalized("options.usermessage_leavemessage.success", EmoteReference.CORRECT, leaveMessage);
-        });//endregion
+        });
         addOptionAlias("usermessage:leavemessage", "leavemessage");
 
-        //region joinmessage
         registerOption("usermessage:resetleavemessage", "Reset leave message",
                 "Resets the leave message","Resets the leave message.", (ctx, args) -> {
                     DBGuild dbGuild = ctx.getDBGuild();
@@ -519,7 +496,7 @@ public class GuildOptions extends OptionHandler {
                     guildData.setLeaveMessage(null);
                     dbGuild.save();
                     ctx.sendLocalized("options.usermessage_leavemessage_reset.success", EmoteReference.CORRECT);
-                });//endregion
+                });
         addOptionAlias("usermessage:resetleavemessage", "resetleavemessage");
 
 
@@ -703,10 +680,7 @@ public class GuildOptions extends OptionHandler {
                 DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
             }
         }));
-
-        //endregion
-        //region autoroles
-        //region add
+        
         registerOption("autoroles:add", "Autoroles add",
                 "Adds a role to the `~>iam` list.\n" +
                         "You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.\n" +
@@ -762,7 +736,6 @@ public class GuildOptions extends OptionHandler {
                 }
         });
 
-        //region remove
         registerOption("autoroles:remove", "Autoroles remove",
                 "Removes a role from the `~>iam` list.\n" +
                         "You need the name of the iam.\n" +
@@ -783,9 +756,8 @@ public class GuildOptions extends OptionHandler {
             } else {
                 ctx.sendLocalized("options.autoroles_remove.not_found", EmoteReference.ERROR);
             }
-        });//endregion
-
-        //region clear
+        });
+        
         registerOption("autoroles:clear", "Autoroles clear",
                 "Removes all autoroles.",
                 "Removes all autoroles.", (ctx, args) -> {
@@ -793,7 +765,7 @@ public class GuildOptions extends OptionHandler {
             dbGuild.getData().getAutoroles().clear();
             dbGuild.saveAsync();
             ctx.sendLocalized("options.autoroles_clear.success", EmoteReference.CORRECT);
-        }); //endregion
+        });
 
         registerOption("autoroles:category:add", "Adds a category to autoroles",
                 "Adds a category to autoroles. Useful for organizing",
@@ -868,7 +840,6 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.autoroles_category_remove.success_new", EmoteReference.CORRECT, category);
         });
 
-        //region custom
         registerOption("admincustom", "Admin custom commands",
                 "Locks custom commands to admin-only.\n" +
                         "Example: `~>opts admincustom true`",
@@ -892,7 +863,6 @@ public class GuildOptions extends OptionHandler {
                 ctx.sendLocalized("options.admincustom.not_bool", EmoteReference.ERROR);
             }
         });
-        //endregion
 
         registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
                 "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (ctx, args) -> {
@@ -1032,7 +1002,6 @@ public class GuildOptions extends OptionHandler {
             ctx.sendLocalized("options.birthday_message_clear.success", EmoteReference.CORRECT);
         });
 
-        //region joinmessage
         registerOption("modlog:blacklistwords:add", "Modlog Word Blacklist add",
                 "Adds a word to the modlog word blacklist (won't add any messages with that word). Can contain spaces.\n" +
                         "**Example:** `~>opts modlog blacklistwords add mood`",
@@ -1054,9 +1023,8 @@ public class GuildOptions extends OptionHandler {
             guildData.getModLogBlacklistWords().add(word);
             dbGuild.save();
             ctx.sendLocalized("options.modlog_blacklistwords_add.success", EmoteReference.CORRECT, word);
-        });//endregion
-
-        //region joinmessage
+        });
+        
         registerOption("modlog:blacklistwords:remove", "Modlog Word Blacklist remove",
                 "Removes a word from the modlog word blacklist. Can contain spaces\n" +
                         "**Example:** `~>opts modlog blacklistwords remove mood`",
@@ -1079,12 +1047,13 @@ public class GuildOptions extends OptionHandler {
             guildData.getModLogBlacklistWords().remove(word);
             dbGuild.save();
             ctx.sendLocalized("options.modlog_blacklistwords_remove.success", EmoteReference.CORRECT, word);
-        });//endregion
-
-        //region editmessage
+        });
+        
         registerOption("logs:editmessage", "Edit log message",
                 "Sets the edit message.\n" +
-                        "**Example:** `~>opts logs editmessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified.\n```diff\n-$(old)\n+$(new)````",
+                        "**Example:** `~>opts logs editmessage " +
+                        "[$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** in channel **$(event.channel.name)** was modified." +
+                        "\n```diff\n-$(old)\n+$(new)````",
                 "Sets the edit message.", (ctx, args) -> {
             if (args.length == 0) {
                 ctx.sendLocalized("options.logs_editmessage.no_message", EmoteReference.ERROR);
@@ -1105,10 +1074,9 @@ public class GuildOptions extends OptionHandler {
             guildData.setEditMessageLog(editMessage);
             dbGuild.save();
             ctx.sendLocalized("options.logs_editmessage.success", EmoteReference.CORRECT, editMessage);
-        });//endregion
+        });
         addOptionAlias("logs:editmessage", "editmessage");
 
-        //region deletemessage
         registerOption("logs:deletemessage", "Delete log message",
                 "Sets the delete message.\n" +
                         "**Example:** `~>opts logs deletemessage [$(hour)] Message (ID: $(event.message.id)) created by **$(event.user.tag)** (ID: $(event.user.id)) in channel **$(event.channel.name)** was deleted.```diff\n-$(content)``` `",
@@ -1132,10 +1100,9 @@ public class GuildOptions extends OptionHandler {
             guildData.setDeleteMessageLog(deleteMessage);
             dbGuild.save();
             ctx.sendLocalized("options.logs_deletemessage.success", EmoteReference.CORRECT, deleteMessage);
-        });//endregion
+        });
         addOptionAlias("logs:deletemessage", "deletemessage");
 
-        //region banmessage
         registerOption("logs:banmessage", "Ban log message",
                 "Sets the ban message.\n" +
                         "**Example:** `~>opts logs banmessage [$(hour)] $(event.user.tag) just got banned.`",
@@ -1159,10 +1126,9 @@ public class GuildOptions extends OptionHandler {
             guildData.setBannedMemberLog(banMessage);
             dbGuild.save();
             ctx.sendLocalized("options.logs_banmessage.success", EmoteReference.CORRECT, banMessage);
-        });//endregion
+        });
         addOptionAlias("logs:banmessage", "banmessage");
 
-        //region ubbanmessage
         registerOption("logs:unbanmessage", "Unban log message",
                 "Sets the unban message.\n" +
                         "**Example:** `~>opts logs unbanmessage [$(hour)] $(event.user.tag) just got unbanned.`",
@@ -1186,7 +1152,7 @@ public class GuildOptions extends OptionHandler {
             guildData.setUnbannedMemberLog(unbanMessage);
             dbGuild.save();
             ctx.sendLocalized("options.logs_unbanmessage.success", EmoteReference.CORRECT, unbanMessage);
-        });//endregion
+        });
         addOptionAlias("logs:unbanmessage", "unbanmessage");
 
         registerOption("commands:showdisablewarning", "Show disable warning", "Toggles on/off the disabled command warning.",

@@ -52,86 +52,86 @@ public class GeneralOptions extends OptionHandler {
                 Prevents an user from appearing in modlogs.
                 You need the user mention.
                 Example: ~>opts modlog blacklist @user""", (ctx) -> {
-                    List<User> mentioned = ctx.getMentionedUsers();
-                    if (mentioned.isEmpty()) {
-                        ctx.sendLocalized("options.modlog_blacklist.no_mentions", EmoteReference.ERROR);
-                        return;
-                    }
+            List<User> mentioned = ctx.getMentionedUsers();
+            if (mentioned.isEmpty()) {
+                ctx.sendLocalized("options.modlog_blacklist.no_mentions", EmoteReference.ERROR);
+                return;
+            }
 
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-                    String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
-                            .collect(Collectors.joining(","));
+            List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
+                    .collect(Collectors.joining(","));
 
-                    guildData.getModlogBlacklistedPeople().addAll(toBlackList);
-                    dbGuild.save();
+            guildData.getModlogBlacklistedPeople().addAll(toBlackList);
+            dbGuild.save();
 
-                    ctx.sendLocalized("options.modlog_blacklist.success", EmoteReference.CORRECT, blacklisted);
+            ctx.sendLocalized("options.modlog_blacklist.success", EmoteReference.CORRECT, blacklisted);
         });
 
         registerOption("modlog:whitelist", "Allows an user from appearing in modlogs (everyone by default)", """
                 Allows an user from appearing in modlogs.
                 You need the user mention.
                 Example: ~>opts modlog whitelist @user""", (ctx) -> {
-                    List<User> mentioned = ctx.getMentionedUsers();
-                    if (mentioned.isEmpty()) {
-                        ctx.sendLocalized("options.modlog_whitelist.no_mentions", EmoteReference.ERROR);
-                        return;
-                    }
+            List<User> mentioned = ctx.getMentionedUsers();
+            if (mentioned.isEmpty()) {
+                ctx.sendLocalized("options.modlog_whitelist.no_mentions", EmoteReference.ERROR);
+                return;
+            }
 
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-                    String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
-                            .collect(Collectors.joining(","));
+            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
+                    .collect(Collectors.joining(","));
 
-                    guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
-                    dbGuild.save();
+            guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
+            dbGuild.save();
 
-                    ctx.sendLocalized("options.modlog_whitelist.success", EmoteReference.CORRECT, unBlacklisted);
+            ctx.sendLocalized("options.modlog_whitelist.success", EmoteReference.CORRECT, unBlacklisted);
         });
 
         registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", 
                 "Blacklists the specified imageboard tag from being looked up.",
                 "Blacklist imageboard tags", (ctx, args) -> {
-                    if (args.length == 0) {
-                        ctx.sendLocalized("options.imageboard_tags_blacklist_add.no_tag", EmoteReference.ERROR);
-                        return;
-                    }
+            if (args.length == 0) {
+                ctx.sendLocalized("options.imageboard_tags_blacklist_add.no_tag", EmoteReference.ERROR);
+                return;
+            }
 
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    for (String tag : args) {
-                        guildData.getBlackListedImageTags().add(tag.toLowerCase());
-                    }
+            for (String tag : args) {
+                guildData.getBlackListedImageTags().add(tag.toLowerCase());
+            }
 
-                    dbGuild.saveUpdating();
-                    ctx.sendLocalized("options.imageboard_tags_blacklist_add.success",
-                            EmoteReference.CORRECT, String.join(" ,", args)
-                    );
+            dbGuild.saveUpdating();
+            ctx.sendLocalized("options.imageboard_tags_blacklist_add.success",
+                    EmoteReference.CORRECT, String.join(" ,", args)
+            );
         });
 
         registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", 
                 "Un-blacklist the specified imageboard tag from being looked up.",
                 "Un-blacklist imageboard tags", (ctx, args) -> {
-                    if (args.length == 0) {
-                        ctx.sendLocalized("options.imageboard_tags_blacklist_remove.no_tag", EmoteReference.ERROR);
-                        return;
-                    }
+            if (args.length == 0) {
+                ctx.sendLocalized("options.imageboard_tags_blacklist_remove.no_tag", EmoteReference.ERROR);
+                return;
+            }
 
-                    DBGuild dbGuild = ctx.getDBGuild();
-                    GuildData guildData = dbGuild.getData();
+            DBGuild dbGuild = ctx.getDBGuild();
+            GuildData guildData = dbGuild.getData();
 
-                    for (String tag : args) {
-                        guildData.getBlackListedImageTags().remove(tag.toLowerCase());
-                    }
+            for (String tag : args) {
+                guildData.getBlackListedImageTags().remove(tag.toLowerCase());
+            }
 
-                    dbGuild.saveAsync();
-                    ctx.sendLocalized("options.imageboard_tags_blacklist_remove.success", EmoteReference.CORRECT, String.join(" ,", args));
+            dbGuild.saveAsync();
+            ctx.sendLocalized("options.imageboard_tags_blacklist_remove.success", EmoteReference.CORRECT, String.join(" ,", args));
         });
     }
 
