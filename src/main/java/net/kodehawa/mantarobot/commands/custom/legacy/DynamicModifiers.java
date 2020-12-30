@@ -24,7 +24,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -67,7 +69,7 @@ public class DynamicModifiers extends LinkedHashMap<String, String> {
         return this
                 .set(prefix, guild.getName())
                 .set(prefix, "name", guild.getName())
-                .mapMember(k(prefix, "owner"), guild.getOwner() == null ? guild.retrieveOwner(false).complete() : guild.getOwner())
+                .mapMember(k(prefix, "owner"), guild.retrieveOwner(false).complete())
                 .set(prefix, "region", guild.getRegion().getName())
                 .set(prefix, "totalusers", String.valueOf(guild.getMemberCount()))
                 .set(prefix, "icon", guild.getIconUrl() == null ? "https://i.imgur.com/k0V7Vnu.png" : guild.getIconUrl());
