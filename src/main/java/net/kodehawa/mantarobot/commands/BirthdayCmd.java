@@ -341,41 +341,41 @@ public class BirthdayCmd {
             var birthday = guildCurrentBirthdays.get(member.getId());
             builder.append("+ %-20s : %s ".formatted(member.getEffectiveName(), birthday.getDay() + "-" + birthday.getMonth()));
             builder.append("\n");
+        }
 
-            var parts = DiscordUtils.divideString(1000, builder);
-            var hasReactionPerms = ctx.hasReactionPerms();
+        var parts = DiscordUtils.divideString(1000, builder);
+        var hasReactionPerms = ctx.hasReactionPerms();
 
-            List<String> messages = new LinkedList<>();
-            for (String part : parts) {
-                var help = languageContext.get("general.arrow_react");
-                if (!hasReactionPerms) {
-                    help = languageContext.get("general.text_menu");
-                }
-
-                if (month && calendar != null) {
-                    messages.add(
-                            languageContext.get("commands.birthday.header").formatted(
-                                    ctx.getGuild().getName(),
-                                    Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))
-                            ) + "```diff\n%s```".formatted(part)
-                    );
-                } else {
-                    messages.add(languageContext.get("commands.birthday.full_header")
-                            .formatted(guild.getName(), (parts.size() > 1 ? help : "") + "```diff\n%s```".formatted(part))
-                    );
-                }
+        List<String> messages = new LinkedList<>();
+        for (String part : parts) {
+            var help = languageContext.get("general.arrow_react");
+            if (!hasReactionPerms) {
+                help = languageContext.get("general.text_menu");
             }
 
-            if (parts.isEmpty()) {
-                ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
-                return;
-            }
-
-            if (hasReactionPerms) {
-                DiscordUtils.list(ctx.getEvent(), 45, false, messages);
+            if (month && calendar != null) {
+                messages.add(
+                        languageContext.get("commands.birthday.header").formatted(
+                                ctx.getGuild().getName(),
+                                Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))
+                        ) + "```diff\n%s```".formatted(part)
+                );
             } else {
-                DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
+                messages.add(languageContext.get("commands.birthday.full_header")
+                        .formatted(guild.getName(), (parts.size() > 1 ? help : "") + "```diff\n%s```".formatted(part))
+                );
             }
+        }
+
+        if (parts.isEmpty()) {
+            ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
+            return;
+        }
+
+        if (hasReactionPerms) {
+            DiscordUtils.list(ctx.getEvent(), 45, false, messages);
+        } else {
+            DiscordUtils.listText(ctx.getEvent(), 45, false, messages);
         }
     }
 
