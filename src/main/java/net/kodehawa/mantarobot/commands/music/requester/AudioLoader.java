@@ -51,6 +51,7 @@ public class AudioLoader implements AudioLoadResultHandler {
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
     private final I18n language;
+    private int failureCount = 0;
 
     public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
@@ -131,12 +132,15 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void loadFailed(FriendlyException exception) {
-        event.getChannel().sendMessageFormat(
-                language.get("commands.music_general.loader.error_loading"), EmoteReference.ERROR, exception.getMessage()
-        ).queue();
+        if (failureCount == 0) {
+            event.getChannel().sendMessageFormat(
+                    language.get("commands.music_general.loader.error_loading"), EmoteReference.ERROR, exception.getMessage()
+            ).queue();
+        }
 
         Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
         exception.printStackTrace();
+        failureCount++;
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent, DBGuild dbGuild, DBUser dbUser) {
