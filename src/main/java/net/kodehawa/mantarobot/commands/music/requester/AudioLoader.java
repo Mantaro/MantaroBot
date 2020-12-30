@@ -129,18 +129,14 @@ public class AudioLoader implements AudioLoadResultHandler {
         event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.no_matches"), EmoteReference.ERROR).queue();
     }
 
-
     @Override
     public void loadFailed(FriendlyException exception) {
-        if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
-            event.getChannel().sendMessage(
-                    String.format(language.get("commands.music_general.loader.error_fetching"),
-                            EmoteReference.ERROR, exception.getMessage()
-                    )
-            ).queue();
-        } else {
-            Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
-        }
+        event.getChannel().sendMessageFormat(
+                language.get("commands.music_general.loader.error_loading"), EmoteReference.ERROR, exception.getMessage()
+        ).queue();
+
+        Metrics.TRACK_EVENTS.labels("tracks_failed").inc();
+        exception.printStackTrace();
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent, DBGuild dbGuild, DBUser dbUser) {
