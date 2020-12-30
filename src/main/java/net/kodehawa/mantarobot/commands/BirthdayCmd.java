@@ -326,8 +326,16 @@ public class BirthdayCmd {
         StringBuilder builder = new StringBuilder();
         var languageContext = ctx.getLanguageContext();
         var guild = ctx.getGuild();
+        var memberSort = members.stream()
+                .sorted(Comparator.comparingInt(i -> {
+                    var bd = guildCurrentBirthdays.get(i.getId());
+                    // So I don't forget later: this is equivalent to day + (month * 31)
+                    // And this is so we get a stable sort of day/month
+                    return Integer.parseInt(bd.day) + (Integer.parseInt(bd.month) << 5);
+                }))
+                .collect(Collectors.toList());
 
-        for (Member member : members) {
+        for (Member member : memberSort) {
             var birthday = guildCurrentBirthdays.get(member.getId());
             builder.append("+ %-20s : %s ".formatted(member.getEffectiveName(), birthday.getDay() + "-" + birthday.getMonth()));
             builder.append("\n");
@@ -344,9 +352,10 @@ public class BirthdayCmd {
 
                 if (month && calendar != null) {
                     messages.add(
-                            languageContext.get("commands.birthday.header")
-                                    .formatted(ctx.getGuild().getName(), Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)))
-                            + "```diff\n%s```".formatted(part)
+                            languageContext.get("commands.birthday.header").formatted(
+                                    ctx.getGuild().getName(),
+                                    Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH))
+                            ) + "```diff\n%s```".formatted(part)
                     );
                 } else {
                     messages.add(languageContext.get("commands.birthday.full_header")
