@@ -182,14 +182,14 @@ public class Utils {
             var post = RequestBody.create(MediaType.parse("text/plain"), toSend);
 
             var toPost = new Request.Builder()
-                    .url("https://hasteb.in/documents")
+                    .url("https://hastebin.com/documents")
                     .header("User-Agent", MantaroInfo.USER_AGENT)
                     .header("Content-Type", "text/plain")
                     .post(post)
                     .build();
 
             try (var r = httpClient.newCall(toPost).execute()) {
-                return "https://hasteb.in/" + new JSONObject(r.body().string()).getString("key");
+                return "https://hastebin.com/" + new JSONObject(r.body().string()).getString("key");
             }
         } catch (Exception e) {
             return "cannot post data to hasteb.in";
