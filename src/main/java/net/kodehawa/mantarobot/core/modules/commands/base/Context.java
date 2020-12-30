@@ -92,9 +92,7 @@ public class Context {
         final var mentionedUsers = getEvent().getMessage().getMentionedUsers();
         if (isMentionPrefix) {
             final var mutable = new LinkedList<>(mentionedUsers);
-            // "elements are sorted in order of appareance"
-            mutable.remove(0);
-            return mutable;
+            return mutable.subList(1, mutable.size());
         }
 
         return mentionedUsers;
@@ -104,9 +102,7 @@ public class Context {
         final var mentionedMembers = getEvent().getMessage().getMentionedMembers();
         if (isMentionPrefix) {
             final var mutable = new LinkedList<>(mentionedMembers);
-            // "elements are sorted in order of appareance"
-            mutable.remove(0);
-            return mutable;
+            return mutable.subList(1, mutable.size());
         }
 
         return mentionedMembers;

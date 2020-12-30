@@ -39,8 +39,7 @@ public class CustomMessage {
     public List<Member> getMentionedUsers() {
         if (mentionPrefix) {
             var mutable = new LinkedList<>(mentionedUsers);
-            mutable.remove(0);
-            return mutable;
+            return mutable.subList(1, mutable.size());
         }
         return mentionedUsers;
     }
