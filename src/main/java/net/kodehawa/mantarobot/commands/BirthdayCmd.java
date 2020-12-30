@@ -225,6 +225,7 @@ public class BirthdayCmd {
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
                                 .filter(birthday -> ids.contains(birthday.getKey()))
+                                .limit(100)
                                 .collect(Collectors.toList());
 
                         var bdIds = birthdays.stream().map(Map.Entry::getKey).toArray(String[]::new);
@@ -299,6 +300,7 @@ public class BirthdayCmd {
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
                                 .filter(bds -> bds.getValue().month.equals(currentMonth))
                                 .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
+                                .limit(100)
                                 .collect(Collectors.toList());
 
                         if (birthdays.isEmpty()) {
