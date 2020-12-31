@@ -870,9 +870,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
+        "not_specified": "%1$s你需要指出時區。有效的時區可以為 `GMT-3` 或 `America/Chicago` 等等。",
         "reset": "%1$s時區已重設。",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
+        "invalid": "%1$s無效時區。有效的時區可以為 `GMT-3` 或 `America/Chicago` 等等。你可以用Google搜尋\"我的時區\"來查看。",
         "success": "%1$s時區已儲存，你的個人時區為：**%2$s**",
         "reset_success": "%1$s時區已重設。"
       },
@@ -884,7 +884,7 @@
         "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$s你需要指出你的主徽章！例如 `~>profile displaybadge claimer`。",
         "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
         "important_success": "%1$s你的展示徽章現在是你最有價值的徽章。",
         "no_such_badge": "%1$s找不到該徽章...\n你可用的徽章：%2$s",
@@ -955,7 +955,7 @@
         "cancelled": "%1$s操作取消。"
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$s個人資料部件個人化僅適用於Premium用戶。\n查看 <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks> 獲得更多特權。",
         "not_enough": "%1$s部件數量不足以放置在你的個人資料上 (最少：3)。如果你忘記了，查看 `~>profile widgets ls`",
         "success": "%1$s成功設定你的個人資料佈局。新佈局為 `%2$s`",
         "ls": "%1$s個人資料部件清單：\n%2$s **原始部件配置：**`%3$s`\n%2$s **你的部件配置：**`%4$s`\n你可以使用 `~>profile widgets reset` 來重設你的部件配置",
@@ -964,9 +964,9 @@
       },
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
-        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
+        "success": "%1$s你將無法再被認領為Waifu。已使用一個認領鑰匙。使用 `~>profile claimlock remove` 來移除他。",
+        "no_key": "%1$s你沒有認領鑰匙來執行此操作。你能用 `~>market buy \"claim key\"` 從市場購買。",
+        "already_locked": "%1$s你已經被鎖定了。使用 `~>profile claimlock remove` 來解鎖。"
       },
       "autoequip": {
         "disable": "%1$s成功取消自動裝備。",
@@ -992,7 +992,7 @@
       "not_specified": "未設置",
       "potion": "藥水效果",
       "no_potion": "沒有藥水效果。",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$s舊版金錢顯示狀況已改成：`%2$s`"
     },
     "badges": {
       "info": {
