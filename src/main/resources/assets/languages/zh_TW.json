@@ -625,35 +625,35 @@
       "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
-      "id": "**ID:**",
+      "bot": "%1$s機器人不能成為Waifu，就算你想的話...",
+      "notice": "此功能不與現實生活產生任何關連。",
+      "id": "**ID：**",
       "stats": {
-        "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "header": "你的Waifu狀態",
+        "header_other": "%1$s的Waifu狀態",
+        "format": "%1$s **金錢權重：**%2$,d\n%1$s **徽章權重：**%3$,d\n%1$s **經驗權重：**%4$,d\n%1$s **認領權重：**%5$,d\n%1$s **聲望權重：**%6$.2fx",
+        "value": "Waifu總價值",
+        "credits": "%1$,d 元",
+        "performance": "Waifu能力點"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query. "
+        "no_user": "%1$s你沒有提及任何用戶。",
+        "locked": "%1$s你目前無法執行此操作。",
+        "key_locked": "%1$s你想認領的這位用戶已被鑰匙鎖定，無法認領。如果他們願意，可以使用 `~>profile claimlock remove` 移除。",
+        "not_enough_money": "%1$s你沒有足夠的金錢來認領他 **(費用：%2$s)**",
+        "not_enough_slots": "%1$s你沒有足夠的空位來認領他。(全部空位：%2$s，已使用：%3$s)",
+        "success": "%1$s成功以 %3$,d 元認領 `%2$s`。已使用空位：%4$s",
+        "yourself": "%1$s你無法認領自己！",
+        "already_claimed": "%1$s你已經認領這位Waifu。",
+        "not_found": "%1$s找不到任何用戶。"
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to un-claim.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu un-claiming.",
+        "no_user": "%1$s你需要先提及一個Waifu來取消認領。",
+        "not_claimed": "%1$s這個人不是你的Waifu!",
+        "confirmation": "%1$s你真的*確定*要取消認領 %2$s 嗎？取消認領這個Waifu的費用是 **%3$s 元**。傳送 `yes` 確認或 `no` 取消。\n%4$s這將在一分內超時。",
+        "not_enough_money": "%1$s你沒有足夠的金錢來取消認領這位Waifu！",
+        "player_locked": "%1$s你目前無法執行此操作。",
+        "scrapped": "%1$s已取消操作。",
         "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
         "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
@@ -704,11 +704,11 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
+      "no_item_found": "%1$s找不到任何匹配的物品。如果物品名稱包含空格，將他用\"引號\"包起來。盡量輸入完整的名稱，或使用相對應的表情符號來避免錯誤。範例：`~>cast \"star pick\" \"comet wrench\"。",
       "item_not_cast": "%1$s你無法鑄造此物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果物品名稱包含空格，將他用\"引號包起來\"。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
       "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
+      "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來進行鑄造。**(需求：%3$s，持有：%4$s)**\n這不是你要鑄造的物品嗎？如果物品名稱包含空格，將他用\"引號\"包起來或使用表情符號。",
       "success": "%1$s你成功的用 %4$s 元*鑄造了 %2$s %3$s*。*鑄造消耗：%5$s*",
       "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！記得：你需要擁有兩個相同類型的扳手來進行鑄造。",
       "item_broke": "\n可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
