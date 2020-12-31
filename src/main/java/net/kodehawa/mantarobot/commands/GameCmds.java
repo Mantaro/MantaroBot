@@ -402,6 +402,7 @@ public class GameCmds {
 
             if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) < System.currentTimeMillis())) {
+                GameLobby.LOBBYS.remove(ctx.getChannel().getIdLong()); // remove old lobby if dropped
                 ctx.sendLocalized("commands.game.game_timeout_drop", EmoteReference.ERROR);
                 return false;
             } else {
