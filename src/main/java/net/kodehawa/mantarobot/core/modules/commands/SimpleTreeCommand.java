@@ -54,7 +54,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
             throw new IllegalArgumentException("No subcommands registered!");
         }
 
-        var command = subCommands.get(args[0]);
+        var command= subCommands.get(args[0]);
 
         if (command == null) {
             defaultTrigger(context, commandName, args[0]);
@@ -65,7 +65,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
             return;
         }
 
-        command.run(new Context(context.getEvent(), context.getLanguageContext(), args[1]), commandName + " " + args[0], args[1]);
+        command.run(new Context(context.getEvent(), context.getLanguageContext(), args[1], context.isMentionPrefix()), commandName + " " + args[0], args[1]);
     }
 
     public void setPredicate(Predicate<Context> predicate) {

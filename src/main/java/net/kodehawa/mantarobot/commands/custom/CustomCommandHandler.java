@@ -190,7 +190,7 @@ public class CustomCommandHandler {
     private String processText(String text) {
         if (text.contains("$(")) {
             text = new DynamicModifiers()
-                    .mapEvent(prefixUsed, "event", ctx.getEvent())
+                    .mapEvent(prefixUsed, "event", ctx)
                     .resolve(text);
         }
 

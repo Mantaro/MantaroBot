@@ -44,7 +44,7 @@ public class GuildData {
     @ConfigName("Commands disabled in channels")
     private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
 
-    @HiddenConfig //new lock = CCS are locked by default since 5.0
+    @HiddenConfig // new lock = CCS are locked by default since 5.0
     private boolean customAdminLock = false;
 
     @ConfigName("Disabled Categories")
@@ -64,17 +64,19 @@ public class GuildData {
     @ConfigName("Server modlog channel")
     private String guildLogChannel = null;
 
-    @HiddenConfig //see: discord added nsfw channels
+    @HiddenConfig // see: discord added nsfw channels
     private Set<String> guildUnsafeChannels = new HashSet<>();
 
     @ConfigName("Server join message")
     private String joinMessage = null;
     @ConfigName("Server leave message")
     private String leaveMessage = null;
-    @ConfigName("Server invite protection")
+
+    @HiddenConfig //removed in 6.0
     private boolean linkProtection = false;
-    @ConfigName("Channel (ids): don't run invite protection")
+    @HiddenConfig //removed in 6.0
     private Set<String> linkProtectionAllowedChannels = new HashSet<>();
+
     @ConfigName("Channels (ids): don't log changes for modlog")
     private Set<String> logExcludedChannels = new HashSet<>();
     @ConfigName("Channel (id): log joins")
@@ -103,7 +105,7 @@ public class GuildData {
     private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
     @ConfigName("Action commands ping (for giver)")
     private boolean noMentionsAction = false;
-    @ConfigName("Server Premium Key")
+    @HiddenConfig // We do not need to show this
     private String premiumKey;
 
     @HiddenConfig //quotes got removed in early 4.x
@@ -112,7 +114,7 @@ public class GuildData {
     @ConfigName("Amount of polls ran")
     private long ranPolls = 0L;
 
-    @HiddenConfig //I don't think we handle this anymore.
+    @HiddenConfig // I don't think we handle this anymore.
     private boolean reactionMenus = true;
 
     @ConfigName("Roles that can't use commands")
@@ -141,17 +143,17 @@ public class GuildData {
     @HiddenConfig // not implemented, see above
     private Map<String, Long> warnCount = new HashMap<>();
 
-    @ConfigName("Expected game timeout (epoch)")
+    @HiddenConfig // we do not need to show this to the user
     private String gameTimeoutExpectedAt;
     @ConfigName("Ignore bots: welcome message")
     private boolean ignoreBotsWelcomeMessage = false;
     @ConfigName("Ignore bots: autorole")
     private boolean ignoreBotsAutoRole = false;
-    @ConfigName("Level-up messages toggle")
+    @HiddenConfig //removed in 6.0.10
     private boolean enabledLevelUpMessages = false;
-    @ConfigName("Channel (id): Level-ups")
+    @HiddenConfig //removed in 6.0.10
     private String levelUpChannel = null;
-    @ConfigName("Level-up message")
+    @HiddenConfig //removed in 6.0.10
     private String levelUpMessage = null;
     @ConfigName("Blacklisted image tags")
     private Set<String> blackListedImageTags = new HashSet<>();
@@ -193,15 +195,15 @@ public class GuildData {
     private Map<String, List<String>> autoroleCategories = new HashMap<>();
 
     //mod logs customization
-    @ConfigName("Edit message")
+    @ConfigName("Edit message on mod logs")
     private String editMessageLog;
-    @ConfigName("Delete message")
+    @ConfigName("Delete message on mod logs")
     private String deleteMessageLog;
-    @ConfigName("Ban message")
+    @ConfigName("Ban message on mod logs")
     private String bannedMemberLog;
-    @ConfigName("Unban message")
+    @ConfigName("Unban message on mod logs")
     private String unbannedMemberLog;
-    @ConfigName("Kick message")
+    @ConfigName("Kick message on mod logs")
     private String kickedMemberLog;
 
     @ConfigName("Disabled command warning display")
@@ -219,10 +221,10 @@ public class GuildData {
     private boolean gameMultipleDisabled = false;
 
     @SuppressWarnings("CanBeFinal")
-    @HiddenConfig // It's not unused, but this hides it from opts check data lol
+    @HiddenConfig // It's not unused, but this hides it from opts check data
     private List<String> allowedBirthdays = new ArrayList<>();
 
-    @HiddenConfig // It's not unused, but this hides it from opts check data lol
+    @HiddenConfig // It's not unused, but this hides it from opts check data
     private boolean notifiedFromBirthdayChange = false;
 
     @ConfigName("The custom DJ role.")

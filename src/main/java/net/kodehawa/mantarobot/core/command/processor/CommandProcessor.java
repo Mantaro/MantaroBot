@@ -31,20 +31,33 @@ public class CommandProcessor {
 
     public boolean run(GuildMessageReceivedEvent event) {
         final long start = System.currentTimeMillis();
-
+        final var config = MantaroData.config().get();
         // The command executed, in raw form.
         var rawCmd = event.getMessage().getContentRaw();
         // Lower-case raw cmd check, only used for prefix checking.
         final var lowerRawCmd = rawCmd.toLowerCase();
 
         // Mantaro prefixes.
-        String[] prefix = MantaroData.config().get().prefix;
+        String[] prefix = config.prefix;
         // Guild-specific prefix.
         final var dbGuild = MantaroData.db().getGuild(event.getGuild());
         var customPrefix = dbGuild.getData().getGuildCustomPrefix();
+        // Possible mentions
+        boolean isMention = false;
+        String[] mentionPrefixes = {
+                "<@%s> ".formatted(config.getClientId()),
+                "<@!%s> ".formatted(config.getClientId())
+        };
 
         // What prefix did this person use.
         String usedPrefix = null;
+        for (String mention : mentionPrefixes) {
+            if (lowerRawCmd.startsWith(mention)) {
+                usedPrefix = mention;
+                isMention = true;
+            }
+        }
+
         for (String s : prefix) {
             if (lowerRawCmd.startsWith(s)) {
                 usedPrefix = s;
@@ -71,7 +84,7 @@ public class CommandProcessor {
         String cmdName = parts[0], content = parts[1];
 
         // Run the actual command here.
-        REGISTRY.process(event, dbGuild, cmdName, content, usedPrefix);
+        REGISTRY.process(event, dbGuild, cmdName, content, usedPrefix, isMention);
 
         final long end = System.currentTimeMillis();
         commandTime.observe(end - start);

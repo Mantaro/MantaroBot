@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.core.Option;
@@ -203,14 +202,14 @@ public class MuteCmds {
                 This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**
                 **Example:** `~>opts defaultmutetimeout set 1m20s`
                 **Considerations:** Time is in 1m20s or 1h10m3s format, for example.""", OptionType.GUILD)
-                .setActionLang((event, args, lang) -> {
+                .setAction((ctx, args) -> {
                     if (args.length == 0) {
-                        event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.not_specified"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.defaultmutetimeout_set.not_specified", EmoteReference.ERROR);
                         return;
                     }
 
                     if (!timePattern.matcher(args[0]).matches()) {
-                        event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.wrong_format"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.defaultmutetimeout_set.wrong_format", EmoteReference.ERROR);
                         return;
                     }
 
@@ -219,60 +218,62 @@ public class MuteCmds {
                     var time = System.currentTimeMillis() + timeoutToSet;
 
                     if (time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
-                        event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_set.too_long"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.defaultmutetimeout_set.too_long", EmoteReference.ERROR);
                         return;
                     }
 
                     if (time < 0) {
-                        event.getChannel().sendMessage(lang.get("options.defaultmutetimeout_set.negative_notice")).queue();
+                        ctx.sendLocalized("options.defaultmutetimeout_set.negative_notice");
                         return;
                     }
 
-                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    if (time < 10000) {
+                        ctx.sendLocalized("commands.defaultmutetimeout_set.too_short", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    var dbGuild = ctx.getDBGuild();
                     var guildData = dbGuild.getData();
 
                     guildData.setSetModTimeout(timeoutToSet);
                     dbGuild.save();
 
-                    event.getChannel().sendMessageFormat(
-                            lang.get("options.defaultmutetimeout_set.success"), EmoteReference.CORRECT, args[0], timeoutToSet
-                    ).queue();
+                    ctx.sendLocalized("options.defaultmutetimeout_set.success", EmoteReference.CORRECT, args[0], timeoutToSet);
                 }).setShortDescription("Sets the default timeout for the ~>mute command"));
 
 
         mute.addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
                 "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", OptionType.GUILD)
-                .setActionLang((event, lang) -> {
-                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                .setAction((ctx) -> {
+                    var dbGuild = ctx.getDBGuild();
                     var guildData = dbGuild.getData();
 
                     guildData.setSetModTimeout(0L);
                     dbGuild.save();
 
-                    event.getChannel().sendMessageFormat(lang.get("options.defaultmutetimeout_reset.success"), EmoteReference.CORRECT).queue();
+                    ctx.sendLocalized("options.defaultmutetimeout_reset.success", EmoteReference.CORRECT);
                 }).setShortDescription("Resets the default mute timeout."));
 
         mute.addOption("muterole:set", new Option("Mute role set",
                 "Sets this guilds mute role to apply on the ~>mute command.\n" +
                         "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
                         " be wrapped in quotation marks", OptionType.COMMAND)
-                .setActionLang((event, args, lang) -> {
+                .setAction((ctx, args) -> {
                     if (args.length < 1) {
-                        event.getChannel().sendMessageFormat(lang.get("options.muterole_set.no_role"), EmoteReference.ERROR).queue();
+                        ctx.sendLocalized("options.muterole_set.no_role", EmoteReference.ERROR);
                         return;
                     }
 
                     var roleName = String.join(" ", args);
-                    var dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    var dbGuild = ctx.getDBGuild();
                     var guildData = dbGuild.getData();
-
                     Consumer<Role> consumer = (role) -> {
                         guildData.setMutedRole(role.getId());
                         dbGuild.saveAsync();
-                        event.getChannel().sendMessageFormat(lang.get("options.muterole_set.success"), EmoteReference.OK, roleName).queue();
+                        ctx.sendLocalized("options.muterole_set.success", EmoteReference.OK, roleName);
                     };
 
-                    var role = FinderUtils.findRoleSelect(event, roleName, consumer);
+                    var role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, consumer);
 
                     if (role != null) {
                         consumer.accept(role);
@@ -281,12 +282,12 @@ public class MuteCmds {
 
         mute.addOption("muterole:unbind", new Option("Mute Role unbind",
                 "Resets the current value set for the mute role", OptionType.GENERAL)
-                .setActionLang((event, lang) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                .setAction((ctx) -> {
+                    DBGuild dbGuild = ctx.getDBGuild();
                     GuildData guildData = dbGuild.getData();
                     guildData.setMutedRole(null);
                     dbGuild.saveAsync();
-                    event.getChannel().sendMessageFormat(lang.get("options.muterole_unbind.success"), EmoteReference.OK).queue();
+                    ctx.sendLocalized("options.muterole_unbind.success", EmoteReference.OK);
                 }).setShortDescription("Resets the current value set for the mute role."));
     }
 
@@ -320,7 +321,7 @@ public class MuteCmds {
                     reason = StringUtils.splitArgs(content, 2)[1];
                 }
 
-                var mentionedMembers = ctx.getMessage().getMentionedMembers();
+                var mentionedMembers = ctx.getMentionedMembers();
                 if (mentionedMembers.isEmpty()) {
                     ctx.sendLocalized("commands.unmute.no_mentions", EmoteReference.ERROR);
                     return;

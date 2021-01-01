@@ -343,7 +343,7 @@ public class CCv3 {
 
     public static void process(String prefix, Context ctx, Node ast, boolean preview) {
         InterpreterContext context = new InterpreterContext(new DynamicModifiers()
-                .mapEvent(prefix, "event", ctx.getEvent()), DEFAULT_OPERATIONS, ctx);
+                .mapEvent(prefix, "event", ctx), DEFAULT_OPERATIONS, ctx);
 
         String result = ast.accept(new InterpreterVisitor(), context);
         EmbedJSON embed = context.get("embed");

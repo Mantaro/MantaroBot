@@ -16,9 +16,7 @@
 
 package net.kodehawa.mantarobot.options.core;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
-import net.kodehawa.mantarobot.utils.TriConsumer;
+import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +34,7 @@ public class Option {
     private final String description;
     private final String optionName;
     private final OptionType type;
-    private TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> eventConsumer;
+    private BiConsumer<Context, String[]> eventConsumer;
 
     public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
@@ -81,22 +79,12 @@ public class Option {
         return this;
     }
 
-    public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
-        eventConsumer = (event, ignored, ignored2) -> code.accept(event);
+    public Option setAction(Consumer<Context> code) {
+        eventConsumer = (event, ignored) -> code.accept(event);
         return this;
     }
 
-    public Option setActionLang(BiConsumer<GuildMessageReceivedEvent, I18nContext> code) {
-        eventConsumer = (event, ignored, ctx) -> code.accept(event, ctx);
-        return this;
-    }
-
-    public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
-        eventConsumer = (event, c, ignored) -> code.accept(event, c);
-        return this;
-    }
-
-    public Option setActionLang(TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> code) {
+    public Option setAction(BiConsumer<Context, String[]> code) {
         eventConsumer = code;
         return this;
     }
@@ -113,7 +101,7 @@ public class Option {
         return this.type;
     }
 
-    public TriConsumer<GuildMessageReceivedEvent, String[], I18nContext> getEventConsumer() {
+    public BiConsumer<Context, String[]> getEventConsumer() {
         return this.eventConsumer;
     }
 }
