@@ -234,7 +234,7 @@
       "not_connected": "%1$sNo estás conectado al canal de voz donde estoy reproduciendo música actualmente! (Si crees que esto es un error, favor reportar en el servidor de soporte)",
       "np_message": "%1$s Ahora reproduciendo **%2$s** (%3$s) en **%4$s** | %5$s",
       "track_error": "%1$sAlgo salió muy mal mientras intentaba reproducir esta canción! Lo siento por los inconvenientes, Intentaré reproducir la próxima canción de la cola si es que hay alguna disponible.",
-      "queue_finished": "%1$sHe finalizado de reproducir toda la cola! Espero que lo hayas disfrutado.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sNecesitas darme el nombre de la canción! No puedo adivinarla...",
       "too_many_errors": "%1$sMuchos errores en esta sesión, parando el reproductor...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
