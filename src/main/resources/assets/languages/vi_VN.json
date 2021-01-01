@@ -393,7 +393,7 @@
       "footer": "Cảm ơn vì đã sử dụng Mantaro! Trang: %1$d, Tổng số trang: %2$d."
     },
     "prefix": {
-      "header": "%1$sTiền tố mặc định là %2$s (Tôi trả lời bất cứ cái nào trong này!). Tiền tố của máy chủ này là `%3$s` (Chỉ dùng được tại máy chủ này).Bạn có thể đặt một tiền tố mới bằng cách sử dụng `~>opts prefix set <tiền tố>`. Không bao gồm <>.\nNếu bạn có bất kì câu hỏi gì, bạn có thể tìm chúng tôi tại <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "Không có tiền tố tùy chỉnh cho máy chủ này."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$sBạn muốn có thời gian nhưng bạn lại không chỉ rõ thời gian bao lâu.",
       "negative_time_notice": "%1$sBạn không thể tắt tiếng ai đó trong thời gian âm. Trừ khi bạn có thể uốn cong không gian và thời gian.",
       "default_time_too_long": "%1$sThời gian chờ tắt tiếng quá dài (Tối đa 10 ngày)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sThời gian tắt tiếng được chỉ định quá dài (Tối đa 10 ngày)...",
       "already_muted": "%1$sNgười dùng này đã được gắn một vai trò bị tắt tiếng. Vui lòng dùng `~>unmute` để gỡ bỏ nó.",
       "self_hierarchy_error": "%1$sTôi không thể gán vai trò bị tắt tiếng vì người này có vai trò cao hơn tôi hoặc vai trò này cao hơn tôi!",
@@ -2037,6 +2037,7 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
