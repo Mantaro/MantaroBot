@@ -393,7 +393,7 @@
       "footer": "Bedankt voor het gebruiken van Mantaro! Pagina: %1$d, Totaal: %2$d."
     },
     "prefix": {
-      "header": "%1$sDe standaard voorvoegsels prefixes zijn %2$s (Ik reageer op beide!). De server prefix is `%3$s` (werkt alleen op deze server). Je kunt een nieuw prefix instellen met `~>opts prefix set <prefix>`. De <> niet gebruiken.\nAls je vragen hebt, kun je lid worden van <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "Er is geen aangepaste prefix ingesteld op deze server."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$sJe wilde een tijd toevoegen maar je hebt niet aangegeven hoelang dit moet zijn.",
       "negative_time_notice": "%1$sJe kunt iemand niet muten met een negatieve tijd. Of je moet kunnen tijdreizen.",
       "default_time_too_long": "%1$sDe lengte van de standaard mute tijd is te lang (Maximaal: 10 dagen)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sDe lengte van de mute tijd is te lang (Maximaal: 10 dagen)...",
       "already_muted": "%1$sDeze gebruiker heeft al een mute rol. Gebruik `~>unmute` als je hem of haar wilt unmuten.",
       "self_hierarchy_error": "%1$sIk kan de mute-rol niet toewijzen aan deze gebruiker omdat deze zich in een hogere hiërarchie bevindt dan ik, of de rol zich in een hogere hiërarchie bevindt!",
@@ -2037,6 +2037,7 @@
       "success": "%1$sVerjaardagsbericht gewist!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sJe moet een time-out opgeven in bijvoorbeeld het volgende formaat: 1m20s",
       "wrong_format": "%1$sVerkeerd tijd formaat. Je moet een time-out opgeven in bijvoorbeeld het volgende formaat: 1m20s",
       "too_long": "%1$sDe opgegeven tijd is te lang...",
