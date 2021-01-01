@@ -234,7 +234,7 @@
       "not_connected": "%1$sJe bevind je op dit moment niet in hetzelfde spraak-kanaal als ik! (Als je denkt dat dit een fout is, meld dit dan op onze support discord)",
       "np_message": "%1$s Ik speel nu **%2$s** (%3$s) op **%4$s** | %5$s",
       "track_error": "%1$sOeps, er is iets mis gegaan tijdens het afspelen van dit nummer! Excuses voor het ongemak. Ik probeer het volgende nummer af te spelen als deze beschikbaar is.",
-      "queue_finished": "%1$sIk ben klaar met het afspelen van de afspeellijst! Ik hoop dat je er van genoten hebt.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sJe moet me de naam van het nummer geven, ik kan helaas je gedachten niet lezen :(",
       "too_many_errors": "%1$sTe veel fouten in deze sessie, gestopt...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
