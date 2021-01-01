@@ -234,7 +234,7 @@
       "not_connected": "%1$s현재 재생 중인 음성 채널에 연결되어 있지 않네요!(오류라고 생각되면 <https://support.mantaro.site>에 신고해주세요)",
       "np_message": "%1$s현재 **%4$s** | %5$s에서 **%2$s** (%3$s)이 재생 중이에요.",
       "track_error": "%1$s이런, 이 트랙을 연주하는 동안 뭔가 잘못됐어요! 불편을 끼쳐드려 죄송해요, 다음 곡이 있으면 재생해 볼게요.",
-      "queue_finished": "%1$s현재 대기열 재생을 마쳤어요! 즐거웠기를 바라요. 봇에 대한 도움이 필요하면 <https://support.mantaro.site>에 참가할 수 있어요\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$s노래 이름을 알려줘야죠, 난 마법사가 아니니까 짐작이 안 가요 ㅠㅠ",
       "too_many_errors": "%1$s이 세션에 오류가 너무 많아요. 멈추는 중...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
