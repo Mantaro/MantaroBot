@@ -234,7 +234,7 @@
       "not_connected": "%1$sTu neprisijungei prie balso kanalo, kuriame aš dabar groju! (Jeigu tu tiki, kad tai klaida, prašome apie tai pranešti mūsų pagalbos serveryje)",
       "np_message": "%1$s Dabar groju **%2$s** (%3$s) kanale **%4$s** | %5$s",
       "track_error": "%1$sOučh, kažkas atsitiko bandant sugroti šią dainą! Atsiprašome už nepatogumus, Pabandysiu sugroti kitą dainą, jeigu ji yra.",
-      "queue_finished": "%1$sBaigiau groti grojaraštį! Tikiuosi, tu juo mėgavaisi.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sTuri nurodyti dainos pavadinimą, aš nesu burtininkė ir negaliu jos atspėti :(",
       "too_many_errors": "%1$sToo many errors on this session, stopping...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
