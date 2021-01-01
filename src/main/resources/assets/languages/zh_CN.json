@@ -234,9 +234,10 @@
       "not_connected": "%1$s你还没进入到我目前正在播放的语音频道! (如果你觉得这是错误的话，请回报至<https://support.mantaro.site>)",
       "np_message": "%1$s 现正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放这首曲目时發生了些问题! 不便之处敬请见谅，如果还有的话我会先播放下一首的。",
-      "queue_finished": "%1$s目前清单已播放完毕! 希望你用得开心，如果需要任何帮助，请加入<https://support.mantaro.site>\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$s你需要给我歌曲名称，我可不是随猜即中的魔法师 :(",
       "too_many_errors": "%1$s此次工作阶段發生太多错误，停止中...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$s我还没有连接到任何语音频道? 在试一次。",
       "queue": {
         "header_field": "Instructions",
@@ -259,7 +260,8 @@
         "no_channel": "没有频道 :(",
         "songs": "曲目",
         "clear_error": "%1$s你目前尚未连接到任何语音频道，或者你不是DJ",
-        "clear_success": "%1$s成功清除播放清单，大小为%2$s"
+        "clear_success": "%1$s成功清除播放清单，大小为%2$s",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$s成功连接到**%2$s**!",
@@ -282,7 +284,7 @@
         "over_limit": "%1$s你加入的清单含有超过%2$d首歌曲，所以我将忽略多馀的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**进入播放清单:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索没有结果。如果你搜索的*每首歌曲*都發生此讯息，请先暂时使用`~>play soundcloud <关键字>`，你也可以直接贴上YouTube连结。",
-        "error_loading": "%1$s取得歌曲时出错: %2$s",
+        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放数量%2$d (相同歌曲数目过多)**",
@@ -391,7 +393,7 @@
       "footer": "感谢使用Mantaro呀！页数: %1$d, 总页数:%2$d"
     },
     "prefix": {
-      "header": "%1$s 我默认的指令词头是 %2$s。 (用哪个都是OK的！) 此伺服器的自订的指令词头是 `%3$s`。 (只可以在这伺服器上使用) 你可以订造一个新的词头通过输入 `~>opts prefix set <prefix>`，记得不要输入那两个<>唷。\n有任何疑问的话，你可以加入<https://support.mantaro.site> 看看。",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "此伺服器暂时没有自订的指令词头。"
     },
     "custom": {
@@ -463,6 +465,7 @@
         "invalid_number": "%1$s你需要指出你想删除的回应编号。",
         "no_index": "%1$sYou cannot remove a non-existent index.",
         "not_enough_args": "%1$s你需要指出你想删除的指令名称及回应编号。",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
@@ -507,7 +510,7 @@
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
@@ -705,7 +708,7 @@
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
@@ -1025,8 +1028,8 @@
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
+      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1576,6 +1579,7 @@
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "new_player": "Hello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
@@ -1679,6 +1683,7 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
@@ -2032,6 +2037,7 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
