@@ -232,9 +232,10 @@ public class MantaroCore {
                 var shardCount = 2;
                 shardIds = List.of(0, 1);
                 latchCount = shardCount;
-                shardManager.setShardsTotal(shardCount)
-                        .setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
-                        .setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
+                shardManager.setShardsTotal(shardCount);
+                // TODO: test if this works
+                //.setGatewayPool(Executors.newSingleThreadScheduledExecutor(gatewayThreadFactory), true)
+                //.setRateLimitPool(Executors.newScheduledThreadPool(2, requesterThreadFactory), true);
                 log.info("Debug instance, using {} shards", shardCount);
             } else {
                 int shardCount;
@@ -276,6 +277,8 @@ public class MantaroCore {
                 // We need to use latchCount instead of shardCount
                 // latchCount is the number of shards on this process
                 // shardCount is the total number of shards in all processes
+                // TODO: test if this works?
+                /*
                 var gatewayThreads = Math.max(1, latchCount / 16);
                 var rateLimitThreads = Math.max(2, latchCount * 5 / 4);
 
@@ -284,6 +287,7 @@ public class MantaroCore {
 
                 shardManager.setGatewayPool(Executors.newScheduledThreadPool(gatewayThreads, gatewayThreadFactory), true)
                         .setRateLimitPool(Executors.newScheduledThreadPool(rateLimitThreads, requesterThreadFactory), true);
+                */
             }
 
             // If this isn't true we have a big problem
