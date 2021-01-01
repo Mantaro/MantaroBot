@@ -234,7 +234,7 @@
       "not_connected": "%1$s你還沒進入到我目前正在播放的語音頻道! (如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>)",
       "np_message": "%1$s 現正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放這首曲目時發生了些問題! 不便之處敬請見諒，如果還有的話我會先播放下一首的。",
-      "queue_finished": "%1$s目前清單已播放完畢! 希望你用得開心，如果需要任何幫助，請加入<https://support.mantaro.site>\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
       "missing_embed_permissions": "%1$s你需要給我嵌入連結權限才能顯示菜單。如果你想要跳過菜單，使用 `~>forceplay` ，這將會直接播放第一個結果。",
