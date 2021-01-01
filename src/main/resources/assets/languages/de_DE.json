@@ -234,7 +234,7 @@
       "not_connected": "%1$sDu bist nicht in dem Sprach-Kanal in dem ich gerade spiele! (Wenn du glaubst, dies ist nicht der Fall, melde es bitte in unserem Support Server.)",
       "np_message": "%1$s Spiele momentan: **%2$s** (%3$s) auf **%4$s** | %5$s",
       "track_error": "%1$sEtwas lief schief beim Spielen dieses Songs, ich werde den nächsten Song spielen, wenn es einen gibt.",
-      "queue_finished": "%1$sBeendete die aktuelle Warteschlange! Ich hoffe es hat dir gefallen.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sDu musst mir einen Songnamen nennen, ich bin kein Magier, daher kann ich ihn nicht erraten. :(",
       "too_many_errors": "%1$sZu viele Fehler während dieser Session...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
