@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
  *  GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
 package net.kodehawa.mantarobot.db.entities;
@@ -99,7 +99,7 @@ public class Player implements ManagedObject {
     /**
      * Adds x amount of money from the player.
      *
-     * @param money How much?
+     * @param toAdd How much?
      * @return pls dont overflow.
      */
     @JsonIgnore
@@ -159,7 +159,7 @@ public class Player implements ManagedObject {
     /**
      * Removes x amount of money from the player. Only goes though if money removed sums more than zero (avoids negative values).
      *
-     * @param money How much?
+     * @param toRemove How much?
      */
     public boolean removeMoney(long toRemove) {
         boolean useOld = config.isPremiumBot() || config.isSelfHost();

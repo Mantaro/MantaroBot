@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 David Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2021 David Rubio Escares / Kodehawa
  *
  *  Mantaro is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.commands.info.stats;
 import com.github.natanbc.usagetracker.Bucket;
 import com.github.natanbc.usagetracker.TrackerGroup;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.kodehawa.mantarobot.commands.info.stats.StatsManager;
 
 import java.util.stream.Collectors;
 
