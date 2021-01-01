@@ -234,7 +234,7 @@
       "not_connected": "%1$s你还没进入到我目前正在播放的语音频道! (如果你觉得这是错误的话，请回报至<https://support.mantaro.site>)",
       "np_message": "%1$s 现正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放这首曲目时發生了些问题! 不便之处敬请见谅，如果还有的话我会先播放下一首的。",
-      "queue_finished": "%1$s目前清单已播放完毕! 希望你用得开心，如果需要任何帮助，请加入<https://support.mantaro.site>\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$s你需要给我歌曲名称，我可不是随猜即中的魔法师 :(",
       "too_many_errors": "%1$s此次工作阶段發生太多错误，停止中...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
