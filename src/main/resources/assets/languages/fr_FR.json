@@ -234,7 +234,7 @@
       "not_connected": "%1$sTu n'es connecté à aucun salon vocal dans lequel je joue actuellement! (Si tu penses qu'il s'agit d'une erreur, signales le sur le serveur de support)",
       "np_message": "%1$s Joue actuellement **%2$s** (%3$s) sur **%4$s** | %5$s",
       "track_error": "%1$sOuch, quelque chose s'est mal passé en jouant à ce morceau! Désolé, je vais essayer de jouer le prochain morceau disponible s'il y en a un.",
-      "queue_finished": "%1$sListe de lecture terminée! J'espère que tu as apprécié.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sTu dois me donner le nom de la chanson, je ne suis pas un magicien, je ne peux pas le deviner :(",
       "too_many_errors": "%1$sIl y a trop d'erreurs sur cette session, arrêt en cours...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
