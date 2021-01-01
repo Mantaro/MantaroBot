@@ -393,7 +393,7 @@
       "footer": "Gracias por usar Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). El prefijo del servidor es `%3$s` (Solo sirve en este servidor). Puedes cambiar el prefijo usando `~>opts prefix set <prefijo>`",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "No hay un prefijo customizado en este servidor."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$s¡Especificaste el parametro para agregar tiempo pero no pusiste por cuanto!",
       "negative_time_notice": "%1$sNo creo que sea posible mutear a alguien por tiempo negativo...",
       "default_time_too_long": "%1$sEl tiempo de muteo por defecto es muy largo (Máximo: 10 días)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sEl tiempo especificado es muy largo (Máximo: 10 días)...",
       "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
       "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
@@ -2037,6 +2037,7 @@
       "success": "%1$sHe reseteado el mensaje de cumpleaños!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sNecesitas especificar el tiempo con el formato 1m20s, por ejemplo.",
       "wrong_format": "%1$sError en el formato del tiempo. Debes especificar el tiempo con el formato 1m20s, por ejemplo.",
       "too_long": "%1$sEl tiempo especificado es muy largo...",
