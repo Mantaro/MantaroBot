@@ -234,7 +234,7 @@
       "not_connected": "%1$sBạn đang không ở trong kênh thoại mà tôi đang phát nhạc! (Nếu bạn nghĩ đây là một lỗi, hãy báo cho chúng tôi tại <https://support.mantaro.site>)",
       "np_message": "%1$s Đang phát **%2$s** (%3$s) ở **%4$s** | %5$s",
       "track_error": "%1$sÚi, có vấn đề khi phát bài này rồi! Chin nhỗi nha. Tôi sẽ phát bài tiếp theo ngay đây nếu đằng sau có bài đang chờ.",
-      "queue_finished": "%1$sĐã phát hết các bài trong danh sách! Mong là bạn thích nó. Nếu bạn cần giúp đỡ gì về tôi, bạn có thể vào <https://support.mantaro.site> %2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sBạn cần phải cho cái tên bài hát chứ. Tui có phải ảo thuật gia đâu mà đoán được :(",
       "too_many_errors": "%1$sQuá nhiều lỗi trong phiên phát nhạc này, dừng lại...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
