@@ -234,7 +234,7 @@
       "not_connected": "%1$sVocê não está conectado no canal de voz no qual estou tocando atualmente! (Se você acha que isso é um erro, por favor reporte no servidor de suporte)",
       "np_message": "%1$s Tocando agora **%2$s** (%3$s) no **%4$s** | %5$s",
       "track_error": "%1$sOuch, alguma coisa deu errado enquanto tocava essa música! Desculpe pelo inconveniente, Eu vou tentar tocar a próxima se tiver uma disponível.",
-      "queue_finished": "%1$sTerminei de tocar a fila atual! Espero que tenha gostado.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sVocê tem que me dar o nome de uma música para tocar, Eu não sou um mágico, então não posso adivinhar :(",
       "too_many_errors": "%1$sMuitos erros nesta sessão, Parando...",
       "missing_embed_permissions": "%1$sVocê tem que dar ao bot a permissão de Inserir Link para que ela exiba o menu. Se você quiser pular o menu, use `~>forceplay` ao invés disso, que irá tocar o primeiro resultado.",
