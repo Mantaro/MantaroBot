@@ -234,7 +234,7 @@
       "not_connected": "%1$sВы не подключены к голосовому каналу, в котором я проигрываю музыку (если вы считаете, что это ошибка, свяжитесь с поддержкой) )",
       "np_message": "%1$s Сейчас играет **%2$s** (%3$s) в **%4$s** | %5$s",
       "track_error": "%1$sУпс, что-то пошло не так и я не могу проиграть этот трек, я попробую сыграть следующий из очереди, если он там есть.",
-      "queue_finished": "%1$sЗавершено воспроизведение текущего плей-листа, надеюсь вам понравилось.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sЯ не умею читать мысли, поэтому дайте мне название трека, который нужно воспроизвести :(",
       "too_many_errors": "%1$sСлишком много ошибок в данной сессии, прекращаю работу...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
