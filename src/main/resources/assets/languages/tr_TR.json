@@ -234,7 +234,7 @@
       "not_connected": "%1$sŞu anda şarkı çalan kanala bağlı değilsin! (Hata olduğunu düşünüyorsan, bana bug raparu atsan iyi olur sanki hehe!)",
       "np_message": "%1$s Çalıyor **%2$s** (%3$s) kanal: **%4$s** | %5$s",
       "track_error": "%1$sYa of, Şarkıyı çalarken bir problem çıktı! Özür diliyorum, Bu olmadığı için sıradakini oynatmaya çalışıyorum.",
-      "queue_finished": "%1$sŞarkı listesini oynatmayı bitirdim! Umarım eğlenmişsinizdir.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sBir şarkı ismi söylemelisin, ben büyücü değilim ki :(",
       "too_many_errors": "%1$sBurada çok fazla hata var, durduruluyor...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
