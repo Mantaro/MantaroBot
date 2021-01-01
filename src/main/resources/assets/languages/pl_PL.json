@@ -234,7 +234,7 @@
       "not_connected": "%1$sNie masz połączenia z kanałem głosowym, na którym obecnie gram! (Jeśli uważasz, że to błąd, zgłoś to na <https://support.mantaro.site>)",
       "np_message": "%1$sTeraz odtwarzane **%2$s** (%3$s) na **%4$s** | %5$s",
       "track_error": "%1$sOuch, coś poszło nie tak podczas grania tego utworu! Przepraszam za niedogodności, postaram się zagrać w następną dostępną, jeśli będzie taka możliwość.",
-      "queue_finished": "%1$sSkończyłeś grać w aktualną kolejkę! Mam nadzieję, że ci się podobało. Jeśli potrzebujesz pomocy z botem, możesz dołączyć do <https://support.mantaro.site>\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sMusisz mi podać nazwę piosenki, nie jestem magikiem, więc nie mogę zgadnąć :(",
       "too_many_errors": "%1$sZbyt wiele błędów na tej sesji, zatrzymanie...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
