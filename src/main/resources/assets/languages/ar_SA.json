@@ -234,7 +234,7 @@
       "not_connected": "%1$sانت لست متصلاََ بالقناة الصوتيه التي اشغل فيها! (اذا كنت تعتقد ان هذا خطأ, من فضلك بلغ هنا<https://support.mantaro.site>)",
       "np_message": "%1$s اشغل الان **%2$s** (%3$s) on **%4$s** | %5$s",
       "track_error": "%1$sعفوًا ، حدث خطأ ما أثناء تشغيل هذا المسار! عذرًا على الإزعاج ، سأحاول تشغيل اللعبة التالية المتاحة في حالة وجودها.",
-      "queue_finished": "%1$sانتهى تشغيل قائمة الانتظار الحالية! اتمنى ان تكون قد استمتعت به. إذا كنت بحاجة إلى مساعدة في الروبوت ، يمكنك الانضمام<https://support.mantaro.site>%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sيجب ان تعطيني اسم الاغنية, أنا لست ساحرًا لذا لا يمكنني تخمين ذلك :(",
       "too_many_errors": "%1$sالكثير من الاخطاء في هذه الجلسة, توقف...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
