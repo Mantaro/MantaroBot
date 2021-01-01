@@ -393,7 +393,7 @@
       "footer": "Dziékuje za używanie Mantaro! Strona:%1$d Razem: %2$d."
     },
     "prefix": {
-      "header": "%1$sDomyślne prefiksy to %2$s (odpowiadam na każdy z nich!). Prefiks serwera to `%3$s` (działa tylko na tym serwerze). Możesz ustawić nowy prefiks używając `~>opts prefix set <prefix>`. Nie zawieraj <>. Jeśli masz jakieś pytania, możesz dołączyć do <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "Nie ma tutaj ustawionego niestandardowego prefiksu na tym serwerze."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$sChciałeś czasu, ale nie sprecyzowałeś na jak długo.",
       "negative_time_notice": "%1$sNie można kogoś wyciszyć na czas negatywny. Chyba, że potrafisz zginać czasoprzestrzeń, to znaczy.",
       "default_time_too_long": "%1$sDomyślny czas trwania wyciszenia jest zbyt długi (maksymalnie 10 dni)...",
-      "time_too_little": "%1$sOkreślony limit czasu wyciszenia jest krótszy niż 20 sekund.\nJesteś pewien, że użyłeś właściwego formatu? Na 20 minut użyj 20 m, na 1 godzinę, użyj 1h lub dowolnej kombinacji obu (na przykład 1h45m).",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sPodana długość przerwy w wyciszeniu jest zbyt długa (maksymalnie 10 dni)...",
       "already_muted": "%1$sTen użytkownik ma już rolę wyciszonego. Proszę wpisz `~>un-mute` aby odciszych użytkownika.",
       "self_hierarchy_error": "%1$sNie mogę przypisać temu użytkownikowi roli niemego, ponieważ znajduje się on w wyższej hierarchii niż ja, lub rola jest w wyższej hierarchii!",
@@ -2037,6 +2037,7 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
