@@ -80,7 +80,7 @@
     "cancelled": "%1$sDemande annulée.",
     "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "Si le nom est composé, essaie de le \"mettre entre guillemets\". La commande help t'en dira sûrement plus.",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
       "spam_1": "S'il te plait repose toi, c'est bon pour ta santé. **N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!**",
@@ -234,9 +234,10 @@
       "not_connected": "%1$sTu n'es connecté à aucun salon vocal dans lequel je joue actuellement! (Si tu penses qu'il s'agit d'une erreur, signales le sur le serveur de support)",
       "np_message": "%1$s Joue actuellement **%2$s** (%3$s) sur **%4$s** | %5$s",
       "track_error": "%1$sOuch, quelque chose s'est mal passé en jouant à ce morceau! Désolé, je vais essayer de jouer le prochain morceau disponible s'il y en a un.",
-      "queue_finished": "%1$sListe de lecture terminée! J'espère que tu as apprécié.\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sTu dois me donner le nom de la chanson, je ne suis pas un magicien, je ne peux pas le deviner :(",
       "too_many_errors": "%1$sIl y a trop d'erreurs sur cette session, arrêt en cours...",
+      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
       "queue": {
         "header_field": "Instructions",
@@ -259,7 +260,8 @@
         "no_channel": "Aucun salon vocal :(",
         "songs": "chanson(s)",
         "clear_error": "%1$sSoit tu n'es pas connecté au salon vocal, soit tu n'es pas DJ.",
-        "clear_success": "%1$sListe de lecture en cours effacée avec succès."
+        "clear_success": "%1$sListe de lecture en cours effacée avec succès.",
+        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
       "connect": {
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
@@ -282,7 +284,7 @@
         "over_limit": "%1$sLa liste de lecture que tu as ajouté a plus de %2$d musiques, alors j'ai ajouté uniquement les musiques jusqu'au nombre limite et j'ai ignoré les autres.",
         "loaded_playlist": "%1$sAjout de **%2$d musiques** à la file d'attente de la playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa recherche n'a donné aucun résultat. Si cela apparaît pour *toutes les chansons* pour lesquelles tu as fait une recherche, utilises`~>play soundcloud <termes recherchés>`à la place. Les liens directs vers YouTube devraient également fonctionner.",
-        "error_loading": "%1$sErreur lors de l'extraction de musique: %2$s",
+        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
         "over_32_minutes": "%1$s**Je n'ai pas pu ajouter `%2$s` à la file d'attente: Cette musique est plus longue que %3$s.**\n(La durée de ce morceau est %4$s).\nTu peux augmenter la limite de longueur des musique et des rediffusions de stream grâce à Mantaro Premium! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
         "fair_queue_limit_reached": "%1$s**Niveau de la file d'attente dépassé de %2$d (Trop de musiques similaires)**",
@@ -391,7 +393,7 @@
       "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sLes préfixes par défaut sont %2$s (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). Tu peux définir un nouveau préfixe en écrivant `~>opts prefix set <préfixe>`",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
@@ -463,6 +465,7 @@
         "invalid_number": "%1$sTu dois spécifier un numéro correct à changer.",
         "no_index": "%1$sTu ne peux pas supprimer un index inexistant.",
         "not_enough_args": "%1$sTu dois spécifier la commande et l'index de la réponse que tu veux supprimer.",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$sa supprimé la réponse **#%2$d** de la commande `%3$s` avec succès."
       },
       "rename": {
@@ -507,7 +510,7 @@
       "time_not_specified": "%1$sTu voulais ajouter une durée mais tu n'as pas précisé pendant combien de temps tu souhaites que le mute soit effectif.",
       "negative_time_notice": "%1$sTu ne peux pas rendre muet un membre pendant un temps négatif. Sauf si tu peux courber l'espace-temps",
       "default_time_too_long": "%1$sLa durée par défaut du mute est trop longue (maximum: 10 jours)...",
-      "time_too_little": "%1$sLa durée du délai de sourdine spécifié est de moins de 20 secondes.\nEs-tu sûr.e d'avoir utilisé le bon format? Pour 20 minutes, utilise 20m, pour 1 heure, utilise 1h, ou toute combinaison des deux (1h45) par exemple.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sLa durée du mute est trop longue (maximum: 10 jours...",
       "already_muted": "%1$sCet utilisateur a déjà un rôle muet attribué. Ecris `~>unmute` pour annuler le mute.",
       "self_hierarchy_error": "%1$sJe ne peux pas attribuer le rôle muet à cet utilisateur, car il appartient à une hiérarchie supérieure à la mienne ou le rôle est supérieur dans la hiérarchie!",
@@ -705,7 +708,7 @@
       "item_not_cast": "%1$sTu ne peux pas fabriquer cet objet. Tu peux regarder `~>cast ls` pour la liste de tous les objets à fabriquer.",
       "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
       "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication.",
-      "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour le faire. **(Nécessaires : %3$s, Possédés : %4$s)**",
+      "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour procéder. **(Nécessaire: %3$s, Possédé: %4$s)**\nCe n'est pas ce que tu essaies de fabriquer? Si le nom de l'objet est composé, essaie de le mettre entre \"guillemets\" ou utilise l'emoji.",
       "success": "%1$sTu as *fabriqué %2$s %3$s* avec succès pour %4$s credits. *Matériaux utilisés : %5$s*",
       "no_tool": "%1$sTu as besoin d'un%2$s pour forger! N'oublie pas que tu as besoin de deux clés du même type pour pouvoir forger cet objet.",
       "item_broke": "\nMalheureusement, ton marteau s'est cassé dans le processus, mais tu as reçu ton objet!",
@@ -731,7 +734,7 @@
         "success": "%1$s a envoyé %2$dx **%3$s %4$s** à la poubelle."
       },
       "price": {
-        "no_item": "%1$sYou need to specify the item you want to check the price of.",
+        "no_item": "%1$sTu dois spécifier l'objet dont tu veux connaitre le prix.",
         "non_existent": "%1$sImpossible de vérifier le prix un élément inexistant.",
         "no_price": "%1$sCet objet est indisponible soit à la vente soit à l'achat (peut-être un objet exclusif)",
         "collectible": "%1$sC'est un objet exclusif. (Valeur à la vente : %2$d credits)",
@@ -756,7 +759,7 @@
         "invalid": "%1$sNombre d'objets à acheter invalide.",
         "non_existent": "%1$sTu ne peux pas acheter un objet inexistant. Si tu es perdu, tu peux essayer de taper le nom raccourci ou de mettre le nom entre guillemets. De plus, le nombre d'objets doit être présent avant le nom de l'objet, par exemple : `~>market buy 15 energy`",
         "no_buy_price": "%1$sTu ne peux pas acheter un objet qui n'est pas achetable.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
+        "item_limit_reached": "%1$sTu ne peux pas en acheter plus. Tu ne peux en avoir que 5000 comme pour chaque objet.",
         "success": "%1$sAchat de %2$,d %3$s pour %4$,d credits. Tu as désormais %5$,d credits.",
         "success_breakable": "%1$sAcheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux équiper cet objet avec `~>equip <item name>`",
         "success_potion": "%1$sAcheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux utiliser cet objet avec `~>useitem <item name>`",
@@ -1025,8 +1028,8 @@
       "no_guild_month_birthdays": "%1$sIl n'y à pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens de configurer l'annonceur d'anniversaires, attend un peu s'il te plait avant de réessayer. (Le cache se rafraichit toutes les 23h)\nSouviens-toi également que les gens doivent utiliser la commande `~>birthday allowserver` pour autoriser ce serveur à annoncer leur anniversaire.",
       "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
-      "header": "**Les anniversaires du mois de %1$s pour %2$s**\nLe cache des anniversaires se met à jour toutes les 23h, donc si ton anniversaire n'apparait pas ici, ne panique pas et sois patient.e.\n",
-      "full_header": "**Anniversaires du mois de %1$s**\n%2$s\nSouviens-toi que le cache des anniversaire se met à jour toutes les 23 heures et que tu dois lancer `~>birthday allowserver`",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
+      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sCe n'est pas une date valide ou le format est incorrect.\nSouviens-toi que le format de date est `jj-mm` (Par exemple, utilise `~>birthday 16-11` pour le 16 novembre)",
       "error_date": "%1$s%2$s n'est pas une date valide ou je ne peux pas l'analyser correctement. Essaie avec le bon format s'il te plait.\nSouviens-toi que le format de date est `jj-mm` (Par exemple, utilise `~>birthday 16-11` pour le 16 novembre)",
       "added_birthdate": "%1$sTu as ajouté ta date d'anniversaire avec succès. Nouvelle date d'anniversaire: %2$s *(Format: jj-MM)* [day-month]. Pour que ce serveur annonce ton anniversaire , tu dois lancer la commande `~>birthday allowserver`",
@@ -1576,6 +1579,7 @@
       "bot_notice": "%1$sLes bots ne peuvent pas avoir d'argent.",
       "external_balance": "Le solde de %1$s est de **$%2$d crédits.**",
       "own_balance": "Ton solde est de **$%1$,d crédits.**%2$s",
+      "new_player": "Hello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
       "reset_notice": "\nSi tu veux savoir ce qu'on a fait de ton argent, lis <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nIl n'a pas vraiment disparu, tu peux toujours le voir sur ton `~>profile` :heart:\nTon inventaire est resté intacte, vend peut-être quelques trucs pour gagner de l'argent?\nCe message ne sera montré qu'une fois. Lis la page ci-dessus pour plus d'infos."
     },
     "daily": {
@@ -1679,6 +1683,7 @@
       "autoequip": {
         "success": "%1$sTu as choisi d'activer l'auto-équip, j'ai donc remplacé ta **%2$s** automatiquement."
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s, tu les as gardés.",
       "success": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s et **$%3$d crédits** et tu les as gardés.",
       "success_money_noitem": "%1$sEn coupant du bois tranquillement, tu as trouvé **$%2$d crédits** et tu les as gardés dans ta poche."
@@ -2032,6 +2037,7 @@
       "success": "%1$sMessage d'anniversaire effacé!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sLe temps de silence doit être spécifié au format 1m20s par exemple.",
       "wrong_format": "%1$sAttention à ton format! Le temps de silence doit être spécifié au format 1m20s par exemple.",
       "too_long": "%1$sTu ne peux pas réduire quelqu'un au silence aussi longtemps...",

@@ -13,7 +13,7 @@
     "daily": "一天",
     "total": "總計",
     "arrow_react": "使用箭號反應來改變頁數。",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "傳送 &p >> 和 &p << 來切換頁數或 &cancel 結束。",
     "not_found": "沒有找到",
     "no_results": "查無結果",
     "timeout": "這將在%1$d秒內超時",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "無法依據你的搜索條件找到任何結果。\n試著使用更簡短的名稱，範例：使用 '能量' 代替 `能量飲料`。或將他用引號包起來。",
       "claim_key": "你無法轉移認領鑰匙。"
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
+      "mop": "%1$s你已經清理完了你家中的所有塵土。",
       "mop_not_enough": "%1$s你的粉塵高度少於5%%， 所以掃除不會有什麼作用。",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": "%1$s所有藥水效果已清除。",
       "stamina": "%1$s已激活耐力，可維持三次採礦。",
       "stamina_used": "%1$s你目前已經有耐力效果了！",
       "haste": "%1$s已激活勤奮，可維持兩次活動。",
@@ -48,8 +48,8 @@
       "pill": "%1$s你吃了一個waifu藥丸! (可使用5回)",
       "pill_used": "%1$s你目前已經有waifu藥丸了!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$s你需要一個寶箱鑰匙來開啟寶箱。他是鎖住的！你能使用 `~>market buy key` 來購買他。",
+        "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
@@ -80,7 +80,7 @@
     "cancelled": "%1$s已取消請求。",
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "如果名稱包含空格，試著將他\"用引號包起來\"。也許help指令能告訴你更多資訊。",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
+      "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>market buy rod` 來購買一隻。",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
+      "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
       "success": "%1$s在安靜的釣魚時，你找到了%2$s且把它們放到水桶裡了。",
       "success_money": "%1$s在安靜的釣魚時，你找到了%2$s和**%3$d元**。%4$s",
       "success_money_noitem": "%1$s在安靜的釣魚時，你找到了**%2$d元**且把它們放進口袋裡了。",
@@ -217,13 +217,13 @@
       "info": "%1$s你可以更改綁定到這個伺服器的語言 (如果適合的話) 使用 `~>opts language set <語言代碼>`，或是使用 `~>profile lang <語言代碼>` 來改變你的偏好語言。\n**可用語言:** `%2$s`\n如果我沒有你想要的語言，歡迎加入我們的翻譯團隊並參與翻譯工作!"
     },
     "season": {
-      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲譽排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
+      "info": "*賽季/季節*是時間長度，通常為6個月，在此期間，玩家能夠爭奪金錢或聲望排行榜的前10名。 得獎者將根據其季節性表現獲得徽章和獎品。\n這是為了創造更具競爭力的整體感受，並使Mantaro更加有趣 (金錢在之前是非常無用的)\n您可以使用 `-season` 訪問具季節性的東西。profile/mine/fish/balance 等指令將需要它，而 loot/daily/reputation(增加聲望) 及各種小遊戲將對你的全局和季節性角色都產生效果。",
       "info_2": "\n\n目前賽季是**%1$s**，且已經有**%2$s**個玩家在參與了!\n\n有趣的來了，記得檢查 `~>leaderboard money -season` `~>leaderboard rep -season` 和 `~>leaderboard games -season`\n開始遊戲吧! <3\n感謝使用Mantaro。"
     },
     "music_general": {
       "music_error": {
         "timeout": "%1$s無法連接至%2$s：連線超時。試著改變伺服器區域並再試一次。",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$s無法連接至%2$s：未知錯誤。"
       },
       "not_working": "%1$s由於YouTube阻止了許多大型伺服器的訪問，因此Mantaro音樂功能目前無法正常運作。我們的Mantaro Patreon還能正常運行，如果你想試試看的話，請考慮每月贊助我們4元美金，同時幫助我們維持Mantaro的正常運作及硬體更新。\n訪問 <https://patreon.com/mantaro> 取得更多資訊\n\n我們非常抱歉造成你的不便。別忘了還能使用SoundCloud搜尋! `(~>play soundcloud <關鍵詞>)`",
       "no_song": "%1$s你需要告訴我你想播的音樂! *(支援網址及關鍵字：YouTube, SoundCloud, Twitch)*",
@@ -234,9 +234,10 @@
       "not_connected": "%1$s你還沒進入到我目前正在播放的語音頻道! (如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>)",
       "np_message": "%1$s 現正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放這首曲目時發生了些問題! 不便之處敬請見諒，如果還有的話我會先播放下一首的。",
-      "queue_finished": "%1$s目前清單已播放完畢! 希望你用得開心，如果需要任何幫助，請加入<https://support.mantaro.site>\n%2$s",
+      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
       "too_many_errors": "%1$s此次工作階段發生太多錯誤，停止中...",
+      "missing_embed_permissions": "%1$s你需要給我嵌入連結權限才能顯示菜單。如果你想要跳過菜單，使用 `~>forceplay` ，這將會直接播放第一個結果。",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道？再試一次。",
       "queue": {
         "header_field": "使用說明",
@@ -259,7 +260,8 @@
         "no_channel": "沒有頻道 :(",
         "songs": "曲目",
         "clear_error": "%1$s你目前尚未連接到任何語音頻道，或者你不是DJ",
-        "clear_success": "%1$s成功清除播放清單，大小為%2$s"
+        "clear_success": "%1$s成功清除播放清單，大小為%2$s",
+        "no_embed": "%1$s你需要給我嵌入連結權限才能顯示歌曲佇列。"
       },
       "connect": {
         "success": "%1$s成功連接到**%2$s**!",
@@ -282,7 +284,7 @@
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用 `~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
-        "error_loading": "%1$s取得歌曲時出錯：%2$s",
+        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
@@ -391,7 +393,7 @@
       "footer": "感謝使用Mantaro呀！頁數：%1$d, 總頁數:%2$d"
     },
     "prefix": {
-      "header": "%1$s 我默認的指令詞頭是 %2$s。 (用哪個都是OK的！) 此伺服器的自訂的指令詞頭是 `%3$s`。 (只可以在這伺服器上使用) 你可以通過輸入 `~>opts prefix set <prefix>` 設定一個新的詞頭，記得不要輸入那兩個<>唷。\n有任何疑問的話，你可以加入<https://support.mantaro.site> 看看。",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "此伺服器暫時沒有自訂的指令詞頭。"
     },
     "custom": {
@@ -463,6 +465,7 @@
         "invalid_number": "%1$s你需要指出你想刪除的回應編號。",
         "no_index": "%1$s你無法移除不存在的索引。",
         "not_enough_args": "%1$s你需要指出你想刪除的指令名稱及回應編號。",
+        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$s已成功移除指令 `%3$s` 的第**#%2$d**條回應"
       },
       "rename": {
@@ -507,7 +510,7 @@
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
@@ -531,27 +534,27 @@
         "這常常發生嗎？",
         "我還正-正常嗎？",
         "<3",
-        "pat pat",
+        "摸摸",
         "Pong。",
         "Pang。",
         "Pung。",
         "Peng。",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "不知道我做得怎麼樣",
+        "有問題嗎？",
+        "打乒乓球？耶！",
+        "ㄣ-嗯... ㄏ-嗨..."
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* - **我的Ping：%3$,d ms** (Websocket：%4$,d ms)"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$s請提及至少一位用戶。",
+      "not_ideal": "下次再試...",
+      "decent": "很棒了！",
+      "nice": "很好的一對！",
+      "perfect": "完美的一對！",
+      "yourself_note": "你是一個特別的人，你應該比任何人都愛自己 <3",
+      "header": "愛情測試器",
+      "result": "結果："
     },
     "marry": {
       "loveletter": {
@@ -622,35 +625,35 @@
       "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
-      "id": "**ID:**",
+      "bot": "%1$s機器人不能成為Waifu，就算你想的話...",
+      "notice": "此功能不與現實生活產生任何關連。",
+      "id": "**ID：**",
       "stats": {
-        "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "header": "你的Waifu狀態",
+        "header_other": "%1$s的Waifu狀態",
+        "format": "%1$s **金錢權重：**%2$,d\n%1$s **徽章權重：**%3$,d\n%1$s **經驗權重：**%4$,d\n%1$s **認領權重：**%5$,d\n%1$s **聲望權重：**%6$.2fx",
+        "value": "Waifu總價值",
+        "credits": "%1$,d 元",
+        "performance": "Waifu能力點"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query. "
+        "no_user": "%1$s你沒有提及任何用戶。",
+        "locked": "%1$s你目前無法執行此操作。",
+        "key_locked": "%1$s你想認領的這位用戶已被鑰匙鎖定，無法認領。如果他們願意，可以使用 `~>profile claimlock remove` 移除。",
+        "not_enough_money": "%1$s你沒有足夠的金錢來認領他 **(費用：%2$s)**",
+        "not_enough_slots": "%1$s你沒有足夠的空位來認領他。(全部空位：%2$s，已使用：%3$s)",
+        "success": "%1$s成功以 %3$,d 元認領 `%2$s`。已使用空位：%4$s",
+        "yourself": "%1$s你無法認領自己！",
+        "already_claimed": "%1$s你已經認領這位Waifu。",
+        "not_found": "%1$s找不到任何用戶。"
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to un-claim.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu un-claiming.",
+        "no_user": "%1$s你需要先提及一個Waifu來取消認領。",
+        "not_claimed": "%1$s這個人不是你的Waifu!",
+        "confirmation": "%1$s你真的*確定*要取消認領 %2$s 嗎？取消認領這個Waifu的費用是 **%3$s 元**。傳送 `yes` 確認或 `no` 取消。\n%4$s這將在一分內超時。",
+        "not_enough_money": "%1$s你沒有足夠的金錢來取消認領這位Waifu！",
+        "player_locked": "%1$s你目前無法執行此操作。",
+        "scrapped": "%1$s已取消操作。",
         "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
         "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
@@ -701,11 +704,11 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
+      "no_item_found": "%1$s找不到任何匹配的物品。如果物品名稱包含空格，將他用\"引號\"包起來。盡量輸入完整的名稱，或使用相對應的表情符號來避免錯誤。範例：`~>cast \"star pick\" \"comet wrench\"。",
       "item_not_cast": "%1$s你無法鑄造此物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果物品名稱包含空格，將他用\"引號包起來\"。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
       "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。",
-      "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造。**(需求：%3$s，擁有：%4$s)**",
+      "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來進行鑄造。**(需求：%3$s，持有：%4$s)**\n這不是你要鑄造的物品嗎？如果物品名稱包含空格，將他用\"引號\"包起來或使用表情符號。",
       "success": "%1$s你成功的用 %4$s 元*鑄造了 %2$s %3$s*。*鑄造消耗：%5$s*",
       "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！記得：你需要擁有兩個相同類型的扳手來進行鑄造。",
       "item_broke": "\n可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
@@ -867,9 +870,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
+        "not_specified": "%1$s你需要指出時區。有效的時區可以為 `GMT-3` 或 `America/Chicago` 等等。",
         "reset": "%1$s時區已重設。",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
+        "invalid": "%1$s無效時區。有效的時區可以為 `GMT-3` 或 `America/Chicago` 等等。你可以用Google搜尋\"我的時區\"來查看。",
         "success": "%1$s時區已儲存，你的個人時區為：**%2$s**",
         "reset_success": "%1$s時區已重設。"
       },
@@ -881,7 +884,7 @@
         "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$s你需要指出你的主徽章！例如 `~>profile displaybadge claimer`。",
         "reset_success": "%1$s徽章將不會繼續顯示在你的頭像上！",
         "important_success": "%1$s你的展示徽章現在是你最有價值的徽章。",
         "no_such_badge": "%1$s找不到該徽章...\n你可用的徽章：%2$s",
@@ -952,7 +955,7 @@
         "cancelled": "%1$s操作取消。"
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$s個人資料部件個人化僅適用於Premium用戶。\n查看 <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks> 獲得更多特權。",
         "not_enough": "%1$s部件數量不足以放置在你的個人資料上 (最少：3)。如果你忘記了，查看 `~>profile widgets ls`",
         "success": "%1$s成功設定你的個人資料佈局。新佈局為 `%2$s`",
         "ls": "%1$s個人資料部件清單：\n%2$s **原始部件配置：**`%3$s`\n%2$s **你的部件配置：**`%4$s`\n你可以使用 `~>profile widgets reset` 來重設你的部件配置",
@@ -961,9 +964,9 @@
       },
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
-        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
+        "success": "%1$s你將無法再被認領為Waifu。已使用一個認領鑰匙。使用 `~>profile claimlock remove` 來移除他。",
+        "no_key": "%1$s你沒有認領鑰匙來執行此操作。你能用 `~>market buy \"claim key\"` 從市場購買。",
+        "already_locked": "%1$s你已經被鎖定了。使用 `~>profile claimlock remove` 來解鎖。"
       },
       "autoequip": {
         "disable": "%1$s成功取消自動裝備。",
@@ -977,7 +980,7 @@
       "old_credits": "舊版金錢",
       "level": "等級",
       "xp": "經驗值",
-      "rep": "聲譽",
+      "rep": "聲望",
       "birthday": "生日",
       "married": "伴侶",
       "nobody": "無",
@@ -989,7 +992,7 @@
       "not_specified": "未設置",
       "potion": "藥水效果",
       "no_potion": "沒有藥水效果。",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$s舊版金錢顯示狀況已改成：`%2$s`"
     },
     "badges": {
       "info": {
@@ -1025,8 +1028,8 @@
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
+      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1303,8 +1306,8 @@
     },
     "pet": {
       "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage": "%1$s你需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`。",
+      "no_marriage_other": "%1$s%2$s 需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`。",
       "status": {
         "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。",
         "header": "%1$s 的狀態",
@@ -1316,7 +1319,7 @@
         "health": "生命值",
         "thirst": "口渴度",
         "hunger": "飢餓度",
-        "stamina": "Stamina",
+        "stamina": "耐力",
         "pet": "撫摸次數",
         "footer": "感謝使用Mantaro！<3"
       },
@@ -1327,78 +1330,78 @@
       },
       "pat": {
         "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "too_many": "How did you even get this many pats?"
+        "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
+        "too_many": "你是怎麼撫摸那麼多次的？"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
-        "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "cute": "%1$s你一邊撫摸**%2$s**，他也一邊搖搖尾巴。**撫摸次數：%3$s**。%4$s",
+        "cute_not_animal": "%1$s你一邊輕拍**%2$s**，他也一邊快樂地露出笑容。**撫摸次數：%3$s**。%4$s",
+        "nothing": "%1$s**%2$s**只是坐在那邊，什麼也不做。**撫摸次數：%3$s**。%4$s",
+        "cheer": "%1$s**%2$s**的反應使你感到非常快樂。**撫摸次數：%3$s**。%4$s",
+        "scare": "%1$s你的寵物在被你撫摸時嚇到了。也許你來的太突然了？**撫摸次數：%3$s**。%4$s",
+        "counter_100": "%1$s看來他們的頭會被你拍得很閃亮。"
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
+        "not_enough_arguments": "%1$s你需要指出寵物名稱和你想購買的種類。(範例，`~>pet buy hello dog`)",
         "no_requirements": "%1$s你需要汽車和房屋才能購買寵物！房屋：%2$s，汽車：%3$s\n使用 `~>marry buyhouse` 和 `~>marry buycar` 來購買 :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
-        "already_has_pet": "%1$sYou already have a pet.",
-        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
-        "cancel_success": "%1$sCancelled operation.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
+        "no_house": "%1$s你需要寵物小屋才能購買寵物。你能在市場購買。",
+        "already_has_pet": "%1$s你已經擁有寵物了。",
+        "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
+        "confirm": "%1$s你確定你要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。傳送 `yes` 確認或 `no` 取消。",
+        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買。",
+        "cancel_success": "%1$s操作取消。",
+        "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
-        "no_item": "%1$sI didn't find the item you specified.",
-        "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
-        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
-        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
-        "not_applicable": "%1$sYou can't feed this food to your pet type.",
-        "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (Increase is over needed to reach 100%%)"
+        "no_pet": "%1$s你沒有任何寵物可以餵養。使用 `~>pet` 獲得更多說明。",
+        "no_content": "%1$s你需要指出要用來餵養寵物的食物 (範例，`~>pet feed steak`)",
+        "no_item": "%1$s找不到你指定的物品。",
+        "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
+        "no_need": "%1$s你的寵物目前還不餓，他們還不想吃東西。",
+        "not_inventory": "%1$s你沒有該物品。確定你擁有他且有正確的數量 (%2$s)。",
+        "not_applicable": "%1$s你不能將這種食物餵給你的寵物。",
+        "success": "%1$s太棒了！成功餵養你的寵物 %3$s 個 `%2$s`，他回復了 %4$s%% 飢餓度。現在為 %5$s%%。",
+        "too_much": "%1$s也許給他少一點食物看看？不要浪費食物！(增加的數量將超過100%%)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
-        "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
-        "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
-        "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (Increase is over needed to reach 100%%)",
-        "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
+        "no_pet": "%1$s你沒有任何寵物想要喝水。使用 `~>pet` 獲得更多說明。",
+        "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
+        "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
+        "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
+        "too_much": "%1$s也許給他少一點水看看？不要浪費水！(增加的數量將超過100%%)",
+        "success": "%1$s太棒了！成功給了你的寵物 %2$d 個水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
       },
       "activity": {
-        "low_stamina": "%1$s**%2$s** has a really low stamina. Give it food/water to replenish.",
-        "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
-        "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
-        "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
-        "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
-        "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
+        "low_stamina": "%1$s**%2$s** 的耐力過低。給他一些水和食物來補充。",
+        "low_health": "%1$s**%2$s** 的血量過低。給他一些水和食物來補充。",
+        "low_hunger": "%1$s**%2$s** 的肚子太餓了，無法做任何事。*食物啊~*",
+        "low_thirst": "%1$s**%2$s** 太渴了，無法做任何事。",
+        "success_fish": "%1$s**%2$s** 成功的幫助你抓到魚了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
+        "success_chop": "%1$s**%2$s** 成功的幫助你伐木了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
+        "success_mine": "%1$s**%2$s** 成功的幫助你挖礦了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和額外的物品掉落機會)**！*已經包含在你得到的掉落物中*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename.",
-        "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
-        "no_content": "%1$sYou need to give me the new name of your pet.",
-        "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
-        "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
+        "no_pet": "%1$s你沒有寵物可以重命名。",
+        "same_name": "%1$s你指定的名稱跟目前的一樣。",
+        "no_content": "%1$s你需要指定你寵物的新名稱。",
+        "not_enough_money": "%1$s你沒有足夠的錢來這樣做。價格：%2%s，你擁有：%3$s。",
+        "success": "%1$s成功將你的寵物 `%2$s` 重命名為 `%3$s`。已經從你的錢包扣除 %4$s 元，好好享受吧！"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+        "no_pet": "%1$s你沒有寵物可以丟棄。",
+        "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
+        "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。"
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
-        "author": "Pet information for type %1$s%2$s",
-        "name": "Pet Name",
-        "cost": "Pet Cost",
-        "abilities": "Abilities",
-        "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
-        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
+        "not_found": "%1$s找不到你指出的寵物類型。使用`~>pet list` 查看現有的類型。",
+        "author": "寵物種類 %1$s%2$s 的信息",
+        "name": "寵物名稱",
+        "cost": "寵物價格",
+        "abilities": "能力",
+        "food": "喜愛食物",
+        "coin_buildup": "金錢累積 (等級 1 / 100)",
+        "item_buildup": "物品累積 (等級 1 / 100)"
       }
     },
     "invite": {
@@ -1576,6 +1579,7 @@
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
+      "new_player": "Hello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
@@ -1679,6 +1683,7 @@
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
+      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
       "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
       "success_money_noitem": "%1$s你在伐木時找到了**%2$d元**且把他們放進口袋裡了。"
@@ -2032,6 +2037,7 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
