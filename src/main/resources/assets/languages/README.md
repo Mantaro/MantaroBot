@@ -33,7 +33,7 @@ You may add yourself to this table or ask to be added while making a translation
 | Dutch | JynXi#4043 |
 | French | Baba#3647 ([@thebaba98](https://github.com/thebaba98)) |
 | Arabic | ZeusRoyal#8888 |
-| Filipino | FlightlessAzrael#8086
+| Filipino | FlightlessAzrael#8086, 昭義明 \| Nhalrath#0181([@Nhalrath](https://github.com/Nhalrath))
 | Japanese | NDQ1049#1231, tuna#0660 |
 | Dutch | rabbit#0001, ~ Pixi#9999 |
 | Polish | \`Anomcia.#8089 |
