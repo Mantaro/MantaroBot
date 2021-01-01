@@ -393,7 +393,7 @@
       "footer": "만타로를 이용해 줘서 고마워요! 페이지: %1$d, 총: %2$d."
     },
     "prefix": {
-      "header": "%1$s기본 접두사는 %2$s이에요.(어느 것에도 응답해요!). 서버 접두어는 `%3$s`이에요(이 서버에서만 사용 가능해요). ~>opts prefix set <접두사>를 사용하여 새 접두사를 설정할 수 있어요. <>는 포함하지 마세요.\n만약 무슨 질문이 있다면 <https://support.mantaro.site>에 참가할 수 있어요",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "이 서버는 사용자 지정 접두사가 설정되지 않았어요."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$s 당신은 시간을 원했지만 얼마나 오랫동안인지 명시하지 않았어요.",
       "negative_time_notice": "%1$s 부정적으로 누군가를 침묵시킬 수는 없어요. 만약 당신이 시공간을 바꿀 수 없다면요.",
       "default_time_too_long": "%1$s기본 채팅 금지 시간 초과, 시간이 너무 길어요 (최대: 10일)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$s지정된 채팅 금지 시간 초과, 시간이 너무 길어요 (최대: 10일)...",
       "already_muted": "%1$s이 사용자는 이미 채팅 금지 역할이 부여되어 있습니다. 채팅 금지 해제하려면 `~>unmute`를 입력하세요.",
       "self_hierarchy_error": "%1$s제가 저 사용자 분보다 권한이 낮거나 역할의 위치가 낮아서 채팅 금지 역할을 부여할 수 없어요.",
@@ -2037,6 +2037,7 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
