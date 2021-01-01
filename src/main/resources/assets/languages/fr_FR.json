@@ -393,7 +393,7 @@
       "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sLes préfixes par défaut sont %2$s (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). Tu peux définir un nouveau préfixe en écrivant `~>opts prefix set <préfixe>`",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$sTu voulais ajouter une durée mais tu n'as pas précisé pendant combien de temps tu souhaites que le mute soit effectif.",
       "negative_time_notice": "%1$sTu ne peux pas rendre muet un membre pendant un temps négatif. Sauf si tu peux courber l'espace-temps",
       "default_time_too_long": "%1$sLa durée par défaut du mute est trop longue (maximum: 10 jours)...",
-      "time_too_little": "%1$sLa durée du délai de sourdine spécifié est de moins de 20 secondes.\nEs-tu sûr.e d'avoir utilisé le bon format? Pour 20 minutes, utilise 20m, pour 1 heure, utilise 1h, ou toute combinaison des deux (1h45) par exemple.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sLa durée du mute est trop longue (maximum: 10 jours...",
       "already_muted": "%1$sCet utilisateur a déjà un rôle muet attribué. Ecris `~>unmute` pour annuler le mute.",
       "self_hierarchy_error": "%1$sJe ne peux pas attribuer le rôle muet à cet utilisateur, car il appartient à une hiérarchie supérieure à la mienne ou le rôle est supérieur dans la hiérarchie!",
@@ -2037,6 +2037,7 @@
       "success": "%1$sMessage d'anniversaire effacé!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sLe temps de silence doit être spécifié au format 1m20s par exemple.",
       "wrong_format": "%1$sAttention à ton format! Le temps de silence doit être spécifié au format 1m20s par exemple.",
       "too_long": "%1$sTu ne peux pas réduire quelqu'un au silence aussi longtemps...",
