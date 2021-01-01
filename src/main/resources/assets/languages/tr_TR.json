@@ -234,10 +234,9 @@
       "not_connected": "%1$sŞu anda şarkı çalan kanala bağlı değilsin! (Hata olduğunu düşünüyorsan, bana bug raparu atsan iyi olur sanki hehe!)",
       "np_message": "%1$s Çalıyor **%2$s** (%3$s) kanal: **%4$s** | %5$s",
       "track_error": "%1$sYa of, Şarkıyı çalarken bir problem çıktı! Özür diliyorum, Bu olmadığı için sıradakini oynatmaya çalışıyorum.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "queue_finished": "%1$sŞarkı listesini oynatmayı bitirdim! Umarım eğlenmişsinizdir.\n%2$s",
       "soundcloud_no_args": "%1$sBir şarkı ismi söylemelisin, ben büyücü değilim ki :(",
       "too_many_errors": "%1$sBurada çok fazla hata var, durduruluyor...",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sHerhangi bir SK'ya bağlı değilim. Tekrar deneyin.",
       "queue": {
         "header_field": "Instructions",
@@ -260,8 +259,7 @@
         "no_channel": "Kanal yok ki :(",
         "songs": "şarkı(lar)",
         "clear_error": "%1$sYa sesli konuşmaya katılmamışsınız ya da diji nikiniz yok.",
-        "clear_success": "%1$sGüncel şarkı listesini başarılı bir şekilde temizlediniz. Şarkı listesinde %2$s kadar şarkı vardı",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "clear_success": "%1$sGüncel şarkı listesini başarılı bir şekilde temizlediniz. Şarkı listesinde %2$s kadar şarkı vardı"
       },
       "connect": {
         "success": "%1$s **%2$s** kanalına başarılı bir şekilde bağlandım!",
@@ -284,7 +282,7 @@
         "over_limit": "%1$s %2$d kadar şarkı zaten listede vardı, bu yüzden belirli miktar müzik ekledik ve devamını ekleyemedik.",
         "loaded_playlist": "%1$s **%2$d kadar şarkı ekledik** şarkı listesindeki sıraya tabi: **%3$s** *(%4$s)*",
         "no_matches": "%1$sArama herhangi bir sonuç vermedi. Eğer bu *tüm şarkılar* için çıkıyorsa, `~>play soundcloud <arama>` kullanmak isteyebilirsiniz. Direk youtubeden link vermek de işe yarayabilir.",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "error_loading": "%1$sMüzik çekme de hata: %2$s",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s** %2$d seviyesini geçmişiz (çok fazla aynı şarkıyı eklemişiz)**",
@@ -393,7 +391,7 @@
       "footer": "Mantaro'yu kullandığınız için teşekkürler! Sayfa: %1$d, Toplam: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sVarsayılan ön ekler: %2$s (Herbiri için sana cevap veririm!). Bu sunucunun ön eki `%3$s` (Sadece bu sunucu da çalışır). Yeni bir ön eki `~>opts prefix set <prefix>` yaparak ayarlayabilirsiniz.",
       "none": "Bu sunucu da özel bir ön ek yok, varsayılanı kullanabilirsin."
     },
     "custom": {
@@ -465,7 +463,6 @@
         "invalid_number": "%1$sDüzenlemek için doğru sayı belirtmen gerekli.",
         "no_index": "%1$sOlmayan bir dizini silemezsin.",
         "not_enough_args": "%1$sSilmek istediğin komutu ve dizini belirtmelisin.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
         "success": "%1$s`%3$s` komutundaki **#%2$d** yanıtı başarıyla silindi"
       },
       "rename": {
@@ -510,7 +507,7 @@
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
       "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
       "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
@@ -708,7 +705,7 @@
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**",
       "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
@@ -1028,8 +1025,8 @@
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sDoğum günü cacheleri çalışmıyor. (içsel bir hata) :(",
       "error": "%1$sDoğum günlerini alırken bir hata oldu. (içsel bir hata) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
+      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out.\n",
+      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1579,7 +1576,6 @@
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "Hello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
@@ -1683,7 +1679,6 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
       "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
@@ -2037,7 +2032,6 @@
       "success": "%1$sCleared birthday message!"
     },
     "defaultmutetimeout_set": {
-      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
       "too_long": "%1$sThe time specified is too long...",
