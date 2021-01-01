@@ -393,7 +393,7 @@
       "footer": "Спасибо что используете Мантаро! Страница: %1$d, Всего: %2$d."
     },
     "prefix": {
-      "header": "%1$sПрефиксы по умолчанию %2$s (Я отвечаю на любой из них!). Серверный префикс `%3$s` (Работает только на этом сервере). Вы можете установить нужный вам префикс командой: `~>opts prefix set <prefix>`",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
       "none": "На этом сервере не установлен кастомный префикс."
     },
     "custom": {
@@ -510,7 +510,7 @@
       "time_not_specified": "%1$sВы неправильно указали время.",
       "negative_time_notice": "%1$sВы не можете мутить на отрицательное количество времени (Нуууу...только если вы не волшебник, который способен согнуть пространство и время ^_^).",
       "default_time_too_long": "%1$sВы не можете указать время мута более возможного по умолчанию (Максимум: 10 дней)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 20 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "time_too_long": "%1$sВы не можете указать время мута более возможного (Максимум: 10 дней)...",
       "already_muted": "%1$sЭтому пользователю уже выдана роль мута. Пожалуйста используйте `~>unmute`, для её снятия.",
       "self_hierarchy_error": "%1$sЯ не могу выдать мут этому пользователю, ведь он имет больше прав чем я!",
@@ -2037,6 +2037,7 @@
       "success": "%1$sСообщения поздравления с днём рождения удалены!"
     },
     "defaultmutetimeout_set": {
+      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sВам нужно указать тайм-аут мута в формате 1m20s, к примеру.",
       "wrong_format": "%1$sНеверный формат времени. Вам нужно указать тайм-аут мута в формате 1m20s, к примеру.",
       "too_long": "%1$sУказаное время слишком большое...",
