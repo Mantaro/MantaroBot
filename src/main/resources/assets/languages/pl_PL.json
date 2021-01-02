@@ -13,7 +13,7 @@
     "daily": "Dzienne",
     "total": "Łącznie",
     "arrow_react": "Użyj reakcji strzałek, aby zmieniać strony.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "Użyj &p>> i &p<<, aby zmienić strony i &cancel, aby zakończyć.",
     "not_found": "Nie znaleziono.",
     "no_results": "Brak wyników.",
     "timeout": "Ten limit czasu upłynie za %1$d sekund.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "Nie ma elementu pasującego do tego emoji.",
       "no_item_name": "Nie ma elementu pasującego z tą nazwą.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "Nie można znaleźć żadnych powiązanych elementów z Twoim wyszukiwaniem. \nJeśli się pogubisz, spróbuj użyć krótszej nazwy, na przykład dla `Energy Beverage`, użyj samego `energy`. Lub ustaw nazwę w cudzysłowie.",
       "claim_key": "Nie możesz przenieść claim key."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
+      "mop": "%1$sWyczyściłeś cały pył, który zgromadziłeś podczas wszystkich swoich wypraw górniczych.",
       "mop_not_enough": "%1$sTwój poziom kurzu jest mniejszy niż 5%%, więc mycie nie byłoby zbyt przydatne.",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": "%1$sWyczyszczono efekty mikstur.",
       "stamina": "%1$sAktywowano wytrzymałość na 3 sesje wydobywania.",
       "stamina_used": "%1$sMasz już aktywny efekt wytrzymałości!",
       "haste": "%1$sAktywowany Haste na 2 sesje.",
