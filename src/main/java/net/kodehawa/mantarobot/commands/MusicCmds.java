@@ -217,6 +217,8 @@ public class MusicCmds {
                         ).build();
             }
         });
+
+        cr.registerAlias("play", "join");
     }
 
     @Subscribe

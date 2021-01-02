@@ -279,13 +279,7 @@ public class MantaroBot {
         ScheduledExecutorService postExecutor = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder().setNameFormat("Mantaro Statistics Posting").build()
         );
-        postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 5, TimeUnit.MINUTES);
-
-        // Handle cleaning up stray lavalink players.
-        ScheduledExecutorService lavalinkCleanExecutor = Executors.newSingleThreadScheduledExecutor(
-                new ThreadFactoryBuilder().setNameFormat("Mantaro Player Cleaner").build()
-        );
-        lavalinkCleanExecutor.scheduleAtFixedRate(this::cleanPlayers, 10, 10, TimeUnit.MINUTES);
+        postExecutor.scheduleAtFixedRate(() -> postStats(getShardManager()), 10, 20, TimeUnit.MINUTES);
     }
 
     public void startCheckingBirthdays() {
