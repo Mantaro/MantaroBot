@@ -404,11 +404,15 @@ public class PetCmds {
 
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.PET_HOUSE)) {
+                            playerConfirmed.setLocked(false);
+                            playerConfirmed.save();
                             ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                             return Operation.COMPLETED;
                         }
 
                         if (playerConfirmed.getCurrentMoney() < toBuy.getCost()) {
+                            playerConfirmed.setLocked(false);
+                            playerConfirmed.save();
                             ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
                             return Operation.COMPLETED;
                         }
