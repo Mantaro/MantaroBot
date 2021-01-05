@@ -1126,6 +1126,9 @@
     },
     "action": {
       "no_mention": "%1$sTu dois mentionner un utilisateur.",
+      "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
+      "actions_disabled": "%1$sThis user has disabled actions for themselves.",
+      "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
       "error_retrieving": "%1$sJ'ai trouvé une erreur lors de la récupération du prochain gif pour cette action... (erreur externe, peut-être que WeebAPI est en panne?)",
       "no_type": "%1$sCette commande d'action n'a pas de type. (erreur interne)",
       "permission_or_unexpected_error": "%1$sD-Désolé je ne peux pas envoyer l'image. (Je n'en ai probablement pas la permission)",
