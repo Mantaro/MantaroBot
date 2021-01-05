@@ -138,15 +138,36 @@ public class ImageActionCmd extends NoArgsCommand {
         }
 
         try {
-            if (ctx.getMentionedMembers().isEmpty()) {
+            var mentionedMembers = ctx.getMentionedMembers();
+            if (mentionedMembers.isEmpty()) {
                 ctx.sendLocalized("commands.action.no_mention", EmoteReference.ERROR);
                 return;
+            }
+
+            boolean filtered = false;
+            if (mentionedMembers.size() == 1) {
+                final var dbUser = ctx.getDBUser(mentionedMembers.get(0).getId());
+                if (dbUser.getData().isActionsDisabled()) {
+                    ctx.sendLocalized("command.action.actions_disabled", EmoteReference.ERROR);
+                    return;
+                }
+            } else {
+                mentionedMembers = mentionedMembers.stream()
+                        .filter(member -> !ctx.getDBUser(member).getData().isActionsDisabled())
+                        .collect(Collectors.toList());
+
+                if (mentionedMembers.isEmpty()) {
+                    ctx.sendLocalized("commands.action.no_mention_disabled", EmoteReference.ERROR);
+                    return;
+                }
+
+                filtered = true;
             }
 
             var toSend = new MessageBuilder()
                     .append(emoji)
                     .append(String.format(languageContext.get(format),
-                            "**%s**".formatted(noMentions(ctx)),
+                            "**%s**".formatted(noMentions(mentionedMembers)),
                             "**%s**".formatted(ctx.getMember().getEffectiveName()))
                     );
 
@@ -157,7 +178,7 @@ public class ImageActionCmd extends NoArgsCommand {
                         .append(String.format(
                                 languageContext.get(format),
                                 "**%s**".formatted(ctx.getMember().getEffectiveName()),
-                                "**%s**".formatted(noMentions(ctx))
+                                "**%s**".formatted(noMentions(mentionedMembers))
                         ));
             }
 
@@ -175,6 +196,10 @@ public class ImageActionCmd extends NoArgsCommand {
                         .append("**");
             }
 
+            if (filtered) {
+                toSend.append("\n").append(languageContext.get("commands.action.filtered"));
+            }
+
             var member = ctx.getMember();
             toSend.setEmbed(new EmbedBuilder()
                     .setColor(member.getColor() == null ? Color.PINK : member.getColor())
@@ -183,7 +208,6 @@ public class ImageActionCmd extends NoArgsCommand {
             );
 
             ctx.getChannel().sendMessage(toSend.build()).queue();
-
         } catch (Exception e) {
             e.printStackTrace();
             ctx.sendLocalized("commands.action.permission_or_unexpected_error", EmoteReference.ERROR);
@@ -206,7 +230,10 @@ public class ImageActionCmd extends NoArgsCommand {
         return ctx.getMentionedUsers().stream().anyMatch(user -> user.getId().equals(ctx.getAuthor().getId()));
     }
 
-    private String noMentions(Context ctx) {
-        return ctx.getMentionedMembers().stream().map(Member::getEffectiveName).collect(Collectors.joining(", ")).trim();
+    private String noMentions(List<Member> mentions) {
+        return mentions.stream()
+                .map(Member::getEffectiveName)
+                .collect(Collectors.joining(", "))
+                .trim();
     }
 }

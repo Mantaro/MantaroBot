@@ -65,6 +65,8 @@ public class UserData {
 
     private boolean autoEquip = false;
 
+    private boolean actionsDisabled = false;
+
     public UserData() {  }
 
     @JsonIgnore
@@ -244,5 +246,13 @@ public class UserData {
 
     public void setAutoEquip(boolean autoEquip) {
         this.autoEquip = autoEquip;
+    }
+
+    public boolean isActionsDisabled() {
+        return actionsDisabled;
+    }
+
+    public void setActionsDisabled(boolean actionsDisabled) {
+        this.actionsDisabled = actionsDisabled;
     }
 }
