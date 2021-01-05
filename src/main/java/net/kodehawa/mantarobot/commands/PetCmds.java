@@ -387,6 +387,9 @@ public class PetCmds {
                     return;
                 }
 
+                player.setLocked(true);
+                player.save();
+
                 ctx.sendLocalized("commands.pet.buy.confirm", EmoteReference.WARNING, name, type, toBuy.getCost());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor())) {
@@ -410,6 +413,7 @@ public class PetCmds {
                             return Operation.COMPLETED;
                         }
 
+                        playerConfirmed.setLocked(false);
                         playerConfirmed.removeMoney(toBuy.getCost());
                         playerInventoryConfirmed.process(new ItemStack(ItemReference.PET_HOUSE, -1));
                         playerConfirmed.save();
@@ -425,6 +429,10 @@ public class PetCmds {
                     }
 
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
+                        var playerConfirmed = ctx.getPlayer();
+                        playerConfirmed.setLocked(false);
+                        playerConfirmed.save();
+
                         ctx.sendLocalized("commands.pet.buy.cancel_success", EmoteReference.CORRECT);
                         return Operation.COMPLETED;
                     }
