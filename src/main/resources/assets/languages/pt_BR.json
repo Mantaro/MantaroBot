@@ -1126,9 +1126,9 @@
     },
     "action": {
       "no_mention": "%1$sVocê tem que mencionar um usuário.",
-      "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
-      "actions_disabled": "%1$sThis user has disabled actions for themselves.",
-      "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
+      "no_mention_disabled": "%1$sDepois de filtrar membros que tem ações desativadas, não havia mais usuários sobrando para executar esta ação :(",
+      "actions_disabled": "%1$sEste usuário desativou ações para si mesmo.",
+      "filtered": "%1$sAlguns usuários foram filtrados, pois desabilitaram as ações realizadas neles.",
       "error_retrieving": "%1$sEu achei um erro enquanto buscava o próximo gif para essa ação... (erro externo, talvez o WeebAPI caiu?)",
       "no_type": "%1$sEsse comando de ação não tem tipo. (erro interno)",
       "permission_or_unexpected_error": "%1$sD-Desculpa! Eu deixei cair a imagem. (Provavelmente eu não tenho permissão para mandar isso)",
