@@ -13,7 +13,7 @@
     "daily": "매일",
     "total": "총",
     "arrow_react": "화살표 반응으로 페이지를 바꾸세요.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "페이지를 변경하려면 &p >>와 &p < <를 사용하고 &cancel로 끝 마치세요.",
     "not_found": "찾을 수 없음",
     "no_results": "결과가 없어요.",
     "timeout": "%1$d초 뒤에 시간 초과가 돼요.",
@@ -32,13 +32,13 @@
     "item_lookup": {
       "no_item_emoji": "이 이모지와 관련된 아이템이 없네요.",
       "no_item_name": "이 이름과 관련된 아이템이 없네요.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "검색과 관련된 아이템을 찾을 수 없었어요. 만약 이름을 까먹었다면 예를 들어서 `에너지 음료`라면 `에너지`와 같은 짧은 이름을 사용해 보세요. 아니면 이름을 따옴표로 묶어보세요.",
       "claim_key": "요청 키를 전송할 수 없었어요."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
+      "mop": "%1$s자신의 모든 광산 여행에서 쌓인 먼지를 모두 청소했어요.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": "%1$s모든 물약의 효과가 제거되었어요.",
       "stamina": "%1$s3번 채굴의 기간 위한 체력이 활성화되었어요.",
       "stamina_used": "%1$s이미 체력 효과가 있어요!",
       "haste": "%1$s2번의 기간 동안 가속이 활성화되었어요.",
@@ -48,7 +48,7 @@
       "pill": "%1$s나의 신부 알약을 드셨군요! (5회 동안 활성화됨)",
       "pill_used": "%1$s이미 나의 신부 알약 효과가 있어요!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_key": "%1$s상자를 열려면 상자 열쇠가 필요해요. 잠겨있다고요! `~>market buy key`를 입력해서 열쇠 하나를 구입할 수 있어요.",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$상자를 열고 얻었어요: %2$s%3$s. 축하해요!",
         "overflow": "하지만 이미 너무 많이 얻어서 초과된 양을 버리기로 결정했어요"
@@ -540,14 +540,14 @@
         "Pung.",
         "Peng.",
         "Wondering how I'd do",
-        "Any issue?",
+        "무슨 문제?",
         "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "ㅇ..음...ㅇ..안녕"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **저의 핑: %3$,d ms** (웹소켓: %4$,d ms)"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
+      "no_mention": "%1$s적어도 한 사용자를 멘션할 필요가 있어요.",
       "not_ideal": "다음 기회를 이용해 보세요...",
       "decent": "좋은 편이에요!",
       "nice": "좋은 매치!",
@@ -558,13 +558,13 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
-        "empty": "%1$sYou cannot leave the love letter empty.",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
-        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`.",
-        "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
-        "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
+        "no_letter": "%1$s물품 목록에 러브레터가 없어서 편지를 쓸 만한 것이 없어요.",
+        "empty": "%1$s러브레터를 비워둘 수는 없어요.",
+        "no_marriage": "%1$s결혼하지 않았고, 자기 자신을 위한 러프레터를 쓸 수 없어요.",
+        "not_proposing_player": "%1$s이 결혼을 제안한 플레이어가 아니에요!",
+        "already_done": "%1$s이 결혼에는 이미 러브레터가 할당되어 있어요. 'marry status'를 사용하여 확인하세요.",
+        "too_long": "%1$s러브레터가 너무 길어요(최대 500자).",
+        "cannot_see": "%1$s결혼한 사람을 찾을 수가 없어요... 아마 저와 함께 있는 어떤 서버에도 없는 것 같아요.",
         "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
         "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`.",
         "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
