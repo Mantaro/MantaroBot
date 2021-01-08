@@ -48,7 +48,7 @@
       "pill": "%1$s¡Tomaste una pastilla de waifu! (Activada por 5 sesiones)",
       "pill_used": "%1$s¡Ya tienes una pastilla de waifu activada!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
       "trash": {
         "overflow": "%1$sEncontraste un poco de basura pescando, pero tu inventario está lleno, asi que no puedes recogerla...",
         "success": "%1$sMientras pescabas calmadamente, encontraste %2$s flotando, pero parece que solo es un poco de basura... :("
@@ -590,7 +590,7 @@
       },
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
+        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -598,7 +598,7 @@
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
+        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -611,7 +611,7 @@
       "already_married_receipt": "%1$sYa estás casado con él/ella, aww.",
       "already_married": "%1$sYa te encuentras casado/a.",
       "receipt_married": "%1$sEse usuario ya está casado/a.",
-      "no_ring": "%1$sNo puedes proponerte sin dos anillos de casamiento! Puedes comprarlos ejecutando `~>market buy 2 ring` y luego intenta proponerte denuevo <3",
+      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, escribe **yes** o **no** para responder a la proposición de matrimonio de %3$s\n%4$sEsto expira en 2 minutos.",
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
       "accepted": "%1$s**%2$s#%3$s** ha aceptado la proposición de %4$s#%5$s!",
@@ -742,6 +742,7 @@
         "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
       "sell": {
+        "replacement": "You can use `~>sell` now. For example, instead of `~>sell pick` you can do `~>sell pick`",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (si es solo uno, no tendrás que especificar la cantidad) y el item que deseas vender.",
         "invalid": "%1$sEse no es un número válido de items para vender.",
         "all": {
@@ -756,9 +757,10 @@
         "success": "%1$sHas vendido %2$,d **%3$s** y obtuviste %4$,d créditos!"
       },
       "buy": {
+        "replacement": "You can use `~>buy` now. For example, instead of `~>buy pick` you can do `~>buy pick`",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (Si es solo uno, no necesitas especificar la cantidad) Y el item que deseas comprar.",
         "invalid": "%1$sEse no es un número valido de items para comprar.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
         "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
@@ -767,7 +769,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "La tiendita de Mantaro",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
       "sell_price": "- **Precio de venta:**",
       "buy_price": "- **Precio de compra:**"
     },
@@ -966,7 +968,7 @@
       "claimlock": {
         "removed": "%1$sHe reiniciado el estado de tu bloqueo de reclamaciones.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1257,7 +1259,7 @@
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sNo especificaste mensajes para eliminar en masa.",
@@ -1650,7 +1652,7 @@
       "easter": "\n¡Parece que hay mucho polvo por aquí! Te recomendaría limpiar un poquito esto..."
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>market buy pick`",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
       "no_pick": "%1$sNo tienes ningún pico para minar! Si quieres usar otra picota, usa `~>mine <nombre de la picota>`",
       "not_suitable": "%1$sNo puedes minar con esto!",
       "not_in_inventory": "%1$sNo tienes esta picota en tu inventario, usaré la picota por defecto.",
@@ -1670,7 +1672,7 @@
       },
       "crate": {
         "overflow": "Encontraste una **%1$s** mientras minabas, pero tenías demasiadas y las dejaste atrás...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
       },
       "autoequip": {
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de minería."
@@ -1682,7 +1684,7 @@
       "broken_drop": "%1$sTu herramienta se ha roto, pero puedes repararla. Obtienes el ítem roto: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>market buy axe`",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
       "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
