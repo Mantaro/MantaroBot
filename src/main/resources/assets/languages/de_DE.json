@@ -704,6 +704,7 @@
       "sorted_by": " *(Sortert nach: %1$s)*"
     },
     "cast": {
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$sIch habe keinen passenden Gegenstand gefunden. Falls der Gegenstandsname Leerzeichen beinhaltet, nutze Anführungszeichen. Stelle sicher, dass du den vollständigen Gegenstandsnamen nutzt, um Verwechslungen zu entgehen, oder nutze den Emoji, falls du das kannst. Beispiel: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sDu kannst diesen Gegenstand nicht herstellen. Du kannst `~>cast ls` nutzen, um eine Liste der herstellbaren Gegenständen zu sehen. Wenn der Itemname Leerzeichen enthält, verwende Anführungszeichen. Beispiel: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sDu hast nicht genug Geld, um dies herzustellen. **(Kosten: %2$s)**",
