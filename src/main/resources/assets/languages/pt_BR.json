@@ -742,7 +742,7 @@
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>sell pick` you can do `~>sell pick`",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
         "invalid": "%1$sNão é um número válido de itens para vender.",
         "all": {
@@ -757,7 +757,7 @@
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>buy pick` you can do `~>buy pick`",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -1328,6 +1328,9 @@
         "stamina": "Estâmina",
         "pet": "Carinhos",
         "footer": "Obrigado por usar a Mantaro! <3"
+      },
+      "level": {
+        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Nome:** %2$s, **Habilidades:** `%3$s`, **Valor:** %4$,d créditos",
