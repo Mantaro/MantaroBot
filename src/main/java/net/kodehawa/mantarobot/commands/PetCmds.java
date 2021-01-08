@@ -189,7 +189,7 @@ public class PetCmds {
                                 "**%,d / 100**".formatted(pet.getThirst()), true
                         )
                         .addField(
-                                EmoteReference.CHOCOLATE + " " + language.get("commands.pet.status.hunger"),
+                                EmoteReference.FORK + " " + language.get("commands.pet.status.hunger"),
                                 "**%,d / 100**".formatted(pet.getHunger()), true
                         )
                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())

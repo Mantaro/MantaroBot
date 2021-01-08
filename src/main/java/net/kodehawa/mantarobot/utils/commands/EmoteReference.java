@@ -92,6 +92,7 @@ public enum EmoteReference {
     DROPLET(":droplet:", "\uD83D\uDCA7"),
     DEV(":desktop:", "\uD83D\uDDA5"),
     ROCK(":rock:", "\uD83E\uDEA8"),
+    FORK(":fork_and_knife:", "\uD83C\uDF74"),
     //Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),
