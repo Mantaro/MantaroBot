@@ -182,6 +182,7 @@ public class CurrencyActionCmds {
 
                 // Gem find
                 var gemChance = 340;
+
                 if (hasPotion) {
                     gemChance = 325;
                 }
@@ -193,6 +194,10 @@ public class CurrencyActionCmds {
                 if (petHelp && hasPotion) {
                     gemChance = 280;
                 }
+
+                // A little bit higher prob if you have a high pick
+                var pickBonus = item.getMaxDurability() >= 430 ? 5 : 0;
+                gemChance -= pickBonus;
 
                 if (random.nextInt(400) >= gemChance) {
                     List<Item> gem = Stream.of(ItemReference.ALL)
