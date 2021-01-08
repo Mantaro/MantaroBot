@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>buy rod` 來購買一隻。",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
@@ -145,7 +145,7 @@
         "extra": "然後你也幸運的找到了%1$s!"
       },
       "crate": {
-        "overflow": "你在釣魚的時候找到了**%1$s**，但是你已經有太多了，所以只能把它丟回水裡...",
+        "overflow": "你在釣魚的時候找到了**%1$s**，但是你已經擁有太多了，所以只能把它丟回水裡...",
         "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
@@ -572,7 +572,7 @@
       "status": {
         "no_marriage": "%1$s你目前尚未結婚，所以你處在...\"單身狀態\" (如果你能在你的個人資料看到婚姻那表示你還處在舊的系統，試著重新結婚)",
         "header": "目前婚姻狀況",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$s**%2$s** 與 **%3$s** 的婚姻關係",
         "date": "結婚日期",
         "love_letter": "情書訊息",
         "waifus": "Waifu所有權",
@@ -590,17 +590,17 @@
       },
       "buyhouse": {
         "not_married": "%1$s你只能再已婚時買房子。這將有可能在未來更改。",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
+        "no_house": "%1$s你需要先購買一個房屋。使用 `~>buy house` 來購買。",
         "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
-        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
+        "no_name": "%1$s你需要先給你的房子起一個名字！像是 `~>marry house 舒適的小屋`。",
         "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
         "success": "%1$s你成功用%2$d元買了一棟房子！你的新房屋的名字是%3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
+        "no_car": "%1$s你需要先買一台車！使用 `~>buy car` 來購買。",
         "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
-        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
+        "no_name": "%1$s你需要先給你的車子起一個名字！像是 `~>marry car 保時捷`。",
         "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
         "success": "%1$s你成功用%2$d元買了一台汽車！你的新車子的名字是%3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
@@ -611,7 +611,7 @@
       "already_married_receipt": "%1$s你已經是他們的伴侶了，Aww",
       "already_married": "%1$s你已經有伴侶了。",
       "receipt_married": "%1$s他們已經有伴侶了。",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$s你需要兩個戒指才能求婚！先使用 `~>buy 2 ring` 購買後再試著求婚一次 <3",
       "confirmation": "%1$s%2$s，傳送 **yes** 或 **no** 來決定你是否願意與%3$s結婚\n%4$s這將在120秒內超時。",
       "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
       "accepted": "%1$s**%2$s#%3$s**接受了**%4$s#%5$s**的求婚！",
@@ -641,8 +641,8 @@
         "locked": "%1$s你目前無法執行此操作。",
         "key_locked": "%1$s你想認領的這位用戶已被鑰匙鎖定，無法認領。如果他們願意，可以使用 `~>profile claimlock remove` 移除。",
         "not_enough_money": "%1$s你沒有足夠的金錢來認領他 **(費用：%2$s)**",
-        "not_enough_slots": "%1$s你沒有足夠的空位來認領他。(全部空位：%2$s，已使用：%3$s)",
-        "success": "%1$s成功以 %3$,d 元認領 `%2$s`。已使用空位：%4$s",
+        "not_enough_slots": "%1$s你沒有足夠的欄位來認領他。(全部欄位：%2$s，已使用：%3$s)",
+        "success": "%1$s成功以 %3$,d 元認領 `%2$s`。已使用欄位：%4$s",
         "yourself": "%1$s你無法認領自己！",
         "already_claimed": "%1$s你已經認領這位Waifu。",
         "not_found": "%1$s找不到任何用戶。"
@@ -654,14 +654,14 @@
         "not_enough_money": "%1$s你沒有足夠的金錢來取消認領這位Waifu！",
         "player_locked": "%1$s你目前無法執行此操作。",
         "scrapped": "%1$s已取消操作。",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
+        "success": "%1$s成功用 **%3$s 元** 取消認領了 `%2$s`。",
+        "not_found": "%1$s我找不到任何用戶。如果你想要取消認領一個未知用戶，請使用他們的ID (`~>waifu -id`) 並在後面加上 `-unknown`。"
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$,d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
-        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
+        "locked": "%1$s你目前無法執行此操作。",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買空位！你需要 %2$,d 元。",
+        "success": "%1$s成功用 %2$s 元購買了一個欄位，你目前總共擁有 %3$s 個欄位和 %4$s 個可用欄位。",
+        "too_many": "%1$s你已經達到欄位上限了！你最多能擁有30個欄位。"
       },
       "optout": {
         "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
@@ -742,7 +742,7 @@
         "success": "%1$s%2$s**%3$s** 在市場內的出售價格是 %4$s 元，買入價格為 %5$s 元。"
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>sell pick` you can do `~>sell pick`",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
         "all": {
@@ -757,7 +757,7 @@
         "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>buy pick` you can do `~>buy pick`",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -1329,6 +1329,9 @@
         "pet": "撫摸次數",
         "footer": "感謝使用Mantaro！<3"
       },
+      "level": {
+        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
+      },
       "list": {
         "summary": "%1$s **名稱：**%2$s，**能力：**`%3$s`，**價格：**%4$,d元",
         "abilities": "*Fish*：對 `~>fish` 有用\n*Catch*：對 `~>mine` 有用\n*Chop*：對 `~>chop` 有用\n*Cheer*：鼓舞你的情緒",
@@ -1652,8 +1655,8 @@
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`.",
+      "not_equipped": "%1$s你沒有任何已裝備的鎬子。使用 `~>equip <鎬子名稱>` 來裝備一支新的鎬子！如果你沒有任何鎬子，使用 `~>buy pick` 來購買一把。",
+      "no_pick": "%1$s你沒有任何鎬子能夠挖礦。如果你想使用其他鎬子，使用 `~>mine <鎬子名稱>`。",
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
       "success": "%1$s你用*%3$s*開採了價值**%2$,d元**的礦物",
@@ -1672,7 +1675,7 @@
       },
       "crate": {
         "overflow": "你在挖礦時找到了一個 **%1$s**，不過你因為擁有太多了，就把他拋在後面了...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
+        "success": "你在挖礦的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要先用 `~>buy key` 購買一個寶箱鑰匙！"
       },
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的鎬子欄位。"
@@ -1684,12 +1687,12 @@
       "broken_drop": "%1$s你的工具壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
+      "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備一支新的斧頭！如果你沒有任何斧頭，使用 `~>buy axe` 來購買一把。",
       "dust": "%1$s那棵樹太脆弱了，你只得到了木屑。(灰塵高度 %2$d%%)",
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
+      "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
       "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
       "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
       "success_money_noitem": "%1$s你在伐木時找到了**%2$d元**且把他們放進口袋裡了。"
