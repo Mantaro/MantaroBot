@@ -48,7 +48,7 @@
       "pill": "%1$s Bạn đã uống một viên con nhộng waifu! (Có tác dụng trong 5 phiên)",
       "pill_used": "%1$s Bạn đã uống viên con nhộng waifu rồi!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn cần quyết định vứt đồ thừa đi"
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sMột ngày đã trôi qua, và xô cá của bạn chỉ lấy được chút bụi. (Bụi cấp %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
       "trash": {
         "overflow": "%1$sBạn nhặt được một vài mẩu rác trong lúc câu, nhưng do tủ đồ của bạn đã đầy, nên chúng tôi đành phải vứt chúng lại xuống dưới nước...",
         "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn nhặt được một %2$s trôi trên mặt nước nhưng có vẻ nó chỉ là rác :("
@@ -590,7 +590,7 @@
       },
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
+        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -598,7 +598,7 @@
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
+        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -611,7 +611,7 @@
       "already_married_receipt": "%1$sBạn vốn đã kết hôn với họ, ỏoo.",
       "already_married": "%1$sBạn vốn đã kết hôn rồi.",
       "receipt_married": "%1$sNgười dùng đó đã kết hôn với người khác.",
-      "no_ring": "%1$sBạn không thể cầu hôn mà không có hai chiếc nhẫn! Bạn có thể mua chúng bằng `~>market buy 2 ring` và sau đó cầu hôn lại <3",
+      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s, hãy gõ **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s%4$sHết hiệu lực sau 120 giây.",
       "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong tủ đồ của bạn :(",
       "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
@@ -742,6 +742,7 @@
         "success": "%1$sGiá bán của chợ cho %2$s**%3$s** là %4$s tín và giá chợ nhận mua là %5$s tín."
       },
       "sell": {
+        "replacement": "You can use `~>sell` now. For example, instead of `~>sell pick` you can do `~>sell pick`",
         "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn bán.",
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
@@ -756,9 +757,10 @@
         "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d tín!"
       },
       "buy": {
+        "replacement": "You can use `~>buy` now. For example, instead of `~>buy pick` you can do `~>buy pick`",
         "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn mua.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để mua.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
         "no_buy_price": "%1$sBạn không thể mua đồ không được bán.",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d tín. Giờ bạn còn %5$,d tín.",
@@ -767,7 +769,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Chợ Mantaro",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
       "sell_price": "- **Giá bán:**",
       "buy_price": "- **Giá mua:**"
     },
@@ -966,7 +968,7 @@
       "claimlock": {
         "removed": "%1$sSuccesfully reset your claim lock status.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1257,7 +1259,7 @@
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sBạn chưa nói bạn muốn xoá tin nhắn nào.",
@@ -1650,7 +1652,7 @@
       "easter": "\nCó vẻ như bạn đang có quá nhiều bụi ở đây... Có thể bạn sẽ muốn dọn nó trước khi nó trở thành một mớ hỗn độn đấy!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>market buy pick`",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
       "no_pick": "%1$sBạn không có cuốc để đào. Nếu bạn muốn dùng bất kỳ cây cuốc nào hãy dùng lệnh `~>mine <tên cuốc>`.",
       "not_suitable": "%1$sĐây không phải là một cây cuốc bạn có thể dùng để đào!",
       "not_in_inventory": "%1$sBạn không có cây cuốc này trong tủ đồ của bạn, đang đổi sang cây cuốc mặc định.",
@@ -1670,7 +1672,7 @@
       },
       "crate": {
         "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
       },
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
@@ -1682,7 +1684,7 @@
       "broken_drop": "%1$sCông cụ của bạn đã hỏng, nhưng bạn có thể sửa nó. Bạn được nhận lại đồ hỏng: %2$s*%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>market buy axe`",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
       "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
