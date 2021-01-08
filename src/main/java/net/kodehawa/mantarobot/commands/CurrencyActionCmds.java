@@ -195,7 +195,6 @@ public class CurrencyActionCmds {
                 }
 
                 if (random.nextInt(400) >= gemChance) {
-
                     List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
