@@ -704,6 +704,7 @@
       "sorted_by": " *(posortowane według: %1$s)*"
     },
     "cast": {
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sNie możesz przesłać tego elementu. Możesz sprawdzić `~>cast ls`, aby zobaczyć listę elementów, które można przesłać. Jeśli nazwa elementu zawiera spacje, zawiń ją w cudzysłów. Przykład: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sNie masz wystarczająco dużo pieniędzy, żeby to rzucić. **(Koszt: %2$s)**",
