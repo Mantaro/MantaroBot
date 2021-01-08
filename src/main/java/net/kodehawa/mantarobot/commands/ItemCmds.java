@@ -76,7 +76,7 @@ public class ItemCmds {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
                         if (content.trim().isEmpty()) {
-                            ctx.sendLocalized("commands.cast.no_item_found", EmoteReference.ERROR);
+                            ctx.sendLocalized("commands.cast.no_item_specified", EmoteReference.ERROR);
                             return;
                         }
 
