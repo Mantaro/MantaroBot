@@ -742,7 +742,7 @@
         "success": "%1$sЦена в магазине на %2$s**%3$s** составляет %4$s кредитов, вы получите %5$s в случае продажи."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>sell pick` you can do `~>sell pick`",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`",
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете продать.",
         "invalid": "%1$sНедопустимое количество предметов для продажи.",
         "all": {
@@ -757,7 +757,7 @@
         "success": "%1$sВы продали %2$,d **%3$s** и получили %4$,d кредитов!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>buy pick` you can do `~>buy pick`",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`",
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
         "invalid": "%1$sНедопустимое количество предметов для покупки.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -1328,6 +1328,9 @@
         "stamina": "Stamina",
         "pet": "Pats",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "level": {
+        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
