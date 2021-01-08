@@ -704,6 +704,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$s找不到任何匹配的物品。如果物品名稱包含空格，將他用\"引號\"包起來。盡量輸入完整的名稱，或使用相對應的表情符號來避免錯誤。範例：`~>cast \"star pick\" \"comet wrench\"。",
       "item_not_cast": "%1$s你無法鑄造此物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果物品名稱包含空格，將他用\"引號包起來\"。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
