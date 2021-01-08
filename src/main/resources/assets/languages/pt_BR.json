@@ -704,6 +704,7 @@
       "sorted_by": " *(Classificado por: %1$s)*"
     },
     "cast": {
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$sEu não encontrei nenhum item correspondente. Se o nome do item tiver espaços, coloque-o entre \"aspas\". Certifique-se de digitar o nome completo do item para evitar incompatibilidades ou use o emoji, se quiser. Exemplo: `~>cast \"star pick \" \"comet wrench \"`.",
       "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de itens que podem ser fundidos. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
