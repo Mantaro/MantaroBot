@@ -13,7 +13,7 @@
     "daily": "Dagelijks",
     "total": "Totaal",
     "arrow_react": "Gebruik de berichtreacties om van pagina te veranderen",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "Gebruik &p >> en &p << om pagina's te veranderen, en &cancel om te beëindigen.",
     "not_found": "Niet gevonden",
     "no_results": "Geen resultaten.",
     "timeout": "Dit geeft een timeout in %1$d seconden.",
@@ -32,7 +32,7 @@
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
       "no_item_name": "Er is geen voorwerp gekoppeld aan deze naam.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "Kon geen gerelateerde voorwerpen vinden met jouw zoekopdracht. Als je verdwaald bent, probeer dan de korte naam te gebruiken, bijvoorbeeld voor `Energie drank`, gebruik `energy`. Of plaats de naam tussen aanhalingstekens.",
       "claim_key": "Je kunt geen claim sleutel overdragen."
     },
     "misc_item_usage": {
@@ -151,7 +151,7 @@
       "autoequip": {
         "success": "%1$sAutomatisch uitgerust met een **%2$s** op uw vis slot."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
+      "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien.",
       "success": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en deze heb je in je emmer bewaard.",
       "success_money": "%1$s Terwijl je rustig aan het vissen was, vond je %2$s en **$%3$d credits** en deze heb je in je emmer bewaard.%4$s",
       "success_money_noitem": "%1$s Terwijl je rustig aan het vissen was, vond je **$%2$d credits** en deze heb je in je zak bewaard.",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sKan geen verbinding maken met %2$s: verbinding is verlopen. Probeer de serverregio te wijzigen en voer de opdracht opnieuw uit.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$sKan geen verbinding maken met %2$s: onbekende fout."
       },
       "not_working": "%1$sMusic werkt momenteel niet omdat YouTube verkeer van de meeste grote bots blokkeert. Onze Patreon-bot werkt nog steeds, dus je kunt het proberen als je wilt door $ 4 / maand te doneren aan Mantaro. Dit zal ons ook helpen onze inspanningen om te buigen naar het repareren van muziek als geheel.\nalsjeblieft kijk op <https://patreon.com/mantaro>\n\nExcuses voor het ongemak. Probeer SoundCloud! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sJe moet me vertellen welk nummer je wilt afspelen! *(YouTube, Soundcloud, Twitch URL of zoektermen zijn toegestaan)*",
@@ -393,7 +393,7 @@
       "footer": "Bedankt voor het gebruiken van Mantaro! Pagina: %1$d, Totaal: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sDe standaard prefixes zijn %2$s (Ik reageer op beide!). De server prefix is `%3$s` (werkt alleen op deze server). Je kunt een nieuw prefix instellen met `~>opts prefix set <prefix>`. De <> niet gebruiken.\nAls je vragen hebt, kun je lid worden van <https://support.mantaro.site>",
       "none": "Er is geen aangepaste prefix ingesteld op deze server."
     },
     "custom": {
@@ -542,9 +542,9 @@
         "Wondering how I'd do",
         "Any issue?",
         "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "Euhm.. h-hallo"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* --** Mijn ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sJe moet minimaal 1 gebruiker vermelden.",
@@ -572,7 +572,7 @@
       "status": {
         "no_marriage": "%1$sJe bent niet getrouwd, dus ik denk dat je status \"niet getrouwd\" is...",
         "header": "Huidige huwelijks status",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$sHuwelijks status tussen **%2$s** en **%3$s**",
         "date": "Huwelijksdatum",
         "love_letter": "Liefdesbrief",
         "waifus": "Waifu Eigendom",
@@ -742,7 +742,7 @@
         "success": "%1$sDe marktwaarde van %2$s**%3$s** is %4$s credits om te kopen en %5$s credits om te verkopen."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>sell pick` you can do `~>sell pick`",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
@@ -757,7 +757,7 @@
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>buy pick` you can do `~>buy pick`",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -1328,6 +1328,9 @@
         "stamina": "Uithoudingsvermogen",
         "pet": "Aaien",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "level": {
+        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
@@ -2412,8 +2415,8 @@
       "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
       "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
       "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
-      "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
+      "broken_sparkle_rod": "Een fonkelende hengel die brak tijdens het vissen. Nog steeds te redden.",
+      "broken_star_rod": "Een ster hengel die brak tijdens het vissen. Nog steeds te redden.",
       "incubator_egg": "Does still not have an use. It's an egg, though. Maybe.",
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "Een magische wand dat de tijd trager maakt wanneer je het nodig hebt. Dit zal automatisch gebruikt worden om je opeenvolgende dagen te redden!",
@@ -2441,14 +2444,14 @@
       "cherry_blossom": "Een zeer langzame val van een kersenboom. Heerlijk, hè?",
       "rock": "Een steen. Yup. Erg hard, niet?",
       "broken_moon_pick": "Een maan pikhouweel die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_moon_axe": "Een maan bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_moon_rod": "Een maan hengel die brak tijdens het mijnen. Nog steeds te redden.",
+      "broken_moon_axe": "Een maan bijl die brak tijdens het hakken. Nog steeds te redden.",
+      "broken_moon_rod": "Een maan hengel die brak tijdens het vissen. Nog steeds te redden.",
       "broken_star_axe": "Een ster bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_comet_axe": "Een komeet bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_sparkle_axe": "Een fonkelende bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
+      "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
+      "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden."
     }
   },
   "test": {
