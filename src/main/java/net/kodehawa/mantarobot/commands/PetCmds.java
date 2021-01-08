@@ -718,7 +718,9 @@ public class PetCmds {
                         .filter(f -> (f.getType().getApplicableType() == lookup) || f.getType() == Food.FoodType.GENERAL)
                         .map(Item::toDisplayString)
                         .collect(Collectors.joining(", "));
-
+                var baseAbilities = lookup.getAbilities().stream()
+                        .filter(ability -> ability != HousePetType.HousePetAbility.CHEER)
+                        .collect(Collectors.toList());
 
                 var embed = new EmbedBuilder()
                         .setAuthor(String.format(languageContext.get("commands.pet.info.author"), emoji, name))
@@ -729,9 +731,12 @@ public class PetCmds {
                         .addField(languageContext.get("commands.pet.info.abilities"), abilities, false)
                         .addField(languageContext.get("commands.pet.info.food"), food, false)
                         .addField(languageContext.get("commands.pet.info.coin_buildup"),
-                                "%,d credits / %,d credits".formatted(coinBuildup, coinBuildup100), false)
-                        .addField(languageContext.get("commands.pet.info.item_buildup"),
-                                "%,d items / %,d items".formatted(itemBuildup, itemBuildup100), false);
+                                "%,d credits / %,d credits".formatted(coinBuildup, coinBuildup100), false);
+
+                if (!baseAbilities.stream().allMatch(ability -> ability == HousePetType.HousePetAbility.CATCH)) {
+                    embed.addField(languageContext.get("commands.pet.info.item_buildup"),
+                                    "%,d items / %,d items".formatted(itemBuildup, itemBuildup100), false);
+                }
 
                 ctx.send(embed.build());
             }
