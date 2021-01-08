@@ -165,7 +165,6 @@ public class PetCmds {
             @Override
             protected void call(Context ctx, I18nContext language, String content) {
                 var dbUser = ctx.getDBUser();
-
                 var marriage = dbUser.getData().getMarriage();
                 if (marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
@@ -237,7 +236,6 @@ public class PetCmds {
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-
                 if (marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;

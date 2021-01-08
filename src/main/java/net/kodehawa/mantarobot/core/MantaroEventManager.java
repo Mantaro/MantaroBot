@@ -36,11 +36,11 @@ public class MantaroEventManager extends InterfacedEventManager {
         super.handle(event);
     }
 
-    public long lastJDAEventDiff() {
-        return System.currentTimeMillis() - lastJdaEvent;
-    }
-
     public long lastJDAEvent() {
         return lastJdaEvent;
+    }
+
+    public long lastJDAEventDiff() {
+        return System.currentTimeMillis() - lastJDAEvent();
     }
 }
