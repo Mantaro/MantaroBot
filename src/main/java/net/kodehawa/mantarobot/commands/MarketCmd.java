@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
@@ -287,24 +288,57 @@ public class MarketCmd {
         marketCommand.addSubCommand("sell", new SubCommand() {
             @Override
             public String description() {
-                return "Sells an item. You can sell multiple items if you put the amount before the item.\n" +
-                        "Use `~>market sell all` to sell all of your items. Use `~>market sell allof <item>` to sell all of one item.";
+                return "Use ~>sell instead.";
             }
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
+                ctx.sendLocalized("commands.market.sell.replacement");
+            }
+        });
+
+        marketCommand.addSubCommand("buy", new SubCommand() {
+            @Override
+            public String description() {
+                return "Use ~>buy instead.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                ctx.sendLocalized("commands.market.buy.replacement");
+            }
+        });
+
+        cr.registerAlias("market", "shop");
+    }
+
+    @Subscribe
+    public void sell(CommandRegistry cr) {
+        cr.register("sell", new SimpleCommand(CommandCategory.CURRENCY) {
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .limit(1)
+                    .spamTolerance(4)
+                    .cooldown(3, TimeUnit.SECONDS)
+                    .maxCooldown(10, TimeUnit.SECONDS)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("sell")
+                    .premiumAware(true)
+                    .build();
+
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
                     return;
                 }
 
-                var player = ctx.getPlayer();
-                var seasonalPlayer = ctx.getSeasonPlayer();
                 var optionalArguments = ctx.getOptionalArguments();
-                var isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
 
-                var args = content.split(" ");
+                var languageContext = ctx.getLanguageContext();
+                var player = ctx.getPlayer();
+                var seasonalPlayer = ctx.getSeasonPlayer();
+                var isSeasonal = ctx.isSeasonal();
                 var itemName = content;
                 var itemNumber = 1;
                 var split = args[0];
@@ -387,6 +421,10 @@ public class MarketCmd {
                         return;
                     }
 
+                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+                        return;
+                    }
+
                     var many = itemNumber * -1;
                     var amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
                     playerInventory.process(new ItemStack(toSell, many));
@@ -407,33 +445,54 @@ public class MarketCmd {
                     ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
                 }
             }
-        });
 
-        marketCommand.addSubCommand("buy", new SubCommand() {
             @Override
-            public String description() {
-                return "Buys an item. You can buy multiple items if you put the amount before the item. " +
-                        "You can use all, half and quarter to buy for ex., a quarter of 5000 items.";
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Sells an item.")
+                        .setUsage("""
+                                To sell an item do `~>sell <item>`.
+                                If the item name contains spaces, "wrap it in quotes".
+                                To sell multiple items you need to do `~>sell <amount> <item>`
+                                """)
+                        .addParameter("item", "The item name or emoji")
+                        .setSeasonal(true)
+                        .build();
             }
+        });
+    }
+
+    @Subscribe
+    public void buy(CommandRegistry cr) {
+        cr.register("buy", new SimpleCommand(CommandCategory.CURRENCY) {
+            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                    .limit(1)
+                    .spamTolerance(4)
+                    .cooldown(3, TimeUnit.SECONDS)
+                    .maxCooldown(10, TimeUnit.SECONDS)
+                    .pool(MantaroData.getDefaultJedisPool())
+                    .prefix("buy")
+                    .premiumAware(true)
+                    .build();
 
             @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
+            protected void call(Context ctx, String content, String[] args) {
                 if (content.isEmpty()) {
                     ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
                     return;
                 }
 
-                var player = ctx.getPlayer();
-                var seasonalPlayer = ctx.getSeasonPlayer();
                 var optionalArguments = ctx.getOptionalArguments();
-                var isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
 
-                var args = content.split(" ");
+                var player = ctx.getPlayer();
+                var seasonalPlayer = ctx.getSeasonPlayer();
+                var isSeasonal = ctx.isSeasonal();
                 var itemName = content;
                 var itemNumber = 1;
                 var split = args[0];
                 var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+                var languageContext = ctx.getLanguageContext();
 
                 if (isMassive) {
                     try {
@@ -444,7 +503,7 @@ public class MarketCmd {
                         return;
                     }
                 } else {
-                    //This is silly but works, people can stop asking about this now :o
+                    // This is silly but works, people can stop asking about this now :o
                     if (!itemName.isEmpty()) {
                         switch (split) {
                             case "all":
@@ -468,6 +527,7 @@ public class MarketCmd {
 
                 final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
                         .orElse(null);
+
                 if (itemToBuy == null) {
                     ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
                     return;
@@ -482,6 +542,10 @@ public class MarketCmd {
                     var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                     if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
                         ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
                         return;
                     }
 
@@ -520,9 +584,21 @@ public class MarketCmd {
                     ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
                 }
             }
-        });
 
-        cr.registerAlias("market", "shop");
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Buys an item.")
+                        .setUsage("""
+                                To buy an item do `~>buy <item>`. It will subtract the value from your money and give you the item.
+                                If the item name contains spaces, "wrap it in quotes".
+                                To buy multiple items you need to do `~>buy <amount> <item>`
+                                """)
+                        .addParameter("item", "The item name or emoji")
+                        .setSeasonal(true)
+                        .build();
+            }
+        });
     }
 
     private void showMarket(Context ctx, Predicate<? super Item> predicate) {
