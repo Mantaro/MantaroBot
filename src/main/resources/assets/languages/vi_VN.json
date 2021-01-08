@@ -704,6 +704,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sBạn không thể chế tạo được món đồ này. Bạn có thể gõ `~>cast ls` để xem danh sách những đồ vật có thể chế tạo. Nếu tên của đồ có dấu cách, hãy cho chúng vào trong ngoặc kép. Ví dụ: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sBạn không có đủ tiền để chế tạo món đồ này. **(Cần: %2$s)**",
