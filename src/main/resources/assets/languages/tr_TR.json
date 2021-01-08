@@ -704,6 +704,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
