@@ -558,7 +558,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sEnvanterinde hiç aşk mektubu yok, yani üzerine yazacağız bir mektup da yok.",
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$sAşk mektubunu boş bırakamazsın.",
         "no_marriage": "%1$sEvli değilsiniz, kendinize aşk mektubu yazamazsınız...",
         "not_proposing_player": "%1$sBu evlilik teklifini yapan siz değilsiniz!",
