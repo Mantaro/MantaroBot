@@ -244,12 +244,12 @@
         "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "Nerastas niekas arba pavadinimas/ilgis.",
         "header": "%1$s serverio grojaraštis",
-        "nothing_playing": "Nieko čia nėra, tik dulkės. Kodėl nepridedi jokių dainų?\nJeigu tu manai, kad čia yra pridėtų dainų, bet jie neatsiranda, pabandyk panaudoti `~>queue 1`.",
+        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
         "nothing_playing_2": "**Jeigu dabar groja kokia nors daina ir tu nepridėjai jokių kitų dainų, tada čia tikrai būs dulkės. Tu gali pridėti tiek dainų, kiek nori.**",
         "np": "Dabar grojama",
         "dj_np": "**Queued by:** ",
         "page_overflow": "Čia nieko nėra, tik dulkės. Kodėl negrįžti atgal keletą puslapių?",
-        "page_overflow_2": "Jeigu tu manai, kad čia yra pridėtų dainų, bet jie neatsiranda, pabandyk naudoti `~>queue 1`.",
+        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
         "total_queue_time": "Visas grojaraščio laikas",
         "total_size": "Visas grojaraščio dydis",
         "togglers": "Kartoti / Pauzė",
@@ -432,7 +432,7 @@
         "start_text": "%1$sPradėtas **\"`%2$s` pasirinktinės komandos kūrimas\"**!\nParašyk `&~>stop`, kad sustabdytum kūrimą **neišsaugojant duomenų**.\nParašyk `&~>save`, kad sustabdytum kūrimą ir **išsaugotum naują komandą**. Išsiųsk bet kokį tekstą, prasidedantį `&`, kad pridėtum **naują komandos atsakymą**. Naudok `~>nsfw`, kad pažymėtum šią komandą kaip NDA ir atvirkštiniam variantui - `~>sfw`.\nŠis interaktyvus procesas pasibaigs po 60 sekundžių neaktyvumo neišsaugojant duomenų.",
         "cancel": "%1$sKomandos kūrimas atšauktas.",
         "no_responses_added": "%1$sNepridėta jokių atsakymų. Stabdomas kūrimas neišsaugojant duomenų...",
-        "success": "%1$sIšsaugota komandoje `%2$s`.",
+        "success": "%1$sSaved to command `%2$s`",
         "no_name_specified": "%1$sTu nenurodei pavadinimo, kuriuo norėtum sukurti pasirinktinę komandą!"
       },
       "eval": {
@@ -442,7 +442,7 @@
       },
       "remove": {
         "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sPašalinta pasirinktinė komanda `%2$s`."
+        "success": "%1$sRemoved Custom Command `%2$s`"
       },
       "import": {
         "no_command": "%1$sYou need to tell me what command you want to import.",
@@ -562,11 +562,11 @@
         "empty": "%1$sMeilės laiškelis negali būti tuščias.",
         "no_marriage": "%1$sTu neturi antrosios pusės, tad negali rašyti meilės laiškelių...",
         "not_proposing_player": "%1$sNu nesi tas žmogus, kuris nori šių santykių!",
-        "already_done": "%1$sŠi santuoka jau turi priskirtą meilės laiškelį. Patikrink tai naudojant `marry status`.",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
         "too_long": "%1$sMeilės laiškelis per ilgas (daugiausiai leistina 500 simbolių)",
         "cannot_see": "%1$sNegaliu surasti tavo antrosios pusės... Tikriausiai toji pusė nėra viename serveryje su manimi.",
         "confirmation": "%1$sAr tu *tikrai* nori parašyti šį meilės laiškelį savo antrajai pusei **%2$s#%3$s**? Šis laiškelis išliks VISAM LAIKUI iki tol, kol išsiskirsite. *Laiškelio turinys:* %4$s",
-        "confirmed": "%1$sMeilės laiškelis sėkmingai nugabentas tavo antrajai pusei! Pasižiūrėk į jį naudojant `marry status`.",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
         "scrapped": "%1$sTu dar turi laiko pagalvoti, ką rašyti, tad neskubėk!"
       },
       "status": {
@@ -705,7 +705,7 @@
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
@@ -742,7 +742,7 @@
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`",
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
@@ -757,7 +757,7 @@
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`",
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -769,7 +769,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Mantaro parduotuvė",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
       "sell_price": "- **Sell Price:**",
       "buy_price": "- **Buy Price:**"
     },
@@ -810,7 +810,7 @@
       "use_command": "%1$sŠiam daiktui panaudoti, tu turi naudoti prie daikto priskirtą komandą! (`mine` kirtikliui, `fish` meškerei)",
       "no_items_specified": "%1$sTuri nurodyti, kurį daiktą man panaudoti.",
       "not_interactive": "%1$sTu negali panaudoti šio daikto...",
-      "interactive_no_action": "%1$sŠis daiktas pažymėtas kaip interaktyvus, bet neturi nustatytų jokių veiksmų...",
+      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`",
       "no_item": "%1$sTu neturi šio daikto savo inventoriuje...",
       "not_enough_items": "%1$sYou don't have enough of this item.",
       "too_little": "%1$sYou can't use less than 1 item.",
@@ -835,13 +835,13 @@
         "category": "Kategorija: ",
         "header": "Autoroles list",
         "no_autoroles": "There aren't any autoroles setup in this server.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`."
+        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
       "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`.",
+      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
       "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
     "iamnot": {
@@ -875,7 +875,7 @@
       "timezone": {
         "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
         "reset": "%1$sLaiko zona atstatyta.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
         "success": "%1$sLaiko zona išsaugota, tavo profilio laiko zona nuo šiol yra: **%2$s**",
         "reset_success": "%1$sSuccessfully reset your timezone."
       },
@@ -1201,8 +1201,8 @@
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
       "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least (For example: `~>game lobby pokemon,trivia`)",
-      "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it",
         "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
@@ -1296,7 +1296,7 @@
       "error_tag": "%1$sThere was an error while looking for this tag.",
       "error_random": "%1$sThere was an error while looking for a random image.",
       "error_general": "%1$sWe found an error while making a request to this imageboard.",
-      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`.",
+      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
       "loli_content_disallow": "%1$sSadly I cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
       "found_image": "Found an image",
@@ -1312,8 +1312,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
         "header": "Status for %1$s",
@@ -1353,7 +1353,7 @@
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
+        "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
@@ -1364,7 +1364,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -1656,7 +1656,7 @@
     },
     "mine": {
       "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
-      "no_pick": "%1$sTu neturi jokio kirtiklio, su kuriuo galėtum kasinėtis.",
+      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sTai nėra kirtiklis, su kuriuo galėtum kasinėtis!",
       "not_in_inventory": "%1$sTu neturi šito kirtiklio savo inventoriuje, keičiama į paprastą kirtiklį.",
       "success": "%1$sTu iškasei mineralus, vertus **$%2$s kreditų**, naudojant *%3$s*",
@@ -2287,9 +2287,9 @@
     "shrimp": "Shrimp",
     "moon": "Moon Rune",
     "flake": "Snowflake",
-    "broken_comet_pick": "Broken Comet Pick",
-    "broken_sparkle_pick": "Broken Sparkle Pick",
-    "broken_star_pick": "Broken Star Pick",
+    "broken_comet_pick": "Broken Comet Pickaxe",
+    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
+    "broken_star_pick": "Broken Star Pickaxe",
     "broken_comet_rod": "Broken Comet Rod",
     "broken_sparkle_rod": "Broken Sparkle Rod",
     "broken_star_rod": "Broken Star Rod",
@@ -2319,13 +2319,13 @@
     "pear": "Pear",
     "cherry_blossom": "Cherry Blossom",
     "rock": "Rock",
-    "broken_moon_pick": "Broken Moon Pick",
+    "broken_moon_pick": "Broken Moon Pickaxe",
     "broken_moon_axe": "Broken Moon Axe",
     "broken_moon_rod": "Broken Moon Rod",
     "broken_star_axe": "Broken Star Axe",
     "broken_comet_axe": "Broken Comet Axe",
     "broken_sparkle_axe": "Broken Sparkle Axe",
-    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Broken Hellfire Axe",
     "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
@@ -2345,7 +2345,7 @@
       "lewd": "Per daug nuogybių komandų. Pernelyg daug. Linksminaisi?",
       "ring": "Papraščiausiai kas santuoką padaro oficialią.",
       "letter": "Laiškas iš tavo numylėtosios/(-jo).",
-      "key": "Naudojamas atidaryti daiktadėžes naudojant `~>opencrate` arba `~>useitem loot crate`.",
+      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`",
       "clothes": "Papraščiausiai ką tu dėvi. Tikiuosi...",
       "diamond": "Paprasčiausiai geresnis būdas saugoti pinigus. Ir jis dar švyti. Ir leidžia išgauti švytinčius daiktus. Kaip nuostabu.",
       "dress": "Ar tai nemiela?",
@@ -2362,7 +2362,7 @@
       "special_ring": "Jis toks specialus, jis net ne žiedas. `1-osios kurencijos versijos palikimas. Daugiau nebegaunama.`",
       "enchancer": "Nebeveikiantis užkerėjas, galvoju, ar jisai gali būti sutaisytas? `1-osios kurencijos versijos palikimas. Daugiau nebegaunama.`",
       "prize": "Kažkas panašaus, huh? `1-osios kurencijos versijos palikimas. Daugiau nebegaunama.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`.",
+      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
       "prize_2": "Pirmoje vietoje, kaip gavai tiek daug pinigų?",
       "slot_ticket": "Papildomas šansas lošimų automatams.",
       "house": "Nedidelė vieta gyvenimui.",
@@ -2382,7 +2382,7 @@
       "cobweb": "Kažkas, ką paliko voras kasykloje. Ar tai verta kažko?",
       "fragment": "Senovinio kristalo fragmentas. Naudingas tobulinimui.",
       "mop": "Geriausias būdas išvalyti dulkes aplinkui save. Esu tikras, aplink tave sklando daug jų.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`",
       "coffee": "Geriausias būdas pradėti naują dieną.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Suteikia didesnį šansą sužvejoti žuvį.",
@@ -2397,10 +2397,10 @@
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
       "sparkle_pick": "One of the strongests pick out there (450 durability).",
       "pizza": "Skanumėlis.",
-      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`.",
-      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`.",
-      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`.",
-      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`.",
+      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod (130 durability).",
       "star_rod": "A stronger rod (170 durability).",
       "sparkle_rod": "A way stronger rod (300 durability).",
