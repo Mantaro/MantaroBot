@@ -196,7 +196,7 @@ public class CurrencyActionCmds {
                 }
 
                 // A little bit higher prob if you have a high pick
-                var pickBonus = item.getMaxDurability() >= 430 ? 5 : 0;
+                var pickBonus = item.getMaxDurability() >= 320 ? 5 : 0;
                 gemChance -= pickBonus;
 
                 if (random.nextInt(400) >= gemChance) {
