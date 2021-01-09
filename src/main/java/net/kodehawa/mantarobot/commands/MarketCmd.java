@@ -52,6 +52,26 @@ import java.util.stream.Stream;
 
 @Module
 public class MarketCmd {
+    final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(4)
+            .cooldown(3, TimeUnit.SECONDS)
+            .maxCooldown(10, TimeUnit.SECONDS)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("buy")
+            .premiumAware(true)
+            .build();
+
+    final IncreasingRateLimiter sellRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(4)
+            .cooldown(3, TimeUnit.SECONDS)
+            .maxCooldown(10, TimeUnit.SECONDS)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("sell")
+            .premiumAware(true)
+            .build();
+
     @Subscribe
     public void market(CommandRegistry cr) {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
@@ -294,6 +314,7 @@ public class MarketCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.sendLocalized("commands.market.sell.replacement");
+                sell(ctx, content, content.split(" "), null);
             }
         });
 
@@ -306,6 +327,7 @@ public class MarketCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.sendLocalized("commands.market.buy.replacement");
+                buy(ctx, content, content.split(" "), null);
             }
         });
 
@@ -315,135 +337,9 @@ public class MarketCmd {
     @Subscribe
     public void sell(CommandRegistry cr) {
         cr.register("sell", new SimpleCommand(CommandCategory.CURRENCY) {
-            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                    .limit(1)
-                    .spamTolerance(4)
-                    .cooldown(3, TimeUnit.SECONDS)
-                    .maxCooldown(10, TimeUnit.SECONDS)
-                    .pool(MantaroData.getDefaultJedisPool())
-                    .prefix("sell")
-                    .premiumAware(true)
-                    .build();
-
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
-                    return;
-                }
-
-                var optionalArguments = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
-
-                var languageContext = ctx.getLanguageContext();
-                var player = ctx.getPlayer();
-                var seasonalPlayer = ctx.getSeasonPlayer();
-                var isSeasonal = ctx.isSeasonal();
-                var itemName = content;
-                var itemNumber = 1;
-                var split = args[0];
-                var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
-
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(split));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
-                        return;
-                    }
-                }
-
-                try {
-                    if (args[0].equals("all") && !isSeasonal) {
-                        ctx.sendLocalized("commands.market.sell.all.confirmation", EmoteReference.WARNING);
-                        //Start the operation.
-                        InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
-                            if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
-                                return Operation.IGNORED;
-                            }
-
-                            String c = e.getMessage().getContentRaw();
-
-                            if (c.equalsIgnoreCase("yes")) {
-                                long all = player.getInventory().asList().stream()
-                                        .filter(item -> item.getItem().isSellable())
-                                        .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-                                        .sum();
-
-                                player.getInventory().clearOnlySellables();
-                                player.addMoney(all);
-
-                                ctx.sendLocalized("commands.market.sell.all.success", EmoteReference.MONEY, all);
-                                player.save();
-                                return Operation.COMPLETED;
-                            } else if (c.equalsIgnoreCase("no")) {
-                                ctx.sendLocalized("commands.market.sell.all.cancelled", EmoteReference.CORRECT);
-                                return Operation.COMPLETED;
-                            }
-
-                            return Operation.IGNORED;
-                        });
-
-                        return;
-                    }
-
-                    var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-
-                    if (args[0].equalsIgnoreCase("allof")) {
-                        itemName = content.replace("allof", "").trim();
-                    }
-
-                    var toSell = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
-                            .orElse(null);
-
-                    if (toSell == null) {
-                        ctx.sendLocalized("commands.market.sell.non_existent", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (!toSell.isSellable()) {
-                        ctx.sendLocalized("commands.market.sell.no_sell_price", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (playerInventory.getAmount(toSell) < 1) {
-                        ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
-                        return;
-                    }
-
-                    if (args[0].equalsIgnoreCase("allof")) {
-                        itemNumber = playerInventory.getAmount(toSell);
-                    }
-
-                    if (playerInventory.getAmount(toSell) < itemNumber) {
-                        ctx.sendLocalized("commands.market.sell.more_items_than_player", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
-                        return;
-                    }
-
-                    var many = itemNumber * -1;
-                    var amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-                    playerInventory.process(new ItemStack(toSell, many));
-
-                    if (isSeasonal) {
-                        seasonalPlayer.addMoney(amount);
-                    } else {
-                        player.addMoney(amount);
-                    }
-
-                    player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-                    ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount);
-                    player.save();
-
-                    if (isSeasonal)
-                        seasonalPlayer.saveAsync();
-                } catch (Exception e) {
-                    ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
-                }
+                sell(ctx, content, args, sellRatelimiter);
             }
 
             @Override
@@ -465,124 +361,9 @@ public class MarketCmd {
     @Subscribe
     public void buy(CommandRegistry cr) {
         cr.register("buy", new SimpleCommand(CommandCategory.CURRENCY) {
-            final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
-                    .limit(1)
-                    .spamTolerance(4)
-                    .cooldown(3, TimeUnit.SECONDS)
-                    .maxCooldown(10, TimeUnit.SECONDS)
-                    .pool(MantaroData.getDefaultJedisPool())
-                    .prefix("buy")
-                    .premiumAware(true)
-                    .build();
-
             @Override
             protected void call(Context ctx, String content, String[] args) {
-                if (content.isEmpty()) {
-                    ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
-                    return;
-                }
-
-                var optionalArguments = ctx.getOptionalArguments();
-                content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
-
-                var player = ctx.getPlayer();
-                var seasonalPlayer = ctx.getSeasonPlayer();
-                var isSeasonal = ctx.isSeasonal();
-                var itemName = content;
-                var itemNumber = 1;
-                var split = args[0];
-                var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
-                var languageContext = ctx.getLanguageContext();
-
-                if (isMassive) {
-                    try {
-                        itemNumber = Math.abs(Integer.parseInt(split));
-                        itemName = itemName.replace(args[0], "").trim();
-                    } catch (NumberFormatException e) {
-                        ctx.sendLocalized("commands.market.buy.invalid", EmoteReference.ERROR);
-                        return;
-                    }
-                } else {
-                    // This is silly but works, people can stop asking about this now :o
-                    if (!itemName.isEmpty()) {
-                        switch (split) {
-                            case "all":
-                                itemNumber = ItemStack.MAX_STACK_SIZE;
-                                break;
-                            case "half":
-                                itemNumber = ItemStack.MAX_STACK_SIZE / 2;
-                                break;
-                            case "quarter":
-                                itemNumber = ItemStack.MAX_STACK_SIZE / 4;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if (itemNumber > 1) {
-                            itemName = itemName.replace(args[0], "").trim();
-                        }
-                    }
-                }
-
-                final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
-                        .orElse(null);
-
-                if (itemToBuy == null) {
-                    ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
-                    return;
-                }
-
-                try {
-                    if (!itemToBuy.isBuyable() || itemToBuy.isPetOnly()) {
-                        ctx.sendLocalized("commands.market.buy.no_buy_price", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                    if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
-                        ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
-                        return;
-                    }
-
-                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
-                        return;
-                    }
-
-                    var value = itemToBuy.getValue() * itemNumber;
-                    var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(value) :
-                            player.removeMoney(value);
-
-                    if (removedMoney) {
-                        playerInventory.process(new ItemStack(itemToBuy, itemNumber));
-                        player.getData().addBadgeIfAbsent(Badge.BUYER);
-                        player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
-
-                        //Due to player data being updated here too.
-                        player.saveAsync();
-
-                        if (isSeasonal) {
-                            seasonalPlayer.saveAsync();
-                        }
-
-                        var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
-                        var message = "commands.market.buy.success";
-                        if (itemToBuy instanceof Breakable) {
-                            message = "commands.market.buy.success_breakable";
-                        }
-
-                        if (itemToBuy instanceof Potion) {
-                            message = "commands.market.buy.success_potion";
-                        }
-
-                        ctx.sendLocalized(message, EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
-
-                    } else {
-                        ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP, player.getCurrentMoney(), value);
-                    }
-                } catch (Exception e) {
-                    ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
-                }
+                buy(ctx, content, args, buyRatelimiter);
             }
 
             @Override
@@ -599,6 +380,235 @@ public class MarketCmd {
                         .build();
             }
         });
+    }
+
+    private void sell(Context ctx, String content, String[] args, IncreasingRateLimiter rateLimiter) {
+        if (content.isEmpty()) {
+            ctx.sendLocalized("commands.market.sell.no_item_amount", EmoteReference.ERROR);
+            return;
+        }
+
+        var optionalArguments = ctx.getOptionalArguments();
+        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
+
+        var languageContext = ctx.getLanguageContext();
+        var player = ctx.getPlayer();
+        var seasonalPlayer = ctx.getSeasonPlayer();
+        var isSeasonal = ctx.isSeasonal();
+        var itemName = content;
+        var itemNumber = 1;
+        var split = args[0];
+        var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+
+        if (isMassive) {
+            try {
+                itemNumber = Math.abs(Integer.parseInt(split));
+                itemName = itemName.replace(args[0], "").trim();
+            } catch (NumberFormatException e) {
+                ctx.sendLocalized("commands.market.sell.invalid", EmoteReference.ERROR);
+                return;
+            }
+        }
+
+        try {
+            if (args[0].equals("all") && !isSeasonal) {
+                ctx.sendLocalized("commands.market.sell.all.confirmation", EmoteReference.WARNING);
+                //Start the operation.
+                InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
+                    if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
+                        return Operation.IGNORED;
+                    }
+
+                    String c = e.getMessage().getContentRaw();
+
+                    if (c.equalsIgnoreCase("yes")) {
+                        long all = player.getInventory().asList().stream()
+                                .filter(item -> item.getItem().isSellable())
+                                .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                .sum();
+
+                        player.getInventory().clearOnlySellables();
+                        player.addMoney(all);
+
+                        ctx.sendLocalized("commands.market.sell.all.success", EmoteReference.MONEY, all);
+                        player.save();
+                        return Operation.COMPLETED;
+                    } else if (c.equalsIgnoreCase("no")) {
+                        ctx.sendLocalized("commands.market.sell.all.cancelled", EmoteReference.CORRECT);
+                        return Operation.COMPLETED;
+                    }
+
+                    return Operation.IGNORED;
+                });
+
+                return;
+            }
+
+            var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+
+            if (args[0].equalsIgnoreCase("allof")) {
+                itemName = content.replace("allof", "").trim();
+            }
+
+            var toSell = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
+                    .orElse(null);
+
+            if (toSell == null) {
+                ctx.sendLocalized("commands.market.sell.non_existent", EmoteReference.ERROR);
+                return;
+            }
+
+            if (!toSell.isSellable()) {
+                ctx.sendLocalized("commands.market.sell.no_sell_price", EmoteReference.ERROR);
+                return;
+            }
+
+            if (playerInventory.getAmount(toSell) < 1) {
+                ctx.sendLocalized("commands.market.sell.no_item_player", EmoteReference.STOP);
+                return;
+            }
+
+            if (args[0].equalsIgnoreCase("allof")) {
+                itemNumber = playerInventory.getAmount(toSell);
+            }
+
+            if (playerInventory.getAmount(toSell) < itemNumber) {
+                ctx.sendLocalized("commands.market.sell.more_items_than_player", EmoteReference.ERROR);
+                return;
+            }
+
+            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+                return;
+            }
+
+            var many = itemNumber * -1;
+            var amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
+            playerInventory.process(new ItemStack(toSell, many));
+
+            if (isSeasonal) {
+                seasonalPlayer.addMoney(amount);
+            } else {
+                player.addMoney(amount);
+            }
+
+            player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
+            ctx.sendLocalized("commands.market.sell.success", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount);
+            player.save();
+
+            if (isSeasonal)
+                seasonalPlayer.saveAsync();
+        } catch (Exception e) {
+            ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
+        }
+    }
+
+    private void buy(Context ctx, String content, String[] args, IncreasingRateLimiter rateLimiter) {
+        if (content.isEmpty()) {
+            ctx.sendLocalized("commands.market.buy.no_item_amount", EmoteReference.ERROR);
+            return;
+        }
+
+        var optionalArguments = ctx.getOptionalArguments();
+        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
+
+        var player = ctx.getPlayer();
+        var seasonalPlayer = ctx.getSeasonPlayer();
+        var isSeasonal = ctx.isSeasonal();
+        var itemName = content;
+        var itemNumber = 1;
+        var split = args[0];
+        var isMassive = !itemName.isEmpty() && split.matches("^[0-9]*$");
+        var languageContext = ctx.getLanguageContext();
+
+        if (isMassive) {
+            try {
+                itemNumber = Math.abs(Integer.parseInt(split));
+                itemName = itemName.replace(args[0], "").trim();
+            } catch (NumberFormatException e) {
+                ctx.sendLocalized("commands.market.buy.invalid", EmoteReference.ERROR);
+                return;
+            }
+        } else {
+            // This is silly but works, people can stop asking about this now :o
+            if (!itemName.isEmpty()) {
+                switch (split) {
+                    case "all":
+                        itemNumber = ItemStack.MAX_STACK_SIZE;
+                        break;
+                    case "half":
+                        itemNumber = ItemStack.MAX_STACK_SIZE / 2;
+                        break;
+                    case "quarter":
+                        itemNumber = ItemStack.MAX_STACK_SIZE / 4;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (itemNumber > 1) {
+                    itemName = itemName.replace(args[0], "").trim();
+                }
+            }
+        }
+
+        final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
+                .orElse(null);
+
+        if (itemToBuy == null) {
+            ctx.sendLocalized("commands.market.buy.non_existent", EmoteReference.ERROR);
+            return;
+        }
+
+        try {
+            if (!itemToBuy.isBuyable() || itemToBuy.isPetOnly()) {
+                ctx.sendLocalized("commands.market.buy.no_buy_price", EmoteReference.ERROR);
+                return;
+            }
+
+            var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
+            if (playerInventory.getAmount(itemToBuy) + itemNumber > 5000) {
+                ctx.sendLocalized("commands.market.buy.item_limit_reached", EmoteReference.ERROR);
+                return;
+            }
+
+            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+                return;
+            }
+
+            var value = itemToBuy.getValue() * itemNumber;
+            var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(value) :
+                    player.removeMoney(value);
+
+            if (removedMoney) {
+                playerInventory.process(new ItemStack(itemToBuy, itemNumber));
+                player.getData().addBadgeIfAbsent(Badge.BUYER);
+                player.getData().setMarketUsed(player.getData().getMarketUsed() + 1);
+
+                //Due to player data being updated here too.
+                player.saveAsync();
+
+                if (isSeasonal) {
+                    seasonalPlayer.saveAsync();
+                }
+
+                var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
+                var message = "commands.market.buy.success";
+                if (itemToBuy instanceof Breakable) {
+                    message = "commands.market.buy.success_breakable";
+                }
+
+                if (itemToBuy instanceof Potion) {
+                    message = "commands.market.buy.success_potion";
+                }
+
+                ctx.sendLocalized(message, EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
+
+            } else {
+                ctx.sendLocalized("commands.market.buy.not_enough_money", EmoteReference.STOP, player.getCurrentMoney(), value);
+            }
+        } catch (Exception e) {
+            ctx.send(EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
+        }
     }
 
     private void showMarket(Context ctx, Predicate<? super Item> predicate) {

@@ -98,11 +98,11 @@ public class PetCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription(
-                                """
-                                Pet commands.
-                                For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
-                                This command contains an explanation of what pets are. Check subcommands for the available actions.
-                                """
+                            """
+                            Pet commands.
+                            For a better explanation of the pet system, check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).
+                            This command contains an explanation of what pets are. Check subcommands for the available actions.
+                            """
                         )
                         .build();
             }
