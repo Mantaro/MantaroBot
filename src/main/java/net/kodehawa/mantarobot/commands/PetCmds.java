@@ -139,6 +139,34 @@ public class PetCmds {
             }
         }).createSubCommandAlias("list", "ls");
 
+        pet.addSubCommand("level", new SubCommand() {
+            @Override
+            public String description() {
+                return "Shows the level and experience of your current pet.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                if (marriage == null) {
+                    ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
+                    return;
+                }
+
+                var pet = marriage.getData().getPet();
+                if (pet == null) {
+                    ctx.sendLocalized("commands.pet.status.no_pet", EmoteReference.ERROR);
+                    return;
+
+                }
+
+                ctx.sendLocalized("commands.pet.level.success",
+                        EmoteReference.ZAP, pet.getName(), pet.getLevel(), pet.getExperience(), pet.experienceToNextLevel()
+                );
+            }
+        });
+
         pet.addSubCommand("status", new SubCommand() {
             @Override
             public String description() {
@@ -148,7 +176,6 @@ public class PetCmds {
             @Override
             protected void call(Context ctx, I18nContext language, String content) {
                 var dbUser = ctx.getDBUser();
-
                 var marriage = dbUser.getData().getMarriage();
                 if (marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
@@ -219,7 +246,6 @@ public class PetCmds {
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
-
                 if (marriage == null) {
                     ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
                     return;

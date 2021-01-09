@@ -182,6 +182,7 @@ public class CurrencyActionCmds {
 
                 // Gem find
                 var gemChance = 340;
+
                 if (hasPotion) {
                     gemChance = 325;
                 }
@@ -194,8 +195,11 @@ public class CurrencyActionCmds {
                     gemChance = 280;
                 }
 
-                if (random.nextInt(400) >= gemChance) {
+                // A little bit higher prob if you have a high pick
+                var pickBonus = item.getMaxDurability() >= 430 ? 5 : 0;
+                gemChance -= pickBonus;
 
+                if (random.nextInt(400) >= gemChance) {
                     List<Item> gem = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
@@ -658,7 +662,7 @@ public class CurrencyActionCmds {
 
                     ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
                 } else {
-                    var money = chance > 50 ? random.nextInt(100) : 0;
+                    var money = chance > 50 ? Math.max(10, random.nextInt(100)) : 0;
                     var amount = random.nextInt(8);
                     var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
                     money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
