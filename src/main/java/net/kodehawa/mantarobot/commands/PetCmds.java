@@ -74,7 +74,7 @@ public class PetCmds {
                 .build();
 
         var petpetRatelimiter = new IncreasingRateLimiter.Builder()
-                .limit(35)
+                .limit(25)
                 .spamTolerance(5)
                 .cooldown(1, TimeUnit.HOURS)
                 .maxCooldown(2, TimeUnit.HOURS)
@@ -82,7 +82,6 @@ public class PetCmds {
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("pet-pet")
                 .build();
-
 
         TreeCommand pet = cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
