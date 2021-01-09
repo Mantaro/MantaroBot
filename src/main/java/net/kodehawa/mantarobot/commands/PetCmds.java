@@ -73,6 +73,17 @@ public class PetCmds {
                 .prefix("pet-remove")
                 .build();
 
+        var petpetRatelimiter = new IncreasingRateLimiter.Builder()
+                .limit(35)
+                .spamTolerance(5)
+                .cooldown(1, TimeUnit.HOURS)
+                .maxCooldown(2, TimeUnit.HOURS)
+                .randomIncrement(false)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("pet-remove")
+                .build();
+
+
         TreeCommand pet = cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
@@ -148,7 +159,6 @@ public class PetCmds {
                 if (pet == null) {
                     ctx.sendLocalized("commands.pet.status.no_pet", EmoteReference.ERROR);
                     return;
-
                 }
 
                 var name = pet.getName().replace("\n", "").trim();
@@ -300,6 +310,9 @@ public class PetCmds {
 
                         return;
                     }
+
+                    if (!RatelimitUtils.ratelimit(petpetRatelimiter, ctx, null, false))
+                        return;
 
                     var message = pet.handlePat().getMessage();
                     var extraMessage = "";
