@@ -875,7 +875,7 @@
       "timezone": {
         "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
         "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
         "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**",
         "reset_success": "%1$sSuccessfully reset your timezone."
       },
@@ -1201,8 +1201,8 @@
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
       "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least (For example: `~>game lobby pokemon,trivia`)",
-      "invalid_selection": "%1$sYou need to specify two games at least (Valid games: character, pokemon, number, trivia)!",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it.",
         "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
@@ -1353,7 +1353,7 @@
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
+        "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
@@ -1364,7 +1364,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -2288,9 +2288,9 @@
     "shrimp": "Shrimp",
     "moon": "Moon Rune",
     "flake": "Snowflake",
-    "broken_comet_pick": "Broken Comet Pick",
-    "broken_sparkle_pick": "Broken Sparkle Pick",
-    "broken_star_pick": "Broken Star Pick",
+    "broken_comet_pick": "Broken Comet Pickaxe",
+    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
+    "broken_star_pick": "Broken Star Pickaxe",
     "broken_comet_rod": "Broken Comet Rod",
     "broken_sparkle_rod": "Broken Sparkle Rod",
     "broken_star_rod": "Broken Star Rod",
@@ -2320,13 +2320,13 @@
     "pear": "Pear",
     "cherry_blossom": "Cherry Blossom",
     "rock": "Rock",
-    "broken_moon_pick": "Broken Moon Pick",
+    "broken_moon_pick": "Broken Moon Pickaxe",
     "broken_moon_axe": "Broken Moon Axe",
     "broken_moon_rod": "Broken Moon Rod",
     "broken_star_axe": "Broken Star Axe",
     "broken_comet_axe": "Broken Comet Axe",
     "broken_sparkle_axe": "Broken Sparkle Axe",
-    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Broken Hellfire Axe",
     "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
