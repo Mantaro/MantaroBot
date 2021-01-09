@@ -420,7 +420,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                var args = content.split(" ");
+                var args = ctx.getArguments();
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
 

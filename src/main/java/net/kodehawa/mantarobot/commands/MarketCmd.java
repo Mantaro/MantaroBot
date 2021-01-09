@@ -217,7 +217,7 @@ public class MarketCmd {
                 var isSeasonal = ctx.isSeasonal();
                 content = Utils.replaceArguments(arguments, content, "season", "s").trim();
 
-                var args = content.split(" ");
+                var args = ctx.getArguments();
                 var itemName = content;
                 var itemNumber = 1;
                 var isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
@@ -314,7 +314,7 @@ public class MarketCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.sendLocalized("commands.market.sell.replacement");
-                sell(ctx, content, content.split(" "), null);
+                sell(ctx, content, ctx.getArguments(), null);
             }
         });
 
@@ -327,7 +327,7 @@ public class MarketCmd {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 ctx.sendLocalized("commands.market.buy.replacement");
-                buy(ctx, content, content.split(" "), null);
+                buy(ctx, content, ctx.getArguments(), null);
             }
         });
 
