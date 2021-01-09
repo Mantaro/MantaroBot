@@ -558,7 +558,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sNie masz żadnych listów miłosnych w swoim ekwipunku, więc nie masz na co pisać listu.",
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$sNie możesz zostawić listu miłosnego pustego.",
         "no_marriage": "%1$sNie jesteś żonaty, nie możesz napisać listu miłosnego dla siebie...",
         "not_proposing_player": "%1$sNie jesteś graczem, który zaproponował to małżeństwo!",
