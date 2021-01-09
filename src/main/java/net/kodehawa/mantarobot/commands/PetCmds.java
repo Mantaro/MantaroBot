@@ -80,7 +80,7 @@ public class PetCmds {
                 .maxCooldown(2, TimeUnit.HOURS)
                 .randomIncrement(false)
                 .pool(MantaroData.getDefaultJedisPool())
-                .prefix("pet-remove")
+                .prefix("pet-pet")
                 .build();
 
 
