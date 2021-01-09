@@ -558,7 +558,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sВ вашем инвентаре нет любовных писем.",
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$sВы не можете отправить пустое любовное письмо.",
         "no_marriage": "%1$sВы не в браке, поэтому не можете написать письмо...",
         "not_proposing_player": "%1$sВы не тот, кто отправил запрос на брак!",
