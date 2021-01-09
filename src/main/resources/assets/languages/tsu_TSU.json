@@ -558,7 +558,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on.",
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$sYou cannot leave the love letter empty.",
         "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
         "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
