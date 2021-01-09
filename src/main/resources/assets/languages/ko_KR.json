@@ -558,7 +558,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$s물품 목록에 러브레터가 없어서 편지를 쓸 만한 것이 없어요.",
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$s러브레터를 비워둘 수는 없어요.",
         "no_marriage": "%1$s결혼하지 않았고, 자기 자신을 위한 러프레터를 쓸 수 없어요.",
         "not_proposing_player": "%1$s이 결혼을 제안한 플레이어가 아니에요!",
