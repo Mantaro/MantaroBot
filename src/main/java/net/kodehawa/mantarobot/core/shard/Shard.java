@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -27,6 +28,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.utils.APIUtils;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
@@ -58,17 +60,18 @@ public class Shard {
 
     public Shard(int id) {
         this.id = id;
-        this.listener = new ListenerAdapter() {
-            @Override
-            public synchronized void onReady(@Nonnull ReadyEvent event) {
-                jda = event.getJDA();
-                if (statusChange != null) {
-                    statusChange.cancel(true);
+        this.listener = event -> {
+            if(event instanceof ReadyEvent) {
+                synchronized(this) {
+                    jda = event.getJDA();
+                    if (statusChange != null) {
+                        statusChange.cancel(true);
+                    }
+            
+                    statusChange = MantaroBot.getInstance()
+                                           .getExecutorService()
+                                           .scheduleAtFixedRate(Shard.this::changeStatus, 0, 3, TimeUnit.HOURS);
                 }
-
-                statusChange = MantaroBot.getInstance()
-                        .getExecutorService()
-                        .scheduleAtFixedRate(Shard.this::changeStatus, 0, 3, TimeUnit.HOURS);
             }
         };
     }
