@@ -48,7 +48,7 @@
       "pill": "%1$sلقد شربت حبة الـ\"وايفو\"! (مفعل ل5 مواسم)",
       "pill_used": "%1$sلديك بالفعل حبة وايفو مفعله!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>market buy key`",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sلقد فتحت صندوق وربحت %2$s%3$s. مبروك!",
         "overflow": "ولكن بالفعل لديك الكثير لذلك قررت رميه بعيدا"
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sانتهى اليوم ، ولا يستطيع دلو السمك إلا جمع الغبار. (مستوى الغبار %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>market buy rod`",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
       "trash": {
         "overflow": "%1$sلقد عثرت على بعض القمامة أثناء الصيد ، لكن مخزونك كان ممتلئًا ، لذلك كان علينا أن نعيده إلى الماء...",
         "success": "%1$sأثناء الصيد بهدوء ، وجدت شيء يعوم %2$s لكن يبدو انها مجرد زبالة :("
@@ -244,12 +244,12 @@
         "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
         "no_track_found_np": "لم يتم العثور على أي شيء أو عنوان / المدة",
         "header": "قائمة انتظار للخادم %1$s",
-        "nothing_playing": "لا شيء هنا ، فقط غبار. لماذا لا تصطف بعض الأغاني؟\nإذا كنت تعتقد أن هناك أغانٍ هنا ولكنها لا تظهر ، فحاول استخدام\n`~>queue 1`.",
+        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
         "nothing_playing_2": "** إذا كانت هناك أغنية قيد التشغيل ولم تضف المزيد من الأغاني ، فهناك في الواقع غبار هنا فقط. يمكنك وضع المزيد من الأغاني في قائمة الانتظار كما تريد! **",
         "np": "أشغل حالياََ",
         "dj_np": "**Queued by:** ",
         "page_overflow": "لا شيء هنا ، فقط غبار. لماذا لا ترجع بعض الصفحات؟",
-        "page_overflow_2": "إذا كنت تعتقد أن هناك أغانٍ هنا ولكنها لا تظهر ، فحاول استخدام `~>queue 1`.",
+        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
         "total_queue_time": "إجمالي وقت الانتظار",
         "total_size": "إجمالي حجم الصف",
         "togglers": "كرر / وقفة",
@@ -432,7 +432,7 @@
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sتم إلغاء إنشاء الأمر.",
         "no_responses_added": "%1$sلم تتم إضافة أي ردود. جارٍ إيقاف الإنشاء بدون حفظ...",
-        "success": "%1$sتم الحفظ في الأمر `%2$s`.",
+        "success": "%1$sSaved to command `%2$s`",
         "no_name_specified": "%1$sلم تحدد اسم الأمر المخصص المراد إنشاؤه!"
       },
       "eval": {
@@ -442,7 +442,7 @@
       },
       "remove": {
         "no_command": "%1$sيجب ان تخبرني بأي امر تريدني ان احذف.",
-        "success": "%1$sتم ازالة الامر المخصص `%2$s`."
+        "success": "%1$sRemoved Custom Command `%2$s`"
       },
       "import": {
         "no_command": "%1$sيجب أن تخبرني ما الأمر الذي تريد استيراده.",
@@ -558,15 +558,15 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sليس لديك رسائل حب في مخزونك ، لذلك ليس لديك أي شيء لتكتب رسالتك عليه.",
+        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$sلا يمكنك ترك رسالة الحب فارغة.",
         "no_marriage": "%1$sانت لست متزوجاََ, لا يمكنك كتابة رسالة حب لنفسك...",
         "not_proposing_player": "%1$sأنت لست اللاعب الذي اقترح هذا الزواج!",
-        "already_done": "%1$sهذا الزواج لديه بالفعل رسالة حب مخصصة. تحقق من ذلك باستخدام `marry status`.",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
         "too_long": "%1$sرسالة الحب طويلة جداََ (يمكنك كتابة 500 حرف فقط)",
         "cannot_see": "%1$sلا يمكنني العثور على المستخدم الذي تزوجته... ربما لا يوجد في أي سيرفر معي.",
         "confirmation": "%1$sهل أنت متأكد أنك تريد كتابة هذه الرسالة لزواجك **%2$s#%3$s**؟ هذا دائم بينما يستمر الزواج.*Letter content:* %4$s",
-        "confirmed": "%1$sسلمت بنجاح رسالة الحب إلى أحبائك! تحقق من ذلك باستخدام أمر `marry status`.",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
         "scrapped": "%1$sلا يزال لديك وقت للتفكير في ما تكتبه ، ولا داعي للاندفاع!"
       },
       "status": {
@@ -590,7 +590,7 @@
       },
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>market buy house` to get one.",
+        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -598,7 +598,7 @@
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>market buy car` to get one.",
+        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
@@ -611,7 +611,7 @@
       "already_married_receipt": "%1$sانت بالفعل متزوج منه.",
       "already_married": "%1$sانت بالفعل متزوج.",
       "receipt_married": "%1$sهذا العضو متزوج بالفعل! ",
-      "no_ring": "%1$sلايمكنك التقدم للزواج بدون خاتمين! يمكنك شرائه عن طريق إستخدام الأمر : `~>market buy 2 ring` وبعدها حاول التقدم للزواج مره أخرى 3>",
+      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
       "confirmation": "%1$s%2$s قم بكتابة **yes** أو **no** لإقتراح الزواج من %3$s\n%4$sالمهلة 120 ثانيه فقط لتُقرر :)! ",
       "ring_check_fail": "%1$sلايمكنك الزواج مع أقل من خاتمين في مخزونك :( ",
       "accepted": "%1$s**%2$s#%3$s** قبل الزواج من **%4$s#%5$s**!",
@@ -704,7 +704,8 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`.",
+      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
+      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sلايمكنك صَب هذا الغرض. يمكنك التحقق من `~>cast ls` للمزيد من الأغراض القابلة للصب. إذا الاسم يحتوي على مسافات، ضعه في \"اقتباسات\". مثال: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sلاتملك المال الكافي للصب هذا الغرض **(التكلفة: %2$s)**",
       "no_item": "%1$sلاتملك الغرض اللام *%2$s* للمضي قدماً في عملية الصب هذه. ",
@@ -741,6 +742,7 @@
         "success": "%1$sالقيمة السوقية ل %2$s**%3$s** هي %4$s دولار لشرائه ويمكنك الحصول على %5$s دولار إذا بعته.  "
       },
       "sell": {
+        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تبيعه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد بيعها.",
         "all": {
@@ -755,9 +757,10 @@
         "success": "%1$sلقد بعت %2$,d **%3$s** وحصلت على %4$,d مال!"
       },
       "buy": {
+        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>market buy 15 energy`",
+        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
         "no_buy_price": "%1$sلايمكنك شراء غرض لايمكن شرائه!",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$sتم بنجاح شراء %2$,d %3$s ب %4$,d مال. أنت الآن تملك %5$,d مال. ",
@@ -766,7 +769,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "سوق مونتارو ",
-      "reference": "\nYou can buy and sell items using `~>market buy <item>` and `~>market sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`.",
+      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
       "sell_price": "-**سعر البيع:**",
       "buy_price": "-**سعر الشراء:**"
     },
@@ -807,7 +810,7 @@
       "use_command": "%1$sلهذا الغرض تحتاج الى استخدام الأمر المُرتبط بالعنصر! (mine للفأس, fish لسنارة الصيد)",
       "no_items_specified": "%1$sيجب أن تُحدد الغرض المُراد إستخدامه.",
       "not_interactive": "%1$sلايمكنك التفاعل مع هذا الغرض!",
-      "interactive_no_action": "%1$sتم وضع علامة هذا العنصر على أنه تفاعلي، ولكن ليس لديه مجموعة إجراءات. قد يستخدم هذا العنصر الأمر الخاص به؟ على سبيل المثال، فأس لإستخدام `~>mine`.",
+      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`",
       "no_item": "%1$sلاتملك أي من هذا الغرض في مخزونك.",
       "not_enough_items": "%1$sلاتملك العدد الكافي من هذا الغرض! ",
       "too_little": "%1$sلايمكنك إستخدام أقل من 1 غرض.",
@@ -832,13 +835,13 @@
         "category": "الفئة:",
         "header": "قائمة الرُتب التلقائية",
         "no_autoroles": "لايوجد أي إعداد للرتب التلقائية في هذا السيرفر.",
-        "description": "هذه هي الرتب التلقائية الحالية القابلة للتعيين من قبل المستخدم على هذا الخادم. يمكنك استخدام هذه عن طريق القيام `~>iam <name of the role>`.\n"
+        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
       "deleted_role": "%1$sتم حذف الرتبة التي تتوافق مع هذه الرتبة التلقائية",
       "already_assigned": "%1$sأنت بالفعل لديك هذه الرتبة.",
       "success": "%1$s%2$s، تم إعطائك رتبة **%3$s**",
       "error": "%1$sلم أستطع التحدث منك **%2$s**. تأكد أن لدي صلاحية إضافة الرتب وتكن رتبتي أعلاه **%2$s**",
-      "no_role": "%1$sهذه الرتبة `%2$s` ليس رتبة تلقائية. ",
+      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
       "no_iam": "%1$sتحتاج إلى تحديد الرتبة القابلة للتعيين التلقائي الذي تريد تعيينه بنفسك!"
     },
     "iamnot": {
@@ -872,7 +875,7 @@
       "timezone": {
         "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
         "reset": "%1$sإعادة تعيين المنطقة الزمنية(timezone).",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking \"what timezone am I in\"",
+        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
         "success": "%1$sتم حفظ المنطقة الزمنية، منطقتك الزمنية هي **%2$s**",
         "reset_success": "%1$sتم بنجاح إعادة تعيين المنطقة الزمنية."
       },
@@ -965,7 +968,7 @@
       "claimlock": {
         "removed": "%1$sتم بنجاح إعادة تعيين حالة قفل المُطالبة.",
         "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>market buy \"claim key\"`",
+        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1126,6 +1129,9 @@
     },
     "action": {
       "no_mention": "%1$sYou need to mention a user.",
+      "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
+      "actions_disabled": "%1$sThis user has disabled actions for themselves.",
+      "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
       "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
       "no_type": "%1$sThis action command has no type. (internal error)",
       "permission_or_unexpected_error": "%1$sأعتذر! لقد أسقطت الصورة (ربما ليس لدي اذن لإرسالها)",
@@ -1195,8 +1201,8 @@
     "game": {
       "won_games": "%1$s%2$s فاز **%3$s لعبة**",
       "nothing_specified": "%1$sلم تحدد أي شيء لتلعبه.",
-      "not_enough_games": "%1$sYou need to specify two games at least (For example: `~>game lobby pokemon,trivia`)",
-      "invalid_selection": "%1$sتحتاج إلى تحديد لعبتين على الأقل. (الألعاب الصالحة: character, pokemon, number, trivia)!",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sتحتاج إلى تحديد اللعبة وعدد المرات المُراد لعبها.",
         "invalid_times": "%1$sعدد مرات لعب غير صحيحة. تذكر أنه يجب أن يكون عدد صحيح.",
@@ -1253,7 +1259,7 @@
     "dailycrate": {
       "check": "%1$sسوف تتمكن من الحصول على الصندوق اليومي الخاص بك في: **%2$s.**",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>market buy key` to open it."
+      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -1290,7 +1296,7 @@
       "error_tag": "%1$sThere was an error while looking for this tag.",
       "error_random": "%1$sThere was an error while looking for a random image.",
       "error_general": "%1$sWe found an error while making a request to this imageboard.",
-      "non_nsfw_channel": "%1$sلست في روم NSFW. لايُمكن ارسال صور بذيئة.\n**تذكير:** يمكنك تعيين الروم على انه NSFW وذلك بالذهاب الى اعدادات الروم وتحديد `تعيين هذا الروم على أنه NSFW.",
+      "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
       "loli_content_disallow": "%1$sI cannot display images that allegedly contain `loli` or `shota` (or related tags) lewd/NSFW content because discord prohibits it. Try again with other tags?",
       "null_list_notice": "%1$sاوه... حدث خطأ اثناء البحث... (اذا استخدمت وسم في البحث, ربما يكون هذا الوسم غير موجود)",
       "found_image": "تم العثور على صورة",
@@ -1306,8 +1312,8 @@
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`.",
+      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
+      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
         "header": "Status for %1$s",
@@ -1322,6 +1328,9 @@
         "stamina": "Stamina",
         "pet": "Pats",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "level": {
+        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
@@ -1344,7 +1353,7 @@
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
-        "no_house": "%1$sYou need to have a pet house on your inventory to do this. You can buy it on the market.",
+        "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
         "already_has_pet": "%1$sYou already have a pet.",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
@@ -1355,7 +1364,7 @@
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with (for example, `~>pet feed steak`)",
+        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
         "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
@@ -1579,7 +1588,7 @@
       "bot_notice": "%1$sلا يمكن أن تمتلك البوتات المال.",
       "external_balance": "رصيد %1$s هو **%2.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "Hello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
@@ -1646,8 +1655,8 @@
       "easter": "\nيبدو انك لديك الكثير من الغبار هنا... قد ترغب في تنظيفه قبل أن تصبح الفوضى شديدة!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>market buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`.",
+      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
+      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sليس لديك هذا الخيار في المخزن الخاص بك, التبديل الى الخيار الافتراضي.",
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
@@ -1666,7 +1675,7 @@
       },
       "crate": {
         "overflow": "لقد عثرت على **%1$s** اثتاء التنقيب, لكنك تملك الكثير لذلك تركته خلفك...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>market buy key`!"
+        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
       },
       "autoequip": {
         "success": "%1$sتم تجهيز **%2$s** تلقائياً في مكان الاختيار الخاص بك."
@@ -1678,7 +1687,7 @@
       "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>market buy axe`",
+      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
       "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
@@ -2278,9 +2287,9 @@
     "shrimp": "Shrimp",
     "moon": "Moon Rune",
     "flake": "Snowflake",
-    "broken_comet_pick": "Broken Comet Pick",
-    "broken_sparkle_pick": "Broken Sparkle Pick",
-    "broken_star_pick": "Broken Star Pick",
+    "broken_comet_pick": "Broken Comet Pickaxe",
+    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
+    "broken_star_pick": "Broken Star Pickaxe",
     "broken_comet_rod": "Broken Comet Rod",
     "broken_sparkle_rod": "Broken Sparkle Rod",
     "broken_star_rod": "Broken Star Rod",
@@ -2310,13 +2319,13 @@
     "pear": "Pear",
     "cherry_blossom": "Cherry Blossom",
     "rock": "Rock",
-    "broken_moon_pick": "Broken Moon Pick",
+    "broken_moon_pick": "Broken Moon Pickaxe",
     "broken_moon_axe": "Broken Moon Axe",
     "broken_moon_rod": "Broken Moon Rod",
     "broken_star_axe": "Broken Star Axe",
     "broken_comet_axe": "Broken Comet Axe",
     "broken_sparkle_axe": "Broken Sparkle Axe",
-    "broken_hellfire_pick": "Broken Hellfire Pick",
+    "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Broken Hellfire Axe",
     "broken_hellfire_rod": "Broken Hellfire Rod",
     "description": {
@@ -2336,7 +2345,7 @@
       "lewd": "Too many lewd commands. Way too many. Had fun?",
       "ring": "Basically what makes your marriage official.",
       "letter": "رسالة من حبيبك.",
-      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`.",
+      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`",
       "clothes": "Basically what you wear. Hopefully...",
       "diamond": "Basically a better way of saving your money. It's shiny too. And let's you cast shiny stuff. How nice.",
       "dress": "أليست لطيفة؟",
@@ -2353,7 +2362,7 @@
       "special_ring": "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`",
       "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
       "prize": "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`.",
+      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
       "prize_2": "بالبداية, كيف حصلت على الكثير من الأموال؟",
       "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
       "house": "مكان مريح للعيش فيه.",
@@ -2373,7 +2382,7 @@
       "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
       "fragment": "Fragment of an ancient gem. Useful for casting.",
       "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`.",
+      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`",
       "coffee": "A delightful way to start your day.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "Gives you a higher chance of catching fish.",
@@ -2388,10 +2397,10 @@
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
       "sparkle_pick": "One of the strongests pick out there (450 durability).",
       "pizza": "Yummy.",
-      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`.",
-      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`.",
-      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`.",
-      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`.",
+      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod (130 durability).",
       "star_rod": "A stronger rod (170 durability).",
       "sparkle_rod": "A way stronger rod (300 durability).",
