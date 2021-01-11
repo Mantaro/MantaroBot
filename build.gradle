@@ -69,7 +69,7 @@ dependencies {
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // JSON
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
 
     // Core
