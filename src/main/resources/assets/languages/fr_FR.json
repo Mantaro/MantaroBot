@@ -284,7 +284,7 @@
         "over_limit": "%1$sLa liste de lecture que tu as ajouté a plus de %2$d musiques, alors j'ai ajouté uniquement les musiques jusqu'au nombre limite et j'ai ignoré les autres.",
         "loaded_playlist": "%1$sAjout de **%2$d musiques** à la file d'attente de la playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa recherche n'a donné aucun résultat. Si cela apparaît pour *toutes les chansons* pour lesquelles tu as fait une recherche, utilises`~>play soundcloud <termes recherchés>`à la place. Les liens directs vers YouTube devraient également fonctionner.",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "error_loading": "%1$sErreur en recherchant la musique: %2$s. Réessaie de nouveau ou utilise un autre lien?",
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
         "over_32_minutes": "%1$s**Je n'ai pas pu ajouter `%2$s` à la file d'attente: Cette musique est plus longue que %3$s.**\n(La durée de ce morceau est %4$s).\nTu peux augmenter la limite de longueur des musique et des rediffusions de stream grâce à Mantaro Premium! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
         "fair_queue_limit_reached": "%1$s**Niveau de la file d'attente dépassé de %2$d (Trop de musiques similaires)**",
@@ -465,7 +465,7 @@
         "invalid_number": "%1$sTu dois spécifier un numéro correct à changer.",
         "no_index": "%1$sTu ne peux pas supprimer un index inexistant.",
         "not_enough_args": "%1$sTu dois spécifier la commande et l'index de la réponse que tu veux supprimer.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
+        "no_responses_left": "%1$sIl ne restait plus de réponses, donc j'ai supprimé la commande.",
         "success": "%1$sa supprimé la réponse **#%2$d** de la commande `%3$s` avec succès."
       },
       "rename": {
@@ -1031,7 +1031,7 @@
       "no_guild_month_birthdays": "%1$sIl n'y à pas d'anniversaire pour ce mois (%2$s) ici :(\n%3$sSi tu viens de configurer l'annonceur d'anniversaires, attend un peu s'il te plait avant de réessayer. (Le cache se rafraichit toutes les 23h)\nSouviens-toi également que les gens doivent utiliser la commande `~>birthday allowserver` pour autoriser ce serveur à annoncer leur anniversaire.",
       "cache_not_running": "%1$sLe \"Birthday cache\" ne semble pas fonctionner (erreur interne) :(",
       "error": "%1$sUne erreur est survenue en cherchant les dates d'anniversaires (erreur interne) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
+      "header": "**Les anniversaires de %1$s pour %2$s**\nLe cache des anniversaires se met à jour toutes les 23h, donc si ton anniversaire n'apparait pas ici, ne panique pas et sois patient. Montre jusqu'à 100 résultats.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sCe n'est pas une date valide ou le format est incorrect.\nSouviens-toi que le format de date est `jj-mm` (Par exemple, utilise `~>birthday 16-11` pour le 16 novembre)",
       "error_date": "%1$s%2$s n'est pas une date valide ou je ne peux pas l'analyser correctement. Essaie avec le bon format s'il te plait.\nSouviens-toi que le format de date est `jj-mm` (Par exemple, utilise `~>birthday 16-11` pour le 16 novembre)",
