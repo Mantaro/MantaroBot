@@ -66,8 +66,8 @@ public class Shard {
                     }
             
                     statusChange = MantaroBot.getInstance()
-                                           .getExecutorService()
-                                           .scheduleAtFixedRate(Shard.this::changeStatus, 0, 3, TimeUnit.HOURS);
+                            .getExecutorService()
+                            .scheduleAtFixedRate(Shard.this::changeStatus, 0, 3, TimeUnit.HOURS);
                 }
             }
         };

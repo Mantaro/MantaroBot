@@ -242,7 +242,7 @@ public class ItemReference {
                     20, true
             ),
 
-            POTION_HASTE = new Potion(ItemType.POTION, 2, "\uD83C\uDF76",
+            POTION_HASTE = new Potion(ItemType.POTION, 3, "\uD83C\uDF76",
                     "Haste Potion", "items.haste", "items.description.haste",
                     490, true
             ),

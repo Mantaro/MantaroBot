@@ -891,7 +891,18 @@ public class CustomCmds {
                         return;
                     }
 
-                    custom.getValues().addAll(c.getValues());
+                    final var values = c.getValues();
+                    var customLimit = 50;
+                    if (ctx.getConfig().isPremiumBot() || ctx.getDBGuild().isPremium()) {
+                        customLimit = 100;
+                    }
+
+                    if (values.size() > customLimit) {
+                        ctx.sendLocalized("commands.custom.add.too_many_responses", EmoteReference.ERROR, values.size());
+                        return;
+                    }
+
+                    custom.getValues().addAll(values);
                 } else {
                     // Are the first two checks redundant?
                     if (!ctx.getConfig().isPremiumBot() && !ctx.getDBGuild().isPremium() && db.getCustomCommands(ctx.getGuild()).size() > 100) {
