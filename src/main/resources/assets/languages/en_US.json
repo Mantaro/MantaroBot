@@ -2074,6 +2074,7 @@
       "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
       "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
+      "cannot_interact_user": "%1$sThe bot is unable to interact with the user (the user has a role higher than the bot, for example)",
       "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },

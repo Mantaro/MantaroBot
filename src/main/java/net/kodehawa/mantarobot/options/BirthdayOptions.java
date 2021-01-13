@@ -83,6 +83,11 @@ public class BirthdayOptions extends OptionHandler {
                     return;
                 }
 
+                if (!ctx.getMember().canInteract(m)) {
+                    ctx.sendLocalized("options.birthday_test.cannot_interact_user", EmoteReference.ERROR);
+                    return;
+                }
+
                 User user = m.getUser();
                 String message = String.format("%s**%s is a year older now! Wish them a happy birthday.** :tada: (test)", EmoteReference.POPPER, m.getEffectiveName());
                 if (dbGuild.getData().getBirthdayMessage() != null) {
