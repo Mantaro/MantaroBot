@@ -97,7 +97,7 @@ public class BirthdayOptions extends OptionHandler {
                     }, error -> {
                         ctx.sendLocalized("options.birthday_test.error", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName());
                     });
-                });
+                }, error -> ctx.sendLocalized("options.birthday_test.error", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()));
             });
         });
 
