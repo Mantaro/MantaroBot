@@ -476,6 +476,7 @@
         "not_enough_args": "%1$s你需要指出你想新增的指令名稱及回應。",
         "empty_content": "%1$s你需要指出這個自定義指令的內容。",
         "success": "%1$s已加到指令 `%2$s`",
+        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%s此伺服器的自定義指令數量已超過限制 (+100)，你無法再新增更多。高級伺服器將無視這個限制 (瀏覽<https://patreon.com/mantaro>)。"
       },
       "lockcommand": {
@@ -1371,14 +1372,14 @@
         "not_inventory": "%1$s你沒有該物品。確定你擁有他且有正確的數量 (%2$s)。",
         "not_applicable": "%1$s你不能將這種食物餵給你的寵物。",
         "success": "%1$s太棒了！成功餵養你的寵物 %3$s 個 `%2$s`，他回復了 %4$s%% 飢餓度。現在為 %5$s%%。",
-        "too_much": "%1$s也許給他少一點食物看看？不要浪費食物！(增加的數量將超過100%%)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
         "no_pet": "%1$s你沒有任何寵物想要喝水。使用 `~>pet` 獲得更多說明。",
         "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
-        "too_much": "%1$s也許給他少一點水看看？不要浪費水！(增加的數量將超過100%%)",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thrist)",
         "success": "%1$s太棒了！成功給了你的寵物 %2$d 個水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
       },
       "activity": {
@@ -2370,9 +2371,9 @@
       "bell": "聖誕節獎勵。給你的聖誕樹上增加溫馨的感覺。",
       "tree": "聖誕節獎勵。誰不喜歡聖誕樹？",
       "pants": "你腿上穿的東西。應該吧...",
-      "haste": "讓你從貨幣指令獲得更多的東西，可維持兩次活動。",
+      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
       "milky": "清除你的藥水效果。",
-      "energy": "讓你的工具變得更耐用，可維持三次活動。",
+      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
       "rod": "讓你釣魚的一般釣竿 (耐久度 40)。",
       "fish": "魚。釣魚時釣到的。",
       "tropical_fish": "一條非常熱帶的魚。釣魚時釣到的。",
