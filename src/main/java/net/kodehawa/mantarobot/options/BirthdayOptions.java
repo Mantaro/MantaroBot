@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -78,13 +79,13 @@ public class BirthdayOptions extends OptionHandler {
                     return;
                 }
 
-                if (!ctx.getSelfMember().canInteract(birthdayRole)) {
-                    ctx.sendLocalized("options.birthday_test.cannot_interact", EmoteReference.ERROR);
+                if (!ctx.getMember().hasPermission(Permission.MANAGE_ROLES)) {
+                    ctx.sendLocalized("options.birthday_test.no_role_permission", EmoteReference.ERROR);
                     return;
                 }
 
-                if (!ctx.getMember().canInteract(m)) {
-                    ctx.sendLocalized("options.birthday_test.cannot_interact_user", EmoteReference.ERROR);
+                if (!ctx.getSelfMember().canInteract(birthdayRole)) {
+                    ctx.sendLocalized("options.birthday_test.cannot_interact", EmoteReference.ERROR);
                     return;
                 }
 
