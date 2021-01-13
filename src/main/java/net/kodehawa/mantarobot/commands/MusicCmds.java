@@ -84,6 +84,7 @@ public class MusicCmds {
             }
         });
 
+
         cr.registerAlias("forceskip", "fs");
     }
 
@@ -206,10 +207,12 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Play songs! This connects to the voice channel the user that triggers it it's connected to, *only* if there is " +
-                                "no song playing currently and Mantaro isn't bound to any channel. " +
-                                "Basically this works as a join command on the first song. If you're lost, use `~>music` for examples.\n" +
-                                "You can use `~>play soundcloud <search>` to search in soundcloud's library.")
+                        .setDescription(
+                                """
+                                Play songs! This connects to the voice channel you're connected to and starts playing music. 
+                                If the bot is already connected to a channel, this will just queue the song. You can either search or put an URL.
+                                You can use `~>play soundcloud <search>` to search in soundcloud's library.
+                                """)
                         .setUsage("~>play <song>")
                         .addParameter("song",
                                 "The song to play. Can be a youtube or soundcloud URL, or a search result " +
@@ -245,17 +248,19 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("""
-                                **This command doesn't put the song at the start of the queue, for that use `~>playnow`!**
-                                Play the first song I find in your search. 
-                                This connects to the voice channel the user that triggers it it's connected to, 
-                                *only* if there is no song playing currently and Mantaro isn't bound to any channel. 
-                                Basically this works as a join command on the first song. 
-                                If you're lost, use `~>music` for examples.
-                                
-                                You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.""")
+                        .setDescription(
+                            """
+                            **This command doesn't put the song at the start of the queue, for that use `~>playnow`!**
+                            Play the first song I find in your search. 
+                            This connects to the voice channel the user that triggers it it's connected to, 
+                            *only* if there is no song playing currently and Mantaro isn't bound to any channel. 
+                            Basically this works as a join command on the first song. 
+                            If you're lost, use `~>music` for examples.
+                            
+                            You can use `~>forceplay soundcloud <search>` to search in soundcloud's library.""")
                         .setUsage("~>forceplay <song>")
-                        .addParameter("song", "The song to play. Can be a youtube or soundcloud URL, or a search result " +
+                        .addParameter("song",
+                                "The song to play. Can be a youtube or soundcloud URL, or a search result " +
                                 "(Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)"
                         ).build();
             }
@@ -359,8 +364,11 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Repeats a song, or disables repeat. This command is a toggle. " +
-                                "It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off."
+                        .setDescription(
+                            """
+                            Repeats a song, or disables repeat. This command is a toggle.
+                            It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off.
+                            """
                         ).setUsage("`~>repeat [queue]`")
                         .addParameterOptional("queue", "Add this if you want to repeat the queue (`~>repeat queue`)")
                         .build();
@@ -589,10 +597,10 @@ public class MusicCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription(
-                                """
-                                Sets the playback volume. Use `~>volume` to check the volume.
-                                **This is a *donator-only* feature!**
-                                """
+                            """
+                            Sets the playback volume. Use `~>volume` to check the volume.
+                            **This is a *donator-only* feature!**
+                            """
                         ).setUsage("`~>volume <volume>`")
                         .addParameter("volume", "The volume, a number from 4 to 100 that you want to set it to.")
                         .build();
@@ -764,8 +772,8 @@ public class MusicCmds {
                 ctx.sendLocalized("commands.stop.cleanup", EmoteReference.OK, TEMP_QUEUE_LENGTH);
             }
 
-            //This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
-            //Beware to not close the connection twice...
+            // This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
+            // Beware to not close the connection twice...
             trackScheduler.nextTrack(true, true);
         } catch (Exception e) {
             e.printStackTrace();

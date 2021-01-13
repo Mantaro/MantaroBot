@@ -427,7 +427,7 @@ public class PlayerData {
         if (config.isPremiumBot())
             return false;
 
-        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.DAYS.toMillis(1));
+        return System.currentTimeMillis() > (getLastSeenCampaign() + TimeUnit.HOURS.toMillis(12));
     }
 
     @JsonIgnore

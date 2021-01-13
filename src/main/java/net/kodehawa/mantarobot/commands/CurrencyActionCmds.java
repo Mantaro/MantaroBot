@@ -77,7 +77,6 @@ public class CurrencyActionCmds {
 
                 final var player = ctx.getPlayer();
                 final var playerData = player.getData();
-
                 final var seasonalPlayer = ctx.getSeasonPlayer();
                 final var seasonalPlayerData = seasonalPlayer.getData();
 

@@ -142,7 +142,7 @@ public class GambleCmds {
                     return;
                 }
 
-                //Handle ratelimits after all of the exceptions/error messages could've been thrown already.
+                // Handle ratelimits after all of the exceptions/error messages could've been thrown already.
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
                 }
@@ -224,7 +224,6 @@ public class GambleCmds {
                     }
 
                     var amount = opts.get("amount");
-
                     if (amount.isEmpty()) {
                         ctx.sendLocalized("commands.slots.errors.no_amount", EmoteReference.ERROR);
                         return;
