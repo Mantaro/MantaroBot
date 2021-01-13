@@ -476,6 +476,7 @@
         "not_enough_args": "%1$sDu musst den Befehlsnamen und die Antwort für den Befehl angeben, den du hinzufügen willst.",
         "empty_content": "%1$sDu musst den Inhalt für diesen benutzerdefinierten Befehl angeben.",
         "success": "%1$sBefehl `%2$s` gespeichert!",
+        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sEs gibt zu viele Befehle auf diesem Server, daher kannst du keine weiteren hinzufügen (+100). Dies kann von Premium-Servern umgangen werden (Check <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
@@ -1371,14 +1372,14 @@
         "not_inventory": "%1$sDu hast den Gegenstand, den du deinem Haustier verfüttern willst nicht. Stelle sicher, dass du ihn im Inventar hast und die richtige Anzahl (%2$s) besitzt.",
         "not_applicable": "%1$sDu kannst dieses Essen nicht diesem Haustier füttern.",
         "success": "%1$sYay! Dein Haustier wurde erfolgreich mit `%2$s` x%3$s gefüttert und hat %4$s%% seines Hungers gesättigt. Es ist jetzt zu %5$s%% satt.",
-        "too_much": "%1$sGib ihm vielleicht ein bisschen weniger Futter? Du würdest sonst Futter verschwenden! (Erhöhung wäre über dem Benötigten, um 100%% zu erreichen)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
         "no_pet": "%1$sDu hast keine Haustiere, denen du Wasser geben könntest. Schau unter `~>pet` für eine Erklärung.",
         "no_need": "%1$sDein Haustier ist nicht durstig, also will es gerade auch nichts trinken.",
         "not_inventory": "%1$sDu hast keine Wasserflasche im Inventar.",
         "not_enough_inventory": "%1$sDu hast nicht genügend Wasserflaschen in deinem Inventar! Du brauchst %2$s.",
-        "too_much": "%1$sGib ihm vielleicht etwas weniger Wasser? Du würdest sonst Wasser verschwenden! (Erhöhung wäre über dem Benötigten, um 100%% zu erreichen)",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thrist)",
         "success": "%1$sYay! Du hast deinem Haustier erfolgreich %2$d mal Wasser gegeben und es hat %3$s%% seines Durstes gelöscht. Es ist jetzt zu %4$s%% sitt."
       },
       "activity": {
@@ -2370,9 +2371,9 @@
       "bell": "Belohnung des Weihnachtsevent 2017/2018. Gibt ein gemütliches Weihnachtsgefühl an deinem Baum.",
       "tree": "Belohnung des Weihnachtsevent 2017/2018. Wer mag keinen Weihnachtsbaum?.",
       "pants": "Quasi das was du an deinen Beinen trägst. Hoffentlich...",
-      "haste": "Ermöglicht es dir für 2 Runden mehr Zeug durch Währungsbefehle zu erhalten.",
+      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
       "milky": "Entfernt alle Trankeffekte.",
-      "energy": "Lässt ein Werkzeug pro Nutzung weniger Haltbarkeit verlieren. Hält 3 Runden.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
       "rod": "Eine normale Angel für das normale Fischen (40 Haltbarkeit).",
       "fish": "Fisch. Beim Fischen gefangen.",
       "tropical_fish": "Ein sehr tropischer Fisch. Beim Fischen gefangen.",

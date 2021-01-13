@@ -48,7 +48,7 @@
       "pill": "%1$sVocê tomou uma pílula de waifu! (Ativada por 5 sessões)",
       "pill_used": "%1$sVocê já tem uma pílula de waifu ativa!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
+        "no_key": "%1$sVocê precisa de uma chave do caixote pra abrir um caixote. Está fechado! Você pode comprar um usando `~>buy key`",
         "no_crate": "%1$sVocê precisa de um caixote! Você geralmente ganha caixotes dos comandos de moeda.",
         "success": "%1$sVocê abriu o caixote e ganhou: %2$s%3$s. Parabéns!",
         "overflow": "Mas você já teve demais, então resolveu jogar fora o excesso"
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sO dia acabou, e seu balde de peixe só acumulou poeira. (Nível de poeira %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "no_rod": "%1$sVocê não tem uma vara equipada. Use `~>equip <rod name>`para equipar uma vara e começar sua pescaria! Se você não tem uma vara, primeiro use `~>buy rod`",
       "trash": {
         "overflow": "%1$sVocê encontrou algum lixo enquanto pescava, mas seu inventário estava cheio, então tivemos que jogá-lo de volta na água...",
         "success": "%1$sEnquanto você calmamente pescava, você encontrou um flutuante %2$s mas parece ser apenas lixo :("
@@ -244,12 +244,12 @@
         "header_noreact": "Use `&p >>` e `&p <<` para mover entre páginas.",
         "no_track_found_np": "Nada ou título/duração não encontrada",
         "header": "Fila para o servidor %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
+        "nothing_playing": "Nada aqui, apenas poeira. Por que você não coloca algumas músicas?\nSe você acha que existem músicas aqui mas elas não aparecem, tente usar `~>queue 1`",
         "nothing_playing_2": "**Se houver uma música tocando e você não adicionar mais músicas, então há apenas poeira aqui. Você pode colocar mais músicas como deseja!**",
         "np": "Tocando agora",
         "dj_np": "**Colocado por:** ",
         "page_overflow": "Nada aqui, apenas poeira. Por que você não volta algumas páginas??",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "page_overflow_2": "Se você acha que existem músicas aqui mas elas não aparecem, tente usar `~>queue 1`",
         "total_queue_time": "Tempo total da fila",
         "total_size": "Tamanho total da fila",
         "togglers": "Repetir / Pausar",
@@ -432,7 +432,7 @@
         "start_text": "%1$sComeçada **\"Criação do Comando Personalizado `%2$s`\"**!\nEnvie `&~>stop` para parar a criação **sem salvar**.\nEnvie `&~>save` para parar a criação e **salvar novo Comando**. Envie qualquer texto começando com `&` para ser adicionado nas Respostas do Comando. Use `~>nsfw` para marcar esse comando como NSFW e `~>sfw` para reverter.\nEssa Operação Interativa termina sem salvar depois de 60 segundo de inatividade.",
         "cancel": "%1$sCriação de Comando cancelada.",
         "no_responses_added": "%1$sNenhuma resposta foi adicionada. Parando criação sem salvar...",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$sSalvo no comando `%2$s`",
         "no_name_specified": "%1$sVocê não especificou o nome do comando personalizado para criar!"
       },
       "eval": {
@@ -442,7 +442,7 @@
       },
       "remove": {
         "no_command": "%1$sVocê tem que me dizer que comando você quer remover.",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "success": "%1$sComando Personalizado `%2$s` Removido"
       },
       "import": {
         "no_command": "%1$sVocê tem que me dizer que comando você quer importar.",
@@ -476,6 +476,7 @@
         "not_enough_args": "%1$sVocê tem que especificar o nome do comando e a resposta do comando que você quer adicionar.",
         "empty_content": "%1$sVocê precisa especificar o conteúdo deste comando personalizado",
         "success": "%1$sSalvo no comando `%2$s`",
+        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHá muitos comandos nesse servidor, então você não pode adicionar mais (+100). Isso pode ser ignorado em guildas premium (Cheque <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
@@ -558,15 +559,15 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
+        "no_letter": "%1$sVocê não tem cartas de amor no seu inventário, então você não tem nada para escrever na sua carta. Uma carta de amor é dada a você no casamento.",
         "empty": "%1$sVocê não pode deixar a carta de amor vazia.",
         "no_marriage": "%1$sVocê não é casado, não pode escrever uma carta de amor para si mesmo...",
         "not_proposing_player": "%1$sVocê não é o jogador que propôs este casamento!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
+        "already_done": "%1$sEste casamento já tem uma cara de amor atribuída. Cheque ela usando `marry status`",
         "too_long": "%1$sA carta de amor é muito longa (máximo de 500 caracteres)",
         "cannot_see": "%1$sEu não consegui achar o usuário que você se casou... Provavelmente não está em nenhum servidor comigo.",
         "confirmation": "%1$sVocê tem *certeza* que quer escrever essa carta para o seu casamento com **%2$s#%3$s**? Isso é PERMANENTE até o casamento acabar. *Conteúdo da carta:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
+        "confirmed": "%1$sA carta de amor foi entregue com sucesso ao(a) seu(a) amado(a)! Cheque ela usando `marry status`",
         "scrapped": "%1$sVocê ainda tem tempo para pensar no que escrever, não precisa se apressar!"
       },
       "status": {
@@ -590,7 +591,7 @@
       },
       "buyhouse": {
         "not_married": "%1$sVocê só pode comprar uma casa enquanto estiver casado. Isso pode mudar no futuro.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
+        "no_house": "%1$sVocê precisa de um item de casa no seu inventário. Use `~>buy house` para ter uma.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar uma casa. (Preço atual da casa: %2$d créditos)",
         "no_name": "%1$sVocê precisa dar um nome a sua casa! Por exemplo, `~>marry house cozy house",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pra casa é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
@@ -598,7 +599,7 @@
         "cancel_success": "%1$sOperação cancelada."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
+        "no_car": "%1$sVocê tem que comprar um carro primeiro! Use `~>buy car` para ter um.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar um carro. (Preço atual do carro: %2$d créditos)",
         "no_name": "%1$sVocê precisar dar um nome ao seu carro! Por exemplo, `~>marry car vroom`",
         "confirm": "%1$sVocê tem certeza que quer comprar este carro? O preço deduzido da sua carteira é %2$d e o nome que você deu pro carro é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
@@ -611,7 +612,7 @@
       "already_married_receipt": "%1$sVocê já é casado com ele(a), aww.",
       "already_married": "%1$sVocê já é casado.",
       "receipt_married": "%1$sEsse usuário já é casado.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$sVocê não pode propor sem dois anéis de casamento! Você pode comprá-los usando `~>buy 2 ring` e tente propor novamente <3",
       "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
@@ -704,8 +705,8 @@
       "sorted_by": " *(Classificado por: %1$s)*"
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
+      "no_item_specified": "%1$sVocê não especificou item algum. Para uma lista, cheque `~>cast ls`",
+      "no_item_found": "%1$sEu não encontrei nenhum item correspondente. Se o nome do item tiver espaços, coloque-o entre \"aspas\". Certifique-se de digitar o nome completo do item para evitar incompatibilidades ou use o emoji, se possível. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de itens que podem ser fundidos. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
@@ -742,7 +743,7 @@
         "success": "%1$sO valor no mercado de %2$s**%3$s** é %4$s créditos para comprar e você pode ganhar %5$s créditos se você vender."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "Você pode usar `~>sell` agora. Por exemplo, ao invés de `~>market sell pick` você pode usar `~>sell pick`. Por favor use o novo comando ao invés disso.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
         "invalid": "%1$sNão é um número válido de itens para vender.",
         "all": {
@@ -757,10 +758,10 @@
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "Você pode usar `~>buy` agora. Por exemplo, ao invés de `~>market buy pick` você pode usar `~>buy pick`. Por favor use o novo comando ao invés disso.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
+        "non_existent": "%1$sVocê não pode comprar um item inexistente. Se estiver perdido, você pode digitar o nome abreviado ou coloca-lo entre aspas. Além disso, a quantidade do item vai antes do nome do item, exemplo: `~>buy 15 energy`",
         "no_buy_price": "%1$sVocê não pode comprar um item que não pode ser comprado.",
         "item_limit_reached": "%1$sVocê não pode comprar deste objeto. Você só pode ter um máximo de 5000 de cada item.",
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
@@ -769,7 +770,7 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse item. Atual: %2$,d créditos, Necessário: %3$,d créditos."
       },
       "header": "Mercado da Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\nVocê pode comprar e vender itens usando `~>buy <item>` e `~>sell <item>`. Cheque `~>help market` para mais informações, você também pode ver listas menores do mercado, tipo `~>market tools`",
       "sell_price": "-**Preço de Venda:**",
       "buy_price": "-**Preço de Compra:**"
     },
@@ -810,7 +811,7 @@
       "use_command": "%1$sPara este item você tem que usar o comando que está ligado ao item! (mine para minerar, fish para a vara de pesca)",
       "no_items_specified": "%1$sVocê tem que especificar que item você quer usar.",
       "not_interactive": "%1$sVocê não pode interagir com esse item...",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`",
+      "interactive_no_action": "%1$sEsse item está marcado como interativo, mas não tem conjunto de ações. Esse item pode ter seu próprio comando? Por exemplo, picaretas usam `~>mine`",
       "no_item": "%1$sVocê não tem esse item no seu inventário...",
       "not_enough_items": "%1$sVocê não tem o suficiente deste item.",
       "too_little": "%1$sVocê não pode usar menos de 1 item.",
@@ -835,13 +836,13 @@
         "category": "Categoria: ",
         "header": "Lista de cargos automáticos",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
+        "description": "Esses são os cargos automáticos que os usuários podem ter neste servidor. Você pode usar eles fazendo `~>iam <name of the role>`"
       },
       "deleted_role": "%1$sO cargo que esse cargo automático correspondia foi excluído",
       "already_assigned": "%1$sVocê já tem esse cargo, bobo!",
       "success": "%1$s%2$s, você ganhou o cargo **%3$s**",
       "error": "%1$sEu não posso tirar de você **%2$s. Certifique-se de que eu tenho permissão para adicionar cargos e que meu cargo é maior que **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "no_role": "%1$sNão tem nenhum cargo com o nome `%2$s`",
       "no_iam": "%1$sVocê tem que especificar qual cargo auto-atribuível você quer atribuir a si mesmo!"
     },
     "iamnot": {
@@ -875,7 +876,7 @@
       "timezone": {
         "not_specified": "%1$sVocê precisa especificar um fuso horário. Um fuso horário válido seria, por exemplo `GMT-3` ou `America/Chicago` (Id do Fuso).",
         "reset": "%1$sResetar fuso horário.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
+        "invalid": "%1$sFuso horário inválido. Um fuso horário válido seria, por exemplo `GMT-3` ou `America/Chicago` (ID do Fuso). Geralmente você pode ver seu fuso horário digitando \"de que fuso horário eu sou?\"",
         "success": "%1$sFuso horário salvo, seu fuso horário no perfil agora é: **%2$s**",
         "reset_success": "%1$sTempo redefinido com sucesso."
       },
@@ -968,7 +969,7 @@
       "claimlock": {
         "removed": "%1$sResetado com sucesso seu status de claim lock.",
         "success": "%1$sVocê não pode mais ser reivindicado como waifu. Isso usou uma chave de reivindicação. Use `~>profile claimlock remove` pra remover depois.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
+        "no_key": "%1$sVocê não tem uma chave de reivindicação pra fazer isso. Você pode comprar uma no mercado usando `~>buy \"claim key\"`",
         "already_locked": "%1$sVocê já está bloqueado de reivindicações. Use `~>profile claimlock remove` para remover."
       },
       "autoequip": {
@@ -1201,7 +1202,7 @@
     "game": {
       "won_games": "%1$s%2$s ganhou **%3$s jogos**",
       "nothing_specified": "%1$sVocê não especificou nada pra jogar...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sVocê tem que especificar pelo menos dois jogos. (Por exemplo, `~>game lobby pokemon,trivia`)",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sVocê precisa especificar o jogo e o número de vezes para executá-lo",
@@ -1371,14 +1372,14 @@
         "not_inventory": "%1$sVocê não tem o item que você quer dar pro pet comer. Certifique-se de que está em seu inventário e de que você tem a quantidade certa (%2$s).",
         "not_applicable": "%1$sVocê não pode dar essa comida pra esse tipo de pet.",
         "success": "%1$sYay! Pet alimentado com sucesso com `%2$s` x%3$s e ele recuperou %4$s%% de sua fome. A fome agora está %5$s%% satisfeita.",
-        "too_much": "%1$sTalvez dê um pouco menos de comida? Você estaria desperdiçando comida caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)"
+        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
         "no_pet": "%1$sVocê não tem nenhum pet pra dar água. Cheque `~>pet` para uma explicação.",
         "no_need": "%1$sSeu pet não está com sede, então ele não quer beber agora.",
         "not_inventory": "%1$sVocê não tem uma Garrafa d'Água. Certifique-se de que está em seu inventário.",
         "not_enough_inventory": "%1$sVocê não tem garrafas d'água suficiente no seu inventário! Você precisa de %2$s.",
-        "too_much": "%1$sTalvez dê um pouco menos de água? Você estaria desperdiçando água caso contrário! (O aumento é mais do que necessário pra chegar a 100%%)",
+        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thrist)",
         "success": "%1$sYay! %2$d de água foi dada com sucesso ao seu pet e ele recuperou %3$s%% de sua sede. A sede dele agora está %4$s%% apagada."
       },
       "activity": {
@@ -2370,9 +2371,9 @@
       "bell": "Recompensa de natal. Dá-lhe um sentimento de natal a sua árvore.",
       "tree": "Recompensa de natal. Quem não gosta de uma árvore de natal?.",
       "pants": "Basicamente, o que você veste nas pernas... esperançosamente.",
-      "haste": "Permite que você colete mais coisas de comandos de moeda por 2 sessões.",
+      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
       "milky": "Limpa todos os efeitos de poção.",
-      "energy": "Faz uma ferramenta perder menos durabilidade por uso. Dura 3 sessões.",
+      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
       "rod": "Uma vara básica para suas atividades de pesca (40 de durabilidade).",
       "fish": "Peixe. Pego na pesca.",
       "tropical_fish": "Um peixe muito tropical. Pego na pesca.",
