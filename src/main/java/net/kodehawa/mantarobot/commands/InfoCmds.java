@@ -247,11 +247,11 @@ public class InfoCmds {
                         .collect(Collectors.joining(" "));
 
                 var guildPrefix = dbGuild.getData().getGuildCustomPrefix();
-
-                ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART,
-                        defaultPrefix, guildPrefix == null ?
-                                ctx.getLanguageContext().get("commands.prefix.none") : guildPrefix
-                );
+                var guildPrefixString = ctx.getLanguageContext().get("commands.prefix.none");
+                if (guildPrefix != null) {
+                    guildPrefixString = ctx.getLanguageContext().get("commands.prefix.guild_prefix").formatted(guildPrefix);
+                }
+                ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART, guildPrefixString);
             }
 
             @Override
