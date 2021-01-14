@@ -393,7 +393,8 @@
       "footer": "Obrigado por usar a Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sOs prefixos padrão são %2$s e mencionando o bot (Eu respondo a qualquer um desses!). O prefixo do servidor é `%3$s` (Só funciona neste servidor).\nVocê pode definir um novo prefixo usando `~>opts prefix set <prefix>`. Não inclua o <>.\nSe você tiver alguma pergunta, você pode entrar no <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Não há prefixo personalizado definido neste servidor."
     },
     "custom": {
@@ -2073,6 +2074,7 @@
       "no_bd_role": "%1$sVocê não especificou o cargo definido para o aniversariante! Certifique-se de criar um novo cargo para isso.",
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
       "cannot_interact": "%1$sO bot é incapaz de interagir com o cargo de aniversário. (Isso significa que o cargo de aniversário é mais alto que o cargo mais alto do bot na hierarquia de cargo, coloque-o abaixo e tente novamente)",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sFeito! A mensagem foi enviada no canal %2$s para o usuário **%3$s**. Ele foi atribuído com o cargo %4$s\n\nNota: Isso não mostra a mensagem de aniversário personalizada que você pode ter definido.",
       "error": "%1$sOw... Ocorreu um erro ao enviar a mensagem no canal %2$s para o usuário **%3$s** e cargo %4$s"
     },
