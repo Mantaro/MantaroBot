@@ -219,6 +219,8 @@ public class OwnerCmd {
                     transferToData.setFishingExperience(transferredData.getFishingExperience());
                     transferToData.setCratesOpened(transferredData.getCratesOpened());
                     transferToData.setTimesMopped(transferredData.getTimesMopped());
+                    transferToData.setDailyStreak(transferredData.getDailyStreak());
+                    transferToData.setLastDailyAt(transferredData.getLastDailyAt());
 
                     transferToPlayer.save();
 
