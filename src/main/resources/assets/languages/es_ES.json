@@ -393,7 +393,8 @@
       "footer": "Gracias por usar Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "No hay un prefijo customizado en este servidor."
     },
     "custom": {
@@ -2073,6 +2074,7 @@
       "no_bd_role": "%1$sNo tienes ningún rol designado como rol de cumpleaños!",
       "no_talk_permission": "%1$sEl bot no puede hablar en el canal para mensajes de cumpleaños.",
       "cannot_interact": "%1$sEl bot no puede interactuar con el rol de cumpleaños.",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sListo! El mensaje fue enviado en el canal %2$s para el usuario **%3$s**. Les fue asignado el rol %4$s",
       "error": "%1$sOw... Hubo un error mientras se enviaba el mansaje en el canal %1$s para el usuario **%2$s** y el rol %3$s"
     },
