@@ -97,7 +97,7 @@ public class MuteCmds {
                 final var finalReason = muteTimePattern.matcher(reason).replaceAll("");
 
                 var data = db.getMantaroData();
-                ctx.findMember(affected, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(affected, members -> {
                     var member = CustomFinderUtil.findMember(affected, members, ctx);
                     if (member == null)
                         return;

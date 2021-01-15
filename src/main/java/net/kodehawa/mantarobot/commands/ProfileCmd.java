@@ -111,7 +111,7 @@ public class ProfileCmd {
 
 
                         var finalContent = content;
-                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                        ctx.findMember(content, members -> {
                             SeasonPlayer seasonalPlayer = null;
                             var userLooked = ctx.getAuthor();
                             var memberLooked = ctx.getMember();
@@ -603,7 +603,7 @@ public class ProfileCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(content, members -> {
                     var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null) {
                         return;

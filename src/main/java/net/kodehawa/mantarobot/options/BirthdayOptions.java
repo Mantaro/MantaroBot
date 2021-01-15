@@ -51,7 +51,7 @@ public class BirthdayOptions extends OptionHandler {
             }
 
             String query = String.join(" ", args);
-            ctx.findMember(query, ctx.getMessage()).onSuccess(members -> {
+            ctx.findMember(query, members -> {
                 final var m = CustomFinderUtil.findMemberDefault(query, members, ctx, ctx.getMember());
                 if (m == null) {
                     return;
@@ -225,7 +225,7 @@ public class BirthdayOptions extends OptionHandler {
             }
 
             String content = String.join(" ", args);
-            ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+            ctx.findMember(content, members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if (member == null)
                     return;
@@ -246,7 +246,7 @@ public class BirthdayOptions extends OptionHandler {
             }
 
             String content = String.join(" ", args);
-            ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+            ctx.findMember(content, members -> {
                 Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                 if (member == null)
                     return;

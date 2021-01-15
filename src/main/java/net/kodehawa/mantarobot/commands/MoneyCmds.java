@@ -410,7 +410,6 @@ public class MoneyCmds {
                     }
                 }
 
-
                 unifiedPlayer.saveUpdating();
             }
 
@@ -436,7 +435,7 @@ public class MoneyCmds {
 
                 // Values on lambdas should be final or effectively final part 9999.
                 final var finalContent = content;
-                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(content, members -> {
                     var user = ctx.getAuthor();
                     boolean isExternal = false;
 
@@ -481,12 +480,11 @@ public class MoneyCmds {
                         message = String.format(
                                 Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
                                 languageContext.withRoot("commands", "balance.external_balance"),
-                                balance, extra
+                                user.getName(), balance
                         );
                     }
 
                     ctx.send(EmoteReference.DIAMOND + message);
-
                 });
             }
 

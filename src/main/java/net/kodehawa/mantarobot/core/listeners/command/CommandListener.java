@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.IllegalFormatException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -145,6 +146,14 @@ public class CommandListener implements EventListener {
                     }
                 } catch (Exception ignored) { }
             }
+        } catch (IllegalFormatException e) {
+            var id = Snow64.toSnow64(event.getMessage().getIdLong());
+            event.getChannel().sendMessageFormat(
+                    "%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s`.",
+                    EmoteReference.ERROR, id, EmoteReference.ZAP
+            ).queue();
+
+            log.warn("Wrong String format. Check this. ID: {}", id, e);
         } catch (IndexOutOfBoundsException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(

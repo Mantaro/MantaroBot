@@ -43,6 +43,7 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class Context {
     private final MantaroBot bot = MantaroBot.getInstance();
@@ -51,8 +52,8 @@ public class Context {
 
     private final GuildMessageReceivedEvent event;
     private final String content;
+    private final boolean isMentionPrefix;
     private I18nContext languageContext;
-    private boolean isMentionPrefix;
 
     public Context(GuildMessageReceivedEvent event, I18nContext languageContext, String content, boolean isMentionPrefix) {
         this.event = event;
@@ -266,9 +267,16 @@ public class Context {
         ).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
-    public Task<List<Member>> findMember(String query, Message message) {
-        return CustomFinderUtil.lookupMember(getGuild(), this, query);
+    public Task<List<Member>> findMember(String query, Consumer<List<Member>> success) {
+        return CustomFinderUtil.lookupMember(getGuild(), this, query).onSuccess(s -> {
+            try {
+                success.accept(s);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
+
 
     public User retrieveUserById(String id) {
         User user = null;

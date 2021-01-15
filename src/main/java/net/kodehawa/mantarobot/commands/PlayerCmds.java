@@ -98,7 +98,7 @@ public class PlayerCmds {
                 }
 
 
-                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(content, members -> {
                     var member = CustomFinderUtil.findMember(content, members, ctx);
                     if (member == null) {
                         return;
@@ -365,7 +365,7 @@ public class PlayerCmds {
                         // Lambdas strike again.
                         var contentFinal = content;
 
-                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                        ctx.findMember(content, members -> {
                             var member = CustomFinderUtil.findMemberDefault(contentFinal, members, ctx, ctx.getMember());
                             if (member == null) {
                                 return;

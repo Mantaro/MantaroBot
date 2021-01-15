@@ -240,7 +240,7 @@ public class WaifuCmd {
                     return;
                 }
 
-                ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(content, members -> {
                     Member member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                     if (member == null)
                         return;
@@ -416,7 +416,7 @@ public class WaifuCmd {
                 var lookup = isId ? "" : content;
                 // Lambdas strike again.
                 var finalContent = content;
-                ctx.findMember(lookup, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(lookup, members -> {
                     // This is hacky again, but search *will* fail if we pass a empty list to this method.
                     Member member = isId ? null : CustomFinderUtil.findMember(lookup, members, ctx);
                     if (member == null && !isId) {

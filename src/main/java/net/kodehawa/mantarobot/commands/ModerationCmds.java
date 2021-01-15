@@ -308,7 +308,7 @@ public class ModerationCmds {
                 final var finalReason = "Kicked by %#s: %s".formatted(ctx.getAuthor(), reason);
                 var memberRaw = args[0];
 
-                ctx.findMember(memberRaw, ctx.getMessage()).onSuccess(members -> {
+                ctx.findMember(memberRaw, members -> {
                     var member = CustomFinderUtil.findMember(memberRaw, members, ctx);
                     if (member == null)
                         return;

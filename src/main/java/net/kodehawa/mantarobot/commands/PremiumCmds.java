@@ -250,7 +250,7 @@ public class PremiumCmds {
                             return;
                         }
 
-                        ctx.findMember(content, ctx.getMessage()).onSuccess(members -> {
+                        ctx.findMember(content, members -> {
                             var member = CustomFinderUtil.findMemberDefault(content, members, ctx, ctx.getMember());
                             if (member == null)
                                 return;
