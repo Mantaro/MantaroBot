@@ -906,6 +906,10 @@
         "not_valid": "%1$sDiese Sortierungsart ist nicht valide. Mögliche Arten: `%2$s`",
         "success": "%1$sInventarsortierungsart erfolgreich geändert, sie ist nun: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Profilstatistiken für %1$s",
         "wins": "Casinogewinne",
@@ -1203,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s hat **%3$s Spiele** gewonnen!",
       "nothing_specified": "%1$sDu hast nichts zum Spielen angegeben!",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sDu musst das Spiel und die Häufigkeit angeben.",
