@@ -251,7 +251,7 @@ public class InfoCmds {
                 if (guildPrefix != null) {
                     guildPrefixString = ctx.getLanguageContext().get("commands.prefix.guild_prefix").formatted(guildPrefix);
                 }
-                ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART, guildPrefixString);
+                ctx.sendLocalized("commands.prefix.header", EmoteReference.HEART, defaultPrefix, guildPrefixString);
             }
 
             @Override
