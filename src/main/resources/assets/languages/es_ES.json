@@ -13,7 +13,7 @@
     "daily": "Diario",
     "total": "Total",
     "arrow_react": "Usa las flechas para cambiar de página.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "Usa &p >> y &p << para cambiar de página y &cancel para terminar el menú.",
     "not_found": "No encontrado",
     "no_results": "No hay resultados.",
     "timeout": "Esta operación caduca en %1$d segundos.",
@@ -25,20 +25,20 @@
     "options": "Opciones",
     "find_members_failure": "%1$sNo encontré ningun miembro con los terminos de búsqueda que me diste :(",
     "too_many_members": "%1$sHe encontrado muchos miembros con lo que me has dado, podrías refinar tu búsqueda? (ej. usa nombre#discriminador)\n**Miembros encontrados:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sPor favor mencione un solo miembro en la búsqueda de miembros.",
+    "query_too_small": "%1$sEl contenido de su busqueda es corto. Asegúrese que escribe al menos 4 caracteres. Si el nombre de usuario es muy corto, use usuario#tag o el id del usuario.",
     "dust": "Solo hay un poco de polvo por aquí.",
     "invalid_syntax": "Sintáxis inválida.",
     "item_lookup": {
       "no_item_emoji": "No hay ningún objeto asociado con este emoji.",
       "no_item_name": "No hay ningún objeto asociado con este emoji.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "No pude encontrar ningún objecto con tu búsqueda.\nSi no sabes que hacer, intenta usar una parte del nombre, por ejemplo para `Energy Beverage`, usa `energy`. O pon el nombre entre comillas.",
       "claim_key": "No puedes transferir una llave de claimeo."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "mop": "%1$sHas limpiado todo el polvo que se ha acumulado en todos esas sesiones de minería.",
+      "mop_not_enough": "%1$sEl nivel de polvo es menor a 5%%, no creo que fregar sea útil.",
+      "milk": "%1$sTodos los efectos de poción han sido removidos.",
       "stamina": "%1$sActivada poción de stamina por 5 sesiones de mine.",
       "stamina_used": "%1$s¡Ya tienes un efecto de energía activado!",
       "haste": "%1$sPrisa activado por 2 minutos.",
@@ -48,8 +48,8 @@
       "pill": "%1$s¡Tomaste una pastilla de waifu! (Activada por 5 sesiones)",
       "pill_used": "%1$s¡Ya tienes una pastilla de waifu activada!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$sNecesitas una crate key para abrir una crate. Puedes comprar una usando `~>buy key`",
+        "no_crate": "%1$sNecesitas una crate! Normalmente se consiguen usando comandos de economía.",
         "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
@@ -57,38 +57,38 @@
       "potion_not_found": "%1$s¡No puedo encontrar esa poción o tipo de equipamiento!",
       "potion_applied": "%1$sCorrectamente apliqué el efecto **%2$s** de tipo *%3$s* (%4$dx). Puedes ver tu efectos en `~>profile stats`",
       "potion_applied_multiple": "%1$sCorrectamente apliqué el efecto **%2$s** de tipo *%3$s*.\nYa tenías este efecto aplicado, así que lo stackeamos. Actual tamaño del stack: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
+      "max_stack_size": "%1$sHas apilado la cantidad máxima de %2$s permitida para ti. (Máximo: 15, Después de apilar: %3$s)",
+      "max_stack_size_2": "%1$sNo puedes apilar tantos %2$s. (Máximo: 15, Intentaste: %3$s)",
       "not_same_potion": "%1$sYa tienes una poción de tipo %2$s stackeada y activa, así que no puedes stackear una poción de tipo %3$s encima de ella."
     },
     "campaigns": {
       "premium": {
         "generic_sellout": "Necesitamos tu ayuda para mantener a Mantaro viva y para mejorar sus servidores!\nPuedes conseguir bonos increíbles y hasta **el doble de creditos con Mantaro Premium**! Membresías empiezan en $2 por mes. Puedes conseguir más información en <https://patreon.com/mantaro>. Ayudanos a correr la voz también :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "daily_sellout": "¡Necesitamos tu ayuda para mantener a Mantaro en pie!\nPuedes obtener maravillosas ventajas y **créditos diarios duplicados**, ¡también tendrás acceso al comando `~>dailycrate`! \nLas membresías cuestan solo $2 al mes, para mas información, visita <https://patreon.com/mantaro>.",
+        "thanks_message": "Gracias por ayudar a Mantaro. Sin la ayuda de gente como tú no podríamos mantener a Mantaro vivo :heart:",
+        "thanks_message_daily": "Gracias por ayudar a Mantaro. Sin tu ayuda no podríamos mantener en pie a Mantaro :heart:\n¡También obtienes créditos duplicados como bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "¿Sabías que tenemos una cuenta de Twitter? ¡Definitivamente! Síguenos en (arroba)mantarodiscord <https://twitter.com/mantarodiscord> para actualizaciones y cosas divertidas."
     },
     "mention_user_required": "%1$sNecesitas mencionar un usuario.",
     "invalid_character": "%1$sEse no es un carácter válido.",
     "invalid_action": "Hey, no puedes hacer eso!",
     "interactive_running": "%1$sYa hay una operación interactiva (empezada por tí) en este canal.",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_react": "Usa las reacciones del mensaje para moverte entre páginas.\n%1$s",
+    "buy_sell_paged_text": "Usa **&p >>** y **&p <<** para moverte entre páginas\n%1$s",
     "buy_sell_paged_reference": "**Referencia %1$s Compra %2$s Venta.**",
     "cancelled": "%1$sOperación cancelada.",
     "sellout": "Considera donar en patreon.com/mantaro si te gusta como soy, ¡hasta una donación pequeña nos ayuda a mantener el bot vivo!",
     "deprecated": "Ya no se usa",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "Si el nombre contiene espacios, intenta \"ponerlo entre comillas\". Probablemente la ayuda del comando te pueda decir más.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Podrás usar este comando en %3$s.**",
-      "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
+      "spam_1": "Por favor descansa, es bueno para tu salud. **¡Recuerda que el limite de tarifa seguirá incrementando si lo intentas antes de que el tiempo de espera se reinicie!**",
       "spam_2": "\nCreo que la mejor opción sería tomar un descanso...",
-      "spam_3": "\nWouldn't it be better if you just go outside for a bit?",
-      "spam_4": "\nIs this thing even on?"
+      "spam_3": "\n¿No sería mejor si fueras afuera un rato?",
+      "spam_4": "\n¿Acaso está encendida esta cosa?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "Si lo deseas, únete a nuestro **servidor de soporte** (`https://support.mantaro.site`), o mira nuestra página de GitHub (`https://github.com/Kodehawa/MantaroBot`). ¡Por favor diles que dejen de romperme y no olvides el código de error, el comando que usaste, y tu nodo (Visto en `~>shard`) cuando reportes!",
     "boom_quotes": [
       "Parece que Megumín explotó nuestro castillo...",
       "Uh-oh, parece que mi dueño olvidó unos unos y ceros en el suelo :<",
@@ -136,7 +136,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sEl sol se pone, y tu tarro para recolectar pescados solo logró acumular polvo. (Dust level: %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "no_rod": "%1$sNo tienes ninguna caña de pescar equipada. Usa `~>equip <nombre de la caña>` para equiparte una y empezar tu sesión de pesca! Si no tienes ninguna caña, usa `~>buy rod`",
       "trash": {
         "overflow": "%1$sEncontraste un poco de basura pescando, pero tu inventario está lleno, asi que no puedes recogerla...",
         "success": "%1$sMientras pescabas calmadamente, encontraste %2$s flotando, pero parece que solo es un poco de basura... :("
@@ -151,15 +151,15 @@
       "autoequip": {
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de pesca."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
+      "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no pudiste recogerlos y los devolviste al agua.",
       "success": "%1$s Mientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro.",
-      "success_money": "%1$s Mientras pescabas calmadamente, encontraste %2$s y **$%3$d créditos** y los guardas en tu tarro.",
+      "success_money": "%1$sMientras pescabas calmadamente, encontraste %2$s y **$%3$d créditos** y los guardas en tu tarro.%4$s",
       "success_money_noitem": "%1$s Mientras pescabas calmadamente, encontraste **$%2$d créditos** y los guardas en tu bolsillo.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :(",
       "waifu_help": "Tu waifu te vino a ayudar en tu aventura de pesca y ambos colectan más loot!",
       "not_suitable": "%1$sNo puedes usar esto para pescar.",
       "shark_success": "%1$sDe alguna manera, capturaste un tiburón. Que caña más bonita, ¿no?",
-      "fossil_success": "%1$sCapuraste un fosil mientras pescabas. Esto podría tener un valor alto, o servir para castear, quien sabe.",
+      "fossil_success": "%1$sCapturaste un fósil mientras pescabas. Esto podría tener un valor alto, o servir para castear, quien sabe.",
       "bait": "El pescado agarró tu presa mientras pescabas.",
       "missing_equipped": "%1$sTenías una vara de pescar %2$s equipada, pero ya no la tienes en tu inventario! La vara de pescar equipada ha sido reiniciada.",
       "broken_drop": "%1$sTu vara de pescar se ha roto, pero puedes repararla. Obtienes el item roto: %2$s *%3$s*",
@@ -223,7 +223,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$sNo he podido conectarme a %2$s: tiempo de espera para la conexión agotado. Intenta cambiar la región del servidor y usando el comando nuevamente.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$sNo he podido conectarme a %2$s: error desconocido."
       },
       "not_working": "%1$sLa música no está funcionando actualmente debido a que Youtube bloquea el trafico de los bots grandes. Nuestro bot de Patreon aún está funcionando, lo puedes probar si quieres donando $4 al mes a Mantaro. Esto también nos ayuda a redireccionar nuestros esfuerzos en arreglar los comandos de música.\nPor favor revisa <https://patreon.com/mantaro>\n\nLo sentimos por las inconveniencias. Intenta usar la búsqueda de soundcloud! (`~>play soundcloud <término de búsqueda>)`",
       "no_song": "%1$sNecesitas decirme que canción quieres que reproduzca. *(Puedes darme un link de youtube, soundcloud, twitch (premium solamente) o un término de búsqueda)*",
@@ -234,22 +234,22 @@
       "not_connected": "%1$sNo estás conectado al canal de voz donde estoy reproduciendo música actualmente! (Si crees que esto es un error, favor reportar en el servidor de soporte)",
       "np_message": "%1$s Ahora reproduciendo **%2$s** (%3$s) en **%4$s** | %5$s",
       "track_error": "%1$sAlgo salió muy mal mientras intentaba reproducir esta canción! Lo siento por los inconvenientes, Intentaré reproducir la próxima canción de la cola si es que hay alguna disponible.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "queue_finished": "%1$sHe terminado de reproducir la lista! Espero que la hayas disfrutado :heart:",
       "soundcloud_no_args": "%1$sNecesitas darme el nombre de la canción! No puedo adivinarla...",
       "too_many_errors": "%1$sMuchos errores en esta sesión, parando el reproductor...",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sNecesitas darle al bot el permiso de Insertar Enlaces para que se muestre el menú de selección. Si quieres saltarte el menú, usa `~>forceplay`, que reproducirá el primer resultado.",
       "no_vc_found": "%1$sNo estoy conectado a ningún canal de voz siendo que debería estar en uno. Inténtalo de nuevo.",
       "queue": {
-        "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
+        "header_field": "Instrucciones",
+        "header_noreact": "Usa `&p >>` y `&p <<` para moverte entre páginas.",
         "no_track_found_np": "Nada o título/duración no encontrado.",
         "header": "Cola para el servidor %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
+        "nothing_playing": "Nada por aquí, solo polvo. ¿Por qué no pones algunas canciones en la cola?\nSi crees que hay canciones por aquí pero no aparecen, intenta usar `~>queue 1`",
         "nothing_playing_2": "**Si hay una canción reproduciendose y no has añadido más, entonces solamente hay polvo por aquí. Puedes poner más canciones en la cola a tu antojo!**",
         "np": "Reproduciendo actualmente",
-        "dj_np": "**Queued by:** ",
-        "page_overflow": "Nada aquí, solo polvo. ¿Por qué no vas algunas páginas para atrás?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "dj_np": "**Puesto en cola por:** ",
+        "page_overflow": "Nada aquí, solo polvo. ¿Por qué no vas algunas páginas atrás?",
+        "page_overflow_2": "Si crees que hay canciones en esta cola pero no aparecen, intenta usar `~>queue 1`",
         "total_queue_time": "Tiempo total de la cola",
         "total_size": "Tamaño de la cola",
         "togglers": "Repetición / Pausa",
@@ -261,13 +261,13 @@
         "songs": "canción(es)",
         "clear_error": "%1$sO no estás conectado a un VC o no eres un DJ.",
         "clear_success": "%1$sHe limpiado la cola actual correctamente. El tamaño de la cola era %2$s",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "no_embed": "%1$sNecesitas darle al bot el permiso de Insertar Enlaces para que se vea la lista."
       },
       "connect": {
         "success": "%1$sConectado al canal de voz **%2$s**!",
         "full_channel": "%1$sNo puedo conectarme a ese canal de voz porque está lleno!",
         "non_existent_channel": "%1$sRecibí un canal de voz no existente como respuesta. Si bloqueaste el bot en un solo canal de voz y después eliminaste ese canal, esa podría ser la causa.\nReseteé el canal de voz por tí, intenta reproducir la canción denuevo.",
-        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
+        "user_no_vc": "%1$s**Por favor únete a un canal de voz**. Si estás en un canal de voz y el bot se desconectó, solo debes desconectarte y volver a unirte al canal.",
         "missing_permissions_connect": "%1$sNo puedo conectarme a ese canal de voz porque me faltan permisos (%2$s).",
         "missing_permission_speak": "%1$sNo puedo hablar en ese canal de voz porque me faltan permisos (%2$s).",
         "channel_locked": "%1$sSólo puedo reproducir música en el canal de voz **%2$s**!",
@@ -284,11 +284,11 @@
         "over_limit": "%1$sLa cola que agregaste tiene más de %2$d canciones, así que agregué canciones hasta el límite e ignoré el resto.",
         "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `~>play soundcloud <término de busqueda>` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
-        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
+        "error_loading": "%1$sHubo un error buscando música: %2$s. Intenta denuevo o prueba otro link?",
+        "over_queue_limit": "%1$s**No lo he podido poner en la cola `%2$s`: El límite de canciones en cola ha sido sobrepasado (%3$s)**",
+        "over_32_minutes": "%1$s**No lo he podido poner en cola `%2$s`: Audio mayor a %3$s.** (Longitud de canción reportada es de %4$s). ¡Puedes obtener una extensión de audio y reproducción en directo con Mantaro Premium! Mira <https://patreon.com/mantaro> para mas información.",
         "fair_queue_limit_reached": "%1$s**Sobrepasado el nivel de fair queue para %2$d (Muchas canciones que son exactamente iguales)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
+        "loaded_song": "%1$sAñadido a cola -> **%2$s** *(%3$s)*",
         "selection_text": "Cuadro de selección de canciones. Escribe el número que precede al nombre de la canción para continuar.",
         "timeout_text": "Esta operación expira en 30 segundos. Escribe &cancel para cancelar la operación."
       },
@@ -304,7 +304,7 @@
     },
     "pause": {
       "paused": "Reproductor pausado. *(El reproductor no estaba pausado)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "unpaused": "Reproductor resumido. *(El reproductor estaba pausado)*"
     },
     "rewind": {
       "no_time": "%1$sNecesitas decirme cuanto quieres rebobinar la canción. *(Ejemplo: `~>rewind 1m45s` rebobinará la canción por 1 minuto y 45 segundos)*",
@@ -321,7 +321,7 @@
       "success": "%1$sAdelanté la canción a %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$sNo estás en un canal de voz, o el bot no está en uno.",
       "attempt": "%1$sIntentaré moverme al canal de voz donde te encuentras",
       "error_moving": "%1$sNo pude moverme al canal de voz :(.",
       "cannot_connect": "%1$sImposible conectarse: No tengo permiso para hablar en ese canal o no tengo permiso para moverme ahí.",
@@ -330,7 +330,7 @@
       "vc_not_found": "%1$sNo he podido encontrar el canal de voz o no lo especificaste!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Estoy en el shard %1$d / %2$d* (Nodo %3$d / %4$d)\n\n**Servidores del Shard:** %5$,d servidores\n**Usuarios en Caché:** %6$,d usuarios\n**Miembros en Caché:** %7$,d miembros\n\nSi necesitas ayuda, anda a <https://support.mantaro.site>. Gracias por usar Mantaro!"
     },
     "queue": {
       "clear": {
@@ -380,11 +380,11 @@
       "cleanup": "%1$sSe han eliminado **%2$d cancion(es)** de la cola."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$sNo hay nada reproduciéndose aquí.",
       "check": "%1$sEl volumen de esta sesión de musica es: %2$d\n\n%3$s",
       "success": "%1$sVolumen ajustado a %2$d\n\n%3$s",
       "no_args": "%1$sNecesitas decirme a que volumen deseas escuchar la música (5 a 100)",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$sEsta es una función solo para premium. Para obtener beneficios premium como este, puedes revisar patreon (https://www.patreon.com/mantaro). Gracias por entender. \nLos beneficios premium pueden ser enlazadas tanto a un usuario como a un servidor, por favor, si donas, únete al servidor de ayuda y pide el enlazamiento."
     },
     "lyrics": {
       "no_current_track": "%1$sNo hay ninguna canción reproduciéndose en este servidor!",
@@ -393,7 +393,8 @@
       "footer": "Gracias por usar Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). `%3$s`. \nPuedes cambiar el prefijo usando `~>opts prefix set <prefijo>` No incluyas los <>.\nPara limpiar el prefijo del servidor usa `~>opts prefix clear`\nSi tienes alguna pregunta, puedes ir a <https://support.mantaro.site>",
+      "guild_prefix": "El prefijo del servidor es `%1$s` (sólo funciona en este servidor)",
       "none": "No hay un prefijo customizado en este servidor."
     },
     "custom": {
@@ -411,7 +412,7 @@
         "description": "**Esto muestra todos los comandos personalizados (creados por usuarios) de este servidor.** Estos comandos sólo funcionarán en el servidor actual.\n\nLos comandos personalizados son comandos creados por usuarios (normalmente administradores del servidor) los cuales pueden manejar una gran cantidad de situaciones, incluso pudiendo simular comandos de acción.\nPara más información sobre crear comandos personalizados, revisa [esta página de la wiki.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Listado:**",
         "footer": "Total de comandos personalizados para este servidor: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sSelección invalida. Puede que quieras darle una mirada a la wiki <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
         "invalid": "%1$sNecesitas especificar el comando y el número de la respuesta!",
         "not_found": "%1$sNo hay un comando personalizado con ese nombre aquí!",
@@ -420,19 +421,19 @@
       },
       "raw": {
         "no_command": "%1$sNecesitas decirme cual comando quieres mirar.",
-        "not_found": "%1$sI can't find that command.",
+        "not_found": "%1$sNo puedo encontrar el comando.",
         "header": "Comando personalizado \"%1$s\":",
         "amount": "(Mostrando %1$d respuestas, de un total de %2$d)",
         "description": "Este es un listado de todas las respuesta de este comando en un formato sin procesar (lo que ingresas en el comando)."
       },
       "clear": {
-        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
+        "success": "%1$s**He limpiado %2$d Comandos Personalizados**. Comandos bloqueados/fijados no fueron eliminados, desbloquéalos antes si quieres borrarlos."
       },
       "make": {
         "start_text": "%1$sIniciada **\"Creación de comando personalizado: `%2$s`\"**!\nEnvía `&~>stop` para parar la creación **sin guardar**.\nEnvía `&~>save` para parar la creación del comando y **guardarlo**. Envía cualquier texto que empieze con `&` para que sea añadido a las respuestas del comando.\nEsta operación terminará sin guardar después de 60 segundos de inactividad.",
         "cancel": "%1$sCreación de comando personalizado cancelada.",
         "no_responses_added": "%1$sNo se añadieron respuestas. Saliendo de la operación sin guardar...",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$sGuardado en comando personalizado `%2$s`",
         "no_name_specified": "%1$sNo especificaste el nombre del comando personalizado a crear!"
       },
       "eval": {
@@ -442,7 +443,7 @@
       },
       "remove": {
         "no_command": "%1$sNecesitas decirme qué comando quieres eliminar.",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "success": "%1$sHe eliminado el comando personalizado `%2$s`"
       },
       "import": {
         "no_command": "%1$sNecesitas decirme qué comando quieres importar.",
@@ -465,7 +466,7 @@
         "invalid_number": "%1$sNecesitas especificar un numero válido para editar.",
         "no_index": "%1$sNo puedes eliminar un índice no existente.",
         "not_enough_args": "%1$sNecesitas especificar el comando y el índice de lo que quieres eliminar.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
+        "no_responses_left": "%1$sNo quedaban respuestas en este comando, así que lo eliminé.",
         "success": "%1$sRespuesta **#%2$d** del comando `%3$s` eliminada correctamente"
       },
       "rename": {
@@ -476,18 +477,18 @@
         "not_enough_args": "%1$sNecesitas especificar el nombre del comando y la respuesta del comando que quieres añadir.",
         "empty_content": "%1$sNecesitas especificar el contenido de este comando personalizado",
         "success": "%1$sHe guardado el comando personalizado `%2$s` exitosamente!",
-        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
+        "too_many_responses": "%1$sHay muchas respuestas (%2$s) en este comando. El límite es el doble (hasta 100) para servidores premium (Revisa <https://patreon.com/mantaro>)",
         "too_many_commands": "%1%sHay demasiados comandos en este servidor, por lo que no puedes agregar más (+100). Este límite puede ser sobrepasado en guilds premium (revisa <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
-        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
-        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "no_permission": "%1$sNecesitas el permiso de Configurar Servidor para bloquear y desbloquear comandos.",
+        "no_command": "%1$sDebes especificar el comando que deseas bloquear.",
+        "success": "%1$sEl comando `%2$s` ha sido bloqueado. Deberás desbloquearlo para realizar ediciones más adelante."
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
-        "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "no_command": "%1$sDebes especificar el comando que deseas desbloquear.",
+        "not_locked": "%1$sEste comando no está bloqueado.",
+        "success": "%1$sEl comando `%2$s` ha sido desbloqueado. Deberás bloquearlo para evitar ediciones más adelante."
       },
       "character_not_allowed": "%1$sEste carácter no está habilitado para ser usado en los nombres de comandos personalizados.",
       "already_exists": "%1$sEl comando `%2$s` ya existe y es un comando predeterminado del bot.",
@@ -499,7 +500,7 @@
       "invalid_string": "%1$sLa cadena de carácteres `{%2$s}` no es válida, o la salida sería mayor de 2000 carácteres.",
       "invalid_json": "%1$sLa cadena de carácteres `{%2$s}` no es un JSON válido.",
       "invalid_link": "%1$sLa cadena de carácteres `%2$s` no es un link válido.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$sNo puedes editar o eliminar este comando mientras esté bloqueado, por favor utiliza `~>custom unlockcommand <command name>` para desbloquearlo."
     },
     "mute": {
       "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder mutear!",
@@ -511,7 +512,7 @@
       "time_not_specified": "%1$s¡Especificaste el parametro para agregar tiempo pero no pusiste por cuanto!",
       "negative_time_notice": "%1$sNo creo que sea posible mutear a alguien por tiempo negativo...",
       "default_time_too_long": "%1$sEl tiempo de muteo por defecto es muy largo (Máximo: 10 días)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
+      "time_too_little": "%1$sLa duración por defecto del muteo es menos de 10 segundos.\n¿Estas seguro/a de que usaste el formato correcto? Para 20 minutos, usa 20m, para 1 hora, usa 1h, o cualquier combinación de ambos (1h45m), por ejemplo.",
       "time_too_long": "%1$sEl tiempo especificado es muy largo (Máximo: 10 días)...",
       "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
       "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
@@ -540,12 +541,12 @@
         "Pang.",
         "Pung.",
         "Peng.",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "Me pregunto como estuve",
+        "¿Algún problema?",
+        "Ping-Pong? Yay!",
+        "U-Uh... h-holi"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Mi ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$sNecesitas mencionar al menos un usuario.",
@@ -559,52 +560,52 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
+        "no_letter": "%1$sNo tienes letras de amor en tu inventario, asi que no tienes nada en que escribirla. Una se te da cuando te casas.",
         "empty": "%1$sNo puedes dejar la carta de amor vacía.",
         "no_marriage": "%1$sNo estás casado/a, y no puedes escribirte una carta de amor a ti mismo...",
         "not_proposing_player": "%1$s¡No eres el jugador que propuso este casamiento!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
+        "already_done": "%1$sEste casamiento ya tiene una carta de amor asignada. Revisala usando `marry status`",
         "too_long": "%1$sEsta carta de amor es muy larga (500 carácteres máximo)",
         "cannot_see": "%1$sNo puedo encontrar al usuario con el que estás casado/a... Probablemente no está en ningun servidor donde me encuentro.",
         "confirmation": "%1$sEstás *seguro* que quieres escribir esta carta de amor para tu casamiento con **%2$s#%3$s**? Esto es PERMANENTE mientras el casamiento esté en pie. *Contenido de la carta:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
+        "confirmed": "%1$s¡Le he enviado la carta correctamente a tu pareja! Revisala usando `marry status`",
         "scrapped": "%1$sAún tienes tiempo para pensar en que escribirle, no es necesario apurarse :)"
       },
       "status": {
         "no_marriage": "%1$sNo estás casado asi que asumo que tu estado es... \"soltero\"",
         "header": "Estado actual del casamiento",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$sCasamiento entre **%2$s** y **%3$s**",
         "date": "Fecha de casamiento",
         "love_letter": "Carta de amor",
         "waifus": "Waifus",
-        "house": "House Name",
-        "car": "Car Name",
-        "pet": "Pet Name (Type)"
+        "house": "Nombre de la Casa",
+        "car": "Nombre del Auto",
+        "pet": "Nombre de la Mascota (Tipo)"
       },
       "timezone": {
-        "no_content": "%1$sYou need to specify what timezone you want this marriage to track.",
-        "invalid": "%1$sNot a valid timezone or Zone ID.",
-        "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
+        "no_content": "%1$sDebes especificar que zona horaria desea ver este matrimonio.",
+        "invalid": "%1$sZona horaria o número de zona inválido.",
+        "success": "%1$sLa zona horaria del matrimonio ha sido fijada a %2$s. La hora de la mascota será igual a la del matrimonio."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sNo estás en un matrimonio."
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
-        "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
-        "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
-        "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "not_married": "%1$sSolo puedes comprar una casa cuando estás en un matrimonio. Esto podría cambiar en el futuro.",
+        "no_house": "%1$sNecesitas una casa en tu inventario. Usa `~>buy house` para obtener una.",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar una casa. (Precio actual de la casa: %2$d créditos)",
+        "no_name": "%1$s¡Necestias a darle un nombre a esta casa! Por ejemplo, `~>marry house cozy house`",
+        "confirm": "%1$s¿Estás seguro de que quieres comprar esta casa? La cantidad de dinero removida de tu billetera será %2$d y el nombre que diste a tu casa es %3$s. Escribe `yes` (si) para confirmar o `no` (no) para cancelar.",
+        "success": "%1$sHas comprado una casa por %2$d exitosamente. El nombre de tu acogedor hogar es %3$s, ¡disfruta!",
+        "cancel_success": "%1$sAcción cancelada."
       },
       "buycar": {
-        "no_car": "%1$sYou need to buy a car first! Use `~>buy car` to get one.",
-        "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
-        "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
-        "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
-        "cancel_success": "%1$sCancelled operation."
+        "no_car": "%1$s¡Debes comprar un auto primero! Usa `~>buy car` para comprar uno.",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar un carro. (Precio actual del carro: %2$d créditos)",
+        "no_name": "%1$s¡Tienes que darle un nombre a tu auto! Por ejemplo, `~>marry car vroom`",
+        "confirm": "%1$s¿Estás seguro de que quieres comprar este carro? La cantidad de dinero retirada de tu billetera será de %2$d y el nombre que has dado a tu carro es %3$s. Escribe `yes` (si) para confirmar o `no` (no) para cancelar.",
+        "success": "%1$sHas comprado un carro por %2$d exitosamente. El nombre de tu rápido vehículo es %3$s, ¡disfruta!",
+        "cancel_success": "%1$sAcción cancelada."
       },
       "no_mention": "%1$sMenciona al usuario con el que te quieras casar.",
       "marry_yourself_notice": "%1$sNo puedes casarte contigo mismo, por más que lo desees.",
@@ -612,18 +613,18 @@
       "already_married_receipt": "%1$sYa estás casado con él/ella, aww.",
       "already_married": "%1$sYa te encuentras casado/a.",
       "receipt_married": "%1$sEse usuario ya está casado/a.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$s¡No puedes proponerte sin dos anillos de casamiento! Puedes comprarlos ejecutando `~>buy 2 ring` y luego intenta proponerte denuevo <3",
       "confirmation": "%1$s%2$s, escribe **yes** o **no** para responder a la proposición de matrimonio de %3$s\n%4$sEsto expira en 2 minutos.",
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
       "accepted": "%1$s**%2$s#%3$s** ha aceptado la proposición de %4$s#%5$s!",
       "denied": "%1$sLa proposición de `%2$s` fue negada :("
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
-      "cancelled": "%1$sCancelled divorce.",
+      "confirm": "%1$s¿Seguro que quieres acabar con este matrimonio? El dinero gastado en mascotas, carros y casas, será dividido en dos. Escribe `yes` (si) para confirmar o `no` (no) para cancelar. **Tu mascota desaparecerá, ya que es parte del casamiento**",
+      "cancelled": "%1$sDivorcio cancelado.",
       "not_married": "%1$sNo estás casado con nadie, ¿Por qué no encuentras a ese alguien especial?",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
+      "success": "%1$sAhora estás soltero. Eso es bueno... ¿creo?\n%2$s",
+      "split": "El dinero que quedó fue dividido en dos partes vendiendo sus bienes (mascota, casa, carro). Cada uno obtuvo **%1$d** en su billetera."
     },
     "waifu": {
       "bot": "%1$sUn bot no puede ser tu waifu, por más que lo desees...",
@@ -656,20 +657,20 @@
         "player_locked": "%1$sNo puedes hacer eso en este momento.",
         "scrapped": "%1$sHas decidido no remover tu waifu.",
         "success": "%1$sWaifu **%2$s** removida correctamente por el precio de **%3$s créditos**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
+        "not_found": "%1$sNo puedo encontrar ningún usuario con este término de búsqueda. Si necesitas unclaimear a un usuario desconocido, usa su ID (`~>waifu -id`) y pon `-unknown` al final del comando."
       },
       "buyslot": {
         "locked": "%1$sNo puedes realizar esta acción en este momento.",
         "not_enough_money": "%1$sNo tienes suficiente dinero para comprar más espacios! Necesitas %2$d créditos.",
         "success": "%1$sCompraste correctamente este espacio por %2$s, en este momento tienes %3s espacios totales y %4$s espacios disponibles.",
-        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
+        "too_many": "%1$s¡Ya tienes muchos slots! El máximo es de 30 slots."
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "notice": "%1$sDecidiste salir del sistema de waifus, así que no puedes hacer uso de esto.",
+        "warning": "%1$s¿Quieres salir del sistema de waifus? ESO ES PERMANENTE Y NO PUEDE SER REVERTIDO. Enserio. \nSi solamente quieres salir de nuevas reclamaciones y quieres uar el sistema de waifus de manera convencional, por favor mejor usa `~>profile claimlock`.\nNo serás capaz de reclamar o de ser reclamado, y todas las reclamaciones serán removidas.\nEscribe `Yes, I want to opt out of the waifu system completely and irreversibly` (Sí, quiero salir del sistema de waifus completamente e irreversiblemente) o `no` (no).",
+        "success": "%1$sHas salido exitosamente del sistema de waifus.",
+        "cancelled": "%1$sAcción cancelada.",
+        "claim_notice": "%1$sEl usuario que intentas claimear salió del sistema de waifus."
       },
       "header": "Lista Waifu",
       "description_header": "Aquí está la lista de tus queridas waifus, ordenadas por fecha.\n*Puedes tener un máximo de %1$d waifus en este momento.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
@@ -691,31 +692,31 @@
     },
     "coinflip": {
       "over_limit": "%1$sEspera! El límite es de 1000 vueltas de la moneda",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
+      "no_repetitions": "%1$sNecesitas especificar un número entero para la cantidad de repeticiones (Por ejemplo, `~>roll 100`)",
       "success": "%1$s Tu resultado por **%2$d** veces sacó **%3$d** caras y **%4$d** sellos"
     },
     "inventory": {
       "bot_notice": "%1$sAqui los bots no tienen inventario. Bueno, a veces uno desea que tuvieran uno, pero en ese caso solo sería un `~>market dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
+      "brief": "**Colección de ítems de %1$s** %2$s\n\n*Para una versión detallada, usa `~>inventory -info`. ¡Disfruta tu día!*",
       "calculate": "%1$s%2$s conseguirá **%3$d creditos** si vende todos los items!",
       "header": "Inventario de %1$s",
       "format": "**Precio**: 📥 %1$d 📤 %2$d\n%3$s",
       "empty": "%1$sEste inventario está vacío! :(",
       "brief_notice": "Puedes usar `~>inventory -brief` para ver una versión mas compacta.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(ordenado por: %1$s)*"
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
+      "no_item_specified": "%1$sNo especficiaste ningún item. Para una lista, revisa `~>cast ls`",
+      "no_item_found": "%1$sNo encontré ningún item con esa búsqueda. Si el nombre del ítem tiene espacios, ponlo \"entre comillas\". Asegúrate de poner el nombre completo del ítem para evitar errores, o usa el nombre del emoji si puedes. Por ejemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sNo puedes crear este item. Revisa `~>cast ls` para una lista de items creables.",
       "not_enough_money": "%1$sNo tienes suficiente dinero para crear este item. **(Costo: %2$s)**",
       "no_item": "%1$sNo tienes el item necesario (*%2$s*) para proceder con la creación de este ítem.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
+      "not_enough_items": "%1$sNo tienes suficiente del ítem *%2$s* para proceder. **(Necesitas: %3$s, Tienes: %4$s)**\n¿No es el ítem que intentaste castear? Si el nombre del ítem tiene espacios, ponlo \"entre comillas\" o usa el emoji.",
       "success": "%1$sCreaste *%2$s %3$s* por %4$s créditos. *Receta usada: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
+      "no_tool": "%1$sTienes que tener un %2$s para castear esto. Recuerda: Necesitas tener dos llaves inglesas del mismo tipo para castear.",
       "item_broke": "Lamentablemente, tu llave inglesa se rompió, pero lograste crear el item.",
       "too_many": "%1$sTendrías mas de 5000 unidades de este item si procedes. ¿Intenta crear menos de este objeto?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
+      "low_tier": "%1$sNecesitas al menos una llave inglesa de tier 2 (a lo menos Comet Wrench) para castear más de un ítem por comando. Actualmente tienes una llave inglesa de tier %2$s.\nRecuerda: Necesitas tener dos llaves inglesas del mismo tipo para castear.",
       "not_enough_wrench_level": "%1$sTu llave inglesa no es lo suficientemente poderosa para crear este ítem. Intenta especificar una más poderosa. *Nivel de la llave inglesa: %2$s, Nivel Requerido: %3$s*. Por ejemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "too_many_amount": "%1$sNo puedes crear tantos de ese item de una sola vez! Limite: %2$s, Intento: %3$s. Una llave inglesa de sparkle hace que el limite sea el doble! A menos que ya estés usando una.",
       "ls": {
@@ -736,14 +737,14 @@
         "success": "%1$sHe enviado %2$dx **%3$s %4$s** a la basura!"
       },
       "price": {
-        "no_item": "%1$sYou need to specify the item you want to check the price of.",
+        "no_item": "%1$sNecesitas decirme cuál es el ítem del que quieres ver el precio.",
         "non_existent": "%1$sNo puedo revisar el precio de un item inexistente!",
         "no_price": "%1$sEste item no está disponible para compra-venta (¿Podría ser un coleccionable exclusivo?)",
         "collectible": "%1$sEste es un ítem coleccionable. (Valor de venta: %2$d créditos)",
         "success": "%1$sEl valor de %2$s**%3$s** es %4$s créditos si lo compras, y podrías obtener %5$s creditos si lo deseas vender."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "Puedes usar `~>sell` ahora. Por ejemplo, en lugar de `~>market sell pick` puedes usar `~>sell pick`. Por favor usa los comandos nuevos.",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (si es solo uno, no tendrás que especificar la cantidad) y el item que deseas vender.",
         "invalid": "%1$sEse no es un número válido de items para vender.",
         "all": {
@@ -758,19 +759,19 @@
         "success": "%1$sHas vendido %2$,d **%3$s** y obtuviste %4$,d créditos!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "Puedes usar `~>buy` ahora. Por ejemplo, en lugar de `~>market buy pick` puedes usar `~>buy pick`. Por favor usa los comandos nuevos.",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (Si es solo uno, no necesitas especificar la cantidad) Y el item que deseas comprar.",
         "invalid": "%1$sEse no es un número valido de items para comprar.",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
+        "non_existent": "%1$sNo puedes comprar un ítem que no existe. Si estás perdido/a, intenta usar el nombre corto o pon el nombre \"entre comillas\". También ten en cuenta que el monto va antes del nombre, por ejemplo: `~>buy 15 energy`",
         "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
-        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
+        "item_limit_reached": "%1$sNo puedes comprar más de ese ítem. El máximo de ítems es de 5000 por stack.",
         "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
+        "success_breakable": "%1$sHas comprado %2$,d%3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `~>equip <item name>`",
+        "success_potion": "%1$sHas comprado %2$,d%3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buffeo usando `~>useitem <item name>`",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos."
       },
       "header": "La tiendita de Mantaro",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\nPuedes comprar y vender items usando `~>buy <item>` y `~>sell <item>`. Revisa `~>help market` para maś información. Además, puedes ver listas categorizadas ahí, tal como `~>market tools`",
       "sell_price": "- **Precio de venta:**",
       "buy_price": "- **Precio de compra:**"
     },
@@ -779,19 +780,19 @@
       "bot_notice": "%1$sNo puedes transferirle items a un bot.",
       "locked_notice": "%1$sNo puedes transferir items ahora.",
       "hidden_item": "%1$sNo puedes transferir este item!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
+      "overflow": "%1$sEste jugador tiene el máximo (5000) de este ítem.",
+      "overflow_after": "%1$sDespués de transferir este ítem, el jugador tendría más del monto máximo (5000) de este ítem.",
       "success": "%1$s%2$s le dió **%3$s** **%4$s** a %5$s",
       "multiple_items_error": "%1$sNo tienes ninguno de estos items en tu inventario.",
       "error": "%1$sNo tienes suficientes items!",
       "no_item_mention": "%1$sNecesitas especificar a quién transferirle el ítem y el ítem que deseas transferirle."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sTu cuenta debe tener al menos 7 días para transferir cŕeditos.",
+      "new_account_notice_other": "%1$sLa cuenta a la que le estas transfiriendo debe tener al menos 7 días de antigüedad.",
       "transfer_yourself_note": "%1$sNo puedes transferirte créditos a ti mismo.",
       "bot_notice": "%1$sNo puedes transferirle créditos a un bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
+      "no_amount": "%1$sNecesitas especificar el monto. Usa el comando `transferitems` si quieres transferir ítems.",
       "no_money_specified_notice": "%1$sNo puedes mandar 0 créditos :P",
       "over_transfer_limit": "%1$sNo puedes transferir tantos créditos. (Límite: %2$d créditos)",
       "own_locked_notice": "%1$sNo puedes transferir créditos ahora.",
@@ -874,9 +875,9 @@
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
+        "not_specified": "%1$sNecesitas especificar la zona horaria. Una zona horaria válida puede ser, por ejemplo, `GMT-3` o `America/Chicago` (ZoneId).",
         "reset": "%1$sTu zona horaria fue correctamente limpiada de tu perfil.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
+        "invalid": "%1$sZona horaria inválida. Una zona horaria válida puede ser, por ejemplo, `GMT-3` o `America/Chicago` (ZoneId). Normalmente puedes ver en que zona horaria estás buscando \"cual es mi zona horaria?\"",
         "success": "%1$sZona horaria guardada. La zona horaria en tu perfil ahora es: **%2$s**",
         "reset_success": "%1$sTu zona horaria fue reiniciada correctamente."
       },
@@ -888,7 +889,7 @@
         "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$sNecesitas especificar el trofeo a mostrar. Por ejemplo, `~>profile displaybadge claimer`",
         "reset_success": "%1$sNo se mostrará ningún trofeo en tu perfil desde ahora.",
         "important_success": "%1$sSe mostrará el trofeo más importante (por jerarquía) en tu perfil desde ahora.",
         "no_such_badge": "%1$sEse trofeo no existe...\nTus trofeos: %2$s",
@@ -902,8 +903,12 @@
         "invalid": "%1$s¡Ese idioma no existe! Puedes usar `reset` para resetear tu configuración de idioma."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$sEste tipo de orden no es válido. Tipos disponibles: `%2$s`",
+        "success": "%1$sHe cambiado el orden de tu inventario, ahora es: **%2$s**"
+      },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
       },
       "stats": {
         "header": "Estadísticas del perfil para %1$s",
@@ -916,7 +921,7 @@
         "experience": "Experiencia",
         "mine_xp": "Experiencia En La Mina",
         "fish_xp": "Experiencia En La Pesca",
-        "chop_xp": "Chopping Experience",
+        "chop_xp": "Experiencia Cortando Árboles",
         "sharks_caught": "Tiburones Capturados",
         "crates_open": "Crates Abiertos",
         "times_mop": "Veces Limpiado",
@@ -976,7 +981,7 @@
         "disable": "%1$sAuto-equip fue correctamente deshabilitado.",
         "success": "%1$sAuto-equip fue habilitado."
       },
-      "badge_header": "%1$s Display Badge",
+      "badge_header": "%1$sEmblema de Muestra",
       "bot_notice": "%1$sLos bots no tienen perfil.",
       "header": "Perfil de %1$s",
       "no_desc": "Sin descripción.",
@@ -988,8 +993,8 @@
       "birthday": "Cumpleaños",
       "married": "Casado con",
       "nobody": "Nadie",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "inventory": "Colección de items (Top 10)",
+      "badges": "Colección de emblemas (Top 5)",
       "no_badges": "Ningún trofeo (¡por ahora!)",
       "no_timezone": "No establecida",
       "timezone_user": "Zona horaria: %1$s",
@@ -1134,7 +1139,7 @@
       "actions_disabled": "%1$sThis user has disabled actions for themselves.",
       "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
       "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
-      "no_type": "%1$sThis action command has no type. (internal error)",
+      "no_type": "%1$sEste comando no tiene tipo. (error interno)",
       "permission_or_unexpected_error": "%1$s¡L-Lo siento! boté la imagen... (Probablemente me faltan permisos para enviarla)",
       "lonely": {
         "pat": "Aww, veo que estás solito/a, toma un pat <3",
@@ -1153,7 +1158,7 @@
         "holdhands": "*te da la mano*",
         "cuddle": "*te abraza tiernamente*",
         "nuzzle": "*te acaricia*",
-        "blush": "*blushes at you*",
+        "blush": "*se sonroja*",
         "bloodsuck": "¿C-Cómo quieres que haga esto? bueeeno.. *chupa tu sangre*"
       },
       "self": {
@@ -1193,7 +1198,7 @@
       "cuddle": "%1$s fuiste abrazado/a tiernamente por %2$s",
       "nuzzle": "%1$s está acariciando a %2$s",
       "bloodsuck": "%1$s está chupandole la sangre a %2$s!",
-      "blush": "%1$s is blushing at %2$s",
+      "blush": "%1$s se sonroja hacia%2$s",
       "nom": "Sabroso.",
       "facedesk": "*golpea su cabeza contra el escritorio*",
       "lewd": "¡P-Pervertido/a!",
@@ -1202,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s ha ganado **%3$s juegos**!",
       "nothing_specified": "%1$sNo especificaste nada que jugar.",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sNecesitas especificar el juego y cuantas veces deseas jugarlo.",
@@ -1317,29 +1322,29 @@
       "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "status": {
         "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
-        "header": "Status for %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
+        "header": "Estado para %1$s",
+        "description": "Recuerda darle amor y cuidar de tu mascota :heart:\nUsa `~>pet` y `~>help pet` para más información.",
         "cost": "Price",
-        "type": "Type",
-        "abilities": "Abilities",
-        "level": "Level",
-        "health": "Health",
-        "thirst": "Thirst",
-        "hunger": "Hunger",
+        "type": "Tipo",
+        "abilities": "Habilidades",
+        "level": "Nivel",
+        "health": "Nivel de vida",
+        "thirst": "Sed",
+        "hunger": "Hambre",
         "stamina": "Stamina",
-        "pet": "Pats",
-        "footer": "Thanks you for using Mantaro! <3"
+        "pet": "Caricias",
+        "footer": "¡Gracias por usar Mantaro! <3"
       },
       "level": {
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
-        "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
-        "abilities": "*Fish*: Useful for `~>fish`\n*Catch*: Useful for `~>mine`\n*Chop*: Useful for `~>chop`\n*Cheer*: Gives you a nice morale boost.",
-        "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
+        "summary": "%1$s**Nombre:**%2$s, **Habilidades** `%3$s`, **Valor:** %4$,d créditos",
+        "abilities": "*Pescar*: Útil para `~>fish`\n*Atrapar*: Útil para `~>mine`\n*Picar*: Útil para `~>chop`\n*Animar*: Te da un gran apoyo moral.",
+        "header": "%1$s**Mascotas disponibles**\n\n%2$s\n\n%3$s**Explicación de habilidades:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sNo tienes una mascota para acariciar. Usa `~>pet` para una explicación.",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
         "too_many": "How did you even get this many pats?"
       },
@@ -1349,28 +1354,28 @@
         "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
         "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
-        "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
+        "counter_100": "%1$sCreo que su cabeza empezará a brillar con tantas caricias."
       },
       "buy": {
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
-        "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
+        "no_requirements": "%1$s¡Necesitas ambos, un carro y una casa antes de adoptar una mascota! Casa: %2$s, Carro: %3$s\nPara comprar una casa o un carro, usa `~>marry buyhouse` y `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
-        "already_has_pet": "%1$sYou already have a pet.",
-        "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
+        "already_has_pet": "%1$sYa tienes una mascota.",
+        "nothing_found": "%1$sNo puedo encontrar el tipo de mascota que me especificaste. Especificaste: `%2$s`, Tipos validos: `%3$s`",
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar esta mascota. Precio: %2$,d créditos, Wallet: %3$,d créditos",
+        "confirm": "%1$s¿Estás seguro de que quieres comprar esta mascota? Nombre: %2$s, Tipo: %3$s, Precio: %4$,d credits. Escribe `yes` para continuar, en el caso opuesto `no`.",
         "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
-        "cancel_success": "%1$sCancelled operation.",
+        "cancel_success": "%1$sAcción cancelada.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sNo tienes mascotas para alimentar. Usa `~>pet` para más información.",
         "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
-        "no_item": "%1$sI didn't find the item you specified.",
+        "no_item": "%1$sNo encontré el item mencionado.",
         "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
-        "no_need": "%1$sYour pet isn't hungry, so they don't want to eat right now.",
-        "not_inventory": "%1$sYou don't have the item you want to feed your pet. Make sure it's in your inventory and you have the right amount (%2$s).",
-        "not_applicable": "%1$sYou can't feed this food to your pet type.",
+        "no_need": "%1$sTu mascota no está hambrienta, así que no desea comer ahora.",
+        "not_inventory": "%1$sNo tienes el ietm con el que quieres alimentar a tu mascota. Asegurate de que está en tu inventario y tienes la cantidad necesaria (%2$s).",
+        "not_applicable": "%1$sNo le puedes dar este tipo de comida a tu mascota.",
         "success": "%1$sYay! Succesfully fed your pet with `%2$s` x%3$s and it recovered %4$s%% of their hunger. Their hunger is now %5$s%% satisfied.",
         "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
@@ -1406,12 +1411,12 @@
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
         "author": "Pet information for type %1$s%2$s",
-        "name": "Pet Name",
-        "cost": "Pet Cost",
-        "abilities": "Abilities",
-        "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
-        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
+        "name": "Nombre de la Mascota",
+        "cost": "Costo de la Mascota",
+        "abilities": "Habilidades",
+        "food": "Comestibles",
+        "coin_buildup": "Créditos Extra (Nivel 1 / 100)",
+        "item_buildup": "Ítems Extra (Nivel 1 / 100)"
       }
     },
     "invite": {
@@ -1427,24 +1432,24 @@
       "footer": "Esperamos que te diviertas con Mantaro."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
-      "no_item": "%1$sYou need to specify the item you want to salvage.",
+      "not_broken": "%1$sSólo puedes salvar herramientas usadas.",
+      "no_item": "%1$sDebes especificar el ítem que deseas salvar.",
       "no_item_found": "%1$sI can't find the item you specified.",
-      "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
-      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
-      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
-      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
-      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
-      "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "cant_salvage": "%1$sNo puedes salvar este ítem.",
+      "not_wrench": "%1$sNecesitas una llave inglesa para salvar un ítem. Puede que necesites especificarla manualmente despúes del ítem.",
+      "not_enough_level": "%1$sNecesitas al menos una llave inglesa de nivel dos para salvar este ítem.",
+      "no_main_item": "%1$sNo pareciera que tienes el ítem que intentas salvar.",
+      "no_tool": "%1$sNo tienes esta llave inglesa. Intenta especificarla, o intenta usar otra llave inglesa.",
+      "no_tool_default": "%1$sNecesitas al menos una Comet Wrench en tu inventario para hacer esto, pero puedes especificar una mejor si quieres.",
+      "dust": "%1$sTu inventario tiene mucho polvo para hacer esto, intenta limpiarlo con una mopa.",
+      "no_returnables": "%1$sEste ítem no tiene ningún retorno al salvarlo.",
+      "item_broke": "%1$sTu llave inglesa se rompió intentando salvar este ítem :(",
+      "success": "%1$sHas salvado %2$s y recibiste %3$s en retorno. El costo fue de %4$s créditos.\n%5$s",
       "ls": {
-        "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
-        "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "header": "Lista de Ítems Salvables",
+        "cost": "Costo de Salvamiento: ",
+        "return": "Puede retornar: ",
+        "desc": "Esta es una lista de items que puedes salvar usando `~>salvage`. \nTienes que usar el nombre completo o abreviado para crearlo (ejemplo: `~>salvage diamond pickaxe` or `~>salvage diamond p` works)\n**Salvar un item cuesta la 1/3 de su valor de mercado. Este precio se mostrará abajo.**\nSolo recibirás un ítem de lo que se muestra aquí, al azar.\nTier 2 y 3 de llaves inglesas son comet y sparkle, respectivamente."
       }
     },
     "stats": {
@@ -1475,13 +1480,13 @@
       "note": "**¡Si te gusta Mantaro, considera darnos like en** <https://discordbots.org/bot/mantaro> **o considera donar en Patreon o Paypal! Gracias~**"
     },
     "avatar": {
-      "result": "Avatar for %1$s",
-      "footer": "Hopefully a very pretty one."
+      "result": "Avatar para %1$s",
+      "footer": "Espero que sea bonito."
     },
     "serverinfo": {
       "header": "Información del Servidor",
       "description": "Información de %1$s",
-      "users": "Users",
+      "users": "Usuarios",
       "created": "Fecha de Creación",
       "channels": "Canales de voz/texto",
       "owner": "Dueño",
@@ -1587,10 +1592,10 @@
     },
     "balance": {
       "bot_notice": "%1$sLos bots no pueden tener créditos...",
-      "external_balance": "El balance de %1$s es **$%2$d créditos.**",
-      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "external_balance": "%1$s tiene **$%2$,d créditos.**",
+      "own_balance": "Tienes **$%1$,d créditos.**%2$s",
+      "new_player": "\nHoli! Veo que puedes ser nuevo/a. Esta guia te ayudará bastante: https://github.com/Mantaro/MantaroBot/wiki/Currency-101 (en inglés).\nEsto solo lo verás una vez.",
+      "reset_notice": "\nSi quieres saber que le pasó a tus créditos, lee <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nNo perdiste tus cŕeditos antiguos completamente, aún es visible en `~>profile` :heart:\nTu inventario aún está ahí. ¿Tal vez vender unas cosas sirva?\nEsto solo se mostrará una vez. Lee la página linkeada (en inglés) para más detalles."
     },
     "daily": {
       "check": "%1$sPodrás acumular tus créditos diarios en: **%2$s.**",
@@ -2073,6 +2078,7 @@
       "no_bd_role": "%1$sNo tienes ningún rol designado como rol de cumpleaños!",
       "no_talk_permission": "%1$sEl bot no puede hablar en el canal para mensajes de cumpleaños.",
       "cannot_interact": "%1$sEl bot no puede interactuar con el rol de cumpleaños.",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sListo! El mensaje fue enviado en el canal %2$s para el usuario **%3$s**. Les fue asignado el rol %4$s",
       "error": "%1$sOw... Hubo un error mientras se enviaba el mansaje en el canal %1$s para el usuario **%2$s** y el rol %3$s"
     },
@@ -2288,26 +2294,26 @@
     "shrimp": "Camarón",
     "moon": "Runa Lunar",
     "flake": "Copo de Nieve",
-    "broken_comet_pick": "Broken Comet Pickaxe",
-    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
-    "broken_star_pick": "Broken Star Pickaxe",
+    "broken_comet_pick": "Picareta de Cometa Rota",
+    "broken_sparkle_pick": "Picareta Brillante Rota",
+    "broken_star_pick": "Picareta de Estrella Rota",
     "broken_comet_rod": "Caña de Pescar de Cometa Rota",
     "broken_sparkle_rod": "Caña de Pescar Brillante Rota",
     "broken_star_rod": "Caña de Pescar de Estrella Rota",
     "incubator_egg": "Incubadora",
     "water_bottle": "Botella de Agua",
     "magic_watch": "Reloj Mágico",
-    "pet_house": "Pet House",
-    "steak": "Steak",
-    "chicken": "Chicken",
-    "milk_3": "Milk Bottle",
-    "dog_food": "Dog Food",
-    "cat_food": "Cat Food",
-    "hamster_food": "Hamster Food",
-    "wood": "Wood",
-    "moon_pick": "Moon Pickaxe",
-    "hellfire_pick": "Hellfire Pickaxe",
-    "axe": "Axe",
+    "pet_house": "Casa de la Mascota",
+    "steak": "Filete",
+    "chicken": "Pollo",
+    "milk_3": "Frasco con leche",
+    "dog_food": "Comida para perro",
+    "cat_food": "Comida de gato",
+    "hamster_food": "Comida de Hamster",
+    "wood": "Madera",
+    "moon_pick": "Picareta de Luna",
+    "hellfire_pick": "Picareta del Infierno",
+    "axe": "Hacha",
     "comet_axe": "Comet Axe",
     "star_axe": "Star Axe",
     "sparkle_axe": "Sparkle Axe",
@@ -2355,7 +2361,7 @@
       "shoes": "Porque caminar sin zapatos es algo asqueroso... o doloroso.",
       "rose": "La prueba de tu amor. También es una bonita decoración.",
       "chocolate": "Sabroso.",
-      "cookie": "Delicious.",
+      "cookie": "Delicioso.",
       "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
       "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
       "berserk": "Currency Berserker? Anyone? `Leftover from Currency version 1. No longer obtainable.`",

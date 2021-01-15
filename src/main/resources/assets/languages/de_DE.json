@@ -393,7 +393,8 @@
       "footer": "Danke für's Nutzen von Mantaro! Seite %1$d von %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Es gibt kein benutzerdefiniertes Präfix auf diesem Server."
     },
     "custom": {
@@ -905,6 +906,10 @@
         "not_valid": "%1$sDiese Sortierungsart ist nicht valide. Mögliche Arten: `%2$s`",
         "success": "%1$sInventarsortierungsart erfolgreich geändert, sie ist nun: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Profilstatistiken für %1$s",
         "wins": "Casinogewinne",
@@ -1202,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s hat **%3$s Spiele** gewonnen!",
       "nothing_specified": "%1$sDu hast nichts zum Spielen angegeben!",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sDu musst das Spiel und die Häufigkeit angeben.",
@@ -2073,6 +2078,7 @@
       "no_bd_role": "%1$sDu hast keine Rolle für den Geburtstag eingestellt!",
       "no_talk_permission": "%1$sDer Bot kann im Geburtstagskanal nicht schreiben.",
       "cannot_interact": "%1$sDer Bot kann nicht mit der Geburtstagsrolle interagieren. (Das bedeutet, dass die Geburtstagsrolle höher ist, als die höchste Rolle des Bots.)",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sErledigt! Die Nachricht wurde in %2$s für den Nutzer **%3$s** geschickt. Er hat die Rolle %4$s bekommen.",
       "error": "%1$sOw... Es gab einen Fehler beim Senden der Nachricht in den Kanal %2$s für den Nutzer **%3$s** und die Rolle %4$s"
     },

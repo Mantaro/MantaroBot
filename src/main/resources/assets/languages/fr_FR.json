@@ -393,7 +393,8 @@
       "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sLes préfixes par défaut sont %2$s et me mentionner (Je réponds à chacun d'eux!). Le préfixe du serveur est `%3$s` (Cela ne fonctionne que sur ce serveur). \nTu peux définir un nouveau préfixe en écrivant `~>opts prefix set <prefix>`\nSi tu as des questions, rejoins <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
@@ -905,6 +906,10 @@
         "not_valid": "%1$sCette sorte de tri n'est pas valide. Sortes disponibles: `%2$s`",
         "success": "%1$sLe tri de ton inventaire a bien été changé, c'est désormais: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Statistique de profil de %1$s",
         "wins": "Gains au casino",
@@ -1202,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s a gagné **%3$s parties**",
       "nothing_specified": "%1$sTu n'as pas spécifié le jeu à lancer..",
-      "not_enough_games": "%1$sTu dois spécifier au moins deux jeux. (Par exemple: `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sTu dois spécifier au moins deux jeux. (Jeux valides : character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
@@ -2073,6 +2078,7 @@
       "no_bd_role": "%1$sTu n'as pas défini de rôle pour le programme d'anniversaires! Assure-toi d'en avoir créé un nouveau.",
       "no_talk_permission": "%1$sLe bot ne peut pas parler dans le salon d'anniversaires, vérifie les permissions.",
       "cannot_interact": "%1$sLe bot ne peut pas interagir avec le rôle anniversaire. (Parce qu'il est plus haut que son plus haut rôle ou parce qu'il n'a pas la permission de Gérer les rôles.)",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sC'est fait! Le message a été envoyé dans %2$s pour **%3$s** ayant reçu le rôle %4$s\n\nNote: Ceci ne montre pas le message personnalisé que tu avais programmé (si tu en avais programmé un).",
       "error": "%1$sOw... Il y a eu une erreur en envoyant le message dans %2$s pour **%3$s** avec le rôle %4$s"
     },

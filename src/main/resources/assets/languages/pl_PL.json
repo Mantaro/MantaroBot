@@ -393,7 +393,8 @@
       "footer": "Dziékuje za używanie Mantaro! Strona:%1$d Razem: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). The server prefix is `%3$s` (Only works on this server).\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Nie ma tutaj ustawionego niestandardowego prefiksu na tym serwerze."
     },
     "custom": {
@@ -905,6 +906,10 @@
         "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
         "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Statystyki profilu %1$s",
         "wins": "Wygrane w Kasynie",
@@ -1202,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
       "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it.",
@@ -2073,6 +2078,7 @@
       "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
       "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
       "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**",
       "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
     },

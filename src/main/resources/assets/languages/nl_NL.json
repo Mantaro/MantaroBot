@@ -393,7 +393,8 @@
       "footer": "Bedankt voor het gebruiken van Mantaro! Pagina: %1$d, Totaal: %2$d."
     },
     "prefix": {
-      "header": "%1$sDe standaard prefixes zijn %2$s (Ik reageer op beide!). De server prefix is `%3$s` (werkt alleen op deze server). Je kunt een nieuw prefix instellen met `~>opts prefix set <prefix>`. De <> niet gebruiken.\nAls je vragen hebt, kun je lid worden van <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Er is geen aangepaste prefix ingesteld op deze server."
     },
     "custom": {
@@ -905,6 +906,10 @@
         "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
         "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Profile Statistics for %1$s",
         "wins": "Casino Wins",
@@ -1202,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s heeft **%3$s games gewonnen**",
       "nothing_specified": "%1$sJe hebt niet opgegeven wat je wilt spelen ...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sJe moet aangeven welk spel je wilt spelen en hoevaak je dit spel wilt spelen",
@@ -2073,6 +2078,7 @@
       "no_bd_role": "%1$sJe hebt geen rol ingesteld voor de verjaardagssetter! check of je hiervoor een nieuwe rol hebt aangemaakt.",
       "no_talk_permission": "%1$sDe bot kan geen berichten sturen in het verjaardagskanaal. check je kanaal \ntoestemmingen.",
       "cannot_interact": "%1$sDe bot kan geen interactie hebben met de verjaardagsrol. (dit betekent dat de verjaardags rol hoger staat dan de hoogste rol van Mantaro in de rol hiërarchie, zet deze verder omlaag en probeer het opnieuw)",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sGelukt! Het bericht was gestuurd in kanaal %1$s voor de gebruiker **%2$s**. Ze hebben de rol %3$s toegewezen gekregen",
       "error": "%1$sOw... Er is een fout opgetreden tijdens het verzenden van het bericht in het kanaal %2$s voor gebruiker **%3$s** en rol %4$s"
     },

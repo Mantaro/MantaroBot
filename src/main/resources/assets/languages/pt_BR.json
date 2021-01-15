@@ -48,9 +48,9 @@
       "pill": "%1$sVocê tomou uma pílula de waifu! (Ativada por 5 sessões)",
       "pill_used": "%1$sVocê já tem uma pílula de waifu ativa!",
       "crate": {
-        "no_key": "%1$sVocê precisa de uma chave do caixote pra abrir um caixote. Está fechado! Você pode comprar um usando `~>buy key`",
-        "no_crate": "%1$sVocê precisa de um caixote! Você geralmente ganha caixotes dos comandos de moeda.",
-        "success": "%1$sVocê abriu o caixote e ganhou: %2$s%3$s. Parabéns!",
+        "no_key": "%1$sVocê precisa de uma chave do baú pra abrir um baú. Está fechado! Você pode comprar um usando `~>buy key`",
+        "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
+        "success": "%1$sVocê abriu o baú e ganhou: %2$s%3$s. Parabéns!",
         "overflow": "Mas você já teve demais, então resolveu jogar fora o excesso"
       },
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
@@ -146,7 +146,7 @@
       },
       "crate": {
         "overflow": "Você encontrou um **%1$s** enquanto pescava, mas você já tinha muitos, então jogamos de volta no oceano...",
-        "success": "Você encontrou um %1$s **%2$s** enquanto pescava e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do caixote>`. Você precisa de uma chave do caixote!"
+        "success": "Você encontrou um %1$s **%2$s** enquanto pescava e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do baú>`. Você precisa de uma chave do baú!"
       },
       "autoequip": {
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
@@ -393,7 +393,8 @@
       "footer": "Obrigado por usar a Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sOs prefixos padrão são %2$s e mencionando o bot (Eu respondo a qualquer um desses!). O prefixo do servidor é `%3$s` (Só funciona neste servidor).\nVocê pode definir um novo prefixo usando `~>opts prefix set <prefix>`. Não inclua o <>.\nSe você tiver alguma pergunta, você pode entrar no <https://support.mantaro.site>",
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Não há prefixo personalizado definido neste servidor."
     },
     "custom": {
@@ -905,6 +906,10 @@
         "not_valid": "%1$sEsse tipo de classificação não é válido. Tipos válidos: `%2$s`",
         "success": "%1$sAlterado com sucesso o tipo classificado do seu inventário, agora é: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Estatísticas do Perfil Para %1$s",
         "wins": "Vitórias no Casino",
@@ -1202,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s ganhou **%3$s jogos**",
       "nothing_specified": "%1$sVocê não especificou nada pra jogar...",
-      "not_enough_games": "%1$sVocê tem que especificar pelo menos dois jogos. (Por exemplo, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sVocê precisa especificar o jogo e o número de vezes para executá-lo",
@@ -1254,12 +1259,12 @@
       "disabled_multiple": "%1$sEsse servidor tem múltiplos jogos/lobby desativado."
     },
     "opencrate": {
-      "no_crate": "%1$sVocê não tem um caixote de saque desse tipo (%2$s) para abrir. (Se você estiver tentando abrir um caixote de outro tipo que não é o tipo padrão, use o nome do caixote depois do comando)",
-      "not_crate": "%1$sIsso não é um caixote de saque válido."
+      "no_crate": "%1$sVocê não tem um baú de espólios desse tipo (%2$s) para abrir. (Se você estiver tentando abrir um baú de outro tipo que não é o tipo padrão, use o nome do baú depois do comando. Se você quiser usar o inventário sazonal, use `-s`)",
+      "not_crate": "%1$sIsso não é um baú de espólios válido."
     },
     "dailycrate": {
-      "check": "%1$sVocê poderá reivindicar seu caixote diário em: **%2$s.**",
-      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um caixote premium diário com uma alta chance de receber itens bons com premium! Por favor confira mais em <https://patreon.com/mantaro>\nIsso pode ser usado a cada 24 horas.",
+      "check": "%1$sVocê poderá reivindicar seu baú diário em: **%2$s.**",
+      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um baú premium diário com uma alta chance de receber itens bons com premium! Por favor confira mais em <https://patreon.com/mantaro>\nIsso pode ser usado a cada 24 horas.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
@@ -1621,7 +1626,7 @@
         "get_premium": "Nós precisamos da sua ajuda para manter a Mantaro viva! Cheque <https://patreon.com/mantaro> para mais informações. **Você pode obter até o dobro de c'reditos com o Premium!** Memberships começa em apenas $2/mês, o preço de um lanche barato!",
         "already_premium": "Obrigado por apoiar Mantaro. Sem a ajuda de pessoas como você, não poderíamos manter Mantaro vivo :heart:"
       },
-      "crate": "Você ganhou um caixote de saque porquê seu combo no diário é um múltiplo de 20! Aprecie.",
+      "crate": "Você ganhou um baú de espólios porquê seu combo no diário é um múltiplo de 20! Aprecie.",
       "watch_get": "Você ganhou um `Relógio Mágico` porquê seu combo no diário é um múltiplo de 50! Aprecie."
     },
     "gamble": {
@@ -2073,6 +2078,7 @@
       "no_bd_role": "%1$sVocê não especificou o cargo definido para o aniversariante! Certifique-se de criar um novo cargo para isso.",
       "no_talk_permission": "%1$sO bot não pode falar no canal de aniversário. Cheque as permissões do canal.",
       "cannot_interact": "%1$sO bot é incapaz de interagir com o cargo de aniversário. (Isso significa que o cargo de aniversário é mais alto que o cargo mais alto do bot na hierarquia de cargo, coloque-o abaixo e tente novamente)",
+      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
       "success": "%1$sFeito! A mensagem foi enviada no canal %2$s para o usuário **%3$s**. Ele foi atribuído com o cargo %4$s\n\nNota: Isso não mostra a mensagem de aniversário personalizada que você pode ter definido.",
       "error": "%1$sOw... Ocorreu um erro ao enviar a mensagem no canal %2$s para o usuário **%3$s** e cargo %4$s"
     },
@@ -2222,7 +2228,7 @@
     "lewd": "Revista Sensual",
     "ring": "Anel de Casamento",
     "letter": "Carta de Amor",
-    "key": "Chave do Caixote",
+    "key": "Chave do Baú",
     "clothes": "Roupas",
     "diamond": "Diamante",
     "dress": "Vestido de Casamento",
@@ -2275,9 +2281,9 @@
     "sparkle_pick": "Picareta Brilhante",
     "pizza": "Pizza",
     "mine_crate": "Caixote de Gema",
-    "fish_crate": "Tesouro de Peixe",
-    "mine_premium_crate": "Caixote de Gema Premium",
-    "fish_premium_crate": "Tesouro de Peixe Premium",
+    "fish_crate": "Tesouro Marinho",
+    "mine_premium_crate": "Baú de Gemas Premium",
+    "fish_premium_crate": "Tesouro Marinho Premium",
     "comet_rod": "Vara de Gema de Cometa",
     "star_rod": "Vara de Gema de Estrela",
     "sparkle_rod": "Vara Brilhante",
