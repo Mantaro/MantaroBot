@@ -29,9 +29,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -155,6 +153,9 @@ public class ImageActionCmd extends NoArgsCommand {
                 var filter = mentionedMembers.stream()
                         .filter(member -> ctx.getDBUser(member).getData().isActionsDisabled())
                         .collect(Collectors.toList());
+
+                // Needs to be mutable.
+                mentionedMembers = new ArrayList<>(mentionedMembers);
                 if (mentionedMembers.removeAll(filter)) {
                     filtered = true;
                 }
