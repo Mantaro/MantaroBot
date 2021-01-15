@@ -1203,7 +1203,7 @@
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
       "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it.",
