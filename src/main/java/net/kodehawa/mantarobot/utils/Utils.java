@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.utils;
 
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.annotations.ConfigName;
@@ -156,6 +157,10 @@ public class Utils {
         }
 
         return amount + " " + baseName + "s";
+    }
+
+    public static Locale getLocaleFromLanguage(I18nContext context) {
+        return getLocaleFromLanguage(context.getContextLanguage());
     }
 
     public static Locale getLocaleFromLanguage(String language) {

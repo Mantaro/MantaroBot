@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import redis.clients.jedis.JedisPool;
 
@@ -242,7 +243,9 @@ public class Context {
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {
-        getChannel().sendMessageFormat(languageContext.get(localizedMessage), args).queue();
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
+        ).queue();
     }
 
     public void sendLocalized(String localizedMessage) {
@@ -250,15 +253,15 @@ public class Context {
     }
 
     public void sendStripped(String message) {
-        getChannel().sendMessageFormat(message)
+        getChannel().sendMessage(message)
                 .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
                 .queue();
     }
 
     public void sendStrippedLocalized(String localizedMessage, Object... args) {
-        getChannel().sendMessageFormat(languageContext.get(localizedMessage), args)
-                .allowedMentions(EnumSet.noneOf(Message.MentionType.class))
-                .queue();
+        getChannel().sendMessage(String.format(
+                Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
+        ).allowedMentions(EnumSet.noneOf(Message.MentionType.class)).queue();
     }
 
     public Task<List<Member>> findMember(String query, Message message) {
