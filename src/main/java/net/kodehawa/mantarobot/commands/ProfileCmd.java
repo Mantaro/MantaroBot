@@ -238,6 +238,30 @@ public class ProfileCmd {
             }
         });
 
+        profileCommand.addSubCommand("toggleaction", new SubCommand() {
+            @Override
+            public String description() {
+                return "Disables or enables action commands to be done to you.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                final var dbUser = ctx.getDBUser();
+                final var userData = dbUser.getData();
+                final var isDisabled = userData.isActionsDisabled();
+
+                if (isDisabled) {
+                    userData.setActionsDisabled(false);
+                    ctx.sendLocalized("commands.profile.toggleaction.enabled", EmoteReference.CORRECT);
+                } else {
+                    userData.setActionsDisabled(true);
+                    ctx.sendLocalized("commands.profile.toggleaction.disabled", EmoteReference.CORRECT);
+                }
+
+                dbUser.save();
+            }
+        });
+
         profileCommand.addSubCommand("claimlock", new SubCommand() {
             @Override
             public String description() {

@@ -906,6 +906,10 @@
         "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
         "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Profile Statistics for %1$s",
         "wins": "Casino Wins",
