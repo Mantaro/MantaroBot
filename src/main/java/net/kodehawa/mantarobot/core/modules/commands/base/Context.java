@@ -233,7 +233,9 @@ public class Context {
     }
 
     public void sendFormat(String message, Object... format) {
-        getChannel().sendMessageFormat(message, format).queue();
+        getChannel().sendMessage(
+                String.format(Utils.getLocaleFromLanguage(getLanguageContext()), message, format)
+        ).queue();
     }
 
     public void send(MessageEmbed embed) {
