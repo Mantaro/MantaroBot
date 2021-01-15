@@ -148,7 +148,7 @@ public class ImageActionCmd extends NoArgsCommand {
             if (mentionedMembers.size() == 1) {
                 final var dbUser = ctx.getDBUser(mentionedMembers.get(0).getId());
                 if (dbUser.getData().isActionsDisabled()) {
-                    ctx.sendLocalized("command.action.actions_disabled", EmoteReference.ERROR);
+                    ctx.sendLocalized("commands.action.actions_disabled", EmoteReference.ERROR);
                     return;
                 }
             } else {
