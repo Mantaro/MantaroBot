@@ -471,10 +471,21 @@ public class MoneyCmds {
                         player.saveUpdating();
                     }
 
-                    ctx.send(EmoteReference.DIAMOND + (isExternal ?
-                            languageContext.withRoot("commands", "balance.external_balance").formatted(user.getName(), balance) :
-                            languageContext.withRoot("commands", "balance.own_balance").formatted(balance, extra))
+                    var message = String.format(
+                            Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
+                            languageContext.withRoot("commands", "balance.own_balance"),
+                            balance, extra
                     );
+
+                    if (isExternal) {
+                        message = String.format(
+                                Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
+                                languageContext.withRoot("commands", "balance.external_balance"),
+                                balance, extra
+                        );
+                    }
+
+                    ctx.send(EmoteReference.DIAMOND + message);
 
                 });
             }

@@ -215,9 +215,13 @@ public class DebugCmds {
                 ctx.getChannel().sendMessage("Pinging...").queue(v -> {
                     long ping = System.currentTimeMillis() - start;
                     //display: show a random quote, translated.
-                    v.editMessageFormat(
-                            languageContext.get("commands.ping.text"), EmoteReference.MEGA,
-                            languageContext.get("commands.ping.display"), ping, ctx.getJDA().getGatewayPing()
+                    v.editMessage(
+                            String.format(
+                                    Utils.getLocaleFromLanguage(ctx.getLanguageContext()),
+                                    languageContext.get("commands.ping.text"), EmoteReference.MEGA,
+                                    languageContext.get("commands.ping.display"),
+                                    ping, ctx.getJDA().getGatewayPing()
+                            )
                     ).queue();
                 });
             }
