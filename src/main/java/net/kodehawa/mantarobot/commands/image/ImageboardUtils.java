@@ -217,7 +217,9 @@ public class ImageboardUtils {
     // List of tags to exclude from *safe* searches
     // This isn't exactly safe wdym
     private final static List<String> excludedSafeTags = List.of(
-            "underwear", "bikini", "ass", "wet", "see_through"
+            "underwear", "bikini", "ass", "wet", "see_through",
+            // Not quite a bad tag, just filter it out for R34
+            "video"
     );
 
     private static boolean containsSafeExcludedTags(List<String> tags) {
@@ -240,7 +242,9 @@ public class ImageboardUtils {
             // very nsfl tags
             "dismemberment", "death", "decapitation", "guro", "eye_socket", "necrophilia",
             "rape", "gangrape", "gore", "gross", "bruise", "asphyxiation", "scat",
-            "strangling", "torture"
+            "strangling", "torture",
+            // Not quite a bad tag, just filter it out for R34
+            "video"
     );
 
     private static boolean containsExcludedTags(List<String> tags) {
