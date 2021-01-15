@@ -152,16 +152,17 @@ public class ImageActionCmd extends NoArgsCommand {
                     return;
                 }
             } else {
-                mentionedMembers = mentionedMembers.stream()
-                        .filter(member -> !ctx.getDBUser(member).getData().isActionsDisabled())
+                var filter = mentionedMembers.stream()
+                        .filter(member -> ctx.getDBUser(member).getData().isActionsDisabled())
                         .collect(Collectors.toList());
+                if (mentionedMembers.removeAll(filter)) {
+                    filtered = true;
+                }
 
                 if (mentionedMembers.isEmpty()) {
                     ctx.sendLocalized("commands.action.no_mention_disabled", EmoteReference.ERROR);
                     return;
                 }
-
-                filtered = true;
             }
 
             var toSend = new MessageBuilder()
@@ -197,7 +198,9 @@ public class ImageActionCmd extends NoArgsCommand {
             }
 
             if (filtered) {
-                toSend.append("\n").append(languageContext.get("commands.action.filtered"));
+                toSend.append("\n").append(
+                        String.format(languageContext.get("commands.action.filtered"), EmoteReference.WARNING)
+                );
             }
 
             var member = ctx.getMember();
