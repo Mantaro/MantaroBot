@@ -393,7 +393,7 @@
       "footer": "Gracias por usar Mantaro! Página: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). `%3$s`. \nPuedes cambiar el prefijo usando `~>opts prefix set <prefijo>` No incluyas los <>.\nPara limpiar el prefijo del servidor usa `~>opts prefix clear`\nSi tienes alguna pregunta, puedes ir a <https://support.mantaro.site>",
+      "header": "%1$sLos prefijos por defecto son %2$s (¡Respondo a todos ellos!). %3$s.\nPuedes cambiar el prefijo usando `~>opts prefix set <prefijo>`. No incluyas los <>.\nPara limpiar el prefijo del servidor usa `~>opts prefix clear`\nSi tienes alguna pregunta, puedes ir a <https://support.mantaro.site>",
       "guild_prefix": "El prefijo del servidor es `%1$s` (sólo funciona en este servidor)",
       "none": "No hay un prefijo customizado en este servidor."
     },
@@ -766,8 +766,8 @@
         "no_buy_price": "%1$sNo puedes comprar un item que no se puede comprar.",
         "item_limit_reached": "%1$sNo puedes comprar más de ese ítem. El máximo de ítems es de 5000 por stack.",
         "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
-        "success_breakable": "%1$sHas comprado %2$,d%3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `~>equip <item name>`",
-        "success_potion": "%1$sHas comprado %2$,d%3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buffeo usando `~>useitem <item name>`",
+        "success_breakable": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `~>equip <item name>`",
+        "success_potion": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buffeo usando `~>useitem <item name>`",
         "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos."
       },
       "header": "La tiendita de Mantaro",
