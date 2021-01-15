@@ -906,6 +906,10 @@
         "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
         "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
       },
+      "toggleaction": {
+        "enabled": "%1$sEnabled actions to be done to you.",
+        "disabled": "%1$sDisabled actions from being done to you."
+      },
       "stats": {
         "header": "Статистика профиля %1$s",
         "wins": "Выигрышей в казино",
@@ -1203,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s победил в игре **%3$s**",
       "nothing_specified": "%1$sВы не указали игру...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`)",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sВам нужно указать игру и количество раз, которое вы хотите сыграть",
