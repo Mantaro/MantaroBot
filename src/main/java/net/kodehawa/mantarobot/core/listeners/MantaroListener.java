@@ -21,6 +21,7 @@ import com.google.common.cache.CacheLoader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.*;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -547,14 +548,15 @@ public class MantaroListener implements EventListener {
         final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
         final var user = event.getUser();
         final var member = event.getMember();
+        final var selfMember = guild.getSelfMember();
 
         if (role != null &&  !(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
             var toAssign = guild.getRoleById(role);
-            if (toAssign != null && guild.getSelfMember().canInteract(toAssign)) {
-                // This only throws if member == null (can't be!) or if role == null
-                // which we check above.
-                guild.addRoleToMember(member, toAssign).reason("Autorole assigner").queue();
-                Metrics.ACTIONS.labels("join_autorole").inc();
+            if (toAssign != null && selfMember.canInteract(toAssign) && selfMember.hasPermission(Permission.MANAGE_ROLES)) {
+                try {
+                    guild.addRoleToMember(member, toAssign).reason("Autorole assigner").queue();
+                    Metrics.ACTIONS.labels("join_autorole").inc();
+                } catch (Exception ignored) { }
             }
         }
 
