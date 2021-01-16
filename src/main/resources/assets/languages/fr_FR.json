@@ -1207,7 +1207,7 @@
     "game": {
       "won_games": "%1$s%2$s a gagné **%3$s parties**",
       "nothing_specified": "%1$sTu n'as pas spécifié le jeu à lancer..",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sTu dois spécifier au moins deux jeux. Par exemple: `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sTu dois spécifier au moins deux jeux. (Jeux valides : character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
@@ -1377,14 +1377,14 @@
         "not_inventory": "%1$sTu n'as pas l'objet avec lequel tu désires nourrir ton animal. Assure-toi qu'il soit dans ton inventaire et que tu aies la quantité nécessaire (%2$s).",
         "not_applicable": "%1$sTu ne peux pas nourrir ce type d'animaux avec ça.",
         "success": "%1$sYay! Tu as nourri ton animal avec `%2$s` x%3$s et il a recouvert %4$s%% de sa santé. Sa santé est désormais satisfaite à %5$s%%.",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
+        "too_much": "%1$sDonne lui peut-être moins de nourriture? Tu vas gaspiller sinon! (L'augmentation surpasse 100%%)"
       },
       "water": {
         "no_pet": "%1$sTu n'as pas d'animaux à abreuver. Fais la commande `~>pet` pour plus d'explications.",
         "no_need": "%1$sTon animal n'a pas soif pour le moment.",
         "not_inventory": "%1$sTu n'as pas de bouteille d'eau dans ton inventaire. Assure-toi d'en avoir.",
         "not_enough_inventory": "%1$sTu n'as pas assez de bouteilles dans ton inventaire! Tu en as besoin de %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thrist)",
+        "too_much": "%1$sDonne lui peut-être moins d'eau? Tu vas gaspiller sinon! (L'augmentation surpasse 100%%)",
         "success": "%1$sYay! Tu as donné %2$d d'eau à ton animal et il a recouvert %3$s%% de sa soif. Sa soif est désormais étanchée à %4$s%%."
       },
       "activity": {
@@ -1594,7 +1594,7 @@
       "bot_notice": "%1$sLes bots ne peuvent pas avoir d'argent.",
       "external_balance": "Le solde de %1$s est de **$%2$d crédits.**",
       "own_balance": "Ton solde est de **$%1$,d crédits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nSalut! Je vois que c'est peut-être ta première fois. Ce guide pourrait t'aider: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Ce message ne sera envoyé qu'une fois.",
       "reset_notice": "\nSi tu veux savoir ce qu'on a fait de ton argent, lis <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nIl n'a pas vraiment disparu, tu peux toujours le voir sur ton `~>profile` :heart:\nTon inventaire est resté intacte, vend peut-être quelques trucs pour gagner de l'argent?\nCe message ne sera montré qu'une fois. Lis la page ci-dessus pour plus d'infos."
     },
     "daily": {
@@ -2377,9 +2377,9 @@
       "bell": "Récompense de l'événement de noël 2017/2018. Ça te donne un sentiment de fête sur ton sapin de noël.",
       "tree": "Récompense de l'événement de noël 2017/2018. Qui n'aime pas les sapins de noël ?",
       "pants": "C'est ce que tu portes en bas, du moins je l'espère.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
+      "haste": "Ça te permet de trouver plus de chose en utilisant les commandes monétaires. Valable pour 3 commandes.",
       "milky": "Ça te débarrasse des effets de potions.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Fait en sorte qu'un outils perde moins de durabilité par utilisation. Dure 3 commandes.",
       "rod": "Une canne à pêche basique pour les pêcheurs du dimanche. (Durabilité: 40).",
       "fish": "Poisson attrapé en pêchant.",
       "tropical_fish": "Un poisson assez tropical pêché.",
