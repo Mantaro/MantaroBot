@@ -1529,7 +1529,7 @@
       "base_category": "Lista de comandos da categoria %1$s. Para um guia detalhado, por favor cheque a [wiki] (https://github.com/Mantaro/MantaroBot/wiki). [Guia da Moeda] (https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
       "base": "**Lista completa de comandos**. Para um guia detalhado, por favor cheque nossa [wiki] (https://github.com/Mantaro/MantaroBot/wiki).\nLembre-se que você pode ter mais informações de um comando usando `~>help <name of command>`\n",
       "support": "Se você ainda estiver perdido você pode entrar em nosso [servidor de suporte](https://support.mantaro.site). Você pode me seguir também no [Twitter](https://twitter.com/mantarodiscord) para updates.\n",
-      "patreon": "**[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)**",
+      "patreon": "[Nós precisamos da sua ajuda para manter Mantaro online! Clique aqui para mais informações.]\n(https://www.patreon.com/mantaro)",
       "disabled_commands": "Apenas mostrando comandos não-desativados. Total de comandos desativados: %1$s",
       "channel_specific_disabled_commands": "\nApenas mostrando comandos não-desativados. Total do canal-específico com comandos desativados: %1$s",
       "footer": "Obrigado por usar a Mantaro %1$s (Total de comandos: %2$s)",
