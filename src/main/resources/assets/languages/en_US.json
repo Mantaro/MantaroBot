@@ -1868,6 +1868,7 @@
       "invalid": "%1$s**You need to specify the users to locally blacklist.**",
       "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
       "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sLocally blacklisted users: **%2$s**"
     },
     "localblacklist_remove": {

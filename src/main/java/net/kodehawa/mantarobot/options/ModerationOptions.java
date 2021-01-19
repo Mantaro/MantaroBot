@@ -60,6 +60,11 @@ public class ModerationOptions extends OptionHandler {
                 return;
             }
 
+            if (mentioned.stream().anyMatch(User::isBot)) {
+                ctx.sendLocalized("options.localblacklist_add.bot_notice", EmoteReference.ERROR);
+                return;
+            }
+
             Guild guild = ctx.getGuild();
             if (mentioned.stream().anyMatch(u -> CommandPermission.ADMIN.test(guild.getMember(u)))) {
                 ctx.sendLocalized("options.localblacklist_add.admin_notice", EmoteReference.ERROR);
