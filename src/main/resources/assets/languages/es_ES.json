@@ -330,7 +330,7 @@
       "vc_not_found": "%1$sNo he podido encontrar el canal de voz o no lo especificaste!"
     },
     "shard": {
-      "info": "**Estoy en el shard %1$d / %2$d* (Nodo %3$d / %4$d)\n\n**Servidores del Shard:** %5$,d servidores\n**Usuarios en Caché:** %6$,d usuarios\n**Miembros en Caché:** %7$,d miembros\n\nSi necesitas ayuda, anda a <https://support.mantaro.site>. Gracias por usar Mantaro!"
+      "info": "**Estoy en el shard %1$d / %2$d** (Nodo %3$d / %4$d)\n\n**Servidores del Shard:** %5$,d servidores\n**Usuarios en Caché:** %6$,d usuarios\n**Miembros en Caché:** %7$,d miembros\n\nSi necesitas ayuda, anda a <https://support.mantaro.site>. Gracias por usar Mantaro!"
     },
     "queue": {
       "clear": {
@@ -641,7 +641,7 @@
       "claim": {
         "no_user": "%1$sNo mencionaste a un usuario para reclamar!.",
         "locked": "%1$sNo puedes realizar esta acción en este momento.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
+        "key_locked": "%1$sEl usuario que intentó reclamar está bloqueado con llave y no se puede reclamar. Pueden eliminarlo usando `~>profile claimlock remove` si lo desean.",
         "not_enough_money": "%1$sNo tienes dinero suficiente para reclamar esta waifu **(Valor: %2$s)**",
         "not_enough_slots": "%1$sNo tienes suficiente espacio para reclamar esta waifu. (Total de espacios: %2$s, Espacios usados: %3$s)",
         "success": "%1$sWaifu reclamada exitosamente! `%2$s` for %3$s. Espacios usados: %4$s",
@@ -802,7 +802,7 @@
       "receipt_over_limit": "%1$sEse usuario ya tiene muchos créditos...",
       "success": "%1$sHas transferido **%2$d** *(%3$d despues de 8%% de impuestos)* créditos a **%4$s** correctamente.",
       "item_transfer": "%1$sNo puedes transferir items usando este comando, debes usar `transferitems`!",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "Solo puedes transferir a la misma persona (%1$s) una vez cada 10 minutos."
     },
     "useitem": {
       "ls": {
@@ -812,11 +812,11 @@
       "use_command": "%1$sPara este item, necesitas usar el comando específico con el que se usa este! (mine para el pickaxe, fish para el fishing rod)",
       "no_items_specified": "%1$sNecesitas decirme que item usar!",
       "not_interactive": "%1$sNo puedes interactuar con ese item...",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`",
+      "interactive_no_action": "%1$sEste item fue marcado como interactivo, pero no tiene una acción determinada. ¿Este elemento podría usar su propio comando? Por ejemplo, las picas usan `~>mine`",
       "no_item": "%1$sNo tienes ese item en tu inventario...",
       "not_enough_items": "%1$sNo tienes suficiente de este ítem.",
       "too_little": "%1$sNo puedes usar menos de 1 ítem.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
+      "invalid_amount": "%1$sLa cantidad debe ser un número válido entre \"1\" y \"15\"!"
     },
     "opts": {
       "note": "%1$sHey, si estás perdido intentando entender las opciones o no recuerdas este comando, revisa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para una guía de como usar opts (sólo en ingles).\nNota: Sólo los administradores, gente con Manejar Servidor o gente con el rol Bot Commander pueden usar este comando!",
@@ -837,13 +837,13 @@
         "category": "Categoría: ",
         "header": "Lista de autoroles",
         "no_autoroles": "No hay ningún autorol configurado en este servidor!",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
+        "description": "Estos son los roles que los usuarios se pueden asignar a si mismos en este servidor. Puedes usarlos con `~>iam <name of the role>`"
       },
       "deleted_role": "%1$s¡El rol al que correspondía este autorol fue eliminado!",
       "already_assigned": "%1$sTú ya tienes ese rol.",
       "success": "%1$s%2$s, te he dado el rol **%3$s**",
       "error": "%1$sNo pude quitarte el rol **%2$s**. Asegurate que tengo permiso para administrar roles y que mi rol prevalente está encima de **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
+      "no_role": "%1$sNo hay autorole con el nombre `%2$s`",
       "no_iam": "%1$sNecesitas especificar que rol auto-asignable deseas asignarte."
     },
     "iamnot": {
@@ -907,8 +907,8 @@
         "success": "%1$sHe cambiado el orden de tu inventario, ahora es: **%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$sAcciones habilitadas para que se realicen hacia tí.",
+        "disabled": "%1$sAcciones inhabilitadas para que no se realicen hacia tí."
       },
       "stats": {
         "header": "Estadísticas del perfil para %1$s",
@@ -941,7 +941,7 @@
         "never": "Nunca"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sEl estado de tag oculto ahora es: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sDebes especificar qué ítem equipar!",
@@ -950,21 +950,21 @@
         "success": "%1$sHas equipado %2$s *%3$s* exitosamente, lo cual será recordado la próxima vez que utilices el comando de dinero apropiado.",
         "not_suitable": "%1$sNo puedes equipar esto.",
         "not_equipped": "%1$sNo tienes esto equipado.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYa tienes un artículo de este tipo equipado! Intenta `~>unequip <type>` (El tipo puede ser rod, axe, pick) si quieres desequiparlo."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
+        "not_equipped": "%1$sNo tienes nada equipado en este slot.",
+        "no_content": "%1$sDebe especificar un tipo de herramienta para desequipar, puede ser `pick, axe, rod`",
+        "invalid_type": "%1$sTipo inválido. Los tipos válidos son `pick, axe, rod`",
+        "confirm": "%1$sEstás seguro que quieres **desequipar** you %2$s %3$s? Escribe `yes` para confirmar, `no` para cancelar.",
         "success": "%1$sCorrectamente desequipado tu slot de %2$s.",
         "equipment_recover": "\n¡Ya que nunca has usado tu equipamiento, recibiste tu %1$s de vuelta!",
         "broken_equipment_recover": "\nTu equipamiento estaba usado, pero recibiste un %1$s de vuelta, ¡puedes repararlo si lo necesitas después!",
         "broken_equipment_recover_none": "\nEste tipo de equipamiento no tiene un tipo roto para recuperarlo, y fue usado, así que se perdió en el vacío, pero recibiste %1$s créditos de vuelta.",
-        "cancelled": "%1$sCancelled operation."
+        "cancelled": "%1$sOperación cancelada."
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_premium": "%1$sLa personalización del widget de perfil solo está disponible para usuarios premium. Para obtener más ventajas, puede consultar <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sNo hay suficientes widgets válidos para poner en tu perfil (mínimo: 3). Si estas perdido, revisa `~>profile widgets ls`",
         "success": "%1$sCorrectamente cambiada la disposición de tu perfil. La nueva disposición es `%2$s`",
         "ls": "%1$sLista de los componentes del perfil:\n%2$s **Orden por defecto de los Widgets:** `%3$s`\n%2$s **Tus widgets:** `%4$s`\nPuedes usar `~>profile widgets reset` para reiniciar tus componentes",
@@ -973,8 +973,8 @@
       },
       "claimlock": {
         "removed": "%1$sHe reiniciado el estado de tu bloqueo de reclamaciones.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
+        "success": "%1$sYa no puedes ser reclamado como waifu. Se utilizó una llave de reclamo. Usa `~>profile claimlock remove` para eliminarla.",
+        "no_key": "%1$sNo tiene una clave de reclamo para hacer esto. Puedes comprar uno en el market usando `~>buy \"claim key\"`",
         "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
       },
       "autoequip": {
@@ -1868,6 +1868,7 @@
       "invalid": "%1$s**Necesitas especificar los usuarios que agregar a la lista negra local.**",
       "yourself_notice": "%1$sPor qué estás intentando agregarte a la lista negra?...",
       "admin_notice": "%1$sUno (o más) de los usuarios que intentaste agregar a la lista negra son administradores o tienen el rol Bot Commander!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sUsuarios en la lista negra local: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1985,6 +1986,7 @@
       "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sNecesitas especificar el nombre del iam y el nombre del rol que desees agregar a los roles auto-asignables.",
       "no_role_found": "%1$sNo encontré un rol con ese nombre!",
       "hierarchy_conflict": "%1$sEste rol está en una posición mayor que tu mayor rol, por lo tanto no puede ser utilizado como un rol autoasignable!",
