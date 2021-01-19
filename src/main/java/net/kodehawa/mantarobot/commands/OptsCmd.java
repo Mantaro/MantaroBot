@@ -142,10 +142,7 @@ public class OptsCmd {
                                 a = StringUtils.EMPTY_ARRAY;
                             }
 
-                            String remaining = String.join(" ",  a);
-                            String[] parsed = StringUtils.advancedSplitArgs(remaining, -1);
-
-                            callable.accept(ctx, parsed);
+                            callable.accept(ctx, a);
                             var player = MantaroData.db().getPlayer(ctx.getAuthor());
                             if (player.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 player.saveUpdating();
