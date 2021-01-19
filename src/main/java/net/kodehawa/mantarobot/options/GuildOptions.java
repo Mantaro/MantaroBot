@@ -47,6 +47,7 @@ public class GuildOptions extends OptionHandler {
                 ctx.sendLocalized("options.prefix_set.no_prefix", EmoteReference.ERROR);
                 return;
             }
+
             String prefix = args[0];
 
             if (prefix.length() > 50) {

@@ -24,7 +24,6 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
@@ -33,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-
-import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Option
 public class AutoRoleOptions extends OptionHandler {
@@ -102,16 +99,16 @@ public class AutoRoleOptions extends OptionHandler {
             }
 
             String roleName = args[1];
-
+            final var iamName = args[0];
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
-            List<Role> roleList = ctx.getGuild().getRolesByName(roleName, true);
-            if (roleList.size() == 0) {
-                ctx.sendLocalized("options.autoroles_add.no_role_found", EmoteReference.ERROR);
-            } else if (roleList.size() == 1) {
-                Role role = roleList.get(0);
+            if (iamName.length() > 40) {
+                ctx.sendLocalized("options.autoroles_add.too_long", EmoteReference.ERROR);
+                return;
+            }
 
+            Consumer<Role> roleConsumer = role -> {
                 if (!ctx.getMember().canInteract(role)) {
                     ctx.sendLocalized("options.autoroles_add.hierarchy_conflict", EmoteReference.ERROR);
                     return;
@@ -122,28 +119,14 @@ public class AutoRoleOptions extends OptionHandler {
                     return;
                 }
 
-                guildData.getAutoroles().put(args[0], role.getId());
+                guildData.getAutoroles().put(iamName, role.getId());
                 dbGuild.saveAsync();
-                ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, args[0], role.getName());
-            } else {
-                DiscordUtils.selectList(ctx.getEvent(), roleList,
-                        role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
-                        s -> optsCmd.baseEmbed(ctx.getEvent(), "Select the Role:").setDescription(s).build(),
-                        role -> {
-                            if (!ctx.getMember().canInteract(role)) {
-                                ctx.sendLocalized("options.autoroles_add.hierarchy_conflict", EmoteReference.ERROR);
-                                return;
-                            }
+                ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, iamName, role.getName());
+            };
 
-                            if (!ctx.getSelfMember().canInteract(role)) {
-                                ctx.sendLocalized("options.autoroles_add.self_hierarchy_conflict", EmoteReference.ERROR);
-                                return;
-                            }
-
-                            guildData.getAutoroles().put(args[0], role.getId());
-                            dbGuild.saveAsync();
-                            ctx.sendLocalized("options.autoroles_add.success", EmoteReference.OK, args[0], role.getName());
-                        });
+            Role role = FinderUtils.findRoleSelect(ctx.getEvent(), roleName, roleConsumer);
+            if (role != null) {
+                roleConsumer.accept(role);
             }
         });
 
