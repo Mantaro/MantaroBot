@@ -246,9 +246,10 @@ public class Context {
     }
 
     public void sendLocalized(String localizedMessage, Object... args) {
+        // Stop swallowing issues with String replacements (somehow really common)
         getChannel().sendMessage(
                 String.format(Utils.getLocaleFromLanguage(getLanguageContext()), languageContext.get(localizedMessage), args)
-        ).queue();
+        ).queue(success -> {}, Throwable::printStackTrace);
     }
 
     public void sendLocalized(String localizedMessage) {

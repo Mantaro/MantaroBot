@@ -33,9 +33,13 @@ import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Option
 public class BirthdayOptions extends OptionHandler {
+    private Logger log = LoggerFactory.getLogger(BirthdayOptions.class);
+
     public BirthdayOptions() {
         setType(OptionType.GUILD);
     }
@@ -89,21 +93,25 @@ public class BirthdayOptions extends OptionHandler {
                     return;
                 }
 
-                User user = m.getUser();
-                String message = String.format("%s**%s is a year older now! Wish them a happy birthday.** :tada: (test)", EmoteReference.POPPER, m.getEffectiveName());
-                if (dbGuild.getData().getBirthdayMessage() != null) {
-                    message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName()).replace("$(usermention)", m.getAsMention());
-                }
+                try {
+                    User user = m.getUser();
+                    String message = String.format("%s**%s is a year older now! Wish them a happy birthday.** :tada: (test)", EmoteReference.POPPER, m.getEffectiveName());
+                    if (dbGuild.getData().getBirthdayMessage() != null) {
+                        message = dbGuild.getData().getBirthdayMessage().replace("$(user)", m.getEffectiveName()).replace("$(usermention)", m.getAsMention());
+                    }
 
-                //Value used in lambda... blabla :c
-                final String finalMessage = message;
-                guild.addRoleToMember(m, birthdayRole).queue(success -> {
-                    birthdayChannel.sendMessage(finalMessage).queue(s -> {
-                        ctx.sendLocalized("options.birthday_test.success", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName());
-                    }, error -> {
-                        ctx.sendLocalized("options.birthday_test.error", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName());
-                    });
-                }, error -> ctx.sendLocalized("options.birthday_test.error", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()));
+                    //Value used in lambda... blabla :c
+                    final String finalMessage = message;
+                    guild.addRoleToMember(m, birthdayRole).queue(success -> {
+                        birthdayChannel.sendMessage(finalMessage).queue(s -> {
+                            ctx.sendLocalized("options.birthday_test.success", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName());
+                        }, error -> {
+                            ctx.sendLocalized("options.birthday_test.error", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName());
+                        });
+                    }, error -> ctx.sendLocalized("options.birthday_test.error", EmoteReference.CORRECT, birthdayChannel.getName(), user.getName(), birthdayRole.getName()));
+                } catch (Exception e) {
+                    log.error("Error sending birthday test message!", e);
+                }
             });
         });
 
