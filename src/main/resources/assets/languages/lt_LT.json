@@ -1868,6 +1868,7 @@
       "invalid": "%1$s**You need to specify the users to locally blacklist.**",
       "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
       "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sLocally blacklisted users: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1985,6 +1986,7 @@
       "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
       "no_role_found": "%1$sI didn't find a role with that name!",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
