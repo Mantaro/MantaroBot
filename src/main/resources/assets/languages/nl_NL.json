@@ -1868,6 +1868,7 @@
       "invalid": "%1$s**Je moet de gebruikers specificeren voor de lokale blacklist.**",
       "yourself_notice": "%1$sWaarom probeer je jezelf op de blacklist te zetten?...",
       "admin_notice": "%1$sEen (of meer) van de gebruikers die je probeert te blacklisten zijn Admins of Bot Commanders!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sGebruikers die op de lokale blacklist zijn gezet: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1985,6 +1986,7 @@
       "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sJe moet de naam van de iam en de naam van de rol opgeven.",
       "no_role_found": "%1$sIk kon geen rol vinden met die naam!",
       "hierarchy_conflict": "%1$sDeze rol is hoger geplaatst dan jouw hoogste rol, daarom kun je hem niet als een automatisch toewijsbare rol toevoegen!",
