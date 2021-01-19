@@ -1868,6 +1868,7 @@
       "invalid": "%1$s**Tu dois spécifier l'utilisateur à blacklister.**",
       "yourself_notice": "%1$sPourquoi essaies-tu de te blacklister?...",
       "admin_notice": "%1$sUn (ou plusieurs) des personnes que tu veux blacklister sont admins ou Bot Commanders!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sUtilisateurs blacklistés localement: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1985,6 +1986,7 @@
       "success": "%1$sLe message d' au revoir a été réinitialisé."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sTu dois me donner le nom de l'iam et du rôle.",
       "no_role_found": "%1$sJe n'ai pas trouvé de rôle de ce nom. S'il contient des espaces essaie de le mettre entre guillemets.",
       "hierarchy_conflict": "%1$sCe rôle est placé plus haut que le plus haut des rôles, ça ne peut donc pas être un autorole!",
