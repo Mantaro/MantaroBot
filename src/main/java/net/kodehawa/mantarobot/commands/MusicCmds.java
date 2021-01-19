@@ -606,6 +606,8 @@ public class MusicCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("volume", "vol");
     }
 
     @Subscribe
