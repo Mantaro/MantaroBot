@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.ISnowflake;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
@@ -48,25 +48,24 @@ public class ModerationOptions extends OptionHandler {
                         You need to mention the user. You can mention multiple users.
                         **Example:** `~>opts localblacklist add @user1 @user2`""",
                 "Adds someone to the local blacklist.", (ctx, args) -> {
-            List<User> mentioned = ctx.getMentionedUsers();
+            List<Member> mentioned = ctx.getMentionedMembers();
 
             if (mentioned.isEmpty()) {
                 ctx.sendLocalized("options.localblacklist_add.invalid", EmoteReference.ERROR);
                 return;
             }
 
-            if (mentioned.contains(ctx.getAuthor())) {
+            if (mentioned.contains(ctx.getMember())) {
                 ctx.sendLocalized("options.localblacklist_add.yourself_notice", EmoteReference.ERROR);
                 return;
             }
 
-            if (mentioned.stream().anyMatch(User::isBot)) {
+            if (mentioned.stream().anyMatch(u -> u.getUser().isBot())) {
                 ctx.sendLocalized("options.localblacklist_add.bot_notice", EmoteReference.ERROR);
                 return;
             }
 
-            Guild guild = ctx.getGuild();
-            if (mentioned.stream().anyMatch(u -> CommandPermission.ADMIN.test(guild.getMember(u)))) {
+            if (mentioned.stream().anyMatch(CommandPermission.ADMIN::test)) {
                 ctx.sendLocalized("options.localblacklist_add.admin_notice", EmoteReference.ERROR);
                 return;
             }
@@ -75,9 +74,10 @@ public class ModerationOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
             List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
 
-            String blacklisted = mentioned.stream().map(
-                    user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(",")
-            );
+            String blacklisted = mentioned.stream()
+                    .map(Member::getUser)
+                    .map(user -> user.getName() + "#" + user.getDiscriminator())
+                    .collect(Collectors.joining(","));
 
             guildData.getDisabledUsers().addAll(toBlackList);
             dbGuild.save();
