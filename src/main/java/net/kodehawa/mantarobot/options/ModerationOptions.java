@@ -72,14 +72,14 @@ public class ModerationOptions extends OptionHandler {
 
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
-            List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            List<String> toBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
 
             String blacklisted = mentioned.stream()
                     .map(Member::getUser)
-                    .map(user -> user.getName() + "#" + user.getDiscriminator())
+                    .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
-            guildData.getDisabledUsers().addAll(toBlackList);
+            guildData.getDisabledUsers().addAll(toBlacklist);
             dbGuild.save();
 
             ctx.sendLocalized("options.localblacklist_add.success", EmoteReference.CORRECT, blacklisted);
@@ -90,7 +90,7 @@ public class ModerationOptions extends OptionHandler {
                         You need to mention the user. You can mention multiple users.
                         **Example:** `~>opts localblacklist remove @user1 @user2`""",
                 "Removes someone from the local blacklist.", (ctx, args) -> {
-            List<User> mentioned = ctx.getMentionedUsers();
+            List<Member> mentioned = ctx.getMentionedMembers();
 
             if (mentioned.isEmpty()) {
                 ctx.sendLocalized("options.localblacklist_remove.invalid", EmoteReference.ERROR);
@@ -100,15 +100,17 @@ public class ModerationOptions extends OptionHandler {
             DBGuild dbGuild = ctx.getDBGuild();
             GuildData guildData = dbGuild.getData();
 
-            List<String> toUnBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-            String unBlackListed = mentioned.stream().map(
-                    user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(",")
+            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String unBlacklisted = mentioned.stream()
+                    .map(Member::getUser)
+                    .map(User::getAsTag)
+                    .collect(Collectors.joining(",")
             );
 
-            guildData.getDisabledUsers().removeAll(toUnBlackList);
+            guildData.getDisabledUsers().removeAll(toUnBlacklist);
             dbGuild.save();
 
-            ctx.sendLocalized("options.localblacklist_remove.success", EmoteReference.CORRECT, unBlackListed);
+            ctx.sendLocalized("options.localblacklist_remove.success", EmoteReference.CORRECT, unBlacklisted);
         });
 
         registerOption("logs:enable", "Enable logs",

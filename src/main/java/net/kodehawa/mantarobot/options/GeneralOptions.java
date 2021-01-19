@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.entities.ISnowflake;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
@@ -52,7 +53,7 @@ public class GeneralOptions extends OptionHandler {
                 Prevents an user from appearing in modlogs.
                 You need the user mention.
                 Example: ~>opts modlog blacklist @user""", (ctx) -> {
-            List<User> mentioned = ctx.getMentionedUsers();
+            List<Member> mentioned = ctx.getMentionedMembers();
             if (mentioned.isEmpty()) {
                 ctx.sendLocalized("options.modlog_blacklist.no_mentions", EmoteReference.ERROR);
                 return;
@@ -62,7 +63,9 @@ public class GeneralOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
 
             List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-            String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
+            String blacklisted = mentioned.stream()
+                    .map(Member::getUser)
+                    .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
             guildData.getModlogBlacklistedPeople().addAll(toBlackList);
@@ -75,7 +78,7 @@ public class GeneralOptions extends OptionHandler {
                 Allows an user from appearing in modlogs.
                 You need the user mention.
                 Example: ~>opts modlog whitelist @user""", (ctx) -> {
-            List<User> mentioned = ctx.getMentionedUsers();
+            List<Member> mentioned = ctx.getMentionedMembers();
             if (mentioned.isEmpty()) {
                 ctx.sendLocalized("options.modlog_whitelist.no_mentions", EmoteReference.ERROR);
                 return;
@@ -85,7 +88,9 @@ public class GeneralOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
 
             List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-            String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator())
+            String unBlacklisted = mentioned.stream()
+                    .map(Member::getUser)
+                    .map(User::getAsTag)
                     .collect(Collectors.joining(","));
 
             guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
