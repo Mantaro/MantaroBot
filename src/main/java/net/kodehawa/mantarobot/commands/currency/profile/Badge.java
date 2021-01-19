@@ -325,7 +325,7 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    WAIFU("Waifu", "\ud83d\udda4",
+    WAIFU("Waifu", "\uD83D\uDC96",
             "Get waifu claimed once.",
             91, 92,
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1, false
