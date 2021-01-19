@@ -1868,6 +1868,7 @@
       "invalid": "%1$s**Du must einen Nutzer zum lokalen Ignorieren lassen angeben.**",
       "yourself_notice": "%1$sWarum versuchst du dich selbst ignorieren zu lassen...?",
       "admin_notice": "%1$sEiner (oder mehrere) der Nutzer, die du versuchst ignorieren zu lassen, sind Admins oder Bot Commander!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sLokal geblacklistete Nutzer: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1985,6 +1986,7 @@
       "success": "%1$sSerververlassnachricht zurückgesetzt."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sdu musst mir den Namen und die Rolle für das iam angeben.",
       "no_role_found": "%1$sIch habe keine Rolle mit dem Namen gefunden!\nWenn der Rollenname Leerzeichen enthält, verwende Anführungszeichen: \"Rollenname\"",
       "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als automatisch zuzuweisende Rolle setzen!",
