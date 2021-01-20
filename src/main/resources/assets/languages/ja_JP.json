@@ -13,7 +13,7 @@
     "daily": "毎日",
     "total": "合計",
     "arrow_react": "矢印リアクションでページ変更できます。",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "&p >> と &p << を使用してページを変更できます。また、 &cancel で終了します。",
     "not_found": "見つかりませんでした",
     "no_results": "結果がありません。",
     "timeout": "%1$d秒後に無効になります。",
@@ -32,7 +32,7 @@
     "item_lookup": {
       "no_item_emoji": "この絵文字に関連する商品が見つかりませんでした。",
       "no_item_name": "この名前に関連する商品が見つかりませんでした。",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "もしも、お探しのアイテムが見つからない場合、短い名称などを使用してみてください。 \n例えば、`エナジードリンク` の代わりに `エナジー`など。または、検索したい名前を\"このように\" 引用符で囲んでください。",
       "claim_key": "クレームキーを渡すことができません。"
     },
     "misc_item_usage": {
@@ -115,8 +115,8 @@
       "The boot has been thrown!",
       "You'll be missed... not really",
       "間違っていなければ良いのですが...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "おぉ！ モデレーターが話したぞ！",
+      "え、えぇ... た、たしかに、誰かがそのドアを通りました。"
     ]
   },
   "categories": {
@@ -276,7 +276,7 @@
       },
       "listener": {
         "paused": "%1$sミュートされたため、再生を一時停止します。 (・_・、)",
-        "resumed": "%1$sResuming playback because someone joined!",
+        "resumed": "%1$s誰かが参加したため再生を再開します！",
         "left_alone": "%1$s 誰も **%2$s** に居ないため、2分以内に切断します。 (・_・、)",
         "leave": "%1$s 誰も **%2$s** に居ないため切断しました。:("
       },
@@ -370,7 +370,7 @@
       "not_dj": "%1$sこれを実行するためにはDJでないといけません。"
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$sDJがこの再生リストを中止することにしました。",
       "vote": {
         "submit": "%1$s**あなたの票が入りました** 停止するにはあと %2$d票 必要です！",
         "remove": "%1$s**あなたの票を取り消しました** 停止するにはあと %2$d票 必要です！"
