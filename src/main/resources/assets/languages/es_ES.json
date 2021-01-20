@@ -1005,14 +1005,14 @@
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
+        "not_specified": "%1$sDebes especificar una insignia para ver la información. Por ejemplo, `~>badge info claimer`",
         "not_found": "%1$sEse trofeo no existe...",
         "header": "Información para el trofeo %1$s",
         "achieved": "Logrado"
       },
       "brief_success": "**Trofeos de %1$s**\n%2$s",
       "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "info_notice": "Usa `~>badges info <nombre del trofeo>` para obtener más información sobre una insignia. [También puedes consultar la wiki] (https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
       "donate_notice": "**¡Puedes conseguir un trofeo por [ayudar a mantener el bot vivo](https://patreon.com/mantaro)!** (Puede que tome unos minutos para procesar)\n\n",
       "no_badges": "No hay trofeos para mostrar (¡aún!)",
       "header": "Trofeos logrados por %1$s",
@@ -1033,8 +1033,8 @@
     },
     "birthday": {
       "reset": "%1$sHe limpiado la fecha de tu cumpleaños correctamente.",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
+      "no_guild_birthdays": "%1$sLas cosas parecen un poco vacías aquí. Recuerde que el caché se actualiza cada 23 horas y que ahora la gente tiene que ejecutar `~> birthday allowserver` para permitir que este servidor anuncie sus cumpleaños.",
+      "no_guild_month_birthdays": "%1$sNo hay cumpleaños para este mes (%2$s) aquí :(\n%3$sSi acaba de configurar el birthday announcer, espere un poco hasta que vuelva a ejecutarlo. (La caché se actualiza cada 23 horas) Recuerde que ahora la gente tiene que ejecutar `~> birthday allowserver` para permitir que este servidor anuncie sus cumpleaños.",
       "cache_not_running": "%1$sEl cache de cumpleaños no parece estar funcionando (error interno) :(",
       "error": "%1$sAlgo salió muy mal intentando buscar los cumpleaños (error interno) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
@@ -1665,7 +1665,7 @@
       "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
       "not_suitable": "%1$sNo puedes minar con esto!",
       "not_in_inventory": "%1$sNo tienes esta picota en tu inventario, usaré la picota por defecto.",
-      "success": "%1$sMinastes piedras preciosas con un valor de **$%2$s créditos**, utlilizando un *%3$s*",
+      "success": "%1$sMinaste piedras preciosas con un valor de **$%2$,d créditos**, utlilizando un *%3$s*",
       "reminder": "\n*Puedes crear mejores picos usando los materiales que encuentras minando. Revisa `~>cast ls` para una lista de cosas que puedes crear*",
       "diamond": {
         "overflow": "¡Huh, encontraste un diamante minando! Pero ya tenías muchos diamantes, así que lo vendí por ti.",
@@ -1868,7 +1868,7 @@
       "invalid": "%1$s**Necesitas especificar los usuarios que agregar a la lista negra local.**",
       "yourself_notice": "%1$sPor qué estás intentando agregarte a la lista negra?...",
       "admin_notice": "%1$sUno (o más) de los usuarios que intentaste agregar a la lista negra son administradores o tienen el rol Bot Commander!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
+      "bot_notice": "%1$sNo puedes poner un bot en la lista negra. El bot nunca responderá a ningún bot.",
       "success": "%1$sUsuarios en la lista negra local: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1986,7 +1986,7 @@
       "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
-      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
+      "too_long": "%1$sEl nombre del autorol debe tener como máximo 40 caracteres.",
       "no_args": "%1$sNecesitas especificar el nombre del iam y el nombre del rol que desees agregar a los roles auto-asignables.",
       "no_role_found": "%1$sNo encontré un rol con ese nombre!",
       "hierarchy_conflict": "%1$sEste rol está en una posición mayor que tu mayor rol, por lo tanto no puede ser utilizado como un rol autoasignable!",
