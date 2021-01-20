@@ -225,7 +225,7 @@
         "timeout": "%1$s %2$sへの接続に失敗しました。接続がタイムアウトしました。 サーバー地域を変更して再度コマンドを実行してみてください。",
         "unknown": "%1$sUnable to connect to %2$s: unknown error."
       },
-      "not_working": "%1$s音楽再生機能はYoutubeからbotトラフィックをブロックされているため有名なbotでは現在使用不可能になっています。\n私達のPatreon botでは今現在も使用可能です。\nMantaroに4$/月 寄付いただけるとPatreon botが使用出来るほか、現在発生している問題の修正の取り組みにも役立ちます。\n\nこちらをご覧ください。<https://patreon.com/mantaro>\n\nご不便をおかけして申し訳ございません。\n問題解決までSoundcloudの使用をご検討ください! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$s音楽再生機能はYoutubeが有名なbotからのbotトラフィックをブロックしているため現在使用不可能になっています。\n私達のPatreon botでは今現在も使用可能です。\nMantaroに4$/月 寄付いただけるとPatreon botが使用出来るほか、現在発生している問題の修正の取り組みにも役立ちます。\n\nこちらをご覧ください。<https://patreon.com/mantaro>\n\nご不便をおかけして申し訳ございません。\n問題解決までSoundcloudの使用をご検討ください! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sYou need to tell me what song you want to play! *(YouTube, Soundcloud, Twitch URL or search queries are allowed)*",
       "not_playing": "%1$sI'm not currently playing anything. If you believe this is an error, please report this at <https://support.mantaro.site>",
       "dj_only": "%1$sYou need to be a DJ to use this command.",
@@ -451,7 +451,7 @@
         "header": "`%1$s` (応答: %2$s) - サーバー: `%3$s`",
         "selection": "コマンドを選択:",
         "note": "(自分が所属しているサーバーからのみカスタムコマンドを選択することができます)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "success": "サーバー `%2$s` からカスタムコマンド `%1$s` をインポートしました 。 総数 %3$d"
       },
       "edit": {
         "no_command": "%1$s編集したいコマンドを指定してください。",
@@ -478,7 +478,7 @@
         "empty_content": "%1$sYou need to specify the content of this custom command",
         "success": "%1$sコマンド `%2$s` を保存しました。",
         "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "too_many_commands": "%1%sサーバーで使用出来るカスタムコマンドの総数が最大値に達しました。これ以上の追加はできません(+100)。 支援者のサーバーではこれを回避できます。(詳細はこちら <https://patreon.com/mantaro>)"
       },
       "lockcommand": {
         "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
@@ -490,51 +490,51 @@
         "not_locked": "%1$sThis command isn't locked.",
         "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
+      "character_not_allowed": "%1$sこの文字はカスタムコマンドに使用できません。",
       "already_exists": "%1$sこのコマンド `%2$s` はすでに存在しこのデフォルトで用意されているコマンドです。",
       "name_too_long": "%1$s名前が長すぎます。",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
+      "no_cc": "%1$sこのサーバーには作成されたカスタムコマンドが存在しません。ここには埃しかありません。",
+      "admin_only": "このサーバーでカスタムコマンドの作成、変更、許可、インポート、評価を行うことができるのは管理者のみです。\n**これは標準設定です。**\n- もしも、あなたが管理者(Bot Commander ロールもしくはサーバー管理 ロールを所持)でありこれらのコマンドを全員に開放したい場合。 `~>opts admincustom false`を使用して開放が可能です。",
+      "not_found": "%1$sこのギルドにはカスタムコマンドの `%2$s` が存在しません。",
       "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
+      "invalid_string": "%1$sこの文字列 `{%2$s}` は有効ではないか、出力が2000文字以上です。",
+      "invalid_json": "%1$sこの文字列 `{%2$s}` は有効なJSONではありません。",
+      "invalid_link": "%1$sこの文字列 `%2$s` は有効なリンクではありません。",
       "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
+      "no_permissions": "%1$sミュートを行うにはあなたが、メンバーをキックもしくはメンバーをBANする権限を所持している必要があります。",
+      "no_mute_role": "%1$sミュートロールが設定されていません。 `~>opts muterole set <role>` を使用して設定可能です。",
+      "null_mute_role": "%1$sこのサーバーで以前設定されていたミュートロールが存在していません。",
+      "no_users": "%1$sミュートを行うためにはユーザーを指定する必要があります。",
+      "no_manage_roles": "%1$s私はこのサーバーでロールを管理する権限を所持していません。",
+      "no_time": "%1$s時間が指定されていません。 引数に `-time`を追加し、指定する必要があることを覚えておいてください。",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
+      "negative_time_notice": "%1$sあなたが時空を曲げない限り、時間を負の値でユーザーをミュートすることはできません。",
+      "default_time_too_long": "%1$sデフォルトで設定されているミュートタイムアウトの時間が長すぎます。(最大: 10日)",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "time_too_long": "%1$s設定しようとしているミュートタイムアウトの時間が長すぎます。(最大: 10日)",
+      "already_muted": "%1$sこのユーザーはすでにミュートロールが付けられています。 ミュートを解除する場合は `~unmute`を使用してください。",
+      "self_hierarchy_error": "%1$sこのユーザーにミュートロールを付けることができません。 対象のユーザーは私より高い権限か同等の権限を所持しています！",
+      "user_hierarchy_error": "%1$sこのユーザーにミュートロールを付けることができません。 対象のユーザーは私かあなたより高いの権限か同等の権限を所持しています！",
       "success": "%1$sAdded mute role to **%2$s** for around %3$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_permissions": "%1$sミュート解除を行うにはあなたが、メンバーをキックもしくはメンバーをBANする権限を所持している必要があります。",
+      "no_mentions": "%1$sミュートを解除するには最低一人をメンションしてください。",
+      "success": "%1$sミュートロールを **%2$s**から削除しました。",
+      "no_role_assigned": "%1$sこのユーザーにはミュートロールが割り当てられていません。"
     },
     "ping": {
       "display": [
-        "W-Was I fast enough?",
-        "What are you doing?",
-        "W-What are you looking at?!",
+        "わ、わたし早かった？",
+        "今何してるの？",
+        "な、何を君は探しているの？！",
         "Huh.",
-        "Did I do well?",
-        "What do you think?",
-        "Does this happen often?",
-        "Am I performing p-properly?",
+        "私はうまくできた？",
+        "どう思いますか？",
+        "これはよく起こるんですか？",
+        "わ、私ちゃんと動いてる？",
         "<3",
         "pat pat",
         "ポン！",
@@ -549,19 +549,19 @@
       "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
-      "decent": "Good enough!",
-      "nice": "Good match!",
-      "perfect": "Perfect match!",
-      "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
-      "result": "Result:"
+      "no_mention": "%1$s最低1人のユーザーをメンションしてください。",
+      "not_ideal": "また試してみて...",
+      "decent": "十分だよ！",
+      "nice": "とってもいいね！",
+      "perfect": "完璧だよ！",
+      "yourself_note": "君は特別な生き物なんだ、だから誰よりも自分を愛すべきだよ。 <3",
+      "header": "愛情メーター",
+      "result": "結果:"
     },
     "marry": {
       "loveletter": {
         "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
-        "empty": "%1$sYou cannot leave the love letter empty.",
+        "empty": "%1$sラブレターを空っぽにしておくわけにはいきません。",
         "no_marriage": "%1$sあなたは結婚していません、自分自身にラブレターを書くことはできません...",
         "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
         "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
@@ -647,20 +647,20 @@
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
         "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query. "
+        "not_found": "%1$s問い合わせと合致したユーザーが見つかりません。 "
       },
       "unclaim": {
         "no_user": "%1$sYou need to mention a waifu to un-claim.",
         "not_claimed": "%1$sThis user isn't your waifu!",
         "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
         "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
+        "player_locked": "%1$s現在、あなたはこれをすることはできません。",
         "scrapped": "%1$sCancelled waifu un-claiming.",
         "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
         "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
+        "locked": "%1$sあなたは現在このアクションを実行できません。",
         "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$,d credits.",
         "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
@@ -669,8 +669,8 @@
         "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "cancelled": "%1$s脱退をキャンセルしました。",
+        "claim_notice": "%1$sあなたが指定したユーザーはすでに脱退しています。"
       },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
@@ -709,12 +709,12 @@
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sこのアイテムをキャストすることはできません。キャスト可能な項目のリストは `~cast ls`を使って調べることができます。　アイテム名にスペースがある場合は引用符で囲ってください。 例: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
+      "not_enough_money": "%1$sお金が足りないためキャストすることができません **(コスト: %2$s)**",
       "no_item": "%1$sこのキャストを進化させるには *%2$s*が必要です。",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
       "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
-      "item_broke": "\nSadly, your wrench broke in the process, but you got your item!",
+      "item_broke": "\n悲しいかな、あなたのレンチは使用中に破損しました... ですがあなたはアイテムを入手しました！",
       "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
@@ -868,29 +868,29 @@
       "result_header": "Poll results",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
-      "results": "Results",
-      "cancelled": "%1$sCancelled poll",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+      "thank_note": "投票ありがとうございます。",
+      "results": "結果",
+      "cancelled": "%1$s投票をキャンセルしました。",
+      "incorrect_time_format": "%1$s書式が間違っています。適切な時刻のフォーマットは `h, m または s` (時間, 分 または 秒)。 例:`-time 40m`"
     },
     "profile": {
       "timezone": {
         "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
-        "reset": "%1$sReset timezone.",
+        "reset": "%1$sタイムゾーンをリセット。",
         "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
-        "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "success": "%1$sタイムゾーンを保存しました。 あなたの現在のタイムゾーンは: **%2$s** です。",
+        "reset_success": "%1$sタイムゾーンのリセットに成功しました。"
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
-        "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
-        "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-        "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
-        "clear_success": "%1$sSuccessfully cleared description."
+        "no_argument": "%1$s引数を指定する必要があります！(set もしくは remove)\n例, ~>profile description set こんにちは！",
+        "no_content": "%1$s自己紹介の内容が指定されていません。\n例, ~>profile description set こんにちは！",
+        "too_long": "%1$sこの自己紹介は長すぎます！ `(通常は300文字まで、プレミアムユーザーは500文字まで。)`",
+        "success": "%1$s自己紹介を: **%2$s** にセットしました。\n輝かしいあなたのプロフィールを ` ~>profile` で確認してみてください。",
+        "clear_success": "%1$s自己紹介の削除に成功しました。"
       },
       "displaybadge": {
         "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
+        "reset_success": "%1$sあなたのバッジはプロフィールの上部に表示されなくなりました。",
         "important_success": "%1$sYour display badge is now the most important one.",
         "no_such_badge": "%1$sそのようなバッジはありません...\nあなたが所持しているのは: %2$s",
         "player_missing_badge": "%1$sあなたはこのバッジを所持していません。\nあなたが所持しているのは: %2$s",
@@ -911,7 +911,7 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "stats": {
-        "header": "Profile Statistics for %1$s",
+        "header": "%1$sの統計プロフィール",
         "wins": "カジノ勝利回数",
         "market": "マーケット使用回数",
         "potion": "使用中のポーション",
