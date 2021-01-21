@@ -245,7 +245,13 @@ public class BirthdayTask {
                         if (channel == null)
                             continue;
 
-                        messages.forEach(message -> channel.sendMessage(message).queue());
+                        messages.forEach(message -> channel.sendMessage(message)
+                                .allowedMentions(EnumSet.of(
+                                        Message.MentionType.USER, Message.MentionType.CHANNEL,
+                                        Message.MentionType.ROLE, Message.MentionType.EMOTE)
+                                )
+                                .queue()
+                        );
                         // If 100 guilds (about 1/10th of all the shard guilds! so very unlikely) do
                         // get a birthday now, the maximum delay will be 40,000ms, which is 40 seconds.
                         // Not much of an issue for the end user, but avoid sending too many requests
