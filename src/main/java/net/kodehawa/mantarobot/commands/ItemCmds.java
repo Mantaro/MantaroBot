@@ -291,6 +291,7 @@ public class ItemCmds {
                         .build();
             }
         });
+        cr.registerAlias("cast", "craft");
 
         castCommand.addSubCommand("ls", new SubCommand() {
             @Override
