@@ -550,25 +550,27 @@ public class MantaroListener implements EventListener {
         final var member = event.getMember();
         final var selfMember = guild.getSelfMember();
 
-        if (role != null &&  !(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
-            var toAssign = guild.getRoleById(role);
-            if (toAssign != null && selfMember.canInteract(toAssign) && selfMember.hasPermission(Permission.MANAGE_ROLES)) {
-                try {
+        try {
+            if (role != null &&  !(user.isBot() && guildData.isIgnoreBotsAutoRole())) {
+                var toAssign = guild.getRoleById(role);
+                if (toAssign != null && selfMember.canInteract(toAssign) && selfMember.hasPermission(Permission.MANAGE_ROLES)) {
                     guild.addRoleToMember(member, toAssign).reason("Autorole assigner").queue();
                     Metrics.ACTIONS.labels("join_autorole").inc();
-                } catch (Exception ignored) { }
+                }
             }
-        }
+        } catch (Exception ignored) { }
 
         final var logChannel = guildData.getGuildLogChannel();
         if (logChannel != null) {
-            var tc = guild.getTextChannelById(logChannel);
-            if (tc != null && tc.canTalk()) {
-                tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
-                        hour, event.getUser().getName(), event.getUser().getDiscriminator(),
-                        guild.getName(), event.getUser().getId())
-                ).queue();
-            }
+            try {
+                var tc = guild.getTextChannelById(logChannel);
+                if (tc != null && tc.canTalk()) {
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(ID: %s)`",
+                            hour, event.getUser().getName(), event.getUser().getDiscriminator(),
+                            guild.getName(), event.getUser().getId())
+                    ).queue();
+                }
+            } catch (Exception ignored) { }
         }
 
         if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
