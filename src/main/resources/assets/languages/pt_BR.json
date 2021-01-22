@@ -1662,7 +1662,7 @@
     },
     "mine": {
       "not_equipped": "%1$sVocê ainda não equipou sua picareta. Use o comando `~>equip <tipo de picareta>` para equipar uma picareta e começar a sua aventura! Se você não tem nenhuma, primeiro utilize `~>buy pick` para comprar uma do mercado",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
+      "no_pick": "%1$sVocê não tem nenhuma picareta para minerar. Se você quiser usar outra picareta utilize `~>mine <nome da picareta>`",
       "not_suitable": "%1$sIsso não é uma picareta que você pode usar para minerar!",
       "not_in_inventory": "%1$sVocê não tem essa picareta no seu inventário, mudando para a picareta padrão.",
       "success": "%1$sVocê minerou minerais que valem **$%2$s créditos**, usando uma *%3$s*",
@@ -1868,7 +1868,7 @@
       "invalid": "%1$s**Você precisa especificar os usuários para a lista negra local.**",
       "yourself_notice": "%1$sPor que você está tentando se colocar na lista negra??...",
       "admin_notice": "%1$sUm (ou mais) dos usuários que você está tentando por na lista negra são admins ou Bot Commanders!",
-      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
+      "bot_notice": "%1$sVocê não pode colocar um bot na lista negra. O bot nunca vai responder à outros bots.",
       "success": "%1$sUsuários na lista negra local: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1986,7 +1986,7 @@
       "success": "%1$sMensagem de sair do servidor resetada."
     },
     "autoroles_add": {
-      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
+      "too_long": "%1$sO nome do autorole pode ter no máximo 40 caracteres.",
       "no_args": "%1$sVocê tem que especificar o nome do iam e o nome do cargo.",
       "no_role_found": "%1$sEu não achei um cargo com esse nome!\nSe o nome do cargoSe o nome do cargoo tiver espaços, coloque-o entre aspas tipo assim: \"Nome do Cargo\"",
       "hierarchy_conflict": "%1$sEste cargo é colocado acima do seu cargo mais alto, portanto, você não pode colocá-lo como um cargo auto-atribuível!",
