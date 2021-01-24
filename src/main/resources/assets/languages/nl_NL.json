@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sJe zult me moeten vertellen hoeveel je het nummer wilt terugspoelen. *(Bijvoorbeeld: `~>rewind 1m45s` zal het nummer 1 minuut en 45 seconden terugspoelen)*",
-      "negative": "%1$sAlleen positieve getallen zijn toegestaan",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sJe kunt niet terugspoelen naar een moment vóór het begin van het nummer",
       "success": "%1$sTerugspoelen van het nummer naar: %2$s."
     },
