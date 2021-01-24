@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sNe kadar geriye almam gerektiğini söylemelisin. *(Örneğin: `~>rewind 1m45s` şarkıyı 1 dakika 45 saniye geri alır!)*",
-      "negative": "%1$sSadece pozitif girdiler!",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sBir şarkının başlangıcından öteye geri alamam!",
       "success": "%1$sGeri sarıldı: %2$s."
     },
