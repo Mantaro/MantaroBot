@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$s你需要告诉我你想倒转的长度 *(范例: `~>rewind 1m45s`将会倒转1分45秒)*",
-      "negative": "%1$s仅限正整数",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$s你无法倒转至歌曲开头之前",
       "success": "%1$s倒转歌曲至: %2$s。"
     },
