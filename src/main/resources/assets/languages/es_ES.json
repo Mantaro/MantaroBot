@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sNecesitas decirme cuanto quieres rebobinar la canción. *(Ejemplo: `~>rewind 1m45s` rebobinará la canción por 1 minuto y 45 segundos)*",
-      "negative": "%1$sSólo puedes usar números enteros positivos",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sNo puedes saltarte al momento anterior al principio de la canción...",
       "success": "%1$sRebobiné la canción actual a: %2$s."
     },
