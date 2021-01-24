@@ -802,7 +802,7 @@
       "receipt_locked_notice": "1$sNgười chơi đó hiện không thể nhận tiền.",
       "receipt_over_limit": "%1$sNgười chơi này có quá nhiều tiền...",
       "success": "%1$sĐã chuyển thành công **%2$,d** *(%3$,d sau khi trừ 8%% thuế)* tới **%4$s**.",
-      "item_transfer": "%1$sBạn không thể dùng lệnh chuyển tiền để chuyển đồ, hãy thử dùng lệnh `transferitems`.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
