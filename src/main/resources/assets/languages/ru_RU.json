@@ -802,7 +802,7 @@
       "receipt_locked_notice": "1$sЭтот пользователь не может получить ваш перевод.",
       "receipt_over_limit": "%1$sУ этого пользователя уже слишком много денег...",
       "success": "%1$sПереведено **%2$d** *(%3$d вычтено 8%%)* пользователю **%4$s** успешно.",
-      "item_transfer": "%1$sВы не можете передавать предметы таким способом, используйте эту команду `transferitems`.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
