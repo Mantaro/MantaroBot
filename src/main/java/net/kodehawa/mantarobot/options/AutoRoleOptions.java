@@ -247,7 +247,7 @@ public class AutoRoleOptions extends OptionHandler {
 
     @Override
     public String description() {
-        return "Guild auto role and self-assigned roles Configuration";
+        return "Guild auto role and self-assigned roles configuration";
     }
 
 }

@@ -222,6 +222,7 @@ public class MusicCmds {
         });
 
         cr.registerAlias("play", "join");
+        cr.registerAlias("play", "p");
     }
 
     @Subscribe
@@ -544,6 +545,8 @@ public class MusicCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("stop", "heckoff");
     }
 
     @Subscribe

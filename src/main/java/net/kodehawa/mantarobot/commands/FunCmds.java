@@ -122,6 +122,8 @@ public class FunCmds {
         });
 
         cr.registerAlias("ratewaifu", "rw");
+        cr.registerAlias("ratewaifu", "rate");
+
     }
 
     @Subscribe

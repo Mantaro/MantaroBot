@@ -221,6 +221,8 @@ public class CurrencyCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("level", "rank");
     }
 
     @Subscribe
@@ -274,6 +276,8 @@ public class CurrencyCmds {
                         .build();
             }
         });
+
+        registry.registerAlias("opencrate", "crate");
     }
 
     @Subscribe
@@ -411,6 +415,8 @@ public class CurrencyCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("useitem", "use");
 
         ui.addSubCommand("ls", new SubCommand() {
             @Override

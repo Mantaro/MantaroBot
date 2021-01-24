@@ -182,6 +182,8 @@ public class TransferCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("transfer", "give");
     }
 
     @Subscribe

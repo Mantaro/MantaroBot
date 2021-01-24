@@ -400,7 +400,9 @@ public class LeaderboardCmd {
         leaderboards.createSubCommandAlias("waifuvalue", "waifu");
 
         cr.registerAlias("leaderboard", "richest");
+        cr.registerAlias("leaderboard", "top");
         cr.registerAlias("leaderboard", "lb");
+
     }
 
     private List<Map<String, Object>> getLeaderboard(String table, String index, ReqlFunction1 mapFunction) {
