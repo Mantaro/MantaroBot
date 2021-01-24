@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sTuri nurodyti, iki kurio laiko man atsukti dainą. *(Pavyzdžiui: `~>rewind 1m45s` atsuks dainą iki 1 minutės ir 45 sekundžių)*",
-      "negative": "%1$sTik teigiamos reikšmės",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sTu negali atsukti dainos prieš pradžią.",
       "success": "%1$sDaina atsukta iki: %2$s."
     },
