@@ -802,7 +802,7 @@
       "receipt_locked_notice": "1$sŠis žmogus kolkas negali gauti pinigų.",
       "receipt_over_limit": "%1$sŠis narys ir taip turi per daug pinigų...",
       "success": "%1$sSėkmingai pervesta **%2$d** *(%3$d po 10%% mokesčio)* **%4$s**.",
-      "item_transfer": "%1$sTu negali pervesti daiktų naudojant `transfer`, naudok `transferitems` komandą vietoje to.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
