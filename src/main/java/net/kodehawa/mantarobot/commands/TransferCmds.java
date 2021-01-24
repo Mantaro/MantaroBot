@@ -92,9 +92,14 @@ public class TransferCmds {
                     return;
                 }
 
+                var item = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext());
+                if (item.isPresent()) {
+                    ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
-
 
                 var toSend = 0L; // = 0 at the start
 
@@ -108,11 +113,6 @@ public class TransferCmds {
 
                 if (toSend == 0) {
                     ctx.sendLocalized("commands.transfer.no_money_specified_notice", EmoteReference.ERROR);
-                    return;
-                }
-
-                if (ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).isPresent()) {
-                    ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
                     return;
                 }
 
