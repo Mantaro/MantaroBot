@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sВы должны указать на какой момент перемотать песню. *(Пример: `~>rewind 1m45s` переключит песню на момент: 1 минута 45 секунд)*",
-      "negative": "%1$sТолько положительные целые числа",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sВы не можете перейти к началу трека",
       "success": "%1$sЯ переключил трек на: %2$s."
     },
