@@ -308,7 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sBạn cần phải nói cho tôi biết rằng bạn muốn tua lại bao nhiêu phút trong bài hát: *(Ví dụ `~>rewind 1m45s` sẽ tua lại 1 phút 45s của bài hát)*",
-      "negative": "%1$sChỉ dùng số nguyên dương",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sBạn không thể bỏ qua một bài hát trước khi nó bắt đầu",
       "success": "%1$sĐã tua lại bài hát đến: %2$s."
     },
