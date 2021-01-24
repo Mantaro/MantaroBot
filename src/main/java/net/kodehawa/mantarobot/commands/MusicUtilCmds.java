@@ -103,6 +103,11 @@ public class MusicUtilCmds {
                             return;
                         }
 
+                        if (amt < 1000) {
+                            ctx.sendLocalized("commands.rewind.too_little", EmoteReference.ERROR);
+                            return;
+                        }
+
                         var track = lavalinkPlayer.getPlayingTrack();
                         var position = lavalinkPlayer.getTrackPosition();
                         if (position + amt > track.getDuration()) {
@@ -157,6 +162,11 @@ public class MusicUtilCmds {
                         var amt = Utils.parseTime(args[0]);
                         if (amt < 0) {
                             ctx.sendLocalized("commands.rewind.negative", EmoteReference.ERROR);
+                            return;
+                        }
+
+                        if (amt < 1000) {
+                            ctx.sendLocalized("commands.rewind.too_little", EmoteReference.ERROR);
                             return;
                         }
 
