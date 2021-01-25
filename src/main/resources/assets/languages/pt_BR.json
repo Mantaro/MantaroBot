@@ -308,8 +308,8 @@
     },
     "rewind": {
       "no_time": "%1$sVocê tem que me dizer o quanto você quer voltar a música. *(Exemplo: `~>rewind 1m45s` irá retornar 1 minuto e 45 segundos da música)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "negative": "%1$sApenas números positivos",
+      "too_little": "%1$sVocê tem que usar o formato correto. Por favor cheque o comando de ajuda. *(Exemplo: `~>rewind 1m45s` vai retornar a música para 1 minuto e 45 segundos)*",
       "before_beginning": "%1$sVocê não pode pular para antes do começo de uma música",
       "success": "%1$sVoltando música em: %2$s."
     },
@@ -802,7 +802,7 @@
       "receipt_locked_notice": "1$sEsse usuário não pode receber dinheiro agora.",
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
+      "item_transfer": "%1$sVocê não pode transferir itens usando transfer, em vez disso, use o comando `~>transferitems`.",
       "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 10 minutos."
     },
     "useitem": {
