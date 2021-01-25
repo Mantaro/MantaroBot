@@ -300,30 +300,30 @@
     },
     "np": {
       "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "header": "再生中"
     },
     "pause": {
       "paused": "Player paused. *(Player was un-paused previously)*",
       "unpaused": "Player un-paused. *(Player was paused previously)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "no_time": "%1$s巻き戻したい時間を指定する必要があります。*(例: `~>rewind 1m45s` で1分45秒巻き戻します。)*",
       "negative": "%1$sPositive numbers only",
       "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "before_beginning": "%1$s曲が始まる前にスキップすることはできません。",
+      "success": "%1$s%2$sまで、巻き戻しました。"
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$s現在の曲を再度開始します。"
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
+      "no_time": "%1$s早送りしたい時間を指定する必要があります。*(例: `~>skipahead 1m45s` で1分45秒早送りします。)*",
       "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "success": "%1$s%2$sまで、早送りしました。"
     },
     "move": {
       "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
-      "attempt": "%1$sI will try to move to the channel you're in",
+      "attempt": "%1$sあなたの居るチャンネルに接続試行中です。",
       "error_moving": "%1$sボイスチャンネルの切り替えに失敗しました。",
       "cannot_connect": "%1$s接続できません: 私は発言する権限と移動する権限が与えられていません。",
       "non_existent_channel": "%1$s存在しないチャンネルには移動できません！",
@@ -390,7 +390,7 @@
     "lyrics": {
       "no_current_track": "%1$sThere's no song currently playing on this server!",
       "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
+      "header": "%1$s%2$sの歌詞",
       "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
