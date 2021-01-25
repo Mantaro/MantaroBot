@@ -1386,7 +1386,7 @@
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
         "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thrist)",
-        "success": "%1$s太棒了！成功給了你的寵物 %2$d 個水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
+        "success": "%1$s太棒了！成功給了你的寵物 %2$d 瓶水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** 的耐力過低。給他一些水和食物來補充。",
