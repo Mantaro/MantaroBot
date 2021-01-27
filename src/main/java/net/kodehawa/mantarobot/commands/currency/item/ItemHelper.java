@@ -69,7 +69,7 @@ public class ItemHelper {
             if (!playerInventory.containsItem(ItemReference.MOP))
                 return false;
 
-            if (dbUser.getData().getDustLevel() > 5) {
+            if (dbUser.getData().getDustLevel() >= 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
 
