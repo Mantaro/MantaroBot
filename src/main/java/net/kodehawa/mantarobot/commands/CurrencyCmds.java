@@ -241,8 +241,13 @@ public class CurrencyCmds {
                         .orElse(null);
 
                 //Open default crate if nothing's specified.
-                if (item == null || content.isEmpty()) {
+                if (content.isEmpty()) {
                     item = ItemReference.LOOT_CRATE;
+                }
+
+                if (item == null) {
+                    ctx.sendLocalized("commands.opencrate.nothing_found", EmoteReference.ERROR);
+                    return;
                 }
 
                 if (item.getItemType() != ItemType.CRATE) {
