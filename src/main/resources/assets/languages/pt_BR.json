@@ -672,7 +672,8 @@
         "warning": "%1$sVocê quer sair do sistema de waifu? ISSO É PERMANENTE E NÃO PODE SER REVERTIDO. Sério.\nSe você quiser apenas sair do sistema de novas reivindicações e usar o sistema de waifu como de costume, por favor use `~>profile claimlock` ao invés disso.\nVocê não poderá reivindicar ou ser reivindicado, e todas as reivindicações sobre você vão ser removidas.\nDigite `Yes, I want to opt out of the waifu system completely and irreversibly` ou `no`.\nDigitando a mensagem de confirmação irá remover você, no irá cancelar.",
         "success": "%1$sVocê saiu com sucesso do sistema de waifu.",
         "cancelled": "%1$sOperação de saída cancelada.",
-        "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu."
+        "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Lista de Waifu",
       "description_header": "Aqui está uma lista com todas as suas amadas waifus, classificadas por data de adição.\n*Você pode ter um máximo de %1$d waifus por enquanto.*\n\nSe você deseja checar suas estatísticas de waifu, use `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Seu resultado de **%2$d** tempo(s) rendeu **%3$d** caras e **%4$d** coroas"
     },
     "inventory": {
-      "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas então seria só um `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**Coleção de itens de %1$s** %2$s\n\n*Para uma versão detalhada, use `~>inventory -info`. Aprecie seu dia!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sCancelado com sucesso."
         },
         "non_existent": "%1$sVocê não pode vender um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
-        "no_sell_price": "%1$sVocê não pode vender um item que não pode ser vendido. (Mas você pode usar `~>market dump` nele)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sVocê não pode vender um item que você não tem.",
         "more_items_than_player": "%1$sVocê não pode vender mais itens do que você tem.",
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
