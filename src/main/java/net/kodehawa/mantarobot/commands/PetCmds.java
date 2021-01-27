@@ -188,6 +188,11 @@ public class PetCmds {
                 }
 
                 var name = pet.getName().replace("\n", "").trim();
+                var baseAbilities = pet.getType().getAbilities().stream()
+                        .filter(ability -> ability != HousePetType.HousePetAbility.CHEER)
+                        .collect(Collectors.toList());
+                var hasItemBuildup = baseAbilities.contains(HousePetType.HousePetAbility.CATCH);
+
                 EmbedBuilder status = new EmbedBuilder()
                         .setAuthor(String.format(language.get("commands.pet.status.header"), name), null, ctx.getUser().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
@@ -203,41 +208,51 @@ public class PetCmds {
                         .addField(
                                 EmoteReference.WRENCH + language.get("commands.pet.status.abilities"),
                                 pet.getType().getStringAbilities(), false
-                        )
-                        .addField(
-                                EmoteReference.ZAP + language.get("commands.pet.status.buildup"),
-                                language.get("commands.pet.status.buildup_stats")
-                                        .formatted(
-                                                pet.getType().getMaxCoinBuildup(pet.getLevel()),
-                                                pet.getType().getMaxItemBuildup(pet.getLevel())
-                                        ), false
-                        )
-                        .addField(
-                                EmoteReference.ZAP + " "  + language.get("commands.pet.status.level"),
-                                "**%,d (XP: %,d)**".formatted(pet.getLevel(), pet.getExperience()), true
-                        )
-                        .addField(
-                                EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
-                                "%,d".formatted(pet.getPatCounter()), true
-                        )
-                        .addField(
-                                EmoteReference.HEART + " " + language.get("commands.pet.status.health"),
-                                "**%,d / 100**".formatted(pet.getHealth()), true
-                        )
-                        .addField(
-                                EmoteReference.RUNNER + " " + language.get("commands.pet.status.stamina"),
-                                "**%,d / 100**".formatted(pet.getStamina()), true
-                        )
-                        .addField(
-                                EmoteReference.DROPLET + " " + language.get("commands.pet.status.thirst"),
-                                "**%,d / 100**".formatted(pet.getThirst()), true
-                        )
-                        .addField(
-                                EmoteReference.FORK + " " + language.get("commands.pet.status.hunger"),
-                                "**%,d / 100**".formatted(pet.getHunger()), true
-                        )
-                        .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
-                        .setFooter(language.get("commands.pet.status.footer"));
+                        );
+
+                // This is needed else we'll run into people thinking pets with no catch ability have a item buildup.
+                // They don't.
+                if (hasItemBuildup) {
+                    status.addField(language.get("commands.pet.status.buildup"),
+                            language.get("commands.pet.status.buildup_stats")
+                                    .formatted(
+                                            pet.getType().getMaxCoinBuildup(pet.getLevel()),
+                                            pet.getType().getMaxItemBuildup(pet.getLevel())
+                                    ), false
+                    );
+                } else {
+                    status.addField(language.get("commands.pet.status.buildup_coin"),
+                            language.get("commands.pet.status.buildup_stats_credits").formatted(pet.getType().getMaxCoinBuildup(pet.getLevel())
+                            ), false
+                    );
+                }
+
+                status.addField(
+                        EmoteReference.ZAP + " "  + language.get("commands.pet.status.level"),
+                        "**%,d (XP: %,d)**".formatted(pet.getLevel(), pet.getExperience()), true
+                )
+                .addField(
+                        EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
+                        "%,d".formatted(pet.getPatCounter()), true
+                )
+                .addField(
+                        EmoteReference.HEART + " " + language.get("commands.pet.status.health"),
+                        "**%,d / 100**".formatted(pet.getHealth()), true
+                )
+                .addField(
+                        EmoteReference.RUNNER + " " + language.get("commands.pet.status.stamina"),
+                        "**%,d / 100**".formatted(pet.getStamina()), true
+                )
+                .addField(
+                        EmoteReference.DROPLET + " " + language.get("commands.pet.status.thirst"),
+                        "**%,d / 100**".formatted(pet.getThirst()), true
+                )
+                .addField(
+                        EmoteReference.FORK + " " + language.get("commands.pet.status.hunger"),
+                        "**%,d / 100**".formatted(pet.getHunger()), true
+                )
+                .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
+                .setFooter(language.get("commands.pet.status.footer"));
 
                 ctx.send(status.build());
             }
