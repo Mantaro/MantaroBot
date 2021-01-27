@@ -672,7 +672,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sPomyślnie zrezygnowałeś z systemu waifu.",
         "cancelled": "%1$sAnulowano operację rezygnacji.",
-        "claim_notice": "%1$sUżytkownik, którego chcesz zgłosić, zrezygnował."
+        "claim_notice": "%1$sUżytkownik, którego chcesz zgłosić, zrezygnował.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Lista Wiafu",
       "description_header": "Oto lista z wszystkimi twoimi ukochanymi waifusami, posortowanymi według daty dodania. *Możesz mieć maksymalnie %1$,d waifus od teraz.*\n \nJeśli chcesz sprawdzić swoje statystyki waifu, użyj `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Twój wynik z **%2$,d** czasu(ów) dał **%3$,d** łby i **%4$,d** ogony"
     },
     "inventory": {
-      "bot_notice": "%1$sTutaj boty nie mają zapasów. Cóż, czasami możesz chcieć, żeby go mieli, ale wtedy byłby to tylko `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s`s Kolekcja przedmiotów** %2$s\n\n*Aby uzyskać szczegółową wersję, użyj `~>inventory -info`. Ciesz się dniem!*",
       "calculate": "%1$s%2$s dostanie **%3$,d kredytów** jeśli wszystkie przedmioty zostaną sprzedane.",
       "header": "Ekwipunek %1$s",
@@ -756,7 +757,7 @@
           "cancelled": "%1$s Pomyślnie anulowano."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
