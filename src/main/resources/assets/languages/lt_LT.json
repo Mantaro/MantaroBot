@@ -672,7 +672,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "claim_notice": "%1$sThe user you're trying to claim opted out.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Waifu sąrašas",
       "description_header": "Štai sąrašas tavo mylimųjų Waifų, surikiuotų pagal pridėjimo datą.\n*Kolkas tu gali turėti daugiausiai %1$d Waifų.*",
@@ -698,7 +699,7 @@
       "success": "%1$s Tavo rezultatas iš **%2$d** sukimų yra **%3$d** kartų skaičius ir **%4$d** kartų herbas."
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s gaus **%3$d kreditų**, jeigu parduos visus savo daiktus.",
       "header": "%1$s inventorius",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
