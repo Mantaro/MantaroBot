@@ -577,6 +577,7 @@
         "header": "Tình trạng hôn nhân hiện tại",
         "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Ngày cưới",
+        "age": "Marriage Age",
         "love_letter": "Thư tình",
         "waifus": "Quyền sở hữu Waifu",
         "house": "House Name",
@@ -1334,6 +1335,8 @@
         "hunger": "Hunger",
         "stamina": "Stamina",
         "pet": "Pats",
+        "buildup": "Coin / Item Buildup",
+        "buildup_stats": "%1$,d credits / %2$,d items",
         "footer": "Thanks you for using Mantaro! <3"
       },
       "level": {
