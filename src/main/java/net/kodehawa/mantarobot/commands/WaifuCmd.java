@@ -150,7 +150,7 @@ public class WaifuCmd {
                                                 (!userData.isPrivateTag() ? "#" + user.getDiscriminator() : ""),
                                         (id ? languageContext.get("commands.waifu.id") + " " + user.getId() + "\n" : "") +
                                                 languageContext.get("commands.waifu.value_format") + " " +
-                                                calculateWaifuValue(user).getFinalValue() + " " +
+                                                calculateWaifuValue(waifuClaimed, user).getFinalValue() + " " +
                                                 languageContext.get("commands.waifu.credits_format") + "\n" +
                                                 languageContext.get("commands.waifu.value_b_format") + " " + userData.getWaifus().get(waifu) +
                                                 languageContext.get("commands.waifu.credits_format"), false)
@@ -251,7 +251,13 @@ public class WaifuCmd {
                         return;
                     }
 
-                    Waifu waifuStats = calculateWaifuValue(toLookup);
+                    var waifuClaimed = ctx.getPlayer(toLookup);
+                    if (waifuClaimed.getData().isWaifuout()) {
+                        ctx.sendLocalized("commands.waifu.optout.lookup_notice", EmoteReference.ERROR);
+                        return;
+                    }
+
+                    Waifu waifuStats = calculateWaifuValue(waifuClaimed, toLookup);
                     EmbedBuilder statsBuilder = new EmbedBuilder()
                             .setThumbnail(toLookup.getEffectiveAvatarUrl())
                             .setAuthor(toLookup == ctx.getAuthor() ?
@@ -319,9 +325,8 @@ public class WaifuCmd {
                     return;
                 }
 
-
                 //Waifu object declaration.
-                final Waifu waifuToClaim = calculateWaifuValue(toLookup);
+                final Waifu waifuToClaim = calculateWaifuValue(claimedPlayer, toLookup);
                 final long waifuFinalValue = waifuToClaim.getFinalValue();
 
                 //Checks.
@@ -448,7 +453,8 @@ public class WaifuCmd {
                         return;
                     }
 
-                    var currentValue = calculateWaifuValue(toLookup).getFinalValue();
+                    var claimedPlayer = ctx.getPlayer(toLookup);
+                    var currentValue = calculateWaifuValue(claimedPlayer, toLookup).getFinalValue();
                     long valuePayment = (long) (currentValue * 0.15);
 
                     //Send confirmation message.
@@ -556,9 +562,9 @@ public class WaifuCmd {
         });
     }
 
-    static Waifu calculateWaifuValue(final User user) {
+    static Waifu calculateWaifuValue(final Player player, final User user) {
         final var db = MantaroData.db();
-        var waifuPlayer = db.getPlayer(user);
+        var waifuPlayer = player;
         var waifuPlayerData = waifuPlayer.getData();
         var waifuUserData = db.getUser(user).getData();
 
