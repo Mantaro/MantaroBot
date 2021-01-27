@@ -577,7 +577,7 @@
         "header": "Estado atual do casamento",
         "description_format": "%1$sEstado do casamento entre **%2$s** e **%3$s**",
         "date": "Data de casamento",
-        "age": "Marriage Age",
+        "age": "Idade do Casamento",
         "love_letter": "Carta de amor",
         "waifus": "Propriedade da Waifu",
         "house": "Nome da Casa",
@@ -731,7 +731,7 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "Você pode usar `~>dump` agora. Por exemplo, ao invés de ~>market dump floppy` você pode fazer `~>dump floppy`. Por favor use o novo comando ao invés disso... Eu me pergunto o que aconteceu com todos os disquetes que vocês jogaram fora?",
         "no_item": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer descartar.",
         "invalid": "%1$sNão é um número válido de itens para descartar.",
         "non_existent": "%1$sNão é possível descartar um item inexistente! Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
