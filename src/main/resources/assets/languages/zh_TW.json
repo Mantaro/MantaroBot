@@ -577,6 +577,7 @@
         "header": "目前婚姻狀況",
         "description_format": "%1$s**%2$s** 與 **%3$s** 的婚姻關係",
         "date": "結婚日期",
+        "age": "Marriage Age",
         "love_letter": "情書訊息",
         "waifus": "Waifu所有權",
         "house": "房屋名稱",
@@ -1334,6 +1335,8 @@
         "hunger": "飢餓度",
         "stamina": "耐力",
         "pet": "撫摸次數",
+        "buildup": "Coin / Item Buildup",
+        "buildup_stats": "%1$,d credits / %2$,d items",
         "footer": "感謝使用Mantaro！<3"
       },
       "level": {
