@@ -672,7 +672,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sBạn đã bỏ thành công toàn bộ hệ thống waifu.",
         "cancelled": "%1$sĐã huỷ lệnh bỏ hệ thống.",
-        "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống."
+        "claim_notice": "%1$sNgười dùng bạn đang cố nhận làm waifu đã bỏ hệ thống.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Danh sách Waifu",
       "description_header": "Đây là danh sách tất cả những waifu đáng yêu của bạn, được sắp xếp theo ngày bạn nhận.\n*Bạn có thể có nhiều nhất %1$,d waifu ở thời điểm hiện tại.*\n\nNếu bạn có mong muốn xem chỉ số waifu của bạn, hãy dùng `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Kết quả sau khi tung **%2$,d** lần là **%3$,d** mặt ngửa và **%4$,d** mặt sấp"
     },
     "inventory": {
-      "bot_notice": "%1$sĐây, bot không có tủ đồ. Ừ thì, có thể bạn ước rằng nó có, nhưng nếu vậy nó sẽ là `~>market dump` (đồ bỏ đi)",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s sẽ được **%3$,d tín** nếu tất cả các đồ trong tủ được bán.",
       "header": "Tủ đồ của %1$s",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sĐã huỷ thành công."
         },
         "non_existent": "%1$sBạn không thể bán đồ không tồn tại. Nếu bạn đang lúng túng, bạn có thể thử tên viết tắt của đồ hoặc cho tên đồ vào trong dấu ngoặc kép.",
-        "no_sell_price": "%1$sBạn không thể bán đồ không thể bán. (Nhưng bạn có thể `~>market dump` để vứt nó đi)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sBạn không thể bán đồ bạn không có.",
         "more_items_than_player": "%1$sBạn không thể bán nhiều hơn số lượng bạn đang có.",
         "success": "%1$sBạn đã bán %2$,d **%3$s** và nhận được %4$,d tín!"
