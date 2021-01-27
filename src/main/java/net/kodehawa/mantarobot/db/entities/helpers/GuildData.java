@@ -220,6 +220,9 @@ public class GuildData {
     @JsonProperty("gameMultipleDisabled")
     private boolean gameMultipleDisabled = false;
 
+    @ConfigName("Timezone of logs")
+    private String logTimezone;
+
     @SuppressWarnings("CanBeFinal")
     @HiddenConfig // It's not unused, but this hides it from opts check data
     private List<String> allowedBirthdays = new ArrayList<>();
@@ -886,5 +889,13 @@ public class GuildData {
 
     public void setDjRoleId(String djRoleId) {
         this.djRoleId = djRoleId;
+    }
+
+    public String getLogTimezone() {
+        return logTimezone;
+    }
+
+    public void setLogTimezone(String logTimezone) {
+        this.logTimezone = logTimezone;
     }
 }

@@ -258,7 +258,7 @@ public class MantaroListener implements EventListener {
             final var logChannel = data.getGuildLogChannel();
 
             if (logChannel != null) {
-                final var hour = Utils.formatHours(OffsetDateTime.now(), data.getLang());
+                final var hour = Utils.formatHours(OffsetDateTime.now(), data.getLogTimezone(), data.getLang());
                 final var tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null) {
                     return;
@@ -329,7 +329,7 @@ public class MantaroListener implements EventListener {
             final var logChannel = guildData.getGuildLogChannel();
 
             if (logChannel != null) {
-                final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
+                final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLogTimezone(), guildData.getLang());
                 final var tc = event.getGuild().getTextChannelById(logChannel);
                 if (tc == null) {
                     return;
@@ -545,7 +545,7 @@ public class MantaroListener implements EventListener {
         final var dbGuild = MantaroData.db().getGuild(guild);
         final var guildData = dbGuild.getData();
         final var role = guildData.getGuildAutoRole();
-        final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
+        final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLogTimezone(), guildData.getLang());
         final var user = event.getUser();
         final var member = event.getMember();
         final var selfMember = guild.getSelfMember();
@@ -602,7 +602,7 @@ public class MantaroListener implements EventListener {
         final var guildData = dbGuild.getData();
 
         try {
-            final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLang());
+            final var hour = Utils.formatHours(OffsetDateTime.now(), guildData.getLogTimezone(), guildData.getLang());
             if (user.isBot() && guildData.isIgnoreBotsWelcomeMessage()) {
                 return;
             }

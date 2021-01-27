@@ -28,15 +28,19 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.FinderUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Option
 public class ModerationOptions extends OptionHandler {
+    private static final Pattern offsetRegex = Pattern.compile("(?:UTC|GMT)[+-][0-9]{1,2}(:[0-9]{1,2})?", Pattern.CASE_INSENSITIVE);
+
     public ModerationOptions() {
         setType(OptionType.MODERATION);
     }
@@ -192,6 +196,40 @@ public class ModerationOptions extends OptionHandler {
             if (ch != null) {
                 consumer.accept(ch);
             }
+        });
+
+        registerOption("logs:timezone", "Sets the log timeozne", """
+                Sets the log timezone.
+                For example, `~>opts logs timezone America/Chicago`
+                """, "Sets the logs timezone", (ctx, args) -> {
+            if (args.length < 1) {
+                ctx.sendLocalized("options.logs_timezone.not_specified", EmoteReference.ERROR);
+                return;
+            }
+
+            var timezone = args[0];
+            if (offsetRegex.matcher(timezone).matches()) {
+                timezone = timezone.toUpperCase().replace("UTC", "GMT");
+            }
+
+            if (!Utils.isValidTimeZone(timezone)) {
+                ctx.sendLocalized("options.logs_timezone.invalid", EmoteReference.ERROR);
+                return;
+            }
+
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.getData().setLogTimezone(timezone);
+            dbGuild.saveUpdating();
+
+            ctx.sendLocalized("options.logs_timezone.success", EmoteReference.CORRECT, timezone);
+        });
+
+        registerOption("logs:timezonereset", "Resets the log timezone", "Resets the log timezone", (ctx) -> {
+            var dbGuild = ctx.getDBGuild();
+            dbGuild.getData().setLogTimezone(null);
+            dbGuild.saveUpdating();
+
+            ctx.sendLocalized("options.logs_timezonereset.success", EmoteReference.CORRECT);
         });
 
         registerOption("logs:disable", "Disable logs",

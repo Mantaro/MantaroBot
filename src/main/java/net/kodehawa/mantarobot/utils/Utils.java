@@ -331,6 +331,10 @@ public class Utils {
     }
 
     public static ZoneId timezoneToZoneID(final String timeZone) {
+        if (timeZone == null) {
+            return ZoneId.systemDefault();
+        }
+
         return TimeZone.getTimeZone(timeZone).toZoneId();
     }
 
@@ -380,6 +384,12 @@ public class Utils {
 
     public static String formatHours(OffsetDateTime date, String locale) {
         return date.format(DateTimeFormatter.ofPattern("HH:mm:ss").withLocale(getLocaleFromLanguage(locale)));
+    }
+
+    public static String formatHours(OffsetDateTime date, String zone, String locale) {
+        return date.format(DateTimeFormatter.ofPattern("HH:mm:ss")
+                .withZone(timezoneToZoneID(zone))
+                .withLocale(getLocaleFromLanguage(locale)));
     }
 
     public static String formatHours(OffsetDateTime date) {
