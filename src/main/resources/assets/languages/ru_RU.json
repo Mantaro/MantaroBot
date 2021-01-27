@@ -672,7 +672,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sВы успешно отказались от вайфу системы.",
         "cancelled": "%1$sОтменена заявка на отказ.",
-        "claim_notice": "%1$sПользователь которого вы пытаетесь взять отказался от вайфу системы."
+        "claim_notice": "%1$sПользователь которого вы пытаетесь взять отказался от вайфу системы.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Вайфу лист",
       "description_header": "Это список ваших вайфу, отстортированных по дате обновления.\n*Сейчас вы можете иметь максимум %1$d вайфу.*\n\nЕсли вы желаете проверить свою статистику, используйте команду: `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Твой результат **%2$d** попыток, получено **%3$d** орлов и **%4$d** решек"
     },
     "inventory": {
-      "bot_notice": "%1$sУ ботов не бывает инвентаря. Используйте команду: `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s получили бы **%3$d кредитов** если бы продали все предметы.",
       "header": "%1$s's инвентарь",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sУспешно отменено."
         },
         "non_existent": "%1$sВы не можете продать несуществующий предмет. Если вы запутались, попробуйте ввести краткое название или заключите его в кавычки.",
-        "no_sell_price": "%1$sВы не можете продать этот предмет. (Но вы можете использовать это `~>market dump`)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sВы не можете продать предмет, которого у вас нет.",
         "more_items_than_player": "%1$sВы не можете продать больше предметов, чем у вас имеется.",
         "success": "%1$sВы продали %2$,d **%3$s** и получили %4$,d кредитов!"
