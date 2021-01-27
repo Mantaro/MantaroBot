@@ -731,6 +731,7 @@
     },
     "market": {
       "dump": {
+        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sNecesitas decirme cuantos (si es solo un ítem, no es necesario) y qué item deseas tirar a la basura.",
         "invalid": "%1$sEsa no es una cantidad válida de items que tirar a la basura.",
         "non_existent": "%1$sNo puedo tirar un item no existente!",
@@ -1262,7 +1263,8 @@
     },
     "opencrate": {
       "no_crate": "%1$sNo tienes ninguna loot crate para abrir :( (If you're trying to open a crate of any other than the default type, use the name of the crate after the command)",
-      "not_crate": "%1$sEsa no es una loot crate válida."
+      "not_crate": "%1$sEsa no es una loot crate válida.",
+      "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
@@ -1336,7 +1338,9 @@
         "stamina": "Stamina",
         "pet": "Caricias",
         "buildup": "Coin / Item Buildup",
+        "buildup_coin": "Coin Buildup",
         "buildup_stats": "%1$,d credits / %2$,d items",
+        "buildup_stats_credits": "%1$,d credits",
         "footer": "¡Gracias por usar Mantaro! <3"
       },
       "level": {
@@ -1896,6 +1900,14 @@
       },
       "success": "%1$sRegistro de mensajes de excepciones agregado al canal: %2$s",
       "invalid": "%1$sLongitud incorrecta del argumento."
+    },
+    "logs_timezone": {
+      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+    },
+    "logs_timezonereset": {
+      "success": "%1$sSuccesfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sLobby reiniciado correctamente."
