@@ -49,6 +49,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -648,6 +649,7 @@ public class MarryCmd {
                 final var eitherHasWaifus = !(dbUserData.getWaifus().isEmpty() && marriedDBUser.getData().getWaifus().isEmpty());
                 final var marriedToName = dbUserData.isPrivateTag() ? marriedTo.getName() : marriedTo.getAsTag();
                 final var authorName = dbUserData.isPrivateTag() ? author.getName() : author.getAsTag();
+                final var daysMarried = TimeUnit.of(ChronoUnit.MILLIS).toDays(System.currentTimeMillis() - data.getMarriageCreationMillis());
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setThumbnail(author.getEffectiveAvatarUrl())
@@ -655,7 +657,11 @@ public class MarryCmd {
                         .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
                         .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
                                 EmoteReference.HEART, authorName, marriedToName)
-                        ).addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
+                        )
+                        .addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
+                        .addField(languageContext.get("commands.marry.status.age"),
+                                daysMarried + " " + languageContext.get("general.days"), false
+                        )
                         .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
                         .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
                         .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
@@ -675,7 +681,7 @@ public class MarryCmd {
                     var petType = data.getPet().getType();
 
                     embedBuilder.addField(languageContext.get("commands.marry.status.pet"),
-                            pet.getName() + " (" + petType.getEmoji() + petType.getName() + ")", false
+                            pet.getName() + " (" + petType.getName() + ")", false
                     );
                 }
 

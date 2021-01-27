@@ -577,6 +577,7 @@
         "header": "Current Marriage Status",
         "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Marriage Date",
+        "age": "Marriage Age",
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership",
         "house": "House Name",
