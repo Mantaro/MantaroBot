@@ -672,7 +672,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sاخترت بنجاح الخروج من نظام الوايفو.",
         "cancelled": "%1$sإلغاء عملية إلغاء الاشتراك.",
-        "claim_notice": "%1$sالمستخدم الذي تحاول المطالبة به قام بإلغاء الاشتراك."
+        "claim_notice": "%1$sالمستخدم الذي تحاول المطالبة به قام بإلغاء الاشتراك.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "لستة الوايفو",
       "description_header": "هنا قائمة مع كل من الوايفو الخاص بك، مرتبة حسب تاريخ الإضافة.\n*يمكنك أن تحصل على الحد الاقصى %1$,d من الوايفو الى الآن.*\n\nإذا أردت أن تتحقق من حالتك للوايفو، إستخدم `~>waifu stats`",
@@ -698,7 +699,7 @@
       "success": "%1$sنتائجك من **%2$,d** الوقت(s) أسفر **%3$,d** رأس و **%4$,d** وذيل"
     },
     "inventory": {
-      "bot_notice": "%1$sهنا, البوتات ليس لديها مخزون. حسناََ, افي بعض الأحيان قد ترغب في أن يكون لديهم واحد ولكن بعد ذلك سيكون فقط  `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s ستحصل على **%3$,d مال** إذا تم بيع جميع أغراضك. ",
       "header": "مخزون %1$s",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sتم الإلغاء بنجاح. "
         },
         "non_existent": "%1$sلايمكن بيع غرض غير موجود! إذا كنت ضائع، يمكنك كتابة الإسم المُختصر أو ضعه في \"اقتباسات\" ",
-        "no_sell_price": "%1$sلايمكنك بيع غرض لايُمكن بيعه. (ولكن يمكنك رميه، إستخدم `~>market dump` )",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sلايمكنك بيع غرض لاتملكه! ",
         "more_items_than_player": "%1$sلايمكنك بيع غرض أكثر مما تملك!",
         "success": "%1$sلقد بعت %2$,d **%3$s** وحصلت على %4$,d مال!"
