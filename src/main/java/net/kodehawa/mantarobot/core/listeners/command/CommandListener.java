@@ -149,16 +149,16 @@ public class CommandListener implements EventListener {
         } catch (IllegalFormatException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s`.",
-                    EmoteReference.ERROR, id, EmoteReference.ZAP
+                    "%sWe found at error when trying to format a String. Please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s)",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId()
             ).queue();
 
             log.warn("Wrong String format. Check this. ID: {}", id, e);
         } catch (IndexOutOfBoundsException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sYour query returned no results or you used the incorrect arguments, seemingly (Error ID: `%s`). Just in case, check command help!",
-                    EmoteReference.ERROR, id
+                    "%sYour query returned no results or you used the incorrect arguments, seemingly (Error ID: `%s`): Shard %s. Just in case, check command help!",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId()
             ).queue();
 
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
@@ -178,18 +178,19 @@ public class CommandListener implements EventListener {
         } catch (LanguageKeyNotFoundException e) {
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sWrong I18n key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s`.\n%sMessage: *%s*",
-                    EmoteReference.ERROR, id, EmoteReference.ZAP, e.getMessage()
+                    "%sWrong I18n key found, please report on the support server (At <https://support.mantaro.site>) with error ID `%s` (On Shard %s).\n%sMessage: *%s*",
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(),
+                    EmoteReference.ZAP, e.getMessage()
             ).queue();
 
             log.warn("Missing i18n key. Check this. ID: {}", id, e);
         } catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sI think you forgot something on the floor. (Error ID: `%s`)\n" +
+                    "%sI think you forgot something on the floor. (Error ID: `%s`), Shard %s\n" +
                     "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, " +
                     "Just in case, check command help! (If you need further help, go to <https://support.mantaro.site>)",
-                    EmoteReference.ERROR, id, EmoteReference.WARNING
+                    EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.WARNING
             ).queue();
 
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: {})", id, e);
@@ -202,8 +203,9 @@ public class CommandListener implements EventListener {
             var player = MantaroData.db().getPlayer(event.getAuthor());
 
             event.getChannel().sendMessageFormat(
-                    "%s%s (Unexpected error, ID: `%s`)\n%s",
-                    EmoteReference.ERROR, context.get("general.boom_quotes"), id, context.get("general.generic_error")
+                    "%s%s (Unexpected error, ID: `%s`): Shard %s\n%s",
+                    EmoteReference.ERROR, context.get("general.boom_quotes"), id,
+                    event.getJDA().getShardInfo().getShardId(), context.get("general.generic_error")
             ).queue();
 
             if (player.getData().addBadgeIfAbsent(Badge.FIRE)) {
