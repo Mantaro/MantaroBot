@@ -577,6 +577,7 @@
         "header": "Aktueller Ehestatus",
         "description_format": "%1$sEhestatus von **%2$s** und **%3$s**",
         "date": "Hochzeitstag",
+        "age": "Marriage Age",
         "love_letter": "Liebesbrief",
         "waifus": "Waifu Besitz",
         "house": "Hausname",
@@ -1334,6 +1335,8 @@
         "hunger": "Hunger",
         "stamina": "Ausdauer",
         "pet": "Streicheleinheiten",
+        "buildup": "Coin / Item Buildup",
+        "buildup_stats": "%1$,d credits / %2$,d items",
         "footer": "Danke, dass du Mantaro nutzt! <3"
       },
       "level": {
