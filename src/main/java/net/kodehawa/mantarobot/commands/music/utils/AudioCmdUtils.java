@@ -103,7 +103,9 @@ public class AudioCmdUtils {
             return;
         }
 
-        var length = trackScheduler.getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+        var length = trackScheduler.getQueue().stream()
+                .filter(track -> track.getDuration() != Long.MAX_VALUE)
+                .mapToLong(value -> value.getInfo().length).sum();
         var voiceChannel = selfMember.getVoiceState().getChannel();
         var builder = new EmbedBuilder()
                 .setAuthor(String.format(lang.get("commands.music_general.queue.header"),
