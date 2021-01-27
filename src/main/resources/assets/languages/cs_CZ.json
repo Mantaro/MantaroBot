@@ -577,6 +577,7 @@
         "header": "Current Marriage Status",
         "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
         "date": "Marriage Date",
+        "age": "Marriage Age",
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership",
         "house": "House Name",
@@ -1334,6 +1335,8 @@
         "hunger": "Hlad",
         "stamina": "Výdrž",
         "pet": "Pats",
+        "buildup": "Coin / Item Buildup",
+        "buildup_stats": "%1$,d credits / %2$,d items",
         "footer": "Děkujeme, že používáš Mantaro! <3"
       },
       "level": {
