@@ -171,7 +171,7 @@ public class InfoCmds {
 
                 ctx.send(new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.serverinfo.header"), null, guild.getIconUrl())
-                        .setColor(guild.getOwner().getColor() == null ? Color.PINK: guild.getOwner().getColor())
+                        .setColor(owner.getColor() == null ? Color.PINK: owner.getColor())
                         .setDescription(str)
                         .setThumbnail(guild.getIconUrl())
                         .addField(
