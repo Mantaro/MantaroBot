@@ -672,7 +672,8 @@
         "warning": "%1$sEs-tu certain.e que tu veux t'enlever du système de Waifu? CETTE DÉCISION EST PERMANENTE ET NE PEUT PAS ÊTRE INVERSÉE.\nSérieusement.\nSi tu ne veux plus être acquis.e et continuer à utiliser le système Waifu comme d'habitude, s'il te plait utilise `~>profile claimlock` à la place.\nTu seras enlevé du système d'acquisition, tu ne pourras plus être acquis.e ni acquérir qui que ce soit et toutes tes acquisition seront annulées.\nRéponds `Yes, I want to opt out of the waifu system completely and irreversibly`(Oui je veux être enlevé.e du système Waifu entièrement et irréversiblement) ou `no`. En répondant avec le message affirmatif, je t'enlèverai du système, et en répondant avec no j'annulerai la commande.",
         "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
         "cancelled": "%1$sOpération d'extraction annulée avec succès.",
-        "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système."
+        "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Liste de Waifus",
       "description_header": "Voici une liste avec toutes tes waifus bien-aimées, triée par date d'ajout.\n*Tu peux avoir au maximum %1$d waifus pour l'instant.*\n\nSi tu souhaites voir les statistiques de tes waifus, utilise `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Ton résultat des **%2$d** pile-ou-faces a abouti à **%3$d** piles et **%4$d** faces"
     },
     "inventory": {
-      "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Belle journée!*",
       "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sAnnulé avec succès."
         },
         "non_existent": "%1$sTu ne peux pas vendre un objet qui n'existe pas! Si tu es perdu.e, tu peux essayer d'utiliser son nom abrégé ou de mettre son nom entre guillemets.",
-        "no_sell_price": "%1$sTu ne peux pas vendre un objet invendable!. (Mais tu peux le jeter avec `~>market dump`)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sTu ne peux pas vendre un objet que tu n'as pas!",
         "more_items_than_player": "%1$sTu ne peux pas vendre plus d'objets que tu n'en as!",
         "success": "%1$sTu as vendu %2$,d **%3$s** et as gagné %4$,d crédits!"
