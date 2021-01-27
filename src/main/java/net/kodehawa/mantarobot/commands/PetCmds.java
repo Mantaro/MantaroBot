@@ -205,6 +205,14 @@ public class PetCmds {
                                 pet.getType().getStringAbilities(), false
                         )
                         .addField(
+                                EmoteReference.ZAP + language.get("commands.pet.status.buildup"),
+                                language.get("commands.pet.status.buildup_stats")
+                                        .formatted(
+                                                pet.getType().getMaxCoinBuildup(pet.getLevel()),
+                                                pet.getType().getMaxItemBuildup(pet.getLevel())
+                                        ), false
+                        )
+                        .addField(
                                 EmoteReference.ZAP + " "  + language.get("commands.pet.status.level"),
                                 "**%,d (XP: %,d)**".formatted(pet.getLevel(), pet.getExperience()), true
                         )

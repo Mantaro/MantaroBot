@@ -286,9 +286,8 @@ public class MusicCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Shows you the current queue.")
-                        .setUsage("`~>queue [page]`")
-                        .addParameter("page", "The page of the queue you want to see. This is optional.")
+                        .setDescription("Shows you the current music queue.")
+                        .setUsage("`~>queue`")
                         .build();
             }
         });

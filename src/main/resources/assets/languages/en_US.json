@@ -1334,6 +1334,8 @@
         "hunger": "Hunger",
         "stamina": "Stamina",
         "pet": "Pats",
+        "buildup": "Coin / Item Buildup",
+        "buildup_stats": "%1$,d credits / %2$,d items",
         "footer": "Thanks you for using Mantaro! <3"
       },
       "level": {
