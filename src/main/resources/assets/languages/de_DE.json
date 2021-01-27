@@ -672,7 +672,8 @@
         "warning": "%1$sWillst du dich wirklich dagegen entscheiden das Waifu-System zu nutzen? DIE ENTSCHEIDUNG IST ENDGÜLTIG UND KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN. Ernsthaft.\nWenn du nur nicht neu beansprucht werden willst und das Waifu-System sonst wie üblich nutzen möchtest, benutze stattdessen `~>profile claimlock`.\nDu wirst niemanden mehr beanspruchen und auch nicht mehr beansprucht werden können, und alle Beanspruchungen auf dich werden entfernt.\nGebe `Yes, I want to opt out of the waifu system completely and irreversibly` (Ja) oder `no` (Nein) ein. Ja wird dich ausschließen, Nein bricht diesen Befehl ab.",
         "success": "%1$sDu hast dich erfolgreich gegen das Waifu-System entschieden.",
         "cancelled": "%1$sEntscheidung abgebrochen.",
-        "claim_notice": "%1$sDer Nutzer, den du versuchst zu beanspruchen, hat sich gegen das Waifu-System entschieden."
+        "claim_notice": "%1$sDer Nutzer, den du versuchst zu beanspruchen, hat sich gegen das Waifu-System entschieden.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Waifu-Liste",
       "description_header": "Hier ist eine Liste mit all deinen geliebten Waifus, nach Hinzufüge-Datum sortiert.\n*Du kannst aktuell maximal %1$,d Waifus haben.*\n\nWenn du deine eigenen Waifu-Werte anschauen möchtest, nutze `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Die Ergebnisse von **%2$,d** Wurf/Würfen ergaben **%3$,d** Kopf und **%4$,d** Zahl"
     },
     "inventory": {
-      "bot_notice": "%1$sHier haben Bots keine Inventare. Manchmal wünschst du dir vielleicht, dass sie eines hätten, aber dann wäre es auch nur `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$ss Gegenstandssammlung:** %2$s\n\n*Wenn du eine detailliertere Version hiervon willst, nutze `~>inventory -info`. Schönen Tag!*",
       "calculate": "%1$s%2$s erhält **%3$,d Credits**, wenn alle Gegenstände verkauft werden.",
       "header": "%1$ss Inventar",
@@ -756,7 +757,7 @@
           "cancelled": "%1$sErfolgreich abgebrochen."
         },
         "non_existent": "%1$sDu kannst keinen nicht vorhandenen Gegenstand verkaufen. Wenn du nicht weiter weißt kannst du versuchen die Kurzform des Namens zu verwenden, oder ihn in Anführungsstriche setzen.",
-        "no_sell_price": "%1$sDu kannst keinen Gegenstand verkaufen, der nicht verkauft werden kann. (Aber du kannst ihn mit `~>market dump` wegwerfen.)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sDu kannst keinen Gegenstand verkaufen, den du nicht besitzt.",
         "more_items_than_player": "%1$sDu kannst nicht mehr verkaufen, als du hast.",
         "success": "%1$sDu hast %2$,d **%3$s** verkauft und erhältst %4$,d Credits!"
