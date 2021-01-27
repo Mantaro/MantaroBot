@@ -672,7 +672,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "claim_notice": "%1$sThe user you're trying to claim opted out.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Waifu List",
       "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
@@ -698,7 +699,7 @@
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
-      "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s 的所有物品** %2$s\n\n*使用 `~>inventory -info` 取得更詳細的版本。祝你玩得開心！*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
       "header": "%1$s 的背包",
@@ -756,7 +757,7 @@
           "cancelled": "%1$s取消成功。"
         },
         "non_existent": "%1$s你無法出售不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
-        "no_sell_price": "%1$s你無法出售不能出售的物品。(不過你還是可以使用 `~>market dump` 來丟棄他)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$s你無法出售你不擁有的物品。",
         "more_items_than_player": "%1$s你出售的數量不能超過你所擁有的數量。",
         "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
