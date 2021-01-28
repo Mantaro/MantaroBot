@@ -1555,7 +1555,8 @@
       "no_item_found": "%1$sTôi không thể tìm thấy món đồ đó. Nhớ dùng ngoặc kép nếu tên của đồ có chứa dấu cách.",
       "no_main_item": "%1$sBạn không có đồ cần thiết để sửa chữa món đồ này!",
       "cant_repair": "%1$s**%2$s** không phải là một món đồ bạn có thể sửa. Bạn chỉ có thể sửa đồ đã hỏng (broken).",
-      "no_tool": "%1$sBạn cần cờ lê cấp 2 (ít nhất là cờ lê sao chổi) hoặc hơn để sửa món đồ này. Hãy chắc chắn rằng bạn có nó và bạn đã gọi đúng tên của nó trong trường hợp bạn nhắc đến tên. Hãy nhớ dùng dấu ngoặc kép cho tên có chứa dấu cách.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$sTủ đồ của bạn quá bẩn để thực hiện một sửa chữa. Bụi cấp: %2$s",
       "not_wrench": "%1$sBạn không thể dùng đồ này làm cờ lê. Nhớ dùng ngoặc kép nếu tên của đồ có chứa dấu cách.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
@@ -1563,7 +1564,7 @@
       "no_item_recipe": "%1$sBạn không có *%2$s* để thực hiện quá trình sửa chữa này.",
       "not_enough_items": "%1$sBạn không có đủ số lượng của *%2$s* để sửa chữa.**(Cần: %3$s, Hiện có: %4$s)**",
       "item_broke": "Rất tiếc, cờ lê của bạn đã bị gãy trong quá trình chế tạo, nhưng bạn đã có được đồ của bạn!",
-      "success": "%1$sSửa đồ thành công! Đã sửa từ %2$s **%3$s** -> %4$s **%5$s**. Sửa chữa mất *%6$s* tín và công thức là *%7$s*.",
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Danh sách đồ có thể sửa chữa",
         "cost": "Giá sửa chữa: ",
