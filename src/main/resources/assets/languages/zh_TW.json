@@ -1555,7 +1555,8 @@
       "no_item_found": "%1$s找不到該物品。如果名稱含有空格，記得使用引號。",
       "no_main_item": "%1$s你沒有該物品！",
       "cant_repair": "%1$s**%2$s** 不是你能修復的物品。你只能修復壞掉的物品。",
-      "no_tool": "%1$s你需要使用2級以上扳手 (至少為彗星扳手) 來修復此物品。確認你擁有他且在指令裡指出他。如果名稱含有空格，記得使用引號。",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
       "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
@@ -1563,7 +1564,7 @@
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
       "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來進行修復。**(需求：%3$s，擁有：%4$s)**",
       "item_broke": "可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
-      "success": "%1$s修復成功！已修復物品 %2$s **%3$s** -> %4$s **%5$s**。此修復費用為*%6$s*元，材料為 *%7$s*。",
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "可修復物品清單",
         "cost": "修復花費：",
