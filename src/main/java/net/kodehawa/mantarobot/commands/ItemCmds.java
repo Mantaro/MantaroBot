@@ -396,8 +396,10 @@ public class ItemCmds {
                         var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
                                 ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
 
+                        var specified = false;
                         if (args.length > 1) {
                             wrench = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).orElse(null);
+                            specified = true;
                         }
 
                         if (item == null) {
@@ -425,7 +427,12 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!playerInventory.containsItem(wrench)) {
+                        if (!playerInventory.containsItem(wrench) && specified) {
+                            ctx.sendLocalized("commands.repair.no_tool_specified", EmoteReference.ERROR, wrench.getName());
+                            return;
+                        }
+
+                        if (!playerInventory.containsItem(wrench) && !specified) {
                             ctx.sendLocalized("commands.repair.no_tool", EmoteReference.ERROR, wrench.getName());
                             return;
                         }
