@@ -69,7 +69,6 @@ public class ProfileCmd {
     // Discord makes it so multiple spaces get only rendered as one, but half-width spaces don't.
     // So therefore you get this cursed *thing* for formatting.
     private static final String SEPARATOR = "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009";
-    private static final String SEPARATOR_MID = "\u2009\u2009\u2009\u2009";
     private static final String SEPARATOR_ONE = "\u2009\u2009";
     private static final String SEPARATOR_HALF = "\u2009";
 
@@ -108,9 +107,8 @@ public class ProfileCmd {
                         var optionalArguments = ctx.getOptionalArguments();
                         content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
                         var isSeasonal = ctx.isSeasonal();
-
-
                         var finalContent = content;
+
                         ctx.findMember(content, members -> {
                             SeasonPlayer seasonalPlayer = null;
                             var userLooked = ctx.getAuthor();
@@ -220,7 +218,6 @@ public class ProfileCmd {
                             ctx.send(profileBuilder.build());
                             player.saveUpdating();
                         });
-
                     }
                 };
             }
