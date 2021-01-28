@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -38,7 +39,6 @@ import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
-import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.I18n;
@@ -98,7 +98,7 @@ public class ProfileCmd {
 
         List<ProfileComponent> noOldOlder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
 
-        ITreeCommand profileCommand = cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
+        TreeCommand profileCommand = cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
                 return new SubCommand() {
@@ -233,6 +233,15 @@ public class ProfileCmd {
                         .setSeasonal(true)
                         .build();
             }
+        });
+
+        profileCommand.setPredicate(ctx -> {
+            if (ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                ctx.sendLocalized("general.missing_embed_permissions");
+                return false;
+            }
+
+            return true;
         });
 
         profileCommand.addSubCommand("toggleaction", new SubCommand() {
