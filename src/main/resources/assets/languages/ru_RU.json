@@ -25,8 +25,8 @@
     "options": "Настройки",
     "find_members_failure": "%1$sПо вашему запросу не найдено ни одного участника :(",
     "too_many_members": "%1$sНайдено слишком много участников, попробуйте изменить ваш запрос? (ex. use name#discriminator)\n**Найденные участники:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sПожалуйста, укажите только одного человека при поиске участников.",
+    "query_too_small": "%1$sВаш запрос слишком маленький. Проверьте, чтобы ваше сообщение было более 4 символов. Если имя пользователя слишком короткое, лучше использовать имя пользователя#дискриминатор или идентификатор пользователя.",
     "dust": "Здесь только пыль.",
     "invalid_syntax": "Неверный синтаксис.",
     "item_lookup": {
@@ -422,10 +422,10 @@
       },
       "raw": {
         "no_command": "%1$sВы должны сказать мне, какую команду желаете проверить.",
-        "not_found": "%1$sI can't find that command.",
+        "not_found": "%1$sЯ не могу найти такую команду.",
         "header": "Команда \"%1$s\":",
         "amount": "(Информация по %1$d запросил %2$d)",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "description": "Это список всех ответов этой команды в необработанном формате (что вы вводите в команду)."
       },
       "clear": {
         "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
@@ -438,7 +438,7 @@
         "no_name_specified": "%1$sВы не указали имя создаваемой команды!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
+        "not_specified": "Вы ничего не указали для eval.",
         "new_error": "%1$sПроизошла новая ошибка при оценке этой пользовательской команды.\n**Ошибка**:\n```%2$s```",
         "error": "%1$sПроизошла ошибка при оценке этой команды!\n%2$s"
       },
@@ -945,7 +945,7 @@
         "never": "Никогда"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sСкрытый статус тега теперь: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sВы должны указать предмет, который нужно экипировать!",
@@ -1052,7 +1052,7 @@
       "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
       "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
       "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default.",
-      "already_allowed": "%1$sYou already allowed this server to show your birthday."
+      "already_allowed": "%1$sВы уже разрешили этому серверу отображать ваш день рождения."
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
@@ -1111,7 +1111,7 @@
       "user": {
         "header": "Твой премиум статус",
         "header_other": "%1$s's Премиум статус",
-        "not_premium": "%1$s%2$s is not premium :c",
+        "not_premium": "%1$s%2$s не является премиум пользователем :C",
         "premium": "**Премиум пользователь! <3**",
         "old_system": "**Вы премиум пользователь старой системы! Не переживайте, все функции работают исправно!**"
       },
@@ -1121,7 +1121,7 @@
         "premium": "**Премиум сервер! <3**",
         "old_system": "**Премиум сервер со времен старой системы! Не переживайте, все функции работают исправно!**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Ключи действительны до тех пор, пока действует ваша подписка, если не указано иное. Спасибо за пожертвование или взнос <3",
       "valid_for_old": "Действителей до",
       "old_days_more": "Ещё %1$d дней",
       "thank_note": "Благодарим за поддержку <3",
@@ -1260,7 +1260,7 @@
       "character_request_error": "%1$sОшибка запроса персонажа с API AniList.",
       "character_start": "Угадайте персонажа",
       "too_many_games": "%1$sВы можете начать максимум 4 игры за 1 раз. (С Премиумом - 8)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "disabled_multiple": "%1$sНа этом сервере отключена функция лобби для игр."
     },
     "opencrate": {
       "no_crate": "%1$sУ вас нет ящиков с добычей этого типа для открытия. :( (Если вы пытаетесь открыть не обычный ящик с добычей, то вводите его название после команды)",
@@ -1268,7 +1268,7 @@
       "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
+      "check": "%1$sВы сможете получить свой ежедневный платеж за: **%2$s.**",
       "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
@@ -1332,17 +1332,17 @@
         "cost": "Price",
         "type": "Type",
         "abilities": "Abilities",
-        "level": "Level",
+        "level": "Уровень",
         "health": "Health",
-        "thirst": "Thirst",
-        "hunger": "Hunger",
-        "stamina": "Stamina",
+        "thirst": "Жажда",
+        "hunger": "Голод",
+        "stamina": "Выносливость",
         "pet": "Pats",
         "buildup": "Coin / Item Buildup",
         "buildup_coin": "Coin Buildup",
         "buildup_stats": "%1$,d credits / %2$,d items",
         "buildup_stats_credits": "%1$,d credits",
-        "footer": "Thanks you for using Mantaro! <3"
+        "footer": "Спасибо за то, что пользуетесь Mantaro! <3"
       },
       "level": {
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
@@ -1629,7 +1629,7 @@
         },
         "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
       },
-      "given_credits": "%1$sЯ отдала %3$s ваш дневной бонус в размере **$%2$,2**",
+      "given_credits": "%1$sЯ отдала %3$s ваш дневной бонус в размере **$%2$,d**",
       "credits": "%1$sВы получили **$%2$s** ежедневных кредитов.",
       "sellout": {
         "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
