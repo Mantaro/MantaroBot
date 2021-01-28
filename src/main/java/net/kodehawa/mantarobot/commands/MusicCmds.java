@@ -545,6 +545,7 @@ public class MusicCmds {
             }
         });
 
+        cr.registerAlias("stop", "leave");
         cr.registerAlias("stop", "heckoff");
     }
 

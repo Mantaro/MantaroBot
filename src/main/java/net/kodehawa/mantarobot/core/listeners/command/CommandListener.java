@@ -187,7 +187,7 @@ public class CommandListener implements EventListener {
         } catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             var id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessageFormat(
-                    "%sI think you forgot something on the floor. (Error ID: `%s`), Shard %s\n" +
+                    "%sI think you forgot something on the floor. (Error ID: `%s`): Shard %s\n" +
                     "%sCould be an internal error, but check the command arguments or maybe the message I'm trying to send exceeds 2048 characters, " +
                     "Just in case, check command help! (If you need further help, go to <https://support.mantaro.site>)",
                     EmoteReference.ERROR, id, event.getJDA().getShardInfo().getShardId(), EmoteReference.WARNING
