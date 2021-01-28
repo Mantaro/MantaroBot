@@ -1555,7 +1555,8 @@
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
       "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
@@ -1563,7 +1564,7 @@
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
       "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Repair-able Items List",
         "cost": "Repair Cost: ",
