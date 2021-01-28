@@ -110,7 +110,7 @@ public class OptsCmd {
                                         .setAuthor(option.getOptionName(), null, ctx.getAuthor().getEffectiveAvatarUrl())
                                         .setDescription(option.getDescription())
                                         .setThumbnail("https://i.imgur.com/lFTJSE4.png")
-                                        .addField("Type", option.getType().toString(), false);
+                                        .addField(EmoteReference.PENCIL.toHeaderString() + "Type", option.getType().toString(), false);
 
                                 ctx.send(builder.build());
                             } catch (IndexOutOfBoundsException ignored) { }

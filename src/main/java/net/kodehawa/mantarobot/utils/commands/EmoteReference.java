@@ -82,6 +82,7 @@ public enum EmoteReference {
     PARTY(":tada:", "\uD83C\uDF89"),
     STAR(":star:", "\u2b50"),
     HOUSE(":house:", "\uD83C\uDFE0"),
+    CAR(":red_car:", "\uD83D\uDE97"),
     MARKER(":large_orange_diamond:", "\uD83D\uDD36"),
     BLUE_SMALL_MARKER(":small_blue_diamond:", "\uD83D\uDD39"),
     DUST(":dash:", "\uD83D\uDCA8"),
@@ -93,6 +94,12 @@ public enum EmoteReference {
     DEV(":desktop:", "\uD83D\uDDA5"),
     ROCK(":rock:", "\uD83E\uDEA8"),
     FORK(":fork_and_knife:", "\uD83C\uDF74"),
+    CALENDAR(":calendar:", "\uD83D\uDCC6"),
+    CALENDAR2(":calendar_spiral:", "\uD83D\uDDD3\uFE0F"),
+    SATELLITE(":satellite:", "\uD83D\uDCE1"),
+    SLIDER(":level_slider:", "\uD83C\uDF9A\uFE0F"),
+    WIDTH(":left_right_arrow:", "\u2194\uFE0F"),
+    HEIGHT(":arrow_up_down:", "\u2195\uFE0F"),
     //Custom emotes.
     LOOT_CRATE("<:lootbox:556992254749966346>", null),
     MINE_CRATE("<:mine_lootbox:556992254623875073>", null),
@@ -146,6 +153,10 @@ public enum EmoteReference {
     @Override
     public String toString() {
         return Optional.ofNullable(unicode).orElse(discordNotation) + " ";
+    }
+
+    public String toHeaderString() {
+        return this + "\u2009";
     }
 
     public String getDiscordNotation() {

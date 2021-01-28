@@ -96,7 +96,7 @@ public class AudioCmdUtils {
                             lang.get("commands.music_general.queue.nothing_playing") + "\n\n" +
                             lang.get("commands.music_general.queue.nothing_playing_2")
                     )
-                    .addField(lang.get("commands.music_general.queue.np"), nowPlaying, false)
+                    .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.music_general.queue.np"), nowPlaying, false)
                     .setThumbnail(icon).build()
             ).queue();
 
@@ -126,7 +126,7 @@ public class AudioCmdUtils {
 
             // Instructions in case there's no reaction perms.
             if (!hasReactionPerms) {
-                builder.addField(lang.get("commands.music_general.queue.header_field"),
+                builder.addField(EmoteReference.PENCIL.toHeaderString() + lang.get("commands.music_general.queue.header_field"),
                         lang.get("commands.music_general.queue.header_noreact"),
                         false
                 );
@@ -136,24 +136,24 @@ public class AudioCmdUtils {
             // Description is then added on DiscordUtils.list/listText, as we have to
             // split it.
             return builder.setThumbnail(icon)
-                    .addField(lang.get("commands.music_general.queue.np"), np, false)
-                    .addField(lang.get("commands.music_general.queue.total_queue_time"),
+                    .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.music_general.queue.np"), np, false)
+                    .addField(EmoteReference.CLOCK.toHeaderString() + lang.get("commands.music_general.queue.total_queue_time"),
                             Utils.formatDuration(length),
                             false
                     )
-                    .addField(lang.get("commands.music_general.queue.total_size"),
+                    .addField(EmoteReference.STAR.toHeaderString() + lang.get("commands.music_general.queue.total_size"),
                             String.format("%d %s",
                                     trackScheduler.getQueue().size(),
                                     lang.get("commands.music_general.queue.songs")
                             ),
                             true
                     )
-                    .addField(lang.get("commands.music_general.queue.togglers"),
+                    .addField(EmoteReference.SLIDER.toHeaderString() + lang.get("commands.music_general.queue.togglers"),
                         String.format("`%s / %s`", trackScheduler.getRepeatMode() == null ? "false" :
                              trackScheduler.getRepeatMode(), musicPlayer.isPaused()),
                             true
                     )
-                    .addField(lang.get("commands.music_general.queue.playing_in"),
+                    .addField(EmoteReference.MEGA.toHeaderString() + lang.get("commands.music_general.queue.playing_in"),
                             voiceChannel == null ? lang.get("commands.music_general.queue.no_channel") : voiceChannel.getName(),
                             true
                     )
@@ -192,7 +192,7 @@ public class AudioCmdUtils {
             joinVoiceChannel(link, userChannel);
             textChannel.sendMessageFormat(
                     lang.get("commands.music_general.connect.success"),
-                    EmoteReference.CORRECT, userChannel.getName()
+                    EmoteReference.MEGA, userChannel.getName()
             ).queue();
 
             return completedFuture(null);

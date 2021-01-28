@@ -196,21 +196,22 @@ public class AnimeCmds {
         //Start building the embedded message.
         var embed = new EmbedBuilder();
         embed.setColor(Color.PINK)
-                .setAuthor(lang.get("commands.anime.information_header").formatted(title), null, imageUrl)
+                .setDescription(StringUtils.limit(animeDescription, 1400))
+                .setAuthor(lang.get("commands.anime.information_header").formatted(title), animeData.getURL(), imageUrl)
                 .setFooter(lang.get("commands.anime.information_notice"), event.getAuthor().getEffectiveAvatarUrl())
                 .setThumbnail(imageUrl)
-                .addField(lang.get("commands.anime.release_date"), releaseDate, true)
-                .addField(lang.get("commands.anime.end_date"),
-                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate), true
+                .addField(EmoteReference.CALENDAR.toHeaderString() + lang.get("commands.anime.release_date"),
+                        "**" + releaseDate + "**", true
                 )
-                .addField(lang.get("commands.anime.favorite_count"), favoriteCount, true)
-                .addField(lang.get("commands.anime.type"), animeType, true)
-                .addField(lang.get("commands.anime.episodes"), episodes, true)
-                .addField(lang.get("commands.anime.episode_duration"),
+                .addField(EmoteReference.CALENDAR2.toHeaderString() + lang.get("commands.anime.end_date"),
+                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : "**" + endDate + "**"),
+                        true
+                )
+                .addField(EmoteReference.STAR.toHeaderString() + lang.get("commands.anime.favorite_count"), favoriteCount, true)
+                .addField(EmoteReference.DEV.toHeaderString() + lang.get("commands.anime.type"), animeType, true)
+                .addField(EmoteReference.SATELLITE.toHeaderString() + lang.get("commands.anime.episodes"), episodes, true)
+                .addField(EmoteReference.CLOCK.toHeaderString() + lang.get("commands.anime.episode_duration"),
                         episodeDuration + " " + lang.get("commands.anime.minutes"), true
-                )
-                .addField(lang.get("commands.anime.description"),
-                        StringUtils.limit(animeDescription, 850), false
                 );
 
         event.getChannel().sendMessage(embed.build()).queue();
@@ -251,10 +252,10 @@ public class AnimeCmds {
                     .setThumbnail(imageUrl)
                     .setAuthor(
                             lang.get("commands.character.information_header").formatted(charName),
-                            null, imageUrl
+                            character.getURL(), imageUrl
                     )
-                    .addField(lang.get("commands.character.information"), charDescription, true)
-                    .setFooter(lang.get("commands.anime.information_notice"), null);
+                    .setDescription(StringUtils.limit(charDescription, 1400))
+                    .setFooter(lang.get("commands.anime.information_notice"), event.getAuthor().getEffectiveAvatarUrl());
 
             event.getChannel().sendMessage(embed.build()).queue(success -> {
             }, Throwable::printStackTrace);

@@ -463,7 +463,7 @@ public class MantaroListener implements EventListener {
                                 If you're interested in supporting Mantaro, check out our Patreon page below, it'll greatly help to improve the bot. 
                                 Check out the links below for some help resources and quick start guides.
                                 This message will only be shown once.""")
-                        .addField("Important Links",
+                        .addField(EmoteReference.PENCIL.toHeaderString() + "Important Links",
                         """
                                 [Support Server](https://support.mantaro.site) - The place to check if you're lost or if there's an issue with the bot.
                                 [Official Wiki](https://github.com/Mantaro/MantaroBot/wiki/) - Good place to check if you're lost.

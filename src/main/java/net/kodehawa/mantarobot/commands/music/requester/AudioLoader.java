@@ -113,7 +113,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.loaded_playlist"),
-                    EmoteReference.CORRECT, count, playlist.getName(),
+                    EmoteReference.SATELLITE, count, playlist.getName(),
                     Utils.formatDuration(
                             playlist.getTracks()
                                     .stream()

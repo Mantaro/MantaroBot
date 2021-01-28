@@ -364,8 +364,12 @@ public class UtilsCmds {
                         .setThumbnail("https://i.imgur.com/PbXqLrS.png")
                         .setDescription(languageContext.get("general.definition") + " " + (definitionNumber + 1))
                         .setColor(Color.GREEN)
-                        .addField(languageContext.get("general.definition"), StringUtils.limit(definition, 1000), false)
-                        .addField(languageContext.get("general.example"), StringUtils.limit(urbanData.getExample(), 800), false)
+                        .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("general.definition"),
+                                StringUtils.limit(definition, 1000), false
+                        )
+                        .addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("general.example"),
+                                StringUtils.limit(urbanData.getExample(), 800), false
+                        )
                         .addField(":thumbsup:", urbanData.thumbs_up, true)
                         .addField(":thumbsdown:", urbanData.thumbs_down, true)
                         .setFooter(languageContext.get("commands.urban.footer"), null)

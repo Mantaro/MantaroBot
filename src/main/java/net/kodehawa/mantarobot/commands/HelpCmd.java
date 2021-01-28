@@ -197,18 +197,18 @@ public class HelpCmd {
                             ).setDescription(desc);
 
                     if (help.getUsage() != null) {
-                        builder.addField("Usage", help.getUsage(), false);
+                        builder.addField(EmoteReference.PENCIL.toHeaderString() + "Usage", help.getUsage(), false);
                     }
 
                     if (help.getParameters().size() > 0) {
-                        builder.addField("Parameters", help.getParameters().entrySet().stream()
+                        builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.getParameters().entrySet().stream()
                                         .map(entry -> "`%s` - *%s*".formatted(entry.getKey(), entry.getValue()))
                                         .collect(Collectors.joining("\n")), false
                         );
                     }
 
                     if (help.isSeasonal()) {
-                        builder.addField("Seasonal",
+                        builder.addField(EmoteReference.PENNY.toHeaderString() + "Seasonal",
                                 "This command allows the usage of the `-season` (or `-s`) argument.",
                                 false
                         );
@@ -251,7 +251,7 @@ public class HelpCmd {
                         }
 
                         if (stringBuilder.length() > 0) {
-                            builder.addField("Sub-commands",
+                            builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands",
                                     "**Append the main command to use any of this.**\n" + stringBuilder,
                                     false
                             );
@@ -268,11 +268,11 @@ public class HelpCmd {
                                 .collect(Collectors.joining(" "));
 
                         if (!aliases.trim().isEmpty()) {
-                            builder.addField("Aliases", aliases, false);
+                            builder.addField(EmoteReference.FORK.toHeaderString() + "Aliases", aliases, false);
                         }
                     }
 
-                    builder.addField("Still lost?",
+                    builder.addField(EmoteReference.MAGAZINE.toHeaderString() + "Still lost?",
                             "[Check the wiki](https://wiki.mantaro.site) or " +
                                     "[get support here!](https://support.mantaro.site)",  false
                     ).setFooter("Thanks for using Mantaro!", ctx.getAuthor().getEffectiveAvatarUrl());

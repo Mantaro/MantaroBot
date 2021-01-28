@@ -129,13 +129,13 @@ public class Trivia extends Game<String> {
                     .setThumbnail("https://i.imgur.com/7TITtHb.png")
                     .setDescription("**" + qu + "**")
                     .setColor(Color.PINK)
-                    .addField(languageContext.get("commands.game.trivia.possibilities"),
+                    .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("commands.game.trivia.possibilities"),
                             sb.toString(), false
                     )
-                    .addField(languageContext.get("commands.game.trivia.difficulty"),
+                    .addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("commands.game.trivia.difficulty"),
                             "`" + Utils.capitalize(diff) + "`", true
                     )
-                    .addField(languageContext.get("commands.game.trivia.category"),
+                    .addField(EmoteReference.CALENDAR2.toHeaderString() + languageContext.get("commands.game.trivia.category"),
                             "`" + category + "`", true
                     )
                     .setFooter(String.format(

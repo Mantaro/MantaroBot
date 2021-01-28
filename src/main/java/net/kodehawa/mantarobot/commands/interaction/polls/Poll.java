@@ -123,7 +123,9 @@ public class Poll extends Lobby {
             var builder = new EmbedBuilder().setAuthor(String.format(languageContext.get("commands.poll.header"),
                     data.getRanPolls(), user.getName()), null, user.getAvatarUrl())
                     .setDescription(String.format(languageContext.get("commands.poll.success"), name))
-                    .addField(languageContext.get("general.options"), "```md\n" + toShow + "```", false)
+                    .addField(EmoteReference.PENCIL.toHeaderString() + languageContext.get("general.options"),
+                            "```md\n" + toShow + "```", false
+                    )
                     .setColor(Color.CYAN)
                     .setThumbnail("https://i.imgur.com/7TITtHb.png")
                     .setFooter(String.format(languageContext.get("commands.poll.time"), Utils.formatDuration(timeout)), user.getAvatarUrl());

@@ -272,9 +272,9 @@ public class WaifuCmd {
                                     waifuStats.getExperienceValue(),
                                     waifuStats.getClaimValue(),
                                     waifuStats.getReputationMultiplier())
-                            ).addField(languageContext.get("commands.waifu.stats.performance"),
-                                    EmoteReference.ZAP.toString() + waifuStats.getPerformance() + "wp", true
-                            ).addField(languageContext.get("commands.waifu.stats.value"), EmoteReference.BUY +
+                            ).addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("commands.waifu.stats.performance"),
+                                    waifuStats.getPerformance() + "wp", true
+                            ).addField(EmoteReference.MONEY.toHeaderString() + languageContext.get("commands.waifu.stats.value"),
                                             languageContext.get("commands.waifu.stats.credits").formatted(waifuStats.getFinalValue()),
                                     false
                             ).setFooter(languageContext.get("commands.waifu.notice"), null);

@@ -658,29 +658,38 @@ public class MarryCmd {
                         .setDescription(languageContext.get("commands.marry.status.description_format").formatted(
                                 EmoteReference.HEART, authorName, marriedToName)
                         )
-                        .addField(languageContext.get("commands.marry.status.date"), dateFormat, false)
-                        .addField(languageContext.get("commands.marry.status.age"),
+                        .addField(EmoteReference.CALENDAR2.toHeaderString() + languageContext.get("commands.marry.status.date"),
+                                dateFormat, false)
+                        .addField(EmoteReference.CLOCK.toHeaderString() + languageContext.get("commands.marry.status.age"),
                                 daysMarried + " " + languageContext.get("general.days"), false
                         )
-                        .addField(languageContext.get("commands.marry.status.love_letter"), loveLetter, false)
-                        .addField(languageContext.get("commands.marry.status.waifus"), String.valueOf(eitherHasWaifus), false)
+                        .addField(EmoteReference.LOVE_LETTER.toHeaderString() + languageContext.get("commands.marry.status.love_letter"),
+                                loveLetter, false
+                        )
+                        .addField(EmoteReference.ZAP.toHeaderString() + languageContext.get("commands.marry.status.waifus"),
+                                String.valueOf(eitherHasWaifus), false
+                        )
                         .setFooter("Marriage ID: " + currentMarriage.getId(), author.getEffectiveAvatarUrl());
 
                 if (data.hasHouse()) {
                     var houseName = data.getHouseName().replace("\n", "").trim();
-                    embedBuilder.addField(languageContext.get("commands.marry.status.house"), houseName, true);
+                    embedBuilder.addField(EmoteReference.HOUSE.toHeaderString() + languageContext.get("commands.marry.status.house"),
+                            houseName, true
+                    );
                 }
 
                 if (data.hasCar()) {
                     var carName = data.getCarName().replace("\n", "").trim();
-                    embedBuilder.addField(languageContext.get("commands.marry.status.car"), carName, true);
+                    embedBuilder.addField(EmoteReference.CAR.toHeaderString() + languageContext.get("commands.marry.status.car"),
+                            carName, true
+                    );
                 }
 
                 if (data.getPet() != null) {
                     var pet = data.getPet();
                     var petType = data.getPet().getType();
 
-                    embedBuilder.addField(languageContext.get("commands.marry.status.pet"),
+                    embedBuilder.addField(EmoteReference.PET_HOUSE.toHeaderString() + languageContext.get("commands.marry.status.pet"),
                             pet.getName() + " (" + petType.getName() + ")", false
                     );
                 }
