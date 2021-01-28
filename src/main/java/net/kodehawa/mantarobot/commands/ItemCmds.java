@@ -528,9 +528,10 @@ public class ItemCmds {
                                 Allows you to repair any broken item given you have the necessary elements.
                                 Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.
                                 """)
-                        .setUsage("`~>repair <item>` - Repairs a broken item.")
+                        .setUsage("`~>repair <item> [wrench]` - Repairs a broken item.")
                         .addParameter("item",
                                 "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameterOptional("wrench", "The wrench to use. Needs to be Comet or higher.")
                         .build();
             }
         });
