@@ -673,7 +673,7 @@
         "success": "%1$sVocê saiu com sucesso do sistema de waifu.",
         "cancelled": "%1$sOperação de saída cancelada.",
         "claim_notice": "%1$sO usuário que você está tentando reivindicar saiu.",
-        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
+        "lookup_notice": "%1$sO usuário que você está tentando procurar saiu."
       },
       "header": "Lista de Waifu",
       "description_header": "Aqui está uma lista com todas as suas amadas waifus, classificadas por data de adição.\n*Você pode ter um máximo de %1$d waifus por enquanto.*\n\nSe você deseja checar suas estatísticas de waifu, use `~>waifu stats`\n\n",
@@ -699,7 +699,7 @@
       "success": "%1$s Seu resultado de **%2$d** tempo(s) rendeu **%3$d** caras e **%4$d** coroas"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
+      "bot_notice": "%1$sAqui, bots não tem inventário. Bem, as vezes você pode desejar que eles tivessem um mas seria só um `~>dump`",
       "brief": "**Coleção de itens de %1$s** %2$s\n\n*Para uma versão detalhada, use `~>inventory -info`. Aprecie seu dia!*",
       "calculate": "%1$s%2$s irá ganhar **%3$d créditos** se todos os seus itens forem vendidos.",
       "header": "Inventário de %1$s",
@@ -757,7 +757,7 @@
           "cancelled": "%1$sCancelado com sucesso."
         },
         "non_existent": "%1$sVocê não pode vender um item inexistente. Se você estiver perdido, pode tentar digitar o nome abreviado ou colocar o nome entre aspas.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
+        "no_sell_price": "%1$sVocê não pode vender um item que não pode ser vendido. (Mas você pode usar `~>dump` nele)",
         "no_item_player": "%1$sVocê não pode vender um item que você não tem.",
         "more_items_than_player": "%1$sVocê não pode vender mais itens do que você tem.",
         "success": "%1$sVocê vendeu %2$,d **%3$s** e ganhou %4$,d créditos!"
@@ -1265,7 +1265,7 @@
     "opencrate": {
       "no_crate": "%1$sVocê não tem um baú de espólios desse tipo (%2$s) para abrir. (Se você estiver tentando abrir um baú de outro tipo que não é o tipo padrão, use o nome do baú depois do comando. Se você quiser usar o inventário sazonal, use `-s`)",
       "not_crate": "%1$sIsso não é um baú de espólios válido.",
-      "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
+      "nothing_found": "%1$s Eu não encontrei nenhum baú que corresponda à sua consulta. Certifique-se de usar o nome correto."
     },
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu baú diário em: **%2$s.**",
@@ -1340,8 +1340,8 @@
         "pet": "Carinhos",
         "buildup": "Coin / Item Buildup",
         "buildup_coin": "Coin Buildup",
-        "buildup_stats": "%1$,d credits / %2$,d items",
-        "buildup_stats_credits": "%1$,d credits",
+        "buildup_stats": "%1$,d créditos / %2$,d itens",
+        "buildup_stats_credits": "%1$,d créditos",
         "footer": "Obrigado por usar a Mantaro! <3"
       },
       "level": {
