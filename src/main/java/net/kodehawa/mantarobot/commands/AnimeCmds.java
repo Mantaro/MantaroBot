@@ -40,6 +40,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import java.awt.Color;
 import java.net.SocketTimeoutException;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Module
@@ -68,12 +69,20 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(5).collect(Collectors.toList()),
-                            anime -> "%s **[%s (%s)](%s)**".formatted(
+                    Function<AnimeData, String> format = anime -> {
+                        if (anime.getAttributes().getTitles().getJa_jp() != null) {
+                            return "%s **[%s](%s)** (%s)".formatted(
                                     EmoteReference.BLUE_SMALL_MARKER,
-                                    anime.getAttributes().getCanonicalTitle(),
-                                    anime.getAttributes().getTitles().getJa_jp(), anime.getURL()
-                            ),
+                                    anime.getAttributes().getCanonicalTitle(), anime.getURL(),
+                                    anime.getAttributes().getTitles().getJa_jp());
+                        } else {
+                            return "%s **[%s](%s)**".formatted(
+                                    EmoteReference.BLUE_SMALL_MARKER,
+                                    anime.getAttributes().getCanonicalTitle(), anime.getURL());
+                        }
+                    };
+
+                    DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(5).collect(Collectors.toList()), format,
                             s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.selection_start"))
                                     .setDescription(s)
                                     .setColor(Color.PINK)
@@ -131,13 +140,21 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(5).collect(Collectors.toList()),
-                            character -> "%s[**%s** (%s)](%s)".formatted(
+                    Function<CharacterData, String> format = character -> {
+                        if (character.getAttributes().getNames().getJa_jp() == null) {
+                            return "%s **[%s](%s)**".formatted(
                                     EmoteReference.BLUE_SMALL_MARKER,
-                                    character.getAttributes().getName(),
-                                    character.getAttributes().getNames().getJa_jp(),
-                                    character.getURL()
-                            ), s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.information_footer"))
+                                    character.getAttributes().getName(), character.getURL());
+                        } else {
+                            return "%s **[%s](%s)** (%s)".formatted(
+                                    EmoteReference.BLUE_SMALL_MARKER,
+                                    character.getAttributes().getName(), character.getURL(),
+                                    character.getAttributes().getNames().getJa_jp());
+                        }
+                    };
+
+                    DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(5).collect(Collectors.toList()), format,
+                            s -> baseEmbed(ctx.getEvent(), languageContext.get("commands.anime.information_footer"))
                                     .setDescription(s)
                                     .setColor(Color.PINK)
                                     .setThumbnail("https://i.imgur.com/VwlGqdk.png")
@@ -206,10 +223,10 @@ public class AnimeCmds {
                 .setFooter(lang.get("commands.anime.information_notice"), event.getAuthor().getEffectiveAvatarUrl())
                 .setThumbnail(imageUrl)
                 .addField(EmoteReference.CALENDAR.toHeaderString() + lang.get("commands.anime.release_date"),
-                        "**" + releaseDate + "**", true
+                        releaseDate, true
                 )
                 .addField(EmoteReference.CALENDAR2.toHeaderString() + lang.get("commands.anime.end_date"),
-                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : "**" + endDate + "**"),
+                        (endDate == null || endDate.equals("null") ? lang.get("commands.anime.airing") : endDate),
                         true
                 )
                 .addField(EmoteReference.STAR.toHeaderString() + lang.get("commands.anime.favorite_count"), favoriteCount, true)
