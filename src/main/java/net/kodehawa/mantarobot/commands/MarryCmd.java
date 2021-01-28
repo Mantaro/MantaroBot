@@ -641,7 +641,7 @@ public class MarryCmd {
                 //Get the current love letter.
                 var loveLetter = data.getLoveLetter();
                 if (loveLetter == null || loveLetter.isEmpty()) {
-                    loveLetter = "None.";
+                    loveLetter = languageContext.get("general.none");
                 }
 
                 final var marriedDBUser = ctx.getDBUser(marriedTo);

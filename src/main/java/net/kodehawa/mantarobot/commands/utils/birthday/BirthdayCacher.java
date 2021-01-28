@@ -75,8 +75,12 @@ public class BirthdayCacher {
                 }
 
                 log.debug("-> [CACHE] Birthdays: {}", cachedBirthdays);
-                log.info("Clearing previous guild birthday cache...");
-                BirthdayCmd.getGuildBirthdayCache().invalidateAll();
+                // Else we just don't have anything to clear (first startup)
+                if (BirthdayCmd.getGuildBirthdayCache().size() > 0) {
+                    log.info("Clearing previous guild birthday cache...");
+                    BirthdayCmd.getGuildBirthdayCache().invalidateAll();
+                }
+
                 isDone = true;
                 log.info("Cached all birthdays. Current size is {}", cachedBirthdays.size());
             } catch (Exception e) {

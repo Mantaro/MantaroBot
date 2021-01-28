@@ -233,7 +233,7 @@ public class PetCmds {
                 )
                 .addField(
                         EmoteReference.BLUE_HEART + " "  + language.get("commands.pet.status.pet"),
-                        "%,d".formatted(pet.getPatCounter()), true
+                        "**%,d**".formatted(pet.getPatCounter()), true
                 )
                 .addField(
                         EmoteReference.HEART + " " + language.get("commands.pet.status.health"),
