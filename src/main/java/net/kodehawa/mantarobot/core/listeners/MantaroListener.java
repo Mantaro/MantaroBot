@@ -216,7 +216,7 @@ public class MantaroListener implements EventListener {
                 }
 
                 // They still have a valid key.
-                if (currentKey != null && currentKey.validFor() > 20) {
+                if (currentKey != null && currentKey.validFor() > 10) {
                     return;
                 }
 

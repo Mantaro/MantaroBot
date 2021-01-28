@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.awt.Color;
+import java.net.SocketTimeoutException;
 import java.util.stream.Collectors;
 
 @Module
@@ -67,8 +68,8 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(7).collect(Collectors.toList()),
-                            anime -> "%s[**%s** (%s)](%s)".formatted(
+                    DiscordUtils.selectList(ctx.getEvent(), found.stream().limit(5).collect(Collectors.toList()),
+                            anime -> "%s **[%s (%s)](%s)**".formatted(
                                     EmoteReference.BLUE_SMALL_MARKER,
                                     anime.getAttributes().getCanonicalTitle(),
                                     anime.getAttributes().getTitles().getJa_jp(), anime.getURL()
@@ -86,6 +87,8 @@ public class AnimeCmds {
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
                     ctx.sendLocalized("commands.anime.malformed_result", EmoteReference.ERROR);
+                } catch (SocketTimeoutException timeout) {
+                    ctx.sendLocalized("commands.anime.timeout", EmoteReference.ERROR);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     ctx.sendLocalized("commands.anime.error", EmoteReference.ERROR, ex.getClass().getSimpleName());
@@ -128,7 +131,7 @@ public class AnimeCmds {
                         return;
                     }
 
-                    DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(7).collect(Collectors.toList()),
+                    DiscordUtils.selectList(ctx.getEvent(), characters.stream().limit(5).collect(Collectors.toList()),
                             character -> "%s[**%s** (%s)](%s)".formatted(
                                     EmoteReference.BLUE_SMALL_MARKER,
                                     character.getAttributes().getName(),
@@ -147,7 +150,9 @@ public class AnimeCmds {
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
                     ctx.sendLocalized("commands.anime.malformed_result", EmoteReference.ERROR);
-                } catch (Exception ex) {
+                } catch (SocketTimeoutException timeout) {
+                    ctx.sendLocalized("commands.anime.timeout", EmoteReference.ERROR);
+                }catch (Exception ex) {
                     ctx.sendLocalized("commands.anime.error", EmoteReference.ERROR, ex.getClass().getSimpleName());
                 }
             }
@@ -225,11 +230,10 @@ public class AnimeCmds {
             final var charName = attributes.getName();
             final var imageUrl = attributes.getImage().getOriginal();
 
-            final var characterDescription =
-                    StringEscapeUtils.unescapeHtml4(
-                            attributes.getDescription().replace("<br>", "\n")
-                                    .replaceAll("<.*?>", "")
-                    ); // This is silly.
+            final var characterDescription = StringEscapeUtils.unescapeHtml4(
+                    attributes.getDescription().replace("<br>", "\n")
+                            .replaceAll("<.*?>", "")
+            ); // This is silly.
 
             var charDescription = "";
             if (attributes.getDescription() == null || attributes.getDescription().isEmpty()) {
