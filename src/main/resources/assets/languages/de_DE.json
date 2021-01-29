@@ -1006,7 +1006,7 @@
       "not_specified": "Nicht angegeben.",
       "potion": "Aktiver Trank",
       "no_potion": "Keine aktiven Tränke.",
-      "hidelegacy": "%1$sDer Anzeigestatus von alten Credits ist nun: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
