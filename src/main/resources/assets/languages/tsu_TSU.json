@@ -1006,7 +1006,7 @@
       "not_specified": "Not specified.",
       "potion": "Active Potion",
       "no_potion": "No active potions.",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
