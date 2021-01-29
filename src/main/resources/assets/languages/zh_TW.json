@@ -1006,7 +1006,7 @@
       "not_specified": "未設置",
       "potion": "藥水效果",
       "no_potion": "沒有藥水效果。",
-      "hidelegacy": "%1$s舊版金錢顯示狀況已改成：`%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
