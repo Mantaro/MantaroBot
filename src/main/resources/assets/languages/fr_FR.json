@@ -81,6 +81,7 @@
     "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
     "space_notice": "Si le nom est composé, essaie de le \"mettre entre guillemets\". La commande help t'en dira sûrement plus.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
       "spam_1": "S'il te plait repose toi, c'est bon pour ta santé. **N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!**",
@@ -1577,7 +1578,8 @@
       "information_footer": "Information fournie par AniList. Envoie &cancel pour annuler.",
       "no_results": "%1$sAucun résultat trouvé...",
       "malformed_result": "%1$sJ'ai eu un mauvais résultat de la part de l'API pour cette recherche. Essaie de reformuler peut-être ?",
-      "error": "%1$s**Je te jure que je n'ai pas perdu ton anime favori!**\nJ'ai reçu un ``%2$s`` en essayant d'exécuter la commande. (Erreur interne)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Information d'anime pour %1$s",
       "information_notice": "Information fournie par AniList.",
       "airing": "Diffusion",
@@ -1595,7 +1597,7 @@
     "character": {
       "no_args": "%1$sTu dois me dire quel personnage rechercher.",
       "selection_start": "Écris le numéro du personnage que tu veux sélectionner.",
-      "error": "%1$s**Je te jure que je n'ai pas p-perdu ta waifu, je t'en prie pardonne-moi!**\nJ'ai reçu un ``%2$s`` en essayant d'exécuter la commande. (Erreur interne)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Information de personnage pour %1$s",
       "information": "Information",
       "no_aliases": "Pas d'alliasses",
