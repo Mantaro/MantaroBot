@@ -315,8 +315,10 @@ public class ProfileCmd {
                 protected void call(Context ctx, I18nContext languageContext, String content) {
                     final var player = ctx.getPlayer();
                     final var data = player.getData();
-                    data.setHiddenLegacy(!data.isHiddenLegacy());
+                    var toSet = !data.isHiddenLegacy();
+                    data.setHiddenLegacy(toSet);
 
+                    player.saveUpdating();
                     ctx.sendLocalized("commands.profile.hidelegacy", EmoteReference.CORRECT, data.isHiddenLegacy());
                 }
             });
