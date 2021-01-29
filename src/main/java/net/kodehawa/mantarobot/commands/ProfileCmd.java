@@ -236,7 +236,7 @@ public class ProfileCmd {
         });
 
         profileCommand.setPredicate(ctx -> {
-            if (ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
                 ctx.sendLocalized("general.missing_embed_permissions");
                 return false;
             }
