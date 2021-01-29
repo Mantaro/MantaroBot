@@ -81,6 +81,7 @@
     "sellout": "Cân nhắc việc quyên góp trên [Patreon](https://www.patreon.com/mantaro). Nếu bạn thích tôi, thậm chí một khoản tiền quyên góp bé xíu cũng sẽ giúp con bot này còn sống!",
     "deprecated": "Không còn được sử dụng",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (lệnh có thời gian chờ)\n**Bạn có thể sử dụng lệnh này sau %3$s.**",
       "spam_1": "Please rest, it's good for your health. **Remember that the ratelimit will keep increasing if you try before the cooldown resets!**",
@@ -1577,7 +1578,8 @@
       "information_footer": "Thông tin được cung cấp bởi Kitsu.io. Gõ &cancel để huỷ.",
       "no_results": "%1$sKhông có kết quả...",
       "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (internal error)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Thông tin anime cho %1$s",
       "information_notice": "Thông tin được cung cấp bởi Kitsu.io.",
       "airing": "Airing",
@@ -1595,7 +1597,7 @@
     "character": {
       "no_args": "%1$sYou need to tell me what character you want to look for.",
       "selection_start": "Gõ số của nhân vật bạn muốn chọn.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (internal error)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Thông tin cho nhân vật %1$s",
       "information": "Thông tin",
       "no_aliases": "Không có lệnh tương đồng",
