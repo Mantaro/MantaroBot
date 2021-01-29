@@ -81,6 +81,7 @@
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
     "deprecated": "Niet langer in gebruik",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
       "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
@@ -1577,7 +1578,8 @@
       "information_footer": "Informatie verstrekt door Anilist. Typ &cancel om te annuleren.",
       "no_results": "%1$sGeen resultaten gevonden...",
       "malformed_result": "%1$sIk heb een verkeerd API-resultaat voor deze specifieke zoekopdracht ontvangen. Misschien kun je het proberen met een andere zoekterm?",
-      "error": "%1$s**Ik weet zeker dat ik je favoriete anime niet heb laten vallen!**\nIk ontving een ``%2$s`` tijdens het verwerken van de opdracht. (internal error)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Anime-informatie voor %1$s",
       "information_notice": "Informatie verstrekt door Kitsu.io.",
       "airing": "Wordt momenteel uitgezonden",
@@ -1595,7 +1597,7 @@
     "character": {
       "no_args": "%1$sJe moet me vertellen welk karakter je wilt opzoeken.",
       "selection_start": "Typ het nummer van het karakter dat je wilt selecteren.",
-      "error": "%1$s**Ik weet zeker dat ik je waifu niet heb laten vallen, vergeef me alsjeblieft!**\nIk ontving ``%2$s`` tijdens het verwerken van deze opdracht. (internal error)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Karakterinformatie voor %1$s",
       "information": "Informatie",
       "no_aliases": "Geen aliases",
