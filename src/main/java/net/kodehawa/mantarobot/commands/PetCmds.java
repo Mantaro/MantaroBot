@@ -221,7 +221,7 @@ public class PetCmds {
                                     ), false
                     );
                 } else {
-                    status.addField(EmoteReference.STAR.toHeaderString() + language.get("commands.pet.status.buildup_coin"),
+                    status.addField(EmoteReference.POUCH.toHeaderString() + language.get("commands.pet.status.buildup_coin"),
                             language.get("commands.pet.status.buildup_stats_credits").formatted(pet.getType().getMaxCoinBuildup(pet.getLevel())
                             ), false
                     );

@@ -416,7 +416,7 @@ public class CurrencyCmds {
                         )
                         .setUsage("`~>useitem <item> [-amount <number>]` - Uses the specified item")
                         .addParameter("item", "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs.")
+                        .addParameterOptional("-amount", "The amount of items you want to use. Only works with potions/buffs. The maximum is 15.")
                         .build();
             }
         });
