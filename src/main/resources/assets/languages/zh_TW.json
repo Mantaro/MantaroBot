@@ -81,6 +81,7 @@
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
     "space_notice": "如果名稱包含空格，試著將他\"用引號包起來\"。也許help指令能告訴你更多資訊。",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
@@ -1577,7 +1578,8 @@
       "information_footer": "Information provided by Kitsu.io. Type &cancel to cancel.",
       "no_results": "%1$sNo results found...",
       "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (internal error)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Anime information for %1$s",
       "information_notice": "Information provided by Kitsu.io.",
       "airing": "Airing",
@@ -1595,7 +1597,7 @@
     "character": {
       "no_args": "%1$sYou need to tell me what character you want to look for.",
       "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (internal error)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Character information for %1$s",
       "information": "Information",
       "no_aliases": "No aliases",
