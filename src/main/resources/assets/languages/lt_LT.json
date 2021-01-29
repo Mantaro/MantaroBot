@@ -1006,7 +1006,7 @@
       "not_specified": "Nenurodyta.",
       "potion": "Aktyvus eliksyras",
       "no_potion": "Jokių aktyvių eliksyrų.",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
