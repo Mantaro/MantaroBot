@@ -1006,7 +1006,7 @@
       "not_specified": "Belirlenmemiş.",
       "potion": "Aktif İksir",
       "no_potion": "İksiri yok.",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
