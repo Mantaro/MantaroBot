@@ -32,19 +32,19 @@ public enum Badge {
     DEVELOPER("Developer", "\uD83D\uDEE0",
             "Currently a developer of Mantaro.",
             91, 92,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     CONTRIBUTOR("Contributor", "\u2b50",
             "Contributed to Mantaro's Development.",
             92, 91,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     COMMUNITY_ADMIN("Community Admin", "\uD83D\uDEE1",
             "Helps to maintain the Mantaro Hub community.",
             92, 93,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     TRANSLATOR("Translator", "\uD83C\uDF10",
@@ -56,7 +56,7 @@ public enum Badge {
     HELPER_2("Helper", "\uD83D\uDC9A",
             "Helps to maintain the support influx on Mantaro Hub.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     DONATOR_2("Donator", "\u2764",
@@ -68,20 +68,20 @@ public enum Badge {
     BUG_HUNTER("Bug Hunter", "\uD83D\uDC7E",
             "Has reported one or more important bugs with details.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     // --- START OF FIRST SEASON BADGES  (Top 1) ---
     SEASON1_WINNER1_MONEY("Season 1 - Top #1 Money", "\uD83D\uDC7E",
             "The player with the most money at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER1_REP("Season 1 - Top #1 Rep", "\uD83D\uDC7E",
             "The player with the most money at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
     // --- END OF FIRST SEASON BADGES  (Top 1) --
 
@@ -89,49 +89,49 @@ public enum Badge {
     SEASON1_WINNER2_MONEY("Season 1 - Top #2 Money", "\uD83D\uDC7E",
             "The 2nd player with the most money at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER2_REP("Season 1 - Top #2 Rep", "\uD83D\uDC7E",
             "The 2nd player with the most rep at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER3_MONEY("Season 1 - Top #3 Money", "\uD83D\uDC7E",
             "The 3rd player with the most money at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER3_REP("Season 1 - Top #3 Rep", "\uD83D\uDC7E",
             "The 3rd player with the most rep at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER4_MONEY("Season 1 - Top #4 Money", "\uD83D\uDC7E",
             "The 4th player with the most money at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER4_REP("Season 1 - Top #4 Rep", "\uD83D\uDC7E",
             "The 4th player with the most rep at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER5_MONEY("Season 1 - Top #5 Money", "\uD83D\uDC7E",
             "The 5th player with the most money at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     SEASON1_WINNER5_REP("Season 1 - Top #5 Rep", "\uD83D\uDC7E",
             "The 5th player with the most rep at the end of the first season.",
             92, 94,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
     // --- END OF FIRST SEASON BADGES (Top 2 - 5) ---
 
@@ -617,35 +617,35 @@ public enum Badge {
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E",
             "Have more than 8 billion credits at any given time (pre-reset).",
             92, 92,
-            ((player, dbUser) -> false), false
+            ((player, dbUser) -> false), false, false
     ),
 
     //Legacy Badge DJ
     DJ("DJ", "\uD83C\uDFB6",
             "Legacy Badge (Unused and unobtainable)",
             91, 92,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> false, false, false
     ),
 
     //Legacy Broken Helper Badge
     HELPER("Bugged", "\uD83D\uDC1B",
             "Bugged Helper. (Old Broken Helper Badge)",
             92, 94,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> false, false, false
     ),
 
     //Upvote Mantaro on discordbots.org. No longer queried.
     UPVOTER("Upvoter", "\u2b06",
             "Upvote Mantaro on discordbots.org.",
             92, 92,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> false, false, false
     ),
 
     //Legacy Broken Donor Badge
     DONATOR("Bugged 2", "\uD83D\uDC1B",
             "Bugged Donor. (Old Broken Donator Badge)",
             92, 94,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> false, false, false
     );
 
     //What does the fox say?
@@ -661,7 +661,7 @@ public enum Badge {
     //Where does the icon go in the Y axis relative to the circle placement on the avatar replacement.
     private final int iconStartY;
     private final BiPredicate<Player, DBUser> badgePredicate;
-
+    private final boolean obtainable;
 
     /**
      * Represents an user badge.
@@ -674,13 +674,14 @@ public enum Badge {
      * @param description What did you do to win this
      * @param placeholder Whether to expect a placeholder image instead of an actual badge image (this being false will trigger a warning everytime the badge is loaded without a proper image)
      */
-    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, BiPredicate<Player, DBUser> badgePredicate, boolean placeholder) {
+    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, BiPredicate<Player, DBUser> badgePredicate, boolean placeholder, boolean obtainable) {
         this.display = display;
         this.unicode = unicode;
         this.description = description;
         this.iconStartX = iconStartX;
         this.iconStartY = iconStartY;
         this.badgePredicate = badgePredicate;
+        this.obtainable = obtainable;
 
         final byte[] emptyIcon = new byte[0];
         if (display.equals("User")) {
@@ -705,6 +706,10 @@ public enum Badge {
             }
         }
 
+    }
+
+    Badge(String display, String unicode, String description, int iconStartX, int iconStartY, BiPredicate<Player, DBUser> badgePredicate, boolean placeholder) {
+        this(display, unicode, description, iconStartX, iconStartY, badgePredicate, placeholder, true);
     }
 
     /**
@@ -786,6 +791,10 @@ public enum Badge {
 
     public BiPredicate<Player, DBUser> getBadgePredicate() {
         return this.badgePredicate;
+    }
+
+    public boolean isObtainable() {
+        return obtainable;
     }
 
     //need this to get access to a logger in the constructor

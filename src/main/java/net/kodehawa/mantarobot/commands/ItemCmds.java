@@ -334,7 +334,7 @@ public class ItemCmds {
 
                     var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
                     fields.add(new MessageEmbed.Field(
-                            "%s %s".formatted(item.getEmoji(), item.getName()),
+                            "%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
                             "%s\n**%s** %s %s.\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
                                     languageContext.get(item.getDesc()),
                                     languageContext.get("commands.cast.ls.cost"),
@@ -345,7 +345,7 @@ public class ItemCmds {
                     );
                 }
 
-                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.cast.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.cast.ls.desc"));
             }
         });
 
@@ -581,7 +581,7 @@ public class ItemCmds {
                     var recipe = String.join(", ", recipeString.toString().split("\\|"));
                     var repairCost = item.getValue() / 3;
 
-                    fields.add(new MessageEmbed.Field("%s %s".formatted(item.getEmoji(), item.getName()),
+                    fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
                             "%s\n**%s** %s %s\n**Recipe: **%s\n**Item: ** %s %s".formatted(
                                     languageContext.get(item.getDesc()),
                                     languageContext.get("commands.repair.ls.cost"),
@@ -592,7 +592,7 @@ public class ItemCmds {
                     );
                 }
 
-                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.repair.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.repair.ls.desc"));
             }
         }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }
@@ -787,7 +787,7 @@ public class ItemCmds {
                                 .append(" ");
                     }
 
-                    fields.add(new MessageEmbed.Field(item.getEmoji() + " " + item.getName(),
+                    fields.add(new MessageEmbed.Field(item.getEmoji() + "\u2009\u2009\u2009" + item.getName(),
                             languageContext.get(item.getDesc()) + "\n**" +
                                     languageContext.get("commands.salvage.ls.cost") + "**" +
                                     salvageCost + " " + languageContext.get("commands.gamble.credits") +
@@ -796,7 +796,7 @@ public class ItemCmds {
                     );
                 }
 
-                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(4, fields), languageContext.get("commands.salvage.ls.desc"));
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.salvage.ls.desc"));
             }
         }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
     }

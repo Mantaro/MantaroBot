@@ -579,13 +579,16 @@ public class DiscordUtils {
 
         if (ctx.hasReactionPerms()) {
             builder.appendDescription(
-                    newLine + String.format(languageContext.get("general.buy_sell_paged_react"), show)
+                    newLine + String.format(languageContext.get("general.buy_sell_paged_react"), show + "\n" +
+                            EmoteReference.STOPWATCH + languageContext.get("general.reaction_timeout").formatted(120))
             );
 
             list(ctx.getEvent(), 120, false, builder, splitFields);
         } else {
             builder.appendDescription(
-                    newLine + String.format(languageContext.get("general.buy_sell_paged_text"), show)
+                    newLine + String.format(languageContext.get("general.buy_sell_paged_text"), show + "\n" +
+                            EmoteReference.STOPWATCH + languageContext.get("general.timeout").formatted(120)
+                    )
             );
 
             listText(ctx.getEvent(), 120, false, builder, splitFields);

@@ -473,6 +473,36 @@ public class PlayerCmds {
             }
         });
 
+        badgeCommand.addSubCommand("ls", new SubCommand() {
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var badges = Badge.values();
+                var builder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.badges.ls.header"),
+                                null, ctx.getAuthor().getEffectiveAvatarUrl()
+                        )
+                        .setColor(Color.PINK)
+                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()), null);
+
+                List<MessageEmbed.Field> fields = new LinkedList<>();
+                for (Badge badge : badges) {
+                    if (!badge.isObtainable()) {
+                        continue;
+                    }
+
+                    fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(badge.unicode, badge.display),
+                            badge.getDescription(),
+                            false)
+                    );
+                }
+
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(7, fields), languageContext.get("commands.badges.ls.desc"));
+            }
+        });
+
+        badgeCommand.createSubCommandAlias("ls", "list");
+        badgeCommand.createSubCommandAlias("ls", "Is");
+
         cr.registerAlias("badges", "badge");
     }
 }

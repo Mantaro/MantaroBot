@@ -684,7 +684,8 @@ public class MarketCmd {
                     String buyValue = item.isBuyable() ? "$%,d".formatted(item.getValue()) : "N/A";
                     String sellValue = item.isSellable() ? ("$%,d".formatted((int) Math.floor(item.getValue() * 0.9))) : "N/A";
 
-                    fields.add(new MessageEmbed.Field("%s %s".formatted(item.getEmoji(), item.getName()),
+                    // I blame discord stripping spaces for this unicode bullshitery
+                    fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
                                     (languageContext.getContextLanguage().equals("en_US") ? "" :
                                             " (" + languageContext.get(item.getTranslatedName()) + ")\n") +
                                             languageContext.get(item.getDesc()) + "\n" +
