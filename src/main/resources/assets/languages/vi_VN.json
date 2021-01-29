@@ -1006,7 +1006,7 @@
       "not_specified": "Chưa rõ.",
       "potion": "Thuốc đang hoạt động",
       "no_potion": "Không có thuốc đang hoạt động.",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
