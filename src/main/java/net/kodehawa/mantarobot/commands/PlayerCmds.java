@@ -473,7 +473,7 @@ public class PlayerCmds {
             }
         });
 
-        badgeCommand.addSubCommand("ls", new SubCommand() {
+        badgeCommand.addSubCommand("list", new SubCommand() {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var badges = Badge.values();
@@ -500,10 +500,11 @@ public class PlayerCmds {
             }
         });
 
-        badgeCommand.createSubCommandAlias("ls", "list");
-        badgeCommand.createSubCommandAlias("ls", "Is");
-        badgeCommand.createSubCommandAlias("ls", "is");
-        badgeCommand.createSubCommandAlias("ls", "1s");
+        badgeCommand.createSubCommandAlias("list", "ls");
+        badgeCommand.createSubCommandAlias("list", "1ist");
+        badgeCommand.createSubCommandAlias("list", "Is");
+        badgeCommand.createSubCommandAlias("list", "is");
+        badgeCommand.createSubCommandAlias("list", "1s");
 
         cr.registerAlias("badges", "badge");
     }

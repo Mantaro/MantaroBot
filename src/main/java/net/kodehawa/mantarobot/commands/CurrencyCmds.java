@@ -423,7 +423,7 @@ public class CurrencyCmds {
 
         cr.registerAlias("useitem", "use");
 
-        ui.addSubCommand("ls", new SubCommand() {
+        ui.addSubCommand("list", new SubCommand() {
             @Override
             public String description() {
                 return "Lists all usable (interactive) items.";
@@ -471,8 +471,9 @@ public class CurrencyCmds {
             }
         });
 
-        ui.createSubCommandAlias("ls", "list");
-        ui.createSubCommandAlias("ls", "Is");
+        ui.createSubCommandAlias("list", "ls");
+        ui.createSubCommandAlias("list", "1s");
+        ui.createSubCommandAlias("list", "Is");
     }
 
     public static void applyPotionEffect(Context ctx, Item item, Player player, Map<String, String> arguments) {

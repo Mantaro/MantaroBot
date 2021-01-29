@@ -193,7 +193,7 @@ public class MiscCmds {
             }
         });
 
-        iamCommand.addSubCommand("ls", new SubCommand() {
+        iamCommand.addSubCommand("list", new SubCommand() {
             @Override
             public String description() {
                 return "Lists all the available autoroles for this server.";
@@ -263,10 +263,12 @@ public class MiscCmds {
         });
 
         cr.registerAlias("iam", "autoroles");
-        iamCommand.createSubCommandAlias("ls", "list");
-        iamCommand.createSubCommandAlias("ls", "Is");
-        iamCommand.createSubCommandAlias("ls", "is");
-        iamCommand.createSubCommandAlias("ls", "1s");
+        iamCommand.createSubCommandAlias("list", "ls");
+        iamCommand.createSubCommandAlias("list", "1ist");
+        iamCommand.createSubCommandAlias("list", "Iist");
+        iamCommand.createSubCommandAlias("list", "Is");
+        iamCommand.createSubCommandAlias("list", "is");
+        iamCommand.createSubCommandAlias("list", "1s");
 
     }
 

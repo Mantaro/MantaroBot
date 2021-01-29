@@ -293,7 +293,7 @@ public class ItemCmds {
         });
         cr.registerAlias("cast", "craft");
 
-        castCommand.addSubCommand("ls", new SubCommand() {
+        castCommand.addSubCommand("list", new SubCommand() {
             @Override
             public String description() {
                 return "Lists all of the cast-able items";
@@ -349,10 +349,10 @@ public class ItemCmds {
             }
         });
 
-        castCommand.createSubCommandAlias("ls", "list");
-        castCommand.createSubCommandAlias("ls", "is");
-        castCommand.createSubCommandAlias("ls", "Is");
-        castCommand.createSubCommandAlias("ls", "1s");
+        castCommand.createSubCommandAlias("list", "ls");
+        castCommand.createSubCommandAlias("list", "1ist");
+        castCommand.createSubCommandAlias("list", "Is");
+        castCommand.createSubCommandAlias("list", "1s");
     }
 
     @Subscribe
@@ -538,7 +538,7 @@ public class ItemCmds {
             }
         });
 
-        rp.addSubCommand("ls", new SubCommand() {
+        rp.addSubCommand("list", new SubCommand() {
             @Override
             public String description() {
                 return "Lists all of the repair-able items";
@@ -596,10 +596,11 @@ public class ItemCmds {
 
                 DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.repair.ls.desc"));
             }
-        }).createSubCommandAlias("ls", "list")
-            .createSubCommandAlias("ls", "is")
-            .createSubCommandAlias("ls", "1s") // why
-            .createSubCommandAlias("ls", "Is"); // why
+        }).createSubCommandAlias("list", "ls")
+                // why
+                .createSubCommandAlias("list", "1ist")
+                .createSubCommandAlias("list", "1s")
+                .createSubCommandAlias("list", "Is");
     ;
     }
 
@@ -746,7 +747,7 @@ public class ItemCmds {
             }
         });
 
-        sv.addSubCommand("ls", new SubCommand() {
+        sv.addSubCommand("list", new SubCommand() {
             @Override
             public String description() {
                 return "Lists all of the salvage-able items";
@@ -805,10 +806,10 @@ public class ItemCmds {
                 DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.salvage.ls.desc"));
             }
 
-        }).createSubCommandAlias("ls", "list")
-            .createSubCommandAlias("ls", "is") // why
-            .createSubCommandAlias("ls", "1s") // why
-            .createSubCommandAlias("ls", "Is"); // why
+        }).createSubCommandAlias("list", "ls")
+                .createSubCommandAlias("list", "1ist") // why
+                .createSubCommandAlias("list", "1s") // why
+                .createSubCommandAlias("list", "Is"); // why
     }
 
     @Subscribe
