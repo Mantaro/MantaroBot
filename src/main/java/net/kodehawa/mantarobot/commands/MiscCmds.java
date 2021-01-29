@@ -263,13 +263,10 @@ public class MiscCmds {
         });
 
         cr.registerAlias("iam", "autoroles");
-        iamCommand.createSubCommandAlias("list", "ls");
         iamCommand.createSubCommandAlias("list", "1ist");
-        iamCommand.createSubCommandAlias("list", "Iist");
+        iamCommand.createSubCommandAlias("list", "ls");
         iamCommand.createSubCommandAlias("list", "Is");
-        iamCommand.createSubCommandAlias("list", "is");
         iamCommand.createSubCommandAlias("list", "1s");
-
     }
 
     @Subscribe
