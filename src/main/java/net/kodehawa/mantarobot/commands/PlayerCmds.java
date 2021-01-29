@@ -502,6 +502,8 @@ public class PlayerCmds {
 
         badgeCommand.createSubCommandAlias("ls", "list");
         badgeCommand.createSubCommandAlias("ls", "Is");
+        badgeCommand.createSubCommandAlias("ls", "is");
+        badgeCommand.createSubCommandAlias("ls", "1s");
 
         cr.registerAlias("badges", "badge");
     }

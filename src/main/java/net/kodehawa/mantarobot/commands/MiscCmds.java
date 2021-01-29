@@ -265,6 +265,9 @@ public class MiscCmds {
         cr.registerAlias("iam", "autoroles");
         iamCommand.createSubCommandAlias("ls", "list");
         iamCommand.createSubCommandAlias("ls", "Is");
+        iamCommand.createSubCommandAlias("ls", "is");
+        iamCommand.createSubCommandAlias("ls", "1s");
+
     }
 
     @Subscribe

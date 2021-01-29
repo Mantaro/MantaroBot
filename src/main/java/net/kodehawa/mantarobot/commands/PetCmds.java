@@ -136,7 +136,13 @@ public class PetCmds {
 
                 ctx.sendLocalized("commands.pet.list.header", EmoteReference.TALKING, pets, EmoteReference.PENCIL, ctx.getLanguageContext().get("commands.pet.list.abilities"));
             }
-        }).createSubCommandAlias("list", "ls");
+        });
+
+        // I swear to god
+        pet.createSubCommandAlias("list", "ls");
+        pet.createSubCommandAlias("list", "Is");
+        pet.createSubCommandAlias("list", "is");
+        pet.createSubCommandAlias("list", "1s");
 
         pet.addSubCommand("level", new SubCommand() {
             @Override

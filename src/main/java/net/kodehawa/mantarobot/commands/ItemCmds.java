@@ -350,7 +350,9 @@ public class ItemCmds {
         });
 
         castCommand.createSubCommandAlias("ls", "list");
-        castCommand.createSubCommandAlias("ls", "Is"); //people, smh.
+        castCommand.createSubCommandAlias("ls", "is");
+        castCommand.createSubCommandAlias("ls", "Is");
+        castCommand.createSubCommandAlias("ls", "1s");
     }
 
     @Subscribe
@@ -594,7 +596,11 @@ public class ItemCmds {
 
                 DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.repair.ls.desc"));
             }
-        }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
+        }).createSubCommandAlias("ls", "list")
+            .createSubCommandAlias("ls", "is")
+            .createSubCommandAlias("ls", "1s") // why
+            .createSubCommandAlias("ls", "Is"); // why
+    ;
     }
 
     @Subscribe
@@ -798,7 +804,11 @@ public class ItemCmds {
 
                 DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.salvage.ls.desc"));
             }
-        }).createSubCommandAlias("ls", "list").createSubCommandAlias("ls", "is");
+
+        }).createSubCommandAlias("ls", "list")
+            .createSubCommandAlias("ls", "is") // why
+            .createSubCommandAlias("ls", "1s") // why
+            .createSubCommandAlias("ls", "Is"); // why
     }
 
     @Subscribe
