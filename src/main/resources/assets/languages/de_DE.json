@@ -81,6 +81,7 @@
     "sellout": "Erwäge auf [Patreon](https://www.patreon.com/mantaro) zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!",
     "deprecated": "Nicht länger genutzt",
     "space_notice": "Wenn der Name Leerzeichen beinhaltet, versuche \"ihn in Anführungzeichen zu setzen\". Die Befehlshilfe kann dir wahrscheinlich weiter helfen.",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
       "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut. **Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!**",
@@ -1577,7 +1578,8 @@
       "information_footer": "Informationen bereitgestellt durch Anilist. Gebe &cancel zum abbrechen ein.",
       "no_results": "%1$sKeine Ergebnisse gefunden...",
       "malformed_result": "%1$sIch bekam ein falsches API Ergebnis für diese Suche. Versuche vielleicht einen anderen Begriff?",
-      "error": "%1$s**Ich schwöre, ich habe deinen Lieblingsanime nicht fallen lassen!**\nIch habe einen ``%2$s`` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Anime Informationen für %1$s",
       "information_notice": "Informationen bereitgestellt durch AniList. Klicke auf den Titel, um auf die AniList Seite des Animes zu gelangen.",
       "airing": "Am Laufen",
@@ -1595,7 +1597,7 @@
     "character": {
       "no_args": "%1$sDu musst mir einen Charakter zum Suchen nennen.",
       "selection_start": "Gebe die Nummer des Charakters, den du auswählen möchtest, ein.",
-      "error": "%1$s**Ich schwöre, Ich habe deine Lieblingswaifu nicht f-fallen gelassen, bitte vergib mir!**\nIch habe ``%2$s`` erhalten, während ich versuchte den Befehl auszuführen. (internal error)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Charakterinformationen für %1$s",
       "information": "Informationen",
       "no_aliases": "Keine weiteren Namen",
