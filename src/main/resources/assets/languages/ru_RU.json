@@ -726,7 +726,7 @@
       "ls": {
         "header": "Список возможных предметов для создания",
         "cost": "Цена создания: ",
-        "desc": "Это список предметов, которые вы можете создать используя `~>cast`.\nВы можете использовать полное или краткое имя для этого (к примеру: `~>cast diamond pickaxe` или `~>cast diamond p`)\n**Создание имеет минимальную стоимость в половину цены предмета. Цена создания указана ниже.**"
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sВы не можете создать это с таким пыльным инвентарем! *(Уровень пыли: %2$s%%)*. Почему бы не почистить его используя `~>useitem mop`?",
       "wrench_multiple_use": "Подсказка: *Вы не можете использовать ключ который вы уже используете как ингредиент!*"
@@ -1014,6 +1014,10 @@
         "not_found": "%1$sЗначок не найден...",
         "header": "Информация о значке %1$s",
         "achieved": "Получен"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**%1$s's значки:**\n%2$s",
       "profile_notice": "Если вы уверены в том, что получили новый значок но он тут не отображается, используйте `~>profile` и после повторите запрос.\n",
@@ -1461,7 +1465,7 @@
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
         "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1569,7 +1573,7 @@
       "ls": {
         "header": "Лист предметов доступных для починки",
         "cost": "Стоимость ремонта: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
