@@ -726,7 +726,7 @@
       "ls": {
         "header": "Lista de items creables",
         "cost": "Coste: ",
-        "desc": "Esta es una lista de items que puedes crear usando `~>cast`. Tienes que usar el nombre completo o abreviado para crearlo (ejemplo: `~>cast diamond pickaxe` or `~>cast diamond p` works)\n**Crear un item cuesta la mitad de su valor de mercado. Este precio se mostrará abajo.**"
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sNo puedes crear ítems con un inventario tan sucio! *(Nivel de polvo: %2$s%%)* ¿Por qué no lo limpias con `~>useitem mop`?",
       "wrench_multiple_use": "Tip: *Puedes usar la llave inglesa con la que estás intentando crear como un ingrediente*"
@@ -1014,6 +1014,10 @@
         "not_found": "%1$sEse trofeo no existe...",
         "header": "Información para el trofeo %1$s",
         "achieved": "Logrado"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**Trofeos de %1$s**\n%2$s",
       "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
@@ -1461,7 +1465,7 @@
         "header": "Lista de Ítems Salvables",
         "cost": "Costo de Salvamiento: ",
         "return": "Puede retornar: ",
-        "desc": "Esta es una lista de items que puedes salvar usando `~>salvage`. \nTienes que usar el nombre completo o abreviado para crearlo (ejemplo: `~>salvage diamond pickaxe` or `~>salvage diamond p` works)\n**Salvar un item cuesta la 1/3 de su valor de mercado. Este precio se mostrará abajo.**\nSolo recibirás un ítem de lo que se muestra aquí, al azar.\nTier 2 y 3 de llaves inglesas son comet y sparkle, respectivamente."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1569,7 +1573,7 @@
       "ls": {
         "header": "Lista de ítems que puedes reparar",
         "cost": "Costo de reparación: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
