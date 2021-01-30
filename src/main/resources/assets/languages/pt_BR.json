@@ -726,7 +726,7 @@
       "ls": {
         "header": "Lista de Itens Fundíveis",
         "cost": "Custo da Fusão: ",
-        "desc": "Essa é uma lista de itens que você pode fundir usando `~>cast`. Você tem que usar o nome completo ou um nome menor para fundir (exemplo: `~>cast diamond pickaxe` ou `~>cast diamond p` funciona)\n**A Fundição tem um custo da metade do preço do item. O preço da fundição será mostrado abaixo.**.\nChave inglesa tier 2 e 3 são de cometa e brilhante, respectivamente."
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sVocê não pode fundir com um inventário sujo! *(Nível de poeira: %2$s%%)*. Por que não limpa usando `~>useitem mop`?",
       "wrench_multiple_use": "Dica: *Você não pode usar uma chave inglesa que você está tentando fundir como ingrediente!*"
@@ -1014,6 +1014,10 @@
         "not_found": "%1$sEssa insígnia não existe...",
         "header": "Informação da Insígnia %1$s",
         "achieved": "Alcançada"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
@@ -1461,7 +1465,7 @@
         "header": "Lista de Itens Resgatáveis",
         "cost": "Custo do Resgatamento: ",
         "return": "Possível Retorno: ",
-        "desc": "Essa é uma lista de itens que você pode resgatar usando `~>salvage`.\nVocê pode usar o nome inteiro ou um nome curto (exemplo: `~>salvage \"diamond pickaxe\", ou `~>salvage \"diamond p\", funciona)\n**Resgatar possui um custo de 1/3 do preço do item. O preço do resgatamento será mostrado abaixo.**.\nVocê ganha apenas um item listado aqui, escolhido aleatoriamente.\nChave inglesa de tier 2 e 3 são cometa e brilhante, respectivamente."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1569,7 +1573,7 @@
       "ls": {
         "header": "Lista de Itens reparáveis ",
         "cost": "Custo de reparo: ",
-        "desc": "Essa é uma lista de itens que você pode reparar usando `~>repair`.\nVocê pode usar o nome completo ou um nome curto, ou o emoji.\nReparar tem um custo mínimo de 1/3 do custo do item. Você precisa de pelo menos uma Chave Inglesa de Cometa para reparar alguma coisa.\nO preço será mostrado abaixo, junto com os materiais necessários.\nA sintaxe completa do reparo é `~>repair <item> <wrench>`"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
