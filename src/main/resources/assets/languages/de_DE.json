@@ -726,7 +726,7 @@
       "ls": {
         "header": "Liste herstellbarer Gegenstände",
         "cost": "Herstellungspreis: ",
-        "desc": "Dies ist eine Liste aller Gegenstände, die du mit `~>cast` herstellen kannst. Du musst den ganzen Namen oder die Abkürzung verwenden (Beispiel: `~>cast \"diamond pickaxe\"`, oder `~>cast \"diamond p\"`, funktioniert)\n**Herstellen kostet halb so viel, wie der Gegenstand. Der Herstellungspreis wird unten angezeigt**.\nSchraubenschlüssel Stufe 2 und 3 sind Komet und Glitzer."
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sDu kannst nichts mit so einem staubigen Inventar herstellen! *(Verstaubung: %2$s%%)*. Warum machst du es nicht mit `~>useitem mop` sauber?",
       "wrench_multiple_use": "Tipp: *Du kannst den benutzten Schraubenschlüssel nicht gleichzeitig als Zutat verwenden!*"
@@ -1014,6 +1014,10 @@
         "not_found": "%1$sEs gibt kein solches Abzeichen...",
         "header": "Abzeichen Informationen für %1$s",
         "achieved": "Erreicht"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**%1$ss Abzeichen:**\n%2$s",
       "profile_notice": "Wenn du der Meinung bist, dass du ein neues Abzeichen erhalten hast und es hier nicht angezeigt wird, verwende bitte `~>profile` und führe den Befehl erneut aus.\n",
@@ -1461,7 +1465,7 @@
         "header": "Liste ausschlachtbarer Gegenstände",
         "cost": "Verschrottungskosten: ",
         "return": "Könnte zürckgeben: ",
-        "desc": "Dies ist eine Liste aller Gegenstände, die du mit `~>salvage` verschrotten kannst.\nDu musst den ganzen Namen oder die Abkürzung verwenden (Beispiel: `~>salvage \"diamond pickaxe\"`, oder `~>salvage \"diamond p\"`, funktioniert)\n**Verschrotten kostet ein Drittel so viel, wie der Gegenstand. Der Verschrottungspreis wird unten angezeigt**.\nDu bekommst nur einen der gelisteten Gegenstände, dieser wird zufällig gewählt.\nSchraubenschlüssel Stufe 2 und 3 sind Komet und Glitzer."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1569,7 +1573,7 @@
       "ls": {
         "header": "Liste reparierbarer Gegenstände",
         "cost": "Reparaturkosten: ",
-        "desc": "Dies ist eine Liste der Gegenstände, die du mit `~>repair` reparieren kannst.\nDu kannst den kompletten oder gekürzten Namen, oder den Emoji verwenden.\nReparieren kostet mindestens ein Drittel der Gegenstandskosten. Du benötigst mindestens einen Kometenschraubenschlüssel.\nDer Preis wird unten angezeigt, zusammen mit den benötigten Materialien.\nDer vollständige Befehl ist `~>repair <Gegenstand> <Schraubenschlüssel>`."
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
