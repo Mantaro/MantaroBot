@@ -54,12 +54,12 @@
         "overflow": "ولكن كان لديك بالفعل الكثير منه ، لذلك قررت التخلص من الفائض"
       },
       "potion_active": "%1$sلديك تأثير جرعة مفعلة بالفعل **%2$s** وهذا هو الحد الأقصى للكمية الممكنة!",
-      "potion_not_found": "%1$sلا يمكنني إيجاد الجرعه او نوع المعدات!",
-      "potion_applied": "%1$sتم بنجاح تطبيق تأثير **%2$s** من *%3$s* (%4$dx). يمكنك الإطلاع على التاأثير الجديد عن طريق `~>profile stats`",
+      "potion_not_found": "%1$sلا يمكنني إيجاد الجرعة او نوع المعدات!",
+      "potion_applied": "%1$sتم بنجاح تطبيق تأثير **%2$s** من *%3$s* (%4$dx). يمكنك الإطلاع على التأثير الجديد عن طريق `~>profile stats`",
       "potion_applied_multiple": "%1$sتم بالفعل تطبيق **%2$s** من نوع *%3$s*. لديك بالفعل هذا التأثير مطبق, لذا تم تخزينه. الحجم المكدس حاليا: %4$s",
       "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
       "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
-      "not_same_potion": "%1$sلديك بالفعل جرعة من نوع %2$s مخزنه ومفعله, لذا لايمكنك تكديس جرعة من نوع %3$s به."
+      "not_same_potion": "%1$sلديك بالفعل جرعة من نوع %2$s مخزنه ومفعلة, لذا لايمكنك تكديس جرعة من نوع %3$s به."
     },
     "campaigns": {
       "premium": {
@@ -70,31 +70,31 @@
       },
       "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
     },
-    "mention_user_required": "%1$sتحتاج منشن لشخص.",
+    "mention_user_required": "%1$sتحتاج إلى منشنة شخص واحد.",
     "invalid_character": "%1$sهذا حرف غير مسموح به.",
     "invalid_action": "لايمكنك فعل ذلك, يا للسخف.",
     "interactive_running": "%1$sهناك بالفعل عملية مفعله (مملوكة من قبلك) على هذا الروم.",
     "buy_sell_paged_react": "استخدم الرياكشنات أدنى الرسالة للتنقل بين الصفحات.\n%1$s",
     "buy_sell_paged_text": "استخدم **&p >>** و **&p <<** للتنقل بين الصفحات.\n%1$s",
     "buy_sell_paged_reference": "**المرجع %1$s شراء %2$s بيع.**",
-    "cancelled": "%1$sطلب ملغى.",
-    "sellout": "فكر بالتبرع في [Patreon](https://www.patreon.com/mantaro) اذا اعجبتك. حتى تبرع صغير سيساعد البوت للبقاء على قيد الحياة!",
-    "deprecated": "غير مستخدم الان",
+    "cancelled": "%1$sطلب مُلغى.",
+    "sellout": "فكر بالتبرع عن طريق [Patreon](https://www.patreon.com/mantaro) اذا قمت بإعجابك. حتى تبرع صغير سيساعد البوت للبقاء على قيد الحياة!",
+    "deprecated": "لم يعد مستخدماً",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
-      "header": "%1$s%2$s (معدل محدد)\n**سيمكنك استخدام الأمر مره اخرى في %3$s.**",
+      "header": "%1$s%2$s (وقت انتظار)\n**سيمكنك استخدام الأمر مره اخرى في %3$s.**",
       "spam_1": "أرجوك إرتح, هذا جيد لصحتك **تذكر ان وقت الانتظار سوف يزيد اذا جربت الأمر قبل فترة الهدوء!**",
       "spam_2": "أظن التوقف هو أفضل حل للان.....",
       "spam_3": "ألن يكون من الأفضل أن تخرج قليلاً؟",
-      "spam_4": "هل هذا الشيء حتى على؟"
+      "spam_4": "\nهل هذا الشيء حتى على قيد التشغيل؟"
     },
     "generic_error": "اذا أردت الدخول الى ** سيرفر الدعم الفني** الخاص بنا (`https://support.mantaro.site`), او زيارة صفحتنا على قيت هب (`https://github.com/Kodehawa/MantaroBot`). من فضلك اخبرهم ان يتوقفوا عن ازعاجي ورجاءً عند الابلاغ عن خطأ لاتنسى ارسال ID الخطأ والأمر الذي استخدمته وال Node الخاص بك (يمكنك رؤيته في عن طريق `~>shard`) عند ارسال البلاغ!",
     "boom_quotes": [
-      "على ما يبدو ميغومين فجر قلعتنا...",
+      "على ما يبدو فإن ميغومي قامت بتفجير قلعتنا...",
       "أوه, على ما يبدو أن سيدي نسي بعض الأصفار و احاد على الأرض :<",
-      "لحظه! ما الذي حصل؟",
-      "آ آ أعتقد أن هناك بعض النار هنا... قد ترغب في أن تقول لسيدي أن يأتي لإلقاء نظرة.",
+      "لحظة! ما الذي حصل؟",
+      "ا ا أعتقد أن هناك بعض النار هنا... قد ترغب ان تنادي سيدي لكي يلقي نظرة.",
       "لقد أتقنت سحر الانفجار, رأيت؟",
       "ربما حدث خطأ ما هنا ، ولكن يمكنني إصلاحه!",
       "اء.. ماذا تريد؟"
@@ -115,21 +115,21 @@
       "فقط عمل اداري جميل يحدث هناك...",
       "تم رمي الحذاء!",
       "سوف نفتقدك... ليس حقًا",
-      "أتمنى أنني فعلت الشئ الصحيح...",
-      "أنت هناك, الإشراف تكلم!\n",
-      "أووه... إذ-إذاا, هناك أحد مر من الباب!"
+      "أتمنى أنني فعلت الشيء الصحيح...",
+      "أنت هناك, المشرفين قد قرروا!",
+      "أووه... إذ-إذاًاً, هنالك أحد خرج للتو من الباب."
     ]
   },
   "categories": {
     "music": "الصوت",
-    "action": "عمل",
-    "misc": "متفرقات",
+    "action": "فعل",
+    "misc": "متنوع",
     "moderation": "الإشراف",
     "owner": "المالك",
     "image": "صورة",
     "utils": "أدوات",
     "fun": "مرح",
-    "games": "المباريات",
+    "games": "العاب",
     "info": "معلومات",
     "currency": "عملة",
     "pet": "حيوان اليف"
@@ -147,24 +147,24 @@
       },
       "crate": {
         "overflow": "لقد وجدت **%1$s** اثناء الصيد, لكن يبدو أن لدسك الكثير منه, لذا ارجعناه للبحر...",
-        "success": "لقد عثرت على %1$s **%2$s** بينما كنت تصيد وقررت أن تأخذه. إذهب وافتحه!!! `~>opencrate <crate name>`.تحتاج الى مفتاح للصندوق."
+        "success": "لقد عثرت على %1$s **%2$s** بينما كنت تصيد وقررت أن تأخذه. إذهب وافتحه!!! `~>opencrate <crate name>`. ولكنك تحتاج إلى مفتاح للصندوق!"
       },
       "autoequip": {
         "success": "%1$sتم تجهيز **%2$s** تلقائيا في مكان الصيد الخاص بك."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
       "success": "%1$sبينما كنت تصيد, وجدت %2$s وقررت الإحتفاظ به في الدلو الخاص بك.",
-      "success_money": "%1$sبينما كنت تصيد, وجدت %2$s وقررت الإحتفاظ به في الدلو الخاص بك.",
-      "success_money_noitem": "%1$sبينما كنت تصيد, وجدت **$%2$d credits** وقررت الإحتفاظ به في الدلو الخاص بك.",
-      "rod_broke": "%1$sسنارة الصيد الخاصة بك انكسرت بينما كنت تحاول الصيد بها :(",
-      "waifu_help": "الوايفو إنضم الى مغامرتك بالصيد وجمعيكم حصلتو على مسافات كبيره!!",
-      "not_suitable": "%1$sلايمكنك استخدام هذا للصيد.",
-      "shark_success": "%1$sبطريقة ما, إصدت قرش! ما روعة هذه السنارة هاه؟",
-      "fossil_success": "%1$sإصدت احفورة بينما كنت تحاول صيد سمك, هذا قد يكون عادل قليلا أو أن تستخدم للصب ،أعتقد.",
-      "bait": "السمك أكل الطعم في عملية الصيد!",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
+      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
+      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
+      "not_suitable": "%1$sYou can't use this to fish.",
+      "shark_success": "%1$sبطريقة ما لقد قمت بإصطياد قرش! يا لروعة هذه السنارة هاه؟",
+      "fossil_success": "%1$sلقد قمت بإصطياد بعض المتحجرات بينما كنت تحاول صيد السمك, قد يباع هذا مقابل القليل من المال او يمكنك استخدامه في التصنيع, على ما أعتقد.",
+      "bait": "السمك أكل الطعم الخاص بك اثناء الصيد!",
       "missing_equipped": "%1$sكان لديك سنارة %2$s مجهزه, ولكن ليس لديك نفس النوع في مخزونك! تم إعادة تعيين تجهيز السنارة.",
-      "broken_drop": "%1$sإنكسرت سنارتك, ولكن يمكنك إصلاحه. حصلت على غرض مكسور: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sليس لديك سنارة مجهزه لتصيد بها :( لتجهيز واحدة إستخدم هذا الأمر `~>equip <rod name>` لبدء مغامرتك!"
+      "broken_drop": "%1$sإنكسرت سنارتك, ولكن يمكنك إصلاحها. ولقد حصلت على الغرض المكسور: %2$s *%3$s*",
+      "no_rod_equipped": "%1$sليس لديك سنارة مجهزة لتصيد بها, لتجهيز واحدة إستخدم هذا الأمر `~>equip <rod name>` لبدء مغامرتك!"
     },
     "softban": {
       "no_permission": "%1$sلايمكن إستخدام الحظر الناعم: ليس لديك صلاحية حظر الأعضاء.",
@@ -181,45 +181,45 @@
       "no_permission": "%1$sلايمكنك الحظر: تحتاج الى صلاحية `حظر الأعضاء`.",
       "no_users": "%1$sأحتاج أن تعطيني عضو لحظره من السيرفر.",
       "no_permission_self": "%1$sأعتذر :( ليس لدي صلاحية حظر الأعضاء في هذا السيرفر.",
-      "hierarchy_conflict": "%1$sلايمكنك حظر العضو الأعلى منك رتبة في السيرفر! محاولة جيدة %2$s",
+      "hierarchy_conflict": "%1$sلايمكنك حظر عضو أعلى منك رتبة في السيرفر! محاولة جيدة %2$s",
       "yourself_note": "%1$sلماذا تحاول حظر نفسك؟",
-      "self_hierarchy_conflict": "%1$sلايمكن حظر العضو: %2$s, فهو اعلى رتبة مما أنا عليه!",
-      "success": "%1$s%2$s (%3$s أعضاء حصلوا على حظر)",
-      "success_multiple": "%1$s%2$s (%3$s أعضاء حصلوا على حظر)",
-      "error": "%1$sخطأ في الحظر %2$s: (أحتاج الصلاحية %3$s)",
-      "unknown_error": "%1$sهه!, لقد واجهت خطأ غير معروف اثناء الحظر %2$s"
+      "self_hierarchy_conflict": "%1$sلايمكن حظر العضو: %2$s, فرتبته اعلى او تساوي رتبتي أنا!",
+      "success": "%1$s%2$s (%3$s تعرضو للحظر)",
+      "success_multiple": "%1$s%2$s (%3$s تعرضو للحظر)",
+      "error": "%1$sحدث خطأ إثناء محاولة حظر %2$s: (أحتاج إلى الصلاحية %3$s)",
+      "unknown_error": "%1$sهاه!, لقد واجهت خطأ غير معروف اثناء حظر %2$s"
     },
     "kick": {
       "no_permission": "%1$sلايمكنني الطرد: ليس لديك الصلاحية لطرد الأعضاء.",
       "no_users": "%1$sأحتاج أن تعطيني عضو لطرده.",
-      "no_permission_self": "أعتذر :( ليس لدي صلاحية طرد الأعضاء في هذا السيرفر.",
-      "hierarchy_conflict": "%1$sلايمكنك طرد عضو اعلى منك رتبة.",
+      "no_permission_self": "%1$sأعتذر! ليس لدي صلاحية طرد الأعضاء في هذا السيرفر.",
+      "hierarchy_conflict": "%1$sلا يمكنك طرد عضو أعلى منك رتبة في السيرفر",
       "yourself_note": "%1$sلماذا تحاول طرد نفسك؟",
-      "self_hierarchy_conflict": "%1$sلايمكن طرد العضو: %2$s, فهو اعلى رتبة مما أنا عليه!",
-      "success": "%1$s%2$s (%3$s أعضاء حصلوا على طرد)",
-      "error": "%1$soخطأ في الطرد [%2$s]: (لم أحصل على صلاحية: %3$s)",
-      "unknown_error": "%1$sخطأ غير معروف في محاولة طرد %2$s"
+      "self_hierarchy_conflict": "%1$sلا يمكنني طرد العضو: %2$s, فهو اعلى رتبة مما أنا عليه!",
+      "success": "%1$s%2$s ( تم طرد %3$s)",
+      "error": "%1$s حصل خطأ اثناء طرد%2$s: ( أحتاج إلى الصلاحية: %3$s)",
+      "unknown_error": "%1$sحصل خطأ غير معروف في اثناء محاولة طرد %2$s"
     },
     "music_usage": {
-      "1": "*كيف يمكن إستخدام الموسيقى في مونتارو؟*",
+      "1": "*كيف يمكنني إستخدام الموسيقى في مانتارو؟*",
       "2": "- اذا اردت **وضع الأغاني في قائمة الانتظار من يوتيوب أو soundcloud** `~>play`مثال: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *سيتم توصيله تلقائيًا بالرومات الصوتية الذي تتواجد فيها*",
-      "3": "- اذا اردت **البحث عن اغنيه في اليوتيوب** إستخدم `~>play <search term>` (بدون استخدام < و >) مثال: `~>play see you again` (تحتاج الى اختيار رقم, فقط *اكتب الرقم* بعد ظهور مربع التحديد!)",
-      "4": "- اذا اردت **البحث عن اغنيه في soundcloud** استخدم `~>play soundcloud <search term>` مثال `~>play soundcloud hot milk`",
+      "3": "- **للبحث عن أغنية في اليوتيوب** إستخدم `~>play <search term>` (بدون كتابة < و >) مثال: `~>play see you again` (تحتاج الى اختيار رقم, فقط *اكتب الرقم* بعد ظهور مربع التحديد!)",
+      "4": "- **للبحث عن اغنية في soundcloud** استخدم `~>play soundcloud <search term>` مثال `~>play soundcloud hot milk`",
       "5": "- اذا اردت **التحقق من قائمة الانتظار** فقط اكتب `~>queue`",
-      "6": "- اذا اردت **إزالة اغنيه من قائمة الانتظار** فقط عليك استخدام `~>removetrack` فإنه يأخذ كوسيطة موقف الأغنية في قائمة الانتظار في (يمكنك التحقق من قائمة الانتظار)",
-      "7": "**إيقاف مؤقت أو إلغاء الإيقاف مؤقت** إستخدم `~>pause`",
-      "8": "**لإيقاف الموسيقى وإلغاء ربط اللاعب** استخدم `~>stop`",
-      "9": "**خلط قائمة الانتظار** إستخدم `~>shuffle`",
-      "10": "- وأخيرا,  **لتكرار أغنيه** إستخدم `~>repeat` و **لتكرار القائمة** إستخدم `~>repeat queue`. إستخدام أمر `~>repeat` في حين التكرار مفعل, سيتم إغلاقه",
-      "11": "للمزيد من المعلومات إستخدم `~>help <command name>` (بدون استخدام <> و استبدل command name بالأمر الذي تريده)",
-      "12": "استمتع بموسيقاك, وشكرا لإستخدام مونتارو :)!"
+      "6": "-**لإزالة أغنية من قائمة الانتظار** عليك فقط استخدام `~>removetrack` وتستطيع كتابة رقم الأغنية في قائمة الانتظار بعد الأمر (يمكنك التحقق من رقم الاغنية من قائمة الانتظار)",
+      "7": "**للإيقاف مؤقت أو لمتابعة التشغيل** إستخدم `~>pause`",
+      "8": "**لإيقاف الموسيقى وإلغاء ربط المشغل** استخدم `~>stop`",
+      "9": "**لتشغل قائمة الانتظار عشوائياً** إستخدم `~>shuffle`",
+      "10": "- وأخيرا, **لتكرار الأغنية** إستخدم `~>repeat` و **لتكرار قائمة الأنتظار** إستخدم `~>repeat queue`. إستخدام أمر `~>repeat` في حال كان أمر التكرار مُفعل, سيؤدي إلى إغلاقه\n",
+      "11": "للمزيد من المعلومات إستخدم `~>help <command name>` (بدون ال <> و قم باستبدال command name بالأمر الذي تريده)",
+      "12": "استمتع بموسيقاك, وشكراً لإستخدامك مانتارو!"
     },
     "lang": {
-      "info": "\"%1$sيمكنك تغيير لغة الخادم(إذا كانت موجوده) بإستخدام `~>opts language set <language code>`. يمكنك التغيير لغتك باستخدام `~>profile lang <language code>`.\\n**Available languages:** `%2$s`\\nإذا لغتك لم تكن موجوده يمكنك المساعدة, لا تتردد في الانضمام إلى سيرفر الدعم والانضمام إلى جهود الترجمة!\""
+      "info": "%1$sيمكنك تغيير لغة السيرفر( إذا كانت موجودة) بإستخدام ` ~>opts languages set <language code>`. ويمكنك ايضاً تغير لغتك المخصصة عن طريق ` ~>profile lang <language code>`.\n**اللغات المتوفرة:** `%2$s`\nإذا كانت لغتك غير موجودة فيمكنك المساعدة, لا تتردد في الانضمام الى سيرفر الدعم و المساعدة في الترجمة!"
     },
     "season": {
-      "info": "*الموسم* هو فتره من الزمن, عادة يكون 6 أشهر .حيث يتنافس اللاعبون على أفضل 10 مراكز على لوحة المتصدرين المال أو سمعة. سيحصل الفائزون على شارات وجوائز استنادًا إلى أدائهم الموسمي وهذا لجعل الروح التنافسيه أكثر (من قبل, المال كان قديما الى حد كبير) ولجعل اللعبه اكثر متعة.يمكنك الوصول للأشياء المومسية عن طريق استخدام `-season`. الأوامر مثل profile, mine, fish and balance سوف تتطلب ذلك, بينما games, loot, daily and reputation سيعطي money/rep لكل من ملفك الشخصي العالمي والموسمي.",
-      "info_2": "السيزن الحالي هو **%1$s** و **%2$s** اللاعبون يشاركون حاليا في ذلك! المرح بدأ, تحقق من`~>leaderboard money -season` و`~>leaderboard rep -season`و `~>leaderboard games -season`.حان وقت اللعب! <3\\nشكرا لإستمتاعكم بمونتارو.\""
+      "info": "*الموسم* هو فتره من الزمن, عادة ما تكون 6 أشهر. حيث يتنافس اللاعبون على أفضل 10 مراكز على لوحة الصدارة من ناحية المال أو نقاط السمعة ( الريب). سيحصل الفائزون على شارات وجوائز استنادًا إلى أدائهم الموسمي وهذا لجعل الروح التنافسيه أكثر (من قبل, كان المال لا فائدة له) ولجعل اللعبه اكثر متعة.\nيمكنك الوصول للأوامر الموسمية عن طريق استخدام `-season`. الأوامر مثل profile, mine, fish and balance سوف تتطلب ذلك, بينما games, loot, daily و reputation سيعطي مال/نقاط سمعة ( ريب) لكل من ملفك الشخصي العالمي والموسمي.",
+      "info_2": "\n\nالسيزون الحالي هو **%1$s** و **%2$s** اللاعبون يشاركون حاليا فيه!\n المرح يبدأ, قم بكتابة`~>leaderboard money -season` و`~>leaderboard rep -season`و `~>leaderboard games -season`. حان وقت اللعب!\n3> بدأت اللعبة!\nشكراً لك لإستخدامك مانتارو."
     },
     "music_general": {
       "music_error": {
@@ -254,9 +254,9 @@
         "total_queue_time": "إجمالي وقت الانتظار",
         "total_size": "إجمالي حجم الصف",
         "togglers": "كرر / وقفة",
-        "playing_in": "التشغيل في ",
-        "footer": "مجموع الصفحات: %1$d%2$s. الصفحة الحالية هي %3$d",
-        "multiple_pages": "إستخدم ~>queue <page> لتغيير الصفحات ",
+        "playing_in": "أشغل في",
+        "footer": "مجموع الصفحات: %1$d%2$s. الصفحة الحالية %3$d",
+        "multiple_pages": " -> إستخدم ->queue <page> لتغيير الصفحات",
         "page_react": "إستخدم الرمز التعبيري لتغيير الصفحات ",
         "no_channel": "لايوجد روم :(",
         "songs": "الأغاني",
@@ -1856,7 +1856,7 @@
       "success": "%1$sتم تعطيل الفئة`%2$s` للرتبة %3$s"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sيجب انت تحدد الرول والروم الذي ستتفعل الرول به.",
+      "invalid": "%1$sيجب انت تحدد الرول والروم الذي ستتفعل الرتبة بها.",
       "not_disabled": "%1$sهذه الفئة غير مُعطلة.",
       "success": "%1$sتم تفعيل الفئة `%2$s` للرتبة %3$s"
     },
@@ -2030,7 +2030,7 @@
       "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
       "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
       "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
-      "no_category": "%1$sThere's no category **%2$s**"
+      "no_category": "%1$sليس هنالك كاتيجوري (فئة)**%2$s**"
     },
     "autoroles_remove": {
       "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
@@ -2173,7 +2173,7 @@
     },
     "djrole_set": {
       "no_role": "%1$sيجب ان تحدد الرتبة التي تريد تعيينها ك رتبة DJ.",
-      "success": "%1$sتم بنجاح تعيين رول الـ DJ الى %2$s."
+      "success": "%1$sتم بنجاح تعيين رتبة الـ DJ الى %2$s."
     },
     "djrole_reset": {
       "not_set": "%1$sلم تقم بتعيين اي رتبة ك رتبة DJ.",
@@ -2185,10 +2185,10 @@
     "birthdayblacklist": {
       "no_args": "%1$sيجب ان تحدد الشخص الذي تريد اضافته الى القائمة السوداء لمنع الاعلان عنه في اعلانات اعياد الميلاد.",
       "add": {
-        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+        "success": "%1$sتم اضافة %2$s بنجاح (%3$s) الى قائمة البلاك ليست الخاصة ب اعلانات اعياد الميلاد في هذا السيرفر."
       },
       "remove": {
-        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+        "success": "%1$sتم ازالة %2$s بنجاح (%3$s) الى قائمة البلاك ليست الخاصة ب اعلانات اعياد الميلاد في هذا السيرفر."
       }
     },
     "lobby": {
@@ -2200,63 +2200,63 @@
         "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
       }
     },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
-    "invalid_role": "%1$sThat's not a valid role!"
+    "invalid_category": "%1$sقمت بادخال اسم فئة غير صالح. سيتم عرض قائمة بالفئات الصالحة اتعطيلها (حساسة لحالة الأحرف) ```md\n%2$s```",
+    "help_opts_notice": "%1$sلا يمكنك تعطيل امر ال options او امر ال help.",
+    "no_command": "%1$sلا يوجد أمر يدعى %2$s",
+    "invalid_role": "%1$sهذه رتبة غير صالحة!"
   },
   "discord_permissions": {
-    "create_instant_invite": "Create Instant Invite",
-    "kick_members": "Kick Members",
-    "ban_members": "Ban Members",
-    "administrator": "Administrator",
-    "manage_channel": "Manage Channels",
-    "manage_server": "Manage Server",
-    "message_add_reaction": "Add Reactions",
-    "view_audit_logs": "View Audit Logs",
-    "view_channel": "Read Text Channels & See Voice Channels",
-    "message_read": "Read Messages",
-    "message_write": "Send Messages",
-    "message_tts": "Send TTS Messages",
-    "message_manage": "Manage Messages",
-    "message_embed_links": "Embed Links",
-    "message_attach_files": "Attach Files",
-    "message_history": "Read History",
-    "message_mention_everyone": "Mention Everyone",
-    "message_ext_emoji": "Use External Emojis",
-    "voice_connect": "Connect",
-    "voice_speak": "Speak",
-    "voice_mute_others": "Mute Members",
-    "voice_deaf_others": "Deafen Members",
-    "voice_move_others": "Move Members",
-    "voice_use_vad": "Use Voice Activity",
-    "nickname_change": "Change Nickname",
-    "nickname_manage": "Manage Nicknames",
-    "manage_roles": "Manage Roles",
-    "manage_permissions": "Manage Permissions",
-    "manage_webhooks": "Manage Webhooks",
+    "create_instant_invite": "انشاء دعوة فورية",
+    "kick_members": "طرد الأعضاء",
+    "ban_members": "حظر الأعضاء",
+    "administrator": "المُشرف",
+    "manage_channel": "تعديل الرومات",
+    "manage_server": "إدارة السيرفر",
+    "message_add_reaction": "اضافة رياكشن",
+    "view_audit_logs": "رؤية سجلات التدقيق",
+    "view_channel": "قراءة الرومات الكتابية ورؤية الرومات الصوتية",
+    "message_read": "قراءة الرسائل",
+    "message_write": "ارسال رسائل",
+    "message_tts": "ارسال رسائل (النص الى كلام)",
+    "message_manage": "إدارة الرسائل",
+    "message_embed_links": "تضمين الروابط",
+    "message_attach_files": "إرفاق الملفات",
+    "message_history": "قراءة تاريخ الرسائل",
+    "message_mention_everyone": "منشن الجميع",
+    "message_ext_emoji": "استخدام ايموجيات خارجية",
+    "voice_connect": "اتصال",
+    "voice_speak": "تحدث",
+    "voice_mute_others": "كتم الأعضاء",
+    "voice_deaf_others": "ديفن الاعضاء",
+    "voice_move_others": "تحريك الأعضاء",
+    "voice_use_vad": "استخدام نشاطات الصوت",
+    "nickname_change": "تغيير الاسم المستعار (النك نيم)",
+    "nickname_manage": "إدارة الاسماء المستعارة (النك نيم)",
+    "manage_roles": "إدارة الرتب",
+    "manage_permissions": "ادارة الصلاحيات",
+    "manage_webhooks": "ادارة الويب هوك",
     "manage_emotes": "ادارة الايموجيات",
     "priority_speaker": "المتحدث ذو الاولوية"
   },
   "items": {
-    "headphones": "Headphones",
-    "ban_hammer": "Ban Hammer",
-    "die": "Loaded Die",
-    "kick_boot": "Kick Boot",
-    "floppy": "Floppy Disk",
-    "maths": "My Maths",
-    "racket": "Ping Racket",
-    "loaded_die": "Loaded Die",
+    "headphones": "سماعات الرأس",
+    "ban_hammer": "مطرقة الحظر",
+    "die": "نرد",
+    "kick_boot": "حذاء الركل",
+    "floppy": "قرص مرن",
+    "maths": "الرياضيات الخاصة بي",
+    "racket": "مضرب",
+    "loaded_die": "نرد",
     "forgotten": "موسيقى منسية",
-    "pencil": "Pencil",
-    "moneybag": "Money Bag",
+    "pencil": "قلم",
+    "moneybag": "حقيبة المال",
     "pick": "فأس بروم",
-    "milk": "Milk",
-    "beverage": "Beverage",
+    "milk": "حليب",
+    "beverage": "مشروب",
     "lewd": "مجلة بذيئة",
     "ring": "خاتم الزواج",
-    "letter": "Love Letter",
-    "key": "Crate Key",
+    "letter": "رسالة الحب",
+    "key": "مفتاح الصندوق",
     "clothes": "ملابس",
     "diamond": "الماس",
     "dress": "فستان الزفاف",
