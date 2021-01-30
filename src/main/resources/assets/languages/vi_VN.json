@@ -726,7 +726,7 @@
       "ls": {
         "header": "Danh sách các món đồ có thể chế tạo",
         "cost": "Giá chế tạo: ",
-        "desc": "Dưới đây là danh sách những món đồ bạn có thể chế tạo bằng cách gõ `~>cast`.\nBạn có thể dùng tên đầy đủ hoặc tên viết tắt của chúng (ví dụ: `~>cast \"diamond pickaxe\"`, hoặc `~>cast diamond p\"`, đều có thể dùng được)\n**Chế tạo đồ có giá nhỏ nhất bằng một nửa giá của đồ. Giá chế tạo sẽ được ghi ở dưới.**\nCờ lê cấp 2 và cấp 3 lần lượt là sao chổi (comet) và lấp lánh (sparkle)."
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sBạn không thể chế tạo đồ với một tủ đồ bụi bặm như vậy! *(Bụi cấp: %2$s%%)*. Sao bạn không thử dọn sạch nó bằng `~>useitem mop`?",
       "wrench_multiple_use": "Lời khuyên: *Bạn không thể sử dụng chiếc cờ lê bạn đang cố dùng để chế tạo như một nguyên liệu được!*"
@@ -1014,6 +1014,10 @@
         "not_found": "%1$sKhông có huy hiệu nào như vậy cả...",
         "header": "Thông tin cho huy hiệu %1$s",
         "achieved": "Đã đạt được"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**Huy hiệu của %1$s:**\n%2$s",
       "profile_notice": "Nếu bạn nghĩ mình đã đạt được một huy hiệu mới nhưng nó không xuất hiện ở đây, hãy dùng `~>profile` rồi sau đó dùng lại lệnh này.\n",
@@ -1461,7 +1465,7 @@
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
         "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1569,7 +1573,7 @@
       "ls": {
         "header": "Danh sách đồ có thể sửa chữa",
         "cost": "Giá sửa chữa: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
