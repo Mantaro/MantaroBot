@@ -309,7 +309,7 @@
     },
     "rewind": {
       "no_time": "%1$sيجب أن تخبرني كم المدة التي تريد مني ان اعيد الأغنية فيها، *(مثال `~>rewind 1m45s` ستقوم بإعادة الأغنية لمدة دقيقة واحدة و 45 ثانية)*",
-      "negative": "%1$sPositive numbers only",
+      "negative": "%1$sأرقام موجبة فقط",
       "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sلايمكنك التخطي قبل ان تشغل أغنية اخرى",
       "success": "%1$sإعادة تشغيل الاغنية الى: %2$s"
@@ -435,7 +435,7 @@
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sتم إلغاء إنشاء الأمر.",
         "no_responses_added": "%1$sلم تتم إضافة أي ردود. جارٍ إيقاف الإنشاء بدون حفظ...",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$sتم حفظ الأمر `%2$s`",
         "no_name_specified": "%1$sلم تحدد اسم الأمر المخصص المراد إنشاؤه!"
       },
       "eval": {
@@ -543,7 +543,7 @@
         "بانغ.",
         "بونغ.",
         "بينغ.",
-        "Wondering how I'd do",
+        "أتساءل كيف سأؤدي",
         "أي مشكلة؟",
         "بينغ بونغ؟! نعم!",
         "ا-اه... مرحب-مرحباً"
@@ -707,7 +707,7 @@
       "format": "**سعر**: 📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$sالمخزون هذا فاضي! :(",
       "brief_notice": "يمكنك إستخدام `~>inventory -brief` للحصول على نسخة صديقة للهاتف.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(ترتيب حسب:%1$s)*"
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
@@ -998,8 +998,8 @@
       "birthday": "يوم الميلاد",
       "married": "متزوج من ",
       "nobody": "لا أحد",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
+      "inventory": "مجموعة العناصر (أفضل 10)",
+      "badges": "مجموعة الشارات (أفضل 5)",
       "no_badges": "لا ميداليات (بعد!)",
       "no_timezone": "لم يتم تعيينها",
       "timezone_user": "المنطقة الزمنية للعضو: %1$s",
@@ -1016,7 +1016,7 @@
         "achieved": "مٌحقق"
       },
       "ls": {
-        "header": "Obtainable Badges List",
+        "header": "قائمة الشارات التي يمكن الحصول عليها",
         "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**ميداليات %1$s.**\n%2$s",
@@ -1207,7 +1207,7 @@
       "cuddle": "%1$s تم حضنك من قبل %2$s",
       "nuzzle": "%1$s يحضن %2$s",
       "bloodsuck": "%1$s يمتص دم %2$s!",
-      "blush": "%1$s is blushing at %2$s",
+      "blush": "%1$s يحمر خجلاً وهو ينظر إلى %2$s",
       "nom": "لذيذ.",
       "facedesk": "*facedesks*",
       "lewd": "أ.. أنت بذيئ!",
@@ -1345,9 +1345,9 @@
         "hunger": "الجوع",
         "stamina": "قوة",
         "pet": "تربيتات",
-        "buildup": "Coin / Item Buildup",
+        "buildup": "العملات/الاغراض المتراكمة",
         "buildup_coin": "العملات المتراكمة",
-        "buildup_stats": "%1$,d credits / %2$,d items",
+        "buildup_stats": "%1$,d كريدت / %2$,d غرض",
         "buildup_stats_credits": "%1$,d كريدت",
         "footer": "شكراً لك لاستخدامك مانتارو! 3>"
       },
@@ -1431,8 +1431,8 @@
         "cost": "تكلفة الحيوان الأليف",
         "abilities": "القدرات",
         "food": "الطعام الصالح للأكل",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
-        "item_buildup": "Item Buildup (Lvl. 1 / 100)"
+        "coin_buildup": "تراكم العملة (مستوى 1 / 100)",
+        "item_buildup": "تراكم الاغراض (مستوى 1 / 100)"
       }
     },
     "invite": {
@@ -1462,7 +1462,7 @@
       "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
       "ls": {
-        "header": "Salvageable Item List",
+        "header": "قائمة الأغراض القابلة للصناعة",
         "cost": "تكلفة الإصلاح: ",
         "return": "قابل للإرجاع: ",
         "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
@@ -1497,7 +1497,7 @@
     },
     "avatar": {
       "result": "الصورة الشخصية لـ %1$s",
-      "footer": "Hopefully a very pretty one."
+      "footer": "اتمنى ان تكون جميلة."
     },
     "serverinfo": {
       "header": "معلومات السيرفر",
@@ -1920,7 +1920,7 @@
       "success": "%1$sSuccesfully reset log timezone."
     },
     "lobby_reset": {
-      "success": "%1$sReset the lobby correctly."
+      "success": "%1$sتم إعادة ضبط اللوبي بنجاح."
     },
     "modlog_blacklist": {
       "no_mentions": "%1$s**You need to specify the users to locally blacklist from mod logs.**",
@@ -2077,7 +2077,7 @@
       "success": "%1$sServer birthday message set to: %2$s"
     },
     "birthday_message_clear": {
-      "success": "%1$sCleared birthday message!"
+      "success": "%1$sتم حذف رسالة عيد الميلاد!"
     },
     "defaultmutetimeout_set": {
       "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
@@ -2088,7 +2088,7 @@
       "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sتمت إعادة تعيين المهلة بنجاح."
     },
     "muterole_unbind": {
       "success": "%1$sCorrectly reset the mute role."
@@ -2311,7 +2311,7 @@
     "mine_crate": "صندوق الجوهرة",
     "fish_crate": "كنز صيد السمك",
     "mine_premium_crate": "صندوق جوهرة بريميوم",
-    "fish_premium_crate": "Fish Premium Treasure",
+    "fish_premium_crate": "كنز صيد السمك البريميوم",
     "comet_rod": "سنارة جوهرة المذنب",
     "star_rod": "سنارة جوهرة النجمة",
     "sparkle_rod": "سنارة الشرارة",
@@ -2322,9 +2322,9 @@
     "shrimp": "جمبري",
     "moon": "أثار القمر",
     "flake": "قطعة ثلج",
-    "broken_comet_pick": "Broken Comet Pickaxe",
-    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
-    "broken_star_pick": "Broken Star Pickaxe",
+    "broken_comet_pick": "معوُل مذنب مكسور",
+    "broken_sparkle_pick": "معوٌل شرارة مكسور",
+    "broken_star_pick": "معوٌل نجوم مكسور",
     "broken_comet_rod": "سنارة مذنب مكسورة",
     "broken_sparkle_rod": "سنارة شرارة مكسورة",
     "broken_star_rod": "سنارة نجوم مكسورة",
@@ -2354,21 +2354,21 @@
     "pear": "إجاص",
     "cherry_blossom": "زهرة الكرز",
     "rock": "صخرة",
-    "broken_moon_pick": "Broken Moon Pickaxe",
+    "broken_moon_pick": "معوُل قمر مكسور",
     "broken_moon_axe": "فأس قمر مكسور",
     "broken_moon_rod": "سنارة قمر مكسورة",
     "broken_star_axe": "فأس نجوم مكسور",
     "broken_comet_axe": "فأس مذنب مكسور",
     "broken_sparkle_axe": "فأس شرارة مكسور",
-    "broken_hellfire_pick": "Broken Hellfire Pickaxe",
+    "broken_hellfire_pick": "معوٌل نار جحيم مكسور",
     "broken_hellfire_axe": "فأس نار جحيم مكسور",
-    "broken_hellfire_rod": "Broken Hellfire Rod",
+    "broken_hellfire_rod": "سنارة نار جحيم مكسورة",
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "غادر من قِبل مسؤول.",
       "kick_boot": "غادر من قِبل مسؤول.",
       "floppy": "Might have some games. Don't copy the floppy.",
-      "maths": "Oh, I forgot my maths.",
+      "maths": "أوه ، لقد نسيت كيفية القيام بالعمليات الرياضية.",
       "racket": "I won the game of ping-pong with Discord by a few milliseconds. Maybe.",
       "loaded_die": "مسروق من أمر `~>roll`.",
       "forgotten": "لم يتم تنزيلها. ربما بسبب حقوق الطبع والنشر.",
@@ -2440,10 +2440,10 @@
       "star_rod": "A stronger rod (170 durability).",
       "sparkle_rod": "A way stronger rod (300 durability).",
       "shell": "Found at the bottom of the ocean. What could it be worth for?",
-      "shark": "Woah. How did you catch this?",
+      "shark": "واو. كيف تمكنت من التقاط هذا؟",
       "crab": "سلطعون, ربما هي ترقص.",
-      "squid": "Not to confuse with Squidward.",
-      "shrimp": "Pinkish stuff. I think.",
+      "squid": "لا تتحير بينه و بين Squidward.",
+      "shrimp": "اشياء وردية. على ما اعتقد.",
       "moon": "Moon Rune. Needed to cast some stuff.",
       "flake": "Snowflake. Usually used as a cast ingredient.",
       "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
@@ -2460,8 +2460,8 @@
       "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
       "milk_3": "Very good food for cats, I've heard.",
       "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
-      "cat_food": "Food your cat might like a lot.",
-      "hamster_food": "Food your hamster might enjoy.",
+      "cat_food": "طعام الذي قد يحبه قطك كثيرًا.",
+      "hamster_food": "طعام الذي قد يستمتع به الهامستر الخاص بك.",
       "wood": "Common drop from trees. Useful for casting.",
       "moon_pick": "A very much stronger pick (320 durability).",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
