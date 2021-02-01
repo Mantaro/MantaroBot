@@ -81,7 +81,7 @@
     "sellout": "Considere doar no [Patreon](https://www.patreon.com/mantaro) se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé!",
     "deprecated": "Não sendo mais usado",
     "space_notice": "Se o nome tem espaço, tente \"coloca-lo entre aspas\". Provavelmente o comando help pode te dizer mais.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
+    "missing_embed_permissions": "O bot não tem a permissão Inserir Links necessária para executar este comando. Por favor, conceda todas as permissões necessárias (verifique as permissões de canal e de categoria também). Se você precisar de ajuda dirija-se à <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
       "spam_1": "Por favor descanse, faz bem pra saúde. **Lembre-se que o limite de taxa irá continuar aumentando se você tentar antes do tempo resetar!**",
@@ -726,7 +726,7 @@
       "ls": {
         "header": "Lista de Itens Fundíveis",
         "cost": "Custo da Fusão: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Esta é a lista de itens que você pode confeccionar utilizando `~>cast`.\nVocê pode usar o nome completo, a abreviação ou o emoji.\n**A confecção custa no mínimo metade do preço do item, como mostrado abaixo.**.\nChave inglesa classe 2 e 3 equivale à Celeste e à de Brilhante, respectivamente."
       },
       "dust": "%1$sVocê não pode fundir com um inventário sujo! *(Nível de poeira: %2$s%%)*. Por que não limpa usando `~>useitem mop`?",
       "wrench_multiple_use": "Dica: *Você não pode usar uma chave inglesa que você está tentando fundir como ingrediente!*"
@@ -991,7 +991,7 @@
       "header": "Perfil de %1$s",
       "no_desc": "Sem descrição definida",
       "credits": "Créditos",
-      "old_credits": "Legado de Créditos",
+      "old_credits": "Créditos de Patrimônio",
       "level": "Nível",
       "xp": "Xp",
       "rep": "Reputação",
@@ -1006,7 +1006,7 @@
       "not_specified": "Não especificado.",
       "potion": "Poção Ativa",
       "no_potion": "Sem poções ativas.",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
+      "hidelegacy": "%1$sO status de Ocultar Créditos de Patrimônio é: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1315,13 +1315,13 @@
       "non_nsfw_channel": "%1$sNão estamos em um canal de conteúdo adulto. Não é permitido enviar imagens obscenas.\n**Lembrete:** Você pode mudar a categoria deste canal para `Canal de conteúdo adulto` nas configurações de canal",
       "loli_content_disallow": "%1$sInfelizmente, não consigo exibir imagens que supostamente contêm `loli` ou `shota` com conteúdo sensual/NSFW porque o Discord proíbe. (Filtro: Imagem que contém uma tag de loli ou shota tag é NSFW)",
       "null_list_notice": "%1$sOops... algo deu errado ao pesquisar... (Se você usou uma tag, a tag pode não existir",
-      "found_image": "Image Found",
+      "found_image": "Imagem Encontrada",
       "description_image": "Classificação: **%1$s**, Imageboard: **%2$s**",
       "width": "Largura",
       "height": "Altura",
       "tags": "Tags",
       "source": "Imageboard",
-      "rating": "Rating",
+      "rating": "Avaliação",
       "load_notice": "Se a imagem não carrega, clica no título.",
       "rule34_notice": "Se você não gosta do conteúdo deste comando, você pode usar `~>yandere`. Se gifs/webm animados não tocar, clique no link no título da embed.",
       "yandere_nsfw_notice": "%1$sO Comando Yande.re só pode ser usado em canal NSFW devido a inúmeros relatos dele enviando imagens explícitas que estão marcados como seguros ao seu lado.\nVocê pode tentar usar `~>konachan` ao invés disso!",
@@ -1345,8 +1345,8 @@
         "hunger": "Fome",
         "stamina": "Estâmina",
         "pet": "Carinhos",
-        "buildup": "Coin / Item Buildup",
-        "buildup_coin": "Coin Buildup",
+        "buildup": "Acréscimo de Moedas / Itens",
+        "buildup_coin": "Acréscimo de Moedas",
         "buildup_stats": "%1$,d créditos / %2$,d itens",
         "buildup_stats_credits": "%1$,d créditos",
         "footer": "Obrigado por usar a Mantaro! <3"
@@ -1560,7 +1560,7 @@
       "no_item_found": "%1$sNão consegui encontrar esse item. Lembre-se de usar aspas se o nome contém espaços.",
       "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool": "%1$sVocê precisa de uma chave de inglesa Classe 2 (Chave Inglesa Celeste) ou superior para consertar este item. Você pode especificar qual você quer utilizar. Exemplo: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
