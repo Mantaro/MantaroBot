@@ -1016,8 +1016,8 @@
         "achieved": "Alcançada"
       },
       "ls": {
-        "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
+        "header": "Lista de Insígnias Obteníveis",
+        "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
@@ -1561,7 +1561,7 @@
       "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
       "no_tool": "%1$sVocê precisa de uma chave de inglesa Classe 2 (Chave Inglesa Celeste) ou superior para consertar este item. Você pode especificar qual você quer utilizar. Exemplo: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sVocê escolheu uma chave inglesa que você não tem (%2$s). Por favor, utilize uma ferramenta que você tenha para a confecção. Lembre-se de utilizar aspas se o nome possuir espaços. Exemplo: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
       "not_enough_level": "%1$sVocê precisa de uma chave inglesa de tier maior pra fazer esse reparo. Tente especificar ela manualmente se você tem uma no seu inventário.",
@@ -1569,7 +1569,7 @@
       "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
       "not_enough_items": "%1$sVocê não tem o suficiente de *%2$s* pra consertar isso. **(Necessário: %3$s, Atual: %4$s)**",
       "item_broke": "Infelizmente, sua chave inglesa quebrou durante o processo, mas você recebeu seu item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "success": "%1$sReparo realizado com sucesso! Item consertado %2$s **%3$s** -> %4$s **%5$s**. O conserto custou *%6$s* créditos e a receita utilizada foi *%7$s*.",
       "ls": {
         "header": "Lista de Itens reparáveis ",
         "cost": "Custo de reparo: ",
@@ -1582,8 +1582,8 @@
       "information_footer": "Informação fornecida por Anilist. Digite &cancel para cancelar.",
       "no_results": "%1$sNenhum resultado encontrado...",
       "malformed_result": "%1$sEu peguei um resultado de API errado para essa pesquisa pesquisa especificada. Talvez tente outro termo de pesquisa?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
+      "error": "%1$s**Eu juro que não perdi seu anime favorito!**\nEu encontrei ``%2$s`` ao tentar processar este comando. (Erro interno)",
+      "timeout": "%1$sNós tentamos achar este anime, mas o site Kitsu demorou muito para responder (tempo da solicitação esgotado). Que tal tentar novamente daqui a pouco?",
       "information_header": "Informação do Anim %1$s",
       "information_notice": "Information fornecida por AniList. Clique no título para ir para a página do AniList sobre esse anime.",
       "airing": "Aeração",
@@ -1593,7 +1593,7 @@
       "average_score": "Pontuação Média",
       "type": "Tipo",
       "episodes": "Episódios",
-      "episode_duration": "Duration",
+      "episode_duration": "Duração",
       "genres": "Gêneros",
       "minutes": "minutos",
       "description": "Descrição"
@@ -1601,7 +1601,7 @@
     "character": {
       "no_args": "%1$sVocê precisa me dizer qual personagem você quer procurar.",
       "selection_start": "Digite o número do personagem que você deseja selecionar.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
+      "error": "%1$s**Eu juro que eu não d-deixei cair sua waifu, por favor me perdoe!**\nEu encontrei ``%2$s`` ao tentar processar este comando. (Erro interno)",
       "information_header": "Informação do personagem %1$s",
       "information": "Informação",
       "no_aliases": "Nenhum alias",
@@ -1912,12 +1912,12 @@
       "invalid": "%1$sComprimento de argumento incorreto."
     },
     "logs_timezone": {
-      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+      "not_specified": "%1$sVocê precisa especificar um fuso horário. Um exemplo de fuso horário válido seria America/Recife ou GMT-3. Você pode ver a lista completa em <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilize um nome da base de dados TZ)",
+      "invalid": "%1$sEste não é um fuso horário válido. Um exemplo de fuso horário válido seria America/Recife ou GMT-3. Você pode ver a lista completa em <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilize um nome da base de dados TZ)",
+      "success": "%1$sFuso horário modificado para `%2$s`. Este fuso horário será utilizado para indicar as horas nos registros de moderação."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$sFuso horário dos registros resetado com sucesso."
     },
     "lobby_reset": {
       "success": "%1$sResetando o lobby corretamente."
