@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -339,7 +340,7 @@ public class BirthdayCmd {
 
         for (Member member : memberSort) {
             var birthday = guildCurrentBirthdays.get(member.getId());
-            builder.append("+ %-20s : %s ".formatted(member.getEffectiveName(), birthday.getDay() + "-" + birthday.getMonth()));
+            builder.append("+ %-20s : %s ".formatted(StringUtils.limit(member.getEffectiveName(), 20), birthday.getDay() + "-" + birthday.getMonth()));
             builder.append("\n");
         }
 
