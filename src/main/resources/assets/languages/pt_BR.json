@@ -1465,7 +1465,7 @@
         "header": "Lista de Itens Resgatáveis",
         "cost": "Custo do Resgatamento: ",
         "return": "Possível Retorno: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Esta é a lista de itens que você pode reciclar utilizando `~>salvage`.\nVocê pode usar o nome completo, a abreviação ou o emoji.\nA reciclagem custa 1/3 do preço do item, como mostrado abaixo. Ao reciclar você recupera apenas um dos itens listados aqui, escolhido de forma aleatória.\nChave inglesa classe 2 e 3 equivalem à Celeste e à de Brilhante, respectivamente."
       }
     },
     "stats": {
@@ -1573,7 +1573,7 @@
       "ls": {
         "header": "Lista de Itens reparáveis ",
         "cost": "Custo de reparo: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
+        "desc": "Esta é a lista de itens que você pode consertar utilizando o comando `~>repair`.\nVocê pode usar o nome completo, a abreviação ou o emoji.\nO conserto custa no mínimo 1/3 do preço do item, como mostrado abaixo junto à lista dos materiais necessários. Você precisa de uma chave inglesa de no mínimo Classe 2 (Celeste) para fazer qualquer tipo de reparo."
       }
     },
     "anime": {
