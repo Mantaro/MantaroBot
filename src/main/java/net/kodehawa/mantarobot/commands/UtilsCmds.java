@@ -60,7 +60,7 @@ import java.util.stream.Collectors;
 @Module
 public class UtilsCmds {
     private static final Logger log = LoggerFactory.getLogger(UtilsCmds.class);
-    private static final Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private static final Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     private static final Random random = new Random();
 
     @Subscribe
@@ -114,7 +114,7 @@ public class UtilsCmds {
                             return;
                         }
 
-                        var toRemind = timePattern.matcher(content).replaceAll("");
+                        var toRemind = timePattern.matcher(content).replaceAll("").trim();
                         var user = ctx.getUser();
                         var time = Utils.parseTime(optionalArguments.get("time"));
                         var dbUser = ctx.getDBUser();

@@ -475,6 +475,11 @@ public class PlayerCmds {
 
         badgeCommand.addSubCommand("list", new SubCommand() {
             @Override
+            public String description() {
+                return "Lists all the obtainable badges.";
+            }
+
+            @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var badges = Badge.values();
                 var builder = new EmbedBuilder()
