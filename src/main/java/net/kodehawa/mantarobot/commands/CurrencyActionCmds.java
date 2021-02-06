@@ -126,7 +126,7 @@ public class CurrencyActionCmds {
                 );
 
                 HousePet pet = null;
-                if (playerData.getPetChoice() == PetChoice.MARRIAGE) {
+                if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                     if (marriage != null && marriage.getData().getPet() != null) {
                         pet = marriage.getData().getPet();
                     }
@@ -394,7 +394,7 @@ public class CurrencyActionCmds {
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
                     HousePet pet = null;
-                    if (playerData.getPetChoice() == PetChoice.MARRIAGE) {
+                    if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                         if (marriage != null && marriage.getData().getPet() != null) {
                             pet = marriage.getData().getPet();
                         }
@@ -642,7 +642,7 @@ public class CurrencyActionCmds {
                     money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
 
                     HousePet pet = null;
-                    if (playerData.getPetChoice() == PetChoice.MARRIAGE) {
+                    if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                         if (marriage != null && marriage.getData().getPet() != null) {
                             pet = marriage.getData().getPet();
                         }

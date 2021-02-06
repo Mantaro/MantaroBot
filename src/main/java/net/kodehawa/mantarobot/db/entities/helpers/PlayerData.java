@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.profile.ProfileComponent;
 import net.kodehawa.mantarobot.commands.currency.profile.inventory.InventorySortType;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.helpers.quests.Quest;
 import net.kodehawa.mantarobot.db.entities.helpers.quests.QuestTracker;
 
@@ -86,7 +87,7 @@ public class PlayerData {
     private long petSlots = 4;
     // pet list, TODO add multiple pets
     private Map<String, Pet> pets = new HashMap<>();
-    private PetChoice petChoice = PetChoice.MARRIAGE;
+    private PetChoice petChoice = null;
     // main pet
     private HousePet pet;
 
@@ -442,6 +443,19 @@ public class PlayerData {
 
     public void setPetChoice(PetChoice petChoice) {
         this.petChoice = petChoice;
+    }
+
+    @JsonIgnore
+    public PetChoice getActiveChoice(Marriage marriage) {
+        if (getPetChoice() == null) {
+            if (marriage == null || marriage.getData().getPet() == null) {
+                return PetChoice.PERSONAL;
+            } else {
+                return PetChoice.MARRIAGE;
+            }
+        } else {
+            return getPetChoice();
+        }
     }
 
     @JsonIgnore
