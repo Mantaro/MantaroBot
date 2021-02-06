@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
+import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -126,17 +127,22 @@ public class CurrencyActionCmds {
                 );
 
                 var petHelp = false;
+                HousePet pet = null;
+                if (playerData.getPetChoice() == PetChoice.MARRIAGE) {
+                    if (marriage != null && marriage.getData().getPet() != null) {
+                        pet = marriage.getData().getPet();
+                    }
+                } else {
+                    pet = playerData.getPet();
+                }
 
-                if (marriage != null && marriage.getData().getPet() != null) {
-                    var pet = marriage.getData().getPet();
-                    if (pet != null) {
-                        var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
-                        money += rewards.getMoney();
-                        message += rewards.getResult();
+                if (pet != null) {
+                    var rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CATCH, languageContext, false);
+                    money += rewards.getMoney();
+                    message += rewards.getResult();
 
-                        if (rewards.getMoney() > 0) {
-                            petHelp = true;
-                        }
+                    if (rewards.getMoney() > 0) {
+                        petHelp = true;
                     }
                 }
 
@@ -423,15 +429,20 @@ public class CurrencyActionCmds {
 
                     fish.forEach((i1) -> fishItems.add(3, i1));
 
-                    if (marriage != null && marriage.getData().getPet() != null) {
-                        var pet = marriage.getData().getPet();
-
-                        if (pet != null) {
-                            HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
-                            amount += rewards.getItems();
-                            money += rewards.getMoney();
-                            extraMessage += "\n" + rewards.getResult();
+                    HousePet pet = null;
+                    if (playerData.getPetChoice() == PetChoice.MARRIAGE) {
+                        if (marriage != null && marriage.getData().getPet() != null) {
+                            pet = marriage.getData().getPet();
                         }
+                    } else {
+                        pet = playerData.getPet();
+                    }
+
+                    if (pet != null) {
+                        HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.FISH, languageContext);
+                        amount += rewards.getItems();
+                        money += rewards.getMoney();
+                        extraMessage += "\n" + rewards.getResult();
                     }
 
                     // Basically more chance if you have a better rod.
@@ -666,15 +677,20 @@ public class CurrencyActionCmds {
                     var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
                     money += Math.max(moneyIncrease / 4, random.nextInt(moneyIncrease));
 
-                    if (marriage != null && marriage.getData().getPet() != null) {
-                        var pet = marriage.getData().getPet();
-
-                        if (pet != null) {
-                            HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
-                            amount += rewards.getItems();
-                            money += rewards.getMoney();
-                            extraMessage += rewards.getResult();
+                    HousePet pet = null;
+                    if (playerData.getPetChoice() == PetChoice.MARRIAGE) {
+                        if (marriage != null && marriage.getData().getPet() != null) {
+                            pet = marriage.getData().getPet();
                         }
+                    } else {
+                        pet = playerData.getPet();
+                    }
+
+                    if (pet != null) {
+                        HousePet.ActivityReward rewards = handlePetBuff(pet, HousePetType.HousePetAbility.CHOP, languageContext);
+                        amount += rewards.getItems();
+                        money += rewards.getMoney();
+                        extraMessage += rewards.getResult();
                     }
 
                     if (hasPotion) {
