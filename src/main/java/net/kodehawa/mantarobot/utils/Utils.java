@@ -435,6 +435,7 @@ public class Utils {
     public static String fixInlineCodeblockDirection(@Nonnull String src) {
         //if there's no right to left override, there's nothing to do
         if (!isRtl(src)) {
+            System.out.println("not ltr?");
             return src;
         }
 
@@ -467,7 +468,6 @@ public class Utils {
 
         for (int i = 0, n = string.length(); i < n; ++i) {
             var d = Character.getDirectionality(string.charAt(i));
-
             switch (d) {
                 case Character.DIRECTIONALITY_RIGHT_TO_LEFT:
                 case Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC:
