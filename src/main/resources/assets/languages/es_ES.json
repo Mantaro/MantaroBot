@@ -426,6 +426,7 @@
         "not_found": "%1$sNo puedo encontrar el comando.",
         "header": "Comando personalizado \"%1$s\":",
         "amount": "(Mostrando %1$d respuestas, de un total de %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Este es un listado de todas las respuesta de este comando en un formato sin procesar (lo que ingresas en el comando)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sEsta votación no se puede construir. **Recuerda que puedes poner un máximo de 9 y un mínimo de 2 opciones y el tiempo para que caduque debe ser menor a 45m y mayor que 30s.**\nLas opciones debes separarlas con una coma, por ejemplo `1,2,3`. Para frases que usan espacios, usa comillas para envolverlas, de este modo funcionará. Si realmente no entiendes, revisa el ejemplo en `~>help poll`",
       "other_poll_running": "%1$sCreo que hay otra votación por aquí aún activa...",
       "no_reaction_perms": "%1$sNo puedo agregar reacciones aquí...",
-      "too_long": "Las opciones eran muy largas, así que las copié por aquí: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Votación #%1$d creada por %2$s",
       "success": "**Votación iniciada. Reacciona usando el número de la opción que quieras votar.**\n*%1$s*\nEscribe &cancelpoll para cancelar una votación activa.",
       "time": "Tienes %1$s para votar.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
