@@ -144,6 +144,11 @@ public class DiscordUtils {
         }
 
         List<MessageEmbed> embeds = buildSplitEmbed(supplier, length, parts);
+        if (embeds.size() == 1) {
+            event.getChannel().sendMessage(embeds.get(0)).queue();
+            return null;
+        }
+
         var index = new AtomicInteger();
         var message = event.getChannel().sendMessage(embeds.get(0)).complete();
 
@@ -550,7 +555,6 @@ public class DiscordUtils {
 
             stringBuilder.append(part).append('\n');
         }
-
 
         // If we have a dangling builder, it means we didn't get to reset the builder
         // when building a new embed, and there's a dangling one:

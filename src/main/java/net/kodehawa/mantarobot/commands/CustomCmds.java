@@ -231,7 +231,9 @@ public class CustomCmds {
                     description = commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "));
                 }
 
-                var cmds = DiscordUtils.divideString(1700, description);
+                // Somehow this splits it properly?
+                // This could technically be a big allocation, but afaik the CCS limit is 100.
+                var cmds = description.split(" ");
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
                         .setColor(ctx.getMember().getColor())
@@ -240,11 +242,15 @@ public class CustomCmds {
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         );
 
-                DiscordUtils.list(ctx.getEvent(), 120, false,
-                        (p, total) -> builder.setFooter(String.format("Total Pages: %s | Current: %s", total, p)), cmds
-                );
-
-                ctx.send(builder.build());
+                if (ctx.hasReactionPerms()) {
+                    DiscordUtils.list(ctx.getEvent(), 120, false, 800,
+                            (p, total) -> builder.setFooter(String.format("Total Pages: %s | Current: %s", total, p)), cmds
+                    );
+                } else {
+                    DiscordUtils.listText(ctx.getEvent(), 120, false, 800,
+                            (p, total) -> builder.setFooter(String.format("Total Pages: %s | Current: %s", total, p)), cmds
+                    );
+                }
             }
         }).createSubCommandAlias("list", "ls");
 

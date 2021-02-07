@@ -79,7 +79,6 @@ public class MantaroData {
         return connection;
     }
 
-
     public static ManagedDatabase db() {
         if (db == null) {
             db = new ManagedDatabase(conn());
