@@ -426,6 +426,7 @@
         "not_found": "%1$sЯ не могу найти такую команду.",
         "header": "Команда \"%1$s\":",
         "amount": "(Информация по %1$d запросил %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Это список всех ответов этой команды в необработанном формате (что вы вводите в команду)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sНе могу создать голосование. **Помните, что параметр должен быть не более 9 и не меньше 2, а так же время на голосование не должно быть больше 45 минут и не меньше 30 секунд.**\nРазделяйте их запятой, к примеру `1,2,3` (между ними не должно быть пробелов!). Если у вас возникли проблемы, используйте команду для получения информации `~>help poll`",
       "other_poll_running": "%1$sКажется голосование уже запущено...",
       "no_reaction_perms": "%1$sЯ не могу добавить реакции здесь...",
-      "too_long": "Слишком долго, поэтому я скопировал его: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Голосование #%1$d создано пользователем %2$s",
       "success": "**Голосование началось. Поставьте реакцию на цифру для голосования.**\n*%1$s*\nНапишите &cancelpoll для отмены голосования.",
       "time": "Вы проголосовали за %1$s.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sВы сможете получить свой ежедневный платеж за: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
