@@ -80,7 +80,7 @@
     "cancelled": "%1$sDemande annulée.",
     "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
-    "space_notice": "Si le nom est composé, essaie de le \"mettre entre guillemets\". La commande help t'en dira sûrement plus.",
+    "space_notice": "Si le nom est composé, essaie de le \"mettre entre guillemets\". La commande help t'en dira surement plus.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
@@ -92,9 +92,9 @@
     "generic_error": "Si tu veux, rejoins notre **serveur de support**, (`https://support.mantaro.site`), ou va voir notre page GitHub (`https://github.com/Kodehawa/MantaroBot`). Dis leur de cesser de me faire imploser s'il te plait et n'oublie pas l'ID de l'erreur, la commande que tu as utilisée et ta node (vue grâce à `~>shard`) lorsque tu remontes un souci!",
     "boom_quotes": [
       "Apparemment, Megumin a fait exploser notre château ... ",
-      " Uh-oh, de toute évidence mon maître a oublié des zéros et des uns sur le sol :<",
+      " Uh-oh, de toute évidence mon maitre a oublié des zéros et des uns sur le sol :<",
       " A-Attends, qu'est-ce qui vient de se passer? ",
-      " Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maître de jeter un coup d'œil. ",
+      " Je pense que nous avons un début de feu ici ... tu pourrais demander à mon maitre de jeter un coup d'œil. ",
       " Je maitrise la magie de l'explosion, tu vois ? ",
       " Peut-être que quelque chose s'est mal passé ici, mais, euh, je peux le réparer ! ",
       " U-Uhh .. Qu'est-ce que tu voulais ?"
@@ -309,8 +309,8 @@
     },
     "rewind": {
       "no_time": "%1$sTu dois me dire à combien tu veux rembobiner la chanson. *(Exemple : `~>rewind 1m45s` va rembobiner la chanson à 1 minute et 45 secondes)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "negative": "%1$sNombres positifs uniquement",
+      "too_little": "%1$sTu dois utiliser le bon format. Vérifie avec la commande help. *(Exemple : `~>rewind 1m45s` va rembobiner la chanson à 1 minute et 45 secondes)*",
       "before_beginning": "%1$sTu ne peux pas revenir avant le début d'une chanson",
       "success": "%1$sChanson rembobiner à: %2$s."
     },
@@ -395,7 +395,7 @@
       "footer": "Merci d'utiliser Mantaro! Page: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sLes préfixes par défaut sont %2$s et me mentionner (Je réponds à chacun d'eux!). %3$s. \nTu peux définir un nouveau préfixe en écrivant `~>opts prefix set <prefix>`. Ne pas inclure les <>.\nPour réinitialiser le préfixe du serveur utilise `~>opts prefix clear`\nSi tu as des questions, rejoins <https://support.mantaro.site>",
       "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
@@ -578,7 +578,7 @@
         "header": "Statuts de mariage actuel",
         "description_format": "%1$sStatut de mariage entre **%2$s** et**%3$s**",
         "date": "Date de mariage",
-        "age": "Marriage Age",
+        "age": "Temps de mariage",
         "love_letter": "Lettre d'amour",
         "waifus": "Possession de Waifu",
         "house": "Nom de la maison",
@@ -655,11 +655,11 @@
       "unclaim": {
         "no_user": "%1$sTu dois mentionner une waifu pour la rejeter.",
         "not_claimed": "%1$sCet utilisateur n'est pas ta waifu!",
-        "confirmation": "%1$sEs-tu *sûr.e* que tu veux rejeter %2$s? Le coût pour le faire est de **%3$s credits**. Ecris *yes* (oui) pour confirmer ou *no* (non) pour annuler\n%4$sLe délai d'attente est d'une minute.",
+        "confirmation": "%1$sEs-tu *sûr.e* que tu veux rejeter %2$s? Le cout pour le faire est de **%3$s credits**. Ecris *yes* (oui) pour confirmer ou *no* (non) pour annuler\n%4$sLe délai d'attente est d'une minute.",
         "not_enough_money": "%1$sTu n'as pas assez de monnaie pour rejeter cette waifu!",
         "player_locked": "%1$sTu ne pas faire ça pour le moment.",
         "scrapped": "%1$sRejet de waifu annulé.",
-        "success": "%1$s`%2$s` Rejeté avec succès avec un coût de **%3$s credits**.",
+        "success": "%1$s`%2$s` Rejeté avec succès avec un cout de **%3$s credits**.",
         "not_found": "%1$sJe n'ai pas réussi à trouver un utilisateur avec ce `@...`. Si tu as besoin de renier un utilisateur inconnu, utilise son ID(`~>waifu -id`) et ajoute `-unknown` à la fin."
       },
       "buyslot": {
@@ -674,7 +674,7 @@
         "success": "%1$sTu t'es enlevé.e du système de Waifu avec succès.",
         "cancelled": "%1$sOpération d'extraction annulée avec succès.",
         "claim_notice": "%1$sLa personne que tu tentes d'acheter n'est plus dans le système.",
-        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
+        "lookup_notice": "%1$sLa personne que tu tentes de rechercher n'est plus dans le système."
       },
       "header": "Liste de Waifus",
       "description_header": "Voici une liste avec toutes tes waifus bien-aimées, triée par date d'ajout.\n*Tu peux avoir au maximum %1$d waifus pour l'instant.*\n\nSi tu souhaites voir les statistiques de tes waifus, utilise `~>waifu stats`\n\n",
@@ -700,7 +700,7 @@
       "success": "%1$s Ton résultat des **%2$d** pile-ou-faces a abouti à **%3$d** piles et **%4$d** faces"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
+      "bot_notice": "%1$sIci, les bots n'ont pas d'inventaire. Eh bien, quelquefois tu peux souhaiter qu'ils en aient un mais alors ça serait seulement `~>dump`",
       "brief": "**Inventaire de %1$s** %2$s\n\n*Pour une version détaillée, utilise la commande `~>inventory -info`. Belle journée!*",
       "calculate": "%1$s%2$s recevra **%3$d credits** si tous les objets sont vendus.",
       "header": "inventaire de %1$s",
@@ -725,8 +725,8 @@
       "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais : %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
       "ls": {
         "header": "Liste des objets à fabriquer",
-        "cost": "Coût de la fabrication: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "cost": "Cout de la fabrication: ",
+        "desc": "C'est la liste de tous les objets que tu peux fabriquer un utilisant `~>cast`.\nTu dois utiliser le nom complet, l'abréviation ou l'emoji pour le faire.\n**La fabrication a un cout de la moitié du prix de l'objet. Le cout de la fabrication apparaitra ci-dessous.**\nLes clés de tier 2 et 3 sont respectivement la clé de comète et la clé scintillante."
       },
       "dust": "%1$sTu ne peux pas fabriquer de nouveaux objets avec autant de poussière dans ton inventaire! *(Niveau de poussière : %2$s%%)*. Pourquoi ne pas le laver en utilisant `~>useitem mop`?",
       "wrench_multiple_use": "Astuce : *Tu ne peux pas utiliser la clé avec laquelle tu essaies de forger comme ingrédient !*"
@@ -758,7 +758,7 @@
           "cancelled": "%1$sAnnulé avec succès."
         },
         "non_existent": "%1$sTu ne peux pas vendre un objet qui n'existe pas! Si tu es perdu.e, tu peux essayer d'utiliser son nom abrégé ou de mettre son nom entre guillemets.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
+        "no_sell_price": "%1$sTu ne peux pas vendre un objet invendable!. (Mais tu peux le jeter avec `~>dump`)",
         "no_item_player": "%1$sTu ne peux pas vendre un objet que tu n'as pas!",
         "more_items_than_player": "%1$sTu ne peux pas vendre plus d'objets que tu n'en as!",
         "success": "%1$sTu as vendu %2$,d **%3$s** et as gagné %4$,d crédits!"
@@ -806,7 +806,7 @@
       "receipt_locked_notice": "1$sCet utilisateur ne peut pas recevoir d'argent pour l'instant.",
       "receipt_over_limit": "%1$sCet utilisateur a déjà assez d'argent...",
       "success": "%1$sEnvoyé **%2$d** *(%3$d après taxe de 8%%)* à **%4$s** avec succès.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
+      "item_transfer": "%1$sTu ne peux pas transférer d'objets avec 'transfer', merci d'utiliser `~>transferitems` à la place.",
       "party": "Tu peux transférer à la même personne (%1$s) toutes les 10 minutes."
     },
     "useitem": {
@@ -1006,7 +1006,7 @@
       "not_specified": "Non spécifié",
       "potion": "Potion active",
       "no_potion": "Aucune potion active.",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
+      "hidelegacy": "%1$sLa visibilité du statut des crédits hérités est maintenant sur: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1315,13 +1315,13 @@
       "non_nsfw_channel": "%1$sCe canal n'est pas NSFW. Impossible d'envoyer du lewd.\n**Rappel:** Tu peux le rendre NSFW en modifiant cela dans les paramètres. Coche `Salon NSFW`",
       "loli_content_disallow": "%1$sMalheureusement je ne peux pas afficher d'images contenant des contenu `loli` ou `shota` lewd/NSFW parce que Discord l'interdit. (Filtre : Image contenant des loli ou des shota étant NSFW)",
       "null_list_notice": "%1$sOups... S'est mal passé durant la recherche... (Si tu as utilisé un tag il n'existe peut-être pas.)",
-      "found_image": "Image Found",
+      "found_image": "Image trouvée",
       "description_image": "Évaluation: **%1$s**, Imageboard: **%2$s**",
       "width": "Largeur",
       "height": "Longueur",
       "tags": "Tags",
       "source": "Imageboard",
-      "rating": "Rating",
+      "rating": "Classement",
       "load_notice": "Si l'image ne charge pas cliques sur le titre.",
       "rule34_notice": "Si tu n'aimes pas le contenu de cette commande, tu peux utiliser `~> yandere`. Si le contenu gifs / webm ne se joue pas, clique sur le lien dans le titre.",
       "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\".\nTu peux utiliser `~>konachan` à la place!",
@@ -1348,7 +1348,7 @@
         "buildup": "Coin / Item Buildup",
         "buildup_coin": "Coin Buildup",
         "buildup_stats": "%1$,d credits / %2$,d items",
-        "buildup_stats_credits": "%1$,d credits",
+        "buildup_stats_credits": "%1$,d crédits",
         "footer": "Merci d'utiliser Mantaro! <3"
       },
       "level": {
@@ -1465,7 +1465,7 @@
         "header": "Liste des objets qui peuvent être réparés",
         "cost": "Cout de la réparation: ",
         "return": "Pourrait donner: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Voici la liste de tous les objets que tu peux sauver un utilisant `~>salvage`. \nTu dois utiliser le nom complet, l'abréviation ou l'emoji pour le faire.\nSauver un objet coute le tier du prix de l'objet. Le cout de la réparation apparaitra ci-dessous.\nTu auras un objets parmi ceux de la liste, choisi au hasard.\nLes clés de niveau 2 et 3 sont respectivement la clé de comète et la clé scintillante."
       }
     },
     "stats": {
@@ -1569,11 +1569,11 @@
       "no_item_recipe": "%1$sTu n'as pas le *%2$s* nécessaire pour faire cette réparation.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire cette réparation. **(Nécessaire: %3$s, Actuellement en ta possession: %4$s)**",
       "item_broke": "Malheureusement ta clé n'a pas survécu à la réparation. Mais elle est quand même arrivée au bout de son travail !",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "success": "%1$sRéparation réalisée avec succès! Objet réparé %2$s **%3$s** -> %4$s **%5$s**. La réparation a couté *%6$s* credits et la recette de réparation était *%7$s*.",
       "ls": {
         "header": "Liste d'objets réparables",
         "cost": "Cout de la réparation: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
+        "desc": "Voici la liste des objets réparables à l'aide de la commande `~>repair`.\nTu peux utiliser le nom complet, l'abrégé ou l'emoji.\nLa réparation coute au moins un tier du prix de l'objet réparé. Le prix est affiché avec les matériaux nécessaires. Tu as besoin au moins d'une clé de comète pour réparer quelque chose."
       }
     },
     "anime": {
@@ -1582,7 +1582,7 @@
       "information_footer": "Information fournie par AniList. Envoie &cancel pour annuler.",
       "no_results": "%1$sAucun résultat trouvé...",
       "malformed_result": "%1$sJ'ai eu un mauvais résultat de la part de l'API pour cette recherche. Essaie de reformuler peut-être ?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "error": "%1$s**Je te jure que je n'ai pas perdu ton anime favori!**\nJ'ai reçu un `%2$s` en essayant d'exécuter la commande. (Erreur interne)",
       "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Information d'anime pour %1$s",
       "information_notice": "Information fournie par AniList.",
@@ -1593,7 +1593,7 @@
       "average_score": "Sore de popularité",
       "type": "Type",
       "episodes": "Épisodes",
-      "episode_duration": "Duration",
+      "episode_duration": "Durée",
       "genres": "Genres",
       "minutes": "minutes",
       "description": "Description"
@@ -1601,7 +1601,7 @@
     "character": {
       "no_args": "%1$sTu dois me dire quel personnage rechercher.",
       "selection_start": "Écris le numéro du personnage que tu veux sélectionner.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
+      "error": "%1$s**Je te jure que je n'ai pas p-perdu ta waifu, je t'en prie pardonne-moi!**\nJ'ai reçu un `%2$s` en essayant d'exécuter la commande. (Erreur interne)",
       "information_header": "Information de personnage pour %1$s",
       "information": "Information",
       "no_aliases": "Pas d'alliasses",
@@ -1917,7 +1917,7 @@
       "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
     },
     "lobby_reset": {
       "success": "%1$sRéinitialisation du lobby menée avec succès."
@@ -2367,11 +2367,11 @@
       "headphones": "C'est ce qui se passe quand tu écoutes trop de musique. Ça doit quand même valoir quelque chose",
       "ban_hammer": "Laissé là par un admin.",
       "kick_boot": "Laissé là par un admin",
-      "floppy": "Elle doit sûrement contenir des jeux. Ne la copie pas.",
+      "floppy": "Elle doit surement contenir des jeux. Ne la copie pas.",
       "maths": "Oh, j'ai oublié mes calculs.",
       "racket": "J'ai gagné le ping-pong avec discord à quelques millisecondes près. Peut-être.",
       "loaded_die": "Dérobé à la commande `~>roll`.",
-      "forgotten": "Jamais téléchargé. Sûrement copyrighté.",
+      "forgotten": "Jamais téléchargé. Surement copyrighté.",
       "pencil": "Nous en avons plein!",
       "moneybag": "Quoi d'autre?",
       "pick": "Une pioche basique pour un minage ponctuel. (Durabilité: 40).",
