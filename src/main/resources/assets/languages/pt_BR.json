@@ -426,6 +426,7 @@
         "not_found": "%1$sEu não consigo encontrar este comando.",
         "header": "Comando \"%1$s\":",
         "amount": "(Mostrando %1$d respostas de %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Essa é uma lista de todas as respostas deste comando em um formato raw (que você insere no comando)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sNão é possível fazer essa enquete. **Lembre-se que as opções devem ter um máximo de 9 e no mínimo 2 e o límite do tempo deve ser no máximo 45m e no mínimo 30s.**\nOpções são separadas com vírgula, por exemplo `1,2,3` (sem espaços entre elas!). Para frases que contenham espaços use aspas no início e no final delas. Se você estiver realmente perdido, tem um exemplo no `~>help poll`",
       "other_poll_running": "%1$sJá tem outra enquete acontecendo aqui...",
       "no_reaction_perms": "%1$sParece que eu não posso adicionar reações aqui...",
-      "too_long": "Isso era muito grande para mostrar, então eu coloquei em: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Enquete #%1$d criada por %2$s",
       "success": "**A enquete começou. Reaja com o número para votar.**\n*%1$s*\nDigite &cancelpoll para cancelar a enquete em andamento.",
       "time": "Você tem %1$s para votar.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu baú diário em: **%2$s.**",
-      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um baú premium diário com uma alta chance de receber itens bons com premium! Por favor confira mais em <https://patreon.com/mantaro>\nIsso pode ser usado a cada 24 horas.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sVocê acabou de ganhar um **%2$s**! Volte daqui a 24 horas pra ganhar outro! Você pode abri-lo usando `~>opencrate <tipo de baú>`. Você precisa comprar uma Chave de Baú utilizando o comando `~>buy key` antes de abri-lo."
     },
     "prune": {
