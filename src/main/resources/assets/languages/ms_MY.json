@@ -13,7 +13,7 @@
     "daily": "Harian",
     "total": "Jumlah",
     "arrow_react": "Gunakan reaksi anak panah untuk menukar halaman.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "Gunakan &p >> dan &p << untuk menukar halaman dan &cancel untuk menamatkan.",
     "not_found": "Tidak dijumpai",
     "no_results": "Tiada keputusan.",
     "timeout": "Masa ini akan tamat dalam %1$d saat.",
@@ -30,15 +30,15 @@
     "dust": "Hanya ada habuk di sini.",
     "invalid_syntax": "Sintaks tidak sah.",
     "item_lookup": {
-      "no_item_emoji": "Tidak ada item yang dikaitkan dengan emoji ini.",
-      "no_item_name": "Tidak ada item yang dikaitkan dengan nama ini.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "no_item_emoji": "Tiada item yang berkaitkan dengan emoji ini.",
+      "no_item_name": "Tiada item yang berkaitkan dengan nama ini.",
+      "not_found": "Tidak menemui item yang berkaitan dengan carian anda. Sekiranya anda tersesat, cuba gunakan nama pendek, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
       "claim_key": "Anda tidak boleh memindahkan kunci tuntutan."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sTahap debu anda kurang dari 5%%, jadi mengepel tidak akan terlalu berguna.",
-      "milk": "%1$sCleared all potion effects.",
+      "mop": "%1$sAnda telah membersihkan semua habuk yang telah anda kumpulkan sepanjang semua sesi perlombongan anda.",
+      "mop_not_enough": "%1$sTahap habuk anda kurang dari 5%%, jadi menggunakan mop tidak akan terlalu berguna.",
+      "milk": "%1$sSemua kesan ramuan telah dihilangkan.",
       "stamina": "%1$sStamina diaktifkan untuk 3 sesi perlombongan.",
       "stamina_used": "%1$sAnda sudah mempunyai kesan stamina yang aktif!",
       "haste": "%1$sHaste diaktifkan untuk 2 sesi.",
@@ -48,51 +48,51 @@
       "pill": "%1$sAnda minum pil waifu! (Diaktifkan selama 5 sesi)",
       "pill_used": "%1$sAnda sudah mempunyai pil waifu yang aktif!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$sAnda memerlukan sebentuk kunci peti untuk membuka sebuah peti. Ia terkunci! Anda boleh membelinya menggunakan `~>buy key`",
+        "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
         "success": "%1$sAnda membuka peti dan menang: %2$s%3$s. Tahniah!",
-        "overflow": "Tetapi anda sudah menggunanya terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
+        "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
-      "potion_not_found": "%1$sSaya tidak dapat menjumpai ramuan atau jenis peralatan itu!",
+      "potion_not_found": "%1$sSaya tidak dapat menemui ramuan atau jenis peralatan itu!",
       "potion_applied": "%1$sKesan berjaya diterapkan **%2$s** dari jenis *%3$s* (%4$dx). Periksa kesan baru anda yang berkilat pada `~>profile stats`",
-      "potion_applied_multiple": "%1$sBerjaya menggunakan **%2$s** dari jenis *%3$s*.\n Anda sudah menggunakan kesan ini, jadi kami susun. Saiz timbunan semasa:%4$s",
+      "potion_applied_multiple": "%1$sBerjaya menggunakan **%2$s** dari jenis *%3$s*.\nAnda sudah menggunakan kesan ini, jadi kami timbunkannya. Saiz timbunan semasa:%4$s",
       "max_stack_size": "%1$sAnda sudah mengumpulkan jumlah maksimum %2$s yang mungkin anda dapat. (Maksimum: 15, Selepas timbunan: %3$s)",
       "max_stack_size_2": "%1$sAnda tidak dapat menumpuk sebanyak %2$s itu. (Maksimum: 15, Dicuba:%3$s)",
       "not_same_potion": "%1$sAnda sudah mempunyai ramuan jenis %2$s yang tersusun dan aktif, jadi anda tidak boleh memasukkan ramuan jenis %3$s ke dalamnya."
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup dan meningkatkan pelayan Mantaro! Anda boleh mendapat faedah yang luar biasa dan **sehingga menggandakan kredit dengan Mantaro Premium **! Keahlian bermula dari $2 sebulan, harga makanan ringan! Lihat lebih banyak lagi di <https://patreon.com/mantaro>. Membantu dengan cara penyebaran berita juga membantu :heart:",
-        "daily_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup! Anda boleh mendapat faedah yang luar biasa dan **sehingga menggandakan kredit harian** dan mendapat akses ke `~>dailycrate`! Keahlian bermula hanya $2 sebulan, lihat lebih banyak di <https://patreon.com/mantaro>.",
-        "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan dari orang-orang seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
-        "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan dari orang-orang seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
+        "generic_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup dan meningkatkan pelayan Mantaro! Anda boleh mendapat faedah yang luar biasa dan **sehingga dua kali ganda kredit dengan Mantaro Premium **! Keahlian bermula dari $2 sebulan, harga makanan ringan! Lihat lebih lanjut di <https://patreon.com/mantaro>. Cara penyebaran berita juga membantu :heart:",
+        "daily_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup! Anda boleh mendapatkan faedah yang luar biasa dan **dua kali ganda kredit harian** dan mendapatkan akses ke `~>dailycrate`! Keahlian bermula hanya $2 sebulan, lihat lebih lanjut di <https://patreon.com/mantaro>.",
+        "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
+        "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
       },
       "twitter": "Adakah anda tahu kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara bodoh."
     },
     "mention_user_required": "%1$sAnda perlu menyebut satu pengguna.",
     "invalid_character": "%1$sItu bukan aksara yang dibenarkan.",
-    "invalid_action": "Anda tidak boleh melakukan itu, silly.",
+    "invalid_action": "Anda tidak boleh melakukan itu, bodoh.",
     "interactive_running": "%1$sSudah ada Operasi Interaktif (milik anda) di saluran ini.",
     "buy_sell_paged_react": "Gunakan reaksi mesej untuk bergerak di antara halaman.\n%1$s",
-    "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di seluruh halaman.\n %1$s",
+    "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n %1$s",
     "buy_sell_paged_reference": "**Rujukan %1$s Beli %2$s Jual.**",
     "cancelled": "%1$sPermintaan dibatalkan.",
     "sellout": "Pertimbangkan untuk menderma di [Patreon] (https://www.patreon.com/mantaro) jika anda menyukai saya, walaupun sedikit sumbangan akan membantu menjaga bot untuk terus hidup!",
     "deprecated": "Tidak lagi digunakan",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "Jika nama tersebut mengandungi ruang di antara perkataan, cuba \"mengapit nama tersebut menggunakan tanda petik\". Mungkin arahan help dapat membantu anda lebih lanjut.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
-      "header": "%1$s%2$s (Diketepikan)\n **Anda akan dapat menggunakan perintah ini lagi dalam %3$s.**",
-      "spam_1": "Harap berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa penghapusan penilaian akan terus meningkat jika anda mencuba sebelum cooldown diset semula!**",
-      "spam_2": "\nSaya rasa berhenti adalah pilihan yang terbaik buat masa ini...",
+      "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini lagi dalam %3$s.**",
+      "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda mencuba sebelum cooldown diset semula!**",
+      "spam_2": "\nSaya rasa berhenti ialah pilihan yang terbaik bagi masa ini...",
       "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
     },
-    "generic_error": "Sekiranya anda mahu, sertai **server sokongan kami** (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan simpul anda (dilihat dalam `~>shard`) semasa melaporkan!",
+    "generic_error": "Sekiranya anda mahu, sertai **server sokongan kami** (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
       "Nampaknya Megumin letupkan istana kami...",
-      "Aduh, nampaknya tuan saya terlupa beberapa angka sifar dan satu yang ada di lantai :<",
+      "Aduh, nampaknya tuan saya terlupa beberapa angka kosong dan satu di atas lantai :<",
       "T-Tunggu, apa yang baru berlaku?",
       "S-Saya rasa kita ada kebakaran di sini... anda mungkin ingin memberitahu tuan saya untuk melihat.",
       "Saya sudah menguasai sihir letupan, anda lihat?",
@@ -114,63 +114,63 @@
       "Aduh, nampaknya seseorang baru saja dipukul!",
       "Hanya kerja admin yang sihat di sini...",
       "But telah dilemparkan!",
-      "You'll be missed... not really",
-      "I hope I did the right thing...",
-      "Woah there, mods have spoken!",
-      "U-Uh... w-well, someone just went through the door."
+      "Anda akan dirindui... sebenarnya tidak",
+      "Saya harap saya melakukan perkara yang betul...",
+      "Woah, mod telah bercakap!",
+      "U-Uh... y-yah, seseorang baru sahaja melalui pintu itu."
     ]
   },
   "categories": {
     "music": "Audio",
-    "action": "Action",
-    "misc": "Misc",
+    "action": "Tindakan",
+    "misc": "Lain-lain",
     "moderation": "Moderation",
-    "owner": "Owner",
-    "image": "Image",
-    "utils": "Utility",
-    "fun": "Fun",
-    "games": "Games",
-    "info": "Info",
-    "currency": "Currency",
-    "pet": "Pet"
+    "owner": "Pemilik",
+    "image": "Imej",
+    "utils": "Utiliti",
+    "fun": "Hiburan",
+    "games": "Permainan",
+    "info": "Maklumat",
+    "currency": "Mata Wang",
+    "pet": "Haiwan Peliharaan"
   },
   "commands": {
     "fish": {
-      "dust": "%1$sThe day is over, and your fish bucket only could collect dust. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "dust": "%1$sHari sudah berakhir, dan baldi ikan anda hanya dapat mengumpulkan habuk. (Tahap habuk %2$s%%)",
+      "no_rod": "%1$sAnda masih belum melengkapkan joran anda. Gunakan `~>equip <rod name>` untuk melengkapkan sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
       "trash": {
-        "overflow": "%1$sYou found some trash while fishing, but your inventory was full, so we had to throw it back into the water...",
-        "success": "%1$sWhile calmly fishing, you found a floating %2$s but it seems to be only trash :("
+        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda penuh, jadi kami harus membuangnya kembali ke dalam air...",
+        "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s yang terapung tetapi nampaknya hanya sampah :("
       },
       "tier3": {
-        "extra": "And you also found %1$s, lucky!"
+        "extra": "Dan anda juga menemui %1$s, bertuah!"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while fishing, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while fishing and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Anda menjumpai **%1$s** semasa memancing, tetapi anda mempunyainya terlalu banyak, jadi kami membuangnya kembali ke lautan...",
+        "success": "Anda menjumpai %1$s **%2$s** semasa memancing dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <crate name>`. Anda memerlukan kunci peti!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
+        "success": "%1$s**%2$s** dilengkapi secara automatik di slot joran anda."
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
-      "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
-      "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
+      "overflow": "%1$sAnda menjumpai sebilangan ikan, tetapi sebahagian dari inventori anda sudah penuh, jadi kami terpaksa membuangnya kembali ke dalam air.",
+      "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s dan anda terus menyimpannya ke dalam baldi anda.",
+      "success_money": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s dan **$%3$d kredit** dan anda terus menyimpannya ke dalam baldi anda.%4$s",
+      "success_money_noitem": "%1$sSemasa memancing dengan tenang, anda menemui **$%2$d kredit** dan anda terus menyimpannya ke dalam poket anda.",
+      "rod_broke": "%1$sJoran anda patah semasa cuba menangkap ikan :(",
+      "waifu_help": "Waifu anda datang dan menyertai pengembaraan memancing anda dan anda berdua mendapat hasil yang lebih besar!",
       "not_suitable": "%1$sAnda tidak boleh menggunakan ini untuk memancing.",
-      "shark_success": "%1$sEntah bagaimana, anda berjaya menangkap ikan yu. Rod yang indah, ya?",
+      "shark_success": "%1$sEntah bagaimana, anda berjaya menangkap ikan yu. Joran yang indah, ya?",
       "fossil_success": "%1$sAnda menangkap fosil semasa cuba mencari ikan. Saya yakin ini mungkin bernilai sedikit atau digunakan untuk pemeran.",
       "bait": "Ikan memakan umpan anda dalam proses!",
-      "missing_equipped": "%1$sAnda mempunyai rod %2$s yang lengkap, tetapi anda tidak lagi mempunyai jenis barangan ini di inventori anda! Rod yang dilengkapkan telah ditetapkan semula.",
+      "missing_equipped": "%1$sAnda mempunyai joran %2$s yang lengkap, tetapi anda tidak lagi mempunyai jenis barangan ini di inventori anda! Joran yang dilengkapkan telah ditetapkan semula.",
       "broken_drop": "%1$sRod anda pecah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sAnda tidak mempunyai rod. Untuk melengkapkannya, anda perlu menjalankan `~>equip <rod name>` untuk memulakan pengembaraan anda!"
+      "no_rod_equipped": "%1$sAnda masih belum melengkapkan joran. Untuk melengkapkannya, anda perlu menjalankan `~>equip <rod name>` untuk memulakan pengembaraan anda!"
     },
     "softban": {
-      "no_permission": "%1$sTidak boleh larangan lembut: Anda tidak mempunyai kebenaran Ban Ahli.",
+      "no_permission": "%1$sTidak boleh melarang lembut: Anda tidak mempunyai kebenaran Ban Ahli.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
-      "no_users": "%1$sAnda perlu memberi saya pengguna untuk larangan lembut.",
-      "hierarchy_conflict": "%1$sAnda tidak boleh larangan lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
+      "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang lembut.",
+      "hierarchy_conflict": "%1$sAnda tidak boleh melarang lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
       "yourself_note": "%1$sMengapa anda cuba melarang lembut diri sendiri?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, mereka lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s. **(%3$s dilarang lembut)**",
@@ -178,15 +178,15 @@
       "unknown_error": "%1$sRalat tidak diketahui semasa melarang lembut %2$s: *(Ralat? %3$s: %4$s)*"
     },
     "ban": {
-      "no_permission": "%1$sAnda tidak boleh melarang: Anda memerlukan izin `Ban Users`.",
+      "no_permission": "%1$sAnda tidak boleh melarang: Anda memerlukan kebenaran `Ban Users`.",
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang pengguna yang lebih tinggi daripada anda dalam hierarki pelayan! Cubaan yang baik %2$s",
-      "yourself_note": "%1$sMengapa anda cuba melarang diri sendiri, silly?",
+      "yourself_note": "%1$sMengapa anda cuba melarang diri sendiri, bodoh?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, mereka lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s. **(%3$s dilarang)**",
       "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
-      "error": "%1$sRalat melarang %2$s: (Saya memerlukan keizinan %3$s)",
+      "error": "%1$sRalat melarang %2$s: (Saya memerlukan kebenaran %3$s)",
       "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
     },
     "kick": {
@@ -194,63 +194,63 @@
       "no_users": "%1$sAnda perlu memberikan saya pengguna untuk menendang.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
-      "yourself_note": "%1$sMengapa anda cuba menendang diri sendiri, silly?",
+      "yourself_note": "%1$sMengapa anda cuba menendang diri sendiri, bodoh?",
       "self_hierarchy_conflict": "%1$sTidak dapat menendang ahli: %2$s, mereka lebih tinggi atau hierarki yang sama dengan saya!",
       "success": "%1$s%2$s (%3$s ditendang)",
       "error": "%1$sRalat menendang %2$s: (Tidak ada kebenaran yang diberikan: %3$s)",
       "unknown_error": "%1$sRalat yang tidak diketahui semasa cuba menendang %2$s"
     },
     "music_usage": {
-      "1": "*Bagaimana mahu menggunakan muzik di Mantaro?*",
+      "1": "*Bagaimanakah menggunakan muzik di Mantaro?*",
       "2": "- Untuk **antrian lagu dari youtube atau soundcloud** gunakan `~>play` Contohnya: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Ia akan bersambung secara automatik ke saluran suara anda berada dalam*",
       "3": "- Untuk **mencari lagu di youtube** gunakan `~>play <search term>` (tanpa huruf utama < dan >) ​​Contohnya: `~>play see you again` (Anda perlu memilih nombor, hanya *taipkan nombor* setelah kotak pilihan muncul!)",
       "4": "- Untuk **mencari lagu di soundcloud** gunakan `~>play soundcloud <search term>` Contohnya `~>play soundcloud hot milk`",
-      "5": "- Untuk **memeriksa antrian** anda hanya ketik `~>queue`",
-      "6": "- Untuk **mengeluarkan trek dari antrian** anda hanya perlu menggunakan `~>removetrack` Diperlukan sebagai argumen posisi lagu di antrian (anda boleh periksa di antrian)",
-      "7": "- Untuk **jeda atau berhenti sejenak** cukup gunakan `~>pause`",
+      "5": "- Untuk **memeriksa antrian** anda hanya menaip `~>queue`",
+      "6": "- Untuk **mengeluarkan trek dari antrian** anda hanya perlu menggunakan `~>removetrack` Ia diperlukan sebagai argumen posisi lagu di antrian (anda boleh periksa di antrian)",
+      "7": "- Untuk **menghentikan atau meneruskan** hanya gunakan `~>pause`",
       "8": "- Untuk **menghentikan muzik dan melepaskan ikatan pemain** gunakan `~>stop`",
-      "9": "- Untuk **menggeser atrian** hanya gunakan `~>shuffle`",
-      "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulang giliran** gunakan` ~>repeat queue`. Menggunakan `~>repeat` semasa ulangan dihidupkan, mematikannya\n",
-      "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <command name>` (tanpa <> dan ganti nama perintah dengan nama perintah yang anda mahukan)",
+      "9": "- Untuk **menggeser antrian** hanya gunakan `~>shuffle`",
+      "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulang antrian** gunakan` ~>repeat queue`. Penggunaan `~>repeat` semasa ulangan masih hidup akan mematikannya\n",
+      "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <command name>` (tanpa <> dan ganti command name dengan nama arahan yang anda mahukan)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
     "lang": {
       "info": "%1$sAnda boleh menukar bahasa pelayan (jika berkenaan) menggunakan `~>opts language set <language code>`. Pilihan bahasa peribadi anda boleh diubah menggunakan `~>profile lang <language code>`.\n **Bahasa yang tersedia:** `%2$s`\n Sekiranya bahasa anda tidak ada di sini dan anda ingin membantu, sila sertai pelayan sokongan dan sertai usaha terjemahan!"
     },
     "season": {
-      "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan skor wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\n Ini adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\n Anda boleh mengakses barang bermusim menggunakan `-season`. Perintah seperti profil, tambang, ikan dan keseimbangan akan memerlukannya, sementara permainan, rampasan, harian dan reputasi akan memberikan wang/wakil kepada profil global dan musiman anda.",
+      "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan skor wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses barang bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
       "info_2": "\n\nMusim semasa ialah **%1$s ** dan **%2$s** pemain sedang mengambil bahagian!\n\n Keseronokan bermula, periksa `~>leaderboard money -season`; `~>leaderboard rep -season` dan `~>leaderboard games -season`.\n Permainan dihidupkan! <3\n Terima kasih kerana menikmati Mantaro."
     },
     "music_general": {
       "music_error": {
         "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba ubah rantau pelayan dan jalankan perintah sekali lagi.",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$sTidak dapat menyambung ke %2$s: ralat tidak diketahui."
       },
-      "not_working": "%1$sMuzik pada masa ini tidak berfungsi kerana Youtube menyekat lalu lintas dari kebanyakan bot besar. Bot Patreon kami masih berfungsi, jadi anda boleh mencubanya jika anda mahu dengan menyumbang $4/sebulan kepada Mantaro. Ini juga akan membantu kita mengarahkan usaha kita ke arah memperbaiki muzik secara keseluruhan.\n Sila periksa <https://patreon.com/mantaro>\n\n Kami mohon maaf atas kesulitan yang berlaku. Cuba gunakan carian soundcloud! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$sMuzik pada masa ini tidak berfungsi kerana Youtube menyekat lalu lintas dari kebanyakan bot besar. Bot Patreon kami masih berfungsi, jadi anda boleh mencubanya jika anda mahu dengan menyumbang $4/sebulan kepada Mantaro. Ini juga akan membantu kita mengarahkan usaha kita ke arah memperbaiki muzik secara keseluruhan.\nSila periksa <https://patreon.com/mantaro>\n\nKami mohon maaf atas kesulitan yang berlaku. Cuba gunakan carian soundcloud! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sAnda perlu memberitahu saya lagu apa yang anda mahu mainkan! *(YouTube, Soundcloud, URL Twitch atau pertanyaan carian dibenarkan)*",
       "not_playing": "%1$sSaya tidak bermain apa-apa. Sekiranya anda yakin ini adalah kesilapan, laporkan ini di <https://support.mantaro.site>",
       "dj_only": "%1$sAnda perlu menjadi DJ untuk menggunakan arahan ini.",
       "enjoy_note": "Nikmatilah muzik ini! <3",
-      "no_player": "%1$sI cannot find any music player here... (try playing something again?)",
-      "not_connected": "%1$sYou aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report this at <https://support.mantaro.site>)",
-      "np_message": "%1$s Now playing **%2$s** (%3$s) on **%4$s** | %5$s",
-      "track_error": "%1$sOuch, something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one available if there is one.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
-      "soundcloud_no_args": "%1$sYou need to give me the song name, I'm not a magician so I can't guess it :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
+      "no_player": "%1$sSaya tidak dapat mencari pemain muzik di sini... (cuba mainkan sesuatu lagi?)",
+      "not_connected": "%1$sAnda tidak tersambung ke saluran suara yang sedang saya mainkan! (Sekiranya anda yakin ini adalah kesilapan, laporkan ini di <https://support.mantaro.site>)",
+      "np_message": "%1$s Sekarang bermain **%2$s** (%3$s) pada **%4$s** | %5$s",
+      "track_error": "%1$sAduh, saya menemui masalah semasa memainkan lagu ini! Maaf atas kesulitan, saya akan cuba memainkan yang berikutnya jika ada.",
+      "queue_finished": "%1$sSelesai memainkan antrian semasa! Harap anda menikmatinya :heart:",
+      "soundcloud_no_args": "%1$sAnda perlu memberi saya nama lagu, saya bukan ahli silap mata jadi saya tidak dapat meneka :(",
+      "too_many_errors": "%1$sTerlalu banyak ralat pada sesi ini, sedang berhenti...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
-      "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
+      "no_vc_found": "%1$sSaya tidak disambung ke mana-mana VC walaupun sepatutnya? Cuba lagi.",
       "queue": {
-        "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
-        "no_track_found_np": "Nothing or title/duration not found",
-        "header": "Queue for server %1$s",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
-        "nothing_playing_2": "**If there is a song playing and you didn't add more songs, then there is actually just dust here. You can queue more songs as you desire!**",
-        "np": "Currently playing",
-        "dj_np": "**Queued by:** ",
-        "page_overflow": "Nothing here, just dust. Why don't you go back some pages?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "header_field": "Arahan",
+        "header_noreact": "Gunakan `&p >>` dan `&p <<` untuk bergerak di antara halaman.",
+        "no_track_found_np": "Tidak menjumpai apa-apa atau tajuk/jangka masa",
+        "header": "Antrian untuk pelayan %1$s",
+        "nothing_playing": "Tiada apa-apa di sini, hanya habuk. Mengapa anda tidak mengantri beberapa lagu?\nSekiranya anda yakin ada lagu di sini tetapi tidak muncul, cuba menggunakan arahan `~>queue 1`",
+        "nothing_playing_2": "**Jika ada lagu yang dimainkan dan anda tidak menambahkan lebih banyak lagu, maka sebenarnya hanya ada habuk di sini. Anda boleh mengantri lebih banyak lagu mengikut kehendak anda!**",
+        "np": "Sedang bermain",
+        "dj_np": "**Diantri oleh:** ",
+        "page_overflow": "Tiada apa-apa di sini, hanya habuk. Mengapa anda tidak mengundurkan beberapa halaman?",
+        "page_overflow_2": "Sekiranya anda yakin ada lagu di sini tetapi tidak muncul, cuba menggunakan arahan `~>queue 1`",
         "total_queue_time": "Total queue time",
         "total_size": "Total queue size",
         "togglers": "Repeat / Pause",
@@ -426,6 +426,7 @@
         "not_found": "%1$sI can't find that command.",
         "header": "Raw Custom Command: %1$s",
         "amount": "(Showing %1$d responses of %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
       "other_poll_running": "%1$sThere seems to be another poll running here...",
       "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "This was too long to show, so I pasted it: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Poll #%1$d created by %2$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
       "time": "You have %1$s to vote.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
@@ -1326,7 +1327,7 @@
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
-      "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
+      "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
     "pet": {
       "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
