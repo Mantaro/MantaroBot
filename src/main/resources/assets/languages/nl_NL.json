@@ -426,6 +426,7 @@
         "not_found": "%1$sIk kan dit commando niet vinden.",
         "header": "Commando \"%1$s\":",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sDeze poll kan niet aangemaakt worden. **Denk eraan dat de opties maximaal 9 en minimaal 2 en de time-out maximaal 45m en minimaal 30s moeten zijn.**\nOpties worden gescheiden door een komma, bijvoorbeeld `1,2,3`. Als je meer ruimte wil gebruik je aanhalingstekens aan het begin en aan het einde van de zin.",
       "other_poll_running": "%1$sEr lijkt hier nog een poll actief te zijn...",
       "no_reaction_perms": "%1$sHet lijkt erop dat ik hier geen reacties kan toevoegen...",
-      "too_long": "Dit was te lang om te laten zien, dus heb ik het geplakt: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Poll #%1$d gemaakt door %2$s",
       "success": "**Poll gestart. Reageer op het nummer dat je wilt stemmen.**\n*%1$s*\nTyp &cancelpoll om een actieve poll te annuleren.",
       "time": "Je hebt %1$s om te stemmen.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
