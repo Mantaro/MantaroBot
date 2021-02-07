@@ -38,7 +38,7 @@
     "misc_item_usage": {
       "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sمستوى الغبار الخاص بك أقل من 5%%, لذلك المسح لن يكون مفيداً جداً.",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": "%1$sتم ازالة تأثير جميع الجرعات.",
       "stamina": "%1$sالقدرة على التحمل المنشط لمدة 3 جلسات حفر.",
       "stamina_used": "%1$sلديك بالفعل تأثير قوي على التحمل!",
       "haste": "%1$sتنشيط المعجل لجلستين.",
@@ -426,6 +426,7 @@
         "not_found": "%1$sلم أتمكن من العثور على هذا الأمر.",
         "header": "أمر مخصص خام: %1$s",
         "amount": "(عرض %1$d الردود في %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "هذه قائمة بجميع ردود هذا الأمر على شكل خام (ما تدخله في الأمر)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sلا يمكن لهذا الاستطلاع أن يبنى. ** تذكر أن الخيارات يجب أن تكون بحد أقصى 9 وبحد أدنى 2 ويجب أن تكون المهلة بحد أقصى 45 دقيقة وبحد أدنى 30 ثانيه.**\nيتم فصل الخيارات بفاصلة، على سبيل المثال '1,2,3' (لا توجد مسافات بينهما!). بالنسبة للأشياء المتباعدة، استخدم علامات الاقتباس في بداية الجملة ونهايتها. إذا كنت فقدت حقا، هناك مثال على `~>help poll`",
       "other_poll_running": "%1$sيبدو أن إستطلاع آخر يجري هُنا...",
       "no_reaction_perms": "%1$sيبدو أنني لا أستطيع إضافة رمز تعبيري هُنا...",
-      "too_long": "كان هذا طويلاً جداً للعرض، لذا لصقته: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "الإستطلاع #%1$d تم إنشاؤه بواسطة %2$s",
       "success": "**بدأ الإستطلاع. إستخدم الرموز التعبيرية الأرقام للتصويت.**\n*%1$s*\nإكتب &cancelpoll للإلغاء.",
       "time": "لديك %1$s لتصويت",
@@ -1143,7 +1144,7 @@
       "info": "%1$sأذا احتجت الى مساعدة، توجه الى سيرفر الدعم الفني \n<https://support.mantaro.site> وتفضل بالسؤال عن أسالتك في روم الدعم #support!"
     },
     "action": {
-      "no_mention": "%1$sYou need to mention a user.",
+      "no_mention": "%1$sتحتاج إلى منشنة عضو.",
       "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
       "actions_disabled": "%1$sThis user has disabled actions for themselves.",
       "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sسوف تتمكن من الحصول على الصندوق اليومي الخاص بك في: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
@@ -1362,7 +1363,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "too_many": "How did you even get this many pats?"
+        "too_many": "كيف حصلت حتى على هذا العدد الكبير من التربيتات؟"
       },
       "pet_reactions": {
         "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
@@ -1426,7 +1427,7 @@
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
-        "author": "Pet information for type %1$s%2$s",
+        "author": "معلومات الحيوان الأليف من النوع %1$s%2$s",
         "name": "اسم الحيوان الأليف",
         "cost": "تكلفة الحيوان الأليف",
         "abilities": "القدرات",
@@ -1448,10 +1449,10 @@
       "footer": "نتمنى أن تستمع مع البوت."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
+      "not_broken": "%1$sتستطيع تصليح الأدوات المكسورة فقط.",
       "no_item": "%1$sYou need to specify the item you want to salvage.",
       "no_item_found": "%1$sI can't find the item you specified.",
-      "cant_salvage": "%1$sYou can't salvage this item.",
+      "cant_salvage": "%1$sلا تسطتيع إصلاح هذا الغرض.",
       "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
@@ -1917,7 +1918,7 @@
       "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
     },
     "logs_timezonereset": {
-      "success": "%1$sSuccesfully reset log timezone."
+      "success": "%1$sتم إعادة تعيين المنطقة الزمنية بنجاح."
     },
     "lobby_reset": {
       "success": "%1$sتم إعادة ضبط اللوبي بنجاح."
@@ -2035,10 +2036,10 @@
     "autoroles_remove": {
       "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
       "not_found": "%1$sI couldn't find an auto-assignable role with that name",
-      "success": "%1$sRemoved auto-assignable role %2$s"
+      "success": "%1$sتم حذف رتبة التعيين التلقائية %2$s"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all auto-assignable roles!"
+      "success": "%1$sتم حذف جميع رتب التعيين التلقائي!"
     },
     "admincustom": {
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
@@ -2083,7 +2084,7 @@
       "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
       "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
       "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
+      "too_long": "%1$sالوقت المحدد طويل جدًا...",
       "negative_notice": "You cannot mute someone for negative time!",
       "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
     },
@@ -2381,7 +2382,7 @@
       "ring": "Basically what makes your marriage official.",
       "letter": "رسالة من حبيبك.",
       "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`",
-      "clothes": "Basically what you wear. Hopefully...",
+      "clothes": "ببساطة ما ترتديه. على ما نأمل...",
       "diamond": "Basically a better way of saving your money. It's shiny too. And let's you cast shiny stuff. How nice.",
       "dress": "أليست لطيفة؟",
       "necklace": "يبدو جميلا.",
@@ -2421,13 +2422,13 @@
       "coffee": "طريقة مبهجة لبدء يومك.",
       "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
       "bait": "يمنحك فرصة أكبر لصيد الأسماك.",
-      "diamond_pick": "A strong-ish pick (150 durability).",
+      "diamond_pick": "معوٌل اقوى (يتحمل 150 استعمال).",
       "tv": "يجب... مشاهدة... التلفاز...",
       "wrench": "Casting tool. Useful to put stuff together.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
       "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
       "motorcycle": "تجول, الطريق الرائع.",
-      "comet_pick": "A stronger pick (180 durability).",
+      "comet_pick": "معوٌل اقوى (يتحمل 170 استعمال).",
       "star_pick": "A much stronger pick (220 durability).",
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
       "sparkle_pick": "One of the strongests pick out there (450 durability).",
@@ -2437,14 +2438,14 @@
       "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
       "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod (130 durability).",
-      "star_rod": "A stronger rod (170 durability).",
-      "sparkle_rod": "A way stronger rod (300 durability).",
+      "star_rod": "سنارة اقوى (تتحمل 170 استعمال).",
+      "sparkle_rod": "سنارة اقوى بكثير (تتحمل 300 استعمال).",
       "shell": "Found at the bottom of the ocean. What could it be worth for?",
       "shark": "واو. كيف تمكنت من التقاط هذا؟",
       "crab": "سلطعون, ربما هي ترقص.",
       "squid": "لا تتحير بينه و بين Squidward.",
       "shrimp": "اشياء وردية. على ما اعتقد.",
-      "moon": "Moon Rune. Needed to cast some stuff.",
+      "moon": "أثار قمر. تحتاجها لصناعة بعض الأشياء.",
       "flake": "Snowflake. Usually used as a cast ingredient.",
       "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
       "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
@@ -2456,9 +2457,9 @@
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "ساعة سحرية تبطئ الوقت عندما تحتاجه. سيتم استهلاك هذا تلقائيًا لحفظ الستريك اليومي الخاص بك!",
       "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
-      "steak": "Very yummy if you're not vegetarian.",
+      "steak": "لذيذ جداً إن لم تكن نباتياً.",
       "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
-      "milk_3": "Very good food for cats, I've heard.",
+      "milk_3": "غذاء جيد للقطط, على حسب ما سمعت.",
       "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
       "cat_food": "طعام الذي قد يحبه قطك كثيرًا.",
       "hamster_food": "طعام الذي قد يستمتع به الهامستر الخاص بك.",
@@ -2466,18 +2467,18 @@
       "moon_pick": "A very much stronger pick (320 durability).",
       "hellfire_pick": "Way too OP pick (too much durability, find out ;)).",
       "axe": "A normal, middle-of-the-road axe (35 durability).",
-      "comet_axe": "A stronger axe (170 durability).",
-      "star_axe": "A much stronger axe (220 durability).",
+      "comet_axe": "فأس اقوى (يتحمل 170 استعمال).",
+      "star_axe": "فأس اقوى بكثير (يتحمل 220 استعمال).",
       "moon_axe": "A very much stronger axe (350 durability).",
-      "sparkle_axe": "A way stronger axe (500 durability).",
+      "sparkle_axe": "فأس اقوى بكثير (يتحمل 500 استعمال).",
       "hellfire_axe": "Way too OP axe (too much durability, find out ;)).",
-      "moon_rod": "A stronger rod (170 durability).",
+      "moon_rod": "سنارة اقوى (تتحمل 170 استعمال).",
       "hellfire_rod": "Way too OP rod (too much durability, find out ;)).",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
       "pear": "You happened to chop a pear tree and the pear fell on your head. Ouch.",
       "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
-      "rock": "A rock. Yep. It's very hard, isn't it?",
+      "rock": "صخرة. نعم. إنه قاسية جدًا ، أليس كذلك؟",
       "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
       "broken_moon_axe": "A moon axe that broke while chopping. Still salvageable.",
       "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
