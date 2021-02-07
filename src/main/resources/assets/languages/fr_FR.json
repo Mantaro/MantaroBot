@@ -426,6 +426,7 @@
         "not_found": "%1$sJe ne trouve pas cette commande.",
         "header": "Commande \"%1$s\":",
         "amount": "(Affichage de %1$d réponse sur %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sCe sondage ne peut être construit. **Souviens-toi que le nombre maximum d'option est 9 et que le minimum est de 2 et que le temps limite est de maximum 45min et de minimum 30s.**\nLes options sont séparées avec une virgule, par exemple `1,2,3` (pas d'espaces entre eux !). Pour les éléments requérants des espaces, veille à les écrire entre guillemets. Si tu es vraiment perdu.e, il y a un exemple sur `~>help poll`",
       "other_poll_running": "%1$sIl semble qu'un autre sondage soit en cours..",
       "no_reaction_perms": "%1$sIl semble que je ne peux pas ajouter de réactions ici...",
-      "too_long": "C'était trop long à montrer, donc je l'ai copié: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Sondage #%1$d créé par %2$s",
       "success": "**Le sondage commence. Réagis avec les nombres pour voter.**\n*%1$s*\nEnvoie &cancelpoll pour arrêter le sondage en cours.",
       "time": "Tu as %1$s pour voter.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$sTu pourras réclamer ton coffre quotidien à: **%2$s.**",
-      "not_premium": "%1$sTu n'es pas prime !\nTu peux ouvrir un coffre quotidien premium avec de grandes chances d'obtenir de meilleurs objets en étant prime ! Jette un œil à <https://patreon.com/mantaro> pour plus d'informations.\nPeut être exécutée toutes les 24 heures.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sTu as obtenu un **%2$s** ! Reviens dans 24h pour en avoir un autre ! Tu peux l'ouvrir grâce à la commande `~>opencrate <crate name>` et surtout tu as besoin d'acheter une clé pour l'ouvrir en utilisant `~>buy key`."
     },
     "prune": {
