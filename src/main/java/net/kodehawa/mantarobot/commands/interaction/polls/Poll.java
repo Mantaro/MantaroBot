@@ -115,7 +115,9 @@ public class Poll extends Lobby {
                     .collect(Collectors.joining("\n"));
 
             if (toShow.length() > 1014) {
-                toShow = String.format(languageContext.get("commands.poll.too_long"), Utils.paste(toShow));
+                getChannel().sendMessageFormat(languageContext.get("commands.poll.too_long"), EmoteReference.ERROR).queue();
+                getRunningPolls().remove(getChannel().getId());
+                return;
             }
 
             var user = ctx.getAuthor();

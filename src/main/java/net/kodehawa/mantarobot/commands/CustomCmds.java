@@ -226,18 +226,23 @@ public class CustomCmds {
                         .map(CustomCommand::getName)
                         .collect(Collectors.toList());
 
+                String description = languageContext.get("general.dust");
+                if (!commands.isEmpty()) {
+                    description = commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "));
+                }
+
+                var cmds = DiscordUtils.divideString(1700, description);
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
                         .setColor(ctx.getMember().getColor())
                         .setThumbnail("https://i.imgur.com/glP3VKI.png")
-                        .setDescription(languageContext.get("commands.custom.ls.description") + "\n" +
-                                (commands.isEmpty() ? languageContext.get("general.dust") :
-                                        checkString(commands.stream().map(cc -> "*`" + cc + "`*")
-                                                .collect(Collectors.joining(", ")))
-                                )
-                        ).setFooter(languageContext.get("commands.custom.ls.footer").formatted(commands.size()),
+                        .setFooter(languageContext.get("commands.custom.ls.footer").formatted(commands.size()),
                                 ctx.getAuthor().getEffectiveAvatarUrl()
                         );
+
+                DiscordUtils.list(ctx.getEvent(), 120, false,
+                        (p, total) -> builder.setFooter(String.format("Total Pages: %s | Current: %s", total, p)), cmds
+                );
 
                 ctx.send(builder.build());
             }
@@ -306,12 +311,13 @@ public class CustomCmds {
                 List<MessageEmbed.Field> fields = new ArrayList<>();
                 AtomicInteger count = new AtomicInteger();
                 for (String value : custom.getValues()) {
-                    String val = value;
+                    var val = value;
+                    var current = count.incrementAndGet();
                     if (value.length() > 900) {
-                        val = Utils.paste(value);
+                        val = languageContext.get("commands.custom.raw.too_large_view").formatted(custom.getName(), current);
                     }
 
-                    fields.add(new MessageEmbed.Field("Response N° " + count.incrementAndGet(), val, false));
+                    fields.add(new MessageEmbed.Field("Response N° " + current, val, false));
                 }
 
                 EmbedBuilder embed = baseEmbed(ctx.getEvent(), languageContext.get("commands.custom.raw.header").formatted(command))

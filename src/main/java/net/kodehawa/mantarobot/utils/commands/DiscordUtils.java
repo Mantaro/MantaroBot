@@ -471,8 +471,10 @@ public class DiscordUtils {
                     str : str.substring(0, index + 1);
 
             str = str.substring(line.length());
-            // Split on newline, if possible.
+            // Split on newline or space, if possible.
             if (str.equals("\n")) {
+                str = "";
+            } else if (str.equals(" ")) {
                 str = "";
             }
 

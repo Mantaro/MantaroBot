@@ -311,18 +311,19 @@ public class PremiumCmds {
                                     var patreonAmount = Double.parseDouble(patreonInformation.getRight());
 
                                     if ((patreonAmount / 2) - amountClaimed < 0) {
-                                        LogUtils.log
-                                                (String.format("""
-                                                                %s has more keys claimed than given keys, dumping keys:
-                                                                %s
-                                                                Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""",
+                                        LogUtils.log(
+                                                    """
+                                                    %s has more keys claimed than given keys, dumping keys:
+                                                    %s
+                                                    Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""".formatted(
                                                         owner.getId(),
                                                         Utils.paste(data.getKeysClaimed()
                                                                 .entrySet()
                                                                 .stream()
                                                                 .map(entry -> "to:" + entry.getKey() + ", key:" + entry.getValue())
                                                                 .collect(Collectors.joining("\n"))),
-                                                        patreonAmount, amountClaimed, (patreonAmount / 2))
+                                                        patreonAmount, amountClaimed, (patreonAmount / 2)
+                                                    )
                                                 );
                                     }
                                 }

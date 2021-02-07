@@ -51,14 +51,6 @@ public interface AssistedCommand extends Command {
         for (int i = 0; i < times; i++) runnable.run();
     }
 
-    default String checkString(String s) {
-        if (s.length() > 1600) {
-            return Utils.paste(s);
-        } else {
-            return s;
-        }
-    }
-
     @Override
     default Command addOption(String call, Option option) {
         Option.addOption(call, option);
