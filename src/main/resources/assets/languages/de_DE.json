@@ -426,6 +426,7 @@
         "not_found": "%1$sIch kann diesen Befehl nicht finden.",
         "header": "Befehl: %1$s",
         "amount": "(Zeige %1$d Antworten von %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Dies ist eine Liste aller Antworten dieses Befehls im Rohformat (Das, was du beim Befehl eigegeben hast)."
       },
       "clear": {
@@ -865,7 +866,7 @@
       "invalid": "%1$sDiese Umfrage kann nicht erstellt werden. **Denke daran, dass die Optionen maximal 9 und mindestens 2 sein müssen und das Timeout maximal 45m und mindestens 30s betragen darf.**\nOptionen sind durch ein Komma getrennt, zum Beispiel `1,2,3`. Für Leerzeichen verwenden Sie Anführungszeichen am Anfang und am Ende des Satzes.",
       "other_poll_running": "%1$sEs scheint eine andere Umfrage zu geben, die hier läuft...",
       "no_reaction_perms": "%1$sAnscheinend kann ich hier keine Reaktionen hinzufügen...",
-      "too_long": "Das war zu lang, um es zu zeigen, also habe ich es hochgeladen: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Umfrage #%1$d erstellt von %2$s",
       "success": "**Die Umfrage begann. Reagieren Sie auf die zu wählende Nummer.**\n*%1$s*\nSchreibe &cancelpoll um diese Umfrage abzubrechen.",
       "time": "Ihr habt %1$s zum abstimmen.",
@@ -1274,7 +1275,7 @@
     },
     "dailycrate": {
       "check": "%1$s`Du kannst deine täglichen Kiste in **%2$s** abholen.",
-      "not_premium": "%1$sDu hast kein Premium!\nDu kannst eine täglich Premium-Truhe öffnen, wenn du Premium hast, sie hat eine hohe Chance für gute Items! Für mehr schaue bitte hier: <https://patreon.com/mantaro>\nDies kann alle 24 Stunden genutzt werden.",
+      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
       "success": "%1$sDu hast eine **%2$s** erhalten! Komme in 24 Stunden zurück, um eine weitere zu erhalten! Du kannst sie mit `~>opencrate <crate name>` öffnen. Du musst einen Truhenschlüssel mit `~>buy key` kaufen, um sie zu öffnen."
     },
     "prune": {
