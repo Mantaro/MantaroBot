@@ -1334,7 +1334,7 @@
       "no_marriage": "%1$s你需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`",
       "no_marriage_other": "%1$s%2$s 需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`",
       "status": {
-        "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)",
         "header": "%1$s 的狀態",
         "description": "記得定時照顧你的寵物 :heart:\n查看 `~>pet` 和 `~>help pet` 獲得更多說明。",
         "cost": "價格",
@@ -1361,7 +1361,7 @@
         "header": "%1$s**目前可用的寵物**\n\n%2$s\n\n%3$s**能力說明：**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
@@ -1374,19 +1374,19 @@
         "counter_100": "%1$s看來他們的頭會被你摸得很閃亮。"
       },
       "buy": {
-        "not_enough_arguments": "%1$s你需要指出寵物名稱和你想購買的種類。(範例，`~>pet buy hello dog`)",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
         "no_requirements": "%1$s你需要汽車和房屋才能購買寵物！房屋：%2$s，汽車：%3$s\n使用 `~>marry buyhouse` 和 `~>marry buycar` 來購買 :heart:",
         "no_house": "%1$s你需要寵物小屋才能購買寵物。能夠在市場購買。",
-        "already_has_pet": "%1$s你已經擁有寵物了。",
+        "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
-        "confirm": "%1$s你確定要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買。",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %5$s",
         "cancel_success": "%1$s操作取消。",
         "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
       "feed": {
-        "no_pet": "%1$s你沒有任何寵物可以餵養。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)",
         "no_content": "%1$s你需要指出要用來餵養寵物的食物。像是，`~>pet feed steak`",
         "no_item": "%1$s找不到你指定的物品。",
         "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
@@ -1397,7 +1397,7 @@
         "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
-        "no_pet": "%1$s你沒有任何寵物想要喝水。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)",
         "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
@@ -1414,16 +1414,18 @@
         "success_mine": "%1$s**%2$s** 幫助你挖礦了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和額外的物品掉落機會)**！*已經包含在你得到的掉落物中*"
       },
       "rename": {
-        "no_pet": "%1$s你沒有寵物可以重新命名。",
+        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)",
         "same_name": "%1$s你指定的名稱跟目前的一樣。",
         "no_content": "%1$s你需要指定你寵物的新名稱。",
         "not_enough_money": "%1$s你沒有足夠的錢來這樣做。價格：%2%s，你擁有：%3$s。",
         "success": "%1$s成功將你的寵物 `%2$s` 重命名為 `%3$s`。已經從你的錢包扣除 %4$s 元，好好享受吧！"
       },
       "remove": {
-        "no_pet": "%1$s你沒有寵物可以丟棄。",
+        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)",
         "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
-        "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。"
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$s credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
+        "success_personal": "%1$sSuccessfully removed pet. You received %2$s as a refund."
       },
       "info": {
         "not_found": "%1$s找不到你指出的寵物類型。使用`~>pet list` 查看現有的類型。",
@@ -2240,6 +2242,33 @@
     "priority_speaker": "Priority Speaker"
   },
   "items": {
+    "categories": {
+      "collectable": "Collectible Item",
+      "common": "Common Item",
+      "rare": "Rare Item",
+      "premium": "Premium Item",
+      "cast_mine": "Casted Mine Item",
+      "mine": "Mined Item",
+      "fish": "Fished Item",
+      "fish_rare": "Fished Item (Rare)",
+      "mine_rare": "Mined Item (Rare)",
+      "crate": "Loot Crate",
+      "chop_drop": "Chopped Item",
+      "potion": "Potion",
+      "buff": "Buff",
+      "wrench": "Wrench",
+      "waifu": "Waifu Item",
+      "mine_pick": "Pickaxe",
+      "mine_rare_pick": "Pickaxe (Rare)",
+      "fish_rod": "Fishing Rod",
+      "fish_rod_rare": "Fishing Rod (Rare)",
+      "chop_axe": "Axe",
+      "chop_axe_rare": "Axe (Rare)",
+      "broken": "Broken Item",
+      "pet": "Pet Item",
+      "pet_food": "Pet Food",
+      "deprecated": "Deprecated"
+    },
     "headphones": "耳機",
     "ban_hammer": "禁令之鎚",
     "die": "灌鉛骰子",
