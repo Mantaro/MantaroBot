@@ -78,7 +78,7 @@
     "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n%1$s",
     "buy_sell_paged_reference": "**Rujukan %1$s Beli %2$s Jual.**",
     "cancelled": "%1$sPermintaan dibatalkan.",
-    "sellout": "Pertimbangkan untuk menderma di [Patreon] (https://www.patreon.com/mantaro) jika anda menyukai saya, walaupun sedikit sumbangan akan membantu menjaga bot untuk terus hidup!",
+    "sellout": "Pertimbangkan untuk menderma di [Patreon] (https://www.patreon.com/mantaro) jika anda menyukai saya, walaupun sedikit sumbangan akan membantu bot untuk terus hidup!",
     "deprecated": "Tidak lagi digunakan",
     "space_notice": "Jika nama tersebut mengandungi ruang di antara perkataan, cuba \"mengapit nama tersebut menggunakan tanda petik\". Mungkin arahan help dapat membantu anda lebih lanjut.",
     "missing_embed_permissions": "Bot memerlukan kebenaran Embed Links untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (periksa kebenaran saluran dan kategori juga). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>",
@@ -207,7 +207,7 @@
       "4": "- Untuk **mencari lagu di soundcloud** gunakan `~>play soundcloud <search term>` Contohnya `~>play soundcloud hot milk`",
       "5": "- Untuk **memeriksa antrian** anda hanya menaip `~>queue`",
       "6": "- Untuk **mengeluarkan trek dari antrian** anda hanya perlu menggunakan `~>removetrack` Ia diperlukan sebagai argumen posisi lagu di antrian (anda boleh periksa di antrian)",
-      "7": "- Untuk **menghentikan atau meneruskan** hanya gunakan `~>pause`",
+      "7": "- Untuk **menghentikan atau melanjutkan** hanya gunakan `~>pause`",
       "8": "- Untuk **menghentikan muzik dan melepaskan ikatan pemain** gunakan `~>stop`",
       "9": "- Untuk **menggeser antrian** hanya gunakan `~>shuffle`",
       "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulang antrian** gunakan` ~>repeat queue`. Penggunaan `~>repeat` semasa ulangan masih hidup akan mematikannya\n",
@@ -246,7 +246,7 @@
         "no_track_found_np": "Tidak menjumpai apa-apa atau tajuk/jangka masa",
         "header": "Antrian untuk pelayan %1$s",
         "nothing_playing": "Tiada apa-apa di sini, hanya habuk. Mengapa anda tidak mengantri beberapa lagu?\nSekiranya anda yakin ada lagu di sini tetapi tidak muncul, cuba menggunakan arahan `~>queue 1`",
-        "nothing_playing_2": "**Jika ada lagu yang dimainkan dan anda tidak menambahkan lebih banyak lagu, maka sebenarnya hanya ada habuk di sini. Anda boleh mengantri lebih banyak lagu mengikut kehendak anda!**",
+        "nothing_playing_2": "**Jika ada lagu yang dimainkan dan anda tidak menambah lagi lagu, maka sebenarnya hanya ada habuk di sini. Anda boleh mengantri lebih banyak lagu mengikut kehendak anda!**",
         "np": "Sedang bermain",
         "dj_np": "**Diantri oleh:** ",
         "page_overflow": "Tiada apa-apa di sini, hanya habuk. Mengapa anda tidak mengundurkan beberapa halaman?",
@@ -255,97 +255,97 @@
         "total_size": "Jumlah saiz antrian",
         "togglers": "Mengulangi / Menghentikan",
         "playing_in": "Sedang bermain di",
-        "footer": "Jumlah halaman: %1$d%2$s. Halaman semasa: %3$d",
+        "footer": "Jumlah halaman: %1$d%2$s. Sedang berada di halaman %3$d",
         "multiple_pages": " -> Gunakan ~>queue <page> untuk menukar halaman",
         "page_react": " -> Gunakan reaksi untuk menukar halaman",
         "no_channel": "Tiada saluran :(",
         "songs": "lagu-lagu",
-        "clear_error": "%1$sAnda tidak tersambung kepada saluran suara ataupun anda bukan DJ.",
-        "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "clear_error": "%1$sSama ada anda tidak tersambung ke saluran suara ataupun anda bukan DJ.",
+        "clear_success": "%1$sBerjaya membersihkan antrian semasa. Saiz antrian adalah %2$s",
+        "no_embed": "%1$sAnda perlulah memberi bot kebenaran Embed Links supaya ia dapat memaparkan antrian embed itu."
       },
       "connect": {
-        "success": "%1$sSuccessfully connected to channel **%2$s**!",
-        "full_channel": "%1$sI can't connect to that channel because it is full!",
-        "non_existent_channel": "%1$sI received a non-existent channel as response. If you set a voice channel and then deleted it, that might be the cause.\n We reset your music channel for you, try to play the music again.",
-        "user_no_vc": "%1$s**Please join a voice channel**. If you're in a voice channel and the bot just disconnected, please re-join the channel instead.",
-        "missing_permissions_connect": "%1$sI cannot connect to this channel due to the lack of permissions (%2$s).",
-        "missing_permission_speak": "%1$sI cannot speak in this channel due to the lack of permissions (%2$s).",
-        "channel_locked": "%1$sI can only play music on channel **%2$s**.",
-        "already_connected": "%1$sI'm already connected on channel **%2$s**! (Use the `move` command to move me to another channel)",
-        "attempting_to_connect": "%1$sI'm already trying to connect to channel **%2$s**! (Use the `move` command to move me to another channel)"
+        "success": "%1$sBerjaya menyambung ke saluran **%2$s**!",
+        "full_channel": "%1$sSaya tidak boleh menyambung ke saluran tersebut kerana ia penuh!",
+        "non_existent_channel": "%1$sSaya menerima saluran yang tidak wujud sebagai respons. Jika anda telah menetapkan sebuah saluran suara lalu memadamkannya, mungkin itulah puncanya.\n Kami telah menetapkan semula saluran muzik bagi anda, cuba memainkan muzik sekali lagi.",
+        "user_no_vc": "%1$s**Sila menyambung ke sebuah saluran suara**. Jika anda tersambung ke saluran suara dan sambungan bot baru sahaja diputuskan, tolong menyambung semula ke saluran suara tersebut.",
+        "missing_permissions_connect": "%1$sSaya tidak dapat menyambung ke saluran ini disebabkan kekurangan kebenaran (%2$s).",
+        "missing_permission_speak": "%1$sSaya tidak dapat bersuara dalam saluran ini disebabkan kekurangan kebenaran (%2$s).",
+        "channel_locked": "%1$sSaya hanya boleh bermain muzik dalam saluran **%2$s**.",
+        "already_connected": "%1$sSaya sudah tersambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)",
+        "attempting_to_connect": "%1$sSaya sedang cuba untuk menyambung ke saluran **%2$s**! (Gunakan arahan `move` untuk memindahkan saya ke saluran yang lain)"
       },
       "listener": {
-        "paused": "%1$sPausing player because I got muted :(",
-        "resumed": "%1$sResuming playback because someone joined!",
-        "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
-        "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
+        "paused": "%1$sMenghentikan pemain kerana saya didiamkan :(",
+        "resumed": "%1$sPlayback dilanjutkan kerana ada yang baru tersambung!",
+        "left_alone": "%1$sSaya akan tinggalkan **%2$s** dalam tempoh dua minit kerana saya ditinggalkan sendirian :(",
+        "leave": "%1$sSaya memutuskan untuk tinggalkan **%2$s** kerana saya ditinggalkan sendirian :("
       },
       "loader": {
-        "over_limit": "%1$sThe queue you added had more than %2$d songs, so we added songs until this limit and ignored the rest.",
-        "loaded_playlist": "%1$sAdded **%2$d songs** to queue on playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
-        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_limit": "%1$sAntrian yang telah anda tambah mempunyai lebih daripada %2$d buah lagu, jadi kami telah menambahkan lagu-lagu sehingga had ini dan mengabaikan yang lain.",
+        "loaded_playlist": "%1$s**%2$d buah lagu** telah ditambah ke antrian playlist: **%3$s** *(%4$s)*",
+        "no_matches": "%1$sCarian ini tidak mendapatkan hasil. Sekiranya ini muncul untuk *semua lagu* yang anda cuba mencari, cubalah gunakan `~>play soundcloud <search term>` sementaranya. Pautan langsung dari youtube juga semestinya berjalan.",
+        "error_loading": "%1$sRalat semasa mendapatkan muzik: %2$s. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
+        "over_queue_limit": "%1$s**Tidak dapat mengantri `%2$s`: Melepasi had lagu antrian (%3$s)**",
+        "over_32_minutes": "%1$s**Tidak dapat mengantri `%2$s`: Trek ini melebihi %3$s.** (Tempoh lagu yang dilaporkan ialah %4$s). Anda boleh mendapatkan had tempoh trek yang lebih panjang dan playback siaran langsung dengan Mantaro Premium! Baca lebih lanjut di <https://patreon.com/mantaro>.",
+        "fair_queue_limit_reached": "%1$s**Melebihi tahap antrian adil %2$d (Terlalu banyak lagu yang sama)**",
+        "loaded_song": "%1$sDitambah ke antrian -> **%2$s** *(%3$s)*",
+        "selection_text": "Pilihan lagu. Taipkan nombor lagu untuk meneruskan.",
+        "timeout_text": "Masa ini akan tamat dalam 30 saat. Taip &cancel untuk membatalkan."
       },
-      "premium_beg": "%1$sConsider donating on <https://patreon.com/mantaro> if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "premium_beg": "%1$sPertimbangkan menderma di <https://patreon.com/mantaro> jika anda menyukai saya, walaupun sedikit sumbangan akan membantu bot untuk terus hidup (Periksa `~>donate` untuk maklumat lanjut!)",
+      "closed_connection": "%1$sSambungan audio diputuskan, melepaskan ikatan pemain..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sAdmin atau Komander Bot telah memutuskan untuk melangkau lagu ini."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$sSama ada tiada trek yang sedang dimainkan atau kami tidak dapat mencarinya, cuba memainkan sebuah lagu",
+      "header": "Sedang Bermain"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "paused": "Pemain dihentikan. *(Pemain dilanjutkan sebelum ini)*",
+      "unpaused": "Pemain dilanjutkan. *(Player dihentikan sebelum ini)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$sAnda perlu memberitahu saya tempoh lagu yang ingin diputar balik. *(Contoh: `~>rewind 1m45s` akan memutarkan 1 minit dan 45 saat)*",
+      "negative": "%1$sNombor positif sahaja",
+      "too_little": "%1$sAnda perlu menggunakan format yang betul. Sila periksa arahan help. *(Contoh: `~>rewind 1m45s` akan memutarkan 1 minit dan 45 saat)*",
+      "before_beginning": "%1$sAnda tidak boleh melangkau ke masa yang mendahului permulaan sesebuah lagu",
+      "success": "%1$sLagu diputarkan balik ke: %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sLagu semasa telah dimulai semula."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$sAnda haruslah memberitahu saya tempoh lagu yang ingin dilangkau. *(Contoh: `~>skipahead 1m45s` akan melangkau tempoh 1 minit dan 45 saat dari posisi semasa lagu anda)*",
+      "past_duration": "%1$sAnda tidak boleh melangkau ke masa yang melepasi tempoh sesebuah lagu",
+      "success": "%1$sSudah dilangkau ke %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "no_voice": "%1$sAnda tidak tersambung ke saluran suara, ataupun bot tidak tersambung.",
+      "attempt": "%1$sSaya akan cuba berpindah ke saluran yang anda berada",
+      "error_moving": "%1$sGagal menukar saluran suara.",
+      "cannot_connect": "%1$sTidak dapat menyambung: Sama ada saya tidak mempunyai kebenaran untuk bersuara atau memindah saluran.",
+      "non_existent_channel": "%1$sSaya tidak boleh berpindah ke saluran yang tidak wujud!",
+      "success": "%1$sBot dipindahkan ke saluran `%2$s`",
+      "vc_not_found": "%1$sSaluran suara tidak dijumpai ataupun anda tidak menyatakan sesebuah saluran!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Saya berada dalam shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Pelayan:** %5$,d pelayan\n**Pengguna Cache:** %6$,d pengguna\n**Ahli Cache:** %7$,d ahli\n\nJika anda memerlukan bantuan, sila hubungi <https://support.mantaro.site>. Terima kasih kerana menggunakan Mantaro!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sDJ pelayan ini telah memutuskan untuk membersihkan antrian!",
+        "success": "%1$s**%2$d lagu** telah dikeluarkan dari antrian.",
+        "error": "%1$sSama ada anda tidak tersambung ke saluran suara atau anda bukan DJ."
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_cancel": "%1$sAntrian semasa dilanjutkan.",
+      "queue_repeat": "%1$sAntrian semasa sedang diulangi.",
+      "song_cancel": "%1$sSedang meneruskan dengan antrian norma.",
+      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song coming next.",
