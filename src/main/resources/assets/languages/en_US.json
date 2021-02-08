@@ -1356,7 +1356,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
-        "success": "%1$sSuccessfully set your choice to: %2$s."
+        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"

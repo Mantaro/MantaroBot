@@ -173,7 +173,7 @@ public class PetCmds {
                 player.getData().setPetChoice(choice);
                 player.saveUpdating();
 
-                ctx.sendLocalized("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()));
+                ctx.sendLocalized("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()), EmoteReference.POPPER);
             }
         });
 
