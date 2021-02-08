@@ -89,7 +89,7 @@
       "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
     },
-    "generic_error": "Sekiranya anda mahu, sertai **pelayan sokongan kami** (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
+    "generic_error": "Sekiranya anda mahu, sertailah **pelayan sokongan** kami (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
       "Nampaknya Megumin letupkan istana kami...",
       "Aduh, nampaknya tuan saya terlupa beberapa angka kosong dan satu di atas lantai :<",
@@ -167,7 +167,7 @@
       "no_rod_equipped": "%1$sAnda masih belum melengkapkan joran. Untuk melengkapkannya, anda perlu menjalankan `~>equip <rod name>` untuk memulakan pengembaraan anda!"
     },
     "softban": {
-      "no_permission": "%1$sTidak boleh melarang lembut: Anda tidak mempunyai kebenaran Ban Ahli.",
+      "no_permission": "%1$sTidak boleh melarang lembut: Anda tidak mempunyai kebenaran Ban Members.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang lembut.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
@@ -190,7 +190,7 @@
       "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
     },
     "kick": {
-      "no_permission": "%1$sTidak dapat menendang: Anda tidak mempunyai kebenaran Kick Ahli.",
+      "no_permission": "%1$sTidak dapat menendang: Anda tidak mempunyai kebenaran Kick Members.",
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk menendang.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
@@ -227,7 +227,7 @@
         "unknown": "%1$sTidak dapat menyambung ke %2$s: ralat tidak diketahui."
       },
       "not_working": "%1$sMuzik pada masa ini tidak berfungsi kerana Youtube menyekat lalu lintas dari kebanyakan bot besar. Bot Patreon kami masih berfungsi, jadi anda boleh mencubanya jika anda mahu dengan menyumbang $4/sebulan kepada Mantaro. Ini juga akan membantu kita mengarahkan usaha kita ke arah memperbaiki muzik secara keseluruhan.\nSila periksa <https://patreon.com/mantaro>\n\nKami mohon maaf atas kesulitan yang berlaku. Cuba gunakan carian soundcloud! (`~>play soundcloud <search term>)`",
-      "no_song": "%1$sAnda perlu memberitahu saya lagu apa yang anda mahu mainkan! *(YouTube, Soundcloud, URL Twitch atau pertanyaan carian dibenarkan)*",
+      "no_song": "%1$sAnda perlu memberitahu saya lagu apa yang ingin anda mainkan! *(YouTube, Soundcloud, URL Twitch atau pertanyaan carian dibenarkan)*",
       "not_playing": "%1$sSaya tidak bermain apa-apa. Sekiranya anda yakin ini adalah kesilapan, laporkan ini di <https://support.mantaro.site>",
       "dj_only": "%1$sAnda perlu menjadi DJ untuk menggunakan arahan ini.",
       "enjoy_note": "Nikmatilah muzik ini! <3",
@@ -348,150 +348,150 @@
       "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$sOw, tiada lagu yang seterusnya.",
+      "format": "%1$sLagu yang seterusnya dalam antrian: **%2$s** (%3$s) | *Jumlah lagu dalam antrian: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sGiliran antrian semasa telah dirawakkan."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sDJ telah memutuskan untuk melangkau lagu ini.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**Undian anda telah dihantar** Anda memerlukan %2$d undian lagi untuk melangkau!",
+        "remove": "%1$s**Undian anda telah dibatalkan** Anda memerlukan %2$d undian lagi untuk melangkau!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sBilangan undian yang dikehendaki telah tercapai, lagu sedang dilangkau...",
+      "no_track": "%1$sNampaknya tiada trek untuk dilangkau, jadi saya tidak boleh membuat apa-apa..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s` bukan julat yang sah.",
+      "no_track": "%1$sTiada trek yang diantri di posisi `%2$d`!",
+      "invalid_number": "(%1$s`%2$s`) Salah satu daripada julat-julat ini bukan nombor yang sah!",
+      "invalid_number_range": "%1$s`%2$s` bukan nombor atau julat yang sah!",
+      "success": "%1$s**%2$d** trek telah dikeluarkan dari antrian.",
+      "not_dj": "%1$sAnda perlu menjadi DJ untuk menjalankan tindakan ini."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$sDJ pelayan telah memutuskan untuk menghentikan antrian semasa.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**Undian anda telah dihantar** Anda memerlukan %2$d undian lagi untuk menghentikan!",
+        "remove": "%1$s**Undian anda telah dibatalkan** Anda memerlukan %2$d undian lagi untuk menghentikan!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sBilangan undian yang dikehendaki telah tercapai, lagu sedang dihentikan...",
+      "no_player": "%1$sNampaknya tiada pemain untuk dihentikan, jadi saya tidak boleh membuat apa-apa...",
+      "cleanup": "%1$s**%2$d lagu** telah dikeluarkan dari antrian."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "no_player": "%1$sTiada apa-apa yang sedang dimainkan di sini.",
+      "check": "%1$sKelantangan semasa bagi sesi ini ialah: %2$d\n\n%3$s",
+      "success": "%1$sKelantangan ditetapkan ke %2$d\n\n%3$s",
+      "no_args": "%1$sAnda perlu memberitahu saya tahap kelantangan muzik yang ingin anda tetapkan (5 hingga 100).",
+      "premium_only": "%1$sFungsi ini hanya untuk ahli premium sahaja. Untuk mendapatkan faedah premium seperti ini, anda boleh berikrar di patreon (https://www.patreon.com/mantaro). Terima kasih kerana memahami.\nFungsi premium boleh terikat kepada pengguna ataupun pelayan, tolong, jika anda menderma, sertailah pelayan sokongan kami dan memohonnya."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$sTiada lagu yang sedang dimainkan di pelayan ini!",
+      "error_searching": "%1$sTerdapat ralat semasa mencari trek ini ataupun carian ini tidak mendapatkan hasil.",
+      "header": "%1$sLirik untuk %2$s",
+      "footer": "Terima kasih kerana menggunakan Mantaro! Halaman: %1$d, Jumlah: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
-      "none": "There's no custom prefix set on this server."
+      "header": "%1$sPrefix yang sudah ditetapkan ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
+      "guild_prefix": "Prefix pelayan ialah `%1$s` (Hanya berfungsi di pelayan ini)",
+      "none": "Tiada prefix kustom yang ditetapkan di pelayan ini."
     },
     "custom": {
-      "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
-      "incorrect_args": "%1$sIncorrect arguments. Check `~>help custom` or https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands for more help on how to use this. If you have any further issues after reading the wiki, refer to <https://support.mantaro.site>",
-      "error_running": "%1$sError while running custom command... please check the response content and length (cannot be more than 2000 chars).",
-      "error_running_new": "%1$sError running custom command. Check response, content and length.\n**Error:**\n```%2$s```",
-      "not_loaded": "The bot hasn't been fully booted up yet... custom commands will be available shortly!",
-      "nsfw_enabled": "%1$sThis command has been successfully marked as NSFW.",
-      "nsfw_disabled": "%1$sThis command has been successfully marked as SFW.",
-      "nsfw_not_nsfw": "%1$sThis command is marked as NSFW therefore it can only be used on NSFW channels.",
-      "new_error": "%1$sThe custom command you're trying to create has an error (v3, check content).\n**Error:**\n```%2$s```",
+      "no_args": "%1$sAnda perlu menyatakan apa yang anda hendak buat dengan arahan ini. Periksa arahan help untuk mendapatkan maklumat lanjut!",
+      "incorrect_args": "%1$sArgumen yang salah. Periksa `~>help custom` atau https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands untuk mendapatkan maklumat lanjut tentang cara menggunakan arahan ini. Jika anda mempunyai isu selanjutnya setelah membaca wiki tersebut, hubungi <https://support.mantaro.site>",
+      "error_running": "%1$sRalat semasa menjalankan arahan kustom... Sila periksa kandungan respons dan panjangnya (tidak boleh melebihi 2000 aksara).",
+      "error_running_new": "%1$sRalat semasa menjalankan arahan kustom. Periksa respons, kandungan dan panjangnya.\n**Ralat:**\n```%2$s```",
+      "not_loaded": "Bot masih belum dipasang sepenuhnya... arahan kustom akan berjalan sebentar lagi!",
+      "nsfw_enabled": "%1$sArahan ini telah berjaya ditandai sebagai NSFW.",
+      "nsfw_disabled": "%1$sArahan ini telah berjaya ditandai sebagai SFW.",
+      "nsfw_not_nsfw": "%1$sArahan ini ditandai sebagai NSFW jadi ia hanya boleh digunakan di saluran NSFW.",
+      "new_error": "%1$sTerdalat ralat berkaitan arahan kustom yang anda cuba mencipta (v3, periksa kandungan).\n**Ralat:**\n```%2$s```",
       "ls": {
-        "header": "Commands for this server.",
-        "description": "**This shows all of the custom (user-made) commands of this server.** Every command here is not associated with the bot itself in any shape or form.\n\nCustom commands are commands created by users (usually server admins) which can handle a bunch of different situations, going as far as emulating action commands.\nFor more information on how to make custom commands refer to [this wiki page.](https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**List:**",
-        "footer": "Total custom commands on this server: %1$s"
+        "header": "Arahan untuk pelayan ini.",
+        "description": "**Ini memaparkan setiap arahan kustom (dicipta oleh pengguna) di pelayan ini. Semua arahan sini tidak berkaitan dengan bot dalam apa-apa cara atau bentuk.\n\nArahan kustom ialah arahan yang dicipta oleh pengguna-pengguna (biasanya admin pelayan) dan akan menangani pelbagai situasi, setakat meniru arahan tindakan.\nUntuk mendapatkan maklumat lanjut tentang cara mencipta arahan kustom, merujuk kepada [halaman wiki ini.] (https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Senarai:**",
+        "footer": "Jumlah arahan kustom di pelayan ini: %1$s"
       },
-      "invalid": "%1$sInvalid command selection. Maybe take a look at the wiki at <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
+      "invalid": "%1$sPilihan arahan tidak sah. Mungkin melihat halaman wiki di <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
       "view": {
-        "invalid": "%1$sYou need to specify the command and the response number!",
-        "not_found": "%1$sThere isn't a custom command with that name here.",
-        "less_than_specified": "%1$sThis command has less responses than the number you specified...",
-        "success": "**Response `%1$d` for custom command `%2$s`:** \n```\n%3$s```"
+        "invalid": "%1$sAnda perlu menyatakan arahan dan nombor respons tertentu!",
+        "not_found": "%1$sTidak ada arahan kustom yang berkaitan dengan nama itu di sini.",
+        "less_than_specified": "%1$sArahan ini mempunyai respons yang lebih kurang daripada nombor yang anda nyatakan...",
+        "success": "**Respons `%1$d` untuk arahan kustom `%2$s`:** \n```\n%3$s```"
       },
       "raw": {
-        "no_command": "%1$sYou need to tell me what command you want to look at.",
-        "not_found": "%1$sI can't find that command.",
-        "header": "Raw Custom Command: %1$s",
-        "amount": "(Showing %1$d responses of %2$d)",
-        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
-        "description": "This is a list of all the responses of this command on a raw format (what you input into the command)."
+        "no_command": "%1$sAnda perlu memberitahu saya arahan apa yang ingin anda melihat.",
+        "not_found": "%1$sSaya tidak menjumpai arahan itu.",
+        "header": "Arahan Kustom Asal: %1$s",
+        "amount": "(Menunjukkan %1$d respons daripada %2$d)",
+        "too_large_view": "Terlalu besar untuk dilihat di sini, gunakan `~>custom view %1$s %2$s`",
+        "description": "Ini adalah senarai respons bagi arahan ini dalam format asal (apa yang anda masukkan ke dalam arahan)."
       },
       "clear": {
-        "success": "%1$s**Cleared %2$d Custom Commands**. Locked/Pinned commands weren't deleted, unlock them first if you want to."
+        "success": "%1$s**%2$d Arahan Kustom Telah Dipadamkan**. Arahan yang disematkan/dikunci tidak dipadamkan, anda boleh membukanya jika hendak."
       },
       "make": {
-        "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`",
-        "no_name_specified": "%1$sYou didn't specify the name of the custom command to create!"
+        "start_text": "%1$s**\"Ciptaan Arahan Kustom `%2$s`\"** Telah Bermula!\nTaip `&~>stop` untuk membatalkan ciptaan ini **tanpa menyimpan**.\nTaip `&~>save` untuk menamatkan ciptaan ini dan **menyimpan arahan baru tersebut**. Menghantar mesej yang bermula dengan `&` untuk menambahkannya kepada Respons Arahan. Gunakan `~>nsfw` untuk menanda arahan ini sebagai NSFW dan `~>sfw` untuk membalikkannya semula.\nOperasi Interaktif ini akan tamat tanpa menyimpan selepas 60 saat ketidakaktifan.",
+        "cancel": "%1$sCiptaan Arahan dibatalkan.",
+        "no_responses_added": "%1$sTiada lagi respons yang ditambahkan. Ciptaan dihentikan tanpa menyimpan...",
+        "success": "%1$sDisimpan ke arahan `%2$s`",
+        "no_name_specified": "%1$sAnda tidak menyatakan nama arahan kustom yang ingin dicipta!"
       },
       "eval": {
-        "not_specified": "You didn't specify anything to eval.",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
-        "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
+        "not_specified": "Anda tidak menyatakan apa-apa untuk dinilai.",
+        "new_error": "%1$sTerdapat ralat semasa menilai arahan kustom ini.\n**Ralat**:\n```%2$s```",
+        "error": "%1$sTerdapat ralat semasa menilai arahan kustom ini!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "no_command": "%1$sAnda perlu memberitahu saya arahan apa yang ingin anda padamkan.",
+        "success": "%1$sArahan Kustom `%2$s` Telah Dipadamkan"
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
-        "selection": "Select the Command:",
-        "note": "(You can only select custom commands from guilds that you are a member of)",
-        "success": "Imported custom command `%1$s` from guild `%2$s` with a total of %3$d responses."
+        "no_command": "%1$sAnda perlu memberitahu saya arahan apa yang ingin anda mengimport.",
+        "not_found": "%1$sTidak ada arahan kustom yang berkaitan dengan carian anda.",
+        "header": "`%1$s` (Respons: %2$s) - Pelayan: `%3$s`",
+        "selection": "Memilih Arahan:",
+        "note": "(Anda hanya boleh memilih arahan dari pelayan yang telah anda sertai)",
+        "success": "Arahan kustom `%1$s` telah diimport dari pelayan `%2$s` dengan sebanyak %3$d respons."
       },
       "edit": {
-        "no_command": "%1$sYou need to specify what command you want to edit.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot edit a non-existent index.",
-        "empty_response": "%1$sCannot edit to an empty response",
-        "not_enough_args": "%1$sYou need to specify the command, the index and the new response",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sAnda harus menyatakan arahan apa yang ingin anda edit.",
+        "invalid_number": "%1$sAnda harus menyatakan nombor yang betul untuk mengedit.",
+        "no_index": "%1$sAnda tidak boleh mengedit indeks yang tidak wujud.",
+        "empty_response": "%1$sTidak boleh edit menjadi respons kosong",
+        "not_enough_args": "%1$sAnda perlu menyatakan arahan, indeks dan respons yang baru",
+        "success": "%1$sRespons **#%2$d** dari arahan `%3$s` telah diedit secara lancar"
       },
       "deleteresponse": {
-        "no_command": "%1$sYou need to specify the command you want to remove a response from.",
-        "invalid_number": "%1$sYou need to specify a correct number to change.",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
-        "not_enough_args": "%1$sYou need to specify the command and the index you want to delete.",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_command": "%1$sAnda perlu menyatakan arahan dari mana anda ingin padamkan respons.",
+        "invalid_number": "%1$sAnda harus menyatakan nombor yang betul untuk mengedit.",
+        "no_index": "%1$sAnda tidak boleh memadamkan indeks yang tidak wujud.",
+        "not_enough_args": "%1$sAnda perlu menyatakan arahan dan indeks yang ingin anda padamkan.",
+        "no_responses_left": "%1$sTiada lagi respons yang tinggal, jadi saya telah memadamkan arahan tersebut.",
+        "success": "%1$sRespons **#%2$d** dari arahan `%3$s` telah dipadamkan secara lancar"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sArahan `%2$s` telah dinamakan semula menjadi `%3$s`"
       },
       "add": {
-        "no_command": "%1$sYou need to specify the command you want to add.",
-        "not_enough_args": "%1$sYou need to specify the command name and the response of the command you want to add.",
-        "empty_content": "%1$sYou need to specify the content of this custom command",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda tambahkan.",
+        "not_enough_args": "%1$sAnda harus menyatakan nama arahan dan respons arahan yang ingin anda tambahkan.",
+        "empty_content": "%1$sAnda perlu menyatakan kandungan arahan kustom ini",
+        "success": "%1$sDisimpan ke arahan `%2$s`",
+        "too_many_responses": "%1$sTerlalu banyak respons (%2$s) dalam arahan ini. Had ini adalah dua kali ganda (sebanyak 100) bagi pelayan premium (Periksa <https://patreon.com/mantaro>)",
+        "too_many_commands": "%1%sTerlalu banyak arahan dalam pelayan ini, jadi anda tidak dapat menambah lagi (+100). Had ini boleh diabaikan oleh pelayan premium (Periksa <https://patreon.com/mantaro>)."
       },
       "lockcommand": {
-        "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
-        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "no_permission": "%1$sAnda memerlukan kebenaran Manage Server untuk mengunci dan membuka arahan.",
+        "no_command": "%1$sAnda haruslah menyatakan arahan yang ingin anda mengunci.",
+        "success": "%1$sBerjaya mengunci arahan `%2$s`. Anda hendaklah membukanya untuk mengedit lebih lanjut."
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
-        "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "no_command": "%1$sAnda haruslah menyatakan arahan yang ingin anda membuka.",
+        "not_locked": "%1$sArahan ini tidak dikunci.",
+        "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
       "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
@@ -2272,7 +2272,7 @@
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
     "die": "Loaded Die",
-    "kick_boot": "Kick Boot",
+    "kick_boot": "But Tendang",
     "floppy": "Floppy Disk",
     "maths": "My Maths",
     "racket": "Ping Racket",
@@ -2396,7 +2396,7 @@
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
       "ban_hammer": "Left by an admin.",
-      "kick_boot": "Left by an admin.",
+      "kick_boot": "Ditinggalkan oleh admin.",
       "floppy": "Might have some games. Don't copy the floppy.",
       "maths": "Oh, I forgot my maths.",
       "racket": "I won the game of ping-pong with Discord by a few milliseconds. Maybe.",
