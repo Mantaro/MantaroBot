@@ -64,13 +64,9 @@ public class Utils {
     private static final int TOTAL_BLOCKS = 10;
 
     //The regex to filter discord invites.
-    public static final Pattern DISCORD_INVITE = Pattern.compile(
-            "(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
-                    "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
+    public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" + "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 
-    public static final Pattern DISCORD_INVITE_2 = Pattern.compile(
-            "(?:https?://)?discord((?:app)?(?:\\.|\\s*?dot\\s*?)com\\s?/\\s*invite\\s*/\\s*|(?:\\.|\\s*dot\\s*)(?:gg|me|io)\\s*/\\s*)([a-zA-Z0-9\\-_]+)"
-    );
+    public static final Pattern DISCORD_INVITE_2 = Pattern.compile("(?:https?://)?discord((?:app)?(?:\\.|\\s*?dot\\s*?)com\\s?/\\s*invite\\s*/\\s*|(?:\\.|\\s*dot\\s*)(?:gg|me|io)\\s*/\\s*)([a-zA-Z0-9\\-_]+)");
 
     private static final char BACKTICK = '`';
     private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
@@ -89,9 +85,7 @@ public class Utils {
             return s;
         }
 
-        return s.substring(0, 1)
-                .toUpperCase() + s.substring(1)
-                .toLowerCase();
+        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
     public static String formatDuration(long time) {
