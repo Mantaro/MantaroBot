@@ -3,7 +3,7 @@
     "invalid_number": "%1$sItu bukan nombor yang sah!",
     "requested_by": "Diminta oleh %1$s.",
     "operation_timed_out": "%1$sMasa untuk menjawab operasi ini telah tamat.",
-    "too_many_users_found": "%1$sTerlalu banyak pengguna dijumpai, mungkin memperhalusi carian anda? (cth. gunakan nama#diskriminator)\n **Pengguna dijumpai:** %2$s",
+    "too_many_users_found": "%1$sTerlalu banyak pengguna dijumpai, mungkin memperhalusi carian anda? (cth. gunakan nama#diskriminator)\n**Pengguna dijumpai:** %2$s",
     "search_no_result": "%1$sCarian anda tidak mendapatkan hasil :(",
     "unknown": "Tidak diketahui",
     "days": "hari",
@@ -24,7 +24,7 @@
     "description": "Penerangan",
     "options": "Pilihan",
     "find_members_failure": "%1$sTidak menemui ahli dengan kriteria carian anda :(",
-    "too_many_members": "%1$sTerlalu banyak ahli yang dijumpai, mungkin memperhalusi carian anda? (cth. gunakan nama#diskriminator)\n **Ahli dijumpai:** %2$s",
+    "too_many_members": "%1$sTerlalu banyak ahli yang dijumpai, mungkin memperhalusi carian anda? (cth. gunakan nama#diskriminator)\n**Ahli dijumpai:** %2$s",
     "too_many_mentions": "%1$sSila sebutkan satu orang sahaja semasa mencari ahli.",
     "query_too_small": "%1$sPertanyaan carian anda terlalu kecil. Pastikan anda mencari sekurang-kurangnya 4 aksara. Sekiranya nama pengguna terlalu pendek, anda lebih baik menggunakan nama pengguna#diskriminator atau id pengguna.",
     "dust": "Hanya ada habuk di sini.",
@@ -32,7 +32,7 @@
     "item_lookup": {
       "no_item_emoji": "Tiada item yang berkaitkan dengan emoji ini.",
       "no_item_name": "Tiada item yang berkaitkan dengan nama ini.",
-      "not_found": "Tidak menemui item yang berkaitan dengan carian anda. Sekiranya anda tersesat, cuba gunakan nama pendek, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
+      "not_found": "Tidak menemui item yang berkaitan dengan carian anda.\nSekiranya anda tersesat, cuba gunakan nama pendek, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
       "claim_key": "Anda tidak boleh memindahkan kunci tuntutan."
     },
     "misc_item_usage": {
@@ -63,8 +63,8 @@
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup dan meningkatkan pelayan Mantaro! Anda boleh mendapat faedah yang luar biasa dan **sehingga dua kali ganda kredit dengan Mantaro Premium **! Keahlian bermula dari $2 sebulan, harga makanan ringan! Lihat lebih lanjut di <https://patreon.com/mantaro>. Cara penyebaran berita juga membantu :heart:",
-        "daily_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup! Anda boleh mendapatkan faedah yang luar biasa dan **dua kali ganda kredit harian** dan mendapatkan akses ke `~>dailycrate`! Keahlian bermula hanya $2 sebulan, lihat lebih lanjut di <https://patreon.com/mantaro>.",
+        "generic_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup dan meningkatkan pelayan Mantaro!\nAnda boleh mendapat faedah yang luar biasa dan **sehingga dua kali ganda kredit dengan Mantaro Premium**!\nKeahlian bermula dari $2 sebulan, harga makanan ringan! Lihat lebih lanjut di <https://patreon.com/mantaro>. Cara penyebaran berita juga membantu :heart:",
+        "daily_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup! Anda boleh mendapatkan faedah yang luar biasa dan **dua kali ganda kredit harian** serta mendapatkan akses ke `~>dailycrate`! Keahlian bermula hanya $2 sebulan, lihat lebih lanjut di <https://patreon.com/mantaro>.",
         "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
         "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
       },
@@ -75,13 +75,13 @@
     "invalid_action": "Anda tidak boleh melakukan itu, bodoh.",
     "interactive_running": "%1$sSudah ada Operasi Interaktif (milik anda) di saluran ini.",
     "buy_sell_paged_react": "Gunakan reaksi mesej untuk bergerak di antara halaman.\n%1$s",
-    "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n %1$s",
+    "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n%1$s",
     "buy_sell_paged_reference": "**Rujukan %1$s Beli %2$s Jual.**",
     "cancelled": "%1$sPermintaan dibatalkan.",
     "sellout": "Pertimbangkan untuk menderma di [Patreon] (https://www.patreon.com/mantaro) jika anda menyukai saya, walaupun sedikit sumbangan akan membantu menjaga bot untuk terus hidup!",
     "deprecated": "Tidak lagi digunakan",
     "space_notice": "Jika nama tersebut mengandungi ruang di antara perkataan, cuba \"mengapit nama tersebut menggunakan tanda petik\". Mungkin arahan help dapat membantu anda lebih lanjut.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
+    "missing_embed_permissions": "Bot memerlukan kebenaran Embed Links untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (periksa kebenaran saluran dan kategori juga). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini lagi dalam %3$s.**",
       "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda mencuba sebelum cooldown diset semula!**",
@@ -89,7 +89,7 @@
       "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
     },
-    "generic_error": "Sekiranya anda mahu, sertai **server sokongan kami** (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
+    "generic_error": "Sekiranya anda mahu, sertai **pelayan sokongan kami** (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
       "Nampaknya Megumin letupkan istana kami...",
       "Aduh, nampaknya tuan saya terlupa beberapa angka kosong dan satu di atas lantai :<",
@@ -100,7 +100,7 @@
       "U-Uhh.. Apa yang anda mahukan?"
     ],
     "ratelimit_quotes": [
-      "Woah... awak memanggil saya terlalu pantas... saya mungkin akan pening!",
+      "Woah... anda memanggil saya terlalu pantas... saya mungkin akan pening!",
       "Jangan tamak!",
       "A-Anda memanggil saya begitu pantas sehingga saya menjadi pening...",
       "Berhenti di sana kawan!",
@@ -124,7 +124,7 @@
     "music": "Audio",
     "action": "Tindakan",
     "misc": "Lain-lain",
-    "moderation": "Moderation",
+    "moderation": "Moderasi",
     "owner": "Pemilik",
     "image": "Imej",
     "utils": "Utiliti",
@@ -139,7 +139,7 @@
       "dust": "%1$sHari sudah berakhir, dan baldi ikan anda hanya dapat mengumpulkan habuk. (Tahap habuk %2$s%%)",
       "no_rod": "%1$sAnda masih belum melengkapkan joran anda. Gunakan `~>equip <rod name>` untuk melengkapkan sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
       "trash": {
-        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda penuh, jadi kami harus membuangnya kembali ke dalam air...",
+        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami harus membuangnya kembali ke dalam air...",
         "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s yang terapung tetapi nampaknya hanya sampah :("
       },
       "tier3": {
@@ -184,14 +184,14 @@
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang pengguna yang lebih tinggi daripada anda dalam hierarki pelayan! Cubaan yang baik %2$s",
       "yourself_note": "%1$sMengapa anda cuba melarang diri sendiri, bodoh?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, mereka lebih tinggi atau hierarki yang sama daripada saya!",
-      "success": "%1$s%2$s. **(%3$s dilarang)**",
+      "success": "%1$s%2$s (%3$s dilarang)",
       "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
       "error": "%1$sRalat melarang %2$s: (Saya memerlukan kebenaran %3$s)",
       "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
     },
     "kick": {
       "no_permission": "%1$sTidak dapat menendang: Anda tidak mempunyai kebenaran Kick Ahli.",
-      "no_users": "%1$sAnda perlu memberikan saya pengguna untuk menendang.",
+      "no_users": "%1$sAnda perlu memberi saya pengguna untuk menendang.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
       "yourself_note": "%1$sMengapa anda cuba menendang diri sendiri, bodoh?",
@@ -215,15 +215,15 @@
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
     "lang": {
-      "info": "%1$sAnda boleh menukar bahasa pelayan (jika berkenaan) menggunakan `~>opts language set <language code>`. Pilihan bahasa peribadi anda boleh diubah menggunakan `~>profile lang <language code>`.\n **Bahasa yang tersedia:** `%2$s`\n Sekiranya bahasa anda tidak ada di sini dan anda ingin membantu, sila sertai pelayan sokongan dan sertai usaha terjemahan!"
+      "info": "%1$sAnda boleh menukar bahasa pelayan (jika berkenaan) menggunakan `~>opts language set <language code>`. Pilihan bahasa peribadi anda boleh diubah menggunakan `~>profile lang <language code>`.\n**Bahasa yang tersedia:** `%2$s`\nSekiranya bahasa anda tidak ada di sini dan anda ingin membantu, sila sertai pelayan sokongan dan sertai usaha terjemahan!"
     },
     "season": {
       "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan skor wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses barang bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
-      "info_2": "\n\nMusim semasa ialah **%1$s ** dan **%2$s** pemain sedang mengambil bahagian!\n\n Keseronokan bermula, periksa `~>leaderboard money -season`; `~>leaderboard rep -season` dan `~>leaderboard games -season`.\n Permainan dihidupkan! <3\n Terima kasih kerana menikmati Mantaro."
+      "info_2": "\n\nMusim semasa ialah **%1$s ** dan **%2$s** pemain sedang mengambil bahagian!\n\nKeseronokan bermula, periksa\n`~>leaderboard money -season`; `~>leaderboard rep -season` dan `~>leaderboard games -season`.\nPermainan dihidupkan! <3\nTerima kasih kerana menikmati Mantaro."
     },
     "music_general": {
       "music_error": {
-        "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba ubah rantau pelayan dan jalankan perintah sekali lagi.",
+        "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba mengubah rantau pelayan dan jalankan arahan sekali lagi.",
         "unknown": "%1$sTidak dapat menyambung ke %2$s: ralat tidak diketahui."
       },
       "not_working": "%1$sMuzik pada masa ini tidak berfungsi kerana Youtube menyekat lalu lintas dari kebanyakan bot besar. Bot Patreon kami masih berfungsi, jadi anda boleh mencubanya jika anda mahu dengan menyumbang $4/sebulan kepada Mantaro. Ini juga akan membantu kita mengarahkan usaha kita ke arah memperbaiki muzik secara keseluruhan.\nSila periksa <https://patreon.com/mantaro>\n\nKami mohon maaf atas kesulitan yang berlaku. Cuba gunakan carian soundcloud! (`~>play soundcloud <search term>)`",
@@ -238,8 +238,8 @@
       "queue_finished": "%1$sSelesai memainkan antrian semasa! Harap anda menikmatinya :heart:",
       "soundcloud_no_args": "%1$sAnda perlu memberi saya nama lagu, saya bukan ahli silap mata jadi saya tidak dapat meneka :(",
       "too_many_errors": "%1$sTerlalu banyak ralat pada sesi ini, sedang berhenti...",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
-      "no_vc_found": "%1$sSaya tidak disambung ke mana-mana VC walaupun sepatutnya? Cuba lagi.",
+      "missing_embed_permissions": "%1$sAnda haruslah memberikan kebenaran Embed Links kepada bot supaya ia dapat memaparkan menu tersebut. Jika anda ingin melangkau menu tersebut, gunakan `~>forceplay`, yang akan memainkan keputusan pertama.",
+      "no_vc_found": "%1$sSaya tidak tersambung ke mana-mana saluran suara walaupun sepatutnya? Cuba lagi.",
       "queue": {
         "header_field": "Arahan",
         "header_noreact": "Gunakan `&p >>` dan `&p <<` untuk bergerak di antara halaman.",
@@ -251,16 +251,16 @@
         "dj_np": "**Diantri oleh:** ",
         "page_overflow": "Tiada apa-apa di sini, hanya habuk. Mengapa anda tidak mengundurkan beberapa halaman?",
         "page_overflow_2": "Sekiranya anda yakin ada lagu di sini tetapi tidak muncul, cuba menggunakan arahan `~>queue 1`",
-        "total_queue_time": "Total queue time",
-        "total_size": "Total queue size",
-        "togglers": "Repeat / Pause",
-        "playing_in": "Playing in",
-        "footer": "Total pages: %1$d%2$s. Currently in page %3$d",
-        "multiple_pages": " -> Use ~>queue <page> to change pages",
-        "page_react": " -> React to change pages",
-        "no_channel": "No channel :(",
-        "songs": "song(s)",
-        "clear_error": "%1$sEither you're not connected to the VC or you're not the DJ.",
+        "total_queue_time": "Jumlah masa antrian",
+        "total_size": "Jumlah saiz antrian",
+        "togglers": "Mengulangi / Menghentikan",
+        "playing_in": "Sedang bermain di",
+        "footer": "Jumlah halaman: %1$d%2$s. Halaman semasa: %3$d",
+        "multiple_pages": " -> Gunakan ~>queue <page> untuk menukar halaman",
+        "page_react": " -> Gunakan reaksi untuk menukar halaman",
+        "no_channel": "Tiada saluran :(",
+        "songs": "lagu-lagu",
+        "clear_error": "%1$sAnda tidak tersambung kepada saluran suara ataupun anda bukan DJ.",
         "clear_success": "%1$sSuccessfully cleared the current queue. The queue size was %2$s",
         "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
       },
@@ -711,7 +711,7 @@
       "sorted_by": " *(sorted by: %1$s)*"
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
+      "no_item_specified": "%1$sAnda tidak menyatakan item. Untuk mendapatkan senarai, periksa `~>cast ls`",
       "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. If the item name has spaces, wrap the name in quotes. Example: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
@@ -1334,7 +1334,7 @@
       "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk periksa statusnya. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)",
         "header": "Status for %1$s",
         "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
         "cost": "Price",
@@ -1361,7 +1361,7 @@
         "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
         "too_many": "How did you even get this many pats?"
       },
@@ -1374,19 +1374,19 @@
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
+        "not_enough_arguments": "%1$sAnda haruslah menyatakan nama haiwan peliharaan dan taipkan jenis haiwan peliharaan yang ingin dibeli. (Misalnya, `~>pet buy hello dog`). Jika anda ingin membeli haiwan peliharaan peribadi, jalankan `~>pet choice personal` dahulu.",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
-        "already_has_pet": "%1$sYou already have a pet.",
+        "already_has_pet": "%1$sAnda sudah memiliki haiwan peliharaan. (Pilihan semasa: %2$s)",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
+        "confirm": "%1$sAdakah anda pasti akan membeli haiwan peliharaan ini? Nama: %2$s, Jenis: %3$s, Harga: %4$,d kredit. Pilihan: %5$s. Taip `yes` untuk meneruskan, `no` jika tidak.",
+        "success": "%1$sTahniah! Anda berdua berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Harga untuk membeli haiwan peliharaan ini ialah %5$,d kredit and pilihan haiwan peliharaan ini merupakan: %5$s",
         "cancel_success": "%1$sCancelled operation.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk diberikan makanan. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)",
         "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
@@ -1397,7 +1397,7 @@
         "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk diberikan minuman. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
         "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
@@ -1414,16 +1414,18 @@
         "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename.",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dinamakan semula. (Pilihan: %2$s)",
         "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
         "no_content": "%1$sYou need to give me the new name of your pet.",
         "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
         "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk disingkirkan. (Pilihan: %2$s)",
         "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+        "confirm_personal": "%1$sAdakah anda pasti akan menyingkirkan haiwan peliharaan ini? Anda akan menerima %2$s kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru.",
+        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
+        "success_personal": "%1$sHaiwan peliharaan telah disingkirkan. Anda menerima %2$s sebagai bayaran balik."
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
@@ -2240,6 +2242,33 @@
     "priority_speaker": "Priority Speaker"
   },
   "items": {
+    "categories": {
+      "collectable": "Item Dikumpul",
+      "common": "Item Biasa",
+      "rare": "Item Jarang",
+      "premium": "Item Premium",
+      "cast_mine": "Casted Mine Item",
+      "mine": "Mined Item",
+      "fish": "Fished Item",
+      "fish_rare": "Fished Item (Rare)",
+      "mine_rare": "Mined Item (Rare)",
+      "crate": "Loot Crate",
+      "chop_drop": "Chopped Item",
+      "potion": "Potion",
+      "buff": "Buff",
+      "wrench": "Wrench",
+      "waifu": "Waifu Item",
+      "mine_pick": "Pickaxe",
+      "mine_rare_pick": "Pickaxe (Rare)",
+      "fish_rod": "Fishing Rod",
+      "fish_rod_rare": "Fishing Rod (Rare)",
+      "chop_axe": "Axe",
+      "chop_axe_rare": "Axe (Rare)",
+      "broken": "Broken Item",
+      "pet": "Pet Item",
+      "pet_food": "Pet Food",
+      "deprecated": "Deprecated"
+    },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
     "die": "Loaded Die",
