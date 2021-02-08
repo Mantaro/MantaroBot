@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.PlayerStats;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
@@ -265,6 +266,10 @@ public class ItemCmds {
                             player.removeMoney(castCost);
                             player.save();
                         }
+
+                        PlayerStats stats = ctx.getPlayerStats();
+                        stats.incrementCraftedItems(amountSpecified);
+                        stats.saveUpdating();
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
                                 EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
@@ -503,7 +508,7 @@ public class ItemCmds {
                             message += ctx.getLanguageContext().get("commands.repair.item_broke");
                         }
 
-                        user.getData().increaseDustLevel(3);
+                        user.getData().increaseDustLevel(4);
                         user.save();
 
                         if (isSeasonal) {
@@ -513,6 +518,10 @@ public class ItemCmds {
                             player.removeMoney(repairCost);
                             player.save();
                         }
+
+                        var stats = ctx.getPlayerStats();
+                        stats.incrementRepairedItems();
+                        stats.saveUpdating();
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success") + "\n" + message,
                                 EmoteReference.WRENCH, brokenItem.getEmoji(), brokenItem.getName(),
@@ -729,6 +738,10 @@ public class ItemCmds {
                             player.save();
                         }
 
+                        var stats = ctx.getPlayerStats();
+                        stats.incrementSalvagedItems();
+                        stats.saveUpdating();
+
                         ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, item.getName(), toReturn, salvageCost, message);
                     }
                 };
@@ -831,12 +844,11 @@ public class ItemCmds {
                 var item = itemOptional.get();
                 var description = ctx.getLanguageContext().get(item.getDesc());
                 var name = item.getTranslatedName();
-                var translatedName = item.getTranslatedName().isEmpty() ?
-                        item.getName() : ctx.getLanguageContext().get(item.getTranslatedName());
+                var translatedName = name.isEmpty() ? item.getName() : ctx.getLanguageContext().get(name);
+                var type = ctx.getLanguageContext().get(item.getItemType().getDescription());
 
                 ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
-                        item.getEmoji(), item.getName(),
-                        translatedName, item.getItemType(), description
+                        item.getEmoji(), item.getName(), translatedName, type, description
                 );
             }
 

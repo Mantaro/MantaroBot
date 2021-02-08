@@ -18,69 +18,76 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 public enum ItemType {
     // Commons
-    COLLECTABLE(false),
-    COMMON(false),
-    RARE(false),
-    INTERACTIVE(false),
+    COLLECTABLE(false, "items.categories.collectable"),
+    COMMON(false, "items.categories.common"),
+    RARE(false, "items.categories.rare"),
+    INTERACTIVE(false, "items.categories.interactive"),
 
     // Not really used.
-    PREMIUM(false),
+    PREMIUM(false, "items.categories.premium"),
 
     // Cast-able items.
-    CAST_MINE(true),
-    CAST_OBTAINABLE(true),
+    CAST_MINE(true, "items.categories.cast_mine"),
+    CAST_OBTAINABLE(true, "items.categories.cast_mine"),
 
     // Drops.
-    MINE(false),
-    FISHING(false),
-    FISHING_RARE(false),
-    MINE_RARE(true),
-    CRATE(false),
-    CHOP_DROP(false),
+    MINE(false, "items.categories.mine"),
+    FISHING(false, "items.categories.fish"),
+    FISHING_RARE(false, "items.categories.fish_rare"),
+    MINE_RARE(true, "items.categories.mine_rare"),
+    CRATE(false, "items.categories.crate"),
+    CHOP_DROP(false, "items.categories.chop_drop"),
 
     // Buffs
-    POTION(false),
-    BUFF(false),
+    POTION(false, "items.categories.potion"),
+    BUFF(false, "items.categories.buff"),
 
     // Wrenches
-    WRENCH(true),
+    WRENCH(true, "items.categories.wrench"),
 
     // Waifu stuff, only has one little type tho.
-    WAIFU(false),
+    WAIFU(false, "items.categories.waifu"),
 
     // Picks
-    MINE_PICK(true),
-    MINE_RARE_PICK(true),
-    MINE_RARE_PICK_NODROP(true),
+    MINE_PICK(true, "items.categories.mine_pick"),
+    MINE_RARE_PICK(true, "items.categories.mine_rare_pick"),
+    MINE_RARE_PICK_NODROP(true, "items.categories.mine_rare_pick"),
 
     // Rods
-    FISHROD(true),
-    FISHROD_RARE(true),
-    FISHROD_RARE_NODROP(true),
+    FISHROD(true, "items.categories.fish_rod"),
+    FISHROD_RARE(true, "items.categories.fish_rod_rare"),
+    FISHROD_RARE_NODROP(true, "items.categories.fish_rod_rare"),
 
     // Axes
-    CHOP_AXE(true),
-    CHOP_RARE_AXE(true),
-    CHOP_RARE_AXE_NODROP(true),
+    CHOP_AXE(true, "items.categories.chop_axe"),
+    CHOP_RARE_AXE(true, "items.categories.chop_rare_axe"),
+    CHOP_RARE_AXE_NODROP(true, "items.categories.chop_rare_axe"),
 
     // Broken items
-    BROKEN(false),
+    BROKEN(false, "items.categories.broken"),
 
     //Pet items don't appear in the normal market.
-    PET(true),
-    PET_FOOD(false),
+    PET(true, "items.categories.pet"),
+    PET_FOOD(false, "items.categories.pet_food"),
 
     // Not used anymore
-    DEPRECATED(false);
+    DEPRECATED(false, "items.categories.deprecated");
 
     private final boolean cast;
 
-    ItemType(boolean cast) {
+    private final String description;
+
+    ItemType(boolean cast, String description) {
         this.cast = cast;
+        this.description = description;
     }
 
     public boolean isCastable() {
         return cast;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public enum LootboxType {

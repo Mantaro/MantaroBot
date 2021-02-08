@@ -36,6 +36,10 @@ public class PlayerStats implements ManagedObject {
     private long slotsWins;
     private long gambleWinAmount;
     private long slotsWinAmount;
+    private long craftedItems;
+    private long repairedItems;
+    private long salvagedItems;
+    private long toolsBroken;
 
     @JsonCreator
     @ConstructorProperties({"id", "gambleWins", "slotsWins", "gambleWinAmount", "slotsWinAmount", "data"})
@@ -116,5 +120,62 @@ public class PlayerStats implements ManagedObject {
 
     public PlayerStatsData getData() {
         return this.data;
+    }
+
+    public long getCraftedItems() {
+        return craftedItems;
+    }
+
+    public void setCraftedItems(long craftedItems) {
+        this.craftedItems = craftedItems;
+    }
+
+    public long getRepairedItems() {
+        return repairedItems;
+    }
+
+    public void setRepairedItems(long repairedItems) {
+        this.repairedItems = repairedItems;
+    }
+
+    public long getToolsBroken() {
+        return toolsBroken;
+    }
+
+    public void setToolsBroken(long toolsBroken) {
+        this.toolsBroken = toolsBroken;
+    }
+
+    public long getSalvagedItems() {
+        return salvagedItems;
+    }
+
+    public void setSalvagedItems(long salvagedItems) {
+        this.salvagedItems = salvagedItems;
+    }
+
+    @JsonIgnore
+    public void incrementToolsBroken() {
+        this.toolsBroken++;
+    }
+
+    @JsonIgnore
+    public void incrementCraftedItems() {
+        this.craftedItems++;
+    }
+
+    @JsonIgnore
+    public void incrementCraftedItems(int amount) {
+        this.craftedItems += amount;
+    }
+
+    @JsonIgnore
+    public void incrementRepairedItems() {
+        this.repairedItems++;
+    }
+
+    @JsonIgnore
+    public void incrementSalvagedItems() {
+        this.salvagedItems++;
     }
 }

@@ -455,6 +455,10 @@ public class ItemHelper {
                 user.save();
             }
 
+            var stats = ctx.getPlayerStats();
+            stats.incrementToolsBroken();
+            stats.saveUpdating();
+
             //is broken
             return Pair.of(true, Pair.of(player, user));
         } else {

@@ -29,10 +29,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Marriage;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.*;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -196,6 +193,18 @@ public class Context {
 
     public SeasonPlayer getSeasonPlayer(Member member) {
         return managedDatabase.getPlayerForSeason(member, getConfig().getCurrentSeason());
+    }
+
+    public PlayerStats getPlayerStats() {
+        return managedDatabase.getPlayerStats(getMember());
+    }
+
+    public PlayerStats getPlayerStats(User user) {
+        return managedDatabase.getPlayerStats(user);
+    }
+
+    public PlayerStats getPlayerStats(Member member) {
+        return managedDatabase.getPlayerStats(member);
     }
 
     public boolean isSeasonal() {

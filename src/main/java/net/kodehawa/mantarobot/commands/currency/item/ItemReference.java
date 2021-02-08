@@ -87,9 +87,9 @@ public class ItemReference {
                     100, true
             ),
 
-            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.19f, "\u26cf",
+            BROM_PICKAXE = new Pickaxe(ItemType.MINE_PICK, "\u26cf",
                     "Brom's Pickaxe", "items.pick", "items.description.pick",
-                    100, true, 40, 0
+                    100, true, 40, 0, 1
             ),
 
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(),
@@ -328,7 +328,7 @@ public class ItemReference {
                     15, true
             ),
 
-            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.16f,
+            DIAMOND_PICKAXE = new Pickaxe(ItemType.MINE_PICK,
                     1, 20, EmoteReference.DIAMOND_PICK.getDiscordNotation(),
                     "Diamond Pickaxe", "items.diamond_pick", "items.description.diamond_pick",
                     100, true, false,
@@ -351,18 +351,18 @@ public class ItemReference {
                     150, true
             ),
 
-            COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.13f,
+            COMET_PICKAXE = new Pickaxe(ItemType.MINE_PICK,
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 180, 100, 10, 48, 101
+                    "1;2;7", 180, 100, 3, 10, 48, 101
             ),
 
-            STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, 0.09f,
-                    1, 10, EmoteReference.STAR_PICK.getDiscordNotation(),
+            STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
-                    350, true, false,
-                    "1;2;7", 220, 100,10, 49, 101
+                    1, 10, 350, true, false, "1;2;7",
+                    220, 100, 4, 390, 330, 4,
+                    10, 49, 101
             ),
 
             PIZZA = new Item(ItemType.COMMON, "\uD83C\uDF55",
@@ -432,11 +432,11 @@ public class ItemReference {
                     "", 2
             ),
 
-            SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, 0.04f,
-                    3, 5, EmoteReference.SPARKLE_PICK.getDiscordNotation(),
+            SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),
                     "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick",
-                    1200, true, false,
-                    "1;3;1;7", 450, 300, 10, 74, 18, 101
+                    3, 5, 1200,
+                    true, false, "1;3;1;7", 450, 300, 4,
+                    385, 320, 6, 10, 74, 18, 101
             ),
 
             SPARKLE_FRAGMENT = new Item(ItemType.MINE_RARE, "\u2728",
@@ -587,18 +587,19 @@ public class ItemReference {
                     25, false
             ),
 
-            MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, 0.1f,
-                    2, 7, EmoteReference.MOON_PICK.getDiscordNotation(),
+            MOON_PICK = new Pickaxe(ItemType.MINE_RARE_PICK, EmoteReference.MOON_PICK.getDiscordNotation(),
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
-                    1000, true, false,
-                    "1;3;2;5;10", 320, 130,10, 83, 18, 76, 101
+                    2, 7, 1000, true, false,
+                    "1;3;2;5;10", 320, 140, 4,
+                    389, 325, 5,  83, 18, 76, 101
             ),
 
-            HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK_NODROP, 0.00001f,
-                    3, 1, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
+            HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK_NODROP, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
                     "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick",
-                    15000, true, false,
-                    "450;1;175;1;175;1;55;1;50;50", 3000, 1500, 18, 57, 48, 61, 49, 62, 74, 73, 101, 76
+                    3, 1, 15000, true, false,
+                    "450;1;175;1;175;1;55;1;50;50", 3000, 1500,
+                    7, 377, 320, 7,
+                    57, 48, 61, 49, 62, 74, 73, 101, 76
             ),
 
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93",

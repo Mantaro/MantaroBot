@@ -84,8 +84,7 @@ public class CurrencyActionCmds {
                 final var userData = dbUser.getData();
                 final var marriage = ctx.getMarriage(userData);
 
-                final var inventory = isSeasonal ?
-                        seasonalPlayer.getInventory() : player.getInventory();
+                final var inventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
 
                 var equipped = isSeasonal ?
                         seasonalPlayerData.getEquippedItems().of(PlayerEquipment.EquipmentType.PICK) :
@@ -96,20 +95,21 @@ public class CurrencyActionCmds {
                     return;
                 }
 
-                var item = (Pickaxe) ItemHelper.fromId(equipped);
-
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                     return;
                 }
 
-                var money = Math.max(30, random.nextInt(200)); //30 to 150 credits.
+                var message = "";
+                var waifuHelp = false;
+                var petHelp = false;
+
+                var item = (Pickaxe) ItemHelper.fromId(equipped);
+                var money = Math.max(30, random.nextInt(200)); // 30 to 150 credits.
                 var moneyIncrease = item.getMoneyIncrease() <= 0 ? 1 : item.getMoneyIncrease();
                 money += Math.max(moneyIncrease / 2, random.nextInt(moneyIncrease));
 
-                var waifuHelp = false;
                 if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                     final var waifus = userData.getWaifus().entrySet();
-
                     if (waifus.stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                         money += Math.max(20, random.nextInt(100));
                         waifuHelp = true;
@@ -119,13 +119,10 @@ public class CurrencyActionCmds {
                 var reminder = random.nextInt(6) == 0 && item == ItemReference.BROM_PICKAXE ?
                         languageContext.get("commands.mine.reminder") : "";
 
-                var message = "";
-
                 var hasPotion = ItemHelper.handleEffect(
-                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.POTION_HASTE, dbUser
+                        PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(),
+                        ItemReference.POTION_HASTE, dbUser
                 );
-
-                var petHelp = false;
 
                 if (marriage != null && marriage.getData().getPet() != null) {
                     var pet = marriage.getData().getPet();
@@ -152,67 +149,49 @@ public class CurrencyActionCmds {
 
                 if (random.nextInt(400) >= chance) {
                     if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
-                        message += "\n" + languageContext.withRoot("commands", "mine.diamond.overflow");
+                        message += "\n" + languageContext.get("commands.mine.diamond.overflow");
                         money += ItemReference.DIAMOND.getValue() * 0.9;
                     } else {
-                        var amount = 1;
-
-                        // TODO: Make this less silly
-                        // Everything but sparkle and hellfire
-                        if (item.getMaxDurability() < 430) {
-                            amount += random.nextInt(2);
-                        }
-
-                        if (item == ItemReference.SPARKLE_PICKAXE) {
-                            amount += random.nextInt(4);
-                        }
-
-                        if (item == ItemReference.HELLFIRE_PICK) {
-                            amount += random.nextInt(6);
-                        }
-
+                        var amount = 1 + random.nextInt(item.getDiamondIncrease());
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
                         message += "\n" + EmoteReference.DIAMOND +
-                                languageContext.withRoot("commands", "mine.diamond.success").formatted(amount);
+                                languageContext.get("commands.mine.diamond.success").formatted(amount);
                     }
 
                     playerData.addBadgeIfAbsent(Badge.MINER);
                 }
 
                 // Gem find
-                var gemChance = 340;
-
+                var gemChance = item.getGemLuck();
                 if (hasPotion) {
-                    gemChance = 325;
+                    gemChance -= 15;
                 }
 
                 if (petHelp) {
-                    gemChance = 300;
+                    gemChance -= 25;
                 }
 
                 if (petHelp && hasPotion) {
-                    gemChance = 280;
+                    gemChance -= 35;
                 }
-
-                // A little bit higher prob if you have a high pick
-                var pickBonus = item.getMaxDurability() >= 320 ? 5 : 0;
-                gemChance -= pickBonus;
 
                 if (random.nextInt(400) >= gemChance) {
                     List<Item> gem = Stream.of(ItemReference.ALL)
+                            // Give less probabilities of getting a rock because it can get annoying (lol)
+                            .filter(i -> random.nextBoolean() || i == ItemReference.ROCK)
                             .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
 
-                    //top notch handling for gems, 10/10 implementation -ign
+                    // Top notch handling for gems, 10/10 implementation -ign
                     var selectedGem = new ItemStack(gem.get(random.nextInt(gem.size())), Math.max(1, random.nextInt(5)));
                     var itemGem = selectedGem.getItem();
 
                     if (inventory.getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
-                        message += "\n" + languageContext.withRoot("commands", "mine.gem.overflow");
+                        message += "\n" + languageContext.get("commands.mine.gem.overflow");
                         money += itemGem.getValue() * 0.9;
                     } else {
                         inventory.process(selectedGem);
-                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.gem.success")
+                        message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.gem.success")
                                 .formatted(itemGem.getEmoji() + " x" + selectedGem.getAmount());
                     }
 
@@ -232,34 +211,18 @@ public class CurrencyActionCmds {
                     money += random.nextInt(bonus);
                 }
 
-                //Sparkle find
-                var sparkleChance = 401; // Impossible w/o, since a bound of 400 should always drop less than 401
-                if (item == ItemReference.MOON_PICK || item == ItemReference.STAR_PICKAXE) {
-                    sparkleChance = 390;
-                }
-
-                if (item == ItemReference.SPARKLE_PICKAXE) {
-                    sparkleChance = 385;
-                }
-
-                if (item == ItemReference.HELLFIRE_PICK) {
-                    sparkleChance = 380;
-                }
-
-                if (sparkleChance <= 385 && petHelp) {
-                    sparkleChance = sparkleChance - 5;
-                }
-
+                // Sparkle find
+                var sparkleChance = item.getSparkleLuck();
                 if (random.nextInt(400) >= sparkleChance) {
                     var gem = ItemReference.SPARKLE_FRAGMENT;
 
                     if (inventory.getAmount(gem) + 1 >= 5000) {
-                        message += "\n" + languageContext.withRoot("commands", "mine.sparkle.overflow");
+                        message += "\n" + languageContext.get("commands.mine.sparkle.overflow");
                         money += gem.getValue() * 0.9;
                     } else {
                         inventory.process(new ItemStack(gem, 1));
                         message += "\n" + EmoteReference.MEGA +
-                                languageContext.withRoot("commands", "mine.sparkle.success").formatted(gem.getEmoji());
+                                languageContext.get("commands.mine.sparkle.success").formatted(gem.getEmoji());
                     }
 
                     playerData.addBadgeIfAbsent(Badge.GEM_FINDER);
@@ -269,10 +232,10 @@ public class CurrencyActionCmds {
                     var crate = dbUser.isPremium() ? ItemReference.MINE_PREMIUM_CRATE : ItemReference.MINE_CRATE;
 
                     if (inventory.getAmount(crate) + 1 > 5000) {
-                        message += "\n" + languageContext.withRoot("commands", "mine.crate.overflow");
+                        message += "\n" + languageContext.get("commands.mine.crate.overflow");
                     } else {
                         inventory.process(new ItemStack(crate, 1));
-                        message += "\n" + EmoteReference.MEGA + languageContext.withRoot("commands", "mine.crate.success")
+                        message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.crate.success")
                                 .formatted(crate.getEmoji(), crate.getName());
                     }
                 }
@@ -290,7 +253,7 @@ public class CurrencyActionCmds {
                     player.addMoney(money);
                 }
 
-                //Due to badges.
+                // Due to badges.
                 player.saveUpdating();
 
                 if (marriage != null) {
