@@ -83,7 +83,7 @@ public class BirthdayOptions extends OptionHandler {
                     return;
                 }
 
-                if (!ctx.getMember().hasPermission(Permission.MANAGE_ROLES)) {
+                if (!ctx.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
                     ctx.sendLocalized("options.birthday_test.no_role_permission", EmoteReference.ERROR);
                     return;
                 }
