@@ -64,7 +64,7 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup dan meningkatkan pelayan Mantaro!\nAnda boleh mendapat faedah yang luar biasa dan **sehingga dua kali ganda kredit dengan Mantaro Premium**!\nKeahlian bermula dari $2 sebulan, harga makanan ringan! Lihat lebih lanjut di <https://patreon.com/mantaro>. Cara penyebaran berita juga membantu :heart:",
-        "daily_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup! Anda boleh mendapatkan faedah yang luar biasa dan **dua kali ganda kredit harian** serta mendapatkan akses ke `~>dailycrate`! Keahlian bermula hanya $2 sebulan, lihat lebih lanjut di <https://patreon.com/mantaro>.",
+        "daily_sellout": "Kami memerlukan bantuan anda untuk memastikan Mantaro tetap hidup! Anda boleh mendapatkan faedah yang luar biasa dan **dua kali ganda kredit harian** serta akses ke `~>dailycrate`! Keahlian bermula dari $2 sebulan sahaja, lihat lebih lanjut di <https://patreon.com/mantaro>.",
         "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
         "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
       },
@@ -100,7 +100,7 @@
       "U-Uhh.. Apa yang anda mahukan?"
     ],
     "ratelimit_quotes": [
-      "Woah... anda memanggil saya terlalu pantas... saya mungkin akan pening!",
+      "Woah... awak memanggil saya terlalu pantas... saya mungkin akan pening!",
       "Jangan tamak!",
       "A-Anda memanggil saya begitu pantas sehingga saya menjadi pening...",
       "Berhenti di sana kawan!",
@@ -172,7 +172,7 @@
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang lembut.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
       "yourself_note": "%1$sMengapa anda cuba melarang lembut diri sendiri?",
-      "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, mereka lebih tinggi atau hierarki yang sama daripada saya!",
+      "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s. **(%3$s dilarang lembut)**",
       "error": "%1$sRalat larangan lembut [%2$s]: (Tidak ada kebenaran yang diberikan: %3$s)",
       "unknown_error": "%1$sRalat tidak diketahui semasa melarang lembut %2$s: *(Ralat? %3$s: %4$s)*"
@@ -183,7 +183,7 @@
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang pengguna yang lebih tinggi daripada anda dalam hierarki pelayan! Cubaan yang baik %2$s",
       "yourself_note": "%1$sMengapa anda cuba melarang diri sendiri, bodoh?",
-      "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, mereka lebih tinggi atau hierarki yang sama daripada saya!",
+      "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s (%3$s dilarang)",
       "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
       "error": "%1$sRalat melarang %2$s: (Saya memerlukan kebenaran %3$s)",
@@ -195,14 +195,14 @@
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
       "yourself_note": "%1$sMengapa anda cuba menendang diri sendiri, bodoh?",
-      "self_hierarchy_conflict": "%1$sTidak dapat menendang ahli: %2$s, mereka lebih tinggi atau hierarki yang sama dengan saya!",
+      "self_hierarchy_conflict": "%1$sTidak dapat menendang ahli: %2$s, dia lebih tinggi atau hierarki yang sama dengan saya!",
       "success": "%1$s%2$s (%3$s ditendang)",
       "error": "%1$sRalat menendang %2$s: (Tidak ada kebenaran yang diberikan: %3$s)",
       "unknown_error": "%1$sRalat yang tidak diketahui semasa cuba menendang %2$s"
     },
     "music_usage": {
       "1": "*Bagaimanakah menggunakan muzik di Mantaro?*",
-      "2": "- Untuk **antrian lagu dari youtube atau soundcloud** gunakan `~>play` Contohnya: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Ia akan bersambung secara automatik ke saluran suara anda berada dalam*",
+      "2": "- Untuk **mengantri lagu dari youtube atau soundcloud** gunakan `~>play` Contohnya: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Ia akan bersambung secara automatik ke saluran suara anda berada dalam*",
       "3": "- Untuk **mencari lagu di youtube** gunakan `~>play <search term>` (tanpa huruf utama < dan >) ​​Contohnya: `~>play see you again` (Anda perlu memilih nombor, hanya *taipkan nombor* setelah kotak pilihan muncul!)",
       "4": "- Untuk **mencari lagu di soundcloud** gunakan `~>play soundcloud <search term>` Contohnya `~>play soundcloud hot milk`",
       "5": "- Untuk **memeriksa antrian** anda hanya menaip `~>queue`",
@@ -324,7 +324,7 @@
     },
     "move": {
       "no_voice": "%1$sAnda tidak tersambung ke saluran suara, ataupun bot tidak tersambung.",
-      "attempt": "%1$sSaya akan cuba berpindah ke saluran yang anda berada",
+      "attempt": "%1$sSaya akan cuba berpindah ke saluran yang anda berada dalam",
       "error_moving": "%1$sGagal menukar saluran suara.",
       "cannot_connect": "%1$sTidak dapat menyambung: Sama ada saya tidak mempunyai kebenaran untuk bersuara atau memindah saluran.",
       "non_existent_channel": "%1$sSaya tidak boleh berpindah ke saluran yang tidak wujud!",
@@ -493,49 +493,49 @@
         "not_locked": "%1$sArahan ini tidak dikunci.",
         "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
       },
-      "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
-      "name_too_long": "%1$sName is too long.",
-      "no_cc": "%1$sThere's no Custom Commands registered in this Guild, just a bit of dust.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
-      "invalid_link": "%1$sThe string `%2$s` isn't a valid link.",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
+      "character_not_allowed": "%1$sAksara ini tidak dibenarkan dalam nama arahan kustom.",
+      "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot yang telah ditetapkan.",
+      "name_too_long": "%1$sNama terlalu panjang.",
+      "no_cc": "%1$sTiada Arahan Kustom yang didaftarkan di Pelayan ini, hanya ada habuk.",
+      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan asli.**\n- Jika anda merupakan admin (mempunyai peranan Komander Bot atau kebenaran Manage Server), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
+      "not_found": "%1$sTidak ada Arahan Kustom `%2$s` dalam Pelayan ini.",
+      "invalid_image": "%1$sArahan ini mengandungi imej yang tidak sah, sila membaikinya...",
+      "invalid_string": "%1$sTalian `{%2$s}` tidak sah, ataupun responsnya lebih panjang daripada 2000 aksara.",
+      "invalid_json": "%1$sTalian `{%2$s}` bukan JSON yang sah.",
+      "invalid_link": "%1$sTalian `%2$s` bukan pautan yang sah.",
+      "locked_command": "%1$sAnda tidak boleh mengedit atau memadamkan arahan ini kerana ia telah dikunci, sila jalankan `~>custom unlockcommand <command name>` untuk membukanya."
     },
     "mute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-      "no_time": "%1$sYou didn't specify any time. Remember that you need to add the `-time` argument and specify it there.",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
-      "success": "%1$sAdded mute role to **%2$s** for around %3$s"
+      "no_permissions": "%1$sAnda memerlukan kebenaran Ban Members atau Kick Members untuk membisukan.",
+      "no_mute_role": "%1$sPeranan bisu belum ditetapkan dalam pelayan ini, anda boleh menetapkannya dengan menjalankan `~>opts muterole set <role>`",
+      "null_mute_role": "%1$sPeranan bisu yang ditetapkan dalam pelayan ini tidak lagi berwujud.",
+      "no_users": "%1$sAnda harus memberi saya ahli untuk membisukan.",
+      "no_manage_roles": "%1$sSaya tidak mempunyai kebenaran untuk menguruskan peranan dalam pelayan ini.",
+      "no_time": "%1$sAnda tidak menyatakan tempoh masa. Anda diingatkan supaya menambah argumen `-time` dan menyatakan tempoh di situ.",
+      "time_not_specified": "%1$sAnda menginginkan masa tetapi tidak menyatakan tempohnya.",
+      "negative_time_notice": "%1$sAnda tidak boleh membisukan sesorang selama tempoh masa yang negatif. Melainkan jika anda boleh bengkokkan masa angkasa.",
+      "default_time_too_long": "%1$sTempoh bisu yang ditetapkan terlalu panjang (Maksimum: 10 hari)...",
+      "time_too_little": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
+      "time_too_long": "%1$sTempoh bisu yang dinyatakan terlalu panjang (Maksimum: 10 hari)...",
+      "already_muted": "%1$sPengguna ini sudah diberi peranan bisu. Sila jalankan `~>unmute` untuk membenarkan dia bersuara.",
+      "self_hierarchy_error": "%1$sSaya tidak dapat memberikan peranan bisu kepada pengguna ini kerana dia dalam hierarki yang lebih tinggi daripada saya, ataupun peranannya dalam hierarki yang lebih tinggi!",
+      "user_hierarchy_error": "%1$sSaya tidak dapat memberikan peranan bisu kepada pengguna ini kerana dia dalam hierarki yang lebih tinggi daripada saya, ataupun peranannya dalam hierarki yang lebih tinggi daripada anda!",
+      "success": "%1$s**%2$s** telah diberi peranan bisu selama lebih kurang %3$s"
     },
     "unmute": {
-      "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_permissions": "%1$sAnda memerlukan kebenaran Ban Members atau Kick Members untuk membenarkan bersuara!",
+      "no_mentions": "%1$sAnda perlu menyebut sekurang-kurangnya satu pengguna untuk dibenarkan bersuara.",
+      "success": "%1$sPeranan bisu **%2$s** telah disingkirkan",
+      "no_role_assigned": "%1$sPengguna ini tidak diberi peranan bisu."
     },
     "ping": {
       "display": [
-        "W-Was I fast enough?",
-        "What are you doing?",
-        "W-What are you looking at?!",
+        "A-Adakah saya cukup pantas?",
+        "Apa yang awak buat?",
+        "A-Awak tengok apa?!",
         "Huh.",
-        "Did I do well?",
-        "What do you think?",
+        "Adakah saya menjalankannya dengan lancar?",
+        "Apakah fikiran anda?",
         "Does this happen often?",
         "Am I performing p-properly?",
         "<3",
@@ -558,7 +558,7 @@
       "nice": "Good match!",
       "perfect": "Perfect match!",
       "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
-      "header": "Love Meter",
+      "header": "Meter Cinta",
       "result": "Result:"
     },
     "marry": {
@@ -1421,11 +1421,11 @@
         "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
       },
       "remove": {
-        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk disingkirkan. (Pilihan: %2$s)",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dipinggirkan. (Pilihan: %2$s)",
         "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAdakah anda pasti akan menyingkirkan haiwan peliharaan ini? Anda akan menerima %2$s kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru.",
+        "confirm_personal": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Anda akan menerima %2$s kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
-        "success_personal": "%1$sHaiwan peliharaan telah disingkirkan. Anda menerima %2$s sebagai bayaran balik."
+        "success_personal": "%1$sHaiwan peliharaan telah dipinggirkan. Anda menerima %2$s sebagai bayaran balik."
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
