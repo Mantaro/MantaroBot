@@ -16,7 +16,23 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special.helpers;
 
-public interface Attributes {
+import org.apache.commons.lang3.StringUtils;
+
+public interface Attribute extends Breakable {
     int getTier();
     String buildAttributes();
+    String getExplanation();
+    Type getType();
+
+    default String getTierStars() {
+        return StringUtils.repeat('⭐', getTier());
+    }
+
+    default String getTierStars(int stars) {
+        if (stars == -1 || stars == 0) {
+            return "none";
+        }
+
+        return StringUtils.repeat('⭐', stars);
+    }
 }

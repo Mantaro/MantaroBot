@@ -18,32 +18,35 @@ package net.kodehawa.mantarobot.commands.currency.item.special;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attributes;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Type;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Pickaxe extends Item implements Castable, Breakable, Salvageable, Attributes {
+public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
     // Wrench level, basically.
     private final int castLevelRequired;
     private final int maximumCastAmount;
     private final int maxDurability;
     private final int moneyIncrease;
     private final List<Integer> salvageReturns;
+    private final String description;
+    private final int rarity;
+
+    // This ones have default attributes.
     private int diamondIncrease = 2;
     private int sparkleLuck = 401; // Bound: 400
     private int gemLuck = 340; // Bound: 400
-    private final int rarity;
 
     public Pickaxe(ItemType type, int castLevelRequired, int maximumCastAmount,
                    String emoji, String name, String translatedName,
                    String desc, long value, boolean sellable, boolean buyable, String recipe,
-                   int maxDurability, int moneyIncrease, int rarity, int... recipeTypes) {
+                   int maxDurability, int moneyIncrease, int rarity, String description, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
@@ -51,16 +54,17 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable, A
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
         this.rarity = rarity;
+        this.description = description;
     }
 
     // I can barely read this, so let me break it down:
     // Item type, item emoji, name, localized name, description, wrench tier to cast it, maximum amount to cast at once
     // item value, sellable, buyable, item recipe (amount), max durability, amount of money more it can give,
-    // amount of extra diamonds it can give, sparkle find rate, gem find rate, item rarity, item recipe (items)
+    // amount of extra diamonds it can give, sparkle find rate, gem find rate, item rarity, description, item recipe (items)
     public Pickaxe(ItemType type, String emoji, String name, String translatedName, String desc,
                    int castLevelRequired, int maximumCastAmount, long value, boolean sellable, boolean buyable,
                    String recipe,  int maxDurability, int moneyIncrease, int diamondIncrease, int sparkleLuck,
-                   int gemLuck, int rarity, int... recipeTypes) {
+                   int gemLuck, int rarity, String description, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.castLevelRequired = castLevelRequired;
         this.maximumCastAmount = maximumCastAmount;
@@ -71,10 +75,11 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable, A
         this.sparkleLuck = sparkleLuck;
         this.gemLuck = gemLuck;
         this.rarity = rarity;
+        this.description = description;
     }
 
     public Pickaxe(ItemType type, String emoji, String name, String translatedName,
-                   String desc, long value, boolean buyable, int maxDurability, int moneyIncrease, int rarity) {
+                   String desc, long value, boolean buyable, int maxDurability, int moneyIncrease, int rarity, String description) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.castLevelRequired = -1;
         this.maximumCastAmount = -1;
@@ -82,6 +87,7 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable, A
         this.moneyIncrease = moneyIncrease;
         this.salvageReturns = Collections.emptyList();
         this.rarity = rarity;
+        this.description = description;
     }
 
     @Override
@@ -93,17 +99,26 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable, A
     // TODO: Localize
     public String buildAttributes() {
         return """
-                Maximum Durability: %,d
-                Wrench Tier Required: %,d
-                Maximum Cast Amount: %,d
-                Money Increase: %,d
-                Diamond Increase: %,d
-                Sparkle Luck: %,d
-                Gem Luck: %,d
+                **Wrench Tier (to craft):**\u2009 %s
+                **Money Increase:**\u2009 %,d - %,d credits
+                **Diamond Increase:**\u2009 1 - %,d
+                **Sparkle / Gem Luck (%%):**\u2009 %,.1f%% / %,.1f%%
                 """.formatted(
-                        getMaxDurability(), getCastLevelRequired(), getMaximumCastAmount(),
-                        getMoneyIncrease(), getDiamondIncrease(), getSparkleLuck(), getGemLuck()
+                        getTierStars(getCastLevelRequired()), (getMoneyIncrease() / 4),
+                        getMoneyIncrease(), getDiamondIncrease(),
+                        getChance(0, 400, getSparkleLuck()),
+                        getChance(0, 400, getGemLuck())
                 );
+    }
+
+    @Override
+    public String getExplanation() {
+        return description;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.MINING;
     }
 
     @Override
@@ -137,5 +152,13 @@ public class Pickaxe extends Item implements Castable, Breakable, Salvageable, A
 
     public int getGemLuck() {
         return gemLuck;
+    }
+
+    public double getChance(int min, int max, int target) {
+        if (target > max) {
+            return 0f;
+        }
+
+        return ((double) (max - target) / (max - min)) * 100;
     }
 }
