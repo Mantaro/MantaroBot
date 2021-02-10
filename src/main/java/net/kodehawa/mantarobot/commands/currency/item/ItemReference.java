@@ -356,7 +356,7 @@ public class ItemReference {
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 180, 100, 3,
+                    "1;2;7", 180, 100, 340,3,
                     "items.explanation.comet_pick", 10, 48, 101
             ),
 
@@ -658,7 +658,7 @@ public class ItemReference {
                     "1;2;3;3", 200, 44, 83, 76, 101
             ),
 
-            HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 14,
+            HELLFIRE_ROD = new FishRod(ItemType.FISHROD_RARE_NODROP, 24,
                     3, 4, EmoteReference.HELLFIRE_ROD.getDiscordNotation(),
                     "Hellfire Rod", "items.hellfire_rod", "items.description.hellfire_rod",
                     "items.explanation.hellfire_rod", 7, 15000,

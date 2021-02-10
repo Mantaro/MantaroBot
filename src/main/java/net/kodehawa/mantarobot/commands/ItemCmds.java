@@ -348,12 +348,13 @@ public class ItemCmds {
                     );
 
                     if (item instanceof Attribute) {
-                        fieldDescription = "%s\n**%s** %s %s.\n**Quality: ** %s\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
+                        fieldDescription = "%s\n**%s** %s %s.\n**Quality: ** %s\n**Durability: ** %,d\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
                                 languageContext.get(item.getDesc()),
                                 languageContext.get("commands.cast.ls.cost"),
                                 item.getValue() / 2,
                                 languageContext.get("commands.gamble.credits"),
                                 ((Attribute) item).getTierStars(),
+                                ((Attribute) item).getMaxDurability(),
                                 recipe, castLevel
                         );
                     }

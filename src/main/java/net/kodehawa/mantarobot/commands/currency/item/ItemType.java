@@ -60,8 +60,8 @@ public enum ItemType {
 
     // Axes
     CHOP_AXE(true, "items.categories.chop_axe"),
-    CHOP_RARE_AXE(true, "items.categories.chop_rare_axe"),
-    CHOP_RARE_AXE_NODROP(true, "items.categories.chop_rare_axe"),
+    CHOP_RARE_AXE(true, "items.categories.chop_axe_rare"),
+    CHOP_RARE_AXE_NODROP(true, "items.categories.chop_axe_rare"),
 
     // Broken items
     BROKEN(false, "items.categories.broken"),
