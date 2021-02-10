@@ -1330,11 +1330,12 @@
       "e926_nsfw_notice": "%1$sLa commande e926 ne peut être utilisée que dans les canaux NSFW. Les images sont majoritairement saines, mais les classements sont inconstants."
     },
     "pet": {
-      "explanation": "Les animaux sont d'utiles compagnon pécuniaires!\nIls t'aident à accumuler plus d'argent, plus de loot, trouver plus d'objets dans 'mine', dans 'chop' et dans 'fish'. Plus ils sont haut niveaux, plus il y a de récompenses.\nChoisir le meilleur animal pour tes activités est très important, donc vérifie bien le type et les capacités de l'animal que tu désires.\nN'oublie pas que tu dois nourrir ton animal et lui donner de l'eau, ainsi que le laisser se reposer pour recharger son énergie, comme un vrai animal de compagnie! Tu peux même le caresser :)\nPour plus d'aide, utilise `~>help pet` et `~>pet list` pour une liste de tous les animaux.",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
       "no_marriage": "%1$sTu dois être marié.e pour avoir un animal de compagnie. Pour l'instant. Regarde `~>help marry` et `~>pet`",
       "no_marriage_other": "%1$s%2$sDoit être marié.e pour avoir un animal de compagnie. Pour l'instant. Regarde `~>help marry` et `~>pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
         "header": "Statut de %1$s",
         "description": "N'oublie pas de t'occuper de ton animal et l'aimer :heart:\nVoir `~>pet` et`~>help pet` pour une explication.",
         "cost": "Prix",
@@ -1352,6 +1353,11 @@
         "buildup_stats_credits": "%1$,d crédits",
         "footer": "Merci d'utiliser Mantaro! <3"
       },
+      "choice": {
+        "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
+        "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
+      },
       "level": {
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
@@ -1361,7 +1367,7 @@
         "header": "%1$s**Animaux disponibles**\n\n%2$s\n\n%3$s**Explication des capacités:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$sn'a pas d'animaux à caresser. Voir `~>pet` pour plus d'information.",
         "too_many": "Comment as-tu obtenu autant de caresses?"
       },
@@ -1386,7 +1392,7 @@
         "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_content": "%1$sTu dois spécifier ce que tu veux donner à manger à ton animal. Par exemple, `~>pet feed steak`",
         "no_item": "%1$sJe n'ai pas trouvé l'objet que tu as spécifié.",
         "not_food": "%1$sOulah doucement! Ce n'est pas de la nourriture, pas même en cas d'urgence!",
@@ -1397,7 +1403,7 @@
         "too_much": "%1$sDonne lui peut-être moins de nourriture? Tu vas gaspiller sinon! (L'augmentation surpasse 100%%)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_need": "%1$sTon animal n'a pas soif pour le moment.",
         "not_inventory": "%1$sTu n'as pas de bouteille d'eau dans ton inventaire. Assure-toi d'en avoir.",
         "not_enough_inventory": "%1$sTu n'as pas assez de bouteilles dans ton inventaire! Tu en as besoin de %2$s.",
@@ -1416,18 +1422,18 @@
         "success_mine": "%1$s**%2$s**t'a aidé à miner avec succès! Tu as eu une amélioration et des crédits en bonus **(%3$,d crédits en plus et une chance supplémentaire de trouver des choses)** grâce au travail en plus que ton animal a pu faire pour toi!\n *inclus dans ce que tu as obtenu*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
         "same_name": "%1$sCe nom est le même que celui qu'il a déjà.",
         "no_content": "%1$sTu dois me donner le nouveau nom de ton animal de compagnie.",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour faire ça. Cout: %2%s, possédé: %3$s.",
         "success": "%1$sJ'ai bien renommé ton animal de `%2$s` pour `%3$s`. %4$s a été déduit de ton portefeuille. Profite!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
         "confirm": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$s crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit qu'il ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
         "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$s credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sAnimal de compagnie enlevé avec succès. Chaque membre de ce mariage recevras %2$s crédits de remboursement.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s as a refund."
+        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
       "info": {
         "not_found": "%1$sJe ne trouve pas le type d'animal que tu cherches. Utilise `~>pet list` pour avoir la liste des types d'animaux.",
@@ -1696,7 +1702,8 @@
       },
       "gem": {
         "overflow": "Huh, Tu as trouvé un *%1$s* mais tu en avais déjà trop donc je l'ai vendu pour toi.",
-        "success": "Huh! Quelle chance, tu as trouvé un *%1$s* en minant ! Regarde dans ton inventaire !"
+        "success": "Huh! Quelle chance, tu as trouvé un *%1$s* en minant ! Regarde dans ton inventaire !",
+        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
       },
       "sparkle": {
         "overflow": "Tu as trouvé des paillettes mais tu en avais déjà trop donc je les ai vendues pour toi.",
