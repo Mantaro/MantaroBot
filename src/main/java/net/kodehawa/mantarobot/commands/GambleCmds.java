@@ -166,6 +166,8 @@ public class GambleCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("gamble", "bet");
     }
 
     @Subscribe
