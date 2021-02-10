@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.utils.Pair;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -172,7 +173,7 @@ public class PetCmds {
                 player.getData().setPetChoice(choice);
                 player.saveUpdating();
 
-                ctx.sendLocalized("commands.pet.choice.success", EmoteReference.CORRECT);
+                ctx.sendLocalized("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()), EmoteReference.POPPER);
             }
         });
 
@@ -873,17 +874,41 @@ public class PetCmds {
         }
     }
 
-    private HousePet getCurrentPet(Context ctx, Player player, Marriage marriage, String missing) {
+    private Pair<PetChoice, HousePet> getPetOpposite(Context ctx, Player player, Marriage marriage) {
         final var playerData = player.getData();
         final var petChoice = playerData.getActiveChoice(marriage);
         if (petChoice == PetChoice.PERSONAL) {
-            final var pet = playerData.getPet();
-            if (pet == null) {
-                ctx.sendLocalized(missing, EmoteReference.ERROR, petChoice.getReadableName());
+            if (marriage == null) {
+                // Technically the opposite...
+                return Pair.of(PetChoice.MARRIAGE, null);
+            }
+
+            final var marriageData = marriage.getData();
+            return Pair.of(PetChoice.MARRIAGE, marriageData.getPet());
+        } else {
+            return Pair.of(PetChoice.PERSONAL, playerData.getPet());
+        }
+    }
+
+    private HousePet getCurrentPet(Context ctx, Player player, Marriage marriage, String missing) {
+        final var playerData = player.getData();
+        final var petChoice = playerData.getActiveChoice(marriage);
+        final var languageContext = ctx.getLanguageContext();
+
+        if (petChoice == PetChoice.PERSONAL) {
+            final var personalPet = playerData.getPet();
+            if (personalPet == null) {
+                var opposite = getPetOpposite(ctx, player, marriage);
+                var oppositePet = opposite.getRight();
+                var extra = oppositePet == null ? "" :
+                     languageContext.get("commands.pet.status.pet_in_other_category")
+                            .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
+
+                ctx.sendLocalized(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
             }
 
-            return pet;
+            return personalPet;
         } else {
             if (marriage == null) {
                 ctx.sendLocalized("commands.pet.no_marriage", EmoteReference.ERROR);
@@ -891,13 +916,19 @@ public class PetCmds {
             }
 
             final var marriageData = marriage.getData();
-            final var pet = marriageData.getPet();
-            if (pet == null) {
-                ctx.sendLocalized(missing, EmoteReference.ERROR, petChoice.getReadableName());
+            final var marriagePet = marriageData.getPet();
+            if (marriagePet == null) {
+                var opposite = getPetOpposite(ctx, player, marriage);
+                var oppositePet = opposite.getRight();
+                var extra = oppositePet == null ? "" :
+                        languageContext.get("commands.pet.status.pet_in_other_category")
+                             .formatted(EmoteReference.WARNING, Utils.capitalize(opposite.getLeft().toString()), oppositePet.getName());
+
+                ctx.sendLocalized(missing, EmoteReference.ERROR, petChoice.getReadableName(), extra);
                 return null;
             }
 
-            return pet;
+            return marriagePet;
         }
     }
 }

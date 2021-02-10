@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.profile;
 
 import net.dv8tion.jda.internal.utils.IOUtil;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import org.slf4j.Logger;
@@ -141,6 +142,23 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 200, false
     ),
 
+    DEPTHS_OF_HELL("Depths of Hell", "", "Have all 3 Hellfire tools equipped",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    HOT_MINER("Hot Miner", "", "Get a Hellfire Pickaxe", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    HOT_FISHER("Hot Fisher", "", "Get a Hellfire Fish Rod", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    HOT_CHOPPER("Hot Chopper", "", "Get a Hellfire Axe", 91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     MOST_KNOWN("Most known", "\uD83E\uDD47",
             "Earn 1000 reputation.",
             91, 92,
@@ -151,6 +169,11 @@ public enum Badge {
             "Get waifu claimed 1,000 times (how?).",
             91, 92,
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1000, false
+    ),
+
+    RICH("Rich", "", "Get 100 million credits. That's *really* a lot of money.",
+            91, 92,
+            (player, dbUser) -> player.getCurrentMoney() >= 100_000_000, false
     ),
 
     BI_YEARLY_CLAIMER("Bi-Yearly Claimer", "\uD83D\uDD65",
@@ -169,6 +192,22 @@ public enum Badge {
             "See yourself in a leaderboard.",
             91, 92,
             (player, dbUser) -> false, false
+    ),
+
+    BIG_MONEY("Big Money", "", "Get 10 million credits. That's a lot of money.",
+            91, 92,
+            (player, dbUser) -> player.getCurrentMoney() >= 10_000_000, false
+    ),
+
+    THE_BEST_FRIEND("The Best Friend", "", "Get a Kodehawa pet.",
+            91, 92,
+            (player, dbUser) -> player.getData().getPet() != null && player.getData().getPet().getType() == HousePetType.KODE, false
+    ),
+
+    EXPERT_GAMER("Expert Gamer", "",
+            "Win 5000 games.",
+            91, 92,
+            (player, dbUser) -> player.getData().getGamesWon() >= 5000, false
     ),
 
     EXPERIENCED_BADGE_HUNTER("Experienced Badge Hunter", "\uD83D\uDD2B",
@@ -213,6 +252,11 @@ public enum Badge {
             (player,  dbUser) -> player.getData().getBadges().size() > 40, false
     ),
 
+    EXPERT_PET_OWNER("Expert Pet Owner", "", "Get your pet to level 100",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     //Win more than 1000 games
     ADDICTED_GAMER("Addicted Gamer", "\uD83C\uDFAE",
             "Win 1000 games.",
@@ -232,6 +276,11 @@ public enum Badge {
             (player, dbUser) -> player.getData().getSharksCaught() >= 35, false
     ),
 
+    MILLIONARE("Millionare", "", "Get your very own million credits.",
+            91, 92,
+            (player, dbUser) -> player.getCurrentMoney() >= 1_000_000, false
+    ),
+
     BIG_CLAIMER("Big Claimer", "\uD83C\uDF8A",
             "Claim daily more than 180 days in a row.",
             91, 92,
@@ -241,6 +290,11 @@ public enum Badge {
     LUCKY("Lucky", "\uD83C\uDF40",
             "Be lucky enough to loot a loot crate.",
             92, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    EXPERIENCED_PET_OWNER("Experienced Pet Owner", "", "Get your pet to level 50",
+            91, 92,
             (player, dbUser) -> false, false
     ),
 
@@ -270,6 +324,20 @@ public enum Badge {
             ((player, dbUser) -> player.getData().getChopExperience() > 10000), false
     ),
 
+    BEST_FRIEND("Best Friend", "", "Buy your very own pet",
+            91, 92,
+            (player, dbUser) -> player.getData().getPet() != null, false
+    ),
+
+    BEST_FRIEND_MARRY("Our Best Friend", "", "Get a marriage pet.",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    ITEM_BREAKER("Item Breaker", "", "Break 25 tools",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
 
     CELEBRITY("Celebrity", "\uD83E\uDD48",
             "Earn 100 reputation.",
@@ -355,6 +423,21 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 50, false
     ),
 
+    CASTER("Caster", "", "Cast more than 50 items",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    REPAIR_PERSON("Repair Person", "", "Repair an item more than 50 times",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
+    SALVAGER("Salvager", "", "Salvage an item more than 50 times",
+            91, 92,
+            (player, dbUser) -> false, false
+    ),
+
     FIRST_MINER("First Time Miner", "<:comet_pick:492882142788059146>",
             "Get more than 1,000 mining experience.",
             91, 92,
@@ -419,6 +502,11 @@ public enum Badge {
             "Succesfully use market buy or sell more than 1,000 times.",
             91, 92,
             (player, dbUser) -> player.getData().getMarketUsed() > 1000, false
+    ),
+
+    DUSTY("Dusty", "", "Get 100% dust level",
+            91, 92,
+            (player, dbUser) -> false, false
     ),
 
     FIRE("Fire", "\uD83D\uDD25",

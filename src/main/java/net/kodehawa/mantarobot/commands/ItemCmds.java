@@ -897,7 +897,6 @@ public class ItemCmds {
                             item.getEmoji(), item.getName(), translatedName, type, description
                     );
                 }
-
             }
 
             @Override
