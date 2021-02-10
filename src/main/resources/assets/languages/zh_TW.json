@@ -1330,11 +1330,12 @@
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
-      "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
       "no_marriage": "%1$s你需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`",
       "no_marriage_other": "%1$s%2$s 需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
         "header": "%1$s 的狀態",
         "description": "記得定時照顧你的寵物 :heart:\n查看 `~>pet` 和 `~>help pet` 獲得更多說明。",
         "cost": "價格",
@@ -1352,6 +1353,11 @@
         "buildup_stats_credits": "%1$,d credits",
         "footer": "感謝使用Mantaro！<3"
       },
+      "choice": {
+        "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
+        "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
+      },
       "level": {
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
@@ -1361,7 +1367,7 @@
         "header": "%1$s**目前可用的寵物**\n\n%2$s\n\n%3$s**能力說明：**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
@@ -1386,7 +1392,7 @@
         "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_content": "%1$s你需要指出要用來餵養寵物的食物。像是，`~>pet feed steak`",
         "no_item": "%1$s找不到你指定的物品。",
         "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
@@ -1397,7 +1403,7 @@
         "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
@@ -1416,18 +1422,18 @@
         "success_mine": "%1$s**%2$s** 幫助你挖礦了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和額外的物品掉落機會)**！*已經包含在你得到的掉落物中*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
         "same_name": "%1$s你指定的名稱跟目前的一樣。",
         "no_content": "%1$s你需要指定你寵物的新名稱。",
         "not_enough_money": "%1$s你沒有足夠的錢來這樣做。價格：%2%s，你擁有：%3$s。",
         "success": "%1$s成功將你的寵物 `%2$s` 重命名為 `%3$s`。已經從你的錢包扣除 %4$s 元，好好享受吧！"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)",
+        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
         "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
         "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$s credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s as a refund."
+        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
       "info": {
         "not_found": "%1$s找不到你指出的寵物類型。使用`~>pet list` 查看現有的類型。",
@@ -1696,7 +1702,8 @@
       },
       "gem": {
         "overflow": "你在採礦時時發現了 *%1$s*，但是你已經擁有太多了，所以我為你出售了。",
-        "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。"
+        "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。",
+        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
       },
       "sparkle": {
         "overflow": "你找到了閃閃發光的寶石，不過你好像已經擁有太多了，所以我為你出售了。",
