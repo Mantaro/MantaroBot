@@ -59,7 +59,7 @@ public class BirthdayCacher {
                 cachedBirthdays.clear();
 
                 for (Map<Object, Object> r : m) {
-                    var id = Long.parseLong(String.valueOf(r.get("id")));
+                    var id = Long.parseUnsignedLong(String.valueOf(r.get("id")));
                     // Why?
                     if (cachedBirthdays.containsKey(id))
                         continue;

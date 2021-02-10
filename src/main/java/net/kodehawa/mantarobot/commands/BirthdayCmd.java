@@ -209,7 +209,7 @@ public class BirthdayCmd {
 
                         var guild = ctx.getGuild();
                         var data = ctx.getDBGuild().getData();
-                        var ids = data.getAllowedBirthdays().stream().map(Long::parseLong).collect(Collectors.toList());
+                        var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
 
                         if (ids.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
@@ -288,7 +288,7 @@ public class BirthdayCmd {
                         }
 
                         var data = ctx.getDBGuild().getData();
-                        var ids = data.getAllowedBirthdays().stream().map(Long::parseLong).collect(Collectors.toList());
+                        var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
                         var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
 
                         if (ids.isEmpty()) {
