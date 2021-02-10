@@ -33,6 +33,8 @@ public class HousePet {
     private int health = 100;
     private int hunger = 100;
     private int thirst = 100;
+    private int mood = 100;
+    private int dust = 0;
     private int patCounter;
     private long experience;
     private long level = 1;
@@ -150,6 +152,43 @@ public class HousePet {
         this.thirst = Math.min(100, thirst + by);
     }
 
+    public void increaseDust() {
+        var defaultIncrease = 2;
+        var dusty = dust + defaultIncrease;
+        if (dusty >= 100) {
+            this.dust = 100;
+            return;
+        }
+
+        this.dust = Math.min(100, dusty);
+    }
+
+    public void decreaseDust(int by) {
+        if (thirst < 1) {
+            return;
+        }
+
+        this.dust = Math.max(1, dust - by);
+    }
+
+    public void increaseMood(int by) {
+        if (mood >= 100) {
+            this.mood = 100;
+            return;
+        }
+
+        this.mood = Math.min(100, mood + by);
+    }
+
+    public void decreaseMood() {
+        var defaultDecrease = 2;
+        if (mood < 1) {
+            return;
+        }
+
+        this.mood = Math.max(1, mood - defaultDecrease);
+    }
+
     public int getHunger() {
         return hunger;
     }
@@ -190,6 +229,22 @@ public class HousePet {
         this.level = level;
     }
 
+    public int getMood() {
+        return mood;
+    }
+
+    public void setMood(int mood) {
+        this.mood = mood;
+    }
+
+    public int getDust() {
+        return dust;
+    }
+
+    public void setDust(int dust) {
+        this.dust = dust;
+    }
+
     @JsonIgnore
     public long experienceToNextLevel() {
         return (long) ((getLevel() * Math.log10(getLevel()) * 1000) + (50 * getLevel() / 2D));
@@ -224,6 +279,8 @@ public class HousePet {
         decreaseHealth();
         decreaseHunger();
         decreaseThirst();
+        decreaseMood();
+        increaseDust();
         increaseExperience();
 
         return neededAbility.getPassActivity();
@@ -292,6 +349,8 @@ public class HousePet {
         LOW_HEALTH(false, "commands.pet.activity.low_health"),
         LOW_HUNGER(false, "commands.pet.activity.low_hunger"),
         LOW_THIRST(false, "commands.pet.activity.low_thirst"),
+        LOW_MOOD(false, "commands.pet.activity.low_mood"),
+        DUSTY(false, "commands.pet.activity.dusty"),
         PASS(true, "commands.pet.activity.success"),
         PASS_MINE(true, "commands.pet.activity.success_mine"),
         PASS_CHOP(true, "commands.pet.activity.success_chop"),

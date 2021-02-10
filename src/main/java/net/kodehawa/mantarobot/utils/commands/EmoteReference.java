@@ -81,6 +81,7 @@ public enum EmoteReference {
     ROSE(":rose:", "\uD83C\uDF39"),
     PARTY(":tada:", "\uD83C\uDF89"),
     STAR(":star:", "\u2b50"),
+    GLOWING_STAR(":star2:", "\uD83C\uDF1F"),
     HOUSE(":house:", "\uD83C\uDFE0"),
     CAR(":red_car:", "\uD83D\uDE97"),
     MARKER(":large_orange_diamond:", "\uD83D\uDD36"),

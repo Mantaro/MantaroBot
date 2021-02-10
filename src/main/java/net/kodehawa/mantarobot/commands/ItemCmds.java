@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -338,16 +339,29 @@ public class ItemCmds {
                     //End of build recipe explanation
 
                     var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
-                    fields.add(new MessageEmbed.Field(
-                            "%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
-                            "%s\n**%s** %s %s.\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
-                                    languageContext.get(item.getDesc()),
-                                    languageContext.get("commands.cast.ls.cost"),
-                                    item.getValue() / 2,
-                                    languageContext.get("commands.gamble.credits"),
-                                    recipe, castLevel
-                            ), false)
+                    String fieldDescription = "%s\n**%s** %s %s.\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
+                            languageContext.get(item.getDesc()),
+                            languageContext.get("commands.cast.ls.cost"),
+                            item.getValue() / 2,
+                            languageContext.get("commands.gamble.credits"),
+                            recipe, castLevel
                     );
+
+                    if (item instanceof Attribute) {
+                        fieldDescription = "%s\n**%s** %s %s.\n**Quality: ** %s\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
+                                languageContext.get(item.getDesc()),
+                                languageContext.get("commands.cast.ls.cost"),
+                                item.getValue() / 2,
+                                languageContext.get("commands.gamble.credits"),
+                                ((Attribute) item).getTierStars(),
+                                recipe, castLevel
+                        );
+                    }
+
+                    fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
+                            fieldDescription, false
+                    ));
+
                 }
 
                 DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(3, fields), languageContext.get("commands.cast.ls.desc"));
@@ -847,9 +861,42 @@ public class ItemCmds {
                 var translatedName = name.isEmpty() ? item.getName() : ctx.getLanguageContext().get(name);
                 var type = ctx.getLanguageContext().get(item.getItemType().getDescription());
 
-                ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
-                        item.getEmoji(), item.getName(), translatedName, type, description
-                );
+                if (item instanceof Attribute) {
+                    var builder = new EmbedBuilder();
+                    var attribute = ((Attribute) item);
+                    var languageContext = ctx.getLanguageContext();
+                    builder.setAuthor(languageContext.get("commands.iteminfo.embed.header").formatted(translatedName),
+                            null, ctx.getAuthor().getEffectiveAvatarUrl())
+                            .setColor(ctx.getMember().getColor() == null ? Color.PINK : ctx.getMember().getColor())
+                            .addField(EmoteReference.DIAMOND.toHeaderString() + languageContext.get("commands.iteminfo.embed.type"),
+                                    item.getEmoji() + " " + type, true
+                            )
+                            .addField(EmoteReference.EYES.toHeaderString() + languageContext.get("commands.iteminfo.embed.usefulness"),
+                                    attribute.getType().toString(), true
+                            )
+                            .addField(EmoteReference.GLOWING_STAR.toHeaderString() + languageContext.get("commands.iteminfo.embed.tier"),
+                                    attribute.getTierStars(), false
+                            )
+                            .addField(EmoteReference.ROCK.toHeaderString() + languageContext.get("commands.iteminfo.embed.durability"),
+                                    String.format(
+                                            Utils.getLocaleFromLanguage(languageContext),
+                                            "%,d", attribute.getMaxDurability()),
+                                    false
+                            )
+                            .addField(EmoteReference.CALENDAR.toHeaderString() + languageContext.get("commands.iteminfo.embed.attributes"),
+                                    attribute.buildAttributes(), false
+                            )
+                            .addField(EmoteReference.TALKING.toHeaderString() + languageContext.get("commands.iteminfo.embed.desc"),
+                                    languageContext.get(attribute.getExplanation()), false
+                            );
+
+                    ctx.send(builder.build());
+                } else {
+                    ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
+                            item.getEmoji(), item.getName(), translatedName, type, description
+                    );
+                }
+
             }
 
             @Override

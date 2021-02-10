@@ -16,7 +16,13 @@
 
 package net.kodehawa.mantarobot.commands.currency.item.special.helpers;
 
-public interface Castable {
-    int getCastLevelRequired();
-    int getMaximumCastAmount();
+import net.kodehawa.mantarobot.utils.Utils;
+
+public enum Type {
+    MINING, FISHING, CHOPPING;
+
+    @Override
+    public String toString() {
+        return Utils.capitalize(super.toString());
+    }
 }
