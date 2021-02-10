@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
+import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
@@ -213,6 +214,13 @@ public class PlayerCmds {
                         seasonalPlayerInventory.process(new ItemStack(item, -1));
                         seasonalPlayer.save();
                     } else {
+                        if (item == ItemReference.HELLFIRE_PICK)
+                            player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
+                        if (item == ItemReference.HELLFIRE_ROD)
+                            player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
+                        if (item == ItemReference.HELLFIRE_AXE)
+                            player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
+
                         playerInventory.process(new ItemStack(item, -1));
                         player.save();
                     }

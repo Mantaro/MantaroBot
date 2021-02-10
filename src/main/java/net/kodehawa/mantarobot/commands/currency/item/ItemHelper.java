@@ -449,6 +449,7 @@ public class ItemHelper {
             if (isSeasonal) {
                 seasonPlayer.save();
             } else {
+                player.getData().addBadgeIfAbsent(Badge.ITEM_BREAKER);
                 player.saveUpdating();
                 // We remove something from a HashMap here, and somehow
                 // removing it from a HashMap will need a full replace (why?)
@@ -465,6 +466,13 @@ public class ItemHelper {
             if (isSeasonal) {
                 seasonPlayer.saveUpdating();
             } else {
+                if (item == ItemReference.HELLFIRE_PICK)
+                    player.getData().addBadgeIfAbsent(Badge.HOT_MINER);
+                if (item == ItemReference.HELLFIRE_ROD)
+                    player.getData().addBadgeIfAbsent(Badge.HOT_FISHER);
+                if (item == ItemReference.HELLFIRE_AXE)
+                    player.getData().addBadgeIfAbsent(Badge.HOT_CHOPPER);
+
                 player.saveUpdating();
                 user.saveUpdating();
             }

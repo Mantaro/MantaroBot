@@ -142,20 +142,23 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 200, false
     ),
 
-    DEPTHS_OF_HELL("Depths of Hell", "", "Have all 3 Hellfire tools equipped",
+    DEPTHS_OF_HELL("Depths of Hell", "\uD83D\uDE08", "Have all 3 Hellfire tools equipped",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    HOT_MINER("Hot Miner", "", "Get a Hellfire Pickaxe", 91, 92,
+    HOT_MINER("Hot Miner", "<:hellfire_pick:762027645004808202>",
+            "Get a Hellfire Pickaxe", 91, 92,
             (player, dbUser) -> false, false
     ),
 
-    HOT_FISHER("Hot Fisher", "", "Get a Hellfire Fish Rod", 91, 92,
+    HOT_FISHER("Hot Fisher", "<:hellfire_axe:762027644971253760>",
+            "Get a Hellfire Fish Rod", 91, 92,
             (player, dbUser) -> false, false
     ),
 
-    HOT_CHOPPER("Hot Chopper", "", "Get a Hellfire Axe", 91, 92,
+    HOT_CHOPPER("Hot Chopper", "<:hellfire_rod:762027645054615602>",
+            "Get a Hellfire Axe", 91, 92,
             (player, dbUser) -> false, false
     ),
 
@@ -171,7 +174,7 @@ public enum Badge {
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1000, false
     ),
 
-    RICH("Rich", "", "Get 100 million credits. That's *really* a lot of money.",
+    RICH("Rich", "\uD83D\uDCB8", "Get 100 million credits. That's *really* a lot of money.",
             91, 92,
             (player, dbUser) -> player.getCurrentMoney() >= 100_000_000, false
     ),
@@ -194,17 +197,17 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    BIG_MONEY("Big Money", "", "Get 10 million credits. That's a lot of money.",
+    BIG_MONEY("Big Money", "\uD83D\uDCB3", "Get 10 million credits. That's a lot of money.",
             91, 92,
             (player, dbUser) -> player.getCurrentMoney() >= 10_000_000, false
     ),
 
-    THE_BEST_FRIEND("The Best Friend", "", "Get a Kodehawa pet.",
+    THE_BEST_FRIEND("The Best Friend", "\uD83D\uDCBB", "Get a Kodehawa pet.",
             91, 92,
             (player, dbUser) -> player.getData().getPet() != null && player.getData().getPet().getType() == HousePetType.KODE, false
     ),
 
-    EXPERT_GAMER("Expert Gamer", "",
+    EXPERT_GAMER("Expert Gamer", "\uD83C\uDFAE",
             "Win 5000 games.",
             91, 92,
             (player, dbUser) -> player.getData().getGamesWon() >= 5000, false
@@ -252,7 +255,7 @@ public enum Badge {
             (player,  dbUser) -> player.getData().getBadges().size() > 40, false
     ),
 
-    EXPERT_PET_OWNER("Expert Pet Owner", "", "Get your pet to level 100",
+    EXPERT_PET_OWNER("Expert Pet Owner", "\uD83C\uDFD8\uFE0F", "Get your pet to level 100",
             91, 92,
             (player, dbUser) -> false, false
     ),
@@ -276,7 +279,7 @@ public enum Badge {
             (player, dbUser) -> player.getData().getSharksCaught() >= 35, false
     ),
 
-    MILLIONARE("Millionare", "", "Get your very own million credits.",
+    MILLIONARE("Millionare", "\uD83D\uDCB5", "Get your very own million credits.",
             91, 92,
             (player, dbUser) -> player.getCurrentMoney() >= 1_000_000, false
     ),
@@ -293,7 +296,8 @@ public enum Badge {
             (player, dbUser) -> false, false
     ),
 
-    EXPERIENCED_PET_OWNER("Experienced Pet Owner", "", "Get your pet to level 50",
+    EXPERIENCED_PET_OWNER("Experienced Pet Owner", "\uD83C\uDFE1",
+            "Get your pet to level 50",
             91, 92,
             (player, dbUser) -> false, false
     ),
@@ -324,17 +328,18 @@ public enum Badge {
             ((player, dbUser) -> player.getData().getChopExperience() > 10000), false
     ),
 
-    BEST_FRIEND("Best Friend", "", "Buy your very own pet",
+    BEST_FRIEND("Best Friend", "\uD83D\uDC36", "Buy your very own pet",
             91, 92,
             (player, dbUser) -> player.getData().getPet() != null, false
     ),
 
-    BEST_FRIEND_MARRY("Our Best Friend", "", "Get a marriage pet.",
+    BEST_FRIEND_MARRY("Our Best Friend", "\uD83D\uDC31", "Get a marriage pet.",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    ITEM_BREAKER("Item Breaker", "", "Break 25 tools",
+    ITEM_BREAKER("Item Breaker", "<:diamond_axe_broken:762027644958670918>",
+            "Break a tool",
             91, 92,
             (player, dbUser) -> false, false
     ),
@@ -423,17 +428,17 @@ public enum Badge {
             (player, dbUser) -> player.getLevel() >= 50, false
     ),
 
-    CASTER("Caster", "", "Cast more than 50 items",
+    CASTER("Caster", "<:sparkle_wrench:551979816262434819>", "Cast more than 50 items",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    REPAIR_PERSON("Repair Person", "", "Repair an item more than 50 times",
+    REPAIR_PERSON("Repair Person", "<:comet_wrench:551979816174354443>", "Repair an item more than 50 times",
             91, 92,
             (player, dbUser) -> false, false
     ),
 
-    SALVAGER("Salvager", "", "Salvage an item more than 50 times",
+    SALVAGER("Salvager", "\uD83D\uDD27", "Salvage an item more than 50 times",
             91, 92,
             (player, dbUser) -> false, false
     ),
@@ -504,9 +509,9 @@ public enum Badge {
             (player, dbUser) -> player.getData().getMarketUsed() > 1000, false
     ),
 
-    DUSTY("Dusty", "", "Get 100% dust level",
+    DUSTY("Dusty", "\uD83D\uDCA8", "Get to 100% dust level",
             91, 92,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> dbUser.getData().getDustLevel() == 100, false
     ),
 
     FIRE("Fire", "\uD83D\uDD25",
@@ -770,6 +775,10 @@ public enum Badge {
         this.iconStartY = iconStartY;
         this.badgePredicate = badgePredicate;
         this.obtainable = obtainable;
+
+        if (unicode.isEmpty()) {
+            LoggerHolder.LOGGER.error("No unicode found for '" + display + "'");
+        }
 
         final byte[] emptyIcon = new byte[0];
         if (display.equals("User")) {

@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -244,8 +245,14 @@ public class ItemCmds {
 
                         playerInventory.process(new ItemStack(castItem, amountSpecified));
 
-                        var message = "";
+                        if (castItem == ItemReference.HELLFIRE_PICK)
+                            playerData.addBadgeIfAbsent(Badge.HOT_MINER);
+                        if (castItem == ItemReference.HELLFIRE_ROD)
+                            playerData.addBadgeIfAbsent(Badge.HOT_FISHER);
+                        if (castItem == ItemReference.HELLFIRE_AXE)
+                            playerData.addBadgeIfAbsent(Badge.HOT_CHOPPER);
 
+                        var message = "";
                         if (playerData.shouldSeeCampaign()) {
                             message += Campaign.PREMIUM.getStringFromCampaign(ctx.getLanguageContext(), user.isPremium());
                             playerData.markCampaignAsSeen();
