@@ -494,9 +494,9 @@ public class ItemReference {
                     35, false
             ),
 
-            MOON_RUNES = new Item(ItemType.MINE, "\uD83C\uDF19",
-                    "Moon Runes", "items.moon", "items.description.moon",
-                    100, false
+            MOON_RUNES = new Gem(GemType.GEM, "\uD83C\uDF19",
+                    "Moon Runes", "items.moon",
+                    "items.description.moon", 100
             ),
 
             SNOWFLAKE = new Gem(GemType.UTILITY, "\u2744\uFE0F",
