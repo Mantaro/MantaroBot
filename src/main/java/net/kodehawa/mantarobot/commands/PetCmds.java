@@ -874,7 +874,7 @@ public class PetCmds {
         }
     }
 
-    private Pair<PetChoice, HousePet> getPetOpposite(Context ctx, Player player, Marriage marriage) {
+    private Pair<PetChoice, HousePet> getPetOpposite(Player player, Marriage marriage) {
         final var playerData = player.getData();
         final var petChoice = playerData.getActiveChoice(marriage);
         if (petChoice == PetChoice.PERSONAL) {
@@ -898,7 +898,7 @@ public class PetCmds {
         if (petChoice == PetChoice.PERSONAL) {
             final var personalPet = playerData.getPet();
             if (personalPet == null) {
-                var opposite = getPetOpposite(ctx, player, marriage);
+                var opposite = getPetOpposite(player, marriage);
                 var oppositePet = opposite.getRight();
                 var extra = oppositePet == null ? "" :
                      languageContext.get("commands.pet.status.pet_in_other_category")
@@ -918,7 +918,7 @@ public class PetCmds {
             final var marriageData = marriage.getData();
             final var marriagePet = marriageData.getPet();
             if (marriagePet == null) {
-                var opposite = getPetOpposite(ctx, player, marriage);
+                var opposite = getPetOpposite(player, marriage);
                 var oppositePet = opposite.getRight();
                 var extra = oppositePet == null ? "" :
                         languageContext.get("commands.pet.status.pet_in_other_category")

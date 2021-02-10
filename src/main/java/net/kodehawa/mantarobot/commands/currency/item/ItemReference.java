@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.GemType;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class ItemReference {
@@ -293,14 +294,14 @@ public class ItemReference {
                     "4;1", 51, 25
             ),
 
-            COBWEB = new Item(ItemType.MINE, "\uD83D\uDD78",
-                    "Cobweb", "items.cobweb", "items.description.cobweb",
-                    10, false
+            COBWEB = new Gem(GemType.UTILITY, "\uD83D\uDD78",
+                    "Cobweb", "items.cobweb",
+                    "items.description.cobweb", 10
             ),
 
-            GEM_FRAGMENT = new Item(ItemType.MINE, "\uD83D\uDCAB",
-                    "Gem Fragment", "items.fragment", "items.description.fragment",
-                    50, false
+            GEM_FRAGMENT = new Gem(GemType.GEM, "\uD83D\uDCAB",
+                    "Gem Fragment", "items.fragment",
+                    "items.description.fragment", 50
             ),
 
             MOP = new Item(ItemType.INTERACTIVE, "\uD83E\uDDF9",
@@ -356,14 +357,14 @@ public class ItemReference {
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 180, 100, 340,3,
+                    "1;2;7", 180, 100, 330,3,
                     "items.explanation.comet_pick", 10, 48, 101
             ),
 
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
                     1, 10, 350, true, false, "1;2;7",
-                    220, 100, 4, 390, 330, 4,
+                    220, 100, 4, 390, 320, 4,
                     "items.explanation.star_pick", 10, 49, 101
             ),
 
@@ -438,7 +439,7 @@ public class ItemReference {
                     "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick",
                     3, 5, 1200,
                     true, false, "1;3;1;7", 450, 300, 5,
-                    380, 320, 6,
+                    378, 310, 6,
                     "items.explanation.sparkle_pick", 10, 74, 18, 101
             ),
 
@@ -498,10 +499,9 @@ public class ItemReference {
                     100, false
             ),
 
-            SNOWFLAKE = new Item(ItemType.MINE, "\u2744\uFE0F",
-                    "Snowflake", "items.flake", "items.description.flake",
-                    25, true, false,
-                    "1;1", 51, 50
+            SNOWFLAKE = new Gem(GemType.UTILITY, "\u2744\uFE0F",
+                    "Snowflake", "items.flake",
+                    "items.description.flake", 25
             ),
 
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(),
@@ -594,7 +594,7 @@ public class ItemReference {
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
                     2, 7, 1000, true, false,
                     "1;3;2;5;10", 320, 140, 4,
-                    388, 320, 5,
+                    388, 310, 5,
                     "items.explanation.moon_pick", 83, 18, 76, 101
             ),
 
@@ -684,9 +684,9 @@ public class ItemReference {
                     5, false
             ),
 
-            ROCK = new Item(ItemType.MINE, "\ud83e\udea8",
-                    "Rock", "items.rock", "items.description.rock",
-                    10, false
+            ROCK = new Gem(GemType.UTILITY, "\ud83e\udea8",
+                    "Rock", "items.rock",
+                    "items.description.rock", 10
             ),
 
             BROKEN_MOON_PICK = new Broken(102, EmoteReference.BROKEN_MOON_PICK.getDiscordNotation(),

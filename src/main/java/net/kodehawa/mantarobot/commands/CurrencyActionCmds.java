@@ -20,7 +20,9 @@ import com.google.common.eventbus.Subscribe;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.Gem;
 import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.GemType;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
@@ -155,11 +157,11 @@ public class CurrencyActionCmds {
                 }
 
                 if (random.nextInt(400) >= chance) {
-                    if (inventory.getAmount(ItemReference.DIAMOND) == 5000) {
-                        message += "\n" + languageContext.get("commands.mine.diamond.overflow");
+                    var amount = 1 + random.nextInt(item.getDiamondIncrease());
+                    if (inventory.getAmount(ItemReference.DIAMOND) + amount > 5000) {
+                        message += "\n" + languageContext.get("commands.mine.diamond.overflow").formatted(amount);
                         money += ItemReference.DIAMOND.getValue() * 0.9;
                     } else {
-                        var amount = 1 + random.nextInt(item.getDiamondIncrease());
                         inventory.process(new ItemStack(ItemReference.DIAMOND, amount));
                         message += "\n" + EmoteReference.DIAMOND +
                                 languageContext.get("commands.mine.diamond.success").formatted(amount);
@@ -171,35 +173,60 @@ public class CurrencyActionCmds {
                 // Gem find
                 var gemChance = item.getGemLuck();
                 if (hasPotion) {
-                    gemChance -= 15;
-                }
-
-                if (petHelp) {
-                    gemChance -= 25;
+                    gemChance -= 10;
+                } else if (petHelp) {
+                    gemChance -= pet.getType().getGemLuckIncrease();
                 }
 
                 if (petHelp && hasPotion) {
-                    gemChance -= 35;
+                    gemChance -= pet.getType().getGemLuckIncrease() + 10;
                 }
 
                 if (random.nextInt(400) >= gemChance) {
                     List<Item> gem = Stream.of(ItemReference.ALL)
+                            .filter(Gem.class::isInstance)
                             // Give less probabilities of getting a rock because it can get annoying (lol)
-                            .filter(i -> random.nextBoolean() || i == ItemReference.ROCK)
-                            .filter(i -> i.getItemType() == ItemType.MINE && !i.isHidden() && i.isSellable())
+                            .filter(i -> random.nextBoolean() || i != ItemReference.ROCK)
                             .collect(Collectors.toList());
 
-                    // Top notch handling for gems, 10/10 implementation -ign
                     var selectedGem = new ItemStack(gem.get(random.nextInt(gem.size())), Math.max(1, random.nextInt(5)));
                     var itemGem = selectedGem.getItem();
+                    ItemStack extraGem = null;
+                    Item extraItem = null;
+
+                    // Extra chance of gettting a Gem Fragment in case you didn't get one already.
+                    if (random.nextBoolean() && itemGem != ItemReference.GEM_FRAGMENT) {
+                        List<Item> extra = Stream.of(ItemReference.ALL)
+                                .filter(Gem.class::isInstance)
+                                .filter(i -> ((Gem) i).getType() == GemType.GEM)
+                                .collect(Collectors.toList());
+
+                        extraGem = new ItemStack(extra.get(random.nextInt(extra.size())), Math.max(1, random.nextInt(3)));
+                        extraItem = extraGem.getItem();
+                    }
+
+                    if (extraGem != null && (inventory.getAmount(extraItem) + extraGem.getAmount() >= 5000)) {
+                        extraGem = null;
+                    }
 
                     if (inventory.getAmount(itemGem) + selectedGem.getAmount() >= 5000) {
-                        message += "\n" + languageContext.get("commands.mine.gem.overflow");
+                        message += "\n" + languageContext.get("commands.mine.gem.overflow")
+                                .formatted(itemGem.getEmoji() + " x" + selectedGem.getAmount());
                         money += itemGem.getValue() * 0.9;
                     } else {
                         inventory.process(selectedGem);
-                        message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.gem.success")
-                                .formatted(itemGem.getEmoji() + " x" + selectedGem.getAmount());
+
+                        if (extraGem != null) {
+                            inventory.process(extraGem);
+                            message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.gem.success_extra")
+                                    .formatted(
+                                            itemGem.getEmoji() + " x" + selectedGem.getAmount(),
+                                            extraItem.getEmoji() + " x" + extraGem.getAmount()
+                                    );
+                        } else {
+                            message += "\n" + EmoteReference.MEGA + languageContext.get("commands.mine.gem.success")
+                                    .formatted(itemGem.getEmoji() + " x" + selectedGem.getAmount());
+                        }
                     }
 
                     if (waifuHelp) {

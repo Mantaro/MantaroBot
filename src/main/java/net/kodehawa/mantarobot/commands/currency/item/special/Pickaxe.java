@@ -41,7 +41,7 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
     // This ones have default attributes.
     private int diamondIncrease = 2;
     private int sparkleLuck = 401; // Bound: 400
-    private int gemLuck = 360; // Bound: 400
+    private int gemLuck = 350; // Bound: 400
 
     // I can barely read this, so let me break it down:
     // Item type, item emoji, name, localized name, description, wrench tier to cast it, maximum amount to cast at once

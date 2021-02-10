@@ -23,16 +23,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum HousePetType {
-    DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200, true),
-    CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 35000, 150, true),
-    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHOP, HousePetAbility.CHEER), 30000, 30, true),
+    DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200, 20, true),
+    CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 35000, 150, 0, true),
+    RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHOP, HousePetAbility.CHEER), 30000, 30, 0, true),
     KODE(EmoteReference.DEV, "Kodehawa",
             // All of them?
             List.of(HousePetAbility.CHEER, HousePetAbility.FISH, HousePetAbility.CATCH, HousePetAbility.CHOP),
-            3000000, 300, true
+            3000000, 300, 30, true
     ),
-    ROCK(EmoteReference.ROCK, "Rock", List.of(HousePetAbility.CHEER), 1000, 1, true),
-    ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, false);
+    ROCK(EmoteReference.ROCK, "Rock", List.of(HousePetAbility.CHEER), 1000, 1, 0, true),
+    ALL(EmoteReference.PENCIL, "All Placeholder", List.of(HousePetAbility.values()), 100000, 10000, 0, false);
 
     public enum HousePetAbility {
         FISH(HousePet.ActivityResult.PASS_FISH),
@@ -69,16 +69,18 @@ public enum HousePetType {
     private final String name;
     private final List<HousePetAbility> abilities;
     private final int cost;
+    private final int gemLuckIncrease;
     private final int maxCoinBuildup;
     private final boolean buyable;
 
-    HousePetType(EmoteReference emoji, String name, List<HousePetAbility> ability, int cost, int maxCoinBuildup, boolean buyable) {
+    HousePetType(EmoteReference emoji, String name, List<HousePetAbility> ability, int cost, int maxCoinBuildup, int gemLuckIncrease, boolean buyable) {
         this.emoji = emoji;
         this.name = name;
         this.abilities = ability;
         this.cost = cost;
         this.maxCoinBuildup = maxCoinBuildup;
         this.buyable = buyable;
+        this.gemLuckIncrease = gemLuckIncrease;
     }
 
     public EmoteReference getEmoji() {
@@ -121,6 +123,10 @@ public enum HousePetType {
 
     public boolean isBuyable() {
         return buyable;
+    }
+
+    public int getGemLuckIncrease() {
+        return gemLuckIncrease;
     }
 
     /**
