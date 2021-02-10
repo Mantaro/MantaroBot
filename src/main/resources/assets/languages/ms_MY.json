@@ -369,7 +369,7 @@
       "invalid_number": "(%1$s`%2$s`) Salah satu daripada julat-julat ini bukan nombor yang sah!",
       "invalid_number_range": "%1$s`%2$s` bukan nombor atau julat yang sah!",
       "success": "%1$s**%2$d** trek telah dikeluarkan dari antrian.",
-      "not_dj": "%1$sAnda perlu menjadi DJ untuk menjalankan tindakan ini."
+      "not_dj": "%1$sAnda perlu menjadi DJ untuk melakukan tindakan ini."
     },
     "stop": {
       "dj_stop": "%1$sDJ pelayan telah memutuskan untuk menghentikan antrian semasa.",
@@ -411,7 +411,7 @@
       "new_error": "%1$sTerdalat ralat berkaitan arahan kustom yang anda cuba mencipta (v3, periksa kandungan).\n**Ralat:**\n```%2$s```",
       "ls": {
         "header": "Arahan untuk pelayan ini.",
-        "description": "**Ini memaparkan setiap arahan kustom (dicipta oleh pengguna) di pelayan ini. Semua arahan sini tidak berkaitan dengan bot dalam apa-apa cara atau bentuk.\n\nArahan kustom ialah arahan yang dicipta oleh pengguna-pengguna (biasanya admin pelayan) dan akan menangani pelbagai situasi, setakat meniru arahan tindakan.\nUntuk mendapatkan maklumat lanjut tentang cara mencipta arahan kustom, merujuk kepada [halaman wiki ini.] (https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Senarai:**",
+        "description": "**Ini memaparkan setiap arahan kustom (dicipta oleh pengguna) di pelayan ini. Semua arahan di sini tidak berkaitan dengan bot dalam apa-apa cara atau bentuk.\n\nArahan kustom ialah arahan yang dicipta oleh pengguna-pengguna (biasanya admin pelayan) dan akan menangani pelbagai situasi, setakat meniru arahan tindakan.\nUntuk mendapatkan maklumat lanjut tentang cara mencipta arahan kustom, merujuk kepada [halaman wiki ini.] (https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands)\n \n**Senarai:**",
         "footer": "Jumlah arahan kustom di pelayan ini: %1$s"
       },
       "invalid": "%1$sPilihan arahan tidak sah. Mungkin melihat halaman wiki di <https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands-101>.",
@@ -597,7 +597,7 @@
       "buyhouse": {
         "not_married": "%1$sAnda hanya boleh membeli rumah setelah anda berkahwin. Ini mungkin diubah pada masa akan datang.",
         "no_house": "%1$sAnda memerlukan item rumah dalam inventori anda. Gunakan `~>buy house` untuk membelinya.",
-        "not_enough_money": "%1$sAnda tidak ada wang yang mencukupi untuk membeli sebuah rumah. (Harga rumah semasa: %2$d kredit)",
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli sebuah rumah. (Harga rumah semasa: %2$d kredit)",
         "no_name": "%1$sAnda perlu menamakan rumah anda! Misalnya, `~>marry house cozy house`",
         "confirm": "%1$sAdakah anda pasti akan membeli rumah ini? Harga yang dipotong dari dompet anda ialah %2$d dan rumah anda dinamakan %3$s. Taip `yes` untuk sahkan dan `no` untuk membatalkan.",
         "success": "%1$sAnda berjaya membeli sebuah rumah untuk harga %2$d. Nama rumah baru anda ialah %3$s, tahniah!",
@@ -605,7 +605,7 @@
       },
       "buycar": {
         "no_car": "%1$sAnda perlu membeli kereta dahulu! Gunakan `~>buy car` untuk membelinya.",
-        "not_enough_money": "%1$sAnda tidak ada wang yang mencukupi untuk membeli sebuah kereta. (Harga kereta semasa: %2$d kredit)",
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli sebuah kereta. (Harga kereta semasa: %2$d kredit)",
         "no_name": "%1$sAnda perlu menamakan kereta anda! Misalnya, `~>marry car vroom`",
         "confirm": "%1$sAdakah anda pasti akan membeli kereta ini? Harga yang dipotong dari dompet anda ialah %2$d dan kereta anda dinamakan %3$s. Taip `yes` untuk sahkan dan `no` untuk membatalkan.",
         "success": "%1$sAnda berjaya membeli sebuah kereta untuk harga %2$d. Nama kereta baru anda ialah %3$s, tahniah!",
@@ -618,62 +618,62 @@
       "already_married": "%1$sAnda sudah berkahwin.",
       "receipt_married": "%1$sPengguna tersebut sudah berkahwin.",
       "no_ring": "%1$sAnda tidak boleh melamar jika anda tidak mempunyai dua bentuk cincin! Anda boleh membelinya dengan menjalankan `~>buy 2 ring` lalu cuba melamar sekali lagi",
-      "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
-      "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
-      "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**"
+      "confirmation": "%1$s%2$s, taip **yes** atau **no** bagi lamaran perkahwinan daripada %3$s\n%4$sMasa ini akan tamat dalam 120 saat.",
+      "ring_check_fail": "%1$sAnda tidak boleh berkahwin jika anda mempunyai lebih kurang daripada dua bentuk cincin dalam inventori anda :(",
+      "accepted": "%1$s**%2$s#%3$s** telah menerima lamaran **%4$s#%5$s**!",
+      "denied": "%1$sLamaran **%2$s** telah ditolak"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
-      "cancelled": "%1$sCancelled divorce.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
+      "confirm": "%1$sAdakah anda pasti akan menamatkan perkahwinan ini? Wang yang dibelanjakan untuk membeli rumah dan kereta akan dibahagikan kepada dua. Taip `yes` untuk meneruskan dan `no` untuk membatalkan. **Haiwan peliharaan anda akan hilang, kerana ia terikat dengan perkahwinan**",
+      "cancelled": "%1$sPerceraian dibatalkan.",
+      "not_married": "%1$sAnda belum berkahwin dengan sesiapa lagi, mengapa anda tidak mencari seseorang istimewa itu?",
+      "success": "%1$sSekarang anda bujang. Saya rasa itu baiklah. %2$s",
+      "split": "Wang yang ditinggalkan telah dibahagikan kepada kedua-dua pihak dengan menjual aset mereka (haiwan peliharaan, rumah, kereta). Setiap pihak mendapat **%1$d** kredit dalam dompetnya."
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "bot": "%1$sBot tidak boleh dijadikan waifu, walaupun anda inginkan...",
+      "notice": "Fungsi ini tidak bertujuan untuk mewakili sebarang hubungan, sama ada tersirat atau tersurat, dengan peristiwa kehidupan sebenar.",
       "id": "**ID:**",
       "stats": {
-        "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "header": "Status waifu anda",
+        "header_other": "Status waifu %1$s",
+        "format": "%1$s **Nilai berat wang:** %2$,d\n%1$s **Nilai berat lencana:** %3$,d\n%1$s **Nilai berat pengalaman:** %4$,d\n%1$s **Nilai berat tuntutan:** %5$,d\n%1$s **Pengganda reputasi:** %6$.2fx",
+        "value": "Jumlah nilai waifu",
+        "credits": "%1$,d kredit",
+        "performance": "Mata Prestasi Waifu"
       },
       "claim": {
-        "no_user": "%1$sYou didn't mention any user to claim.",
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
-        "not_enough_slots": "%1$sYou don't have enough slots available to claim this waifu. (Total slots: %2$s, Used slots: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d. Slots used: %4$s",
-        "yourself": "%1$sYou cannot claim yourself!",
-        "already_claimed": "%1$sYou already claimed this waifu.",
-        "not_found": "%1$sI can't find any user with this query. "
+        "no_user": "%1$sAnda tidak menyebut pengguna untuk dituntut.",
+        "locked": "%1$sKini, anda tidak dapat melakukan tindakan ini.",
+        "key_locked": "%1$sPengguna yang anda cuba menuntut telah dikunci dan tidak boleh dituntut. Dia dapat memadamkannya menggunakan `~>profile claimlock remove` jika dia inginkan.",
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk menuntut waifu ini **(Harga: %2$s kredit)**",
+        "not_enough_slots": "%1$sAnda tidak mempunyai slot yang mencukupi untuk menuntut waifu ini. (Jumlah slot: %2$s, Slot terpakai: %3$s)",
+        "success": "%1$sBerjaya menuntut `%2$s` untuk harga %3$,d. Slot terpakai: %4$s",
+        "yourself": "%1$sAnda tidak boleh menuntut diri anda!",
+        "already_claimed": "%1$sAnda sudah menuntut waifu ini.",
+        "not_found": "%1$sSaya tidak dapat mencari sebarang pengguna dengan carian ini. "
       },
       "unclaim": {
-        "no_user": "%1$sYou need to mention a waifu to un-claim.",
-        "not_claimed": "%1$sThis user isn't your waifu!",
-        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
-        "not_enough_money": "%1$sYou don't have enough money to un-claim this waifu!",
-        "player_locked": "%1$sYou cannot do this at the moment.",
-        "scrapped": "%1$sCancelled waifu un-claiming.",
-        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
-        "not_found": "%1$sI can't find any user with this query. If you need to unclaim an unknown user, use their ID (`~>waifu -id`) and append `-unknown` at the end."
+        "no_user": "%1$sAnda perlu menyebut seorang waifu untuk disingkirkan.",
+        "not_claimed": "%1$sPengguna ini bukan waifu anda!",
+        "confirmation": "%1$sAdakah anda *pasti* akan menyingkirkan %2$s? Harga untuk menyingkirkan waifu ini ialah **%3$s kredit**. Taip *yes* untuk sahkan dan *no* untuk membatalkan\n%4$sMasa ini akan tamat dalam 1 minit.",
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk menyingkirkan waifu ini!",
+        "player_locked": "%1$sAnda tidak dapat melakukan ini buat masa ini.",
+        "scrapped": "%1$sPenyingkiran waifu dibatalkan.",
+        "success": "%1$sBerjaya menuntut `%2$s` untuk harga **%3$s kredit**.",
+        "not_found": "%1$sSaya tidak menemui sebarang pengguna dengan carian ini. Jika anda ingin menyingkirkan seorang pengguna yang tidak diketahui, gunakan ID-nya (`~>waifu -id`) dan menambah `-unknown` di hujungnya."
       },
       "buyslot": {
-        "locked": "%1$sYou're currently unable to perform this action.",
-        "not_enough_money": "%1$sYou don't have enough money to buy more slots! You need %2$,d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s, you currently have %3$s total slots and %4$s available slots.",
-        "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
+        "locked": "%1$sKini, anda tidak dapat melakukan tindakan ini.",
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli slot tambahan! Anda memerlukan %2$,d kredit.",
+        "success": "%1$sBerjaya membeli slot ini untuk harga %2$s. Kini, anda mempunyai jumlah %3$s slot dan %4$s slot yang belum terpakai.",
+        "too_many": "%1$sAnda sudah mempunyai slot yang banyak! Maksimumnya adalah 30 slot."
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
+        "notice": "%1$sAnda telah opt-out dari sistem waifu, jadi anda tidak boleh menggunakan ini.",
+        "warning": "%1$sAdakah anda pasti akan opt-out dari sistem waifu? INI ADALAH KEKAL DAN TIDAK BOLEH DIBATALKAN. Serius.\nJika anda hanya ingin opt-out daripada tuntutan baru dan mahu menggunakan sistem waifu seperti biasa, sila gunakan `~>profile claimlock` sebagai gantinya.\nAnda tidak akan dapat menuntut ataupun dituntut, semua tuntutan anda akan dipadamkan.\nTaip `Yes, I want to opt out of the waifu system completely and irreversibly` atau `no`. Menaip mesej pengesahan tersebut akan memastikan anda opt-out, no akan membatalkannya.",
+        "success": "%1$sAnda berjaya opt-out dari sistem waifu.",
+        "cancelled": "%1$sOperasi opt-out dibatalkan.",
         "claim_notice": "%1$sThe user you're trying to claim opted out.",
         "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
@@ -2057,7 +2057,7 @@
     "admincustom": {
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
       "admin_only": "Custom command creation is now admin only.",
-      "everyone": "Custom command creation can now be done by anyone.",
+      "everyone": "Penciptaan arahan kustom kini boleh dilakukan oleh sesiapa sahaja.",
       "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
     },
     "timedisplay_set": {
@@ -2454,7 +2454,7 @@
       "cookie": "Delicious.",
       "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
       "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
-      "berserk": "Currency Berserk? Anyone? `Leftover from Currency version 1. No longer obtainable.`",
+      "berserk": "Berserk Mata Wang? Sesiapa? `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
       "companion": "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`",
       "special_ring": "It's so special, it's not even a ring. `Leftover from Currency version 1. No longer obtainable.`",
       "enchancer": "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`",
