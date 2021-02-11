@@ -465,6 +465,11 @@ public class PetCmds {
                     }
                 }
 
+                if (petChoice == PetChoice.PERSONAL && !playerInventory.containsItem(ItemReference.INCUBATOR_EGG)) {
+                    ctx.sendLocalized("commands.pet.buy.no_egg", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!playerInventory.containsItem(ItemReference.PET_HOUSE)) {
                     ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                     return;
@@ -509,6 +514,11 @@ public class PetCmds {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
 
+                        if (petChoice == PetChoice.PERSONAL && !playerInventoryConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
+                            ctx.sendLocalized("commands.pet.buy.no_egg", EmoteReference.ERROR);
+                            return Operation.COMPLETED;
+                        }
+
                         // People like to mess around lol.
                         if (!playerInventoryConfirmed.containsItem(ItemReference.PET_HOUSE)) {
                             playerConfirmed.setLocked(false);
@@ -533,6 +543,7 @@ public class PetCmds {
                             marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
                             marriageConfirmed.save();
                         } else {
+                            playerInventoryConfirmed.process(new ItemStack(ItemReference.INCUBATOR_EGG, -1));
                             playerConfirmed.getData().setPet(new HousePet(name, toBuy));
                         }
 
