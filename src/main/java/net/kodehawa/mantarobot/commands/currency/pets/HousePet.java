@@ -102,7 +102,7 @@ public class HousePet {
             return;
         }
 
-        this. hunger = Math.max(1, hunger - defaultDecrease);
+        this.hunger = Math.max(1, hunger - defaultDecrease);
     }
 
     public void decreaseThirst() {
@@ -153,14 +153,13 @@ public class HousePet {
     }
 
     public void increaseDust() {
-        var defaultIncrease = 2;
-        var dusty = dust + defaultIncrease;
-        if (dusty >= 100) {
+        var defaultIncrease = random.nextInt(3);
+        if (dust >= 100) {
             this.dust = 100;
             return;
         }
 
-        this.dust = Math.min(100, dusty);
+        this.dust = Math.min(100, dust + defaultIncrease);
     }
 
     public void decreaseDust(int by) {
@@ -275,11 +274,15 @@ public class HousePet {
         if (getThirst() < 20)
             return ActivityResult.LOW_THIRST;
 
+        if (getDust() > 90) {
+            return ActivityResult.DUSTY;
+        }
+
         decreaseStamina();
         decreaseHealth();
         decreaseHunger();
         decreaseThirst();
-        decreaseMood();
+        //decreaseMood();
         increaseDust();
         increaseExperience();
 

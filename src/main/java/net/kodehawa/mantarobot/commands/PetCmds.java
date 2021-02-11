@@ -234,6 +234,9 @@ public class PetCmds {
                         .addField(
                                 EmoteReference.WRENCH.toHeaderString() + language.get("commands.pet.status.abilities"),
                                 pet.getType().getStringAbilities(), false
+                        )
+                        .addField(EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.level"),
+                                "**%,d** (XP: %,d)".formatted(pet.getLevel(), pet.getExperience()), false
                         );
 
                 // This is needed else we'll run into people thinking pets with no catch ability have a item buildup.
@@ -254,11 +257,11 @@ public class PetCmds {
                 }
 
                 status.addField(
-                        EmoteReference.ZAP.toHeaderString() + language.get("commands.pet.status.level"),
-                        "**%,d (XP: %,d)**".formatted(pet.getLevel(), pet.getExperience()), true
+                        EmoteReference.DUST.toHeaderString() + language.get("commands.pet.status.dust"),
+                        "**%d%%**".formatted(pet.getDust()), true
                 )
                 .addField(
-                        EmoteReference.BLUE_HEART.toHeaderString()  + language.get("commands.pet.status.pet"),
+                        EmoteReference.BLUE_HEART.toHeaderString() + language.get("commands.pet.status.pet"),
                         "**%,d**".formatted(pet.getPatCounter()), true
                 )
                 .addField(
@@ -425,6 +428,46 @@ public class PetCmds {
 
                     ctx.sendLocalized(message, pet.getType().getEmoji(), pet.getName(), pet.getPatCounter(), extraMessage);
                 });
+            }
+        });
+
+        pet.addSubCommand("clean", new SubCommand() {
+            final long price = 600L;
+
+            @Override
+            public String description() {
+                return "Cleans your pet when it's too dusty. Costs %s credits.".formatted(price);
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var player = ctx.getPlayer();
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+
+                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
+                if (pet == null) {
+                    return;
+                }
+
+                if (player.getCurrentMoney() < price) {
+                    ctx.sendLocalized("commands.pet.clean.not_enough_money", EmoteReference.ERROR, price, pet.getName());
+                    return;
+                }
+
+                if (pet.getDust() < 25) {
+                    ctx.sendLocalized("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName());
+                    return;
+                }
+
+                pet.setDust(0);
+                player.removeMoney(price);
+                player.saveUpdating();
+                if (player.getData().getPetChoice() == PetChoice.MARRIAGE) {
+                    marriage.saveUpdating();
+                }
+
+                ctx.sendLocalized("commands.pet.clean.success", EmoteReference.CORRECT, pet.getName(), price);
             }
         });
 

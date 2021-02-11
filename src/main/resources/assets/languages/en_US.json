@@ -1346,12 +1346,18 @@
         "thirst": "Thirst",
         "hunger": "Hunger",
         "stamina": "Stamina",
+        "dust": "Dust (%)",
         "pet": "Pats",
-        "buildup": "Coin / Item Buildup",
-        "buildup_coin": "Coin Buildup",
+        "buildup": "Credit / Item Buildup",
+        "buildup_coin": "Credit Buildup",
         "buildup_stats": "%1$,d credits / %2$,d items",
         "buildup_stats_credits": "%1$,d credits",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "clean": {
+        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
+        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
@@ -1443,7 +1449,7 @@
         "cost": "Pet Cost",
         "abilities": "Abilities",
         "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
+        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
       }
     },
