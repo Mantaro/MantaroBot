@@ -600,7 +600,7 @@
         "not_enough_money": "%1$sNie masz wystarczająco dużo pieniędzy, żeby kupić dom. (Aktualna cena domu: %2$d kredytów)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sJesteś pewna, że chcesz kupić ten dom? Cena potrącona z Twojego portfela to %2$d, a nazwa, którą podałeś dom to %3$s. Wpisz \"yes\", aby potwierdzić i \"no\", aby anulować.",
-        "success": "%1$sUdało ci się kupić dom za %2$d. Nazwa Twojego nowego przytulnego domu to %3$s, ciesz się!",
+        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
         "cancel_success": "%1$sOperacja odwołana."
       },
       "buycar": {
@@ -608,7 +608,7 @@
         "not_enough_money": "%1$sNie masz wystarczająco dużo pieniędzy, żeby kupić samochód. (Aktualna cena samochodu: %2$d kredytów)",
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sJesteś pewien, że chcesz kupić ten samochód? Cena potrącona z Twojego portfela wynosi %2$d, a nazwa, którą podałeś samochód to %3$s. Wpisz \"yes\", aby potwierdzić i \"no\", aby anulować.",
-        "success": "%1$sUdało ci się kupić samochód za %2$d. Nazwa Twojego nowego szybkiego samochodu to %3$s, ciesz się!",
+        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
         "cancel_success": "%1$sOperacja odwołana."
       },
       "no_mention": "%1$sOznacz użytkownika, którego chcesz poślubić.",
@@ -626,7 +626,7 @@
     "divorce": {
       "confirm": "%1$sJesteś pewna, że chcesz zakończyć to małżeństwo? Pieniądze wydane na zwierzęta domowe, domy i samochody zostaną podzielone na dwie części. Wpisz \"yes\", aby kontynuować i \"no\", aby anulować. **Twoje zwierzę zniknie, bo jest przywiązane do małżeństwa**",
       "cancelled": "%1$sOdwołany rozwód.",
-      "not_married": "%1$sNie jesteś z nikim żonaty, dlaczego nie znajdziesz tego wyjątkowego kogoś?",
+      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
       "success": "%1$sTeraz jesteś singlem. To chyba miło.\n%2$s",
       "split": "Pozostałe pieniądze zostały podzielone między obie strony poprzez sprzedaż ich majątku (zwierząt domowych, domów, samochodów). Każdy z nich otrzymał **%1$d** kredytów w swoim portfelu."
     },
@@ -648,7 +648,7 @@
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sNie masz wystarczająco pieniędzy, aby uzyskać tego waifu **(Koszt: %2$s kredyty)**",
         "not_enough_slots": "%1$sNie masz wystarczająco dużo slotów, by odebrać to waifu. (Suma slotów: %2$s, Używane sloty: %3$s)",
-        "success": "%1$sPomyślnie odebrano `%2$s` za %3$,d. Używane miejsca: %4$s",
+        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
         "yourself": "%1$sNie możesz odebrać sobie!",
         "already_claimed": "%1$sJuż odebrałeś to waifu.",
         "not_found": "%1$sNie mogę znaleźć żadnego użytkownika z tym zapytaniem. "
@@ -666,7 +666,7 @@
       "buyslot": {
         "locked": "%1$sObecnie nie jesteś w stanie wykonać tej czynności.",
         "not_enough_money": "%1$sNie masz wystarczająco pieniędzy, aby kupić więcej miejsc! potrzebujesz %2$,d kredytów.",
-        "success": "%1$sPomyślnie kupiono miejsce za %2$s posiadasz obecnie %3$s miejsca i %4$s dostępnych miejsc.",
+        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
@@ -1346,12 +1346,18 @@
         "thirst": "Thirst",
         "hunger": "Hunger",
         "stamina": "Stamina",
+        "dust": "Dust (%)",
         "pet": "Pats",
-        "buildup": "Coin / Item Buildup",
-        "buildup_coin": "Coin Buildup",
+        "buildup": "Credit / Item Buildup",
+        "buildup_coin": "Credit Buildup",
         "buildup_stats": "%1$,d credits / %2$,d items",
         "buildup_stats_credits": "%1$,d credits",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "clean": {
+        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
+        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
@@ -1383,6 +1389,7 @@
         "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
+        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `~>cast ls`",
         "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
@@ -1442,7 +1449,7 @@
         "cost": "Pet Cost",
         "abilities": "Abilities",
         "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
+        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
       }
     },
@@ -2521,7 +2528,7 @@
       "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
       "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
       "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
-      "incubator_egg": "Does still not have an use. It's an egg, though. Maybe.",
+      "incubator_egg": "The one catalyst you need to call your personal pet home.",
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!",
       "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
