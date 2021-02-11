@@ -698,17 +698,17 @@
     "coinflip": {
       "over_limit": "%1$sTunggu sekejap! Hadnya ialah 1,000 lemparan koin",
       "no_repetitions": "%1$sAnda hendaklah menyebut nombor bulat bagi bilangan pengulangan (Misalnya, `~>roll 100`)",
-      "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
+      "success": "%1$s Keputusan anda yang dihasilkan daripada **%2$,d** kali ialah **%3$,d** kepada dan **%4$,d** ekor"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
-      "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
-      "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
-      "header": "%1$s's Inventory",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
-      "empty": "%1$sThis inventory is empty! :(",
-      "brief_notice": "You can use `~>inventory -brief` to get a mobile friendly version.",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "bot_notice": "%1$sSini, bots tidak mempunyai inventori. Walau, kadang-kadang mungkin anda berharap mereka mempunyainya, tapi ia hanya akan menjadi `~>dump`",
+      "brief": "**Koleksi item %1$s** %2$s\n\n*Untuk versi terperinci, gunakan `~>inventory -info`. Nikmatilah hari anda!*",
+      "calculate": "%1$s%2$s akan menerima **%3$,d kredit** jika semua itemnya dijual.",
+      "header": "Inventori %1$s",
+      "format": "**Harga**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "empty": "%1$sInventori ini kosong! :(",
+      "brief_notice": "Anda boleh menggunakan `~>inventory -brief` untuk mendapatkan versi yang mudah alih.",
+      "sorted_by": " *(disusun mengikut: %1$s)*"
     },
     "cast": {
       "no_item_specified": "%1$sAnda tidak menyatakan item. Untuk mendapatkan senarai, periksa `~>cast ls`",
