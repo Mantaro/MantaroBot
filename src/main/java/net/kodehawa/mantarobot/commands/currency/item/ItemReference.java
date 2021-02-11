@@ -94,7 +94,7 @@ public class ItemReference {
             ),
 
             MILK = new Item(ItemType.COMMON, EmoteReference.POTION1.getUnicode(),
-                    "Milk", "items.milk", "items.description.milk",
+                    "Glass of Milk", "items.milk", "items.description.milk",
                     25, true
             ),
 
@@ -248,7 +248,7 @@ public class ItemReference {
                     490, true
             ),
 
-            POTION_CLEAN = new Item(ItemType.POTION, "\uD83C\uDF7C",
+            POTION_CLEAN = new Item(ItemType.POTION, "\uD83E\uDD64",
                     "Milky Potion", "items.milky", "items.description.milky",
                     50, true
             ),
@@ -565,7 +565,7 @@ public class ItemReference {
                     60, true
             ),
 
-            MILK_2 = new Food(Food.FoodType.CAT, 10, "\ud83e\udd5b",
+            MILK_2 = new Food(Food.FoodType.CAT, 10, "\uD83C\uDF7C",
                     "Milk Bottle", "items.milk_3", "items.description.milk_3",
                     40, true
             ),
