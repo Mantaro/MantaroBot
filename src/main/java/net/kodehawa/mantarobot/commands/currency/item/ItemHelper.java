@@ -233,8 +233,8 @@ public class ItemHelper {
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
         PlayerData data = player.getData();
-        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) &&
-                toAdd.contains(ItemReference.GEM5_PICKAXE) && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
+        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM)
+                && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
             data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
