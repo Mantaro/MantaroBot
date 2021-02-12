@@ -51,6 +51,7 @@
         "no_key": "%1$sDu brauchst einen Truhenschlüssel, um eine Truhe zu öffnen. Sie ist verschlossen! Du kannst einen mit `~>buy key` kaufen.",
         "no_crate": "%1$sDu brauchst eine Truhe! Du bekommst Truhen normalerweise durch Währungsbefehle.",
         "success": "%1$sDu hast eine Truhe geöffnet und folgendes gewonnen: %2$s%3$s. Glückwunsch!",
+        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
         "overflow": "Aber du hattest schon zu viel, also hast du dich dazu entschlossen, den Rest weg zu werfen."
       },
       "potion_active": "%1$sDu hast bereits einen aktiven **%2$s** Trankeffekt und die maximal mögliche Menge davon!",
@@ -1275,7 +1276,7 @@
     },
     "dailycrate": {
       "check": "%1$s`Du kannst deine täglichen Kiste in **%2$s** abholen.",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good tools with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.\n\nAs a premium user, you can obtain a premium crate every day which can contain high level tools, which this command gives you.\nThanks for using Mantaro <3",
+      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
       "success": "%1$sDu hast eine **%2$s** erhalten! Komme in 24 Stunden zurück, um eine weitere zu erhalten! Du kannst sie mit `~>opencrate <crate name>` öffnen. Du musst einen Truhenschlüssel mit `~>buy key` kaufen, um sie zu öffnen."
     },
     "prune": {
