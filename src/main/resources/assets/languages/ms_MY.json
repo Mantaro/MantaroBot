@@ -32,7 +32,7 @@
     "item_lookup": {
       "no_item_emoji": "Tiada item yang berkaitkan dengan emoji ini.",
       "no_item_name": "Tiada item yang berkaitkan dengan nama ini.",
-      "not_found": "Tidak menemui item yang berkaitan dengan carian anda.\nSekiranya anda tersesat, cuba gunakan nama pendek, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
+      "not_found": "Tidak menemui item yang berkaitan dengan carian anda.\nSekiranya anda tersesat, cuba gunakan nama singkatan, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
       "claim_key": "Anda tidak boleh memindahkan kunci tuntutan."
     },
     "misc_item_usage": {
@@ -51,7 +51,7 @@
         "no_key": "%1$sAnda memerlukan sebentuk kunci peti untuk membuka sebuah peti. Ia terkunci! Anda boleh membelinya menggunakan `~>buy key`",
         "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
         "success": "%1$sAnda membuka peti dan menang: %2$s%3$s. Tahniah!",
-        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
+        "success_high": "%1$sAnda mendapat item berikut dengan jarangan lebih daripada 4 bintang: %2$s. Bilangannya dinyatakan di atas. Tahniah! %3$s",
         "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
@@ -601,7 +601,7 @@
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli sebuah rumah. (Harga rumah semasa: %2$d kredit)",
         "no_name": "%1$sAnda perlu menamakan rumah anda! Misalnya, `~>marry house cozy house`",
         "confirm": "%1$sAdakah anda pasti akan membeli rumah ini? Harga yang dipotong dari dompet anda ialah %2$d dan rumah anda dinamakan %3$s. Taip `yes` untuk sahkan dan `no` untuk membatalkan.",
-        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
+        "success": "%1$sAnda berjaya membeli sebuah rumah untuk harga %2$d kredit. Nama rumah baru anda ialah %3$s, tahniah!",
         "cancel_success": "%1$sOperasi dibatalkan."
       },
       "buycar": {
@@ -609,7 +609,7 @@
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli sebuah kereta. (Harga kereta semasa: %2$d kredit)",
         "no_name": "%1$sAnda perlu menamakan kereta anda! Misalnya, `~>marry car vroom`",
         "confirm": "%1$sAdakah anda pasti akan membeli kereta ini? Harga yang dipotong dari dompet anda ialah %2$d dan kereta anda dinamakan %3$s. Taip `yes` untuk sahkan dan `no` untuk membatalkan.",
-        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
+        "success": "%1$sAnda berjaya membeli sebuah kereta untuk harga %2$d kredit. Nama kereta baru anda ialah %3$s, tahniah!",
         "cancel_success": "%1$sOperasi dibatalkan."
       },
       "no_mention": "%1$sSila menyebut pengguna yang ingin anda mengahwini.",
@@ -627,7 +627,7 @@
     "divorce": {
       "confirm": "%1$sAdakah anda pasti akan menamatkan perkahwinan ini? Wang yang dibelanjakan untuk membeli rumah dan kereta akan dibahagikan kepada dua. Taip `yes` untuk meneruskan dan `no` untuk membatalkan. **Haiwan peliharaan anda akan hilang, kerana ia terikat dengan perkahwinan**",
       "cancelled": "%1$sPerceraian dibatalkan.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
+      "not_married": "%1$sAnda belum berkahwin dengan sesiapa lagi, mengapa anda tidak mencari seseorang istimewa itu?\nIngin menyingkirkan seorang Waifu? Gunakan `~>waifu unclaim` sebagai gantinya.",
       "success": "%1$sSekarang anda bujang. Saya rasa itu baiklah. %2$s",
       "split": "Wang yang ditinggalkan telah dibahagikan kepada kedua-dua pihak dengan menjual aset mereka (haiwan peliharaan, rumah, kereta). Setiap pihak mendapat **%1$d** kredit dalam dompetnya."
     },
@@ -649,7 +649,7 @@
         "key_locked": "%1$sPengguna yang anda cuba menuntut telah dikunci dan tidak boleh dituntut. Dia dapat memadamkannya menggunakan `~>profile claimlock remove` jika dia inginkan.",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk menuntut waifu ini **(Harga: %2$s kredit)**",
         "not_enough_slots": "%1$sAnda tidak mempunyai slot yang mencukupi untuk menuntut waifu ini. (Jumlah slot: %2$s, Slot terpakai: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
+        "success": "%1$sBerjaya menuntut `%2$s` untuk harga %3$,d kredit. Slot terpakai: %4$s",
         "yourself": "%1$sAnda tidak boleh menuntut diri anda!",
         "already_claimed": "%1$sAnda sudah menuntut waifu ini.",
         "not_found": "%1$sSaya tidak dapat mencari sebarang pengguna dengan carian ini. "
@@ -667,7 +667,7 @@
       "buyslot": {
         "locked": "%1$sKini, anda tidak dapat melakukan tindakan ini.",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli slot tambahan! Anda memerlukan %2$,d kredit.",
-        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
+        "success": "%1$sBerjaya membeli slot ini untuk harga %2$s kredit. Kini, anda mempunyai jumlah %3$s slot dan %4$s slot yang belum terpakai.",
         "too_many": "%1$sAnda sudah mempunyai slot yang banyak! Maksimumnya adalah 30 slot."
       },
       "optout": {
@@ -715,32 +715,32 @@
       "no_item_specified": "%1$sAnda tidak menyatakan item. Untuk mendapatkan senarai, periksa `~>cast ls`",
       "no_item_found": "%1$sSaya tidak dapat mencari sebarang item yang berkaitan dengan carian tersebut. Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan \"tanda petik\". Pastikan anda menaip nama penuh item untuk mengelakkan ketidakcocokan, ataupun menggunakan emoji jika boleh. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sAnda tidak boleh mencipta alatan ini. Anda boleh periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta. Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan tanda petik. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed. **(Needed: %3$s, Current: %4$s)**\nIs this not the item you're trying to cast? If the item name has spaces, wrap it in \"quotes\" or use the emoji.",
-      "success": "%1$sYou successfully *casted %2$s %3$s* for %4$s credits. *Cast used: %5$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast! Remember: You need to have two wrenches of the same required type to proceed with the cast.",
+      "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk mencipta alatan ini **(Harga: %2$s)**",
+      "no_item": "%1$sAnda tidak mempunyai item *%2$s* yang diperlukan untuk meneruskan penciptaan ini.",
+      "not_enough_items": "%1$sAnda tidak mempunyai item *%2$s* yang mencukupi untuk meneruskan. **(Diperlukan: %3$s, Semasa: %4$s)**\nIni bukan item yang ingin anda mencipta? Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan \"tanda petik\" atau menggunakan emojinya.",
+      "success": "%1$sAnda berjaya *mencipta %2$s %3$s* untuk harga %4$s kredit. *Penciptaan menggunakan: %5$s*",
+      "no_tool": "%1$sAnda memerlukan %2$s untuk meneruskan penciptaan ini! Ingat: Anda haruslah mempunyai dua batang perengkuh yang sama jenisnya untuk meneruskan penciptaan ini.",
       "item_broke": "\nMalangnya, perengkuh anda patah dalam proses, tapi anda masih mendapat item anda!",
-      "too_many": "%1$sYou'd have more than 5000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a tier %2$s wrench. Remember: You need to have two wrenches of the same required type to proceed with the cast.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe specify a more powerful one? *Wrench level: %2$s, Required level: %3$s*. Example: `~>cast \"star pick\" \"comet wrench\"`",
-      "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
+      "too_many": "%1$sAnda akan mempunyai lebih daripada 5000 item ini jika anda meneruskan. Cuba mengurangkan bilangan alatan yang ingin anda mencipta?",
+      "low_tier": "%1$sAnda memerlukan sekurang-kurangnya sebatang perengkuh tahap 2 (sekurang-kurangnya Perengkuh Komet) untuk mencipta beberapa alatan sekali gus. Kini, anda mempunyai perengkuh tahap %2$s. Ingat: Anda memerlukan dua batang perengkuh yang sama jenisnya untuk meneruskan penciptaan ini.",
+      "not_enough_wrench_level": "%1$sPerengkuh anda tidak cukup kuat untuk mencipta item ini. Mungkin nyatakan perengkuh yang lebih kuat? *Tahap perengkuh: %2$s, Tahap yang diperlukan: %3$s*. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
+      "too_many_amount": "%1$sAnda tidak boleh mencipta alatan sebanyak itu sekali gus! Had: %2$s, Dicuba: %3$s. Perengkuh berkilau dapat menggandakan had tersebut! Melainkan jika anda sudah memakainya.",
       "ls": {
-        "header": "Castable Item List",
-        "cost": "Cast Cost: ",
-        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "header": "Senarai Penciptaan Alatan",
+        "cost": "Harga Penciptaan: ",
+        "desc": "Yang berikut adalah senarai alatan yang boleh dicipta menggunakan `~>cast`.\nAnda boleh menggunakan nama penuh atau nama singkatan, ataupun emoji.\n**Penciptaan mempunyai kos minimum separuh harga item, yang dipaparkan di bawah.**\nPerengkuh tahap 2 ialah perengkuh komet dan perengkuh tahap 3 ialah perengkuh berkilau."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
+      "dust": "%1$sAnda tidak boleh mencipta dengan inventori yang penuh dengan habuk itu! *(Tahap habuk: %2$s%%)*. Mengapa anda tidak membersihkannya dengan `~>useitem mop`?",
+      "wrench_multiple_use": "Tip: *Anda tidak boleh menggunakan perengkuh yang sedang anda cuba mencipta sebagai ramuan!*"
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
-        "no_item": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to dump.",
-        "invalid": "%1$sNot a valid number of items to dump.",
-        "non_existent": "%1$sCannot dump a non-existent item! If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "player_no_item": "%1$sCannot dump an item you don't have!",
-        "more_items_than_player": "%1$sYou cannot dump more items than what you have.",
+        "replacement": "Kini, anda boleh gunakan `~>dump`. Contohnya, anda boleh menggantikan `~>market dump floppy` dengan `~>dump floppy`. Sila menggunakan arahan yang baru... Saya tertanya-tanya apa yang berlaku pada semua disket yang telah kalian buang?",
+        "no_item": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membuang.",
+        "invalid": "%1$sNombor item yang ingin dibuang tidak sah.",
+        "non_existent": "%1$sTidak boleh membuang item yang tidak wujud! Sekiranya anda tersesat, cuba menaip nama singkatan atau mengapit nama tersebut dengan tanda petik.",
+        "player_no_item": "%1$sTidak boleh membuang item yang anda tidak mempunyai!",
+        "more_items_than_player": "%1$sAnda tidak boleh membuang item yang lebih banyak daripada apa yang anda mempunyai.",
         "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
       },
       "price": {
@@ -847,15 +847,15 @@
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
-      "already_assigned": "%1$sYou already have this role, silly!",
+      "already_assigned": "%1$sAnda sudah mempunyai peranan ini, bodoh!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
       "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
       "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
       "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
     "iamnot": {
-      "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
-      "not_assigned": "%1$sYou don't have this role, silly!",
+      "no_args": "%1$sAnda perlu menyatakan peranan yang anda mahu saya padamkan daripada anda, bodoh.",
+      "not_assigned": "%1$sAnda tidak mempunyai peranan ini, bodoh!",
       "success": "%1$s%2$s, you've lost the **%3$s** role"
     },
     "misc": {
@@ -936,7 +936,7 @@
         "daily_at": "Last Daily",
         "waifu_claimed": "Times Waifu Claimed",
         "waifu_locked": "Waifu Lock",
-        "dust": "Dust Level",
+        "dust": "Tahap Habuk",
         "lang": "Display Language",
         "reminders": "Times Reminded",
         "times": "time(s)",
@@ -1357,7 +1357,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
+        "not_dusty": "%1$s**%2$s** tidak berhabuk. (Tahap habuk semasa: %3$,d)",
         "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
@@ -1581,7 +1581,7 @@
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
-      "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
+      "dust": "%1$sInventori anda terlalu berhabuk untuk menjalankan pembaikan. Tahap habuk: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
       "not_enough_money": "%1$sYou don't have enough money to repair this item.",
@@ -1694,7 +1694,7 @@
         "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
         "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$,d credits.** But you already had too many credits, so I donated the excess."
       },
-      "dust": "Digging through messages, you found nothing but dust (Dust level %1$s%%)",
+      "dust": "Semasa menggali mesej, anda tidak menjumpai apa-apa kecuali habuk (Tahap habuk %1$s%%)",
       "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
     },
     "mine": {
@@ -1732,7 +1732,7 @@
     },
     "chop": {
       "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
-      "dust": "%1$sThe tree was too brittle and you only got sawdust out of it (Dust level: %2$d%%)",
+      "dust": "%1$sPokok itu terlalu rapuh dan anda hanya mendapat habuk kayu daripadanya (Tahap habuk: %2$d%%)",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
@@ -1903,7 +1903,7 @@
     "music_queuelimit": {
       "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
       "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+      "invalid": "%1$sAnda cuba menetapkan nombor yang terlalu besar (yang tidak akan digunakan), bodoh"
     },
     "music_clearchannel": {
       "success": "%1$sI can play music on all channels now."
@@ -2073,7 +2073,7 @@
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
       "admin_only": "Custom command creation is now admin only.",
       "everyone": "Penciptaan arahan kustom kini boleh dilakukan oleh sesiapa sahaja.",
-      "not_bool": "%1$sSilly, that's not a boolean value (true or false)!"
+      "not_bool": "%1$sBodoh, itu bukan nilai boolean (betul atau salah)!"
     },
     "timedisplay_set": {
       "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
