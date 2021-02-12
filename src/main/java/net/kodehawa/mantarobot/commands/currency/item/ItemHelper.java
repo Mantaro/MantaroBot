@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
@@ -263,13 +264,27 @@ public class ItemHelper {
         I18nContext lang = ctx.getLanguageContext();
 
         var toShow = ItemStack.reduce(ita);
+        var show = toShow.stream()
+                .map(itemStack -> "x%,d %s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
+                .collect(Collectors.joining(", "));
+
+        var extra = "";
+        if (overflow) {
+            extra = ". " + lang.get("general.misc_item_usage.crate.overflow");
+        }
+
+        var high = ita.stream()
+                .filter(stack -> stack.getItem() instanceof Attribute)
+                .filter(stack -> ((Attribute) stack.getItem()).getTier() >= 4)
+                .map(stack -> stack.getItem().getEmoji() + " (" + ((Attribute) stack.getItem()).getTier() + "*)")
+                .collect(Collectors.joining(", "));
+        if (high.length() >= 1) {
+            extra = ".\n" + lang.get("general.misc_item_usage.crate.success_high")
+                    .formatted(EmoteReference.DIAMOND, high, EmoteReference.POPPER);
+        }
 
         ctx.sendFormat(lang.get("general.misc_item_usage.crate.success"),
-                typeEmote.getDiscordNotation() + " ",
-                toShow.stream()
-                        .map(itemStack -> "x%,d %s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
-                        .collect(Collectors.joining(", ")),
-                overflow ? ". " + lang.get("general.misc_item_usage.crate.overflow") : "");
+                typeEmote.getDiscordNotation() + " ", show, extra);
     }
 
     @SuppressWarnings("fallthrough")

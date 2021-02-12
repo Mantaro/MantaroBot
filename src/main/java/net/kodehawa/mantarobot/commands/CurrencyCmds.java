@@ -265,7 +265,7 @@ public class CurrencyCmds {
                 }
 
                 //Ratelimit handled here
-                //Check Items.openLootCrate for implementation details.
+                //Check ItemHelper.openLootCrate for implementation details.
                 item.getAction().test(ctx, isSeasonal);
             }
 
