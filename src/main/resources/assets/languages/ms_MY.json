@@ -138,7 +138,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sHari sudah berakhir, dan baldi ikan anda hanya dapat mengumpulkan habuk. (Tahap habuk %2$s%%)",
-      "no_rod": "%1$sAnda masih belum melengkapkan joran anda. Gunakan `~>equip <rod name>` untuk melengkapkan sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
+      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
       "trash": {
         "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami harus membuangnya kembali ke dalam air...",
         "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s yang terapung tetapi nampaknya hanya sampah :("
@@ -151,7 +151,7 @@
         "success": "Anda menjumpai %1$s **%2$s** semasa memancing dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <crate name>`. Anda memerlukan kunci peti!"
       },
       "autoequip": {
-        "success": "%1$s**%2$s** dilengkapi secara automatik di slot joran anda."
+        "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
       },
       "overflow": "%1$sAnda menjumpai sebilangan ikan, tetapi sebahagian dari inventori anda sudah penuh, jadi kami terpaksa membuangnya kembali ke dalam air.",
       "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s dan anda terus menyimpannya ke dalam baldi anda.",
@@ -163,9 +163,9 @@
       "shark_success": "%1$sEntah bagaimana, anda berjaya menangkap ikan yu. Joran yang indah, ya?",
       "fossil_success": "%1$sAnda menangkap fosil semasa cuba mencari ikan. Saya yakin item ini mungkin bernilai atau digunakan untuk mencipta alatan baharu.",
       "bait": "Ikan memakan umpan anda dalam proses!",
-      "missing_equipped": "%1$sAnda mempunyai joran %2$s yang lengkap, tetapi anda tidak lagi mempunyai jenis barangan ini di inventori anda! Joran yang dilengkapkan telah ditetapkan semula.",
+      "missing_equipped": "%1$sYou had an equipped %2$s rod, but you no longer have any of its kind on your inventory! Equipped rod has been reset.",
       "broken_drop": "%1$sRod anda pecah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sAnda masih belum melengkapkan joran. Untuk melengkapkannya, anda perlu menjalankan `~>equip <rod name>` untuk memulakan pengembaraan anda!"
+      "no_rod_equipped": "%1$sYou have no rod equipped. To equip one you need to run `~>equip <rod name>` to start your adventure!"
     },
     "softban": {
       "no_permission": "%1$sTidak boleh melarang lembut: Anda tidak mempunyai kebenaran Ban Members.",
@@ -647,7 +647,7 @@
         "no_user": "%1$sAnda tidak menyebut pengguna untuk dituntut.",
         "locked": "%1$sKini, anda tidak dapat melakukan tindakan ini.",
         "key_locked": "%1$sPengguna yang anda cuba menuntut telah dikunci dan tidak boleh dituntut. Dia dapat memadamkannya menggunakan `~>profile claimlock remove` jika dia inginkan.",
-        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk menuntut waifu ini **(Harga: %2$s kredit)**",
+        "not_enough_money": "%1$sYou don't have enough money to claim this waifu **(Cost: %2$s credits)**",
         "not_enough_slots": "%1$sAnda tidak mempunyai slot yang mencukupi untuk menuntut waifu ini. (Jumlah slot: %2$s, Slot terpakai: %3$s)",
         "success": "%1$sBerjaya menuntut `%2$s` untuk harga %3$,d kredit. Slot terpakai: %4$s",
         "yourself": "%1$sAnda tidak boleh menuntut diri anda!",
@@ -657,11 +657,11 @@
       "unclaim": {
         "no_user": "%1$sAnda perlu menyebut seorang waifu untuk disingkirkan.",
         "not_claimed": "%1$sPengguna ini bukan waifu anda!",
-        "confirmation": "%1$sAdakah anda *pasti* akan menyingkirkan %2$s? Harga untuk menyingkirkan waifu ini ialah **%3$s kredit**. Taip *yes* untuk sahkan dan *no* untuk membatalkan\n%4$sMasa ini akan tamat dalam 1 minit.",
+        "confirmation": "%1$sAre you *sure* you want to un-claim %2$s? The cost to un-claim this waifu is **%3$s credits**. Type *yes* to confirm or *no* to cancel\n%4$sThis times out in 1 minute.",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk menyingkirkan waifu ini!",
         "player_locked": "%1$sAnda tidak dapat melakukan ini buat masa ini.",
         "scrapped": "%1$sPenyingkiran waifu dibatalkan.",
-        "success": "%1$sBerjaya menyingkirkan `%2$s` untuk harga **%3$s kredit**.",
+        "success": "%1$sSuccessfully unclaimed `%2$s` with a cost of **%3$s credits**.",
         "not_found": "%1$sSaya tidak menemui sebarang pengguna dengan carian ini. Jika anda ingin menyingkirkan seorang pengguna yang tidak diketahui, gunakan ID-nya (`~>waifu -id`) dan menambah `-unknown` di hujungnya."
       },
       "buyslot": {
@@ -715,7 +715,7 @@
       "no_item_specified": "%1$sAnda tidak menyatakan item. Untuk mendapatkan senarai, periksa `~>cast ls`",
       "no_item_found": "%1$sSaya tidak dapat mencari sebarang item yang berkaitan dengan carian tersebut. Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan \"tanda petik\". Pastikan anda menaip nama penuh item untuk mengelakkan ketidakcocokan, ataupun menggunakan emoji jika boleh. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$sAnda tidak boleh mencipta alatan ini. Anda boleh periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta. Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan tanda petik. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
-      "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk mencipta alatan ini **(Harga: %2$s)**",
+      "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
       "no_item": "%1$sAnda tidak mempunyai item *%2$s* yang diperlukan untuk meneruskan penciptaan ini.",
       "not_enough_items": "%1$sAnda tidak mempunyai item *%2$s* yang mencukupi untuk meneruskan. **(Diperlukan: %3$s, Semasa: %4$s)**\nIni bukan item yang ingin anda mencipta? Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan \"tanda petik\" atau menggunakan emojinya.",
       "success": "%1$sAnda berjaya *mencipta %2$s %3$s* untuk harga %4$s kredit. *Penciptaan menggunakan: %5$s*",
@@ -727,27 +727,27 @@
       "too_many_amount": "%1$sAnda tidak boleh mencipta alatan sebanyak itu sekali gus! Had: %2$s, Dicuba: %3$s. Perengkuh berkilau dapat menggandakan had tersebut! Melainkan jika anda sudah memakainya.",
       "ls": {
         "header": "Senarai Penciptaan Alatan",
-        "cost": "Harga Penciptaan: ",
+        "cost": "Cast Cost: ",
         "desc": "Yang berikut adalah senarai alatan yang boleh dicipta menggunakan `~>cast`.\nAnda boleh menggunakan nama penuh atau nama singkatan, ataupun emoji.\n**Penciptaan mempunyai kos minimum separuh harga item, yang dipaparkan di bawah.**\nPerengkuh tahap 2 ialah perengkuh komet dan perengkuh tahap 3 ialah perengkuh berkilau."
       },
       "dust": "%1$sAnda tidak boleh mencipta dengan inventori yang penuh dengan habuk itu! *(Tahap habuk: %2$s%%)*. Mengapa anda tidak membersihkannya dengan `~>useitem mop`?",
-      "wrench_multiple_use": "Tip: *Anda tidak boleh menggunakan perengkuh yang sedang anda cuba mencipta sebagai ramuan!*"
+      "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
       "dump": {
         "replacement": "Kini, anda boleh gunakan `~>dump`. Contohnya, anda boleh menggantikan `~>market dump floppy` dengan `~>dump floppy`. Sila menggunakan arahan yang baru... Saya tertanya-tanya apa yang berlaku pada semua disket yang telah kalian buang?",
         "no_item": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membuang.",
-        "invalid": "%1$sNombor item yang ingin dibuang tidak sah.",
+        "invalid": "%1$sNot a valid number of items to dump.",
         "non_existent": "%1$sTidak boleh membuang item yang tidak wujud! Sekiranya anda tersesat, cuba menaip nama singkatan atau mengapit nama tersebut dengan tanda petik.",
         "player_no_item": "%1$sTidak boleh membuang item yang anda tidak mempunyai!",
         "more_items_than_player": "%1$sAnda tidak boleh membuang item yang lebih banyak daripada apa yang anda mempunyai.",
-        "success": "%1$sSent %2$,dx **%3$s %4$s** to the trash."
+        "success": "%1$sTelah membuang %2$,dx **%3$s %4$s** ke dalam tong sampah."
       },
       "price": {
-        "no_item": "%1$sYou need to specify the item you want to check the price of.",
+        "no_item": "%1$sAnda perlu menyatakan item yang ingin anda periksa harganya.",
         "non_existent": "%1$sCannot check the price of a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_price": "%1$sThis item is not available neither for sell or buy (could be an exclusive collectible)",
-        "collectible": "%1$sThis is a collectible item. (Sell value: %2$,d credits)",
+        "no_price": "%1$sItem ini tidak boleh dibeli ataupun dijual (mungkin ia merupakan koleksi eksklusif)",
+        "collectible": "%1$sIni merupakan item koleksi. (Nilai jual: %2$,d kredit)",
         "success": "%1$sThe market value of %2$s**%3$s** is %4$s credits to buy it and you can get %5$s credits if you sell it."
       },
       "sell": {
@@ -1394,8 +1394,8 @@
         "already_has_pet": "%1$sAnda sudah memiliki haiwan peliharaan. (Pilihan semasa: %2$s)",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAdakah anda pasti akan membeli haiwan peliharaan ini? Nama: %2$s, Jenis: %3$s, Harga: %4$,d kredit. Pilihan: %5$s. Taip `yes` untuk meneruskan, `no` jika tidak.",
-        "success": "%1$sTahniah! Anda berdua berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Harga untuk membeli haiwan peliharaan ini ialah %5$,d kredit and pilihan haiwan peliharaan ini merupakan: %5$s",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %5$s",
         "cancel_success": "%1$sCancelled operation.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
@@ -2269,7 +2269,7 @@
   },
   "items": {
     "categories": {
-      "collectable": "Item Dikumpul",
+      "collectable": "Item Koleksi",
       "common": "Item Biasa",
       "rare": "Item Jarang",
       "premium": "Item Premium",
