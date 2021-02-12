@@ -51,6 +51,7 @@
         "no_key": "%1$sVocê precisa de uma chave do baú pra abrir um baú. Está fechado! Você pode comprar um usando `~>buy key`",
         "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
         "success": "%1$sVocê abriu o baú e ganhou: %2$s%3$s. Parabéns!",
+        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
         "overflow": "Mas você já teve demais, então resolveu jogar fora o excesso"
       },
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
@@ -1275,7 +1276,7 @@
     },
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu baú diário em: **%2$s.**",
-      "not_premium": "%1$sVocê não é premium!\nVocê pode abrir um baú diário premium com uma alta chance de ganhar ferramentas boas com premium! Por favor saiba mais em <https://patreon.com/mantaro>\nIsso pode ser usado a cada 24 horas.\n\nComo um usuário premium, você pode obter um baú premium todo dia que pode conter ferramentas de nível alto, fornecido nesse comando.\nObrigado por usar a Mantaro <3",
+      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
       "success": "%1$sVocê acabou de ganhar um **%2$s**! Volte daqui a 24 horas pra ganhar outro! Você pode abri-lo usando `~>opencrate <tipo de baú>`. Você precisa comprar uma Chave de Baú utilizando o comando `~>buy key` antes de abri-lo."
     },
     "prune": {
