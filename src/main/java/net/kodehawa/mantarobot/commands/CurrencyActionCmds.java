@@ -287,7 +287,7 @@ public class CurrencyActionCmds {
                     player.addMoney(money);
                 }
 
-                // Due to badges.
+                handlePetBadges(player, pet);
                 player.saveUpdating();
 
                 if (marriage != null) {
@@ -519,6 +519,8 @@ public class CurrencyActionCmds {
                     if (foundFish) {
                         player.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
+
+                    handlePetBadges(player, pet);
 
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
@@ -754,6 +756,8 @@ public class CurrencyActionCmds {
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
                     }
 
+                    handlePetBadges(player, pet);
+
                     if (playerData.shouldSeeCampaign()) {
                         extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
                         playerData.markCampaignAsSeen();
@@ -834,6 +838,16 @@ public class CurrencyActionCmds {
         return all.stream()
                 .sorted(Comparator.comparingLong(Item::getValue))
                 .collect(Collectors.toList());
+    }
+
+    private void handlePetBadges(Player player, HousePet pet) {
+        if (pet.getLevel() >= 50) {
+            player.getData().addBadgeIfAbsent(Badge.EXPERIENCED_PET_OWNER);
+        }
+
+        if (pet.getLevel() >= 100) {
+            player.getData().addBadgeIfAbsent(Badge.EXPERT_PET_OWNER);
+        }
     }
 
     private void handleItemDurability(Item item, Context ctx, Player player, DBUser dbUser,
