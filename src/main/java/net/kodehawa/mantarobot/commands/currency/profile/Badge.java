@@ -430,17 +430,17 @@ public enum Badge {
 
     CASTER("Caster", "<:sparkle_wrench:551979816262434819>", "Cast more than 50 items",
             91, 92,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> player.getStats().getCraftedItems() >= 50, false
     ),
 
     REPAIR_PERSON("Repair Person", "<:comet_wrench:551979816174354443>", "Repair an item more than 50 times",
             91, 92,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> player.getStats().getRepairedItems() >= 50, false
     ),
 
     SALVAGER("Salvager", "\uD83D\uDD27", "Salvage an item more than 50 times",
             91, 92,
-            (player, dbUser) -> false, false
+            (player, dbUser) -> player.getStats().getSalvagedItems() >= 50, false
     ),
 
     FIRST_MINER("First Time Miner", "<:comet_pick:492882142788059146>",

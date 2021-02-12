@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.Food;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -556,8 +557,12 @@ public class PetCmds {
                     if (e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
+                        var playerDataConfirmed = playerConfirmed.getData();
+                        var petChoiceConfirmed = playerConfirmed.getData().getPetChoice();
 
                         if (petChoice == PetChoice.PERSONAL && !playerInventoryConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
+                            playerConfirmed.setLocked(false);
+                            playerConfirmed.saveUpdating();
                             ctx.sendLocalized("commands.pet.buy.no_egg", EmoteReference.ERROR);
                             return Operation.COMPLETED;
                         }
@@ -577,17 +582,33 @@ public class PetCmds {
                             return Operation.COMPLETED;
                         }
 
+                        var dbUserConfirmed = ctx.getDBUser();
+                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        var marriageDataConfirmed = marriageConfirmed.getData();
+                        if (!marriageDataConfirmed.hasCar() || !marriageDataConfirmed.hasHouse()) {
+                            playerConfirmed.setLocked(false);
+                            playerConfirmed.saveUpdating();
+                            ctx.sendLocalized("commands.pet.buy.no_requirements",
+                                    EmoteReference.ERROR, marriageDataConfirmed.hasHouse(), marriageDataConfirmed.hasCar()
+                            );
+                            return Operation.COMPLETED;
+                        }
+
                         playerConfirmed.removeMoney(toBuy.getCost());
                         playerInventoryConfirmed.process(new ItemStack(ItemReference.PET_HOUSE, -1));
 
-                        if (petChoice == PetChoice.MARRIAGE) {
-                            var dbUserConfirmed = ctx.getDBUser();
-                            var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                        if (petChoiceConfirmed == PetChoice.MARRIAGE) {
                             marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
                             marriageConfirmed.save();
                         } else {
                             playerInventoryConfirmed.process(new ItemStack(ItemReference.INCUBATOR_EGG, -1));
-                            playerConfirmed.getData().setPet(new HousePet(name, toBuy));
+                            playerDataConfirmed.setPet(new HousePet(name, toBuy));
+                        }
+
+                        if (petChoiceConfirmed == PetChoice.MARRIAGE) {
+                            playerDataConfirmed.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
+                        } else {
+                            playerDataConfirmed.addBadgeIfAbsent(Badge.BEST_FRIEND);
                         }
 
                         playerConfirmed.setLocked(false);

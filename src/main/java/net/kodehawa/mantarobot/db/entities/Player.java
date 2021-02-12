@@ -241,6 +241,11 @@ public class Player implements ManagedObject {
         }
     }
 
+    @JsonIgnore
+    public PlayerStats getStats() {
+        return MantaroData.db().getPlayerStats(getUserId());
+    }
+
     // So it doesn't fail to de-serialize it. Blame JacksonXML.
     public long getOldMoney() {
         return oldMoney;

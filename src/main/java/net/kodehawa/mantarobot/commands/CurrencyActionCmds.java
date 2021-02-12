@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.RandomCollection;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -287,7 +288,7 @@ public class CurrencyActionCmds {
                     player.addMoney(money);
                 }
 
-                handlePetBadges(player, pet);
+                handlePetBadges(player, marriage, pet);
                 player.saveUpdating();
 
                 if (marriage != null) {
@@ -520,7 +521,7 @@ public class CurrencyActionCmds {
                         player.getData().addBadgeIfAbsent(Badge.FISHER);
                     }
 
-                    handlePetBadges(player, pet);
+                    handlePetBadges(player, marriage, pet);
 
                     if (nominalLevel >= 3 && random.nextInt(110) > 90) {
                         playerInventory.process(new ItemStack(ItemReference.SHELL, 1));
@@ -756,7 +757,7 @@ public class CurrencyActionCmds {
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
                     }
 
-                    handlePetBadges(player, pet);
+                    handlePetBadges(player, marriage, pet);
 
                     if (playerData.shouldSeeCampaign()) {
                         extraMessage += Campaign.PREMIUM.getStringFromCampaign(languageContext, dbUser.isPremium());
@@ -840,13 +841,28 @@ public class CurrencyActionCmds {
                 .collect(Collectors.toList());
     }
 
-    private void handlePetBadges(Player player, HousePet pet) {
+    private void handlePetBadges(Player player, Marriage marriage, HousePet pet) {
+        var playerData = player.getData();
+        if (pet == null) {
+            return;
+        }
+
+        if (pet.getType() == HousePetType.KODE) {
+            playerData.addBadgeIfAbsent(Badge.THE_BEST_FRIEND);
+        }
+
+        if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
+            playerData.addBadgeIfAbsent(Badge.BEST_FRIEND_MARRY);
+        } else {
+            playerData.addBadgeIfAbsent(Badge.BEST_FRIEND);
+        }
+
         if (pet.getLevel() >= 50) {
-            player.getData().addBadgeIfAbsent(Badge.EXPERIENCED_PET_OWNER);
+            playerData.addBadgeIfAbsent(Badge.EXPERIENCED_PET_OWNER);
         }
 
         if (pet.getLevel() >= 100) {
-            player.getData().addBadgeIfAbsent(Badge.EXPERT_PET_OWNER);
+            playerData.addBadgeIfAbsent(Badge.EXPERT_PET_OWNER);
         }
     }
 
