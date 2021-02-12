@@ -187,15 +187,15 @@ public enum Badge {
             (player, dbUser) -> dbUser.getData().getTimesClaimed() >= 1000, false
     ),
 
-    RICH("Rich", "\uD83D\uDCB8", "Get 100 million credits. That's *really* a lot of money.",
-            91, 92,
-            (player, dbUser) -> player.getCurrentMoney() >= 100_000_000, false
-    ),
-
     BI_YEARLY_CLAIMER("Bi-Yearly Claimer", "\uD83D\uDD65",
             "Claim daily more than 730 days in a row (such dedication)",
             91, 92,
             (player, dbUser) -> false, false
+    ),
+
+    RICH("Rich", "\uD83D\uDCB8", "Get 25 million credits. That's *really* a lot of money.",
+            91, 92,
+            (player, dbUser) -> player.getCurrentMoney() >= 25_000_000, false
     ),
 
     YEARLY_CLAIMER("Yearly Claimer", "\uD83D\uDD50",
