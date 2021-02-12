@@ -143,7 +143,7 @@ public class ProfileCmd {
                             var mh = MantaroBot.getInstance().getShardManager().getGuildById("213468583252983809");
                             var mhMember = mh == null ? null : ctx.retrieveMemberById(memberLooked.getUser().getId(), false);
 
-                            Badge.assignBadges(player, dbUser);
+                            Badge.assignBadges(player, player.getStats(), dbUser);
                             var christmasBadgeAssign = inv.asList()
                                     .stream()
                                     .map(ItemStack::getItem)
