@@ -17,7 +17,9 @@
 package net.kodehawa.mantarobot.commands.currency.profile;
 
 import net.dv8tion.jda.internal.utils.IOUtil;
+import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
+import net.kodehawa.mantarobot.commands.currency.item.PlayerEquipment;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -143,8 +145,19 @@ public enum Badge {
     ),
 
     DEPTHS_OF_HELL("Depths of Hell", "\uD83D\uDE08", "Have all 3 Hellfire tools equipped",
-            91, 92,
-            (player, dbUser) -> false, false
+            91, 92, (player, dbUser) -> {
+            var equipment = dbUser.getData().getEquippedItems().getEquipment();
+            if (equipment.containsKey(PlayerEquipment.EquipmentType.PICK) &&
+                    equipment.containsKey(PlayerEquipment.EquipmentType.ROD) && equipment.containsKey(PlayerEquipment.EquipmentType.AXE)) {
+                boolean hellfirePick = equipment.get(PlayerEquipment.EquipmentType.PICK) == ItemHelper.idOf(ItemReference.HELLFIRE_PICK);
+                boolean hellfireRod = equipment.get(PlayerEquipment.EquipmentType.ROD) == ItemHelper.idOf(ItemReference.HELLFIRE_ROD);
+                boolean hellfireAxe = equipment.get(PlayerEquipment.EquipmentType.AXE) == ItemHelper.idOf(ItemReference.HELLFIRE_AXE);
+
+                return hellfireAxe && hellfirePick && hellfireRod;
+            }
+
+            return false;
+        }, false
     ),
 
     HOT_MINER("Hot Miner", "<:hellfire_pick:762027645004808202>",

@@ -40,7 +40,7 @@ public class PlayerEquipment {
     public PlayerEquipment(@JsonProperty("equipment") Map<EquipmentType, Integer> equipment, @JsonProperty("effects") Map<EquipmentType, PotionEffect> effects, @JsonProperty("durability") Map<EquipmentType, Integer> durability) {
         this.equipment = equipment;
         this.effects = effects;
-        this.durability = durability == null ? new HashMap<>() : durability; //Workaround because some people will not have this property.
+        this.durability = durability == null ? new HashMap<>() : durability; // Workaround because some people will not have this property.
     }
 
     @JsonIgnore
