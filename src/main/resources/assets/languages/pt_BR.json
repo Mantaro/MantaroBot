@@ -51,7 +51,7 @@
         "no_key": "%1$sVocê precisa de uma chave do baú pra abrir um baú. Está fechado! Você pode comprar um usando `~>buy key`",
         "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
         "success": "%1$sVocê abriu o baú e ganhou: %2$s%3$s. Parabéns!",
-        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
+        "success_high": "%1$sVocê ganhou os seguintes itens com uma raridade maior que 4 estrelas: %2$s. A quantidade foi mostrada acima. Parabéns! %3$s",
         "overflow": "Mas você já teve demais, então resolveu jogar fora o excesso"
       },
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
@@ -601,7 +601,7 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar uma casa. (Preço atual da casa: %2$d créditos)",
         "no_name": "%1$sVocê precisa dar um nome a sua casa! Por exemplo, `~>marry house cozy house",
         "confirm": "%1$sVocê tem certeza que quer comprar esta casa? O preço deduzido da sua carteira é %2$d e o nome que você deu pra casa é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
-        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
+        "success": "%1$sVocê comprou com sucesso uma casa por %2$d créditos. O nome da sua nova acolhedora casa é %3$s, aprecie!",
         "cancel_success": "%1$sOperação cancelada."
       },
       "buycar": {
@@ -609,7 +609,7 @@
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar um carro. (Preço atual do carro: %2$d créditos)",
         "no_name": "%1$sVocê precisar dar um nome ao seu carro! Por exemplo, `~>marry car vroom`",
         "confirm": "%1$sVocê tem certeza que quer comprar este carro? O preço deduzido da sua carteira é %2$d e o nome que você deu pro carro é %3$s. Digite `yes` para confirmar e `no` para cancelar.",
-        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
+        "success": "%1$sVocê comprou com sucesso um carro por %2$d créditos. O nome do seu novo carro rápido é %3$s, aprecie!",
         "cancel_success": "%1$sOperação cancelada."
       },
       "no_mention": "%1$sMencione o usuário que você quer se casar.",
@@ -649,7 +649,7 @@
         "key_locked": "%1$sO usuário que você tentou reivindicar está com uma chave bloqueando e não pode ser reivindicado. Ele pode remover ela usando `~>profile claimlock remove` se ele quiser.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para reivindicar esta waifu **(Custo: %2$s)**",
         "not_enough_slots": "%1$sVocê não tem slots disponíveis para reivindicar esta waifu. (Total de slots: %2$s, Slots usados: %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
+        "success": "%1$sReivindicado com sucesso `%2$s` por %3$,d créditos. Espaços usados: %4$s",
         "yourself": "%1$sVocê não pode reivindicar a si mesmo!",
         "already_claimed": "%1$sVocê já reivindicou esta waifu.",
         "not_found": "%1$sNão consigui encontrar nenhum usuário com essa consulta. "
@@ -667,7 +667,7 @@
       "buyslot": {
         "locked": "%1$sVocê está atualmente impossibilitado de executar esta ação.",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente para comprar mais espaços! Você precisa de %2$d créditos.",
-        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
+        "success": "%1$sEspaço comprado com sucesso por %2$s créditos, você atualmente tem %3$s espaços no total e %4$s espaços disponíveis.",
         "too_many": "%1$sVocê já tem muito slots! O máximo é 30 slots."
       },
       "optout": {
@@ -714,7 +714,7 @@
     "cast": {
       "no_item_specified": "%1$sVocê não especificou item algum. Para uma lista, cheque `~>cast ls`",
       "no_item_found": "%1$sEu não encontrei nenhum item correspondente. Se o nome do item tiver espaços, coloque-o entre \"aspas\". Certifique-se de digitar o nome completo do item para evitar incompatibilidades ou use o emoji, se possível. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
-      "item_not_cast": "%1$sVocê não pode fundir esse item. Você pode checar `~>cast ls` para uma lista de itens que podem ser fundidos. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
+      "item_not_cast": "%1$sVocê não pode confeccionar esse item. Você pode checar `~>cast ls` para uma lista dos itens que podem ser confeccionados. Se o nome do item têm espaços, coloque o nome entre aspas. Exemplo: `~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
       "not_enough_items": "%1$sVocê não tem o suficiente do item *%2$s* para prosseguir. **(Necessário: %3$s, Atual: %4$s)**\nNão é este o item que você está tentando fundir? Se o nome do item tiver espaços, coloque-o entre \"aspas\" ou use o emoji.",
@@ -1331,12 +1331,12 @@
       "e926_nsfw_notice": "%1$sO comando e926 só pode ser usado em canais NSFW. As imagens devem ser geralmente de boas, mas a classificação é inconsistente."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "explanation": "Pets são companhias úteis na moeda!\nEles te ajudam a ganhar mais dinheiro, mais loot, achar coisas aleatórias no mine, cortar árvores e até pegar peixe. Mais level, mais alta as recompensas!\nObtendo o pet certo para sua atividades é importante, então tenha certeza de checar o tipo e as habilidades do pet que você escolher!\nLembre-se que você precisa alimentar seu pet e dar água pra ele, também eixar ele descansar e recarregar a energia de vez e quando, como um pet real! Você ainda pode acariciar ele :)\nTem dois tipos: Personal (para você mesmo) e Marriage (compartilhado com seu parceiro e você). Escolha um usando `~>pet choice`. O padrão é Personal.\nPara mais ajuda, use `~>help pet` e `~>pet list` para uma lista de pets.",
       "no_marriage": "%1$sVocê precisa estar casado(a) para ter um animal de estimação. Por enquanto. Dê uma olhada em `~>help marry` e `~>pet`",
       "no_marriage_other": "%1$s%2$s precisa estar casado(a) para ter um animal de estimação. Por enquanto. Dê uma olhada em `~>help marry` e `~>pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
-        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
+        "no_pet": "%1$sVocê não tem nenhum pet para checar os status. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
+        "pet_in_other_category": "\n%1$sVocê tem um pet na escolha %2$s (%3$s). Você pode trocar com `~>pet choice %2$s`",
         "header": "Status de %1$s",
         "description": "Lembre-se de dar amor e carinho ao seu pet. :heart:\nVeja `~>pet` e `~>help pet` para uma explicação.",
         "cost": "Preço",
@@ -1347,23 +1347,23 @@
         "thirst": "Sede",
         "hunger": "Fome",
         "stamina": "Estâmina",
-        "dust": "Dust (%)",
+        "dust": "Poeira (%)",
         "pet": "Carinhos",
-        "buildup": "Credit / Item Buildup",
-        "buildup_coin": "Credit Buildup",
+        "buildup": "Acréscimo de Crédios / Itens",
+        "buildup_coin": "Acréscimo de Créditos",
         "buildup_stats": "%1$,d créditos / %2$,d itens",
         "buildup_stats_credits": "%1$,d créditos",
         "footer": "Obrigado por usar a Mantaro! <3"
       },
       "clean": {
-        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
-        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
+        "not_enough_money": "%1$sVocê precisa de pelo menos %2$,d créditos para limpar **%3$s**.",
+        "not_dusty": "%1$s**%2$s** não está sujo. (Nível atual de poeira: %3$,d)",
+        "success": "%1$s**%2$s** está agora brilhando de limpa! O custo para a limpeza do seu pet foi %3$,d créditos."
       },
       "choice": {
-        "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
-        "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
-        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
+        "no_choice": "%1$sVocê tem que especificar uma escolha (Personal ou Marriage).",
+        "invalid_choice": "%1$sA escolha é inválida. Por favor escolha entre Personal ou Marriage. Personal é para você mesmo, Marriage é o pet compartilhado com seu parceiro",
+        "success": "%1$sDefinido com sucesso sua escolha para: %2$s %3$s"
       },
       "level": {
         "success": "%1$sO nível de **%2$s** é: **%3$,d** (%4$,d XP / %5$,d XP)"
@@ -1374,7 +1374,7 @@
         "header": "%1$s**Pets atualmente Disponíveis**\n\n%2$s\n\n%3$s**Explicação das Habilidades:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sVocê não tem nenhum pet para acariciar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
         "too_many": "Como você conseguiu tanto carinho?"
       },
@@ -1387,20 +1387,20 @@
         "counter_100": "%1$sParece que a cabeça deles ficará brilhando com tantos carinhos."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
+        "not_enough_arguments": "%1$sVocê tem que especificar o nome do pet e o tipo do pet que você quer comprar. (Para um exemplo, `~>pet buy hello dog`). Se você quiser um pet pessoal, primeiro use `~>pet choice personal`.",
         "no_requirements": "%1$sVocê precisar de um carro e uma casa para comprar um pet! Casa: %2$s, Carro: %3$s Para comprar uma casa e carro use `~>marry buyhouse` e `~>marry buycar` :heart:",
         "no_house": "%1$sVocê precisa ter uma casinha para seu animal de estimação no seu inventário antes de comprá-lo. Você pode adquirir uma no mercado.",
-        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `~>cast ls`",
-        "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
+        "no_egg": "%1$sVocê tem que ter uma Incubadora de Ovo no seu inventário para fazer isso. Você pode confeccionar ela, cheque `~>cast ls`",
+        "already_has_pet": "%1$sVocê já tem um pet. (Escolha atual: %2$s)",
         "nothing_found": "%1$sNão foi possível encontrar o tipo de pet que você especificou. Você especificou: `%2$s`, Tipos válidos: `%3$s`",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse pet. Valor: %2$,d créditos, Carteira: %3$,d créditos",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %5$s",
+        "confirm": "%1$sVocê tem certeza que quer comprar esse pet? Nome: %2$s, Tipo: %3$s, Custo: %4$,d créditos. Escolha: %5$s Digite `yes` para continuar, `no` caso contrário.",
+        "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse foi %5$,d créditos e essa escolha se pet foi: %5$s",
         "cancel_success": "%1$sOperação cancelada.",
         "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sVocê não tem nenhum pet para alimentar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
         "no_content": "%1$sVocê precisa especificar com o quê vai alimentar seu animal de estimação. Por exemplo, `~>pet feed steak`",
         "no_item": "%1$sEu não encontrei o item que você especificou.",
         "not_food": "%1$sUé, Isso não é comida, nem é comida de emergência!",
