@@ -84,7 +84,7 @@
     "space_notice": "Jika nama tersebut mengandungi ruang di antara perkataan, cuba \"mengapit nama tersebut menggunakan tanda petik\". Mungkin arahan help dapat membantu anda lebih lanjut.",
     "missing_embed_permissions": "Bot memerlukan kebenaran Embed Links untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (periksa kebenaran saluran dan kategori juga). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>",
     "ratelimit": {
-      "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini lagi dalam %3$s.**",
+      "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini semula dalam %3$s.**",
       "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda mencuba sebelum cooldown diset semula!**",
       "spam_2": "\nSaya rasa berhenti adalah pilihan yang terbaik buat masa ini...",
       "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
@@ -298,7 +298,7 @@
       "closed_connection": "%1$sSambungan audio diputuskan, melepaskan ikatan pemain..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sAdmin atau Bot Commander telah memutuskan untuk melangkau lagu ini."
     },
     "np": {
       "no_track": "%1$sSama ada tiada trek yang sedang dimainkan atau kami tidak dapat mencarinya, cuba memainkan sebuah lagu",
@@ -498,7 +498,7 @@
       "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot yang telah ditetapkan.",
       "name_too_long": "%1$sNama terlalu panjang.",
       "no_cc": "%1$sTiada Arahan Kustom yang didaftarkan di Pelayan ini, hanya ada habuk.",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
+      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan ASAL.**\n- Jika anda merupakan admin (mempunyai peranan Bot Commander atau kebenaran Manage Server), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
       "not_found": "%1$sTidak ada Arahan Kustom `%2$s` dalam Pelayan ini.",
       "invalid_image": "%1$sArahan ini mengandungi imej yang tidak sah, sila membaikinya...",
       "invalid_string": "%1$sTalian `{%2$s}` tidak sah, ataupun responsnya lebih panjang daripada 2000 aksara.",
@@ -800,9 +800,9 @@
       "transfer_yourself_note": "%1$sAnda tidak boleh memindahkan wang kepada diri anda.",
       "bot_notice": "%1$sAnda tidak boleh memindahkan wang kepada bot.",
       "no_amount": "%1$sAnda perlu menyatakan jumlahnya. Gunakan arahan `~>transferitems` sebagai gantinya jika anda ingin memindahkan item.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$,d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
+      "no_money_specified_notice": "%1$sAwak hanya boleh memindahkan sejumlah wang yang sah :p",
+      "over_transfer_limit": "%1$sAnda tidak boleh memindahkan wang sebanyak itu. (Had: %2$,d kredit)",
+      "own_locked_notice": "%1$sAnda tidak boleh memindahkan wang buat masa ini.",
       "receipt_overflow_notice": "Tidak dapat memindahkan wang kepada pemain ini.",
       "no_money_notice": "%1$sAnda tidak boleh memindahkan wang yang anda tidak mempunyai.",
       "receipt_locked_notice": "1$sPengguna itu tidak boleh menerima wang buat masa ini.",
@@ -822,81 +822,81 @@
       "interactive_no_action": "%1$sItem ini telah ditandai sebagai interaktif, tetapi tidak mempunyai set tindakan. Mungkin item ini menggunakan arahan tersendiri? Misalnya, beliung menggunakan `~>mine`",
       "no_item": "%1$sAnda tidak mempunyai item ini di inventori anda.",
       "not_enough_items": "%1$sAnda tidak mempunyai item ini yang mencukupi.",
-      "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
+      "too_little": "%1$sAnda tidak boleh menggunakan lebih kurang daripada satu item.",
+      "invalid_amount": "%1$sBilangannya mestilah nombor yang sah di antara `1` dan `15`!"
     },
     "opts": {
-      "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
+      "note": "%1$sHei, sekiranya anda tersesat atau memerlukan bantuan tentang penggunaan opts, periksa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk mendapatkan panduan penggunaan opts.\nNota: Hanya admin, iaitu seseorang yang mempunyai kebenaran Manage Server ataupun peranan Bot Commander boleh menggunakan arahan ini!",
       "list": {
-        "header": "**Mantaro's Options List**\n%1$s*All options must be prefixed with `~>opts` when running them*\n%2$s"
+        "header": "**Senarai Option Mantaro**\n%1$s*Setiap option perlu bermula dengan `~>opts` semasa menjalankan mereka*\n%2$s"
       },
-      "option_not_found": "%1$sInvalid option help name.",
-      "invalid_args": "%1$sInvalid option or arguments."
+      "option_not_found": "%1$sNama bantuan option tidak sah.",
+      "invalid_args": "%1$sOption atau argumen tidak sah."
     },
     "8ball": {
-      "no_args": "%1$sYou need to specify what you want the 8ball to answer.",
-      "error": "%1$sI ran into an error while fetching the 8ball results."
+      "no_args": "%1$sAnda perlu menyatakan apa yang anda mahu 8ball menjawab.",
+      "error": "%1$sSaya terjumpa ralat semasa mendapatkan keputusan 8ball."
     },
     "iam": {
       "list": {
-        "name": "Auto-role name: ",
-        "role": "Role:",
-        "category": "Category: ",
-        "header": "Auto-roles list",
-        "no_autoroles": "There aren't any autoroles setup in this server.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
+        "name": "Nama peranan automatik: ",
+        "role": "Peranan:",
+        "category": "Kategori: ",
+        "header": "Senarai peranan automatik",
+        "no_autoroles": "Tiada peranan automatik yang ditetapkan di pelayan ini.",
+        "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <name of the role>`"
       },
-      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
+      "deleted_role": "%1$sPeranan yang dikaitkan dengan peranan automatik ini telah dipadamkan",
       "already_assigned": "%1$sAnda sudah mempunyai peranan ini, bodoh!",
-      "success": "%1$s%2$s, you've been given the **%3$s** role",
+      "success": "%1$s%2$s, anda diberi peranan **%3$s**",
       "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
-      "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
+      "no_role": "%1$sTiada peranan automatik yang bernama `%2$s`",
+      "no_iam": "%1$sAnda perlu menyatakan peranan automatik yang ingin anda tugaskan diri anda!"
     },
     "iamnot": {
       "no_args": "%1$sAnda perlu menyatakan peranan yang anda mahu saya padamkan daripada anda, bodoh.",
       "not_assigned": "%1$sAnda tidak mempunyai peranan ini, bodoh!",
-      "success": "%1$s%2$s, you've lost the **%3$s** role"
+      "success": "%1$s%2$s, peranan **%3$s** anda telah dipadamkan"
     },
     "misc": {
       "reverse_missing": "%1$sYou didn't provide any message to reverse.",
       "random_color": "%1$sThe random color is %2$s"
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
+      "missing": "%1$sSama ada anda tidak sertakan argumen %2$s ataupun ia ditinggalkan kosong!\n%3$s",
       "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "%1$sThis was too long to show. Try with less options?",
-      "header": "Poll #%1$d created by %2$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
-      "time": "You have %1$s to vote.",
-      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
-      "result_header": "Poll results",
+      "other_poll_running": "%1$sNampaknya terdapat poll lain yang sedang dijalankan di sini...",
+      "no_reaction_perms": "%1$sNampaknya saya tidak dapat menambah reaksi di sini...",
+      "too_long": "%1$sItu terlalu panjang untuk dipaparkan. Kurangkan pilihan-pilihan itu dan cuba sekali lagi?",
+      "header": "Poll #%1$d yang dicipta oleh %2$s",
+      "success": "**Poll bermula. Gunakan reaksi nombor untuk mengundi.**\n*%1$s*\nTaip &cancelpoll untuk membatalkan poll yang sedang berjalan.",
+      "time": "Anda diberi tempoh %1$s untuk mengundi.",
+      "error": "%1$sTerdapat ralat yang tidak diketahui semasa menyediakan poll. Mungkin cuba sekali lagi? (ralat dalaman)",
+      "result_header": "Keputusan Poll",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
       "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
-      "results": "Results",
-      "cancelled": "%1$sCancelled poll",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+      "thank_note": "Terima kasih atas undian anda",
+      "results": "Keputusan",
+      "cancelled": "%1$sPoll dibatalkan",
+      "incorrect_time_format": "%1$sFormat masa tidak betul. Ingat, format masa yang sesuai ialah nombor diikuti dengan `h, m atau s` (jam, minit atau saat). Contoh: `-time 40m`"
     },
     "profile": {
       "timezone": {
-        "not_specified": "%1$sYou need to specify the timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId).",
-        "reset": "%1$sReset timezone.",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
-        "success": "%1$sSaved timezone, your profile timezone is now: **%2$s**",
-        "reset_success": "%1$sSuccessfully reset your timezone."
+        "not_specified": "%1$sAnda perlu menyatakan zon masa. Contoh zon masa yang sah ialah `GMT-3` atau `America/Chicago` (Zoneld).",
+        "reset": "%1$sZon masa ditetapkan semula.",
+        "invalid": "%1$sZon masa tidak sah. Contoh zon masa yang sah ialah `GMT-3` atau `America/Chicago` (Zoneld). Biasanya anda boleh mendapatkan zon masa anda dengan mencari \"what timezone am I in\"",
+        "success": "%1$sZon masa disimpan, zon masa profil anda ialah: **%2$s**",
+        "reset_success": "%1$sZon masa anda berjaya ditetapkan semula."
       },
       "description": {
         "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
         "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
         "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-        "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
-        "clear_success": "%1$sSuccessfully cleared description."
+        "success": "%1$sPenerangan ditetapkan menjadi: **%2$s**\nPeriksa profil baru anda dengan `~>profile`",
+        "clear_success": "%1$sPenerangan berjaya dipadamkan."
       },
       "displaybadge": {
-        "not_specified": "%1$sYou need to specify your main badge! For example, `~>profile displaybadge claimer`",
+        "not_specified": "%1$sAnda perlu menyatakan lencana utama anda! Misalnya, `~>profile displaybadge claimer`",
         "reset_success": "%1$sNo badge will show on the top of your profile now!",
         "important_success": "%1$sYour display badge is now the most important one.",
         "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
@@ -918,34 +918,34 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "stats": {
-        "header": "Profile Statistics for %1$s",
-        "wins": "Casino Wins",
-        "market": "Market Used",
-        "potion": "Active Potion",
-        "potion_type": "Potion Type",
+        "header": "Statistik Profil %1$s",
+        "wins": "Kemenangan Kasino",
+        "market": "Pasar Digunakan",
+        "potion": "Ramuan Aktif",
+        "potion_type": "Jenis Ramuan",
         "buff": "Buff",
-        "buff_type": "Buff Type",
-        "experience": "Experience",
-        "mine_xp": "Mining Experience",
-        "fish_xp": "Fishing Experience",
-        "chop_xp": "Chopping Experience",
-        "sharks_caught": "Sharks Caught",
-        "crates_open": "Crates Opened",
-        "times_mop": "Times Mopped",
+        "buff_type": "Jenis Buff",
+        "experience": "Pengalaman",
+        "mine_xp": "Pengalaman Perlombongan",
+        "fish_xp": "Pengalaman Pemancingan",
+        "chop_xp": "Pengalaman Pembalakan",
+        "sharks_caught": "Ikan Yu Ditangkap",
+        "crates_open": "Peti Dibuka",
+        "times_mop": "Kali Mengemop",
         "daily": "Daily Streak",
-        "daily_at": "Last Daily",
-        "waifu_claimed": "Times Waifu Claimed",
-        "waifu_locked": "Waifu Lock",
+        "daily_at": "Harian Terakhir",
+        "waifu_claimed": "Kali Dituntut",
+        "waifu_locked": "Kunci Waifu",
         "dust": "Tahap Habuk",
-        "lang": "Display Language",
-        "reminders": "Times Reminded",
-        "times": "time(s)",
-        "days": "day(s)",
-        "times_used": "Times Used",
-        "equipment": "Equipment",
-        "seasonal_equipment": "Season Equipment",
-        "autoequip": "Auto Equip",
-        "never": "Never"
+        "lang": "Bahasa Paparan",
+        "reminders": "Kali Diingatkan",
+        "times": "kali",
+        "days": "hari",
+        "times_used": "Kali Digunakan",
+        "equipment": "Peralatan",
+        "seasonal_equipment": "Peralatan Bermusim",
+        "autoequip": "Pasangan Automatik",
+        "never": "Tidak pernah"
       },
       "hide_tag": {
         "success": "%1$sTag hidden status is now: `%2$s`"
@@ -988,46 +988,46 @@
         "disable": "%1$sSuccesfully disabled auto-equip.",
         "success": "%1$sEnabled auto-equip."
       },
-      "badge_header": "%1$s Display Badge",
-      "bot_notice": "%1$sBots don't have profiles.",
-      "header": "%1$s's Profile",
-      "no_desc": "No description set",
-      "credits": "Credits",
-      "old_credits": "Legacy Credits",
+      "badge_header": "%1$s Lencana Paparan",
+      "bot_notice": "%1$sBot tidak mempunyai profil.",
+      "header": "Profil %1$s",
+      "no_desc": "Tiada penerangan yang ditetapkan",
+      "credits": "Kredit",
+      "old_credits": "Kredit Legasi",
       "level": "Level",
       "xp": "XP",
-      "rep": "Reputation",
-      "birthday": "Birthday",
-      "married": "Married with",
-      "nobody": "Nobody",
-      "inventory": "Item Collection (Top 10)",
-      "badges": "Badge Collection (Top 5)",
-      "no_badges": "No badges (yet!)",
-      "no_timezone": "Not set",
-      "timezone_user": "User's timezone: %1$s",
-      "not_specified": "Not specified.",
-      "potion": "Active Potion",
-      "no_potion": "No active potions.",
+      "rep": "Reputasi",
+      "birthday": "Hari Jadi",
+      "married": "Berkahwin dengan",
+      "nobody": "Tiada sesiapa",
+      "inventory": "Koleksi Item (10 Teratas)",
+      "badges": "Koleksi Lencana (5 Teratas)",
+      "no_badges": "Tiada lencana",
+      "no_timezone": "Tidak ditetapkan",
+      "timezone_user": "Zon masa pengguna: %1$s",
+      "not_specified": "Tidak dinyatakan.",
+      "potion": "Ramuan Aktif",
+      "no_potion": "Tiada ramuan yang aktif.",
       "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
         "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
         "not_found": "%1$sThere's no such badge...",
-        "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "header": "Maklumat lencana %1$s",
+        "achieved": "Pencapaian"
       },
       "ls": {
-        "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
+        "header": "Senarai Lencana",
+        "desc": "Berikut adalah senarai lencana yang kini boleh didapati di Mantaro. Senarai ini mengandungi nama dan penerangan lencana, yang seharusnya memberikan gambaran keseluruhan mengenai apa yang anda perlukan untuk mencapainya.\nJika anda berpendapat bahawa anda sudah mendapat lencana tetapi tidak menjumpainya di senarai lencana peribadi anda, gunakan `~>profile` lalu menjalankan `~>badges` sekali lagi.\nSemoga berjaya, pemburu lencana!"
       },
-      "brief_success": "**%1$s's badges:**\n%2$s",
-      "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "brief_success": "**Lencana %1$s:**\n%2$s",
+      "profile_notice": "Jika anda berpendapat bahawa anda sudah mendapat lencana yang baru tetapi ia tidak muncul di sini, sila gunakan `~>profile` lalu menjalankan arahan ini sekali lagi.\n",
+      "info_notice": "Gunakan `~>badge info <badge name>` untuk mendapatkan maklumat lanjut tentang lencana tersebut. [Anda juga boleh periksa halaman wiki] (https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n \n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
-      "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s",
-      "total_badges": "**Total achieved badges:** %1$s",
+      "no_badges": "Tiada lencana untuk dipaparkan",
+      "header": "Lencana yang dicapai oleh %1$s",
+      "total_badges": "**Jumlah lencana tercapai:** %1$s",
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
@@ -1037,10 +1037,10 @@
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
       "cooldown": {
-        "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now."
+        "waiting": "**Anda akan dapat menggunakan arahan ini semula dalam %1$s**",
+        "pass": "Anda boleh rep seseorang sekarang."
       },
-      "success": "%1$sAdded reputation to **%2$s**"
+      "success": "%1$sBerjaya menambah reputasi kepada **%2$s**"
     },
     "birthday": {
       "reset": "%1$sCorrectly reset birthday date.",
@@ -2288,8 +2288,8 @@
       "mine_rare_pick": "Pickaxe (Rare)",
       "fish_rod": "Fishing Rod",
       "fish_rod_rare": "Fishing Rod (Rare)",
-      "chop_axe": "Axe",
-      "chop_axe_rare": "Axe (Rare)",
+      "chop_axe": "Kapak",
+      "chop_axe_rare": "Kapak (Jarang)",
       "broken": "Broken Item",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
