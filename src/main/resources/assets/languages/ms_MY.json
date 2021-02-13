@@ -298,7 +298,7 @@
       "closed_connection": "%1$sSambungan audio diputuskan, melepaskan ikatan pemain..."
     },
     "forceskip": {
-      "success": "%1$sAdmin atau Komander Bot telah memutuskan untuk melangkau lagu ini."
+      "success": "%1$sAn admin or Bot Commander decided to skip this song."
     },
     "np": {
       "no_track": "%1$sSama ada tiada trek yang sedang dimainkan atau kami tidak dapat mencarinya, cuba memainkan sebuah lagu",
@@ -498,7 +498,7 @@
       "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot yang telah ditetapkan.",
       "name_too_long": "%1$sNama terlalu panjang.",
       "no_cc": "%1$sTiada Arahan Kustom yang didaftarkan di Pelayan ini, hanya ada habuk.",
-      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan ASAL.**\n- Jika anda merupakan admin (mempunyai peranan Komander Bot atau kebenaran Manage Server), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
+      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
       "not_found": "%1$sTidak ada Arahan Kustom `%2$s` dalam Pelayan ini.",
       "invalid_image": "%1$sArahan ini mengandungi imej yang tidak sah, sila membaikinya...",
       "invalid_string": "%1$sTalian `{%2$s}` tidak sah, ataupun responsnya lebih panjang daripada 2000 aksara.",
