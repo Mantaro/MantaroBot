@@ -48,9 +48,10 @@
       "pill": "%1$s你吃了一個waifu藥丸! (可使用5回)",
       "pill_used": "%1$s你目前已經有waifu藥丸了!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
+        "no_key": "%1$s你需要一個寶箱鑰匙來開啟寶箱。他是鎖住的！你能使用 `~>buy key` 來購買他。",
         "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
+        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
       "potion_active": "%1$s你目前已經有最高數量的 **%2$s** 效果了!",
@@ -81,6 +82,7 @@
     "sellout": "如果你喜歡我，請考慮在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一點點的贊助也能給我更多開發的動力!",
     "deprecated": "無法使用",
     "space_notice": "如果名稱包含空格，試著將他\"用引號包起來\"。也許help指令能告訴你更多資訊。",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能夠在 %3$s 內再次使用這個指令**",
       "spam_1": "拜託休息一下！這對你的健康是很好的。**記得如果在冷卻結束前繼續嘗試，速率限制會持續增加喔！**",
@@ -244,12 +246,12 @@
         "header_noreact": "傳送 `&p >>` 或 `&p <<` 來切換頁數。",
         "no_track_found_np": "找不到曲目或名稱/持續時間",
         "header": "%1$s播放清單",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
+        "nothing_playing": "這裡空無一物。為何不播些歌曲來聽聽？\n如果你認為這裡有歌曲還沒出現，試著使用 `~>queue 1`",
         "nothing_playing_2": "**如果這裡只有一首正在播放，那這邊真的就只剩灰塵了。你也可以加入更多歌曲!**",
         "np": "現正播放",
         "dj_np": "**用戶：** ",
         "page_overflow": "這裡啥都沒有。為何不返回一些頁面？",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "page_overflow_2": "如果你認為這裡有歌曲還沒出現，試著使用 `~>queue 1`",
         "total_queue_time": "總播放時間",
         "total_size": "總播放量",
         "togglers": "重複 / 暫停",
@@ -308,7 +310,8 @@
     },
     "rewind": {
       "no_time": "%1$s你需要告訴我你想倒轉的長度 *(範例：`~>rewind 1m45s`將會倒轉1分45秒)*",
-      "negative": "%1$s僅限正整數",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$s你無法倒轉至歌曲開頭之前",
       "success": "%1$s倒轉歌曲至：%2$s。"
     },
@@ -424,6 +427,7 @@
         "not_found": "%1$s我找不到該指令。",
         "header": "自定義指令%1$s原始回應。",
         "amount": "(包含%1$d個中的%2$d個)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "這個清單包含所有此指令的原始回應(你創造給我的內容)。"
       },
       "clear": {
@@ -433,7 +437,7 @@
         "start_text": "%1$s**\"自定義指令 `%2$s` 創建開始\"**！\n傳送 `&~>stop` 停止創建**且放棄儲存**。\n傳送 `&~>save` 停止創建**並儲存自定義指令**。傳送以 `&` 開頭的任何文字將其加入到回應列表。傳送 `~>nsfw` 將其標記為NSFW，或 `~>sfw` 來還原。\n此程序將會於閒置60秒後自動退出且放棄儲存。",
         "cancel": "%1$s指令創建已取消。",
         "no_responses_added": "%1$s尚未添加回應。停止創建且不保存...",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$s已加到指令 `%2$s`",
         "no_name_specified": "%1$s你尚未輸入你所要創建的自定義指令名稱！"
       },
       "eval": {
@@ -443,7 +447,7 @@
       },
       "remove": {
         "no_command": "%1$s你需要告訴我你想取消哪條指令。",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "success": "%1$s已移除自定義指令 `%2$s`"
       },
       "import": {
         "no_command": "%1$s你需要告訴我你想匯入哪條指令。",
@@ -564,11 +568,11 @@
         "empty": "%1$s你無法將情書留白。",
         "no_marriage": "%1$s你尚未結婚，不能寫情書給你自己...",
         "not_proposing_player": "%1$s你不是提出這場婚姻的人！",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
+        "already_done": "%1$s這條婚姻已經指定情書訊息。使用 `~>marry status` 查看。",
         "too_long": "%1$s情書訊息過長 (最長500字元)",
         "cannot_see": "%1$s我找不到你的伴侶... 也許他們不在我的伺服器內。",
         "confirmation": "%1$s你*確定*想寫這張情書給**%2$s#%3$s**嗎？這將會持續到婚姻結束。*情書內容：*%4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
+        "confirmed": "%1$s情書已成功傳遞給你的愛人！使用 `~>marry status` 查看。",
         "scrapped": "%1$s你還有時間思考該寫什麼，不必著急！"
       },
       "status": {
@@ -576,6 +580,7 @@
         "header": "目前婚姻狀況",
         "description_format": "%1$s**%2$s** 與 **%3$s** 的婚姻關係",
         "date": "結婚日期",
+        "age": "Marriage Age",
         "love_letter": "情書訊息",
         "waifus": "Waifu所有權",
         "house": "房屋名稱",
@@ -596,7 +601,7 @@
         "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
         "no_name": "%1$s你需要先給你的房子起一個名字！像是 `~>marry house 舒適的小屋`。",
         "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$s你成功用%2$d元買了一棟房子！你的新房屋的名字是%3$s，恭喜！",
+        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
         "cancel_success": "%1$s操作取消。"
       },
       "buycar": {
@@ -604,7 +609,7 @@
         "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
         "no_name": "%1$s你需要先給你的車子起一個名字！像是 `~>marry car 保時捷`。",
         "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$s你成功用%2$d元買了一台汽車！你的新車子的名字是%3$s，恭喜！",
+        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
         "cancel_success": "%1$s操作取消。"
       },
       "no_mention": "%1$s請提及你想結婚的人。",
@@ -620,11 +625,11 @@
       "denied": "%1$s已拒絕**%2$s**的求婚"
     },
     "divorce": {
-      "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
+      "confirm": "%1$s你確定要結束這場婚姻嗎？花在寵物，房子和車子上的錢將會被平分給你們。傳送 `yes` 繼續或 `no` 取消。**屬於你婚姻的寵物將會消失**",
       "cancelled": "%1$sCancelled divorce.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?",
+      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
       "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
-      "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
+      "split": "剩下來的資產 (寵物/房子/車子) 已被賣掉並平分給兩人。每人都得到了 **%1$d** 元。"
     },
     "waifu": {
       "bot": "%1$s機器人不能成為Waifu，就算你想的話...",
@@ -661,30 +666,31 @@
       },
       "buyslot": {
         "locked": "%1$s你目前無法執行此操作。",
-        "not_enough_money": "%1$s你沒有足夠的錢來購買空位！你需要 %2$,d 元。",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買欄位！你需要 %2$,d 元。",
         "success": "%1$s成功用 %2$s 元購買了一個欄位，你目前總共擁有 %3$s 個欄位和 %4$s 個可用欄位。",
         "too_many": "%1$s你已經達到欄位上限了！你最多能擁有30個欄位。"
       },
       "optout": {
-        "notice": "%1$sYou've opted out of the entire waifu system, so you can't use this.",
-        "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
-        "success": "%1$sYou successfully opted out of the waifu system.",
-        "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "notice": "%1$s你已經選擇退出了Waifu系統，所以你不能使用這個指令。",
+        "warning": "%1$s你確定要選擇退出Waifu系統嗎？**這是永久的且不能被復原。**\n如果你只是不想被認領但還想要持續使用Waifu系統，請使用 `~>profile claimlock`。\n你將無法認領別人或被認領，所有包含你的認領也將被移除。\n傳送 `Yes, I want to opt out of the waifu system completely and irreversibly` 選擇退出，或 `no` 取消。",
+        "success": "%1$s你已經選擇退出了Waifu系統。",
+        "cancelled": "%1$s已取消選擇退出。",
+        "claim_notice": "%1$s你正在認領的用戶已選擇退出。",
+        "lookup_notice": "%1$s你正在查看的用戶已選擇退出。"
       },
-      "header": "Waifu List",
-      "description_header": "Here's a list with all of your beloved waifus, sorted by addition date.\n*You can have a maximum of %1$,d waifus as of now.*\n\nIf you wish to check your waifu stats, use `~>waifu stats`\n\n",
-      "no_waifu": "No waifus to see here, just dust :(\nYou can get waifus by claiming someone! Use `~>waifu claim` to get started.",
-      "footer": "Total waifus: %1$,d - available slots: %2$s",
-      "value_format": "**Value:**",
-      "value_b_format": "**Bought for:**",
-      "credits_format": " credits.",
-      "waifu_header": "**Your waifus:**",
-      "not_claimed": "%1$sYou haven't claimed this waifu."
+      "header": "Waifu名單",
+      "description_header": "這是包含你所有Waifu的名單，按認領日期排序。\n*你目前最多能夠認領 %1$,d 個Waifu。*\n\n如果你想查看你的Waifu狀態，使用 `~>waifu stats`\n\n",
+      "no_waifu": "這裡沒有任何Waifu... 只有灰塵 :(\n你可以認領某人為你的Waifu！使用 `~>waifu claim` 來認領。",
+      "footer": "Waifu數量：%1$,d - 可用欄位：%2$s",
+      "value_format": "**價值：**",
+      "value_b_format": "**認領金額：**",
+      "credits_format": " 元。",
+      "waifu_header": "**你的Waifu：**",
+      "not_claimed": "%1$s你還沒認領這位Waifu。"
     },
     "ratewaifu": {
-      "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$,d/100**"
+      "nothing_specified": "%1$s給我一位Waifu來評分！",
+      "success": "%1$s我給 %2$s **%3$,d/100**"
     },
     "roll": {
       "success": "%1$sYou got **%2$,d**%3$s",
@@ -696,7 +702,7 @@
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
-      "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s 的所有物品** %2$s\n\n*使用 `~>inventory -info` 取得更詳細的版本。祝你玩得開心！*",
       "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
       "header": "%1$s 的背包",
@@ -707,7 +713,7 @@
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. If the item name has spaces, wrap it in \"quotes\". Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast \"star pick\" \"comet wrench\"`",
+      "no_item_found": "%1$s找不到任何匹配的物品。如果物品名稱包含空格，將他用\"引號\"包起來。盡量輸入完整的名稱，或使用相對應的表情符號來避免錯誤。範例：`~>cast \"star pick\" \"comet wrench\"`",
       "item_not_cast": "%1$s你無法鑄造此物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果物品名稱包含空格，將他用\"引號包起來\"。\n範例：`~>cast \"star pick\" \"comet wrench\"`",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
       "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。",
@@ -722,13 +728,14 @@
       "ls": {
         "header": "可鑄造物品清單",
         "cost": "鑄造消耗：",
-        "desc": "這是你能使用 `~>cast` 鑄造的物品清單。\n你可以使用全名或更簡短的名稱 (範例：`~>cast \"diamond pickaxe\"` 或 `~>cast \"diamond p\"` 都能使用)\n**鑄造的最低費用為該物品價格的一半。鑄造價格將顯示在下方。**\n扳手等級2和3分別是彗星與火花。"
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$s你的背包太骯髒了，無法鑄造！*(灰塵高度：%2$s%%)*。為何不用 `~>useitem mop` 來清理呢？",
       "wrench_multiple_use": "小提示：*你無法使用要鑄造的扳手作為原料！*"
     },
     "market": {
       "dump": {
+        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想丟棄的物品名稱。",
         "invalid": "%1$s物品丟棄數量無效。",
         "non_existent": "%1$s你無法丟棄不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
@@ -753,7 +760,7 @@
           "cancelled": "%1$s取消成功。"
         },
         "non_existent": "%1$s你無法出售不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
-        "no_sell_price": "%1$s你無法出售不能出售的物品。(不過你還是可以使用 `~>market dump` 來丟棄他)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$s你無法出售你不擁有的物品。",
         "more_items_than_player": "%1$s你出售的數量不能超過你所擁有的數量。",
         "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
@@ -762,7 +769,7 @@
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
-        "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
+        "non_existent": "%1$s你無法購買不存在的物品。試著使用更簡短的名稱或將他\"用引號包起來\"。記得把數量放在名稱前面，像是：`~>buy 15 energy`",
         "no_buy_price": "%1$s你無法購買不能被購買的物品。",
         "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
         "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
@@ -771,7 +778,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
       },
       "header": "Mantaro市場",
-      "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
+      "reference": "\n你可以使用 `~>buy <物品名稱>` 和 `~>sell <物品名稱>` 來購買和出售物品至市場。查看 `~>help market` 獲得更多資訊，你也可以用 `~>market tools` 等指令取得更簡短的清單。",
       "sell_price": "- **出售價格：**",
       "buy_price": "- **購買價格：**"
     },
@@ -801,7 +808,7 @@
       "receipt_locked_notice": "1$sThat user cannot receive money now.",
       "receipt_over_limit": "%1$sThis user already has too much money...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `transferitems` command instead.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
@@ -812,7 +819,7 @@
       "use_command": "%1$s對於此物品，你需要使用相對應的指令來使用他！(鎬子用mine，釣竿用fish等等)",
       "no_items_specified": "%1$sYou need to specify what item to use.",
       "not_interactive": "%1$sYou cannot interact with this item.",
-      "interactive_no_action": "%1$sThis item has been marked as interactive, but has no action set. This item might use its own command? For example, picks use `~>mine`",
+      "interactive_no_action": "%1$s這個物品已被標記為可互動的，但並沒有任何動作。也許他有自己的指令？例如像鎬子的 `~>mine`",
       "no_item": "%1$sYou don't have this item in your inventory.",
       "not_enough_items": "%1$sYou don't have enough of this item.",
       "too_little": "%1$sYou can't use less than 1 item.",
@@ -860,7 +867,7 @@
       "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
       "other_poll_running": "%1$sThere seems to be another poll running here...",
       "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "This was too long to show, so I pasted it: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Poll #%1$d created by %2$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
       "time": "You have %1$s to vote.",
@@ -877,7 +884,7 @@
       "timezone": {
         "not_specified": "%1$s你需要指出時區。有效的時區可以為 `GMT-3` 或 `America/Chicago` 等等。",
         "reset": "%1$s時區已重設。",
-        "invalid": "%1$sInvalid timezone. A valid timezone would be, for example `GMT-3` or `America/Chicago` (ZoneId). Usually you can get your timezone by looking up \"what timezone am I in\"",
+        "invalid": "%1$s無效時區。有效的時區可以為 `GMT-3` 或 `America/Chicago` 等等。你可以Google \"我的時區\" 來查看。",
         "success": "%1$s時區已儲存，你的個人時區為：**%2$s**",
         "reset_success": "%1$s時區已重設。"
       },
@@ -909,6 +916,10 @@
       "toggleaction": {
         "enabled": "%1$sEnabled actions to be done to you.",
         "disabled": "%1$sDisabled actions from being done to you."
+      },
+      "pet": {
+        "header": "Personal Pet",
+        "none": "No personal pet"
       },
       "stats": {
         "header": "%1$s 的統計資訊",
@@ -955,8 +966,8 @@
       "unequip": {
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
         "no_content": "%1$s你需要指出你想取消裝備的類型，類型有 `鎬/魚竿/斧`",
-        "invalid_type": "%1$s類型無效。有效類型為 `鎬, 魚竿, 斧`",
-        "confirm": "%1$s你確定你想要**取消裝備**你的%2$s %3$s嗎？傳送 `yes` 確認，`no` 取消。",
+        "invalid_type": "%1$s類型無效。有效類型為 `pick, axe, rod`",
+        "confirm": "%1$s你確定想要**取消裝備**你的%2$s %3$s嗎？傳送 `yes` 確認，`no` 取消。",
         "success": "%1$s已取消裝備你的%2$s欄位。",
         "equipment_recover": "\n由於你從未使用過這個裝備，你拿回了你的%1$s！",
         "broken_equipment_recover": "\n這個裝備已經被使用過，所以你得到了%1$s，不過你還是可以修復他的！",
@@ -974,7 +985,7 @@
       "claimlock": {
         "removed": "%1$s成功重置你的認領鎖狀態。",
         "success": "%1$s你將無法再被認領為Waifu。已使用一個認領鑰匙。使用 `~>profile claimlock remove` 來移除他。",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
+        "no_key": "%1$s你沒有認領鑰匙來執行此操作。你能用 `~>buy \"claim key\"` 從市場購買。",
         "already_locked": "%1$s你已經被鎖定了。使用 `~>profile claimlock remove` 來解鎖。"
       },
       "autoequip": {
@@ -1001,7 +1012,7 @@
       "not_specified": "未設置",
       "potion": "藥水效果",
       "no_potion": "沒有藥水效果。",
-      "hidelegacy": "%1$s舊版金錢顯示狀況已改成：`%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1009,6 +1020,10 @@
         "not_found": "%1$sThere's no such badge...",
         "header": "Badge information for %1$s",
         "achieved": "Achieved"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "如果你認為你得到了新徽章，但還沒出現在這邊，請使用 `~>profile` 然後再次運行此指令。\n",
@@ -1260,11 +1275,12 @@
     },
     "opencrate": {
       "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
-      "not_crate": "%1$sThat is not a valid loot crate."
+      "not_crate": "%1$sThat is not a valid loot crate.",
+      "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
@@ -1305,11 +1321,13 @@
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
       "loli_content_disallow": "%1$sI cannot display images that allegedly contain `loli` or `shota` (or related tags) lewd/NSFW content because discord prohibits it. Try again with other tags?",
       "null_list_notice": "%1$sOops... something went wrong when searching... (If you used a tag, the tag might not exist)",
-      "found_image": "Found an image",
+      "found_image": "Image Found",
       "description_image": "Rating: **%1$s**, Imageboard: **%2$s**",
       "width": "Width",
       "height": "Height",
       "tags": "Tags",
+      "source": "Imageboard",
+      "rating": "Rating",
       "load_notice": "If the image doesn't load, click the title.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side.\nYou can try using `~>konachan` instead!",
@@ -1317,11 +1335,12 @@
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
-      "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，請務必檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
-      "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
-      "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
+      "explanation": "寵物們是貨幣系統的好伴侶！\n他們會幫助你獲得更多的金錢，更多的掉落物。在你挖礦的時候找到隨機的物品，砍樹，甚至是釣魚！寵物的等級越高，獎勵的數量也會隨之增加！\n為你的活動選擇合適的寵物是很重要的，記得檢查你想選擇的寵物類型和能力！\n別忘記你還是需要定期餵養你的寵物，給他喝水，讓他休息，就像個真正的寵物！你甚至能夠撫摸他的頭 :)\n你能擁有兩個寵物：個人 (你自己的) 及 婚姻 (你與你的伴侶之間共享)。使用 `~>pet choice` 來選擇。默認為個人。\n如需更多幫助，請使用 `~>help pet`，或使用 `~>pet list` 來查看所有的寵物。",
+      "no_marriage": "%1$s你需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`",
+      "no_marriage_other": "%1$s%2$s 需要先結婚才能養寵物。你可以先查看 `~>help marry` 和 `~>pet`",
       "status": {
-        "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$s你沒有任何寵物可以檢查狀態。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)%3$s",
+        "pet_in_other_category": "\n%1$s你能夠選擇屬於你 %2$s 的寵物 (%3$s)。使用 `~>pet choice %2$s` 來切換",
         "header": "%1$s 的狀態",
         "description": "記得定時照顧你的寵物 :heart:\n查看 `~>pet` 和 `~>help pet` 獲得更多說明。",
         "cost": "價格",
@@ -1332,11 +1351,26 @@
         "thirst": "口渴度",
         "hunger": "飢餓度",
         "stamina": "耐力",
+        "dust": "骯髒度 (%)",
         "pet": "撫摸次數",
+        "buildup": "金錢 / 掉落物獎勵",
+        "buildup_coin": "金錢獎勵",
+        "buildup_stats": "%1$,d 元 / %2$,d 個物品",
+        "buildup_stats_credits": "%1$,d 元",
         "footer": "感謝使用Mantaro！<3"
       },
+      "clean": {
+        "not_enough_money": "%1$s你至少需要 %2$,d 元來清潔寵物 **%3$s**。",
+        "not_dusty": "%1$s**%2$s** 身上還不髒。(目前骯髒程度：%3$,d)",
+        "success": "%1$s**%2$s** 看起來閃閃發光！你花了 %3$,d 元來清潔你的寵物。"
+      },
+      "choice": {
+        "no_choice": "%1$s你需要指出正確的選擇 (Personal 或 Marriage)。",
+        "invalid_choice": "%1$s請選擇 Personal 或 Marriage，Personal 是你的個人寵物，Marriage 為你的婚姻寵物",
+        "success": "%1$s成功設置寵物選擇為：%2$s %3$s"
+      },
       "level": {
-        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
+        "success": "%1$s**%2$s** 的等級：**%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **名稱：**%2$s，**能力：**`%3$s`，**價格：**%4$,d元",
@@ -1344,7 +1378,7 @@
         "header": "%1$s**目前可用的寵物**\n\n%2$s\n\n%3$s**能力說明：**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)%3$s",
         "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
@@ -1357,56 +1391,61 @@
         "counter_100": "%1$s看來他們的頭會被你摸得很閃亮。"
       },
       "buy": {
-        "not_enough_arguments": "%1$s你需要指出寵物名稱和你想購買的種類。(範例，`~>pet buy hello dog`)",
+        "not_enough_arguments": "%1$s你需要指出寵物名稱和你想購買的類型。(範例，`~>pet buy hello dog`)。如果你想為自己購買寵物，記得先使用 `~>pet choice personal`。",
         "no_requirements": "%1$s你需要汽車和房屋才能購買寵物！房屋：%2$s，汽車：%3$s\n使用 `~>marry buyhouse` 和 `~>marry buycar` 來購買 :heart:",
-        "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
-        "already_has_pet": "%1$s你已經擁有寵物了。",
+        "no_house": "%1$s你需要寵物小屋才能購買寵物。能夠在市場購買。",
+        "no_egg": "%1$s你需要擁有一個孵化蛋才能購買寵物。查看 `~>cast ls` 來鑄造他。",
+        "already_has_pet": "%1$s你已經擁有寵物了。(寵物選擇為：%2$s)",
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
-        "confirm": "%1$s你確定你要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買。",
+        "confirm": "%1$s你確定要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。寵物選擇為 %5$s。傳送 `yes` 確認或 `no` 取消。",
+        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %5$s",
         "cancel_success": "%1$s操作取消。",
         "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
       "feed": {
-        "no_pet": "%1$s你沒有任何寵物可以餵養。使用 `~>pet` 獲得更多說明。",
-        "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
+        "no_pet": "%1$s你沒有任何寵物可以餵養。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)%3$s",
+        "no_content": "%1$s你需要指出要用來餵養寵物的食物。像是，`~>pet feed steak`",
         "no_item": "%1$s找不到你指定的物品。",
         "not_food": "%1$s等一下！這不是食物，也不是緊急食物！",
         "no_need": "%1$s你的寵物目前還不餓，他們還不想吃東西。",
         "not_inventory": "%1$s你沒有該物品。確定你擁有他且有正確的數量 (%2$s)。",
         "not_applicable": "%1$s你不能將這種食物餵給你的寵物。",
         "success": "%1$s太棒了！成功餵養你的寵物 %3$s 個 `%2$s`，他回復了 %4$s%% 飢餓度。現在為 %5$s%%。",
-        "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
+        "too_much": "%1$s也許給他少一點食物看看？不要浪費食物！(增加的飢餓度將超過100%%)"
       },
       "water": {
-        "no_pet": "%1$s你沒有任何寵物想要喝水。使用 `~>pet` 獲得更多說明。",
+        "no_pet": "%1$s你沒有任何寵物想要喝水。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)%3$s",
         "no_need": "%1$s你的寵物目前還不口渴，他們還不想喝水。",
         "not_inventory": "%1$s你還沒有水瓶。確保他在你的背包裡。",
         "not_enough_inventory": "%1$s你背包裡的水瓶不夠！你需要 %2$s 個。",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thrist)",
-        "success": "%1$s太棒了！成功給了你的寵物 %2$d 個水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
+        "too_much": "%1$s也許給他少一點水看看？水是很珍貴的！(增加的口渴度將超過100%%)",
+        "success": "%1$s太棒了！成功給了你的寵物 %2$d 瓶水，他回復了 %3$s%% 口渴度。現在為 %4$s%%。"
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** 的耐力過低。給他一些水和食物來補充。",
         "low_health": "%1$s**%2$s** 的血量過低。給他一些水和食物來補充。",
         "low_hunger": "%1$s**%2$s** 的肚子太餓了，無法做任何事。*食物啊~*",
         "low_thirst": "%1$s**%2$s** 太渴了，無法做任何事。",
+        "low_mood": "%1$s**%2$s** 的心情不太好。你可能要先陪他玩玩！",
+        "dusty": "%1$s**%2$s** 身上太髒了。別忘記清潔你的寵物。",
         "success_fish": "%1$s**%2$s** 幫助你抓到魚了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
         "success_chop": "%1$s**%2$s** 幫助你伐木了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和 %4$,d 個物品)**！*已經包含在你得到的掉落物中*",
         "success_mine": "%1$s**%2$s** 幫助你挖礦了！多虧了寵物為你做的事情，你獲得了Buff和額外的金錢 **(%3$,d 元和額外的物品掉落機會)**！*已經包含在你得到的掉落物中*"
       },
       "rename": {
-        "no_pet": "%1$s你沒有寵物可以重新命名。",
+        "no_pet": "%1$s你沒有寵物可以重新命名。(寵物選擇為：%2$s)%3$s",
         "same_name": "%1$s你指定的名稱跟目前的一樣。",
         "no_content": "%1$s你需要指定你寵物的新名稱。",
         "not_enough_money": "%1$s你沒有足夠的錢來這樣做。價格：%2%s，你擁有：%3$s。",
         "success": "%1$s成功將你的寵物 `%2$s` 重命名為 `%3$s`。已經從你的錢包扣除 %4$s 元，好好享受吧！"
       },
       "remove": {
-        "no_pet": "%1$s你沒有寵物可以丟棄。",
+        "no_pet": "%1$s你沒有寵物可以丟棄。(寵物選擇為：%2$s)%3$s",
         "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
-        "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。"
+        "confirm_personal": "%1$s你確定要丟棄你的寵物嗎？你將被退回 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款金額不會隨著寵物等級增加，就像在買新的電子雞一樣。",
+        "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
+        "success_personal": "%1$s成功丟棄寵物。你獲得了 %2$s 元作為補償。"
       },
       "info": {
         "not_found": "%1$s找不到你指出的寵物類型。使用`~>pet list` 查看現有的類型。",
@@ -1415,8 +1454,8 @@
         "cost": "寵物價格",
         "abilities": "能力",
         "food": "喜愛食物",
-        "coin_buildup": "金錢累積 (等級 1 / 100)",
-        "item_buildup": "物品累積 (等級 1 / 100)"
+        "coin_buildup": "金錢獎勵 (等級 1 / 100)",
+        "item_buildup": "掉落物獎勵 (等級 1 / 100)"
       }
     },
     "invite": {
@@ -1449,7 +1488,7 @@
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
         "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1544,7 +1583,8 @@
       "no_item_found": "%1$s找不到該物品。如果名稱含有空格，記得使用引號。",
       "no_main_item": "%1$s你沒有該物品！",
       "cant_repair": "%1$s**%2$s** 不是你能修復的物品。你只能修復壞掉的物品。",
-      "no_tool": "%1$s你需要使用2級以上扳手 (至少為彗星扳手) 來修復此物品。確認你擁有他且在指令裡指出他。如果名稱含有空格，記得使用引號。",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
       "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
@@ -1552,11 +1592,11 @@
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
       "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來進行修復。**(需求：%3$s，擁有：%4$s)**",
       "item_broke": "可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
-      "success": "%1$s修復成功！已修復物品 %2$s **%3$s** -> %4$s **%5$s**。此修復費用為*%6$s*元，材料為 *%7$s*。",
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "可修復物品清單",
         "cost": "修復花費：",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
@@ -1565,7 +1605,8 @@
       "information_footer": "Information provided by Kitsu.io. Type &cancel to cancel.",
       "no_results": "%1$sNo results found...",
       "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a ``%2$s`` while trying to process the command. (internal error)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Anime information for %1$s",
       "information_notice": "Information provided by Kitsu.io.",
       "airing": "Airing",
@@ -1575,7 +1616,7 @@
       "average_score": "Average Score",
       "type": "Type",
       "episodes": "Episodes",
-      "episode_duration": "Episode Duration",
+      "episode_duration": "Duration",
       "genres": "Genres",
       "minutes": "minutes",
       "description": "Description"
@@ -1583,7 +1624,7 @@
     "character": {
       "no_args": "%1$sYou need to tell me what character you want to look for.",
       "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%2$s`` while trying to process this command. (internal error)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Character information for %1$s",
       "information": "Information",
       "no_aliases": "No aliases",
@@ -1662,7 +1703,7 @@
     },
     "mine": {
       "not_equipped": "%1$s你沒有任何已裝備的鎬子。使用 `~>equip <鎬子名稱>` 來裝備一支新的鎬子！如果你沒有任何鎬子，使用 `~>buy pick` 來購買一把。",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
+      "no_pick": "%1$s你沒有任何鎬子能夠用來挖礦。如果你想使用其他鎬子，使用 `~>mine <鎬子名稱>`",
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
       "success": "%1$s你用*%3$s*開採了價值**%2$,d元**的礦物",
@@ -1673,7 +1714,8 @@
       },
       "gem": {
         "overflow": "你在採礦時時發現了 *%1$s*，但是你已經擁有太多了，所以我為你出售了。",
-        "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。"
+        "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。",
+        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
       },
       "sparkle": {
         "overflow": "你找到了閃閃發光的寶石，不過你好像已經擁有太多了，所以我為你出售了。",
@@ -1752,6 +1794,15 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sThere's no item matching your search query.",
+      "embed": {
+        "header": "Item Information for %1$s",
+        "type": "Type",
+        "usefulness": "Usefulness",
+        "attributes": "Attributes",
+        "tier": "Tier",
+        "durability": "Durability",
+        "desc": "Description"
+      },
       "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
@@ -1868,6 +1919,7 @@
       "invalid": "%1$s**You need to specify the users to locally blacklist.**",
       "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
       "admin_notice": "%1$sOne (or more) of the users you're trying to blacklist are admins or Bot Commanders!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sLocally blacklisted users: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1891,6 +1943,14 @@
       },
       "success": "%1$sAdded logs exception on channel: %2$s",
       "invalid": "%1$sIncorrect argument length."
+    },
+    "logs_timezone": {
+      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+    },
+    "logs_timezonereset": {
+      "success": "%1$sSuccesfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sReset the lobby correctly."
@@ -1985,6 +2045,7 @@
       "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
       "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
@@ -2211,6 +2272,33 @@
     "priority_speaker": "Priority Speaker"
   },
   "items": {
+    "categories": {
+      "collectable": "Collectible Item",
+      "common": "Common Item",
+      "rare": "Rare Item",
+      "premium": "Premium Item",
+      "cast_mine": "Casted Mine Item",
+      "mine": "Mined Item",
+      "fish": "Fished Item",
+      "fish_rare": "Fished Item (Rare)",
+      "mine_rare": "Mined Item (Rare)",
+      "crate": "Loot Crate",
+      "chop_drop": "Chopped Item",
+      "potion": "Potion",
+      "buff": "Buff",
+      "wrench": "Wrench",
+      "waifu": "Waifu Item",
+      "mine_pick": "Pickaxe",
+      "mine_rare_pick": "Pickaxe (Rare)",
+      "fish_rod": "Fishing Rod",
+      "fish_rod_rare": "Fishing Rod (Rare)",
+      "chop_axe": "Axe",
+      "chop_axe_rare": "Axe (Rare)",
+      "broken": "Broken Item",
+      "pet": "Pet Item",
+      "pet_food": "Pet Food",
+      "deprecated": "Deprecated"
+    },
     "headphones": "耳機",
     "ban_hammer": "禁令之鎚",
     "die": "灌鉛骰子",
@@ -2294,9 +2382,9 @@
     "shrimp": "蝦子",
     "moon": "月亮寶石",
     "flake": "雪花",
-    "broken_comet_pick": "Broken Comet Pickaxe",
-    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
-    "broken_star_pick": "Broken Star Pickaxe",
+    "broken_comet_pick": "壞掉的彗星鎬子",
+    "broken_sparkle_pick": "壞掉的火花鎬子",
+    "broken_star_pick": "壞掉的星星鎬子",
     "broken_comet_rod": "壞掉的彗星釣竿",
     "broken_sparkle_rod": "壞掉的火花釣竿",
     "broken_star_rod": "壞掉的星星釣竿",
@@ -2326,15 +2414,36 @@
     "pear": "梨子",
     "cherry_blossom": "櫻花",
     "rock": "石頭",
-    "broken_moon_pick": "Broken Moon Pickaxe",
+    "broken_moon_pick": "壞掉的月亮鎬子",
     "broken_moon_axe": "壞掉的月亮斧",
     "broken_moon_rod": "壞掉的月亮釣竿",
     "broken_star_axe": "壞掉的星星斧",
     "broken_comet_axe": "壞掉的彗星斧",
     "broken_sparkle_axe": "壞掉的火花斧",
-    "broken_hellfire_pick": "Broken Hellfire Pickaxe",
-    "broken_hellfire_axe": "Broken Hellfire Axe",
-    "broken_hellfire_rod": "Broken Hellfire Rod",
+    "broken_hellfire_pick": "壞掉的地獄鎬子",
+    "broken_hellfire_axe": "壞掉的地獄斧頭",
+    "broken_hellfire_rod": "壞掉的地獄釣竿",
+    "explanation": {
+      "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
+      "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
+      "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
+      "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
+      "moon_pick": "The moon-like substance mesmerized you.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nRegardless, you tried to fuse this with your current pick, and the result was quite satisfactory.\nSeems to be a good balance between light and dark, and somehow I mine some gems with it.\nIs this really a fragment from a far away moon?",
+      "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
+      "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
+      "axe": "A normal axe you bought on the local market. Good enough to chop some trees down.",
+      "comet_axe": "After testing the Comet Fragments on your pick, you also realized you could use them on your axe. It made it stronger, and shinier. All you could wish for.",
+      "star_axe": "A bright glow from a star far away, but in your hands.\nLooks like the tree-chopping can continue with this new, shiny axe. You seemed weirded out at first: how can this help me mine more wood?\nWell, you soon realized why...",
+      "sparkle_axe": "A touch of sparkle here, a touch of sparkle there!\nThe axe glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
+      "moon_axe": "Looking at this axe, you look mesmerized by moon-like glow it emits.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nMesmerized, you cast this substance into your axe and... boom!\nThe results look good. It seems to chop trees faster, too. Why is it so sharp? Is this really a fragment from a far away moon?",
+      "hellfire_axe": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your axe now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Nothing can compare. But you're still left wondering whether you really did the right thing.",
+      "rod": "A rod you bought at your local fishing market. Looks sturdy.",
+      "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
+      "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
+      "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
+      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
+      "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing."
+    },
     "description": {
       "headphones": "這就是你聽太多音樂時會發生的事情。應該還是值一些錢的...吧。",
       "ban_hammer": "管理員留下來的。",
@@ -2346,13 +2455,13 @@
       "forgotten": "我從來都沒下載過。應該已經有版權了。",
       "pencil": "我們有很多！",
       "moneybag": "不然你要什麼？",
-      "pick": "讓你挖礦的一般鎬子 (耐久度 40)。",
+      "pick": "A basic pick for your regularly scheduled mining.",
       "milk": "有總比沒有好。",
       "beverage": "這會產生一些奇怪的事情。嗯，取決於哪種類型 ;)",
       "lewd": "用太多次情色的指令了。真的太多了。開心嗎？",
       "ring": "讓你的婚姻變正式的東西。",
       "letter": "愛人的來信。",
-      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`",
+      "key": "用 `~>opencrate <寶箱名稱>` 或 `~>useitem <寶箱名稱>` 來打開你的寶箱。",
       "clothes": "你身上穿的東西。應該吧...",
       "diamond": "一個更好保存金錢的方法。他也很閃亮。也能讓你鑄造閃亮的東西。多棒啊。",
       "dress": "難道他不好看嗎？",
@@ -2369,7 +2478,7 @@
       "special_ring": "太特別了，他甚至不是一個戒指。`第一代貨幣系統物品。無法再次獲得。`",
       "enchancer": "壞掉的附魔器，也許還能被修復？`第一代貨幣系統物品。無法再次獲得。`",
       "prize": "差不多吧？`第一代貨幣系統物品。無法再次獲得。`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
+      "crate": "你可以使用寶箱鑰匙打開他！使用 `~>opencrate` 打開。",
       "prize_2": "首先，你是怎麼得到那麼多錢的？",
       "slot_ticket": "給你更高的老虎機勝率，也能用做大容量存儲。",
       "house": "舒適的地方來居住。",
@@ -2380,7 +2489,7 @@
       "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
       "milky": "清除你的藥水效果。",
       "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
-      "rod": "讓你釣魚的一般釣竿 (耐久度 40)。",
+      "rod": "A basic rod for your fishing activities.",
       "fish": "魚。釣魚時釣到的。",
       "tropical_fish": "一條非常熱帶的魚。釣魚時釣到的。",
       "blowfish": "我在想... 這東西好嗎？釣魚時釣到的。",
@@ -2389,28 +2498,28 @@
       "cobweb": "地底內蜘蛛殘留下來的。也許它值得一些錢。",
       "fragment": "古代寶石的碎片。適用於鑄造。",
       "mop": "一種快速清理灰塵的方式。我猜你周圍一定有很多。",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`",
+      "claim_key": "當你運行 `~>profile claimlock` 之後，此物品使你無法被認領(作為Waifu)。",
       "coffee": "以愉快的方式來開始你的一天。",
       "waifu_pill": "當你的其中一個Waifu價值高於20000時，將帶給你挖礦和釣魚時的顯著優勢。可維持三次活動。",
       "bait": "使你更有機會釣到魚。",
-      "diamond_pick": "一個堅固一些的鎬子 (耐久度 150)。",
+      "diamond_pick": "A strong-ish pick.",
       "tv": "別...忘記...看...電視...",
       "wrench": "鑄造的工具。讓你將物品打造在一起。",
       "star_wrench": "鑄造的工具。讓你將物品打造在一起。較為堅固，用來一次鑄造多個物品。等級二。",
       "sparkle_wrench": "鑄造的工具。讓你將物品打造在一起。較為堅固，鑄造花費更便宜。等級三。",
       "motorcycle": "長途移動，更酷的方式。",
-      "comet_pick": "一個比較堅固的鎬子 (耐久度 180)。",
-      "star_pick": "一個更堅固的鎬子 (耐久度 220)。",
+      "comet_pick": "A stronger pick.",
+      "star_pick": "A much stronger pick.",
       "sparkle": "最稀有的寶石之一。記得別把它弄丟。能夠用來鑄造火花工具。",
-      "sparkle_pick": "最堅固的鎬子之一 (耐久度 450)。",
+      "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "好吃。",
-      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
-      "comet_rod": "一個堅固一些的釣竿 (耐久度 130)。",
-      "star_rod": "一個比較堅固的釣竿 (耐久度 170)。",
-      "sparkle_rod": "一個非常堅固的釣竿 (耐久度 300)。",
+      "mine_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem crate` 開啟。",
+      "fish_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate treasure` 開啟。",
+      "mine_premium_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem premium crate` 開啟。",
+      "fish_premium_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate premium treasure` 開啟。",
+      "comet_rod": "A slightly stronger rod.",
+      "star_rod": "A stronger rod .",
+      "sparkle_rod": "A way stronger rod.",
       "shell": "在馬里亞納海溝找到的。他會有什麼價值？",
       "shark": "Woah. How did you catch this?",
       "crab": "一隻螃蟹。他會跳舞，應該吧。",
@@ -2424,7 +2533,7 @@
       "broken_comet_rod": "釣魚時釣斷了的彗星釣竿。還是可回收的。",
       "broken_sparkle_rod": "釣魚時釣斷了的火花釣竿。還是可回收的。",
       "broken_star_rod": "釣魚時釣斷了的星星釣竿。還是可回收的。",
-      "incubator_egg": "Does still not have an use. It's an egg, though. Maybe.",
+      "incubator_egg": "The one catalyst you need to call your personal pet home.",
       "water_bottle": "用來魔法地降低你寵物的口渴程度。",
       "magic_watch": "一支神奇的手錶，在你需要時減慢時間。這將會自動被使用掉來拯救你忘記的簽到！",
       "pet_house": "給你寵物居住的房子。應該吧。有時候他們只想在外面玩。",
@@ -2435,16 +2544,16 @@
       "cat_food": "你的貓咪可能會很喜歡的食物。",
       "hamster_food": "你的倉鼠可能會很喜歡的食物。",
       "wood": "樹木的常見掉落物。適用於鑄造。",
-      "moon_pick": "一個非常堅固的鎬子 (耐久度 320)。",
-      "hellfire_pick": "OP鎬 (耐久太高了，自己用用看 ;) )。",
-      "axe": "一個再平常不過的斧頭 (耐久度 35)。",
-      "comet_axe": "一個堅固一些的斧頭 (耐久度 170)。",
-      "star_axe": "一個比較堅固的斧頭 (耐久度 220)。",
-      "moon_axe": "一個更堅固的斧頭 (耐久度 320)。",
-      "sparkle_axe": "一個非常堅固的斧頭 (耐久度 500)。",
-      "hellfire_axe": "OP斧 (耐久太高了，自己用用看 ;) )。",
-      "moon_rod": "一個更堅固的魚竿 (耐久度 170)。",
-      "hellfire_rod": "OP竿 (耐久太高了，自己用用看 ;) )。",
+      "moon_pick": "A very much stronger pick.",
+      "hellfire_pick": "Way too OP pick.",
+      "axe": "A normal, middle-of-the-road axe.",
+      "comet_axe": "A stronger axe.",
+      "star_axe": "A much stronger axe.",
+      "moon_axe": "A very much stronger axe.",
+      "sparkle_axe": "A way stronger axe.",
+      "hellfire_axe": "Way too OP axe.",
+      "moon_rod": "A stronger rod.",
+      "hellfire_rod": "Way too OP rod.",
       "leaves": "從你砍伐中的樹上緩慢地掉落下來。",
       "apple": "你碰巧砍到了一棵蘋果樹但樹上的蘋果卻掉在了你的頭上。哎呀。",
       "pear": "你碰巧砍到了一棵梨子樹但樹上的梨子卻掉在了你的頭上。哎呀。",
@@ -2456,9 +2565,9 @@
       "broken_star_axe": "砍樹時砍斷了的星星斧頭。還是可回收的。",
       "broken_comet_axe": "砍樹時砍斷了的彗星斧頭。還是可回收的。",
       "broken_sparkle_axe": "砍樹時砍斷了的火花斧頭。還是可回收的。",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
-      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
+      "broken_hellfire_pick": "挖礦時熄滅了的地獄鎬子。還是可回收的。",
+      "broken_hellfire_axe": "挖礦時熄滅了的地獄斧頭。還是可回收的。",
+      "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。"
     }
   },
   "test": {

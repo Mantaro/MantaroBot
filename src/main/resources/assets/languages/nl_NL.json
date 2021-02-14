@@ -2,7 +2,7 @@
   "general": {
     "invalid_number": "%1$sDat is geen geldig nummer!",
     "requested_by": "Aangevraagd door %1$s.",
-    "operation_timed_out": "%1$sDe tijd om deze bewerking te beantwoorden is verstreken.",
+    "operation_timed_out": "%1$sDe tijd om deze handeling te beantwoorden is verstreken.",
     "too_many_users_found": "%1$sTe veel gebruikers gevonden, misschien kun je jouw zoekopdracht verfijnen? (bijv. gebruik naam#discriminator)\n**Gebruikers gevonden:** %2$s",
     "search_no_result": "%1$sJe zoekopdracht leverde geen resultaten op :(",
     "unknown": "Onbekend",
@@ -19,7 +19,7 @@
     "timeout": "Dit geeft een timeout in %1$d seconden.",
     "reaction_timeout": "Reacties zullen in %1$d seconden verlopen.",
     "example": "Voorbeeld",
-    "definition": "Omschrijving",
+    "definition": "Definitie",
     "name": "Naam",
     "description": "Beschrijving",
     "options": "Opties",
@@ -27,7 +27,7 @@
     "too_many_members": "%1$sTe veel gebruikers gevonden, probeer specifieker te zijn (bijv. gebruik naam#discriminator)\n**Gebruikers gevonden:** %2$s",
     "too_many_mentions": "%1$sAsjeblieft mention maar 1 persoon per member lookup.",
     "query_too_small": "%1$sJe zoekopdracht is te klein. Zorg ervoor dat je minimaal 4 karakters zoekt. Als de gebruikersnaam te kort is, kun je beter gebruikersnaam#discriminator of een gebruikers-Id gebruiken.",
-    "dust": "Er is hier niets te vinden",
+    "dust": "Er is hier alleen maar stof.",
     "invalid_syntax": "Ongeldige syntax.",
     "item_lookup": {
       "no_item_emoji": "Er is geen voorwerp gekoppeld aan deze emoji.",
@@ -36,9 +36,9 @@
       "claim_key": "Je kunt geen claim sleutel overdragen."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
+      "mop": "%1$sJe hebt al het stof verwijderd dat je tijdens al je mijnbouwreizen hebt verzameld.",
       "mop_not_enough": "%1$sJe stof level is minder dan 5%%, dus afstoffen zal niet zo nuttig zijn.",
-      "milk": "%1$sCleared all potion effects.",
+      "milk": "%1$sAlle tovereffecten gewist.",
       "stamina": "%1$sStamina is geactiveerd voor 5 mining sessies.",
       "stamina_used": "%1$s Je hebt al een actief uithoudingsvermogen effect!",
       "haste": "%1$sHaast is geactiveerd voor 2 minuten.",
@@ -48,9 +48,10 @@
       "pill": "%1$s Je hebt een waifu pil gedronken! (Geactiveerd voor 5 sessies)",
       "pill_used": "%1$s Je hebt al een actieve waifu pil!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`~>buy key`",
+        "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta commando`s.",
         "success": "%1$s**Je hebt gewonnen:** %2$s%3$s",
+        "success_high": "%1$sJe hebt de volgende items met een zeldzaamheid van meer dan 4 sterren: %2$s. Het aantal is hierboven weergegeven. Gefeliciteerd! %3$s",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
       "potion_active": "%1$s Je hebt al een actieve **%2$s** Toverdrank effect en het maximale aantal er van!",
@@ -80,7 +81,8 @@
     "cancelled": "%1$sVerzoek geannuleerd.",
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
     "deprecated": "Niet langer in gebruik",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "Als de naam ervan spaties bevat, probeer dan \"het tussen aanhalingstekens te plaatsen\". Waarschijnlijk kan het commando help je meer vertellen.",
+    "missing_embed_permissions": "De bot mist de toestemming voor het insluiten van links die nodig is om deze opdracht weer te geven. Geef de bot de benodigde rechten (controleer ook de kanaal- en categorierechten). Als je meer hulp nodig hebt, ga dan naar <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
       "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
@@ -308,7 +310,8 @@
     },
     "rewind": {
       "no_time": "%1$sJe zult me moeten vertellen hoeveel je het nummer wilt terugspoelen. *(Bijvoorbeeld: `~>rewind 1m45s` zal het nummer 1 minuut en 45 seconden terugspoelen)*",
-      "negative": "%1$sAlleen positieve getallen zijn toegestaan",
+      "negative": "%1$sPositive numbers only",
+      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
       "before_beginning": "%1$sJe kunt niet terugspoelen naar een moment vóór het begin van het nummer",
       "success": "%1$sTerugspoelen van het nummer naar: %2$s."
     },
@@ -393,8 +396,8 @@
       "footer": "Bedankt voor het gebruiken van Mantaro! Pagina: %1$d, Totaal: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "header": "%1$sDe standaard prefixes zijn %2$s (Ik reageer op beide!). %3$s.\nJe kunt een nieuw prefix instellen met `~>opts prefix set <prefix>`. De <> niet gebruiken.\nOm de prefix te resetten gebruik je `~>opts prefix clear`\nAls je vragen hebt, kun je lid worden van <https://support.mantaro.site>",
+      "guild_prefix": "De server prefix is `%1$s` (werkt alleen op deze server)",
       "none": "Er is geen aangepaste prefix ingesteld op deze server."
     },
     "custom": {
@@ -424,6 +427,7 @@
         "not_found": "%1$sIk kan dit commando niet vinden.",
         "header": "Commando \"%1$s\":",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
+        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
       },
       "clear": {
@@ -534,15 +538,15 @@
         "Heb ik het goed gedaan?",
         "Wat denk je?",
         "Gebeurd dit vaker?",
-        "Am I performing p-properly?",
+        "Werk ik g-goed?",
         "<3",
         "pat pat",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
-        "Wondering how I'd do",
-        "Any issue?",
+        "Nieuwsgierig naar hoe ik het zou doen",
+        "Enig probleem?",
         "Ping-pong? Yay!",
         "Euhm.. h-hallo"
       ],
@@ -576,6 +580,7 @@
         "header": "Huidige huwelijks status",
         "description_format": "%1$sHuwelijks status tussen **%2$s** en **%3$s**",
         "date": "Huwelijksdatum",
+        "age": "Huwelijks Leeftijd",
         "love_letter": "Liefdesbrief",
         "waifus": "Waifu Eigendom",
         "house": "Huis Naam",
@@ -588,7 +593,7 @@
         "success": "%1$sSuccessfully set marriage timezone to %2$s. Pet time will be the same as the marriage timezone."
       },
       "general": {
-        "not_married": "%1$sYou're not married."
+        "not_married": "%1$sJe bent niet getrouwd."
       },
       "buyhouse": {
         "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
@@ -596,7 +601,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
         "confirm": "%1$sAre you sure you wanna buy this house? The price deducted from your wallet is %2$d and the name you gave the house is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a house for %2$d. The name of your new cozy house is %3$s, enjoy!",
+        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
       },
       "buycar": {
@@ -604,7 +609,7 @@
         "not_enough_money": "%1$sYou don't have enough money to buy a car. (Current car price: %2$d credits)",
         "no_name": "%1$sYou need to give your car a name! For example, `~>marry car vroom`",
         "confirm": "%1$sAre you sure you wanna buy this car? The price deducted from your wallet is %2$d and the name you gave the car is %3$s. Type `yes` to confirm and `no` to cancel.",
-        "success": "%1$sYou successfully bought a car for %2$d. The name of your new fast car is %3$s, enjoy!",
+        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
         "cancel_success": "%1$sCancelled operation."
       },
       "no_mention": "%1$sNoem de gebruiker met wie je wilt trouwen.",
@@ -613,7 +618,7 @@
       "already_married_receipt": "%1$sJe bent al met deze persoon getrouwd, aww.",
       "already_married": "%1$sJe bent al getrouwd.",
       "receipt_married": "%1$sDeze gebruiker is al getrouwd.",
-      "no_ring": "%1$sYou cannot propose without two marriage rings! You can buy them by doing `~>buy 2 ring` and then try proposing again <3",
+      "no_ring": "%1$sJe kunt geen aanzoek doen zonder twee verlovingsringen! Je kunt deze kopen door `~>buy 2 ring` te typen en het dan nogmaals te proberen <3",
       "confirmation": "%1$s%2$s, beantwoord met **yes** of **no** op het huwelijksaanzoek van %3$s\n%4$sDit aanzoek zal een time-out geven over 120 seconden.",
       "ring_check_fail": "%1$sJe kunt niet trouwen als je minder dan twee verlovingsringen in je inventaris hebt :(",
       "accepted": "%1$s**%2$s#%3$s** accepteerde het huwelijksaanzoek van **%4$s#%5$s**!",
@@ -622,7 +627,7 @@
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
       "cancelled": "%1$sCancelled divorce.",
-      "not_married": "%1$sJe bent met niemand getrouwd, waarom ga je niet op zoek naar de ware?",
+      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
       "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
       "split": "The money left was split between the two parties by selling their assets (pet, house, car). Each one got **%1$d** credits on their wallet."
     },
@@ -644,7 +649,7 @@
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
         "not_enough_money": "%1$sJe hebt niet genoeg geld om deze waifu te claimen **(Kosten: %2$s)**",
         "not_enough_slots": "%1$sJe hebt niet genoeg plek beschikbaar om deze waifu te claimen (Totaal aantal slots: %2$s, Gebruikt aantal slots: %3$s)",
-        "success": "%1$sHeeft `%2$s` succesvol geclaimed voor %3$,d. Slots gebruikt: %4$s",
+        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
         "already_claimed": "%1$sYou already claimed this waifu.",
         "not_found": "%1$sI can't find any user with this query. "
@@ -662,7 +667,7 @@
       "buyslot": {
         "locked": "%1$sJe kunt deze actie op dit moment niet uitvoeren.",
         "not_enough_money": "%1$sJe hebt niet genoeg geld om meer sloten te kopen! Je hebt %2$d credits nodig.",
-        "success": "%1$sDit slot is succesvol aangekocht voor %2$s, je hebt op dit moment in totaal %3s sloten en %4$s hiervan zijn beschikbare sloten.",
+        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
         "too_many": "%1$sYou already have too many slots! The maximum is 30 slots."
       },
       "optout": {
@@ -670,7 +675,8 @@
         "warning": "%1$sDo you want to opt-out from the waifu system? THIS IS PERMANENT AND CAN'T BE REVERTED. Seriously.\nIf you only want to be opted out of new claims and wanna use the waifu system as usual, please use `~>profile claimlock` instead.\nYou won't be able to claim or be claimed, and all the claims over you will be removed.\nType `Yes, I want to opt out of the waifu system completely and irreversibly` or `no`. Typing the confirmation message will opt you out, no will cancel it.",
         "success": "%1$sYou successfully opted out of the waifu system.",
         "cancelled": "%1$sCancelled opt-out operation.",
-        "claim_notice": "%1$sThe user you're trying to claim opted out."
+        "claim_notice": "%1$sThe user you're trying to claim opted out.",
+        "lookup_notice": "%1$sThe user you're trying to lookup opted out."
       },
       "header": "Waifu Lijst",
       "description_header": "Hier is een lijst met al je geliefde waifus, gesorteerd op datum.\n*Je kunt op dit moment een maximum van %1$d waifus hebben.*\n\nals je je waifu statistieken wil bekijken, typ `~>waifu stats`\n\n",
@@ -687,7 +693,7 @@
       "success": "%1$sIk beoordeel %2$s met een **%3$d/100**"
     },
     "roll": {
-      "success": "%1$sJe krijgt **%2$d**%3$s",
+      "success": "%1$sJe rolde **%2$,d**%3$s",
       "amount": "Doet **%1$d** aan rolls."
     },
     "coinflip": {
@@ -696,7 +702,7 @@
       "success": "%1$s Het resultaat van **%2$d** keer flippen gaf as resultaat; **%3$d** kop en **%4$d** munt"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>market dump`",
+      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
       "brief": "**%1$s's item collection** %2$s\n\n*For a detailed version, use `~>inventory -info`. Enjoy your day!*",
       "calculate": "%1$s%2$s zal **%3$d credits** krijgen als alle items zijn verkocht.",
       "header": "%1$s's Inventaris",
@@ -722,13 +728,14 @@
       "ls": {
         "header": "Gietbare Voorwerp Lijst",
         "cost": "Giet Kost: ",
-        "desc": "Dit is een lijst van de voorwerpen die je kan gieten met `~>cast`. Je kan de volledige of korte naam gebruiken om te gieten (bijvoorbeeld: `~>cast diamond pickaxe` of `~>cast diamond p` werkt)\n**Gieten kost de helft van de prijs van het voorwerp. De gietprijs wordt onderaan weergeven.**."
+        "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
       "dust": "%1$sJe kan niet gieten met zo'n stoffige inventaris! *(Dust level: %2$s%%)*. Waarom kuis je het niet op met `~>useitem mop`?",
       "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
       "dump": {
+        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
         "no_item": "%1$sJe moet het aantal en de naam van het voorwerp opgeven die je wilt weggooien. Als het er maar één is, hoef je het aantal niet op te geven.",
         "invalid": "%1$sGeen geldig aantal voorwerpen om weg te gooien.",
         "non_existent": "%1$sKan een niet-bestaand voorwerp niet weggooien!",
@@ -753,7 +760,7 @@
           "cancelled": "%1$sCancelled successfully."
         },
         "non_existent": "%1$sYou cannot sell a non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes.",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>market dump` it)",
+        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
         "no_item_player": "%1$sYou cannot sell an item you don't have.",
         "more_items_than_player": "%1$sYou cannot sell more items than what you have.",
         "success": "%1$sYou sold %2$,d **%3$s** and gained %4$,d credits!"
@@ -801,7 +808,7 @@
       "receipt_locked_notice": "1$sDeze persoon kan nu geen geld ontvangen.",
       "receipt_over_limit": "%1$sDeze persoon heeft al te veel geld...",
       "success": "%1$sEr is succesvol **%2$,d** *(%3$,d na 8%% belasting)* overgemaakt naar **%4$s**.",
-      "item_transfer": "%1$sJe kunt geen voorwerpen weggeven met behulp 'transfer', gebruik hiervoor het 'itemtransfer' commando.",
+      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
     },
     "useitem": {
@@ -860,7 +867,7 @@
       "invalid": "%1$sDeze poll kan niet aangemaakt worden. **Denk eraan dat de opties maximaal 9 en minimaal 2 en de time-out maximaal 45m en minimaal 30s moeten zijn.**\nOpties worden gescheiden door een komma, bijvoorbeeld `1,2,3`. Als je meer ruimte wil gebruik je aanhalingstekens aan het begin en aan het einde van de zin.",
       "other_poll_running": "%1$sEr lijkt hier nog een poll actief te zijn...",
       "no_reaction_perms": "%1$sHet lijkt erop dat ik hier geen reacties kan toevoegen...",
-      "too_long": "Dit was te lang om te laten zien, dus heb ik het geplakt: %1$s",
+      "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Poll #%1$d gemaakt door %2$s",
       "success": "**Poll gestart. Reageer op het nummer dat je wilt stemmen.**\n*%1$s*\nTyp &cancelpoll om een actieve poll te annuleren.",
       "time": "Je hebt %1$s om te stemmen.",
@@ -909,6 +916,10 @@
       "toggleaction": {
         "enabled": "%1$sEnabled actions to be done to you.",
         "disabled": "%1$sDisabled actions from being done to you."
+      },
+      "pet": {
+        "header": "Personal Pet",
+        "none": "No personal pet"
       },
       "stats": {
         "header": "Profile Statistics for %1$s",
@@ -1001,7 +1012,7 @@
       "not_specified": "Niet ingesteld.",
       "potion": "Actieve Toverdrank",
       "no_potion": "Geen actieve Toverdrankjes.",
-      "hidelegacy": "%1$sLegacy credits show status is now: `%2$s`"
+      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
     },
     "badges": {
       "info": {
@@ -1009,6 +1020,10 @@
         "not_found": "%1$sEr is geen dergelijke badge...",
         "header": "Badge informatie voor %1$s",
         "achieved": "Behaald"
+      },
+      "ls": {
+        "header": "Obtainable Badges List",
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "Als je denkt dat je een nieuwe badge hebt gekregen maar deze verschijnt niet, probeer dan eerst het commando `~>profile` te gebruiken en daarna dit commando\n",
@@ -1260,11 +1275,12 @@
     },
     "opencrate": {
       "no_crate": "%1$sJe hebt geen buit kist van dit type (%2$s) om te openen:( (Als je een andere kist wil openen dan de standaard kist, gebruik dan de naam van de kist bij het commando)",
-      "not_crate": "%1$sThat is not a valid loot crate."
+      "not_crate": "%1$sThat is not a valid loot crate.",
+      "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
     },
     "dailycrate": {
       "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nYou can open a daily premium crate with a high chance of getting good items with premium! Please check out more at <https://patreon.com/mantaro>\nThis can be ran every 24 hours.",
+      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
       "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
     },
     "prune": {
@@ -1305,11 +1321,13 @@
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
       "loli_content_disallow": "%1$sHelaas kan ik geen afbeeldingen weergeven die naar verluidt 'loli' of 'shota' lwed/NSFW-inhoud bevatten omdat Discord dit verbiedt. (Filter uitgevoerd: afbeelding bevat een loli of shota-tag en het is NSFW)",
       "null_list_notice": "%1$sOeps ... er is iets mis gegaan bij het zoeken ... (Als u een tag heeft gebruikt, bestaat de tag mogelijk niet)",
-      "found_image": "Een afbeelding gevonden",
+      "found_image": "Image Found",
       "description_image": "Beoordeling: **%1$s**, Afbeeldingbord: **%2$s**",
       "width": "Breedte",
       "height": "Hoogte",
       "tags": "Labels",
+      "source": "Imageboard",
+      "rating": "Rating",
       "load_notice": "Als de afbeelding niet wordt geladen, klik op de titel.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
       "yandere_nsfw_notice": "%1$sHet commando Yande.re en Gelbooru kunnen alleen in NSFW-kanalen worden gebruikt vanwege verschillende rapporten waarin expliciete afbeeldingen worden verzonden die als veilig zijn gemarkeerd.\nJe kan proberen om `~>konachan` te gebruiken!",
@@ -1317,11 +1335,12 @@
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
       "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
         "header": "Status for %1$s",
         "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
         "cost": "Prijs",
@@ -1332,8 +1351,23 @@
         "thirst": "Dorst",
         "hunger": "Honger",
         "stamina": "Uithoudingsvermogen",
+        "dust": "Dust (%)",
         "pet": "Aaien",
+        "buildup": "Credit / Item Buildup",
+        "buildup_coin": "Credit Buildup",
+        "buildup_stats": "%1$,d credits / %2$,d items",
+        "buildup_stats_credits": "%1$,d credits",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "clean": {
+        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
+        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
+      },
+      "choice": {
+        "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
+        "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
         "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
@@ -1344,7 +1378,7 @@
         "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
         "too_many": "How did you even get this many pats?"
       },
@@ -1357,19 +1391,20 @@
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
       "buy": {
-        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`)",
+        "not_enough_arguments": "%1$sYou need to specify the name of the pet and the type of pet you want to buy. (For example, `~>pet buy hello dog`). If you want a personal pet, first run `~>pet choice personal`.",
         "no_requirements": "%1$sYou need both a car and a house to go buy a pet! House: %2$s, Car: %3$s\nTo buy a house and a car use `~>marry buyhouse` and `~>marry buycar` :heart:",
         "no_house": "%1$sYou need to have a pet house in your inventory to do this. You can buy it on the market.",
-        "already_has_pet": "%1$sYou already have a pet.",
+        "no_egg": "%1$sYou need to have a Incubator Egg on your inventory to do this. You can cast it, check `~>cast ls`",
+        "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits.",
+        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %5$s",
         "cancel_success": "%1$sCancelled operation.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_content": "%1$sYou need to specify what you want to feed your pet with. For example, `~>pet feed steak`",
         "no_item": "%1$sI didn't find the item you specified.",
         "not_food": "%1$sWoah there! This isn't food, nor is it emergency food!",
@@ -1380,7 +1415,7 @@
         "too_much": "%1$sMaybe give it a little less food? You'd be wasting food otherwise! (The amount used would surpass 100%% hunger)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation.",
+        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
         "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
@@ -1392,21 +1427,25 @@
         "low_health": "%1$s**%2$s** has really low health. Give it food/water and let it rest for a while to replenish.",
         "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
+        "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
+        "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
         "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
       },
       "rename": {
-        "no_pet": "%1$sYou don't have a pet to rename.",
+        "no_pet": "%1$sYou don't have a pet to rename. (Choice: %2$s)%3$s",
         "same_name": "%1$sThe name you gave me is the same as the current name of your pet.",
         "no_content": "%1$sYou need to give me the new name of your pet.",
         "not_enough_money": "%1$sYou don't have enough money to do this. Cost: %2%s, Current: %3$s.",
         "success": "%1$sSuccessfully renamed your pet from `%2$s` to `%3$s`. %4$s has been deducted from your wallet. Enjoy!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove",
+        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
         "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund."
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$s credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
+        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
@@ -1415,7 +1454,7 @@
         "cost": "Pet Cost",
         "abilities": "Vaardigheden",
         "food": "Edibles",
-        "coin_buildup": "Coin Buildup (Lvl. 1 / 100)",
+        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
       }
     },
@@ -1449,7 +1488,7 @@
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
         "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name or the short name (example: `~>salvage \"diamond pickaxe\"`, or `~>salvage \"diamond p\"`, works)\n**Salvaging has a cost of 1/3rd the price of the item. The salvage price will be shown down below.**.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
     },
     "stats": {
@@ -1544,7 +1583,8 @@
       "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
       "no_main_item": "%1$sYou don't have the item you need to repair this!",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. Make sure you have it and that you specified the correct wrench in case you specified it. Remember to use quotes if the name has spaces.",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
@@ -1552,11 +1592,11 @@
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
       "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair costed *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Repair-able Items List",
         "cost": "Repair Cost: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost. You need at least a Comet Wrench to repair something.\nThe price will be shown below, alongside the needed materials.\nThe full syntax of repair is `~>repair <item> <wrench>`"
+        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
       }
     },
     "anime": {
@@ -1565,7 +1605,8 @@
       "information_footer": "Informatie verstrekt door Anilist. Typ &cancel om te annuleren.",
       "no_results": "%1$sGeen resultaten gevonden...",
       "malformed_result": "%1$sIk heb een verkeerd API-resultaat voor deze specifieke zoekopdracht ontvangen. Misschien kun je het proberen met een andere zoekterm?",
-      "error": "%1$s**Ik weet zeker dat ik je favoriete anime niet heb laten vallen!**\nIk ontving een ``%2$s`` tijdens het verwerken van de opdracht. (internal error)",
+      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
+      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
       "information_header": "Anime-informatie voor %1$s",
       "information_notice": "Informatie verstrekt door Kitsu.io.",
       "airing": "Wordt momenteel uitgezonden",
@@ -1575,7 +1616,7 @@
       "average_score": "Gemiddelde Score",
       "type": "Type",
       "episodes": "Afleveringen",
-      "episode_duration": "Afleveringsduur",
+      "episode_duration": "Duration",
       "genres": "Soort",
       "minutes": "minuten",
       "description": "Beschrijving"
@@ -1583,7 +1624,7 @@
     "character": {
       "no_args": "%1$sJe moet me vertellen welk karakter je wilt opzoeken.",
       "selection_start": "Typ het nummer van het karakter dat je wilt selecteren.",
-      "error": "%1$s**Ik weet zeker dat ik je waifu niet heb laten vallen, vergeef me alsjeblieft!**\nIk ontving ``%2$s`` tijdens het verwerken van deze opdracht. (internal error)",
+      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
       "information_header": "Karakterinformatie voor %1$s",
       "information": "Informatie",
       "no_aliases": "Geen aliases",
@@ -1673,7 +1714,8 @@
       },
       "gem": {
         "overflow": "\nHuh, je vond *%1$s* tijdens het mijnen, maar je had al te veel van deze edelsteen, dus heb ik het voor je verkocht.",
-        "success": "\nHuh! Je had geluk en vond *%1$s* tijdens het mijnen, controleer je inventaris."
+        "success": "\nHuh! Je had geluk en vond *%1$s* tijdens het mijnen, controleer je inventaris.",
+        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
       },
       "sparkle": {
         "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
@@ -1752,6 +1794,15 @@
     "iteminfo": {
       "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
       "no_item": "%1$sThere's no item matching your search query.",
+      "embed": {
+        "header": "Item Information for %1$s",
+        "type": "Type",
+        "usefulness": "Usefulness",
+        "attributes": "Attributes",
+        "tier": "Tier",
+        "durability": "Durability",
+        "desc": "Description"
+      },
       "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
     },
     "level": {
@@ -1868,6 +1919,7 @@
       "invalid": "%1$s**Je moet de gebruikers specificeren voor de lokale blacklist.**",
       "yourself_notice": "%1$sWaarom probeer je jezelf op de blacklist te zetten?...",
       "admin_notice": "%1$sEen (of meer) van de gebruikers die je probeert te blacklisten zijn Admins of Bot Commanders!",
+      "bot_notice": "%1$sYou can't blacklist a bot. The bot will never reply to any bots.",
       "success": "%1$sGebruikers die op de lokale blacklist zijn gezet: **%2$s**"
     },
     "localblacklist_remove": {
@@ -1891,6 +1943,14 @@
       },
       "success": "%1$sHeeft logboek-uitzonderingen toegevoegd op kanaal: %2$s",
       "invalid": "%1$sOnjuiste argument lengte."
+    },
+    "logs_timezone": {
+      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
+    },
+    "logs_timezonereset": {
+      "success": "%1$sSuccesfully reset log timezone."
     },
     "lobby_reset": {
       "success": "%1$sHet de lobby correct gereset."
@@ -1985,6 +2045,7 @@
       "success": "%1$sReset server leave message."
     },
     "autoroles_add": {
+      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
       "no_args": "%1$sJe moet de naam van de iam en de naam van de rol opgeven.",
       "no_role_found": "%1$sIk kon geen rol vinden met die naam!",
       "hierarchy_conflict": "%1$sDeze rol is hoger geplaatst dan jouw hoogste rol, daarom kun je hem niet als een automatisch toewijsbare rol toevoegen!",
@@ -2211,6 +2272,33 @@
     "priority_speaker": "Voornaamste Spreker"
   },
   "items": {
+    "categories": {
+      "collectable": "Collectible Item",
+      "common": "Common Item",
+      "rare": "Rare Item",
+      "premium": "Premium Item",
+      "cast_mine": "Casted Mine Item",
+      "mine": "Mined Item",
+      "fish": "Fished Item",
+      "fish_rare": "Fished Item (Rare)",
+      "mine_rare": "Mined Item (Rare)",
+      "crate": "Loot Crate",
+      "chop_drop": "Chopped Item",
+      "potion": "Potion",
+      "buff": "Buff",
+      "wrench": "Wrench",
+      "waifu": "Waifu Item",
+      "mine_pick": "Pickaxe",
+      "mine_rare_pick": "Pickaxe (Rare)",
+      "fish_rod": "Fishing Rod",
+      "fish_rod_rare": "Fishing Rod (Rare)",
+      "chop_axe": "Axe",
+      "chop_axe_rare": "Axe (Rare)",
+      "broken": "Broken Item",
+      "pet": "Pet Item",
+      "pet_food": "Pet Food",
+      "deprecated": "Deprecated"
+    },
     "headphones": "Koptelefoon",
     "ban_hammer": "Ban Hamer",
     "die": "Gevulde Dobbelsteen",
@@ -2278,7 +2366,7 @@
     "comet_pick": "Komeet Pikhouweel",
     "star_pick": "Ster Pikhouweel",
     "sparkle": "Fonkelende Materie",
-    "sparkle_pick": "Fonkelende Pickhouweel",
+    "sparkle_pick": "Fonkelende Pikhouweel",
     "pizza": "Pizza",
     "mine_crate": "Edelsteen Kist",
     "fish_crate": "Vis schat",
@@ -2335,6 +2423,27 @@
     "broken_hellfire_pick": "Broken Hellfire Pickaxe",
     "broken_hellfire_axe": "Gebroken Hellevuur Bijl",
     "broken_hellfire_rod": "Gebroken Hellevuur Hengel",
+    "explanation": {
+      "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
+      "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
+      "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
+      "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
+      "moon_pick": "The moon-like substance mesmerized you.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nRegardless, you tried to fuse this with your current pick, and the result was quite satisfactory.\nSeems to be a good balance between light and dark, and somehow I mine some gems with it.\nIs this really a fragment from a far away moon?",
+      "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
+      "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
+      "axe": "A normal axe you bought on the local market. Good enough to chop some trees down.",
+      "comet_axe": "After testing the Comet Fragments on your pick, you also realized you could use them on your axe. It made it stronger, and shinier. All you could wish for.",
+      "star_axe": "A bright glow from a star far away, but in your hands.\nLooks like the tree-chopping can continue with this new, shiny axe. You seemed weirded out at first: how can this help me mine more wood?\nWell, you soon realized why...",
+      "sparkle_axe": "A touch of sparkle here, a touch of sparkle there!\nThe axe glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
+      "moon_axe": "Looking at this axe, you look mesmerized by moon-like glow it emits.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nMesmerized, you cast this substance into your axe and... boom!\nThe results look good. It seems to chop trees faster, too. Why is it so sharp? Is this really a fragment from a far away moon?",
+      "hellfire_axe": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your axe now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Nothing can compare. But you're still left wondering whether you really did the right thing.",
+      "rod": "A rod you bought at your local fishing market. Looks sturdy.",
+      "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
+      "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
+      "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
+      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
+      "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing."
+    },
     "description": {
       "headphones": "Dat gebeurd er wanneer je naar teveel muziek luistert. Het zou wat waard moeten zijn eigenlijks.",
       "ban_hammer": "Achtergelaten door een Beheerder",
@@ -2346,7 +2455,7 @@
       "forgotten": "Nooit gedownload. Is waarschijnlijk auteursrechtelijk beschermd.",
       "pencil": "We hebben er hier heel veel van!",
       "moneybag": "Wat anders?",
-      "pick": "Een basis pickhouweek voor je standaard geplande mijnbouw (40 duurzaamheid).",
+      "pick": "A basic pick for your regularly scheduled mining.",
       "milk": "Misschien is het handig om er een aantal te hebben.",
       "beverage": "Is echt raar spul in grote hoeveelheden. Hoewel, het hangt af van wat voor soort ;)",
       "lewd": "Te veel lewd commando's. Veel te veel. Had je plezier?",
@@ -2380,7 +2489,7 @@
       "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
       "milky": "Wist alle tovereffecten.",
       "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
-      "rod": "Een basishengel voor je vis activiteiten (40 duurzaamheid).",
+      "rod": "Een basishengel voor je vis activiteiten.",
       "fish": "Vis. Wordt gevangen tijdens het vissen.",
       "tropical_fish": "Een zeer tropische vis. Wordt gevangen tijdens het vissen.",
       "blowfish": "Ik vraag me af.....is dit goed? Wordt gevangen tijdens het vissen.",
@@ -2391,60 +2500,60 @@
       "mop": "Een heerlijke manier om al het stof weg te halen. Ik weet zeker dat er veel van is.",
       "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`",
       "coffee": "Een heerlijke manier om je dag mee te beginnen.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
+      "waifu_pill": "Geeft je een aanzienlijk voordeel bij het mijnen en vissen als één van je waifus wordt gewaardeerd op meer dan 20,000. Werkt voor 3 sessies.",
       "bait": "Geeft je een hogere kans om vis te vangen",
-      "diamond_pick": "Een soort van sterkere pikhouweel (150 duurzaamheid).",
+      "diamond_pick": "Een sterkere-ish pikhouweel.",
       "tv": "Moet....tv.....kijken....",
       "wrench": "Gietgereedschap. Handig om spullen bij elkaar te voegen.",
       "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
       "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
       "motorcycle": "Een rondje rijden, op de coole manier.",
-      "comet_pick": "Een sterkere pikhouweel (180 duurzaamheid).",
-      "star_pick": "Een veel meer pikhouweel (220 duurzaamheid).",
+      "comet_pick": "Een sterkere pikhouweel.",
+      "star_pick": "Een veel sterkere pikhouweel.",
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
-      "sparkle_pick": "Een van de sterkste pikhouwelen die er zijn (450 duurzaamheid).",
+      "sparkle_pick": "Een van de sterkste pikhouwelen die er is.",
       "pizza": "Lekker.",
       "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
       "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
       "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
-      "comet_rod": "Een beetje sterkere hengel (90 duurzaamheid).",
-      "star_rod": "Een sterkere hengel (170 duurzaamheid).",
-      "sparkle_rod": "Een veel sterkere hengel (300 duurzaamheid).",
+      "comet_rod": "Een beetje sterkere hengel.",
+      "star_rod": "Een sterkere hengel.",
+      "sparkle_rod": "Een veel sterkere hengel.",
       "shell": "Op de bodem van de oceaan gevonden. Wat zou het waard kunnen zijn?",
-      "shark": "Woah. How did you catch this?",
+      "shark": "Woah. Hoe heb je *dit* gevangen?",
       "crab": "Een crab, Het danst, misschien.",
       "squid": "Niet te verwarren met Octo.",
       "shrimp": "Roze-achtig spul. Denk ik.",
-      "moon": "Moon Rune. Needed to cast some stuff.",
-      "flake": "Snowflake. Usually used as a cast ingredient.",
-      "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
-      "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
-      "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
-      "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
+      "moon": "Maan Rune. nodig on dingen te gieten.",
+      "flake": "Sneeuwvlok. Meestal gebruikt als giet ingrediënt.",
+      "broken_comet_pick": "Een komeet pikhouweel die brak tijdens het mijnen. Nog steeds te redden.",
+      "broken_sparkle_pick": "Een fonkelende pikhouweel die brak tijdens het mijnen. Nog steeds te redden.",
+      "broken_star_pick": "Een ster pikhouweel die brak tijdens het mijnen. Nog steeds te redden.",
+      "broken_comet_rod": "Een komeet hengel die brak tijdens het vissen. Nog steeds te redden.",
       "broken_sparkle_rod": "Een fonkelende hengel die brak tijdens het vissen. Nog steeds te redden.",
       "broken_star_rod": "Een ster hengel die brak tijdens het vissen. Nog steeds te redden.",
-      "incubator_egg": "Does still not have an use. It's an egg, though. Maybe.",
-      "water_bottle": "An item that magically heals your pet's thirst.",
+      "incubator_egg": "De enige katalysator die u nodig heeft om uw persoonlijke huisdier naar huis te roepen.",
+      "water_bottle": "Een item dat op magische wijze de dorst van uw huisdier lest.",
       "magic_watch": "Een magische wand dat de tijd trager maakt wanneer je het nodig hebt. Dit zal automatisch gebruikt worden om je opeenvolgende dagen te redden!",
-      "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
-      "steak": "Very yummy if you're not vegetarian.",
-      "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
-      "milk_3": "Very good food for cats, I've heard.",
-      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
-      "cat_food": "Food your cat might like a lot.",
-      "hamster_food": "Food your hamster might enjoy.",
-      "wood": "Common drop from trees. Useful for casting.",
-      "moon_pick": "Een veel meer sterkere pikhouweel (320 duurzaamheid).",
-      "hellfire_pick": "Veel te OP-pikhouweel (te veel duurzaamheid, kom erachter;)).",
-      "axe": "Een normale, midden van de weg, bijl (35 duurzaamheid).",
-      "comet_axe": "Een sterkere bijl (170 duurzaamheid).",
-      "star_axe": "Een veel sterkere bijl (220 duurzaamheid).",
-      "moon_axe": "Een veel meer sterkere bijl (350 duurzaamheid).",
-      "sparkle_axe": "Een veel sterkere bijl (500 duurzaamheid).",
-      "hellfire_axe": "Veel te OP-bijl (te veel duurzaamheid, kom erachter;)).",
-      "moon_rod": "Een sterkere hengel (170 duurzaamheid).",
-      "hellfire_rod": "Veel te OP-hengel (te veel duurzaamheid, kom erachter;)).",
+      "pet_house": "Een huis waar uw huisdier woont. Misschien. Soms vinden ze het gewoon leuk om buiten te ploffen.",
+      "steak": "Erg lekker als je geen vegetariër bent.",
+      "chicken": "Erg lekker als je geen vegetariër bent, maar het komt van een kip.",
+      "milk_3": "Heel goed voer voor katten, heb ik gehoord.",
+      "dog_food": "Voedsel dat je hond misschien erg lekker vindt. Of misschien houden ze meer van brood, zoals mijne.",
+      "cat_food": "Voedsel dat je kat misschien erg lekker vindt.",
+      "hamster_food": "Voedsel waar je hamster van zal genieten.",
+      "wood": "Normaal item uit een boom. handig voor gieten.",
+      "moon_pick": "Een nog veel sterkere pikhouweel.",
+      "hellfire_pick": "Veel te OP pikhouweel.",
+      "axe": "Een normale midden-wegse bijl.",
+      "comet_axe": "Een sterkere bijl.",
+      "star_axe": "Een veel sterkere bijl.",
+      "moon_axe": "Een nog veel sterkere bijl.",
+      "sparkle_axe": "Een veel sterkere bijl.",
+      "hellfire_axe": "Veel te OP bijl.",
+      "moon_rod": "Een sterkere hengel.",
+      "hellfire_rod": "Veel te OP hengel.",
       "leaves": "Een langzame val van een boom die je probeerde te hakken.",
       "apple": "Je hakte toevallig een appelboom en de appel viel op je hoofd. Au.",
       "pear": "Je hakte toevallig een appelboom en de peer viel op je hoofd. Au.",
