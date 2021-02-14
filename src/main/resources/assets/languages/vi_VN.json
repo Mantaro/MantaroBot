@@ -917,6 +917,10 @@
         "enabled": "%1$sEnabled actions to be done to you.",
         "disabled": "%1$sDisabled actions from being done to you."
       },
+      "pet": {
+        "header": "Personal Pet",
+        "none": "No personal pet"
+      },
       "stats": {
         "header": "Hồ sơ thống kê cho %1$s",
         "wins": "Số lần thắng sòng",
