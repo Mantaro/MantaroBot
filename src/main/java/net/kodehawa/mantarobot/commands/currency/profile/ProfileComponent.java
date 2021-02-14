@@ -134,6 +134,18 @@ public enum ProfileComponent {
                 .map(Badge::getUnicode)
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
+    PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
+        final var pet = holder.getPlayer().getData().getPet();
+        if (pet == null) {
+            return i18nContext.get("commands.profile.pet.none");
+        }
+
+        return "%s**%s** [%s: %,d, XP: %,d]"
+                .formatted(
+                        pet.getType().getEmoji(), pet.getName(),
+                        i18nContext.get("commands.profile.level"), pet.getLevel(), pet.getExperience()
+                );
+    }, true, false),
     QUESTS(EmoteReference.PENCIL, i18nContext -> i18nContext.get("commands.profile.quests.header"), (holder, i18nContext) -> {
         var tracker = holder.getPlayer().getData().getQuests();
         var quests = tracker.getCurrentActiveQuests();

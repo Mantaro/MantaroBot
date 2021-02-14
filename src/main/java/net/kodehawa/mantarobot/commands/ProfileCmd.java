@@ -91,12 +91,12 @@ public class ProfileCmd {
 
         List<ProfileComponent> defaultOrder;
         if (config.isPremiumBot() || config.isSelfHost()) {
-            defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+            defaultOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
         } else {
-            defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+            defaultOrder = createLinkedList(HEADER, CREDITS, OLD_CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
         }
 
-        List<ProfileComponent> noOldOlder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES);
+        List<ProfileComponent> noOldOrder = createLinkedList(HEADER, CREDITS, LEVEL, REPUTATION, BIRTHDAY, MARRIAGE, INVENTORY, BADGES, PET);
 
         TreeCommand profileCommand = cr.register("profile", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
@@ -206,7 +206,7 @@ public class ProfileCmd {
                             var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                             var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
                             if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) || playerData.isHiddenLegacy()) {
-                                usedOrder = noOldOlder;
+                                usedOrder = noOldOrder;
                             }
 
                             for (var component : usedOrder) {
