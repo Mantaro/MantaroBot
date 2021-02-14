@@ -864,7 +864,7 @@
     },
     "poll": {
       "missing": "%1$sSama ada anda tidak sertakan argumen %2$s ataupun ia ditinggalkan kosong!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
+      "invalid": "%1$sPoll ini tidak dapat dibina. **Ingat: jumlah pilihan mestilah di antara 2 hingga 9 pilihan dan tempoh mengundi mestilah di antara 30s dan 45m.**\nPilihan dipisahkan dengan koma, misalnya `1,2,3` (tanpa ruang di antara pilihan!). Untuk perkataan yang mengandungi ruang, gunakan ganda petik di permulaan dan pengakhiran pilihan. Sekiranya anda memang tersesat, anda boleh merujuk kepada contoh yang dinyatakan pada `~>help poll`",
       "other_poll_running": "%1$sNampaknya terdapat poll lain yang sedang dijalankan di sini...",
       "no_reaction_perms": "%1$sNampaknya saya tidak dapat menambah reaksi di sini...",
       "too_long": "%1$sItu terlalu panjang untuk dipaparkan. Kurangkan pilihan-pilihan itu dan cuba sekali lagi?",
@@ -873,8 +873,8 @@
       "time": "Anda diberi tempoh %1$s untuk mengundi.",
       "error": "%1$sTerdapat ralat yang tidak diketahui semasa menyediakan poll. Mungkin cuba sekali lagi? (ralat dalaman)",
       "result_header": "Keputusan Poll",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
+      "result_screen": "**Memaparkan keputusan untuk poll yang dimulakan oleh %1$s** dengan nama: *%2$s*",
+      "vote_results": "+%1$d undian telah didaftar bagi pilihan %2$s",
       "thank_note": "Terima kasih atas undian anda",
       "results": "Keputusan",
       "cancelled": "%1$sPoll dibatalkan",
@@ -889,37 +889,37 @@
         "reset_success": "%1$sZon masa anda berjaya ditetapkan semula."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
-        "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
-        "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
+        "no_argument": "%1$sAnda perlu memberi argumen! (set atau remove)\nMisalnya, ~>profile description set Hi there!",
+        "no_content": "%1$sAnda tidak menyatakan apa yang anda mahu menulis pada penerangan anda.\nMisalnya, ~>profile description set Hi there!",
+        "too_long": "%1$sPenerangan itu terlalu panjang! `(Hadnya adalah 300 aksara bagi semua pengguna dan 500 bagi pengguna premium)`",
         "success": "%1$sPenerangan ditetapkan menjadi: **%2$s**\nPeriksa profil baru anda dengan `~>profile`",
         "clear_success": "%1$sPenerangan berjaya dipadamkan."
       },
       "displaybadge": {
         "not_specified": "%1$sAnda perlu menyatakan lencana utama anda! Misalnya, `~>profile displaybadge claimer`",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
-        "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "reset_success": "%1$sKini, tiada lencana yang akan dipaparkan pada bahagian atas profil anda!",
+        "important_success": "%1$sKini, lencana paparan anda adalah lencana yang terutama.",
+        "no_such_badge": "%1$sTiada lencana sebegitu...\nLencana tercapai: %2$s",
+        "player_missing_badge": "%1$sAnda tidak mempunyai lencana itu.\nLencana tercapai: %2$s",
+        "success": "%1$sKini, lencana paparan anda ialah: **%2$s**"
       },
       "lang": {
-        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
-        "reset_success": "%1$sSuccessfully reset your personal language settings.",
-        "success": "%1$sMantaro will now talk to you in `%2$s`",
-        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+        "nothing_specified": "%1$sAnda perlu menyatakan bahasa yang ingin digunakan ataupun `reset` untuk menetapkan semula bahasa anda.",
+        "reset_success": "%1$sBahasa peribadi anda telah ditetapkan semula.",
+        "success": "%1$sKini, Mantaro akan berkomunikasi dengan anda menggunakan `%2$s`",
+        "invalid": "%1$sBahasa itu tidak wujud! Anda boleh menggunakan `reset` untuk menetapkan semula bahasa anda."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$sCara susunan ini tidak sah. Cara tersedia: `%2$s`",
+        "success": "%1$sBerjaya menukar cara susunan inventori anda, susunan kini ialah: **%2$s**"
       },
       "toggleaction": {
         "enabled": "%1$sEnabled actions to be done to you.",
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Personal Pet",
-        "none": "No personal pet"
+        "header": "Haiwan Peliharaan Peribadi",
+        "none": "Tiada haiwan peliharaan peribadi"
       },
       "stats": {
         "header": "Statistik Profil %1$s",
@@ -936,7 +936,7 @@
         "sharks_caught": "Ikan Yu Ditangkap",
         "crates_open": "Peti Dibuka",
         "times_mop": "Kali Mengemop",
-        "daily": "Daily Streak",
+        "daily": "Coretan Harian",
         "daily_at": "Harian Terakhir",
         "waifu_claimed": "Kali Dituntut",
         "waifu_locked": "Kunci Waifu",
@@ -972,7 +972,7 @@
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
         "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back.",
-        "cancelled": "%1$sCancelled operation."
+        "cancelled": "%1$sOperasi dibatalkan."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
@@ -1092,14 +1092,14 @@
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
       "header": "Urban Dictionary definition for %1$s",
       "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
+      "main_def": "Definisi utama.",
+      "footer": "Maklumat dari Urban Dictionary",
+      "nsfw_notice": "%1$sArahan ini hanya boleh digunakan dalam saluran NSFW disebabkan sifat keputusannya.",
+      "error": "%1$sTerdapat ralat semasa memproses respons dari UD. Cuba lagi?"
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
+        "key_valid_for": "%1$sKunci anda adalah sah untuk %2$s hari lagi :heart:",
         "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
       },
       "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
@@ -2077,7 +2077,7 @@
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
       "admin_only": "Custom command creation is now admin only.",
       "everyone": "Penciptaan arahan kustom kini boleh dilakukan oleh sesiapa sahaja.",
-      "not_bool": "%1$sBodoh, itu bukan nilai boolean (betul atau salah)!"
+      "not_bool": "%1$sBodoh, itu bukan nilai boolean (true atau false)!"
     },
     "timedisplay_set": {
       "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
