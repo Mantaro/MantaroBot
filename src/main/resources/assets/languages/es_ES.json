@@ -917,6 +917,10 @@
         "enabled": "%1$sAcciones habilitadas para que se realicen hacia tí.",
         "disabled": "%1$sAcciones inhabilitadas para que no se realicen hacia tí."
       },
+      "pet": {
+        "header": "Personal Pet",
+        "none": "No personal pet"
+      },
       "stats": {
         "header": "Estadísticas del perfil para %1$s",
         "wins": "Triunfos en el Casino",
