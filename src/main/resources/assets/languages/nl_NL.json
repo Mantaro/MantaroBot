@@ -51,7 +51,7 @@
         "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`~>buy key`",
         "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta commando`s.",
         "success": "%1$s**Je hebt gewonnen:** %2$s%3$s",
-        "success_high": "%1$sJe hebt de volgende items met een zeldzaamheid van meer dan 4 sterren: %2$s. Het aantal is hierboven weergegeven. Gefeliciteerd! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
       "potion_active": "%1$s Je hebt al een actieve **%2$s** Toverdrank effect en het maximale aantal er van!",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
