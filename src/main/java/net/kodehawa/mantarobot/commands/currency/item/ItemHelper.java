@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -39,6 +38,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -47,7 +47,7 @@ import java.util.stream.Stream;
 
 public class ItemHelper {
     private static final Logger log = LoggerFactory.getLogger(ItemHelper.class);
-    private static final Random random = new Random();
+    private static final SecureRandom random = new SecureRandom();
     private static final IncreasingRateLimiter lootCrateRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(2)
@@ -256,17 +256,17 @@ public class ItemHelper {
         }
 
         data.setCratesOpened(data.getCratesOpened() + 1);
-        player.saveAsync();
+        player.save();
 
         if (seasonal) {
-            seasonPlayer.saveAsync();
+            seasonPlayer.save();
         }
 
         I18nContext lang = ctx.getLanguageContext();
 
         var toShow = ItemStack.reduce(ita);
         var show = toShow.stream()
-                .map(itemStack -> "x%,d %s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
+                .map(itemStack -> "x%,d \u2009%s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
                 .collect(Collectors.joining(", "));
 
         var extra = "";
@@ -274,14 +274,13 @@ public class ItemHelper {
             extra = ". " + lang.get("general.misc_item_usage.crate.overflow");
         }
 
-        var high = ita.stream()
+        var high = toShow.stream()
                 .filter(stack -> stack.getItem() instanceof Tiered)
                 .filter(stack -> ((Tiered) stack.getItem()).getTier() >= 4)
-                .map(stack -> stack.getItem().getEmoji() + " (" + ((Tiered) stack.getItem()).getTier() + "*)")
+                .map(stack -> "%s \u2009(%d \u2b50)".formatted(stack.getItem().getEmoji(), ((Tiered) stack.getItem()).getTier()))
                 .collect(Collectors.joining(", "));
         if (high.length() >= 1) {
-            extra = ".\n" + lang.get("general.misc_item_usage.crate.success_high")
-                    .formatted(EmoteReference.DIAMOND, high, EmoteReference.POPPER);
+            extra = ".\n\n" + lang.get("general.misc_item_usage.crate.success_high").formatted(EmoteReference.POPPER, high);
         }
 
         ctx.sendFormat(lang.get("general.misc_item_usage.crate.success"),
@@ -290,16 +289,17 @@ public class ItemHelper {
 
     @SuppressWarnings("fallthrough")
     private static List<Item> selectItems(int amount, ItemType.LootboxType type) {
-        List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON);
+        List<Item> common = handleItemDrop(i -> i.getItemType() == ItemType.COMMON, true);
         List<Item> rare = handleItemDrop(i -> i.getItemType() == ItemType.RARE);
         List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
 
         List<Item> mine = handleItemDrop(i ->
                 i.getItemType() == ItemType.MINE ||
-                i.getItemType() == ItemType.CAST_OBTAINABLE
+                i.getItemType() == ItemType.CAST_OBTAINABLE ||
+                i.getItemType() == ItemType.MINE_PICK, true
         );
 
-        List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING);
+        List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING ||  i.getItemType() == ItemType.FISHROD, true);
 
         List<Item> premiumMine = handleItemDrop(i ->
                 i.getItemType() == ItemType.CAST_MINE ||
@@ -318,7 +318,6 @@ public class ItemHelper {
         );
 
         RandomCollection<Item> items = new RandomCollection<>();
-
         switch (type) {
             case PREMIUM:
                 premium.forEach(i -> items.add(2, i));
@@ -349,13 +348,40 @@ public class ItemHelper {
     }
 
     private static List<Item> handleItemDrop(Predicate<Item> predicate) {
+        return handleItemDrop(predicate, false);
+    }
+
+
+    private static List<Item> handleItemDrop(Predicate<Item> predicate, boolean normal) {
         List<Item> all = Arrays.stream(ItemReference.ALL)
                 .filter(i -> i.isBuyable() || i.isSellable())
                 .collect(Collectors.toList());
 
         return all.stream()
                 .filter(predicate)
-                .filter(item -> item.value <= 340 || random.nextBoolean())
+                .filter(item -> {
+                    // Keep in mind the chances here aren't absolute for any means,
+                    // and it depends on the RandomCollection created on selectItems
+                    if (normal) {
+                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 5)) {
+                            return random.nextFloat() <= 0.02f; // 2% for 5* +
+                        }
+
+                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 3) || item.getValue() >= 100) {
+                            return random.nextFloat() <= 0.05f;  // 5% for 3 and 4*
+                        }
+                    } else {
+                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 5)) {
+                            return random.nextFloat() <= 0.10f; // 10% for 5* +
+                        }
+
+                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 4) || item.getValue() >= 300) {
+                            return random.nextFloat() <= 0.30f; // 30% for 4* +
+                        }
+                    }
+
+                    return true;
+                })
                 .sorted(Comparator.comparingLong(i -> i.value))
                 .collect(Collectors.toList());
     }

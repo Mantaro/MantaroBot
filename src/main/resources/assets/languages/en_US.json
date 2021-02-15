@@ -51,7 +51,7 @@
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
-        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "But you already had too much, so you decided to throw away the excess"
       },
       "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",

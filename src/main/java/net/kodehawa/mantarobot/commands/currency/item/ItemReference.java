@@ -371,7 +371,7 @@ public class ItemReference {
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
                     1, 10, 350, true, false, "1;2;7",
-                    220, 100, 4, 390, 320, 4,
+                    220, 100, 3, 390, 320, 4,
                     "items.explanation.star_pick", 10, 49, 101
             ),
 
@@ -445,7 +445,7 @@ public class ItemReference {
             SPARKLE_PICKAXE = new Pickaxe(ItemType.MINE_RARE_PICK, EmoteReference.SPARKLE_PICK.getDiscordNotation(),
                     "Sparkle Pickaxe", "items.sparkle_pick", "items.description.sparkle_pick",
                     3, 5, 1200,
-                    true, false, "1;3;1;7", 450, 300, 5,
+                    true, false, "1;3;1;7", 450, 300, 4,
                     378, 310, 6,
                     "items.explanation.sparkle_pick", 10, 74, 18, 101
             ),
