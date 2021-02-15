@@ -59,13 +59,13 @@ task generateLanguageList {
 dependencies {
     // Base
     implementation 'net.dv8tion:JDA:4.2.0_228'
-    implementation 'club.minnced:discord-webhooks:0.5.3'
+    implementation 'club.minnced:discord-webhooks:0.5.5-rc'
 
     // Music
-    implementation ('com.github.FredBoat:Lavalink-Client:7492a36') {
+    implementation ('com.github.FredBoat:Lavalink-Client:fac5a3caf8') {
         exclude group: 'com.sedmelluq', module: 'lavaplayer'
     } // Lavalink-Client includes LP, but we specify it below, so we need to exclude it.
-    implementation 'com.sedmelluq:lavaplayer:1.3.67'
+    implementation 'com.sedmelluq:lavaplayer:1.3.69'
     implementation 'com.sedmelluq:lavaplayer-ext-youtube-rotator:0.2.3'
 
     // JSON
