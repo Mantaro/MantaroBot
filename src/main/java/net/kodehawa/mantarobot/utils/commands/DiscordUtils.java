@@ -469,24 +469,31 @@ public class DiscordUtils {
         var str = builder.toString().trim();
         var stringBuilder = new StringBuilder();
 
+        // Since we remove data from the string, loop until there's nothing left.
         while (str.length() > 0) {
+            // We're gonna split on the given split character. Most commonly newline.
             var index = str.indexOf(splitOn);
+            // Split the string on the first occurrence of the split character
             var line = index == -1 ? str : str.substring(0, index + 1);
 
             str = str.substring(line.length());
-            // Split on newline.
+            // Remove new lines at the end of a split.
             if (str.equals("\n")) {
                 str = "";
             }
 
+            // If the length of this line is more than the maximum, add another split
+            // and reset the StringBuilder, start all over again.
             if (stringBuilder.length() + line.length() > max) {
                 list.add(stringBuilder.toString().trim());
                 stringBuilder = new StringBuilder();
             }
 
+            // Append the current line to the StringBuilder
             stringBuilder.append(line);
         }
 
+        // We have a dangling StringBuilder with actual content, add it to a new page.
         if (stringBuilder.length() != 0) {
             list.add(stringBuilder.toString().trim());
         }
