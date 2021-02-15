@@ -456,8 +456,8 @@ public class PetCmds {
                     return;
                 }
 
-                if (pet.getDust() < 25) {
-                    ctx.sendLocalized("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName());
+                if (pet.getDust() < 20) {
+                    ctx.sendLocalized("commands.pet.clean.not_dusty", EmoteReference.ERROR, pet.getName(), pet.getDust());
                     return;
                 }
 

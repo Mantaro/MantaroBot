@@ -464,27 +464,23 @@ public class DiscordUtils {
         }, "\u2b05", "\u27a1");
     }
 
-    public static List<String> divideString(int max, StringBuilder builder) {
+    public static List<String> divideString(int max, char splitOn, StringBuilder builder) {
         List<String> list = new LinkedList<>();
         var str = builder.toString().trim();
         var stringBuilder = new StringBuilder();
 
         while (str.length() > 0) {
-            var index = str.indexOf('\n');
-
-            var line = index == -1 ?
-                    str : str.substring(0, index + 1);
+            var index = str.indexOf(splitOn);
+            var line = index == -1 ? str : str.substring(0, index + 1);
 
             str = str.substring(line.length());
-            // Split on newline or space, if possible.
+            // Split on newline.
             if (str.equals("\n")) {
-                str = "";
-            } else if (str.equals(" ")) {
                 str = "";
             }
 
             if (stringBuilder.length() + line.length() > max) {
-                list.add(stringBuilder.toString());
+                list.add(stringBuilder.toString().trim());
                 stringBuilder = new StringBuilder();
             }
 
@@ -492,7 +488,7 @@ public class DiscordUtils {
         }
 
         if (stringBuilder.length() != 0) {
-            list.add(stringBuilder.toString());
+            list.add(stringBuilder.toString().trim());
         }
 
         return list;
@@ -505,32 +501,36 @@ public class DiscordUtils {
         // Get the amount of embeds we need to create.
         int total;
         {
-            int totalAmount = 0;
-            int chars = 0;
+            if (length == -1) {
+                total = parts.length;
+            } else {
+                int totalAmount = 0;
+                int chars = 0;
 
-            // Iterate through the list of parts.
-            for (var part : parts) {
-                // If the length of the part + chars + 1
-                // is more than the desired length, we split this one.
-                if (part.length() + chars + 1 > length) {
-                    // Update the total embed amount.
-                    totalAmount++;
+                // Iterate through the list of parts.
+                for (var part : parts) {
+                    // If the length of the part + chars + 1
+                    // is more than the desired length, we split this one.
+                    if (part.length() + chars + 1 > length) {
+                        // Update the total embed amount.
+                        totalAmount++;
 
-                    // Reset the char amount to 0, as we're splitting.
-                    chars = 0;
+                        // Reset the char amount to 0, as we're splitting.
+                        chars = 0;
+                    }
+
+                    // Update the character count.
+                    chars += part.length() + 1;
                 }
 
-                // Update the character count.
-                chars += part.length() + 1;
-            }
+                // Update the text embed amount if the final character count > 1.
+                if (chars > 0) {
+                    totalAmount++;
+                }
 
-            // Update the text embed amount if the final character count > 1.
-            if (chars > 0) {
-                totalAmount++;
+                // The total amount of embeds to part.
+                total = totalAmount;
             }
-
-            // The total amount of embeds to part.
-            total = totalAmount;
         }
 
         // Build the split embeds
@@ -570,11 +570,19 @@ public class DiscordUtils {
     }
 
     public static List<String> divideString(int max, String s) {
-        return divideString(max, new StringBuilder(s));
+        return divideString(max, '\n', new StringBuilder(s));
+    }
+
+    public static List<String> divideString(int max, char splitOn, String s) {
+        return divideString(max, splitOn, new StringBuilder(s));
+    }
+
+    public static List<String> divideString(char splitOn, StringBuilder builder) {
+        return divideString(1750, splitOn, builder);
     }
 
     public static List<String> divideString(StringBuilder builder) {
-        return divideString(1750, builder);
+        return divideString(1750, '\n', builder);
     }
 
     public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,

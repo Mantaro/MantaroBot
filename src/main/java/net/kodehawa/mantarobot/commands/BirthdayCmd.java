@@ -344,7 +344,7 @@ public class BirthdayCmd {
             builder.append("\n");
         }
 
-        var parts = DiscordUtils.divideString(1000, builder);
+        var parts = DiscordUtils.divideString(1000, '\n', builder);
         var hasReactionPerms = ctx.hasReactionPerms();
 
         List<String> messages = new LinkedList<>();
