@@ -14,15 +14,12 @@
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency.item.special.helpers;
+package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
 import org.apache.commons.lang3.StringUtils;
 
-public interface Attribute extends Breakable {
+public interface Tiered {
     int getTier();
-    String buildAttributes();
-    String getExplanation();
-    Type getType();
 
     default String getTierStars() {
         return StringUtils.repeat('⭐', getTier());

@@ -17,7 +17,14 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.GemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.gems.CastedGem;
+import net.kodehawa.mantarobot.commands.currency.item.special.gems.Gem;
+import net.kodehawa.mantarobot.commands.currency.item.special.gems.Sparkle;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.GemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class ItemReference {
@@ -280,28 +287,28 @@ public class ItemReference {
                     15, false
             ),
 
-            COMET_GEM = new Item(ItemType.CAST_OBTAINABLE, "\u2604",
-                    "Comet Gem", "items.comet_gem", "items.description.comet_gem",
-                    40,
+            COMET_GEM = new CastedGem("\u2604", "Comet Gem",
+                    "items.comet_gem", "items.description.comet_gem",
+                    60, 4,
                     true, false,
                     "3;1", 51, 24
             ),
 
-            STAR_GEM = new Item(ItemType.CAST_OBTAINABLE, "\ud83c\udf1f",
-                    "Star Gem", "items.star_gem", "items.description.star_gem",
-                    60,
+            STAR_GEM = new CastedGem("\ud83c\udf1f", "Star Gem",
+                    "items.star_gem", "items.description.star_gem",
+                    100, 5,
                     true, false,
                     "4;1", 51, 25
             ),
 
             COBWEB = new Gem(GemType.UTILITY, "\uD83D\uDD78",
                     "Cobweb", "items.cobweb",
-                    "items.description.cobweb", 10
+                    "items.description.cobweb", 10, 2
             ),
 
             GEM_FRAGMENT = new Gem(GemType.GEM, "\uD83D\uDCAB",
                     "Gem Fragment", "items.fragment",
-                    "items.description.fragment", 50
+                    "items.description.fragment", 50, 3
             ),
 
             MOP = new Item(ItemType.INTERACTIVE, "\uD83E\uDDF9",
@@ -443,7 +450,7 @@ public class ItemReference {
                     "items.explanation.sparkle_pick", 10, 74, 18, 101
             ),
 
-            SPARKLE_FRAGMENT = new Item(ItemType.MINE_RARE, "\u2728",
+            SPARKLE_FRAGMENT = new Sparkle("\u2728",
                     "Sparkle Fragment", "items.sparkle", "items.description.sparkle",
                     605, false
             ),
@@ -496,12 +503,12 @@ public class ItemReference {
 
             MOON_RUNES = new Gem(GemType.GEM, "\uD83C\uDF19",
                     "Moon Runes", "items.moon",
-                    "items.description.moon", 100
+                    "items.description.moon", 100, 4
             ),
 
             SNOWFLAKE = new Gem(GemType.UTILITY, "\u2744\uFE0F",
                     "Snowflake", "items.flake",
-                    "items.description.flake", 25
+                    "items.description.flake", 25, 2
             ),
 
             BROKEN_SPARKLE_PICK = new Broken(73, EmoteReference.BROKEN_SPARKLE_PICK.getDiscordNotation(),
@@ -686,7 +693,7 @@ public class ItemReference {
 
             ROCK = new Gem(GemType.UTILITY, "\ud83e\udea8",
                     "Rock", "items.rock",
-                    "items.description.rock", 10
+                    "items.description.rock", 10, 1
             ),
 
             BROKEN_MOON_PICK = new Broken(102, EmoteReference.BROKEN_MOON_PICK.getDiscordNotation(),

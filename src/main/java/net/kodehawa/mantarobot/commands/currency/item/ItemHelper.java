@@ -18,8 +18,9 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attribute;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -274,9 +275,9 @@ public class ItemHelper {
         }
 
         var high = ita.stream()
-                .filter(stack -> stack.getItem() instanceof Attribute)
-                .filter(stack -> ((Attribute) stack.getItem()).getTier() >= 4)
-                .map(stack -> stack.getItem().getEmoji() + " (" + ((Attribute) stack.getItem()).getTier() + "*)")
+                .filter(stack -> stack.getItem() instanceof Tiered)
+                .filter(stack -> ((Tiered) stack.getItem()).getTier() >= 4)
+                .map(stack -> stack.getItem().getEmoji() + " (" + ((Tiered) stack.getItem()).getTier() + "*)")
                 .collect(Collectors.joining(", "));
         if (high.length() >= 1) {
             extra = ".\n" + lang.get("general.misc_item_usage.crate.success_high")

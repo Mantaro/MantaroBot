@@ -14,21 +14,15 @@
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency.item.special;
+package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.GemType;
+import net.kodehawa.mantarobot.utils.Utils;
 
-public class Gem extends Item  {
-    private final GemType type;
+public enum ItemUsage {
+    MINING, FISHING, CHOPPING;
 
-    public Gem(GemType type, String emoji, String name, String translatedName, String desc, long value) {
-        super(ItemType.MINE, emoji, name, translatedName, desc, value, true, false);
-        this.type = type;
-    }
-
-    public GemType getType() {
-        return type;
+    @Override
+    public String toString() {
+        return Utils.capitalize(super.toString());
     }
 }

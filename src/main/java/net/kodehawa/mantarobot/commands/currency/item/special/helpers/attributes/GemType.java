@@ -14,7 +14,7 @@
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency.item.special.helpers;
+package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
 public enum GemType {
     UTILITY, GEM

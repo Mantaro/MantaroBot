@@ -14,11 +14,13 @@
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency.item.special;
+package net.kodehawa.mantarobot.commands.currency.item.special.tools;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.ItemUsage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -128,7 +130,7 @@ public class FishRod extends Item implements Castable, Salvageable, Attribute {
     }
 
     @Override
-    public Type getType() {
-        return Type.FISHING;
+    public ItemUsage getType() {
+        return ItemUsage.FISHING;
     }
 }

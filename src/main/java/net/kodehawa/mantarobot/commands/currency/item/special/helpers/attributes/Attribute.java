@@ -14,15 +14,12 @@
  * along with Mantaro. If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency.item.special.helpers;
+package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes;
 
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 
-public enum Type {
-    MINING, FISHING, CHOPPING;
-
-    @Override
-    public String toString() {
-        return Utils.capitalize(super.toString());
-    }
+public interface Attribute extends Breakable, Tiered {
+    String buildAttributes();
+    String getExplanation();
+    ItemUsage getType();
 }

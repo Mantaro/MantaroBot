@@ -24,8 +24,9 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
-import net.kodehawa.mantarobot.commands.currency.item.special.Wrench;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Attribute;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -354,15 +355,16 @@ public class ItemCmds {
                             recipe, castLevel
                     );
 
+                    // Cursed, but Attribute implements Tiered so ;;
+                    // But some stuff only implements Tiered.
+                    if (item instanceof Tiered && !(item instanceof Attribute)) {
+                        fieldDescription += "\n**Quality: ** %s".formatted(((Tiered) item).getTierStars());
+                    }
+
                     if (item instanceof Attribute) {
-                        fieldDescription = "%s\n**%s** %s %s.\n**Quality: ** %s\n**Durability: ** %,d\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
-                                languageContext.get(item.getDesc()),
-                                languageContext.get("commands.cast.ls.cost"),
-                                item.getValue() / 2,
-                                languageContext.get("commands.gamble.credits"),
-                                ((Attribute) item).getTierStars(),
+                        fieldDescription += "\n**Durability: ** %,d\n**Quality: ** %s".formatted(
                                 ((Attribute) item).getMaxDurability(),
-                                recipe, castLevel
+                                ((Attribute) item).getTierStars()
                         );
                     }
 

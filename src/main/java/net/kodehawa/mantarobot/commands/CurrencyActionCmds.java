@@ -18,11 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.kodehawa.mantarobot.commands.currency.item.*;
-import net.kodehawa.mantarobot.commands.currency.item.special.Axe;
-import net.kodehawa.mantarobot.commands.currency.item.special.FishRod;
-import net.kodehawa.mantarobot.commands.currency.item.special.Gem;
-import net.kodehawa.mantarobot.commands.currency.item.special.Pickaxe;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.GemType;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.gems.Gem;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.GemType;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
