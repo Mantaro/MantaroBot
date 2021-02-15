@@ -51,7 +51,7 @@
         "no_key": "%1$sNecesitas una crate key para abrir una crate. Puedes comprar una usando `~>buy key`",
         "no_crate": "%1$sNecesitas una crate! Normalmente se consiguen usando comandos de economía.",
         "success": "%1$sAbriste una loot crate y ganaste: %2$s%3$s. ¡Felicidades!",
-        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Pero ya tenías demasiado, así que decidiste tirar el exceso."
       },
       "potion_active": "%1$sYa tienes una poción **%2$s** activa y tienes el stack máximo posible!",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
