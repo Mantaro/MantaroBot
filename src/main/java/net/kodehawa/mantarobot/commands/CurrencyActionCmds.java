@@ -196,7 +196,7 @@ public class CurrencyActionCmds {
                     Item extraItem = null;
 
                     // Extra chance of gettting a Gem Fragment or Moon Gem in case you didn't get a Gem already.
-                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM && item.getTier() >= 3) {
+                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM) {
                         List<Item> extra = Stream.of(ItemReference.ALL)
                                 .filter(Gem.class::isInstance)
                                 .filter(i -> ((Gem) i).getType() == GemType.GEM)

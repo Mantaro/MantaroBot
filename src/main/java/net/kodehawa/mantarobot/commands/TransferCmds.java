@@ -245,7 +245,7 @@ public class TransferCmds {
                 if (item == null) {
                     item = ItemHelper.fromAnyNoId(args[0], ctx.getLanguageContext()).orElse(null);
                     if (item == null) {
-                        ctx.sendLocalized("general.item_lookup.no_item_emoji");
+                        ctx.sendLocalized("general.item_lookup.not_found");
                         return;
                     }
                 }
