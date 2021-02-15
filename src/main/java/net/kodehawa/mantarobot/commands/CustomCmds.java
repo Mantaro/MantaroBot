@@ -231,8 +231,6 @@ public class CustomCmds {
                     description = commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "));
                 }
 
-                // Somehow this splits it properly?
-                // This could technically be a big allocation, but afaik the CCS limit is 100.
                 var cmds = DiscordUtils.divideString(800, ',', description);
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())

@@ -501,36 +501,32 @@ public class DiscordUtils {
         // Get the amount of embeds we need to create.
         int total;
         {
-            if (length == -1) {
-                total = parts.length;
-            } else {
-                int totalAmount = 0;
-                int chars = 0;
+            int totalAmount = 0;
+            int chars = 0;
 
-                // Iterate through the list of parts.
-                for (var part : parts) {
-                    // If the length of the part + chars + 1
-                    // is more than the desired length, we split this one.
-                    if (part.length() + chars + 1 > length) {
-                        // Update the total embed amount.
-                        totalAmount++;
-
-                        // Reset the char amount to 0, as we're splitting.
-                        chars = 0;
-                    }
-
-                    // Update the character count.
-                    chars += part.length() + 1;
-                }
-
-                // Update the text embed amount if the final character count > 1.
-                if (chars > 0) {
+            // Iterate through the list of parts.
+            for (var part : parts) {
+                // If the length of the part + chars + 1
+                // is more than the desired length, we split this one.
+                if (part.length() + chars + 1 > length) {
+                    // Update the total embed amount.
                     totalAmount++;
+
+                    // Reset the char amount to 0, as we're splitting.
+                    chars = 0;
                 }
 
-                // The total amount of embeds to part.
-                total = totalAmount;
+                // Update the character count.
+                chars += part.length() + 1;
             }
+
+            // Update the text embed amount if the final character count > 1.
+            if (chars > 0) {
+                totalAmount++;
+            }
+
+            // The total amount of embeds to part.
+            total = totalAmount;
         }
 
         // Build the split embeds
