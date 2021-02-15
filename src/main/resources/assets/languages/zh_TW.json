@@ -51,7 +51,7 @@
         "no_key": "%1$s你需要一個寶箱鑰匙來開啟寶箱。他是鎖住的！你能使用 `~>buy key` 來購買他。",
         "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
-        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
       "potion_active": "%1$s你目前已經有最高數量的 **%2$s** 效果了!",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$s你至少需要 %2$,d 元來清潔寵物 **%3$s**。",
-        "not_dusty": "%1$s**%2$s** 身上還不髒。(目前骯髒程度：%3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** 看起來閃閃發光！你花了 %3$,d 元來清潔你的寵物。"
       },
       "choice": {
