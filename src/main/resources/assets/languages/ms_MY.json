@@ -51,7 +51,7 @@
         "no_key": "%1$sAnda memerlukan sebentuk kunci peti untuk membuka sebuah peti. Ia terkunci! Anda boleh membelinya menggunakan `~>buy key`",
         "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
         "success": "%1$sAnda membuka peti dan menang: %2$s%3$s. Tahniah!",
-        "success_high": "%1$sAnda mendapat item berikut dengan jarangan lebih daripada 4 bintang: %2$s. Bilangannya dinyatakan di atas. Tahniah! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** tidak berhabuk. (Tahap habuk semasa: %3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
