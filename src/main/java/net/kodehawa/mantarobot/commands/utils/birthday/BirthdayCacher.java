@@ -41,7 +41,7 @@ public class BirthdayCacher {
     private static final Logger log = LoggerFactory.getLogger(BirthdayCacher.class);
     private final ExecutorService executorService =
             Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Mantaro Birthday Assigner Executor").build());
-    private final Map<String, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
+    private final Map<Long, BirthdayData> cachedBirthdays = new ConcurrentHashMap<>();
     public volatile boolean isDone;
 
     public BirthdayCacher() {
@@ -59,7 +59,7 @@ public class BirthdayCacher {
                 cachedBirthdays.clear();
 
                 for (Map<Object, Object> r : m) {
-                    var id = String.valueOf(r.get("id"));
+                    var id = Long.parseUnsignedLong(String.valueOf(r.get("id")));
                     // Why?
                     if (cachedBirthdays.containsKey(id))
                         continue;
@@ -70,7 +70,7 @@ public class BirthdayCacher {
                     if (birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
                         var bd = birthday.split("-");
-                        cachedBirthdays.put(id, new BirthdayData(birthday, bd[0], bd[1]));
+                        cachedBirthdays.put(id, new BirthdayData(birthday, Long.parseLong(bd[0]), Long.parseLong(bd[1])));
                     }
                 }
 
@@ -89,16 +89,16 @@ public class BirthdayCacher {
         });
     }
 
-    public Map<String, BirthdayData> getCachedBirthdays() {
+    public Map<Long, BirthdayData> getCachedBirthdays() {
         return cachedBirthdays;
     }
 
     public static class BirthdayData {
         public String birthday;
-        public String day;
-        public String month;
+        public long day;
+        public long month;
 
-        public BirthdayData(String birthday, String day, String month) {
+        public BirthdayData(String birthday, long day, long month) {
             this.birthday = birthday;
             this.day = day;
             this.month = month;
@@ -112,19 +112,19 @@ public class BirthdayCacher {
             this.birthday = birthday;
         }
 
-        public String getDay() {
+        public long getDay() {
             return this.day;
         }
 
-        public void setDay(String day) {
+        public void setDay(long day) {
             this.day = day;
         }
 
-        public String getMonth() {
+        public long getMonth() {
             return this.month;
         }
 
-        public void setMonth(String month) {
+        public void setMonth(long month) {
             this.month = month;
         }
 

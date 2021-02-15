@@ -124,9 +124,9 @@ public class BirthdayTask {
                         // Guild map is now created from allowed birthdays. This is a little hacky, but we don't really care.
                         // The other solution would have been just disabling this completely, which would have been worse.
                         // @formatter:off
-                        Map<String, BirthdayCacher.BirthdayData> guildMap = cached.entrySet()
+                        Map<Long, BirthdayCacher.BirthdayData> guildMap = cached.entrySet()
                                 .stream()
-                                .filter(map -> guildData.getAllowedBirthdays().contains(map.getKey()))
+                                .filter(map -> guildData.getAllowedBirthdays().contains(String.valueOf(map.getKey())))
                                 .filter(map ->
                                         // Only check for current month or last month!
                                         map.getValue().getBirthday().substring(3, 5).equals(month) ||
@@ -138,10 +138,10 @@ public class BirthdayTask {
                         birthdayAnnouncerText.append("**New birthdays for today, wish them Happy Birthday!**").append("\n\n");
                         int birthdayNumber = 0;
 
-                        List<String> nullMembers = new ArrayList<>();
+                        List<Long> nullMembers = new ArrayList<>();
                         for (var data : guildMap.entrySet()) {
                             final var birthday = data.getValue().getBirthday();
-                            if (guildData.getBirthdayBlockedIds().contains(data.getKey())) {
+                            if (guildData.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
                                 continue;
                             }
 
@@ -207,7 +207,7 @@ public class BirthdayTask {
 
                         // If any of the member lookups to discord returned null, remove them.
                         if (!nullMembers.isEmpty()) {
-                            guildData.getAllowedBirthdays().removeAll(nullMembers);
+                            guildData.getAllowedBirthdays().removeAll(nullMembers.stream().map(String::valueOf).collect(Collectors.toList()));
                             dbGuild.save();
                         }
                     }

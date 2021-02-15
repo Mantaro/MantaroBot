@@ -51,7 +51,7 @@ public class BirthdayCmd {
     // This will get invalidated as a whole every 23 hours, we don't really *need* to expire entries here
     // because BirthdayCacher will make it so it refreshes at the same period as the BirthdayCacher gets refreshed.
     // Therefore the birthday list here can be kept up-to-date.
-    private static final Cache<String, ConcurrentHashMap<String, BirthdayCacher.BirthdayData>> guildBirthdayCache = CacheBuilder.newBuilder()
+    private static final Cache<Long, ConcurrentHashMap<Long, BirthdayCacher.BirthdayData>> guildBirthdayCache = CacheBuilder.newBuilder()
             .maximumSize(2500)
             .build();
 
@@ -137,10 +137,10 @@ public class BirthdayCmd {
                 guildData.getAllowedBirthdays().add(ctx.getAuthor().getId());
                 dbGuild.save();
 
-                var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
-                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser().getId());
+                var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
+                var cachedBirthday = ctx.getBot().getBirthdayCacher().getCachedBirthdays().get(ctx.getUser().getIdLong());
                 if (cached != null && cachedBirthday != null) {
-                    cached.put(ctx.getUser().getId(), cachedBirthday);
+                    cached.put(ctx.getUser().getIdLong(), cachedBirthday);
                 }
 
                 ctx.sendLocalized("commands.birthday.allowed_server", EmoteReference.CORRECT);
@@ -165,9 +165,9 @@ public class BirthdayCmd {
                 guildData.getAllowedBirthdays().remove(ctx.getAuthor().getId());
                 dbGuild.save();
 
-                var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getId());
+                var cached = guildBirthdayCache.getIfPresent(ctx.getGuild().getIdLong());
                 if (cached != null) {
-                    cached.remove(ctx.getUser().getId());
+                    cached.remove(ctx.getUser().getIdLong());
                 }
 
                 ctx.sendLocalized("commands.birthday.denied", EmoteReference.CORRECT);
@@ -210,26 +210,27 @@ public class BirthdayCmd {
 
                         var guild = ctx.getGuild();
                         var data = ctx.getDBGuild().getData();
-                        var ids = data.getAllowedBirthdays();
+                        var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
 
                         if (ids.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
-                        var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getId(), ids);
+                        var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
                         if (guildCurrentBirthdays.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
-                                .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
+                                .sorted(Comparator.comparingLong(i -> i.getValue().day))
                                 .filter(birthday -> ids.contains(birthday.getKey()))
                                 .limit(100)
                                 .collect(Collectors.toList());
 
-                        var bdIds = birthdays.stream().map(Map.Entry::getKey).toArray(String[]::new);
+
+                        var bdIds = birthdays.stream().map(Map.Entry::getKey).collect(Collectors.toList());
                         guild.retrieveMembersByIds(bdIds).onSuccess(members ->
                                 sendBirthdayList(ctx, members, guildCurrentBirthdays, null, false)
                         );
@@ -288,19 +289,18 @@ public class BirthdayCmd {
                         }
 
                         var data = ctx.getDBGuild().getData();
-                        var ids = data.getAllowedBirthdays();
-                        var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getId(), ids);
+                        var ids = data.getAllowedBirthdays().stream().map(Long::parseUnsignedLong).collect(Collectors.toList());
+                        var guildCurrentBirthdays = getBirthdayMap(ctx.getGuild().getIdLong(), ids);
 
                         if (ids.isEmpty()) {
                             ctx.sendLocalized("commands.birthday.no_guild_birthdays", EmoteReference.ERROR);
                             return;
                         }
 
-                        var calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-                        var currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
+                        var calendarMonth = calendar.get(Calendar.MONTH) + 1;
                         var birthdays = guildCurrentBirthdays.entrySet().stream()
-                                .filter(bds -> bds.getValue().month.equals(currentMonth))
-                                .sorted(Comparator.comparingInt(i -> Integer.parseInt(i.getValue().day)))
+                                .filter(bds -> bds.getValue().month == calendarMonth)
+                                .sorted(Comparator.comparingLong(i -> i.getValue().day))
                                 .limit(100)
                                 .collect(Collectors.toList());
 
@@ -309,7 +309,7 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        var bdIds = birthdays.stream().map(Map.Entry::getKey).toArray(String[]::new);
+                        var bdIds = birthdays.stream().map(Map.Entry::getKey).collect(Collectors.toList());
                         ctx.getGuild().retrieveMembersByIds(bdIds).onSuccess(members ->
                                 sendBirthdayList(ctx, members, guildCurrentBirthdays, calendar, true)
                         );
@@ -324,22 +324,22 @@ public class BirthdayCmd {
         });
     }
 
-    private void sendBirthdayList(Context ctx, List<Member> members, Map<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays,
+    private void sendBirthdayList(Context ctx, List<Member> members, Map<Long, BirthdayCacher.BirthdayData> guildCurrentBirthdays,
                                   Calendar calendar, boolean month) {
         StringBuilder builder = new StringBuilder();
         var languageContext = ctx.getLanguageContext();
         var guild = ctx.getGuild();
         var memberSort = members.stream()
                 .sorted(Comparator.comparingInt(i -> {
-                    var bd = guildCurrentBirthdays.get(i.getId());
+                    var bd = guildCurrentBirthdays.get(i.getIdLong());
                     // So I don't forget later: this is equivalent to day + (month * 31)
                     // And this is so we get a stable sort of day/month
-                    return Integer.parseInt(bd.day) + (Integer.parseInt(bd.month) << 5);
+                    return (int) (bd.day + (bd.month << 5));
                 }))
                 .collect(Collectors.toList());
 
         for (Member member : memberSort) {
-            var birthday = guildCurrentBirthdays.get(member.getId());
+            var birthday = guildCurrentBirthdays.get(member.getIdLong());
             builder.append("+ %-20s : %s ".formatted(StringUtils.limit(member.getEffectiveName(), 20), birthday.getDay() + "-" + birthday.getMonth()));
             builder.append("\n");
         }
@@ -380,12 +380,12 @@ public class BirthdayCmd {
         }
     }
 
-    public static Cache<String, ConcurrentHashMap<String, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {
+    public static Cache<Long, ConcurrentHashMap<Long, BirthdayCacher.BirthdayData>> getGuildBirthdayCache() {
         return guildBirthdayCache;
     }
 
-    private ConcurrentHashMap<String, BirthdayCacher.BirthdayData> getBirthdayMap(String guildId, List<String> allowed) {
-        ConcurrentHashMap<String, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, BirthdayCacher.BirthdayData> getBirthdayMap(long guildId, List<Long> allowed) {
+        ConcurrentHashMap<Long, BirthdayCacher.BirthdayData> guildCurrentBirthdays = new ConcurrentHashMap<>();
         final var cachedBirthdays = MantaroBot.getInstance().getBirthdayCacher().getCachedBirthdays();
 
         var cached = guildBirthdayCache.getIfPresent(guildId);
