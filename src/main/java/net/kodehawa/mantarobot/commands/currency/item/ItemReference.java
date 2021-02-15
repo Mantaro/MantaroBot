@@ -289,14 +289,14 @@ public class ItemReference {
 
             COMET_GEM = new CastedGem("\u2604", "Comet Gem",
                     "items.comet_gem", "items.description.comet_gem",
-                    60, 4,
+                    60, 3,
                     true, false,
                     "3;1", 51, 24
             ),
 
             STAR_GEM = new CastedGem("\ud83c\udf1f", "Star Gem",
                     "items.star_gem", "items.description.star_gem",
-                    100, 5,
+                    100, 4,
                     true, false,
                     "4;1", 51, 25
             ),
@@ -503,7 +503,7 @@ public class ItemReference {
 
             MOON_RUNES = new Gem(GemType.GEM, "\uD83C\uDF19",
                     "Moon Runes", "items.moon",
-                    "items.description.moon", 100, 4
+                    "items.description.moon", 100, 5
             ),
 
             SNOWFLAKE = new Gem(GemType.UTILITY, "\u2744\uFE0F",
