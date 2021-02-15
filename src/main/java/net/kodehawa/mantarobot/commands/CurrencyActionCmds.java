@@ -18,11 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.gems.Gem;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.GemType;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
-import net.kodehawa.mantarobot.commands.currency.item.special.gems.Gem;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.GemType;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
@@ -196,7 +196,7 @@ public class CurrencyActionCmds {
                     Item extraItem = null;
 
                     // Extra chance of gettting a Gem Fragment or Moon Gem in case you didn't get a Gem already.
-                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM) {
+                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM && item.getTier() >= 3) {
                         List<Item> extra = Stream.of(ItemReference.ALL)
                                 .filter(Gem.class::isInstance)
                                 .filter(i -> ((Gem) i).getType() == GemType.GEM)
