@@ -1399,7 +1399,8 @@
         "nothing_found": "%1$sJe n'ai pas trouvé le type d'animal que tu as spécifié. Tu as spécifié: `%2$s`, Types valides: `%3$s`",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet animal. Valeur: %2$,d crédits, Portefeuille: %3$,d crédits",
         "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %5$s",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$sOpération annulée.",
         "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères."
       },
@@ -1442,8 +1443,8 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "confirm": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$s crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit qu'il ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$s credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sAnimal de compagnie enlevé avec succès. Chaque membre de ce mariage recevras %2$s crédits de remboursement.",
         "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
