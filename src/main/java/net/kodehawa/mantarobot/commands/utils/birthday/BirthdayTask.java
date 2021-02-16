@@ -29,6 +29,8 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -140,7 +142,7 @@ public class BirthdayTask {
 
                         List<Long> nullMembers = new ArrayList<>();
                         for (var data : guildMap.entrySet()) {
-                            final var birthday = data.getValue().getBirthday();
+                            var birthday = data.getValue().getBirthday();
                             if (guildData.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
                                 continue;
                             }
@@ -159,6 +161,12 @@ public class BirthdayTask {
                             } catch (Exception ex) {
                                 nullMembers.add(data.getKey());
                                 continue;
+                            }
+
+                            // Make sure we announce on March 1st for birthdays on February 29 if the current
+                            // year is not a leap year.
+                            if (birthday.equals("29-02") && !Year.isLeap(LocalDate.now().getYear())) {
+                                birthday = "01-03";
                             }
 
                             if (birthday.substring(0, 5).equals(now)) {
