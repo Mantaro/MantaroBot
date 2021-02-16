@@ -1740,6 +1740,10 @@
       "autoequip": {
         "success": "%1$sTu as choisi d'activer l'auto-équip, j'ai donc remplacé ta **%2$s** automatiquement."
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s, tu les as gardés.",
       "success": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s et **$%3$d crédits** et tu les as gardés.",
@@ -2513,8 +2517,8 @@
       "sparkle": "Un des joyaux les plus rares. Assurez-vous de le garder. C'est utilisé pour fabriquer pioche et canne à pêche scintillantes.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Délicieux.",
-      "mine_crate": "Coffre au trésor trouvé en minant. Peut être ouvert avec `~> opencrate gem crate`",
-      "fish_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses à l'intérieur. Peut être ouvert avec` ~> opencrate treasure`",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "Coffre au trésor trouvé en minant. Peut être ouvert avec `~> opencrate gem premium crate`",
       "fish_premium_crate": "Coffre au trésor trouvé en pêchant. Peut être ouvert avec `~> opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod.",
@@ -2567,7 +2571,9 @@
       "broken_sparkle_axe": "Une hache scintillante qui a cassé durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
       "broken_hellfire_pick": "Une pioche des enfers qui s'est éteinte durant une session de minage, il y a toujours de l'espoir pour la réparer.",
       "broken_hellfire_axe": "Une hache des enfers qui s'est éteinte durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
-      "broken_hellfire_rod": "Une canne des enfers qui s'est éteinte durant une session de pêche, il y a toujours de l'espoir pour la réparer."
+      "broken_hellfire_rod": "Une canne des enfers qui s'est éteinte durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {
