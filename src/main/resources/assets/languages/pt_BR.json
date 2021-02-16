@@ -1740,6 +1740,10 @@
       "autoequip": {
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
       "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
       "success": "%1$sEnquanto cortava as árvores, você encontrou %2$s e **$%3$d créditos** e prossegue para salvar em seu inventário.",
@@ -2513,8 +2517,8 @@
       "sparkle": "Uma das gemas mais raras daqui. Certifique-se de mantê-la. É usado para fundir uma picareta brilhante & varas brilhantes.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Delicioso.",
-      "mine_crate": "Uma preciosidade que você encontra ao minerar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate gem crate`",
-      "fish_crate": "Um tesouro que você encontra ao pescar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate treasure`",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "Uma preciosidade que você encontra ao minerar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate gem premium crate`",
       "fish_premium_crate": "Um tesouro que você encontra ao pescar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod.",
@@ -2567,7 +2571,9 @@
       "broken_sparkle_axe": "Um machado brilhante que quebrou enquanto cortava. Ainda recuperável.",
       "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto minerava. Ainda recuperável.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
-      "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável."
+      "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável.",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {
