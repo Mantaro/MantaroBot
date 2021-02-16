@@ -1399,7 +1399,8 @@
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
         "confirm": "%1$s你確定要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。寵物選擇為 %5$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %5$s",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$s操作取消。",
         "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
@@ -1442,8 +1443,8 @@
       },
       "remove": {
         "no_pet": "%1$s你沒有寵物可以丟棄。(寵物選擇為：%2$s)%3$s",
-        "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
-        "confirm_personal": "%1$s你確定要丟棄你的寵物嗎？你將被退回 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款金額不會隨著寵物等級增加，就像在買新的電子雞一樣。",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
         "success_personal": "%1$s成功丟棄寵物。你獲得了 %2$s 元作為補償。"
       },
