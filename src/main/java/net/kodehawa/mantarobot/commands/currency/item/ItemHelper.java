@@ -71,9 +71,13 @@ public class ItemHelper {
             if (!playerInventory.containsItem(ItemReference.MOP))
                 return false;
 
-            if (dbUser.getData().getDustLevel() >= 5) {
+            if (userData.getDustLevel() >= 5) {
                 playerData.setTimesMopped(playerData.getTimesMopped() + 1);
                 ctx.sendLocalized("general.misc_item_usage.mop", EmoteReference.DUST);
+
+                if (userData.getDustLevel() == 100) {
+                    playerData.addBadgeIfAbsent(Badge.DUSTY);
+                }
 
                 playerInventory.process(new ItemStack(ItemReference.MOP, -1));
                 userData.setDustLevel(0);
