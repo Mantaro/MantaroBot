@@ -326,8 +326,15 @@ public class CurrencyCmds {
 
                 // Alternate between mine and fish crates instead of doing so at random, since at random
                 // it might seem like it only gives one sort of crate.
-                var crate = playerData.getLastCrateGiven() == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE) ?
-                        ItemReference.FISH_PREMIUM_CRATE : ItemReference.MINE_PREMIUM_CRATE;
+                var lastCrateGiven = playerData.getLastCrateGiven();
+                var crate = ItemReference.MINE_PREMIUM_CRATE;
+                if (lastCrateGiven == ItemHelper.idOf(ItemReference.MINE_PREMIUM_CRATE)) {
+                    crate = ItemReference.FISH_PREMIUM_CRATE;
+                }
+
+                if (lastCrateGiven == ItemHelper.idOf(ItemReference.FISH_PREMIUM_CRATE)) {
+                    crate = ItemReference.CHOP_PREMIUM_CRATE;
+                }
 
                 inventory.process(new ItemStack(crate, 1));
                 playerData.setLastCrateGiven(ItemHelper.idOf(crate));

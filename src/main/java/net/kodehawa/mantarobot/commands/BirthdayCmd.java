@@ -39,7 +39,8 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
+import java.time.MonthDay;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -69,9 +70,9 @@ public class BirthdayCmd {
                         }
 
                         // Twice. Yep.
-                        var parseFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        var displayFormat = new SimpleDateFormat("dd-MM");
-                        Date birthdayDate;
+                        var parseFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                        var displayFormat = DateTimeFormatter.ofPattern("dd-MM");
+                        MonthDay birthdayDate;
 
                         try {
                             String birthday;
@@ -91,7 +92,7 @@ public class BirthdayCmd {
                             //Add a year so it parses and saves using the old format. Yes, this is also cursed.
                             parts.add("2037");
                             var date = String.join("-", parts);
-                            birthdayDate = parseFormat.parse(date);
+                            birthdayDate = MonthDay.parse(date, displayFormat);
                         } catch (Exception e) {
                             ctx.sendStrippedLocalized("commands.birthday.error_date", "\u274C", content);
                             return;
@@ -104,7 +105,9 @@ public class BirthdayCmd {
                         dbUser.getData().setBirthday(birthdayFormat);
                         dbUser.saveUpdating();
 
-                        ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, displayFormat.format(birthdayDate));
+                        ctx.sendLocalized("commands.birthday.added_birthdate",
+                                EmoteReference.CORRECT, displayFormat.format(birthdayDate)
+                        );
                     }
                 };
             }

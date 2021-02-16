@@ -29,6 +29,8 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -140,7 +142,7 @@ public class BirthdayTask {
 
                         List<Long> nullMembers = new ArrayList<>();
                         for (var data : guildMap.entrySet()) {
-                            final var birthday = data.getValue().getBirthday();
+                            var birthday = data.getValue().getBirthday();
                             if (guildData.getBirthdayBlockedIds().contains(String.valueOf(data.getKey()))) {
                                 continue;
                             }
@@ -161,7 +163,14 @@ public class BirthdayTask {
                                 continue;
                             }
 
-                            if (birthday.substring(0, 5).equals(now)) {
+                            // Make sure we announce on March 1st for birthdays on February 29 if the current
+                            // year is not a leap year.
+                            var compare = birthday.substring(0, 5);
+                            if (compare.equals("29-02") && !Year.isLeap(LocalDate.now().getYear())) {
+                                compare = "01-03";
+                            }
+
+                            if (compare.equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 var tempBirthdayMessage =
                                         String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
