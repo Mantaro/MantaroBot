@@ -1740,6 +1740,10 @@
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
       "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
       "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
@@ -2513,8 +2517,8 @@
       "sparkle": "最稀有的寶石之一。記得別把它弄丟。能夠用來鑄造火花工具。",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "好吃。",
-      "mine_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem crate` 開啟。",
-      "fish_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate treasure` 開啟。",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem premium crate` 開啟。",
       "fish_premium_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate premium treasure` 開啟。",
       "comet_rod": "A slightly stronger rod.",
@@ -2567,7 +2571,9 @@
       "broken_sparkle_axe": "砍樹時砍斷了的火花斧頭。還是可回收的。",
       "broken_hellfire_pick": "挖礦時熄滅了的地獄鎬子。還是可回收的。",
       "broken_hellfire_axe": "挖礦時熄滅了的地獄斧頭。還是可回收的。",
-      "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。"
+      "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {
