@@ -757,6 +757,17 @@ public class CurrencyActionCmds {
                         playerData.addBadgeIfAbsent(Badge.CHOPPER);
                     }
 
+                    if (random.nextInt(400) > 380) {
+                        var crate = dbUser.isPremium() ? ItemReference.CHOP_PREMIUM_CRATE : ItemReference.CHOP_CRATE;
+                        if (playerInventory.getAmount(crate) >= 5000) {
+                            extraMessage += "\n" + languageContext.get("commands.chop.crate.overflow");
+                        } else {
+                            playerInventory.process(new ItemStack(crate, 1));
+                            extraMessage += "\n" + EmoteReference.MEGA + languageContext.get("commands.chop.crate.success")
+                                    .formatted(crate.getEmoji(), crate.getName());
+                        }
+                    }
+
                     handlePetBadges(player, marriage, pet);
 
                     if (playerData.shouldSeeCampaign()) {

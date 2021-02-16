@@ -97,6 +97,8 @@ public enum ItemType {
         MINE_PREMIUM,
         FISH,
         FISH_PREMIUM,
+        CHOP,
+        CHOP_PREMIUM,
         PREMIUM,
         //-insert ea logo here-
         EPIC

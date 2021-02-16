@@ -41,7 +41,7 @@ public class ItemReference {
             CHICKEN, MILK_2, DOG_FOOD, CAT_FOOD, HAMSTER_FOOD, WOOD, AXE, COMET_AXE, STAR_AXE, SPARKLE_AXE, HELLFIRE_AXE, MOON_AXE,
             MOON_PICK, MOON_ROD, HELLFIRE_PICK, HELLFIRE_ROD, PET_HOUSE, LEAVES, APPLE, PEAR, CHERRY_BLOSSOM, ROCK, BROKEN_MOON_PICK,
             BROKEN_MOON_ROD, BROKEN_COMET_AXE, BROKEN_STAR_AXE, BROKEN_SPARKLE_AXE, BROKEN_MOON_AXE, BROKEN_HELLFIRE_PICK,
-            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD;
+            BROKEN_HELLFIRE_AXE, BROKEN_HELLFIRE_ROD, CHOP_CRATE, CHOP_PREMIUM_CRATE;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item(ItemType.COLLECTABLE, "\uD83C\uDFA7",
@@ -740,5 +740,19 @@ public class ItemReference {
                     "Broken Hellfire Rod", "items.broken_hellfire_rod", "items.description.broken_hellfire_rod",
                     5000, "90,18;50,48;50,49;20,74;25,76;10,84;30,50"
             ),
+
+            CHOP_CRATE = new Item(ItemType.CRATE, EmoteReference.CHOP_CRATE.getDiscordNotation(),
+                    "Chop Crate", "items.chop_crate", "items.description.chop_crate",
+                    0, false, false, true,
+                    (ctx, season) ->
+                            ItemHelper.openLootCrate(ctx, ItemType.LootboxType.CHOP, 126, EmoteReference.CHOP_CRATE, 3, season)
+            ),
+
+            CHOP_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_CHOP_CRATE.getDiscordNotation(),
+                    "Premium Chop Crate", "items.premium_chop_crate", "items.description.premium_chop_crate",
+                    0, false, false, true,
+                    (ctx, season) ->
+                            ItemHelper.openLootCrate(ctx, ItemType.LootboxType.CHOP_PREMIUM, 127, EmoteReference.PREMIUM_CHOP_CRATE, 5, season)
+            )
     };
 }

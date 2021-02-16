@@ -300,6 +300,7 @@ public class ItemHelper {
         );
 
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING ||  i.getItemType() == ItemType.FISHROD, true);
+        List<Item> chop = handleItemDrop(i -> i.getItemType() == ItemType.CHOP_DROP ||  i.getItemType() == ItemType.CHOP_AXE, true);
 
         List<Item> premiumMine = handleItemDrop(i ->
                 i.getItemType() == ItemType.CAST_MINE ||
@@ -317,6 +318,12 @@ public class ItemHelper {
                 i.getItemType() == ItemType.FISHING_RARE
         );
 
+        List<Item> premiumChop = handleItemDrop(i ->
+                i.getItemType() == ItemType.CHOP_DROP ||
+                        i.getItemType() == ItemType.CHOP_AXE ||
+                        i.getItemType() == ItemType.CHOP_RARE_AXE
+        );
+
         RandomCollection<Item> items = new RandomCollection<>();
         switch (type) {
             case PREMIUM:
@@ -326,6 +333,9 @@ public class ItemHelper {
             case COMMON:
                 common.forEach(i -> items.add(20, i));
                 break; //fallthrough intended until here.
+            case CHOP_PREMIUM:
+                premiumChop.forEach(i -> items.add(8, i));
+                break;
             case FISH_PREMIUM:
                 premiumFish.forEach(i -> items.add(8, i));
                 break;
@@ -337,6 +347,9 @@ public class ItemHelper {
                 break;
             case FISH:
                 fish.forEach(i -> items.add(8, i));
+                break;
+            case CHOP:
+                chop.forEach(i -> items.add(8, i));
         }
 
         List<Item> list = new ArrayList<>(amount);
