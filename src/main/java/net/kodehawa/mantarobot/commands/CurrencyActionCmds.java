@@ -614,7 +614,7 @@ public class CurrencyActionCmds {
                 .prefix("chop")
                 .build();
 
-        // TODO: Loot crates, Rare items
+        // TODO: rare items
         cr.register("chop", new SimpleCommand(CommandCategory.CURRENCY) {
             @Override
             protected void call(Context ctx, String content, String[] args) {

@@ -902,9 +902,15 @@ public class ItemCmds {
 
                     ctx.send(builder.build());
                 } else {
-                    ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
-                            item.getEmoji(), item.getName(), translatedName, type, description
-                    );
+                    if (item instanceof Tiered) {
+                        ctx.sendLocalized("commands.iteminfo.success_tiered", EmoteReference.BLUE_SMALL_MARKER,
+                                item.getEmoji(), item.getName(), translatedName, type, description, ((Tiered) item).getTierStars()
+                        );
+                    } else {
+                        ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
+                                item.getEmoji(), item.getName(), translatedName, type, description
+                        );
+                    }
                 }
             }
 
