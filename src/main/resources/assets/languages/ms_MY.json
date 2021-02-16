@@ -51,7 +51,7 @@
         "no_key": "%1$sAnda memerlukan sebentuk kunci peti untuk membuka sebuah peti. Ia terkunci! Anda boleh membelinya menggunakan `~>buy key`",
         "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
         "success": "%1$sAnda membuka peti dan menang: %2$s%3$s. Tahniah!",
-        "success_high": "%1$sAnda mendapat item berikut dengan jarangan lebih daripada 4 bintang: %2$s. Bilangannya dinyatakan di atas. Tahniah! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
@@ -864,7 +864,7 @@
     },
     "poll": {
       "missing": "%1$sSama ada anda tidak sertakan argumen %2$s ataupun ia ditinggalkan kosong!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
+      "invalid": "%1$sPoll ini tidak dapat dibina. **Ingat: jumlah pilihan mestilah di antara 2 hingga 9 pilihan dan tempoh mengundi mestilah di antara 30s dan 45m.**\nPilihan dipisahkan dengan koma, misalnya `1,2,3` (tanpa ruang di antara pilihan!). Untuk perkataan yang mengandungi ruang, gunakan ganda petik di permulaan dan pengakhiran pilihan. Sekiranya anda memang tersesat, anda boleh merujuk kepada contoh yang dinyatakan pada `~>help poll`",
       "other_poll_running": "%1$sNampaknya terdapat poll lain yang sedang dijalankan di sini...",
       "no_reaction_perms": "%1$sNampaknya saya tidak dapat menambah reaksi di sini...",
       "too_long": "%1$sItu terlalu panjang untuk dipaparkan. Kurangkan pilihan-pilihan itu dan cuba sekali lagi?",
@@ -873,8 +873,8 @@
       "time": "Anda diberi tempoh %1$s untuk mengundi.",
       "error": "%1$sTerdapat ralat yang tidak diketahui semasa menyediakan poll. Mungkin cuba sekali lagi? (ralat dalaman)",
       "result_header": "Keputusan Poll",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
+      "result_screen": "**Memaparkan keputusan untuk poll yang dimulakan oleh %1$s** dengan nama: *%2$s*",
+      "vote_results": "+%1$d undian telah didaftar bagi pilihan %2$s",
       "thank_note": "Terima kasih atas undian anda",
       "results": "Keputusan",
       "cancelled": "%1$sPoll dibatalkan",
@@ -889,37 +889,37 @@
         "reset_success": "%1$sZon masa anda berjaya ditetapkan semula."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
-        "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
-        "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
+        "no_argument": "%1$sAnda perlu memberi argumen! (set atau remove)\nMisalnya, ~>profile description set Hi there!",
+        "no_content": "%1$sAnda tidak menyatakan apa yang anda mahu menulis pada penerangan anda.\nMisalnya, ~>profile description set Hi there!",
+        "too_long": "%1$sPenerangan itu terlalu panjang! `(Hadnya adalah 300 aksara bagi semua pengguna dan 500 bagi pengguna premium)`",
         "success": "%1$sPenerangan ditetapkan menjadi: **%2$s**\nPeriksa profil baru anda dengan `~>profile`",
         "clear_success": "%1$sPenerangan berjaya dipadamkan."
       },
       "displaybadge": {
         "not_specified": "%1$sAnda perlu menyatakan lencana utama anda! Misalnya, `~>profile displaybadge claimer`",
-        "reset_success": "%1$sNo badge will show on the top of your profile now!",
-        "important_success": "%1$sYour display badge is now the most important one.",
-        "no_such_badge": "%1$sThere's no such badge...\nYour available badges: %2$s",
-        "player_missing_badge": "%1$sYou don't have that badge.\nYour available badges: %2$s",
-        "success": "%1$sYour display badge is now: **%2$s**"
+        "reset_success": "%1$sKini, tiada lencana yang akan dipaparkan pada bahagian atas profil anda!",
+        "important_success": "%1$sKini, lencana paparan anda adalah lencana yang terutama.",
+        "no_such_badge": "%1$sTiada lencana sebegitu...\nLencana tercapai: %2$s",
+        "player_missing_badge": "%1$sAnda tidak mempunyai lencana itu.\nLencana tercapai: %2$s",
+        "success": "%1$sKini, lencana paparan anda ialah: **%2$s**"
       },
       "lang": {
-        "nothing_specified": "%1$sYou have to specify a language to use or `reset` to reset your language settings.",
-        "reset_success": "%1$sSuccessfully reset your personal language settings.",
-        "success": "%1$sMantaro will now talk to you in `%2$s`",
-        "invalid": "%1$sThat language doesn't exist! You can use `reset` to reset your language settings."
+        "nothing_specified": "%1$sAnda perlu menyatakan bahasa yang ingin digunakan ataupun `reset` untuk menetapkan semula bahasa anda.",
+        "reset_success": "%1$sBahasa peribadi anda telah ditetapkan semula.",
+        "success": "%1$sKini, Mantaro akan berkomunikasi dengan anda menggunakan `%2$s`",
+        "invalid": "%1$sBahasa itu tidak wujud! Anda boleh menggunakan `reset` untuk menetapkan semula bahasa anda."
       },
       "inventorysort": {
-        "not_valid": "%1$sThis sort type is not valid. Available types: `%2$s`",
-        "success": "%1$sSuccessfully changed your inventory sort type, now it is: **%2$s**"
+        "not_valid": "%1$sCara susunan ini tidak sah. Cara tersedia: `%2$s`",
+        "success": "%1$sBerjaya menukar cara susunan inventori anda, susunan kini ialah: **%2$s**"
       },
       "toggleaction": {
         "enabled": "%1$sEnabled actions to be done to you.",
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Personal Pet",
-        "none": "No personal pet"
+        "header": "Haiwan Peliharaan Peribadi",
+        "none": "Tiada haiwan peliharaan peribadi"
       },
       "stats": {
         "header": "Statistik Profil %1$s",
@@ -936,7 +936,7 @@
         "sharks_caught": "Ikan Yu Ditangkap",
         "crates_open": "Peti Dibuka",
         "times_mop": "Kali Mengemop",
-        "daily": "Daily Streak",
+        "daily": "Coretan Harian",
         "daily_at": "Harian Terakhir",
         "waifu_claimed": "Kali Dituntut",
         "waifu_locked": "Kunci Waifu",
@@ -972,7 +972,7 @@
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
         "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back.",
-        "cancelled": "%1$sCancelled operation."
+        "cancelled": "%1$sOperasi dibatalkan."
       },
       "display": {
         "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
@@ -1092,14 +1092,14 @@
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
       "header": "Urban Dictionary definition for %1$s",
       "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
+      "main_def": "Definisi utama.",
+      "footer": "Maklumat dari Urban Dictionary",
+      "nsfw_notice": "%1$sArahan ini hanya boleh digunakan dalam saluran NSFW disebabkan sifat keputusannya.",
+      "error": "%1$sTerdapat ralat semasa memproses respons dari UD. Cuba lagi?"
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
+        "key_valid_for": "%1$sKunci anda adalah sah untuk %2$s hari lagi :heart:",
         "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
       },
       "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** tidak berhabuk. (Tahap habuk semasa: %3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
@@ -1399,7 +1399,8 @@
         "nothing_found": "%1$sCan't find the type of pet you specified. You specified: `%2$s`, Valid types: `%3$s`",
         "not_enough_money": "%1$sYou don't have enough money to buy this pet. Value: %2$,d credits, Wallet: %3$,d credits",
         "confirm": "%1$sAdakah anda pasti akan membeli haiwan peliharaan ini? Nama: %2$s, Jenis: %3$s, Kos: %4$,d kredit. Pilihan: %5$s. Taip `yes` untuk meneruskan, `no` jika tidak.",
-        "success": "%1$sTahniah! Anda berdua berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit and pilihan haiwan peliharaan ini merupakan: %5$s",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$sCancelled operation.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
       },
@@ -1442,8 +1443,8 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$s credits, and you will receive %2$s credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Anda akan menerima %2$s kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
         "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
@@ -1740,6 +1741,10 @@
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
       "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
       "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
@@ -1803,7 +1808,8 @@
         "durability": "Durability",
         "desc": "Description"
       },
-      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
@@ -2077,7 +2083,7 @@
       "no_args": "%1$sYou need to specify if you want it to be true or false (true to lock CC creation to Admins/Bot Commander only)",
       "admin_only": "Custom command creation is now admin only.",
       "everyone": "Penciptaan arahan kustom kini boleh dilakukan oleh sesiapa sahaja.",
-      "not_bool": "%1$sBodoh, itu bukan nilai boolean (betul atau salah)!"
+      "not_bool": "%1$sBodoh, itu bukan nilai boolean (true atau false)!"
     },
     "timedisplay_set": {
       "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
@@ -2513,10 +2519,10 @@
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Yummy.",
-      "mine_crate": "A gem, you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you find while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you find while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod.",
       "star_rod": "A stronger rod .",
       "sparkle_rod": "A way stronger rod.",
@@ -2567,7 +2573,9 @@
       "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
       "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable."
+      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable.",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {

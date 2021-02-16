@@ -51,7 +51,7 @@
         "no_key": "%1$s你需要一個寶箱鑰匙來開啟寶箱。他是鎖住的！你能使用 `~>buy key` 來購買他。",
         "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
-        "success_high": "%1$sYou got the following items with a rarity over 4 stars: %2$s. The amount was shown above. Congratulations! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
       "potion_active": "%1$s你目前已經有最高數量的 **%2$s** 效果了!",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$s你至少需要 %2$,d 元來清潔寵物 **%3$s**。",
-        "not_dusty": "%1$s**%2$s** 身上還不髒。(目前骯髒程度：%3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** 看起來閃閃發光！你花了 %3$,d 元來清潔你的寵物。"
       },
       "choice": {
@@ -1399,7 +1399,8 @@
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
         "confirm": "%1$s你確定要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。寵物選擇為 %5$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %5$s",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$s操作取消。",
         "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
@@ -1442,8 +1443,8 @@
       },
       "remove": {
         "no_pet": "%1$s你沒有寵物可以丟棄。(寵物選擇為：%2$s)%3$s",
-        "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$s 元，與你結婚的人也將獲得 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
-        "confirm_personal": "%1$s你確定要丟棄你的寵物嗎？你將被退回 %2$s 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款金額不會隨著寵物等級增加，就像在買新的電子雞一樣。",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
         "success_personal": "%1$s成功丟棄寵物。你獲得了 %2$s 元作為補償。"
       },
@@ -1740,6 +1741,10 @@
       "autoequip": {
         "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
       "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
       "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
@@ -1803,7 +1808,8 @@
         "durability": "Durability",
         "desc": "Description"
       },
-      "success": "%1$s**Item Info for** %2$s **%3$s** (%4$s) (Type: %5$s): *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",
@@ -2513,10 +2519,10 @@
       "sparkle": "最稀有的寶石之一。記得別把它弄丟。能夠用來鑄造火花工具。",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "好吃。",
-      "mine_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem crate` 開啟。",
-      "fish_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate treasure` 開啟。",
-      "mine_premium_crate": "採礦時挖到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate gem premium crate` 開啟。",
-      "fish_premium_crate": "釣魚時釣到的寶藏。裡面也許有一些不錯的東西。可以使用 `~>opencrate premium treasure` 開啟。",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod.",
       "star_rod": "A stronger rod .",
       "sparkle_rod": "A way stronger rod.",
@@ -2567,7 +2573,9 @@
       "broken_sparkle_axe": "砍樹時砍斷了的火花斧頭。還是可回收的。",
       "broken_hellfire_pick": "挖礦時熄滅了的地獄鎬子。還是可回收的。",
       "broken_hellfire_axe": "挖礦時熄滅了的地獄斧頭。還是可回收的。",
-      "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。"
+      "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {

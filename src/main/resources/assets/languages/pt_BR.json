@@ -51,7 +51,7 @@
         "no_key": "%1$sVocê precisa de uma chave do baú pra abrir um baú. Está fechado! Você pode comprar um usando `~>buy key`",
         "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
         "success": "%1$sVocê abriu o baú e ganhou: %2$s%3$s. Parabéns!",
-        "success_high": "%1$sVocê ganhou os seguintes itens com uma raridade maior que 4 estrelas: %2$s. A quantidade foi mostrada acima. Parabéns! %3$s",
+        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Mas você já teve demais, então resolveu jogar fora o excesso"
       },
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
@@ -1361,7 +1361,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sVocê precisa de pelo menos %2$,d créditos para limpar **%3$s**.",
-        "not_dusty": "%1$s**%2$s** não está sujo. (Nível atual de poeira: %3$,d)",
+        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
         "success": "%1$s**%2$s** está agora brilhando de limpa! O custo para a limpeza do seu pet foi %3$,d créditos."
       },
       "choice": {
@@ -1399,7 +1399,8 @@
         "nothing_found": "%1$sNão foi possível encontrar o tipo de pet que você especificou. Você especificou: `%2$s`, Tipos válidos: `%3$s`",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse pet. Valor: %2$,d créditos, Carteira: %3$,d créditos",
         "confirm": "%1$sVocê tem certeza que quer comprar esse pet? Nome: %2$s, Tipo: %3$s, Custo: %4$,d créditos. Escolha: %5$s Digite `yes` para continuar, `no` caso contrário.",
-        "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse foi %5$,d créditos e essa escolha se pet foi: %5$s",
+        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$sOperação cancelada.",
         "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres."
       },
@@ -1442,8 +1443,8 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "confirm": "%1$sVocê tem certeza de que quer remover esse pet? A pessoa com quem você é casado irá receberá %2$s créditos, e você receberá %2$s créditos também.\nDigite `yes` para confirmar ou `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tomagotchi ou algo semelhante.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$s credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sPet removido com sucesso. Cada pessoa neste casamento recebeu %2$s créditos como um reembolso.",
         "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
       },
@@ -1740,6 +1741,10 @@
       "autoequip": {
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
       "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
       "success": "%1$sEnquanto cortava as árvores, você encontrou %2$s e **$%3$d créditos** e prossegue para salvar em seu inventário.",
@@ -1803,7 +1808,8 @@
         "durability": "Durability",
         "desc": "Description"
       },
-      "success": "%1$s**Informação do Item** %2$s **%3$s** (%4$s) (Tipo: %5$s): *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots não tem level.",
@@ -2513,10 +2519,10 @@
       "sparkle": "Uma das gemas mais raras daqui. Certifique-se de mantê-la. É usado para fundir uma picareta brilhante & varas brilhantes.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Delicioso.",
-      "mine_crate": "Uma preciosidade que você encontra ao minerar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate gem crate`",
-      "fish_crate": "Um tesouro que você encontra ao pescar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate treasure`",
-      "mine_premium_crate": "Uma preciosidade que você encontra ao minerar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate gem premium crate`",
-      "fish_premium_crate": "Um tesouro que você encontra ao pescar. Possivelmente contém muitas coisas legais em seu interior. Pode ser aberto com `~>opencrate premium treasure`",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
+      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
+      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod.",
       "star_rod": "A stronger rod .",
       "sparkle_rod": "A way stronger rod.",
@@ -2567,7 +2573,9 @@
       "broken_sparkle_axe": "Um machado brilhante que quebrou enquanto cortava. Ainda recuperável.",
       "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto minerava. Ainda recuperável.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
-      "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável."
+      "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável.",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {
