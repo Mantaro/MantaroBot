@@ -1740,6 +1740,10 @@
       "autoequip": {
         "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Axtslot ausgerüstet."
       },
+      "crate": {
+        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
+        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+      },
       "overflow": "%1$sDu hast Zeug während dem Fällen gefunden, jedoch konntest du von manchen Gegenständen nicht mehr mitnehmen, also mussten wir ein paar weglassen.",
       "success_only_item": "%1$sWährend dem Fällen von Bäumen findest du %2$s und verstaust dies in deinem Inventar.",
       "success": "%1$sWährend dem Fällen von Bäumen findest du %2$s und **$%3$d Credits** und verstaust dies in deinem Inventar.",
@@ -2513,8 +2517,8 @@
       "sparkle": "Eines der seltensten Juwelen. Pass drauf auf. Wird zum Herstellen von glitzernden Spitzhacken und glitzernden Angeln genutzt.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Lecker.",
-      "mine_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem crate` geöffnet werden.",
-      "fish_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate treasure` geöffnet werden.",
+      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
+      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
       "mine_premium_crate": "Eine Kiste, die du beim Bergbau gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate gem premium crate` geöffnet werden.",
       "fish_premium_crate": "Eine Kiste, die du beim Fischen gefunden hast. Möglicherweise ist was nettes drin. Kann mit `~>opencrate premium treasure` geöffnet werden.",
       "comet_rod": "A slightly stronger rod.",
@@ -2567,7 +2571,9 @@
       "broken_sparkle_axe": "Eine glitzernde Axt, die beim Hacken beschädigt worden ist. Reparierbar.",
       "broken_hellfire_pick": "Eine Höllenfeuerspitzhacke, die während dem Abbauen erloschen ist. Reparierbar.",
       "broken_hellfire_axe": "Eine Höllenfeueraxt, die während dem Hacken erloschen ist. Reparierbar.",
-      "broken_hellfire_rod": "Eine Höllenfeuerangel, die während dem Angeln erloschen ist. Reparierbar."
+      "broken_hellfire_rod": "Eine Höllenfeuerangel, die während dem Angeln erloschen ist. Reparierbar.",
+      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
     }
   },
   "test": {
