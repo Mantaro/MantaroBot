@@ -613,10 +613,17 @@ public class PetCmds {
 
                         playerConfirmed.setLocked(false);
                         playerConfirmed.save();
-                        ctx.sendLocalized("commands.pet.buy.success",
-                                EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name,
-                                toBuy.getCost(), petChoice.getReadableName()
-                        );
+                        if (petChoice == PetChoice.MARRIAGE) {
+                            ctx.sendLocalized("commands.pet.buy.success",
+                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name,
+                                    toBuy.getCost(), petChoice.getReadableName()
+                            );
+                        } else {
+                            ctx.sendLocalized("commands.pet.buy.success_personal",
+                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name,
+                                    toBuy.getCost(), petChoice.getReadableName()
+                            );
+                        }
 
                         return Operation.COMPLETED;
                     }
