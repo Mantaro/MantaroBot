@@ -396,7 +396,7 @@
       "footer": "Terima kasih kerana menggunakan Mantaro! Halaman: %1$d, Jumlah: %2$d."
     },
     "prefix": {
-      "header": "%1$sPrefix yang sudah ditetapkan ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
+      "header": "%1$sPrefix yang asal ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
       "guild_prefix": "Prefix pelayan ialah `%1$s` (Hanya berfungsi di pelayan ini)",
       "none": "Tiada prefix kustom yang ditetapkan di pelayan ini."
     },
@@ -495,7 +495,7 @@
         "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
       },
       "character_not_allowed": "%1$sAksara ini tidak dibenarkan dalam nama arahan kustom.",
-      "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot yang telah ditetapkan.",
+      "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot yang asal.",
       "name_too_long": "%1$sNama terlalu panjang.",
       "no_cc": "%1$sTiada Arahan Kustom yang didaftarkan di Pelayan ini, hanya ada habuk.",
       "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan ASAL.**\n- Jika anda merupakan admin (mempunyai peranan Bot Commander atau kebenaran Manage Server), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
@@ -849,7 +849,7 @@
       "deleted_role": "%1$sPeranan yang dikaitkan dengan peranan automatik ini telah dipadamkan",
       "already_assigned": "%1$sAnda sudah mempunyai peranan ini, bodoh!",
       "success": "%1$s%2$s, anda diberi peranan **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
+      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
       "no_role": "%1$sTiada peranan automatik yang bernama `%2$s`",
       "no_iam": "%1$sAnda perlu menyatakan peranan automatik yang ingin anda tugaskan diri anda!"
     },
@@ -955,42 +955,42 @@
         "success": "%1$sTag hidden status is now: `%2$s`"
       },
       "equip": {
-        "no_content": "%1$sYou have to specify which item to equip!",
-        "no_item": "%1$sThis item doesn't exist",
+        "no_content": "%1$sAnda perlu menyatakan item yang ingin dipasang!",
+        "no_item": "%1$sItem ini tidak wujud",
         "not_owned": "%1$sAnda tidak memiliki item ini!",
         "success": "%1$sAnda berjaya memasang %2$s *%3$s*, yang akan diingati lain kali anda menggunakan arahan mata wang yang sesuai.",
         "not_suitable": "%1$sAnda tidak boleh memasang ini.",
         "not_equipped": "%1$sAnda belum memasang ini lagi.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
+        "already_equipped": "%1$sAnda sudah memasang item sejenis ini! Cuba `~>unequip <jenis>` (Jenis yang sah ialah rod, axe atau pick) jika anda ingin menyingkirkannya."
       },
       "unequip": {
-        "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
+        "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
+        "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod`",
+        "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
-        "success": "%1$sSuccessfully unequipped your %2$s slot.",
-        "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
-        "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
-        "broken_equipment_recover_none": "\nThis equipment type had no broken type to recover from, and was used, so it vanished into the void, but you got %1$s credits back.",
+        "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
+        "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
+        "broken_equipment_recover": "\nPeralatan anda pernah digunakan, tetapi anda mendapat %1$s kembali, anda boleh membaikinya sekiranya anda memerlukannya nanti!",
+        "broken_equipment_recover_none": "\nJenis peralatan ini tidak mempunyai jenis patah yang dapat diperbaiki, dan telah digunakan, jadi ia hilang ke dalam kekosongan, tetapi anda mendapat %1$s kredit kembali.",
         "cancelled": "%1$sOperasi dibatalkan."
       },
       "display": {
-        "not_premium": "%1$sProfile widget personalization is only available to premium users. For more perks, you can check <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
-        "not_enough": "%1$sNot enough valid widgets to put on your profile (minimum: 3). If you're lost, check `~>profile widgets ls`",
-        "success": "%1$sSuccessfully set your new profile layout. New layout is `%2$s`",
-        "ls": "%1$sList of profile components:\n%2$s **Widgets in Default Order:** `%3$s`\n%2$s **Your widgets:** `%4$s`\nYou can use `~>profile widgets reset` to reset your profile display references",
-        "reset": "%1$sSuccessfully reset profile widget order.",
-        "example": "\nExample: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Any order works, the order here is the order that will make them appear in your profile*"
+        "not_premium": "%1$s Pemperibadian widget profil hanya tersedia untuk pengguna premium sahaja. Untuk banyak kelebihan lagi, anda boleh periksa <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
+        "not_enough": "%1$sWidget yang sah tidak mencukupi untuk dipaparkan pada profil anda (minimum: 3). Sekiranya anda tersesat, periksa `~>profile widget ls`",
+        "success": "%1$sBerjaya menetapkan susun atur profil anda. Susun atur yang baru ialah `%2$s`",
+        "ls": "%1$sSenarai komponen profil:\n%2$s **Susunan Widget Asal:** `%3$s`\n%2$s **Widget anda:** `%4$s`\nAnda boleh menggunakan `~>profile widgets reset` untuk menetapkan semula rujukan paparan profil anda",
+        "reset": "%1$sSusunan widget profil anda berjaya ditetapkan semula.",
+        "example": "\nContoh: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Susunan mana-mana juga berfungsi, susunan di sini ialah susunan yang akan dipaparkan di profil anda*"
       },
       "claimlock": {
-        "removed": "%1$sSuccesfully reset your claim lock status.",
-        "success": "%1$sYou can't be waifu claimed anymore. This used up a claim key. Use `~>profile claimlock remove` to remove it later.",
-        "no_key": "%1$sYou don't have a claim key to do this. You can buy one from the market using `~>buy \"claim key\"`",
-        "already_locked": "%1$sYou're already claim locked. Use `~>profile claimlock remove` to remove it."
+        "removed": "%1$sBerjaya menetapkan status kunci tuntutan anda.",
+        "success": "%1$sAnda tidak boleh dituntut sebagai waifu lagi. Ini menggunakan sebentuk kunci tuntutan. Gunakan `~>profile claimlock remove` untuk memadamkannya nanti.",
+        "no_key": "%1$sAnda tidak mempunyai kunci tuntutan untuk melakukan ini. Anda boleh membelinya dari pasar menggunakan `~>buy \"claim key\"`",
+        "already_locked": "%1$sAnda sudah dikunci tuntutan. Gunakan `~>profile claimlock remove` untuk memadamkannya."
       },
       "autoequip": {
         "disable": "%1$sSuccesfully disabled auto-equip.",
-        "success": "%1$sEnabled auto-equip."
+        "success": "%1$sPasangan auto telah diaktifkan."
       },
       "badge_header": "%1$s Lencana Paparan",
       "bot_notice": "%1$sBot tidak mempunyai profil.",
@@ -1012,12 +1012,12 @@
       "not_specified": "Tidak dinyatakan.",
       "potion": "Ramuan Aktif",
       "no_potion": "Tiada ramuan yang aktif.",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
+      "hidelegacy": "%1$sKini, status sembunyi kredit legasi adalah: `%2$s`"
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
-        "not_found": "%1$sThere's no such badge...",
+        "not_specified": "%1$sAnda perlu menyatakan lencana yang ingin anda melihat maklumatnya! Misalnya, `~>badge info claimer`",
+        "not_found": "%1$sTiada lencana sebegitu...",
         "header": "Maklumat lencana %1$s",
         "achieved": "Pencapaian"
       },
@@ -1028,18 +1028,18 @@
       "brief_success": "**Lencana %1$s:**\n%2$s",
       "profile_notice": "Jika anda berpendapat bahawa anda sudah mendapat lencana yang baru tetapi ia tidak muncul di sini, sila gunakan `~>profile` lalu menjalankan arahan ini sekali lagi.\n",
       "info_notice": "Gunakan `~>badge info <nama lencana>` untuk mendapatkan maklumat lanjut tentang lencana tersebut. [Anda juga boleh periksa halaman wiki] (https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n \n",
-      "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
+      "donate_notice": "**Anda boleh mendapatkan lencana atas [sokongan anda terhadap pembangunan Mantaro!](https://patreon.com/mantaro)!** (Ia mungkin mengambil beberapa minit untuk memproses)\n\n",
       "no_badges": "Tiada lencana untuk dipaparkan",
       "header": "Lencana yang dicapai oleh %1$s",
       "total_badges": "**Jumlah lencana tercapai:** %1$s",
-      "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
+      "footer": "Lencana dianggap sebagai pencapaian, dan boleh dicapai melalui kemajuan dalam permainan Mantaro ataupun dengan menggunakan bot semata-mata."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
-      "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
-      "more_than_one": "%1$sYou can only give reputation to one person",
-      "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
-      "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
+      "new_account_notice": "%1$sUmur akaun (tempoh masa sejak akaun Discord dicipta) mestilah lebih daripada 5 hari untuk memberi atau menerima rep. Cuba lagi nanti.",
+      "no_mentions": "%1$sAnda perlu menyebut atau meletakkan nama seseorang pengguna.\n%2$s",
+      "more_than_one": "%1$sAnda hanya boleh memberi reputasi kepada seorang pengguna sahaja",
+      "rep_bot": "%1$sAnda tidak boleh memberi reputasi kepada bot.\n%2$s",
+      "rep_yourself": "%1$sAnda tidak boleh rep diri anda.\n%2$s",
       "cooldown": {
         "waiting": "**Anda akan dapat menggunakan arahan ini semula dalam %1$s**",
         "pass": "Anda boleh rep seseorang sekarang."
@@ -1048,30 +1048,30 @@
     },
     "birthday": {
       "reset": "%1$sTarikh hari jadi ditetapkan semula dengan betul.",
-      "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
-      "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
+      "no_guild_birthdays": "%1$sNampaknya kosong di sini.\nIngat bahawa cache akan disegarkan semula setiap 23 jam dan kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
+      "no_guild_month_birthdays": "%1$sTiada hari jadi bagi bulan ini (%2$s) di sini :(\n%3$sSekiranya anda baru sahaja menubuhkan pengumuman hari jadi, sila tunggu sekejap sebelum gunakan arahan ini semula. (Cache disegarkan semula setiap 23 jam)\nIngat, kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
+      "cache_not_running": "%1$sNampaknya cache hari jadi tidak berjalan (ralat dalaman) :(",
       "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
-      "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
-      "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
+      "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `dd-mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
+      "error_date": "%1$s%2$s bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
-      "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
-      "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
-      "new_format": "%1$sThe new date format is just `dd-mm` (day-month, for example 20-10 as for 20th of October). No need to enter your year now, so you can omit that part.",
-      "allowed_server": "%1$sAllowed the current server to announce your birthday. To deny it in the future, just run `~>birthday denyserver` on this server.",
-      "denied": "%1$sDenied the current server from announcing your birthday. To allow it in the future, just run `~>birthday allowserver` on this server.",
-      "already_denied": "%1$sThis server already can't announce your birthday. If you want to allow it, run `~>birthday allowserver` instead. This is the default.",
-      "already_allowed": "%1$sYou already allowed this server to show your birthday."
+      "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
+      "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
+      "new_format": "%1$sFormat tarikh yang baru hanyalah `dd-mm` (hari-bulan, misalnya 20-10 untuk 20 Oktober). Tidak perlu masukkan tahun anda lagi, jadi anda boleh menyingkirkan bahagian tersebut.",
+      "allowed_server": "%1$sPelayan semasa telah dibenarkan untuk mengumumkan hari jadi anda. Untuk melarangnya pada masa akan datang, hanya jalankan `~>birthday denyserver` di pelayan ini.",
+      "denied": "%1$sPelayan semasa telah dilarang mengumumkan hari jadi anda. Untuk membenarkannya pada masa akan datang, hanya jalankan `~>birthday allowserver` di pelayan ini.",
+      "already_denied": "%1$sPelayan ini sudah dilarang mengumumkan hari jadi anda. Sekiranya anda ingin membenarkannya, jalankan `~>birthday allowserver` sebagai gantinya. Ini adalah tetapan asal.",
+      "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
     "choose": {
-      "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
+      "nothing_to": "%1$sAnda haruslah memberitahu saya apa yang anda mahu saya memilih antara. (contoh: `~>choose anime manga \"sleeping out\")",
       "success": "%1$sSaya memilih `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
-      "no_reminders": "%1$sYou have no reminders set.",
+      "no_reminders": "%1$sAnda tidak menetapkan sebarang peringatan lagi.",
       "cancel": {
         "success": "%1$sPeringatan anda telah dibatalkan.",
         "select": "Sila memilih peringatan yang ingin anda batalkan."
@@ -1090,8 +1090,8 @@
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
-      "header": "Urban Dictionary definition for %1$s",
-      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
+      "header": "Definisi Urban Dictionary untuk %1$s",
+      "too_many_args": "%1$sTerlalu banyak argumen! Format halaman ialah `nama->nombor halaman`",
       "main_def": "Definisi utama.",
       "footer": "Maklumat dari Urban Dictionary",
       "nsfw_notice": "%1$sArahan ini hanya boleh digunakan dalam saluran NSFW disebabkan sifat keputusannya.",
@@ -1100,15 +1100,15 @@
     "activatekey": {
       "check": {
         "key_valid_for": "%1$sKunci anda adalah sah untuk %2$s hari lagi :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "no_key_found": "%1$sAnda tidak mempunyai kunci yang telah diaktifkan... Sekiranya anda merupakan pengguna premium dari sistem lama anda sepatutnya masih memiliki ganjaran anda!"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
+      "no_key_provided": "%1$sSaya tidak dapat aktifkan kunci premium jika anda tidak memberikannya kepada saya",
       "invalid_key": "%1$sYou provided an invalid or already enabled key",
       "guild_already_premium": "%1$sThis server already has a premium subscription",
       "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "user_already_premium": "%1$sYou're already premium :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+      "user_already_premium": "%1$sAnda sudah menjadi premium :heart:",
+      "user_successful": "%1$sKini anda menjadi **Premium** :heart:\nSekiranya anda berikrar di Patreon, kunci ini terikat kepada ikrar anda.",
+      "mp": "Mantaro Patreon tidak menggunakan kunci, sebaliknya, ia dijamin bahawa ia premium melalui hakikatnya bahawa bot tersebut berfungsi."
     },
     "claimkey": {
       "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
@@ -1133,13 +1133,13 @@
         "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
       "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
-      "valid_for_old": "Valid for",
-      "old_days_more": "%1$,d days more",
-      "thank_note": "Thanks you for your support <3",
-      "expire": "Expires in",
-      "key_duration": "Key total duration",
-      "key_owner": "Key owner",
-      "wrong_args": "%1$sWrong arguments...",
+      "valid_for_old": "Sah untuk",
+      "old_days_more": "%1$,d hari lagi",
+      "thank_note": "Terima kasih atas sokongan anda <3",
+      "expire": "Luput dalam",
+      "key_duration": "Jumlah tempoh kunci",
+      "key_owner": "Pemilik kunci",
+      "wrong_args": "%1$sArgumen salah...",
       "patreon": "Pledge",
       "linked": "Linked",
       "linked_to": "Dihubungkan ke",
@@ -1194,7 +1194,7 @@
         "cuddle": "That's cute!",
         "nuzzle": "Awwiee, cute!",
         "blush": ";////;",
-        "bloodsuck": "Are you a vampire now?, oh!"
+        "bloodsuck": "Awak sudah menjadi pontianak?, oh!"
       },
       "pat": "%1$s you have been patted by %2$s",
       "hug": "%1$s you have been hugged by %2$s",
@@ -1546,7 +1546,7 @@
       "color": "Color",
       "status": "Status",
       "nothing": "Nothing",
-      "default": "Default"
+      "default": "Asal"
     },
     "roleinfo": {
       "header": "Role info for %1$s",
@@ -2376,8 +2376,10 @@
     "pizza": "Pizza",
     "mine_crate": "Gem Crate",
     "fish_crate": "Fish Treasure",
+    "chop_crate": "Chop Crate",
     "mine_premium_crate": "Gem Premium Crate",
     "fish_premium_crate": "Fish Premium Treasure",
+    "chop_premium_crate": "Chop Premium Crate",
     "comet_rod": "Comet Gem Rod",
     "star_rod": "Star Gem Rod",
     "sparkle_rod": "Sparkle Rod",
