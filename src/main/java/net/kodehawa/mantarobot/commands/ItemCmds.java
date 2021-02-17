@@ -347,7 +347,7 @@ public class ItemCmds {
                     //End of build recipe explanation
 
                     var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
-                    String fieldDescription = "%s\n**%s** %s %s.\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
+                    String fieldDescription = "%s\n**%s** %s %s\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(
                             languageContext.get(item.getDesc()),
                             languageContext.get("commands.cast.ls.cost"),
                             item.getValue() / 2,

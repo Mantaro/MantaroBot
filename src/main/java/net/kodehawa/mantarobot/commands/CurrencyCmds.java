@@ -447,8 +447,8 @@ public class CurrencyCmds {
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 for (var item : interactiveItems) {
-                    fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + item.getEmoji() + item.getName(),
-                            "**" + languageContext.get("general.description") + ":**\u2009*" + languageContext.get(item.getDesc()) + "*",
+                    fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + item.getEmoji() + "\u2009\u2009\u2009" + item.getName(),
+                            "**" + languageContext.get("general.description") + ":**\u2009* " + languageContext.get(item.getDesc()) + "*",
                             false
                     ));
                 }
