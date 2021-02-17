@@ -51,7 +51,7 @@
         "no_key": "%1$sAnda memerlukan sebentuk kunci peti untuk membuka sebuah peti. Ia terkunci! Anda boleh membelinya menggunakan `~>buy key`",
         "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
         "success": "%1$sAnda membuka peti dan menang: %2$s%3$s. Tahniah!",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success_high": "%1$sAnda mendapat item berikut dengan jarangan yang lebih daripada 3 bintang: %2$s. Item tersebut dinyatakan di atas",
         "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
@@ -138,7 +138,7 @@
   "commands": {
     "fish": {
       "dust": "%1$sHari sudah berakhir, dan baldi ikan anda hanya dapat mengumpulkan habuk. (Tahap habuk %2$s%%)",
-      "no_rod": "%1$sAnda masih belum memasang joran anda. Gunakan `~>equip <rod name>` untuk memasang sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
+      "no_rod": "%1$sAnda masih belum memasang joran anda. Gunakan `~>equip <nama joran>` untuk memasang sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
       "trash": {
         "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami harus membuangnya kembali ke dalam air...",
         "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s yang terapung tetapi nampaknya hanya sampah :("
@@ -148,7 +148,7 @@
       },
       "crate": {
         "overflow": "Anda menjumpai **%1$s** semasa memancing, tetapi anda mempunyainya terlalu banyak, jadi kami membuangnya kembali ke lautan...",
-        "success": "Anda menjumpai %1$s **%2$s** semasa memancing dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <crate name>`. Anda memerlukan kunci peti!"
+        "success": "Anda menjumpai %1$s **%2$s** semasa memancing dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <name peti>`. Anda memerlukan kunci peti!"
       },
       "autoequip": {
         "success": "%1$s**%2$s** dipasang secara automatik di slot joran anda."
@@ -165,7 +165,7 @@
       "bait": "Ikan memakan umpan anda dalam proses!",
       "missing_equipped": "%1$sAnda telah memasang joran %2$s, tetapi anda tidak lagi mempunyai jenis joran ini di inventori anda! Joran yang dipasang telah ditetapkan semula.",
       "broken_drop": "%1$sRod anda pecah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
-      "no_rod_equipped": "%1$sAnda masih belum memasang joran. Untuk memasangnya, anda perlu menjalankan `~>equip <rod name>` untuk memulakan pengembaraan anda!"
+      "no_rod_equipped": "%1$sAnda masih belum memasang joran. Untuk memasangnya, anda perlu menjalankan `~>equip <nama joran>` untuk memulakan pengembaraan anda!"
     },
     "softban": {
       "no_permission": "%1$sTidak boleh melarang lembut: Anda tidak mempunyai kebenaran Ban Members.",
@@ -204,19 +204,19 @@
     "music_usage": {
       "1": "*Bagaimanakah menggunakan muzik di Mantaro?*",
       "2": "- Untuk **mengantri lagu dari youtube atau soundcloud** gunakan `~>play` Contohnya: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` *Ia akan bersambung secara automatik ke saluran suara anda berada dalam*",
-      "3": "- Untuk **mencari lagu di youtube** gunakan `~>play <search term>` (tanpa huruf utama < dan >) ​​Contohnya: `~>play see you again` (Anda perlu memilih nombor, hanya *taipkan nombor* setelah kotak pilihan muncul!)",
-      "4": "- Untuk **mencari lagu di soundcloud** gunakan `~>play soundcloud <search term>` Contohnya `~>play soundcloud hot milk`",
+      "3": "- Untuk **mencari lagu di youtube** gunakan `~>play <istilah carian>` (tanpa huruf utama < dan >) ​​Contohnya: `~>play see you again` (Anda perlu memilih nombor, hanya *taipkan nombor* setelah kotak pilihan muncul!)",
+      "4": "- Untuk **mencari lagu di soundcloud** gunakan `~>play soundcloud <istilah carian>` Contohnya `~>play soundcloud hot milk`",
       "5": "- Untuk **memeriksa antrian** anda hanya menaip `~>queue`",
       "6": "- Untuk **mengeluarkan trek dari antrian** anda hanya perlu menggunakan `~>removetrack` Ia diperlukan sebagai argumen posisi lagu di antrian (anda boleh periksa di antrian)",
       "7": "- Untuk **menghentikan atau melanjutkan** hanya gunakan `~>pause`",
       "8": "- Untuk **menghentikan muzik dan melepaskan ikatan pemain** gunakan `~>stop`",
       "9": "- Untuk **menggeser antrian** hanya gunakan `~>shuffle`",
       "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulang antrian** gunakan` ~>repeat queue`. Penggunaan `~>repeat` semasa ulangan masih hidup akan mematikannya\n",
-      "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <command name>` (tanpa <> dan ganti command name dengan nama arahan yang anda mahukan)",
+      "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <nama arahan>` (tanpa <> dan ganti command name dengan nama arahan yang anda mahukan)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
     "lang": {
-      "info": "%1$sAnda boleh menukar bahasa pelayan (jika berkenaan) menggunakan `~>opts language set <language code>`. Pilihan bahasa peribadi anda boleh diubah menggunakan `~>profile lang <language code>`.\n**Bahasa yang tersedia:** `%2$s`\nSekiranya bahasa anda tidak ada di sini dan anda ingin membantu, sila sertai pelayan sokongan dan sertai usaha terjemahan!"
+      "info": "%1$sAnda boleh menukar bahasa pelayan (jika berkenaan) menggunakan `~>opts language set <kod bahasa>`. Pilihan bahasa peribadi anda boleh diubah menggunakan `~>profile lang <kod bahasa>`.\n**Bahasa yang tersedia:** `%2$s`\nSekiranya bahasa anda tidak ada di sini dan anda ingin membantu, sila sertai pelayan sokongan dan sertai usaha terjemahan!"
     },
     "season": {
       "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan skor wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses barang bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
@@ -227,7 +227,7 @@
         "timeout": "%1$sTidak dapat menyambung ke %2$s: sambungan tamat. Cuba mengubah rantau pelayan dan jalankan arahan sekali lagi.",
         "unknown": "%1$sTidak dapat menyambung ke %2$s: ralat tidak diketahui."
       },
-      "not_working": "%1$sMuzik pada masa ini tidak berfungsi kerana Youtube menyekat lalu lintas dari kebanyakan bot besar. Bot Patreon kami masih berfungsi, jadi anda boleh mencubanya jika anda mahu dengan menyumbang $4/sebulan kepada Mantaro. Ini juga akan membantu kita mengarahkan usaha kita ke arah memperbaiki muzik secara keseluruhan.\nSila periksa <https://patreon.com/mantaro>\n\nKami mohon maaf atas kesulitan yang berlaku. Cuba gunakan carian soundcloud! (`~>play soundcloud <search term>)`",
+      "not_working": "%1$sMuzik pada masa ini tidak berfungsi kerana Youtube menyekat lalu lintas dari kebanyakan bot besar. Bot Patreon kami masih berfungsi, jadi anda boleh mencubanya jika anda mahu dengan menyumbang $4/sebulan kepada Mantaro. Ini juga akan membantu kita mengarahkan usaha kita ke arah memperbaiki muzik secara keseluruhan.\nSila periksa <https://patreon.com/mantaro>\n\nKami mohon maaf atas kesulitan yang berlaku. Cuba gunakan carian soundcloud! (`~>play soundcloud <istilah carian>)`",
       "no_song": "%1$sAnda perlu memberitahu saya lagu apa yang ingin anda mainkan! *(YouTube, Soundcloud, URL Twitch atau pertanyaan carian dibenarkan)*",
       "not_playing": "%1$sSaya tidak bermain apa-apa. Sekiranya anda yakin ini adalah kesilapan, laporkan ini di <https://support.mantaro.site>",
       "dj_only": "%1$sAnda perlu menjadi DJ untuk menggunakan arahan ini.",
@@ -257,7 +257,7 @@
         "togglers": "Mengulangi / Menghentikan",
         "playing_in": "Sedang bermain di",
         "footer": "Jumlah halaman: %1$d%2$s. Sedang berada di halaman %3$d",
-        "multiple_pages": " -> Gunakan ~>queue <page> untuk menukar halaman",
+        "multiple_pages": " -> Gunakan ~>queue <halaman> untuk menukar halaman",
         "page_react": " -> Gunakan reaksi untuk menukar halaman",
         "no_channel": "Tiada saluran :(",
         "songs": "lagu-lagu",
@@ -285,7 +285,7 @@
       "loader": {
         "over_limit": "%1$sAntrian yang telah anda tambah mempunyai lebih daripada %2$d buah lagu, jadi kami telah menambahkan lagu-lagu sehingga had ini dan mengabaikan yang lain.",
         "loaded_playlist": "%1$s**%2$d buah lagu** telah ditambah ke antrian playlist: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sCarian ini tidak mendapatkan hasil. Sekiranya ini muncul untuk *semua lagu* yang anda cuba mencari, cubalah gunakan `~>play soundcloud <search term>` sementaranya. Pautan langsung dari youtube juga semestinya berjalan.",
+        "no_matches": "%1$sCarian ini tidak mendapatkan hasil. Sekiranya ini muncul untuk *semua lagu* yang anda cuba mencari, cubalah gunakan `~>play soundcloud <istilah carian>` sementaranya. Pautan langsung dari youtube juga semestinya berjalan.",
         "error_loading": "%1$sRalat semasa mendapatkan muzik: %2$s. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
         "over_queue_limit": "%1$s**Tidak dapat mengantri `%2$s`: Melepasi had lagu antrian (%3$s)**",
         "over_32_minutes": "%1$s**Tidak dapat mengantri `%2$s`: Trek ini melebihi %3$s.** (Tempoh lagu yang dilaporkan ialah %4$s). Anda boleh mendapatkan had tempoh trek yang lebih panjang dan playback siaran langsung dengan Mantaro Premium! Baca lebih lanjut di <https://patreon.com/mantaro>.",
@@ -504,11 +504,11 @@
       "invalid_string": "%1$sTalian `{%2$s}` tidak sah, ataupun responsnya lebih panjang daripada 2000 aksara.",
       "invalid_json": "%1$sTalian `{%2$s}` bukan JSON yang sah.",
       "invalid_link": "%1$sTalian `%2$s` bukan pautan yang sah.",
-      "locked_command": "%1$sAnda tidak boleh mengedit atau memadamkan arahan ini kerana ia telah dikunci, sila jalankan `~>custom unlockcommand <command name>` untuk membukanya."
+      "locked_command": "%1$sAnda tidak boleh mengedit atau memadamkan arahan ini kerana ia telah dikunci, sila jalankan `~>custom unlockcommand <nama arahan>` untuk membukanya."
     },
     "mute": {
       "no_permissions": "%1$sAnda memerlukan kebenaran Ban Members atau Kick Members untuk membisukan.",
-      "no_mute_role": "%1$sPeranan bisu belum ditetapkan dalam pelayan ini, anda boleh menetapkannya dengan menjalankan `~>opts muterole set <role>`",
+      "no_mute_role": "%1$sPeranan bisu belum ditetapkan dalam pelayan ini, anda boleh menetapkannya dengan menjalankan `~>opts muterole set <peranan>`",
       "null_mute_role": "%1$sPeranan bisu yang ditetapkan dalam pelayan ini tidak lagi berwujud.",
       "no_users": "%1$sAnda harus memberi saya ahli untuk membisukan.",
       "no_manage_roles": "%1$sSaya tidak mempunyai kebenaran untuk menguruskan peranan dalam pelayan ini.",
@@ -773,8 +773,8 @@
         "no_buy_price": "%1$sAnda tidak boleh membeli item yang tidak dapat dibeli.",
         "item_limit_reached": "%1$sAnda tidak boleh membeli item itu lagi. Anda hanya boleh mempunyai maksimum 5000 bagi setiap item.",
         "success": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit.",
-        "success_breakable": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh memasangnya menggunakan `~>equip <item name>`",
-        "success_potion": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh menggunakan ramuan atau buff ini menggunakan `~>equip <item name>`",
+        "success_breakable": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh memasangnya menggunakan `~>equip <nama item>`",
+        "success_potion": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh menggunakan ramuan atau buff ini menggunakan `~>equip <nama item>`",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli item ini. Semasa: %2$,d kredit, Diperlukan: %3$,d kredit."
       },
       "header": "Pasar Mantaro",
@@ -844,7 +844,7 @@
         "category": "Kategori: ",
         "header": "Senarai peranan automatik",
         "no_autoroles": "Tiada peranan automatik yang ditetapkan di pelayan ini.",
-        "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <name of the role>`"
+        "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <nama peranan>`"
       },
       "deleted_role": "%1$sPeranan yang dikaitkan dengan peranan automatik ini telah dipadamkan",
       "already_assigned": "%1$sAnda sudah mempunyai peranan ini, bodoh!",
@@ -957,10 +957,10 @@
       "equip": {
         "no_content": "%1$sYou have to specify which item to equip!",
         "no_item": "%1$sThis item doesn't exist",
-        "not_owned": "%1$sYou don't own this item!",
-        "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
-        "not_suitable": "%1$sYou can't equip this.",
-        "not_equipped": "%1$sYou don't have this equipped.",
+        "not_owned": "%1$sAnda tidak memiliki item ini!",
+        "success": "%1$sAnda berjaya memasang %2$s *%3$s*, yang akan diingati lain kali anda menggunakan arahan mata wang yang sesuai.",
+        "not_suitable": "%1$sAnda tidak boleh memasang ini.",
+        "not_equipped": "%1$sAnda belum memasang ini lagi.",
         "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
       },
       "unequip": {
@@ -1027,7 +1027,7 @@
       },
       "brief_success": "**Lencana %1$s:**\n%2$s",
       "profile_notice": "Jika anda berpendapat bahawa anda sudah mendapat lencana yang baru tetapi ia tidak muncul di sini, sila gunakan `~>profile` lalu menjalankan arahan ini sekali lagi.\n",
-      "info_notice": "Gunakan `~>badge info <badge name>` untuk mendapatkan maklumat lanjut tentang lencana tersebut. [Anda juga boleh periksa halaman wiki] (https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n \n",
+      "info_notice": "Gunakan `~>badge info <nama lencana>` untuk mendapatkan maklumat lanjut tentang lencana tersebut. [Anda juga boleh periksa halaman wiki] (https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n \n",
       "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
       "no_badges": "Tiada lencana untuk dipaparkan",
       "header": "Lencana yang dicapai oleh %1$s",
@@ -1047,7 +1047,7 @@
       "success": "%1$sBerjaya menambah reputasi kepada **%2$s**"
     },
     "birthday": {
-      "reset": "%1$sCorrectly reset birthday date.",
+      "reset": "%1$sTarikh hari jadi ditetapkan semula dengan betul.",
       "no_guild_birthdays": "%1$sThings seems a bit empty here.\nRemember that cache refreshes every 23h and that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "no_guild_month_birthdays": "%1$sThere are no birthdays for this month (%2$s) here :(\n%3$sIf you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)\nRemember that now people have to run `~>birthday allowserver` to allow this server to announce their birthdays.",
       "cache_not_running": "%1$sThe Birthday cacher doesn't seem to be running (internal error) :(",
@@ -1067,26 +1067,26 @@
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
-      "success": "%1$sI choose `%2$s`"
+      "success": "%1$sSaya memilih `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
       "no_reminders": "%1$sYou have no reminders set.",
       "cancel": {
-        "success": "%1$sCancelled your reminder.",
-        "select": "Select the reminder you want to cancel."
+        "success": "%1$sPeringatan anda telah dibatalkan.",
+        "select": "Sila memilih peringatan yang ingin anda batalkan."
       },
-      "no_time": "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
-      "too_long": "That's too much time... (Maximum: 180 days)",
-      "success": "%1$sI'll remind you (%2$s#%3$s) of `%4$s` in %5$s",
-      "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
+      "no_time": "Anda tidak memberi saya argumen `-time`! (Contoh: `-time 1h`)",
+      "too_little_time": "%1$sTempoh itu terlalu pendek (Minimum: 1 minit, Contoh: `-time 1m`)",
+      "too_long": "Tempoh itu terlalu panjang... (Maksimum: 180 hari)",
+      "success": "%1$sSaya akan mengingatkan anda (%2$s#%3$s) tentang `%4$s` dalam %5$s",
+      "too_many_reminders": "%1$sAnda mempunyai terlalu banyak peringatan! Cuba membatalkan beberapa?"
     },
     "time": {
-      "invalid_timezone": "%1$sThat's not a valid timezone.",
-      "success": "%1$sIt's %2$s in the %3$s timezone.",
-      "error": "%1$sI found an error while looking for the timezone in the big book over there... or it could be invalid.",
-      "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
+      "invalid_timezone": "%1$sItu bukan zon masa yang sah.",
+      "success": "%1$sSekarang %2$s dalam zon masa %3$s.",
+      "error": "%1$sSaya terjumpa ralat semasa mencari zon masa tersebut dari buku besar di situ... atau mungkin ia tidak sah.",
+      "user_no_timezone": "%1$sPengguna yang anda sebut tidak menetapkan zon masa dalam profilnya."
     },
     "urban": {
       "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
@@ -1114,22 +1114,22 @@
       "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
       "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
       "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
-      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly, so it wasn't generated.",
-      "success": "%1$sSent the information via DM.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `~>claimkey guild` or `~>claimkey user`"
+      "cant_dm": "%1%sSaya tidak dapat menghantar kunci kepada anda akibat tetapan privasi anda, nampaknya, jadi ia tidak dapat dihasilkan.",
+      "success": "%1$sMaklumat telah dihantar melalui DM.",
+      "invalid_scope": "%1$sSkop kunci tidak sah! Yang sah ialah `user` dan `guild`. Tanpa apa-apa argumen, arahan ini menjadi `user` secara automatik. Contoh: `~>claimkey guild` atau `~>claimkey user`"
     },
     "vipstatus": {
       "user": {
-        "header": "Your Premium Status",
-        "header_other": "%1$s's Premium Status",
-        "not_premium": "%1$s%2$s is not premium :c",
-        "premium": "**Premium user! <3**",
+        "header": "Status Premium Anda",
+        "header_other": "Status Premium %1$s",
+        "not_premium": "%1$s%2$s bukan premium :c",
+        "premium": "**Pengguna premium! <3**",
         "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
       "guild": {
-        "header": "%1$s's Premium Status",
-        "not_premium": "%1$sThis guild isn't premium :c",
-        "premium": "**Premium guild! <3**",
+        "header": "Status Premium %1$s",
+        "not_premium": "%1$sPelayan ini tidak premium :c",
+        "premium": "**Pelayan premium! <3**",
         "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
       },
       "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
@@ -1142,8 +1142,8 @@
       "wrong_args": "%1$sWrong arguments...",
       "patreon": "Pledge",
       "linked": "Linked",
-      "linked_to": "Linked to",
-      "keys_claimed": "Extra Keys Claimed"
+      "linked_to": "Dihubungkan ke",
+      "keys_claimed": "Kunci Tambahan yang Dituntut"
     },
     "support": {
       "info": "%1$sIf you need support, head to the support server over to <https://support.mantaro.site> and ask your question in the #support channel!"
