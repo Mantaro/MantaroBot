@@ -49,7 +49,7 @@
       "pill_used": "%1$s Je hebt al een actieve waifu pil!",
       "crate": {
         "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`~>buy key`",
-        "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta commando`s.",
+        "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta commando's.",
         "success": "%1$s**Je hebt gewonnen:** %2$s%3$s",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
@@ -75,8 +75,8 @@
     "invalid_character": "%1$sDat is geen toegestaan karakter.",
     "invalid_action": "Je kunt dat niet doen, gekkie.",
     "interactive_running": "%1$sEr is al een interactieve bewerking (eigendom van jou) op dit kanaal.",
-    "buy_sell_paged_react": "Gebruik de reacties onder het bericht om door de pagina`s te bladeren.\n%1$s",
-    "buy_sell_paged_text": "Gebruik **&p >>** en **&p <<** om door de pagina`s te bladeren.\n%1$s",
+    "buy_sell_paged_react": "Gebruik de reacties onder het bericht om door de pagina's te bladeren.\n%1$s",
+    "buy_sell_paged_text": "Gebruik **&p >>** en **&p <<** om door de pagina's te bladeren.\n%1$s",
     "buy_sell_paged_reference": "**Verwijzing %1$s Koop %2$s Verkoop.**",
     "cancelled": "%1$sVerzoek geannuleerd.",
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
@@ -168,7 +168,7 @@
       "no_rod_equipped": "%1$sJe hebt geen hengel uitgerust. Om er een uit te rusten moet je `~>equip <rod name>` gebruiken om je avontuur te beginnen!"
     },
     "softban": {
-      "no_permission": "%1$sJe kunt niet soft-bannen: Je hebt de `Soft-ban gebruikers` toestemming nodig.",
+      "no_permission": "%1$sJe kunt niet soft-bannen: Je hebt de `Ban Members` toestemming nodig.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te soft-bannen in deze server.",
       "no_users": "%1$sJe moet me een gebruiker geven om te soft-bannen.",
       "hierarchy_conflict": "%1$sJe kunt geen soft-ban geven aan iemand met meer rechten dan jijzelf!  Leuk geprobeerd ",
@@ -191,7 +191,7 @@
       "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het bannen %2$s"
     },
     "kick": {
-      "no_permission": "%1$sJe kunt niet kicken: Je hebt de `Kick gebruikers` toestemming nodig..",
+      "no_permission": "%1$sJe kunt niet kicken: Je hebt de `Kick Memebers` toestemming nodig.",
       "no_users": "%1$sJe moet me een gebruiker geven om te kicken.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te kicken in deze server.",
       "hierarchy_conflict": "%1$sJe kunt geen gebruiker kicken met meer rechten dan jijzelf! Leuk geprobeerd",
@@ -285,9 +285,9 @@
       "loader": {
         "over_limit": "%1$sDe afspeellijst die je hebt toegevoegd bevat meer dan %2$d nummers, dus ik heb zoveel mogelijk nummers toegevoegd totdat deze limiet bereikt was. De rest is genegeerd.",
         "loaded_playlist": "%1$sIk heb **%2$d nummers** toegevoegd aan de afspeellijst van de afspeellijst: **%3$s** *(%4$s)*",
-        "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je '~>play soundcloud <zoekterm>' proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
+        "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je `~>play soundcloud <zoekterm>` proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
-        "over_queue_limit": "%1$sKan het nummer %2$s niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)",
+        "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
         "over_32_minutes": "%1$s**Kon `%2$s`: niet in de wachtrij plaatsen: track is langer dan %3$s.** (De lengte van het nummer is %4$s).\nU kunt een langere limiet voor de tracklengte krijgen en livestreams afspelen met Mantaro Premium! Kijk op <https://patreon.com/mantaro> voor meer info.",
         "fair_queue_limit_reached": "%1$s**Het nummer %2$d komt te vaak voor in de afspeellijst**",
         "loaded_song": "%1$sToegevoegd aan wachtrij -> **%2$s** **(%3$s)**",
@@ -1319,7 +1319,7 @@
       "error_random": "%1$sThere was an error while looking for a random image.",
       "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
-      "loli_content_disallow": "%1$sHelaas kan ik geen afbeeldingen weergeven die naar verluidt 'loli' of 'shota' lwed/NSFW-inhoud bevatten omdat Discord dit verbiedt. (Filter uitgevoerd: afbeelding bevat een loli of shota-tag en het is NSFW)",
+      "loli_content_disallow": "%1$sHelaas kan ik geen afbeeldingen weergeven die naar verluidt `loli` of `shota` lwed/NSFW-inhoud bevatten omdat Discord dit verbiedt. (Filter uitgevoerd: afbeelding bevat een loli of shota-tag en het is NSFW)",
       "null_list_notice": "%1$sOeps ... er is iets mis gegaan bij het zoeken ... (Als u een tag heeft gebruikt, bestaat de tag mogelijk niet)",
       "found_image": "Image Found",
       "description_image": "Beoordeling: **%1$s**, Afbeeldingbord: **%2$s**",
@@ -2038,11 +2038,11 @@
     },
     "usermessage_joinmessage": {
       "no_message": "%1$sJe moet opgeven welk bericht je wilt dat ik zeg wanneer iemand de server joined!",
-      "success": "%1$sHet bericht dat gebruikers te zien krijgen als ze de server joinen is nu ingesteld op: %2$s"
+      "success": "%1$sHet bericht dat gebruikers te zien krijgen als ze de server joinen is nu ingesteld op: `%2$s`"
     },
     "usermessage_leavemessage": {
       "no_message": "%1$sJe moet opgeven welk bericht je wilt dat ik zeg wanneer er iemand de server verlaat!",
-      "success": "%1$sHet bericht dat gebruikers te zien krijgen als ze de server verlaten is nu ingesteld op: %2$s"
+      "success": "%1$sHet bericht dat gebruikers te zien krijgen als ze de server verlaten is nu ingesteld op:`%2$s`"
     },
     "usermessage_joinmessage_reset": {
       "success": "%1$sReset server join message."
@@ -2081,8 +2081,8 @@
     },
     "admincustom": {
       "no_args": "%1$sJe moet aangeven of u wilt dat het true of false is (true om CC-creatie alleen aan Admins / Bot Commander te geven)",
-      "admin_only": "Het maken van eigen commando`s is nu alleen voor Admins beschikbaar.",
-      "everyone": "Het maken van eigen commando`s is nu voor iedereen beschikbaar.",
+      "admin_only": "Het maken van eigen commando's is nu alleen voor Admins beschikbaar.",
+      "everyone": "Het maken van eigen commando's is nu voor iedereen beschikbaar.",
       "not_bool": "%1$sGekkie, dat is geen boolean waarde (true of false)!"
     },
     "timedisplay_set": {
@@ -2124,7 +2124,7 @@
       "wrong_format": "%1$sVerkeerd tijd formaat. Je moet een time-out opgeven in bijvoorbeeld het volgende formaat: 1m20s",
       "too_long": "%1$sDe opgegeven tijd is te lang...",
       "negative_notice": "Je kunt iemand niet dempen voor negatieve tijden!",
-      "success": "%1$sDe mod time-out tijd is ingesteld op `%2$s` (%3$dms)"
+      "success": "%1$sDe mod time-out tijd is ingesteld op *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
       "success": "%1$sDe timeout is succesvol gereset."
@@ -2459,7 +2459,7 @@
       "floppy": "Bevat misschien een paar spelletjes.",
       "maths": "Ow, ik ben mijn wiskunde vergeten.",
       "racket": "Ik won het spel ping-pong met Discord met een paar milliseconden. Misschien.",
-      "loaded_die": "Gestolen van het '~>roll` commando.",
+      "loaded_die": "Gestolen van het `~>roll` commando.",
       "forgotten": "Nooit gedownload. Is waarschijnlijk auteursrechtelijk beschermd.",
       "pencil": "We hebben er hier heel veel van!",
       "moneybag": "Wat anders?",
@@ -2479,12 +2479,12 @@
       "rose": "De belichaming van je liefde. Ook is het een leuke decoratie.",
       "chocolate": "Lekker.",
       "cookie": "Heerlijk.",
-      "die_2": "Nog meer geladen. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.\"",
-      "booster": "Werd gebruikt om je een soort van boost te geven, maar nu is het kapot. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.\"",
-      "berserk": "Valuta Berserker? Iemand? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.'",
-      "companion": "Ach, zo'n schattige hond. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.'",
-      "special_ring": "Het is zo speciaal, het is niet eens een ring. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.'",
-      "enchancer": "Een kapotte versterker, ik vraag me af of het kan worden opgelost? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.\"",
+      "die_2": "Nog meer geladen. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
+      "booster": "Werd gebruikt om je een soort van boost te geven, maar nu is het kapot. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
+      "berserk": "Valuta Berserker? Iemand? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
+      "companion": "Ach, zo'n schattige hond. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
+      "special_ring": "Het is zo speciaal, het is niet eens een ring. `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
+      "enchancer": "Een kapotte versterker, ik vraag me af of het kan worden opgelost? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
       "prize": "Vrijwel dit, hè? `Overgebleven van Valuta versie 1. Niet meer verkrijgbaar.`",
       "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
       "prize_2": "In de eerste plaats, hoe heb je zoveel geld gekregen?",
