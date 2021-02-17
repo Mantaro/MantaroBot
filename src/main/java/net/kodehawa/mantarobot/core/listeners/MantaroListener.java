@@ -245,7 +245,9 @@ public class MantaroListener implements EventListener {
 
                     Metrics.PATRON_COUNTER.inc();
                     //Celebrate internally! \ o /
-                    LogUtils.log("Delivered premium key to " + user.getAsTag() + "(" + user.getId() + ")");
+                    LogUtils.log("Delivered premium key to %s(%s)".formatted(user.getAsTag(), user.getId()));
+                }, error -> {
+                    LogUtils.log("Failed to deliver premium key to %s(%s). Maybe they had DMs disabled?".formatted(user.getAsTag(), user.getId()));
                 }));
             });
         }
