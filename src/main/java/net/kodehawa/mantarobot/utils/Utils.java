@@ -63,10 +63,12 @@ public class Utils {
     private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
     private static final int TOTAL_BLOCKS = 10;
 
-    //The regex to filter discord invites.
+    // The regex to filter discord invites.
     public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" + "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
-
     public static final Pattern DISCORD_INVITE_2 = Pattern.compile("(?:https?://)?discord((?:app)?(?:\\.|\\s*?dot\\s*?)com\\s?/\\s*invite\\s*/\\s*|(?:\\.|\\s*dot\\s*)(?:gg|me|io)\\s*/\\s*)([a-zA-Z0-9\\-_]+)");
+
+    // Formatting regex
+    public static final Pattern FORMAT_PATTERN = Pattern.compile("%\\d[$][,]?[a-zA-Z]");
 
     private static final char BACKTICK = '`';
     private static final char LEFT_TO_RIGHT_ISOLATE = '\u2066';
@@ -195,12 +197,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Same than above, but using OkHttp. Way easier tbh.
-     *
-     * @param url The URL to get the object from.
-     * @return The object as a parsed string.
-     */
     public static String httpRequest(String url) {
         try {
             var req = new Request.Builder()
@@ -386,10 +382,6 @@ public class Utils {
                 .withLocale(getLocaleFromLanguage(locale)));
     }
 
-    public static String formatHours(OffsetDateTime date) {
-        return formatHours(date, "en_US");
-    }
-
     public static String formatDate(long epoch, String lang) {
         return epochToDate(epoch)
                 .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -427,12 +419,12 @@ public class Utils {
     @Nonnull
     @CheckReturnValue
     public static String fixInlineCodeblockDirection(@Nonnull String src) {
-        //if there's no right to left override, there's nothing to do
+        // if there's no right to left override, there's nothing to do
         if (!isRtl(src)) {
             return src;
         }
 
-        //no realloc unless we somehow have 5 codeblocks
+        // no realloc unless we somehow have 5 codeblocks
         var sb = new StringBuilder(src.length() + 8);
         var inside = false;
 
@@ -455,9 +447,16 @@ public class Utils {
     }
 
     private static boolean isRtl(String string) {
+        // Well why bother...
         if (string == null) {
             return false;
         }
+
+        // This is a workaround. Most translated strings will have %[number]$s or %[number]$,d, which happens to be LTR.
+        // This happened because using Notepad++ to translate RTL text works, but will insert LTR hints on latin letters, which fucked
+        // this detection hard as it returned LTR inmediatly on the first match (%). This will remove all Java formatting hints and
+        // trim the string to get a "clean" state. This will not interfere with the actual string and it's only used on detection.
+        string = FORMAT_PATTERN.matcher(string).replaceAll("").trim();
 
         for (int i = 0, n = string.length(); i < n; ++i) {
             var d = Character.getDirectionality(string.charAt(i));
@@ -535,18 +534,6 @@ public class Utils {
         var builder = new StringBuilder();
         for (var i = 0; i < TOTAL_BLOCKS; i++)
             builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
-
-        return builder.append(BLOCK_INACTIVE).toString();
-    }
-
-    public static String getProgressBar(long now, long total, long blocks) {
-        var activeBlocks = (int) ((float) now / total * blocks);
-        var builder = new StringBuilder();
-
-        for (var i = 0; i < blocks; i++)
-            builder.append(
-                    activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE
-            );
 
         return builder.append(BLOCK_INACTIVE).toString();
     }

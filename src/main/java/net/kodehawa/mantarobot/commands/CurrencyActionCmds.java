@@ -369,6 +369,15 @@ public class CurrencyActionCmds {
                 var nominalLevel = item.getLevel() - 3;
                 var extraMessage = "";
                 var chance = random.nextInt(100);
+                var buff = ItemHelper.handleEffect(
+                        PlayerEquipment.EquipmentType.BUFF,
+                        userData.getEquippedItems(),
+                        ItemReference.FISHING_BAIT, dbUser
+                );
+
+                if (buff) {
+                    chance += 6;
+                }
 
                 if (chance < 10) {
                     //Here your fish rod got dusty. Yes, on the sea.
@@ -395,19 +404,13 @@ public class CurrencyActionCmds {
                     playerInventory.process(new ItemStack(selected, 1));
                     ctx.sendLocalized("commands.fish.trash.success", EmoteReference.EYES, selected.getEmoji());
                 } else {
-                    //Here you actually caught fish, congrats.
+                    // Here you actually caught fish, congrats.
                     List<Item> fish = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.FISHING && !i.isHidden() && i.isSellable())
                             .collect(Collectors.toList());
+
                     RandomCollection<Item> fishItems = new RandomCollection<>();
-
                     var money = 0;
-                    var buff = ItemHelper.handleEffect(
-                            PlayerEquipment.EquipmentType.BUFF,
-                            userData.getEquippedItems(),
-                            ItemReference.FISHING_BAIT, dbUser
-                    );
-
                     var amount = Math.max(1, random.nextInt(item.getLevel()));
 
                     if (buff) {
@@ -420,7 +423,6 @@ public class CurrencyActionCmds {
                     }
 
                     fish.forEach((i1) -> fishItems.add(3, i1));
-
                     HousePet pet = null;
                     if (playerData.getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                         if (marriage != null && marriage.getData().getPet() != null) {

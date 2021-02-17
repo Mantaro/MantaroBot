@@ -749,7 +749,7 @@ public class ItemReference {
             ),
 
             CHOP_PREMIUM_CRATE = new Item(ItemType.CRATE, EmoteReference.PREMIUM_CHOP_CRATE.getDiscordNotation(),
-                    "Premium Chop Crate", "items.premium_chop_crate", "items.description.premium_chop_crate",
+                    "Premium Chop Crate", "items.chop_premium_crate", "items.description.chop_premium_crate",
                     0, false, false, true,
                     (ctx, season) ->
                             ItemHelper.openLootCrate(ctx, ItemType.LootboxType.CHOP_PREMIUM, 127, EmoteReference.PREMIUM_CHOP_CRATE, 5, season)
