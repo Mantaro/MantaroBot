@@ -20,6 +20,9 @@ import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
@@ -239,17 +242,26 @@ public class ItemHelper {
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
 
         PlayerData data = player.getData();
-        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM)
-                && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
+        if ((type == ItemType.LootboxType.MINE || type == ItemType.LootboxType.MINE_PREMIUM) && toAdd.contains(ItemReference.SPARKLE_PICKAXE)) {
             data.addBadgeIfAbsent(Badge.DESTINY_REACHES);
         }
 
-        if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) &&
-                toAdd.contains(ItemReference.SHARK)) {
+        if ((type == ItemType.LootboxType.FISH || type == ItemType.LootboxType.FISH_PREMIUM) && toAdd.contains(ItemReference.SHARK)) {
             data.addBadgeIfAbsent(Badge.TOO_BIG);
         }
 
-        boolean overflow = seasonal ? seasonPlayer.getInventory().merge(ita) : player.getInventory().merge(ita);
+        var toShow = ItemStack.reduce(ita);
+        // Tools must only drop one, if any.
+        toShow = toShow.stream().map(stack -> {
+            var item = stack.getItem();
+            if (stack.getAmount() > 1 && ((item instanceof Pickaxe) || (item instanceof FishRod) || (item instanceof Axe))) {
+                return new ItemStack(item, 1);
+            }
+
+            return stack;
+        }).collect(Collectors.toList());
+
+        boolean overflow = seasonal ? seasonPlayer.getInventory().merge(toShow) : player.getInventory().merge(toShow);
 
         if (seasonal) {
             seasonPlayer.getInventory().process(new ItemStack(ItemReference.LOOT_CRATE_KEY, -1));
@@ -268,7 +280,6 @@ public class ItemHelper {
 
         I18nContext lang = ctx.getLanguageContext();
 
-        var toShow = ItemStack.reduce(ita);
         var show = toShow.stream()
                 .map(itemStack -> "x%,d \u2009%s".formatted(itemStack.getAmount(), itemStack.getItem().toDisplayString()))
                 .collect(Collectors.joining(", "));
@@ -392,8 +403,8 @@ public class ItemHelper {
                             return random.nextFloat() <= 0.10f; // 10% for 5* +
                         }
 
-                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 4) || item.getValue() >= 300) {
-                            return random.nextFloat() <= 0.30f; // 30% for 4* +
+                        if ((item instanceof Tiered && ((Tiered) item).getTier() >= 3) || item.getValue() >= 300) {
+                            return random.nextFloat() <= 0.30f; // 30% for 3* +
                         }
                     }
 

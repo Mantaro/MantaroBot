@@ -610,7 +610,7 @@ public class ItemReference {
                     3, 1, 15000, true, false,
                     "450;1;175;1;175;1;55;1;50;50", 3000, 1500,
                     10, 365, 280, 7, "items.explanation.hellfire_pick",
-                    57, 48, 61, 49, 62, 74, 73, 101, 76
+                    18, 57, 48, 61, 49, 62, 74, 73, 101, 76
             ),
 
             AXE = new Axe(ItemType.CHOP_AXE, 0.19f, "\uD83E\uDE93",

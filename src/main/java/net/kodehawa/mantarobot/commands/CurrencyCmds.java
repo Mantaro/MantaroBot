@@ -444,37 +444,21 @@ public class CurrencyCmds {
                         i.getItemType() == ItemType.CRATE ||
                         i.getItemType() == ItemType.BUFF
                 ).collect(Collectors.toList());
-                var show = new StringBuilder();
-
-                show.append(EmoteReference.TALKING)
-                        .append(languageContext.get("commands.useitem.ls.desc"))
-                        .append("\n\n");
+                List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 for (var item : interactiveItems) {
-                    show.append(EmoteReference.BLUE_SMALL_MARKER)
-                            .append(item.getEmoji())
-                            .append(" **")
-                            .append(item.getName())
-                            .append("**\n")
-                            .append("**")
-                            .append(languageContext.get("general.description"))
-                            .append(": **\u2009*")
-                            .append(languageContext.get(item.getDesc()))
-                            .append("*")
-                            .append("\n");
+                    fields.add(new MessageEmbed.Field(EmoteReference.BLUE_SMALL_MARKER + item.getEmoji() + item.getName(),
+                            "**" + languageContext.get("general.description") + ":**\u2009*" + languageContext.get(item.getDesc()) + "*",
+                            false
+                    ));
                 }
 
-                ctx.send(new EmbedBuilder()
-                        .setAuthor(languageContext.get("commands.useitem.ls.header"), null,
-                                ctx.getAuthor().getEffectiveAvatarUrl()
-                        )
-                        .setDescription(show.toString())
+                var builder = new EmbedBuilder()
+                        .setAuthor(languageContext.get("commands.useitem.ls.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
                         .setColor(Color.PINK)
-                        .setFooter(languageContext.get("general.requested_by")
-                                        .formatted(ctx.getMember().getEffectiveName()),
-                                null
-                        ).build()
-                );
+                        .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()), null);
+
+                DiscordUtils.sendPaginatedEmbed(ctx, builder, DiscordUtils.divideFields(5, fields), languageContext.get("commands.useitem.ls.desc"));
             }
         });
 
