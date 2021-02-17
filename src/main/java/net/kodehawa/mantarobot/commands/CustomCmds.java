@@ -228,10 +228,11 @@ public class CustomCmds {
 
                 String description = languageContext.get("general.dust");
                 if (!commands.isEmpty()) {
-                    description = commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "));
+                    description = languageContext.get("commands.custom.ls.description") + "\n";
+                    description += commands.stream().map(cc -> "*`" + cc + "`*").collect(Collectors.joining(", "));
                 }
 
-                var cmds = DiscordUtils.divideString(800, ',', description);
+                var cmds = DiscordUtils.divideString(900, ',', description);
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(languageContext.get("commands.custom.ls.header"), null, ctx.getGuild().getIconUrl())
                         .setColor(ctx.getMember().getColor())
@@ -241,12 +242,12 @@ public class CustomCmds {
                         );
 
                 if (ctx.hasReactionPerms()) {
-                    DiscordUtils.list(ctx.getEvent(), 120, false, 800,
-                            (p, total) -> builder.setFooter(String.format("Total Pages: %s | Current: %s", total, p)), cmds
+                    DiscordUtils.list(ctx.getEvent(), 120, false, 900,
+                            (p, total) -> builder.setFooter(String.format("Commands: %,d | Total Pages: %s | Current: %s", commands.size(), total, p)), cmds
                     );
                 } else {
-                    DiscordUtils.listText(ctx.getEvent(), 120, false, 800,
-                            (p, total) -> builder.setFooter(String.format("Total Pages: %s | Current: %s", total, p)), cmds
+                    DiscordUtils.listText(ctx.getEvent(), 120, false, 900,
+                            (p, total) -> builder.setFooter(String.format("Commands: %,d | Total Pages: %s | Current: %s", commands.size(),  total, p)), cmds
                     );
                 }
             }

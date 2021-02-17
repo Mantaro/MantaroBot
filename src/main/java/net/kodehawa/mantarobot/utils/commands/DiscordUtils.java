@@ -591,22 +591,25 @@ public class DiscordUtils {
     public static void sendPaginatedEmbed(final Context ctx, EmbedBuilder builder,
                                           List<List<MessageEmbed.Field>> splitFields, final String str) {
         final var languageContext = ctx.getLanguageContext();
-        final var show = "\n" + (str.isEmpty() ? "" : EmoteReference.TALKING + str);
+        final var show =  str.isEmpty() ? "" : EmoteReference.TALKING + str + "\n";
         final var newLine = builder.getDescriptionBuilder().length() > 0 ? "\n" : "";
 
         if (ctx.hasReactionPerms()) {
-            builder.appendDescription(
-                    newLine + String.format(languageContext.get("general.buy_sell_paged_react"), show + "\n" +
-                            EmoteReference.STOPWATCH + languageContext.get("general.reaction_timeout").formatted(120))
-            );
+            if (splitFields.size() > 1) {
+                builder.appendDescription(
+                        newLine + String.format(languageContext.get("general.buy_sell_paged_react"), show + "\n" +
+                                EmoteReference.STOPWATCH + languageContext.get("general.reaction_timeout").formatted(120))
+                );
+            }
 
             list(ctx.getEvent(), 120, false, builder, splitFields);
         } else {
-            builder.appendDescription(
-                    newLine + String.format(languageContext.get("general.buy_sell_paged_text"), show + "\n" +
-                            EmoteReference.STOPWATCH + languageContext.get("general.timeout").formatted(120)
-                    )
-            );
+            if (splitFields.size() > 1) {
+                builder.appendDescription(
+                        newLine + String.format(languageContext.get("general.buy_sell_paged_text"), show + "\n" +
+                                EmoteReference.STOPWATCH + languageContext.get("general.timeout").formatted(120))
+                );
+            }
 
             listText(ctx.getEvent(), 120, false, builder, splitFields);
         }
