@@ -311,20 +311,23 @@ public class PremiumCmds {
                                     var patreonAmount = Double.parseDouble(patreonInformation.getRight());
 
                                     if ((patreonAmount / 2) - amountClaimed < 0) {
+                                        var amount = amountClaimed - (patreonAmount / 2);
+                                        var keys = data.getKeysClaimed()
+                                                .values()
+                                                .stream()
+                                                .limit((long) amount)
+                                                .map(s -> "key:" + s)
+                                                .collect(Collectors.joining("\n"));
+
                                         LogUtils.log(
-                                                    """
-                                                    %s has more keys claimed than given keys, dumping keys:
-                                                    %s
-                                                    Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""".formatted(
-                                                        owner.getId(),
-                                                        Utils.paste(data.getKeysClaimed()
-                                                                .entrySet()
-                                                                .stream()
-                                                                .map(entry -> "to:" + entry.getKey() + ", key:" + entry.getValue())
-                                                                .collect(Collectors.joining("\n"))),
-                                                        patreonAmount, amountClaimed, (patreonAmount / 2)
-                                                    )
-                                                );
+                                            """
+                                            %s has more keys claimed than given keys, dumping extra keys:
+                                            %s
+                                            Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""".formatted(
+                                                Utils.paste(keys, true), owner.getId(),
+                                                patreonAmount, amountClaimed, (patreonAmount / 2)
+                                            )
+                                        );
                                     }
                                 }
                             } catch (Exception ignored) { }

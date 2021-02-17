@@ -183,13 +183,13 @@ public class OptsCmd {
 
                     final var guild = ctx.getGuild();
                     var opts = StringUtils.parseArguments(args);
-                    if (opts.containsKey("print")) {
+                    if (opts.containsKey("print") || opts.containsKey("paste")) {
                         var builder = new StringBuilder();
                         for (var entry : fieldMap.entrySet()) {
                             builder.append("* ").append(entry.getKey()).append(": ").append(entry.getValue().getRight()).append("\n");
                         }
 
-                        ctx.send("Send this: " + Utils.paste(builder.toString()));
+                        ctx.sendFormat("Send this: %s", Utils.paste(builder.toString()));
                         return;
                     }
 

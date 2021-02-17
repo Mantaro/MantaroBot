@@ -29,6 +29,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.apache.commons.lang3.LocaleUtils;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,7 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
@@ -179,21 +177,43 @@ public class Utils {
     }
 
     public static String paste(String toSend) {
+        return paste(toSend, false);
+    }
+
+    public static String paste(String toSend, boolean expireLater) {
+        var expire = ZonedDateTime.now(ZoneOffset.UTC).plusHours(expireLater ? 48 : 1).format(DateTimeFormatter.ISO_INSTANT);
+        var jsonMessage = new JSONObject()
+                .put("name", "pasted_file_mantaro.txt")
+                .put("content", new JSONObject().put("format", "text").put("value", toSend));
+
+        var message = new JSONObject()
+                .put("name", "Mantaro Pasted Data")
+                .put("visibility", "unlisted")
+                .put("expires", expire)
+                .put("files", new JSONArray().put(jsonMessage));
+
+        var post = RequestBody.create(MediaType.parse("application/json"), message.toString());
+        var toPost = new Request.Builder()
+                .url("https://api.paste.gg/v1/pastes")
+                .header("User-Agent", MantaroInfo.USER_AGENT)
+                .header("Content-Type", "application/json")
+                .post(post)
+                .build();
+
         try {
-            var post = RequestBody.create(MediaType.parse("text/plain"), toSend);
-
-            var toPost = new Request.Builder()
-                    .url("https://hastebin.com/documents")
-                    .header("User-Agent", MantaroInfo.USER_AGENT)
-                    .header("Content-Type", "text/plain")
-                    .post(post)
-                    .build();
-
             try (var r = httpClient.newCall(toPost).execute()) {
-                return "https://hastebin.com/" + new JSONObject(r.body().string()).getString("key");
+                var body = r.body();
+                if (r.body() == null) {
+                    throw new IllegalArgumentException();
+                }
+
+                var string = r.body().string();
+                return "https://paste.gg/p/anonymous/%s"
+                        .formatted(new JSONObject(string).getJSONObject("result").getString("id"));
             }
         } catch (Exception e) {
-            return "cannot post data to hasteb.in";
+            log.error("Cannot post data to paste.gg", e);
+            return "cannot post data to paste.gg";
         }
     }
 
