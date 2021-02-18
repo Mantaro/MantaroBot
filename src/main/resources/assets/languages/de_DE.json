@@ -2007,7 +2007,7 @@
       "no_role_found": "%1$sIch konnte keine Rolle mit dem Namen finden. Sollte der Rollenname Leerzeichen enthalten, versuche Anführungszeichen drum rum zu setzen.",
       "hierarchy_conflict": "%1$sDiese Rolle ist höher als deine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
       "self_hierarchy_conflict": "%1$sDiese Rolle ist höher als meine höchste Rolle, daher kannst du sie nicht als Autorolle zuweisen!",
-      "success": "%1$sTDie Server-Autorolle ist jetzt auf: **%2$s** (Position: %3$d) gesetzt"
+      "success": "%1$sDie Server-Autorolle ist jetzt auf: **%2$s** (Position: %3$d) gesetzt"
     },
     "autorole_unbind": {
       "success": "%1$sDie Autorolle für diesen Server wurde entfernt."
