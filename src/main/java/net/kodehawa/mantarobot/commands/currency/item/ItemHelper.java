@@ -404,7 +404,7 @@ public class ItemHelper {
                         }
 
                         if ((item instanceof Tiered && ((Tiered) item).getTier() >= 3) || item.getValue() >= 300) {
-                            return random.nextFloat() <= 0.30f; // 30% for 3* +
+                            return random.nextFloat() <= 0.40f; // 40% for 3* +
                         }
                     }
 

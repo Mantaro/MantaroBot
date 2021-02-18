@@ -563,6 +563,7 @@ public class PetCmds {
                         if (petChoice == PetChoice.PERSONAL && !playerInventoryConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
                             playerConfirmed.setLocked(false);
                             playerConfirmed.saveUpdating();
+
                             ctx.sendLocalized("commands.pet.buy.no_egg", EmoteReference.ERROR);
                             return Operation.COMPLETED;
                         }
@@ -571,6 +572,7 @@ public class PetCmds {
                         if (!playerInventoryConfirmed.containsItem(ItemReference.PET_HOUSE)) {
                             playerConfirmed.setLocked(false);
                             playerConfirmed.saveUpdating();
+
                             ctx.sendLocalized("commands.pet.buy.no_house", EmoteReference.ERROR);
                             return Operation.COMPLETED;
                         }
@@ -578,29 +580,33 @@ public class PetCmds {
                         if (playerConfirmed.getCurrentMoney() < toBuy.getCost()) {
                             playerConfirmed.setLocked(false);
                             playerConfirmed.saveUpdating();
+
                             ctx.sendLocalized("commands.pet.buy.not_enough_money", EmoteReference.ERROR, toBuy.getCost());
                             return Operation.COMPLETED;
                         }
 
                         var dbUserConfirmed = ctx.getDBUser();
-                        var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
-                        var marriageDataConfirmed = marriageConfirmed.getData();
-                        if (!marriageDataConfirmed.hasCar() || !marriageDataConfirmed.hasHouse()) {
-                            playerConfirmed.setLocked(false);
-                            playerConfirmed.saveUpdating();
-                            ctx.sendLocalized("commands.pet.buy.no_requirements",
-                                    EmoteReference.ERROR, marriageDataConfirmed.hasHouse(), marriageDataConfirmed.hasCar()
-                            );
-                            return Operation.COMPLETED;
+                        if (petChoice == PetChoice.MARRIAGE) {
+                            var marriageConfirmed = dbUserConfirmed.getData().getMarriage();
+                            var marriageDataConfirmed = marriageConfirmed.getData();
+                            if (!marriageDataConfirmed.hasCar() || !marriageDataConfirmed.hasHouse()) {
+                                playerConfirmed.setLocked(false);
+                                playerConfirmed.saveUpdating();
+
+                                ctx.sendLocalized("commands.pet.buy.no_requirements",
+                                        EmoteReference.ERROR, marriageDataConfirmed.hasHouse(), marriageDataConfirmed.hasCar()
+                                );
+                                return Operation.COMPLETED;
+                            }
+
+                            marriageDataConfirmed.setPet(new HousePet(name, toBuy));
+                            marriageConfirmed.save();
                         }
 
                         playerConfirmed.removeMoney(toBuy.getCost());
                         playerInventoryConfirmed.process(new ItemStack(ItemReference.PET_HOUSE, -1));
 
-                        if (petChoiceConfirmed == PetChoice.MARRIAGE) {
-                            marriageConfirmed.getData().setPet(new HousePet(name, toBuy));
-                            marriageConfirmed.save();
-                        } else {
+                        if (petChoiceConfirmed == PetChoice.PERSONAL) {
                             playerInventoryConfirmed.process(new ItemStack(ItemReference.INCUBATOR_EGG, -1));
                             playerDataConfirmed.setPet(new HousePet(name, toBuy));
                         }
@@ -613,6 +619,7 @@ public class PetCmds {
 
                         playerConfirmed.setLocked(false);
                         playerConfirmed.save();
+
                         if (petChoice == PetChoice.MARRIAGE) {
                             ctx.sendLocalized("commands.pet.buy.success",
                                     EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name,
