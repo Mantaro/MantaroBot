@@ -1051,15 +1051,15 @@
       "no_guild_birthdays": "%1$sNampaknya kosong di sini.\nIngat bahawa cache akan disegarkan semula setiap 23 jam dan kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
       "no_guild_month_birthdays": "%1$sTiada hari jadi bagi bulan ini (%2$s) di sini :(\n%3$sSekiranya anda baru sahaja menubuhkan pengumuman hari jadi, sila tunggu sekejap sebelum gunakan arahan ini semula. (Cache disegarkan semula setiap 23 jam)\nIngat, kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
       "cache_not_running": "%1$sNampaknya cache hari jadi tidak berjalan (ralat dalaman) :(",
-      "error": "%1$sSomething went wrong while getting birthdays (internal error) :(",
-      "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
+      "error": "%1$sTerdapat ralat semasa mengumpul hari jadi (ralat dalaman) :(",
+      "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
-      "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `dd-mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
+      "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "error_date": "%1$s%2$s bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`",
+      "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
-      "new_format": "%1$sFormat tarikh yang baru hanyalah `dd-mm` (hari-bulan, misalnya 20-10 untuk 20 Oktober). Tidak perlu masukkan tahun anda lagi, jadi anda boleh menyingkirkan bahagian tersebut.",
+      "new_format": "%1$sFormat tarikh yang baru hanyalah `hh-bb` (hari-bulan, misalnya 20-10 untuk 20 Oktober). Tidak perlu masukkan tahun anda lagi, jadi anda boleh menyingkirkan bahagian tersebut.",
       "allowed_server": "%1$sPelayan semasa telah dibenarkan untuk mengumumkan hari jadi anda. Untuk melarangnya pada masa akan datang, hanya jalankan `~>birthday denyserver` di pelayan ini.",
       "denied": "%1$sPelayan semasa telah dilarang mengumumkan hari jadi anda. Untuk membenarkannya pada masa akan datang, hanya jalankan `~>birthday allowserver` di pelayan ini.",
       "already_denied": "%1$sPelayan ini sudah dilarang mengumumkan hari jadi anda. Sekiranya anda ingin membenarkannya, jalankan `~>birthday allowserver` sebagai gantinya. Ini adalah tetapan asal.",
@@ -1089,7 +1089,7 @@
       "user_no_timezone": "%1$sPengguna yang anda sebut tidak menetapkan zon masa dalam profilnya."
     },
     "urban": {
-      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
+      "no_args": "%1$sAnda perlu memberitahu saya istilah yang ingin anda mencari dari Urban Dictionary.",
       "header": "Definisi Urban Dictionary untuk %1$s",
       "too_many_args": "%1$sTerlalu banyak argumen! Format halaman ialah `nama->nombor halaman`",
       "main_def": "Definisi utama.",
@@ -1103,9 +1103,9 @@
         "no_key_found": "%1$sAnda tidak mempunyai kunci yang telah diaktifkan... Sekiranya anda merupakan pengguna premium dari sistem lama anda sepatutnya masih memiliki ganjaran anda!"
       },
       "no_key_provided": "%1$sSaya tidak dapat aktifkan kunci premium jika anda tidak memberikannya kepada saya",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key",
-      "guild_already_premium": "%1$sThis server already has a premium subscription",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "invalid_key": "%1$sKunci yang anda perolehi tidak sah ataupun sudah diaktifkan",
+      "guild_already_premium": "%1$sPelayan ini sudah mempunyai langganan premium",
+      "guild_successful": "%1$sKini pelayan ini menjadi **Premium** :heart: (Untuk: %2$d hari)\nSekiranya anda berikrar di Patreon, kunci ini terikat kepada ikrar anda.",
       "user_already_premium": "%1$sAnda sudah menjadi premium :heart:",
       "user_successful": "%1$sKini anda menjadi **Premium** :heart:\nSekiranya anda berikrar di Patreon, kunci ini terikat kepada ikrar anda.",
       "mp": "Mantaro Patreon tidak menggunakan kunci, sebaliknya, ia dijamin bahawa ia premium melalui hakikatnya bahawa bot tersebut berfungsi."
@@ -1113,7 +1113,7 @@
     "claimkey": {
       "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
       "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
-      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
+      "successful": "%1$sBerjaya menuntut kunci `%2$s`. Anda telah menuntut sebanyak %3$s kunci dan mempunyai %4$s kunci lagi untuk dituntut. Kunci ini berjenis %5$s. (Sekiranya ini merupakan kunci pelayan, gunakannya di pelayan yang mana anda inginkannya)",
       "cant_dm": "%1%sSaya tidak dapat menghantar kunci kepada anda akibat tetapan privasi anda, nampaknya, jadi ia tidak dapat dihasilkan.",
       "success": "%1$sMaklumat telah dihantar melalui DM.",
       "invalid_scope": "%1$sSkop kunci tidak sah! Yang sah ialah `user` dan `guild`. Tanpa apa-apa argumen, arahan ini menjadi `user` secara automatik. Contoh: `~>claimkey guild` atau `~>claimkey user`"
@@ -1124,13 +1124,13 @@
         "header_other": "Status Premium %1$s",
         "not_premium": "%1$s%2$s bukan premium :c",
         "premium": "**Pengguna premium! <3**",
-        "old_system": "**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "old_system": "**Pengguna premium menggunakan sistem lama! Jangan risau, anda masih premium dan faedah-faedah anda masih berfungsi!**"
       },
       "guild": {
         "header": "Status Premium %1$s",
         "not_premium": "%1$sPelayan ini tidak premium :c",
         "premium": "**Pelayan premium! <3**",
-        "old_system": "**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**"
+        "old_system": "**Pelayan premium menggunakan sistem lama! Jangan risau, anda masih premium dan faedah-faedah anda masih berfungsi!**"
       },
       "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
       "valid_for_old": "Sah untuk",
@@ -1149,7 +1149,7 @@
       "info": "%1$sSekiranya anda memerlukan bantuan, sila hubungi pelayan sokongan di <https://support.mantaro.site> dan tanya soalan anda dalam saluran #support!"
     },
     "action": {
-      "no_mention": "%1$sYou need to mention a user.",
+      "no_mention": "%1$sAnda perlu menyebut seorang pengguna.",
       "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
       "actions_disabled": "%1$sThis user has disabled actions for themselves.",
       "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
@@ -1200,19 +1200,19 @@
       "hug": "%1$s awak telah dipeluk oleh %2$s",
       "kiss": "%1$s awak telah dicium oleh %2$s",
       "poke": "%1$s you have been poked by %2$s :eyes:",
-      "slap": "%1$s you have been slapped by %2$s!",
-      "bite": "%1$s you have been bitten by %2$s :eyes:",
+      "slap": "%1$s awak telah ditampar oleh %2$s!",
+      "bite": "%1$s awak telah digigit oleh %2$s :eyes:",
       "tickle": "%1$s you have been tickled by %2$s",
-      "lick": "%1$s you have been licked by %2$s",
-      "highfive": "%1$s highfives %2$s :heart:",
-      "pout": "%1$s pouts at %2$s *hmph*",
+      "lick": "%1$s awak telah dijilat oleh %2$s",
+      "highfive": "%1$s tinggi lima dengan %2$s :heart:",
+      "pout": "%1$s cemberut kepada %2$s *hmph*",
       "teehee": "%1$s is teasing %2$s",
       "smile": "%1$s tersenyum kepada %2$s :heart:",
       "stare": "%1$s sedang merenung %2$s",
       "holdhands": "%1$s memegang tangan %2$s",
       "cuddle": "%1$s you have been cuddled by %2$s",
       "nuzzle": "%1$s is nuzzling %2$s",
-      "bloodsuck": "%1$s is sucking the blood of %2$s!",
+      "bloodsuck": "%1$s sedang menghisap darah %2$s!",
       "blush": "%1$s is blushing at %2$s",
       "nom": "Sedap.",
       "facedesk": "*facedesks*",
@@ -1221,8 +1221,8 @@
     },
     "game": {
       "won_games": "%1$s%2$s telah memenangi **%3$s permainan**",
-      "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
+      "nothing_specified": "%1$sAnda tidak menyatakan apa-apa untuk dimainkan...",
+      "not_enough_games": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. Misalnya, `~>game lobby pokemon,trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it.",
@@ -1239,38 +1239,38 @@
       },
       "number": {
         "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
-        "nan": "%1$sThat's not even a number...",
-        "ended_game": "%1$sEnded game. The number was: %2$d",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
-        "hint": "Hint: The number is %1$s than your input number.",
+        "nan": "%1$sItu bukan nombor pun...",
+        "ended_game": "%1$sPermainan ditamatkan. Nombor tersebut ialah: %2$d",
+        "all_attempts_used": "%1$sSemua cubaan telah digunakan, permainan sedang ditamatkan. Nombor tersebut ialah: %2$d",
+        "hint": "Petunjuk: Nombor tersebut %1$s daripada nombor input anda.",
         "higher": "higher",
         "lower": "lower"
       },
       "pokemon": {
-        "header": "Who's that pokemon?",
-        "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
+        "header": "Siapakah pokemon itu?",
+        "footer": "Anda diberi 5 cubaan dan 75 saat. (Taip end untuk menamatkan permainan ini)"
       },
       "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
       "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
-      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
+      "lobby_started": "%1$sLobi yang baru telah bermula! **Permainan: %2$s**\nAnda boleh menaip `endlobby` untuk menamatkan semua permainan dan menghabiskan lobi ini.",
       "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
       "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
       "lobby": {
-        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
-        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
+        "ended_game": "%1$sPermainan ditamatkan. Jawapan diterima ialah: %2$s",
+        "ended_lobby": "%1$sLobi berjaya ditamatkan! Terima kasih kerana bermain.",
         "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
         "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
-        "won_game": "%1$s**%2$s** just won $%3$,d credits by answering correctly!"
+        "won_game": "%1$s**%2$s** telah memenangi $%3$,d kredit kerana jawapannya tepat!"
       },
-      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
-      "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
-      "error": "%1$sI found an error while setting up the game... (internal error)",
+      "lobby_time_out": "%1$sMasa telah tamat! Jawapan yang betul ialah: %2$s",
+      "end_footer": "Anda diberi 5 cubaan dan 60 saat. (Taip end untuk menamatkan permainan ini)",
+      "trivia_end_footer": "Anda diberi %1$s cubaan dan 60 saat. (Taip end untuk menamatkan permainan ini)",
+      "error": "%1$sSaya menjumpai ralat semasa menyediakan permainan (ralat dalaman)",
       "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
       "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
-      "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)",
+      "character_start": "Teka watak tersebut",
+      "too_many_games": "%1$sAnda boleh memulakan maksimum 4 permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: 8)",
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
