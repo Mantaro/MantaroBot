@@ -1446,7 +1446,7 @@
         "confirm": "%1$sVocê tem certeza de que quer remover esse pet? A pessoa com quem você é casado irá receber %2$,d créditos, e você receberá %2$,d créditos também.\nDigite `yes` para confirmar ou `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tamagotchi ou algo semelhante.",
         "confirm_personal": "%1$sVocê tem certeza de que quer remover esse pet? Você irá receber %2$,d créditos.\nDigite `yes` para confirmar e `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tamagotchi ou algo semelhante.",
         "success": "%1$sPet removido com sucesso. Cada pessoa neste casamento recebeu %2$s créditos como um reembolso.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
+        "success_personal": "%1$sPet removido com sucesso. Você recebeu %2$s créditos como um reembolso."
       },
       "info": {
         "not_found": "%1$sNão consegui encontrar o tipo de pet que você está procurando. Use `~>pet list` para uma lista de tipos de pet.",
@@ -1455,7 +1455,7 @@
         "cost": "Custo do Pet",
         "abilities": "Habilidades",
         "food": "Comestíveis",
-        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
+        "coin_buildup": "Acúmulo de Créditos (Nvl. 1 / 100)",
         "item_buildup": "Acúmulo de Itens (Nvl. 1 / 100)"
       }
     },
@@ -1608,7 +1608,7 @@
       "malformed_result": "%1$sEu peguei um resultado de API errado para essa pesquisa pesquisa especificada. Talvez tente outro termo de pesquisa?",
       "error": "%1$s**Eu juro que não perdi seu anime favorito!**\nEu encontrei ``%2$s`` ao tentar processar este comando. (Erro interno)",
       "timeout": "%1$sNós tentamos achar este anime, mas o site Kitsu demorou muito para responder (tempo da solicitação esgotado). Que tal tentar novamente daqui a pouco?",
-      "information_header": "Informação do Anim %1$s",
+      "information_header": "Informação do Anime %1$s",
       "information_notice": "Information fornecida por AniList. Clique no título para ir para a página do AniList sobre esse anime.",
       "airing": "Aeração",
       "release_date": "Data de Lançamento",
@@ -1716,7 +1716,7 @@
       "gem": {
         "overflow": "Huh, você encontrou *%1$s* enquanto minerava, mas você já tinha muito dessa gema, então eu vendi para você.",
         "success": "Huh! Você teve sorte e encontrou *%1$s* enquanto minerava, cheque seu inventário.",
-        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
+        "success_extra": "Hurray! Você ganhou uma sorte extra e achou *%1$s* e *%2$s* enquanto minerava, cheque seu inventário."
       },
       "sparkle": {
         "overflow": "Você encontrou uma gema cintilante, mas parece que você já tinha muito dela, então vendemos para você.",
@@ -1742,8 +1742,8 @@
         "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de machado."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Você encontrou um **%1$s** enquanto cortava árvores, mas você já tinha muitos, então jogamos de volta no oceano...",
+        "success": "Você encontrou um %1$s **%2$s** enquanto cortava árvores e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do baú`. Você precisa de uma chave do baú!"
       },
       "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
       "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
@@ -1800,16 +1800,16 @@
       "no_content": "%1$sVocê não especificou nenhum item para procurar! Você pode pesquisar com emoji ou o nome.",
       "no_item": "%1$sNão há itens que correspondam à sua pesquisa.",
       "embed": {
-        "header": "Item Information for %1$s",
-        "type": "Type",
-        "usefulness": "Usefulness",
-        "attributes": "Attributes",
+        "header": "Informação do Item %1$s",
+        "type": "Tipo",
+        "usefulness": "Utilidade",
+        "attributes": "Atributos",
         "tier": "Tier",
-        "durability": "Durability",
-        "desc": "Description"
+        "durability": "Durabilidade",
+        "desc": "Descrição"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
+      "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s",
+      "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBots não tem level.",
