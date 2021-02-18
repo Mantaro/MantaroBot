@@ -914,8 +914,8 @@
         "success": "%1$sBerjaya menukar cara susunan inventori anda, susunan kini ialah: **%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$sTindakan dibenarkan dilakukan kepada anda.",
+        "disabled": "%1$sTindakan dilarang dilakukan kepada anda."
       },
       "pet": {
         "header": "Haiwan Peliharaan Peribadi",
@@ -952,7 +952,7 @@
         "never": "Tidak pernah"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sKini, status sembunyi tag adalah: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sAnda perlu menyatakan item yang ingin dipasang!",
@@ -967,7 +967,7 @@
         "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
         "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod`",
         "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
+        "confirm": "%1$sAdakah anda pasti akan **menyingkirkan** %2$s %3$s anda? Taip `yes` untuk sahkan, `no` untuk membatalkan.",
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
         "broken_equipment_recover": "\nPeralatan anda pernah digunakan, tetapi anda mendapat %1$s kembali, anda boleh membaikinya sekiranya anda memerlukannya nanti!",
@@ -989,7 +989,7 @@
         "already_locked": "%1$sAnda sudah dikunci tuntutan. Gunakan `~>profile claimlock remove` untuk memadamkannya."
       },
       "autoequip": {
-        "disable": "%1$sSuccesfully disabled auto-equip.",
+        "disable": "%1$sPasangan auto telah dipadamkan.",
         "success": "%1$sPasangan auto telah diaktifkan."
       },
       "badge_header": "%1$s Lencana Paparan",
@@ -1070,7 +1070,7 @@
       "success": "%1$sSaya memilih `%2$s`"
     },
     "remindme": {
-      "nothing_specified": "%1$sWhat could I remind you of if you don't give me what to remind you? Oh! Lemme remind you of setting a reminder!",
+      "nothing_specified": "%1$sApakah yang dapat saya mengingatkan anda jika anda tidak memberi saya perkara untuk diingatkan? Oh! Saya akan mengingatkan anda agar menetapkan peringatan!",
       "no_reminders": "%1$sAnda tidak menetapkan sebarang peringatan lagi.",
       "cancel": {
         "success": "%1$sPeringatan anda telah dibatalkan.",
@@ -1111,7 +1111,7 @@
       "mp": "Mantaro Patreon tidak menggunakan kunci, sebaliknya, ia dijamin bahawa ia premium melalui hakikatnya bahawa bot tersebut berfungsi."
     },
     "claimkey": {
-      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
+      "not_patron": "%1$sAnda bukan penaung, jadi anda tidak boleh melakukan ini. Sekiranya anda ingin menyokong Mantaro dan mendapatkan faedah bersamanya, periksalah <https://www.patreon.com/mantaro>\nSekiranya anda sedang berikrar dan anda melihat mesej ini, ia bermaksud anda tidak mempunyai kunci yang aktif. Sila memastikan bahawa anda telah mengaktifkan kunci yang sepatutnya telah dihantar kepada anda oleh Mantaro.",
       "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
       "successful": "%1$sBerjaya menuntut kunci `%2$s`. Anda telah menuntut sebanyak %3$s kunci dan mempunyai %4$s kunci lagi untuk dituntut. Kunci ini berjenis %5$s. (Sekiranya ini merupakan kunci pelayan, gunakannya di pelayan yang mana anda inginkannya)",
       "cant_dm": "%1%sSaya tidak dapat menghantar kunci kepada anda akibat tetapan privasi anda, nampaknya, jadi ia tidak dapat dihasilkan.",
