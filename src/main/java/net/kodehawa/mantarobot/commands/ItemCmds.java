@@ -328,7 +328,7 @@ public class ItemCmds {
                         .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()), null);
 
                 for (var item : castableItems) {
-                    //Build recipe explanation
+                    // Build recipe explanation
                     if (item.getRecipe().isEmpty()) {
                         continue;
                     }
@@ -344,7 +344,7 @@ public class ItemCmds {
                                 recipeItem.getName()
                         );
                     }).collect(Collectors.joining(", "));
-                    //End of build recipe explanation
+                    // End of build recipe explanation
 
                     var castLevel = (item instanceof Castable) ? ((Castable) item).getCastLevelRequired() : 1;
                     String fieldDescription = "%s\n**%s** %s %s\n**Recipe: ** %s\n**Wrench Tier: ** %s".formatted(

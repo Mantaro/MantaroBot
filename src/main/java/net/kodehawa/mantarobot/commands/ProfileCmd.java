@@ -50,10 +50,7 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -415,6 +412,11 @@ public class ProfileCmd {
                 var timezone = content;
                 if (offsetRegex.matcher(timezone).matches()) {
                     timezone = content.toUpperCase().replace("UTC", "GMT");
+                }
+
+                // EST, EDT, etc...
+                if (timezone.length() == 3) {
+                    timezone = timezone.toUpperCase();
                 }
 
                 if (timezone.equalsIgnoreCase("reset")) {
