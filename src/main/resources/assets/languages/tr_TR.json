@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBotların profili olmaz.",
       "header": "%1$s's Profili",
-      "no_desc": "Açıklama yok",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Para",
       "old_credits": "Legacy Credits",
       "level": "Seviye",
