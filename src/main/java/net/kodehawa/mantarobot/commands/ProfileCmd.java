@@ -443,7 +443,7 @@ public class ProfileCmd {
         profileCommand.addSubCommand("description", new SubCommand() {
             @Override
             public String description() {
-                return "Sets your profile description.";
+                return "Sets your profile description. Use `reset` to reset it.";
             }
 
             @Override
@@ -461,7 +461,7 @@ public class ProfileCmd {
                     return;
                 }
 
-                if (args[0].equals("clear")) {
+                if (args[0].equals("clear") || args[0].equals("remove") || args[0].equals("reset")) {
                     player.getData().setDescription(null);
                     ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     player.saveUpdating();
