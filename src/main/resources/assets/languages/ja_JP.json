@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sボットにプロフィールは存在しません。",
       "header": "%1$sのプロフィール",
-      "no_desc": "No description set",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "クレジット",
       "old_credits": "Legacy Credits",
       "level": "レベル",
