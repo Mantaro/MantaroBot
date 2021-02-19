@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBot không có hồ sơ.",
       "header": "Hồ sơ của %1$s",
-      "no_desc": "Chưa đặt lời giới thiệu",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Tín",
       "old_credits": "Legacy Credits",
       "level": "Cấp",
