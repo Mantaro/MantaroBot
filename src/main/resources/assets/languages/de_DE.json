@@ -995,7 +995,7 @@
       "badge_header": "%1$s Vorzeige-Abzeichen",
       "bot_notice": "%1$sBots haben keine Profile.",
       "header": "%1$ss Profil",
-      "no_desc": "Keine Beschreibung festgelegt",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Credits",
       "old_credits": "Alte Credits",
       "level": "Level",
