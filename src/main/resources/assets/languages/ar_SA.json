@@ -995,7 +995,7 @@
       "badge_header": "%1$s الميدالية المعروضة",
       "bot_notice": "%1$sالبوتات لاتملك صفحة شخصية",
       "header": "صفحة %1$s الشخصية",
-      "no_desc": "لم يتم وضع وصف",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "كريدت",
       "old_credits": "كريدت قديم",
       "level": "مستوى",
