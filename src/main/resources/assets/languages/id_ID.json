@@ -33,46 +33,46 @@
       "no_item_emoji": "Gaada item yang cocok sama emoji ini.",
       "no_item_name": "Gaada item yang cocok sama nama ini.",
       "not_found": "Gabisa nemuin item yang kamu sebut.\nKalau bingung, coba pakai singkatan aja, contoh: cari 'Energy Beverage' dengan 'energy'. Atau pakai tanda kutip di awal dan akhir kata.",
-      "claim_key": "You cannot transfer a claim key."
+      "claim_key": "Kamu gabisa transfer claim key."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
-      "stamina": "%1$sActivated stamina for 3 mining sessions.",
-      "stamina_used": "%1$sYou already have an active stamina effect!",
-      "haste": "%1$sActivated Haste for 2 sessions.",
-      "haste_used": "%1$sYou already have an active haste effect!",
-      "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
+      "mop": "%1$sKamu ngebersihin semua debu yang dihasilin dari menambang.",
+      "mop_not_enough": "%1$sDust level kamu kurang dari 5%%, percuma saja dipel.",
+      "milk": "%1$sSemua efek potion dihilangkan.",
+      "stamina": "%1$sStamina aktif buat 3 sesi menambang.",
+      "stamina_used": "%1$sKamu udah punya stamina yang aktif!",
+      "haste": "%1$sHaste diaktifin, bertahan buat 2 sesi.",
+      "haste_used": "%1$sKamu udah punya Haste yang aktif!",
+      "bait": "%1$sUmpan terpasang di pancinganmu! Semoga beruntung! (Aktif buat 1 pemakaian)",
       "bait_used": "%1$sSudah ada umpan yang terpasang!",
       "pill": "%1$sKamu meminum waifu pill! (Bertahan selama 5 sesi)",
-      "pill_used": "%1$sYou already have an active waifu pill!",
+      "pill_used": "%1$sKamu memiliki waifu pill yang masih aktif!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$sKamu ngebutuhin sebuah crate key buat ngebuka crate! Kamu bisa beli menggunakan `~>buy key`",
+        "no_crate": "%1$sKamu ngebutuhin sebuah crate! Kamu bisa nemuin crate saat menggunakan currency commands.",
         "success": "%1$sKamu membuka sebuah crate dan mendapatkan: %2$s%3$s. Selamat!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
-        "overflow": "But you already had too much, so you decided to throw away the excess"
+        "overflow": "Tapi kamu udah punya terlalu banyak, jadi kamu diharuskan untuk membuangnya"
       },
-      "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
-      "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
-      "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
+      "potion_active": "%1$sKamu masih punya efek **%2$s** potion yang aktif dengan jumlah maksimum!",
+      "potion_not_found": "%1$sAku gabisa nemuin potion atau equipment yang kamu sebut!",
+      "potion_applied": "%1$sBerhasil menggunakan efek **%2$s** dengan tipe *%3$s* (%4$dx). Cek efek baru kamu di `~>profile stats`",
+      "potion_applied_multiple": "%1$sBerhasil menggunakan **%2$s** dengan tipe *%3$s*.\nKamu masih punya efek ini; jadi, kamu stack. Jumlah stack sekarang: %4$s",
+      "max_stack_size": "%1$sKamu udah stack %2$s dengan jumlah maksimal. (Maksimal: 15, kalau kamu stack lagi: %3$s)",
+      "max_stack_size_2": "%1$sKamu gabisa stack %2$s sebanyak itu. (Maksimal: 15, kalau stack lagi: %3$s)",
+      "not_same_potion": "%1$sKamu udah punya efek potion %2$s yang di stack dan aktif; jadi, kamu gabisa stack %3$s lagi."
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "generic_sellout": "Kami butuh bantuan kamu supaya mantaro bisa tetap hidup dan berkembang!\nKamu bisa dapetin keuntungan dan **sampai dengan 2x lipat credits yang didapetin dengan mantaro premium**! Membership dimulai dari $2 per bulan. Info lebih lanjut kunjungi <https://patreon.com/mantaro>. Ngajakin temen buat ikutan main juga ngebantu banget! :heart:",
+        "daily_sellout": "Kami ngebutuhin bantuanmu supaya mantaro bisa tetap hidup!\nKamu bisa dapetin keuntungan dan **dapetin 2x lipat credits** dan akses ke `~>dailycrate`! Membership dimulai dari $2 per bulan, info lebih lanjut kunjungi <https://patreon.com/mantaro>.",
+        "thanks_message": "Terima kasih udah dukung mantaro! Tanpa bantuan dari orang kaya kamu, Mantaro gabakal bisa tetap hidup :heart:",
+        "thanks_message_daily": "Terima kasih udah dukung mantaro! Tanpa bantuan dari orang kaya kamu, Mantaro gabakal bisa tetap hidup :heart:\nKamu juga ngedapetin 2x lipat credits sebagai bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Udah tau belom kalo mantaro punya akun Twitter? Follow Mantaro di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk info update dan hal seru lainnya."
     },
-    "mention_user_required": "%1$sYou need to mention one user.",
-    "invalid_character": "%1$sThat is not an allowed character.",
+    "mention_user_required": "%1$sKamu harus mention seseorang.",
+    "invalid_character": "%1$sItu adalah karakter yang dilarang.",
     "invalid_action": "You cannot do that, silly.",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
