@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sУ ботов нет профиля.",
       "header": "Профиль %1$s's",
-      "no_desc": "Описание не установлено",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Кредитов",
       "old_credits": "Legacy Credits",
       "level": "Уровень",
