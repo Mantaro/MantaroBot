@@ -467,6 +467,7 @@ public class ProfileCmd {
                     player.getData().setDescription(null);
                     ctx.sendLocalized("commands.profile.description.clear_success", EmoteReference.CORRECT);
                     player.saveUpdating();
+                    return;
                 }
 
                 var split = SPLIT_PATTERN.split(content, 2);
