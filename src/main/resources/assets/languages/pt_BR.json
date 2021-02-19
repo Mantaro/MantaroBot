@@ -995,7 +995,7 @@
       "badge_header": "%1$sInsígnia Exibida",
       "bot_notice": "%1$sBots não têm perfil.",
       "header": "Perfil de %1$s",
-      "no_desc": "Sem descrição definida",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Créditos",
       "old_credits": "Créditos de Patrimônio",
       "level": "Nível",
