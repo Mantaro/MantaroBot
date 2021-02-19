@@ -671,8 +671,8 @@ public class ProfileCmd {
                     var noPotion = potion == null || !isPotionActive;
                     var noBuff = buff == null || !isBuffActive;
 
-                    var equipment = parsePlayerEquipment(equippedItems);
-                    var seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems);
+                    var equipment = parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
+                    var seasonalEquipment = parsePlayerEquipment(seasonalEquippedItems, ctx.getLanguageContext());
 
                     //This whole thing is a massive mess, lmfao.
                     //This is definitely painful and goes on for 100 lines lol
@@ -862,12 +862,12 @@ public class ProfileCmd {
         });
     }
 
-    public String parsePlayerEquipment(PlayerEquipment equipment) {
+    private String parsePlayerEquipment(PlayerEquipment equipment, I18nContext languageContext) {
         var toolsEquipment = equipment.getEquipment();
         var separator = SEPARATOR + SEPARATOR_HALF + LIST_MARKER + SEPARATOR_HALF;
 
         if (toolsEquipment.isEmpty()) {
-            return separator + "None";
+            return separator + languageContext.get("general.none");
         }
 
         return toolsEquipment.entrySet().stream().map((entry) -> {

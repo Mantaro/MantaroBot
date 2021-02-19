@@ -882,6 +882,9 @@ public class PetCmds {
             }
         });
 
+        // I guess...
+        pet.createSubCommandAlias("hydrate", "water");
+
         pet.addSubCommand("info", new SubCommand() {
             @Override
             public String description() {

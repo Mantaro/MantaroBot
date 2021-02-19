@@ -51,10 +51,13 @@ public class GuildMusicManager {
 
         isAwaitingDeath = false;
 
-        if (trackScheduler.getRequestedTextChannel() != null) {
-            trackScheduler.getRequestedTextChannel().sendMessageFormat(
+        final var requestedTextChannel = trackScheduler.getRequestedTextChannel();
+        final var voiceState = guild.getSelfMember().getVoiceState();
+
+        if (requestedTextChannel != null && voiceState != null) {
+            requestedTextChannel.sendMessageFormat(
                     trackScheduler.getLanguage().get("commands.music_general.listener.leave"),
-                    EmoteReference.SAD, guild.getSelfMember().getVoiceState().getChannel().getName()
+                    EmoteReference.SAD, voiceState.getChannel().getName()
             ).queue();
         }
 
