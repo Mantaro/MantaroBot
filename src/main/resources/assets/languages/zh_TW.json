@@ -995,7 +995,7 @@
       "badge_header": "%1$s 展示徽章",
       "bot_notice": "%1$s機器人沒有個人資料。",
       "header": "%1$s的個人資料",
-      "no_desc": "沒有簡介",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "金錢",
       "old_credits": "舊版金錢",
       "level": "等級",
