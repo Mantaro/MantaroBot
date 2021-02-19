@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots hebben geen profiel.",
       "header": "%1$s's Profiel",
-      "no_desc": "Geen beschrijving ingesteld",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Credits",
       "old_credits": "Legacy Credits",
       "level": "Level",
