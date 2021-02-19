@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBot'ai neturi profilių.",
       "header": "%1$s profilis",
-      "no_desc": "Nenustatytas joks aprašymas",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Kreditai",
       "old_credits": "Legacy Credits",
       "level": "Lygis",
