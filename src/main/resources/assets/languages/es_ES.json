@@ -2303,7 +2303,8 @@
       "broken": "Item Roto",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
-      "deprecated": "Deprecated"
+      "deprecated": "Deprecated",
+      "interactive": "Interactive Item"
     },
     "headphones": "Audífonos",
     "ban_hammer": "Martillo de Baneo",
