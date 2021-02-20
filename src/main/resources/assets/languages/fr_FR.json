@@ -2303,7 +2303,8 @@
       "broken": "Broken Item",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
-      "deprecated": "Deprecated"
+      "deprecated": "Deprecated",
+      "interactive": "Interactive Item"
     },
     "headphones": "Écouteurs",
     "ban_hammer": "Marteau du bannissement",
