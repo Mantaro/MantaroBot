@@ -995,7 +995,7 @@
       "badge_header": "%1$s Lencana Paparan",
       "bot_notice": "%1$sBot tidak mempunyai profil.",
       "header": "Profil %1$s",
-      "no_desc": "No description set. You can set one with `~>profile description`",
+      "no_desc": "Tiada penerangan yang ditetapkan. Anda boleh menetapkannya dengan `~>profile description`",
       "credits": "Kredit",
       "old_credits": "Kredit Legasi",
       "level": "Level",
@@ -1112,7 +1112,7 @@
     },
     "claimkey": {
       "not_patron": "%1$sAnda bukan penaung, jadi anda tidak boleh melakukan ini. Sekiranya anda ingin menyokong Mantaro dan mendapatkan faedah bersamanya, periksalah <https://www.patreon.com/mantaro>\nSekiranya anda sedang berikrar dan anda melihat mesej ini, ia bermaksud anda tidak mempunyai kunci yang aktif. Sila memastikan bahawa anda telah mengaktifkan kunci yang sepatutnya telah dihantar kepada anda oleh Mantaro.",
-      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
+      "already_top": "%1$sAnda telah menuntut semua kunci yang anda mempunyai. Jika terdapat salah satu yang telah luput, sila hubungi pelayan sokongan kami di <https://support.mantaro.site> (Walau mereka sepatutnya dibaharui secara automatik)",
       "successful": "%1$sBerjaya menuntut kunci `%2$s`. Anda telah menuntut sebanyak %3$s kunci dan mempunyai %4$s kunci lagi untuk dituntut. Kunci ini berjenis %5$s. (Sekiranya ini merupakan kunci pelayan, gunakannya di pelayan yang mana anda inginkannya)",
       "cant_dm": "%1%sSaya tidak dapat menghantar kunci kepada anda akibat tetapan privasi anda, nampaknya, jadi ia tidak dapat dihasilkan.",
       "success": "%1$sMaklumat telah dihantar melalui DM.",
@@ -1132,7 +1132,7 @@
         "premium": "**Pelayan premium! <3**",
         "old_system": "**Pelayan premium menggunakan sistem lama! Jangan risau, anda masih premium dan faedah-faedah anda masih berfungsi!**"
       },
-      "description": "Keys are valid for as long as your pledge is active, unless stated otherwise. Thanks for donating or pledging <3",
+      "description": "Kunci adalah sah selama ikrar anda masih aktif, kecuali dinyatakan sebaliknya. Terima kasih kerana menderma atau berikrar <3",
       "valid_for_old": "Sah untuk",
       "old_days_more": "%1$,d hari lagi",
       "thank_note": "Terima kasih atas sokongan anda <3",
@@ -1150,11 +1150,11 @@
     },
     "action": {
       "no_mention": "%1$sAnda perlu menyebut seorang pengguna.",
-      "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
-      "actions_disabled": "%1$sThis user has disabled actions for themselves.",
-      "filtered": "%1$sSome users were filtered as they disabled actions being done on them.",
-      "error_retrieving": "%1$sI found an error while retrieving the next gif for this action... (external error, maybe WeebAPI is down?)",
-      "no_type": "%1$sThis action command has no type. (internal error)",
+      "no_mention_disabled": "%1$sSetelah menapis ahli yang telah melarang tindakan, tiada lagi pengguna yang dapat anda lakukan tindakan ini kepadanya :(",
+      "actions_disabled": "%1$sPengguna ini telah melarang tindakan pada dirinya.",
+      "filtered": "%1$sBeberapa pengguna telah ditapis kerana mereka melarang tindakan yang dilakukan pada diri mereka.",
+      "error_retrieving": "%1$sSaya menjumpai ralat semasa mendapatkan gif seterusnya bagi tindakan ini... (ralat luaran, mungkin WeebAPI tergendala?)",
+      "no_type": "%1$sArahan ini tiada jenis. (ralat dalaman)",
       "permission_or_unexpected_error": "%1$sM-maaf! Saya tidak sengaja menjatuhkan gambar itu. (Mungkin saya tidak mempunyai kebenaran untuk menghantarnya)",
       "lonely": {
         "pat": "Aww, nampaknya awak berasa sunyi, terimalah belaian ini <3",
@@ -1223,28 +1223,28 @@
       "won_games": "%1$s%2$s telah memenangi **%3$s permainan**",
       "nothing_specified": "%1$sAnda tidak menyatakan apa-apa untuk dimainkan...",
       "not_enough_games": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. Misalnya, `~>game lobby pokemon,trivia`",
-      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
+      "invalid_selection": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. (Permainan sah: character, pokemon, number, trivia)",
       "multiple": {
-        "invalid": "%1$sYou need to specify the game and the number of times to run it.",
-        "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "too_many_games": "%1$sYou can only start a maximum of 5 games of the same type at a time.",
+        "invalid": "%1$sAnda perlu menyatakan permainan dan bilangan kali untuk menjalankannya.",
+        "invalid_times": "%1$sBilangan kali tidak sah. Ingat bahawa ia mestilah nombor bulat.",
+        "too_many_games": "%1$sAnda hanya boleh memulakan sebanyak 5 permainan yang sama jenisnya pada masa yang sama.",
         "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
       },
       "trivia": {
         "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
-        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
-        "possibilities": "Possibilities",
-        "difficulty": "Difficulty",
-        "category": "Category"
+        "fetch_error": "%1$sRalat semasa memulakan trivia. Nampaknya Open Trivia DB tergendala.",
+        "possibilities": "Kemungkinan",
+        "difficulty": "Kesukaran",
+        "category": "Kategori"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
+        "start": "%1$sTeka nombor tersebut! **Anda diberi 5 cubaan dan 1 minit. Nombor tersebut di antara 0 dan 150**",
         "nan": "%1$sItu bukan nombor pun...",
         "ended_game": "%1$sPermainan ditamatkan. Nombor tersebut ialah: %2$d",
         "all_attempts_used": "%1$sSemua cubaan telah digunakan, permainan sedang ditamatkan. Nombor tersebut ialah: %2$d",
         "hint": "Petunjuk: Nombor tersebut %1$s daripada nombor input anda.",
-        "higher": "higher",
-        "lower": "lower"
+        "higher": "lebih tinggi",
+        "lower": "lebih rendah"
       },
       "pokemon": {
         "header": "Siapakah pokemon itu?",
@@ -1253,13 +1253,13 @@
       "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
       "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
       "lobby_started": "%1$sLobi yang baru telah bermula! **Permainan: %2$s**\nAnda boleh menaip `endlobby` untuk menamatkan semua permainan dan menghabiskan lobi ini.",
-      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
-      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
+      "game_timeout_drop": "%1$sNampaknya saya terlupa sesuatu permainan di sini... Saya akan memulakan permainan anda yang baru sekarang!",
+      "other_lobby_running": "%1$sTidak dapat memulakan lobi permainan yang baru jika terdapat permainan yang sedang dijalankan. (Sekiranya ini merupakan ralat, sila meminta admin menjalankan `~>opts lobby reset`)",
       "lobby": {
         "ended_game": "%1$sPermainan ditamatkan. Jawapan diterima ialah: %2$s",
         "ended_lobby": "%1$sLobi berjaya ditamatkan! Terima kasih kerana bermain.",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
-        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
+        "all_attempts_used": "%1$sSemua cubaan telah digunakan, permainan sedang ditamatkan. Jawapan diterima ialah: %2$s",
+        "incorrect_answer": "%1$sTidak tepat, anda mempunyai %2$d cubaan lagi.",
         "won_game": "%1$s**%2$s** telah memenangi $%3$,d kredit kerana jawapannya tepat!"
       },
       "lobby_time_out": "%1$sMasa telah tamat! Jawapan yang betul ialah: %2$s",
@@ -1462,7 +1462,7 @@
     "invite": {
       "url": "Invite URL",
       "server": "Support Server",
-      "patreon": "Patreon URL",
+      "patreon": "URL Patreon",
       "description": {
         "1": "Here are some useful links!",
         "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
@@ -2303,7 +2303,8 @@
       "broken": "Broken Item",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
-      "deprecated": "Deprecated"
+      "deprecated": "Deprecated",
+      "interactive": "Interactive Item"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
