@@ -860,7 +860,7 @@
     },
     "misc": {
       "reverse_missing": "%1$sAnda tidak memperoleh mesej untuk diterbalikkan.",
-      "random_color": "%1$sThe random color is %2$s"
+      "random_color": "%1$sWarna rawak ialah %2$s"
     },
     "poll": {
       "missing": "%1$sSama ada anda tidak sertakan argumen %2$s ataupun ia ditinggalkan kosong!\n%3$s",
@@ -1295,7 +1295,7 @@
       "invalid_number": "%1$sSila menyatakan nombor yang sah.",
       "not_valid": "%1$sItu bukan bilangan mesej yang sah untuk dihapuskan.",
       "less_than_five": "%1$sAnda perlu memperoleh sekurang-kurangnya 5 mesej. Misalnya, gunakan `~>prune 20` untuk menghapuskan 20 mesej.",
-      "messages_too_old": "%1$sThere are no messages newer than 2 weeks old, discord won't let me delete them.",
+      "messages_too_old": "%1$sTiada mesej yang berumur kurang dari 2 minggu, discord tidak membenarkan saya untuk menghapuskan mesej-mesej tersebut.",
       "success": "%1$sSuccessfully pruned %2$s messages from this channel.",
       "lack_perms": "%1$sLack of permission while pruning messages (No permission provided: %2$s)",
       "error_deleting": "%1$sUnknown error while pruning messages (Internal: %2$s %3$s). If this keeps happening, please report it at <https://support.mantaro.site>"
@@ -1316,7 +1316,7 @@
       "wrong_argument": "%1$sWrong argument type. Check ~>help %2$s",
       "blacklisted_tag": "%1$sThis image tag has been blacklisted here by an administrator.",
       "error_tag": "%1$sThere was an error while looking for this tag.",
-      "error_random": "%1$sThere was an error while looking for a random image.",
+      "error_random": "%1$sTerdapat ralat semasa mencari imej rawak.",
       "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
       "loli_content_disallow": "%1$sI cannot display images that allegedly contain `loli` or `shota` (or related tags) lewd/NSFW content because discord prohibits it. Try again with other tags?",
@@ -1335,7 +1335,7 @@
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "explanation": "Haiwan peliharaan amat berguna dalam mata wang!\nIa membantu anda menguntungkan lebih banyak wang, loot lebih banyak, mencari benda rawak semasa perlombongan, membalak pokok, dan juga memancing. Semakin tinggi tahapnya, semakin lumayan ganjarannya!\nPilihan haiwan peliharaan yang sesuai untuk aktiviti anda adalah penting, jadi pastikan anda memeriksa jenis dan keupayaan haiwan peliharaan keinginan anda!\nIngat bahawa anda perlulah memberi makan dan minum kepada haiwan peliharaan anda, serta membiarkan ia berehat dan cas semula tenaganya sekali-sekala, sama seperti haiwan peliharaan yang sebenar! Anda juga boleh belainya :)\nTerdapat dua jenis: Peribadi (untuk diri anda) dan Perkahwinan (dikongsi bersama pasangan anda). Pilih satu dengan `~>pet choice`. Yang asal adalah Peribadi.\nUntuk bantuan lebih lanjut, gunakan `~>help pet` dan `~>pet list` untuk mendapatkan senarai haiwan peliharaan.",
       "no_marriage": "%1$sYou need to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "no_marriage_other": "%1$s%2$s needs to be married to have a pet. For now. Check `~>help marry` and `~>pet`",
       "status": {
@@ -1343,11 +1343,11 @@
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
         "header": "Status for %1$s",
         "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
-        "cost": "Price",
-        "type": "Type",
+        "cost": "Harga",
+        "type": "Jenis",
         "abilities": "Abilities",
         "level": "Level",
-        "health": "Health",
+        "health": "Kesihatan",
         "thirst": "Thirst",
         "hunger": "Hunger",
         "stamina": "Stamina",
@@ -1489,7 +1489,7 @@
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
         "return": "Could Return: ",
-        "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
+        "desc": "Berikut adalah senarai item yang boleh anda selamatkan menggunakan `~>salvage`.\nAnda boleh menggunakan nama penuh, nama singkatan, ataupun emoji\nPenyelamatan mempunyai kos 1/3 harga item, yang dipaparkan di bawah.\nAnda hanya akan mendapat salah satu daripada item yang disenaraikan di sini secara rawak.\nPerengkuh tahap 2 ialah perengkuh komet dan perengkuh tahap 3 ialah perengkuh berkilau."
       }
     },
     "stats": {
