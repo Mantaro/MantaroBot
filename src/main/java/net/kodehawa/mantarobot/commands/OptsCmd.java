@@ -231,6 +231,9 @@ public class OptsCmd {
                     var ranPolls = temp.getQuoteLastId();
                     var gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
                     var cases = temp.getCases();
+                    var allowedBirthdays = temp.getAllowedBirthdays();
+                    var notified = temp.isNotifiedFromBirthdayChange();
+                    var greetReceived = temp.hasReceivedGreet();
 
                     //Assign everything all over again
                     var newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
@@ -241,6 +244,9 @@ public class OptsCmd {
                     newTmp.setCases(cases);
                     newTmp.setPremiumKey(premiumKey);
                     newTmp.setQuoteLastId(quoteLastId);
+                    newTmp.setAllowedBirthdays(allowedBirthdays);
+                    newTmp.setNotifiedFromBirthdayChange(notified);
+                    newTmp.setHasReceivedGreet(greetReceived);
 
                     newDbGuild.saveAsync();
 

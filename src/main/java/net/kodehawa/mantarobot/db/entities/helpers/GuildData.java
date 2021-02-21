@@ -222,7 +222,6 @@ public class GuildData {
 
     @ConfigName("Timezone of logs")
     private String logTimezone;
-
     @SuppressWarnings("CanBeFinal")
     @HiddenConfig // It's not unused, but this hides it from opts check data
     private List<String> allowedBirthdays = new ArrayList<>();
@@ -877,6 +876,10 @@ public class GuildData {
 
     public void setNotifiedFromBirthdayChange(boolean notifiedFromBirthdayChange) {
         this.notifiedFromBirthdayChange = notifiedFromBirthdayChange;
+    }
+
+    public void setAllowedBirthdays(List<String> allowedBirthdays) {
+        this.allowedBirthdays = allowedBirthdays;
     }
 
     public List<String> getAllowedBirthdays() {
