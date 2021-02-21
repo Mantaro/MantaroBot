@@ -1199,7 +1199,7 @@
       "pat": "%1$s awak telah dibelai oleh %2$s",
       "hug": "%1$s awak telah dipeluk oleh %2$s",
       "kiss": "%1$s awak telah dicium oleh %2$s",
-      "poke": "%1$s you have been poked by %2$s :eyes:",
+      "poke": "%1$s awak telah dicolek oleh %2$s :eyes:",
       "slap": "%1$s awak telah ditampar oleh %2$s!",
       "bite": "%1$s awak telah digigit oleh %2$s :eyes:",
       "tickle": "%1$s you have been tickled by %2$s",
@@ -1228,10 +1228,10 @@
         "invalid": "%1$sAnda perlu menyatakan permainan dan bilangan kali untuk menjalankannya.",
         "invalid_times": "%1$sBilangan kali tidak sah. Ingat bahawa ia mestilah nombor bulat.",
         "too_many_games": "%1$sAnda hanya boleh memulakan sebanyak 5 permainan yang sama jenisnya pada masa yang sama.",
-        "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
+        "no_character": "%1$sAnda tidak boleh menggunakan permainan watak dalam permainan berkali-kali atau lobi disebabkan had AniList API."
       },
       "trivia": {
-        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
+        "wrong_diff": "%1$sKesukaran yang dinyatakan salah! (Disokong: easy, medium dan hard)",
         "fetch_error": "%1$sRalat semasa memulakan trivia. Nampaknya Open Trivia DB tergendala.",
         "possibilities": "Kemungkinan",
         "difficulty": "Kesukaran",
@@ -1250,8 +1250,8 @@
         "header": "Siapakah pokemon itu?",
         "footer": "Anda diberi 5 cubaan dan 75 saat. (Taip end untuk menamatkan permainan ini)"
       },
-      "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
-      "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
+      "started_mp_role": "%1$sMemulakan lobi berbilang pemain dengan semua pengguna yang mempunyai peranan yang dinyatakan: **%2$s**",
+      "started_mp_user": "%1$sMemulakan lobi berbilang pemain dengan pengguna-pengguna: **%2$s**",
       "lobby_started": "%1$sLobi yang baru telah bermula! **Permainan: %2$s**\nAnda boleh menaip `endlobby` untuk menamatkan semua permainan dan menghabiskan lobi ini.",
       "game_timeout_drop": "%1$sNampaknya saya terlupa sesuatu permainan di sini... Saya akan memulakan permainan anda yang baru sekarang!",
       "other_lobby_running": "%1$sTidak dapat memulakan lobi permainan yang baru jika terdapat permainan yang sedang dijalankan. (Sekiranya ini merupakan ralat, sila meminta admin menjalankan `~>opts lobby reset`)",
@@ -1266,28 +1266,28 @@
       "end_footer": "Anda diberi 5 cubaan dan 60 saat. (Taip end untuk menamatkan permainan ini)",
       "trivia_end_footer": "Anda diberi %1$s cubaan dan 60 saat. (Taip end untuk menamatkan permainan ini)",
       "error": "%1$sSaya menjumpai ralat semasa menyediakan permainan (ralat dalaman)",
-      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
-      "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
-      "character_request_error": "%1$sError requesting this character from Kitsu's API.",
+      "error_missing_permissions": "%1$sSaya tidak dapat menyertakan fail. Sila memeriksa kebenaran.",
+      "character_load_error": "%1$sGagal menyediakan permainan untuk watak pra-simpanan: %2$s. Sekiranya ini berlaku untuk semua watak, ia mungkin ralat sementara.",
+      "character_request_error": "%1$sRalat semasa memohon watak ini dari API Kitsu.",
       "character_start": "Teka watak tersebut",
       "too_many_games": "%1$sAnda boleh memulakan maksimum 4 permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: 8)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "disabled_multiple": "%1$sPelayan ini telah melarang permainan berkali-kali/lobi."
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
-      "not_crate": "%1$sThat is not a valid loot crate.",
-      "nothing_found": "%1$sI didn't find any crate matching your query. Make sure you used the correct name."
+      "no_crate": "%1$sAnda tidak mempunyai peti loot berjenis ini (%2$s) untuk dibuka. (Sekiranya anda ingin membuka sebuah peti selain jenis asal, gunakan nama peti selepas arahan tersebut. Jika anda ingin menggunakan inventori bermusim, tambahkan `-s`)",
+      "not_crate": "%1$sItu bukan peti loot yang sah.",
+      "nothing_found": "%1$sSaya tidak dapat mencari peti yang berkaitan dengan carian anda. Pastikan anda menggunakan nama yang betul."
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
+      "check": "%1$sAnda akan dapat menuntut peti harian anda dalam: **%2$s.**",
+      "not_premium": "%1$sAnda bukan premium!\nSila periksa lebih lanjut di <https://patreon.com/mantaro>\n\nSebagai pengguna premium, anda boleh mendapatkan peti premium setiap hari menggunakan arahan ini. Ia mempunyai peluang yang lebih tinggi untuk mengadungi peralatan bertahap tinggi dan item bagi arahan mata wang yang berbeza (4 bintang ke atas!)\nTerima kasih atas pertimbangan anda, kerana kami memerlukan bantuan untuk memastikan Mantaro tetap hidup. Terima kasih kerana menggunakan Mantaro <3",
+      "success": "%1$sAnda mendapat sebuah **%2$s**! Datang lagi dalam 24 jam untuk mendapat sebuah lagi! Anda boleh membukanya menggunakan `~>opencrate <nama peti>`. Anda perlu membeli sebentuk kunci peti menggunakan `~>buy key` untuk membukanya."
     },
     "prune": {
-      "no_messages_specified": "%1$sYou specified no messages to prune.",
-      "no_permissions": "%1$sI cannot prune on this server since I don't have the Manage Messages permission.",
-      "no_permissions_user": "%1$sI cannot prune on this server since you don't have the Manage Messages permission.",
-      "bot_no_messages": "%1$sThere are no messages from bots or bot calls here.",
+      "no_messages_specified": "%1$sAnda tidak menyatakan mesej untuk dihapuskan.",
+      "no_permissions": "%1$sSaya tidak dapat menghapuskan apa-apa di pelayan ini kerana saya tidak mempunyai kebenaran Manage Messages.",
+      "no_permissions_user": "%1$sSaya tidak dapat menghapuskan apa-apa di pelayan ini kerana anda tidak mempunyai kebenaran Manage Messages.",
+      "bot_no_messages": "%1$sTiada mesej dari bot atau panggilan bot di sini.",
       "no_pins_no_messages": "%1$sThere are no non-pinned messages here...",
       "mention_no_messages": "%1$sThere are no messages from users which you mentioned here.",
       "too_few_messages": "%1$sToo few messages to prune. The minimum is 5. This is computed after the message list has been filtered, so if you used a filter (say, mentioned someone), make sure you fetch 100 messages (or don't specify the amount).",
