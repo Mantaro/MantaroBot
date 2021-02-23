@@ -918,8 +918,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Personal Pet",
-        "none": "No personal pet"
+        "header": "Active Pet",
+        "none": "No active pet"
       },
       "stats": {
         "header": "%1$s 的統計資訊",
