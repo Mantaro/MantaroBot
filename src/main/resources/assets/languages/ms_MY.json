@@ -918,8 +918,8 @@
         "disabled": "%1$sTindakan dilarang dilakukan kepada anda."
       },
       "pet": {
-        "header": "Haiwan Peliharaan Peribadi",
-        "none": "Tiada haiwan peliharaan peribadi"
+        "header": "Active Pet",
+        "none": "No active pet"
       },
       "stats": {
         "header": "Statistik Profil %1$s",
