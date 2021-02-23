@@ -181,8 +181,9 @@ public class ProfileCmd {
                                 seasonalPlayer = ctx.getSeasonPlayer(userLooked);
                             }
 
-                            var ringHolder = player.getInventory().containsItem(ItemReference.RING) && userData.getMarriage() != null;
-                            var holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, badges);
+                            var marriage = ctx.getMarriage(userData);
+                            var ringHolder = player.getInventory().containsItem(ItemReference.RING) && marriage != null;
+                            var holder = new ProfileComponent.Holder(userLooked, player, seasonalPlayer, dbUser, marriage, badges);
                             var profileBuilder = new EmbedBuilder();
                             var description = languageContext.get("commands.profile.no_desc");
 

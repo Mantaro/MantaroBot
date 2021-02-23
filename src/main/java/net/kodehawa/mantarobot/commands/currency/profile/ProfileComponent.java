@@ -20,10 +20,12 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -86,7 +88,7 @@ public enum ProfileComponent {
     }, true, false),
     MARRIAGE(EmoteReference.HEART, i18nContext -> i18nContext.get("commands.profile.married"), (holder, i18nContext) -> {
         var userData = holder.getDbUser().getData();
-        var currentMarriage = userData.getMarriage();
+        var currentMarriage = holder.getMarriage();
         User marriedTo = null;
 
         //Expecting save to work in PlayerCmds, not here, just handle this here.
@@ -135,7 +137,12 @@ public enum ProfileComponent {
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
-        final var pet = holder.getPlayer().getData().getPet();
+        var petType = holder.getPlayer().getData().getActiveChoice(holder.getMarriage());
+        var pet = holder.getPlayer().getData().getPet();
+        if (petType == PetChoice.MARRIAGE) {
+            pet = holder.getMarriage().getData().getPet();
+        }
+
         if (pet == null) {
             return i18nContext.get("commands.profile.pet.none");
         }
@@ -256,13 +263,15 @@ public enum ProfileComponent {
         private SeasonPlayer seasonalPlayer;
         private DBUser dbUser;
         private List<Badge> badges;
+        private Marriage marriage;
 
-        public Holder(User user, Player player, SeasonPlayer seasonalPlayer, DBUser dbUser, List<Badge> badges) {
+        public Holder(User user, Player player, SeasonPlayer seasonalPlayer, DBUser dbUser, Marriage marriage, List<Badge> badges) {
             this.user = user;
             this.player = player;
             this.seasonalPlayer = seasonalPlayer;
             this.dbUser = dbUser;
             this.badges = badges;
+            this.marriage = marriage;
         }
 
         public Holder() { }
@@ -309,6 +318,14 @@ public enum ProfileComponent {
 
         public void setBadges(List<Badge> badges) {
             this.badges = badges;
+        }
+
+        public Marriage getMarriage() {
+            return marriage;
+        }
+
+        public void setMarriage(Marriage marriage) {
+            this.marriage = marriage;
         }
     }
 }
