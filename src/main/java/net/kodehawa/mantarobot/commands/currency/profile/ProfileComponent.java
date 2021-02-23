@@ -137,8 +137,9 @@ public enum ProfileComponent {
                 .collect(Collectors.joining(" \u2009\u2009"));
     }, true, false),
     PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
-        var petType = holder.getPlayer().getData().getActiveChoice(holder.getMarriage());
-        var pet = holder.getPlayer().getData().getPet();
+        final var playerData = holder.getPlayer().getData();
+        final var petType = playerData.getActiveChoice(holder.getMarriage());
+        var pet = playerData.getPet();
         if (petType == PetChoice.MARRIAGE) {
             pet = holder.getMarriage().getData().getPet();
         }

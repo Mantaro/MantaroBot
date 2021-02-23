@@ -548,7 +548,7 @@ public class ItemCmds {
                         stats.saveUpdating();
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success") + "\n" + message,
-                                EmoteReference.WRENCH, brokenItem.getEmoji(), brokenItem.getName(),
+                                wrench.getEmoji(), brokenItem.getEmoji(), brokenItem.getName(),
                                 repairedItem.getEmoji(), repairedItem.getName(), repairCost,
                                 recipeString.toString().trim()
                         );
