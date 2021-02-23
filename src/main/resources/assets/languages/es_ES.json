@@ -918,8 +918,8 @@
         "disabled": "%1$sAcciones inhabilitadas para que no se realicen hacia tí."
       },
       "pet": {
-        "header": "Mascota Personal",
-        "none": "Sin mascota personal"
+        "header": "Active Pet",
+        "none": "No active pet"
       },
       "stats": {
         "header": "Estadísticas del perfil para %1$s",
