@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n%2$s",
       "cooldown": {
         "waiting": "**Du kannst diesen Befehl in %1$s erneut verwenden**",
-        "pass": "Du kannst jetzt jemandem Ruf schenken."
+        "pass": "Du kannst jetzt jemandem Ruf schenken.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$sDu hast **%2$s**s Ruf verbessert."
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s hat keine Haustiere, die du streicheln könntest. Schau unter `~>pet` für eine Erklärung.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "Wie hast du es geschafft, so oft zu streicheln?"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sUm dies zu tun, brauchst du mindestens einen Kometenschraubenschlüssel in deinem Inventar, du kannst aber auch einen höheren angeben, wenn du möchtest.",
       "dust": "%1$sDein Inventar ist zu staubig, um eine Gegenstandsausschlachtung zu versuchen, versuche es mit einem Mop sauberzumachen.",
       "no_returnables": "%1$sDieser Gegenstand hat keine wiederverwendbaren Materialien.",
-      "item_broke": "%1$sDein Schraubenschlüssel brach während der Ausschlachtung dieses Gegenstands :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sDu hast erfolgreich %2$s ausgeschlachtet und im Gegenzug %3$s bekommen. Die Kosten waren %4$s Credits.\n%5$s",
       "ls": {
         "header": "Liste ausschlachtbarer Gegenstände",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sDu hast nicht genug Geld, um diesen Gegenstand zu reparieren.",
       "no_item_recipe": "%1$sDu hast nicht die benötigten *%2$s*, um diese Reparatur durchzuführen.",
       "not_enough_items": "%1$sDu hast nicht genug von *%2$s*, um diese Reparatur durchzuführen. **(Benötigt: %3$s, Aktuell: %4$s)**",
-      "item_broke": "Leider ist dein Schraubenschlüssel beim Reparieren kaputt gegangen, aber du hast trotzdem deinen Gegenstand bekommen!",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Liste reparierbarer Gegenstände",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$s`Du kannst deine täglichen Credits in **%2$s** abholen.",
       "about_now": "jetzt",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sDu kannst deine täglichen Credits nicht an einen Bot transferieren.",
         "receipt_locked": "Dieser Nutzer kann jetzt keine täglichen Credits erhalten.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sDas ist keine Spitzhacke, die du zum Abbauen nutzen kannst!",
       "not_in_inventory": "%1$sDu hast diese Spitzhacke nicht im Inventar, wechsle zur Standardspitzhacke.",
       "success": "%1$sDu hast mit einer *%3$s* Mineralien im Wert von **%2$,d Credits** abgebaut",
-      "reminder": "\n*Du kannst bessere Spitzhacken mit den Edelsteinen herstellen, die du beim Abbauen bekommst. Schau unter `~>cast ls` für eine Liste an Dingen, die du herstellen kannst*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huch, du hast einen Diamanten während des Abbauens gefunden, aber du hattest schon zu viele, also habe ich ihn für dich verkauft.",
         "success": "Huch! Du hattest Glück und hast beim Abbauen %1$s Diamant(en) gefunden, schau in dein Inventar!"
