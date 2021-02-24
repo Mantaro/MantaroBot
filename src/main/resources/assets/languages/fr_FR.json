@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sTu ne peux pas te donner des points de réputations.\n%2$s",
       "cooldown": {
         "waiting": "**Tu pourras réutiliser cette commande dans %1$s**",
-        "pass": "Tu peux utiliser la commande `->rep` maintenant."
+        "pass": "Tu peux utiliser la commande `->rep` maintenant.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$s a donné un point de réputation à **%2$s**"
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$sn'a pas d'animaux à caresser. Voir `~>pet` pour plus d'information.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "Comment as-tu obtenu autant de caresses?"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sTu as besoin au moins d'une `Comet Wrench` (une clé de comète) dans ton inventaire pour faire ça mais tu peux également spécifier une clé de tier plus élevé si tu veux.",
       "dust": "%1$sTon inventaire à trop de poussière pour essayer de sauver cet objet, essaye de le nettoyer avec un balai.",
       "no_returnables": "%1$sCet objet n'a pas rendu d'éléments ayant servi à le sauver.",
-      "item_broke": "%1$sTa clé s'est brisée en essayant de sauver cet objet :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$s %2$s réparée avec succès et tu as obtenu %3$s en retour. Ça t'a couté %4$s crédits\n%5$s",
       "ls": {
         "header": "Liste des objets qui peuvent être réparés",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sTu n'as pas assez d'argent pour faire cette réparation.",
       "no_item_recipe": "%1$sTu n'as pas le *%2$s* nécessaire pour faire cette réparation.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire cette réparation. **(Nécessaire: %3$s, Actuellement en ta possession: %4$s)**",
-      "item_broke": "Malheureusement ta clé n'a pas survécu à la réparation. Mais elle est quand même arrivée au bout de son travail !",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRéparation réalisée avec succès! Objet réparé %2$s **%3$s** -> %4$s **%5$s**. La réparation a couté *%6$s* credits et la recette de réparation était *%7$s*.",
       "ls": {
         "header": "Liste d'objets réparables",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sTu pourras réclamer ton gain journalier dans : **%2$s.**",
       "about_now": "à peu près maintenant",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sTu ne peux pas transférer ton gain journalier à un bot.",
         "receipt_locked": "Cet utilisateur ne peut pas recevoir de gain journalier maintenant.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sMais ce n'est pas une pioche adapté pour miner ça!",
       "not_in_inventory": "%1$sTu n'as pas cette pioche dans ton inventaire, considérons que tu parlais de ta pioche par défaut.",
       "success": "%1$sTu as miné des minerais valant **$%2$s credits** avec ta *%3$s*",
-      "reminder": "\n*Tu peux te fabriquer une meilleure pioche grâce aux minerais récoltés. Utilise `~>cast ls` pour voir la liste de ce que tu peux fabriquer et leur recette*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, Tu as trouvé un diamant mais tu en avais déjà trop donc je l'ai vendu pour toi.",
         "success": "Huh! Quelle chance, tu as trouvé un diamant en minant ! Regarde dans ton inventaire !"
