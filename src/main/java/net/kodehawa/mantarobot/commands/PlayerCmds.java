@@ -140,7 +140,7 @@ public class PlayerCmds {
                         return;
                     }
 
-                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+                    if (!RatelimitUtils.ratelimit(rateLimiter, ctx, languageContext.get("commands.rep.cooldown.explanation"), false)) {
                         return;
                     }
 

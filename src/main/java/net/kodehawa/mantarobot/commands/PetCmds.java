@@ -56,38 +56,48 @@ import java.util.stream.Collectors;
 
 @Module
 public class PetCmds {
+    private final IncreasingRateLimiter rl = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(3, TimeUnit.SECONDS)
+            .maxCooldown(5, TimeUnit.SECONDS)
+            .randomIncrement(true)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("pet")
+            .build();
+
+    private final IncreasingRateLimiter petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(1)
+            .spamTolerance(2)
+            .cooldown(1, TimeUnit.HOURS)
+            .maxCooldown(2, TimeUnit.HOURS)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("pet-remove")
+            .build();
+
+    private final IncreasingRateLimiter petpetRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(25)
+            .spamTolerance(5)
+            .cooldown(1, TimeUnit.HOURS)
+            .maxCooldown(2, TimeUnit.HOURS)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("pet-pet")
+            .build();
+
+    private final IncreasingRateLimiter petChoiceRatelimiter = new IncreasingRateLimiter.Builder()
+            .limit(3)
+            .spamTolerance(5)
+            .cooldown(10, TimeUnit.MINUTES)
+            .maxCooldown(10, TimeUnit.MINUTES)
+            .randomIncrement(false)
+            .pool(MantaroData.getDefaultJedisPool())
+            .prefix("pet-choice")
+            .build();
+
     @Subscribe
     public void pet(CommandRegistry cr) {
-        var rl = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(3, TimeUnit.SECONDS)
-                .maxCooldown(5, TimeUnit.SECONDS)
-                .randomIncrement(true)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("pet")
-                .build();
-
-        var petRemoveRatelimiter = new IncreasingRateLimiter.Builder()
-                .limit(1)
-                .spamTolerance(2)
-                .cooldown(1, TimeUnit.HOURS)
-                .maxCooldown(2, TimeUnit.HOURS)
-                .randomIncrement(false)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("pet-remove")
-                .build();
-
-        var petpetRatelimiter = new IncreasingRateLimiter.Builder()
-                .limit(25)
-                .spamTolerance(5)
-                .cooldown(1, TimeUnit.HOURS)
-                .maxCooldown(2, TimeUnit.HOURS)
-                .randomIncrement(false)
-                .pool(MantaroData.getDefaultJedisPool())
-                .prefix("pet-pet")
-                .build();
-
         TreeCommand pet = cr.register("pet", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
@@ -113,7 +123,7 @@ public class PetCmds {
             }
         });
 
-        pet.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, null, false));
+        pet.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, false));
 
         pet.addSubCommand("list", new SubCommand() {
             @Override
@@ -153,7 +163,7 @@ public class PetCmds {
         pet.addSubCommand("choice", new SubCommand() {
             @Override
             public String description() {
-                return "Lets you choose whether you want to use a personal or marriage pet.";
+                return "Lets you choose whether you want to use a personal or marriage pet. You can run this 3 times every 10 minutes.";
             }
 
             @Override
@@ -169,6 +179,9 @@ public class PetCmds {
                     ctx.sendLocalized("commands.pet.choice.invalid_choice", EmoteReference.ERROR);
                     return;
                 }
+
+                if (!RatelimitUtils.ratelimit(petChoiceRatelimiter, ctx, languageContext.get("commands.pet.choice.ratelimit_message"), false))
+                    return;
 
                 var player = ctx.getPlayer();
                 player.getData().setPetChoice(choice);
@@ -304,7 +317,7 @@ public class PetCmds {
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(petRemoveRatelimiter, ctx, null, false))
+                if (!RatelimitUtils.ratelimit(petRemoveRatelimiter, ctx, false))
                     return;
 
                 var toRefund = (long) ((pet.getType().getCost() / 2) * 0.9);
@@ -361,7 +374,7 @@ public class PetCmds {
         pet.addSubCommand("pet", new SubCommand() {
             @Override
             public String description() {
-                return "Pets your pet or someone else's pet. Usage: `~>pet pet [user]`. Cute.";
+                return "Pets your pet or someone else's pet. Usage: `~>pet pet [user]`. Cute. You can pet your pet up to 25 times in a row.";
             }
 
             @Override
@@ -405,7 +418,7 @@ public class PetCmds {
                         return;
                     }
 
-                    if (!RatelimitUtils.ratelimit(petpetRatelimiter, ctx, null, false))
+                    if (!RatelimitUtils.ratelimit(petpetRatelimiter, ctx, languageContext.get("commands.pet.pat.ratelimit_message"), false))
                         return;
 
                     var message = pet.handlePat().getMessage();

@@ -145,7 +145,7 @@ public class MoneyCmds {
                 }
 
                 // Check for rate limit
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, ctx.getLanguageContext().get("commands.daily.ratelimit_message"), false))
                     return;
 
                 List<String> returnMessage = new ArrayList<>();

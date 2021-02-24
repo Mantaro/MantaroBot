@@ -56,7 +56,7 @@ import java.util.stream.Stream;
 
 @Module
 public class MarketCmd {
-    final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
+    private final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
             .cooldown(3, TimeUnit.SECONDS)
@@ -66,7 +66,7 @@ public class MarketCmd {
             .premiumAware(true)
             .build();
 
-    final IncreasingRateLimiter sellRatelimiter = new IncreasingRateLimiter.Builder()
+    private final IncreasingRateLimiter sellRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
             .cooldown(3, TimeUnit.SECONDS)
@@ -76,7 +76,7 @@ public class MarketCmd {
             .premiumAware(true)
             .build();
 
-    final IncreasingRateLimiter dumpRatelimit = new IncreasingRateLimiter.Builder()
+    private final IncreasingRateLimiter dumpRatelimit = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
             .cooldown(3, TimeUnit.SECONDS)
@@ -127,7 +127,7 @@ public class MarketCmd {
         });
 
         marketCommand.setPredicate((ctx) -> {
-            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+            if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                 return false;
             }
 
@@ -422,7 +422,7 @@ public class MarketCmd {
             return;
         }
 
-        if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+        if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
             return;
         }
 
@@ -537,7 +537,7 @@ public class MarketCmd {
                 return;
             }
 
-            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                 return;
             }
 
@@ -632,7 +632,7 @@ public class MarketCmd {
                 return;
             }
 
-            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, null, false)) {
+            if (rateLimiter != null && !RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
                 return;
             }
 

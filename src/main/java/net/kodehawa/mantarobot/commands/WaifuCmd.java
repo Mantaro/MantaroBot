@@ -182,7 +182,7 @@ public class WaifuCmd {
         });
 
         cr.registerAlias("waifu", "waifus");
-        waifu.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, null, false));
+        waifu.setPredicate(ctx -> RatelimitUtils.ratelimit(rl, ctx, false));
 
         waifu.addSubCommand("optout", new SubCommand() {
             @Override
