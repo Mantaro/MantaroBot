@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sВы не можете повысить репутацию самому себе.\n%2$s",
       "cooldown": {
         "waiting": "**Вы сможете ещё раз повысить репутацию через %1$s**",
-        "pass": "Вы можете повысить репутацию."
+        "pass": "Вы можете повысить репутацию.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$sРепутация добавлена пользователю **%2$s**"
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
       "ls": {
         "header": "Salvageable Item List",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sУ вас не хватает денег для починки этого предмета.",
       "no_item_recipe": "%1$sУ вас нету нужных *%2$s* чтобы провести эту починку.",
       "not_enough_items": "%1$sУ вас не хватает *%2$s* чтобы провести эту починку. **(Нужно: %3$s, У вас: %4$s)**",
-      "item_broke": "К несчастью, ваш ключ сломался в процессе, но вы всё равно получили результат!",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Лист предметов доступных для починки",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sВы сможете получить свой ежедневный платеж В: **%2$s.**",
       "about_now": "прямо сейчас",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sВы не можете перевести свою ежедневную работу на бота.",
         "receipt_locked": "Этот пользователь не может получить свои ежедневные кредиты сейчас.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sЭто не та кирка, которую вы можете использовать для раскопок!",
       "not_in_inventory": "%1$sУ вас нет выбора кирки, поэтому переключается на выбор по-умолчанию.",
       "success": "%1$sВы успешно добыли ресурсов на **$%2$s кредитов**, используя *%3$s*",
-      "reminder": "\n*Вы можете улучшать свою кирку, используя драгоценные камни, которые вы получаете, когда добываете ресурсы. Введите `~>cast ls` для просмотра списка вещей, которые вы можете выплавить*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Ох, вы нашли алмаз во время раскопок, но у вас их уже слишком много, поэтому я продал его.",
         "success": "Ух! Вы были %1$s настолько везучим, что нашли алмаз, во время раскопок, проверьте свой инвентарь!"
