@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sNo puedes darte reputación a tí mismo.\n%2$s",
       "cooldown": {
         "waiting": "**Podrás usar este comando en %1$s**",
-        "pass": "Ya puedes darle reputación a alguien."
+        "pass": "Ya puedes darle reputación a alguien.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$sLe añadiste un punto de reputación a **%2$s**"
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "¿Como conseguiste tantos pats?"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sNecesitas al menos una Comet Wrench en tu inventario para hacer esto, pero puedes especificar una mejor si quieres.",
       "dust": "%1$sTu inventario tiene mucho polvo para hacer esto, intenta limpiarlo con una mopa.",
       "no_returnables": "%1$sEste ítem no tiene ningún retorno al salvarlo.",
-      "item_broke": "%1$sTu llave inglesa se rompió intentando salvar este ítem :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sHas salvado %2$s y recibiste %3$s en retorno. El costo fue de %4$s créditos.\n%5$s",
       "ls": {
         "header": "Lista de Ítems Salvables",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sNo tienes suficiente dinero para reparar este ítem.",
       "no_item_recipe": "%1$sNo tienes el *%2$s* necesario para realizar esta reparación.",
       "not_enough_items": "%1$sNo tienes suficiente de *%2$s* para realizar esta reparación. **(Necesitas: %3$s, Tienes: %4$s)**",
-      "item_broke": "Tristemente, tu llave inglesa se rompió en el proceso, ¡pero lograste crear el ítem!",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Lista de ítems que puedes reparar",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sPodrás acumular tus créditos diarios en: **%2$s.**",
       "about_now": "ahorita",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sNo puedes transferirle tus créditos diarios a un bot.",
         "receipt_locked": "Ese usuario no puede recibir créditos ahora mismo.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sNo puedes minar con esto!",
       "not_in_inventory": "%1$sNo tienes esta picota en tu inventario, usaré la picota por defecto.",
       "success": "%1$sMinaste piedras preciosas con un valor de **$%2$,d créditos**, utlilizando un *%3$s*",
-      "reminder": "\n*Puedes crear mejores picos usando los materiales que encuentras minando. Revisa `~>cast ls` para una lista de cosas que puedes crear*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "¡Huh, encontraste un diamante minando! Pero ya tenías muchos diamantes, así que lo vendí por ti.",
         "success": "¡Huh, tuviste suerte y encontraste %1$s diamante(s) mientras minabas! Revisa tu inventario."
