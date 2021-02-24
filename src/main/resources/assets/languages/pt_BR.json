@@ -918,8 +918,8 @@
         "disabled": "%1$sDesabilita ações de serem destinadas a você."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Pet Ativo",
+        "none": "Sem pet ativo"
       },
       "stats": {
         "header": "Estatísticas do Perfil Para %1$s",
@@ -1043,7 +1043,7 @@
       "cooldown": {
         "waiting": "**Você poderá usar esse comando novamente em %1$s**",
         "pass": "Você pode dar rep para alguém agora.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "explanation": "Você pode dar reputação para uma pessoa a cada 12 horas. Por favor espere esse tempo antes de dar reputação para outra pessoa."
       },
       "success": "%1$sReputação adicionada para **%2$s**"
     },
@@ -1368,7 +1368,7 @@
       "choice": {
         "no_choice": "%1$sVocê tem que especificar uma escolha (Personal ou Marriage).",
         "invalid_choice": "%1$sA escolha é inválida. Por favor escolha entre Personal ou Marriage. Personal é para você mesmo, Marriage é o pet compartilhado com seu parceiro",
-        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
+        "ratelimit_message": "Você pode trocar sua escolha 3 vezes. Você tem que esperar o tempo especificado para mais trocas serem possíveis. Isso é para evitar spam!",
         "success": "%1$sDefinido com sucesso sua escolha para: %2$s %3$s"
       },
       "level": {
@@ -1382,7 +1382,7 @@
       "pat": {
         "no_pet": "%1$sVocê não tem nenhum pet para acariciar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
-        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
+        "ratelimit_message": "Você pode acariciar seu pet até 25 vezes. Depois disso você tem que esperar o tempo acima para mais acariciar mais 25 vezes.",
         "too_many": "Como você conseguiu tanto carinho?"
       },
       "pet_reactions": {
@@ -1486,7 +1486,7 @@
       "no_tool_default": "%1$sVocê precisa de pelo menos uma Chave Inglesa de Cometa no seu inventário pra fazer isso, mas você pode especificar uma maior se quiser.",
       "dust": "%1$sSeu inventário tá muito sujo pra tentar resgatar um item, tente limpar com um esfregão.",
       "no_returnables": "%1$sEste item não possui elementos resgate retornáveis.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
+      "item_broke": "%1$sSua chave inglesa (%1$s) quebrou enquanto tentava resgatar este item :(",
       "success": "%1$sResgatado com sucesso %2$s e você ganhou %3$s de retorno. O custo foi %4$s créditos. %5$s",
       "ls": {
         "header": "Lista de Itens Resgatáveis",
@@ -1595,7 +1595,7 @@
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra consertar isso.",
       "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
       "not_enough_items": "%1$sVocê não tem o suficiente de *%2$s* pra consertar isso. **(Necessário: %3$s, Atual: %4$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
+      "item_broke": "%1$sInfelizmente, sua chave inglesa (%1$s) quebrou enquanto consertava esse item, mas você ainda ganhou seu item!",
       "success": "%1$sReparo realizado com sucesso! Item consertado %2$s **%3$s** -> %4$s **%5$s**. O conserto custou *%6$s* créditos e a receita utilizada foi *%7$s*.",
       "ls": {
         "header": "Lista de Itens reparáveis ",
@@ -1645,7 +1645,7 @@
     "daily": {
       "check": "%1$sVocê poderá reivindicar seu diário em: **%2$s.**",
       "about_now": "agora",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
+      "ratelimit_message": "Você pode usar daily a cada dia. Se você quer checar, você pode usar `~>daily -check`. Aprecie!",
       "errors": {
         "bot": "%1$sVocê não pode transferir seu diário para um bot.",
         "receipt_locked": "Esse usuário não pode receber créditos diários agora.",
@@ -1712,7 +1712,7 @@
       "not_suitable": "%1$sIsso não é uma picareta que você pode usar para minerar!",
       "not_in_inventory": "%1$sVocê não tem essa picareta no seu inventário, mudando para a picareta padrão.",
       "success": "%1$sVocê minerou minerais que valem **$%2$s créditos**, usando uma *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Você pode confeccionar melhores picaretas usando as gemas que você ganhou enquanto minerava. Cheque `~>cast ls` para uma lista de coisas que você pode confeccionar*\nPara um guia de como melhorar suas ferramentas, dê uma olhada:<https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, você encontrou %1$s diamante(s) enquanto minerava, mas você já tem muito, então eu vendi para você.",
         "success": "Huh! Você teve sorte e encontrou %1$s diamante(s) enquanto minerava, cheque seu inventário!"
