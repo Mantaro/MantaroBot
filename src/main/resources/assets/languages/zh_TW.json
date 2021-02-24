@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now."
+        "pass": "You can rep someone now.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$sAdded reputation to **%2$s**"
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$s你需要指出正確的選擇 (Personal 或 Marriage)。",
         "invalid_choice": "%1$s請選擇 Personal 或 Marriage，Personal 是你的個人寵物，Marriage 為你的婚姻寵物",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$s成功設置寵物選擇為：%2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)%3$s",
         "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
       "ls": {
         "header": "Salvageable Item List",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$s你沒有足夠的金錢來修復這個物品。",
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
       "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來進行修復。**(需求：%3$s，擁有：%4$s)**",
-      "item_broke": "可惜的，你的扳手在過程中壞掉了，不過你還是獲得了你的物品！",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "可修復物品清單",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
       "success": "%1$s你用*%3$s*開採了價值**%2$,d元**的礦物",
-      "reminder": "\n*你可以使用採礦時獲得的寶石來鑄造更好的鎬子。使用 `~>cast ls` 來查看所有你能鑄造的東西*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "你在採礦時時發現了一顆鑽石，但是你已經擁有太多了，所以我為你出售了。",
         "success": "你在採礦時幸運的找到了%1$s顆鑽石，檢查你的背包！"
