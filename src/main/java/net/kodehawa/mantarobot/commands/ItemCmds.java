@@ -529,7 +529,8 @@ public class ItemCmds {
                         //The higher the chance, the lower it's the chance to break. Yes, I know.
                         if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
                             playerInventory.process(new ItemStack(wrench, -1));
-                            message += ctx.getLanguageContext().get("commands.repair.item_broke");
+                            message += ctx.getLanguageContext().get("commands.repair.item_broke")
+                                    .formatted(EmoteReference.SAD, languageContext.get(wrench.getTranslatedName()));
                         }
 
                         user.getData().increaseDustLevel(4);
@@ -647,7 +648,7 @@ public class ItemCmds {
                 .cooldownPenaltyIncrease(2, TimeUnit.SECONDS)
                 .maxCooldown(2, TimeUnit.MINUTES)
                 .pool(MantaroData.getDefaultJedisPool())
-                .prefix("repair")
+                .prefix("salvage")
                 .build();
 
         TreeCommand sv = cr.register("salvage", new TreeCommand(CommandCategory.CURRENCY) {
@@ -743,7 +744,8 @@ public class ItemCmds {
                         var message = "";
                         if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
                             playerInventory.process(new ItemStack(wrench, -1));
-                            message += ctx.getLanguageContext().get("commands.repair.item_broke");
+                            message += ctx.getLanguageContext().get("commands.salvage.item_broke")
+                                    .formatted(EmoteReference.SAD, languageContext.get(wrench.getTranslatedName()));
                         }
 
                         var salvageCost = item.getValue() / 3;
