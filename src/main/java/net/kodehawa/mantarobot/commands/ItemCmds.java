@@ -615,7 +615,7 @@ public class ItemCmds {
                     }
 
                     var recipe = String.join(", ", recipeString.toString().split("\\|"));
-                    var repairCost = item.getValue() / 3;
+                    var repairCost = mainItem.getValue() / 3;
 
                     fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),
                             "%s\n**%s** %s %s\n**Recipe: **%s\n**Item: ** %s %s".formatted(
