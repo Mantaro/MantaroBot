@@ -918,8 +918,8 @@
         "disabled": "%1$sTindakan dilarang dilakukan kepada anda."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Haiwan Peliharaan Aktif",
+        "none": "Tiada haiwan peliharaan yang aktif"
       },
       "stats": {
         "header": "Statistik Profil %1$s",
@@ -1043,7 +1043,7 @@
       "cooldown": {
         "waiting": "**Anda akan dapat menggunakan arahan ini semula dalam %1$s**",
         "pass": "Anda boleh rep seseorang sekarang.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "explanation": "Anda boleh memberi reputasi kepada seseorang setiap 12 jam. Sila tunggu selama masa tersebut di atas sebelum anda dapat memberi reputasi kepada orang lain."
       },
       "success": "%1$sBerjaya menambah reputasi kepada **%2$s**"
     },
@@ -1341,9 +1341,9 @@
       "no_marriage_other": "%1$s%2$s perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "status": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk periksa statusnya. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)%3$s",
-        "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
+        "pet_in_other_category": "\n%1$sAnda mempunyai haiwan peliharaan pada pilihan %2$s (%3$s). Anda boleh menukar kepadanya dengan `~>pet choice %2$s`",
         "header": "Status untuk %1$s",
-        "description": "Remember to take care and love your pet :heart:\nSee `~>pet` and `~>help pet` for an explanation.",
+        "description": "Peringatan untuk menjaga dan menyayangi haiwan peliharaan anda :heart:\nLihat `~>pet` dan `~>help pet` untuk penerangan.",
         "cost": "Harga",
         "type": "Jenis",
         "abilities": "Keupayaan",
@@ -1354,42 +1354,42 @@
         "stamina": "Stamina",
         "dust": "Habuk (%)",
         "pet": "Belaian",
-        "buildup": "Credit / Item Buildup",
-        "buildup_coin": "Credit Buildup",
-        "buildup_stats": "%1$,d credits / %2$,d items",
-        "buildup_stats_credits": "%1$,d credits",
-        "footer": "Thanks you for using Mantaro! <3"
+        "buildup": "Kenaikan Kredit / Item",
+        "buildup_coin": "Kenaikan Kredit",
+        "buildup_stats": "%1$,d kredit / %2$,d item",
+        "buildup_stats_credits": "%1$,d kredit",
+        "footer": "Terima kasih kerana menggunakan Mantaro! <3"
       },
       "clean": {
-        "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
-        "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
+        "not_enough_money": "%1$sAnda memerlukan sekurang-kurangnya %2$,d kredit untuk membersihkan **%3$s**.",
+        "not_dusty": "%1$s**%2$s** tidak berhabuk. (Tahap habuk semasa: %3$,d%%)",
+        "success": "%1$s**%2$s** bersih berkilau! Kos untuk membersihkan haiwan peliharaan anda ialah %3$,d kredit."
       },
       "choice": {
-        "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
-        "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
-        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
-        "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
+        "no_choice": "%1$sAnda perlu menyatakan sebuah pilihan (Personal atau Marriage).",
+        "invalid_choice": "%1$sPilihan tidak sah. Sila memilih sama ada Personal atau Marriage. Personal adalah untuk diri anda, Marriage ialah haiwan peliharaan yang dikongsi bersama pasangan anda",
+        "ratelimit_message": "Anda boleh menukar pilihan anda sebanyak 3 kali. Anda perlu menunggu selama masa dinyatakan untuk menukar pilihan anda lagi. Ini adalah untuk mengelakkan spam!",
+        "success": "%1$sBerjaya menetapkan pilihan anda kepada: %2$s %3$s"
       },
       "level": {
-        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
+        "success": "%1$sTahap **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
-        "summary": "%1$s **Name:** %2$s, **Abilities:** `%3$s`, **Value:** %4$,d credits",
-        "abilities": "*Fish*: Useful for `~>fish`\n*Catch*: Useful for `~>mine`\n*Chop*: Useful for `~>chop`\n*Cheer*: Gives you a nice morale boost.",
-        "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
+        "summary": "%1$s **Nama:** %2$s, **Keupayaan:** `%3$s`, **Nilai:** %4$,d credits",
+        "abilities": "*Memancing*: Berguna untuk `~>fish`\n*Menangkap*: Berguna untuk `~>mine`\n*Membalak*: Berguna untuk `~>chop`\n*Bersorak*: Memberi anda sokongan dan galakan.",
+        "header": "%1$s**Haiwan Peliharaan tersedia Semasa**\n\n%2$s\n\n%3$s**Penerangan keupayaan:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
-        "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
-        "too_many": "How did you even get this many pats?"
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)%3$s",
+        "no_pet_other": "%1$s%2$s tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan.",
+        "ratelimit_message": "Anda boleh membelai haiwan peliharaan anda sebanyak 25 kali. Setelah itu anda perlu menunggu selama masa tersebut di atas untuk 25 belaian lagi.",
+        "too_many": "Bagaimanakah anda mendapat belaian sebanyak itu?"
       },
       "pet_reactions": {
-        "cute": "%1$s**%2$s** happily wags their tail as you caress their head. **Pat counter: %3$s**.%4$s",
-        "cute_not_animal": "%1$s**%2$s** happily smiles as you caress their head. **Pat counter: %3$s**.%4$s",
-        "nothing": "%1$s**%2$s** just sits there, doing nothing. **Pat counter: %3$s**.%4$s",
-        "cheer": "%1$s**%2$s**'s reaction was so cute it managed to cheer you up. **Pat counter: %3$s**.%4$s",
+        "cute": "%1$s**%2$s** mengibaskan ekornya dengan gembira semasa anda membelainya. **Kiraan belaian: %3$s**.%4$s",
+        "cute_not_animal": "%1$s**%2$s** tersenyum dengan gembira semasa anda membelainya. **Kiraan belaian: %3$s**.%4$s",
+        "nothing": "%1$s**%2$s** hanya duduk di situ, tanpa membuat apa-apa. **Kiraan belaian: %3$s**.%4$s",
+        "cheer": "%1$sReaksi **%2$s** sangat comel sehingga ia menceriakan anda. **Kiraan belaian: %3$s**.%4$s",
         "scare": "%1$sThe pet got scared when you patted them. Maybe it was too sudden? **Pat counter: %3$s**.%4$s",
         "counter_100": "%1$sIt seems like their head will get shiny with so many pats."
       },
