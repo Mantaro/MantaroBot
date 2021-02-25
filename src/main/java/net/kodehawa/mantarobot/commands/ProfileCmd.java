@@ -862,6 +862,8 @@ public class ProfileCmd {
                 );
             }
         });
+
+        cr.registerAlias("profile", "me");
     }
 
     private String parsePlayerEquipment(PlayerEquipment equipment, I18nContext languageContext) {

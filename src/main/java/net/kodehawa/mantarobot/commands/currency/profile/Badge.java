@@ -601,7 +601,7 @@ public enum Badge {
     ),
 
     CHRISTMAS("Christmas Spirit", "\uD83C\uDF85",
-            "Participated in the christmas 2017 event!",
+            "Participated in the Christmas event!",
             91, 92,
             (player, stats, dbUser) -> false, false
     ),

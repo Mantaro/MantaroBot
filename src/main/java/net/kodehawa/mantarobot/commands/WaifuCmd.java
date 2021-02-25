@@ -255,10 +255,6 @@ public class WaifuCmd {
 
                     final var waifuStats = calculateWaifuValue(waifuClaimed, toLookup);
                     final var finalValue = waifuStats.getFinalValue();
-                    if (playerData.getWaifuCachedValue() != finalValue) {
-                        playerData.setWaifuCachedValue(finalValue);
-                        player.saveUpdating();
-                    }
 
                     EmbedBuilder statsBuilder = new EmbedBuilder()
                             .setThumbnail(toLookup.getEffectiveAvatarUrl())

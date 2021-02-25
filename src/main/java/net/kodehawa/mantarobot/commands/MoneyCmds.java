@@ -264,7 +264,6 @@ public class MoneyCmds {
                 toAddMoneyTo.addMoney(dailyMoney);
                 toAddMoneyTo.saveUpdating();
 
-
                 // Build Message
                 var toSend = new StringBuilder((targetOther ?
                         languageContext.withRoot("commands", "daily.given_credits")
