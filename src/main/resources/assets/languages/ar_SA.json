@@ -849,7 +849,7 @@
       "deleted_role": "%1$sتم حذف الرتبة التي تتوافق مع هذه الرتبة التلقائية",
       "already_assigned": "%1$sأنت بالفعل لديك هذه الرتبة.",
       "success": "%1$s%2$s، تم إعطائك رتبة **%3$s**",
-      "error": "%1$sلم أستطع التحدث منك **%2$s**. تأكد أن لدي صلاحية إضافة الرتب وتكن رتبتي أعلاه **%2$s**",
+      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
       "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
       "no_iam": "%1$sتحتاج إلى تحديد الرتبة القابلة للتعيين التلقائي الذي تريد تعيينه بنفسك!"
     },
@@ -918,8 +918,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Personal Pet",
-        "none": "No personal pet"
+        "header": "Active Pet",
+        "none": "No active pet"
       },
       "stats": {
         "header": "إحصائيات الملف ل %1$s",
@@ -995,7 +995,7 @@
       "badge_header": "%1$s الميدالية المعروضة",
       "bot_notice": "%1$sالبوتات لاتملك صفحة شخصية",
       "header": "صفحة %1$s الشخصية",
-      "no_desc": "لم يتم وضع وصف",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "كريدت",
       "old_credits": "كريدت قديم",
       "level": "مستوى",
@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sلايمكنك إعطاء نفسك ريب! \n%2$s",
       "cooldown": {
         "waiting": "**سيمكنك إستخدام هذا الأمر مرك أخرى بعد %1$s**",
-        "pass": "يمكنك إعطاء ريب الآن."
+        "pass": "يمكنك إعطاء ريب الآن.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$sتم إعطاء ريب إلى **%2$s** "
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "كيف حصلت حتى على هذا العدد الكبير من التربيتات؟"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
       "ls": {
         "header": "قائمة الأغراض القابلة للصناعة",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sليس لديك المال الكافي لاصلاح هذا العنصر.",
       "no_item_recipe": "%1$sليس لديك المتطلبات اللازمة *%2$s* لتنفيذ عملية الاصلاح.",
       "not_enough_items": "%1$sليس لديك مايكفي من *%2$s* لتنفيذ عملية الاصلاح. **(المطلوب: %3$s, الحالي: %4$s)**",
-      "item_broke": "للأسف, مفتاح فك الربط انكسر في هذه العملية, لكنك حصلت على العنصر الخاص بك!",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "قائمة العناصر التي يمكن اصلاحها",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sسوف تتمكن من الحصول على المكآفأة اليومية الخاصة بك في: **%2$s.**",
       "about_now": "تقريبا الآن",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$s لا يُمكنك تحويل مكافأتك اليومية الى بوت.",
         "receipt_locked": "ذلك المستخدم لا يمكنه استقبال الكردت الخاص بالمكآفأة اليومية الآن.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sهذا ليس مِعول يُمكن اسخدامه للتنقيب!",
       "not_in_inventory": "%1$sليس لديك هذا الخيار في المخزن الخاص بك, التبديل الى الخيار الافتراضي.",
       "success": "%1$sلقد استخرجت معادن بقيمة **$%2$,d كريدت**, باستخدام *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "لقد عثرت على الماس أثناء التعدين ، لكنك بالفعل تمتلك الكثير ، لذلك بعته لك.",
         "success": "هاه! لقد حالفك الحظ ووجدت %1$s ماس/ة أثناء التعدين ، تحقق من مخزونك!"
@@ -2303,7 +2307,8 @@
       "broken": "Broken Item",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
-      "deprecated": "Deprecated"
+      "deprecated": "Deprecated",
+      "interactive": "Interactive Item"
     },
     "headphones": "سماعات الرأس",
     "ban_hammer": "مطرقة الحظر",
@@ -2376,8 +2381,10 @@
     "pizza": "بيتزا",
     "mine_crate": "صندوق الجوهرة",
     "fish_crate": "كنز صيد السمك",
+    "chop_crate": "Chop Crate",
     "mine_premium_crate": "صندوق جوهرة بريميوم",
     "fish_premium_crate": "كنز صيد السمك البريميوم",
+    "chop_premium_crate": "Chop Premium Crate",
     "comet_rod": "سنارة جوهرة المذنب",
     "star_rod": "سنارة جوهرة النجمة",
     "sparkle_rod": "سنارة الشرارة",

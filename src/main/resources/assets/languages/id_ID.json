@@ -1,78 +1,78 @@
 {
   "general": {
-    "invalid_number": "%1$sThat is not a valid number!",
-    "requested_by": "Requested by %1$s.",
-    "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
-    "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
-    "search_no_result": "%1$sYour search yielded no results :(",
-    "unknown": "Unknown",
-    "days": "days",
-    "none": "None",
-    "now": "Now",
-    "hourly": "Hourly",
-    "daily": "Daily",
+    "invalid_number": "%1$sItu bukan angka yang valid!",
+    "requested_by": "Diminta oleh %1$s.",
+    "operation_timed_out": "%1$sWaktu sudah habis.",
+    "too_many_users_found": "%1$sTerlalu banyak pengguna yang ditemukan, mau perbaiki pencarian? (Contoh. gunakan nama#nomor)\n**Pengguna yang ditemukan:**%2$s",
+    "search_no_result": "%1$sPencarian tidak menemukan apa-apa :(",
+    "unknown": "Tidak diketahui",
+    "days": "hari",
+    "none": "Tidak ada",
+    "now": "Sekarang",
+    "hourly": "Per jam",
+    "daily": "Harian",
     "total": "Total",
-    "arrow_react": "Use the arrow reactions to change pages.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
-    "not_found": "Not found",
-    "no_results": "No results.",
-    "timeout": "This timeouts in %1$d seconds.",
-    "reaction_timeout": "Reactions will timeout in %1$d seconds.",
-    "example": "Example",
-    "definition": "Definition",
-    "name": "Name",
-    "description": "Description",
-    "options": "Options",
-    "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
-    "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n**Members found:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
-    "dust": "There's only dust here.",
-    "invalid_syntax": "Invalid syntax.",
+    "arrow_react": "Gunakan emoji panah dibawah untuk mengganti halaman.",
+    "text_menu": "Gunakan &p >> dan &p << untuk mengganti halaman dan &cancel untuk menutup.",
+    "not_found": "Tidak ditemukan",
+    "no_results": "Tak ada hasil.",
+    "timeout": "Akan berakhir dalam %1$d detik.",
+    "reaction_timeout": "Batas waktu adalah %1$d detik.",
+    "example": "Contoh",
+    "definition": "Pengertian",
+    "name": "Nama",
+    "description": "Deskripsi",
+    "options": "Pilihan",
+    "find_members_failure": "%1$sTak ada member yang sesuai dengan kriteria pencarian :(",
+    "too_many_members": "%1$sTerlalu banyak member yang ditemukan, mungkin tambahkan detail pada pencarian? (Contoh. gunakan nama#tag)\n**Member yang ditemukan:**%2$s",
+    "too_many_mentions": "%1$sMohon sebut satu orang saja dalam pencarian member.",
+    "query_too_small": "%1$sNama terlalu pendek. Gunakan minimal 4 karakter dalam pencarian. Jika username kurang dari itu, carilah menggunakan nama#tag atau id pengguna.",
+    "dust": "Cuma ada debu di sini.",
+    "invalid_syntax": "Syntax tidak valid.",
     "item_lookup": {
-      "no_item_emoji": "There isn't an item associated with this emoji.",
-      "no_item_name": "There isn't an item associated with this name.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
-      "claim_key": "You cannot transfer a claim key."
+      "no_item_emoji": "Gaada item yang cocok sama emoji ini.",
+      "no_item_name": "Gaada item yang cocok sama nama ini.",
+      "not_found": "Gabisa nemuin item yang kamu sebut.\nKalau bingung, coba pakai singkatan aja, contoh: cari 'Energy Beverage' dengan 'energy'. Atau pakai tanda kutip di awal dan akhir kata.",
+      "claim_key": "Kamu gabisa transfer claim key."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
-      "stamina": "%1$sActivated stamina for 3 mining sessions.",
-      "stamina_used": "%1$sYou already have an active stamina effect!",
-      "haste": "%1$sActivated Haste for 2 sessions.",
-      "haste_used": "%1$sYou already have an active haste effect!",
-      "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
-      "bait_used": "%1$sYou already have an active fishing bait!",
-      "pill": "%1$sYou drank a waifu pill! (Activated for 5 sessions)",
-      "pill_used": "%1$sYou already have an active waifu pill!",
+      "mop": "%1$sKamu ngebersihin semua debu yang dihasilin dari menambang.",
+      "mop_not_enough": "%1$sDust level kamu kurang dari 5%%, percuma saja dipel.",
+      "milk": "%1$sSemua efek potion dihilangkan.",
+      "stamina": "%1$sStamina aktif buat 3 sesi menambang.",
+      "stamina_used": "%1$sKamu udah punya stamina yang aktif!",
+      "haste": "%1$sHaste diaktifin, bertahan buat 2 sesi.",
+      "haste_used": "%1$sKamu udah punya Haste yang aktif!",
+      "bait": "%1$sUmpan terpasang di pancinganmu! Semoga beruntung! (Aktif buat 1 pemakaian)",
+      "bait_used": "%1$sSudah ada umpan yang terpasang!",
+      "pill": "%1$sKamu meminum waifu pill! (Bertahan selama 5 sesi)",
+      "pill_used": "%1$sKamu memiliki waifu pill yang masih aktif!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
-        "success": "%1$sYou opened a crate and won: %2$s%3$s. Congratulations!",
+        "no_key": "%1$sKamu ngebutuhin sebuah crate key buat ngebuka crate! Kamu bisa beli menggunakan `~>buy key`",
+        "no_crate": "%1$sKamu ngebutuhin sebuah crate! Kamu bisa nemuin crate saat menggunakan currency commands.",
+        "success": "%1$sKamu membuka sebuah crate dan mendapatkan: %2$s%3$s. Selamat!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
-        "overflow": "But you already had too much, so you decided to throw away the excess"
+        "overflow": "Tapi kamu udah punya terlalu banyak, jadi kamu diharuskan untuk membuangnya"
       },
-      "potion_active": "%1$sYou already have an active **%2$s** potion effect and have the max amount possible of it!",
-      "potion_not_found": "%1$sI can't find that potion or equipment type!",
-      "potion_applied": "%1$sSuccessfully applied effect **%2$s** of type *%3$s* (%4$dx). Check your shiny new effect on `~>profile stats`",
-      "potion_applied_multiple": "%1$sSuccessfully applied **%2$s** of type *%3$s*.\nYou already had this effect applied, so we stacked it up. Current stack size: %4$s",
-      "max_stack_size": "%1$sYou already stacked the max amount of %2$s you possibly can. (Maximum: 15, After stack: %3$s)",
-      "max_stack_size_2": "%1$sYou can't stack that many %2$s. (Maximum: 15, Attempted: %3$s)",
-      "not_same_potion": "%1$sYou already have a potion of type %2$s stacked and active, so you can't stack potions of type %3$s into it."
+      "potion_active": "%1$sKamu masih punya efek **%2$s** potion yang aktif dengan jumlah maksimum!",
+      "potion_not_found": "%1$sAku gabisa nemuin potion atau equipment yang kamu sebut!",
+      "potion_applied": "%1$sBerhasil menggunakan efek **%2$s** dengan tipe *%3$s* (%4$dx). Cek efek baru kamu di `~>profile stats`",
+      "potion_applied_multiple": "%1$sBerhasil menggunakan **%2$s** dengan tipe *%3$s*.\nKamu masih punya efek ini; jadi, kamu stack. Jumlah stack sekarang: %4$s",
+      "max_stack_size": "%1$sKamu udah stack %2$s dengan jumlah maksimal. (Maksimal: 15, kalau kamu stack lagi: %3$s)",
+      "max_stack_size_2": "%1$sKamu gabisa stack %2$s sebanyak itu. (Maksimal: 15, kalau stack lagi: %3$s)",
+      "not_same_potion": "%1$sKamu udah punya efek potion %2$s yang di stack dan aktif; jadi, kamu gabisa stack %3$s lagi."
     },
     "campaigns": {
       "premium": {
-        "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "generic_sellout": "Kami butuh bantuan kamu supaya mantaro bisa tetap hidup dan berkembang!\nKamu bisa dapetin keuntungan dan **sampai dengan 2x lipat credits yang didapetin dengan mantaro premium**! Membership dimulai dari $2 per bulan. Info lebih lanjut kunjungi <https://patreon.com/mantaro>. Ngajakin temen buat ikutan main juga ngebantu banget! :heart:",
+        "daily_sellout": "Kami ngebutuhin bantuanmu supaya mantaro bisa tetap hidup!\nKamu bisa dapetin keuntungan dan **dapetin 2x lipat credits** dan akses ke `~>dailycrate`! Membership dimulai dari $2 per bulan, info lebih lanjut kunjungi <https://patreon.com/mantaro>.",
+        "thanks_message": "Terima kasih udah dukung mantaro! Tanpa bantuan dari orang kaya kamu, Mantaro gabakal bisa tetap hidup :heart:",
+        "thanks_message_daily": "Terima kasih udah dukung mantaro! Tanpa bantuan dari orang kaya kamu, Mantaro gabakal bisa tetap hidup :heart:\nKamu juga ngedapetin 2x lipat credits sebagai bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Udah tau belom kalo mantaro punya akun Twitter? Follow Mantaro di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk info update dan hal seru lainnya."
     },
-    "mention_user_required": "%1$sYou need to mention one user.",
-    "invalid_character": "%1$sThat is not an allowed character.",
+    "mention_user_required": "%1$sKamu harus mention seseorang.",
+    "invalid_character": "%1$sItu adalah karakter yang dilarang.",
     "invalid_action": "You cannot do that, silly.",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
@@ -849,7 +849,7 @@
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
+      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
       "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
       "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
@@ -918,8 +918,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Personal Pet",
-        "none": "No personal pet"
+        "header": "Active Pet",
+        "none": "No active pet"
       },
       "stats": {
         "header": "Profile Statistics for %1$s",
@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
-      "no_desc": "No description set",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Credits",
       "old_credits": "Legacy Credits",
       "level": "Level",
@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now."
+        "pass": "You can rep someone now.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$sAdded reputation to **%2$s**"
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
       "ls": {
         "header": "Salvageable Item List",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sYou don't have enough money to repair this item.",
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
-      "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Repair-able Items List",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
         "success": "Huh! You got lucky and found %1$s diamond(s) while mining, check your inventory!"
@@ -2303,7 +2307,8 @@
       "broken": "Broken Item",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
-      "deprecated": "Deprecated"
+      "deprecated": "Deprecated",
+      "interactive": "Interactive Item"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
@@ -2376,8 +2381,10 @@
     "pizza": "Pizza",
     "mine_crate": "Gem Crate",
     "fish_crate": "Fish Treasure",
+    "chop_crate": "Chop Crate",
     "mine_premium_crate": "Gem Premium Crate",
     "fish_premium_crate": "Fish Premium Treasure",
+    "chop_premium_crate": "Chop Premium Crate",
     "comet_rod": "Comet Gem Rod",
     "star_rod": "Star Gem Rod",
     "sparkle_rod": "Sparkle Rod",

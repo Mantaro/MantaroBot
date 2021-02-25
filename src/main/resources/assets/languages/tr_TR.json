@@ -849,7 +849,7 @@
       "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
       "already_assigned": "%1$sYou already have this role, silly!",
       "success": "%1$s%2$s, you've been given the **%3$s** role",
-      "error": "%1$sI couldn't take from you **%2$s. Make sure that I have permission to add roles and that my role is above **%2$s**",
+      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
       "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
       "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
     },
@@ -918,8 +918,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Personal Pet",
-        "none": "No personal pet"
+        "header": "Active Pet",
+        "none": "No active pet"
       },
       "stats": {
         "header": "%1$s için profil istatistikleri",
@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBotların profili olmaz.",
       "header": "%1$s's Profili",
-      "no_desc": "Açıklama yok",
+      "no_desc": "No description set. You can set one with `~>profile description`",
       "credits": "Para",
       "old_credits": "Legacy Credits",
       "level": "Seviye",
@@ -1042,7 +1042,8 @@
       "rep_yourself": "%1$sKendine rep veremezsin.\n%2$s",
       "cooldown": {
         "waiting": "**%1$s sonra bu komutu tekrar kullanabileceksin.**",
-        "pass": "Şu anda birine puan verebilirsin."
+        "pass": "Şu anda birine puan verebilirsin.",
+        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
       },
       "success": "%1$s**%2$s** adlı kişiye itibar puanı verdin!"
     },
@@ -1367,6 +1368,7 @@
       "choice": {
         "no_choice": "%1$sYou need to specify a choice (Personal or Marriage).",
         "invalid_choice": "%1$sThe choice was invalid. Please choose between Personal or Marriage. Personal is for yourself, Marriage is the pet shared with your partner",
+        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
         "success": "%1$sSuccessfully set your choice to: %2$s %3$s"
       },
       "level": {
@@ -1380,6 +1382,7 @@
       "pat": {
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
+        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
         "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
@@ -1483,7 +1486,7 @@
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench broke while trying to salvage this item :(",
+      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
       "ls": {
         "header": "Salvageable Item List",
@@ -1592,7 +1595,7 @@
       "not_enough_money": "%1$sYou don't have enough money to repair this item.",
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
-      "item_broke": "Sadly, your wrench broke in the process, but you still got your item!",
+      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Repair-able Items List",
@@ -1642,6 +1645,7 @@
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
+      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
@@ -1708,7 +1712,7 @@
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$s credits**, using a *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*",
+      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, you found %1$s diamond(s) while mining, but you already had too much, so I sold it for you.",
         "success": "Huh! You got lucky and found a diamond while mining, check your inventory!"
@@ -2303,7 +2307,8 @@
       "broken": "Broken Item",
       "pet": "Pet Item",
       "pet_food": "Pet Food",
-      "deprecated": "Deprecated"
+      "deprecated": "Deprecated",
+      "interactive": "Interactive Item"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
@@ -2376,8 +2381,10 @@
     "pizza": "Pizza",
     "mine_crate": "Gem Crate",
     "fish_crate": "Fish Treasure",
+    "chop_crate": "Chop Crate",
     "mine_premium_crate": "Gem Premium Crate",
     "fish_premium_crate": "Fish Premium Treasure",
+    "chop_premium_crate": "Chop Premium Crate",
     "comet_rod": "Comet Gem Rod",
     "star_rod": "Star Gem Rod",
     "sparkle_rod": "Sparkle Rod",
