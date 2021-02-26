@@ -460,6 +460,8 @@ public class UtilsCmds {
                 .addSubCommand("items", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a list of items, please visit:**" +
                                 " https://github.com/Mantaro/MantaroBot/wiki/Item-Documentation"))
+                .addSubCommand("overview", (ctx, s) ->
+                        ctx.send(EmoteReference.OK + "**For a feature overview, check:** https://mantaro.site/features.html"))
                 .addSubCommand("birthday", (ctx, s) ->
                         ctx.send(EmoteReference.OK + "**For a guide on the birthday system, please visit:**" +
                                 " https://github.com/Mantaro/MantaroBot/wiki/Birthday-101"))
