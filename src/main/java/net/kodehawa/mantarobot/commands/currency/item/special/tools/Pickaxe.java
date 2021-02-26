@@ -117,7 +117,7 @@ public class Pickaxe extends Item implements Castable, Salvageable, Attribute {
         return """
                 **Wrench Tier (to craft):**\u2009 %s
                 **Money Increase:**\u2009 %,d - %,d credits
-                **Diamond Increase:**\u2009 1 - %,d
+                **Diamond Drop Range:**\u2009 0 - %,d
                 **Sparkle / Gem Luck (%%):**\u2009 %,.1f%% / %,.1f%%
                 """.formatted(
                         getTierStars(getCastLevelRequired()), (getMoneyIncrease() / 4),

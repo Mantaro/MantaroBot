@@ -196,7 +196,7 @@ public class MusicCmds {
         cr.registerAlias("pause", "unpause");
     }
 
-    @Subscribe""
+    @Subscribe
     public void play(CommandRegistry cr) {
         cr.register("play", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
