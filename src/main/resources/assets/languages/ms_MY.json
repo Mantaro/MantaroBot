@@ -1336,7 +1336,7 @@
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
     "pet": {
-      "explanation": "Haiwan peliharaan amat berguna dalam mata wang!\nIa membantu anda menguntungkan lebih banyak wang, loot lebih banyak, mencari benda rawak semasa perlombongan, penebangan pokok, dan juga memancing. Semakin tinggi tahapnya, semakin lumayan ganjarannya!\nPilihan haiwan peliharaan yang sesuai untuk aktiviti anda adalah penting, jadi pastikan anda memeriksa jenis dan keupayaan haiwan peliharaan keinginan anda!\nIngat bahawa anda perlulah memberi makan dan minum kepada haiwan peliharaan anda, serta membiarkan ia berehat dan cas semula tenaganya sekali-sekala, sama seperti haiwan peliharaan yang sebenar! Anda juga boleh belainya :)\nTerdapat dua jenis: Peribadi (untuk diri anda) dan Perkahwinan (dikongsi bersama pasangan anda). Pilih satu dengan `~>pet choice`. Yang asal adalah Peribadi.\nUntuk bantuan lebih lanjut, gunakan `~>help pet` dan `~>pet list` untuk mendapatkan senarai haiwan peliharaan.",
+      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
       "no_marriage": "%1$sAnda perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "no_marriage_other": "%1$s%2$s perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "status": {
@@ -1347,7 +1347,7 @@
         "cost": "Harga",
         "type": "Jenis",
         "abilities": "Keupayaan",
-        "level": "Tahap",
+        "level": "Level",
         "health": "Kesihatan",
         "thirst": "Kedahagaan",
         "hunger": "Kelaparan",
@@ -1372,7 +1372,7 @@
         "success": "%1$sBerjaya menetapkan pilihan anda kepada: %2$s %3$s"
       },
       "level": {
-        "success": "%1$sTahap **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
+        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Nama:** %2$s, **Keupayaan:** `%3$s`, **Nilai:** %4$,d credits",
