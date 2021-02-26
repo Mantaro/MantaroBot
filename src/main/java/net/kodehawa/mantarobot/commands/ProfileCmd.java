@@ -216,7 +216,11 @@ public class ProfileCmd {
                             }
 
                             ctx.send(profileBuilder.build());
-                            player.saveUpdating();
+
+                            // We don't need to update stats if someone else views your profile
+                            if (player.getUserId().equals(ctx.getAuthor().getId())) {
+                                player.saveUpdating();
+                            }
                         });
                     }
                 };
