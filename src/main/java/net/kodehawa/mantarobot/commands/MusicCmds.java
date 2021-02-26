@@ -329,7 +329,6 @@ public class MusicCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-
                 if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
                 }
@@ -347,7 +346,7 @@ public class MusicCmds {
 
                     TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
                 } else {
-                    if (args[0].equalsIgnoreCase("queue")) {
+                    if (args[0].equalsIgnoreCase("queue") || args[0].equalsIgnoreCase("q")) {
                         if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
                             trackScheduler.setRepeatMode(null);
                             ctx.sendLocalized("commands.repeat.queue_cancel", EmoteReference.CORRECT);
@@ -376,6 +375,7 @@ public class MusicCmds {
         });
 
         cr.registerAlias("repeat", "loop");
+        cr.registerAlias("repeat", "rp");
     }
 
     @Subscribe
