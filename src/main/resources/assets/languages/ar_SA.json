@@ -238,7 +238,6 @@
       "track_error": "%1$sعفوًا ، حدث خطأ ما أثناء تشغيل هذا المسار! عذرًا على الإزعاج ، سأحاول تشغيل اللعبة التالية المتاحة في حالة وجودها.",
       "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sيجب ان تعطيني اسم الاغنية, أنا لست ساحرًا لذا لا يمكنني تخمين ذلك :(",
-      "too_many_errors": "%1$sالكثير من الاخطاء في هذه الجلسة, توقف...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sانا لست متصلاََ بروم صوتي على الرغم من أنني يجب أن أكون؟ حاول مجددا.",
       "queue": {
@@ -512,8 +511,8 @@
       "null_mute_role": "%1$sالإسكات الذي تم تكوينه مسبقًا على هذا الخادم غير موجود الآن.",
       "no_users": "%1$sأحتاج أن تعطيني عضو لإسكاته.",
       "no_manage_roles": "%1$sلا أملك الصلاحية لتعديل الرتب في هذا الخادم ",
-      "no_time": "%1$sلم تحدد اي وقت. تذكر، انك يجب ان تضيف الوقت `-time` وتحديده هناك. ",
       "time_not_specified": "%1$sأنت تريد وقت ولكن لم تحدد المدة.",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `~>mute 20m @mention reason goes here`, for example.",
       "negative_time_notice": "%1$sلا يمكنك إسكات شخص للوقت السلبي. الا اذا كنت تستطيع ثني وقت الفضاء.. هذا هو. ",
       "default_time_too_long": "%1$sمدة الإسكات الافتراضي طويله جداً (الحد الاقصى: 10 أيام)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
@@ -521,7 +520,8 @@
       "already_muted": "%1$sهذا العضو لديه بالفعل رتبة الإسكات. استخدم `~>unmute` لعدم إسكاته.",
       "self_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنا عليه. ",
       "user_hierarchy_error": "%1$sلايمكنني إسكات هذا العضو لانه اعلى مما أنا عليه. أو يملك رتبة اعلى مما أنت عليه. ",
-      "success": "%1$sإضافة رتبة الإسكات الى **%2$s** لحوالي %3$s"
+      "success": "%1$sAdded mute role to **%2$s** for %3$s",
+      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sيجب أن لديك صلاحية الطرد أو الحظر لفك إسكات عضو.",
@@ -858,10 +858,6 @@
       "not_assigned": "%1$sليس لديك هذه الرتبة.",
       "success": "%1$s%2$sلقد خسرت رتبة **%3$s**"
     },
-    "misc": {
-      "reverse_missing": "%1$sلم تُقدم أي رساله للعكس.",
-      "random_color": "%1$sاللون العشوائي هو %2$s"
-    },
     "poll": {
       "missing": "%1$sلم تُضيف %2$s الوسيطة أو كان فارغ!\n%3$s",
       "invalid": "%1$sلا يمكن لهذا الاستطلاع أن يبنى. ** تذكر أن الخيارات يجب أن تكون بحد أقصى 9 وبحد أدنى 2 ويجب أن تكون المهلة بحد أقصى 45 دقيقة وبحد أدنى 30 ثانيه.**\nيتم فصل الخيارات بفاصلة، على سبيل المثال '1,2,3' (لا توجد مسافات بينهما!). بالنسبة للأشياء المتباعدة، استخدم علامات الاقتباس في بداية الجملة ونهايتها. إذا كنت فقدت حقا، هناك مثال على `~>help poll`",
@@ -1077,8 +1073,9 @@
         "success": "%1$sإلغاء تذكيرك.",
         "select": "إختار التذكير المُراد إلغاءه. "
       },
-      "no_time": "لم تعطني وقت `-time` (مثال: `-time 1h`)\n",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "هذا وقت طويل جداً! (الحد الأقصى: 180 يوم)",
       "success": "%1$sسأقوم بتذكيرك (%2$s#%3$s) من `%4$s` في %5$s",
       "too_many_reminders": "%1$sلديك الكثير من التذكيرات! جرب حذف بعضها؟"
