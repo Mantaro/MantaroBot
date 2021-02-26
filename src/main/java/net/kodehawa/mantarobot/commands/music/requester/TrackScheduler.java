@@ -135,17 +135,6 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
                 return;
             }
 
-            //Force it in case it keeps going all the time?
-            if (errorCount > 20) {
-                getRequestedTextChannel().sendMessageFormat(
-                        language.get("commands.music_general.too_many_errors"),
-                        EmoteReference.ERROR
-                ).queue();
-
-                onStop();
-                return;
-            }
-
             if (getRequestedTextChannel().canTalk() && repeatMode != Repeat.SONG) {
                 var information = currentTrack.getInfo();
                 var title = information.title;
