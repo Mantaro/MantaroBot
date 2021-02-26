@@ -32,9 +32,11 @@ public enum ItemType {
 
     // Drops.
     MINE(false, "items.categories.mine"),
+    MINE_RARE(true, "items.categories.mine_rare"),
+
     FISHING(false, "items.categories.fish"),
     FISHING_RARE(false, "items.categories.fish_rare"),
-    MINE_RARE(true, "items.categories.mine_rare"),
+
     CRATE(false, "items.categories.crate"),
     CHOP_DROP(false, "items.categories.chop_drop"),
 
