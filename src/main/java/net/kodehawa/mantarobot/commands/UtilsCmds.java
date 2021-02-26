@@ -41,8 +41,6 @@ import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.awt.Color;
@@ -59,7 +57,7 @@ import java.util.stream.Collectors;
 
 @Module
 public class UtilsCmds {
-    private static final Logger log = LoggerFactory.getLogger(UtilsCmds.class);
+    private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?h|(?m|(?s)]+$");
     private static final Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     private static final Random random = new Random();
 
@@ -103,20 +101,33 @@ public class UtilsCmds {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
                         var optionalArguments = ctx.getOptionalArguments();
+                        var args = ctx.getArguments();
+                        long time = 0L;
 
-                        if (!optionalArguments.containsKey("time")) {
-                            ctx.sendLocalized("commands.remindme.no_time", EmoteReference.ERROR);
-                            return;
+                        final var maybeTime = args[0];
+                        final var matchTime = rawTimePattern.matcher(maybeTime).matches();
+                        if (matchTime) {
+                            content = content.replaceFirst(maybeTime, "").trim();
+                            time = Utils.parseTime(maybeTime);
                         }
 
-                        if (optionalArguments.get("time") == null) {
+                        // Old format compatiblity.
+                        if (!matchTime) {
+                            if (optionalArguments.get("time") == null) {
+                                ctx.sendLocalized("commands.remindme.no_time_arg", EmoteReference.ERROR);
+                                return;
+                            }
+
+                            time = Utils.parseTime(optionalArguments.get("time"));
+                        }
+
+                        if (time == 0) {
                             ctx.sendLocalized("commands.remindme.no_time", EmoteReference.ERROR);
                             return;
                         }
 
                         var toRemind = timePattern.matcher(content).replaceAll("").trim();
                         var user = ctx.getUser();
-                        var time = Utils.parseTime(optionalArguments.get("time"));
                         var dbUser = ctx.getDBUser();
                         var rems = getReminders(dbUser.getData().getReminders());
 
@@ -158,12 +169,15 @@ public class UtilsCmds {
             public HelpContent help() {
                 return new HelpContent.Builder()
                         .setDescription("Reminds you of something.")
-                        .setUsage("`~>remindme <reminder> <-time>`\n" +
+                        .setUsage("`~>remindme <time> <reminder>`\n" +
                                 "Check subcommands for more. Append the subcommand after the main command.")
+                        .addParameter("time",
+                              """
+                              How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m). 
+                              You can use h, m and s (hour, minute, second). 
+                              """
+                        )
                         .addParameter("reminder", "What to remind you of.")
-                        .addParameter("-time",
-                                "How much time until I remind you of it. Time is in this format: 1h20m (1 hour and 20m). " +
-                                        "You can use h, m and s (hour, minute, second)")
                         .build();
             }
         });
