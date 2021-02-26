@@ -213,7 +213,7 @@ public class ItemReference {
                     (ctx, season) -> ItemHelper.openLootCrate(ctx, ItemType.LootboxType.RARE, 33, EmoteReference.LOOT_CRATE, 3, season)
             ),
 
-            STAR_2 = new Item(ItemType.COMMON, EmoteReference.STAR.getUnicode(), "Consolation Prize",
+            STAR_2 = new Item(ItemType.COLLECTABLE, EmoteReference.STAR.getUnicode(), "Consolation Prize",
                     "items.prize_2", "items.description.prize_2",
                     500, true, false, true
             ),
