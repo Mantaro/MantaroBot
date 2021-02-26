@@ -140,7 +140,6 @@ public class CustomCmds {
         }
 
         CustomCommand custom = db().getCustomCommand(id, name);
-        //yes
         if (custom == null)
             return null;
 

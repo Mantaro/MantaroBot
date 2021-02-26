@@ -84,9 +84,7 @@ public class IncreasingRateLimiter {
             List<Long> result;
             boolean premiumAwareness = premiumAware && MantaroData.db().getUser(key).isPremium();
             try {
-                int cd = cooldown + (randomIncrement && !premiumAwareness ?
-                        ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : 0);
-
+                int cd = cooldown + (randomIncrement && !premiumAwareness ? ThreadLocalRandom.current().nextInt(cooldown / incrementDivider) : 0);
                 result = (List<Long>) j.evalsha(scriptSha,
                         Collections.singletonList(key),
                         Arrays.asList(
