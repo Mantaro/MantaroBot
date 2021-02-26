@@ -238,7 +238,6 @@
       "track_error": "%1$sAduh, saya menemui masalah semasa memainkan lagu ini! Maaf atas kesulitan, saya akan cuba memainkan yang berikutnya jika ada.",
       "queue_finished": "%1$sSelesai memainkan antrian semasa! Harap anda menikmatinya :heart:",
       "soundcloud_no_args": "%1$sAnda perlu memberi saya nama lagu, saya bukan ahli silap mata jadi saya tidak dapat meneka :(",
-      "too_many_errors": "%1$sTerlalu banyak ralat pada sesi ini, sedang berhenti...",
       "missing_embed_permissions": "%1$sAnda haruslah memberikan kebenaran Embed Links kepada bot supaya ia dapat memaparkan menu tersebut. Jika anda ingin melangkau menu tersebut, gunakan `~>forceplay`, yang akan memainkan keputusan pertama.",
       "no_vc_found": "%1$sSaya tidak tersambung ke mana-mana saluran suara walaupun sepatutnya? Cuba lagi.",
       "queue": {
@@ -512,8 +511,8 @@
       "null_mute_role": "%1$sPeranan bisu yang ditetapkan dalam pelayan ini tidak lagi berwujud.",
       "no_users": "%1$sAnda harus memberi saya ahli untuk membisukan.",
       "no_manage_roles": "%1$sSaya tidak mempunyai kebenaran untuk menguruskan peranan dalam pelayan ini.",
-      "no_time": "%1$sAnda tidak menyatakan tempoh masa. Anda diingatkan supaya menambah argumen `-time` dan menyatakan tempoh di situ.",
       "time_not_specified": "%1$sAnda menginginkan masa tetapi tidak menyatakan tempohnya.",
+      "time_not_specified_generic": "%1$sAnda tidak menyatakan sebarang masa. Misalnya, jika anda ingin membisukan selama 20 minit anda perlu jalankan `~>mute 20m @sebut sebab dimasukkan di sini`, sebagai contoh.",
       "negative_time_notice": "%1$sAnda tidak boleh membisukan sesorang selama tempoh masa yang negatif. Melainkan jika anda boleh bengkokkan masa angkasa.",
       "default_time_too_long": "%1$sTempoh bisu yang ditetapkan terlalu panjang (Maksimum: 10 hari)...",
       "time_too_little": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
@@ -521,7 +520,8 @@
       "already_muted": "%1$sPengguna ini sudah diberi peranan bisu. Sila jalankan `~>unmute` untuk membenarkan dia bersuara.",
       "self_hierarchy_error": "%1$sSaya tidak dapat memberikan peranan bisu kepada pengguna ini kerana dia dalam hierarki yang lebih tinggi daripada saya, ataupun peranannya dalam hierarki yang lebih tinggi!",
       "user_hierarchy_error": "%1$sSaya tidak dapat memberikan peranan bisu kepada pengguna ini kerana dia dalam hierarki yang lebih tinggi daripada saya, ataupun peranannya dalam hierarki yang lebih tinggi daripada anda!",
-      "success": "%1$s**%2$s** telah diberi peranan bisu selama lebih kurang %3$s"
+      "success": "%1$s**%2$s** telah diberi peranan bisu selama %3$s",
+      "success_reason": "%1$s**%2$s** telah diberi peranan bisu selama %3$s kerana sebab yang berikut: %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sAnda memerlukan kebenaran Ban Members atau Kick Members untuk membenarkan bersuara!",
@@ -858,10 +858,6 @@
       "not_assigned": "%1$sAnda tidak mempunyai peranan ini, bodoh!",
       "success": "%1$s%2$s, peranan **%3$s** anda telah dipadamkan"
     },
-    "misc": {
-      "reverse_missing": "%1$sAnda tidak memberi mesej untuk diterbalikkan.",
-      "random_color": "%1$sWarna rawak ialah %2$s"
-    },
     "poll": {
       "missing": "%1$sSama ada anda tidak sertakan argumen %2$s ataupun ia ditinggalkan kosong!\n%3$s",
       "invalid": "%1$sPoll ini tidak dapat dibina. **Ingat: jumlah pilihan mestilah di antara 2 hingga 9 pilihan dan tempoh mengundi mestilah di antara 30s dan 45m.**\nPilihan dipisahkan dengan koma, misalnya `1,2,3` (tanpa ruang di antara pilihan!). Untuk perkataan yang mengandungi ruang, gunakan ganda petik di permulaan dan pengakhiran pilihan. Sekiranya anda memang tersesat, anda boleh merujuk kepada contoh yang dinyatakan pada `~>help poll`",
@@ -1077,8 +1073,9 @@
         "success": "%1$sPeringatan anda telah dibatalkan.",
         "select": "Sila memilih peringatan yang ingin anda batalkan."
       },
-      "no_time": "Anda tidak memberi saya argumen `-time`! (Contoh: `-time 1h`)",
-      "too_little_time": "%1$sTempoh itu terlalu pendek (Minimum: 1 minit, Contoh: `-time 1m`)",
+      "no_time": "%1$sAnda tidak menyatakan sebarang masa. Cuba menyatakannya pada permulaan arahan, misalnya, `~>remindme 1h mencuci pinggan`. Formatnya ialah nombor diikuti oleh sama ada h (jam) atau m (minit). Periksa `~>help mute` untuk melihat contohnya.",
+      "no_time_arg": "%1$sAnda tidak memberi saya masa pada argumen `-time`.",
+      "too_little_time": "%1$sTempoh itu terlalu pendek (Minimum: 1 minit, Contoh: `remindme 1m mencuci pinggan`)",
       "too_long": "Tempoh itu terlalu panjang... (Maksimum: 180 hari)",
       "success": "%1$sSaya akan mengingatkan anda (%2$s#%3$s) tentang `%4$s` dalam %5$s",
       "too_many_reminders": "%1$sAnda mempunyai terlalu banyak peringatan! Cuba membatalkan beberapa?"
@@ -1336,7 +1333,7 @@
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
     "pet": {
-      "explanation": "Pets are a useful companion in currency!\nThey help you gain more money, loot more, find random stuff on mine, chop trees, and even catch fish. The higher the level, the higher the rewards!\nGetting the right pet for your activities is important, so make sure to check the type and abilities of the pet you want to choose!\nRemember that you need to feed your pet and give it water, aswell as let it rest and charge up in energy every once in a while, just like a real pet! You can even pat it :)\nThere's two types: Personal (for yourself) and Marriage (shared between your partner and you). Choose one with `~>pet choice`. The default is Personal.\nFor more help, use `~>help pet` and `~>pet list` for a list of pets.",
+      "explanation": "Haiwan peliharaan amat berguna dalam mata wang!\nIa membantu anda menguntungkan lebih banyak wang, loot lebih banyak, mencari benda rawak semasa perlombongan, penebangan pokok, dan juga memancing. Semakin tinggi levelnya, semakin lumayan ganjarannya!\nPilihan haiwan peliharaan yang sesuai untuk aktiviti anda adalah penting, jadi pastikan anda memeriksa jenis dan keupayaan haiwan peliharaan keinginan anda!\nIngat bahawa anda perlulah memberi makan dan minum kepada haiwan peliharaan anda, serta membiarkan ia berehat dan cas semula tenaganya sekali-sekala, sama seperti haiwan peliharaan yang sebenar! Anda juga boleh belainya :)\nTerdapat dua jenis: Peribadi (untuk diri anda) dan Perkahwinan (dikongsi bersama pasangan anda). Pilih satu dengan `~>pet choice`. Yang asal adalah Peribadi.\nUntuk bantuan lebih lanjut, gunakan `~>help pet` dan `~>pet list` untuk mendapatkan senarai haiwan peliharaan.",
       "no_marriage": "%1$sAnda perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "no_marriage_other": "%1$s%2$s perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "status": {
@@ -1372,7 +1369,7 @@
         "success": "%1$sBerjaya menetapkan pilihan anda kepada: %2$s %3$s"
       },
       "level": {
-        "success": "%1$s**%2$s**'s level: **%3$,d** (%4$,d XP / %5$,d XP)"
+        "success": "%1$sLevel **%2$s**: **%3$,d** (%4$,d XP / %5$,d XP)"
       },
       "list": {
         "summary": "%1$s **Nama:** %2$s, **Keupayaan:** `%3$s`, **Nilai:** %4$,d credits",
@@ -1415,7 +1412,7 @@
         "no_need": "%1$sHaiwan peliharaan anda tidak lapar, jadi ia tidak mahu makan buat masa ini.",
         "not_inventory": "%1$sAnda tidak mempunyai makanan yang ingin diberi kepada haiwan peliharaan anda. Pastikan ia di dalam inventori anda dan anda mempunyai bilangan yang betul (%2$s).",
         "not_applicable": "%1$sAnda tidak boleh memberi makanan ini kepada jenis haiwan peliharaan anda.",
-        "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi makanan `%2$s` x%3$s dan ia memulihkan %4$s%% kelaparannya. Kini, kelaparannya ialah %5$s%%.",
+        "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi makanan `%2$s` x%3$s dan ia memulihkan %4$s%% kelaparannya. Kini, kelaparannya ialah %5$s%% kenyang.",
         "too_much": "%1$sMungkin memberinya lebih kurang makanan? Jika tidak, anda akan membazirkan makanan! (Bilangan digunakan akan melebihi 100%% kelaparan)"
       },
       "water": {
@@ -1424,7 +1421,7 @@
         "not_inventory": "%1$sAnda tidak mempunyai Botol Air. Pastikan ia di dalam inventori anda.",
         "not_enough_inventory": "%1$sAnda tidak mempunyai botol air yang mencukupi di dalam inventori anda! Anda memerlukan %2$s.",
         "too_much": "%1$sMungkin memberinya lebih kurang air? Jika tidak, anda akan membazirkan air! (Bilangan digunakan akan melebihi 100%% kedahagaan)",
-        "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi %2$d air dan ia memulihkan %3$s%% kedahagaannya. Kini, kedahagaannya ialah %4$s%%."
+        "success": "%1$sSyabas! Haiwan peliharaan anda telah diberi %2$d air dan ia memulihkan %3$s%% kedahagaannya. Kini, kedahagaannya ialah %4$s%% dihilangkan."
       },
       "activity": {
         "low_stamina": "%1$s**%2$s** mempunyai stamina yang amat rendah. Memberinya makanan/air untuk memulihkannya.",
@@ -1445,14 +1442,14 @@
         "success": "%1$sBerjaya menamakan semula haiwan peliharaan daripada `%2$s` kepada `%3$s`. %4$s telah ditolak dari dompet anda. Nikmatilah!"
       },
       "remove": {
-        "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dipinggirkan. (Pilihan: %2$s)%3$s",
+        "confirm": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Pasangan perkahwinan akan menerima %2$,d kredit, dan anda juga akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
+        "confirm_personal": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Anda akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
+        "success": "%1$sBerjaya meminggirkan haiwan peliharaan. Setiap orang dalam perkahwinan ini telah menerima %2$s kredit sebagai bayaran balik.",
+        "success_personal": "%1$sBerjaya meminggirkan haiwan peliharaan. Anda telah menerima %2$s kredit sebagai bayaran balik."
       },
       "info": {
-        "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
+        "not_found": "%1$sSaya tidak menjumpai jenis haiwan peliharaan yang sedang anda mencari. Gunakan `~>pet list` untuk mendapatkan senarai jenis haiwan peliharaan.",
         "author": "Maklumat Haiwan Peliharaan untuk Jenis %1$s%2$s",
         "name": "Nama Haiwan Peliharaan",
         "cost": "Kos Haiwan peliharaan",
@@ -1469,200 +1466,200 @@
       "description": {
         "1": "Berikut ialah beberapa pautan berguna!",
         "2": "**Jika anda mempunyai sebarang pertanyaan tentang bot, dipersilakan untuk menyertai pelayan sokongan dan bertanya**!.",
-        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+        "3": "Kami menyertakan pautan patreon sekiranya anda ingin membantu Mantaro terus berjalan dengan menderma [dan mendapatkan kelebihan!].",
+        "4": "Terima kasih kerana menggunakan bot! **<3 daripada pemaju-pemaju dan pasukan Mantaro**"
       },
-      "footer": "We hope you have fun with the bot."
+      "footer": "Semoga anda menikmati bot ini."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
-      "no_item": "%1$sYou need to specify the item you want to salvage.",
-      "no_item_found": "%1$sI can't find the item you specified.",
-      "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
-      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
-      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
-      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
-      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
-      "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "not_broken": "%1$sAnda hanya dapat menyelamatkan peralatan yang telah patah.",
+      "no_item": "%1$sAnda perlu menyatakan item yang ingin anda selamatkan.",
+      "no_item_found": "%1$sSaya tidak menjumpai item yang anda nyatakan.",
+      "cant_salvage": "%1$sAnda tidak boleh menyelamatkan item ini.",
+      "not_wrench": "%1$sAnda memerlukan sebarang perengkuh untuk menyelamatkan sesuatu item. Mungkin anda hendaklah menyatakannya secara manual selepas item tersebut.",
+      "not_enough_level": "%1$sAnda memerlukan perengkuh tahap 2 sekurang-kurangnya untuk selamatkan item ini.",
+      "no_main_item": "%1$sNampaknya anda tidak mempunyai item yang sedang anda cuba menyelamatkan.",
+      "no_tool": "%1$sAnda tidak mempunyai perengkuh ini. Cuba nyatakannya, atau menyatakan perengkuh yang lain.",
+      "no_tool_default": "%1$sAnda memerlukan sekurang-kurangnya sebatang Perengkuh Komet dalam inventori anda untuk melakukan ini, tetapi anda juga boleh menyatakan sebatang yang lebih kuat jika anda hendak.",
+      "dust": "%1$sInventori anda terlalu berhabuk untuk menyelamatkan sesuatu item, cuba membersihkannya dengan menggunakan mop.",
+      "no_returnables": "%1$sItem ini tiada elemen penyelamatan yang dapat dipulangkan.",
+      "item_broke": "%1$sPerengkuh anda (%1$s) patah semasa cuba menyelamatkan item ini :(",
+      "success": "%1$sBerjaya selamatkan %2$s dan mendapat %3$s. Kosnya ialah %4$s kredit.\n%5$s",
       "ls": {
-        "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
-        "return": "Could Return: ",
+        "header": "Senarai Penyelamatan Item",
+        "cost": "Kos Penyelamatan: ",
+        "return": "Dapat Dipulangkan: ",
         "desc": "Berikut adalah senarai item yang boleh anda selamatkan menggunakan `~>salvage`.\nAnda boleh menggunakan nama penuh, nama singkatan, ataupun emoji\nPenyelamatan mempunyai kos 1/3 harga item, yang dipaparkan di bawah.\nAnda hanya akan mendapat salah satu daripada item yang disenaraikan di sini secara rawak.\nPerengkuh tahap 2 ialah perengkuh komet dan perengkuh tahap 3 ialah perengkuh berkilau."
       }
     },
     "stats": {
-      "header": "Mantaro Statistics",
-      "description": "Well... I did my math!",
+      "header": "Statistik Mantaro",
+      "description": "Baiklah... Saya telah membuat matematik saya!",
       "usage": {
-        "header": "Mantaro's usage information",
-        "description": "Hardware and usage information.",
-        "threads": "Threads",
-        "memory_usage": "Memory Usage",
-        "cores": "CPU Cores",
-        "cpu_usage": "CPU Usage",
-        "assigned_mem": "Assigned Memory",
-        "assigned_remaining": "Remaining from assigned"
+        "header": "Maklumat kegunaan Mantaro",
+        "description": "Maklumat perkakasan dan kegunaan.",
+        "threads": "Utusan",
+        "memory_usage": "Penggunaan Memori",
+        "cores": "CPU Teras",
+        "cpu_usage": "Penggunaan CPU",
+        "assigned_mem": "Memori Ditugaskan",
+        "assigned_remaining": "Baki daripada ditugaskan"
       },
       "server": {
-        "header": "Mantaro's server usage information",
-        "cpu_usage": "CPU Usage",
-        "rem": "RAM (TOTAL/FREE/USED)"
+        "header": "Maklumat kegunaan pelayan Mantaro",
+        "cpu_usage": "Penggunaan CPU",
+        "rem": "RAM (JUMLAH/BEBAS/DIGUNAKAN)"
       }
     },
     "social": {
-      "header": "%1$sO-Oh, I see you're interested on seeing my social networks!\n\n",
+      "header": "%1$sO-Oh, nampaknya anda berminat untuk melihat rangkaian sosial saya!\n\n",
       "description": {
-        "1": "W-Well, here we go!",
-        "2": "**- Website:** <%1$s>"
+        "1": "B-Baiklah, inilah dia!",
+        "2": "**- Laman Web:** <%1$s>"
       },
-      "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
+      "note": "**Jika anda menyukai Mantaro, sila mengundi di** <https://discordbots.org/bot/mantaro> **dan/atau pertimbangkan untuk menderma di Patreon atau Paypal! Terima kasih~**"
     },
     "avatar": {
-      "result": "Avatar for %1$s",
-      "footer": "Hopefully a very pretty one."
+      "result": "Avatar bagi %1$s",
+      "footer": "Haraplah ia sangat cantik."
     },
     "serverinfo": {
-      "header": "Server Information",
-      "description": "Server information for %1$s",
-      "users": "Users",
-      "created": "Creation Date",
-      "channels": "Voice/Text Channels",
-      "owner": "Owner",
-      "region": "Region",
-      "roles": "Roles (%1$,d)",
-      "id_show": "Server ID: %1$s"
+      "header": "Maklumat Pelayan",
+      "description": "Maklumat pelayan untuk %1$s",
+      "users": "Pengguna",
+      "created": "Tarikh Penciptaan",
+      "channels": "Saluran Suara/Teks",
+      "owner": "Pemilik",
+      "region": "Rantau",
+      "roles": "Peranan (%1$,d)",
+      "id_show": "ID Pelayan: %1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s#%2$s",
-      "roles": "Roles: [%1$,d]",
-      "id": "User ID",
-      "join_date": "Join Date",
-      "created": "Account Created",
-      "account_age": "Account Age",
-      "mutual_guilds": "Mutual Guilds",
-      "vc": "Voice Channel",
-      "color": "Color",
+      "header": "Maklumat pengguna untuk %1$s#%2$s",
+      "roles": "Peranan: [%1$,d]",
+      "id": "ID Pengguna",
+      "join_date": "Tarikh Penyertaan",
+      "created": "Akaun Dicipta",
+      "account_age": "Umur Akaun",
+      "mutual_guilds": "Pelayan Bersama",
+      "vc": "Saluran Suara",
+      "color": "Warna",
       "status": "Status",
-      "nothing": "Nothing",
+      "nothing": "Tiada",
       "default": "Asal"
     },
     "roleinfo": {
-      "header": "Role info for %1$s",
-      "id": "Role ID",
-      "created": "Role Created",
-      "age": "Role Age",
-      "color": "Color",
-      "members": "Members",
-      "position": "Position",
-      "hoisted": "Hoisted",
-      "managed": "Managed",
-      "permissions": "Permissions: [%1$,d]"
+      "header": "Maklumat peranan untuk %1$s",
+      "id": "ID Peranan",
+      "created": "Peranan Dicipta",
+      "age": "Umur Peranan",
+      "color": "Warna",
+      "members": "Ahli",
+      "position": "Kedudukan",
+      "hoisted": "Diasingkan",
+      "managed": "Diuruskan",
+      "permissions": "Kebenaran: [%1$,d]"
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$sOh hai! Jika anda berminat untuk menderma, sila periksa pautan di bawah. Menjalankan Mantaro mengambil masa dan wang, dan setiap dolar sangat dihargai!\n\n%2$s",
+      "methods": "**Cara Pendermaan**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
-      "title": "Mantaro Help",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
-      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
-      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
-      "commands": "Commands",
+      "title": "Bantuan Mantaro",
+      "base_category": "Senarai arahan bagi kategori %1$s. Untuk panduan terperinci, sila melihat [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Panduan Mata Wang](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**Senarai arahan lengkap**. Untuk panduan terperinci, sila periksa [wiki] Kami (https://github.com/Mantaro/MantaroBot/wiki).\nIngat, anda boleh mendapatkan maklumat lanjut tentang sesuatu arahan menggunakan `~>help <nama arahan>`\n",
+      "support": "Sekiranya anda masih tersesat anda boleh menyertai [pelayan sokongan](https://support.mantaro.site). Anda juga boleh mengikuti saya di [Twitter](https://twitter.com/mantarodiscord) untuk kemas kini.\n",
+      "patreon": "**[Kami memerlukan bantuan anda untuk memastikan Mantaro terus hidup! Klik sini untuk maklumat lanjut.](https://www.patreon.com/mantaro)**",
+      "disabled_commands": "Hanya memaparkan arahan bukan dilarang. Jumlah arahan dilarang: %1$s",
+      "channel_specific_disabled_commands": "\nHanya memaparkan arahan bukan dilarang. Jumlah arahan dilarang yang bersaluran-spesifik: %1$s",
+      "footer": "Terima kasih kerana menggunakan Mantaro %1$s (Jumlah Arahan: %2$s)",
+      "commands": "Arahan",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$sTiada bantuan lebih lanjut yang ditetapkan untuk arahan ini.",
+        "not_found": "%1$sArahan dengan nama ini tidak wujud"
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. Remember to use quotes if the name has spaces.",
-      "no_item_found": "%1$sI can't find that item. Remember to use quotes if the name has spaces.",
-      "no_main_item": "%1$sYou don't have the item you need to repair this!",
-      "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can specify it if you wish. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. Remember to use quotes if the name has spaces. Example: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_item": "%1$sAnda tidak menyatakan sebarang item untuk diperbaiki. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
+      "no_item_found": "%1$sSaya tidak menjumpai item itu. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
+      "no_main_item": "%1$sAnda tidak mempunyai item yang diperlukan untuk membaiki ini!",
+      "cant_repair": "%1$s**%2$s** ia bukan item yang dapat anda membaiki. Anda hanya boleh membaiki item yang sudah patah.",
+      "no_tool": "%1$sAnda memerlukan perengkuh tahap 2 (sekurang-kurangnya Perengkuh Komet) atau lebih tinggi untuk membaiki item ini. Anda boleh menyatakannya jika hendak. Contoh: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool_specified": "%1$sAnda tidak mempunyai perengkuh yang anda nyatakan (%2$s). Sila menggunakan peralatan yang anda mempunyai ataupun menciptanya. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan. Contoh: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menjalankan pembaikan. Tahap habuk: %2$s",
-      "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. Try specfying it manually if you have it on your inventory.",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item.",
-      "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair. **(Needed: %3$s, Current: %4$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "not_wrench": "%1$sAnda tidak boleh menggunakan ini sebagai perengkuh. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
+      "not_enough_level": "%1$sAnda memerlukan perengkuh yang lebih tinggi tahapnya untuk menjalankan pembaikan ini. Cuba menyatakannya secara manual jika anda mempunyainya di inventori anda.",
+      "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membaiki item ini.",
+      "no_item_recipe": "%1$sAnda tidak mempunyai *%2$s* yang diperlukan untuk menjalankan pembaikan ini.",
+      "not_enough_items": "%1$sAnda tidak mempunyai *%2$s* yang mencukupi untuk menjalankan pembaikan ini. **(Diperlukan: %3$s, Semasa: %4$s)**",
+      "item_broke": "%1$sMalangnya, perengkuh anda (%1$s) patah semasa membaiki item ini, tapi anda masih mendapat item anda!",
+      "success": "%1$sPembaikan berjaya! Item dibaiki %2$s **%3$s** -> %4$s **%5$s**. Kos pembaikan ialah *%6$s* kredit dan resipi untuk membaikinya ialah *%7$s*.",
       "ls": {
-        "header": "Repair-able Items List",
-        "cost": "Repair Cost: ",
-        "desc": "This is a list of the items you can repair using `~>repair`.\nYou can use full name or the short name, or the emoji.\nRepairing has a minimum cost of 1/3rd of the item cost, which is shown below alongside the needed materials. You need at least a Comet Wrench to repair something."
+        "header": "Senarai Pembaikan Item",
+        "cost": "Kos Pembaikan: ",
+        "desc": "Berikut adalah senarai item yang boleh diperbaiki menggunakan `~>repair`.\nAnda boleh menggunakan nama penuh atau nama singkatan, ataupun emoji.\nPembaikan mempunyai kos minimum 1/3 kos item, yang dipaparkan di bawah di samping bahan diperlukan. Anda memerlukan sekurang-kurangnya sebatang Perengkuh Komet untuk membaiki sesuatu."
       }
     },
     "anime": {
-      "no_args": "%1$sYou need to tell me what anime to look for.",
-      "selection_start": "Type the number of the anime you want to select.",
-      "information_footer": "Information provided by Kitsu.io. Type &cancel to cancel.",
-      "no_results": "%1$sNo results found...",
-      "malformed_result": "%1$sI got a wrong API result for this specific search. Maybe try with another search term?",
-      "error": "%1$s**I swear I didn't drop your favorite anime!**\nI received a `%2$s` while trying to process the command. (internal error)",
-      "timeout": "%1$sWe tried to look for this anime, but the request timed out on Kitsu's end. Try again later?",
-      "information_header": "Anime information for %1$s",
-      "information_notice": "Information provided by Kitsu.io.",
+      "no_args": "%1$sAnda perlu memberitahu saya anime apa yang ingin anda mencari.",
+      "selection_start": "Taip nombor anime yang ingin anda memilih.",
+      "information_footer": "Maklumat diperolehi oleh Kitsu.io. Taip &cancel untuk membatalkan.",
+      "no_results": "%1$sTiada keputusan...",
+      "malformed_result": "%1$sSaya mendapat keputusan API yang sah untuk carian spesifik ini. Mungkin cuba lagi dengan istilah carian yang lain?",
+      "error": "%1$s**Saya janji saya tidak jatuhkan anime kegemaran anda!**\nSaya menerima `%2$s` semasa cuba memproses arahan tersebut. (ralat dalaman)",
+      "timeout": "%1$sKami cuba untuk mencari anime ini, tetapi masa permohonan tersebut telah tamat di bahagian Kitsu. Cuba lagi nanti?",
+      "information_header": "Maklumat anime %1$s",
+      "information_notice": "Maklumat diperolehi oleh Kitsu.io.",
       "airing": "Airing",
-      "release_date": "Release Date",
-      "favorite_count": "Favorite Count",
-      "end_date": "End Date",
-      "average_score": "Average Score",
-      "type": "Type",
-      "episodes": "Episodes",
-      "episode_duration": "Duration",
-      "genres": "Genres",
+      "release_date": "Tarikh Tayangan",
+      "favorite_count": "Kiraan Kegemaran",
+      "end_date": "Tarikh Akhir",
+      "average_score": "Skor Purata",
+      "type": "Jenis",
+      "episodes": "Episod",
+      "episode_duration": "Tempoh",
+      "genres": "Genre",
       "minutes": "minit",
-      "description": "Description"
+      "description": "Penerangan"
     },
     "character": {
-      "no_args": "%1$sYou need to tell me what character you want to look for.",
-      "selection_start": "Type the number of the character you want to select.",
-      "error": "%1$s**I swear I didn't d-drop your waifu, please forgive me!**\nI got `%2$s` while trying to process this command. (internal error)",
-      "information_header": "Character information for %1$s",
-      "information": "Information",
-      "no_aliases": "No aliases",
-      "alias_start": "Also known as:",
-      "no_info": "No info."
+      "no_args": "%1$sAnda perlu memberitahu saya watak yang ingin anda mencari.",
+      "selection_start": "Taip nombor watak yang ingin anda memilih.",
+      "error": "%1$s**Saya janji saya tidak jatuhkan w-waifu anda, tolong maafkan saya!**\nSaya menerima `%2$s` semasa cuba memproses arahan ini. (ralat dalaman)",
+      "information_header": "Maklumat watak %1$s",
+      "information": "Maklumat",
+      "no_aliases": "Tiada alias",
+      "alias_start": "Juga dikenali sebagai:",
+      "no_info": "Tiada maklumat."
     },
     "balance": {
-      "bot_notice": "%1$sBots cannot have money.",
-      "external_balance": "%1$s's balance is **$%2$,d credits.**",
-      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "bot_notice": "%1$sBot tidak dapat memiliki wang.",
+      "external_balance": "Baki %1$s ialah **$%2$,d kredit.**",
+      "own_balance": "Baki anda ialah **$%1$,d kredit.**%2$s",
+      "new_player": "\nHai! Nampaknya mungkin anda baru datang. Panduan ini akan banyak membantu anda: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Ini akan dipaparkan sekali sahaja.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
+      "check": "%1$sAnda akan dapat menuntut harian anda pada: **%2$s.**",
+      "about_now": "sekarang",
+      "ratelimit_message": "Anda boleh jalankan harian sekali setiap hari. Jika anda ingin periksa, anda juga boleh menggunakan `~>daily -check`. Nikmatilah!",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot.",
-        "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now.",
-        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
+        "bot": "%1$sAnda tidak boleh memindahkan harian anda kepada bot.",
+        "receipt_locked": "Pengguna ini tidak boleh menerima kredit harian buat masa ini.",
+        "own_locked": "Anda tidak dapat menerima harian anda buat masa ini.",
+        "same_user": "%1$sGunakan daily tanpa menyebut diri anda jika anda hanya akan menyebut diri anda :p"
       },
       "streak": {
-        "up": "Streak up! Current streak: `%1$,dx`",
-        "first_time": "First time claiming daily, have fun! (Come back for your streak tomorrow!)",
+        "up": "Coretan naik! Coretan semasa: `%1$,dx`",
+        "first_time": "Kali pertama menuntut harian, berseronoklah! (Datang lagi untuk coretan anda esok!)",
         "lost_streak": {
-          "normal": "2+ days have passed since your last daily, so your streak of `%1$dx` got reset :(",
+          "normal": "2+ hari telah berlalu sejak harian terakhir anda, jadi coretan sebanyak `%1$dx` anda telah ditetapkan semula :(",
           "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
         },
-        "bonus": "You won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "bonus": "Anda memenangi bonus sebanyak $%1$s kerana berjaya menuntut harian anda selama 5 hari berterusan atau lebih banyak! (Disertakan pada wang yang dipaparkan!)",
         "given": {
-          "up": "Streak up! Current streak: `%1$,dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%2$,d for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "up": "Coretan naik! Coretan semasa: `%1$,dx`.\n*Coretan tersebut telah diaplikasikan di profil anda!*",
+          "bonus": "%1$s telah memenangi bonus sebanyak $%2$,d kerana menuntut daily anda selama 5 hari berterusan atau lebih banyak! (Disertakan pada wang yang dipaparkan!)"
         },
         "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
       },
@@ -1676,41 +1673,41 @@
       "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
+      "no_credits": "%1$sAwak muflis. Mungkin mencari kredit dahulu.",
       "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
-      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
-      "not_enough_money": "%1$sPlease type a value within your balance.",
-      "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
-      "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$,d credits and got to keep what you had.",
-      "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
-      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
+      "invalid_money_or_modifier": "%1$sSila menaip nombor sah yang lebih kurang atau sama dengan baki semasa anda ataupun `all` untuk berjudi semua kredit anda.",
+      "not_enough_money": "%1$sSila menaip nilai yang ada dalam baki anda.",
+      "invalid_percentage": "%1$sSila menaip nilai peratusan yang sah.",
+      "confirmation_message": "%1$sAnda akan berjudi sebanyak **%2$,d** kredit (yang nampaknya agak banyak). Adakah anda pasti? Taip **yes** untuk meneruskan dan **no** jika tidak.",
+      "cancelled_bet": "%1$sPerjudian dibatalkan.",
+      "win": "%1$sTahniah, anda memenangi %2$,d kredit dan dapat menyimpan apa yang anda mempunyai.",
+      "win_overflow": "%1$sTahniah, anda memenangi %2$,d kredit. Tetapi anda sudah mempunyai terlalu banyak kredit. Beg anda meluap-luap.",
+      "lose": "%1$sMalangnya, anda anda kehilangan %2$s kredit. %3$s",
       "lose_all": "all of your",
-      "credits": "credits",
-      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
-      "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
+      "credits": "kredit",
+      "too_much": "%1$sAwak hanya boleh berjudi begitu banyak sahaja. Awak tidak mahu menjadi muflis kan? *(Had perjudian tunggal: %2$,d kredit)*",
+      "too_little": "%1$sAnda tidak boleh berjudi wang begitu sedikit (Minimum: 100 kredit)"
     },
     "loot": {
-      "player_locked": "%1$sYou cannot loot now.",
-      "item_overflow": "But you already had too many items, so you decided to throw away the excess.",
+      "player_locked": "%1$sAnda tidak boleh loot buat masa ini.",
+      "item_overflow": "Tetapi anda sudah mempunyai terlalu banyak item, jadi anda memutuskan untuk membuang lebihan itu.",
       "with_item": {
-        "found": "%1$sDigging through messages, you found %2$s, along with **$%3$,d credits!** %4$s",
-        "found_but_overflow": "%1$sDigging through messages, you found %2$s, along with **$%3$,d credits.**%4$sBut you already had too many credits, so I donated the excess.",
-        "found_only_item_but_overflow": "%1$sDigging through messages, you found %2$s. %3$s"
+        "found": "%1$sSemasa menggali mesej, anda menjumpai %2$s, bersama dengan **$%3$,d kredit!** %4$s",
+        "found_but_overflow": "%1$sSemasa menggali mesej, anda menjumpai %2$s, bersama dengan **$%3$,d kredit!**%4$sTetapi anda sudah mempunyai terlalu banyak kredit, jadi saya telah menderma lebihan itu.",
+        "found_only_item_but_overflow": "%1$sSemasa menggali mesej, anda menjumpai %2$s. %3$s"
       },
       "without_item": {
-        "found": "%1$sDigging through messages, you found **$%2$s credits!**%3$s",
-        "found_but_overflow_no_item": "%1$sDigging through messages, you found **$%2$,d credits.** But you already had too many credits, so I donated the excess."
+        "found": "%1$sSemasa menggali mesej, anda menjumpai **$%2$s kredit!**%3$s",
+        "found_but_overflow_no_item": "%1$sSemasa menggali mesej, anda menjumpai **$%2$,d kredit.** Tetapi anda sudah mempunyai terlalu banyak kredit, jadi saya telah menderma lebihan itu."
       },
       "dust": "Semasa menggali mesej, anda tidak menjumpai apa-apa kecuali habuk (Tahap habuk %1$s%%)",
-      "easter": "\nSeems like you've got so much dust here... You might want to clean this up before it gets too messy!"
+      "easter": "\nNampaknya anda mendapat banyak habuk di sini... Mungkin anda hendak membersihkannya sebelum ia menjadi terlalu kotor!"
     },
     "mine": {
-      "not_equipped": "%1$sYou don't have any equipped pick. Use `~>equip <pick name>` to equip a pick and start your adventure! If you don't have any pick, first run `~>buy pick`",
-      "no_pick": "%1$sYou don't have any pick to mine. If you want to use any other pick use `~>mine <pick name>`",
-      "not_suitable": "%1$sThis is not a pick you can use to mine!",
-      "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
+      "not_equipped": "%1$sAnda masih belum memasang beliung anda. Gunakan `~>equip <nama beliung>` untuk memasang sebatang beliung dan bermula pengembaraan anda! Jika anda tidak mempunyai sebatang beliung, jalankan arahan `~>buy pick` dahulu",
+      "no_pick": "%1$sAnda tidak mempunyai sebatang beliung untuk melombong. Jika anda ingin menggunakan beliung lain gunakan `~>mine <nama beliung>`",
+      "not_suitable": "%1$sIni bukan beliung yang boleh anda gunakan untuk melombong!",
+      "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung ditetapkan.",
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
       "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
@@ -1781,7 +1778,7 @@
       "gamble": "Gamble Wins Leaderboard",
       "slots": "Slots Wins Leaderboard",
       "daily": "Daily Streak Leaderboard",
-      "level": "Level leaderboard",
+      "level": "Papan pendahulu level",
       "game": "Game Wins leaderboard",
       "waifu": "Waifu Value leaderboard",
       "claim": "Waifu Claim leaderboard",
@@ -1816,9 +1813,9 @@
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
     },
     "level": {
-      "bot_notice": "%1$sBots don't have level.",
-      "own_success": "%1$sYour level is %2$s. (Experience: %3$s/%4$s)",
-      "success_other": "%1$s%2$s's is level %3$s. (Experience: %4$s/%5$s)"
+      "bot_notice": "%1$sBot tidak mempunyai level.",
+      "own_success": "%1$sLevel anda ialah %2$s. (Pengalaman: %3$s/%4$s)",
+      "success_other": "%1$sLevel %2$s ialah %3$s. (Pengalaman: %4$s/%5$s)"
     }
   },
   "options": {
@@ -2011,7 +2008,7 @@
       "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
       "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
       "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
-      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+      "success": "%1$sPeranan automatik pelayan kini ditetapkan kepada: **%2$s** (Kedudukan: %3$d)"
     },
     "autorole_unbind": {
       "success": "%1$sThe autorole for this server has been removed."
@@ -2112,8 +2109,8 @@
       "success": "%1$sSet bot join/leave ignore to: **%2$s**"
     },
     "levelupmessages_channel_set": {
-      "no_channel": "%1$sYou need to specify a channel to show level-up messages!",
-      "success": "%1$sThe level-up channel has been set to: %2$s"
+      "no_channel": "%1$sAnda perlulah menyatakan saluran untuk memaparkan mesej kenaikan level!",
+      "success": "%1$sSaluran kenaikan level telah ditetapkan kepada: %2$s"
     },
     "birthday_message_set": {
       "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
@@ -2296,7 +2293,7 @@
       "chop_drop": "Chopped Item",
       "potion": "Potion",
       "buff": "Buff",
-      "wrench": "Wrench",
+      "wrench": "Perengkuh",
       "waifu": "Waifu Item",
       "mine_pick": "Pickaxe",
       "mine_rare_pick": "Pickaxe (Rare)",
@@ -2370,9 +2367,9 @@
     "bait": "Fishing Bait",
     "diamond_pick": "Diamond Pickaxe",
     "tv": "Television",
-    "wrench": "Wrench",
-    "star_wrench": "Star Wrench",
-    "sparkle_wrench": "Sparkle Wrench",
+    "wrench": "Perengkuh",
+    "star_wrench": "Perengkuh Bintang",
+    "sparkle_wrench": "Perengkuh Berkilau",
     "motorcycle": "Motorcycle",
     "comet_pick": "Comet Pickaxe",
     "star_pick": "Star Pickaxe",
@@ -2517,9 +2514,9 @@
       "bait": "Gives you a higher chance of catching fish.",
       "diamond_pick": "A strong-ish pick.",
       "tv": "Must... watch... TV...",
-      "wrench": "Casting tool. Useful to put stuff together.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 2.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 3.",
+      "wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda.",
+      "star_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan, diperlukan untuk mencipta beberapa item sekali gus. Tahap 2.",
+      "sparkle_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan. Kos yang lebih rendah setiap ciptaan. Tahap 3.",
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A stronger pick.",
       "star_pick": "A much stronger pick.",
