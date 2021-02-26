@@ -46,6 +46,7 @@ import redis.clients.jedis.Jedis;
 import java.awt.Color;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -306,11 +307,15 @@ public class UtilsCmds {
                     return;
                 }
 
-                ctx.sendLocalized("commands.time.success",
-                        EmoteReference.CLOCK,
-                        Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), userData.getLang()),
-                        timezone
-                );
+                var dateformat = "";
+                try {
+                    dateformat = Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), userData.getLang());
+                } catch (DateTimeException e) {
+                    ctx.sendLocalized("commands.time.invalid_timezone", EmoteReference.ERROR);
+                    return;
+                }
+
+                ctx.sendLocalized("commands.time.success", EmoteReference.CLOCK, dateformat, timezone);
             }
 
             @Override

@@ -50,6 +50,8 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -428,6 +430,13 @@ public class ProfileCmd {
                 }
 
                 if (!Utils.isValidTimeZone(timezone)) {
+                    ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
+                    return;
+                }
+
+                try {
+                    Utils.formatDate(LocalDateTime.now(Utils.timezoneToZoneID(timezone)), dbUser.getData().getLang());
+                } catch (DateTimeException e) {
                     ctx.sendLocalized("commands.profile.timezone.invalid", EmoteReference.ERROR);
                     return;
                 }
