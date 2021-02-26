@@ -647,7 +647,7 @@
         "no_user": "%1$sTu nepaminėjai jokio nario, kuri pasiimti.",
         "locked": "%1$sTu kolkas negali atlikti šio veiksmo.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$Tu neturi užtektinai pinigų, kad galėtum pasiimti narį **(Kaina: %2$s)**",
+        "not_enough_money": "%1$sTu neturi užtektinai pinigų, kad galėtum pasiimti narį **(Kaina: %2$s)**",
         "not_enough_slots": "%1$sTu neturi užtektinai vietos šiai Waifu. (Viso vietos: %2$s, Naudojama vietos: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
