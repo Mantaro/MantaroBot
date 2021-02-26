@@ -163,7 +163,7 @@ public class PetCmds {
         pet.addSubCommand("choice", new SubCommand() {
             @Override
             public String description() {
-                return "Lets you choose whether you want to use a personal or marriage pet. You can run this 3 times every 10 minutes.";
+                return "Lets you choose whether you want to use a personal or marriage pet.";
             }
 
             @Override
@@ -374,7 +374,7 @@ public class PetCmds {
         pet.addSubCommand("pet", new SubCommand() {
             @Override
             public String description() {
-                return "Pets your pet or someone else's pet. Usage: `~>pet pet [user]`. Cute. You can pet your pet up to 25 times in a row.";
+                return "Pets your pet or someone else's pet. Usage: `~>pet pet [user]`. Cute.";
             }
 
             @Override
@@ -718,7 +718,7 @@ public class PetCmds {
         pet.addSubCommand("feed", new SubCommand() {
             @Override
             public String description() {
-                return "Feeds your pet. Types of food may vary per pet. " +
+                return "Feeds your pet. Needed food may vary per pet. " +
                        "Usage: `~>pet feed <food> [amount]`. Use full instead of amount to replenish all.";
             }
 
