@@ -69,11 +69,11 @@
         "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
         "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
       },
-      "twitter": "Adakah anda tahu kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara bodoh."
+      "twitter": "Adakah anda tahu kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara-perkara lain."
     },
     "mention_user_required": "%1$sAnda perlu menyebut seorang pengguna.",
     "invalid_character": "%1$sItu bukan aksara yang dibenarkan.",
-    "invalid_action": "Anda tidak boleh melakukan itu, bodoh.",
+    "invalid_action": "Awak tidak boleh melakukan itu, bodoh.",
     "interactive_running": "%1$sSudah ada Operasi Interaktif (milik anda) di saluran ini.",
     "buy_sell_paged_react": "Gunakan reaksi mesej untuk bergerak di antara halaman.\n%1$s",
     "buy_sell_paged_text": "Gunakan **&p >>** dan **&p <<** untuk bergerak di antara halaman.\n%1$s",
@@ -183,7 +183,7 @@
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang pengguna yang lebih tinggi daripada anda dalam hierarki pelayan! Cubaan yang baik %2$s",
-      "yourself_note": "%1$sMengapa anda cuba melarang diri anda, bodoh?",
+      "yourself_note": "%1$sMengapa awak cuba melarang diri awak, bodoh?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s (%3$s dilarang)",
       "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
@@ -195,7 +195,7 @@
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk menendang.",
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk menendang ahli di pelayan ini.",
       "hierarchy_conflict": "%1$sAnda tidak boleh menendang pengguna dalam hierarki yang lebih tinggi daripada anda",
-      "yourself_note": "%1$sMengapa anda cuba menendang diri anda, bodoh?",
+      "yourself_note": "%1$sMengapa awak cuba menendang diri awak, bodoh?",
       "self_hierarchy_conflict": "%1$sTidak dapat menendang ahli: %2$s, dia lebih tinggi atau hierarki yang sama dengan saya!",
       "success": "%1$s%2$s (%3$s ditendang)",
       "error": "%1$sRalat menendang %2$s: (Tidak ada kebenaran yang diberikan: %3$s)",
@@ -847,15 +847,15 @@
         "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <nama peranan>`"
       },
       "deleted_role": "%1$sPeranan yang dikaitkan dengan peranan automatik ini telah dipadamkan",
-      "already_assigned": "%1$sAnda sudah mempunyai peranan ini, bodoh!",
+      "already_assigned": "%1$sAwak sudah mempunyai peranan ini, bodoh!",
       "success": "%1$s%2$s, anda diberi peranan **%3$s**",
       "error": "%1$sSaya tidak dapat mengambil **%2$s** daripada anda. Pastikan saya mempunyai kebenaran untuk menambah peranan (Manage Roles) dan peranan saya lebih tinggi daripada **%2$s**",
       "no_role": "%1$sTiada peranan automatik yang bernama `%2$s`",
       "no_iam": "%1$sAnda perlu menyatakan peranan automatik yang ingin anda tugaskan diri anda!"
     },
     "iamnot": {
-      "no_args": "%1$sAnda perlu menyatakan peranan yang anda mahu saya padamkan daripada anda, bodoh.",
-      "not_assigned": "%1$sAnda tidak mempunyai peranan ini, bodoh!",
+      "no_args": "%1$sAwak perlu menyatakan peranan yang awak mahu saya padamkan daripada awak, bodoh.",
+      "not_assigned": "%1$sAwak tidak mempunyai peranan ini, bodoh!",
       "success": "%1$s%2$s, peranan **%3$s** anda telah dipadamkan"
     },
     "poll": {
@@ -1610,7 +1610,7 @@
       "timeout": "%1$sKami cuba untuk mencari anime ini, tetapi masa permohonan tersebut telah tamat di bahagian Kitsu. Cuba lagi nanti?",
       "information_header": "Maklumat anime %1$s",
       "information_notice": "Maklumat diperolehi oleh Kitsu.io.",
-      "airing": "Airing",
+      "airing": "Ditayangkan",
       "release_date": "Tarikh Tayangan",
       "favorite_count": "Kiraan Kegemaran",
       "end_date": "Tarikh Akhir",
@@ -1637,7 +1637,7 @@
       "external_balance": "Baki %1$s ialah **$%2$,d kredit.**",
       "own_balance": "Baki anda ialah **$%1$,d kredit.**%2$s",
       "new_player": "\nHai! Nampaknya mungkin anda baru datang. Panduan ini akan banyak membantu anda: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Ini akan dipaparkan sekali sahaja.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "reset_notice": "\nJika anda ingin mengetahui apa yang berlaku pada wang anda, baca <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nAnda tidak kehilangan wang lama anda sepenuhnya, ia masih dapat dilihat pada `~>profile` :heart:\nInventori anda masih dikekalkan, mungkin menjual beberapa item untuk mendapatkan wang?\nIni akan dipaparkan sekali sahaja. Membaca halaman yang dipaut untuk mendapatkan maklumat lanjut."
     },
     "daily": {
       "check": "%1$sAnda akan dapat menuntut harian anda pada: **%2$s.**",
@@ -1654,27 +1654,27 @@
         "first_time": "Kali pertama menuntut harian, berseronoklah! (Datang lagi untuk coretan anda esok!)",
         "lost_streak": {
           "normal": "2+ hari telah berlalu sejak harian terakhir anda, jadi coretan sebanyak `%1$dx` anda telah ditetapkan semula :(",
-          "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
+          "watch": "`Jam Tangan Ajaib` anda pun tidak dapat menghentikan aliran masa selama ini. Walaupun setelah menggunakan semua jam tangan ajaib kepunyaan anda, coretan `%1$d`x anda masih kehabisan masa dan ditetapkan semula :("
         },
         "bonus": "Anda memenangi bonus sebanyak $%1$s kerana berjaya menuntut harian anda selama 5 hari berterusan atau lebih banyak! (Disertakan pada wang yang dipaparkan!)",
         "given": {
           "up": "Coretan naik! Coretan semasa: `%1$,dx`.\n*Coretan tersebut telah diaplikasikan di profil anda!*",
           "bonus": "%1$s telah memenangi bonus sebanyak $%2$,d kerana menuntut daily anda selama 5 hari berterusan atau lebih banyak! (Disertakan pada wang yang dipaparkan!)"
         },
-        "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
+        "watch_used": "`Jam Tangan Ajaib` anda telah menyelamatkan coretan anda! Anda menggunakan `%1$d` utas untuk memanjangkan hayat coretan anda kepada %2$dx, anda mempunyai `%3$d` utas lagi!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
-      "credits": "%1$sYou got **$%2$,d** daily credits.",
+      "given_credits": "%1$sSaya memberi **$%2$,d** kredit harian anda kepada %3$s",
+      "credits": "%1$sAnda mendapat **$%2$,d** kredit harian.",
       "sellout": {
-        "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
-        "already_premium": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:"
+        "get_premium": "Kami memerlukan bantuan anda untuk memastikan Mantaro terus hidup! Periksa <https://patreon.com/mantaro> untuk mendapatkan maklumat lanjut. **Anda boleh mendapat sehingga dua kali ganda kredit dengan Premium!** Keahlian bermula dari $2/bulan sahaja, harga makanan ringan!",
+        "already_premium": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:"
       },
-      "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
-      "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
+      "crate": "Anda memenangi sebuah peti loot kerana coretan harian anda adalah gandaan 20! Nikmatilah.",
+      "watch_get": "Anda memenangi seutas `Jam Tangan Ajaib` kerana coretan harian anda adalah gandaan 50! Nikmatilah."
     },
     "gamble": {
       "no_credits": "%1$sAwak muflis. Mungkin mencari kredit dahulu.",
-      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
+      "too_much_money": "%1$sAnda mempunyai terlalu banyak wang! Mungkin memindahkannya atau membeli item? Kini, anda juga boleh menggunakan `~>slots` untuk segala keperluan perjudian anda! Terima kasih kerana tidak merosakkan bank tempatan. *(Had perjudian mutlak: %2$d kredit)*",
       "invalid_money_or_modifier": "%1$sSila menaip nombor sah yang lebih kurang atau sama dengan baki semasa anda ataupun `all` untuk berjudi semua kredit anda.",
       "not_enough_money": "%1$sSila menaip nilai yang ada dalam baki anda.",
       "invalid_percentage": "%1$sSila menaip nilai peratusan yang sah.",
@@ -1708,29 +1708,29 @@
       "no_pick": "%1$sAnda tidak mempunyai sebatang beliung untuk melombong. Jika anda ingin menggunakan beliung lain gunakan `~>mine <nama beliung>`",
       "not_suitable": "%1$sIni bukan beliung yang boleh anda gunakan untuk melombong!",
       "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung ditetapkan.",
-      "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "success": "%1$sAnda melombong mineral yang bernilai **$%2$,d kredit**, menggunakan *%3$s*",
+      "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menambahbaik peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
-        "success": "Huh! You got lucky and found %1$s diamond(s) while mining, check your inventory!"
+        "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyai terlalu banyak, jadi saya telah menjualnya.",
+        "success": "Huh! Anda bertuah kerana menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
       },
       "gem": {
-        "overflow": "Huh, you found *%1$s* while mining, but you already had too much of that gem, so I sold it for you.",
-        "success": "Huh! You got lucky and found *%1$s* while mining, check your inventory.",
-        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
+        "overflow": "Huh, anda menjumpai *%1$s* semasa melombong, tetapi anda sudah mempunyai terlalu banyak permata itu, jadi saya telah menjualnya.",
+        "success": "Huh! Anda bertuah kerana menjumpai *%1$s* semasa melombong, periksa inventori anda.",
+        "success_extra": "Hurray! Anda sangat bertuah kerana menjumpai *%1$s* dan *%2$s* semasa melombong, periksa inventori anda."
       },
       "sparkle": {
-        "overflow": "You found a sparkling gem, but it seems like you had too much of it already, so we sold it for you.",
-        "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
+        "overflow": "Anda menjumpai permata yang berkilau, tetapi nampaknya anda sudah mempunyai terlalu banyak, jadi kami telah menjualnya.",
+        "success": "Hurray! Anda menjumpai permata berkilau %1$s. Pastikan anda menyimpannya, periksa inventori anda."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
-        "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
+        "overflow": "Anda menjumpai **%1$s** semasa melombong, tetapi anda sudah mempunyai terlalu banyak dan meninggalkannya di situ...",
+        "success": "Anda menjumpai sebuah %1$s **%2$s** semasa melombong dan mengutipnya. Pergilah dan membukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti, yang dapat anda beli menggunakan `~>buy key`!"
       },
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your pick slot."
+        "success": "%1$s**%2$s** dipasang secara automatik di slot beliung anda."
       },
-      "item_broke": "%1$sYour %2$s broke while using it :( %3$s",
+      "item_broke": "%1$s%2$s anda patah semasa menggunakannya :( %3$s",
       "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
       "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
       "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
@@ -1914,7 +1914,7 @@
     "music_queuelimit": {
       "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
       "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sAnda cuba menetapkan nombor yang terlalu besar (yang tidak akan digunakan), bodoh"
+      "invalid": "%1$sAwak cuba menetapkan nombor yang terlalu besar (yang tidak akan digunakan), bodoh"
     },
     "music_clearchannel": {
       "success": "%1$sI can play music on all channels now."
