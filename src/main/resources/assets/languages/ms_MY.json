@@ -85,7 +85,7 @@
     "missing_embed_permissions": "Bot memerlukan kebenaran Embed Links untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (periksa kebenaran saluran dan kategori juga). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini semula dalam %3$s.**",
-      "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda mencuba sebelum cooldown diset semula!**",
+      "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda cuba lagi sebelum cooldown ditetapkan semula!**",
       "spam_2": "\nSaya rasa berhenti adalah pilihan yang terbaik buat masa ini...",
       "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
@@ -148,7 +148,7 @@
       },
       "crate": {
         "overflow": "Anda menjumpai **%1$s** semasa memancing, tetapi anda mempunyainya terlalu banyak, jadi kami membuangnya kembali ke lautan...",
-        "success": "Anda menjumpai %1$s **%2$s** semasa memancing dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <name peti>`. Anda memerlukan kunci peti!"
+        "success": "Anda menjumpai sebuah %1$s **%2$s** semasa memancing dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti!"
       },
       "autoequip": {
         "success": "%1$s**%2$s** dipasang secara automatik di slot joran anda."
@@ -164,7 +164,7 @@
       "fossil_success": "%1$sAnda menangkap fosil semasa cuba mencari ikan. Saya yakin item ini mungkin bernilai atau digunakan untuk mencipta alatan baharu.",
       "bait": "Ikan memakan umpan anda dalam proses!",
       "missing_equipped": "%1$sAnda telah memasang joran %2$s, tetapi anda tidak lagi mempunyai jenis joran ini di inventori anda! Joran yang dipasang telah ditetapkan semula.",
-      "broken_drop": "%1$sRod anda pecah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
+      "broken_drop": "%1$sJoran anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
       "no_rod_equipped": "%1$sAnda masih belum memasang joran. Untuk memasangnya, anda perlu menjalankan `~>equip <nama joran>` untuk memulakan pengembaraan anda!"
     },
     "softban": {
@@ -219,7 +219,7 @@
       "info": "%1$sAnda boleh menukar bahasa pelayan (jika berkenaan) menggunakan `~>opts language set <kod bahasa>`. Pilihan bahasa peribadi anda boleh diubah menggunakan `~>profile lang <kod bahasa>`.\n**Bahasa yang tersedia:** `%2$s`\nSekiranya bahasa anda tidak ada di sini dan anda ingin membantu, sila sertai pelayan sokongan dan sertai usaha terjemahan!"
     },
     "season": {
-      "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan skor wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses barang bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
+      "info": "*Musim* adalah jangka masa, biasanya 6 bulan di mana pemain bersaing untuk 10 slot teratas di papan pendahlu wang atau reputasi. Pemenang akan mendapat lencana dan hadiah berdasarkan prestasi musim mereka.\nIni adalah untuk membolehkan kerangka yang lebih kompetitif (sebelum ini, wang agak basi) dan menjadikan permainan sedikit lebih menyeronokkan.\nAnda boleh mengakses item bermusim menggunakan `-season`. Arahan seperti profile, mine, fish dan balance akan memerlukannya, manakala games, loot, daily dan reputation akan memberikan wang/reputasi kepada profil global dan musiman anda.",
       "info_2": "\n\nMusim semasa ialah **%1$s ** dan **%2$s** pemain sedang mengambil bahagian!\n\nKeseronokan bermula, periksa\n`~>leaderboard money -season`; `~>leaderboard rep -season` dan `~>leaderboard games -season`.\nPermainan dihidupkan! <3\nTerima kasih kerana menikmati Mantaro."
     },
     "music_general": {
@@ -828,7 +828,7 @@
     "opts": {
       "note": "%1$sHei, sekiranya anda tersesat atau memerlukan bantuan tentang penggunaan opts, periksa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk mendapatkan panduan penggunaan opts.\nNota: Hanya admin, iaitu seseorang yang mempunyai kebenaran Manage Server ataupun peranan Bot Commander boleh menggunakan arahan ini!",
       "list": {
-        "header": "**Senarai Option Mantaro**\n%1$s*Setiap option perlu bermula dengan `~>opts` semasa menjalankan mereka*\n%2$s"
+        "header": "**Senarai Pilihan Mantaro**\n%1$s*Setiap pilihan perlu bermula dengan `~>opts` semasa menjalankannya*\n%2$s"
       },
       "option_not_found": "%1$sNama bantuan option tidak sah.",
       "invalid_args": "%1$sOption atau argumen tidak sah."
@@ -1711,7 +1711,7 @@
       "success": "%1$sAnda melombong mineral yang bernilai **$%2$,d kredit**, menggunakan *%3$s*",
       "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menambahbaik peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
-        "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyai terlalu banyak, jadi saya telah menjualnya.",
+        "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyainya terlalu banyak, jadi saya telah menjualnya.",
         "success": "Huh! Anda bertuah kerana menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
       },
       "gem": {
@@ -1724,93 +1724,93 @@
         "success": "Hurray! Anda menjumpai permata berkilau %1$s. Pastikan anda menyimpannya, periksa inventori anda."
       },
       "crate": {
-        "overflow": "Anda menjumpai **%1$s** semasa melombong, tetapi anda sudah mempunyai terlalu banyak dan meninggalkannya di situ...",
-        "success": "Anda menjumpai sebuah %1$s **%2$s** semasa melombong dan mengutipnya. Pergilah dan membukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti, yang dapat anda beli menggunakan `~>buy key`!"
+        "overflow": "Anda menjumpai **%1$s** semasa melombong, tetapi anda sudah mempunyainya terlalu banyak dan meninggalkannya di situ...",
+        "success": "Anda menjumpai sebuah %1$s **%2$s** semasa melombong dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti, yang dapat anda beli menggunakan `~>buy key`!"
       },
       "autoequip": {
         "success": "%1$s**%2$s** dipasang secara automatik di slot beliung anda."
       },
       "item_broke": "%1$s%2$s anda patah semasa menggunakannya :( %3$s",
-      "item_broke_autoequip": "*Hint: You can use `~>profile autoequip` and it'll automatically equip the item for you when it breaks, assuming you have one in your inventory.*",
-      "waifu_help": "Your waifu came and joined your mining adventure and you both get a larger haul!",
-      "missing_equipped": "%1$sYou had an equipped %2$s pick, but you no longer have any of its kind on your inventory! Equipped pick has been reset.",
-      "broken_drop": "%1$sYour tool broke, but you can repair it. Got broken item: %2$s *%3$s*"
+      "item_broke_autoequip": "*Petunjuk: Anda boleh menggunakan `~>profile autoequip` untuk memasang peralatan anda secara automatik apabila ia patah, menganggap anda mempunyai satu lagi dalam inventori anda",
+      "waifu_help": "Waifu anda datang dan menyertai pengembaraan melombong anda dan anda berdua mendapat hasil yang lebih besar!",
+      "missing_equipped": "%1$sAnda telah memasang beliung %2$s, tetapi anda tidak lagi mempunyai jenis beliung ini di inventori anda! Beliung yang dipasang telah ditetapkan semula.",
+      "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*"
     },
     "chop": {
-      "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
+      "not_equipped": "%1$sAnda masih belum memasang kapak anda. Gunakan `~>equip <nama kapak>` untuk memasang sebatang kapak dan bermula pengembaraan anda! Jika anda tidak mempunyai sebatang kapak, jalankan arahan `~>buy axe` dahulu",
       "dust": "%1$sPokok itu terlalu rapuh dan anda hanya mendapat habuk kayu daripadanya (Tahap habuk: %2$d%%)",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your axe slot."
+        "success": "%1$s**%2$s** dipasang secara automatik di slot kapak anda."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "Anda menjumpai **%1$s** semasa menebang pokok, tetapi anda mempunyainya terlalu banyak, jadi kami membuangnya kembali ke lautan...",
+        "success": "Anda menjumpai sebuah %1$s **%2$s** semasa menebang pokok dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti!"
       },
-      "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+      "overflow": "%1$sAnda menjumpai beberapa item semasa menebang, tetapi anda tidak dapat memegang apa-apa lagi, jadi kami terpaksa meninggalkan sebahagiannya.",
+      "success_only_item": "%1$sSemasa menebang pokok, anda menemui %2$s dan anda terus menyimpannya ke dalam inventori anda.",
+      "success": "%1$sSemasa menebang pokok, anda menemui %2$s dan **$%3$d kredit** dan anda terus menyimpannya ke dalam inventori anda.",
+      "success_money_noitem": "%1$sSemasa menebang pokok, anda menjumpai **$%2$d kredit** dan anda terus menyimpannya ke dalam poket anda."
     },
     "slots": {
       "errors": {
-        "amount_not_ticket": "%1$sYou cannot specify how many tickets you're gonna use if you're not using tickets!",
-        "not_enough_tickets": "%1$sYou don't have enough slots tickets.",
-        "too_much_money": "%1$sThis machine cannot dispense that much money!",
-        "not_enough_money": "%1$sYou don't have enough money to play the slots machine!",
-        "below_minimum": "%1$sThe minimum amount is 25 credits",
-        "no_tickets": "%1$sYou wanted to use tickets but you don't have any :<",
-        "no_amount": "%1$sYou didn't specify the amount!",
-        "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
-        "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
+        "amount_not_ticket": "%1$sAnda tidak perlu menyatakan bilangan tiket yang akan anda gunakan jika anda tidak menggunakan tiket!",
+        "not_enough_tickets": "%1$sAnda tidak mempunyai tiket slot yang mencukupi.",
+        "too_much_money": "%1$sMesin ini tidak dapat mengeluarkan wang sebanyak itu!",
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk bermain mesin slot!",
+        "below_minimum": "%1$sJumlah minimum ialah 25 kredit",
+        "no_tickets": "%1$sAnda ingin menggunakan tiket tetapi anda tidak mempunyainya :<",
+        "no_amount": "%1$sAnda tidak menyatakan jumlah!",
+        "no_valid_amount": "%1$sItu bukan jumlah wang yang sah! (Contoh jumlah sah: 1000, 1k, 14000)",
+        "too_many_tickets": "%1$sAnda cuba menggunakan terlalu banyak tiket slot. Maksimum yang dibenarkan ialah %2$d"
       },
-      "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
-      "win": "And you won **%1$,d** credits and got to keep what you bet (%2$,d credits)! Lucky!",
-      "lose": "And you lost %1$s\nI hope you do better next time!",
-      "tickets": "slots ticket(s)",
-      "credits": "credits"
+      "roll": "%1$s**Anda menggunakan %2$s dan memutar mesin slot**\n",
+      "win": "Dan anda memenangi **%1$,d** kredit dan dapat menyimpan jumlah yang anda berjudi (%2$,d kredit)! Tahniah!",
+      "lose": "Dan anda kalah %1$s\nSaya berharap anda dapat menang lain kali!",
+      "tickets": "tiket slot",
+      "credits": "kredit"
     },
     "leaderboard": {
-      "main_page_redirect": "You can see `~>help leaderboard` for a list of available leaderboards.\nIf you're looking for the money leaderboard, run `~>leaderboard money`",
-      "header": "Mantaro's Leaderboard",
-      "header_seasonal": "Mantaro's %1$s season Leaderboard",
-      "money": "Money Leaderboard",
-      "reputation": "Reputation Leaderboard",
-      "gamble": "Gamble Wins Leaderboard",
-      "slots": "Slots Wins Leaderboard",
-      "daily": "Daily Streak Leaderboard",
-      "level": "Papan pendahulu level",
-      "game": "Game Wins leaderboard",
-      "waifu": "Waifu Value leaderboard",
-      "claim": "Waifu Claim leaderboard",
+      "main_page_redirect": "Anda boleh melihat `~>help leaderboard` untuk mendapatkan senarai papan pendahulu yang tersedia.\nSekiranya anda ingin melihat papan pendahulu wang, jalankan `~>leaderboard money`",
+      "header": "Papan Pendahulu Mantaro",
+      "header_seasonal": "Papan Pendahulu musim %1$s Mantaro",
+      "money": "Papan Pendahulu Wang",
+      "reputation": "Papan Pendahulu Reputasi",
+      "gamble": "Papan Pendahulu Kemenangan Perjudian",
+      "slots": "Papan Pendahulu Kemenangan Slot",
+      "daily": "Papan Pendahulu Coretan Harian",
+      "level": "Papan Pendahulu Level",
+      "game": "Papan Pendahulu Kemenangan Permainan",
+      "waifu": "Papan Pendahulu Nilai Waifu",
+      "claim": "Papan Pendahulu Tuntutan Waifu",
       "inner": {
-        "experience": "Experience",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
-        "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
-        "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
-        "seasonal_money": "%1$sThis page shows the top 10 richest people on Mantaro for this season.",
-        "rep": "%1sThis page shows the top 10 people with the most reputation.",
-        "streak": "%1sThis page shows the top 10 people with the most daily streaks.\n\nCheck out `~>help daily` for more info",
-        "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
-        "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
-        "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
+        "experience": "Pengalaman",
+        "game": "%1sHalaman ini memaparkan 10 pemain teratas yang telah memenangi terbanyak permainan.\n\nPeriksa `~>help game` atau `~>help trivia` untuk mendapatkan maklumat tentang fungsi permainan!",
+        "claim": "%1sHalaman ini memaparkan 10 pemain teratas yang telah dituntut terbanyak kali.\n\nPeriksa `~>help waifu` untuk mendapatkan maklumat tentang sistem waifu.",
+        "money_old": "%1$sHalaman ini memaparkan 10 pemain teratas yang paling kaya di Mantaro (sebelum tetapan semula).\n",
+        "money": "%1$sHalaman ini memaparkan 10 pemain teratas yang paling kaya di Mantaro. Teruskan usaha!",
+        "seasonal_money": "%1$sHalaman ini memaparkan 10 pemain teratas yang paling kaya di Mantaro bagi musim ini.",
+        "rep": "%1sHalaman ini memaparkan 10 pemain teratas yang mempunyai reputasi tertinggi.",
+        "streak": "%1sHalaman ini memaparkan 10 pemain teratas yang mempunyai coretan harian tertinggi.\n\nPeriksa `~>help daily` untuk mendapatkan maklumat lanjut",
+        "lvl": "%1sHalaman ini memaparkan 10 pemain teratas yang mempunyai level tertinggi.\n\nLevel boleh diperoleh dengan bercakap. Penggunaan arahan tidak mendorong kepada pengalaman, dan XP mempunyai cooldown selama 30 saat.",
+        "waifu": "%1sHalaman ini memaparkan 10 pemain teratas yang mempunyai nilai waifu yang paling berat.\n\nPeriksa `~>help waifu` untuk mendapatkan maklumat tentang sistem waifu.",
+        "gamble": "%1sHalaman ini memaparkan 10 pemain teratas yang telah memenangi terbanyak perjudian.\n\nPeriksa `~>help gamble` untuk mendapatkan maklumat tentang perjudian.",
+        "slots": "%1sHalaman ini memaparkan 10 pemain teratas yang telah memenangi terbanyak slot.\n\nPeriksa `~>help slots` untuk mendapatkan maklumat tentang slot."
       }
     },
     "iteminfo": {
-      "no_content": "%1$sYou didn't specify any item to look for! You can search it with emoji or the name.",
-      "no_item": "%1$sThere's no item matching your search query.",
+      "no_content": "%1$sAnda tidak menyatakan sebarang item untuk dicari. Anda boleh mencarinya menggunakan emoji atau nama.",
+      "no_item": "%1$sTidak ada item yang sepadan dengan pencarian anda.",
       "embed": {
-        "header": "Item Information for %1$s",
-        "type": "Type",
-        "usefulness": "Usefulness",
-        "attributes": "Attributes",
-        "tier": "Tier",
-        "durability": "Durability",
-        "desc": "Description"
+        "header": "Maklumat Item %1$s",
+        "type": "Jenis",
+        "usefulness": "Kegunaan",
+        "attributes": "Sifat",
+        "tier": "Tahap",
+        "durability": "Ketahanan",
+        "desc": "Penerangan"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
+      "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s",
+      "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*"
     },
     "level": {
       "bot_notice": "%1$sBot tidak mempunyai level.",
@@ -1819,89 +1819,89 @@
     }
   },
   "options": {
-    "options": "Mantaro Options",
-    "error_general": "%1$sIncorrect usage or missing arguments.\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "options": "Pilihan Mantaro",
+    "error_general": "%1$sPenggunaan yang salah atau kehilangan argumen.\nSekiranya anda tersesat atau memerlukan bantuan tentang penggunaan opts, periksa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk mendapatkan panduan tentang cara menggunakan opts. Jika anda menemui sebarang isu setelah membaca wiki, hubungi <https://support.mantaro.site>",
     "check_data": {
-      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**.",
-      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
-      "footer": "This is a debug command, therefore it's not 100% user-friendly",
-      "null_set": "is not set to anything.",
-      "set_to": "is set to:"
+      "retrieve_failure": "%1$sTidak dapat mendapatkan nilai. Peliknya...",
+      "header": "Pilihan ditetapkan untuk pelayan **%1$s**.",
+      "terminology": "\n\n**Istilah berguna:** [] = senarai kosong, null = tidak ditetapkan, {} = objek kosong. Jika anda melihat nombor=[...] ia bermaksud bahawa id itu, ia mengaplikasikan apa yang terdapat dalam kurungan tersebut. Objek biasanya diasingkan dengan koma",
+      "footer": "Ini adalah arahan debug, jadi ia bukan 100% mesra pengguna",
+      "null_set": "tidak ditetapkan kepada apa-apa.",
+      "set_to": "ditetapkan kepada:"
     },
     "reset_all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sPilihan anda ditetapkan semula dengan betul!"
     },
     "server_command_disallow": {
-      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
-      "success": "%1$sDisabled %2$s on this server."
+      "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda larang pada pelayan ini.",
+      "success": "%1$s%2$s telah dilarang pada pelayan ini."
     },
     "server_command_allow": {
-      "no_command": "%1$sYou need to specify the command you want to enable on this server.",
-      "success": "%1$sEnabled %2$s on this server."
+      "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda membenarkan pada pelayan ini.",
+      "success": "%1$s%2$s telah dibenarkan pada pelayan ini."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
-      "success": "%1$sDisabled %2$s on channel #%3$s."
+      "invalid": "%1$sAnda haruslah menyatakan nama saluran dan arahan yang ingin anda melarang.",
+      "success": "%1$s%2$s telah dilarang pada saluran #%3$s."
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow.",
-      "success": "%1$sEnabled %2$s on channel #%3$s."
+      "invalid": "%1$sAnda perlu menyatakan nama saluran dan arahan yang ingin dibenarkan.",
+      "success": "%1$s%2$s telah dibenarkan pada saluran #%3$s."
     },
     "server_channel_disallow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
-      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will no longer listen to commands."
+      "no_channel": "%1$sAnda perlu menyatakan saluran di mana anda mahu melarang bot mendengar arahan.",
+      "too_many": "%1$sAnda tidak boleh melarang lebih banyak saluran lagi kerana bot tidak akan dapat bercakap :(",
+      "success": "%1$sSaluran %2$s tidak akan mendengar arahan lagi."
     },
     "server_channel_allow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
-      "success": "%1$sChannel %2$s will now listen to commands."
+      "no_channel": "%1$sAnda perlu menyatakan saluran di mana anda mahu membenarkan bot mendengar arahan. (Semua saluran secara asal)",
+      "success": "%1$sKini, saluran %2$s akan mendengar arahan."
     },
     "category_disable": {
-      "no_category": "%1$sYou need to specify a category to disable.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s`"
+      "no_category": "%1$sAnda perlu menyatakan kategori untuk dilarang.",
+      "already_disabled": "%1$sKategori ini sudah dilarang.",
+      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia akan melarang arahan opts.",
+      "success": "%1$sKategori `%2$s` telah dilarang"
     },
     "category_enable": {
-      "no_category": "%1$sYou need to specify a category to enable.",
-      "success": "%1$sEnabled category `%2$s`"
+      "no_category": "%1$sAnda perlu menyatakan kategori untuk dibenarkan.",
+      "success": "%1$sKategori `%2$s` telah dibenarkan"
     },
     "category_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sAnda perlu menyatakan kategori untuk dilarang dan saluran mana.",
+      "already_disabled": "%1$sKategori ini sudah dilarang.",
+      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia akan melarang arahan opts.",
+      "success": "%1$sKategori `%2$s` telah dilarang pada saluran %3$s"
     },
     "category_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+      "invalid": "%1$sAnda perlu menyatakan kategori untuk dibenarkan dan saluran mana.",
+      "invalid_channel": "%1$sItu bukan saluran yang sah!",
+      "not_disabled": "%1$sKategori ini tidak dilarang.",
+      "success": "%1$sKategori `%2$s` telah dibenarkan pada saluran %3$s"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sYou need the role and the command to disallow!",
-      "already_disabled": "%1$sThis command was already disabled for the specified role.",
-      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sAnda memerlukan peranan dan arahan untuk dilarang!",
+      "already_disabled": "%1$sArahan ini sudah dilarang bagi peranan spesifik tersebut.",
+      "success": "%1$sBerjaya melarang arahan `%2$s` bagi peranan `%3$s`"
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sYou need the role and the command to allow!",
-      "not_disabled": "%1$sThis command wasn't disabled for this role.",
-      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$sAnda memerlukan peranan dan arahan untuk dibenarkan!",
+      "not_disabled": "%1$sArahan ini tidak dilarang bagi peranan spesifik tersebut.",
+      "success": "%1$sBerjaya membenarkan arahan `%2$s` bagi peranan `%3$s`"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the role to.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` for role %3$s"
+      "invalid": "%1$sAnda perlu menyatakan kategori untuk dilarang dan peranan yang mana.",
+      "already_disabled": "%1$sKategori ini sudah dilarang.",
+      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia mengandungi arahan ini.",
+      "success": "%1$sKategori `%2$s` telah dilarang bagi peranan %3$s"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a role to enable and the channel where.",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` for role %3$s"
+      "invalid": "%1$sAnda perlu menyatakan peranan untuk dibenarkan dan saluran mana.",
+      "not_disabled": "%1$sKategori ini tidak dilarang.",
+      "success": "%1$sKategori `%2$s` telah dibenarkan bagi peranan %3$s"
     },
     "fairqueue_max": {
-      "invalid": "%1$sYou need to specify a positive integer.",
+      "invalid": "%1$sAnda perlu menyatakan nombor bulat yang positif.",
       "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
     },
     "musicannounce_toggle": {
