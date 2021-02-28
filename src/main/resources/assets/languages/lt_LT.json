@@ -238,7 +238,6 @@
       "track_error": "%1$sOučh, kažkas atsitiko bandant sugroti šią dainą! Atsiprašome už nepatogumus, Pabandysiu sugroti kitą dainą, jeigu ji yra.",
       "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
       "soundcloud_no_args": "%1$sTuri nurodyti dainos pavadinimą, aš nesu burtininkė ir negaliu jos atspėti :(",
-      "too_many_errors": "%1$sToo many errors on this session, stopping...",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$sI'm not connected to any VC even though I should be? Try again.",
       "queue": {
@@ -512,8 +511,8 @@
       "null_mute_role": "%1$sAnkščiau nustatyta užtildymo rolė šiame serveryje jau nebeegzistuoja.",
       "no_users": "%1$sTuri nurodyti narius, kuriuos užtildyti.",
       "no_manage_roles": "%1$sNeturiu leidimo tvarkyti rolių šiame serveryje.",
-      "no_time": "%1$sNenurodei jokio laiko. Primenu, kad tau reikia pridėti `-time` argumentą ir nurodyti laiką tenais.",
       "time_not_specified": "%1$sTu norėjai laiko, bet nenurodei, kiek ilgai.",
+      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `~>mute 20m @mention reason goes here`, for example.",
       "negative_time_notice": "%1$sTu negali užtildyti nario negatyviam laikui. Nebent tu gali valdyti laiką...",
       "default_time_too_long": "%1$sUžtildymo laikas per ilgas (Daugiausiai: 10 dienų)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
@@ -521,7 +520,8 @@
       "already_muted": "%1$sŠis narys jau turi užtildymo rolę. Panaudok `~>unmute`, kad nuimtum nariui nutildymo rolę.",
       "self_hierarchy_error": "%1$sAš negaliu priskirti užtuldymo rolės nariui, nes jis/ji yra aukščiau serverio hierarchijoje negu aš, arba rolė yra aukštesnėje hierarchijoje!",
       "user_hierarchy_error": "%1$sAš negaliu priskirti užtuldymo rolės nariui, nes jis/ji yra aukščiau serverio hierarchijoje negu aš, arba rolė yra aukštesnėje hierarchijoje negu tu!",
-      "success": "%1$sPridėta užtildymo rolė **%2$s** apytiksliai %3$s"
+      "success": "%1$sAdded mute role to **%2$s** for %3$s",
+      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sTu turi turėti leidimą \"Išmesti narius\" arba \"Užblokuoti narius\", kad gamėtum nuimti užtildymo rolę!",
@@ -647,7 +647,7 @@
         "no_user": "%1$sTu nepaminėjai jokio nario, kuri pasiimti.",
         "locked": "%1$sTu kolkas negali atlikti šio veiksmo.",
         "key_locked": "%1$sThe user you tried to claim is key-locked and cannot be claimed. They can remove it using `~>profile claimlock remove` if they wish to do so.",
-        "not_enough_money": "%1$Tu neturi užtektinai pinigų, kad galėtum pasiimti narį **(Kaina: %2$s)**",
+        "not_enough_money": "%1$sTu neturi užtektinai pinigų, kad galėtum pasiimti narį **(Kaina: %2$s)**",
         "not_enough_slots": "%1$sTu neturi užtektinai vietos šiai Waifu. (Viso vietos: %2$s, Naudojama vietos: %3$s)",
         "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
         "yourself": "%1$sYou cannot claim yourself!",
@@ -857,10 +857,6 @@
       "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
       "not_assigned": "%1$sYou don't have this role, silly!",
       "success": "%1$s%2$s, you've lost the **%3$s** role"
-    },
-    "misc": {
-      "reverse_missing": "%1$sYou didn't provide any message to reverse.",
-      "random_color": "%1$sThe random color is %2$s"
     },
     "poll": {
       "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
@@ -1077,8 +1073,9 @@
         "success": "%1$sCancelled your reminder.",
         "select": "Select the reminder you want to cancel."
       },
-      "no_time": "You didn't give me a `-time` argument! (Example: `-time 1h`)",
-      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `-time 1m`)",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
+      "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
       "success": "%1$sI'll remind you of `%2$s` in %3$s",
       "too_many_reminders": "%1$sYou have too many reminders! Try cancelling some?"
