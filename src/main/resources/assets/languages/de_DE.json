@@ -1053,13 +1053,14 @@
       "full_header": "**%1$ss Geburtstage**\n%2$s\nBeachte, dass Geburtstage alle 23 Stunden gecached werden, und dass Nutzer den Befehl `~>birthday allowserver` ausführen müssen. Zeigt bis zu 100 Ergebnisse.",
       "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
       "error_date": "%1$s%2$s ist entweder kein valides Datum, oder ich kann es nicht richtig verarbeiten. Bitte versuche es mit dem korrekten Format erneut.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
-      "added_birthdate": "%1$sGeburtsdatum wurde erfolgreich hinzugefügt. Neues Geburtsdatum: %2$s *(Format: tt-MM)* [Tag-Monat].\nDamit dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
       "no_content": "%1$sDu musst deinen Geburtstag, `remove` zum Zurücksetzen oder `month` zum Überprüfen der Geburtstage des aktuellen Monats angeben. Damit dann dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
       "new_format": "%1$sDas neue Datumsformat ist nur `tt-MM` (Tag-Monat, zum Beispiel 20-10 für den 20. Oktober). Das Jahr wird nicht benötigt, demnach kannst du den Teil weglassen.",
       "allowed_server": "%1$sDer aktuelle Server darf jetzt deinen Geburtstag ankündigen. Um dies in der Zukunft zu verhindern, musst du `~>birthday denyserver` auf diesem Server ausführen.",
       "denied": "%1$sDer aktuelle Server darf deinen Geburtstag nicht mehr ankündigen. Um dies in der Zukunft zu erlauben musst du `~>birthday allowserver` auf diesem Server ausführen.",
       "already_denied": "%1$sDieser Server kann deinen Geburtstag nicht ankündigen. Um dies zu ändern, nutze `~>birthday allowserver`. Das ist der Standard.",
+      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
       "already_allowed": "%1$sDu hast diesem Server schon erlaubt, deinen Geburtstag zu zeigen."
     },
     "choose": {
