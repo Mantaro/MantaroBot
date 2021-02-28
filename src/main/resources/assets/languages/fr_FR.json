@@ -1735,7 +1735,8 @@
       "item_broke_autoequip": "*Indice: tu peux utiliser `~>profile autoequip` pour équiper automatiquement le nouvel objet lorsque l'actuel casse, si tu en as bien évidemment.*",
       "waifu_help": "Ta waifu t'a rejoint dans ton aventure de minage, ensemble vous aurez un plus large butin!",
       "missing_equipped": "%1$sTu avais équipé une pioche %2$s, mais tu n'en as plus dans ton inventaire! La pioche équipée est donc réinitialisée.",
-      "broken_drop": "%1$sTa pioche a cassé mais tu peux toujours la réparer. Objet endommagé obtenu : %2$s *%3$s*"
+      "broken_drop": "%1$sTa pioche a cassé mais tu peux toujours la réparer. Objet endommagé obtenu : %2$s *%3$s*",
+      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
     },
     "chop": {
       "not_equipped": "%1$sTu n'as pas de hache équipée. Utilise `~>equip <axe name>` pour équiper ta hache et commencer à bucheronner! Si tu ne possèdes pas de hache, fais `~>buy axe` d'abord",
@@ -1808,7 +1809,9 @@
         "attributes": "Attributes",
         "tier": "Tier",
         "durability": "Durability",
-        "desc": "Description"
+        "desc": "Description",
+        "upgrade": "Looking to upgrade?",
+        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
