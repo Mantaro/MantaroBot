@@ -114,7 +114,7 @@ public class MoneyCmds {
                     var playerOtherUser = ctx.getPlayer(otherUser);
                     if (playerOtherUser.isLocked()){
                         ctx.sendLocalized("commands.daily.errors.receipt_locked");
-                        return;T
+                        return;
                     }
 
                     // Why this is here I have no clue;;;
