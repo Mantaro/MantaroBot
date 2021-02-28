@@ -901,6 +901,12 @@ public class ItemCmds {
                                     languageContext.get(attribute.getExplanation()), false
                             );
 
+                    if (attribute.getTier() == 1) {
+                        builder.addField(EmoteReference.THINKING.toHeaderString() + languageContext.get("commands.iteminfo.embed.upgrade"),
+                                languageContext.get("commands.iteminfo.embed.upgrade_content"), false
+                        );
+                    }
+
                     ctx.send(builder.build());
                 } else {
                     if (item instanceof Tiered) {

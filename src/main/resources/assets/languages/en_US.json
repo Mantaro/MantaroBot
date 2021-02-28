@@ -1809,7 +1809,9 @@
         "attributes": "Attributes",
         "tier": "Tier",
         "durability": "Durability",
-        "desc": "Description"
+        "desc": "Description",
+        "upgrade": "Looking to upgrade?",
+        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
