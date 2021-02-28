@@ -98,16 +98,21 @@ public class BirthdayCmd {
                             return;
                         }
 
-                        var birthdayFormat = parseFormat.format(birthdayDate);
+                        final var birthdayFormat = parseFormat.format(birthdayDate);
+                        final var display = displayFormat.format(birthdayDate);
 
                         //Actually save it to the user's profile.
                         DBUser dbUser = ctx.getDBUser();
                         dbUser.getData().setBirthday(birthdayFormat);
                         dbUser.saveUpdating();
 
-                        ctx.sendLocalized("commands.birthday.added_birthdate",
-                                EmoteReference.CORRECT, displayFormat.format(birthdayDate)
-                        );
+                        var extra = "";
+                        var leap = display.equals("29-02");
+                        if (leap) {
+                            extra += "\n" + languageContext.get("commands.birthday.leap");
+                        }
+
+                        ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
                     }
                 };
             }

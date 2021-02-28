@@ -167,7 +167,7 @@ public class BirthdayTask {
                             // year is not a leap year.
                             var compare = birthday.substring(0, 5);
                             if (compare.equals("29-02") && !Year.isLeap(LocalDate.now().getYear())) {
-                                compare = "01-03";
+                                compare = "28-02";
                             }
 
                             if (compare.equals(now)) {
