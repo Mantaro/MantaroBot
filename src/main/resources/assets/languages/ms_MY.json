@@ -1735,7 +1735,8 @@
       "item_broke_autoequip": "*Petunjuk: Anda boleh menggunakan `~>profile autoequip` untuk memasang peralatan anda secara automatik apabila ia patah, menganggap anda mempunyai satu lagi dalam inventori anda",
       "waifu_help": "Waifu anda datang dan menyertai pengembaraan melombong anda dan anda berdua mendapat hasil yang lebih besar!",
       "missing_equipped": "%1$sAnda telah memasang beliung %2$s, tetapi anda tidak lagi mempunyai jenis beliung ini di inventori anda! Beliung yang dipasang telah ditetapkan semula.",
-      "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*"
+      "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
+      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
     },
     "chop": {
       "not_equipped": "%1$sAnda masih belum memasang kapak anda. Gunakan `~>equip <nama kapak>` untuk memasang sebatang kapak dan bermula pengembaraan anda! Jika anda tidak mempunyai sebatang kapak, jalankan arahan `~>buy axe` dahulu",
@@ -1808,7 +1809,9 @@
         "attributes": "Sifat",
         "tier": "Tahap",
         "durability": "Ketahanan",
-        "desc": "Penerangan"
+        "desc": "Penerangan",
+        "upgrade": "Looking to upgrade?",
+        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s",
       "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*"
