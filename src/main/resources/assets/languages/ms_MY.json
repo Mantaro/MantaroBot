@@ -1053,14 +1053,14 @@
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "error_date": "%1$s%2$s bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
+      "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
       "new_format": "%1$sFormat tarikh yang baru hanyalah `hh-bb` (hari-bulan, misalnya 20-10 untuk 20 Oktober). Tidak perlu masukkan tahun anda lagi, jadi anda boleh menyingkirkan bahagian tersebut.",
       "allowed_server": "%1$sPelayan semasa telah dibenarkan untuk mengumumkan hari jadi anda. Untuk melarangnya pada masa akan datang, hanya jalankan `~>birthday denyserver` di pelayan ini.",
       "denied": "%1$sPelayan semasa telah dilarang mengumumkan hari jadi anda. Untuk membenarkannya pada masa akan datang, hanya jalankan `~>birthday allowserver` di pelayan ini.",
       "already_denied": "%1$sPelayan ini sudah dilarang mengumumkan hari jadi anda. Sekiranya anda ingin membenarkannya, jalankan `~>birthday allowserver` sebagai gantinya. Ini adalah tetapan asal.",
-      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
+      "leap": "Hari jadi anda adalah 29 Februari, ini bermaksud bahawa ia akan diumumkan pada 29 Februari pada tahun lompat, dan 28 Februari pada tahun biasa.",
       "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
     "choose": {
@@ -1710,7 +1710,7 @@
       "not_suitable": "%1$sIni bukan beliung yang boleh anda gunakan untuk melombong!",
       "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung ditetapkan.",
       "success": "%1$sAnda melombong mineral yang bernilai **$%2$,d kredit**, menggunakan *%3$s*",
-      "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menambahbaik peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menaik taraf peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyainya terlalu banyak, jadi saya telah menjualnya.",
         "success": "Huh! Anda bertuah kerana menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
@@ -1736,7 +1736,7 @@
       "waifu_help": "Waifu anda datang dan menyertai pengembaraan melombong anda dan anda berdua mendapat hasil yang lebih besar!",
       "missing_equipped": "%1$sAnda telah memasang beliung %2$s, tetapi anda tidak lagi mempunyai jenis beliung ini di inventori anda! Beliung yang dipasang telah ditetapkan semula.",
       "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
-      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
+      "broken_drop_miss": "%1$sPeralatan anda patah dan nampaknya ia tidak dapat dipulangkan."
     },
     "chop": {
       "not_equipped": "%1$sAnda masih belum memasang kapak anda. Gunakan `~>equip <nama kapak>` untuk memasang sebatang kapak dan bermula pengembaraan anda! Jika anda tidak mempunyai sebatang kapak, jalankan arahan `~>buy axe` dahulu",
@@ -1810,8 +1810,8 @@
         "tier": "Tahap",
         "durability": "Ketahanan",
         "desc": "Penerangan",
-        "upgrade": "Looking to upgrade?",
-        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade": "Mahu menaik tarafnya?",
+        "upgrade_content": "Tekan [sini](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
       "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s",
       "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*"
