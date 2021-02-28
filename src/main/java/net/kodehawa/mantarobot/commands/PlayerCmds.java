@@ -420,7 +420,8 @@ public class PlayerCmds {
 
                             var common = languageContext.get("commands.badges.profile_notice") + languageContext.get("commands.badges.info_notice") +
                                     ((r.nextInt(2) == 0 && !dbUser.isPremium() ? languageContext.get("commands.badges.donate_notice") : "\n") +
-                                            String.format(languageContext.get("commands.badges.total_badges"), badges.size()) + "\n");
+                                            String.format(languageContext.get("commands.badges.total_badges"), badges.size())
+                                    );
 
                             DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields), common);
                         });

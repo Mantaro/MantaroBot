@@ -779,7 +779,6 @@ public class CustomCmds {
                 }
 
                 String[] args = ctx.getArguments();
-
                 if (args.length < 2) {
                     ctx.sendLocalized("commands.custom.rename.not_enough_args", EmoteReference.ERROR);
                     return;
