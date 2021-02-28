@@ -1735,7 +1735,8 @@
       "item_broke_autoequip": "*Consejo: Puedes usar `~>profile autoequip` para equipar un ítem automáticamente por ti cuando se rompe, asumiendo que tienes uno extra en tu inventario.*",
       "waifu_help": "Tu waifu vino y te acompañó a minar, como resultado ambos ganan más loot!",
       "missing_equipped": "%1$sTenías un pico %2$s equipado, pero ya no lo tienes en tu inventario! El pico equipado ha sido reiniciado.",
-      "broken_drop": "%1$sTu herramienta se ha roto, pero puedes repararla. Obtienes el ítem roto: %2$s *%3$s*"
+      "broken_drop": "%1$sTu herramienta se ha roto, pero puedes repararla. Obtienes el ítem roto: %2$s *%3$s*",
+      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
     },
     "chop": {
       "not_equipped": "%1$sYou don't have any equipped axe. Use `~>equip <axe name>` to equip a axe and start your adventure! If you don't have any, first run `~>buy axe`",
@@ -1808,7 +1809,9 @@
         "attributes": "Atributos",
         "tier": "Tier",
         "durability": "Durabilidad",
-        "desc": "Descripción"
+        "desc": "Descripción",
+        "upgrade": "Looking to upgrade?",
+        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
