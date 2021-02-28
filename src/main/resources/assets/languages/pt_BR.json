@@ -1735,7 +1735,8 @@
       "item_broke_autoequip": "*Dica: Você pode usar `~>profile autoequip` e irá automaticamente equipar o item pra você quando quebrar, assumindo que você tenha um no seu inventário.*",
       "waifu_help": "Sua waifu veio e se juntou a sua aventura de mineração e você dois ganham mais recursos!",
       "missing_equipped": "%1$sVocê equipado uma picareta %2$s, mas você não tem mais desse tipo no seu inventário! Picareta equipada foi resetada.",
-      "broken_drop": "%1$sSua ferramenta quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*"
+      "broken_drop": "%1$sSua ferramenta quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
+      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
     },
     "chop": {
       "not_equipped": "%1$sVocê ainda não equipou seu machado. Use o comando `~>equip <tipo de machado>` para equipar um machado e começar a sua aventura! Se você não tem nenhum, primeiro utilize `~>buy axe` para comprar um do mercado",
@@ -1808,7 +1809,9 @@
         "attributes": "Atributos",
         "tier": "Tier",
         "durability": "Durabilidade",
-        "desc": "Descrição"
+        "desc": "Descrição",
+        "upgrade": "Looking to upgrade?",
+        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
       "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s",
       "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*"
