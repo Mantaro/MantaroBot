@@ -1053,13 +1053,14 @@
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "added_birthdate": "%1$sتم اضافة تاريخ الميلاد بنجاح. تاريخ الميلاد الجديد: %2$s *(الصيغة: dd-MM)* [day-month]. للسماح لهذا السيرفر بالاعلان عن عيد ميلادك يجب عليك استخدام الأمر:\n `~>birthday allowserver`",
+      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
       "no_content": "%1$sيجب عليك تحديد تاريخ ميلادك, `remove` لإعادة ضبط تاريخ ميلادك أو `month` لعرض اعياد الميلاد بهذا الشهر. للسماح لهذا السيرفر بالاعلان عن عيد ميلادك, يجب عليك استعمال الأمر \n`~>birthday allowserver`",
       "new_format": "%1$sالصيغة الجديدة للتاريخ هي `dd-mm` (يوم-شهر, على سبيل المثال 20-10 ك 20 اكتوبر). لاحاجة لادخال العام, لذلك يمكنك حذف ذلك الجزء.",
       "allowed_server": "%1$sتم السماح للسيرفر الحالي بالاعلان عن عيد ميلادك. لمنعه من ذلك, استعمل الأمر \n `~>birthday denyserver` بهذا السيرفر.",
       "denied": "%1$sتم منع السيرفر الحالي من الاعلان عن عيد ميلادك., اذا اردت السماح له بذلك, استعمل الأمر\n `~>birthday allowserver` on this server.",
       "already_denied": "%1$sهذا السيرفر بالفعل لا يمكنه الاعلان عن عيد ميلادك. اذا اردت السماح له بذلك, استعمل الأمر\n`~>birthday allowserver`\n هذا هو الخيار الافتراضي.",
+      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
       "already_allowed": "%1$sYou already allowed this server to show your birthday."
     },
     "choose": {
