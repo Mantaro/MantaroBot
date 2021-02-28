@@ -73,6 +73,8 @@ public class BirthdayCmd {
                         var parseFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                         var displayFormat = DateTimeFormatter.ofPattern("dd-MM");
                         MonthDay birthdayDate;
+                        String date;
+                        var extra = "";
 
                         try {
                             String birthday;
@@ -91,26 +93,29 @@ public class BirthdayCmd {
 
                             //Add a year so it parses and saves using the old format. Yes, this is also cursed.
                             parts.add("2037");
-                            var date = String.join("-", parts);
-                            birthdayDate = MonthDay.parse(date, displayFormat);
+                            date = String.join("-", parts);
+                            birthdayDate = MonthDay.parse(birthday, displayFormat);
                         } catch (Exception e) {
                             ctx.sendStrippedLocalized("commands.birthday.error_date", "\u274C", content);
+                            e.printStackTrace();
                             return;
                         }
 
-                        final var birthdayFormat = parseFormat.format(birthdayDate);
                         final var display = displayFormat.format(birthdayDate);
+                        // This whole leap year stuff is cursed when you work with dates using raw strings tbh.
+                        // Only I could come up with such an idea like this on 2016. Now I regret it with pain... peko.
+                        var leap = display.equals("29-02");
+                        if (leap) {
+                            extra += "\n" + languageContext.get("commands.birthday.leap");
+                            date = date.replace("2037", "2036"); // Cursed workaround since 2036 is a leap.
+                        }
+
+                        final var birthdayFormat = parseFormat.format(parseFormat.parse(date));
 
                         //Actually save it to the user's profile.
                         DBUser dbUser = ctx.getDBUser();
                         dbUser.getData().setBirthday(birthdayFormat);
                         dbUser.saveUpdating();
-
-                        var extra = "";
-                        var leap = display.equals("29-02");
-                        if (leap) {
-                            extra += "\n" + languageContext.get("commands.birthday.leap");
-                        }
 
                         ctx.sendLocalized("commands.birthday.added_birthdate", EmoteReference.CORRECT, display, extra);
                     }
