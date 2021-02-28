@@ -89,7 +89,6 @@ public class ItemCmds {
                         content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
 
                         var arguments = StringUtils.advancedSplitArgs(content, -1);
-
                         var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
                         var isMultiple = optionalArguments.containsKey("amount");
 
@@ -281,7 +280,7 @@ public class ItemCmds {
                         stats.saveUpdating();
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
-                                EmoteReference.WRENCH, castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
+                                wrench.getEmojiDisplay(), castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         );
                     }
                 };
@@ -549,7 +548,7 @@ public class ItemCmds {
                         stats.saveUpdating();
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success") + "\n" + message,
-                                wrench.getEmoji(), brokenItem.getEmoji(), brokenItem.getName(),
+                                wrench.getEmojiDisplay(), brokenItem.getEmoji(), brokenItem.getName(),
                                 repairedItem.getEmoji(), repairedItem.getName(), repairCost,
                                 recipeString.toString().trim()
                         );
@@ -768,7 +767,7 @@ public class ItemCmds {
                         stats.incrementSalvagedItems();
                         stats.saveUpdating();
 
-                        ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, item.getName(), toReturn, salvageCost, message);
+                        ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, item.getEmojiDisplay(), toReturn, salvageCost, message);
                     }
                 };
             }

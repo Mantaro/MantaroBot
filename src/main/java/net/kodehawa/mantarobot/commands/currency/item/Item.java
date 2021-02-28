@@ -237,6 +237,10 @@ public class Item {
         return emoji;
     }
 
+    public String getEmojiDisplay() {
+        return emoji + " ";
+    }
+
     public String getName() {
         return name;
     }

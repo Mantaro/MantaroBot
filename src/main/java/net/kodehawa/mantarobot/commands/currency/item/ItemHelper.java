@@ -507,6 +507,8 @@ public class ItemHelper {
                 );
 
                 playerInventory.process(new ItemStack(brokenItem, 1));
+            } else {
+                broken = "\n" + String.format(languageContext.get("commands.mine.broken_drop_miss"), EmoteReference.SAD);
             }
 
             var toReplace = languageContext.get("commands.mine.item_broke");

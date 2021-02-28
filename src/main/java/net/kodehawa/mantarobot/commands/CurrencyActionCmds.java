@@ -296,7 +296,7 @@ public class CurrencyActionCmds {
                 }
 
                 handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
-                message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmoji(), money, item.getName());
+                message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmojiDisplay(), money, item.getName());
 
                 ctx.send(message);
             }
@@ -562,12 +562,12 @@ public class CurrencyActionCmds {
 
                     //if there's money, but not fish
                     if (money > 0 && !foundFish) {
-                        ctx.sendFormat(languageContext.get("commands.fish.success_money_noitem") + extraMessage, item.getEmoji(), money);
+                        ctx.sendFormat(languageContext.get("commands.fish.success_money_noitem") + extraMessage, item.getEmojiDisplay(), money);
                     } else if (foundFish && money == 0) { //there's fish, but no money
-                        ctx.sendFormat(languageContext.get("commands.fish.success") + extraMessage, item.getEmoji(), itemDisplay);
+                        ctx.sendFormat(languageContext.get("commands.fish.success") + extraMessage, item.getEmojiDisplay(), itemDisplay);
                     } else if (money > 0) { //there's money and fish
                         ctx.sendFormat(languageContext.get("commands.fish.success_money") + extraMessage,
-                                item.getEmoji(), itemDisplay, money, (waifuHelp ? "\n" + languageContext.get("commands.fish.waifu_help") : "")
+                                item.getEmojiDisplay(), itemDisplay, money, (waifuHelp ? "\n" + languageContext.get("commands.fish.waifu_help") : "")
                         );
                     }
                     //END OF REPLY HANDLING
@@ -779,15 +779,15 @@ public class CurrencyActionCmds {
 
                     // Show a message depending on the outcome.
                     if (money > 0 && !found) {
-                        ctx.sendFormat(languageContext.get("commands.chop.success_money_noitem") + extraMessage, item.getEmoji(), money);
+                        ctx.sendFormat(languageContext.get("commands.chop.success_money_noitem") + extraMessage, item.getEmojiDisplay(), money);
                     } else if (found && money == 0) {
-                        ctx.sendFormat(languageContext.get("commands.chop.success_only_item") + extraMessage, item.getEmoji(), itemDisplay);
+                        ctx.sendFormat(languageContext.get("commands.chop.success_only_item") + extraMessage, item.getEmojiDisplay(), itemDisplay);
                     } else if (!found && money == 0) {
                         // This doesn't actually increase the dust level, though.
                         var level = userData.getDustLevel();
                         ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
                     } else {
-                        ctx.sendFormat(languageContext.get("commands.chop.success") + extraMessage, item.getEmoji(), itemDisplay, money);
+                        ctx.sendFormat(languageContext.get("commands.chop.success") + extraMessage, item.getEmojiDisplay(), itemDisplay, money);
                     }
 
                     player.save();
