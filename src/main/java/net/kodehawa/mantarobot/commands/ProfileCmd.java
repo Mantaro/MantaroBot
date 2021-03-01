@@ -775,7 +775,7 @@ public class ProfileCmd {
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.dust"),
-                                    "%d".formatted(data.getDustLevel())
+                                    "%d%%".formatted(data.getDustLevel())
                             ),
 
                             prettyDisplay(languageContext.get("commands.profile.stats.reminders"),

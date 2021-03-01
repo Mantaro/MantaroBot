@@ -383,7 +383,7 @@ public class CurrencyActionCmds {
 
                     ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
                     return;
-                } else if (chance < 35) {
+                } else if (chance < 20) {
                     //Here you found trash.
                     List<Item> common = Stream.of(ItemReference.ALL)
                             .filter(i -> i.getItemType() == ItemType.COMMON && !i.isHidden() && i.isSellable() && i.getValue() < 45)
