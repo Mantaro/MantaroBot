@@ -879,7 +879,7 @@ public class CurrencyActionCmds {
         }
     }
 
-    private void handleItemDurability(Item item, Context ctx, Player player, DBUser dbUser,
+    public static void handleItemDurability(Item item, Context ctx, Player player, DBUser dbUser,
                                       SeasonPlayer seasonPlayer, String i18n, boolean isSeasonal) {
         var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
         if (!breakage.getKey()) {

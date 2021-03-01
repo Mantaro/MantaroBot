@@ -19,16 +19,13 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
-import net.kodehawa.mantarobot.commands.currency.item.ItemHelper;
-import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
-import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Broken;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
-import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Tiered;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -50,8 +47,9 @@ import net.kodehawa.mantarobot.utils.commands.campaign.Campaign;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,7 +59,7 @@ import java.util.stream.Collectors;
 public class ItemCmds {
     @Subscribe
     public void cast(CommandRegistry cr) {
-        final IncreasingRateLimiter ratelimiter = new IncreasingRateLimiter.Builder()
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(3)
                 .limit(1)
                 .cooldown(5, TimeUnit.SECONDS)
@@ -70,8 +68,6 @@ public class ItemCmds {
                 .pool(MantaroData.getDefaultJedisPool())
                 .prefix("cast")
                 .build();
-
-        final SecureRandom random = new SecureRandom();
 
         TreeCommand castCommand = cr.register("cast", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
@@ -86,11 +82,22 @@ public class ItemCmds {
 
                         //Argument parsing.
                         var optionalArguments = ctx.getOptionalArguments();
-                        content = Utils.replaceArguments(optionalArguments, content, "season", "s").trim();
+                        content = Utils.replaceArguments(optionalArguments, content, "season", "s")
+                                .replaceAll("\"", "") // This is because it needed quotes before. Not anymore.
+                                .trim();
 
                         var arguments = StringUtils.advancedSplitArgs(content, -1);
+                        var amountSpecified = 1;
                         var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
-                        var isMultiple = optionalArguments.containsKey("amount");
+                        var multipleArg = optionalArguments.containsKey("amount");
+
+                        // It's a number
+                        if (arguments[0].matches("^\\d$")) {
+                            try {
+                                amountSpecified = Integer.parseInt(arguments[0]);
+                                content = content.replaceFirst(arguments[0], "").trim();
+                            } catch (Exception ignored) { } // This shouldn't fail?
+                        }
 
                         //Get the necessary entities.
                         var seasonalPlayer = ctx.getSeasonPlayer();
@@ -98,33 +105,27 @@ public class ItemCmds {
                         var playerData = player.getData();
                         var user = ctx.getDBUser();
                         var userData = user.getData();
+                        var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                        var wrenchItem = (Wrench) ItemHelper.fromId(wrench);
 
-                        //Why
-                        var toCast = ItemHelper.fromAnyNoId(arguments[0], ctx.getLanguageContext());
-                        Optional<Item> optionalWrench = Optional.empty();
+                        if (wrench == 0) {
+                            ctx.sendLocalized("commands.cast.not_equipped", EmoteReference.ERROR);
+                            return;
+                        }
 
-                        if (arguments.length > 1)
-                            optionalWrench = ItemHelper.fromAnyNoId(arguments[1], ctx.getLanguageContext());
-
+                        var toCast = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext());
                         if (toCast.isEmpty()) {
                             ctx.sendLocalized("commands.cast.no_item_found", EmoteReference.ERROR);
                             return;
                         }
 
-                        if (!RatelimitUtils.ratelimit(ratelimiter, ctx)) {
+                        if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                             return;
                         }
 
-                        var amountSpecified = 1;
-                        try {
-                            if (isMultiple) {
-                                amountSpecified = Math.max(1, Integer.parseInt(optionalArguments.get("amount")));
-                            } else if (arguments.length > 2) {
-                                amountSpecified = Math.max(1, Integer.parseInt(arguments[2]));
-                            } else if (optionalWrench.isEmpty() && arguments.length > 1) {
-                                amountSpecified = Math.max(1, Integer.parseInt(arguments[1]));
-                            }
-                        } catch (Exception ignored) { }
+                        if (multipleArg) {
+                            amountSpecified = Math.max(1, Integer.parseInt(optionalArguments.get("amount")));
+                        }
 
                         var castItem = toCast.get();
                         // This is a good way of getting if it's castable,
@@ -139,27 +140,18 @@ public class ItemCmds {
                             return;
                         }
 
-                        Item wrenchItem = optionalWrench.orElse(ItemReference.WRENCH);
-
-                        if (!(wrenchItem instanceof Wrench)) {
-                            wrenchItem = ItemReference.WRENCH;
-                        }
-
-                        //How many steps until this again?
-                        var wrench = (Wrench) wrenchItem;
-
-                        if (amountSpecified > 1 && wrench.getLevel() < 2) {
-                            ctx.sendLocalized("commands.cast.low_tier", EmoteReference.ERROR, wrench.getLevel());
+                        if (amountSpecified > 1 && wrenchItem.getLevel() < 2) {
+                            ctx.sendLocalized("commands.cast.low_tier", EmoteReference.ERROR, wrenchItem.getLevel());
                             return;
                         }
 
-                        //Build recipe.
+                        // Build recipe.
                         Map<Item, Integer> castMap = new HashMap<>();
                         var recipe = castItem.getRecipe();
                         var splitRecipe = recipe.split(";");
 
-                        //How many parenthesis again?
-                        var castCost = (long) (((castItem.getValue() / 2) * amountSpecified) * wrench.getMultiplierReduction());
+                        // How many parenthesis again?
+                        var castCost = (long) (((castItem.getValue() / 2) * amountSpecified) * wrenchItem.getMultiplierReduction());
 
                         var money = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
                         var isItemCastable = castItem instanceof Castable;
@@ -170,15 +162,15 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (wrench.getLevel() < wrenchLevelRequired) {
-                            ctx.sendLocalized("commands.cast.not_enough_wrench_level", EmoteReference.ERROR, wrench.getLevel(), wrenchLevelRequired);
+                        if (wrenchItem.getLevel() < wrenchLevelRequired) {
+                            ctx.sendLocalized("commands.cast.not_enough_wrench_level", EmoteReference.ERROR, wrenchItem.getLevel(), wrenchLevelRequired);
                             return;
                         }
 
                         var limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
 
                         // Limit is double with sparkle wrench
-                        if (wrench == ItemReference.WRENCH_SPARKLE)
+                        if (wrenchItem == ItemReference.WRENCH_SPARKLE)
                             limit *= 2;
 
                         if (amountSpecified > limit) {
@@ -187,12 +179,6 @@ public class ItemCmds {
                         }
 
                         var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-
-                        if (!playerInventory.containsItem(wrenchItem)) {
-                            ctx.sendLocalized("commands.cast.no_tool", EmoteReference.ERROR, ItemReference.WRENCH.getName());
-                            return;
-                        }
-
                         var dust = userData.getDustLevel();
                         if (dust > 95) {
                             ctx.sendLocalized("commands.cast.dust", EmoteReference.ERROR, dust);
@@ -213,16 +199,10 @@ public class ItemCmds {
                             }
 
                             int inventoryAmount = playerInventory.getAmount(item);
-                            //Subtract 1 from the usable amount since if your wrench breaks in the process, it causes issues.
-                            int usableInventoryAmount = (i == ItemHelper.idOf(wrench)) ? inventoryAmount - 1 : inventoryAmount;
-                            if (usableInventoryAmount < amount) {
+                            if (inventoryAmount < amount) {
                                 ctx.sendLocalized("commands.cast.not_enough_items",
-                                        EmoteReference.ERROR, item.getName(), amount, usableInventoryAmount
+                                        EmoteReference.ERROR, item.getName(), castItem.getName(), amount, inventoryAmount
                                 );
-
-                                if (usableInventoryAmount < inventoryAmount)
-                                    ctx.sendLocalized("commands.cast.wrench_multiple_use");
-
                                 return;
                             }
 
@@ -258,12 +238,6 @@ public class ItemCmds {
                             playerData.markCampaignAsSeen();
                         }
 
-                        //The higher the chance, the lower it's the chance to break. Yes, I know.
-                        if (random.nextInt(100) > wrench.getChance()) {
-                            playerInventory.process(new ItemStack(wrenchItem, -1));
-                            message += ctx.getLanguageContext().get("commands.cast.item_broke");
-                        }
-
                         userData.increaseDustLevel(3);
                         user.save();
 
@@ -279,8 +253,9 @@ public class ItemCmds {
                         stats.incrementCraftedItems(amountSpecified);
                         stats.saveUpdating();
 
+                        CurrencyActionCmds.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
-                                wrench.getEmojiDisplay(), castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
+                                wrenchItem.getEmojiDisplay(), castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         );
                     }
                 };
@@ -293,12 +268,10 @@ public class ItemCmds {
                                 Allows you to cast any castable item given you have the necessary elements.
                                 Casting requires you to have the necessary materials to cast the item, and it has a cost of `item value / 2`.
                                 Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.
-                                If you specify the item and the wrench, you can use amount without -amount. Example: `~>cast "diamond pickaxe" "sparkle wrench" 10`""")
-                        .setUsage("`~>cast <item> [wrench] [-amount <amount>]` - Casts the item you provide.")
+                                You need to equip a wrench if you want to use it. Wrenches have no broken type.""")
+                        .setUsage("`~>cast [amount] <item>` - Casts the item you provide.")
                         .addParameter("item",
-                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("wrench",
-                                "The wrench name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                                "The item name or emoji.")
                         .addParameterOptional("amount",
                                 "The amount of items you want to cast. Depends on your wrench, maximum of 10.")
                         .build();
@@ -395,8 +368,6 @@ public class ItemCmds {
                 .prefix("repair")
                 .build();
 
-        final SecureRandom random = new SecureRandom();
-
         //The contents of this command are -mostly- taken from the cast command, so they'll look similar.
         TreeCommand rp = registry.register("repair", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
@@ -412,24 +383,24 @@ public class ItemCmds {
                         //Argument parsing.
                         var optionalArguments = ctx.getOptionalArguments();
                         var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
-
-                        var args = ctx.getArguments();
+                        content = Utils.replaceArguments(optionalArguments, content, "season", "s")
+                                .replaceAll("\"", "")
+                                .trim();
 
                         //Get the necessary entities.
                         var seasonalPlayer = ctx.getSeasonPlayer();
                         var player = ctx.getPlayer();
                         var user = ctx.getDBUser();
+                        var userData = user.getData();
 
-                        var itemString = args[0];
-                        var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
+                        var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
                         var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                        var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
-                                ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
+                        var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                        var wrenchItem = ItemHelper.fromId(wrench);
 
-                        var specified = false;
-                        if (args.length > 1) {
-                            wrench = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).orElse(null);
-                            specified = true;
+                        if (wrench == 0) {
+                            ctx.sendLocalized("commands.cast.not_equipped", EmoteReference.ERROR);
+                            return;
                         }
 
                         if (item == null) {
@@ -442,28 +413,8 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!(wrench instanceof Wrench)) {
-                            ctx.sendLocalized("commands.repair.not_wrench", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (((Wrench) wrench).getLevel() < 2) {
+                        if (((Wrench) wrenchItem).getLevel() < 2) {
                             ctx.sendLocalized("commands.repair.not_enough_level", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (!playerInventory.containsItem(item)) {
-                            ctx.sendLocalized("commands.repair.no_main_item", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (!playerInventory.containsItem(wrench) && specified) {
-                            ctx.sendLocalized("commands.repair.no_tool_specified", EmoteReference.ERROR, wrench.getName());
-                            return;
-                        }
-
-                        if (!playerInventory.containsItem(wrench) && !specified) {
-                            ctx.sendLocalized("commands.repair.no_tool", EmoteReference.ERROR, wrench.getName());
                             return;
                         }
 
@@ -519,18 +470,10 @@ public class ItemCmds {
                             var amount = entry.getValue();
                             playerInventory.process(new ItemStack(i, -amount));
                         }
-                        //end of recipe build
+                        // end of recipe build
 
                         playerInventory.process(new ItemStack(brokenItem, -1));
                         playerInventory.process(new ItemStack(repairedItem, 1));
-
-                        var message = "";
-                        //The higher the chance, the lower it's the chance to break. Yes, I know.
-                        if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
-                            playerInventory.process(new ItemStack(wrench, -1));
-                            message += ctx.getLanguageContext().get("commands.repair.item_broke")
-                                    .formatted(EmoteReference.SAD, languageContext.get(wrench.getTranslatedName()));
-                        }
 
                         user.getData().increaseDustLevel(4);
                         user.save();
@@ -547,10 +490,11 @@ public class ItemCmds {
                         stats.incrementRepairedItems();
                         stats.saveUpdating();
 
-                        ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success") + "\n" + message,
-                                wrench.getEmojiDisplay(), brokenItem.getEmoji(), brokenItem.getName(),
-                                repairedItem.getEmoji(), repairedItem.getName(), repairCost,
-                                recipeString.toString().trim()
+                        CurrencyActionCmds.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+
+                        ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success"),
+                                wrenchItem.getEmojiDisplay(), brokenItem.getEmoji(), brokenItem.getName(), repairedItem.getEmoji(),
+                                repairedItem.getName(), repairCost, recipeString.toString().trim()
                         );
                     }
                 };
@@ -563,10 +507,8 @@ public class ItemCmds {
                                 Allows you to repair any broken item given you have the necessary elements.
                                 Repairing requires you to have the necessary materials to cast the item, and it has a cost of `item value / 3`.
                                 """)
-                        .setUsage("`~>repair <item> [wrench]` - Repairs a broken item.")
-                        .addParameter("item",
-                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("wrench", "The wrench to use. Needs to be Comet or higher.")
+                        .setUsage("`~>repair <item>` - Repairs a broken item.")
+                        .addParameter("item", "The item name or emoji.")
                         .build();
             }
         });
@@ -634,7 +576,6 @@ public class ItemCmds {
                 .createSubCommandAlias("list", "1ist")
                 .createSubCommandAlias("list", "1s")
                 .createSubCommandAlias("list", "Is");
-    ;
     }
 
     @Subscribe
@@ -667,17 +608,17 @@ public class ItemCmds {
                         final var seasonalPlayer = ctx.getSeasonPlayer();
                         final var player = ctx.getPlayer();
                         final var user = ctx.getDBUser();
-
-                        final var args = ctx.getArguments();
-                        final var itemString = args[0];
-                        final var item = ItemHelper.fromAnyNoId(itemString, ctx.getLanguageContext()).orElse(null);
+                        final var userData = user.getData();
                         final var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
-                        var wrench = playerInventory.containsItem(ItemReference.WRENCH_SPARKLE) ?
-                                ItemReference.WRENCH_SPARKLE : ItemReference.WRENCH_COMET;
-                        var custom = false;
-                        if (args.length > 1) {
-                            wrench = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext()).orElse(null);
-                            custom = true;
+                        content = content.replaceAll("\"", "").trim();
+
+                        final var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
+                        final var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
+                        final var wrenchItem = ItemHelper.fromId(wrench);
+
+                        if (wrench == 0) {
+                            ctx.sendLocalized("commands.cast.not_equipped", EmoteReference.ERROR);
+                            return;
                         }
 
                         if (item == null) {
@@ -697,28 +638,8 @@ public class ItemCmds {
                             return;
                         }
 
-                        if (!(wrench instanceof Wrench)) {
-                            ctx.sendLocalized("commands.salvage.not_wrench", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (((Wrench) wrench).getLevel() < 2) {
-                            ctx.sendLocalized("commands.salvage.not_enough_level", EmoteReference.ERROR);
-                            return;
-                        }
-
                         if (!playerInventory.containsItem(item)) {
                             ctx.sendLocalized("commands.salvage.no_main_item", EmoteReference.ERROR);
-                            return;
-                        }
-
-                        if (!playerInventory.containsItem(wrench) && custom) {
-                            ctx.sendLocalized("commands.salvage.no_tool", EmoteReference.ERROR, wrench.getName());
-                            return;
-                        }
-
-                        if (!playerInventory.containsItem(wrench) && !custom) {
-                            ctx.sendLocalized("commands.salvage.no_tool_default", EmoteReference.ERROR, wrench.getName());
                             return;
                         }
 
@@ -738,13 +659,6 @@ public class ItemCmds {
                         if (returns.isEmpty()) {
                             ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
                             return;
-                        }
-
-                        var message = "";
-                        if (random.nextInt(100) > ((Wrench) wrench).getChance()) {
-                            playerInventory.process(new ItemStack(wrench, -1));
-                            message += ctx.getLanguageContext().get("commands.salvage.item_broke")
-                                    .formatted(EmoteReference.SAD, languageContext.get(wrench.getTranslatedName()));
                         }
 
                         var salvageCost = item.getValue() / 3;
@@ -767,7 +681,10 @@ public class ItemCmds {
                         stats.incrementSalvagedItems();
                         stats.saveUpdating();
 
-                        ctx.sendLocalized("commands.salvage.success", EmoteReference.POPPER, item.getEmojiDisplay(), toReturn, salvageCost, message);
+                        CurrencyActionCmds.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+                        ctx.sendLocalized("commands.salvage.success", wrenchItem.getEmojiDisplay(),
+                                item.getEmojiDisplay(), item.getName(), toReturn, salvageCost
+                        );
                     }
                 };
             }
@@ -777,10 +694,8 @@ public class ItemCmds {
                 return new HelpContent.Builder()
                         .setDescription("Salvages an item. Useful when you can't repair it but wanna get something back. " +
                                 "The cost is 1/3rd of the item price.")
-                        .setUsage("`~>salvage <item> [wrench]` - Salvages an item.")
-                        .addParameter("item",
-                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameterOptional("wrench", "The wrench to use.")
+                        .setUsage("`~>salvage <item>` - Salvages an item.")
+                        .addParameter("item", "The item name or emoji.")
                         .build();
             }
         });
@@ -927,7 +842,7 @@ public class ItemCmds {
                         .setDescription("Shows the information of an item")
                         .setUsage("`~>iteminfo <item name>` - Shows the info of an item.")
                         .addParameter("item",
-                                "The item name or emoji. If the name contains spaces \"wrap it in quotes\"")
+                                "The item name or emoji.")
                         .build();
             }
         });

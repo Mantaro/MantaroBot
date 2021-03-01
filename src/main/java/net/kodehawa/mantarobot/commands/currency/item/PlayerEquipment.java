@@ -23,6 +23,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 
 import java.beans.ConstructorProperties;
 import java.util.HashMap;
@@ -153,6 +154,7 @@ public class PlayerEquipment {
         ROD(FishRod.class::isInstance, 0),
         PICK(Pickaxe.class::isInstance, 0),
         AXE(Axe.class::isInstance, 0),
+        WRENCH(Wrench.class::isInstance, 0),
         POTION(item -> item.getItemType() == ItemType.POTION, 1),
         BUFF(item -> item.getItemType() == ItemType.BUFF, 1);
 
