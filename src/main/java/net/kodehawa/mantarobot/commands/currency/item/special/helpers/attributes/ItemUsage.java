@@ -19,7 +19,7 @@ package net.kodehawa.mantarobot.commands.currency.item.special.helpers.attribute
 import net.kodehawa.mantarobot.utils.Utils;
 
 public enum ItemUsage {
-    MINING, FISHING, CHOPPING;
+    MINING, FISHING, CHOPPING, CASTING;
 
     @Override
     public String toString() {

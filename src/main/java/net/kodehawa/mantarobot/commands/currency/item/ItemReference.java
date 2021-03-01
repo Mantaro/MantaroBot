@@ -352,7 +352,7 @@ public class ItemReference {
             WRENCH = new Wrench(ItemType.WRENCH, 65, 1, 1.0d,
                     "\ud83d\udd27",
                     "Wrench", "items.wrench", "items.description.wrench",
-                    50, 35, true
+                    50, 35, 1, true
             ),
 
             MOTORCYCLE = new Item(ItemType.COMMON, "\uD83C\uDFCD",
@@ -475,14 +475,14 @@ public class ItemReference {
             WRENCH_COMET = new Wrench(ItemType.WRENCH, 90,
                     3, 0.90d, EmoteReference.COMET_WRENCH.getDiscordNotation(),
                     "Comet Wrench", "items.star_wrench", "items.description.star_wrench",
-                    200, 80,true, false,
+                    200, 80, 3,true, false,
                     "1;2;2", 59, 48, 83
             ),
 
             WRENCH_SPARKLE = new Wrench(ItemType.WRENCH, 96,
                     4, 0.65d, EmoteReference.SPARKLE_WRENCH.getDiscordNotation(),
                     "Sparkle Wrench", "items.sparkle_wrench", "items.description.sparkle_wrench",
-                    500, 160,true, false,
+                    500, 160, 5,true, false,
                     "1;2;1;2;1", 59, 74, 18, 83, 84
             ),
 
