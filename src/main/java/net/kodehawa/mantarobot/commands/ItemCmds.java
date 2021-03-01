@@ -117,13 +117,12 @@ public class ItemCmds {
                         var user = ctx.getDBUser();
                         var userData = user.getData();
                         var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
-                        var wrenchItem = (Wrench) ItemHelper.fromId(wrench);
-
                         if (wrench == 0) {
                             ctx.sendLocalized("commands.cast.not_equipped", EmoteReference.ERROR);
                             return;
                         }
 
+                        var wrenchItem = (Wrench) ItemHelper.fromId(wrench);
                         var toCast = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext());
                         if (toCast.isEmpty()) {
                             ctx.sendLocalized("commands.cast.no_item_found", EmoteReference.ERROR);
@@ -408,12 +407,12 @@ public class ItemCmds {
                         var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
                         var playerInventory = isSeasonal ? seasonalPlayer.getInventory() : player.getInventory();
                         var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
-                        var wrenchItem = ItemHelper.fromId(wrench);
-
                         if (wrench == 0) {
                             ctx.sendLocalized("commands.cast.not_equipped", EmoteReference.ERROR);
                             return;
                         }
+
+                        var wrenchItem = ItemHelper.fromId(wrench);
 
                         if (item == null) {
                             ctx.sendLocalized("commands.repair.no_item_found", EmoteReference.ERROR);
@@ -422,6 +421,11 @@ public class ItemCmds {
 
                         if (!(item instanceof Broken)) {
                             ctx.sendLocalized("commands.repair.cant_repair", EmoteReference.ERROR, item.getName());
+                            return;
+                        }
+
+                        if (!playerInventory.containsItem(item)) {
+                            ctx.sendLocalized("commands.repair.no_main_item", EmoteReference.ERROR, item.getName());
                             return;
                         }
 
@@ -502,7 +506,7 @@ public class ItemCmds {
                         stats.incrementRepairedItems();
                         stats.saveUpdating();
 
-                        ItemHelper.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+                        ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success"),
                                 wrenchItem.getEmojiDisplay(), brokenItem.getEmoji(), brokenItem.getName(), repairedItem.getEmoji(),
@@ -626,12 +630,12 @@ public class ItemCmds {
 
                         final var item = ItemHelper.fromAnyNoId(content, ctx.getLanguageContext()).orElse(null);
                         final var wrench = userData.getEquippedItems().of(PlayerEquipment.EquipmentType.WRENCH);
-                        final var wrenchItem = ItemHelper.fromId(wrench);
-
                         if (wrench == 0) {
                             ctx.sendLocalized("commands.cast.not_equipped", EmoteReference.ERROR);
                             return;
                         }
+
+                        final var wrenchItem = ItemHelper.fromId(wrench);
 
                         if (item == null) {
                             ctx.sendLocalized("commands.salvage.no_item_found", EmoteReference.ERROR);
@@ -693,7 +697,7 @@ public class ItemCmds {
                         stats.incrementSalvagedItems();
                         stats.saveUpdating();
 
-                        ItemHelper.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+                        ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
                         ctx.sendLocalized("commands.salvage.success", wrenchItem.getEmojiDisplay(),
                                 item.getEmojiDisplay(), item.getName(), toReturn, salvageCost
                         );
