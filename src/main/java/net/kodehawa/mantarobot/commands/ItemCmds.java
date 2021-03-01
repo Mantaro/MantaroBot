@@ -109,7 +109,7 @@ public class ItemCmds {
                             }
                         }
 
-                        //Get the necessary entities.
+                        // Get the necessary entities.
                         var seasonalPlayer = ctx.getSeasonPlayer();
                         var player = ctx.getPlayer();
                         var playerData = player.getData();
@@ -656,20 +656,24 @@ public class ItemCmds {
                             ctx.sendLocalized("commands.salvage.dust", EmoteReference.ERROR, dust);
                             return;
                         }
-
-                        if (!RatelimitUtils.ratelimit(ratelimiter, ctx)) {
-                            return;
-                        }
-
                         final var salvageable = (Salvageable) original;
                         var returns = salvageable.getReturns().stream().map(ItemHelper::fromId).collect(Collectors.toList());
-
                         if (returns.isEmpty()) {
                             ctx.sendLocalized("commands.salvage.no_returnables", EmoteReference.SAD);
                             return;
                         }
 
                         var salvageCost = item.getValue() / 3;
+                        var playerMoney = isSeasonal ? seasonalPlayer.getMoney() : player.getCurrentMoney();
+                        if (playerMoney < salvageCost) {
+                            ctx.sendLocalized("commands.salvage.not_enough_money", EmoteReference.ERROR, playerMoney, salvageCost);
+                            return;
+                        }
+
+                        if (!RatelimitUtils.ratelimit(ratelimiter, ctx)) {
+                            return;
+                        }
+
                         var toReturn = returns.get(random.nextInt(returns.size()));
                         playerInventory.process(new ItemStack(toReturn, 1));
                         playerInventory.process(new ItemStack(broken, -1));
@@ -700,8 +704,11 @@ public class ItemCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Salvages an item. Useful when you can't repair it but wanna get something back. " +
-                                "The cost is 1/3rd of the item price.")
+                        .setDescription(
+                                """
+                                Salvages an item. Useful when you can't repair it but wanna get something back.
+                                The cost is 1/3rd of the item price."""
+                        )
                         .setUsage("`~>salvage <item>` - Salvages an item.")
                         .addParameter("item", "The item name or emoji.")
                         .build();
@@ -849,8 +856,7 @@ public class ItemCmds {
                 return new HelpContent.Builder()
                         .setDescription("Shows the information of an item")
                         .setUsage("`~>iteminfo <item name>` - Shows the info of an item.")
-                        .addParameter("item",
-                                "The item name or emoji.")
+                        .addParameter("item", "The item name or emoji.")
                         .build();
             }
         });
