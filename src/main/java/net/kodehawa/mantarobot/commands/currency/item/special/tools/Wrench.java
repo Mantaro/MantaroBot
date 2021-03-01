@@ -87,7 +87,7 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
 
     @Override
     public int getMaximumCastAmount() {
-        return 5000;
+        return 10;
     }
 
     @Override
@@ -95,10 +95,13 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
         return durability;
     }
 
-    // TODO: this one below before pushing to testing!
     @Override
     public String buildAttributes() {
-        return "placeholder";
+        return """
+                **Wrench Level:** %s
+                **Multiplier reduction:** %s
+                **Can cast multiple?:** %s
+                """.formatted(getLevel(), getMultiplierReduction(), getLevel() > 1);
     }
 
     @Override

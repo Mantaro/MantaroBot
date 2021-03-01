@@ -177,9 +177,7 @@ public class ItemCmds {
                         }
 
                         var limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
-
-                        // Limit is double with sparkle wrench
-                        if (wrenchItem == ItemReference.WRENCH_SPARKLE)
+                        if (wrenchItem.getTier() > 4)
                             limit *= 2;
 
                         if (amountSpecified > limit) {
@@ -194,9 +192,8 @@ public class ItemCmds {
                             return;
                         }
 
+                        // build recipe
                         var increment = 0;
-
-                        //build recipe
                         var recipeString = new StringBuilder();
                         for (int i : castItem.getRecipeTypes()) {
                             var item = ItemHelper.fromId(i);
@@ -230,7 +227,7 @@ public class ItemCmds {
                             var amount = entry.getValue();
                             playerInventory.process(new ItemStack(i, -amount));
                         }
-                        //end of recipe build
+                        // end of recipe build
 
                         playerInventory.process(new ItemStack(castItem, amountSpecified));
 
@@ -280,10 +277,8 @@ public class ItemCmds {
                                 Cast-able items are only able to be acquired by this command. They're non-buyable items, though you can sell them for a profit.
                                 You need to equip a wrench if you want to use it. Wrenches have no broken type.""")
                         .setUsage("`~>cast [amount] <item>` - Casts the item you provide.")
-                        .addParameter("item",
-                                "The item name or emoji.")
-                        .addParameterOptional("amount",
-                                "The amount of items you want to cast. Depends on your wrench, maximum of 10.")
+                        .addParameter("item", "The item name or emoji.")
+                        .addParameterOptional("amount", "The amount of items you want to cast. Depends on your wrench, maximum of 10.")
                         .build();
             }
         });
@@ -617,7 +612,6 @@ public class ItemCmds {
                             return;
                         }
 
-                        //Argument parsing.
                         final var isSeasonal = ctx.isSeasonal();
                         //Get the necessary entities.
                         final var seasonalPlayer = ctx.getSeasonPlayer();
