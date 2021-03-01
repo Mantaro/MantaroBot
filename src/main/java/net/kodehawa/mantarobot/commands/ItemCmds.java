@@ -636,7 +636,6 @@ public class ItemCmds {
                         }
 
                         final var wrenchItem = ItemHelper.fromId(wrench);
-
                         if (item == null) {
                             ctx.sendLocalized("commands.salvage.no_item_found", EmoteReference.ERROR);
                             return;
