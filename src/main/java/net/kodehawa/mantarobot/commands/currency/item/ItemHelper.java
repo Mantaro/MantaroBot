@@ -553,4 +553,32 @@ public class ItemHelper {
             return Pair.of(false, Pair.of(player, user));
         }
     }
+
+    public static void handleItemDurability(Item item, Context ctx, Player player, DBUser dbUser,
+                                      SeasonPlayer seasonPlayer, String i18n, boolean isSeasonal) {
+        var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
+        if (!breakage.getKey()) {
+            return;
+        }
+
+        if (isSeasonal) {
+            return;
+        }
+
+        //We need to get this again since reusing the old ones will cause :fire:
+        var finalPlayer = breakage.getValue().getKey();
+        var finalUser = breakage.getValue().getValue();
+        var inventory = finalPlayer.getInventory();
+        var userData = finalUser.getData();
+
+        if (userData.isAutoEquip() && inventory.containsItem(item)) {
+            userData.getEquippedItems().equipItem(item);
+            inventory.process(new ItemStack(item, -1));
+
+            finalPlayer.save();
+            finalUser.save();
+
+            ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
+        }
+    }
 }

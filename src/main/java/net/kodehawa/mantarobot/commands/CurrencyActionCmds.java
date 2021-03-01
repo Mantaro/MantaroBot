@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePetType;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -36,7 +35,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Marriage;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.RandomCollection;
@@ -53,8 +51,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static net.kodehawa.mantarobot.commands.currency.item.ItemHelper.handleDurability;
 
 @Module
 public class CurrencyActionCmds {
@@ -295,7 +291,7 @@ public class CurrencyActionCmds {
                     marriage.saveUpdating();
                 }
 
-                handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
+                ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonalPlayer, "commands.mine.autoequip.success", isSeasonal);
                 message += "\n\n" + (languageContext.get("commands.mine.success") + reminder).formatted(item.getEmojiDisplay(), money, item.getName());
 
                 ctx.send(message);
@@ -385,7 +381,7 @@ public class CurrencyActionCmds {
                     ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                     dbUser.saveUpdating();
 
-                    handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
+                    ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
                     return;
                 } else if (chance < 35) {
                     //Here you found trash.
@@ -397,7 +393,7 @@ public class CurrencyActionCmds {
                     if (playerInventory.getAmount(selected) >= 5000) {
                         ctx.sendLocalized("commands.fish.trash.overflow", EmoteReference.SAD);
 
-                        handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
+                        ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
                         return;
                     }
 
@@ -554,7 +550,7 @@ public class CurrencyActionCmds {
                         ctx.sendLocalized("commands.fish.dust", EmoteReference.TALKING, level);
                         dbUser.saveUpdating();
 
-                        handleItemDurability(item, ctx, player, dbUser, seasonPlayer,
+                        ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer,
                                 "commands.fish.autoequip.success", isSeasonal
                         );
                         return;
@@ -585,7 +581,7 @@ public class CurrencyActionCmds {
                     marriage.saveUpdating();
                 }
 
-                handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
+                ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.fish.autoequip.success", isSeasonal);
             }
 
             @Override
@@ -664,7 +660,7 @@ public class CurrencyActionCmds {
                     int level = userData.increaseDustLevel(random.nextInt(5));
                     dbUser.save();
                     // Process axe durability.
-                    handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
+                    ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
 
                     ctx.sendLocalized("commands.chop.dust", EmoteReference.SAD, level);
                 } else {
@@ -798,7 +794,7 @@ public class CurrencyActionCmds {
                     }
 
                     // Process axe durability.
-                    handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
+                    ItemHelper.handleItemDurability(item, ctx, player, dbUser, seasonPlayer, "commands.chop.autoequip.success", isSeasonal);
                 }
             }
 
@@ -879,31 +875,4 @@ public class CurrencyActionCmds {
         }
     }
 
-    public static void handleItemDurability(Item item, Context ctx, Player player, DBUser dbUser,
-                                      SeasonPlayer seasonPlayer, String i18n, boolean isSeasonal) {
-        var breakage = handleDurability(ctx, item, player, dbUser, seasonPlayer, isSeasonal);
-        if (!breakage.getKey()) {
-            return;
-        }
-
-        if (isSeasonal) {
-            return;
-        }
-
-        //We need to get this again since reusing the old ones will cause :fire:
-        var finalPlayer = breakage.getValue().getKey();
-        var finalUser = breakage.getValue().getValue();
-        var inventory = finalPlayer.getInventory();
-        var userData = finalUser.getData();
-
-        if (userData.isAutoEquip() && inventory.containsItem(item)) {
-            userData.getEquippedItems().equipItem(item);
-            inventory.process(new ItemStack(item, -1));
-
-            finalPlayer.save();
-            finalUser.save();
-
-            ctx.sendLocalized(i18n, EmoteReference.CORRECT, item.getName());
-        }
-    }
 }

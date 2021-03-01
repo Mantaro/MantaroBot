@@ -253,7 +253,7 @@ public class ItemCmds {
                         stats.incrementCraftedItems(amountSpecified);
                         stats.saveUpdating();
 
-                        CurrencyActionCmds.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+                        ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
                                 wrenchItem.getEmojiDisplay(), castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
                         );
@@ -490,7 +490,7 @@ public class ItemCmds {
                         stats.incrementRepairedItems();
                         stats.saveUpdating();
 
-                        CurrencyActionCmds.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+                        ItemHelper.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
 
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.repair.success"),
                                 wrenchItem.getEmojiDisplay(), brokenItem.getEmoji(), brokenItem.getName(), repairedItem.getEmoji(),
@@ -681,7 +681,7 @@ public class ItemCmds {
                         stats.incrementSalvagedItems();
                         stats.saveUpdating();
 
-                        CurrencyActionCmds.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
+                        ItemHelper.handleItemDurability(item, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
                         ctx.sendLocalized("commands.salvage.success", wrenchItem.getEmojiDisplay(),
                                 item.getEmojiDisplay(), item.getName(), toReturn, salvageCost
                         );
