@@ -824,11 +824,13 @@ public class CurrencyActionCmds {
         HousePet.ActivityResult ability = pet.handleAbility(required);
         if (ability.passed()) {
             var itemIncrease = 0;
-            if (needsItem) {
-                itemIncrease = random.nextInt(pet.getType().getMaxItemBuildup(pet.getLevel()));
+            var buildup = pet.getType().getMaxItemBuildup(pet.getLevel());
+            if (needsItem && buildup > 0) {
+                itemIncrease = random.nextInt(buildup + 1);
             }
 
-            var moneyIncrease = Math.max(1, random.nextInt(pet.getType().getMaxCoinBuildup(pet.getLevel())));
+            var coinBuildup = pet.getType().getMaxCoinBuildup(pet.getLevel());
+            var moneyIncrease = Math.max(1, random.nextInt(coinBuildup + 1));
             var message = "\n" + pet.buildMessage(ability, languageContext, moneyIncrease, itemIncrease);
 
             return new HousePet.ActivityReward(itemIncrease, moneyIncrease, message);
