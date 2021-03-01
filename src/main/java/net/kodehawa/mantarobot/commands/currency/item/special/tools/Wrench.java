@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands.currency.item.special.tools;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemType;
-import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Castable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Salvageable;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
@@ -34,29 +33,33 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
     private final int level;
     private final int durability;
     private final int tier;
+    private final String explanation;
     private final double multiplierReduction;
     private final List<Integer> salvageReturns;
 
     public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
-                  String translatedName, String desc, long value, int durability, int tier, boolean sellable, boolean buyable, String recipe,
-                  int... recipeTypes) {
+                  String translatedName, String desc, String explanation, long value, int durability, int tier, boolean sellable,
+                  boolean buyable, String recipe, int... recipeTypes) {
         super(type, emoji, name, translatedName, desc, value, sellable, buyable, recipe, recipeTypes);
         this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
+        this.explanation = explanation;
         this.salvageReturns = Arrays.stream(recipeTypes).filter(id -> id > 1).boxed().collect(Collectors.toList());
         this.durability = durability;
         this.tier = tier;
     }
 
     public Wrench(ItemType type, float chance, int level, double multiplierReduction, String emoji, String name,
-                  String translatedName, String desc, long value, int durability, int tier, boolean buyable) {
+                  String translatedName, String desc, String explanation, long value,
+                  int durability, int tier, boolean buyable) {
         super(type, emoji, name, translatedName, desc, value, true, buyable);
         this.chance = chance;
         this.level = level;
         this.multiplierReduction = multiplierReduction;
         this.salvageReturns = Collections.emptyList();
         this.durability = durability;
+        this.explanation = explanation;
         this.tier = tier;
     }
 
@@ -92,7 +95,7 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
         return durability;
     }
 
-    // TODO: this two below before pushing to testing!
+    // TODO: this one below before pushing to testing!
     @Override
     public String buildAttributes() {
         return "placeholder";
@@ -100,7 +103,7 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
 
     @Override
     public String getExplanation() {
-        return "placeholder";
+        return explanation;
     }
 
     @Override

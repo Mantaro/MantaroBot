@@ -98,7 +98,6 @@ public class ItemCmds {
                                 amountSpecified = Math.max(1, amount);
                                 content = content.replaceFirst(String.valueOf(amount), "").trim();
                             } catch (Exception ignored) { } // Well, heck.
-
                         } else {
                             var arguments = StringUtils.advancedSplitArgs(content, -1);
                             // It's a number
