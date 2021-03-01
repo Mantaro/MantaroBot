@@ -82,21 +82,32 @@ public class ItemCmds {
 
                         //Argument parsing.
                         var optionalArguments = ctx.getOptionalArguments();
-                        content = Utils.replaceArguments(optionalArguments, content, "season", "s")
+                        var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
+                        var amountSpecified = 1;
+
+                        // Replace all arguments given on "-argument" sorta stuff.
+                        content = Utils.replaceArguments(optionalArguments, content, "amount", "season", "s")
                                 .replaceAll("\"", "") // This is because it needed quotes before. Not anymore.
                                 .trim();
 
-                        var arguments = StringUtils.advancedSplitArgs(content, -1);
-                        var amountSpecified = 1;
-                        var isSeasonal = optionalArguments.containsKey("season") || optionalArguments.containsKey("s");
+                        // This is cursed because I wanna keep compatibility with "-amount"
                         var multipleArg = optionalArguments.containsKey("amount");
-
-                        // It's a number
-                        if (arguments[0].matches("^\\d$")) {
+                        if (multipleArg) {
                             try {
-                                amountSpecified = Integer.parseInt(arguments[0]);
-                                content = content.replaceFirst(arguments[0], "").trim();
-                            } catch (Exception ignored) { } // This shouldn't fail?
+                                var amount = Integer.parseInt(optionalArguments.get("amount"));
+                                amountSpecified = Math.max(1, amount);
+                                content = content.replaceFirst(String.valueOf(amount), "").trim();
+                            } catch (Exception ignored) { } // Well, heck.
+
+                        } else {
+                            var arguments = StringUtils.advancedSplitArgs(content, -1);
+                            // It's a number
+                            if (arguments[0].matches("^\\d$")) {
+                                try {
+                                    amountSpecified = Integer.parseInt(arguments[0]);
+                                    content = content.replaceFirst(arguments[0], "").trim();
+                                } catch (Exception ignored) { } // This shouldn't fail?
+                            }
                         }
 
                         //Get the necessary entities.
@@ -255,7 +266,8 @@ public class ItemCmds {
 
                         ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
                         ctx.sendFormat(ctx.getLanguageContext().get("commands.cast.success") + "\n" + message,
-                                wrenchItem.getEmojiDisplay(), castItem.getEmoji(), castItem.getName(), castCost, recipeString.toString().trim()
+                                wrenchItem.getEmojiDisplay(), amountSpecified, "\u2009" + castItem.getEmoji(),
+                                castItem.getName(), castCost, recipeString.toString().trim()
                         );
                     }
                 };

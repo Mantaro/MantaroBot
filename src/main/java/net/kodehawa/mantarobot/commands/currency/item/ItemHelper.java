@@ -501,13 +501,17 @@ public class ItemHelper {
 
             var broken = "";
             var brokenItem = getBrokenItemFrom(item);
+            var successBroken = false;
             if (brokenItem != null && (item.getValue() > 10000 || random.nextInt(100) >= 20)) {
                 broken = "\n" + String.format(languageContext.get("commands.mine.broken_drop"),
                         EmoteReference.HEART, brokenItem.getEmoji(), brokenItem.getName()
                 );
 
                 playerInventory.process(new ItemStack(brokenItem, 1));
-            } else {
+                successBroken = true;
+            }
+
+            if (!successBroken && brokenItem != null) {
                 broken = "\n" + String.format(languageContext.get("commands.mine.broken_drop_miss"), EmoteReference.SAD);
             }
 
