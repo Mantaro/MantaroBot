@@ -718,9 +718,9 @@
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
       "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sCom sucesso você *fundiu %2$s %3$s* por %4$s créditos. *Fundição usada: %5$s*",
+      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
       "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
@@ -1586,7 +1586,7 @@
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
       "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sVocê não tem o item que você precisa pra consertar isso!",
+      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
       "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
@@ -2459,7 +2459,10 @@
       "star_rod": "O brilho hipnotizante e brilhante deste fragmento não poderia ser esquecido. Você o fundiu com sua vara, e os peixes passaram por ele! Parece que uma isca não necessária o tempo todo, mas ainda é útil.",
       "moon_rod": "Você ainda está impressionado com a forma como esta gema flutua sozinha. Independentemente disso, você funde ele com o fio de sua vara da melhor maneira possível. Parece um pouco mais forte que um Fragmento de Estrela, mas não muito.\nDe qualquer forma, você aprecia o brilho dele como se fosse o primeiro dia que você o vê.",
       "sparkle_rod": "Um toque de brilho aqui, um toque de brilho ali\nVocê pulverizou os Fragmentos Brilhantes e cobriu o fio de sua vara de pesca com eles.\nVocê parece confuso. Como isso pode atrair peixes?\nO mundo tem muitos mistérios, e este é um deles. Talvez ajude você a conseguir mais moedas. Talvez isso possa lhe trazer satisfação.\nO brilho que deixa no mar é incrível, e você encara ele por horas até acabar. Talvez você tenha feito a escolha certa.",
-      "hellfire_rod": "As reações entre todos os elementos podem ser um processo estranho e perigoso.\nVocê já dominou os elementos, e fundi-los com sua vara de pesca agora parecia trivial. Talvez seja o brilho, talvez fosse o fogo, mas você tinha que fazer isso.\nIsso faz maravilhas. Os peixes vêm em cardumes pra você. Nada pode se comparar. Mas você ainda está se perguntando se realmente fez a coisa certa."
+      "hellfire_rod": "As reações entre todos os elementos podem ser um processo estranho e perigoso.\nVocê já dominou os elementos, e fundi-los com sua vara de pesca agora parecia trivial. Talvez seja o brilho, talvez fosse o fogo, mas você tinha que fazer isso.\nIsso faz maravilhas. Os peixes vêm em cardumes pra você. Nada pode se comparar. Mas você ainda está se perguntando se realmente fez a coisa certa.",
+      "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
+      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
+      "sparkle_wrench": "A Wrench infused with pieces of Sparkle Fragments. Somehow it feels a lot sturdier."
     },
     "description": {
       "headphones": "Isso é o que acontece quando você ouve muita música. Embora, deve valer alguma coisa.",
