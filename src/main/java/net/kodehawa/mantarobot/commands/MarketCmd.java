@@ -51,12 +51,14 @@ import java.awt.Color;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @Module
 public class MarketCmd {
+    private final static Random random = new Random();
     private final IncreasingRateLimiter buyRatelimiter = new IncreasingRateLimiter.Builder()
             .limit(1)
             .spamTolerance(4)
@@ -663,7 +665,7 @@ public class MarketCmd {
                     message = "commands.market.buy.success_potion";
                 }
 
-                if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.ne) {
+                if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.nextBoolean()) {
                     warn += languageContext.get("success_breakable_upgrade") + "\n";
                 }
 
