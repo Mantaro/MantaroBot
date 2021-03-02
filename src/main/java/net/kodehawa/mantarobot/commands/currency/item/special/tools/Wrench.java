@@ -99,8 +99,8 @@ public class Wrench extends Item implements Castable, Salvageable, Attribute {
     public String buildAttributes() {
         return """
                 **Wrench Level:** %s
-                **Multiplier reduction:** %s
-                **Can cast multiple?:** %s
+                **Multiplier reduction:** %sx
+                **Can cast multiple:** %s
                 """.formatted(getLevel(), getMultiplierReduction(), getLevel() > 1);
     }
 

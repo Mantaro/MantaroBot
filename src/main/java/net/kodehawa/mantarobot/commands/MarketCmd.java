@@ -666,7 +666,7 @@ public class MarketCmd {
                 }
 
                 if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.nextBoolean()) {
-                    warn += languageContext.get("success_breakable_upgrade") + "\n";
+                    warn += EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
                 }
 
                 ctx.sendLocalized(message, warn + EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
@@ -674,6 +674,7 @@ public class MarketCmd {
                 ctx.sendLocalized("commands.market.buy.not_enough_money", warn + EmoteReference.STOP, player.getCurrentMoney(), value);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ctx.send(warn + EmoteReference.ERROR + languageContext.get("general.invalid_syntax"));
         }
     }
