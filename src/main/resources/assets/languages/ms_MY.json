@@ -713,18 +713,21 @@
     },
     "cast": {
       "no_item_specified": "%1$sAnda tidak menyatakan item. Untuk mendapatkan senarai, periksa `~>cast ls`",
-      "no_item_found": "%1$sSaya tidak dapat mencari sebarang item yang berkaitan dengan carian tersebut. Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan \"tanda petik\". Pastikan anda menaip nama penuh item untuk mengelakkan ketidakcocokan, ataupun menggunakan emoji jika boleh. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
-      "item_not_cast": "%1$sAnda tidak boleh mencipta alatan ini. Anda boleh periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta. Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan tanda petik. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
+      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
+      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk mencipta alatan ini **(Kos: %2$s)**",
       "no_item": "%1$sAnda tidak mempunyai item *%2$s* yang diperlukan untuk meneruskan penciptaan ini.",
-      "not_enough_items": "%1$sAnda tidak mempunyai item *%2$s* yang mencukupi untuk meneruskan. **(Diperlukan: %3$s, Semasa: %4$s)**\nIni bukan item yang ingin anda mencipta? Jika nama item tersebut mengandungi ruang di antara perkataan, mengapit nama tersebut menggunakan \"tanda petik\" atau menggunakan emojinya.",
-      "success": "%1$sAnda berjaya *mencipta %2$s %3$s* untuk harga %4$s kredit. *Penciptaan menggunakan: %5$s*",
-      "no_tool": "%1$sAnda memerlukan %2$s untuk meneruskan penciptaan ini! Ingat: Anda haruslah mempunyai dua batang perengkuh yang sama jenisnya untuk meneruskan penciptaan ini.",
-      "item_broke": "\nMalangnya, perengkuh anda patah dalam proses, tapi anda masih mendapat item anda!",
-      "too_many": "%1$sAnda akan mempunyai lebih daripada 5000 item ini jika anda meneruskan. Cuba mengurangkan bilangan alatan yang ingin anda mencipta?",
-      "low_tier": "%1$sAnda memerlukan sekurang-kurangnya sebatang perengkuh tahap 2 (sekurang-kurangnya Perengkuh Komet) untuk mencipta beberapa alatan sekali gus. Kini, anda mempunyai perengkuh tahap %2$s. Ingat: Anda memerlukan dua batang perengkuh yang sama jenisnya untuk meneruskan penciptaan ini.",
-      "not_enough_wrench_level": "%1$sPerengkuh anda tidak cukup kuat untuk mencipta item ini. Mungkin nyatakan perengkuh yang lebih kuat? *Tahap perengkuh: %2$s, Tahap yang diperlukan: %3$s*. Contoh: `~>cast \"star pick\" \"comet wrench\"`",
+      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
+      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
+      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
+      "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
+      "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
+      "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
+      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
       "too_many_amount": "%1$sAnda tidak boleh mencipta alatan sebanyak itu sekali gus! Had: %2$s, Dicuba: %3$s. Perengkuh berkilau dapat menggandakan had tersebut! Melainkan jika anda sudah memakainya.",
+      "autoequip": {
+        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+      },
       "ls": {
         "header": "Senarai Penciptaan Alatan",
         "cost": "Kos Penciptaan: ",
@@ -1053,13 +1056,14 @@
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "error_date": "%1$s%2$s bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`",
+      "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
       "new_format": "%1$sFormat tarikh yang baru hanyalah `hh-bb` (hari-bulan, misalnya 20-10 untuk 20 Oktober). Tidak perlu masukkan tahun anda lagi, jadi anda boleh menyingkirkan bahagian tersebut.",
       "allowed_server": "%1$sPelayan semasa telah dibenarkan untuk mengumumkan hari jadi anda. Untuk melarangnya pada masa akan datang, hanya jalankan `~>birthday denyserver` di pelayan ini.",
       "denied": "%1$sPelayan semasa telah dilarang mengumumkan hari jadi anda. Untuk membenarkannya pada masa akan datang, hanya jalankan `~>birthday allowserver` di pelayan ini.",
       "already_denied": "%1$sPelayan ini sudah dilarang mengumumkan hari jadi anda. Sekiranya anda ingin membenarkannya, jalankan `~>birthday allowserver` sebagai gantinya. Ini adalah tetapan asal.",
+      "leap": "Hari jadi anda adalah 29 Februari, ini bermaksud bahawa ia akan diumumkan pada 29 Februari pada tahun lompat, dan 28 Februari pada tahun biasa.",
       "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
     "choose": {
@@ -1481,6 +1485,7 @@
       "no_main_item": "%1$sNampaknya anda tidak mempunyai item yang sedang anda cuba menyelamatkan.",
       "no_tool": "%1$sAnda tidak mempunyai perengkuh ini. Cuba nyatakannya, atau menyatakan perengkuh yang lain.",
       "no_tool_default": "%1$sAnda memerlukan sekurang-kurangnya sebatang Perengkuh Komet dalam inventori anda untuk melakukan ini, tetapi anda juga boleh menyatakan sebatang yang lebih kuat jika anda hendak.",
+      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menyelamatkan sesuatu item, cuba membersihkannya dengan menggunakan mop.",
       "no_returnables": "%1$sItem ini tiada elemen penyelamatan yang dapat dipulangkan.",
       "item_broke": "%1$sPerengkuh anda (%1$s) patah semasa cuba menyelamatkan item ini :(",
@@ -1580,18 +1585,18 @@
       }
     },
     "repair": {
-      "no_item": "%1$sAnda tidak menyatakan sebarang item untuk diperbaiki. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
-      "no_item_found": "%1$sSaya tidak menjumpai item itu. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
-      "no_main_item": "%1$sAnda tidak mempunyai item yang diperlukan untuk membaiki ini!",
+      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
+      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
+      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
       "cant_repair": "%1$s**%2$s** ia bukan item yang dapat anda membaiki. Anda hanya boleh membaiki item yang sudah patah.",
-      "no_tool": "%1$sAnda memerlukan perengkuh tahap 2 (sekurang-kurangnya Perengkuh Komet) atau lebih tinggi untuk membaiki item ini. Anda boleh menyatakannya jika hendak. Contoh: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
-      "no_tool_specified": "%1$sAnda tidak mempunyai perengkuh yang anda nyatakan (%2$s). Sila menggunakan peralatan yang anda mempunyai ataupun menciptanya. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan. Contoh: `~>repair \"broken comet pickaxe\" \"comet wrench\"`",
+      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
+      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
       "dust": "%1$sInventori anda terlalu berhabuk untuk menjalankan pembaikan. Tahap habuk: %2$s",
       "not_wrench": "%1$sAnda tidak boleh menggunakan ini sebagai perengkuh. Gunakan tanda petik jika nama tersebut mengandungi ruang di antara perkataan.",
-      "not_enough_level": "%1$sAnda memerlukan perengkuh yang lebih tinggi tahapnya untuk menjalankan pembaikan ini. Cuba menyatakannya secara manual jika anda mempunyainya di inventori anda.",
-      "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membaiki item ini.",
+      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
+      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "no_item_recipe": "%1$sAnda tidak mempunyai *%2$s* yang diperlukan untuk menjalankan pembaikan ini.",
-      "not_enough_items": "%1$sAnda tidak mempunyai *%2$s* yang mencukupi untuk menjalankan pembaikan ini. **(Diperlukan: %3$s, Semasa: %4$s)**",
+      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
       "item_broke": "%1$sMalangnya, perengkuh anda (%1$s) patah semasa membaiki item ini, tapi anda masih mendapat item anda!",
       "success": "%1$sPembaikan berjaya! Item dibaiki %2$s **%3$s** -> %4$s **%5$s**. Kos pembaikan ialah *%6$s* kredit dan resipi untuk membaikinya ialah *%7$s*.",
       "ls": {
@@ -1709,7 +1714,7 @@
       "not_suitable": "%1$sIni bukan beliung yang boleh anda gunakan untuk melombong!",
       "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung ditetapkan.",
       "success": "%1$sAnda melombong mineral yang bernilai **$%2$,d kredit**, menggunakan *%3$s*",
-      "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menambahbaik peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menaik taraf peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyainya terlalu banyak, jadi saya telah menjualnya.",
         "success": "Huh! Anda bertuah kerana menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
@@ -1734,7 +1739,8 @@
       "item_broke_autoequip": "*Petunjuk: Anda boleh menggunakan `~>profile autoequip` untuk memasang peralatan anda secara automatik apabila ia patah, menganggap anda mempunyai satu lagi dalam inventori anda",
       "waifu_help": "Waifu anda datang dan menyertai pengembaraan melombong anda dan anda berdua mendapat hasil yang lebih besar!",
       "missing_equipped": "%1$sAnda telah memasang beliung %2$s, tetapi anda tidak lagi mempunyai jenis beliung ini di inventori anda! Beliung yang dipasang telah ditetapkan semula.",
-      "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*"
+      "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
+      "broken_drop_miss": "%1$sPeralatan anda patah dan nampaknya ia tidak dapat dipulangkan."
     },
     "chop": {
       "not_equipped": "%1$sAnda masih belum memasang kapak anda. Gunakan `~>equip <nama kapak>` untuk memasang sebatang kapak dan bermula pengembaraan anda! Jika anda tidak mempunyai sebatang kapak, jalankan arahan `~>buy axe` dahulu",
@@ -1807,7 +1813,9 @@
         "attributes": "Sifat",
         "tier": "Tahap",
         "durability": "Ketahanan",
-        "desc": "Penerangan"
+        "desc": "Penerangan",
+        "upgrade": "Mahu menaik tarafnya?",
+        "upgrade_content": "Tekan [sini](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
       "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s",
       "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*"
@@ -2452,7 +2460,10 @@
       "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
       "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
       "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
-      "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing."
+      "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
+      "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
+      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
+      "sparkle_wrench": "A Wrench infused with pieces of Sparkle Fragments. Somehow it feels a lot sturdier."
     },
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
