@@ -260,12 +260,12 @@ public class MarketCmd {
                 }
 
                 if (!item.isBuyable()) {
-                    ctx.sendLocalized("commands.market.price.collectible", EmoteReference.EYES, (int) (item.getValue() * 0.9));
+                    ctx.sendLocalized("commands.market.price.collectible", EmoteReference.EYES, Math.round(item.getValue() * 0.9));
                     return;
                 }
 
                 ctx.sendLocalized("commands.market.price.success",
-                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9)
+                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), Math.round(item.getValue() * 0.9)
                 );
             }
         });
@@ -487,7 +487,7 @@ public class MarketCmd {
                     if (c.equalsIgnoreCase("yes")) {
                         long all = player.getInventory().asList().stream()
                                 .filter(item -> item.getItem().isSellable())
-                                .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
                                 .sum();
 
                         player.getInventory().clearOnlySellables();
@@ -692,7 +692,7 @@ public class MarketCmd {
                 .filter(item -> !item.isHidden())
                 .forEach(item -> {
                     String buyValue = item.isBuyable() ? "$%,d".formatted(item.getValue()) : "N/A";
-                    String sellValue = item.isSellable() ? ("$%,d".formatted((int) Math.floor(item.getValue() * 0.9))) : "N/A";
+                    String sellValue = item.isSellable() ? ("$%,d".formatted((int) Math.round(item.getValue() * 0.9))) : "N/A";
 
                     // I blame discord stripping spaces for this unicode bullshitery
                     fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(item.getEmoji(), item.getName()),

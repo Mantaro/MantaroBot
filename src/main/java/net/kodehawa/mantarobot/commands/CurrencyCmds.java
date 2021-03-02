@@ -89,7 +89,7 @@ public class CurrencyCmds {
                     if (arguments.containsKey("calculate") || arguments.containsKey("calc") || arguments.containsKey("c")) {
                         long all = playerInventory.asList().stream()
                                 .filter(item -> item.getItem().isSellable())
-                                .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                .mapToLong(value -> Math.round(value.getItem().getValue() * value.getAmount() * 0.9d))
                                 .sum();
 
                         ctx.sendLocalized("commands.inventory.calculate", EmoteReference.DIAMOND, member.getUser().getName(), all);
