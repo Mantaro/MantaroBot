@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.Breakable;
+import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.Attribute;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
@@ -662,8 +663,11 @@ public class MarketCmd {
                     message = "commands.market.buy.success_potion";
                 }
 
-                ctx.sendLocalized(message, warn + EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
+                if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.ne) {
+                    warn += languageContext.get("success_breakable_upgrade") + "\n";
+                }
 
+                ctx.sendLocalized(message, warn + EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), value, playerMoney);
             } else {
                 ctx.sendLocalized("commands.market.buy.not_enough_money", warn + EmoteReference.STOP, player.getCurrentMoney(), value);
             }
