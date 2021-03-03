@@ -154,9 +154,9 @@
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
       },
       "overflow": "%1$sVocê encontrou alguns peixes, mas uma parte do seu inventário está cheia, então tivemos que jogar um pouco de volta na água.",
-      "success": "%1$sEnquanto você calmamente pescava, você encontrou %2$s e você prossegue para salvá-lo em seu balde.",
-      "success_money": "%1$sEnquanto você calmamente pescava, você encontrou %2$s e **$%3$d créditos** e você prossegue para salvá-lo em seu balde.%4$s",
-      "success_money_noitem": "%1$sEnquanto calmamente pescava, você encontrou **$%2$d créditos** e você prossegue para salvá-lo em seu balde.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sSua vara de pesca quebrou enquanto tentava pegar um peixe :(",
       "waifu_help": "Sua waifu veio e se juntou em sua aventura de pesca e você dois ganharam mais recursos!",
       "not_suitable": "%1$sVocê não pode usar isso para pescar.",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sTempo redefinido com sucesso."
       },
       "description": {
-        "no_argument": "%1$sVocê precisa fornecer um argumento! (definir ou remover)\nPor exemplo, ~>profile description set Olá!",
-        "no_content": "%1$sVocê não especificou o que você quer na sua descrição.\nPor exemplo, ~>profile description set Olá!",
-        "too_long": "%1$sA descrição é muito longa! `(Limite de 300 caaracteres para todos e 500 para usuários premium)`",
-        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sDescrição apagada com sucesso."
       },
       "displaybadge": {
@@ -1754,9 +1754,9 @@
         "success": "Você encontrou um %1$s **%2$s** enquanto cortava árvores e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do baú`. Você precisa de uma chave do baú!"
       },
       "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
-      "success_only_item": "%1$sEnquanto cortava as árvores, você encontrou %2$s prosseguindo para salvar em seu inventário.",
-      "success": "%1$sEnquanto cortava as árvores, você encontrou %2$s e **$%3$d créditos** e prossegue para salvar em seu inventário.",
-      "success_money_noitem": "%1$sEnquanto cortava as árvores, você encontrou **$%2$d créditos** e prossegue para salvar em seu bolso."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
