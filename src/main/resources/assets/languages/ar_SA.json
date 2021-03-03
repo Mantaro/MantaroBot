@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sأعطني وايفو لأُقيمه!",
-      "success": "%1$sانا اقيم %2$s مع **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$s حصلت على **%2$,d**%3$s",
@@ -892,7 +892,7 @@
         "no_argument": "%1$s أنت بحاجة إلى تقديم حجة! (وضع أو إزالة)، مثال: \n~>profile description set Hi there!",
         "no_content": "%1$sلم تُحدد ماذا تريد أن تضع ك وصف لحسابك. \nمثال: ~>profile description set Hi there!",
         "too_long": "%1$sوصف الحساب طويل جداً! \nالحد: `(300 حرف لجميع الأعضاء و 500 حرف لأعضاء البريميوم فقط)`",
-        "success": "%1$sوضع وصف إلى: **%2$s**\nتفقد وصف حسابك `~>profile`",
+        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sتم بنجاح مسح وصف الحساب. "
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
       "no_content": "%1$sيجب عليك تحديد تاريخ ميلادك, `remove` لإعادة ضبط تاريخ ميلادك أو `month` لعرض اعياد الميلاد بهذا الشهر. للسماح لهذا السيرفر بالاعلان عن عيد ميلادك, يجب عليك استعمال الأمر \n`~>birthday allowserver`",
