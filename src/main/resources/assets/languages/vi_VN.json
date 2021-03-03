@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sCho tôi một waifu để đánh giá!",
-      "success": "%1$sTôi đánh giá %2$s được **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sBạn lắc được **%2$,d**%3$s",
@@ -892,7 +892,7 @@
         "no_argument": "%1$sBạn cần một câu nói để đặt làm lời giới thiệu! (set (đặt) hoặc remove (gỡ))\nVí dụ, ~>profile description set Xin chào!",
         "no_content": "%1$sBạn chưa nói rõ câu bạn muốn đặt cho lời giới thiệu.\nVí dụ, ~>profile description set Xin chào!",
         "too_long": "%1$sLời giới thiệu của bạn quá dài! `(Giới hạn trong 300 kí tự cho mọi người và 500 kí tự cho người dùng cao cấp)`",
-        "success": "%1$sĐã đặt lời giới thiệu của bạn thành: **%2$s**\nHãy thử xem hồ sơ mới toanh của bạn với lệnh `~>profile`",
+        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sĐã xoá thành công lời giới thiệu."
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sĐó không phải là một số tháng hợp lệ! (Số tháng hợp lệ trong khoảng từ 1 đến 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
