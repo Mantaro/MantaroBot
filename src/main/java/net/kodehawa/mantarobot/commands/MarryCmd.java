@@ -429,8 +429,8 @@ public class MarryCmd {
                     return;
                 }
 
-                var finalContent = content;
-                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, content);
+                var finalContent = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
+                ctx.sendLocalized("commands.marry.buyhouse.confirm", EmoteReference.WARNING, housePrice, finalContent);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
@@ -514,7 +514,7 @@ public class MarryCmd {
                     return;
                 }
 
-                var finalContent = content;
+                var finalContent = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
                 ctx.sendLocalized("commands.marry.buycar.confirm", EmoteReference.WARNING, carPrice, content);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))

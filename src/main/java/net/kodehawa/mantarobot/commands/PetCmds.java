@@ -558,9 +558,12 @@ public class PetCmds {
                     return;
                 }
 
+                name = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
+
                 player.setLocked(true);
                 player.saveUpdating();
 
+                var finalName = name;
                 ctx.sendLocalized("commands.pet.buy.confirm", EmoteReference.WARNING, name, type, toBuy.getCost(), petChoice.getReadableName());
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 30, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor())) {
@@ -612,7 +615,7 @@ public class PetCmds {
                                 return Operation.COMPLETED;
                             }
 
-                            marriageDataConfirmed.setPet(new HousePet(name, toBuy));
+                            marriageDataConfirmed.setPet(new HousePet(finalName, toBuy));
                             marriageConfirmed.save();
                         }
 
@@ -621,7 +624,7 @@ public class PetCmds {
 
                         if (petChoiceConfirmed == PetChoice.PERSONAL) {
                             playerInventoryConfirmed.process(new ItemStack(ItemReference.INCUBATOR_EGG, -1));
-                            playerDataConfirmed.setPet(new HousePet(name, toBuy));
+                            playerDataConfirmed.setPet(new HousePet(finalName, toBuy));
                         }
 
                         if (petChoiceConfirmed == PetChoice.MARRIAGE) {
@@ -635,12 +638,12 @@ public class PetCmds {
 
                         if (petChoice == PetChoice.MARRIAGE) {
                             ctx.sendLocalized("commands.pet.buy.success",
-                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
                                     toBuy.getCost(), petChoice.getReadableName()
                             );
                         } else {
                             ctx.sendLocalized("commands.pet.buy.success_personal",
-                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), name,
+                                    EmoteReference.POPPER, toBuy.getEmoji(), toBuy.getName(), finalName,
                                     toBuy.getCost(), petChoice.getReadableName()
                             );
                         }
@@ -700,6 +703,8 @@ public class PetCmds {
                     ctx.sendLocalized("commands.pet.rename.not_enough_money", EmoteReference.ERROR, cost, player.getCurrentMoney());
                     return;
                 }
+
+                content = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
 
                 var oldName = pet.getName();
                 pet.setName(content);
