@@ -778,7 +778,8 @@
         "success": "%1$sĐã mua thành công %2$,d %3$s với giá %4$,d tín. Giờ bạn còn %5$,d tín.",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
+        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Chợ Mantaro",
       "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
@@ -966,7 +967,7 @@
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sĐã tháo trang bị thành công %2$s.",
         "equipment_recover": "\nDo bạn chưa từng sử dụng đồ trang bị này, nên bạn đã có lại được %1$s!",
         "broken_equipment_recover": "\nBạn đã sử dụng đồ trang bị này, nhưng bạn có lại được %1$s, bạn có thể sửa chữa nếu bạn cần sau này!",
