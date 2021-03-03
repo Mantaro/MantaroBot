@@ -154,9 +154,9 @@
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
-      "success": "%1$s在安靜的釣魚時，你找到了%2$s且把它們放到水桶裡了。",
-      "success_money": "%1$s在安靜的釣魚時，你找到了%2$s和**%3$d元**。%4$s",
-      "success_money_noitem": "%1$s在安靜的釣魚時，你找到了**%2$d元**且把它們放進口袋裡了。",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
@@ -889,10 +889,10 @@
         "reset_success": "%1$s時區已重設。"
       },
       "description": {
-        "no_argument": "%1$s你需要提供參數！(set 或 remove)\n範例：~>profile description set Hi there!",
-        "no_content": "%1$s你需要指出你的個人簡介。\n範例：~>profile description set Hi there!",
-        "too_long": "%1$s簡介過長！`(一般用戶最多300字元，Premium用戶為500字元)`",
-        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
-      "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
-      "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
-      "success_money_noitem": "%1$s你在伐木時找到了**%2$d元**且把他們放進口袋裡了。"
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
