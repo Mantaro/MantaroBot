@@ -154,9 +154,9 @@
         "success": "%1$s**%2$s** dipasang secara automatik di slot joran anda."
       },
       "overflow": "%1$sAnda menjumpai sebilangan ikan, tetapi sebahagian dari inventori anda sudah penuh, jadi kami terpaksa membuangnya kembali ke dalam air.",
-      "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s dan anda terus menyimpannya ke dalam baldi anda.",
-      "success_money": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s dan **$%3$d kredit** dan anda terus menyimpannya ke dalam baldi anda.%4$s",
-      "success_money_noitem": "%1$sSemasa memancing dengan tenang, anda menemui **$%2$d kredit** dan anda terus menyimpannya ke dalam poket anda.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sJoran anda patah semasa cuba menangkap ikan :(",
       "waifu_help": "Waifu anda datang dan menyertai pengembaraan memancing anda dan anda berdua mendapat hasil yang lebih besar!",
       "not_suitable": "%1$sAnda tidak boleh menggunakan ini untuk memancing.",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sZon masa anda berjaya ditetapkan semula."
       },
       "description": {
-        "no_argument": "%1$sAnda perlu memberi argumen! (set atau remove)\nMisalnya, ~>profile description set Hi there!",
-        "no_content": "%1$sAnda tidak menyatakan apa yang anda mahu menulis pada penerangan anda.\nMisalnya, ~>profile description set Hi there!",
-        "too_long": "%1$sPenerangan itu terlalu panjang! `(Hadnya adalah 300 aksara bagi semua pengguna dan 500 bagi pengguna premium)`",
-        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sPenerangan berjaya dipadamkan."
       },
       "displaybadge": {
@@ -1754,9 +1754,9 @@
         "success": "Anda menjumpai sebuah %1$s **%2$s** semasa menebang pokok dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti!"
       },
       "overflow": "%1$sAnda menjumpai beberapa item semasa menebang, tetapi anda tidak dapat memegang apa-apa lagi, jadi kami terpaksa meninggalkan sebahagiannya.",
-      "success_only_item": "%1$sSemasa menebang pokok, anda menemui %2$s dan anda terus menyimpannya ke dalam inventori anda.",
-      "success": "%1$sSemasa menebang pokok, anda menemui %2$s dan **$%3$d kredit** dan anda terus menyimpannya ke dalam inventori anda.",
-      "success_money_noitem": "%1$sSemasa menebang pokok, anda menjumpai **$%2$d kredit** dan anda terus menyimpannya ke dalam poket anda."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
