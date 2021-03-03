@@ -154,9 +154,9 @@
         "success": "%1$sĐã tự động trang bị một **%2$s** từ bộ cần câu của bạn."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s và cho được chúng vào trong xô cá.",
-      "success_money": "%1$sTrong lúc ngồi điềm tĩnh câu, bạn câu được %2$s và **$%3$d tín** và cho được chúng vào trong xô cá. %4$s",
-      "success_money_noitem": "%1$sTrong lúc ngồi câu điềm tĩnh, bạn câu được **$%2$d tín** và dúi được vào trong túi áo.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sCần câu của bạn đã bị gãy trong lúc vật lộn với cá :(",
       "waifu_help": "Waifu của bạn đã tham gia hành trình câu của bạn và cả hai đều được một mẻ cá lớn!",
       "not_suitable": "%1$sBạn không thể dùng thứ này để câu.",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sĐã đặt lại múi giờ thành công."
       },
       "description": {
-        "no_argument": "%1$sBạn cần một câu nói để đặt làm lời giới thiệu! (set (đặt) hoặc remove (gỡ))\nVí dụ, ~>profile description set Xin chào!",
-        "no_content": "%1$sBạn chưa nói rõ câu bạn muốn đặt cho lời giới thiệu.\nVí dụ, ~>profile description set Xin chào!",
-        "too_long": "%1$sLời giới thiệu của bạn quá dài! `(Giới hạn trong 300 kí tự cho mọi người và 500 kí tự cho người dùng cao cấp)`",
-        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sĐã xoá thành công lời giới thiệu."
       },
       "displaybadge": {
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
