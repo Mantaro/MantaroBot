@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate %2$s with a **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sYou got **%2$,d**%3$s",

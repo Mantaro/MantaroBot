@@ -105,9 +105,7 @@ public class FunCmds {
                     waifuRate = 100;
                 }
 
-                ctx.sendStrippedLocalized(
-                        "commands.ratewaifu.success", EmoteReference.THINKING, content, waifuRate
-                );
+                ctx.sendStrippedLocalized("commands.ratewaifu.success", EmoteReference.THINKING, waifuRate);
             }
 
             @Override
