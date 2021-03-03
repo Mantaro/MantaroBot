@@ -2591,7 +2591,7 @@
       "broken_hellfire_axe": "Eine Höllenfeueraxt, die während dem Hacken erloschen ist. Reparierbar.",
       "broken_hellfire_rod": "Eine Höllenfeuerangel, die während dem Angeln erloschen ist. Reparierbar.",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
   },
   "test": {
