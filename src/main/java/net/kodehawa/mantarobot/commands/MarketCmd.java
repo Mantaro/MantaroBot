@@ -265,7 +265,7 @@ public class MarketCmd {
                 }
 
                 ctx.sendLocalized("commands.market.price.success",
-                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), Math.round(item.getValue() * 0.9)
+                        EmoteReference.MARKET, item.getEmoji() + " ", item.getName(), item.getValue(), Math.round(item.getValue() * 0.9)
                 );
             }
         });
