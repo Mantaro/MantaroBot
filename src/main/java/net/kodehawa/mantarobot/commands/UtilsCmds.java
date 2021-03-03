@@ -118,6 +118,7 @@ public class UtilsCmds {
 
                         var displayRemind = Utils.DISCORD_INVITE.matcher(toRemind).replaceAll("discord invite link");
                         displayRemind = Utils.DISCORD_INVITE_2.matcher(displayRemind).replaceAll("discord invite link");
+                        displayRemind = Utils.HTTP_URL.matcher(displayRemind).replaceAll("url");
 
                         ctx.sendStrippedLocalized("commands.remindme.success", EmoteReference.CORRECT, ctx.getUser().getName(),
                                 ctx.getUser().getDiscriminator(), displayRemind, Utils.formatDuration(time));
