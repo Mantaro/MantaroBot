@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sBeri saya seorang waifu untuk menilai!",
-      "success": "%1$sSaya menilai %2$s dengan **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sAnda mendapat **%2$,d**%3$s",
@@ -892,7 +892,7 @@
         "no_argument": "%1$sAnda perlu memberi argumen! (set atau remove)\nMisalnya, ~>profile description set Hi there!",
         "no_content": "%1$sAnda tidak menyatakan apa yang anda mahu menulis pada penerangan anda.\nMisalnya, ~>profile description set Hi there!",
         "too_long": "%1$sPenerangan itu terlalu panjang! `(Hadnya adalah 300 aksara bagi semua pengguna dan 500 bagi pengguna premium)`",
-        "success": "%1$sPenerangan ditetapkan menjadi: **%2$s**\nPeriksa profil baru anda dengan `~>profile`",
+        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sPenerangan berjaya dipadamkan."
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "error_date": "%1$s%2$s bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
