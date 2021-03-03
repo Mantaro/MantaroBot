@@ -778,7 +778,8 @@
         "success": "%1$sتم بنجاح شراء %2$,d %3$s ب %4$,d مال. أنت الآن تملك %5$,d مال. ",
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits."
+        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
+        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "سوق مونتارو ",
       "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
@@ -966,7 +967,7 @@
         "not_equipped": "%1$sليس لديك اي شيء مُجهز في هذا المكان.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sتم بنجاح إلغاء تركيب %2$s بفتحتك الخاصة",
         "equipment_recover": "بما أنك لم تستخدم مُعداتك أبداً، حصلت على %1$s الخاص بك. ",
         "broken_equipment_recover": "تم استخدام المعدات الخاصة بك، ولكنك حصلت على %1$s ، يمكنك إصلاحه إذا كنت في حاجة إليها في وقت لاحق!",
