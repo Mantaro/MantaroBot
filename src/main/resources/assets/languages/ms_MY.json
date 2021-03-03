@@ -395,7 +395,7 @@
       "footer": "Terima kasih kerana menggunakan Mantaro! Halaman: %1$d, Jumlah: %2$d."
     },
     "prefix": {
-      "header": "%1$sPrefix yang asal ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
+      "header": "%1$sPrefix yang default ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
       "guild_prefix": "Prefix pelayan ialah `%1$s` (Hanya berfungsi di pelayan ini)",
       "none": "Tiada prefix kustom yang ditetapkan di pelayan ini."
     },
@@ -494,10 +494,10 @@
         "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
       },
       "character_not_allowed": "%1$sAksara ini tidak dibenarkan dalam nama arahan kustom.",
-      "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot yang asal.",
+      "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot secara default.",
       "name_too_long": "%1$sNama terlalu panjang.",
       "no_cc": "%1$sTiada Arahan Kustom yang didaftarkan di Pelayan ini, hanya ada habuk.",
-      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan ASAL.**\n- Jika anda merupakan admin (mempunyai peranan Bot Commander atau kebenaran Manage Server), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
+      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan DEFAULT.**\n- Jika anda merupakan admin (mempunyai peranan Bot Commander atau kebenaran Manage Server), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
       "not_found": "%1$sTidak ada Arahan Kustom `%2$s` dalam Pelayan ini.",
       "invalid_image": "%1$sArahan ini mengandungi imej yang tidak sah, sila membaikinya...",
       "invalid_string": "%1$sTalian `{%2$s}` tidak sah, ataupun responsnya lebih panjang daripada 2000 aksara.",
@@ -514,7 +514,7 @@
       "time_not_specified": "%1$sAnda menginginkan masa tetapi tidak menyatakan tempohnya.",
       "time_not_specified_generic": "%1$sAnda tidak menyatakan sebarang masa. Misalnya, jika anda ingin membisukan selama 20 minit anda perlu jalankan `~>mute 20m @sebut sebab dimasukkan di sini`, sebagai contoh.",
       "negative_time_notice": "%1$sAnda tidak boleh membisukan sesorang selama tempoh masa yang negatif. Melainkan jika anda boleh bengkokkan masa angkasa.",
-      "default_time_too_long": "%1$sTempoh bisu yang ditetapkan terlalu panjang (Maksimum: 10 hari)...",
+      "default_time_too_long": "%1$sTempoh bisu default yang ditetapkan terlalu panjang (Maksimum: 10 hari)...",
       "time_too_little": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
       "time_too_long": "%1$sTempoh bisu yang dinyatakan terlalu panjang (Maksimum: 10 hari)...",
       "already_muted": "%1$sPengguna ini sudah diberi peranan bisu. Sila jalankan `~>unmute` untuk membenarkan dia bersuara.",
@@ -778,7 +778,8 @@
         "success": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit.",
         "success_breakable": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh memasangnya menggunakan `~>equip <nama item>`",
         "success_potion": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh menggunakan ramuan atau buff ini menggunakan `~>equip <nama item>`",
-        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli item ini. Semasa: %2$,d kredit, Diperlukan: %3$,d kredit."
+        "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli item ini. Semasa: %2$,d kredit, Diperlukan: %3$,d kredit.",
+        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Pasar Mantaro",
       "reference": "\nAnda boleh membeli dan menjual item menggunakan `~>buy <item>` dan `~>sell <item>`. Periksa `~>help market` untuk mendapatkan maklumat lanjut, anda juga boleh melihat senarai pasaran yang pendek, misalnya `~>market tools`",
@@ -966,7 +967,7 @@
         "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
         "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod`",
         "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod`",
-        "confirm": "%1$sAdakah anda pasti akan **menyingkirkan** %2$s %3$s anda? Taip `yes` untuk sahkan, `no` untuk membatalkan.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
         "broken_equipment_recover": "\nPeralatan anda pernah digunakan, tetapi anda mendapat %1$s kembali, anda boleh membaikinya sekiranya anda memerlukannya nanti!",
@@ -977,7 +978,7 @@
         "not_premium": "%1$s Pemperibadian widget profil hanya tersedia untuk pengguna premium sahaja. Untuk banyak kelebihan lagi, anda boleh periksa <https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks>",
         "not_enough": "%1$sWidget yang sah tidak mencukupi untuk dipaparkan pada profil anda (minimum: 3). Sekiranya anda tersesat, periksa `~>profile widget ls`",
         "success": "%1$sBerjaya menetapkan susun atur profil anda. Susun atur yang baru ialah `%2$s`",
-        "ls": "%1$sSenarai komponen profil:\n%2$s **Susunan Widget Asal:** `%3$s`\n%2$s **Widget anda:** `%4$s`\nAnda boleh menggunakan `~>profile widgets reset` untuk menetapkan semula rujukan paparan profil anda",
+        "ls": "%1$sSenarai komponen profil:\n%2$s **Susunan Widget Default:** `%3$s`\n%2$s **Widget anda:** `%4$s`\nAnda boleh menggunakan `~>profile widgets reset` untuk menetapkan semula rujukan paparan profil anda",
         "reset": "%1$sSusunan widget profil anda berjaya ditetapkan semula.",
         "example": "\nContoh: `~>profile widgets header, credits, reputation, birthday, marriage, badges`\n*Susunan mana-mana juga berfungsi, susunan di sini ialah susunan yang akan dipaparkan di profil anda*"
       },
@@ -1062,7 +1063,7 @@
       "new_format": "%1$sFormat tarikh yang baru hanyalah `hh-bb` (hari-bulan, misalnya 20-10 untuk 20 Oktober). Tidak perlu masukkan tahun anda lagi, jadi anda boleh menyingkirkan bahagian tersebut.",
       "allowed_server": "%1$sPelayan semasa telah dibenarkan untuk mengumumkan hari jadi anda. Untuk melarangnya pada masa akan datang, hanya jalankan `~>birthday denyserver` di pelayan ini.",
       "denied": "%1$sPelayan semasa telah dilarang mengumumkan hari jadi anda. Untuk membenarkannya pada masa akan datang, hanya jalankan `~>birthday allowserver` di pelayan ini.",
-      "already_denied": "%1$sPelayan ini sudah dilarang mengumumkan hari jadi anda. Sekiranya anda ingin membenarkannya, jalankan `~>birthday allowserver` sebagai gantinya. Ini adalah tetapan asal.",
+      "already_denied": "%1$sPelayan ini sudah dilarang mengumumkan hari jadi anda. Sekiranya anda ingin membenarkannya, jalankan `~>birthday allowserver` sebagai gantinya. Ini adalah secara default.",
       "leap": "Hari jadi anda adalah 29 Februari, ini bermaksud bahawa ia akan diumumkan pada 29 Februari pada tahun lompat, dan 28 Februari pada tahun biasa.",
       "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
@@ -1118,7 +1119,7 @@
       "successful": "%1$sBerjaya menuntut kunci `%2$s`. Anda telah menuntut sebanyak %3$s kunci dan mempunyai %4$s kunci lagi untuk dituntut. Kunci ini berjenis %5$s. (Sekiranya ini merupakan kunci pelayan, gunakannya di pelayan yang mana anda inginkannya)",
       "cant_dm": "%1%sSaya tidak dapat menghantar kunci kepada anda akibat tetapan privasi anda, nampaknya, jadi ia tidak dapat dihasilkan.",
       "success": "%1$sMaklumat telah dihantar melalui DM.",
-      "invalid_scope": "%1$sSkop kunci tidak sah! Yang sah ialah `user` dan `guild`. Tanpa apa-apa argumen, arahan ini menjadi `user` secara automatik. Contoh: `~>claimkey guild` atau `~>claimkey user`"
+      "invalid_scope": "%1$sSkop kunci tidak sah! Yang sah ialah `user` dan `guild`. Tanpa apa-apa argumen, arahan ini menjadi `user` secara default. Contoh: `~>claimkey guild` atau `~>claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1276,7 +1277,7 @@
       "disabled_multiple": "%1$sPelayan ini telah melarang permainan berkali-kali/lobi."
     },
     "opencrate": {
-      "no_crate": "%1$sAnda tidak mempunyai peti loot berjenis ini (%2$s) untuk dibuka. (Sekiranya anda ingin membuka sebuah peti selain jenis asal, gunakan nama peti selepas arahan tersebut. Jika anda ingin menggunakan inventori bermusim, tambahkan `-s`)",
+      "no_crate": "%1$sAnda tidak mempunyai peti loot berjenis ini (%2$s) untuk dibuka. (Sekiranya anda ingin membuka sebuah peti selain jenis default, gunakan nama peti selepas arahan tersebut. Jika anda ingin menggunakan inventori bermusim, tambahkan `-s`)",
       "not_crate": "%1$sItu bukan peti loot yang sah.",
       "nothing_found": "%1$sSaya tidak dapat mencari peti yang berkaitan dengan carian anda. Pastikan anda menggunakan nama yang betul."
     },
@@ -1337,7 +1338,7 @@
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
     "pet": {
-      "explanation": "Haiwan peliharaan amat berguna dalam mata wang!\nIa membantu anda menguntungkan lebih banyak wang, loot lebih banyak, mencari benda rawak semasa perlombongan, penebangan pokok, dan juga memancing. Semakin tinggi levelnya, semakin lumayan ganjarannya!\nPilihan haiwan peliharaan yang sesuai untuk aktiviti anda adalah penting, jadi pastikan anda memeriksa jenis dan keupayaan haiwan peliharaan keinginan anda!\nIngat bahawa anda perlulah memberi makan dan minum kepada haiwan peliharaan anda, serta membiarkan ia berehat dan cas semula tenaganya sekali-sekala, sama seperti haiwan peliharaan yang sebenar! Anda juga boleh belainya :)\nTerdapat dua jenis: Peribadi (untuk diri anda) dan Perkahwinan (dikongsi bersama pasangan anda). Pilih satu dengan `~>pet choice`. Yang asal adalah Peribadi.\nUntuk bantuan lebih lanjut, gunakan `~>help pet` dan `~>pet list` untuk mendapatkan senarai haiwan peliharaan.",
+      "explanation": "Haiwan peliharaan amat berguna dalam mata wang!\nIa membantu anda menguntungkan lebih banyak wang, loot lebih banyak, mencari benda rawak semasa perlombongan, penebangan pokok, dan juga memancing. Semakin tinggi levelnya, semakin lumayan ganjarannya!\nPilihan haiwan peliharaan yang sesuai untuk aktiviti anda adalah penting, jadi pastikan anda memeriksa jenis dan keupayaan haiwan peliharaan keinginan anda!\nIngat bahawa anda perlulah memberi makan dan minum kepada haiwan peliharaan anda, serta membiarkan ia berehat dan cas semula tenaganya sekali-sekala, sama seperti haiwan peliharaan yang sebenar! Anda juga boleh belainya :)\nTerdapat dua jenis: Peribadi (untuk diri anda) dan Perkahwinan (dikongsi bersama pasangan anda). Pilih satu dengan `~>pet choice`. Yang default adalah Peribadi.\nUntuk bantuan lebih lanjut, gunakan `~>help pet` dan `~>pet list` untuk mendapatkan senarai haiwan peliharaan.",
       "no_marriage": "%1$sAnda perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "no_marriage_other": "%1$s%2$s perlu berkahwin sebelum memiliki haiwan peliharaan. Buat masa ini. Periksa `~>help marry` dan `~>pet`",
       "status": {
@@ -1551,7 +1552,7 @@
       "color": "Warna",
       "status": "Status",
       "nothing": "Tiada",
-      "default": "Asal"
+      "default": "Default"
     },
     "roleinfo": {
       "header": "Maklumat peranan untuk %1$s",
@@ -1712,7 +1713,7 @@
       "not_equipped": "%1$sAnda masih belum memasang beliung anda. Gunakan `~>equip <nama beliung>` untuk memasang sebatang beliung dan bermula pengembaraan anda! Jika anda tidak mempunyai sebatang beliung, jalankan arahan `~>buy pick` dahulu",
       "no_pick": "%1$sAnda tidak mempunyai sebatang beliung untuk melombong. Jika anda ingin menggunakan beliung lain gunakan `~>mine <nama beliung>`",
       "not_suitable": "%1$sIni bukan beliung yang boleh anda gunakan untuk melombong!",
-      "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung ditetapkan.",
+      "not_in_inventory": "%1$sAnda tidak mempunyai beliung ini dalam inventori anda, sedang menukar kepada beliung default.",
       "success": "%1$sAnda melombong mineral yang bernilai **$%2$,d kredit**, menggunakan *%3$s*",
       "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menaik taraf peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
@@ -1862,7 +1863,7 @@
       "success": "%1$sSaluran %2$s tidak akan mendengar arahan lagi."
     },
     "server_channel_allow": {
-      "no_channel": "%1$sAnda perlu menyatakan saluran di mana anda mahu membenarkan bot mendengar arahan. (Semua saluran secara asal)",
+      "no_channel": "%1$sAnda perlu menyatakan saluran di mana anda mahu membenarkan bot mendengar arahan. (Semua saluran secara default)",
       "success": "%1$sKini, saluran %2$s akan mendengar arahan."
     },
     "category_disable": {
