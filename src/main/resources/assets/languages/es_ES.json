@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDame una waifu para puntuar!",
-      "success": "%1$sLe doy una puntuación a %2$s de **%3$d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sConseguiste **%2$d**%3$s",
@@ -892,7 +892,7 @@
         "no_argument": "%1$s¡Necesitas darme un argumento! (set o remove)\nPor ejemplo, ~>profile description set ¡Holi por ahí!",
         "no_content": "%1$sNo especificaste qué quieres en tu descripción.\nPor ejemplo, ~>profile description set Hola mundo!",
         "too_long": "%1$s¡La descripción es muy larga! `(Límite de 300 carácteres para todos y de 500 carácteres para usuarios premium)`",
-        "success": "%1$sEstablecida la descripción de tu perfil como: **%2$s**\nRevisa tu nuevo perfil usando `~>profile`",
+        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil."
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**Cumpleaños en %1$s para el mes %2$s**\nLa caché se actualiza cada 23 horas, así que si tu cumpleaños no aparece aquí, no te asustes y espera un poco. Se muestran hasta 100 resultados.\n",
       "full_header": "**Cumpleaños en %1$s**\n%2$s\nLa caché se actualiza cada 23 horas, así que si tu cumpleaños no aparece aquí, no te asustes y espera un poco, y además tienes que usar `~>birthday allowserver` si quieres que se muestre aquí. Se muestran hasta 100 resultados.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEse no es un número de mes válido! (Meses válidos son números del 1 al 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
