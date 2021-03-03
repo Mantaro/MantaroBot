@@ -892,7 +892,7 @@
         "no_argument": "%1$sYou need to provide an argument! (set or remove)\nFor example, ~>profile description set Hi there!",
         "no_content": "%1$sYou didn't specify what you want on your description.\nFor example, ~>profile description set Hi there!",
         "too_long": "%1$sThe description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`",
-        "success": "%1$sSet description to: **%2$s**\nCheck your shiny new profile with `~>profile`",
+        "success": "%1$sI set your profile (%2$s) description to: **%3$s**\nCheck your shiny new profile with `~>profile`",
         "clear_success": "%1$sSuccessfully cleared description."
       },
       "displaybadge": {

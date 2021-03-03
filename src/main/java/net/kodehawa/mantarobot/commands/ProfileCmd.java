@@ -513,7 +513,9 @@ public class ProfileCmd {
 
                 player.getData().setDescription(desc);
 
-                ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER, desc);
+                ctx.sendStrippedLocalized("commands.profile.description.success",
+                        EmoteReference.POPPER, ctx.getAuthor().getAsTag(), desc
+                );
 
                 player.getData().addBadgeIfAbsent(Badge.WRITER);
                 player.saveUpdating();
