@@ -154,9 +154,9 @@
         "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$d credits** and you proceed to save them into your bucket.%4$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$d credits** and you proceed to save them into your pocket.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sタイムゾーンのリセットに成功しました。"
       },
       "description": {
-        "no_argument": "%1$s引数を指定する必要があります！(set もしくは remove)\n例, ~>profile description set こんにちは！",
-        "no_content": "%1$s自己紹介の内容が指定されていません。\n例, ~>profile description set こんにちは！",
-        "too_long": "%1$sこの自己紹介は長すぎます！ `(通常は300文字まで、プレミアムユーザーは500文字まで。)`",
-        "success": "%1$sI set your profile description successfully.\nCheck your shiny new profile with `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$s自己紹介の削除に成功しました。"
       },
       "displaybadge": {
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
