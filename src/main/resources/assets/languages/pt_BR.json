@@ -778,7 +778,8 @@
         "success": "%1$sVocê comprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos.",
         "success_breakable": "%1$sComprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos. Você pode equipar isso usando `~>equip <item name>`",
         "success_potion": "%1$sComprou %2$,d%3$s por %4$,d créditos com sucesso. Você agora têm %5$,d créditos. Você pode equipar essa poção ou buff usando `~>useitem <item name>`",
-        "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse item. Atual: %2$,d créditos, Necessário: %3$,d créditos."
+        "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse item. Atual: %2$,d créditos, Necessário: %3$,d créditos.",
+        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "Mercado da Mantaro",
       "reference": "\nVocê pode comprar e vender itens usando `~>buy <item>` e `~>sell <item>`. Cheque `~>help market` para mais informações, você também pode ver listas menores do mercado, tipo `~>market tools`",
@@ -966,7 +967,7 @@
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
         "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, axe, rod`",
         "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, axe, rod`",
-        "confirm": "%1$sVocê tem certeza que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
         "broken_equipment_recover": "\nSeu equipamento foi usado, mas você ganhou %1$s de volta, você pode conserta-lo se você precisar depois!",
