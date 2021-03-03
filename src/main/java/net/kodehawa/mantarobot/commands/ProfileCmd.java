@@ -512,10 +512,7 @@ public class ProfileCmd {
                 desc = Utils.DISCORD_INVITE_2.matcher(desc).replaceAll("-discord invite link-");
 
                 player.getData().setDescription(desc);
-
-                ctx.sendStrippedLocalized("commands.profile.description.success",
-                        EmoteReference.POPPER, ctx.getAuthor().getAsTag(), desc
-                );
+                ctx.sendStrippedLocalized("commands.profile.description.success", EmoteReference.POPPER);
 
                 player.getData().addBadgeIfAbsent(Badge.WRITER);
                 player.saveUpdating();
