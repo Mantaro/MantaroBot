@@ -778,7 +778,8 @@
         "success": "%1$sCompraste %2$,d %3$s por %4$,d créditos correctamente Ahora tienes %5$,d créditos.",
         "success_breakable": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes equipar esto usando `~>equip <item name>`",
         "success_potion": "%1$sHas comprado %2$,d %3$s por %4$,d créditos. Ahora tienes %5$,d créditos. Puedes usar esta poción o buffeo usando `~>useitem <item name>`",
-        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos."
+        "not_enough_money": "%1$sNo tienes suficiente dinero para comprar este ítem. Actual: %2$,d creditos, Necesitas: %3$,d cŕeditos.",
+        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
       },
       "header": "La tiendita de Mantaro",
       "reference": "\nPuedes comprar y vender items usando `~>buy <item>` y `~>sell <item>`. Revisa `~>help market` para maś información. Además, puedes ver listas categorizadas ahí, tal como `~>market tools`",
@@ -966,7 +967,7 @@
         "not_equipped": "%1$sNo tienes nada equipado en este slot.",
         "no_content": "%1$sDebe especificar un tipo de herramienta para desequipar, puede ser `pick, axe, rod`",
         "invalid_type": "%1$sTipo inválido. Los tipos válidos son `pick, axe, rod`",
-        "confirm": "%1$sEstás seguro que quieres **desequipar** you %2$s %3$s? Escribe `yes` para confirmar, `no` para cancelar.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sCorrectamente desequipado tu slot de %2$s.",
         "equipment_recover": "\n¡Ya que nunca has usado tu equipamiento, recibiste tu %1$s de vuelta!",
         "broken_equipment_recover": "\nTu equipamiento estaba usado, pero recibiste un %1$s de vuelta, ¡puedes repararlo si lo necesitas después!",
