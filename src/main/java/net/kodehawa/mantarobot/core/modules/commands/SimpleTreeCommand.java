@@ -124,7 +124,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
      * @param commandName the Name of the not-found command.
      */
     public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
-        ctx.sendStripped(String.format("%1$sI didn't find this subcommand. Check `~>help %2$s` for available subcommands", EmoteReference.ERROR, mainCommand));
+        ctx.sendStripped(String.format("%1$sI didn't find this subcommand. Check `~>help %2$s` for a list of available subcommands", EmoteReference.ERROR, mainCommand));
         return null;
     }
 }

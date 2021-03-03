@@ -35,8 +35,6 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
@@ -44,13 +42,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 @Module
 public class MiscCmds {
-    private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
-    private final Random rand = new Random();
     private final Pattern pollOptionSeparator = Pattern.compile(",\\s*");
 
     public static void iamFunction(String autoroleName, Context ctx) {
@@ -291,25 +286,6 @@ public class MiscCmds {
                         .build();
             }
         });
-    }
-
-    @Subscribe
-    public void randomFact(CommandRegistry cr) {
-        cr.register("randomfact", new SimpleCommand(CommandCategory.UTILS) {
-            @Override
-            protected void call(Context ctx, String content, String[] args) {
-                ctx.send(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1)));
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Sends a random fact.")
-                        .build();
-            }
-        });
-
-        cr.registerAlias("randomfact", "rf");
     }
 
     @Subscribe
