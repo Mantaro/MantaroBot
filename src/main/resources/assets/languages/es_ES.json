@@ -154,9 +154,9 @@
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de pesca."
       },
       "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no pudiste recogerlos y los devolviste al agua.",
-      "success": "%1$s Mientras pescabas calmadamente, encontraste %2$s y los guardas en tu tarro.",
-      "success_money": "%1$sMientras pescabas calmadamente, encontraste %2$s y **$%3$d créditos** y los guardas en tu tarro.%4$s",
-      "success_money_noitem": "%1$s Mientras pescabas calmadamente, encontraste **$%2$d créditos** y los guardas en tu bolsillo.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :(",
       "waifu_help": "Tu waifu te vino a ayudar en tu aventura de pesca y ambos colectan más loot!",
       "not_suitable": "%1$sNo puedes usar esto para pescar.",
@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDame una waifu para puntuar!",
-      "success": "%1$sLe doy una puntuación a %2$s de **%3$d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sConseguiste **%2$d**%3$s",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sTu zona horaria fue reiniciada correctamente."
       },
       "description": {
-        "no_argument": "%1$s¡Necesitas darme un argumento! (set o remove)\nPor ejemplo, ~>profile description set ¡Holi por ahí!",
-        "no_content": "%1$sNo especificaste qué quieres en tu descripción.\nPor ejemplo, ~>profile description set Hola mundo!",
-        "too_long": "%1$s¡La descripción es muy larga! `(Límite de 300 carácteres para todos y de 500 carácteres para usuarios premium)`",
-        "success": "%1$sEstablecida la descripción de tu perfil como: **%2$s**\nRevisa tu nuevo perfil usando `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sCorrectamente limpiada tu descripción de tu perfil."
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**Cumpleaños en %1$s para el mes %2$s**\nLa caché se actualiza cada 23 horas, así que si tu cumpleaños no aparece aquí, no te asustes y espera un poco. Se muestran hasta 100 resultados.\n",
       "full_header": "**Cumpleaños en %1$s**\n%2$s\nLa caché se actualiza cada 23 horas, así que si tu cumpleaños no aparece aquí, no te asustes y espera un poco, y además tienes que usar `~>birthday allowserver` si quieres que se muestre aquí. Se muestran hasta 100 resultados.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEse no es un número de mes válido! (Meses válidos son números del 1 al 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
@@ -2591,7 +2591,7 @@
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
       "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable.",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
   },
   "test": {

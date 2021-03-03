@@ -154,9 +154,9 @@
         "success": "%1$sDu hast das automatische Ersetzen von kaputten Werkzeugen aktiviert, also habe ich dir eine neue **%2$s** in deinem Angelslot ausgerüstet."
       },
       "overflow": "%1$sDu hast Fische gefangen, aber dein Inventar war voll, also mussten wir sie ins Wasser werfen.",
-      "success": "%1$s Während du ruhig angelst findest du %2$s und lagerst den Fund in deinem Fischeimer.",
-      "success_money": "%1$s Während du ruhig angelst findest du %2$s und **$%3$d Credits** und du bewahrst deinen Fund in deinem Eimer auf.%4$s",
-      "success_money_noitem": "%1$s Während du ruhig angelst findest du **$%2$d Credits** und sammelst das Geld in deiner Tasche.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sDeine Angelrute brach beim Versuch, einen Fisch zu fangen. :(",
       "waifu_help": "Deine Waifu kam und gesellte sich zu deinem Angelabenteuer dazu und ihr habt beide eine größere Beute erhalten!",
       "not_suitable": "%1$sDu kannst das nicht zum Fischen benutzen.",
@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGib mir eine Waifu zum Bewerten!",
-      "success": "%1$sIch bewerte %2$s mit einer **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sDu würfelst eine **%2$,d**%3$s",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sZeitzone erfolgreich zurückgesetzt."
       },
       "description": {
-        "no_argument": "%1$sSie müssen ein Argument angeben! (set (setzen) oder remove (entfernen))\nzum Beispiel, ~>profile description set Hallo du da!",
-        "no_content": "%1$sDu hast nicht angegeben, was du in deiner Beschreibung haben möchtest.\nZum Beispiel, ~>profile description set Hallo!",
-        "too_long": "%1$sDie Beschreibung ist zu lang! `(Limit von 300 Zeichen für alle und 500 für Premium-Nutzer)`",
-        "success": "%1$sDeine Beschreibung ist nun: **%2$s**\nÜberprüfe dein glänzendes neues Profil mit `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sBeschreibung erfolgreich gelöscht."
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**%1$ss Geburtstage für %2$s**\nDer Geburtstagscache wird alle 23 Stunden aktualisiert, sollte dein Geburtstag nicht auftauchen brauchst du dich also nicht zu erschrecken, sondern nur warten. Zeigt bis zu 100 Ergebnisse.\n",
       "full_header": "**%1$ss Geburtstage**\n%2$s\nBeachte, dass Geburtstage alle 23 Stunden gecached werden, und dass Nutzer den Befehl `~>birthday allowserver` ausführen müssen. Zeigt bis zu 100 Ergebnisse.",
       "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
-      "error_date": "%1$s%2$s ist entweder kein valides Datum, oder ich kann es nicht richtig verarbeiten. Bitte versuche es mit dem korrekten Format erneut.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
       "no_content": "%1$sDu musst deinen Geburtstag, `remove` zum Zurücksetzen oder `month` zum Überprüfen der Geburtstage des aktuellen Monats angeben. Damit dann dein Geburtstag auf diesem Server angekündigt wird, musst du noch `~>birtday allowserver` nutzen",
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sDu hast Zeug während dem Fällen gefunden, jedoch konntest du von manchen Gegenständen nicht mehr mitnehmen, also mussten wir ein paar weglassen.",
-      "success_only_item": "%1$sWährend dem Fällen von Bäumen findest du %2$s und verstaust dies in deinem Inventar.",
-      "success": "%1$sWährend dem Fällen von Bäumen findest du %2$s und **$%3$d Credits** und verstaust dies in deinem Inventar.",
-      "success_money_noitem": "%1$sWährend dem Fällen von Bäumen findest du **$%2$d Credits** und verstaust diese in deiner Tasche."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
@@ -2591,7 +2591,7 @@
       "broken_hellfire_axe": "Eine Höllenfeueraxt, die während dem Hacken erloschen ist. Reparierbar.",
       "broken_hellfire_rod": "Eine Höllenfeuerangel, die während dem Angeln erloschen ist. Reparierbar.",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
   },
   "test": {

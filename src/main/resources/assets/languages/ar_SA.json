@@ -154,9 +154,9 @@
         "success": "%1$sتم تجهيز **%2$s** تلقائيا في مكان الصيد الخاص بك."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sبينما كنت تصيد, وجدت %2$s وقررت الإحتفاظ به في الدلو الخاص بك.",
-      "success_money": "%1$sبينما كنت تصيد, وجدت %2$s و **$%3$d كريدت** وقررت الإحتفاظ بهم في الدلو الخاص بك.%4$s",
-      "success_money_noitem": "%1$sبينما كنت تصيد, وجدت **$%2$d credits** وقررت الإحتفاظ به في الدلو الخاص بك.",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sسنارة الصيد الخاصة بك انكسرت بينما كنت تحاول الصيد بها :(",
       "waifu_help": "الوايفو الخاص بك إنضم الى مغامرتك بالصيد وجمعيكم حصلتو على غنيمة أكبر!",
       "not_suitable": "%1$sلايمكنك استخدام هذا للصيد.",
@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sأعطني وايفو لأُقيمه!",
-      "success": "%1$sانا اقيم %2$s مع **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$s حصلت على **%2$,d**%3$s",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sتم بنجاح إعادة تعيين المنطقة الزمنية."
       },
       "description": {
-        "no_argument": "%1$s أنت بحاجة إلى تقديم حجة! (وضع أو إزالة)، مثال: \n~>profile description set Hi there!",
-        "no_content": "%1$sلم تُحدد ماذا تريد أن تضع ك وصف لحسابك. \nمثال: ~>profile description set Hi there!",
-        "too_long": "%1$sوصف الحساب طويل جداً! \nالحد: `(300 حرف لجميع الأعضاء و 500 حرف لأعضاء البريميوم فقط)`",
-        "success": "%1$sوضع وصف إلى: **%2$s**\nتفقد وصف حسابك `~>profile`",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sتم بنجاح مسح وصف الحساب. "
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sرقم الشهر غير صالح! (الأرقام الصحيحة من 1 إلى 12)",
       "no_content": "%1$sيجب عليك تحديد تاريخ ميلادك, `remove` لإعادة ضبط تاريخ ميلادك أو `month` لعرض اعياد الميلاد بهذا الشهر. للسماح لهذا السيرفر بالاعلان عن عيد ميلادك, يجب عليك استعمال الأمر \n`~>birthday allowserver`",
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$d credits** and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$d credits** and proceed to save them into your pocket."
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
@@ -2591,7 +2591,7 @@
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
       "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable.",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
   },
   "test": {

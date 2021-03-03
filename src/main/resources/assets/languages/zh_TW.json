@@ -154,9 +154,9 @@
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
-      "success": "%1$s在安靜的釣魚時，你找到了%2$s且把它們放到水桶裡了。",
-      "success_money": "%1$s在安靜的釣魚時，你找到了%2$s和**%3$d元**。%4$s",
-      "success_money_noitem": "%1$s在安靜的釣魚時，你找到了**%2$d元**且把它們放進口袋裡了。",
+      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$s給我一位Waifu來評分！",
-      "success": "%1$s我給 %2$s **%3$,d/100**"
+      "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sYou got **%2$,d**%3$s",
@@ -889,10 +889,10 @@
         "reset_success": "%1$s時區已重設。"
       },
       "description": {
-        "no_argument": "%1$s你需要提供參數！(set 或 remove)\n範例：~>profile description set Hi there!",
-        "no_content": "%1$s你需要指出你的個人簡介。\n範例：~>profile description set Hi there!",
-        "too_long": "%1$s簡介過長！`(一般用戶最多300字元，Premium用戶為500字元)`",
-        "success": "%1$s已設定簡介為：**%2$s**\n用 `~>profile` 來查看你的新簡介",
+        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
+        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
+        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
@@ -1056,7 +1056,7 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$s%2$s is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1754,9 +1754,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
-      "success_only_item": "%1$s你在伐木時找到了%2$s且把他們放進背包裡了。",
-      "success": "%1$s你在伐木時找到了%2$s和**%3$d元**。",
-      "success_money_noitem": "%1$s你在伐木時找到了**%2$d元**且把他們放進口袋裡了。"
+      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
+      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
+      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
     },
     "slots": {
       "errors": {
@@ -2591,7 +2591,7 @@
       "broken_hellfire_axe": "挖礦時熄滅了的地獄斧頭。還是可回收的。",
       "broken_hellfire_rod": "挖礦時熄滅了的地獄釣竿。還是可回收的。",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate premium chop crate`"
+      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
     }
   },
   "test": {
