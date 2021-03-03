@@ -60,38 +60,6 @@ import java.util.stream.Collectors;
 public class UtilsCmds {
     private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?h|(?m|(?s)]+$");
     private static final Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
-    private static final Random random = new Random();
-
-    @Subscribe
-    public void choose(CommandRegistry registry) {
-        registry.register("choose", new SimpleCommand(CommandCategory.UTILS) {
-            @Override
-            public void call(Context ctx, String content, String[] args) {
-                if (args.length < 1) {
-                    ctx.sendLocalized("commands.choose.nothing_to", EmoteReference.ERROR);
-                    return;
-                }
-
-                var send = Utils.DISCORD_INVITE.matcher(args[random.nextInt(args.length)]).replaceAll("-inv link-");
-                send = Utils.DISCORD_INVITE_2.matcher(send).replaceAll("-inv link-");
-                ctx.sendStrippedLocalized("commands.choose.success", EmoteReference.EYES, send);
-            }
-
-            @Override
-            public String[] splitArgs(String content) {
-                return StringUtils.advancedSplitArgs(content, -1);
-            }
-
-            @Override
-            public HelpContent help() {
-                return new HelpContent.Builder()
-                        .setDescription("Choose between 2 or more things.")
-                        .setUsage("`~>choose <parameters>`")
-                        .addParameter("parameters", "The parameters. Example `pat hello \"go watch the movies\"`.")
-                        .build();
-            }
-        });
-    }
 
     @Subscribe
     public void remindme(CommandRegistry registry) {
