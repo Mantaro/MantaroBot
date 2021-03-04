@@ -210,8 +210,7 @@ public class AnimeCmds {
 
         final var player = MantaroData.db().getPlayer(event.getAuthor());
         final var badge = APIUtils.getHushBadge(title, Utils.HushType.ANIME);
-        if (badge != null) {
-            player.getData().addBadgeIfAbsent(badge);
+        if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
             player.saveUpdating();
         }
 
@@ -260,11 +259,9 @@ public class AnimeCmds {
             }
 
             var player = MantaroData.db().getPlayer(event.getAuthor());
-            var badge =
-                    APIUtils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
+            var badge = APIUtils.getHushBadge(charName.replace(japName, "").trim(), Utils.HushType.CHARACTER);
 
-            if (badge != null) {
-                player.getData().addBadgeIfAbsent(badge);
+            if (badge != null && player.getData().addBadgeIfAbsent(badge)) {
                 player.saveUpdating();
             }
 

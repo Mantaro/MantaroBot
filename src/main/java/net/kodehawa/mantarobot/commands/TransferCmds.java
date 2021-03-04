@@ -329,10 +329,8 @@ public class TransferCmds {
                         .setUsage("`~>itemtransfer <@user> <item> <amount>` *or* " +
                                 "`~>itemtransfer <item> <@user> <amount>` - Transfers the item to a user.")
                         .addParameter("@user", "User mention or name.")
-                        .addParameter("item",
-                                "The item emoji or name. If the name contains spaces \"wrap it in quotes\"")
-                        .addParameter("amount", "" +
-                                "The amount of items you want to transfer. This is optional.")
+                        .addParameter("item", "The item emoji or name. If the name contains spaces \"wrap it in quotes\"")
+                        .addParameter("amount", "The amount of items you want to transfer. This is optional.")
                         .build();
             }
         });

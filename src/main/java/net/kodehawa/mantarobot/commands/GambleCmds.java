@@ -411,7 +411,6 @@ public class GambleCmds {
                 if (gains >= 4_950L) {
                     if (!data.hasBadge(Badge.GAMBLER)) {
                         data.addBadgeIfAbsent(Badge.GAMBLER);
-                        player.saveUpdating();
                     }
                 }
 

@@ -127,8 +127,9 @@ public class PremiumCmds {
                     }
 
                     if (ctx.getAuthor().getId().equals(key.getOwner())) {
-                        player.getData().addBadgeIfAbsent(Badge.DONATOR_2);
-                        player.saveUpdating();
+                        if (player.getData().addBadgeIfAbsent(Badge.DONATOR_2)) {
+                            player.saveUpdating();
+                        }
                     }
 
                     //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
