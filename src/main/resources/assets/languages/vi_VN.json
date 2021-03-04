@@ -13,7 +13,7 @@
     "daily": "Hàng ngày",
     "total": "Tổng",
     "arrow_react": "Sử dụng các biểu tượng cảm xúc hình mũi tên để chuyển trang.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
+    "text_menu": "Dùng &p>> và &p<< để chuyển trang và &cancel để kết thúc.",
     "not_found": "Không tìm thấy",
     "no_results": "Không có kết quả.",
     "timeout": "Sẽ hết thời gian trong %1$d giây nữa.",
@@ -25,20 +25,20 @@
     "options": "Tuỳ chọn",
     "find_members_failure": "%1$sKhông tìm thấy thành viên nào với tiêu chí tìm kiếm của bạn :(",
     "too_many_members": "%1$s Tìm thấy quá nhiều người dùng, bạn có muốn sửa từ khóa tìm kiếm không? (ví dụ: tên người dùng#số hiệu)\n**số người được tìm thấy:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
+    "too_many_mentions": "%1$sHãy chỉ nhắc đến một người khi tra cứu thành viên.",
+    "query_too_small": "%1$s Câu tìm kiếm của bạn quá ngắn. Hãy chắc chắn rằng yêu cầu của bạn có ít nhất 4 kí tự. Nếu tên người dùng quá ngắn, tốt nhất bạn nên dùng tên người dùng #số phân biệt hoặc dùng id người dùng.",
     "dust": "Ở đây chỉ có bụi.",
     "invalid_syntax": "Cú pháp không hợp lệ.",
     "item_lookup": {
       "no_item_emoji": "Không có đồ nào phù hợp với biểu biểu tượng này.",
       "no_item_name": "Không có đồ nào phù hợp với tên này.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "Không thể tìm thấy bất kì vật nào liên quan đến tìm kiếm của bạn.\nNếu bạn đang lúng túng, hãy thử sử dụng tên ngắn, ví dụ như với `Nước tăng lực`, hãy dùng `tăng lực`. Hoặc cho tên vào ngoặc kép.",
       "claim_key": "Bạn không thể chuyển giao chìa khoá xác nhận."
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
+      "mop": "%1$sBạn đã dọn sạch được toàn bộ lượng bụi mà bạn tích lũy từ những lần khai thác trước.",
+      "mop_not_enough": "%1$sMức độ bám bụi của bạn ít hơn 5%%, vì vậy lau dọn sẽ không quá hữu ích.",
+      "milk": "%1$sXóa bỏ hết tất cả các công dụng của thuốc.",
       "stamina": "%1$s Kích hoạt thể lực cho 3 phiên khai thác.",
       "stamina_used": "%1$s Bạn đã bật hiệu ứng thể lực!",
       "haste": "%1$s Kích hoạt thuốc năng suất cho 2 phiên.",
@@ -49,7 +49,7 @@
       "pill_used": "%1$s Bạn đã uống viên con nhộng waifu rồi!",
       "crate": {
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_crate": "%1$sBạn cần phải có hòm! Bạn thường sẽ nhận được hòm từ các lệnh tiền tệ.",
         "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Nhưng bạn đã có quá nhiều đồ, vì vậy bạn cần quyết định vứt đồ thừa đi"
@@ -423,7 +423,7 @@
       },
       "raw": {
         "no_command": "%1$sBạn cần phải cho tôi biết bạn muốn xem lệnh nào.",
-        "not_found": "%1$sI can't find that command.",
+        "not_found": "%1$sTôi không thể tìm thấy lệnh này.",
         "header": "Lệnh tùy chỉnh thô: %1$s",
         "amount": "(Hiển thị phản hồi %1$d của %2$d)",
         "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
@@ -870,7 +870,7 @@
       "too_long": "%1$sThis was too long to show. Try with less options?",
       "header": "Cuộc khảo sát #%1$d được tạo bởi %2$s",
       "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
-      "time": "You have %1$s to vote.",
+      "time": "Bạn có %1$s để bình chọn.",
       "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
       "result_header": "Kết quả cuộc khảo sát",
       "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
@@ -952,7 +952,7 @@
         "never": "Không bao giờ"
       },
       "hide_tag": {
-        "success": "%1$sTag hidden status is now: `%2$s`"
+        "success": "%1$sTrạng thái ẩn đề cập giờ là: `%2$s`"
       },
       "equip": {
         "no_content": "%1$sBạn cần nói rõ đồ bạn muốn trang bị!",
@@ -1145,8 +1145,8 @@
       "wrong_args": "%1$sWrong arguments...",
       "patreon": "Pledge",
       "linked": "Linked",
-      "linked_to": "Linked to",
-      "keys_claimed": "Extra Keys Claimed"
+      "linked_to": "Liên kết đến",
+      "keys_claimed": "Đã nhận thêm chìa khoá"
     },
     "support": {
       "info": "%1$sNếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ tại <https://support.mantaro.site> và hỏi câu hỏi của bạn tại kênh #support!"
@@ -1175,7 +1175,7 @@
         "stare": "*nhìn chằm chằm vào bạn*",
         "holdhands": "*nắm tay bạn*",
         "cuddle": "*âu yếm bạn*",
-        "nuzzle": "*nuzzles you*",
+        "nuzzle": "*áp vào bạn*",
         "blush": "*blushes at you*",
         "bloodsuck": "J-Just how am I meant to? Oh well.. *sucks your blood*"
       },
@@ -1214,7 +1214,7 @@
       "stare": "%1$s đang nhìn chằm chằm vào %2$s",
       "holdhands": "%1$s đang nắm tay %2$s",
       "cuddle": "%1$s đã được %2$s âu yếm",
-      "nuzzle": "%1$s is nuzzling %2$s",
+      "nuzzle": "%1$s đang áp má %2$s",
       "bloodsuck": "%1$s is sucking the blood of %2$s!",
       "blush": "%1$s is blushing at %2$s",
       "nom": "Trông ngon miệng quá.",
@@ -1234,8 +1234,8 @@
         "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
       },
       "trivia": {
-        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
-        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
+        "wrong_diff": "%1$sĐề cập sai độ khó! (Độ khó hiện có: easy (dễ), medium (bình thường) và hard(khó))",
+        "fetch_error": "%1$sLỗi khi khởi động trivia. Có vẻ nguồn dữ liệu của Trivia đang có vấn đề.",
         "possibilities": "Khả năng",
         "difficulty": "Độ khó",
         "category": "Phân loại"
