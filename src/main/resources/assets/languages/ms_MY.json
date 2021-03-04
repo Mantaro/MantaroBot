@@ -395,9 +395,9 @@
       "footer": "Terima kasih kerana menggunakan Mantaro! Halaman: %1$d, Jumlah: %2$d."
     },
     "prefix": {
-      "header": "%1$sPrefix yang default ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
-      "guild_prefix": "Prefix pelayan ialah `%1$s` (Hanya berfungsi di pelayan ini)",
-      "none": "Tiada prefix kustom yang ditetapkan di pelayan ini."
+      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "none": "There's no custom prefix set on this server."
     },
     "custom": {
       "no_args": "%1$sAnda perlu menyatakan apa yang anda hendak buat dengan arahan ini. Periksa arahan help untuk mendapatkan maklumat lanjut!",
@@ -989,7 +989,7 @@
         "already_locked": "%1$sAnda sudah dikunci tuntutan. Gunakan `~>profile claimlock remove` untuk memadamkannya."
       },
       "autoequip": {
-        "disable": "%1$sPasangan auto telah dipadamkan.",
+        "disable": "%1$sSuccesfully disabled auto-equip.",
         "success": "%1$sPasangan auto telah diaktifkan."
       },
       "badge_header": "%1$s Lencana Paparan",
@@ -1153,8 +1153,8 @@
     },
     "action": {
       "no_mention": "%1$sAnda perlu menyebut seorang pengguna.",
-      "no_mention_disabled": "%1$sSetelah menapis ahli yang telah melarang tindakan, tiada lagi pengguna yang dapat anda lakukan tindakan ini kepadanya :(",
-      "actions_disabled": "%1$sPengguna ini telah melarang tindakan pada dirinya.",
+      "no_mention_disabled": "%1$sAfter filtering members that have actions disabled, there were no users left to run this action on :(",
+      "actions_disabled": "%1$sThis user has disabled actions for themselves.",
       "filtered": "%1$sBeberapa pengguna telah ditapis kerana mereka melarang tindakan yang dilakukan pada diri mereka.",
       "error_retrieving": "%1$sSaya menjumpai ralat semasa mendapatkan gif seterusnya bagi tindakan ini... (ralat luaran, mungkin WeebAPI tergendala?)",
       "no_type": "%1$sArahan ini tiada jenis. (ralat dalaman)",
@@ -1274,7 +1274,7 @@
       "character_request_error": "%1$sRalat semasa memohon watak ini dari API Kitsu.",
       "character_start": "Teka watak tersebut",
       "too_many_games": "%1$sAnda boleh memulakan maksimum 4 permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: 8)",
-      "disabled_multiple": "%1$sPelayan ini telah melarang permainan berkali-kali/lobi."
+      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
       "no_crate": "%1$sAnda tidak mempunyai peti loot berjenis ini (%2$s) untuk dibuka. (Sekiranya anda ingin membuka sebuah peti selain jenis default, gunakan nama peti selepas arahan tersebut. Jika anda ingin menggunakan inventori bermusim, tambahkan `-s`)",
@@ -1551,7 +1551,7 @@
       "vc": "Saluran Suara",
       "color": "Warna",
       "status": "Status",
-      "nothing": "Tiada",
+      "nothing": "Nothing",
       "default": "Default"
     },
     "roleinfo": {
@@ -1576,8 +1576,8 @@
       "base": "**Senarai arahan lengkap**. Untuk panduan terperinci, sila periksa [wiki] Kami (https://github.com/Mantaro/MantaroBot/wiki).\nIngat, anda boleh mendapatkan maklumat lanjut tentang sesuatu arahan menggunakan `~>help <nama arahan>`\n",
       "support": "Sekiranya anda masih tersesat anda boleh menyertai [pelayan sokongan](https://support.mantaro.site). Anda juga boleh mengikuti saya di [Twitter](https://twitter.com/mantarodiscord) untuk kemas kini.\n",
       "patreon": "**[Kami memerlukan bantuan anda untuk memastikan Mantaro terus hidup! Klik sini untuk maklumat lanjut.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Hanya memaparkan arahan bukan dilarang. Jumlah arahan dilarang: %1$s",
-      "channel_specific_disabled_commands": "\nHanya memaparkan arahan bukan dilarang. Jumlah arahan dilarang yang bersaluran-spesifik: %1$s",
+      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
+      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
       "footer": "Terima kasih kerana menggunakan Mantaro %1$s (Jumlah Arahan: %2$s)",
       "commands": "Arahan",
       "extended": {
@@ -1842,8 +1842,8 @@
       "success": "%1$sPilihan anda ditetapkan semula dengan betul!"
     },
     "server_command_disallow": {
-      "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda larang pada pelayan ini.",
-      "success": "%1$s%2$s telah dilarang pada pelayan ini."
+      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
+      "success": "%1$sDisabled %2$s on this server."
     },
     "server_command_allow": {
       "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda membenarkan pada pelayan ini.",
@@ -1851,7 +1851,7 @@
     },
     "server_command_specific_disallow": {
       "invalid": "%1$sAnda haruslah menyatakan nama saluran dan arahan yang ingin anda melarang.",
-      "success": "%1$s%2$s telah dilarang pada saluran #%3$s."
+      "success": "%1$sDisabled %2$s on channel #%3$s."
     },
     "server_command_specific_allow": {
       "invalid": "%1$sAnda perlu menyatakan nama saluran dan arahan yang ingin dibenarkan.",
@@ -1859,7 +1859,7 @@
     },
     "server_channel_disallow": {
       "no_channel": "%1$sAnda perlu menyatakan saluran di mana anda mahu melarang bot mendengar arahan.",
-      "too_many": "%1$sAnda tidak boleh melarang lebih banyak saluran lagi kerana bot tidak akan dapat bercakap :(",
+      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
       "success": "%1$sSaluran %2$s tidak akan mendengar arahan lagi."
     },
     "server_channel_allow": {
@@ -1867,46 +1867,46 @@
       "success": "%1$sKini, saluran %2$s akan mendengar arahan."
     },
     "category_disable": {
-      "no_category": "%1$sAnda perlu menyatakan kategori untuk dilarang.",
-      "already_disabled": "%1$sKategori ini sudah dilarang.",
-      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia akan melarang arahan opts.",
-      "success": "%1$sKategori `%2$s` telah dilarang"
+      "no_category": "%1$sYou need to specify a category to disable.",
+      "already_disabled": "%1$sKategori ini sudah dimatikan.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
+      "success": "%1$sDisabled category `%2$s`"
     },
     "category_enable": {
       "no_category": "%1$sAnda perlu menyatakan kategori untuk dibenarkan.",
       "success": "%1$sKategori `%2$s` telah dibenarkan"
     },
     "category_specific_disable": {
-      "invalid": "%1$sAnda perlu menyatakan kategori untuk dilarang dan saluran mana.",
-      "already_disabled": "%1$sKategori ini sudah dilarang.",
-      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia akan melarang arahan opts.",
-      "success": "%1$sKategori `%2$s` telah dilarang pada saluran %3$s"
+      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
+      "already_disabled": "%1$sKategori ini sudah dimatikan.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
+      "success": "%1$sDisabled category `%2$s` on channel %3$s"
     },
     "category_specific_enable": {
       "invalid": "%1$sAnda perlu menyatakan kategori untuk dibenarkan dan saluran mana.",
       "invalid_channel": "%1$sItu bukan saluran yang sah!",
-      "not_disabled": "%1$sKategori ini tidak dilarang.",
+      "not_disabled": "%1$sThis category isn't disabled.",
       "success": "%1$sKategori `%2$s` telah dibenarkan pada saluran %3$s"
     },
     "server_role_specific_disallow": {
       "invalid": "%1$sAnda memerlukan peranan dan arahan untuk dilarang!",
-      "already_disabled": "%1$sArahan ini sudah dilarang bagi peranan spesifik tersebut.",
+      "already_disabled": "%1$sThis command was already disabled for the specified role.",
       "success": "%1$sBerjaya melarang arahan `%2$s` bagi peranan `%3$s`"
     },
     "server_role_specific_allow": {
       "invalid": "%1$sAnda memerlukan peranan dan arahan untuk dibenarkan!",
-      "not_disabled": "%1$sArahan ini tidak dilarang bagi peranan spesifik tersebut.",
+      "not_disabled": "%1$sThis command wasn't disabled for this role.",
       "success": "%1$sBerjaya membenarkan arahan `%2$s` bagi peranan `%3$s`"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sAnda perlu menyatakan kategori untuk dilarang dan peranan yang mana.",
-      "already_disabled": "%1$sKategori ini sudah dilarang.",
-      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia mengandungi arahan ini.",
-      "success": "%1$sKategori `%2$s` telah dilarang bagi peranan %3$s"
+      "invalid": "%1$sYou need to specify a category to disable and the role to.",
+      "already_disabled": "%1$sThis category is already disabled.",
+      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
+      "success": "%1$sDisabled category `%2$s` for role %3$s"
     },
     "category_role_specific_enable": {
       "invalid": "%1$sAnda perlu menyatakan peranan untuk dibenarkan dan saluran mana.",
-      "not_disabled": "%1$sKategori ini tidak dilarang.",
+      "not_disabled": "%1$sThis category isn't disabled.",
       "success": "%1$sKategori `%2$s` telah dibenarkan bagi peranan %3$s"
     },
     "fairqueue_max": {
