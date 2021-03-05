@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.FishRod;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Pickaxe;
+import net.kodehawa.mantarobot.commands.currency.item.special.tools.Wrench;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -640,9 +641,7 @@ public class MarketCmd {
             }
 
             var value = itemToBuy.getValue() * itemNumber;
-            var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(value) :
-                    player.removeMoney(value);
-
+            var removedMoney = isSeasonal ? seasonalPlayer.removeMoney(value) : player.removeMoney(value);
             if (removedMoney) {
                 playerInventory.process(new ItemStack(itemToBuy, itemNumber));
                 player.getData().addBadgeIfAbsent(Badge.BUYER);
@@ -665,7 +664,8 @@ public class MarketCmd {
                     message = "commands.market.buy.success_potion";
                 }
 
-                if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.nextBoolean() && player.getLevel() <= 5) {
+                if (itemToBuy instanceof Attribute && !(itemToBuy instanceof Wrench) &&
+                        ((Attribute) itemToBuy).getTier() == 1 && random.nextFloat() <= 0.20 && player.getLevel() <= 5) {
                     warn += EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
                 }
 
