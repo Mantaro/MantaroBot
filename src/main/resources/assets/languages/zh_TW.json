@@ -961,12 +961,12 @@
         "success": "%1$s成功裝備了 %2$s *%3$s*，下次你使用相對應的貨幣指令時，該物品將會自動被選擇。",
         "not_suitable": "%1$s你無法裝備這個。",
         "not_equipped": "%1$s你尚未裝備這個。",
-        "already_equipped": "%1$s你已經裝備了這種類型的物品！如果你想要取消裝備他的話，使用 `~>unequip <類型>` (類型可以是鎬/魚竿或斧)。"
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
-        "no_content": "%1$s你需要指出你想取消裝備的類型，類型有 `鎬/魚竿/斧`",
-        "invalid_type": "%1$s類型無效。有效類型為 `pick, axe, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$s已取消裝備你的%2$s欄位。",
         "equipment_recover": "\n由於你從未使用過這個裝備，你拿回了你的%1$s！",
