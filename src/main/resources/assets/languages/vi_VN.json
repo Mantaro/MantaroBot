@@ -48,7 +48,7 @@
       "pill": "%1$s Bạn đã uống một viên con nhộng waifu! (Có tác dụng trong 5 phiên)",
       "pill_used": "%1$s Bạn đã uống viên con nhộng waifu rồi!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
+        "no_key": "%1$sBạn cần có 1 chiếc chìa khóa để mở cái hòm này. Nó bị khóa rồi! Bạn có thể mua một cái bằng lệnh `~>buy key`",
         "no_crate": "%1$sBạn cần phải có hòm! Bạn thường sẽ nhận được hòm từ các lệnh tiền tệ.",
         "success": "%1$s Bạn đã mở hòm và nhận được: %2$s%3$s. Chúc mừng!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
@@ -568,11 +568,11 @@
         "empty": "%1$sBạn không thể để trống bức thư tình.",
         "no_marriage": "%1$sBạn chưa cưới, bạn không thể viết thư tình cho bản thân được...",
         "not_proposing_player": "%1$sBạn không phải là người được cầu hôn ở đây!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
         "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ trong suốt cuộc hôn nhân. *Nội dung:*%4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
         "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ viết, không cần phải vội!"
       },
       "status": {
@@ -961,12 +961,12 @@
         "success": "%1$sBạn đã trang bị thành công %2$s *%3$s*, và sẽ được ghi nhớ vào lần tiếp theo bạn sử dụng lệnh liên quan đến món đồ này.",
         "not_suitable": "%1$sBạn không thể trang bị đồ này.",
         "not_equipped": "%1$sBạn không có đồ trang bị này.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sĐã tháo trang bị thành công %2$s.",
         "equipment_recover": "\nDo bạn chưa từng sử dụng đồ trang bị này, nên bạn đã có lại được %1$s!",
@@ -1078,7 +1078,7 @@
         "success": "%1$sĐã xoá ghi chú của bạn.",
         "select": "Chọn ghi chú bạn muốn xoá."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
@@ -1492,7 +1492,7 @@
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
@@ -1501,22 +1501,22 @@
       }
     },
     "stats": {
-      "header": "Mantaro Statistics",
+      "header": "Các thông số của Mantaro",
       "description": "Ừ thì... Tôi đã làm toán của tôi!",
       "usage": {
         "header": "Mantaro's usage information",
         "description": "Hardware and usage information.",
-        "threads": "Threads",
-        "memory_usage": "Memory Usage",
-        "cores": "CPU Cores",
-        "cpu_usage": "CPU Usage",
+        "threads": "Các chủ đề",
+        "memory_usage": "Bộ nhớ sử dụng",
+        "cores": "Số lõi CPU",
+        "cpu_usage": "Tình trạng CPU",
         "assigned_mem": "Assigned Memory",
         "assigned_remaining": "Remaining from assigned"
       },
       "server": {
         "header": "Mantaro's server usage information",
-        "cpu_usage": "CPU Usage",
-        "rem": "RAM (TOTAL/FREE/USED)"
+        "cpu_usage": "Tình trạng CPU",
+        "rem": "RAM (TỔNG/CÒN TRỐNG/ĐÃ SỬ DỤNG)"
       }
     },
     "social": {
@@ -1532,7 +1532,7 @@
       "footer": "Hopefully a very pretty one."
     },
     "serverinfo": {
-      "header": "Server Information",
+      "header": "Thông tin máy chủ",
       "description": "Thông tin cho máy chủ %1$s",
       "users": "Users",
       "created": "Ngày tạo",
@@ -1664,21 +1664,21 @@
           "normal": "Hơn 2 ngày đã trôi qua kể từ lần cuối bạn nhận tiền daily, nên chuỗi ngày `%1$dx` của bạn đã bị đặt lại :(",
           "watch": "Even your `Magical Watches` could not stop the flow for this long. Even after using all your owned magic watches your streak of `%1$dx` still ran out of time and got reset :("
         },
-        "bonus": "You won a bonus of $%1$s for claiming your daily for 5 days in a row or more! (Included on the money shown!)",
+        "bonus": "Bạn nhận được thêm $%1$s do có chuỗi ngày nhận bằng 5 hoặc hơn! (Đã được thêm vào số tiền hiển thị trên!)",
         "given": {
-          "up": "Streak up! Current streak: `%1$,dx`.\n*The streak was applied to your profile!*",
-          "bonus": "%1$s won a bonus of $%2$,d for claiming your daily for 5 days in a row or more! (Included on the money shown!)"
+          "up": "Tăng chuỗi ngày nhận! Chuỗi ngày nhận hiện tại: `%1$,dx`.\n*Chuỗi ngày nhận đã được cập nhật vào hồ sơ của bạn!*",
+          "bonus": "%1$s nhận được thêm $%2$,d do có chuỗi ngày nhận bằng 5 hoặc hơn! (Đã được thêm vào số tiền hiển thị trên!)"
         },
-        "watch_used": "Your `Magical Watches` saved your streak! You used `%1$d` of them to extend your streaks survival time to %2$dx, you have `%3$d` of them remaining!"
+        "watch_used": "`Đồng hồ thần kì` của bạn đã giữ chuỗi ngày nhận! Bạn đã dùng `%1$d` chiếc để kéo dài thời gian giữ chuỗi ngày nhận đến %2$dx, bạn còn `%3$d` chiếc!"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
-      "credits": "%1$sYou got **$%2$,d** daily credits.",
+      "given_credits": "%1$sTôi đã đưa **$%2$,d** tín của ngày hôm nay cho %3$s",
+      "credits": "%1$sBạn nhận được **$%2$,d** tín ngày hôm nay.",
       "sellout": {
         "get_premium": "We need your help to keep Mantaro alive! Check <https://patreon.com/mantaro> for more info. **You can get up to twice as many credits with Premium!** Memberships start at only $2/month, the price of cheap snack!",
         "already_premium": "Cảm ơn bạn vì đã hỗ trợ Mantaro. Nếu không có sự giúp đỡ từ những người như bạn, chúng tôi đã không thể giữ Mantaro hoạt động được :heart:"
       },
-      "crate": "You won a loot crate because your daily streak is a multiple of 20! Enjoy.",
-      "watch_get": "You won a `Magic Watch` because your daily streak is a multiple of 50! Enjoy."
+      "crate": "Bạn đã nhận được một hòm lục đồ do chuỗi nhận daily của bạn đạt bội số của 20! Chúc vui vẻ.",
+      "watch_get": "Bạn đã nhận được một `Đồng hồ thần kì` do chuỗi nhận daily của bạn đạt bội số của 50! Chúc vui vẻ."
     },
     "gamble": {
       "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
@@ -1732,7 +1732,7 @@
         "success": "Hurray! You found one %1$s sparkling gem. Make sure to keep it around, check your inventory."
       },
       "crate": {
-        "overflow": "You found a **%1$s** while mining, but you had too many and left it behind...",
+        "overflow": "Bạn đã tìm thấy một **%1$s** trong lúc đào, nhưng đã bỏ nó lại do có quá nhiều...",
         "success": "You found a %1$s **%2$s** while mining and pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key, which you can buy using `~>buy key`!"
       },
       "autoequip": {
@@ -1772,7 +1772,7 @@
         "no_valid_amount": "%1$sThat's not a valid amount of money! (Example of valid amounts: 1000, 1k, 14000)",
         "too_many_tickets": "%1$sYou're trying to use too many slot tickets. Maximum allowed is %2$d"
       },
-      "roll": "%1$s**You used %2$s and rolled the slot machine**\n",
+      "roll": "%1$s**Bạn đã dùng %2$s và quay máy sổ xố**\n",
       "win": "Và bạn đã thắng **%1$,d** tín và giữ được số tiền bạn cược (%2$,d tín)! Thật may mắn!",
       "lose": "Và bạn đã mất %1$s\nTôi hy vọng lần tới bạn sẽ làm tốt hơn!",
       "tickets": "(một số) vé xổ số",
@@ -1853,7 +1853,7 @@
     },
     "server_command_specific_disallow": {
       "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
-      "success": "%1$sDisabled %2$s on channel #%3$s."
+      "success": "%1$sĐã vô hiệu hoá lệnh %2$s ở kênh #%3$s."
     },
     "server_command_specific_allow": {
       "invalid": "%1$sYou need to specify the channel name and the command to allow.",
@@ -1870,45 +1870,45 @@
     },
     "category_disable": {
       "no_category": "%1$sYou need to specify a category to disable.",
-      "already_disabled": "%1$sThis category is already disabled.",
+      "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
       "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s`"
+      "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s`"
     },
     "category_enable": {
       "no_category": "%1$sYou need to specify a category to enable.",
       "success": "%1$sEnabled category `%2$s`"
     },
     "category_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
-      "already_disabled": "%1$sThis category is already disabled.",
+      "invalid": "%1$sBạn cần nói rõ nhóm lệnh bạn muốn vô hiệu hoá và kênh để làm việc đó.",
+      "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
       "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+      "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s` ở kênh %3$s"
     },
     "category_specific_enable": {
       "invalid": "%1$sYou need to specify a category to enable and the channel where.",
       "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sThis category isn't disabled.",
+      "not_disabled": "%1$sNhóm lệnh này không bị vô hiệu hoá.",
       "success": "%1$sEnabled category `%2$s` on channel %3$s"
     },
     "server_role_specific_disallow": {
       "invalid": "%1$sYou need the role and the command to disallow!",
-      "already_disabled": "%1$sThis command was already disabled for the specified role.",
+      "already_disabled": "%1$sLệnh này vốn đã bị vô hiệu hoá đối với vai trò được nhắc tới.",
       "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
     },
     "server_role_specific_allow": {
       "invalid": "%1$sYou need the role and the command to allow!",
-      "not_disabled": "%1$sThis command wasn't disabled for this role.",
+      "not_disabled": "%1$sLệnh này vốn không bị vô hiệu hoá đối với vai trò này.",
       "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the role to.",
-      "already_disabled": "%1$sThis category is already disabled.",
+      "invalid": "%1$sBạn cần nói rõ nhóm lệnh bạn muốn vô hiệu hoá và vai trò để làm việc đó.",
+      "already_disabled": "%1$sNhóm lệnh này vốn đã được vô hiệu hoá.",
       "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` for role %3$s"
+      "success": "%1$sĐã vô hiệu hoá nhóm lệnh `%2$s` đối với vai trò %3$s"
     },
     "category_role_specific_enable": {
       "invalid": "%1$sYou need to specify a role to enable and the channel where.",
-      "not_disabled": "%1$sThis category isn't disabled.",
+      "not_disabled": "%1$sNhóm lệnh này vốn không bị vô hiệu hoá.",
       "success": "%1$sEnabled category `%2$s` for role %3$s"
     },
     "fairqueue_max": {
@@ -2205,22 +2205,22 @@
     "logs_editmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
       "success": "%1$sMessage edit message set to: `%2$s`",
-      "reset_success": "%1$sReset logs edit message."
+      "reset_success": "%1$sĐã đặt lại cài đặt ghi chép chỉnh sửa tin nhắn."
     },
     "logs_deletemessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
       "success": "%1$sMessage delete message set to: `%2$s`",
-      "reset_success": "%1$sReset logs delete message."
+      "reset_success": "%1$sĐã đặt lại cài đặt ghi chép xoá tin nhắn."
     },
     "logs_banmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
+      "success": "%1$sTin nhắn ban được đặt thành: `%2$s`",
+      "reset_success": "%1$sĐã đặt lại cài đặt ghi chép tin nhắn ban thành viên."
     },
     "logs_unbanmessage": {
       "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
+      "success": "%1$sTin nhắn gỡ lệnh ban được đặt thành: `%2$s`",
+      "reset_success": "%1$sĐã đặt lại cài đặt ghi chép tin nhắn huỷ ban thành viên."
     },
     "djrole_set": {
       "no_role": "%1$sYou need to give me a role to use as the DJ role.",
@@ -2253,11 +2253,11 @@
     },
     "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
     "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
-    "invalid_role": "%1$sThat's not a valid role!"
+    "no_command": "%1$sKhông có lệnh %2$s",
+    "invalid_role": "%1$sĐó không phải là một vai trò hợp lệ!"
   },
   "discord_permissions": {
-    "create_instant_invite": "Create Instant Invite",
+    "create_instant_invite": "Tạo lời mời trực tiếp",
     "kick_members": "Khai trừ thành viên",
     "ban_members": "Cấm Thành Viên",
     "administrator": "Người Quản Lý",
@@ -2349,7 +2349,7 @@
     "booster": "Máy gia tốc",
     "berserk": "Berserk",
     "Companion": "Thú nuôi",
-    "special_ring": "Special Ring",
+    "special_ring": "Vòng đặc biệt",
     "enchancer": "Enchancer",
     "prize": "Phần thưởng",
     "crate": "Hòm lục đồ",
