@@ -584,7 +584,7 @@ public class PetCmds {
                         var playerConfirmed = ctx.getPlayer();
                         var playerInventoryConfirmed = playerConfirmed.getInventory();
                         var playerDataConfirmed = playerConfirmed.getData();
-                        var petChoiceConfirmed = playerConfirmed.getData().getPetChoice();
+                        var petChoiceConfirmed = playerDataConfirmed.getActiveChoice(marriage);
 
                         if (petChoice == PetChoice.PERSONAL && !playerInventoryConfirmed.containsItem(ItemReference.INCUBATOR_EGG)) {
                             playerConfirmed.setLocked(false);
