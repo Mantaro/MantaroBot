@@ -961,12 +961,12 @@
         "success": "%1$sتم بنجاح تركيب %2$s *%3$s*، و سوف نتذكر في المرة القادمة التي تستخدم العملة المناسبة للأمر. ",
         "not_suitable": "%1$sلايمكنك تركيب هذا الغرض.",
         "not_equipped": "%1$sلاتملك هذه مُجهزه.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe or pick) if you wanna unequip it."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sليس لديك اي شيء مُجهز في هذا المكان.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sتم بنجاح إلغاء تركيب %2$s بفتحتك الخاصة",
         "equipment_recover": "بما أنك لم تستخدم مُعداتك أبداً، حصلت على %1$s الخاص بك. ",
