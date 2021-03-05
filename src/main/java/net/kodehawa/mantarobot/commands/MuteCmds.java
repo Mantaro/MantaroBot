@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 
 @Module
 public class MuteCmds {
-    private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?h|(?m|(?s)]+$");
+    private static final Pattern rawTimePattern = Pattern.compile("^[(\\d)((?d|?h|(?m|(?s)]+$");
     private static final Pattern timePattern =
             Pattern.compile("[(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
     // Regex by Fabricio20
