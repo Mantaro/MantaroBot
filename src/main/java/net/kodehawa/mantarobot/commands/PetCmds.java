@@ -413,6 +413,10 @@ public class PetCmds {
                         pet = marriage.getData().getPet();
                     }
 
+                    if (!isCallerPetOwner && choice == PetChoice.PERSONAL) {
+                        ctx.sendLocalized("commands.pet.pat.personal_pet_other", EmoteReference.ERROR);
+                        return;
+                    }
 
                     if (pet == null) {
                         if (isCallerPetOwner) {
@@ -421,11 +425,6 @@ public class PetCmds {
                             ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
                         }
 
-                        return;
-                    }
-
-                    if (!isCallerPetOwner && choice == PetChoice.PERSONAL) {
-                        ctx.sendLocalized("commands.pet.pat.personal_pet_other", EmoteReference.ERROR);
                         return;
                     }
 
@@ -488,7 +487,7 @@ public class PetCmds {
                 pet.setDust(0);
                 player.removeMoney(price);
                 player.saveUpdating();
-                if (player.getData().getPetChoice() == PetChoice.MARRIAGE) {
+                if (player.getData().getActiveChoice(marriage) == PetChoice.MARRIAGE) {
                     marriage.saveUpdating();
                 }
 
