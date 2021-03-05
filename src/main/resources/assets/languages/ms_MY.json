@@ -1379,7 +1379,7 @@
       },
       "list": {
         "summary": "%1$s **Nama:** %2$s, **Keupayaan:** `%3$s`, **Nilai:** %4$,d credits",
-        "abilities": "*Memancing*: Berguna untuk `~>fish`\n*Menangkap*: Berguna untuk `~>mine`\n*Menebang*: Berguna untuk `~>chop`\n*Bersorak*: Memberi anda sokongan dan galakan.",
+        "abilities": "*Fish*: Berguna untuk `~>fish`\n*Catch*: Berguna untuk `~>mine`\n*Chop*: Berguna untuk `~>chop`\n*Cheer*: Memberi anda sokongan dan galakan.",
         "header": "%1$s**Haiwan Peliharaan tersedia Semasa**\n\n%2$s\n\n%3$s**Penerangan keupayaan:**\n%4$s"
       },
       "pat": {
