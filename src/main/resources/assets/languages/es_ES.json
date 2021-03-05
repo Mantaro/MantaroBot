@@ -961,12 +961,12 @@
         "success": "%1$sHas equipado %2$s *%3$s* exitosamente, lo cual será recordado la próxima vez que utilices el comando de dinero apropiado.",
         "not_suitable": "%1$sNo puedes equipar esto.",
         "not_equipped": "%1$sNo tienes esto equipado.",
-        "already_equipped": "%1$sYa tienes un artículo de este tipo equipado! Intenta `~>unequip <type>` (El tipo puede ser rod, axe, pick) si quieres desequiparlo."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sNo tienes nada equipado en este slot.",
-        "no_content": "%1$sDebe especificar un tipo de herramienta para desequipar, puede ser `pick, axe, rod`",
-        "invalid_type": "%1$sTipo inválido. Los tipos válidos son `pick, axe, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sCorrectamente desequipado tu slot de %2$s.",
         "equipment_recover": "\n¡Ya que nunca has usado tu equipamiento, recibiste tu %1$s de vuelta!",
