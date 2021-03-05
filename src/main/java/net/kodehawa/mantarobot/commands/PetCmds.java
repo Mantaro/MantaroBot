@@ -408,6 +408,7 @@ public class PetCmds {
                         pet = marriage.getData().getPet();
                     }
 
+
                     if (pet == null) {
                         if (isCallerPetOwner) {
                             ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR, choice.getReadableName());
@@ -415,6 +416,11 @@ public class PetCmds {
                             ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
                         }
 
+                        return;
+                    }
+
+                    if (!isCallerPetOwner && choice == PetChoice.PERSONAL) {
+                        ctx.sendLocalized("commands.pet.pat.personal_pet_other", EmoteReference.ERROR);
                         return;
                     }
 

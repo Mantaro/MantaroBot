@@ -101,7 +101,7 @@ public class ItemCmds {
                         } else {
                             var arguments = StringUtils.advancedSplitArgs(content, -1);
                             // It's a number
-                            if (arguments[0].matches("^\\d$")) {
+                            if (arguments[0].matches("^\\d{1,2}$")) {
                                 try {
                                     amountSpecified = Integer.parseInt(arguments[0]);
                                     content = content.replaceFirst(arguments[0], "").trim();
