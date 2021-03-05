@@ -221,6 +221,8 @@ public class OwnerCmd {
                     transferToData.setTimesMopped(transferredData.getTimesMopped());
                     transferToData.setDailyStreak(transferredData.getDailyStreak());
                     transferToData.setLastDailyAt(transferredData.getLastDailyAt());
+                    transferToData.setPet(transferredData.getPet());
+                    transferToData.setPetChoice(transferredData.getPetChoice());
 
                     transferToPlayer.save();
 
