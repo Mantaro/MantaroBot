@@ -568,11 +568,11 @@
         "empty": "%1$sBạn không thể để trống bức thư tình.",
         "no_marriage": "%1$sBạn chưa cưới, bạn không thể viết thư tình cho bản thân được...",
         "not_proposing_player": "%1$sBạn không phải là người được cầu hôn ở đây!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
         "too_long": "%1$sBức thư này quá dài (tối đa 500 ký tự)",
         "cannot_see": "%1$sTôi không thể tìm thấy người mà bạn đã cưới... Có lẽ là do họ không cùng trong máy chủ nào với tôi.",
         "confirmation": "%1$sBạn có *chắc chắn* muốn gửi bức thư này để tỏ tình với **%2$s#%3$s**?\nBức thư này sẽ được giữ trong suốt cuộc hôn nhân. *Nội dung:*%4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
         "scrapped": "%1$sBạn vẫn có thời gian để suy nghĩ viết, không cần phải vội!"
       },
       "status": {
@@ -1078,7 +1078,7 @@
         "success": "%1$sĐã xoá ghi chú của bạn.",
         "select": "Chọn ghi chú bạn muốn xoá."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
@@ -1492,7 +1492,7 @@
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
