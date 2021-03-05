@@ -180,10 +180,15 @@ public class PetCmds {
                     return;
                 }
 
+                var player = ctx.getPlayer();
+                if (choice == player.getData().getPetChoice()) {
+                    ctx.sendLocalized("commands.pet.choice.already_chosen", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!RatelimitUtils.ratelimit(petChoiceRatelimiter, ctx, languageContext.get("commands.pet.choice.ratelimit_message"), false))
                     return;
 
-                var player = ctx.getPlayer();
                 player.getData().setPetChoice(choice);
                 player.saveUpdating();
 
