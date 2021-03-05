@@ -447,12 +447,12 @@ public enum Badge {
             (player, stats, dbUser) -> stats.getCraftedItems() >= 50, false
     ),
 
-    REPAIR_PERSON("Repair Person", "<:comet_wrench:551979816174354443>", "Repair an item more than 50 times",
+    REPAIR_PERSON("Repairer", "<:comet_wrench:551979816174354443>", "Repair more than 50 items",
             91, 92,
             (player, stats, dbUser) -> stats.getRepairedItems() >= 50, false
     ),
 
-    SALVAGER("Salvager", "\uD83D\uDD27", "Salvage an item more than 50 times",
+    SALVAGER("Salvager", "\uD83D\uDD27", "Salvage more than 50 times",
             91, 92,
             (player, stats, dbUser) -> stats.getSalvagedItems() >= 50, false
     ),

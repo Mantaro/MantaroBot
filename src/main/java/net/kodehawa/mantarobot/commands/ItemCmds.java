@@ -694,9 +694,7 @@ public class ItemCmds {
                         stats.saveUpdating();
 
                         ItemHelper.handleItemDurability(wrenchItem, ctx, player, user, seasonalPlayer, "commands.cast.autoequip.success", isSeasonal);
-                        ctx.sendLocalized("commands.salvage.success", wrenchItem.getEmojiDisplay(),
-                                item.getEmojiDisplay(), item.getName(), toReturn, salvageCost
-                        );
+                        ctx.sendLocalized("commands.salvage.success", wrenchItem.getEmojiDisplay(), item.getName(), toReturn, salvageCost);
                     }
                 };
             }
