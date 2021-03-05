@@ -568,11 +568,11 @@
         "empty": "%1$sВы не можете отправить пустое любовное письмо.",
         "no_marriage": "%1$sВы не в браке, поэтому не можете написать письмо...",
         "not_proposing_player": "%1$sВы не тот, кто отправил запрос на брак!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `marry status`",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
         "too_long": "%1$sЛюбовное письмо имеет слишком много символов (максимум 500 символов)",
         "cannot_see": "%1$sЯ не могу найти пользователя на котором вы женаты... Скорее всего его нет на сервере.",
         "confirmation": "%1$sВы *уверены* в том, что желаете написать письмо для **%2$s#%3$s**? Оно перманентно, пока вы в браке. *Текст письма:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `marry status`",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
         "scrapped": "%1$sУ вас ещё есть время подумать, не спешите!"
       },
       "status": {
@@ -1078,7 +1078,7 @@
         "success": "%1$sВаше напоминание отменено.",
         "select": "Выберите напоминание, которое желаете отменить."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
@@ -1492,7 +1492,7 @@
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.\n%5$s",
+      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
