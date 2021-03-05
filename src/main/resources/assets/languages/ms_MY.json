@@ -1023,12 +1023,12 @@
       },
       "ls": {
         "header": "Senarai Lencana",
-        "desc": "Berikut adalah senarai lencana yang kini boleh didapati di Mantaro. Senarai ini mengandungi nama dan penerangan lencana, yang seharusnya memberikan gambaran keseluruhan mengenai apa yang anda perlukan untuk mencapainya.\nJika anda berpendapat bahawa anda sudah mendapat lencana tetapi tidak menjumpainya di senarai lencana peribadi anda, gunakan `~>profile` lalu menjalankan `~>badges` sekali lagi.\nSemoga berjaya, pemburu lencana!"
+        "desc": "Berikut adalah senarai lencana yang kini boleh didapati di Mantaro. Senarai ini mengandungi nama dan penerangan lencana, yang seharusnya memberikan gambaran keseluruhan mengenai apa yang anda perlukan untuk mencapainya.\nJika anda yakin bahawa anda sudah mendapat lencana tetapi tidak menjumpainya di senarai lencana peribadi anda, gunakan `~>profile` lalu menjalankan `~>badges` sekali lagi.\nSemoga berjaya, pemburu lencana!"
       },
       "brief_success": "**Lencana %1$s:**\n%2$s",
-      "profile_notice": "Jika anda berpendapat bahawa anda sudah mendapat lencana yang baru tetapi ia tidak muncul di sini, sila gunakan `~>profile` lalu menjalankan arahan ini sekali lagi.\n",
+      "profile_notice": "Jika anda yakin bahawa anda sudah mendapat lencana yang baru tetapi ia tidak muncul di sini, sila gunakan `~>profile` lalu menjalankan arahan ini sekali lagi.\n",
       "info_notice": "Gunakan `~>badge info <nama lencana>` untuk mendapatkan maklumat lanjut tentang lencana tersebut. [Anda juga boleh periksa halaman wiki] (https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n \n",
-      "donate_notice": "**Anda boleh mendapatkan lencana atas [sokongan anda terhadap pembangunan Mantaro!](https://patreon.com/mantaro)!** (Ia mungkin mengambil beberapa minit untuk memproses)\n\n",
+      "donate_notice": "**Anda boleh mendapatkan lencana atas [sokongan anda terhadap pembangunan Mantaro!](https://patreon.com/mantaro)!** (Ia mungkin mengambil beberapa minit untuk diproses)\n\n",
       "no_badges": "Tiada lencana untuk dipaparkan",
       "header": "Lencana yang dicapai oleh %1$s",
       "total_badges": "**Jumlah lencana tercapai:** %1$s",
@@ -1371,6 +1371,7 @@
         "no_choice": "%1$sAnda perlu menyatakan sebuah pilihan (Personal atau Marriage).",
         "invalid_choice": "%1$sPilihan tidak sah. Sila memilih sama ada Personal atau Marriage. Personal adalah untuk diri anda, Marriage ialah haiwan peliharaan yang dikongsi bersama pasangan anda",
         "ratelimit_message": "Anda boleh menukar pilihan anda sebanyak 3 kali. Anda perlu menunggu selama masa dinyatakan untuk menukar pilihan anda lagi. Ini adalah untuk mengelakkan spam!",
+        "already_chosen": "%1$sThis is already your choice.",
         "success": "%1$sBerjaya menetapkan pilihan anda kepada: %2$s %3$s"
       },
       "level": {
@@ -1382,8 +1383,9 @@
         "header": "%1$s**Haiwan Peliharaan tersedia Semasa**\n\n%2$s\n\n%3$s**Penerangan keupayaan:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)%3$s",
+        "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)",
         "no_pet_other": "%1$s%2$s tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan.",
+        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
         "ratelimit_message": "Anda boleh membelai haiwan peliharaan anda sebanyak 25 kali. Setelah itu anda perlu menunggu selama masa tersebut di atas untuk 25 belaian lagi.",
         "too_many": "Bagaimanakah anda mendapat belaian sebanyak itu?"
       },
