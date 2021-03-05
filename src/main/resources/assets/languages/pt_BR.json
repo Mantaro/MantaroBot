@@ -1371,6 +1371,7 @@
         "no_choice": "%1$sVocê tem que especificar uma escolha (Personal ou Marriage).",
         "invalid_choice": "%1$sA escolha é inválida. Por favor escolha entre Personal ou Marriage. Personal é para você mesmo, Marriage é o pet compartilhado com seu parceiro",
         "ratelimit_message": "Você pode trocar sua escolha 3 vezes. Você tem que esperar o tempo especificado para mais trocas serem possíveis. Isso é para evitar spam!",
+        "already_chosen": "%1$sThis is already your choice.",
         "success": "%1$sDefinido com sucesso sua escolha para: %2$s %3$s"
       },
       "level": {
@@ -1382,8 +1383,9 @@
         "header": "%1$s**Pets atualmente Disponíveis**\n\n%2$s\n\n%3$s**Explicação das Habilidades:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sVocê não tem nenhum pet para acariciar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
+        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
+        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
         "ratelimit_message": "Você pode acariciar seu pet até 25 vezes. Depois disso você tem que esperar o tempo acima para mais acariciar mais 25 vezes.",
         "too_many": "Como você conseguiu tanto carinho?"
       },
