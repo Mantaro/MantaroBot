@@ -81,12 +81,9 @@ public class UtilsCmds {
 
                         // Old format compatiblity.
                         if (!matchTime) {
-                            if (optionalArguments.get("time") == null) {
-                                ctx.sendLocalized("commands.remindme.no_time_arg", EmoteReference.ERROR);
-                                return;
+                            if (optionalArguments.get("time") != null) {
+                                time = Utils.parseTime(optionalArguments.get("time"));
                             }
-
-                            time = Utils.parseTime(optionalArguments.get("time"));
                         }
 
                         if (time == 0) {
