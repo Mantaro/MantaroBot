@@ -9,7 +9,7 @@
     "days": "hari",
     "none": "Tiada",
     "now": "Sekarang",
-    "hourly": "Setiap Jam",
+    "hourly": "Setiap jam",
     "daily": "Harian",
     "total": "Jumlah",
     "arrow_react": "Gunakan reaksi anak panah untuk menukar halaman.",
@@ -55,7 +55,7 @@
         "overflow": "Tetapi anda sudah mempunyai terlalu banyak, jadi anda memutuskan untuk membuang lebihan itu"
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
-      "potion_not_found": "%1$sSaya tidak dapat menemui ramuan atau jenis peralatan itu!",
+      "potion_not_found": "%1$sSaya tidak dapat menjumpai ramuan atau jenis peralatan itu!",
       "potion_applied": "%1$sKesan berjaya diterapkan **%2$s** dari jenis *%3$s* (%4$dx). Periksa kesan baru anda yang berkilat pada `~>profile stats`",
       "potion_applied_multiple": "%1$sBerjaya menggunakan **%2$s** dari jenis *%3$s*.\nAnda sudah menggunakan kesan ini, jadi kami timbunkannya. Saiz timbunan semasa:%4$s",
       "max_stack_size": "%1$sAnda sudah mengumpulkan jumlah maksimum %2$s yang mungkin anda dapat. (Maksimum: 15, Selepas timbunan: %3$s)",
@@ -154,9 +154,9 @@
         "success": "%1$s**%2$s** dipasang secara automatik di slot joran anda."
       },
       "overflow": "%1$sAnda menjumpai sebilangan ikan, tetapi sebahagian dari inventori anda sudah penuh, jadi kami terpaksa membuangnya kembali ke dalam air.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s menggunakan *%3$s* dan anda terus menyimpannya ke dalam baldi anda.",
+      "success_money": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s dan **$%3$,d kredit** menggunakan *%4$s* dan anda terus menyimpannya ke dalam baldi anda.%5$s",
+      "success_money_noitem": "%1$sSemasa memancing dengan tenang, anda menjumpai **$%2$,d kredit** menggunakan *%3$s* dan anda terus menyimpannya ke dalam poket anda.",
       "rod_broke": "%1$sJoran anda patah semasa cuba menangkap ikan :(",
       "waifu_help": "Waifu anda datang dan menyertai pengembaraan memancing anda dan anda berdua mendapat hasil yang lebih besar!",
       "not_suitable": "%1$sAnda tidak boleh menggunakan ini untuk memancing.",
@@ -395,9 +395,9 @@
       "footer": "Terima kasih kerana menggunakan Mantaro! Halaman: %1$d, Jumlah: %2$d."
     },
     "prefix": {
-      "header": "%1$sPrefix yang default ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefix yang baru menggunakan `~>opts prefix set <prefix>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefix pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
-      "guild_prefix": "Prefix pelayan ialah `%1$s` (Hanya berfungsi di pelayan ini)",
-      "none": "Tiada prefix kustom yang ditetapkan di pelayan ini."
+      "header": "%1$sPrefiks yang default ialah %2$s dan menyebut bot (Saya akan respon kepada mana-mana yang tersebut!). %3$s.\nAnda boleh menetapkan prefiks yang baru menggunakan `~>opts prefix set <prefiks>`. Jangan masukkan tanda <> itu. Untuk menetapkan semula prefiks pelayan, jalankan `~>opts prefix clear`\nJika anda ingin bertanya lebih lanjut, sila hubungi <https://support.mantaro.site>",
+      "guild_prefix": "Prefiks pelayan ialah `%1$s` (Hanya berfungsi di pelayan ini)",
+      "none": "Tiada prefiks kustom yang ditetapkan di pelayan ini."
     },
     "custom": {
       "no_args": "%1$sAnda perlu menyatakan apa yang anda hendak buat dengan arahan ini. Periksa arahan help untuk mendapatkan maklumat lanjut!",
@@ -497,7 +497,7 @@
       "already_exists": "%1$sArahan `%2$s` sudah wujud, ia merupakan arahan bot secara default.",
       "name_too_long": "%1$sNama terlalu panjang.",
       "no_cc": "%1$sTiada Arahan Kustom yang didaftarkan di Pelayan ini, hanya ada habuk.",
-      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan DEFAULT.**\n- Jika anda merupakan admin (mempunyai peranan Komander Bot atau kebenaran Mengurus Pelayan), dan ingin membenarkan semua pihak menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
+      "admin_only": "Pelayan ini hanya menerima ciptaan, edit, import dan penilaian arahan kustom daripada ahli-ahli admin.\n**Ini adalah tetapan DEFAULT.**\n- Jika anda merupakan admin (mempunyai peranan Komander Bot atau kebenaran Mengurus Pelayan), dan ingin membenarkan semua orang menjalankan operasi tersebut, jalankan `~>opts admincustom false`",
       "not_found": "%1$sTidak ada Arahan Kustom `%2$s` dalam Pelayan ini.",
       "invalid_image": "%1$sArahan ini mengandungi imej yang tidak sah, sila membaikinya...",
       "invalid_string": "%1$sTalian `{%2$s}` tidak sah, ataupun responsnya lebih panjang daripada 2000 aksara.",
@@ -526,7 +526,7 @@
     "unmute": {
       "no_permissions": "%1$sAnda memerlukan kebenaran Melarang Ahli atau Menendang Ahli untuk membenarkan bersuara!",
       "no_mentions": "%1$sAnda perlu menyebut sekurang-kurangnya seorang pengguna untuk dibenarkan bersuara.",
-      "success": "%1$sPeranan bisu **%2$s** telah disingkirkan",
+      "success": "%1$sPeranan bisu **%2$s** telah dipadamkan",
       "no_role_assigned": "%1$sPengguna ini tidak diberi peranan bisu."
     },
     "ping": {
@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sBeri saya seorang waifu untuk menilai!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sSaya menilai waifu anda dengan **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sAnda mendapat **%2$,d**%3$s",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sZon masa anda berjaya ditetapkan semula."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
+        "no_argument": "%1$sAnda perlu memberi argumen! (set atau remove). Misalnya, `~>profile description set Hi there!`",
+        "no_content": "%1$sAnda tidak menyatakan apa yang anda mahu menulis pada penerangan anda. Misalnya, `~>profile description set Hi there!`",
+        "too_long": "%1$sPenerangan itu terlalu panjang! (Hadnya adalah 300 aksara bagi semua pengguna dan 500 bagi pengguna premium)",
+        "success": "%1$sSaya berjaya menetapkan penerangan profil anda. Periksa profil baru anda dengan `~>profile`",
         "clear_success": "%1$sPenerangan berjaya dipadamkan."
       },
       "displaybadge": {
@@ -989,7 +989,7 @@
         "already_locked": "%1$sAnda sudah dikunci tuntutan. Gunakan `~>profile claimlock remove` untuk memadamkannya."
       },
       "autoequip": {
-        "disable": "%1$sPasangan auto telah dipadamkan.",
+        "disable": "%1$sPasangan auto telah dimatikan.",
         "success": "%1$sPasangan auto telah diaktifkan."
       },
       "badge_header": "%1$s Lencana Paparan",
@@ -1056,7 +1056,7 @@
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
@@ -1245,7 +1245,7 @@
         "nan": "%1$sItu bukan nombor pun...",
         "ended_game": "%1$sPermainan ditamatkan. Nombor tersebut ialah: %2$d",
         "all_attempts_used": "%1$sSemua cubaan telah digunakan, permainan sedang ditamatkan. Nombor tersebut ialah: %2$d",
-        "hint": "Petunjuk: Nombor tersebut %1$s daripada nombor input anda.",
+        "hint": "Hint: Nombor tersebut %1$s daripada nombor input anda.",
         "higher": "lebih tinggi",
         "lower": "lebih rendah"
       },
@@ -1274,7 +1274,7 @@
       "character_request_error": "%1$sRalat semasa memohon watak ini dari API Kitsu.",
       "character_start": "Teka watak tersebut",
       "too_many_games": "%1$sAnda boleh memulakan maksimum 4 permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: 8)",
-      "disabled_multiple": "%1$sPelayan ini telah melarang permainan berkali-kali/lobi."
+      "disabled_multiple": "%1$sPelayan ini telah mematikan permainan berkali-kali/lobi."
     },
     "opencrate": {
       "no_crate": "%1$sAnda tidak mempunyai peti loot berjenis ini (%2$s) untuk dibuka. (Sekiranya anda ingin membuka sebuah peti selain jenis default, gunakan nama peti selepas arahan tersebut. Jika anda ingin menggunakan inventori bermusim, tambahkan `-s`)",
@@ -1407,7 +1407,7 @@
         "success": "%1$sTahniah! Anda berdua berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit dan pilihan haiwan peliharaan ini merupakan: %6$s",
         "success_personal": "%1$sTahniah! Anda berjaya menjadi pemilik `%2$s%3$s` yang bangga dan ia dinamakan `%4$s`. Kos untuk membeli haiwan peliharaan ini ialah %5$,d kredit dan pilihan haiwan peliharaan ini merupakan: %6$s",
         "cancel_success": "%1$sOperasi dibatalkan.",
-        "too_long": "%1$sNama ini terlalu pangjang. Ia perlulah lebih kurang daripada 150 aksara."
+        "too_long": "%1$sNama ini terlalu panjang. Ia tidak boleh melebihi 150 aksara."
       },
       "feed": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk diberikan makanan. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)%3$s",
@@ -1551,7 +1551,7 @@
       "vc": "Saluran Suara",
       "color": "Warna",
       "status": "Status",
-      "nothing": "Tiada",
+      "nothing": "Tiada apa-apa",
       "default": "Default"
     },
     "roleinfo": {
@@ -1576,8 +1576,8 @@
       "base": "**Senarai arahan lengkap**. Untuk panduan terperinci, sila periksa [wiki] Kami (https://github.com/Mantaro/MantaroBot/wiki).\nIngat, anda boleh mendapatkan maklumat lanjut tentang sesuatu arahan menggunakan `~>help <nama arahan>`\n",
       "support": "Sekiranya anda masih tersesat anda boleh menyertai [pelayan sokongan](https://support.mantaro.site). Anda juga boleh mengikuti saya di [Twitter](https://twitter.com/mantarodiscord) untuk kemas kini.\n",
       "patreon": "**[Kami memerlukan bantuan anda untuk memastikan Mantaro terus hidup! Klik sini untuk maklumat lanjut.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Hanya memaparkan arahan bukan dilarang. Jumlah arahan dilarang: %1$s",
-      "channel_specific_disabled_commands": "\nHanya memaparkan arahan bukan dilarang. Jumlah arahan dilarang yang bersaluran-spesifik: %1$s",
+      "disabled_commands": "Hanya memaparkan arahan yang tidak dimatikan. Jumlah arahan dimatikan: %1$s",
+      "channel_specific_disabled_commands": "\nHanya memaparkan arahan yang tidak dimatikan. Jumlah arahan dimatikan kepada saluran spesifik: %1$s",
       "footer": "Terima kasih kerana menggunakan Mantaro %1$s (Jumlah Arahan: %2$s)",
       "commands": "Arahan",
       "extended": {
@@ -1689,7 +1689,7 @@
       "win": "%1$sTahniah, anda memenangi %2$,d kredit dan dapat menyimpan apa yang anda mempunyai.",
       "win_overflow": "%1$sTahniah, anda memenangi %2$,d kredit. Tetapi anda sudah mempunyai terlalu banyak kredit. Beg anda meluap-luap.",
       "lose": "%1$sMalangnya, anda anda kehilangan %2$s kredit. %3$s",
-      "lose_all": "all of your",
+      "lose_all": "kesemua",
       "credits": "kredit",
       "too_much": "%1$sAwak hanya boleh berjudi begitu banyak sahaja. Awak tidak mahu menjadi muflis kan? *(Had perjudian tunggal: %2$,d kredit)*",
       "too_little": "%1$sAnda tidak boleh berjudi wang begitu sedikit (Minimum: 100 kredit)"
@@ -1737,7 +1737,7 @@
         "success": "%1$s**%2$s** dipasang secara automatik di slot beliung anda."
       },
       "item_broke": "%1$s%2$s anda patah semasa menggunakannya :( %3$s",
-      "item_broke_autoequip": "*Petunjuk: Anda boleh menggunakan `~>profile autoequip` untuk memasang peralatan anda secara automatik apabila ia patah, menganggap anda mempunyai satu lagi dalam inventori anda",
+      "item_broke_autoequip": "*Hint: Anda boleh menggunakan `~>profile autoequip` untuk memasang peralatan anda secara automatik apabila ia patah, menganggap anda mempunyai satu lagi dalam inventori anda",
       "waifu_help": "Waifu anda datang dan menyertai pengembaraan melombong anda dan anda berdua mendapat hasil yang lebih besar!",
       "missing_equipped": "%1$sAnda telah memasang beliung %2$s, tetapi anda tidak lagi mempunyai jenis beliung ini di inventori anda! Beliung yang dipasang telah ditetapkan semula.",
       "broken_drop": "%1$sPeralatan anda patah, tetapi anda boleh membaikinya. Item rosak: %2$s *%3$s*",
@@ -1754,9 +1754,9 @@
         "success": "Anda menjumpai sebuah %1$s **%2$s** semasa menebang pokok dan anda terus mengutipnya. Pergi dan bukanya dengan `~>opencrate <nama peti>`. Anda memerlukan kunci peti!"
       },
       "overflow": "%1$sAnda menjumpai beberapa item semasa menebang, tetapi anda tidak dapat memegang apa-apa lagi, jadi kami terpaksa meninggalkan sebahagiannya.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "success_only_item": "%1$sSemasa menebang pokok, anda menjumpai %2$s menggunakan *%3$s* dan anda terus menyimpannya ke dalam inventori anda.",
+      "success": "%1$sSemasa menebang pokok, anda menjumpai %2$s dan **$%3$,d kredit** menggunakan *%4$s* dan anda terus menyimpannya ke dalam inventori anda.",
+      "success_money_noitem": "%1$sSemasa menebang pokok, anda menjumpai **$%2$,d kredit** menggunakan *%3$s* dan anda terus menyimpannya ke dalam poket anda."
     },
     "slots": {
       "errors": {
@@ -1842,8 +1842,8 @@
       "success": "%1$sPilihan anda ditetapkan semula dengan betul!"
     },
     "server_command_disallow": {
-      "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda larang pada pelayan ini.",
-      "success": "%1$s%2$s telah dilarang pada pelayan ini."
+      "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda matikan pada pelayan ini.",
+      "success": "%1$s%2$s telah dimatikan pada pelayan ini."
     },
     "server_command_allow": {
       "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda membenarkan pada pelayan ini.",
@@ -1851,7 +1851,7 @@
     },
     "server_command_specific_disallow": {
       "invalid": "%1$sAnda haruslah menyatakan nama saluran dan arahan yang ingin anda melarang.",
-      "success": "%1$s%2$s telah dilarang pada saluran #%3$s."
+      "success": "%1$s%2$s telah dimatikan pada saluran #%3$s."
     },
     "server_command_specific_allow": {
       "invalid": "%1$sAnda perlu menyatakan nama saluran dan arahan yang ingin dibenarkan.",
@@ -1859,7 +1859,7 @@
     },
     "server_channel_disallow": {
       "no_channel": "%1$sAnda perlu menyatakan saluran di mana anda mahu melarang bot mendengar arahan.",
-      "too_many": "%1$sAnda tidak boleh melarang lebih banyak saluran lagi kerana bot tidak akan dapat bercakap :(",
+      "too_many": "%1$sAnda tidak boleh mematikan lebih banyak saluran lagi kerana bot tidak akan dapat bercakap jika macam itu :(",
       "success": "%1$sSaluran %2$s tidak akan mendengar arahan lagi."
     },
     "server_channel_allow": {
@@ -1867,46 +1867,46 @@
       "success": "%1$sKini, saluran %2$s akan mendengar arahan."
     },
     "category_disable": {
-      "no_category": "%1$sAnda perlu menyatakan kategori untuk dilarang.",
-      "already_disabled": "%1$sKategori ini sudah dilarang.",
-      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia akan melarang arahan opts.",
-      "success": "%1$sKategori `%2$s` telah dilarang"
+      "no_category": "%1$sAnda perlu menyatakan kategori untuk dimatikan.",
+      "already_disabled": "%1$sKategori ini sudah dimatikan.",
+      "moderation_notice": "%1$sAnda tidak boleh mematikan moderasi kerana ia akan melarang arahan opts.",
+      "success": "%1$sKategori `%2$s` telah dimatikan"
     },
     "category_enable": {
       "no_category": "%1$sAnda perlu menyatakan kategori untuk dibenarkan.",
       "success": "%1$sKategori `%2$s` telah dibenarkan"
     },
     "category_specific_disable": {
-      "invalid": "%1$sAnda perlu menyatakan kategori untuk dilarang dan saluran mana.",
-      "already_disabled": "%1$sKategori ini sudah dilarang.",
-      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia akan melarang arahan opts.",
-      "success": "%1$sKategori `%2$s` telah dilarang pada saluran %3$s"
+      "invalid": "%1$sAnda perlu menyatakan kategori untuk dimatikan dan saluran mana.",
+      "already_disabled": "%1$sKategori ini sudah dimatikan.",
+      "moderation_notice": "%1$sAnda tidak boleh mematikan moderasi kerana ia akan melarang arahan opts.",
+      "success": "%1$sKategori `%2$s` telah dimatikan pada saluran %3$s"
     },
     "category_specific_enable": {
       "invalid": "%1$sAnda perlu menyatakan kategori untuk dibenarkan dan saluran mana.",
       "invalid_channel": "%1$sItu bukan saluran yang sah!",
-      "not_disabled": "%1$sKategori ini tidak dilarang.",
+      "not_disabled": "%1$sKategori ini tidak dimatikan.",
       "success": "%1$sKategori `%2$s` telah dibenarkan pada saluran %3$s"
     },
     "server_role_specific_disallow": {
       "invalid": "%1$sAnda memerlukan peranan dan arahan untuk dilarang!",
-      "already_disabled": "%1$sArahan ini sudah dilarang bagi peranan spesifik tersebut.",
+      "already_disabled": "%1$sArahan ini sudah dimatikan bagi peranan spesifik tersebut.",
       "success": "%1$sBerjaya melarang arahan `%2$s` bagi peranan `%3$s`"
     },
     "server_role_specific_allow": {
       "invalid": "%1$sAnda memerlukan peranan dan arahan untuk dibenarkan!",
-      "not_disabled": "%1$sArahan ini tidak dilarang bagi peranan spesifik tersebut.",
+      "not_disabled": "%1$sArahan ini tidak dimatikan bagi peranan spesifik tersebut.",
       "success": "%1$sBerjaya membenarkan arahan `%2$s` bagi peranan `%3$s`"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sAnda perlu menyatakan kategori untuk dilarang dan peranan yang mana.",
-      "already_disabled": "%1$sKategori ini sudah dilarang.",
-      "moderation_notice": "%1$sAnda tidak boleh melarang moderasi kerana ia mengandungi arahan ini.",
-      "success": "%1$sKategori `%2$s` telah dilarang bagi peranan %3$s"
+      "invalid": "%1$sAnda perlu menyatakan kategori untuk dimatikan dan peranan yang mana.",
+      "already_disabled": "%1$sKategori ini sudah dimatikan.",
+      "moderation_notice": "%1$sAnda tidak boleh mematikan moderasi kerana ia mengandungi arahan ini.",
+      "success": "%1$sKategori `%2$s` telah dimatikan bagi peranan %3$s"
     },
     "category_role_specific_enable": {
       "invalid": "%1$sAnda perlu menyatakan peranan untuk dibenarkan dan saluran mana.",
-      "not_disabled": "%1$sKategori ini tidak dilarang.",
+      "not_disabled": "%1$sKategori ini tidak dimatikan.",
       "success": "%1$sKategori `%2$s` telah dibenarkan bagi peranan %3$s"
     },
     "fairqueue_max": {
@@ -1944,20 +1944,20 @@
     },
     "logs_enable": {
       "no_channel": "%1$sAnda haruslah menyatakan saluran yang ingin digunakan sebagai saluran log.",
-      "success": "%1$sMessage logging has been enabled with parameters -> `Channel #%2$s (%3$s)`"
+      "success": "%1$sLog mesej telah diaktifkan dengan parameter -> `Saluran #%2$s (%3$s)`"
     },
     "logs_disable": {
-      "success": "%1$sMessage logging has been disabled."
+      "success": "%1$sLog mesej telah dimatikan."
     },
     "logs_exclude": {
-      "no_args": "%1$sYou need to specify which channel to exclude, or `clearchannels` to clear all exceptions, or `remove` to remove a single channel from the exception list.",
+      "no_args": "%1$sAnda perlu menyatakan saluran mana untuk dikecualikan, atau `clearchannels` untuk memadamkan semua pengecualian, atau `remove` untuk memadamkan satu saluran daripada senarai pengecualian.",
       "clearchannels": {
-        "success": "%1$sCleared log exceptions!"
+        "success": "%1$sPengecualian log telah dipadamkan!"
       },
       "remove": {
-        "success": "%1$sRemoved logs exception on channel: %2$s"
+        "success": "%1$sPengecualian log telah dipadamkan pada saluran: %2$s"
       },
-      "success": "%1$sAdded logs exception on channel: %2$s",
+      "success": "%1$sPengecualian log telah ditambahkan pada saluran: %2$s",
       "invalid": "%1$sPanjang argumen salah."
     },
     "logs_timezone": {
@@ -1989,269 +1989,269 @@
     },
     "birthday_enable": {
       "no_args": "%1$sAnda harus menyatakan nama saluran dan nama peranan.",
-      "public_role": "%1$sAnda tidak boleh menetapkan peranan semua orang sebagai peranan hari jadi! Ingatlah bahawa peranan hari jadi adalah peranan yang akan ditugaskan kepada seseorang pada hari jadinya, dan akan dipadamkan setelah hari jadinya telah tamat.",
+      "public_role": "%1$sAnda tidak boleh menetapkan peranan “everyone” sebagai peranan hari jadi! Ingatlah bahawa peranan hari jadi adalah peranan yang akan ditugaskan kepada seseorang pada hari jadinya, dan akan dipadamkan setelah hari jadinya telah tamat.",
       "autorole": "%1$sAnda tidak boleh menetapkan peranan automatik sebagai peranan hari jadi! Ingatlah bahawa peranan hari jadi adalah peranan yang akan ditugaskan kepada seseorang pada hari jadinya, dan akan dipadamkan setelah hari jadinya telah tamat.",
       "warning": "%1$sIngatlah bahawa peranan hari jadi adalah peranan yang akan ditugaskan kepada seseorang pada hari jadinya, dan akan dipadamkan setelah hari jadinya telah tamat. Jika anda mempunyai sebarang keraguan tentang cara konfigurasikannya, anda selalu boleh menyertai pelayan sokongan untuk bertanya. Anda juga boleh periksa `~>opts help birthday enable` untuk contoh.",
-      "warning_1": "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and un-assigns it when the birthday day has passed. **This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!",
-      "warning_2": "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users. Users will need to allow this server to announce their birthday by using `~>birthday allowserver` else their birthday won't appear! Read <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> for more info.",
-      "warning_3": "Additionally the birthday cache (what is used to store them) is only updated every 23 hours. Meaning if you set your birthday today to tomorrow to test this announcer it will **not** work.",
+      "warning_1": "Ini disebabkan oleh cara petugas hari jadi berfungsi: Ia menugaskan peranan sementara kepada seseorang pada hari jadinya, dan memadamkan peranan tersebut setelah hari jadi itu telah tamat. **Ini bermaksud bahawa setiap orang yang mempunyai peranan hari jadi itu akan kehilangan peranan tersebut setelah hari jadi itu telah tamat**. Sila berhati-hati semasa memilih peranan yang ingin anda gunakan, kerana konfigurasi yang salah mungkin akan menyebabkan masalah berlaku!",
+      "warning_2": "Peranan tersebut *haruslah peranan yang baru dicipta atau peranan yang tidak digunakan untuk sesiapa*. Ia TIDAK BOLEH merupakan peranan yang sudah ada pada pengguna anda. Pengguna perlu membenarkan pelayan ini mengumumkan hari jadi mereka dengan menggunakan `~>birthday allowserver`. Jika tidak, hari jadi mereka tidak akan muncul! Baca <https://github.com/Mantaro/MantaroBot/wiki/Changes-to-the-birthday-announcement-system> untuk maklumat lanjut.",
+      "warning_3": "Tambahan pula, cache hari jadi (digunakan untuk menyimpannya) hanya dikemas kini setiap 23 jam. Jadi sekiranya anda menetapkan hari jadi anda hari ini hingga esok untuk menguji pengumuman ini ia **tidak** akan berjalan.",
       "warning_4": "Taip **yes** jika anda setuju untuk menetapkan peranan %2$s sebagai peranan hari jadi, dan **no** untuk membatalkan. Masa ini akan tamat dalam 45 saat.",
-      "success": "%1$sBirthday logging enabled on this server with parameters -> Channel: `%2$s (%3$s)` and role: `%4$s (%5$s)`",
+      "success": "%1$sLog hari jadi telah diaktifkan pada pelayan ini dengan parameter -> Saluran: `%2$s (%3$s)` dan peranan: `%4$s (%5$s)`",
       "error_channel_1": "%1$sSaya tidak menjumpai saluran atau peranan!",
-      "error_channel_2": "*Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".* If the role contains spaces \"wrap it in quotes like this\""
+      "error_channel_2": "*Ingat, anda tidak perlu menyebut peranan ataupun saluran, sebaliknya menaip namanya sahaja, susunan ialah <saluran> <peranan>, tanpa tanda \"<>\".* Jika peranan tersebut mengandungi ruang di antara perkataan \"mengapitnya dengan tanda petik seperti ini\""
     },
     "birthday_disable": {
-      "success": "%1$sBirthday logging has been disabled on this server"
+      "success": "%1$sLog hari jadi telah dimatikan pada pelayan ini"
     },
     "prefix_set": {
-      "no_prefix": "%1$sYou need to tell me what prefix you want to use.",
-      "too_long": "%1$sDon't you think that's a bit too long?",
-      "empty_prefix": "%1$sCannot set the guild prefix to nothing...",
-      "success": "%1$sYour server's custom prefix has been set to %2$s"
+      "no_prefix": "%1$sAnda perlu memberitahu saya prefiks apa yang ingin anda gunakan.",
+      "too_long": "%1$sAwak rasa, bukankah itu macam agak panjang?",
+      "empty_prefix": "%1$sAwak tak nyatakan prefiks pelayan pun...",
+      "success": "%1$sPrefiks kustom pelayan anda tahu ditetapkan kepada %2$s"
     },
     "prefix_clear": {
-      "success": "%1$sYour server's custom prefix has been disabled"
+      "success": "%1$sPrefiks kustom pelayan anda telah dipadamkan"
     },
     "autorole_set": {
-      "no_role": "%1$sYou didn't tell me what role to look for!",
-      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
+      "no_role": "%1$sAnda tidak memberitahu saya peranan apa yang ingin anda mencari!",
+      "no_role_found": "%1$sSaya tidak menjumpai peranan dengan nama itu. Jika peranan tersebut mengandungi ruang di antara perkataan, cuba mengapitnya dengan tanda petik.",
+      "hierarchy_conflict": "%1$sPeranan ini lebih tinggi daripada peranan tertinggi anda, jadi anda tidak boleh menetapkannya sebagai peranan auto!",
+      "self_hierarchy_conflict": "%1$sPeranan ini lebih tinggi daripada peranan tertinggi saya, jadi anda tidak boleh menetapkannya sebagai peranan auto!",
       "success": "%1$sPeranan automatik pelayan kini ditetapkan kepada: **%2$s** (Kedudukan: %3$d)"
     },
     "autorole_unbind": {
-      "success": "%1$sThe autorole for this server has been removed."
+      "success": "%1$sPeranan auto untuk pelayan ini telah dipadamkan."
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSuccessfully reset the join/leave channel."
+      "success": "%1$sBerjaya menetapkan semula saluran penyertaan/peninggalan."
     },
     "usermessage_resetdata": {
-      "success": "%1$sSuccessfully reset the join/leave data."
+      "success": "%1$sBerjaya menetapkan semula data penyertaan/peninggalan."
     },
     "usermessage_join_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
-      "success": "%1$sThe user join log channel is now set to: %2$s"
+      "no_channel": "%1$sAnda perlu menyatakan saluran mana yang anda mahu saya menghantar mesej penyertaan.",
+      "success": "%1$sSaluran log penyertaan pengguna telah ditetapkan kepada: %2$s"
     },
     "usermessage_join_resetchannel": {
-      "success": "%1$sSuccessfully reset log join channel!"
+      "success": "%1$sSaluran log penyertaan berjaya ditetapkan semula!"
     },
     "usermessage_leave_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
-      "success": "%1$sThe user leave log channel is now set to: %2$s"
+      "no_channel": "%1$sAnda perlu menyatakan saluran mana yang anda mahu saya menghantar mesej peninggalan.",
+      "success": "%1$sSaluran log peninggalan pengguna telah ditetapkan kepada: %2$s"
     },
     "usermessage_leave_resetchannel": {
-      "success": "%1$sSuccessfully reset log leave channel!"
+      "success": "%1$sSaluran log peninggalan berjaya ditetapkan semula!"
     },
     "usermessage_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join and leave messages.",
-      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+      "no_channel": "%1$sAnda perlu menyatakan saluran mana yang anda mahu saya menghantar mesej penyertaan dan peninggalan.",
+      "success": "%1$sSaluran log Penyertaan/Peninggalan telah ditetapkan kepada: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
-      "success": "%1$sServer join message set to: `%2$s`"
+      "no_message": "%1$sAnda haruslah menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
+      "success": "%1$sMesej penyertaan pelayan ditetapkan kepada: `%2$s`"
     },
     "usermessage_leavemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
-      "success": "%1$sServer leave message set to: `%2$s`"
+      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang meninggal pelayan ini!",
+      "success": "%1$sMesej peninggalan pelayan ditetapkan kepada: `%2$s`"
     },
     "usermessage_joinmessage_reset": {
-      "success": "%1$sReset server join message."
+      "success": "%1$sMesej penyertaan pelayan telah ditetapkan semula."
     },
     "usermessage_leavemessage_reset": {
-      "success": "%1$sReset server leave message."
+      "success": "%1$sMesej peninggalan pelayan telah ditetapkan semula."
     },
     "autoroles_add": {
-      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
-      "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
-      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
-      "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
+      "too_long": "%1$sNama peranan auto tidak boleh melebihi 40 aksara.",
+      "no_args": "%1$sAnda perlu menyatakan nama iam dan nama peranan.",
+      "no_role_found": "%1$sSaya tidak menjumpai peranan dengan nama itu! Jika peranan tersebut mengandungi ruang di antara perkataan, mengapitnya dengan tanda petik: \"Nama Peranan\"",
+      "hierarchy_conflict": "%1$sPeranan ini lebih tinggi daripada peranan tertinggi anda, jadi anda tidak boleh menetapkannya sebagai peranan tugasan automatik!",
+      "self_hierarchy_conflict": "%1$sPeranan ini lebih tinggi daripada peranan tertinggi saya, jadi anda tidak boleh menetapkannya sebagai peranan tugasan automatik!",
+      "success": "%1$sPeranan tugasan automatik **%2$s** telah ditambah, yang memberi peranan **%3$s**"
     },
     "autoroles_category_add": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to add one to an existing category).",
-      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
-      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
-      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
-      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+      "no_args": "%1$sAnda perlu menyatakan nama kategori (dan nama peranan iam jika anda ingin menambahnya kepada kategori yang sudah wujud).",
+      "success_new": "%1$sBerjaya menambah kategori senarai tugasan automatik **%2$s**",
+      "success": "%1$sBerjaya menambah peranan tugasan automatik **%2$s** kepada kategori senarai **%3$s**",
+      "already_exists": "%1$sKategori ini sudah wujud dan anda tidak menyatakan peranan untuk ditambahkan kepadanya.",
+      "no_role": "%1$sTiada peranan auto **%2$s**, jadi saya tidak dapat menambahnya."
     },
     "autoroles_category_remove": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
-      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
-      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
+      "no_args": "%1$sAnda perlu menyatakan nama kategori (dan nama peranan iam jika anda ingin memadamkannya daripada kategori yang sudah wujud).",
+      "success_new": "%1$sBerjaya memadamkan kategori senarai tugasan automatik **%2$s**",
+      "success": "%1$sBerjaya memadamkan peranan tugasan automatik **%2$s** daripada kategori senarai **%3$s**",
       "no_category": "%1$sTiada kategori **%2$s**"
     },
     "autoroles_remove": {
-      "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
-      "not_found": "%1$sI couldn't find an auto-assignable role with that name",
-      "success": "%1$sRemoved auto-assignable role %2$s"
+      "no_args": "%1$sAnda perlu menyatakan nama iam yang ingin anda padamkan.",
+      "not_found": "%1$sSaya tidak dapat mencari peranan tugasan automatik dengan nama itu",
+      "success": "%1$sBerjaya memadamkan peranan tugasan automatik %2$s"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all auto-assignable roles!"
+      "success": "%1$sSemua peranan tugasan automatik telah dipadamkan!"
     },
     "admincustom": {
       "no_args": "%1$sAnda harus menyatakan sama ada anda mahu ia menjadi true atau false (true untuk mengunci penciptaan CC kepada Admin/Komander Bot sahaja)",
-      "admin_only": "Custom command creation is now admin only.",
+      "admin_only": "Kini, penciptaan arahan kustom terhad kepada admin sahaja.",
       "everyone": "Penciptaan arahan kustom kini boleh dilakukan oleh sesiapa sahaja.",
       "not_bool": "%1$sBodoh, itu bukan nilai boolean (true atau false)!"
     },
     "timedisplay_set": {
-      "mode_not_specified": "%1$sYou need to specify a mode (12h or 24h)",
-      "12h": "%1$sSet time display mode to 12h",
-      "24h": "%1$sSet time display mode to 24h",
-      "invalid": "%1$sNot a valid choice. Valid choices: **24h**, **12h**"
+      "mode_not_specified": "%1$sAnda perlu menyatakan mod (12h atau 24h)",
+      "12h": "%1$sMod paparan masa ditetapkan kepada 12h",
+      "24h": "%1$sMod paparan masa ditetapkan kepada 24h",
+      "invalid": "%1$sBukan pilihan yang sah. Pilihan sah: **24h**, **12h**"
     },
     "server_role_disallow": {
-      "no_name": "%1$sYou need to specify the name of the role!",
-      "public_role": "%1$sYou cannot disable the everyone role from using commands!",
-      "success": "%1$sDisabled role %2$s from executing commands."
+      "no_name": "%1$sAnda perlu menyatakan nama peranan!",
+      "public_role": "%1$sAnda tidak boleh melarang peranan “everyone” menggunakan arahan!",
+      "success": "%1$sPeranan %2$s dilarang menjalankan arahan."
     },
     "server_role_allow": {
-      "no_name": "%1$sYou need to specify the name of the role you want to allow (has to be disallowed already for this to do anything, since allow is default)!",
-      "not_disabled": "%1$sThis role isn't disabled! (All roles are enabled by default)",
-      "success": "%1$sAllowed role %2$s to execute commands."
+      "no_name": "%1$sAnda perlu menyatakan nama peranan yang ingin anda benarkan (mestilah dilarang sebelum ini untuk membolehkan arahan ini berfungsi kerana default ialah dibenarkan)!",
+      "not_disabled": "%1$sPeranan ini tidak dilarang! (Semua peranan dibenarkan secara default)",
+      "success": "%1$sPeranan %2$s dibenarkan menjalankan arahan."
     },
     "server_ignorebots_autoroles_toggle": {
-      "success": "%1$sSet bot autorole ignore to: **%2$s**"
+      "success": "%1$sPengabaian peranan auto bot ditetapkan kepada: **%2$s**"
     },
     "server_ignorebots_joinleave_toggle": {
-      "success": "%1$sSet bot join/leave ignore to: **%2$s**"
+      "success": "%1$sPengabaian penyertaan/peninggalan bot ditetapkan kepada: **%2$s**"
     },
     "levelupmessages_channel_set": {
       "no_channel": "%1$sAnda perlulah menyatakan saluran untuk memaparkan mesej kenaikan level!",
       "success": "%1$sSaluran kenaikan level telah ditetapkan kepada: %2$s"
     },
     "birthday_message_set": {
-      "no_message": "%1$sYou need to specify the message you want to show on birthday. *Tip: The username of the person is done using the $(user) argument on the message*",
-      "success": "%1$sServer birthday message set to: %2$s"
+      "no_message": "%1$sAnda perlu menyatakan mesej yang ingin dihantar pada hari jadi. *Tip: Username seseorang dilakukan dengan argumen $(user) dalam mesej tersebut*",
+      "success": "%1$sMesej hari jadi pelayan ditetapkan kepada: %2$s"
     },
     "birthday_message_clear": {
-      "success": "%1$sCleared birthday message!"
+      "success": "%1$sMesej hari jadi telah dipadamkan!"
     },
     "defaultmutetimeout_set": {
-      "too_short": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "not_specified": "%1$sYou have to specify a mute timeout in the format of 1m20s, for example.",
-      "wrong_format": "%1$sWrong time format. You have to specify a mute timeout in the format of 1m20s, for example.",
-      "too_long": "%1$sThe time specified is too long...",
-      "negative_notice": "You cannot mute someone for negative time!",
-      "success": "%1$sSuccessfully set default mute timeout to *%2$s* (%3$dms)"
+      "too_short": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
+      "not_specified": "%1$sAnda haruslah menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
+      "wrong_format": "%1$sFormat masa yang salah. Anda perlu menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
+      "too_long": "%1$sMasa yang dinyatakan terlalu panjang...",
+      "negative_notice": "Anda tidak boleh membisukan seseorang selama masa yang negatif!",
+      "success": "%1$sTempoh bisu default berjaya ditetapkan kepada *%2$s* (%3$dms)"
     },
     "defaultmutetimeout_reset": {
-      "success": "%1$sSuccessfully reset timeout."
+      "success": "%1$sTempoh berjaya ditetapkan semula."
     },
     "muterole_unbind": {
-      "success": "%1$sCorrectly reset the mute role."
+      "success": "%1$sPeranan bisu telah ditetapkan semula dengan betul."
     },
     "muterole_set": {
-      "no_role": "%1$sYou need to specify the role you want to use as the mute role. If the name has spaces try wrapping it in quotes.",
-      "success": "%1$sSet mute role to **%2$s**"
+      "no_role": "%1$sAnda perlu menyatakan peranan yang ingin digunakan sebagai peranan bisu. Jika nama tersebut mengandungi ruang di antara perkataan cuba mengapitnya dengan tanda petik.",
+      "success": "%1$sPeranan bisu ditetapkan kepada **%2$s**"
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$sPilihan anda telah ditetapkan semula dengan betul!"
     },
     "birthday_test": {
-      "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
-      "no_bd_channel": "%1$sYou don't have any birthday channel set!",
-      "no_bd_role": "%1$sYou don't have any role set for the birthday setter! Make sure you create a new role for it.",
-      "no_talk_permission": "%1$sThe bot cannot speak on the birthday channel. Check channel permissions.",
-      "cannot_interact": "%1$sThe bot is unable to interact with the birthday role. (This means the birthday role is higher than the bot's highest role on the role hierarchy, put it below and try again)",
-      "no_role_permission": "%1$sThe bot is missing the Manage Roles permission.",
-      "success": "%1$sDone! The message was sent on channel %2$s for user **%3$s**. They got assigned the role **%4$s**",
-      "error": "%1$sOw... There was an error while sending the message on channel %2$s for user **%3$s** and role %4$s"
+      "no_user": "%1$sAnda perlu menyatakan seorang pengguna untuk menguji pengumuman petugas dengannya. Hanya menyebut dia.",
+      "no_bd_channel": "%1$sAnda belum menetapkan sebarang saluran hari jadi lagi!",
+      "no_bd_role": "%1$sAnda belum menetapkan sebarang peranan untuk tetapan hari jadi! Pastikan anda mencipta peranan yang baharu untuknya.",
+      "no_talk_permission": "%1$sBot tidak dapat bercakap dalam saluran hari jadi. Periksa kebenaran saluran.",
+      "cannot_interact": "%1$sBot tidak dapat berinteraksi dengan peranan hari jadi. (Ini bermaksud peranan hari jadi lebih tinggi daripada peranan tertinggi bot dalam hierarki peranan, letakkannya di bawah peranan bot dan cuba sekali lagi)",
+      "no_role_permission": "%1$sBot kekurangan kebenaran Mengurus Peranan.",
+      "success": "%1$sSiap! Mesej telah dihantar ke saluran %2$s untuk pengguna **%3$s**. Dia telah diberi peranan **%4$s**",
+      "error": "%1$sOw... Terdapat ralat semasa menghantar mesej ke saluran %2$s untuk pengguna **%3$s** dan peranan %4$s"
     },
     "usermessage_joinmessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone joins!",
-      "success": "%1$sAdded `%2$s` to the extra join messages successfully."
+      "no_message": "%1$sAnda perlu menyatakan mesej tambahan apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
+      "success": "%1$s`%2$s` berjaya ditambah sebagai mesej penyertaan tambahan."
     },
     "usermessage_joinmessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra join messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage joinmessage list` to see all of the available indexes"
+      "no_message": "%1$sAnda perlu menyatakan indeks mesej yang ingin anda padamkan!",
+      "success": "%1$s`%2$s (indeks %3$d)` berjaya dipadamkan dari mesej penyertaan tambahan.",
+      "wrong_index": "%1$sIndeks itu tidak wujud! Gunakan `~>opts usermessage joinmessage list` untuk melihat semua indeks yang ada"
     },
     "usermessage_joinmessage_clear": {
-      "success": "%1$sCleared all extra join messages."
+      "success": "%1$sSemua mesej penyertaan tambahan telah dipadamkan."
     },
     "usermessage_joinmessage_list": {
-      "header": "Extra join messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra join messages here..."
+      "header": "Senarai mesej penyertaan tambahan. %1$s\n%2$s",
+      "no_extras": "%1$sTiada sebarang mesej penyertaan tambahan di sini..."
     },
     "usermessage_leavemessage_add": {
-      "no_message": "%1$sYou need to specify what extra message you want me to say when someone leaves!",
-      "success": "%1$sAdded `%2$s` to the extra leave messages successfully."
+      "no_message": "%1$sAnda perlu menyatakan mesej tambahan apa yang anda mahu saya menghantar apabila seseorang meninggal pelayan ini!",
+      "success": "%1$s`%2$s` berjaya ditambah sebagai mesej peninggalan tambahan."
     },
     "usermessage_leavemessage_remove": {
-      "no_message": "%1$sYou need to specify the index of the message you want to remove!",
-      "success": "%1$sRemoved `%2$s (index %3$d)` from the extra leave messages successfully.",
-      "wrong_index": "%1$sThat index doesn't exist! Use `~>opts usermessage leavemessage list` to see all of the available indexes"
+      "no_message": "%1$sAnda perlu menyatakan indeks mesej yang ingin anda padamkan!",
+      "success": "%1$s`%2$s (indeks %3$d)` berjaya dipadamkan dari mesej peninggalan tambahan.",
+      "wrong_index": "%1$sIndeks itu tidak wujud! Gunakan `~>opts usermessage leavemessage list` untuk melihat semua indeks yang ada"
     },
     "usermessage_leavemessage_clear": {
-      "success": "%1$sCleared all extra leave messages."
+      "success": "%1$sSemua mesej peninggalan tambahan telah dipadamkan."
     },
     "usermessage_leavemessage_list": {
-      "header": "Extra leave messages list. %1$s\n%2$s",
-      "no_extras": "%1$sThere isn't any extra leave messages here..."
+      "header": "Senarai mesej peninggalan tambahan. %1$s\n%2$s",
+      "no_extras": "%1$sTiada sebarang mesej peninggalan tambahan di sini..."
     },
     "modlog_blacklistwords_add": {
-      "no_word": "%1$sYou didn't specify any word to add to the modlog blacklist.",
-      "success": "%1$sWord `%2$s` successfully added to the modlog blacklist.",
-      "too_many": "%1$sThere are already too many words on the blacklist (more than 20)."
+      "no_word": "%1$sAnda tidak menyatakan apa-apa perkataan untuk ditambahkan ke senarai hitam modlog.",
+      "success": "%1$sPerkataan `%2$s` berjaya ditambah ke senarai hitam modlog.",
+      "too_many": "%1$sSudah terdapat terlalu banyak perkataan di senarai hitam (lebih daripada 20)."
     },
     "modlog_blacklistwords_remove": {
-      "not_in": "%1$sWord `%2$s` isn't in the blacklist.",
-      "success": "%1$sSuccesfully removed word `%2$s` from the modlog blacklist."
+      "not_in": "%1$sPerkataan `%2$s` tidak ada di dalam senarai hitam.",
+      "success": "%1$sPerkataan `%2$s` berjaya dipadamkan dari senarai hitam modlog."
     },
     "logs_editmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone edits a message!",
-      "success": "%1$sMessage edit message set to: `%2$s`",
-      "reset_success": "%1$sReset logs edit message."
+      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang mengedit mesej!",
+      "success": "%1$sMesej edit mesej ditetapkan kepada: `%2$s`",
+      "reset_success": "%1$sMesej edit log telah ditetapkan semula."
     },
     "logs_deletemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone deletes a message!",
-      "success": "%1$sMessage delete message set to: `%2$s`",
-      "reset_success": "%1$sReset logs delete message."
+      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang memadamkan mesej!",
+      "success": "%1$sMesej pemadam mesej ditetapkan kepada: `%2$s`",
+      "reset_success": "%1$sMesej pemadam log telah ditetapkan semula."
     },
     "logs_banmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets banned!",
-      "success": "%1$sBan message set to: `%2$s`",
-      "reset_success": "%1$sReset logs ban message."
+      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang telah dilarang!",
+      "success": "%1$sMesej larangan ditetapkan kepada: `%2$s`",
+      "reset_success": "%1$sMesej larangan log telah ditetapkan semula."
     },
     "logs_unbanmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone gets unbanned!",
-      "success": "%1$sUnban message set to: `%2$s`",
-      "reset_success": "%1$sReset logs unban message."
+      "no_message": "%1$sAnda perlu menyatakan mesej apa yang anda mahu saya menghantar apabila larangan seseorang telah dipadamkan!",
+      "success": "%1$sMesej pemadam larangan ditetapkan kepada: `%2$s`",
+      "reset_success": "%1$sMesej pemadam larangan log telah ditetapkan semula."
     },
     "djrole_set": {
-      "no_role": "%1$sYou need to give me a role to use as the DJ role.",
-      "success": "%1$sSuccessfully set the DJ role to %2$s."
+      "no_role": "%1$sAnda perlu memberi saya peranan untuk digunakan sebagai peranan DJ.",
+      "success": "%1$sBerjaya menetapkan peranan DJ kepada %2$s."
     },
     "djrole_reset": {
-      "not_set": "%1$sYou have no custom DJ role set.",
-      "success": "%1$sSuccessfully reset the DJ role."
+      "not_set": "%1$sAnda belum menetapkan peranan DJ kustom lagi.",
+      "success": "%1$sPeranan DJ telah ditetapkan semula."
     },
     "showdisablewarning": {
-      "success": "%1$sDisplay warning on disabled command is set to: %2$s"
+      "success": "%1$sPaparan amaran pada arahan yang dimatikan telah ditetapkan kepada: %2$s"
     },
     "birthdayblacklist": {
-      "no_args": "%1$sYou need to specify who to blacklist from birthday announcements.",
+      "no_args": "%1$sAnda perlu menyatakan pengguna yang ingin disenarai hitam dari pengumuman hari jadi.",
       "add": {
-        "success": "%1$sSuccessfully added %2$s (%3$s) to the birthday announcement blacklist for this server."
+        "success": "%1$sBerjaya menambah %2$s (%3$s) kepada senarai hitam pengumuman hari jadi untuk pelayan ini."
       },
       "remove": {
-        "success": "%1$sSuccessfully removed %2$s (%3$s) from the birthday announcement blacklist for this server."
+        "success": "%1$sBerjaya memadamkan %2$s (%3$s) daripada senarai hitam pengumuman hari jadi untuk pelayan ini."
       }
     },
     "lobby": {
       "disable": {
-        "success": "%1$sSuccessfully disabled game lobby/multiple."
+        "success": "%1$sPermainan lobi/berkali-kali telah dimatikan."
       },
       "enable": {
-        "already_enabled": "%1$sGame lobby/multiple isn't disabled on this server.",
-        "success": "%1$sSuccessfully enabled game lobby/multiple. (If it was previously disabled)"
+        "already_enabled": "%1$sPermainan lobi/berkali-kali tidak dimatikan pada pelayan ini.",
+        "success": "%1$sPermainan lobi/berkali-kali telah diaktifkan. (Sekiranya ia dimatikan sebelum ini)"
       }
     },
-    "invalid_category": "%1$sYou entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below```md\n%2$s```",
-    "help_opts_notice": "%1$sYou cannot disable the options or the help command.",
-    "no_command": "%1$sNo command called %2$s",
+    "invalid_category": "%1$sAnda memasukkan kategori yang tidak sah. Senarai kategori yang sah untuk dimatikan (tidak peka kes) akan dipaparkan di bawah```md\n%2$s```",
+    "help_opts_notice": "%1$sAnda tidak boleh mematikan arahan options atau help.",
+    "no_command": "%1$sTiada arahan yang dipanggil %2$s",
     "invalid_role": "%1$sItu bukan peranan yang sah!"
   },
   "discord_permissions": {
@@ -2271,7 +2271,7 @@
     "message_embed_links": "Pautan Embed",
     "message_attach_files": "Menyertakan Fail",
     "message_history": "Membaca Sejarah",
-    "message_mention_everyone": "Menyebut Semua Orang",
+    "message_mention_everyone": "Menyebut “Everyone”",
     "message_ext_emoji": "Menggunakan Emoji Luaran",
     "voice_connect": "Menyambung",
     "voice_speak": "Bercakap",
@@ -2415,13 +2415,13 @@
     "chicken": "Ayam",
     "milk_3": "Botol Susu",
     "dog_food": "Makanan Anjing",
-    "cat_food": "Cat Food",
-    "hamster_food": "Hamster Food",
-    "wood": "Wood",
-    "moon_pick": "Moon Pickaxe",
-    "hellfire_pick": "Hellfire Pickaxe",
-    "axe": "Axe",
-    "comet_axe": "Comet Axe",
+    "cat_food": "Makanan Kucing",
+    "hamster_food": "Makanan Tikus Belanda",
+    "wood": "Kayu",
+    "moon_pick": "Kapak Beliung Bulan",
+    "hellfire_pick": "Kapak Beliung Api Neraka",
+    "axe": "Kapak",
+    "comet_axe": "Kapak Komet",
     "star_axe": "Kapak Bintang",
     "sparkle_axe": "Kapak Berkilau",
     "moon_axe": "Kapak Bulan",
@@ -2430,8 +2430,8 @@
     "hellfire_rod": "Joran Api Neraka",
     "leaves": "Daun-daun",
     "apple": "Epal",
-    "pear": "Pear",
-    "cherry_blossom": "Cherry Blossom",
+    "pear": "Buah Pir",
+    "cherry_blossom": "Bunga Sakura",
     "rock": "Batu",
     "broken_moon_pick": "Kapak Beliung Bulan Rosak",
     "broken_moon_axe": "Kapak Bulan Rosak",
@@ -2443,155 +2443,155 @@
     "broken_hellfire_axe": "Kapak Api Neraka Rosak",
     "broken_hellfire_rod": "Joran Api Neraka Rosak",
     "explanation": {
-      "pick": "A normal pickaxe you bought on the local market. Seems sturdy enough to mine some stuff.",
-      "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
-      "comet_pick": "You found some Comet Fragments and realized you could make a Comet Gem out of them.\nWhat did they do? Were they special?\nYou seemed eager to try it out after being impressed by its glow, so here we are, in your first step towards getting stronger picks.",
-      "star_pick": "Maybe it was the glow, maybe it was the fact they came from a star far away in the galaxy, but it seemed to make for quite a sturdy pick with special properties.\nWeird... it seems to attract more gems. Is it the effect of the material, or is it my skill getting better?",
+      "pick": "Kapak beliung biasa yang dibeli dari pasar tempatan. Nampaknya cukup kukuh untuk melombong beberapa benda.",
+      "diamond_pick": "Beliung berlian pastilah lebih kukuh daripada beliung besi yang dibeli dari pasar itu, saya yakin!",
+      "comet_pick": "Anda menjumpai beberapa Serpihan Komet dan menyedari bahawa anda boleh menghasilkan Permata Komet daripadanya.\nAdakah ia melakukan apa-apa? Adakah ia istimewa?\nNampaknya anda sangat bersemangat untuk menggunakannya, kagum dengan kilauannya. Jadi, inilah langkah pertama anda untuk mendapatkan beliung yang lebih kuat.",
+      "star_pick": "Mungkin ialah kilauannya, mungkin ialah hakikat bahawa ia berasal dari bintang yang jauh di galaksi, tetapi nampaknya ia menjadi beliung yang agak kukuh dengan keistimewaannya.\nPeliknya... nampaknya ia dapat menarik lebih banyak permata. Adakah ini kesan bahannya, atau adakah kemahiran saya semakin baik?",
       "moon_pick": "The moon-like substance mesmerized you.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nRegardless, you tried to fuse this with your current pick, and the result was quite satisfactory.\nSeems to be a good balance between light and dark, and somehow I mine some gems with it.\nIs this really a fragment from a far away moon?",
       "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
       "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
-      "axe": "A normal axe you bought on the local market. Good enough to chop some trees down.",
-      "comet_axe": "After testing the Comet Fragments on your pick, you also realized you could use them on your axe. It made it stronger, and shinier. All you could wish for.",
+      "axe": "Kapak biasa yang dibeli dari pasar tempatan. Boleh digunakan untuk menebang pokok.",
+      "comet_axe": "Setelah menguji Serpihan Komet pada beliung anda, anda juga menyedari bahawa anda boleh menggunakannya pada kapak anda. Ia menjadikannya lebih kuat, dan berkilat. Semua yang anda mahukan.",
       "star_axe": "A bright glow from a star far away, but in your hands.\nLooks like the tree-chopping can continue with this new, shiny axe. You seemed weirded out at first: how can this help me mine more wood?\nWell, you soon realized why...",
       "sparkle_axe": "A touch of sparkle here, a touch of sparkle there!\nThe axe glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
       "moon_axe": "Looking at this axe, you look mesmerized by moon-like glow it emits.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nMesmerized, you cast this substance into your axe and... boom!\nThe results look good. It seems to chop trees faster, too. Why is it so sharp? Is this really a fragment from a far away moon?",
       "hellfire_axe": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your axe now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Nothing can compare. But you're still left wondering whether you really did the right thing.",
-      "rod": "A rod you bought at your local fishing market. Looks sturdy.",
-      "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
+      "rod": "Joran yang dibeli dari pasar pancingan tempatan. Kelihatan kukuh.",
+      "comet_rod": "Setelah menguji Serpihan Komet pada kapak anda, anda juga menyedari bahawa anda boleh menggunakannya pada joran anda. Ia menjadikan talinya lebih kuat, dan nampaknya ia menarik lebih banyak ikan. Semua yang anda mahukan.",
       "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
       "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
       "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
       "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
-      "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
-      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
-      "sparkle_wrench": "A Wrench infused with pieces of Sparkle Fragments. Somehow it feels a lot sturdier."
+      "wrench": "Perengkuh biasa yang dibeli dari pasar. Berguna untuk membaiki item.",
+      "comet_wrench": "Perengkuh yang disuntik dengan kepingan Permata Komet. Entah kenapa, rasanya perengkuh ini lebih kuat.",
+      "sparkle_wrench": "Perengkuh yang disuntik dengan kepingan Serpihan Berkilau. Entah kenapa, rasanya perengkuh ini lebih kuat."
     },
     "description": {
-      "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
-      "ban_hammer": "Left by an admin.",
-      "kick_boot": "Ditinggalkan oleh admin.",
-      "floppy": "Might have some games. Don't copy the floppy.",
-      "maths": "Oh, I forgot my maths.",
-      "racket": "I won the game of ping-pong with Discord by a few milliseconds. Maybe.",
-      "loaded_die": "Stolen from the `~>roll` command.",
-      "forgotten": "Never downloaded. Probably has been copyrighted.",
-      "pencil": "We have plenty of those!",
+      "headphones": "Itulah yang terjadi apabila anda terlalu banyak mendengar muzik. Namun, mungkin ia bernilai.",
+      "ban_hammer": "Ditinggalkan oleh seorang admin.",
+      "kick_boot": "Ditinggalkan oleh seorang admin.",
+      "floppy": "Mungkin terdapat beberapa permainan. Jangan tiru disket itu.",
+      "maths": "Oh, saya terlupa matematik saya.",
+      "racket": "Saya menang pertandingan ping-pong melawan Discord dengan beberapa milisaat. Mungkinlah.",
+      "loaded_die": "Dicuri dari arahan `~>roll`.",
+      "forgotten": "Tidak pernah dimuat turun. Mungkin telah dilindungi oleh hak cipta.",
+      "pencil": "Kami ada banyak!",
       "moneybag": "Apa lagi?",
-      "pick": "A basic pick for your regularly scheduled mining.",
-      "milk": "Maybe it's okay to have some.",
-      "beverage": "Does really weird stuff in big quantities. Well, depends on what kind ;)",
-      "lewd": "Too many lewd commands. Way too many. Had fun?",
-      "ring": "Basically what makes your marriage official.",
-      "letter": "A letter from your loved one.",
-      "key": "Used to open various crates with `~>opencrate <crate name>` or `~>useitem <crate name>`",
-      "clothes": "Basically what you wear. Hopefully...",
-      "diamond": "Basically a better way of saving your money. It's shiny too. And let's you cast shiny stuff. How nice.",
+      "pick": "Beliung biasa untuk perlombongan berjadual anda.",
+      "milk": "Mungkin boleh diminum.",
+      "beverage": "Membuat perkara yang pelik dalam kuantiti yang banyak. Tapi, terpulng pada jenisnya ;)",
+      "lewd": "Banyaknya arahan lewd. Terlalu banyak. Berseronok tak?",
+      "ring": "Menjadikan perkahwinan anda rasmi.",
+      "letter": "Surat daripada kekasih anda.",
+      "key": "Digunakan untuk membuka pelbagai peti dengan `~>opencrate <nama peti>` atau `~>useitem <nama peti>`",
+      "clothes": "Dipakai pada diri anda. Haraplah ya...",
+      "diamond": "Cara yang baik untuk menabung wang. Ia berkilat juga. Dan membolehkan anda mencipta benda berkilat. Bagusnya.",
       "dress": "Comel kan?",
-      "necklace": "Looks nice.",
-      "tuxedo": "What you wear when you're going to get married with a girl, or going to a nice place, or maybe everywhere, who knows?",
-      "shoes": "'Cause walking barefoot is just nasty. Or painful.",
-      "rose": "The embodiment of your love. Also it's a nice decoration.",
-      "chocolate": "Yummy.",
-      "cookie": "Delicious.",
-      "die_2": "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`",
-      "booster": "Used to give you some kind of boost, now it's broken. `Leftover from Currency version 1. No longer obtainable.`",
+      "necklace": "Kelihatan baik.",
+      "tuxedo": "Dipakai semasa berkahwin dengan seorang wanita, atau pergi ke tempat yang elegan, atau mungkin mana-mana sahaja, siapa tahu?",
+      "shoes": "Sebab berjalan kaki ayam agak kotor. Atau sakit.",
+      "rose": "Penjelmaan kasih sayang anda. Ia juga hiasan yang cantik.",
+      "chocolate": "Sedap.",
+      "cookie": "Enak.",
+      "die_2": "Dadu yang lebih berat lagi. `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
+      "booster": "Sebelum ini ia pernah memberi anda kesan efektif, kini ia sudah rosak. `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
       "berserk": "Berserk Mata Wang? Sesiapa? `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
-      "companion": "Aw, such a cute dog. `Leftover from Currency version 1. No longer obtainable.`",
+      "companion": "Aw, comelnya anjing itu. `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
       "special_ring": "Ia amat istimewa, ia bukan sebentuk cincin pun. `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
       "enchancer": "Pemikat yang sudah rosak, saya tertanya-tanya bolehkah ia dibaiki? `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
-      "prize": "Agak banyak, kan? `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
-      "crate": "You can use this along with a loot key to open a loot crate! Can be opened with `~>opencrate`",
-      "prize_2": "In the first place, how did you get so much money?",
-      "slot_ticket": "Gives you extra chance in slots, also works as bulk storage.",
-      "house": "Cozy place to live in.",
-      "car": "To move around.",
-      "bell": "Christmas reward. Gives you a cozy christmas feeling on your tree.",
-      "tree": "Christmas reward. Who doesn't like a christmas tree?.",
-      "pants": "Basically what you wear on your legs... hopefully.",
-      "haste": "Allows you to collect more stuff from currency commands for 3 commands.",
-      "milky": "Clears all potion effects.",
+      "prize": "Agak banyak, ya? `Sisa dari Mata Wang versi 1. Tidak boleh didapatkan lagi.`",
+      "crate": "Anda boleh menggunakan kunci loot untuk membuka peti loot! Boleh dibuka dengan `~>opencrate`",
+      "prize_2": "Macam mana awak mendapat wang sebanyak itu?",
+      "slot_ticket": "Meningkatkan peluang anda dalam slot, juga berfungsi sebagai penyimpanan pukal.",
+      "house": "Tempat tinggal yang selesa.",
+      "car": "Untuk bergerak.",
+      "bell": "Hadiah Krismas. Menghidupkan semangat krismas pada pokok anda.",
+      "tree": "Hadiah Krismas. Adakah siapa yang tidak suka pokok krismas?.",
+      "pants": "Dipakai pada kaki anda... Haraplah ya.",
+      "haste": "Membolehkan anda mendapat hasil yang lebih banyak daripada arahan mata wang untuk 3 arahan.",
+      "milky": "Menghilangkan semua kesan ramuan.",
       "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
-      "rod": "A basic rod for your fishing activities.",
-      "fish": "Fish. Caught in fishing.",
-      "tropical_fish": "A very tropical fish. Caught in fishing.",
-      "blowfish": "I wonder... is this good? Caught in fishing.",
-      "comet_gem": "Fragments of a comet you found while mining. Useful for casting.",
-      "star_gem": "Fragments of a fallen star you found while mining.",
-      "cobweb": "Something a spider left over on the mine. Wonder if it's worth something.",
+      "rod": "Joran biasa untuk aktiviti memancing anda.",
+      "fish": "Ikan. Ditangkap semasa memancing.",
+      "tropical_fish": "Ikan yang sangat tropika. Ditangkap semasa memancing.",
+      "blowfish": "Saya tertanya-tanya... adakah ini baik? Ditangkap semasa memancing.",
+      "comet_gem": "Serpihan sebuah komet yang dijumpai semasa melombong. Berguna untuk penciptaan.",
+      "star_gem": "Serpihan sebuah bintang yang terjatuh semasa melombong.",
+      "cobweb": "Ditinggalkan oleh labah-labah di kawasan perlombongan. Mungkin ia bernilai.",
       "fragment": "Fragment of an ancient gem. Useful for casting.",
-      "mop": "A delightful way to clean all the dust you have around. I bet there's a lot of it.",
-      "claim_key": "This item makes you un-claimeable (as a waifu) when you run `~>profile claimlock`",
-      "coffee": "A delightful way to start your day.",
-      "waifu_pill": "Gives you a significant advantage on mine and fish if one of your waifus is valued at over 20,000. Lasts 3 sessions.",
-      "bait": "Gives you a higher chance of catching fish.",
-      "diamond_pick": "A strong-ish pick.",
-      "tv": "Must... watch... TV...",
+      "mop": "Kaedah yang baik untuk membersihkan habuk anda. Saya yakin ada banyak habuk di sini.",
+      "claim_key": "Item ini mengelakkan anda daripada tuntutan (sebagai waifu) apabila anda jalankan `~>profile claimlock`",
+      "coffee": "Kaedah yang baik untuk memulakan hari anda.",
+      "waifu_pill": "Memberi faedah yang signifikan semasa melombong dan memancing jika salah seorang waifu anda bernilai lebih daripada 20,000. Berkesan untuk 3 sesi.",
+      "bait": "Memberi anda peluang yang lebih tinggi untuk menangkap ikan.",
+      "diamond_pick": "Beliung yang agak kuat.",
+      "tv": "Mesti... menonton... TV...",
       "wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda.",
       "star_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan, diperlukan untuk mencipta beberapa item sekali gus. Tahap 2.",
       "sparkle_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan. Kos yang lebih rendah setiap ciptaan. Tahap 3.",
       "motorcycle": "Going around, the cool way.",
-      "comet_pick": "A stronger pick.",
-      "star_pick": "A much stronger pick.",
+      "comet_pick": "Beliung yang lebih kuat.",
+      "star_pick": "Beliung yang lebih kuat lagi.",
       "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
       "sparkle_pick": "One of the strongests pick out there.",
-      "pizza": "Yummy.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
-      "comet_rod": "A slightly stronger rod.",
-      "star_rod": "A stronger rod .",
-      "sparkle_rod": "A way stronger rod.",
-      "shell": "Found at the bottom of the ocean. What could it be worth for?",
-      "shark": "Woah. How did you catch this?",
-      "crab": "A crab. It dances, maybe.",
-      "squid": "Not to confuse with Squidward.",
-      "shrimp": "Pinkish stuff. I think.",
-      "moon": "Moon Rune. Needed to cast some stuff.",
-      "flake": "Snowflake. Usually used as a cast ingredient.",
-      "broken_comet_pick": "A comet pick that broke while mining. Still salvageable.",
-      "broken_sparkle_pick": "A sparkle pick that broke while mining. Still salvageable.",
-      "broken_star_pick": "A star pick that broke while mining. Still salvageable.",
-      "broken_comet_rod": "A comet rod that broke while fishing. Still salvageable.",
-      "broken_sparkle_rod": "A sparkle rod that broke while fishing. Still salvageable.",
-      "broken_star_rod": "A star rod that broke while fishing. Still salvageable.",
+      "pizza": "Sedap.",
+      "mine_crate": "Permata yang dijumpai semasa melombong. Mungkin terdapat benda yang berguna di dalamnya. Boleh dibuka dengan `~>opencrate gem crate`",
+      "fish_crate": "Harta karun yang dijumpai semasa memancing. Mungkin terdapat benda yang berguna di dalamnya. Boleh dibuka dengan `~>opencrate treasure`",
+      "mine_premium_crate": "Permata yang dijumpai semasa melombong. Mungkin terdapat benda yang berguna di dalamnya. Boleh dibuka dengan `~>opencrate gem premium crate`",
+      "fish_premium_crate": "Harta karun yang dijumpai semasa memancing. Mungkin terdapat benda yang berguna di dalamnya. Boleh dibuka dengan `~>opencrate premium treasure`",
+      "comet_rod": "Joran yang lebih kuat sikit.",
+      "star_rod": "Joran yang lebih kuat.",
+      "sparkle_rod": "Joran yang lebih kuat lagi.",
+      "shell": "Dijumpai di dasar laut. Apakah nilainya?",
+      "shark": "Woah. Macam mana awak tangkap ikan ini?",
+      "crab": "Ketam. Mungkin ia tahu menari.",
+      "squid": "Tidak boleh dikelirukan dengan Squidward.",
+      "shrimp": "Benda berwarna merah jambu. Saya rasa.",
+      "moon": "Rune Bulan. Diperlukan untuk mencipta sesuatu.",
+      "flake": "Kepingan salji. Biasanya digunakan sebagai bahan penciptaan.",
+      "broken_comet_pick": "Beliung komet yang patah semasa melombong. Masih boleh diselamatkan.",
+      "broken_sparkle_pick": "Beliung berkilau yang patah semasa melombong. Masih boleh diselamatkan.",
+      "broken_star_pick": "Beliung bintang yang patah semasa melombong. Masih boleh diselamatkan.",
+      "broken_comet_rod": "Joran komet yang patah semasa memancing. Masih boleh diselamatkan.",
+      "broken_sparkle_rod": "Joran berkilau yang patah semasa memancing. Masih boleh diselamatkan.",
+      "broken_star_rod": "Joran bintang yang patah semasa memancing. Masih boleh diselamatkan.",
       "incubator_egg": "The one catalyst you need to call your personal pet home.",
-      "water_bottle": "An item that magically heals your pet's thirst.",
-      "magic_watch": "A magic watch that slows time when you need it. This will automatically be consumed to save your daily streak!",
-      "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
-      "steak": "Very yummy if you're not vegetarian.",
-      "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
-      "milk_3": "Very good food for cats, I've heard.",
-      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
-      "cat_food": "Food your cat might like a lot.",
-      "hamster_food": "Food your hamster might enjoy.",
-      "wood": "Common drop from trees. Useful for casting.",
-      "moon_pick": "A very much stronger pick.",
-      "hellfire_pick": "Way too OP pick.",
-      "axe": "A normal, middle-of-the-road axe.",
-      "comet_axe": "A stronger axe.",
-      "star_axe": "A much stronger axe.",
-      "moon_axe": "A very much stronger axe.",
-      "sparkle_axe": "A way stronger axe.",
-      "hellfire_axe": "Way too OP axe.",
-      "moon_rod": "A stronger rod.",
-      "hellfire_rod": "Way too OP rod.",
+      "water_bottle": "Item yang menghilangkan kedahagaan haiwan peliharaan anda secara ajaib.",
+      "magic_watch": "Jam tangan ajaib yang boleh memperlahankan masa apabila diperlukan. Ini akan digunakan secara automatik untuk menyelamatkan coretan harian anda!",
+      "pet_house": "Tempat tinggal haiwan peliharaan anda. Mungkinlah. Kadangkala ia suka tidur di luar sahaja.",
+      "steak": "Sangat sedap jika anda bukan vegetarian.",
+      "chicken": "Sangat sedap jika anda bukan vegetarian, tetapi asalnya seekor ayam.",
+      "milk_3": "Makanan yang baik untuk kucing, saya rasa.",
+      "dog_food": "Mungkin inilah makanan kegemaran anjing anda. Atau mungkin ia lebih suka makan roti, seperti anjing saya.",
+      "cat_food": "Mungkin inilah makanan kegemaran kucing anda.",
+      "hamster_food": "Mungkin inilah makanan kegemaran tikus belanda anda.",
+      "wood": "Hasil biasa dari pokok-pokok. Berguna untuk penciptaan.",
+      "moon_pick": "Beliung yang lebih kuat lagi.",
+      "hellfire_pick": "Beliung yang terlalu OP.",
+      "axe": "Kapak yang biasa sahaja.",
+      "comet_axe": "Kapak yang lebih kuat.",
+      "star_axe": "Kapak yang lebih kuat lagi.",
+      "moon_axe": "Kapak yang lebih kuat lagi.",
+      "sparkle_axe": "Kapak yang lebih kuat lagi.",
+      "hellfire_axe": "Kapak yang terlalu OP.",
+      "moon_rod": "Joran yang lebih kuat.",
+      "hellfire_rod": "Joran yang terlalu OP.",
       "leaves": "A slow drop from a tree you tried to chop.",
       "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
       "pear": "You happened to chop a pear tree and the pear fell on your head. Ouch.",
       "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
-      "rock": "A rock. Yep. It's very hard, isn't it?",
-      "broken_moon_pick": "A moon pick that broke while mining. Still salvageable.",
-      "broken_moon_axe": "A moon axe that broke while chopping. Still salvageable.",
-      "broken_moon_rod": "A moon rod that broke while fishing. Still salvageable.",
-      "broken_star_axe": "A star axe that broke while chopping. Still salvageable.",
-      "broken_comet_axe": "A comet axe that broke while chopping. Still salvageable.",
-      "broken_sparkle_axe": "A sparkle axe that broke while chopping. Still salvageable.",
-      "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
-      "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
-      "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "rock": "Batu. Ye. Ia sangat keras, kan?",
+      "broken_moon_pick": "Beliung bulan yang patah semasa melombong. Masih boleh diselamatkan.",
+      "broken_moon_axe": "Kapak bulan yang patah semasa menebang pokok. Masih boleh diselamatkan.",
+      "broken_moon_rod": "Joran bulan yang patah semasa memancing. Masih boleh diselamatkan.",
+      "broken_star_axe": "Kapak bintang yang patah semasa menebang pokok. Masih boleh diselamatkan.",
+      "broken_comet_axe": "Kapak komet yang patah semasa menebang pokok. Masih boleh diselamatkan.",
+      "broken_sparkle_axe": "Kapak berkilau yang patah semasa menebang pokok. Masih boleh diselamatkan.",
+      "broken_hellfire_pick": "Beliung api neraka yang telah dipadamkan semasa melombong. Masih boleh diselamatkan.",
+      "broken_hellfire_axe": "Kapak api neraka yang telah dipadamkan semasa menebang pokok. Masih boleh diselamatkan.",
+      "broken_hellfire_rod": "Joran api neraka yang telah dipadamkan semasa memancing. Masih boleh diselamatkan.",
+      "chop_crate": "Peti yang dijumpai semasa menebang pokok. Mungkin mengandungi benda yang berguna. Boleh dibuka dengan `~>opencrate chop crate`",
+      "chop_premium_crate": "Peti yang dijumpai semasa menebang pokok. Mungkin mengandungi benda yang berguna. Boleh dibuka dengan `~>opencrate chop premium crate`"
     }
   },
   "test": {
