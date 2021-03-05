@@ -59,18 +59,22 @@ public class BirthdayCacher {
                 cachedBirthdays.clear();
 
                 for (Map<Object, Object> r : m) {
-                    var id = Long.parseUnsignedLong(String.valueOf(r.get("id")));
-                    // Why?
-                    if (cachedBirthdays.containsKey(id))
-                        continue;
+                    try {
+                        var id = Long.parseUnsignedLong(String.valueOf(r.get("id")));
+                        // Why?
+                        if (cachedBirthdays.containsKey(id))
+                            continue;
 
-                    //Blame rethinkdb for the casting hell thx
-                    @SuppressWarnings("unchecked")
-                    var birthday = ((Map<String, String>) r.get("data")).get("birthday");
-                    if (birthday != null && !birthday.isEmpty()) {
-                        log.debug("-> PROCESS: {}", r);
-                        var bd = birthday.split("-");
-                        cachedBirthdays.put(id, new BirthdayData(birthday, Long.parseLong(bd[0]), Long.parseLong(bd[1])));
+                        //Blame rethinkdb for the casting hell thx
+                        @SuppressWarnings("unchecked")
+                        var birthday = ((Map<String, String>) r.get("data")).get("birthday");
+                        if (birthday != null && !birthday.isEmpty()) {
+                            log.debug("-> PROCESS: {}", r);
+                            var bd = birthday.split("-");
+                            cachedBirthdays.put(id, new BirthdayData(birthday, Long.parseLong(bd[0]), Long.parseLong(bd[1])));
+                        }
+                    } catch (Exception e) {
+                        log.error("Error inserting user to birthday cache?", e);
                     }
                 }
 

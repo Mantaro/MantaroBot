@@ -558,7 +558,7 @@ public class PetCmds {
                     return;
                 }
 
-                name = Utils.HTTP_URL.matcher(content).replaceAll("-url-");
+                name = Utils.HTTP_URL.matcher(name).replaceAll("-url-");
 
                 player.setLocked(true);
                 player.saveUpdating();
