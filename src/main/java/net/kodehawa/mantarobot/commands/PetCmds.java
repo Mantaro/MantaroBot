@@ -410,7 +410,7 @@ public class PetCmds {
 
                     if (pet == null) {
                         if (isCallerPetOwner) {
-                            ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR);
+                            ctx.sendLocalized("commands.pet.pat.no_pet", EmoteReference.ERROR, choice.getReadableName());
                         } else {
                             ctx.sendLocalized("commands.pet.pat.no_pet_other", EmoteReference.ERROR, member.getEffectiveName());
                         }
