@@ -293,7 +293,7 @@ public enum Badge {
             (player, stats, dbUser) -> player.getData().getSharksCaught() >= 35, false
     ),
 
-    MILLIONARE("Millionare", "\uD83D\uDCB5", "Get your very own million credits.",
+    MILLIONARE("Millionaire", "\uD83D\uDCB5", "Get your very own million credits.",
             91, 92,
             (player, stats, dbUser) -> player.getCurrentMoney() >= 1_000_000, false
     ),
