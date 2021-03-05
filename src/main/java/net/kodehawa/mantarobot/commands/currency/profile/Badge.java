@@ -166,12 +166,12 @@ public enum Badge {
             (player, stats, dbUser) -> false, false
     ),
 
-    HOT_FISHER("Hot Fisher", "<:hellfire_axe:762027644971253760>",
+    HOT_FISHER("Hot Fisher", "<:hellfire_rod:762027645054615602>",
             "Get a Hellfire Fish Rod", 91, 92,
             (player, stats, dbUser) -> false, false
     ),
 
-    HOT_CHOPPER("Hot Chopper", "<:hellfire_rod:762027645054615602>",
+    HOT_CHOPPER("Hot Chopper", "<:hellfire_axe:762027644971253760>",
             "Get a Hellfire Axe", 91, 92,
             (player, stats, dbUser) -> false, false
     ),
