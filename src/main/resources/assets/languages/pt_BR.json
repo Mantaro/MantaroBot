@@ -154,9 +154,9 @@
         "success": "%1$s**%2$s**Equipado automaticamente no seu slot de peixe."
       },
       "overflow": "%1$sVocê encontrou alguns peixes, mas uma parte do seu inventário está cheia, então tivemos que jogar um pouco de volta na água.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sEnquanto você calmamente pescava, você encontrou %2$s usando uma *%3$s* e você prossegue para coloca-los em seu balde.",
+      "success_money": "%1$sEnquanto você calmamente pescava, você encontrou %2$s e **$%3$,d créditos** usando uma *%4$s* e você prossegue para coloca-los em seu balde.%5$s",
+      "success_money_noitem": "%1$sEnquanto você calmamente pescava, você encontrou **$%2$,d créditos** usando uma *%3$s* e você prossegue pra coloca-los em seu bolso.",
       "rod_broke": "%1$sSua vara de pesca quebrou enquanto tentava pegar um peixe :(",
       "waifu_help": "Sua waifu veio e se juntou em sua aventura de pesca e você dois ganharam mais recursos!",
       "not_suitable": "%1$sVocê não pode usar isso para pescar.",
@@ -568,11 +568,11 @@
         "empty": "%1$sVocê não pode deixar a carta de amor vazia.",
         "no_marriage": "%1$sVocê não é casado, não pode escrever uma carta de amor para si mesmo...",
         "not_proposing_player": "%1$sVocê não é o jogador que propôs este casamento!",
-        "already_done": "%1$sEste casamento já tem uma cara de amor atribuída. Cheque ela usando `marry status`",
+        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
         "too_long": "%1$sA carta de amor é muito longa (máximo de 500 caracteres)",
         "cannot_see": "%1$sEu não consegui achar o usuário que você se casou... Provavelmente não está em nenhum servidor comigo.",
         "confirmation": "%1$sVocê tem *certeza* que quer escrever essa carta para o seu casamento com **%2$s#%3$s**? Isso é PERMANENTE até o casamento acabar. *Conteúdo da carta:* %4$s",
-        "confirmed": "%1$sA carta de amor foi entregue com sucesso ao(a) seu(a) amado(a)! Cheque ela usando `marry status`",
+        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
         "scrapped": "%1$sVocê ainda tem tempo para pensar no que escrever, não precisa se apressar!"
       },
       "status": {
@@ -627,7 +627,7 @@
     "divorce": {
       "confirm": "%1$sVocê tem certeza que quer terminar esse casamento? O dinheiro gasto em pets, casas e carros será dividido por dois. Digite `yes` para continuar e `no` para cancelar. **Seu pet vai desaparecer, já que está vinculado ao casamento**",
       "cancelled": "%1$sDivórcio cancelado.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
+      "not_married": "%1$sVocê não casado com alguém, por que você não tenta achar alguém especial?\nQuer remover uma Waifu? Use `~>waifu unclaim` ao invés disso.",
       "success": "%1$sAgora você é solteiro. Isso é bom eu acho.\n%2$s",
       "split": "O dinheiro restante foi dividido entre as duas partes com a venda de seus ativos (pet, casa, carro). Cada um ganhou **%1$d** créditos em sua carteira."
     },
@@ -690,7 +690,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sMe dê uma waifu para avaliar!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sEu avalio sua waifu com um **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sVocê ganhou **%2$,d**%3$s",
@@ -723,10 +723,10 @@
       "not_equipped": "%1$sVocê não tem uma chave-inglesa equipada. Use `~>equip <wrench name>` para equipar uma chave-inglesa e começar sua aventura! Se você não tiver uma, primeiro use `~>buy wrench`. Você não precisa mais especificar a chave-inglesa nesse comando. Pra fundir múltiplos itens, coloque o número antes do item, por exemplo: `~>cast 5 star pick`",
       "too_many": "%1$sVocê teria mais de 5,000 desse item se você prosseguir. Talvez tentar fundir menos deste objeto?",
       "low_tier": "%1$sVocê precisa de pelo menos uma chave inglesa de Tier 2 (pelo menos uma Chave Inglesa de Cometa) pra fundir mais itens por chamada. Você atualmente tem uma chave inglesa de Tier %2$s equipada.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
+      "not_enough_wrench_level": "%1$sSua chave inglesa não é poderosa o suficiente para confeccionar este item. Talvez tentar especificar uma mais poderosa? (*Chave inglesa nível: %2$s, Nível necessário: %3$s*)",
       "too_many_amount": "%1$sVocê não pode fundir isso tudo de item ao mesmo tempo! Limite: %2$s, Tentativa: %3$s. Uma chave inglesa brilhante faz com que o limite duplique! A menos que você já esteja usando uma.",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+        "success": "%1$sEquipado automaticamente uma **%2$s** no seu slot de chave inglesa."
       },
       "ls": {
         "header": "Lista de Itens Fundíveis",
@@ -779,7 +779,7 @@
         "success_breakable": "%1$sComprou %2$,d %3$s por %4$,d créditos com sucesso. Você agora tem %5$,d créditos. Você pode equipar isso usando `~>equip <item name>`",
         "success_potion": "%1$sComprou %2$,d%3$s por %4$,d créditos com sucesso. Você agora têm %5$,d créditos. Você pode equipar essa poção ou buff usando `~>useitem <item name>`",
         "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra comprar esse item. Atual: %2$,d créditos, Necessário: %3$,d créditos.",
-        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
+        "success_breakable_upgrade": "Você pode checar <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> para mais informações de como melhorar seus equipamentos!"
       },
       "header": "Mercado da Mantaro",
       "reference": "\nVocê pode comprar e vender itens usando `~>buy <item>` e `~>sell <item>`. Cheque `~>help market` para mais informações, você também pode ver listas menores do mercado, tipo `~>market tools`",
@@ -889,10 +889,10 @@
         "reset_success": "%1$sTempo redefinido com sucesso."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
+        "no_argument": "%1$sVocê precisa fornecer um argumento! (set ou remove). Por exemplo, `~>profile description set Olá!`",
+        "no_content": "%1$sVocê não especificou o que você quer na sua descrição. Por exemplo, `~>profile description set Olá!`",
+        "too_long": "%1$sA descrição é muita longa! (Limite de 300 caracteres para todos e 500 para usuários premium)",
+        "success": "%1$sEu defini a descrição do seu perfil com sucesso. Cheque seu brilhante e novo perfil com `~>profile`",
         "clear_success": "%1$sDescrição apagada com sucesso."
       },
       "displaybadge": {
@@ -967,7 +967,7 @@
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
         "no_content": "%1$sVocê tem que especificar uma ferramenta para desequipar, pode ser entre `pick, axe, rod`",
         "invalid_type": "%1$sTipo inválido. Tipos válidos são `pick, axe, rod`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
+        "confirm": "%1$sVocê tem certeza de que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar. Isso lhe dará uma versão quebrada da sua ferramenta equipada agora.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
         "broken_equipment_recover": "\nSeu equipamento foi usado, mas você ganhou %1$s de volta, você pode conserta-lo se você precisar depois!",
@@ -1056,15 +1056,15 @@
       "header": "**%1$s Aniversário em %2$s**\nCache de aniversário atualiza a cada 23 horas, então se o seu aniversário não aparecer aqui, não entre em pânico e espere. Exibindo até 100 resultados.\n",
       "full_header": "**%1$s aniversários**\n%2$s\nLembre-se que os aniversários entram em cache a cada 23 horas e eles tem que executar `~>birthday allowserver`. Exibindo até 100 resultados.",
       "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se que o formato de data é `dd-mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro)",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
+      "error_date": "%1$sA data que você inseriu não é válida ou eu não consigo analisá-la corretamente. Por favor, tente com a formatação correta.\nLembre-se de que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11 para 16 de Novembro)",
+      "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de nascimento: %2$s *(Formato: dd-MM)* [day-month]. Para este servidor anunciar seu aniversário, você terá que usar `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
       "no_content": "%1$sVocê tem que especificar seu aniversário, `remove` para remover seu aniversário ou `month` para checar a lista de aniversários do mês. Depois, para este servidor anunciar seu aniversário, você agora tem que executar `~>birthday allowserver`",
       "new_format": "%1$sO novo formato de data é apenas `dd-mm` (dia-mês, por exemplo 20-10 para 20 de Outubro). Não precisa mais colocar seu ano, então você pode esquecer essa parte.",
       "allowed_server": "%1$sServidor permitido de anunciar seu aniversário. Para negar no futuro, apenas execute `~>birthday denyserver` neste servidor.",
       "denied": "%1$sServidor negado de anunciar seu aniversário. Para permitir no futuro, apenas execute `~>birthday allowserver` neste servidor.",
       "already_denied": "%1$sEste servidor já não pode anunciar seu aniversário. Se você quer permitir, execute `~>birthday allowserver` em vez disso. Este é o padrão.",
-      "leap": "Your birthday is on the 29th of February, which means it'll get announced on the 29th on leap years, and on the 28th of February on non-leap years.",
+      "leap": "Seu aniversário é no dia 29 de fevereiro, o que significa que será anunciado no dia 29 nos anos bissextos e no dia 28 de fevereiro nos anos não bissextos.",
       "already_allowed": "%1$sVocê já permitiu que esse servidor mostre seu aniversário."
     },
     "choose": {
@@ -1078,7 +1078,7 @@
         "success": "%1$sLembrete cancelado.",
         "select": "Selecione o lembrete que você deseja cancelar."
       },
-      "no_time": "%1$sVocê não especificou o tempo. Tente especificar ele no início do comando, por exemplo, `~>remindme 1h lavar a louça`. O formato do número é seguido por h (horas) ou m (minutos). Cheque `~>help mute` para um exemplo.",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sVocê não me deu um tempo sobre o argumento `-time`.",
       "too_little_time": "%1$sÉ muito pouco tempo (Mínimo: 1 minuto, Exemplo `~>remindme 1m lavar a louça`)",
       "too_long": "Isso é muito tempo... (Máximo 180 dias)",
@@ -1283,7 +1283,7 @@
     },
     "dailycrate": {
       "check": "%1$sVocê poderá reivindicar seu baú diário em: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
+      "not_premium": "%1$sVocê não é premium!\nPor favor cheque mais em <https://patreon.com/mantaro>\n\nComo um usuário premium, você pode obter um baú premium todo dia usando este comando, que tem uma grande chance de conter ferramentas high-tier e itens para os diferentes comandos da moeda (4 estrelas pra cima!)\nObrigado pela sua consideração, pois precisamos de ajuda para manter a Mantaro viva. Obrigado por usar a Mantaro <3",
       "success": "%1$sVocê acabou de ganhar um **%2$s**! Volte daqui a 24 horas pra ganhar outro! Você pode abri-lo usando `~>opencrate <tipo de baú>`. Você precisa comprar uma Chave de Baú utilizando o comando `~>buy key` antes de abri-lo."
     },
     "prune": {
@@ -1371,7 +1371,7 @@
         "no_choice": "%1$sVocê tem que especificar uma escolha (Personal ou Marriage).",
         "invalid_choice": "%1$sA escolha é inválida. Por favor escolha entre Personal ou Marriage. Personal é para você mesmo, Marriage é o pet compartilhado com seu parceiro",
         "ratelimit_message": "Você pode trocar sua escolha 3 vezes. Você tem que esperar o tempo especificado para mais trocas serem possíveis. Isso é para evitar spam!",
-        "already_chosen": "%1$sThis is already your choice.",
+        "already_chosen": "%1$sEssa já é a sua escolha.",
         "success": "%1$sDefinido com sucesso sua escolha para: %2$s %3$s"
       },
       "level": {
@@ -1383,9 +1383,9 @@
         "header": "%1$s**Pets atualmente Disponíveis**\n\n%2$s\n\n%3$s**Explicação das Habilidades:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sVocê não tem nenhum pet para acariciar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)",
         "no_pet_other": "%1$s%2$s não tem nenhum pet pra acariciar. Cheque `~>pet` para uma explicação.",
-        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
+        "personal_pet_other": "%1$sVocê não pode acariciar os pets pessoais de outras pessoas. Por enquanto.",
         "ratelimit_message": "Você pode acariciar seu pet até 25 vezes. Depois disso você tem que esperar o tempo acima para mais acariciar mais 25 vezes.",
         "too_many": "Como você conseguiu tanto carinho?"
       },
@@ -1488,11 +1488,11 @@
       "no_main_item": "%1$sVocê não parece que tem o item que está tentando resgatar.",
       "no_tool": "%1$sVocê não tem essa chave inglesa. Tente especificar ela, ou especificar outra chave inglesa.",
       "no_tool_default": "%1$sVocê precisa de pelo menos uma Chave Inglesa de Cometa no seu inventário pra fazer isso, mas você pode especificar uma maior se quiser.",
-      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_money": "%1$sVocê não tem dinheiro suficiente para salvar este item. *(Carteira: %2$,d, Necessário: %3$,d)*",
       "dust": "%1$sSeu inventário tá muito sujo pra tentar resgatar um item, tente limpar com um esfregão.",
       "no_returnables": "%1$sEste item não possui elementos resgate retornáveis.",
       "item_broke": "%1$sSua chave inglesa (%1$s) quebrou enquanto tentava resgatar este item :(",
-      "success": "%1$sResgatado com sucesso %2$s e você ganhou %3$s de retorno. O custo foi %4$s créditos. %5$s",
+      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
         "header": "Lista de Itens Resgatáveis",
         "cost": "Custo do Resgatamento: ",
@@ -1588,15 +1588,15 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
-      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
+      "no_item": "%1$sVocê não especificou nenhum item para consertar. Se você acha que tem o item correto, tente usar o nome completo.",
+      "no_item_found": "%1$sEu não consegui encontrar esse item. Se você acha que tem o item correto. tente usar o nome completo.",
+      "no_main_item": "%1$sVocê não o item que você está tentando consertar (%2$s)",
       "cant_repair": "%1$s**%2$s** não é um item que você pode consertar. Você só pode consertar itens quebrados.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
+      "no_tool": "%1$sVocê precisa de pelo menos uma Tier 2 (pelo menos uma Chave Inglesa de Cometa) ou uma chave inglesa maior para consertar esse item. Você pode equipar uma se necessário (`~>equip Comet Wrench`, por exemplo)",
+      "no_tool_specified": "%1$sVocê especificou uma chave inglesa que você não tem (%2$s). Por favor use a ferramenta que você tem ou confeccione ela. Se você acha que tem o item correto, tente usar o nome completo.",
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
+      "not_enough_level": "%1$sVocê precisa de uma chave inglesa de grande tier pra consertar isso. Você pode equipar uma se necessário (`~>equip Comet Wrench`, por exemplo)",
       "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
