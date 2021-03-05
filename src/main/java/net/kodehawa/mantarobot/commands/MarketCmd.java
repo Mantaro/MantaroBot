@@ -665,7 +665,7 @@ public class MarketCmd {
                     message = "commands.market.buy.success_potion";
                 }
 
-                if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.nextBoolean()) {
+                if (itemToBuy instanceof Attribute && ((Attribute) itemToBuy).getTier() == 1 && random.nextBoolean() && player.getLevel() <= 5) {
                     warn += EmoteReference.WRENCH.toHeaderString() + languageContext.get("commands.market.buy.success_breakable_upgrade") + "\n";
                 }
 
