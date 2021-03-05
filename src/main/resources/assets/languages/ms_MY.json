@@ -971,7 +971,7 @@
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
         "broken_equipment_recover": "\nPeralatan anda pernah digunakan, tetapi anda mendapat %1$s kembali, anda boleh membaikinya sekiranya anda memerlukannya nanti!",
-        "broken_equipment_recover_none": "\nJenis peralatan ini tidak mempunyai jenis patah yang dapat diperbaiki, dan telah digunakan, jadi ia hilang ke dalam kekosongan, tetapi anda mendapat %1$s kredit kembali.",
+        "broken_equipment_recover_none": "\nJenis peralatan ini tidak mempunyai jenis rosak yang dapat diperbaiki, dan telah digunakan, jadi ia hilang ke dalam kekosongan, tetapi anda mendapat %1$s kredit kembali.",
         "cancelled": "%1$sOperasi dibatalkan."
       },
       "display": {
@@ -1371,7 +1371,7 @@
         "no_choice": "%1$sAnda perlu menyatakan sebuah pilihan (Personal atau Marriage).",
         "invalid_choice": "%1$sPilihan tidak sah. Sila memilih sama ada Personal atau Marriage. Personal adalah untuk diri anda, Marriage ialah haiwan peliharaan yang dikongsi bersama pasangan anda",
         "ratelimit_message": "Anda boleh menukar pilihan anda sebanyak 3 kali. Anda perlu menunggu selama masa dinyatakan untuk menukar pilihan anda lagi. Ini adalah untuk mengelakkan spam!",
-        "already_chosen": "%1$sThis is already your choice.",
+        "already_chosen": "%1$sIni sudah menjadi pilihan anda sebelum ini.",
         "success": "%1$sBerjaya menetapkan pilihan anda kepada: %2$s %3$s"
       },
       "level": {
