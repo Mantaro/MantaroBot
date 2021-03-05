@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 import net.kodehawa.mantarobot.commands.currency.pets.PetChoice;
 import net.kodehawa.mantarobot.commands.currency.seasons.SeasonPlayer;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
@@ -139,9 +140,13 @@ public enum ProfileComponent {
     PET(EmoteReference.DOG, i18nContext -> i18nContext.get("commands.profile.pet.header"), (holder, i18nContext) -> {
         final var playerData = holder.getPlayer().getData();
         final var petType = playerData.getActiveChoice(holder.getMarriage());
-        var pet = playerData.getPet();
-        if (petType == PetChoice.MARRIAGE) {
+        HousePet pet = null;
+        if (petType == PetChoice.MARRIAGE && holder.getMarriage() != null) {
             pet = holder.getMarriage().getData().getPet();
+        }
+
+        if (petType == PetChoice.PERSONAL) {
+            pet = playerData.getPet();
         }
 
         if (pet == null) {
