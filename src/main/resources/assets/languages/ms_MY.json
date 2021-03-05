@@ -961,12 +961,12 @@
         "success": "%1$sAnda berjaya memasang %2$s *%3$s*, yang akan diingati lain kali anda menggunakan arahan mata wang yang sesuai.",
         "not_suitable": "%1$sAnda tidak boleh memasang ini.",
         "not_equipped": "%1$sAnda belum memasang ini lagi.",
-        "already_equipped": "%1$sAnda sudah memasang item sejenis ini! Cuba `~>unequip <jenis>` (Jenis yang sah ialah rod, axe atau pick) jika anda ingin menyingkirkannya."
+        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
       },
       "unequip": {
         "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
-        "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod`",
-        "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod`",
+        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
         "confirm": "%1$sAdakah anda pasti akan **menyingkirkan** %2$s %3$s anda? Taip `yes` untuk sahkan, `no` untuk membatalkan. Ini akan memberi anda versi peralatan yang sudah rosak.",
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
