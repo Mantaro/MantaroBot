@@ -466,7 +466,7 @@ public class ItemCmds {
                             var inventoryAmount = playerInventory.getAmount(needed);
                             if (inventoryAmount < amount) {
                                 ctx.sendLocalized("commands.repair.not_enough_items",
-                                        EmoteReference.ERROR, needed.getName(), amount, inventoryAmount
+                                        EmoteReference.ERROR, needed.getName(), brokenItem.getName(), amount, inventoryAmount
                                 );
                                 return;
                             }
