@@ -514,6 +514,11 @@ public class MarketCmd {
                 itemName = content.replace("allof", "").trim();
             }
 
+            if (itemName.trim().isEmpty()) {
+                ctx.sendLocalized("commands.market.sell.no_item", warn + EmoteReference.ERROR);
+                return;
+            }
+
             var toSell = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
                     .orElse(null);
 
@@ -618,6 +623,11 @@ public class MarketCmd {
 
         final var itemToBuy = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
                 .orElse(null);
+
+        if (itemName.trim().isEmpty()) {
+            ctx.sendLocalized("commands.market.buy.no_item", warn + EmoteReference.ERROR);
+            return;
+        }
 
         if (itemToBuy == null) {
             ctx.sendLocalized("commands.market.buy.non_existent", warn + EmoteReference.ERROR);
