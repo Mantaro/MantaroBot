@@ -755,6 +755,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
         "all": {
@@ -770,6 +771,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
         "non_existent": "%1$s你無法購買不存在的物品。試著使用更簡短的名稱或將他\"用引號包起來\"。記得把數量放在名稱前面，像是：`~>buy 15 energy`",
