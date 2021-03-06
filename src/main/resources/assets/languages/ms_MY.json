@@ -755,6 +755,7 @@
       },
       "sell": {
         "replacement": "Kini, anda boleh gunakan `~>sell`. Contohnya, anda boleh menggantikan `~>market sell pick` dengan `~>sell pick`. Sila menggunakan arahan yang baru.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda menjual.",
         "invalid": "%1$sNombor item untuk dijual tidak sah.",
         "all": {
@@ -770,6 +771,7 @@
       },
       "buy": {
         "replacement": "Kini, anda boleh gunakan `~>buy`. Contohnya, anda boleh menggantikan `~>market buy pick` dengan `~>buy pick`. Sila menggunakan arahan yang baru.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membeli.",
         "invalid": "%1$sNombor item untuk dibeli tidak sah.",
         "non_existent": "%1$sAnda tidak boleh membeli item yang tidak wujud. Sekiranya anda tersesat, cuba menaip nama singkatan atau mengapit nama tersebut dengan tanda petik. Selain itu, bilangan item diletakkan di hadapan nama item, contoh: `~>buy 15 energy`",
@@ -1176,13 +1178,13 @@
         "holdhands": "*memegang tangan awak*",
         "cuddle": "*cuddle awak*",
         "nuzzle": "*nuzzle awak*",
-        "blush": "*blushes at you*",
+        "blush": "*kembang dengan awak*",
         "bloodsuck": "B-Bagaimanakah saya melakukannya? Ah baiklah... *menghisap darah awak*"
       },
       "self": {
         "pat": "*dibelai*",
-        "hug": "*blushes* o-oh... thanks you",
-        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
+        "hug": "*kembang* o-oh... terima kasih",
+        "kiss": "*kembang*... Saya- uh... rasa awak tak patut cium bot tapi...",
         "poke": "O-Oh! Apakah yang anda perlukan?",
         "slap": ":(",
         "bite": "S-Sakit!",
@@ -1216,7 +1218,7 @@
       "cuddle": "%2$s telah cuddle awak %1$s",
       "nuzzle": "%1$s sedang nuzzle %2$s",
       "bloodsuck": "%1$s sedang menghisap darah %2$s!",
-      "blush": "%1$s is blushing at %2$s",
+      "blush": "%1$s kembang dengan %2$s",
       "nom": "Sedap.",
       "facedesk": "*menghempaskan muka ke atas meja*",
       "lewd": "A-Awak lewdie!",
@@ -2512,7 +2514,7 @@
       "pants": "Dipakai pada kaki anda... Haraplah ya.",
       "haste": "Membolehkan anda mendapat hasil yang lebih banyak daripada arahan mata wang untuk 3 arahan.",
       "milky": "Menghilangkan semua kesan ramuan.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Mengurangkan kehilangan daya tahan sesebuah peralatan setiap penggunaan. Berkesan untuk 3 arahan.",
       "rod": "Joran biasa untuk aktiviti memancing anda.",
       "fish": "Ikan. Ditangkap semasa memancing.",
       "tropical_fish": "Ikan yang sangat tropika. Ditangkap semasa memancing.",
