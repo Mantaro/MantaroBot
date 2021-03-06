@@ -755,6 +755,7 @@
       },
       "sell": {
         "replacement": "Puedes usar `~>sell` ahora. Por ejemplo, en lugar de `~>market sell pick` puedes usar `~>sell pick`. Por favor usa los comandos nuevos.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (si es solo uno, no tendrás que especificar la cantidad) y el item que deseas vender.",
         "invalid": "%1$sEse no es un número válido de items para vender.",
         "all": {
@@ -770,6 +771,7 @@
       },
       "buy": {
         "replacement": "Puedes usar `~>buy` ahora. Por ejemplo, en lugar de `~>market buy pick` puedes usar `~>buy pick`. Por favor usa los comandos nuevos.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sNecesitas especificar la cantidad del item (Si es solo uno, no necesitas especificar la cantidad) Y el item que deseas comprar.",
         "invalid": "%1$sEse no es un número valido de items para comprar.",
         "non_existent": "%1$sNo puedes comprar un ítem que no existe. Si estás perdido/a, intenta usar el nombre corto o pon el nombre \"entre comillas\". También ten en cuenta que el monto va antes del nombre, por ejemplo: `~>buy 15 energy`",
