@@ -163,7 +163,7 @@ public class HousePet {
     }
 
     public void decreaseDust(int by) {
-        if (thirst < 1) {
+        if (dust < 1) {
             return;
         }
 

@@ -205,7 +205,8 @@ public class ProfileCmd {
 
                             var hasCustomOrder = dbUser.isPremium() && !playerData.getProfileComponents().isEmpty();
                             var usedOrder = hasCustomOrder ? playerData.getProfileComponents() : defaultOrder;
-                            if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) || playerData.isHiddenLegacy()) {
+                            if ((!config.isPremiumBot() && player.getOldMoney() < 5000 && !hasCustomOrder) ||
+                                    (playerData.isHiddenLegacy() && !hasCustomOrder)) {
                                 usedOrder = noOldOrder;
                             }
 
