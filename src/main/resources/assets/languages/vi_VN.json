@@ -755,6 +755,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn bán.",
         "invalid": "%1$sSố không hợp lệ để có thể bán.",
         "all": {
@@ -770,6 +771,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sBạn cần nói rõ số lượng (nếu chỉ cần một, bạn không nhất thiết phải nói) và tên của đồ vật bạn muốn mua.",
         "invalid": "%1$sSố lượng bạn nhập không hợp lệ để mua.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
