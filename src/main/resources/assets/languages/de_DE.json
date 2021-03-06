@@ -755,6 +755,7 @@
       },
       "sell": {
         "replacement": "Du kannst nun `~>sell` verwenden. Als Beispiel, kannst du `~>sell pick` statt `~>market sell pick` nutzen. Bitte nutze stattdessen den neuen Befehl.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sDu musst den Gegenstand und die Anzahl (außer bei einem einzelnen Gegenstand) zum Verkaufen angeben.",
         "invalid": "%1$sUngültige Anzahl zu verkaufender Gegenstände.",
         "all": {
@@ -770,6 +771,7 @@
       },
       "buy": {
         "replacement": "Du kannst nun `~>buy` verwenden. Als Beispiel, kannst du `~>buy pick` statt `~>market buy pick` nutzen. Bitte nutze stattdessen den neuen Befehl.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sDu musst den Gegenstand und die Anzahl (außer bei einem einzelnen Gegenstand) zum Kaufen angeben.",
         "invalid": "%1$sUngültige Anzahl zu kaufender Gegenstände.",
         "non_existent": "%1$sDer Gegenstand existiert nicht. Du kannst versuchen, die Abkürzung zu tippen oder den Namen in Anführungszeichen zu schreiben. Die Anzahl muss vor dem Namen stehen, hier ein Beispiel: `~>buy 15 energy`",
