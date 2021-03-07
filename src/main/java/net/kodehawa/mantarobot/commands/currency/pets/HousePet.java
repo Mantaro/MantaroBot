@@ -256,7 +256,7 @@ public class HousePet {
 
     @JsonIgnore
     public void increaseExperience() {
-        this.experience += Math.max(10, random.nextInt(50));
+        this.experience += Math.max(10, random.nextInt(40));
         var toNextLevel = experienceToNextLevel();
         if (experience > toNextLevel)
             level += 1;
