@@ -332,7 +332,7 @@ public class CurrencyActionCmds {
                 final var languageContext = ctx.getLanguageContext();
 
                 final var player = ctx.getPlayer();
-                final var playerData = ctx.getPlayer().getData();
+                final var playerData = player.getData();
 
                 final var seasonPlayer = ctx.getSeasonPlayer();
                 final var dbUser = ctx.getDBUser();
