@@ -755,7 +755,7 @@
       },
       "sell": {
         "replacement": "Kini, anda boleh gunakan `~>sell`. Contohnya, anda boleh menggantikan `~>market sell pick` dengan `~>sell pick`. Sila menggunakan arahan yang baru.",
-        "no_item": "%1$sYou need to specify the item to sell.",
+        "no_item": "%1$sAnda perlu menyatakan item yang ingin dijual.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda menjual.",
         "invalid": "%1$sNombor item untuk dijual tidak sah.",
         "all": {
@@ -771,7 +771,7 @@
       },
       "buy": {
         "replacement": "Kini, anda boleh gunakan `~>buy`. Contohnya, anda boleh menggantikan `~>market buy pick` dengan `~>buy pick`. Sila menggunakan arahan yang baru.",
-        "no_item": "%1$sYou need to specify the item to buy.",
+        "no_item": "%1$sAnda perlu menyatakan item yang ingin dibeli.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membeli.",
         "invalid": "%1$sNombor item untuk dibeli tidak sah.",
         "non_existent": "%1$sAnda tidak boleh membeli item yang tidak wujud. Sekiranya anda tersesat, cuba menaip nama singkatan atau mengapit nama tersebut dengan tanda petik. Selain itu, bilangan item diletakkan di hadapan nama item, contoh: `~>buy 15 energy`",
