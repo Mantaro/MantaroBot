@@ -246,9 +246,10 @@ public class HousePet {
 
     @JsonIgnore
     public long experienceToNextLevel() {
-        var toNext = (long) ((getLevel() * Math.log10(getLevel()) * 1000) + (50 * getLevel() / 2D));
+        var level = getLevel();
+        var toNext = (long) ((level * Math.log10(level) * 1000) + (50 * level / 2D));
         if (getLevel() > 300) {
-            toNext *= 2;
+            toNext = (long) ((level * Math.log10(level) * 1400) + (200 * level / 2D));
         }
 
         return toNext;
