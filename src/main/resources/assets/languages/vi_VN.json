@@ -473,7 +473,8 @@
         "success": "%1$sĐã xóa phản hồi **#%2$d** của lệnh `%3$s` thành công"
       },
       "rename": {
-        "success": "%1$sĐã đổi tên lệnh `%2$s` thành `%3$s`"
+        "success": "%1$sĐã đổi tên lệnh `%2$s` thành `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sBạn cần phải chỉ ra lệnh mà bạn muốn thêm vào.",
