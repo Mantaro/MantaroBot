@@ -473,7 +473,8 @@
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sRenamed command `%2$s` to `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$s追加したいコマンドを指定してください。",
