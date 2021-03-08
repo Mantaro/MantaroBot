@@ -473,7 +473,8 @@
         "success": "%1$sRespuesta **#%2$d** del comando `%3$s` eliminada correctamente"
       },
       "rename": {
-        "success": "%1$sRenombrado comando `%2$s` a `%3$s`!"
+        "success": "%1$sRenombrado comando `%2$s` a `%3$s`!",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sNecesitas especificar qué comando quieres añadir.",
