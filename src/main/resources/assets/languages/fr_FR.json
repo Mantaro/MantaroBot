@@ -473,7 +473,8 @@
         "success": "%1$sa supprimé la réponse **#%2$d** de la commande `%3$s` avec succès."
       },
       "rename": {
-        "success": "%1$sCommande renommée de `%2$s` à `%3$s`"
+        "success": "%1$sCommande renommée de `%2$s` à `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
