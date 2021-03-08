@@ -473,7 +473,8 @@
         "success": "%1$sУспешно удалён ответ **#%2$d** для команды `%3$s`"
       },
       "rename": {
-        "success": "%1$sПереименована команда с `%2$s` на `%3$s`"
+        "success": "%1$sПереименована команда с `%2$s` на `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sВам нужно указать команду, которую вы хотите добавить.",
