@@ -104,7 +104,7 @@ public enum HousePetType {
             return 0;
         }
 
-        return (int) (maxCoinBuildup + (4 * level));
+        return Math.min(2000, (int) (maxCoinBuildup + (4 * level)));
     }
 
     public int getMaxItemBuildup(long level) {
@@ -112,7 +112,7 @@ public enum HousePetType {
             return 0;
         }
 
-        return (int) (3 + (0.1 * level));
+        return Math.min(30, (int) (3 + (0.1 * level)));
     }
 
     public String getStringAbilities() {
