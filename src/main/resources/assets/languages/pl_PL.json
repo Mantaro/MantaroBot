@@ -473,7 +473,8 @@
         "success": "%1$sUsunięto odpowiedź **#%2$d** polecenia `%3$s` prawidłowo"
       },
       "rename": {
-        "success": "%1$sZmieniono Nazwę koemndy `%2$s` na `%3$s`"
+        "success": "%1$sZmieniono Nazwę koemndy `%2$s` na `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sMusisz określić komendę, którą chcesz dodać.",
