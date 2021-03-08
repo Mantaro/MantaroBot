@@ -473,7 +473,8 @@
         "success": "%1$s`%3$s` komutundaki **#%2$d** yanıtı başarıyla silindi"
       },
       "rename": {
-        "success": "%1$sKomut ismi değiştirildi `%2$s` => `%3$s`"
+        "success": "%1$sKomut ismi değiştirildi `%2$s` => `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sNe komutu eklemek istediğini belirtmen gerekir.",
