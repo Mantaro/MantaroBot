@@ -473,7 +473,8 @@
         "success": "%1$sRespons **#%2$d** dari arahan `%3$s` telah dipadamkan secara lancar"
       },
       "rename": {
-        "success": "%1$sArahan `%2$s` telah dinamakan semula menjadi `%3$s`"
+        "success": "%1$sArahan `%2$s` telah dinamakan semula menjadi `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda tambahkan.",
