@@ -473,7 +473,8 @@
         "success": "%1$sAntwort **#%2$d** vom Befehl `%3$s` erfolgreich entfernt."
       },
       "rename": {
-        "success": "%1$sBefehl `%2$s` zu `%3$s` umbenannt!"
+        "success": "%1$sBefehl `%2$s` zu `%3$s` umbenannt!",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sDu musst den Befehl angeben, den du hinzufügen willst.",
