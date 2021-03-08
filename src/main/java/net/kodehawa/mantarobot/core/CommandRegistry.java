@@ -96,7 +96,8 @@ public class CommandRegistry {
         // Variable used in lambda expression should be final or effectively final...
         final var cmd = command;
 
-        if (managedDatabase.getMantaroData().getBlackListedUsers().contains(author.getId())) {
+        final var mantaroData = managedDatabase.getMantaroData();
+        if (mantaroData.getBlackListedUsers().contains(author.getId())) {
             if (!rl.process(author)) {
                 return;
             }
@@ -106,6 +107,10 @@ public class CommandRegistry {
                     If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
                     """
             ).queue();
+            return;
+        }
+
+        if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId())) {
             return;
         }
 
@@ -252,8 +257,8 @@ public class CommandRegistry {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content, isMention), cmdName, content);
         }
 
-        log.debug("!! COMMAND INVOKE: command:{}, user:{}, guild:{}, channel:{}",
-                cmdName, author.getAsTag(), guild.getId(), channel.getId()
+        log.debug("!! COMMAND INVOKE: command:{}, user:{} ({}), guild:{}, channel:{}",
+                cmdName, author.getAsTag(), author.getId(), guild.getId(), channel.getId()
         );
 
         final var end = System.currentTimeMillis();

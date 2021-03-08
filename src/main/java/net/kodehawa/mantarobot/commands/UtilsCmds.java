@@ -72,6 +72,11 @@ public class UtilsCmds {
                         var args = ctx.getArguments();
                         long time = 0L;
 
+                        if (args.length == 0) {
+                            ctx.sendLocalized("commands.remindme.no_time", EmoteReference.ERROR);
+                            return;
+                        }
+
                         final var maybeTime = args[0];
                         final var matchTime = rawTimePattern.matcher(maybeTime).matches();
                         if (matchTime) {
