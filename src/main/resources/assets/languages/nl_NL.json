@@ -473,7 +473,8 @@
         "success": "%1$sReactie verwijderd **#%2$d** van het commando `%3$s` correct"
       },
       "rename": {
-        "success": "%1$sNaam van commando gewijzigd van `%2$s` naar `%3$s`"
+        "success": "%1$sNaam van commando gewijzigd van `%2$s` naar `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sJe moet aangeven welk commando je wilt toevoegen.",
