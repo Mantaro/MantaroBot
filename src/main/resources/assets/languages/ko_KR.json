@@ -473,7 +473,8 @@
         "success": "%1$s`%3$s` 명령어의 **#%2$d** 응답을 올바르게 제거했어요"
       },
       "rename": {
-        "success": "%1$s명령어 이름을 `2$s`에서 `%3$s`(으)로 변경했어요."
+        "success": "%1$s명령어 이름을 `2$s`에서 `%3$s`(으)로 변경했어요.",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$s명령어를 추가하고 싶은지 지정해주세요.",
