@@ -30,8 +30,8 @@
     "dust": "Hanya ada habuk di sini.",
     "invalid_syntax": "Sintaks tidak sah.",
     "item_lookup": {
-      "no_item_emoji": "Tiada item yang berkaitkan dengan emoji ini.",
-      "no_item_name": "Tiada item yang berkaitkan dengan nama ini.",
+      "no_item_emoji": "Tiada item yang berkaitan dengan emoji ini.",
+      "no_item_name": "Tiada item yang berkaitan dengan nama ini.",
       "not_found": "Tidak menemui item yang berkaitan dengan carian anda.\nSekiranya anda tersesat, cuba gunakan nama singkatan, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
       "claim_key": "Anda tidak boleh memindahkan kunci tuntutan."
     },
@@ -56,11 +56,11 @@
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
       "potion_not_found": "%1$sSaya tidak dapat menjumpai ramuan atau jenis peralatan itu!",
-      "potion_applied": "%1$sKesan berjaya diterapkan **%2$s** dari jenis *%3$s* (%4$dx). Periksa kesan baru anda yang berkilat pada `~>profile stats`",
+      "potion_applied": "%1$sBerjaya menerapkan kesan **%2$s** dari jenis *%3$s* (%4$dx). Periksa kesan baru anda pada `~>profile stats`",
       "potion_applied_multiple": "%1$sBerjaya menggunakan **%2$s** dari jenis *%3$s*.\nAnda sudah menggunakan kesan ini, jadi kami timbunkannya. Saiz timbunan semasa:%4$s",
-      "max_stack_size": "%1$sAnda sudah mengumpulkan jumlah maksimum %2$s yang mungkin anda dapat. (Maksimum: 15, Selepas timbunan: %3$s)",
-      "max_stack_size_2": "%1$sAnda tidak dapat menumpuk sebanyak %2$s itu. (Maksimum: 15, Dicuba:%3$s)",
-      "not_same_potion": "%1$sAnda sudah mempunyai ramuan jenis %2$s yang tersusun dan aktif, jadi anda tidak boleh memasukkan ramuan jenis %3$s ke dalamnya."
+      "max_stack_size": "%1$sAnda sudah timbunkan jumlah maksimum %2$s yang mungkin anda dapat. (Maksimum: 15, Selepas timbunan: %3$s)",
+      "max_stack_size_2": "%1$sAnda tidak dapat menimbun sebanyak %2$s itu. (Maksimum: 15, Dicuba:%3$s)",
+      "not_same_potion": "%1$sAnda sudah mempunyai ramuan jenis %2$s yang telah ditimbunkan dan aktif, jadi anda tidak boleh menimbunkan ramuan jenis %3$s ke dalamnya."
     },
     "campaigns": {
       "premium": {
@@ -69,7 +69,7 @@
         "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
         "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
       },
-      "twitter": "Adakah anda tahu kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara-perkara lain."
+      "twitter": "Tahukah anda bahawa kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara-perkara lain."
     },
     "mention_user_required": "%1$sAnda perlu menyebut seorang pengguna.",
     "invalid_character": "%1$sItu bukan aksara yang dibenarkan.",
@@ -87,16 +87,16 @@
       "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini semula dalam %3$s.**",
       "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda cuba lagi sebelum cooldown ditetapkan semula!**",
       "spam_2": "\nSaya rasa berhenti adalah pilihan yang terbaik buat masa ini...",
-      "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
+      "spam_3": "\nBukankah lebih baik jika awak keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
     },
     "generic_error": "Sekiranya anda mahu, sertailah **pelayan sokongan** kami (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
-      "Nampaknya Megumin letupkan istana kami...",
+      "Nampaknya Megumin telah meletupkan istana kami...",
       "Uh-oh, nampaknya tuan saya terlupa beberapa angka kosong dan satu di atas lantai :<",
       "T-Tunggu, apa yang baru berlaku?",
       "S-Saya rasa kita ada kebakaran di sini... anda mungkin ingin memberitahu tuan saya untuk melihat.",
-      "Saya sudah menguasai sihir letupan, anda lihat?",
+      "Saya sudah menguasai sihir letupan, awak lihat?",
       "Mungkin ada yang salah di sini, tapi, u-uh, saya boleh memperbaikinya!",
       "U-Uhh.. Apa yang anda mahukan?"
     ],
@@ -187,7 +187,7 @@
       "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s (%3$s dilarang)",
       "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
-      "error": "%1$sRalat melarang %2$s: (Saya memerlukan kebenaran %3$s)",
+      "error": "%1$sRalat semasa melarang %2$s: (Saya memerlukan kebenaran %3$s)",
       "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
     },
     "kick": {
@@ -2377,7 +2377,7 @@
     "claim_key": "Kunci Tuntutan",
     "coffee": "Kopi",
     "waifu_pill": "Pil Waifu",
-    "bait": "Umpan Ikan",
+    "bait": "Umpan Memancing",
     "diamond_pick": "Kapak Beliung Berlian",
     "tv": "Televisyen",
     "wrench": "Perengkuh",
@@ -2464,7 +2464,7 @@
       "comet_rod": "Setelah menguji Serpihan Komet pada kapak anda, anda juga menyedari bahawa anda boleh menggunakannya pada joran anda. Ia menjadikan talinya lebih kuat, dan nampaknya ia menarik lebih banyak ikan. Semua yang anda mahukan.",
       "star_rod": "Cahaya serpihan yang terang ini sangat mempesonakan. Anda menyatukan serpihan itu dengan joran anda, dan ikan terus mengelilinginya! Rasanya umpan tidak lagi diperlukan tiap-tiap kali, tetapi ia masih berguna.",
       "moon_rod": "Anda masih terpesona dengan keupayaan permata ini yang boleh terapung sendiri. Tidak kesah, anda menyatukan permata itu dengan joran anda sebaik mungkin. Nampaknya ia lebih kuat daripada joran yang disatukan dengan Serpihan Bintang, tetapi bezanya tidak besar.\nWalaubagaimanapun, anda masih kagum dengan kilauannya seperti hari pertama anda menjumpainya.",
-      "sparkle_rod": "Sedikit kilauan di sini, sedikit kilauan di situ!\nAnda mencairkan Serpihan Berkilau dan melapisi tali joran anda dengannya. Anda tertanya-tanya. Bagaimanakah joran ini boleh menarik ikan? Terdapat banyak misteri di dunia, dan inilah salah satunya. Mungkin ia dapat membawa hasil yang lebih besar. Mungkin ia dapat memuaskan hati anda.\nKilauan yang ditinggalkannya di laut indah sekali, dan anda menikmati keindahannya berjam-jam. Mungkinlah anda telah melakukan perkara yang betul akhirnya.",
+      "sparkle_rod": "Sedikit kilauan di sini, sedikit kilauan di situ!\nAnda mencairkan Serpihan Berkilau dan melapisi tali joran anda dengannya. Anda tertanya-tanya. Bagaimanakah joran ini boleh menarik ikan? Terdapat banyak misteri di dunia, dan inilah salah satunya. Mungkin ia dapat membawa hasil yang lebih besar. Mungkin ia dapat memuaskan hati anda.\nKilauan di lautan yang ditinggalkannya indah sekali, dan anda menikmati keindahannya berjam-jam. Mungkinlah anda telah melakukan perkara yang betul akhirnya.",
       "hellfire_rod": "Reaksi antara semua elemen boleh menjadi proses yang pelik dan berbahaya.\nAnda sudah menguasai semua elemen, dan penyatuan elemen-elemen tersebut dengan joran anda kini menjadi mudah. Mungkin kilauannya, mungkin apinya, tetapi anda terpaksa melakukannya.\nFungsinya begitu efisien. Ikan-ikan berkumpul di sekeliling joran anda. Tiada apa-apa yang dapat dibandingkan. Tetapi anda masih tertanya-tanya sama ada anda betul-betul melakukan perkara yang betul.",
       "wrench": "Perengkuh biasa yang dibeli dari pasar. Berguna untuk membaiki item.",
       "comet_wrench": "Perengkuh yang disuntik dengan kepingan Permata Komet. Entah kenapa, rasanya perengkuh ini lebih kuat.",
