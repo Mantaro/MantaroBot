@@ -816,7 +816,8 @@
       "receipt_over_limit": "%1$sDieser Nutzer hat bereits zu viel Geld...",
       "success": "%1$sEs wurden **%2$,d** *(%3$,d nach 8%% Steuern)* an **%4$s** erfolgreich überwiesen.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "Du kannst nur einmal alle 10 Minuten an eine Person (%1$s) überweisen."
+      "party": "Du kannst nur einmal alle 10 Minuten an eine Person (%1$s) überweisen.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1043,6 +1044,7 @@
       "more_than_one": "%1$sDu kannst nur eine Person gleichzeitig Ruf schenken!",
       "rep_bot": "%1$sDu kannst einem Bot kein Ruf schenken.\n%2$s",
       "rep_yourself": "%1$sDu kannst die selber nicht Ruf schenken.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**Du kannst diesen Befehl in %1$s erneut verwenden**",
         "pass": "Du kannst jetzt jemandem Ruf schenken.",
