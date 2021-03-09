@@ -110,7 +110,8 @@ public class CommandRegistry {
             return;
         }
 
-        if (mantaroData.getBlackListedGuilds().contains(event.getGuild().getId())) {
+        final var guild = event.getGuild();
+        if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             return;
         }
 
@@ -121,7 +122,6 @@ public class CommandRegistry {
         }
 
         final var member = event.getMember();
-        final var guild = event.getGuild();
         final var roles = member.getRoles();
         final var channelDisabledCommands = guildData.getChannelSpecificDisabledCommands().get(channel.getId());
         if (channelDisabledCommands != null && channelDisabledCommands.contains(name(cmd, cmdName))) {

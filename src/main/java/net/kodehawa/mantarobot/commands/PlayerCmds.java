@@ -140,6 +140,11 @@ public class PlayerCmds {
                         return;
                     }
 
+                    if (ctx.isUserBlacklisted(usr.getId())) {
+                        ctx.sendLocalized("commands.rep.blacklisted_rep", EmoteReference.ERROR);
+                        return;
+                    }
+
                     if (!RatelimitUtils.ratelimit(rateLimiter, ctx, languageContext.get("commands.rep.cooldown.explanation"), false)) {
                         return;
                     }

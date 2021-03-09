@@ -98,6 +98,11 @@ public class TransferCmds {
                     return;
                 }
 
+                if (ctx.isUserBlacklisted(giveTo.getId())) {
+                    ctx.sendLocalized("commands.transfer.blacklisted_transfer", EmoteReference.ERROR);
+                    return;
+                }
+
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx))
                     return;
 
@@ -234,6 +239,11 @@ public class TransferCmds {
 
                 if (!oldEnough.test(giveTo.getUser())) {
                     ctx.sendLocalized("commands.transfer.new_account_notice_other", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (ctx.isUserBlacklisted(giveTo.getId())) {
+                    ctx.sendLocalized("commands.transfer.blacklisted_transfer", EmoteReference.ERROR);
                     return;
                 }
 

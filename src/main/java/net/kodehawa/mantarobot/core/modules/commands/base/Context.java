@@ -287,6 +287,9 @@ public class Context {
         });
     }
 
+    public boolean isUserBlacklisted(String id) {
+        return managedDatabase.getMantaroData().getBlackListedUsers().contains(id);
+    }
 
     public User retrieveUserById(String id) {
         User user = null;
