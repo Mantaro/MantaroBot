@@ -816,7 +816,8 @@
       "receipt_over_limit": "%1$sEse usuario ya tiene muchos créditos...",
       "success": "%1$sHas transferido **%2$d** *(%3$d despues de 8%% de impuestos)* créditos a **%4$s** correctamente.",
       "item_transfer": "%1$sNo puedes transferir items usando este comando, usa el comando `~>transferitems` en lugar de éste.",
-      "party": "Solo puedes transferir a la misma persona (%1$s) una vez cada 10 minutos."
+      "party": "Solo puedes transferir a la misma persona (%1$s) una vez cada 10 minutos.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1043,6 +1044,7 @@
       "more_than_one": "%1$sSolo puedes darle reputación a una persona",
       "rep_bot": "%1$sNo puedes darle reputación a un bot.\n%2$s",
       "rep_yourself": "%1$sNo puedes darte reputación a tí mismo.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**Podrás usar este comando en %1$s**",
         "pass": "Ya puedes darle reputación a alguien.",
