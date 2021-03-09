@@ -117,6 +117,11 @@ public class MoneyCmds {
                         return;
                     }
 
+                    if (ctx.isUserBlacklisted(otherUser.getId())) {
+                        ctx.sendLocalized("commands.transfer.blacklisted_transfer", EmoteReference.ERROR);
+                        return;
+                    }
+
                     // Why this is here I have no clue;;;
                     dailyMoney += r.nextInt(90);
 
