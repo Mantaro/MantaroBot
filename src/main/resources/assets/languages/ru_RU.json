@@ -816,7 +816,8 @@
       "receipt_over_limit": "%1$sУ этого пользователя уже слишком много денег...",
       "success": "%1$sПереведено **%2$d** *(%3$d вычтено 8%%)* пользователю **%4$s** успешно.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1043,6 +1044,7 @@
       "more_than_one": "%1$sВы можете повысить репутацию только одному человеку",
       "rep_bot": "%1$sВы не можете повысить репутацию боту.\n%2$s",
       "rep_yourself": "%1$sВы не можете повысить репутацию самому себе.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**Вы сможете ещё раз повысить репутацию через %1$s**",
         "pass": "Вы можете повысить репутацию.",
