@@ -51,7 +51,7 @@
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
         "success": "%1$sOtworzyłeś skrzynię i wygrałeś: %2$s%3$s. Gratulacje!",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success_high": "%1$sMasz następujące przedmioty z rzadkością powyżej 3 gwiazdek: %2$s. Kwota pozycji została pokazana powyżej",
         "overflow": "Ale miałeś już za dużo, więc postanowiłeś wyrzucić nadmiar"
       },
       "potion_active": "%1$sMasz już aktywny **%2$s** efekt mikstury i masz maksymalną możliwą jego ilość!",
