@@ -107,7 +107,7 @@ public class PlayerCmds {
 
                     var usr = member.getUser();
                     var author = ctx.getAuthor();
-                    Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(5, ChronoUnit.DAYS)));
+                    Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(30, ChronoUnit.DAYS)));
 
                     //Didn't want to repeat the code twice, lol.
                     if (!oldEnough.test(usr)) {
