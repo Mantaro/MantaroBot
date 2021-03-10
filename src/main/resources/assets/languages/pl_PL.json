@@ -154,9 +154,9 @@
         "success": "%1$sAutomatycznie wyposażono **%2$s** w Twoim slocie na ryby."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sPodczas spokojnego wędkowania znalazłeś %2$s przy użyciu *%3$s* i zapisałeś je do swojego wiadra.",
+      "success_money": "%1$sPodczas spokojnego wędkowania znalazłeś %2$s i **$%3$,d kredytów** za pomocą *%4$s* i zapisałeś je w swoim wiaderku. %5$s",
+      "success_money_noitem": "%1$sPodczas spokojnego wędkowania, znalazłeś **$%2$,d kredytów** używając *%3$s* i zapisałeś je w swojej kieszeni.",
       "rod_broke": "%1$sTwoja wędka pękła podczas próby złowienia ryby :(",
       "waifu_help": "Twój waifu przybył i dołączył do twojej wędkarskiej przygody i oboje otrzymacie większy połów!",
       "not_suitable": "%1$sNie możesz tego użyć do łowienia ryb.",
