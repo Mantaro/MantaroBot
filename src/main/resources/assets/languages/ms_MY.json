@@ -474,7 +474,7 @@
       },
       "rename": {
         "success": "%1$sArahan `%2$s` telah dinamakan semula menjadi `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sAnda perlu menyatakan arahan yang ingin dinamakan semula dan nama barunya."
       },
       "add": {
         "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda tambahkan.",
@@ -817,7 +817,7 @@
       "success": "%1$s**%2$,d** *(%3$,d selepas 8%% cukai)* berjaya dipindahkan kepada **%4$s**.",
       "item_transfer": "%1$sAnda tidak boleh memindahkan item menggunakan transfer, gunakan arahan `~>transferitems` sebagai gantinya.",
       "party": "Anda hanya dapat memindahkan kepada orang yang sama (%1$s) sekali setiap 10 minit.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "blacklisted_transfer": "%1$sAnda tidak dapat memindahkan apa-apa kepada pengguna yang disenarai hitam."
     },
     "useitem": {
       "ls": {
@@ -1044,7 +1044,7 @@
       "more_than_one": "%1$sAnda hanya boleh memberi reputasi kepada seorang pengguna sahaja",
       "rep_bot": "%1$sAnda tidak boleh memberi reputasi kepada bot.\n%2$s",
       "rep_yourself": "%1$sAnda tidak boleh rep diri anda.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "blacklisted_rep": "%1$sAnda tidak dapat memberi reputasi kepada akaun yang disenarai hitam.",
       "cooldown": {
         "waiting": "**Anda akan dapat menggunakan arahan ini semula dalam %1$s**",
         "pass": "Anda boleh rep seseorang sekarang.",
