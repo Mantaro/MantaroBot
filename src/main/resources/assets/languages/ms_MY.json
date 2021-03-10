@@ -623,7 +623,8 @@
       "confirmation": "%1$s%2$s, taip **yes** atau **no** bagi lamaran perkahwinan daripada %3$s\n%4$sMasa ini akan tamat dalam 120 saat.",
       "ring_check_fail": "%1$sAnda tidak boleh berkahwin jika anda mempunyai lebih kurang daripada dua bentuk cincin dalam inventori anda :(",
       "accepted": "%1$s**%2$s#%3$s** telah menerima lamaran **%4$s#%5$s**!",
-      "denied": "%1$sLamaran **%2$s** telah ditolak"
+      "denied": "%1$sLamaran **%2$s** telah ditolak",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAdakah anda pasti akan menamatkan perkahwinan ini? Wang yang dibelanjakan untuk membeli rumah dan kereta akan dibahagikan kepada dua. Taip `yes` untuk meneruskan dan `no` untuk membatalkan. **Haiwan peliharaan anda akan hilang, kerana ia terikat dengan perkahwinan**",
@@ -802,8 +803,8 @@
       "no_item_mention": "%1$sAnda perlu menyatakan penerima untuk memindahkan item dan item yang ingin dipindahkan."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sAkaun anda mestilah berumur sekurang-kurangnya 7 hari untuk memindahkan wang.",
-      "new_account_notice_other": "%1$sAkaun penerima mestilah berumur sekurang-kurangnya 7 hari.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sAnda tidak boleh memindahkan wang kepada diri anda.",
       "bot_notice": "%1$sAnda tidak boleh memindahkan wang kepada bot.",
       "no_amount": "%1$sAnda perlu menyatakan jumlahnya. Gunakan arahan `~>transferitems` sebagai gantinya jika anda ingin memindahkan item.",
@@ -1039,7 +1040,7 @@
       "footer": "Lencana dianggap sebagai pencapaian, dan boleh dicapai melalui kemajuan dalam permainan Mantaro ataupun dengan menggunakan bot semata-mata."
     },
     "rep": {
-      "new_account_notice": "%1$sUmur akaun (tempoh masa sejak akaun Discord dicipta) mestilah lebih daripada 5 hari untuk memberi atau menerima rep. Cuba lagi nanti.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sAnda perlu menyebut atau meletakkan nama seseorang pengguna.\n%2$s",
       "more_than_one": "%1$sAnda hanya boleh memberi reputasi kepada seorang pengguna sahaja",
       "rep_bot": "%1$sAnda tidak boleh memberi reputasi kepada bot.\n%2$s",
