@@ -623,7 +623,8 @@
       "confirmation": "%1$s%2$s, beantwoord met **yes** of **no** op het huwelijksaanzoek van %3$s\n%4$sDit aanzoek zal een time-out geven over 120 seconden.",
       "ring_check_fail": "%1$sJe kunt niet trouwen als je minder dan twee verlovingsringen in je inventaris hebt :(",
       "accepted": "%1$s**%2$s#%3$s** accepteerde het huwelijksaanzoek van **%4$s#%5$s**!",
-      "denied": "%1$sHet huwelijksaanzoek van **%2$s** is afgewezen."
+      "denied": "%1$sHet huwelijksaanzoek van **%2$s** is afgewezen.",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -802,8 +803,8 @@
       "no_item_mention": "%1$sJe moet de naam van het voorwerp, en de naam van de persoon opgeven naar wie je het item wilt verzenden ."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sJe kunt geen geld naar jezelf overmaken.",
       "bot_notice": "%1$sJe kunt geen geld overmaken naar een bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -1039,7 +1040,7 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sJe moet de naam van een gebruiker vermelden.\n%2$s",
       "more_than_one": "%1$sJe kunt maar één persoon een reputatie geven",
       "rep_bot": "%1$sJe kunt een bot geen reputatie geven.\n%2$s",
