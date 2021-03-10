@@ -623,7 +623,8 @@
       "confirmation": "%1$s%2$s, wpisz **yes** lub **no** do propozycji małżeństwa z %3$s\n%4$sTo limit czasu na 120 sekund.",
       "ring_check_fail": "%1$sNie możesz poślubić mniej niż dwóch pierścieni w ekwipunku :(",
       "accepted": "%1$s**%2$s#%3$s** zaakceptował propozycję **%4$s#%5$s**!",
-      "denied": "%1$sOdrzucona propozycja od **%2$s**"
+      "denied": "%1$sOdrzucona propozycja od **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sJesteś pewna, że chcesz zakończyć to małżeństwo? Pieniądze wydane na zwierzęta domowe, domy i samochody zostaną podzielone na dwie części. Wpisz \"yes\", aby kontynuować i \"no\", aby anulować. **Twoje zwierzę zniknie, bo jest przywiązane do małżeństwa**",
@@ -802,8 +803,8 @@
       "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -1039,7 +1040,7 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
