@@ -623,7 +623,8 @@
       "confirmation": "%1$s%2$s قم بكتابة **yes** أو **no** لإقتراح الزواج من %3$s\n%4$sالمهلة 120 ثانيه فقط لتُقرر :)! ",
       "ring_check_fail": "%1$sلايمكنك الزواج مع أقل من خاتمين في مخزونك :( ",
       "accepted": "%1$s**%2$s#%3$s** قبل الزواج من **%4$s#%5$s**!",
-      "denied": "%1$sرفض اقتراح الزواج من **%2$s**"
+      "denied": "%1$sرفض اقتراح الزواج من **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -802,8 +803,8 @@
       "no_item_mention": "%1$sيجب أن تحدد عضو لتحويل غرض له وأيضا يجب أن تحدد الغرض المراد تحويله."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sلايمكنك تحويل مال لنفسك.",
       "bot_notice": "%1$sلايمكنك تحويل مال لبوت.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -1039,7 +1040,7 @@
       "footer": "الشارات هي مثل الإنجازات ، وأنها اكتسبت من خلال التقدم في لعبة مانتارو أو مجرد استخدام البوت."
     },
     "rep": {
-      "new_account_notice": "%1$sيجب أن يكون عمر الحساب (مقدار الوقت منذ إنشاء حساب دسكورد) لإعطاء أو استقبال ريب أقدم من 5 أيام. حاول مرة أخرى في وقت لاحق.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sتحتاج إلى منشن أو وضع اسم عضو واحد. %2$s",
       "more_than_one": "%1$sيمكنك إعطاء الريب لشخص واحد فقط",
       "rep_bot": "%1$sلايمكنك إعطاء بوت ريب \n%2$s",
