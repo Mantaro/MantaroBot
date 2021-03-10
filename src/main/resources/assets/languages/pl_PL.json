@@ -426,7 +426,7 @@
         "not_found": "%1$sNie mogę znaleźć tego polecenia.",
         "header": "Nieprzetworzone polecenie niestandardowe: %1$s",
         "amount": "(Pokazanie %1$d odpowiedzi %2$d)",
-        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
+        "too_large_view": "Zbyt duży, aby wyświetlić tutaj, użyj `~>custom view %1$s %2$s`",
         "description": "Jest to lista wszystkich odpowiedzi tego polecenia w formacie surowym (co wprowadzasz do polecenia)."
       },
       "clear": {
