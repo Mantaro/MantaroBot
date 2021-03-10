@@ -623,7 +623,8 @@
       "confirmation": "%1$s%2$s, hãy gõ **yes** (đồng ý) hoặc **no** (không đồng ý) cho lời cầu hôn của %3$s%4$sHết hiệu lực sau 120 giây.",
       "ring_check_fail": "%1$sBạn không thể cưới khi có ít hơn hai chiếc nhẫn trong tủ đồ của bạn :(",
       "accepted": "%1$s**%2$s#%3$s** đã chấp nhận lời cầu hôn của **%4$s#%5$s**!",
-      "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**"
+      "denied": "%1$sĐã từ chối lời cầu hôn từ **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -802,8 +803,8 @@
       "no_item_mention": "%1$sBạn cần đề cập đến người nhận đồ và tên đồ."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sBạn không thể tự chuyển tiền cho bản thân.",
       "bot_notice": "%1$sBạn không thể chuyển tiền cho một bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -1039,7 +1040,7 @@
       "footer": "Huy hiệu như một loại thành tích, và chúng được tăng lên qua sự tiến triển trong trò chơi của Mantaro hoặc đơn giản bằng cách dùng bot."
     },
     "rep": {
-      "new_account_notice": "%1$sTuổi thọ của tài khoản (tính từ thời điểm tài khoản được lập ra trên discord) phải lớn hơn 5 ngày để có thể gửi hoặc nhận sự uy tín. Hãy thử lại sau.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sBạn cần đề cập hoặc đưa ra tên của một người dùng.\n%2$s",
       "more_than_one": "%1$sBạn chỉ có thể gửi sự uy tín tới một người",
       "rep_bot": "%1$sBạn không thể tăng uy tín cho bot.\n%2$s",
