@@ -64,6 +64,15 @@ public class MarryCmd {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
+        final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
+                .limit(1)
+                .cooldown(10, TimeUnit.MINUTES)
+                .maxCooldown(40, TimeUnit.MINUTES)
+                .randomIncrement(false)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("marry")
+                .build();
+
         ITreeCommand marryCommand = cr.register("marry", new TreeCommand(CommandCategory.CURRENCY) {
             @Override
             public Command defaultTrigger(Context ctx, String mainCommand, String commandName) {
@@ -134,6 +143,10 @@ public class MarryCmd {
                             return;
                         }
 
+                        // Check for rate limit
+                        if (!RatelimitUtils.ratelimit(rateLimiter, ctx, ctx.getLanguageContext().get("commands.marry.ratelimit_message"), false))
+                            return;
+
                         // Send confirmation message.
                         ctx.sendLocalized("commands.marry.confirmation", EmoteReference.MEGA,
                                 proposedToUser.getName(), ctx.getAuthor().getName(), EmoteReference.STOPWATCH
@@ -199,7 +212,6 @@ public class MarryCmd {
                                 if (proposedToPlayerInventory.getAmount(ItemReference.RING) < 5000) {
                                     proposedToPlayerInventory.process(new ItemStack(ItemReference.RING, 1));
                                 }
-
 
                                 final long marriageCreationMillis = Instant.now().toEpochMilli();
                                 // Onto the UUID we need to encode userId + timestamp of
