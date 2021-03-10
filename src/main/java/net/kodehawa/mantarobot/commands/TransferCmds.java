@@ -81,7 +81,7 @@ public class TransferCmds {
                     return;
                 }
 
-                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(7, ChronoUnit.DAYS)));
+                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(14, ChronoUnit.DAYS)));
                 if (!oldEnough.test(ctx.getAuthor())) {
                     ctx.sendLocalized("commands.transfer.new_account_notice_yourself", EmoteReference.ERROR);
                     return;
@@ -231,7 +231,7 @@ public class TransferCmds {
                     return;
                 }
 
-                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(7, ChronoUnit.DAYS)));
+                Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(14, ChronoUnit.DAYS)));
                 if (!oldEnough.test(ctx.getAuthor())) {
                     ctx.sendLocalized("commands.transfer.new_account_notice_yourself", EmoteReference.ERROR);
                     return;
