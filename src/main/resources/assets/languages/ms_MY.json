@@ -140,7 +140,7 @@
       "dust": "%1$sHari sudah berakhir, dan baldi ikan anda hanya dapat mengumpulkan habuk. (Tahap habuk %2$s%%)",
       "no_rod": "%1$sAnda masih belum memasang joran anda. Gunakan `~>equip <nama joran>` untuk memasang sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
       "trash": {
-        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami harus membuangnya kembali ke dalam air...",
+        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami terpaksa membuangnya kembali ke dalam air...",
         "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s yang terapung tetapi nampaknya hanya sampah :("
       },
       "tier3": {
@@ -172,7 +172,7 @@
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang lembut.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
-      "yourself_note": "%1$sWhy are you trying to soft-ban yourself?",
+      "yourself_note": "%1$sMengapa awak cuba melarang lembut diri awak?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s. **(%3$s dilarang lembut)**",
       "error": "%1$sRalat larangan lembut [%2$s]: (Tidak ada kebenaran yang diberikan: %3$s)",
@@ -238,7 +238,7 @@
       "track_error": "%1$sAduh, saya menemui masalah semasa memainkan lagu ini! Maaf atas kesulitan, saya akan cuba memainkan yang berikutnya jika ada.",
       "queue_finished": "%1$sSelesai memainkan antrian semasa! Harap anda menikmatinya :heart:",
       "soundcloud_no_args": "%1$sAnda perlu memberi saya nama lagu, saya bukan ahli silap mata jadi saya tidak dapat meneka :(",
-      "missing_embed_permissions": "%1$sAnda haruslah memberikan kebenaran Pautan Embed kepada bot supaya ia dapat memaparkan menu tersebut. Jika anda ingin melangkau menu tersebut, gunakan `~>forceplay`, yang akan memainkan keputusan pertama.",
+      "missing_embed_permissions": "%1$sAnda perlu memberikan kebenaran Pautan Embed kepada bot supaya ia dapat memaparkan menu tersebut. Jika anda ingin melangkau menu tersebut, gunakan `~>forceplay`, yang akan memainkan keputusan pertama.",
       "no_vc_found": "%1$sSaya tidak tersambung ke mana-mana saluran suara walaupun sepatutnya? Cuba lagi.",
       "queue": {
         "header_field": "Arahan",
@@ -318,7 +318,7 @@
       "success": "%1$sLagu semasa telah dimulai semula."
     },
     "skipahead": {
-      "no_time": "%1$sAnda haruslah memberitahu saya tempoh lagu yang ingin dilangkau. *(Contoh: `~>skipahead 1m45s` akan melangkau tempoh 1 minit dan 45 saat dari posisi semasa lagu anda)*",
+      "no_time": "%1$sAnda perlu memberitahu saya tempoh lagu yang ingin dilangkau. *(Contoh: `~>skipahead 1m45s` akan melangkau tempoh 1 minit dan 45 saat dari posisi semasa lagu anda)*",
       "past_duration": "%1$sAnda tidak boleh melangkau ke masa yang melepasi tempoh sesebuah lagu",
       "success": "%1$sSudah dilangkau ke %2$s."
     },
@@ -457,8 +457,8 @@
         "success": "Arahan kustom `%1$s` telah diimport dari pelayan `%2$s` dengan sebanyak %3$d respons."
       },
       "edit": {
-        "no_command": "%1$sAnda harus menyatakan arahan apa yang ingin anda edit.",
-        "invalid_number": "%1$sAnda harus menyatakan nombor yang betul untuk mengedit.",
+        "no_command": "%1$sAnda perlu menyatakan arahan apa yang ingin anda edit.",
+        "invalid_number": "%1$sAnda perlu menyatakan nombor yang betul untuk menukarnya.",
         "no_index": "%1$sAnda tidak boleh mengedit indeks yang tidak wujud.",
         "empty_response": "%1$sTidak boleh edit menjadi respons kosong",
         "not_enough_args": "%1$sAnda perlu menyatakan arahan, indeks dan respons yang baru",
@@ -466,7 +466,7 @@
       },
       "deleteresponse": {
         "no_command": "%1$sAnda perlu menyatakan arahan dari mana anda ingin padamkan respons.",
-        "invalid_number": "%1$sAnda harus menyatakan nombor yang betul untuk mengedit.",
+        "invalid_number": "%1$sAnda perlu menyatakan nombor yang betul untuk menukarnya.",
         "no_index": "%1$sAnda tidak boleh memadamkan indeks yang tidak wujud.",
         "not_enough_args": "%1$sAnda perlu menyatakan arahan dan indeks yang ingin anda padamkan.",
         "no_responses_left": "%1$sTiada lagi respons yang tinggal, jadi saya telah memadamkan arahan tersebut.",
@@ -486,11 +486,11 @@
       },
       "lockcommand": {
         "no_permission": "%1$sAnda memerlukan kebenaran Mengurus Pelayan untuk mengunci dan membuka arahan.",
-        "no_command": "%1$sAnda haruslah menyatakan arahan yang ingin anda mengunci.",
+        "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda mengunci.",
         "success": "%1$sBerjaya mengunci arahan `%2$s`. Anda hendaklah membukanya untuk mengedit lebih lanjut."
       },
       "unlockcommand": {
-        "no_command": "%1$sAnda haruslah menyatakan arahan yang ingin anda membuka.",
+        "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda membuka.",
         "not_locked": "%1$sArahan ini tidak dikunci.",
         "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
       },
@@ -589,7 +589,7 @@
         "pet": "Nama Haiwan Peliharaan (Jenis)"
       },
       "timezone": {
-        "no_content": "%1$sAnda haruslah menyatakan zon masa yang ingin dijejaki oleh perkahwinan anda.",
+        "no_content": "%1$sAnda harus menyatakan zon masa yang ingin dijejaki oleh perkahwinan anda.",
         "invalid": "%1$sZon masa ataupun ID Zon yang tidak sah.",
         "success": "%1$sBerjaya menetapkan zon masa perkahwinan kepada %2$s. Zon masa haiwan peliharaan adalah sama dengan zon masa perkahwinan."
       },
@@ -804,7 +804,7 @@
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sAkaun anda mestilah berumur sekurang-kurangnya 14 hari untuk memindahkan wang.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_other": "%1$sAkaun penerima mestilah berumur sekurang-kurangnya 14 hari.",
       "transfer_yourself_note": "%1$sAnda tidak boleh memindahkan wang kepada diri anda.",
       "bot_notice": "%1$sAnda tidak boleh memindahkan wang kepada bot.",
       "no_amount": "%1$sAnda perlu menyatakan jumlahnya. Gunakan arahan `~>transferitems` sebagai gantinya jika anda ingin memindahkan item.",
@@ -825,7 +825,7 @@
         "header": "Senarai Item Interaktif",
         "desc": "Berikut adalah senarai item interaktif di Mantaro. Untuk maklumat lanjut tentang item interaktif, periksa wiki kami!"
       },
-      "use_command": "%1$sUntuk item ini anda haruslah menggunakan arahan yang dikaitkan dengannya! (mine untuk beliung, fish untuk joran)",
+      "use_command": "%1$sUntuk item ini anda harus menggunakan arahan yang dikaitkan dengannya! (mine untuk beliung, fish untuk joran)",
       "no_items_specified": "%1$sAnda perlu menyatakan item yang ingin digunakan.",
       "not_interactive": "%1$sAnda tidak boleh berinteraksi dengan item ini.",
       "interactive_no_action": "%1$sItem ini telah ditandai sebagai interaktif, tetapi tidak mempunyai set tindakan. Mungkin item ini menggunakan arahan tersendiri? Misalnya, beliung menggunakan `~>mine`",
@@ -1040,7 +1040,7 @@
       "footer": "Lencana dianggap sebagai pencapaian, dan boleh dicapai melalui kemajuan dalam permainan Mantaro ataupun dengan menggunakan bot semata-mata."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sUmur akaun (tempoh masa sejak akaun Discord dicipta) mestilah lebih daripada 30 hari untuk memberi atau menerima rep. Cuba lagi nanti.",
       "no_mentions": "%1$sAnda perlu menyebut atau meletakkan nama seseorang pengguna.\n%2$s",
       "more_than_one": "%1$sAnda hanya boleh memberi reputasi kepada seorang pengguna sahaja",
       "rep_bot": "%1$sAnda tidak boleh memberi reputasi kepada bot.\n%2$s",
@@ -1074,7 +1074,7 @@
       "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
     "choose": {
-      "nothing_to": "%1$sAnda haruslah memberitahu saya apa yang anda mahu saya memilih antara. (contoh: `~>choose anime manga \"sleeping out\")",
+      "nothing_to": "%1$sAnda harus memberitahu saya apa yang anda mahu saya memilih antara. (contoh: `~>choose anime manga \"sleeping out\")",
       "success": "%1$sSaya memilih `%2$s`"
     },
     "remindme": {
@@ -1404,7 +1404,7 @@
         "counter_100": "%1$sNampaknya kepalanya akan berkilau dengan belaian sebanyak itu."
       },
       "buy": {
-        "not_enough_arguments": "%1$sAnda haruslah menyatakan nama haiwan peliharaan dan taipkan jenis haiwan peliharaan yang ingin dibeli. (Misalnya, `~>pet buy hello dog`). Jika anda ingin membeli haiwan peliharaan peribadi, jalankan `~>pet choice personal` dahulu.",
+        "not_enough_arguments": "%1$sAnda harus menyatakan nama haiwan peliharaan dan taipkan jenis haiwan peliharaan yang ingin dibeli. (Misalnya, `~>pet buy hello dog`). Jika anda ingin membeli haiwan peliharaan peribadi, jalankan `~>pet choice personal` dahulu.",
         "no_requirements": "%1$sAnda memerlukan kedua-duanya sebuah kereta dan sebuah rumah untuk membeli seekor haiwan peliharaan! Rumah: %2$s, Kereta: %3$s\nUntuk membeli sebuah rumah dan sebuah kereta gunakan `~>marry buyhouse` dan `~>marry buycar` :heart:",
         "no_house": "%1$sAnda perlu memiliki sebuah rumah haiwan peliharaan dalam inventori anda untuk melakukan ini. Anda boleh membelinya dari pasar.",
         "no_egg": "%1$sAnda memerlukan sebiji Telur Inkubator dalam inventori anda untuk melakukan ini. Anda boleh menciptanya, periksa `~>cast ls`",
@@ -1726,11 +1726,11 @@
       "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menaik taraf peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyainya terlalu banyak, jadi saya telah menjualnya.",
-        "success": "Huh! Anda bertuah kerana menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
+        "success": "Huh! Anda bertuah dan menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
       },
       "gem": {
         "overflow": "Huh, anda menjumpai *%1$s* semasa melombong, tetapi anda sudah mempunyai terlalu banyak permata itu, jadi saya telah menjualnya.",
-        "success": "Huh! Anda bertuah kerana menjumpai *%1$s* semasa melombong, periksa inventori anda.",
+        "success": "Huh! Anda bertuah dan menemui *%1$s* semasa melombong, periksa inventori anda.",
         "success_extra": "Hurray! Anda sangat bertuah kerana menjumpai *%1$s* dan *%2$s* semasa melombong, periksa inventori anda."
       },
       "sparkle": {
@@ -1858,7 +1858,7 @@
       "success": "%1$s%2$s telah dibenarkan pada pelayan ini."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sAnda haruslah menyatakan nama saluran dan arahan yang ingin anda melarang.",
+      "invalid": "%1$sAnda harus menyatakan nama saluran dan arahan yang ingin anda melarang.",
       "success": "%1$s%2$s telah dimatikan pada saluran #%3$s."
     },
     "server_command_specific_allow": {
@@ -1940,8 +1940,8 @@
       "success": "%1$sKini, pengundian (untuk menghentikan/melangkau) ditetapkan kepada %2$s"
     },
     "localblacklist_add": {
-      "invalid": "%1$s**Anda haruslah menyatakan pengguna untuk disenarai hitam secara tempatan**",
-      "yourself_notice": "%1$sWhy are you trying to blacklist yourself?...",
+      "invalid": "%1$s**Anda harus menyatakan pengguna untuk disenarai hitam secara tempatan**",
+      "yourself_notice": "%1$sMengapa awak cuba menyenarai hitam diri awak?...",
       "admin_notice": "%1$sSeorang (atau lebih banyak) pengguna yang sedang anda cuba menyenarai hitam adalah admin atau Komander Bot!",
       "bot_notice": "%1$sAnda tidak boleh menyenarai hitam bot. Bot tidak akan membalas sebarang bot lain.",
       "success": "%1$sPengguna disenarai hitam secara tempatan: **%2$s**"
@@ -1951,7 +1951,7 @@
       "success": "%1$sPengguna dipadamkan dari senarai hitam tempatan: **%2$s**"
     },
     "logs_enable": {
-      "no_channel": "%1$sAnda haruslah menyatakan saluran yang ingin digunakan sebagai saluran log.",
+      "no_channel": "%1$sAnda harus menyatakan saluran yang ingin digunakan sebagai saluran log.",
       "success": "%1$sLog mesej telah diaktifkan dengan parameter -> `Saluran #%2$s (%3$s)`"
     },
     "logs_disable": {
@@ -2055,7 +2055,7 @@
       "success": "%1$sSaluran log Penyertaan/Peninggalan telah ditetapkan kepada: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sAnda haruslah menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
+      "no_message": "%1$sAnda harus menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
       "success": "%1$sMesej penyertaan pelayan ditetapkan kepada: `%2$s`"
     },
     "usermessage_leavemessage": {
@@ -2138,7 +2138,7 @@
     },
     "defaultmutetimeout_set": {
       "too_short": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
-      "not_specified": "%1$sAnda haruslah menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
+      "not_specified": "%1$sAnda harus menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
       "wrong_format": "%1$sFormat masa yang salah. Anda perlu menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
       "too_long": "%1$sMasa yang dinyatakan terlalu panjang...",
       "negative_notice": "Anda tidak boleh membisukan seseorang selama masa yang negatif!",
