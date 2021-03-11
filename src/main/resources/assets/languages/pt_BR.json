@@ -624,7 +624,7 @@
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
       "denied": "%1$sProposta de **%2$s** negada",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "Por que você quer se casar tanto assim?"
     },
     "divorce": {
       "confirm": "%1$sVocê tem certeza que quer terminar esse casamento? O dinheiro gasto em pets, casas e carros será dividido por dois. Digite `yes` para continuar e `no` para cancelar. **Seu pet vai desaparecer, já que está vinculado ao casamento**",
@@ -803,8 +803,8 @@
       "no_item_mention": "%1$sVocê precisa especificar a pessoa para transferir o item e o item a ser transferido."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sSua conta deve ter pelo menos 14 dias para transferir dinheiro.",
+      "new_account_notice_other": "%1$sA conta que você está transferindo tem que ter pelo menos 14 dias.",
       "transfer_yourself_note": "%1$sVocê não pode transferir dinheiro para si mesmo.",
       "bot_notice": "%1$sVocê não pode transferir dinheiro para um bot.",
       "no_amount": "%1$sVocê tem que especificar a quantidade. Use o comando `transferitems` ao invés se você pretender transferir um item.",
@@ -1040,7 +1040,7 @@
       "footer": "Insígnias são como conquistas, e elas são obtidas através de progresso do jogo da Mantaro ou por apenas usar o bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sA idade da conta (o tempo desde que a conta do Discord foi criada) dando ou recebendo rep deve ter mais de 30 dias. Tente novamente mais tarde.",
       "no_mentions": "%1$sVocê tem que mencionar ou colocar o nome de um usuário.\n%2$s",
       "more_than_one": "%1$sVocê só pode dar reputação para uma pessoa",
       "rep_bot": "%1$sVocê não pode dar rep para um bot.\n%2$s",
@@ -2538,8 +2538,8 @@
       "star_wrench": "Ferramenta de fusão. Útil para juntar coisas. Menos chances de quebrar, necessário para fundir vários itens de uma só vez. Tier 2.",
       "sparkle_wrench": "Feramenta de fusão. Útil para juntar coisas. Menos chances de quebrar. Menos custo por fusão. Tier 3.",
       "motorcycle": "Dando umas voltas, da maneira mais legal.",
-      "comet_pick": "Uma picareta mais forte.",
-      "star_pick": "Uma picareta muito mais forte.",
+      "comet_pick": "Uma picareta forte.",
+      "star_pick": "Uma picareta mais forte.",
       "sparkle": "Uma das gemas mais raras daqui. Certifique-se de mantê-la. É usado para fundir uma picareta brilhante & varas brilhantes.",
       "sparkle_pick": "Uma das picaretas mais fortes daqui.",
       "pizza": "Delicioso.",
@@ -2563,7 +2563,7 @@
       "broken_comet_rod": "Uma vara de cometa que se quebrou durante a mineração. Ainda recuperável.",
       "broken_sparkle_rod": "Uma vara brilhante que se quebrou durante a mineração. Ainda recuperável.",
       "broken_star_rod": "Uma vara de estrela se que quebrou durante a mineração. Ainda recuperável.",
-      "incubator_egg": "The one catalyst you need to call your personal pet home.",
+      "incubator_egg": "O único catalisador de que você precisa para chamar seu pet pessoal para casa.",
       "water_bottle": "Um item que cura magicamente a sede do seu pet.",
       "magic_watch": "Um relógio mágico que desacelera o tempo quando você precisar. Isso será automaticamente consumido para salvar seu combo no diário!",
       "pet_house": "Uma casa onde vive o seu pet. Talvez. Às vezes eles gostam de ficar do lado de fora.",
@@ -2574,16 +2574,16 @@
       "cat_food": "Comida que seu gato pode gostar muito.",
       "hamster_food": "Comida que seu hamster pode gostar.",
       "wood": "Drop comum das árvores. Útil para fusão.",
-      "moon_pick": "A very much stronger pick.",
-      "hellfire_pick": "Way too OP pick.",
-      "axe": "A normal, middle-of-the-road axe.",
-      "comet_axe": "A stronger axe.",
-      "star_axe": "A much stronger axe.",
-      "moon_axe": "A very much stronger axe.",
-      "sparkle_axe": "A way stronger axe.",
-      "hellfire_axe": "Way too OP axe.",
-      "moon_rod": "A stronger rod.",
-      "hellfire_rod": "Way too OP rod.",
+      "moon_pick": "Uma picareta muito mais forte.",
+      "hellfire_pick": "Uma picareta muito OP.",
+      "axe": "Normal, um machado mediano.",
+      "comet_axe": "Um machado forte.",
+      "star_axe": "Um machado mais forte.",
+      "moon_axe": "Um machado muito mais forte.",
+      "sparkle_axe": "Um machado até que forte.",
+      "hellfire_axe": "Um machado muito OP.",
+      "moon_rod": "Uma vara forte.",
+      "hellfire_rod": "Uma vara muito OP.",
       "leaves": "Um drop lento de uma árvore que você tentou cortar.",
       "apple": "Você por acaso cortou uma macieira e a maçã caiu na sua cabeça. Ouch.",
       "pear": "Você por acaso cortou uma pereira e uma pera caiu na sua cabeça. Ouch.",
@@ -2598,8 +2598,8 @@
       "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto minerava. Ainda recuperável.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
       "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "chop_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `~>opencrate chop crate`",
+      "chop_premium_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `~>opencrate chop premium crate`"
     }
   },
   "test": {
