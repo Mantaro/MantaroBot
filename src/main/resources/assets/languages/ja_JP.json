@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sContinuing with the current queue.",
       "queue_repeat": "%1$s現在の再生リストを繰り返します。",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$s現在の曲を繰り返します。取り消すには、このコマンドをもう一度使ってください。"
+      "song_repeat": "%1$s現在の曲を繰り返します。取り消すには、このコマンドをもう一度使ってください。",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$s次の曲がないですね。",
