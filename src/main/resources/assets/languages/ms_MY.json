@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sAntrian semasa dilanjutkan.",
       "queue_repeat": "%1$sAntrian semasa sedang diulangi.",
       "song_cancel": "%1$sSedang meneruskan dengan antrian norma.",
-      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya."
+      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, tiada lagu yang seterusnya.",
