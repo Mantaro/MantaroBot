@@ -199,12 +199,20 @@ public class Context {
         return managedDatabase.getPlayerStats(getMember());
     }
 
+    public PlayerStats getPlayerStats(String id) {
+        return managedDatabase.getPlayerStats(id);
+    }
+
     public PlayerStats getPlayerStats(User user) {
         return managedDatabase.getPlayerStats(user);
     }
 
     public PlayerStats getPlayerStats(Member member) {
         return managedDatabase.getPlayerStats(member);
+    }
+
+    public MantaroObj getMantaroData() {
+        return managedDatabase.getMantaroData();
     }
 
     public boolean isSeasonal() {
@@ -288,7 +296,7 @@ public class Context {
     }
 
     public boolean isUserBlacklisted(String id) {
-        return managedDatabase.getMantaroData().getBlackListedUsers().contains(id);
+        return getMantaroData().getBlackListedUsers().contains(id);
     }
 
     public User retrieveUserById(String id) {
