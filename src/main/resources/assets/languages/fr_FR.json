@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sPoursuite avec la file d'attente actuelle.",
       "queue_repeat": "%1$sRépétition de la file d'attente actuelle.",
       "song_cancel": "%1$sPoursuite avec la file d'attente normale.",
-      "song_repeat": "%1$sRépétition de la chanson en cours."
+      "song_repeat": "%1$sRépétition de la chanson en cours.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, il n'y a pas de chanson à suivre",
