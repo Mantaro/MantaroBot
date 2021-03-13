@@ -109,7 +109,7 @@ public class PlayerCmds {
                     var author = ctx.getAuthor();
                     Predicate<User> oldEnough = (u -> u.getTimeCreated().isBefore(OffsetDateTime.now().minus(30, ChronoUnit.DAYS)));
 
-                    //Didn't want to repeat the code twice, lol.
+                    // Didn't want to repeat the code twice, lol.
                     if (!oldEnough.test(usr)) {
                         ctx.sendLocalized("commands.rep.new_account_notice", EmoteReference.ERROR);
                         return;
