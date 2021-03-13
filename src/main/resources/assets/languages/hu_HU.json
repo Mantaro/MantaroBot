@@ -1,12 +1,12 @@
 {
   "general": {
-    "invalid_number": "%1$sThat is not a valid number!",
-    "requested_by": "Requested by %1$s.",
+    "invalid_number": "A %1$s nem egy érvényes szám!",
+    "requested_by": "%1$s által kérve.",
     "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
     "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
-    "search_no_result": "%1$sYour search yielded no results :(",
-    "unknown": "Unknown",
-    "days": "days",
+    "search_no_result": "%1$s Keresésed eredménytelen volt :(",
+    "unknown": "Ismeretlen",
+    "days": "napok",
     "none": "None",
     "now": "Now",
     "hourly": "Hourly",
@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sContinuing with the current queue.",
       "queue_repeat": "%1$sRepeating the current queue.",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song coming next.",
