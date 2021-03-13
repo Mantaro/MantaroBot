@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sContinuing with the current queue.",
       "queue_repeat": "%1$sRepeating the current queue.",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song coming next.",
