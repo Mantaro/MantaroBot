@@ -346,7 +346,7 @@
       "queue_repeat": "%1$sRepetindo a fila atual.",
       "song_cancel": "%1$sContinuando com a fila normal.",
       "song_repeat": "%1$sRepetindo a música atual.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "invalid": "%1$sNão é uma escolha válida. Use este comando sem nenhum argumento ou use `~>repeat queue` para repetir a filha inteira."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, não tem nenhuma música depois",
