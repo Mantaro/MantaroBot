@@ -345,7 +345,8 @@
       "queue_cancel": "%1$s正在播放目前的伫列。",
       "queue_repeat": "%1$s正在重复播放目前的伫列。",
       "song_cancel": "%1$s正在跟着目前的伫列继续播放。",
-      "song_repeat": "%1$s正在重复播放目前的歌曲，再次执行此命令来停止重复播放。"
+      "song_repeat": "%1$s正在重复播放目前的歌曲，再次执行此命令来停止重复播放。",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$s哎，之后没有任何歌曲了。",
