@@ -345,7 +345,8 @@
       "queue_cancel": "%1$s현재 대기열을 계속 재생하는 중이에요.",
       "queue_repeat": "%1$s현재 대기열을 반복 해요.",
       "song_cancel": "%1$s일반 대기열을 계속 재생하는 중이에요.",
-      "song_repeat": "%1$s현재 노래를 반복하고 있어요. 이 명령을 다시 실행하여 비활성화하세요."
+      "song_repeat": "%1$s현재 노래를 반복하고 있어요. 이 명령을 다시 실행하여 비활성화하세요.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$s앗, 다음 곡은 없네요.",
