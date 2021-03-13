@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sŞu anki listeyle devam ediyoruz.",
       "queue_repeat": "%1$sŞu anki listeyi tekrarlıyoruz.",
       "song_cancel": "%1$sNormal listeyle devam ediyoruz.",
-      "song_repeat": "%1$sŞu anki şarkıyı tekrarlıyoruz."
+      "song_repeat": "%1$sŞu anki şarkıyı tekrarlıyoruz.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sAma ama, başka şarkı yok ki :(",
