@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sمتابعة قائمة الإنتظار الحالية",
       "queue_repeat": "%1$sتكرار قائمة الإنتظار الحالية",
       "song_cancel": "%1$sمتابعة قائمة الإنتظار العادية",
-      "song_repeat": "%1$sتكرار الأغنية الحالية. قم بتشغيل هذا الأمر مرة أخرى لتعطيله."
+      "song_repeat": "%1$sتكرار الأغنية الحالية. قم بتشغيل هذا الأمر مرة أخرى لتعطيله.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sاوه, ليس هناك اعنية اخرى.",
