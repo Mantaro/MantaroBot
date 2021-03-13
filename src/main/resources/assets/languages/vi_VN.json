@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sTiếp tục với danh sách phát hiện tại.",
       "queue_repeat": "%1$sLặp lại danh sách bài hát chờ hiện tại.",
       "song_cancel": "%1$sTiếp tục với danh sách bài hát chờ bình thường.",
-      "song_repeat": "%1$sLặp lại bài hát đang phát. Chạy lại lệnh này một lần nữa nếu muốn vô hiệu hóa nó."
+      "song_repeat": "%1$sLặp lại bài hát đang phát. Chạy lại lệnh này một lần nữa nếu muốn vô hiệu hóa nó.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sÚi, không còn bài hát nào tiếp theo.",
