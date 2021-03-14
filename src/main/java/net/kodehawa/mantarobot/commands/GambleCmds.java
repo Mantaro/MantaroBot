@@ -297,6 +297,7 @@ public class GambleCmds {
                             player.save();
 
                         slotsChance = slotsChance + 10;
+                        money = 80L;
                     } else {
                         ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                         return;
