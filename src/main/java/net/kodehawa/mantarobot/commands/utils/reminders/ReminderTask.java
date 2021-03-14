@@ -29,6 +29,8 @@ import redis.clients.jedis.Jedis;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -73,9 +75,10 @@ public class ReminderTask {
                                                         %s**Reminder!**
                                                         
                                                         You asked me to remind you of: **%s**
-                                                        *Asked at:* %s%s""",
+                                                        Asked at: %s (%s)%s""",
                                                 EmoteReference.POPPER,
                                                 reminder, Utils.formatDate(scheduledTime),
+                                                ZoneId.systemDefault().getDisplayName(TextStyle.SHORT, Locale.getDefault()),
                                                 (guild != null ? "\n*Asked on: %s*".formatted(guild.getName()) : "")
                                         )
                                 ).queue(success -> {

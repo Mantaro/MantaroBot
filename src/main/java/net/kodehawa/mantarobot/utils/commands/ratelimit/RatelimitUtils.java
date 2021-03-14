@@ -87,8 +87,8 @@ public class RatelimitUtils {
                 var channelId = event.getChannel().getId();
                 var messageId = event.getMessage().getId();
 
-                // If they go over 50 in one attempt, flag as blatant.
-                if (rateLimit.getSpamAttempts() > 50 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
+                // If they go over 60 in one attempt, flag.
+                if (rateLimit.getSpamAttempts() > 60 && spamAware && !loggedAttemptUsers.contains(user.getId())) {
                     loggedAttemptUsers.add(user.getId());
                     LogUtils.spambot(user, guildId, channelId, messageId, LogUtils.SpamType.OVER_SPAM_LIMIT);
                 }

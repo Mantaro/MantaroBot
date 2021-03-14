@@ -222,6 +222,9 @@ public class UtilsCmds {
                 }
             }
         });
+
+        registry.registerAlias("remindme", "remind");
+        registry.registerAlias("remindme", "reminder");
     }
 
     private List<ReminderObject> getReminders(List<String> reminders) {

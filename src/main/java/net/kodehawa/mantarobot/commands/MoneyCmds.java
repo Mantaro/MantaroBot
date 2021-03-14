@@ -334,7 +334,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                     return;
                 }
 
