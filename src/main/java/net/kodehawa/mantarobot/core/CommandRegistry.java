@@ -95,8 +95,14 @@ public class CommandRegistry {
         final var channel = event.getChannel();
         // Variable used in lambda expression should be final or effectively final...
         final var cmd = command;
-
+        final var guild = event.getGuild();
         final var mantaroData = managedDatabase.getMantaroData();
+
+        if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
+            log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
+            return;
+        }
+
         if (mantaroData.getBlackListedUsers().contains(author.getId())) {
             if (!rl.process(author)) {
                 return;
@@ -107,12 +113,6 @@ public class CommandRegistry {
                     If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
                     """
             ).queue();
-            return;
-        }
-
-        final var guild = event.getGuild();
-        if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
-            log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
             return;
         }
 
@@ -414,5 +414,4 @@ public class CommandRegistry {
             return this.name;
         }
     }
-
 }

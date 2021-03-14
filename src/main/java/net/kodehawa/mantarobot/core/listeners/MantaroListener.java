@@ -60,7 +60,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.security.SecureRandom;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -523,7 +523,7 @@ public class MantaroListener implements EventListener {
 
             // Clear internal data we don't need anymore.
             guild.getTextChannelCache().stream().forEach(TextChannelGround::delete);
-            guildBirthdayCache.invalidate(guild.getId());
+            guildBirthdayCache.invalidate(guild.getIdLong());
             guildBirthdayCache.cleanUp();
 
             // Clean the internal music data.

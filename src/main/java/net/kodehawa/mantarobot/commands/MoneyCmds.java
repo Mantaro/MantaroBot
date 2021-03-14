@@ -267,7 +267,7 @@ public class MoneyCmds {
                 }
 
                 toAddMoneyTo.addMoney(dailyMoney);
-                toAddMoneyTo.saveUpdating();
+                toAddMoneyTo.save();
 
                 // Build Message
                 var toSend = new StringBuilder((targetOther ?
