@@ -610,7 +610,7 @@ public class ItemReference {
 
             HELLFIRE_PICK = new Pickaxe(ItemType.MINE_RARE_PICK_NODROP, EmoteReference.HELLFIRE_PICK.getDiscordNotation(),
                     "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick",
-                    3, 1, 15000, true, false,
+                    4, 1, 15000, true, false,
                     "450;1;175;1;175;1;55;1;50;50", 3000, 1500,
                     10, 365, 280, 7, "items.explanation.hellfire_pick",
                     18, 57, 48, 61, 49, 62, 74, 73, 101, 76

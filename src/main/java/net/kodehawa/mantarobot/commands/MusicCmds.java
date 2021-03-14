@@ -216,7 +216,7 @@ public class MusicCmds {
                         .setUsage("~>play <song>")
                         .addParameter("song",
                                 "The song to play. Can be a youtube or soundcloud URL, or a search result " +
-                                        "(Example: `~>play despacito` or `~>play https://www.youtube.com/watch?v=jjDO91gNiCU`)"
+                                        "(Example: `~>play bad guy` or `~>play https://www.youtube.com/watch?v=DyDfgMOUjCI`)"
                         ).build();
             }
         });
@@ -356,6 +356,8 @@ public class MusicCmds {
                         }
 
                         TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
+                    } else {
+                        ctx.sendLocalized("commands.repeat.invalid", EmoteReference.ERROR);
                     }
                 }
             }

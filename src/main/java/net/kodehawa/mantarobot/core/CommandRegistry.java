@@ -112,6 +112,7 @@ public class CommandRegistry {
 
         final var guild = event.getGuild();
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
+            log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
             return;
         }
 

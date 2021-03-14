@@ -117,9 +117,15 @@ public class UtilsCmds {
                             return;
                         }
 
-                        var displayRemind = Utils.DISCORD_INVITE.matcher(toRemind).replaceAll("discord invite link");
-                        displayRemind = Utils.DISCORD_INVITE_2.matcher(displayRemind).replaceAll("discord invite link");
-                        displayRemind = Utils.HTTP_URL.matcher(displayRemind).replaceAll("url");
+                        var displayRemind = toRemind
+                                .replaceAll(Utils.DISCORD_INVITE.pattern(), "discord invite link")
+                                .replaceAll(Utils.DISCORD_INVITE_2.pattern(), "discord invite link")
+                                .replaceAll(Utils.HTTP_URL.pattern(), "url")
+                                .trim();
+
+                        if (displayRemind.isEmpty()) {
+                            displayRemind = "something";
+                        }
 
                         ctx.sendStrippedLocalized("commands.remindme.success", EmoteReference.CORRECT, ctx.getUser().getName(),
                                 ctx.getUser().getDiscriminator(), displayRemind, Utils.formatDuration(time));
