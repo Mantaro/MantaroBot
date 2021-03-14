@@ -92,10 +92,12 @@ public class TransferCmds {
                     return;
                 }
 
-                var item = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext());
-                if (item.isPresent()) {
-                    ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
-                    return;
+                if (args.length > 1) {
+                    var item = ItemHelper.fromAnyNoId(args[1], ctx.getLanguageContext());
+                    if (item.isPresent()) {
+                        ctx.sendLocalized("commands.transfer.item_transfer", EmoteReference.ERROR);
+                        return;
+                    }
                 }
 
                 if (ctx.isUserBlacklisted(giveTo.getId())) {
