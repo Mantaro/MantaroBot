@@ -58,7 +58,7 @@ public class CommandRegistry {
     private final Map<String, Command> commands;
     private final Config config = MantaroData.config().get();
     private final CommandManager newCommands = new CommandManager();
-    private final RateLimiter rl = new RateLimiter(TimeUnit.MINUTES, 1);
+    private final RateLimiter rl = new RateLimiter(TimeUnit.HOURS, 1);
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -100,19 +100,6 @@ public class CommandRegistry {
 
         if (mantaroData.getBlackListedGuilds().contains(guild.getId())) {
             log.debug("Got command from blacklisted guild {}, dropping", guild.getId());
-            return;
-        }
-
-        if (mantaroData.getBlackListedUsers().contains(author.getId())) {
-            if (!rl.process(author)) {
-                return;
-            }
-
-            channel.sendMessage("""
-                    :x: You have been blacklisted from using all of Mantaro's functions, likely for botting or hitting the spam filter.
-                    If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
-                    """
-            ).queue();
             return;
         }
 
@@ -177,6 +164,19 @@ public class CommandRegistry {
         if (roles.stream().anyMatch(r -> roleSpecificDisabledCategories.computeIfAbsent(
                 r.getId(), s -> new ArrayList<>()).contains(root(cmd).category())) && isNotAdmin(member)) {
             sendDisabledNotice(event, guildData, CommandDisableLevel.SPECIFIC_ROLE_CATEGORY);
+            return;
+        }
+
+        if (mantaroData.getBlackListedUsers().contains(author.getId())) {
+            if (!rl.process(author)) {
+                return;
+            }
+
+            channel.sendMessage("""
+                    :x: You have been blocked from using all of Mantaro's functions, likely for botting or hitting the spam filter.
+                    If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
+                    """
+            ).queue();
             return;
         }
 
