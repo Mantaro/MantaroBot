@@ -491,7 +491,7 @@ public class MoneyCmds {
                         );
                     }
 
-                    ctx.send(EmoteReference.DIAMOND + message);
+                    ctx.send(EmoteReference.CREDITCARD + message);
                 });
             }
 

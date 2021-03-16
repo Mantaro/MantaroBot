@@ -709,7 +709,7 @@ public class MarryCmd {
 
                 ctx.send(embedBuilder.build());
             }
-        });
+        }).createSubCommandAlias("status", "stats");
 
         cr.registerAlias("marry", "marriage");
     }
