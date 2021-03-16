@@ -67,8 +67,7 @@ public class MoneyCmds {
             public void call(Context ctx, String content, String[] args) {
                 final var languageContext = ctx.getLanguageContext();
 
-                //155
-                //Args: Check -check for duration
+                // Args: Check -check for duration
                 if (args.length > 0 && ctx.getMentionedUsers().isEmpty() && args[0].equalsIgnoreCase("-check")) {
                     long rl = rateLimiter.getRemaniningCooldown(ctx.getAuthor());
 
@@ -128,14 +127,14 @@ public class MoneyCmds {
                     var mentionedDBUser = ctx.getDBUser(otherUser.getId());
                     var mentionedUserData = mentionedDBUser.getData();
 
-                    //Marriage bonus
+                    // Marriage bonus
                     var marriage = authorUserData.getMarriage();
                     if (marriage != null && otherUser.getId().equals(marriage.getOtherPlayer(ctx.getAuthor().getId())) &&
                             playerOtherUser.getInventory().containsItem(ItemReference.RING)) {
                         dailyMoney += Math.max(10, r.nextInt(100));
                     }
 
-                    //Mutual waifu status.
+                    // Mutual waifu status.
                     if (authorUserData.getWaifus().containsKey(otherUser.getId()) && mentionedUserData.getWaifus().containsKey(author.getId())) {
                         dailyMoney +=Math.max(5, r.nextInt(100));
                     }
@@ -150,7 +149,7 @@ public class MoneyCmds {
                 }
 
                 // Check for rate limit
-                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, ctx.getLanguageContext().get("commands.daily.ratelimit_message"), false))
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx, languageContext.get("commands.daily.ratelimit_message"), false))
                     return;
 
                 List<String> returnMessage = new ArrayList<>();
@@ -160,38 +159,39 @@ public class MoneyCmds {
                 long currentDailyOffset = DAILY_VALID_PERIOD_MILLIS - (currentTime - authorPlayerData.getLastDailyAt()) ;
 
                 long streak = authorPlayerData.getDailyStreak();
-
+                var removedWatch = false;
                 // Not expired?
                 if (currentDailyOffset + amountStreaksavers * DAILY_VALID_PERIOD_MILLIS >= 0) {
                     streak++;
                     if (targetOther)
-                        returnMessage.add(languageContext.withRoot("commands","daily.streak.given.up").formatted(streak));
+                        returnMessage.add(languageContext.get("commands.daily.streak.given.up").formatted(streak));
                     else
-                        returnMessage.add(languageContext.withRoot("commands","daily.streak.up").formatted(streak));
+                        returnMessage.add(languageContext.get("commands.daily.streak.up").formatted(streak));
                     if (currentDailyOffset < 0){
                         int streakSaversUsed = -1 * (int) Math.floor((double) currentDailyOffset / (double) DAILY_VALID_PERIOD_MILLIS);
                         authorPlayer.getInventory().process(new ItemStack(ItemReference.MAGIC_WATCH, streakSaversUsed * -1));
-                        returnMessage.add(languageContext.withRoot("commands", "daily.streak.watch_used").formatted(
+                        returnMessage.add(languageContext.get("commands.daily.streak.watch_used").formatted(
                                 streakSaversUsed, streakSaversUsed + 1,
                                 amountStreaksavers - streakSaversUsed)
                         );
                     }
-
-                } else{
+                } else {
                     if (streak == 0) {
-                        returnMessage.add(languageContext.withRoot("commands", "daily.streak.first_time"));
+                        returnMessage.add(languageContext.get("commands.daily.streak.first_time"));
                     } else {
                         if (amountStreaksavers > 0){
                             returnMessage.add(
-                                    languageContext.withRoot("commands", "daily.streak.lost_streak.watch").formatted(streak)
+                                    languageContext.get("commands.daily.streak.lost_streak.watch").formatted(streak)
                             );
 
                             authorPlayer.getInventory().process(
                                     new ItemStack(ItemReference.MAGIC_WATCH, authorPlayer.getInventory().getAmount(ItemReference.MAGIC_WATCH) * -1)
                             );
 
-                        } else{
-                            returnMessage.add(languageContext.withRoot("commands", "daily.streak.lost_streak.normal").formatted(streak));
+                            removedWatch = true;
+
+                        } else {
+                            returnMessage.add(languageContext.get("commands.daily.streak.lost_streak.normal").formatted(streak));
                         }
                     }
                     streak = 1;
@@ -232,14 +232,11 @@ public class MoneyCmds {
                     }
 
                     if (targetOther) {
-                        returnMessage.add(
-                                languageContext.withRoot("commands", "daily.streak.given.bonus").formatted(otherUser.getName(), bonus)
-                        );
+                        returnMessage.add(languageContext.get("commands.daily.streak.given.bonus").formatted(otherUser.getName(), bonus));
                     } else {
-                        returnMessage.add(
-                                languageContext.withRoot("commands", "daily.streak.bonus").formatted(bonus)
-                        );
+                        returnMessage.add(languageContext.get("commands.daily.streak.bonus").formatted(bonus));
                     }
+
                     dailyMoney += bonus;
                 }
 
@@ -267,15 +264,21 @@ public class MoneyCmds {
                 }
 
                 toAddMoneyTo.addMoney(dailyMoney);
-                toAddMoneyTo.save();
+                if (removedWatch) {
+                    toAddMoneyTo.save();
+                } else {
+                    // We can sort of avoid doing a full save here.
+                    // Since updating the fields is just fine unless we're removing something from a Map.
+                    // It's still annoying.
+                    toAddMoneyTo.saveUpdating();
+                }
 
                 // Build Message
                 var toSend = new StringBuilder((targetOther ?
-                        languageContext.withRoot("commands", "daily.given_credits")
+                        languageContext.get("commands.daily.given_credits")
                                 .formatted(EmoteReference.CORRECT, dailyMoney, otherUser.getName()) :
-                        languageContext.withRoot("commands", "daily.credits").formatted(
-                                EmoteReference.CORRECT, dailyMoney)) +
-                        "\n"
+                        languageContext.get("commands.daily.credits")
+                                .formatted(EmoteReference.CORRECT, dailyMoney)) + "\n"
                 );
 
                 for (var string : returnMessage) {

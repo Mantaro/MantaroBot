@@ -129,7 +129,7 @@ public class FunCmds {
         final IncreasingRateLimiter rateLimiter = new IncreasingRateLimiter.Builder()
                 .limit(1)
                 .spamTolerance(2)
-                .cooldown(4, TimeUnit.SECONDS)
+                .cooldown(5, TimeUnit.SECONDS)
                 .maxCooldown(1, TimeUnit.MINUTES)
                 .randomIncrement(true)
                 .pool(MantaroData.getDefaultJedisPool())
