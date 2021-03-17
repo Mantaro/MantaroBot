@@ -587,9 +587,14 @@ public class WaifuCmd {
         // After all those calculations are complete, the value then is calculated using final *
         // (reputation scale / 20) where reputation scale goes up by 1 every 10 reputation points.
         // At 6000 reputation points, the waifu value gets multiplied by 1.1. This is the maximum amount it can be multiplied to.
-        // to implement later: Reputation scaling is capped at 3.9k. Then at 6.5k the multiplier is applied.
+        // to implement later: Reputation scaling is capped at 4k. Then at 6.5k the multiplier is applied.
         var reputation = player.getReputation();
-        var reputationScaling = (reputation / 4.5) / 30;
+        var reputationScale = reputation;
+        if (reputation > 4000) {
+            reputationScale = 4000L;
+        }
+
+        var reputationScaling = (reputationScale / 4.5) / 30;
         var finalValue = (long) (
                 Math.min (
                         Integer.MAX_VALUE,
