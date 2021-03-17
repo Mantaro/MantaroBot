@@ -32,11 +32,11 @@
     "item_lookup": {
       "no_item_emoji": "没有与此表情符号相关的物品。",
       "no_item_name": "没有与此表情符号相关的名字。",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
+      "not_found": "无法依据你的搜索条件找到任何结果。\n试着使用更短的名称，范例: 使用 `energy` 代替 `Energy Beverage`。或将名称用引号包起来。",
       "claim_key": "你无法转移锁定钥匙。"
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
+      "mop": "%1$s你清理了您家中的所有尘土。",
       "mop_not_enough": "你的积灰程度（%1$s）低于5%%，所以扫灰的作用并不大哟～",
       "milk": "%1$s所有药水效果已清除。",
       "stamina": "%1$s已激活耐力，持续三次採矿。",
@@ -48,8 +48,8 @@
       "pill": "%1$s你吃了一个waifu药丸! (可使用5回)",
       "pill_used": "%1$s你目前已经有waifu药丸了!",
       "crate": {
-        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
-        "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
+        "no_key": "%1$s你需要一个宝箱钥匙才能开启宝箱。他们都是锁住的！你能使用 `~>buy key` 来买一个",
+        "no_crate": "%1$s你需要一个宝箱！你能从货币指令获得宝箱。",
         "success": "%1$s你开启了一个宝箱且得到了: %2$s%3$s。恭喜!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "但是你已经有太多了，所以你决定将多出来的丢掉"
@@ -65,23 +65,23 @@
     "campaigns": {
       "premium": {
         "generic_sellout": "是你的帮助，在让Mantaro持续运作！\nMantaro Premium还具有各种福利，例如**最高双倍每日奖励**和使用`~>dailycrate`的资格！\n最低最低只需每月2美元，请前往<https://patreon.com/mantaro>获得更多资讯。:heart:",
-        "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
-        "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
+        "daily_sellout": "我们需要你的帮助来持续运行Mantaro！\n你可以获得各种福利，**两倍的每日奖励**和使用 `~>dailycrate` 的资格！会员资格最低只需每月2美元，浏览<https://patreon.com/mantaro>获得更多资讯。",
+        "thanks_message": "谢谢您对 Mantaro 的支持。没有您的支持我们都不知道怎么让 Mantaro 生存下去呢 :heart:",
+        "thanks_message_daily": "谢谢您对 Mantaro 的支持。没有您的支持我们都不知道怎么让 Mantaro 生存下去呢 :heart:\n因此您得到了双倍奖励!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "你知道我们有Twitter账号吗？当然有！马上跟随(at)mantarodiscord <https://twitter.com/mantarodiscord> 获取最新消息。"
     },
     "mention_user_required": "%1$s请ping一位用户",
     "invalid_character": "%1$s无效的字符。",
     "invalid_action": "你不能这样做，傻瓜。",
     "interactive_running": "%1$s这个频道裡已经有你与我的互动了。",
-    "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
-    "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
+    "buy_sell_paged_react": "使用回应来切换页数。\n%1$s",
+    "buy_sell_paged_text": "使用 **&p >>** 和 **&p <<** 来切换页数。\n%1$s",
     "buy_sell_paged_reference": "**提示: %1$s买 %2$s 卖。**",
     "cancelled": "%1$s以取消请求。",
     "sellout": "如果你喜欢我，请考虑在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一点点的贊助也能让我持续开發!",
     "deprecated": "不再使用",
-    "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
+    "space_notice": "如果物品名称有空格，试着把他 \"用引号包起来\"。也许help指令能告诉你更多资讯。",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能够在 %3$s 秒内再次使用这个指令**",
@@ -90,7 +90,7 @@
       "spam_3": "\n你是不是应该出去放鬆一下了?",
       "spam_4": "\n你确定我还活着吗?"
     },
-    "generic_error": "If you want, join our **support server** (`https://support.mantaro.site`), or check out our GitHub page (`https://github.com/Kodehawa/MantaroBot`). Please tell them to quit exploding me and please don't forget the Error ID, the command you used and your node (seen in `~>shard`) when reporting!",
+    "generic_error": "你可以考虑加入我们的**帮助伺服器** (`https://support.mantaro.site`)，或是我们的GitHub页面 (`https://github.com/Kodehawa/MantaroBot`)。求他们不要再霸凌我了！别忘记回报错误ID、你使用的指令和你所在的节点 (使用`~>shard`检查)！",
     "boom_quotes": [
       "看似惠惠把我们的城堡炸掉了...",
       "Uh oh... 我的主人好像把一些0和1留在桌上了 :<",
@@ -138,7 +138,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s时机已经过了，你的桶子只有粉尘。(粉尘高度 %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "no_rod": "%1$s你没有任何已装备的鱼竿。使用 `~>equip <鱼竿名称>` 来装备鱼竿并开始你的旅程！如果你没有任何鱼竿，先传送 `~>buy rod`",
       "trash": {
         "overflow": "%1$s你在钓鱼的时候钓到了一些垃圾，但是你的背包是满的，所以只能把它们丢回水裡...",
         "success": "%1$s全神贯注的钓完鱼之后，你钓到了漂浮中的%2$s，但那看起来一点都不值钱 :("
@@ -153,10 +153,10 @@
       "autoequip": {
         "success": "%1$s自动装备了**%2$s**到你的鱼竿栏位。"
       },
-      "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "overflow": "%1$s你钓到了一些鱼，但是你的背包有一部分是满的，所以你只能把它们丢回水裡。",
+      "success": "%1$s在全神贯注的钓完鱼之后，你用着*%3$s*找到了%2$s且把它们放到水桶裡了。",
+      "success_money": "%1$s在全神贯注的钓完鱼之后，你用着*%4$s*找到了%2$s和**$%3$,d**且把它们放到口袋裡了。%5$s",
+      "success_money_noitem": "%1$s在全神贯注的钓完鱼之后，你用着*%3$s*找到了**$%2$,d**且把它们放到口袋裡了。",
       "rod_broke": "%1$s你在钓鱼的时候把鱼竿弄坏了 :(",
       "waifu_help": "你的waifu加入了你的钓鱼冒险，你们都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用这个钓鱼。",
@@ -225,7 +225,7 @@
     "music_general": {
       "music_error": {
         "timeout": "%1$s无法连接至%2$s: 连线超时。试着改变伺服器区域并再试一次。",
-        "unknown": "%1$sUnable to connect to %2$s: unknown error."
+        "unknown": "%1$s无法连接至%2$s: 未知错误。"
       },
       "not_working": "%1$s由于YouTube阻止了许多大型伺服器的访问，因此Mantaro音乐功能目前无法正常运作。我们的Mantaro Patreon还能正常运行，如果你想试试看的话，请考虑每月贊助我们4元美金，同时帮助我们维持Mantaro的正常运作及硬体更新。\n访问 <https://patreon.com/mantaro> 取得更多资讯\n\n我们非常抱歉造成你的不便。别忘了还能使用SoundCloud搜寻! `(~>play soundcloud <关键词>)`",
       "no_song": "%1$s你需要告诉我你想播的音乐! *(支援网址及关键字: YouTube, SoundCloud, Twitch)*",
@@ -236,21 +236,21 @@
       "not_connected": "%1$s你还没进入到我目前正在播放的语音频道! (如果你觉得这是错误的话，请回报至<https://support.mantaro.site>)",
       "np_message": "%1$s 现正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放这首曲目时發生了些问题! 不便之处敬请见谅，如果还有的话我会先播放下一首的。",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "queue_finished": "%1$s目前清单已播放完毕! 希望你用得开心 :heart:",
       "soundcloud_no_args": "%1$s你需要给我歌曲名称，我可不是随猜即中的魔法师 :(",
       "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
       "no_vc_found": "%1$s我还没有连接到任何语音频道? 在试一次。",
       "queue": {
-        "header_field": "Instructions",
-        "header_noreact": "Use `&p >>` and `&p <<` to move around pages.",
+        "header_field": "说明",
+        "header_noreact": "使用 `&p >>` 和 `&p <<` 来切换页数。",
         "no_track_found_np": "找不到曲目或名称/持续时间",
         "header": "%1$s播放清单",
-        "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
+        "nothing_playing": "这裡空无一物。为何不播些歌曲来听听?\n如果你认为这裡有歌曲还没出现，试着使用`~>queue 1`",
         "nothing_playing_2": "**如果这裡只有一首正在播放，那这边真的就只剩灰尘了。你也可以加入更多歌曲!**",
         "np": "现正播放",
         "dj_np": "**Queued by:** ",
         "page_overflow": "这裡啥都没有。为何不返回一些页面?",
-        "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
+        "page_overflow_2": "如果你认为这裡有歌曲还没出现，试着使用`~>queue 1`",
         "total_queue_time": "总播放时间",
         "total_size": "总播放量",
         "togglers": "重複 / 暂停",
@@ -323,7 +323,7 @@
       "success": "%1$s已跳至%2$s。"
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$s您或 Mantaro 不在一个音讯频道里。",
       "attempt": "%1$s我会试着移至你所在的频道",
       "error_moving": "%1$s切换频道失败。",
       "cannot_connect": "%1$s无法连接: 我没有说话或移动成员的权限。",
@@ -383,11 +383,11 @@
       "cleanup": "%1$s已从伫列中移除了 **%2$d 首歌曲**"
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
+      "no_player": "%1$s您没有播放任何东西。",
       "check": "%1$s这一节的音量是: %2$d \n\n%3$s",
       "success": "%1$s音量设置为 %2$d\n\n%3$s",
       "no_args": "%1$s你需要告诉我你想我设置音量为多少。(5至 100)",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "premium_only": "%1$s这是仅限会员用户的功能。为了获得像这个的会员功能，你可以贊助我们的 Patreon (https://www.patreon.com/mantaro) 感谢您的理解！\n会员功能可以绑定到一位用户或一个服务器上。如果你贊助了我们，请加入Mantaro的服务器来领取。"
     },
     "lyrics": {
       "no_current_track": "%1$s现在并没有任何播放中的歌曲！",
@@ -396,8 +396,8 @@
       "footer": "感谢使用Mantaro呀！页数: %1$d, 总页数:%2$d"
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "header": "%1$s 我默认的指令词头是 %2$s 还有@我。 (用哪个都是OK的！) %3$s。 \n你可以订造一个新的词头通过输入 `~>opts prefix set <prefix>`，记得不要输入那两个<>唷。\n你可以用 `~>opts prefix clear` 来重设此伺服器的词头。\n有任何疑问的话，你可以加入<https://support.mantaro.site> 看看。",
+      "guild_prefix": "此伺服器的词头是 `%1$s`（只可以在这伺服器上使用）",
       "none": "此伺服器暂时没有自订的指令词头。"
     },
     "custom": {
@@ -437,12 +437,12 @@
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
         "cancel": "%1$sCommand Creation canceled.",
         "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
-        "success": "%1$sSaved to command `%2$s`",
+        "success": "%1$s已加到指令`%2$s`",
         "no_name_specified": "%1$s你尚未输入你所要创建的自定义指令名称！"
       },
       "eval": {
         "not_specified": "你并没有指出任何要eval的字符串。",
-        "new_error": "%1$sThere was an error while evaluating this custom command.\n**Error**:\n```%2$s```",
+        "new_error": "%1$s运行此自定指令时发生错误。\n**错误**:\n```%2$s```",
         "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
       },
       "remove": {
@@ -736,7 +736,7 @@
         "cost": "制作价格：",
         "desc": "This is a list of the items you can cast using `~>cast`.\nYou can use full name or the short name, or the emoji.\n**Casting has a minimum cost of half the price of the item, which is shown below.**.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       },
-      "dust": "%1$sYou cannot cast with such a dusty inventory! *(Dust level: %2$s%%)*. Why not clean it up using `~>useitem mop`?",
+      "dust": "%1$s您的灰已经堆成山了不能 cast 新物品！*(灰尘高度: %2$s%%)*。为什么不用`~>useitem mop`把他清理一下呢？",
       "wrench_multiple_use": "Tip: *You can't use the wrench you are trying to cast with as ingredient!*"
     },
     "market": {
@@ -946,7 +946,7 @@
         "daily_at": "Last Daily",
         "waifu_claimed": "Times Waifu Claimed",
         "waifu_locked": "Waifu Lock",
-        "dust": "Dust Level",
+        "dust": "灰尘高度",
         "lang": "Display Language",
         "reminders": "Times Reminded",
         "times": "time(s)",
@@ -1361,7 +1361,7 @@
         "thirst": "Thirst",
         "hunger": "Hunger",
         "stamina": "Stamina",
-        "dust": "Dust (%)",
+        "dust": "灰尘 (%)",
         "pet": "Pats",
         "buildup": "Credit / Item Buildup",
         "buildup_coin": "Credit Buildup",
@@ -1371,7 +1371,7 @@
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
+        "not_dusty": "%1$s**%2$s** 很干净。(身上的灰尘:%3$,d%%)",
         "success": "%1$s**%2$s** is now sparkly clean! The cost to clean your pet was %3$,d credits."
       },
       "choice": {
@@ -1443,7 +1443,7 @@
         "low_hunger": "%1$s**%2$s** is too hungry to do anything right now. *Fooood~*",
         "low_thirst": "%1$s**%2$s** is too thirsty to do anything right now.",
         "low_mood": "%1$s**%2$s** has too low of a mood. You might wanna play with them!",
-        "dusty": "%1$s**%2$s** is too dusty. Clean your pet to clear the dust.",
+        "dusty": "%1$s**%2$s** 太脏了。给您的宠物洗个澡吧！",
         "success_fish": "%1$s**%2$s** successfully helped you catch fish! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_chop": "%1$s**%2$s** successfully helped you chop a tree! You got a buff and extra credits **(%3$,d extra credits, %4$,d extra items)** thanks to the extra work your pet was able to do for you! *included on what you got*",
         "success_mine": "%1$s**%2$s** successfully helped you mine! You got a buff and extra credits **(%3$,d extra credits, and a extra item drop chance)** thanks to the extra work your pet was able to do for you! *included on what you got*"
@@ -1496,7 +1496,7 @@
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
       "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
+      "dust": "%1$s您的背包太脏了不能 salvage 这个物品，试着用抹布擦一擦。",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
