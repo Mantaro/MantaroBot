@@ -300,38 +300,6 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.addSubCommand("waifuvalue", new SubCommand() {
-            @Override
-            public String description() {
-                return "Returns the waifu value leaderboard";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                var seasonal = ctx.isSeasonal();
-                var tableName = seasonal ? "seasonalplayers" : "players";
-
-                var waifuLeaderboard = getLeaderboard(tableName, "waifuCachedValue",
-                        player -> player.g("id"),
-                        player -> player.pluck("id", r.hashMap("data", "waifuCachedValue")));
-
-                ctx.send(
-                        generateLeaderboardEmbed(ctx,
-                        languageContext.get("commands.leaderboard.inner.waifu").formatted(EmoteReference.MONEY),
-                                "commands.leaderboard.waifu", waifuLeaderboard,
-                        map -> {
-                            @SuppressWarnings("unchecked")
-                            var waifuValue = ((Map<String, Object>) (map.get("data"))).get("waifuCachedValue").toString();
-                            return Pair.of(
-                                    getMember(ctx, map.get("id").toString().split(":")[0]),
-                                    waifuValue
-                            );
-                        }, "%s**%s#%s** - $%,d", seasonal)
-                        .build()
-                );
-            }
-        });
-
         leaderboards.addSubCommand("claim", new SubCommand() {
             @Override
             public String description() {
@@ -397,7 +365,6 @@ public class LeaderboardCmd {
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
         leaderboards.createSubCommandAlias("games", "wins");
-        leaderboards.createSubCommandAlias("waifuvalue", "waifu");
 
         cr.registerAlias("leaderboard", "richest");
         cr.registerAlias("leaderboard", "top");
