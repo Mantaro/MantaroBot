@@ -174,7 +174,7 @@ public class CommandRegistry {
 
             channel.sendMessage("""
                     :x: You have been blocked from using all of Mantaro's functions, likely for botting or hitting the spam filter.
-                    If you wish to get more details on why, or appeal, don't hesitate to join the support server and ask, but be sincere.
+                    If you wish to get more details on why or appeal the ban, send an email to `contact@mantaro.site`. Make sure to be sincere.
                     """
             ).queue();
             return;
