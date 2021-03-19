@@ -566,7 +566,7 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sAnda tidak ada surat cinta dalam inventori anda, jadi anda tidak dapat menulis surat anda. Surat cinta diberikan sempena perkahwinan.",
+        "no_letter": "%1$sAnda tidak ada surat cinta dalam inventori anda, jadi anda tidak dapat menulis surat anda. Surat cinta akan diberikan atas perkahwinan.",
         "empty": "%1$sAnda tidak boleh membiarkan surat cinta itu kosong.",
         "no_marriage": "%1$sAnda belum berkahwin lagi, anda tidak boleh menulis surat cinta kepada diri anda...",
         "not_proposing_player": "%1$sAnda bukan pemain yang melamar perkahwinan ini!",
@@ -1402,7 +1402,7 @@
         "nothing": "%1$s**%2$s** hanya duduk di situ, tanpa membuat apa-apa. **Kiraan belaian: %3$s**.%4$s",
         "cheer": "%1$sReaksi **%2$s** sangat comel sehingga ia menceriakan anda. **Kiraan belaian: %3$s**.%4$s",
         "scare": "%1$sHaiwan peliharaan anda takut apabila anda mebelainya. Mungkin ia terlalu tetiba? **Kiraan belaian: %3$s**.%4$s",
-        "counter_100": "%1$sNampaknya kepalanya akan berkilau dengan belaian sebanyak itu."
+        "counter_100": "%1$sNampaknya kepalanya akan berkilat dengan belaian sebanyak itu."
       },
       "buy": {
         "not_enough_arguments": "%1$sAnda harus menyatakan nama haiwan peliharaan dan taipkan jenis haiwan peliharaan yang ingin dibeli. (Misalnya, `~>pet buy hello dog`). Jika anda ingin membeli haiwan peliharaan peribadi, jalankan `~>pet choice personal` dahulu.",
