@@ -138,7 +138,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>buy rod` 來購買一隻。",
+      "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <魚竿名稱>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>buy rod` 來購買一隻。",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
@@ -154,9 +154,9 @@
         "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$s在安靜的釣魚時，你用 *%3$s* 找到了 %2$s 且把它們放到水桶裡了。",
+      "success_money": "%1$s在安靜的釣魚時，你用 *%4$s* 找到了 %2$s 和 **%3$,d 元** 且把它們放到水桶裡了。%5$s",
+      "success_money_noitem": "%1$s在安靜的釣魚時，你用 *%3$s* 找到了 **%2$,d 元** 且把它們放到水桶裡了。",
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
       "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
@@ -236,7 +236,7 @@
       "not_connected": "%1$s你還沒進入到我目前正在播放的語音頻道! (如果你覺得這是錯誤的話，請回報至<https://support.mantaro.site>)",
       "np_message": "%1$s 現正播放 **%2$s** (%3$s) 在 **%4$s** | %5$s",
       "track_error": "%1$s播放這首曲目時發生了些問題! 不便之處敬請見諒，如果還有的話我會先播放下一首的。",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "queue_finished": "%1$s目前清單已播放完畢！希望你喜歡使用我 :heart:",
       "soundcloud_no_args": "%1$s你需要給我歌曲名稱，我可不是隨猜即中的魔法師 :(",
       "missing_embed_permissions": "%1$s你需要給我嵌入連結權限才能顯示菜單。如果你想要跳過菜單，使用 `~>forceplay` ，這將會直接播放第一個結果。",
       "no_vc_found": "%1$s我還沒有連接到任何語音頻道？再試一次。",
@@ -285,11 +285,11 @@
         "over_limit": "%1$s你加入的清單含有超過%2$d首歌曲，所以我將忽略多餘的歌曲。",
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用 `~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
-        "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "error_loading": "%1$s取得音樂時發生錯誤：%2$s。試著在試一次或使用別的鏈接？",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
+        "over_32_minutes": "%1$s**無法加入 `%2$s` 至清單：長度超過 %3$s。**(歌曲長度為 %4$s)。\n你可以使用Mantaro Premium取得更高的長度限制和直播播放！查看 <https://patreon.com/mantaro> 獲得更多訊息。",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
+        "loaded_song": "%1$s已加入清單 -> **%2$s** *(%3$s)*",
         "selection_text": "歌曲選擇，輸入歌曲編號以繼續。",
         "timeout_text": "這將在30秒內超時。傳送 &cancel 以取消。"
       },
@@ -304,13 +304,13 @@
       "header": "現正播放"
     },
     "pause": {
-      "paused": "已暫停播放. *(原本狀態為播放中)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "paused": "已暫停播放。*(原本狀態為播放中)*",
+      "unpaused": "已回復播放。*(原本狀態為暫停中)*"
     },
     "rewind": {
       "no_time": "%1$s你需要告訴我你想倒轉的長度 *(範例：`~>rewind 1m45s`將會倒轉1分45秒)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
+      "negative": "%1$s僅限正整數",
+      "too_little": "%1$s請使用正確的格式。*(範例：`~>rewind 1m45s` 將會倒轉1分45秒)*",
       "before_beginning": "%1$s你無法倒轉至歌曲開頭之前",
       "success": "%1$s倒轉歌曲至：%2$s。"
     },
@@ -345,7 +345,8 @@
       "queue_cancel": "%1$s正在播放目前的佇列。",
       "queue_repeat": "%1$s正在重覆播放目前的佇列。",
       "song_cancel": "%1$s正在跟著目前的佇列繼續播放。",
-      "song_repeat": "%1$s正在重覆播放目前的歌曲，再次執行此命令來停止重覆播放。"
+      "song_repeat": "%1$s正在重覆播放目前的歌曲，再次執行此命令來停止重覆播放。",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$s哎，之後沒有任何歌曲了。",
@@ -473,7 +474,8 @@
         "success": "%1$s已成功移除指令 `%3$s` 的第**#%2$d**條回應"
       },
       "rename": {
-        "success": "%1$s已重新命名指令 `%2$s` 為 `%3$s`"
+        "success": "%1$s已重新命名指令 `%2$s` 為 `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$s你需要指出你想創建的指令名稱。",
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s，傳送 **yes** 或 **no** 來決定你是否願意與%3$s結婚\n%4$s這將在120秒內超時。",
       "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
       "accepted": "%1$s**%2$s#%3$s**接受了**%4$s#%5$s**的求婚！",
-      "denied": "%1$s已拒絕**%2$s**的求婚"
+      "denied": "%1$s已拒絕**%2$s**的求婚",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$s你確定要結束這場婚姻嗎？花在寵物，房子和車子上的錢將會被平分給你們。傳送 `yes` 繼續或 `no` 取消。**屬於你婚姻的寵物將會消失**",
@@ -698,7 +701,7 @@
     },
     "coinflip": {
       "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
-      "no_repetitions": "%1$sYou need to specify an Integer for the amount of repetitions (For example, `~>roll 100`)",
+      "no_repetitions": "%1$s你需要指出一個整數當作重複的次數 (範例，`~>roll 100`)",
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
         "non_existent": "%1$s你無法購買不存在的物品。試著使用更簡短的名稱或將他\"用引號包起來\"。記得把數量放在名稱前面，像是：`~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sThis user already has too much money...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -918,8 +924,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "寵物",
+        "none": "沒有寵物"
       },
       "stats": {
         "header": "%1$s 的統計資訊",
@@ -1035,11 +1041,12 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
         "pass": "You can rep someone now.",
@@ -1364,14 +1371,14 @@
       },
       "clean": {
         "not_enough_money": "%1$s你至少需要 %2$,d 元來清潔寵物 **%3$s**。",
-        "not_dusty": "%1$s**%2$s** is not dusty. (Current dust level: %3$,d%%)",
+        "not_dusty": "%1$s**%2$s** 身上還不髒。(目前骯髒程度：%3$,d%%)",
         "success": "%1$s**%2$s** 看起來閃閃發光！你花了 %3$,d 元來清潔你的寵物。"
       },
       "choice": {
         "no_choice": "%1$s你需要指出正確的選擇 (Personal 或 Marriage)。",
         "invalid_choice": "%1$s請選擇 Personal 或 Marriage，Personal 是你的個人寵物，Marriage 為你的婚姻寵物",
-        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
-        "already_chosen": "%1$sThis is already your choice.",
+        "ratelimit_message": "你可以改變你的寵物選擇3次。之後則需等待上述的時間才能繼續改變。這是為了避免洗版！",
+        "already_chosen": "%1$s這已經是你的選擇了。",
         "success": "%1$s成功設置寵物選擇為：%2$s %3$s"
       },
       "level": {
@@ -1383,10 +1390,10 @@
         "header": "%1$s**目前可用的寵物**\n\n%2$s\n\n%3$s**能力說明：**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$s你沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。(寵物選擇為：%2$s)",
         "no_pet_other": "%1$s%2$s 沒有任何寵物可以撫摸。使用 `~>pet` 獲得更多說明。",
-        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
-        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
+        "personal_pet_other": "%1$s你無法撫摸其他人的個人寵物。至少現在不行。",
+        "ratelimit_message": "你最多可以撫摸你的寵物25次。到達之後將需要等待一個小時才能再次撫摸25次。",
         "too_many": "你是怎麼撫摸那麼多次的？"
       },
       "pet_reactions": {
@@ -1406,8 +1413,8 @@
         "nothing_found": "%1$s找不到你指出的寵物類型。你指出了：`%2$s`，有效類型：`%3$s`",
         "not_enough_money": "%1$s你沒有足夠的錢來購買此寵物。價格：%2$,d 元，你的錢包：%3$,d 元",
         "confirm": "%1$s你確定要購買這個寵物嗎？名稱：%2$s，種類：%3$s，價格：%4$,d 元。寵物選擇為 %5$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
-        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "success": "%1$s恭喜！你們現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %6$s",
+        "success_personal": "%1$s恭喜！你現在是 `%2$s%3$s` 的主人了，他的名字叫 `%4$s`。你花了 %5$,d 元購買，寵物選擇為 %6$s",
         "cancel_success": "%1$s操作取消。",
         "too_long": "%1$s這個名字太長了。他必須少於150字元。"
       },
@@ -1450,8 +1457,8 @@
       },
       "remove": {
         "no_pet": "%1$s你沒有寵物可以丟棄。(寵物選擇為：%2$s)%3$s",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm": "%1$s你確定要丟棄你的寵物嗎？你將獲得 %2$,d 元，與你結婚的人也將獲得 %2$,d 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款不會隨著寵物等級增加，就像你在買新的電子雞一樣。",
+        "confirm_personal": "%1$s你確定要丟棄你的寵物嗎？你將被退回 %2$,d 元。\n傳送 `yes` 確認或 `no` 取消。請記得你的退款金額不會隨著寵物等級增加，就像在買新的電子雞一樣。",
         "success": "%1$s成功丟棄寵物。此婚姻中的每個人都獲得了 %2$s 元作為補償。",
         "success_personal": "%1$s成功丟棄寵物。你獲得了 %2$s 元作為補償。"
       },
@@ -1717,7 +1724,7 @@
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
       "success": "%1$s你用*%3$s*開採了價值**%2$,d元**的礦物",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*你能使用採礦時找到的寶石來鑄造更好的鎬子。使用 `~>cast ls` 來查看你能鑄造的東西*\n別忘了你能到 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 查看我們的工具指南 (英文)",
       "diamond": {
         "overflow": "你在採礦時時發現了一顆鑽石，但是你已經擁有太多了，所以我為你出售了。",
         "success": "你在採礦時幸運的找到了%1$s顆鑽石，檢查你的背包！"
@@ -1725,7 +1732,7 @@
       "gem": {
         "overflow": "你在採礦時時發現了 *%1$s*，但是你已經擁有太多了，所以我為你出售了。",
         "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。",
-        "success_extra": "Hurray! You got extra lucky and found *%1$s* and *%2$s* while mining, check your inventory."
+        "success_extra": "耶! 你在採礦時幸運的找到了 *%1$s* 和 *%2$s*，檢查你的背包。"
       },
       "sparkle": {
         "overflow": "你找到了閃閃發光的寶石，不過你好像已經擁有太多了，所以我為你出售了。",
@@ -1743,7 +1750,7 @@
       "waifu_help": "你的waifu加入了你的採礦冒險，你們都得到了更多的收穫!",
       "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備鎬子已重設。",
       "broken_drop": "%1$s你的工具壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
-      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
+      "broken_drop_miss": "%1$s你的工具壞了，沒能把它找回來。"
     },
     "chop": {
       "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備一支新的斧頭！如果你沒有任何斧頭，使用 `~>buy axe` 來購買一把。",

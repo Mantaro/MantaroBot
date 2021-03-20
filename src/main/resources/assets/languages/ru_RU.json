@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sПродолжаю данную очередь.",
       "queue_repeat": "%1$sПовтор данной очереди.",
       "song_cancel": "%1$sСледующий трек...",
-      "song_repeat": "%1$sПовтор трека..."
+      "song_repeat": "%1$sПовтор трека...",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sОй, а следующей песни нет :(",
@@ -473,7 +474,8 @@
         "success": "%1$sУспешно удалён ответ **#%2$d** для команды `%3$s`"
       },
       "rename": {
-        "success": "%1$sПереименована команда с `%2$s` на `%3$s`"
+        "success": "%1$sПереименована команда с `%2$s` на `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sВам нужно указать команду, которую вы хотите добавить.",
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s, напишите **yes** или **no** чтобы принять предложение о браке от %3$s\n%4$sУ вас есть 120 секунд.",
       "ring_check_fail": "%1$sВы не можете пожениться если у вас нет двух колец в инветаре :(",
       "accepted": "%1$s**%2$s#%3$s** принял предложение от **%4$s#%5$s**!",
-      "denied": "%1$sПредложение от **%2$s** отклонено"
+      "denied": "%1$sПредложение от **%2$s** отклонено",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете продать.",
         "invalid": "%1$sНедопустимое количество предметов для продажи.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sВы не указали количество предметов (если он один, то вам не нужно указывать цифру) и предмет который желаете приобрести.",
         "invalid": "%1$sНедопустимое количество предметов для покупки.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sВы не указали человека, которому передаете предмет."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sВы не можете передать деньги самому себе.",
       "bot_notice": "%1$sВы не можете передать деньги боту.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sУ этого пользователя уже слишком много денег...",
       "success": "%1$sПереведено **%2$d** *(%3$d вычтено 8%%)* пользователю **%4$s** успешно.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1035,11 +1041,12 @@
       "footer": "Значки как ачивки, их можно получить за использование бота."
     },
     "rep": {
-      "new_account_notice": "%1$sВы не можете повысить репутацию с нового (недавно зарегистрированного) аккаунта, чтобы повышать репутацию пользователям, с момента создания должно пройти не менее 5 дней. Повторите попытку позже.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sВам нужно упомянуть или указать имя пользователя.\n%2$s",
       "more_than_one": "%1$sВы можете повысить репутацию только одному человеку",
       "rep_bot": "%1$sВы не можете повысить репутацию боту.\n%2$s",
       "rep_yourself": "%1$sВы не можете повысить репутацию самому себе.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**Вы сможете ещё раз повысить репутацию через %1$s**",
         "pass": "Вы можете повысить репутацию.",

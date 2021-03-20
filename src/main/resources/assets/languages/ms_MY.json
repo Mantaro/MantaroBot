@@ -30,8 +30,8 @@
     "dust": "Hanya ada habuk di sini.",
     "invalid_syntax": "Sintaks tidak sah.",
     "item_lookup": {
-      "no_item_emoji": "Tiada item yang berkaitkan dengan emoji ini.",
-      "no_item_name": "Tiada item yang berkaitkan dengan nama ini.",
+      "no_item_emoji": "Tiada item yang berkaitan dengan emoji ini.",
+      "no_item_name": "Tiada item yang berkaitan dengan nama ini.",
       "not_found": "Tidak menemui item yang berkaitan dengan carian anda.\nSekiranya anda tersesat, cuba gunakan nama singkatan, misalnya untuk `Energy Beverage`, gunakan `energy`. Atau mengapit nama tersebut dengan tanda petik.",
       "claim_key": "Anda tidak boleh memindahkan kunci tuntutan."
     },
@@ -56,11 +56,11 @@
       },
       "potion_active": "%1$sAnda sudah mempunyai kesan ramuan **%2$s** yang aktif dan mempunyai jumlah maksimum yang mungkin!",
       "potion_not_found": "%1$sSaya tidak dapat menjumpai ramuan atau jenis peralatan itu!",
-      "potion_applied": "%1$sKesan berjaya diterapkan **%2$s** dari jenis *%3$s* (%4$dx). Periksa kesan baru anda yang berkilat pada `~>profile stats`",
+      "potion_applied": "%1$sBerjaya menerapkan kesan **%2$s** dari jenis *%3$s* (%4$dx). Periksa kesan baru anda pada `~>profile stats`",
       "potion_applied_multiple": "%1$sBerjaya menggunakan **%2$s** dari jenis *%3$s*.\nAnda sudah menggunakan kesan ini, jadi kami timbunkannya. Saiz timbunan semasa:%4$s",
-      "max_stack_size": "%1$sAnda sudah mengumpulkan jumlah maksimum %2$s yang mungkin anda dapat. (Maksimum: 15, Selepas timbunan: %3$s)",
-      "max_stack_size_2": "%1$sAnda tidak dapat menumpuk sebanyak %2$s itu. (Maksimum: 15, Dicuba:%3$s)",
-      "not_same_potion": "%1$sAnda sudah mempunyai ramuan jenis %2$s yang tersusun dan aktif, jadi anda tidak boleh memasukkan ramuan jenis %3$s ke dalamnya."
+      "max_stack_size": "%1$sAnda sudah timbunkan jumlah maksimum %2$s yang mungkin anda dapat. (Maksimum: 15, Selepas timbunan: %3$s)",
+      "max_stack_size_2": "%1$sAnda tidak dapat menimbun sebanyak %2$s itu. (Maksimum: 15, Dicuba:%3$s)",
+      "not_same_potion": "%1$sAnda sudah mempunyai ramuan jenis %2$s yang telah ditimbunkan dan aktif, jadi anda tidak boleh menimbunkan ramuan jenis %3$s ke dalamnya."
     },
     "campaigns": {
       "premium": {
@@ -69,7 +69,7 @@
         "thanks_message": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:",
         "thanks_message_daily": "Terima kasih kerana menyokong Mantaro. Tanpa pertolongan daripada orang ramai seperti anda, kami tidak dapat menjaga Mantaro untuk terus hidup :heart:\nAnda juga mendapat dua kali ganda kredit sebagai bonus!"
       },
-      "twitter": "Adakah anda tahu kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara-perkara lain."
+      "twitter": "Tahukah anda bahawa kami mempunyai akaun Twitter? Ya kami ada! Ikuti kami di (at)mantarodiscord <https://twitter.com/mantarodiscord> untuk kemas kini dan perkara-perkara lain."
     },
     "mention_user_required": "%1$sAnda perlu menyebut seorang pengguna.",
     "invalid_character": "%1$sItu bukan aksara yang dibenarkan.",
@@ -87,16 +87,16 @@
       "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini semula dalam %3$s.**",
       "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda cuba lagi sebelum cooldown ditetapkan semula!**",
       "spam_2": "\nSaya rasa berhenti adalah pilihan yang terbaik buat masa ini...",
-      "spam_3": "\nBukankah lebih baik jika anda keluar sebentar?",
+      "spam_3": "\nBukankah lebih baik jika awak keluar sebentar?",
       "spam_4": "\nBenda ini hidup ke?"
     },
     "generic_error": "Sekiranya anda mahu, sertailah **pelayan sokongan** kami (`https://support.mantaro.site`), atau lihat halaman GitHub kami (`https://github.com/Kodehawa/MantaroBot`). Tolong beritahu mereka untuk berhenti meletupkan saya dan tolong jangan lupa ID Ralat, arahan yang anda gunakan dan node anda (dilihat dalam `~>shard`) semasa melaporkan!",
     "boom_quotes": [
-      "Nampaknya Megumin letupkan istana kami...",
+      "Nampaknya Megumin telah meletupkan istana kami...",
       "Uh-oh, nampaknya tuan saya terlupa beberapa angka kosong dan satu di atas lantai :<",
       "T-Tunggu, apa yang baru berlaku?",
       "S-Saya rasa kita ada kebakaran di sini... anda mungkin ingin memberitahu tuan saya untuk melihat.",
-      "Saya sudah menguasai sihir letupan, anda lihat?",
+      "Saya sudah menguasai sihir letupan, awak lihat?",
       "Mungkin ada yang salah di sini, tapi, u-uh, saya boleh memperbaikinya!",
       "U-Uhh.. Apa yang anda mahukan?"
     ],
@@ -140,7 +140,7 @@
       "dust": "%1$sHari sudah berakhir, dan baldi ikan anda hanya dapat mengumpulkan habuk. (Tahap habuk %2$s%%)",
       "no_rod": "%1$sAnda masih belum memasang joran anda. Gunakan `~>equip <nama joran>` untuk memasang sebatang joran dan bermula perjalanan memancing anda! Jika anda tidak mempunyai sebatang joran, jalankan arahan `~>buy rod` dahulu",
       "trash": {
-        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami harus membuangnya kembali ke dalam air...",
+        "overflow": "%1$sAnda menjumpai sampah ketika memancing, tetapi inventori anda sudah penuh, jadi kami terpaksa membuangnya kembali ke dalam air...",
         "success": "%1$sSemasa memancing dengan tenang, anda menjumpai %2$s yang terapung tetapi nampaknya hanya sampah :("
       },
       "tier3": {
@@ -172,7 +172,7 @@
       "no_permission_self": "%1$sMaaf! Saya tidak mempunyai kebenaran untuk melarang ahli dalam pelayan ini.",
       "no_users": "%1$sAnda perlu memberi saya pengguna untuk melarang lembut.",
       "hierarchy_conflict": "%1$sAnda tidak boleh melarang lembut pengguna dalam hierarki yang lebih tinggi daripada anda",
-      "yourself_note": "%1$sMengapa awak cuba melarang lembut diri anda?",
+      "yourself_note": "%1$sMengapa awak cuba melarang lembut diri awak?",
       "self_hierarchy_conflict": "%1$sTidak boleh melarang lembut ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s. **(%3$s dilarang lembut)**",
       "error": "%1$sRalat larangan lembut [%2$s]: (Tidak ada kebenaran yang diberikan: %3$s)",
@@ -187,7 +187,7 @@
       "self_hierarchy_conflict": "%1$sTidak boleh melarang ahli: %2$s, dia lebih tinggi atau hierarki yang sama daripada saya!",
       "success": "%1$s%2$s (%3$s dilarang)",
       "success_multiple": "%1$s%2$s (%3$s orang dilarang)",
-      "error": "%1$sRalat melarang %2$s: (Saya memerlukan kebenaran %3$s)",
+      "error": "%1$sRalat semasa melarang %2$s: (Saya memerlukan kebenaran %3$s)",
       "unknown_error": "%1$sHuh, saya mengalami ralat yang tidak diketahui semasa melarang %2$s"
     },
     "kick": {
@@ -211,7 +211,7 @@
       "7": "- Untuk **menghentikan atau melanjutkan** hanya gunakan `~>pause`",
       "8": "- Untuk **menghentikan muzik dan melepaskan ikatan pemain** gunakan `~>stop`",
       "9": "- Untuk **menggeser antrian** hanya gunakan `~>shuffle`",
-      "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulang antrian** gunakan` ~>repeat queue`. Penggunaan `~>repeat` semasa ulangan masih hidup akan mematikannya\n",
+      "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulangi antrian** gunakan` ~>repeat queue`. Penggunaan `~>repeat` semasa pengulangan masih hidup akan mematikannya\n",
       "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <nama arahan>` (tanpa <> dan ganti command name dengan nama arahan yang anda mahukan)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
@@ -238,7 +238,7 @@
       "track_error": "%1$sAduh, saya menemui masalah semasa memainkan lagu ini! Maaf atas kesulitan, saya akan cuba memainkan yang berikutnya jika ada.",
       "queue_finished": "%1$sSelesai memainkan antrian semasa! Harap anda menikmatinya :heart:",
       "soundcloud_no_args": "%1$sAnda perlu memberi saya nama lagu, saya bukan ahli silap mata jadi saya tidak dapat meneka :(",
-      "missing_embed_permissions": "%1$sAnda haruslah memberikan kebenaran Pautan Embed kepada bot supaya ia dapat memaparkan menu tersebut. Jika anda ingin melangkau menu tersebut, gunakan `~>forceplay`, yang akan memainkan keputusan pertama.",
+      "missing_embed_permissions": "%1$sAnda perlu memberikan kebenaran Pautan Embed kepada bot supaya ia dapat memaparkan menu tersebut. Jika anda ingin melangkau menu tersebut, gunakan `~>forceplay`, yang akan memainkan keputusan pertama.",
       "no_vc_found": "%1$sSaya tidak tersambung ke mana-mana saluran suara walaupun sepatutnya? Cuba lagi.",
       "queue": {
         "header_field": "Arahan",
@@ -318,7 +318,7 @@
       "success": "%1$sLagu semasa telah dimulai semula."
     },
     "skipahead": {
-      "no_time": "%1$sAnda haruslah memberitahu saya tempoh lagu yang ingin dilangkau. *(Contoh: `~>skipahead 1m45s` akan melangkau tempoh 1 minit dan 45 saat dari posisi semasa lagu anda)*",
+      "no_time": "%1$sAnda perlu memberitahu saya tempoh lagu yang ingin dilangkau. *(Contoh: `~>skipahead 1m45s` akan melangkau tempoh 1 minit dan 45 saat dari posisi semasa lagu anda)*",
       "past_duration": "%1$sAnda tidak boleh melangkau ke masa yang melepasi tempoh sesebuah lagu",
       "success": "%1$sSudah dilangkau ke %2$s."
     },
@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sAntrian semasa dilanjutkan.",
       "queue_repeat": "%1$sAntrian semasa sedang diulangi.",
       "song_cancel": "%1$sSedang meneruskan dengan antrian norma.",
-      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya."
+      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya.",
+      "invalid": "%1$sBukan pilihan yang sah. Sama ada jalankan arahan ini tanpa sebarang argumen atau jalankan `~>repeat queue` untuk mengulangi antrian penuh."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, tiada lagu yang seterusnya.",
@@ -457,8 +458,8 @@
         "success": "Arahan kustom `%1$s` telah diimport dari pelayan `%2$s` dengan sebanyak %3$d respons."
       },
       "edit": {
-        "no_command": "%1$sAnda harus menyatakan arahan apa yang ingin anda edit.",
-        "invalid_number": "%1$sAnda harus menyatakan nombor yang betul untuk mengedit.",
+        "no_command": "%1$sAnda perlu menyatakan arahan apa yang ingin anda edit.",
+        "invalid_number": "%1$sAnda perlu menyatakan nombor yang betul untuk menukarnya.",
         "no_index": "%1$sAnda tidak boleh mengedit indeks yang tidak wujud.",
         "empty_response": "%1$sTidak boleh edit menjadi respons kosong",
         "not_enough_args": "%1$sAnda perlu menyatakan arahan, indeks dan respons yang baru",
@@ -466,14 +467,15 @@
       },
       "deleteresponse": {
         "no_command": "%1$sAnda perlu menyatakan arahan dari mana anda ingin padamkan respons.",
-        "invalid_number": "%1$sAnda harus menyatakan nombor yang betul untuk mengedit.",
+        "invalid_number": "%1$sAnda perlu menyatakan nombor yang betul untuk menukarnya.",
         "no_index": "%1$sAnda tidak boleh memadamkan indeks yang tidak wujud.",
         "not_enough_args": "%1$sAnda perlu menyatakan arahan dan indeks yang ingin anda padamkan.",
         "no_responses_left": "%1$sTiada lagi respons yang tinggal, jadi saya telah memadamkan arahan tersebut.",
         "success": "%1$sRespons **#%2$d** dari arahan `%3$s` telah dipadamkan secara lancar"
       },
       "rename": {
-        "success": "%1$sArahan `%2$s` telah dinamakan semula menjadi `%3$s`"
+        "success": "%1$sArahan `%2$s` telah dinamakan semula menjadi `%3$s`",
+        "not_enough_args": "%1$sAnda perlu menyatakan arahan yang ingin dinamakan semula dan nama barunya."
       },
       "add": {
         "no_command": "%1$sAnda perlu menyatakan arahan yang ingin anda tambahkan.",
@@ -485,11 +487,11 @@
       },
       "lockcommand": {
         "no_permission": "%1$sAnda memerlukan kebenaran Mengurus Pelayan untuk mengunci dan membuka arahan.",
-        "no_command": "%1$sAnda haruslah menyatakan arahan yang ingin anda mengunci.",
+        "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda mengunci.",
         "success": "%1$sBerjaya mengunci arahan `%2$s`. Anda hendaklah membukanya untuk mengedit lebih lanjut."
       },
       "unlockcommand": {
-        "no_command": "%1$sAnda haruslah menyatakan arahan yang ingin anda membuka.",
+        "no_command": "%1$sAnda harus menyatakan arahan yang ingin anda membuka.",
         "not_locked": "%1$sArahan ini tidak dikunci.",
         "success": "%1$sBerjaya membuka arahan `%2$s`. Anda hendaklah menguncinya nanti jika ingin mengelakkan edit selanjutnya."
       },
@@ -564,15 +566,15 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sAnda tidak ada surat cinta dalam inventori anda, jadi anda tidak dapat menulis surat anda. Surat cinta diberikan sempena perkahwinan.",
+        "no_letter": "%1$sAnda tidak ada surat cinta dalam inventori anda, jadi anda tidak dapat menulis surat anda. Surat cinta akan diberikan atas perkahwinan.",
         "empty": "%1$sAnda tidak boleh membiarkan surat cinta itu kosong.",
         "no_marriage": "%1$sAnda belum berkahwin lagi, anda tidak boleh menulis surat cinta kepada diri anda...",
         "not_proposing_player": "%1$sAnda bukan pemain yang melamar perkahwinan ini!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sPerkahwinan ini sudah mempunyai banyak surat cinta. Periksanya menggunakan `~>marry status`",
         "too_long": "%1$sSurat cinta terlalu panjang (maksimum adalah 500 aksara)",
         "cannot_see": "%1$sSaya tidak menjumpai pengguna yang telah anda kahwini... Mungkin dia tidak berada dalam pelayan yang saya berada dalam.",
         "confirmation": "%1$sAdakah anda *pasti* akan menulis surat ini bagi perkahwinan anda dengan **%2$s#%3$s**? Ini adalah kekal selagi perkahwinan ini berkekalan. *Kandungan surat:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$sBerjaya menghantar surat cinta kepada kekasih anda! Periksanya menggunakan `~>marry status`",
         "scrapped": "%1$sAnda masih ada masa untuk memikirkan apa yang ingin anda tuliskan, tidak perlu tergesa-gesa!"
       },
       "status": {
@@ -588,7 +590,7 @@
         "pet": "Nama Haiwan Peliharaan (Jenis)"
       },
       "timezone": {
-        "no_content": "%1$sAnda haruslah menyatakan zon masa yang ingin dijejaki oleh perkahwinan anda.",
+        "no_content": "%1$sAnda harus menyatakan zon masa yang ingin dijejaki oleh perkahwinan anda.",
         "invalid": "%1$sZon masa ataupun ID Zon yang tidak sah.",
         "success": "%1$sBerjaya menetapkan zon masa perkahwinan kepada %2$s. Zon masa haiwan peliharaan adalah sama dengan zon masa perkahwinan."
       },
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s, taip **yes** atau **no** bagi lamaran perkahwinan daripada %3$s\n%4$sMasa ini akan tamat dalam 120 saat.",
       "ring_check_fail": "%1$sAnda tidak boleh berkahwin jika anda mempunyai lebih kurang daripada dua bentuk cincin dalam inventori anda :(",
       "accepted": "%1$s**%2$s#%3$s** telah menerima lamaran **%4$s#%5$s**!",
-      "denied": "%1$sLamaran **%2$s** telah ditolak"
+      "denied": "%1$sLamaran **%2$s** telah ditolak",
+      "ratelimit_message": "Kenapa awak nak berkahwin sebanyak ini?"
     },
     "divorce": {
       "confirm": "%1$sAdakah anda pasti akan menamatkan perkahwinan ini? Wang yang dibelanjakan untuk membeli rumah dan kereta akan dibahagikan kepada dua. Taip `yes` untuk meneruskan dan `no` untuk membatalkan. **Haiwan peliharaan anda akan hilang, kerana ia terikat dengan perkahwinan**",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "Kini, anda boleh gunakan `~>sell`. Contohnya, anda boleh menggantikan `~>market sell pick` dengan `~>sell pick`. Sila menggunakan arahan yang baru.",
+        "no_item": "%1$sAnda perlu menyatakan item yang ingin dijual.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda menjual.",
         "invalid": "%1$sNombor item untuk dijual tidak sah.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "Kini, anda boleh gunakan `~>buy`. Contohnya, anda boleh menggantikan `~>market buy pick` dengan `~>buy pick`. Sila menggunakan arahan yang baru.",
+        "no_item": "%1$sAnda perlu menyatakan item yang ingin dibeli.",
         "no_item_amount": "%1$sAnda perlu menyatakan bilangan item tersebut (jika hanya satu, anda tidak perlu menyatakan bilangan) dan item yang ingin anda membeli.",
         "invalid": "%1$sNombor item untuk dibeli tidak sah.",
         "non_existent": "%1$sAnda tidak boleh membeli item yang tidak wujud. Sekiranya anda tersesat, cuba menaip nama singkatan atau mengapit nama tersebut dengan tanda petik. Selain itu, bilangan item diletakkan di hadapan nama item, contoh: `~>buy 15 energy`",
@@ -777,7 +782,7 @@
         "item_limit_reached": "%1$sAnda tidak boleh membeli item itu lagi. Anda hanya boleh mempunyai maksimum 5000 bagi setiap item.",
         "success": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit.",
         "success_breakable": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh memasangnya menggunakan `~>equip <nama item>`",
-        "success_potion": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh menggunakan ramuan atau buff ini menggunakan `~>equip <nama item>`",
+        "success_potion": "%1$sBerjaya membeli %2$,d %3$s untuk harga %4$,d kredit. Kini, anda mempunyai %5$,d kredit. Anda boleh menggunakan ramuan atau buff ini menggunakan `~>useitem <nama item>`",
         "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk membeli item ini. Semasa: %2$,d kredit, Diperlukan: %3$,d kredit.",
         "success_breakable_upgrade": "Anda boleh melihat <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sAnda perlu menyatakan penerima untuk memindahkan item dan item yang ingin dipindahkan."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sAkaun anda mestilah berumur sekurang-kurangnya 7 hari untuk memindahkan wang.",
-      "new_account_notice_other": "%1$sAkaun penerima mestilah berumur sekurang-kurangnya 7 hari.",
+      "new_account_notice_yourself": "%1$sAkaun anda mestilah berumur sekurang-kurangnya 14 hari untuk memindahkan wang.",
+      "new_account_notice_other": "%1$sAkaun penerima mestilah berumur sekurang-kurangnya 14 hari.",
       "transfer_yourself_note": "%1$sAnda tidak boleh memindahkan wang kepada diri anda.",
       "bot_notice": "%1$sAnda tidak boleh memindahkan wang kepada bot.",
       "no_amount": "%1$sAnda perlu menyatakan jumlahnya. Gunakan arahan `~>transferitems` sebagai gantinya jika anda ingin memindahkan item.",
@@ -813,14 +818,15 @@
       "receipt_over_limit": "%1$sPengguna ini sudah mempunyai terlalu banyak wang...",
       "success": "%1$s**%2$,d** *(%3$,d selepas 8%% cukai)* berjaya dipindahkan kepada **%4$s**.",
       "item_transfer": "%1$sAnda tidak boleh memindahkan item menggunakan transfer, gunakan arahan `~>transferitems` sebagai gantinya.",
-      "party": "Anda hanya dapat memindahkan kepada orang yang sama (%1$s) sekali setiap 10 minit."
+      "party": "Anda hanya dapat memindahkan kepada orang yang sama (%1$s) sekali setiap 10 minit.",
+      "blacklisted_transfer": "%1$sAnda tidak dapat memindahkan apa-apa kepada pengguna yang disenarai hitam."
     },
     "useitem": {
       "ls": {
         "header": "Senarai Item Interaktif",
         "desc": "Berikut adalah senarai item interaktif di Mantaro. Untuk maklumat lanjut tentang item interaktif, periksa wiki kami!"
       },
-      "use_command": "%1$sUntuk item ini anda haruslah menggunakan arahan yang dikaitkan dengannya! (mine untuk beliung, fish untuk joran)",
+      "use_command": "%1$sUntuk item ini anda harus menggunakan arahan yang dikaitkan dengannya! (mine untuk beliung, fish untuk joran)",
       "no_items_specified": "%1$sAnda perlu menyatakan item yang ingin digunakan.",
       "not_interactive": "%1$sAnda tidak boleh berinteraksi dengan item ini.",
       "interactive_no_action": "%1$sItem ini telah ditandai sebagai interaktif, tetapi tidak mempunyai set tindakan. Mungkin item ini menggunakan arahan tersendiri? Misalnya, beliung menggunakan `~>mine`",
@@ -906,7 +912,7 @@
       "lang": {
         "nothing_specified": "%1$sAnda perlu menyatakan bahasa yang ingin digunakan ataupun `reset` untuk menetapkan semula bahasa anda.",
         "reset_success": "%1$sBahasa peribadi anda telah ditetapkan semula.",
-        "success": "%1$sKini, Mantaro akan berkomunikasi dengan anda menggunakan `%2$s`",
+        "success": "%1$sKini, Mantaro akan bertutur dalam `%2$s` dengan anda",
         "invalid": "%1$sBahasa itu tidak wujud! Anda boleh menggunakan `reset` untuk menetapkan semula bahasa anda."
       },
       "inventorysort": {
@@ -961,12 +967,12 @@
         "success": "%1$sAnda berjaya memasang %2$s *%3$s*, yang akan diingati lain kali anda menggunakan arahan mata wang yang sesuai.",
         "not_suitable": "%1$sAnda tidak boleh memasang ini.",
         "not_equipped": "%1$sAnda belum memasang ini lagi.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sAnda sudah memasang item sejenis ini! Cuba `~>unequip <jenis>` (Jenis yang sah ialah rod, axe, pick atau wrench) jika anda ingin menyingkirkannya."
       },
       "unequip": {
         "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
+        "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod, wrench`",
         "confirm": "%1$sAdakah anda pasti akan **menyingkirkan** %2$s %3$s anda? Taip `yes` untuk sahkan, `no` untuk membatalkan. Ini akan memberi anda versi peralatan yang sudah rosak.",
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
@@ -1035,11 +1041,12 @@
       "footer": "Lencana dianggap sebagai pencapaian, dan boleh dicapai melalui kemajuan dalam permainan Mantaro ataupun dengan menggunakan bot semata-mata."
     },
     "rep": {
-      "new_account_notice": "%1$sUmur akaun (tempoh masa sejak akaun Discord dicipta) mestilah lebih daripada 5 hari untuk memberi atau menerima rep. Cuba lagi nanti.",
+      "new_account_notice": "%1$sUmur akaun (tempoh masa sejak akaun Discord dicipta) mestilah lebih daripada 30 hari untuk memberi atau menerima rep. Cuba lagi nanti.",
       "no_mentions": "%1$sAnda perlu menyebut atau meletakkan nama seseorang pengguna.\n%2$s",
       "more_than_one": "%1$sAnda hanya boleh memberi reputasi kepada seorang pengguna sahaja",
       "rep_bot": "%1$sAnda tidak boleh memberi reputasi kepada bot.\n%2$s",
       "rep_yourself": "%1$sAnda tidak boleh rep diri anda.\n%2$s",
+      "blacklisted_rep": "%1$sAnda tidak dapat memberi reputasi kepada akaun yang disenarai hitam.",
       "cooldown": {
         "waiting": "**Anda akan dapat menggunakan arahan ini semula dalam %1$s**",
         "pass": "Anda boleh rep seseorang sekarang.",
@@ -1049,12 +1056,12 @@
     },
     "birthday": {
       "reset": "%1$sTarikh hari jadi ditetapkan semula dengan betul.",
-      "no_guild_birthdays": "%1$sNampaknya kosong di sini.\nIngat bahawa cache akan disegarkan semula setiap 23 jam dan kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
-      "no_guild_month_birthdays": "%1$sTiada hari jadi bagi bulan ini (%2$s) di sini :(\n%3$sSekiranya anda baru sahaja menubuhkan pengumuman hari jadi, sila tunggu sekejap sebelum gunakan arahan ini semula. (Cache disegarkan semula setiap 23 jam)\nIngat, kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
+      "no_guild_birthdays": "%1$sNampaknya agak kosong di sini.\nIngat bahawa cache akan dikemas kini setiap 23 jam dan kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
+      "no_guild_month_birthdays": "%1$sTiada hari jadi bagi bulan ini (%2$s) di sini :(\n%3$sSekiranya anda baru sahaja menubuhkan pengumuman hari jadi, sila tunggu sekejap sebelum gunakan arahan ini semula. (Cache dikemas kini setiap 23 jam)\nIngat, kini pengguna hendaklah jalankan `~>birthday allowserver` untuk membenarkan pelayan ini mengumumkan hari jadi mereka.",
       "cache_not_running": "%1$sNampaknya cache hari jadi tidak berjalan (ralat dalaman) :(",
       "error": "%1$sTerdapat ralat semasa mengumpul hari jadi (ralat dalaman) :(",
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
-      "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan disegarkan semula setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
+      "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan dikemas kini setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
@@ -1068,7 +1075,7 @@
       "already_allowed": "%1$sAnda sudah membenarkan pelayan ini untuk menunjukkan hari jadi anda."
     },
     "choose": {
-      "nothing_to": "%1$sAnda haruslah memberitahu saya apa yang anda mahu saya memilih antara. (contoh: `~>choose anime manga \"sleeping out\")",
+      "nothing_to": "%1$sAnda harus memberitahu saya apa yang anda mahu saya memilih antara. (contoh: `~>choose anime manga \"sleeping out\")",
       "success": "%1$sSaya memilih `%2$s`"
     },
     "remindme": {
@@ -1078,7 +1085,7 @@
         "success": "%1$sPeringatan anda telah dibatalkan.",
         "select": "Sila memilih peringatan yang ingin anda batalkan."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time": "%1$sAnda tidak menyatakan sebarang masa. Cuba menyatakannya pada permulaan arahan, misalnya, `~>remindme 1h mencuci pinggan`. Formatnya ialah nombor diikuti oleh sama ada d (hari), h (jam) atau m (minit). Periksa `~>help mute` untuk melihat contohnya.",
       "no_time_arg": "%1$sAnda tidak memberi saya masa pada argumen `-time`.",
       "too_little_time": "%1$sTempoh itu terlalu pendek (Minimum: 1 minit, Contoh: `remindme 1m mencuci pinggan`)",
       "too_long": "Tempoh itu terlalu panjang... (Maksimum: 180 hari)",
@@ -1176,13 +1183,13 @@
         "holdhands": "*memegang tangan awak*",
         "cuddle": "*cuddle awak*",
         "nuzzle": "*nuzzle awak*",
-        "blush": "*blushes at you*",
+        "blush": "*kembang dengan awak*",
         "bloodsuck": "B-Bagaimanakah saya melakukannya? Ah baiklah... *menghisap darah awak*"
       },
       "self": {
         "pat": "*dibelai*",
-        "hug": "*blushes* o-oh... thanks you",
-        "kiss": "*blushes*... I- uh... don't think you should be kissing a bot but...",
+        "hug": "*kembang* o-oh... terima kasih",
+        "kiss": "*kembang*... Saya- uh... rasa awak tak patut cium bot tapi...",
         "poke": "O-Oh! Apakah yang anda perlukan?",
         "slap": ":(",
         "bite": "S-Sakit!",
@@ -1216,7 +1223,7 @@
       "cuddle": "%2$s telah cuddle awak %1$s",
       "nuzzle": "%1$s sedang nuzzle %2$s",
       "bloodsuck": "%1$s sedang menghisap darah %2$s!",
-      "blush": "%1$s is blushing at %2$s",
+      "blush": "%1$s kembang dengan %2$s",
       "nom": "Sedap.",
       "facedesk": "*menghempaskan muka ke atas meja*",
       "lewd": "A-Awak lewdie!",
@@ -1255,7 +1262,7 @@
       },
       "started_mp_role": "%1$sMemulakan lobi berbilang pemain dengan semua pengguna yang mempunyai peranan yang dinyatakan: **%2$s**",
       "started_mp_user": "%1$sMemulakan lobi berbilang pemain dengan pengguna-pengguna: **%2$s**",
-      "lobby_started": "%1$sLobi yang baru telah bermula! **Permainan: %2$s**\nAnda boleh menaip `endlobby` untuk menamatkan semua permainan dan menghabiskan lobi ini.",
+      "lobby_started": "%1$sLobi yang baru telah bermula! **Permainan: %2$s**\nAnda boleh menaip `endlobby` untuk menamatkan semua permainan dan mematikan lobi ini.",
       "game_timeout_drop": "%1$sNampaknya saya terlupa sesuatu permainan di sini... Saya akan memulakan permainan anda yang baru sekarang!",
       "other_lobby_running": "%1$sTidak dapat memulakan lobi permainan yang baru jika terdapat permainan yang sedang dijalankan. (Sekiranya ini merupakan ralat, sila meminta admin menjalankan `~>opts lobby reset`)",
       "lobby": {
@@ -1385,7 +1392,7 @@
       "pat": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)",
         "no_pet_other": "%1$s%2$s tidak memiliki haiwan peliharaan untuk dibelai. Jalankan `~>pet` untuk mendapatkan penerangan.",
-        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
+        "personal_pet_other": "%1$sAnda tidak dapat membelai haiwan peliharaan peribadi orang lain. Buat masa ini.",
         "ratelimit_message": "Anda boleh membelai haiwan peliharaan anda sebanyak 25 kali. Setelah itu anda perlu menunggu selama masa tersebut di atas untuk 25 belaian lagi.",
         "too_many": "Bagaimanakah anda mendapat belaian sebanyak itu?"
       },
@@ -1395,10 +1402,10 @@
         "nothing": "%1$s**%2$s** hanya duduk di situ, tanpa membuat apa-apa. **Kiraan belaian: %3$s**.%4$s",
         "cheer": "%1$sReaksi **%2$s** sangat comel sehingga ia menceriakan anda. **Kiraan belaian: %3$s**.%4$s",
         "scare": "%1$sHaiwan peliharaan anda takut apabila anda mebelainya. Mungkin ia terlalu tetiba? **Kiraan belaian: %3$s**.%4$s",
-        "counter_100": "%1$sNampaknya kepalanya akan berkilau dengan belaian sebanyak itu."
+        "counter_100": "%1$sNampaknya kepalanya akan berkilat dengan belaian sebanyak itu."
       },
       "buy": {
-        "not_enough_arguments": "%1$sAnda haruslah menyatakan nama haiwan peliharaan dan taipkan jenis haiwan peliharaan yang ingin dibeli. (Misalnya, `~>pet buy hello dog`). Jika anda ingin membeli haiwan peliharaan peribadi, jalankan `~>pet choice personal` dahulu.",
+        "not_enough_arguments": "%1$sAnda harus menyatakan nama haiwan peliharaan dan taipkan jenis haiwan peliharaan yang ingin dibeli. (Misalnya, `~>pet buy hello dog`). Jika anda ingin membeli haiwan peliharaan peribadi, jalankan `~>pet choice personal` dahulu.",
         "no_requirements": "%1$sAnda memerlukan kedua-duanya sebuah kereta dan sebuah rumah untuk membeli seekor haiwan peliharaan! Rumah: %2$s, Kereta: %3$s\nUntuk membeli sebuah rumah dan sebuah kereta gunakan `~>marry buyhouse` dan `~>marry buycar` :heart:",
         "no_house": "%1$sAnda perlu memiliki sebuah rumah haiwan peliharaan dalam inventori anda untuk melakukan ini. Anda boleh membelinya dari pasar.",
         "no_egg": "%1$sAnda memerlukan sebiji Telur Inkubator dalam inventori anda untuk melakukan ini. Anda boleh menciptanya, periksa `~>cast ls`",
@@ -1492,7 +1499,7 @@
       "dust": "%1$sInventori anda terlalu berhabuk untuk menyelamatkan sesuatu item, cuba membersihkannya dengan menggunakan mop.",
       "no_returnables": "%1$sItem ini tiada elemen penyelamatan yang dapat dipulangkan.",
       "item_broke": "%1$sPerengkuh anda (%1$s) patah semasa cuba menyelamatkan item ini :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "success": "%1$sBerjaya selamatkan %2$s dan mendapat %3$s. Kosnya ialah %4$s kredit.",
       "ls": {
         "header": "Senarai Penyelamatan Item",
         "cost": "Kos Penyelamatan: ",
@@ -1720,11 +1727,11 @@
       "reminder": "\n*Anda boleh mencipta beliung yang lebih baik menggunakan permata yang didapati semasa melombong. Periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta*\nUntuk panduan tentang cara menaik taraf peralatan anda, baca: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, anda menjumpai berlian semasa melombong, tetapi anda sudah mempunyainya terlalu banyak, jadi saya telah menjualnya.",
-        "success": "Huh! Anda bertuah kerana menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
+        "success": "Huh! Anda bertuah dan menjumpai %1$s berlian semasa melombong, periksa inventori anda!"
       },
       "gem": {
         "overflow": "Huh, anda menjumpai *%1$s* semasa melombong, tetapi anda sudah mempunyai terlalu banyak permata itu, jadi saya telah menjualnya.",
-        "success": "Huh! Anda bertuah kerana menjumpai *%1$s* semasa melombong, periksa inventori anda.",
+        "success": "Huh! Anda bertuah dan menemui *%1$s* semasa melombong, periksa inventori anda.",
         "success_extra": "Hurray! Anda sangat bertuah kerana menjumpai *%1$s* dan *%2$s* semasa melombong, periksa inventori anda."
       },
       "sparkle": {
@@ -1852,7 +1859,7 @@
       "success": "%1$s%2$s telah dibenarkan pada pelayan ini."
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sAnda haruslah menyatakan nama saluran dan arahan yang ingin anda melarang.",
+      "invalid": "%1$sAnda harus menyatakan nama saluran dan arahan yang ingin anda melarang.",
       "success": "%1$s%2$s telah dimatikan pada saluran #%3$s."
     },
     "server_command_specific_allow": {
@@ -1934,8 +1941,8 @@
       "success": "%1$sKini, pengundian (untuk menghentikan/melangkau) ditetapkan kepada %2$s"
     },
     "localblacklist_add": {
-      "invalid": "%1$s**Anda haruslah menyatakan pengguna untuk disenarai hitam secara tempatan**",
-      "yourself_notice": "%1$sMengapa awak cuba senarai hitam diri anda?...",
+      "invalid": "%1$s**Anda harus menyatakan pengguna untuk disenarai hitam secara tempatan**",
+      "yourself_notice": "%1$sMengapa awak cuba menyenarai hitam diri awak?...",
       "admin_notice": "%1$sSeorang (atau lebih banyak) pengguna yang sedang anda cuba menyenarai hitam adalah admin atau Komander Bot!",
       "bot_notice": "%1$sAnda tidak boleh menyenarai hitam bot. Bot tidak akan membalas sebarang bot lain.",
       "success": "%1$sPengguna disenarai hitam secara tempatan: **%2$s**"
@@ -1945,7 +1952,7 @@
       "success": "%1$sPengguna dipadamkan dari senarai hitam tempatan: **%2$s**"
     },
     "logs_enable": {
-      "no_channel": "%1$sAnda haruslah menyatakan saluran yang ingin digunakan sebagai saluran log.",
+      "no_channel": "%1$sAnda harus menyatakan saluran yang ingin digunakan sebagai saluran log.",
       "success": "%1$sLog mesej telah diaktifkan dengan parameter -> `Saluran #%2$s (%3$s)`"
     },
     "logs_disable": {
@@ -2049,7 +2056,7 @@
       "success": "%1$sSaluran log Penyertaan/Peninggalan telah ditetapkan kepada: %2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sAnda haruslah menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
+      "no_message": "%1$sAnda harus menyatakan mesej apa yang anda mahu saya menghantar apabila seseorang menyertai pelayan ini!",
       "success": "%1$sMesej penyertaan pelayan ditetapkan kepada: `%2$s`"
     },
     "usermessage_leavemessage": {
@@ -2132,7 +2139,7 @@
     },
     "defaultmutetimeout_set": {
       "too_short": "%1$sTempoh bisu yang dinyatakan lebih pendek daripada 10 saat.\nPastikah anda menggunakan format yang betul? Untuk 20 minit, gunakan 20m, untuk 1 jam, gunakan 1h, ataupun gabungan kedua-duanya (1h45m) sebagai contoh.",
-      "not_specified": "%1$sAnda haruslah menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
+      "not_specified": "%1$sAnda harus menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
       "wrong_format": "%1$sFormat masa yang salah. Anda perlu menyatakan tempoh bisu dalam format 1m20s, sebagai contoh.",
       "too_long": "%1$sMasa yang dinyatakan terlalu panjang...",
       "negative_notice": "Anda tidak boleh membisukan seseorang selama masa yang negatif!",
@@ -2315,7 +2322,7 @@
       "broken": "Item Rosak",
       "pet": "Item Haiwan Peliharaan",
       "pet_food": "Makanan Haiwan Peliharaan",
-      "deprecated": "Telah Lapuk",
+      "deprecated": "Tidak Digunakan Lagi",
       "interactive": "Item Interaktif"
     },
     "headphones": "Fon Kepala",
@@ -2375,7 +2382,7 @@
     "claim_key": "Kunci Tuntutan",
     "coffee": "Kopi",
     "waifu_pill": "Pil Waifu",
-    "bait": "Umpan Ikan",
+    "bait": "Umpan Memancing",
     "diamond_pick": "Kapak Beliung Berlian",
     "tv": "Televisyen",
     "wrench": "Perengkuh",
@@ -2447,23 +2454,23 @@
     "explanation": {
       "pick": "Kapak beliung biasa yang dibeli dari pasar tempatan. Nampaknya cukup kukuh untuk melombong beberapa benda.",
       "diamond_pick": "Beliung berlian pastilah lebih kukuh daripada beliung besi yang dibeli dari pasar itu, saya yakin!",
-      "comet_pick": "Anda menjumpai beberapa Serpihan Komet dan menyedari bahawa anda boleh menghasilkan Permata Komet daripadanya.\nAdakah ia melakukan apa-apa? Adakah ia istimewa?\nNampaknya anda sangat bersemangat untuk menggunakannya, kagum dengan kilauannya. Jadi, inilah langkah pertama anda untuk mendapatkan beliung yang lebih kuat.",
-      "star_pick": "Mungkin ialah kilauannya, mungkin ialah hakikat bahawa ia berasal dari bintang yang jauh di galaksi, tetapi nampaknya ia menjadi beliung yang agak kukuh dengan keistimewaannya.\nPeliknya... nampaknya ia dapat menarik lebih banyak permata. Adakah ini kesan bahannya, atau adakah kemahiran saya semakin baik?",
-      "moon_pick": "The moon-like substance mesmerized you.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nRegardless, you tried to fuse this with your current pick, and the result was quite satisfactory.\nSeems to be a good balance between light and dark, and somehow I mine some gems with it.\nIs this really a fragment from a far away moon?",
-      "sparkle_pick": "Something made you look up into the caverns, and you found a sparkly gem on top. Looking up, some fell onto your pick, and it made the pick shine enough to light up the entire cavern.\nQuickly, you grab some of the sparkly fragments and get a casting station.\nThe pick glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
-      "hellfire_pick": "Reactions between all the elements can be a weird and dangerous process.\nRegardless of what your friends told you, you decided to research this topic, and came up with an object brighter than anything you've ever seen...\nIt seems to be a mix of all the other elements, but it seems quite reactive... it's also quite tough, not much seems to be able to break it...\nHave I done good for this world, or have I brought the unknown to life?",
+      "comet_pick": "Anda menjumpai beberapa Serpihan Komet dan menyedari bahawa anda boleh menghasilkan Permata Komet daripadanya.\nApakah kegunaannya? Apakah keistimewaannya?\nNampaknya anda sangat bersemangat untuk menggunakannya, kagum dengan kilauannya. Jadi, inilah langkah pertama anda untuk mendapatkan beliung yang lebih kuat.",
+      "star_pick": "Mungkin kilauannya, mungkin hakikat bahawa ia berasal dari bintang yang jauh di galaksi, tetapi nampaknya ia menjadi beliung yang agak kukuh dengan keistimewaannya.\nPeliknya... nampaknya ia dapat menarik lebih banyak permata. Adakah ini kesan bahannya, atau adakah kemahiran saya semakin baik?",
+      "moon_pick": "Bahan yang menyerupai bulan itu mempesona anda.\nAdakah disebabkan ia bersinar seperti bulan purnama, atau adakah disebabkan ia terapung-apung dengan sendirinya?\nTidak kesah, anda cuba menyatukan bahan ini dengan beliung anda, dan hasilnya agak memuaskan.\nNampaknya ia merupakan keseimbangan yang baik antara cerah dan gelap, dan entah bagaimana saya dapat melombong permata dengannya. Adakah ini benar-benar serpihan dari bulan yang jauh?",
+      "sparkle_pick": "Anda melihat ke bumbung gua, dan anda menjumpai permata yang berkilau di atas. Ketika itu, ada yang terjatuh ke atas beliung anda, dan ia menjadikan beliung anda berkilau dan mencerahkan keseluruhan gua. Tanpa membuang masa, anda mengumpul serpihan berkilau itu dan terus pergi ke stesen penciptaan.\nBeliung itu bersinar dengan cerah seperti matahari... dan nampaknya ia agak kukuh... bagaimanakah ia dapat disatukan dengan besi semudah itu?",
+      "hellfire_pick": "Reaksi antara semua elemen boleh menjadi proses yang pelik dan berbahaya.\nTerlepas dari nasihat kawan-kawan anda, anda memutuskan untuk meneliti topik ini, dan menghasilkan objek yang lebih terang daripada apa-apa yang pernah anda lihat...\nNampaknya, ia merupakan campuran semua elemen yang lain, tetapi ia agak reaktif... dan juga agak kukuh, ia tidak mudah dipatahkan...\nAdakah tindakan saya bermanfaat bagi dunia ini, atau adakah saya menghidupkan sesuatu yang tidak dikenali?",
       "axe": "Kapak biasa yang dibeli dari pasar tempatan. Boleh digunakan untuk menebang pokok.",
       "comet_axe": "Setelah menguji Serpihan Komet pada beliung anda, anda juga menyedari bahawa anda boleh menggunakannya pada kapak anda. Ia menjadikannya lebih kuat, dan berkilat. Semua yang anda mahukan.",
-      "star_axe": "A bright glow from a star far away, but in your hands.\nLooks like the tree-chopping can continue with this new, shiny axe. You seemed weirded out at first: how can this help me mine more wood?\nWell, you soon realized why...",
-      "sparkle_axe": "A touch of sparkle here, a touch of sparkle there!\nThe axe glows bright like the sun... and it seems pretty tough too... how did it fuse so well with iron?",
-      "moon_axe": "Looking at this axe, you look mesmerized by moon-like glow it emits.\nWas it the fact it glowed like a full moon, or was it the fact it seemed to float on its own?\nMesmerized, you cast this substance into your axe and... boom!\nThe results look good. It seems to chop trees faster, too. Why is it so sharp? Is this really a fragment from a far away moon?",
-      "hellfire_axe": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your axe now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Nothing can compare. But you're still left wondering whether you really did the right thing.",
+      "star_axe": "Cahaya yang terang dari sebuah bintang yang jauh, kini di tangan anda.\nNampaknya penebangan pokok boleh diteruskan menggunakan kapak yang berkilat ini. Pada awalnya, anda tertanya-tanya: bagaimana kapak ini boleh membantu saya mendapat kayu yang lebih banyak?\nTetapi tidak lama kemudian, anda menyedari sebabnya...",
+      "sparkle_axe": "Sedikit kilauan di sini, sedikit kilauan di situ!\nKapak itu bersinar dengan cerah seperti matahari... dan nampaknya ia agak kukuh... bagaimanakah ia dapat disatukan dengan besi semudah itu?",
+      "moon_axe": "Melihat kapak ini, anda terpesona dengan kilauannya yang menyerupai sinaran bulan.\nAdakah ia hakikatnya bahawa ia bersinar seperti bulan purnama, atau adakah ia hakikatnya bahawa ia terapung-apung sendiri?\nTerpesona, anda terus menaruhkan bahan ini ke dalam kapak anda dan... boom!\nHasilnya kelihatan baik. Nampaknya ia juga menebang pokok dengan lebih cepat. Mengapakah ia begitu tajam? Adakah ini benar-benar serpihan dari bulan yang jauh?",
+      "hellfire_axe": "Reaksi antara semua elemen boleh menjadi proses yang pelik dan berbahaya.\nAnda sudah menguasai semua elemen, dan penyatuan elemen-elemen tersebut dengan kapak anda kini menjadi mudah. Mungkin kilauannya, mungkin apinya, tetapi anda terpaksa melakukannya.\nFungsinya begitu efisien. Tiada apa-apa yang dapat dibandingkan. Tetapi anda masih tertanya-tanya sama ada anda betul-betul melakukan perkara yang betul.",
       "rod": "Joran yang dibeli dari pasar pancingan tempatan. Kelihatan kukuh.",
       "comet_rod": "Setelah menguji Serpihan Komet pada kapak anda, anda juga menyedari bahawa anda boleh menggunakannya pada joran anda. Ia menjadikan talinya lebih kuat, dan nampaknya ia menarik lebih banyak ikan. Semua yang anda mahukan.",
-      "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
-      "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
-      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
-      "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
+      "star_rod": "Cahaya serpihan yang terang ini sangat mempesonakan. Anda menyatukan serpihan itu dengan joran anda, dan ikan terus mengelilinginya! Rasanya umpan tidak lagi diperlukan tiap-tiap kali, tetapi ia masih berguna.",
+      "moon_rod": "Anda masih terpesona dengan keupayaan permata ini yang boleh terapung sendiri. Tidak kesah, anda menyatukan permata itu dengan joran anda sebaik mungkin. Nampaknya ia lebih kuat daripada joran yang disatukan dengan Serpihan Bintang, tetapi bezanya tidak besar.\nWalaubagaimanapun, anda masih kagum dengan kilauannya seperti hari pertama anda menjumpainya.",
+      "sparkle_rod": "Sedikit kilauan di sini, sedikit kilauan di situ!\nAnda mencairkan Serpihan Berkilau dan melapisi tali joran anda dengannya. Anda tertanya-tanya. Bagaimanakah joran ini boleh menarik ikan? Terdapat banyak misteri di dunia, dan inilah salah satunya. Mungkin ia dapat membawa hasil yang lebih besar. Mungkin ia dapat memuaskan hati anda.\nKilauan di lautan yang ditinggalkannya indah sekali, dan anda menikmati keindahannya berjam-jam. Mungkinlah anda telah melakukan perkara yang betul akhirnya.",
+      "hellfire_rod": "Reaksi antara semua elemen boleh menjadi proses yang pelik dan berbahaya.\nAnda sudah menguasai semua elemen, dan penyatuan elemen-elemen tersebut dengan joran anda kini menjadi mudah. Mungkin kilauannya, mungkin apinya, tetapi anda terpaksa melakukannya.\nFungsinya begitu efisien. Ikan-ikan berkumpul di sekeliling joran anda. Tiada apa-apa yang dapat dibandingkan. Tetapi anda masih tertanya-tanya sama ada anda betul-betul melakukan perkara yang betul.",
       "wrench": "Perengkuh biasa yang dibeli dari pasar. Berguna untuk membaiki item.",
       "comet_wrench": "Perengkuh yang disuntik dengan kepingan Permata Komet. Entah kenapa, rasanya perengkuh ini lebih kuat.",
       "sparkle_wrench": "Perengkuh yang disuntik dengan kepingan Serpihan Berkilau. Entah kenapa, rasanya perengkuh ini lebih kuat."
@@ -2512,7 +2519,7 @@
       "pants": "Dipakai pada kaki anda... Haraplah ya.",
       "haste": "Membolehkan anda mendapat hasil yang lebih banyak daripada arahan mata wang untuk 3 arahan.",
       "milky": "Menghilangkan semua kesan ramuan.",
-      "energy": "Makes a tool lose less durability per swing. Lasts 3 commands.",
+      "energy": "Mengurangkan kehilangan daya tahan sesebuah peralatan setiap penggunaan. Berkesan untuk 3 arahan.",
       "rod": "Joran biasa untuk aktiviti memancing anda.",
       "fish": "Ikan. Ditangkap semasa memancing.",
       "tropical_fish": "Ikan yang sangat tropika. Ditangkap semasa memancing.",
@@ -2520,10 +2527,10 @@
       "comet_gem": "Serpihan sebuah komet yang dijumpai semasa melombong. Berguna untuk penciptaan.",
       "star_gem": "Serpihan sebuah bintang yang terjatuh semasa melombong.",
       "cobweb": "Ditinggalkan oleh labah-labah di kawasan perlombongan. Mungkin ia bernilai.",
-      "fragment": "Fragment of an ancient gem. Useful for casting.",
-      "mop": "Kaedah yang baik untuk membersihkan habuk anda. Saya yakin ada banyak habuk di sini.",
+      "fragment": "Serpihan sebuah permata kuno. Berguna untuk penciptaan.",
+      "mop": "Cara yang baik untuk membersihkan habuk anda. Saya yakin ada banyak habuk di sini.",
       "claim_key": "Item ini mengelakkan anda daripada tuntutan (sebagai waifu) apabila anda jalankan `~>profile claimlock`",
-      "coffee": "Kaedah yang baik untuk memulakan hari anda.",
+      "coffee": "Cara yang baik untuk memulakan hari anda.",
       "waifu_pill": "Memberi faedah yang signifikan semasa melombong dan memancing jika salah seorang waifu anda bernilai lebih daripada 20,000. Berkesan untuk 3 sesi.",
       "bait": "Memberi anda peluang yang lebih tinggi untuk menangkap ikan.",
       "diamond_pick": "Beliung yang agak kuat.",
@@ -2531,11 +2538,11 @@
       "wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda.",
       "star_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan, diperlukan untuk mencipta beberapa item sekali gus. Tahap 2.",
       "sparkle_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan. Kos yang lebih rendah setiap ciptaan. Tahap 3.",
-      "motorcycle": "Going around, the cool way.",
+      "motorcycle": "Pusing-pusing, dengan gaya yang hebat.",
       "comet_pick": "Beliung yang lebih kuat.",
       "star_pick": "Beliung yang lebih kuat lagi.",
-      "sparkle": "One of the rarest gems around. Make sure to keep it. It is used to cast sparkle pickaxe & sparkle rods.",
-      "sparkle_pick": "One of the strongests pick out there.",
+      "sparkle": "Salah satu daripada permata-permata yang paling jarang dijumpai. Pastikan untuk menyimpannya. Ia boleh digunakan untuk mencipta kapak beliung berkilau dan joran berkilau.",
+      "sparkle_pick": "Salah satu daripada beliung-beliung yang paling kukuh.",
       "pizza": "Sedap.",
       "mine_crate": "Permata yang dijumpai semasa melombong. Mungkin terdapat benda yang berguna di dalamnya. Boleh dibuka dengan `~>opencrate gem crate`",
       "fish_crate": "Harta karun yang dijumpai semasa memancing. Mungkin terdapat benda yang berguna di dalamnya. Boleh dibuka dengan `~>opencrate treasure`",
@@ -2557,7 +2564,7 @@
       "broken_comet_rod": "Joran komet yang patah semasa memancing. Masih boleh diselamatkan.",
       "broken_sparkle_rod": "Joran berkilau yang patah semasa memancing. Masih boleh diselamatkan.",
       "broken_star_rod": "Joran bintang yang patah semasa memancing. Masih boleh diselamatkan.",
-      "incubator_egg": "The one catalyst you need to call your personal pet home.",
+      "incubator_egg": "Pemangkin terutama yang diperlukan untuk memanggil haiwan peliharaan anda pulang ke rumahnya.",
       "water_bottle": "Item yang menghilangkan kedahagaan haiwan peliharaan anda secara ajaib.",
       "magic_watch": "Jam tangan ajaib yang boleh memperlahankan masa apabila diperlukan. Ini akan digunakan secara automatik untuk menyelamatkan coretan harian anda!",
       "pet_house": "Tempat tinggal haiwan peliharaan anda. Mungkinlah. Kadangkala ia suka tidur di luar sahaja.",
@@ -2567,7 +2574,7 @@
       "dog_food": "Mungkin inilah makanan kegemaran anjing anda. Atau mungkin ia lebih suka makan roti, seperti anjing saya.",
       "cat_food": "Mungkin inilah makanan kegemaran kucing anda.",
       "hamster_food": "Mungkin inilah makanan kegemaran tikus belanda anda.",
-      "wood": "Hasil biasa dari pokok-pokok. Berguna untuk penciptaan.",
+      "wood": "Kejatuhan biasa dari pokok-pokok. Berguna untuk penciptaan.",
       "moon_pick": "Beliung yang lebih kuat lagi.",
       "hellfire_pick": "Beliung yang terlalu OP.",
       "axe": "Kapak yang biasa sahaja.",
@@ -2578,10 +2585,10 @@
       "hellfire_axe": "Kapak yang terlalu OP.",
       "moon_rod": "Joran yang lebih kuat.",
       "hellfire_rod": "Joran yang terlalu OP.",
-      "leaves": "A slow drop from a tree you tried to chop.",
-      "apple": "You happened to chop an apple tree and the apple fell on your head. Ouch.",
-      "pear": "You happened to chop a pear tree and the pear fell on your head. Ouch.",
-      "cherry_blossom": "A very slow drop from a cherry tree. Lovely, huh?",
+      "leaves": "Kejatuhan perlahan dari sebatang pokok yang anda cuba menebang.",
+      "apple": "Anda kebetulan menebang sebatang pokok epal dan epal itu jatuh ke atas kepala anda. Aduh.",
+      "pear": "Anda kebetulan menebang sebatang pokok pir dan buah pir itu jatuh ke atas kepala anda. Aduh.",
+      "cherry_blossom": "Kejatuhan perlahan dari sebatang pokok ceri. Indahnya, ya?",
       "rock": "Batu. Ye. Ia sangat keras, kan?",
       "broken_moon_pick": "Beliung bulan yang patah semasa melombong. Masih boleh diselamatkan.",
       "broken_moon_axe": "Kapak bulan yang patah semasa menebang pokok. Masih boleh diselamatkan.",

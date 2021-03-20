@@ -1,12 +1,12 @@
 {
   "general": {
-    "invalid_number": "%1$sThat is not a valid number!",
-    "requested_by": "Requested by %1$s.",
+    "invalid_number": "A %1$s nem egy érvényes szám!",
+    "requested_by": "%1$s által kérve.",
     "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
     "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
-    "search_no_result": "%1$sYour search yielded no results :(",
-    "unknown": "Unknown",
-    "days": "days",
+    "search_no_result": "%1$s Keresésed eredménytelen volt :(",
+    "unknown": "Ismeretlen",
+    "days": "napok",
     "none": "None",
     "now": "Now",
     "hourly": "Hourly",
@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sContinuing with the current queue.",
       "queue_repeat": "%1$sRepeating the current queue.",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song coming next.",
@@ -473,7 +474,8 @@
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sRenamed command `%2$s` to `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sYou need to specify the command you want to add.",
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**"
+      "denied": "%1$sDenied proposal from **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sThis user already has too much money...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1035,11 +1041,12 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
         "pass": "You can rep someone now.",

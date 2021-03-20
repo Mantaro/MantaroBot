@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sPoursuite avec la file d'attente actuelle.",
       "queue_repeat": "%1$sRépétition de la file d'attente actuelle.",
       "song_cancel": "%1$sPoursuite avec la file d'attente normale.",
-      "song_repeat": "%1$sRépétition de la chanson en cours."
+      "song_repeat": "%1$sRépétition de la chanson en cours.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, il n'y a pas de chanson à suivre",
@@ -473,7 +474,8 @@
         "success": "%1$sa supprimé la réponse **#%2$d** de la commande `%3$s` avec succès."
       },
       "rename": {
-        "success": "%1$sCommande renommée de `%2$s` à `%3$s`"
+        "success": "%1$sCommande renommée de `%2$s` à `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s, écris **yes** ou **no** pour la demande en mariage de %3$s\n%4$sIl y a un délai d'attente de 120 secondes.",
       "ring_check_fail": "%1$sTu ne peux pas te marier avec moins de deux bagues de mariage dans ton inventaire :(",
       "accepted": "%1$s**%2$s#%3$s** a accepté la demande de **%4$s#%5$s**!",
-      "denied": "%1$sa refusé la demande de **%2$s**"
+      "denied": "%1$sa refusé la demande de **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sÊtes vous sûr.e.s de vouloir divorcer? L'argent dépensé en animaux de compagnie, maisons et voitures sera divisé entre vous. Écris `yes` pour continuer ou `no` pour annuler. Votre animal disparaitra, puisqu'il est lié au mariage.",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser) et l'objet que tu veux vendre.",
         "invalid": "%1$sNombre d'objets à vendre invalide.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
         "non_existent": "%1$sTu ne peux pas acheter un objet inexistant. Si tu es perdu.e, tu peux essayer de taper le nom raccourci ou de mettre le nom entre guillemets. De plus, le nombre d'objets doit être présent avant le nom de l'objet, par exemple : `~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sTu dois spécifier la personne à qui tu transfère l'objet ainsi que l'objet lui-même."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sTon compte doit avoir au moins 7 jours d'ancienneté pour transférer de l'argent.",
-      "new_account_notice_other": "%1$sLe compte sur lequel tu transfères doit avoir au moins 7 jours d'ancienneté.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sTu ne peux pas t'envoyer de l'argent à toi-même.",
       "bot_notice": "%1$sTu ne peux pas envoyer de l'argent à un bot.",
       "no_amount": "%1$sTu dois spécifier le montant. Utilise la commande `transferitems` si tu veux transférer un objet.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sCet utilisateur a déjà assez d'argent...",
       "success": "%1$sEnvoyé **%2$d** *(%3$d après taxe de 8%%)* à **%4$s** avec succès.",
       "item_transfer": "%1$sTu ne peux pas transférer d'objets avec 'transfer', merci d'utiliser `~>transferitems` à la place.",
-      "party": "Tu peux transférer à la même personne (%1$s) toutes les 10 minutes."
+      "party": "Tu peux transférer à la même personne (%1$s) toutes les 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1035,11 +1041,12 @@
       "footer": "Les badges sont comme des succès, on les obtiens en progressant dans le jeu de Mantaro ou simplement en utilisant le bot."
     },
     "rep": {
-      "new_account_notice": "%1$s Pour donner ou recevoir des points de réputation, le compte Discord doit être plus vieux que 5 jours. Réessaie plus tard.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sTu dois mentionner quelqu'un ou au moins écrire son nom.\n%2$s",
       "more_than_one": "%1$sTu ne peux donner un point de réputation qu'à une personne.",
       "rep_bot": "%1$sTu ne peux pas donner un point de réputations aux bots.\n%2$s",
       "rep_yourself": "%1$sTu ne peux pas te donner des points de réputations.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**Tu pourras réutiliser cette commande dans %1$s**",
         "pass": "Tu peux utiliser la commande `->rep` maintenant.",

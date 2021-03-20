@@ -1,48 +1,48 @@
 {
   "general": {
-    "invalid_number": "%1$sThat is not a valid number!",
-    "requested_by": "Requested by %1$s.",
-    "operation_timed_out": "%1$sThe time to answer this operation has ran out.",
-    "too_many_users_found": "%1$sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %2$s",
-    "search_no_result": "%1$sYour search yielded no results :(",
-    "unknown": "Unknown",
-    "days": "days",
-    "none": "None",
-    "now": "Now",
-    "hourly": "Hourly",
-    "daily": "Daily",
-    "total": "Total",
-    "arrow_react": "Use the arrow reactions to change pages.",
-    "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
-    "not_found": "Not found",
-    "no_results": "No results.",
-    "timeout": "This timeouts in %1$d seconds.",
-    "reaction_timeout": "Reactions will timeout in %1$d seconds.",
-    "example": "Example",
-    "definition": "Definition",
-    "name": "Name",
-    "description": "Description",
-    "options": "Options",
-    "find_members_failure": "%1$sDidn't find any member with your search criteria :(",
-    "too_many_members": "%1$sToo many members found, maybe refine your search? (ex. use name#discriminator)\n**Members found:** %2$s",
-    "too_many_mentions": "%1$sPlease only mention one person on member lookup.",
-    "query_too_small": "%1$sYour search query is too small. Make sure you're looking for at least 4 characters. If the username is too short, you're better off using username#discriminator or the user id.",
-    "dust": "There's only dust here.",
-    "invalid_syntax": "Invalid syntax.",
+    "invalid_number": "%1$sیہ ایک درست نمبر نہیں ہے!",
+    "requested_by": "%1$s نے درخواست کی۔",
+    "operation_timed_out": "%1$sاس کاروائی کا جواب دینے کا وقت ختم ہوچکا ہے۔",
+    "too_many_users_found": "%1$sبہت سارے صارفین مل گئے ، شاید اپنی تلاش کو بہتر بنائیں؟ (مثال کے طور پر استعمال نام#امتیازی سلوک)\n**صارفین ملے:** %2$s",
+    "search_no_result": "%1$sآپ کی تلاش کا کوئی نتیجہ نہیں ملا :(",
+    "unknown": "نامعلوم",
+    "days": "دنوں",
+    "none": "کوئی بھی نہیں",
+    "now": "اب",
+    "hourly": "فی گھنٹہ",
+    "daily": "روزانہ",
+    "total": "پورا",
+    "arrow_react": "صفحات کو تبدیل کرنے کے لئے تیر والے رد عمل کا استعمال کریں۔",
+    "text_menu": "صفحات کو تبدیل کرنے اور ختم کرنے کے لئے << p& اور  >> p& استعمال کریں۔",
+    "not_found": "نہیں ملا",
+    "no_results": "کوئی نتائج نہیں۔",
+    "timeout": "یہ وقت %1$d سیکنڈ میں ختم ہوگا۔",
+    "reaction_timeout": "رد عمل کا خاتمہ %1$d سیکنڈ میں ہوگا۔",
+    "example": "مثال",
+    "definition": "تعریفات",
+    "name": "نام",
+    "description": "تفصیل (وضاحت)",
+    "options": "آپشنز",
+    "find_members_failure": "%1$sآپ کے تلاش کے معیار کے ساتھ کوئی ممبر نہیں ملا :(",
+    "too_many_members": "%1$sبہت سارے ممبران مل گئے ، شاید اپنی تلاش کو بہتر بنائیں؟ (مثال کے طور پر استعمال نام#امتیازی سلوک)\n**ممبران ملے:** %2$s",
+    "too_many_mentions": "%1$sبراہ مہربانی ممبر تلاش پر صرف ایک شخص کا ذکر کریں۔",
+    "query_too_small": "%1$sآپ کی تلاش کا استفسار بہت چھوٹا ہے۔ یقینی بنائیں کہ آپ کم از کم 4 حروف کی تلاش کر رہے ہیں۔ اگر صارف نام بہت ہی چھوٹا ہے تو ، آپ صارف نام#امتیازی سلوک یا صارف کی شناخت استعمال کرنے سے بہتر ہوں گے۔",
+    "dust": "ادھر صرف مٹی ہے۔",
+    "invalid_syntax": "غلط ترکیب۔",
     "item_lookup": {
-      "no_item_emoji": "There isn't an item associated with this emoji.",
-      "no_item_name": "There isn't an item associated with this name.",
-      "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
-      "claim_key": "You cannot transfer a claim key."
+      "no_item_emoji": "اس ایموجی کے ساتھ کوئی آئٹم وابستہ نہیں ہے۔",
+      "no_item_name": "اس نام کے ساتھ کوئی آئٹم وابستہ نہیں ہے۔",
+      "not_found": "آپ کی تلاش کے ساتھ کوئی متعلقہ آئٹمز نہیں مل سکے۔ اگر آپ کھو گئے ہیں تو ، مختصر نام استعمال کرنے کی کوشش کریں ، مثال کے طور پر `Energy Beverage` کے بجائے`Energy` استعمال کریں۔ یا نام کوٹیشن نشانوں میں لپیٹ دیں۔",
+      "claim_key": "آپ کلیم چابی منتقل نہیں کرسکتے ہیں۔"
     },
     "misc_item_usage": {
-      "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
-      "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
-      "milk": "%1$sCleared all potion effects.",
-      "stamina": "%1$sActivated stamina for 3 mining sessions.",
-      "stamina_used": "%1$sYou already have an active stamina effect!",
-      "haste": "%1$sActivated Haste for 2 sessions.",
-      "haste_used": "%1$sYou already have an active haste effect!",
+      "mop": "%1$sآپ نے اپنے تمام کان کنی دوروں پر جمع کی ہوئی دھول صاف کردی۔",
+      "mop_not_enough": "%1$sآپ کی دھول کا لیول %%5 سے کم ہے، لہذا موپنگ زیادہ مفید نہیں ہوگی۔",
+      "milk": "%1$sدوائوں کے تمام اثرات صاف کردیئے۔",
+      "stamina": "3%1$s کان کنی سیشنوں کے لئے سٹیمنا چالو کر دیا۔",
+      "stamina_used": "%1$sآپ کے پاس پہلے سے ہی ایک فعال صلاحیت(stamina) اثر ہے!",
+      "haste": "2%1$s سیشنوں کے لئے جلد بازی چالو کردی۔",
+      "haste_used": "%1$sآپ پر پہلے سے ہی ایک فعال جلد بازی(haste) اثر ہے!",
       "bait": "%1$sInserted a bait in your fishing rod! Good luck fishing. (Activated for 1 use)",
       "bait_used": "%1$sYou already have an active fishing bait!",
       "pill": "%1$sYou drank a waifu pill! (Activated for 5 sessions)",
@@ -66,14 +66,14 @@
       "premium": {
         "generic_sellout": "We need your help to keep Mantaro alive and improve Mantaro's servers!\nYou can get amazing perks and **up to double the credits with Mantaro Premium**! Memberships start at $2 per month, the price of a snack! Check out more at <https://patreon.com/mantaro>. Helping the word spread helps aswell :heart:",
         "daily_sellout": "We need your help to keep Mantaro alive!\nYou can get amazing perks and **double the daily credits** and access to `~>dailycrate`! Memberships start at only $2 per month, check out more at <https://patreon.com/mantaro>.",
-        "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
+        "thanks_message": "Mantaro کی مدد کرنے کے لئے آپ کا شکریہ۔ آپ جیسے لوگوں کی مدد کے بغیر ہم Mantaro کو زندہ نہیں رکھ سکتے ہیں :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
       "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
     },
     "mention_user_required": "%1$sYou need to mention one user.",
     "invalid_character": "%1$sThat is not an allowed character.",
-    "invalid_action": "You cannot do that, silly.",
+    "invalid_action": "آپ ایسا نہیں کرسکتے ، بے وقوف۔",
     "interactive_running": "%1$sThere's already an Interactive Operation (owned by you) on this channel.",
     "buy_sell_paged_react": "Use the message reactions to move between pages.\n%1$s",
     "buy_sell_paged_text": "Use **&p >>** and **&p <<** to move across pages.\n%1$s",
@@ -102,14 +102,14 @@
     ],
     "ratelimit_quotes": [
       "Woah... you're calling me a bit too fast... I might get dizzy!",
-      "Don't be greedy!",
+      "لالچی مت بنو!",
       "Y-You're calling me so fast that I'm getting dizzy...",
       "Halt in there buddy!",
       "Wait just a tiiiiny bit more uwu",
       "Seems like we're gonna get a speed ticket if we continue going this fast!",
       "I wanna do this... but halt for a bit please.",
       "Hey, wait up, I'm not done with my break yet!",
-      "Can you slow down a little bit?"
+      "کیا آپ تھوڑا سا آہستہ ہو سکتے ہیں؟"
     ],
     "mod_quotes": [
       "Uh-oh, seems like someone just got hit hard!",
@@ -122,18 +122,18 @@
     ]
   },
   "categories": {
-    "music": "Audio",
+    "music": "آڈیو",
     "action": "Action",
     "misc": "Misc",
     "moderation": "Moderation",
-    "owner": "Owner",
-    "image": "Image",
+    "owner": "مالک",
+    "image": "تصویر",
     "utils": "Utility",
     "fun": "Fun",
-    "games": "Games",
-    "info": "Info",
+    "games": "کھیلیں",
+    "info": "معلومات",
     "currency": "Currency",
-    "pet": "Pet"
+    "pet": "پالتو جانور"
   },
   "commands": {
     "fish": {
@@ -301,7 +301,7 @@
     },
     "np": {
       "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "header": "اب چل رہا ہے"
     },
     "pause": {
       "paused": "Player paused. *(Player was un-paused previously)*",
@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sContinuing with the current queue.",
       "queue_repeat": "%1$sRepeating the current queue.",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song coming next.",
@@ -473,7 +474,8 @@
         "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`"
+        "success": "%1$sRenamed command `%2$s` to `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sYou need to specify the command you want to add.",
@@ -535,11 +537,11 @@
         "What are you doing?",
         "W-What are you looking at?!",
         "Huh.",
-        "Did I do well?",
-        "What do you think?",
+        "کیا میں نے اچھا کیا؟",
+        "آپ کا کیا خیال ہے؟",
         "Does this happen often?",
         "Am I performing p-properly?",
-        "<3",
+        "3>",
         "pat pat",
         "Pong.",
         "Pang.",
@@ -560,7 +562,7 @@
       "perfect": "Perfect match!",
       "yourself_note": "You're a special creature and you should love yourself more than anyone <3",
       "header": "Love Meter",
-      "result": "Result:"
+      "result": "نتیجہ:"
     },
     "marry": {
       "loveletter": {
@@ -579,8 +581,8 @@
         "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
         "header": "Current Marriage Status",
         "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
-        "date": "Marriage Date",
-        "age": "Marriage Age",
+        "date": "شادی کی تاریخ",
+        "age": "شادی کی عمر",
         "love_letter": "Love Letter",
         "waifus": "Waifu Ownership",
         "house": "House Name",
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s, type with **yes** or **no** to the marriage proposal from %3$s\n%4$sThis timeouts in 120 seconds.",
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
-      "denied": "%1$sDenied proposal from **%2$s**"
+      "denied": "%1$sDenied proposal from **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sThis user already has too much money...",
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -844,7 +850,7 @@
     "iam": {
       "list": {
         "name": "Auto-role name: ",
-        "role": "Role:",
+        "role": "کردار:",
         "category": "Category: ",
         "header": "Auto-roles list",
         "no_autoroles": "There aren't any autoroles setup in this server.",
@@ -1035,11 +1041,12 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be older than 5 days. Try again later.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
         "pass": "You can rep someone now.",
