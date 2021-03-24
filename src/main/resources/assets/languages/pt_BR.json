@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sContinuando com a fila atual.",
       "queue_repeat": "%1$sRepetindo a fila atual.",
       "song_cancel": "%1$sContinuando com a fila normal.",
-      "song_repeat": "%1$sRepetindo a música atual."
+      "song_repeat": "%1$sRepetindo a música atual.",
+      "invalid": "%1$sNão é uma escolha válida. Use este comando sem nenhum argumento ou use `~>repeat queue` para repetir a filha inteira."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, não tem nenhuma música depois",
@@ -473,7 +474,8 @@
         "success": "%1$sResposta removida **#%2$d** do comando`%3$s` corretamente"
       },
       "rename": {
-        "success": "%1$sComando Renomeado `%2$s` para `%3$s`"
+        "success": "%1$sComando Renomeado `%2$s` para `%3$s`",
+        "not_enough_args": "%1$sVocê precisa especificar o comando que você quer renomear e o novo nome."
       },
       "add": {
         "no_command": "%1$sVocê tem que especificar o comando que você quer adicionar.",
@@ -568,11 +570,11 @@
         "empty": "%1$sVocê não pode deixar a carta de amor vazia.",
         "no_marriage": "%1$sVocê não é casado, não pode escrever uma carta de amor para si mesmo...",
         "not_proposing_player": "%1$sVocê não é o jogador que propôs este casamento!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sEste casamento já tem uma carta de amor atribuída. Cheque ela usando `~>marry status`",
         "too_long": "%1$sA carta de amor é muito longa (máximo de 500 caracteres)",
         "cannot_see": "%1$sEu não consegui achar o usuário que você se casou... Provavelmente não está em nenhum servidor comigo.",
         "confirmation": "%1$sVocê tem *certeza* que quer escrever essa carta para o seu casamento com **%2$s#%3$s**? Isso é PERMANENTE até o casamento acabar. *Conteúdo da carta:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$sA carta de amor foi entregue com sucesso ao(a) seu(a) amado(a)! Cheque ela usando `~>marry status`",
         "scrapped": "%1$sVocê ainda tem tempo para pensar no que escrever, não precisa se apressar!"
       },
       "status": {
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s, digite **yes** ou **no** para a proposta de casamento de %3$s\n%4$sIsso esgota em 120 segundos.",
       "ring_check_fail": "%1$sVocê não pode se casar com menos de dois anéis em seu inventário :(",
       "accepted": "%1$s**%2$s#%3$s** aceitou a proposta de **%4$s#%5$s**!",
-      "denied": "%1$sProposta de **%2$s** negada"
+      "denied": "%1$sProposta de **%2$s** negada",
+      "ratelimit_message": "Por que você quer se casar tanto assim?"
     },
     "divorce": {
       "confirm": "%1$sVocê tem certeza que quer terminar esse casamento? O dinheiro gasto em pets, casas e carros será dividido por dois. Digite `yes` para continuar e `no` para cancelar. **Seu pet vai desaparecer, já que está vinculado ao casamento**",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "Você pode usar `~>sell` agora. Por exemplo, ao invés de `~>market sell pick` você pode usar `~>sell pick`. Por favor use o novo comando ao invés disso.",
+        "no_item": "%1$sVocê tem que especificar o item que quer vender.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer vender.",
         "invalid": "%1$sNão é um número válido de itens para vender.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "Você pode usar `~>buy` agora. Por exemplo, ao invés de `~>market buy pick` você pode usar `~>buy pick`. Por favor use o novo comando ao invés disso.",
+        "no_item": "%1$sVocê tem que especificar o item que quer comprar.",
         "no_item_amount": "%1$sVocê precisa especificar a quantidade desse item (se for apenas um, você não precisa especificar o valor) e o item que você quer comprar.",
         "invalid": "%1$sNão é um número válido de itens para comprar.",
         "non_existent": "%1$sVocê não pode comprar um item inexistente. Se estiver perdido, você pode digitar o nome abreviado ou coloca-lo entre aspas. Além disso, a quantidade do item vai antes do nome do item, exemplo: `~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sVocê precisa especificar a pessoa para transferir o item e o item a ser transferido."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sSua conta deve ter pelo menos 7 dias para transferir dinheiro.",
-      "new_account_notice_other": "%1$sA conta que você está transferindo tem que ter pelo menos 7 dias.",
+      "new_account_notice_yourself": "%1$sSua conta deve ter pelo menos 14 dias para transferir dinheiro.",
+      "new_account_notice_other": "%1$sA conta que você está transferindo tem que ter pelo menos 14 dias.",
       "transfer_yourself_note": "%1$sVocê não pode transferir dinheiro para si mesmo.",
       "bot_notice": "%1$sVocê não pode transferir dinheiro para um bot.",
       "no_amount": "%1$sVocê tem que especificar a quantidade. Use o comando `transferitems` ao invés se você pretender transferir um item.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sEsse usuário já tem muito dinheiro...",
       "success": "%1$sTransferido **%2$d** *(%3$d depois de 8%% taxa)* para **%4$s** com sucesso.",
       "item_transfer": "%1$sVocê não pode transferir itens usando transfer, em vez disso, use o comando `~>transferitems`.",
-      "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 10 minutos."
+      "party": "Você só pode transferir para a mesma pessoa (%1$s) uma vez a cada 10 minutos.",
+      "blacklisted_transfer": "%1$sVocê não pode transferir para usuários da lista negra."
     },
     "useitem": {
       "ls": {
@@ -961,12 +967,12 @@
         "success": "%1$sVocê equipou com sucesso %2$s *%3$s*, que será lembrado na próxima vez que você usar o comando de dinheiro apropriado.",
         "not_suitable": "%1$sVocê não pode equipar isso.",
         "not_equipped": "%1$sVocê não te isso equipado.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sVocê já tem um item desse tipo equipado! Tente `~>unequip <type>` (O tipo pode ser rod, axe, pick ou wrench) se você quiser desequipar ele."
       },
       "unequip": {
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
+        "no_content": "%1$sVocê precisa especificar um tipo de ferramenta para desequipar, pode ser entre `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sTipo inválido. Os tipos válidos são `pick, axe, rod, wrench`",
         "confirm": "%1$sVocê tem certeza de que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar. Isso lhe dará uma versão quebrada da sua ferramenta equipada agora.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
@@ -1035,11 +1041,12 @@
       "footer": "Insígnias são como conquistas, e elas são obtidas através de progresso do jogo da Mantaro ou por apenas usar o bot."
     },
     "rep": {
-      "new_account_notice": "%1$sA idade da conta (o tempo desde que a conta do Discord foi criada) dando ou recebendo rep deve ter mais de 5 dias. Tente novamente mais tarde.",
+      "new_account_notice": "%1$sA idade da conta (o tempo desde que a conta do Discord foi criada) dando ou recebendo rep deve ter mais de 30 dias. Tente novamente mais tarde.",
       "no_mentions": "%1$sVocê tem que mencionar ou colocar o nome de um usuário.\n%2$s",
       "more_than_one": "%1$sVocê só pode dar reputação para uma pessoa",
       "rep_bot": "%1$sVocê não pode dar rep para um bot.\n%2$s",
       "rep_yourself": "%1$sVocê não pode dar rep para si mesmo.\n%2$s",
+      "blacklisted_rep": "%1$sVocê não pode dar rep em uma conta da lista negra.",
       "cooldown": {
         "waiting": "**Você poderá usar esse comando novamente em %1$s**",
         "pass": "Você pode dar rep para alguém agora.",
@@ -1078,7 +1085,7 @@
         "success": "%1$sLembrete cancelado.",
         "select": "Selecione o lembrete que você deseja cancelar."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time": "%1$sVocê não especificou o tempo. Tente especificar ele no início do comando, por exemplo, `~>remindme 1h lavar a louça`. O formato do número é seguido d (dias), por h (horas) ou m (minutos). Cheque `~>help mute` para um exemplo.",
       "no_time_arg": "%1$sVocê não me deu um tempo sobre o argumento `-time`.",
       "too_little_time": "%1$sÉ muito pouco tempo (Mínimo: 1 minuto, Exemplo `~>remindme 1m lavar a louça`)",
       "too_long": "Isso é muito tempo... (Máximo 180 dias)",
@@ -1492,7 +1499,7 @@
       "dust": "%1$sSeu inventário tá muito sujo pra tentar resgatar um item, tente limpar com um esfregão.",
       "no_returnables": "%1$sEste item não possui elementos resgate retornáveis.",
       "item_broke": "%1$sSua chave inglesa (%1$s) quebrou enquanto tentava resgatar este item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "success": "%1$sResgatado com sucesso %2$s e você ganhou %3$s de retorno. O custo foi %4$s créditos.",
       "ls": {
         "header": "Lista de Itens Resgatáveis",
         "cost": "Custo do Resgatamento: ",
@@ -1597,9 +1604,9 @@
       "dust": "%1$sSeu inventário está muito sujo pra consertar. Nível de poeira: %2$s",
       "not_wrench": "%1$sVocê não pode usar isso como uma chave inglesa. Lembre-se de usar aspas se o nome contém espaços.",
       "not_enough_level": "%1$sVocê precisa de uma chave inglesa de grande tier pra consertar isso. Você pode equipar uma se necessário (`~>equip Comet Wrench`, por exemplo)",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_money": "%1$sVocê não tem dinheiro suficiente pra consertar este item. *(Carteira: %2$,d, Necessário: %3$,d)*",
       "no_item_recipe": "%1$sVocê não tem a necessária *%2$s* pra consertar isso.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
+      "not_enough_items": "%1$sVocê não tem o suficiente de *%2$s* pra fazer este reparo em uma **%3$s**. **(Necessário: %4$s, Atual: %5$s)**",
       "item_broke": "%1$sInfelizmente, sua chave inglesa (%1$s) quebrou enquanto consertava esse item, mas você ainda ganhou seu item!",
       "success": "%1$sReparo realizado com sucesso! Item consertado %2$s **%3$s** -> %4$s **%5$s**. O conserto custou *%6$s* créditos e a receita utilizada foi *%7$s*.",
       "ls": {
@@ -1743,7 +1750,7 @@
       "waifu_help": "Sua waifu veio e se juntou a sua aventura de mineração e você dois ganham mais recursos!",
       "missing_equipped": "%1$sVocê equipado uma picareta %2$s, mas você não tem mais desse tipo no seu inventário! Picareta equipada foi resetada.",
       "broken_drop": "%1$sSua ferramenta quebrou, mas você pode conserta-la. Item quebrado ganho: %2$s *%3$s*",
-      "broken_drop_miss": "%1$sYour tool broke and you didn't quite manage to get it back."
+      "broken_drop_miss": "%1$sSua ferramenta quebrou e você não conseguiu recuperá-la."
     },
     "chop": {
       "not_equipped": "%1$sVocê ainda não equipou seu machado. Use o comando `~>equip <tipo de machado>` para equipar um machado e começar a sua aventura! Se você não tem nenhum, primeiro utilize `~>buy axe` para comprar um do mercado",
@@ -1756,9 +1763,9 @@
         "success": "Você encontrou um %1$s **%2$s** enquanto cortava árvores e você prossegue para pegá-la. Vá e abra-o com `~>opencrate <nome do baú`. Você precisa de uma chave do baú!"
       },
       "overflow": "%1$sVocê encontrou algumas coisas cortando, mas não conseguiu ter mais alguns itens, então tivemos que deixar alguns deles de fora.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "success_only_item": "%1$sEnquanto cortava árvores, você encontrou %2$s usando um *%3$s* e prossegue para salvar em seu inventário.",
+      "success": "%1$sEnquanto cortava árvores, você encontrou %2$s e **$%3$,d créditos** usando um *%4$s* e prossegue para salvar em seu inventário.",
+      "success_money_noitem": "%1$sEnquanto cortava árvores, você encontrou **$%2$,d créditos** usando um **%3$s** e prossegue para salvar em seu bolso."
     },
     "slots": {
       "errors": {
@@ -1817,8 +1824,8 @@
         "tier": "Tier",
         "durability": "Durabilidade",
         "desc": "Descrição",
-        "upgrade": "Looking to upgrade?",
-        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade": "Procurando por upgrades?",
+        "upgrade_content": "Clique [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) para mais informações de como melhorar suas ferramentas!"
       },
       "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s",
       "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*"
@@ -2446,7 +2453,7 @@
     "broken_hellfire_rod": "Vara de Fogo do Inferno quebrada",
     "explanation": {
       "pick": "Uma picareta normal que você comprou no mercado local. Parece resistente o suficiente para minerar algumas coisas.",
-      "diamond_pick": "A diamond pick is definitely stronger than the market-bought iron picks I could get on the market, that's for sure!",
+      "diamond_pick": "Uma picareta de diamante é definitivamente mais forte do que picaretas de ferro compradas no mercado, com certeza!",
       "comet_pick": "Você encontrou alguns Fragmentos de Cometa e percebeu que poderia fazer uma Gema de Cometa com elas.\nO que eles fizeram? Eles eram especiais?\nVocê parecia ansioso para experimentar depois de ficar impressionado com seu brilho, então aqui estamos nós, em sua primeira etapa para conseguir picaretas mais fortes.",
       "star_pick": "Talvez seja o brilho, ou talvez o fato de que ela veio de uma estrela de uma galáxia distante, mas parecia ser uma picareta bastante robusta com propriedades especiais.\nEstranho.. parece atrair mais gemas. É o efeito do material ou minha habilidade está melhorando?",
       "moon_pick": "A substância parecida com a da lua hipnotizou você.\nEra o fato de que brilhava como uma lua cheia ou era o fato de que parecia flutuar por conta própria?\nIndependentemente disso, você tentou fundi sua picareta atual, e o resultado foi um muito satisfatório.\nParece que é uma boa balança entre a luz e as trevas e, de alguma forma eu minero mais gemas com ela.\nIsso é realmente um fragmento de uma lua distante?",
@@ -2464,9 +2471,9 @@
       "moon_rod": "Você ainda está impressionado com a forma como esta gema flutua sozinha. Independentemente disso, você funde ele com o fio de sua vara da melhor maneira possível. Parece um pouco mais forte que um Fragmento de Estrela, mas não muito.\nDe qualquer forma, você aprecia o brilho dele como se fosse o primeiro dia que você o vê.",
       "sparkle_rod": "Um toque de brilho aqui, um toque de brilho ali\nVocê pulverizou os Fragmentos Brilhantes e cobriu o fio de sua vara de pesca com eles.\nVocê parece confuso. Como isso pode atrair peixes?\nO mundo tem muitos mistérios, e este é um deles. Talvez ajude você a conseguir mais moedas. Talvez isso possa lhe trazer satisfação.\nO brilho que deixa no mar é incrível, e você encara ele por horas até acabar. Talvez você tenha feito a escolha certa.",
       "hellfire_rod": "As reações entre todos os elementos podem ser um processo estranho e perigoso.\nVocê já dominou os elementos, e fundi-los com sua vara de pesca agora parecia trivial. Talvez seja o brilho, talvez fosse o fogo, mas você tinha que fazer isso.\nIsso faz maravilhas. Os peixes vêm em cardumes pra você. Nada pode se comparar. Mas você ainda está se perguntando se realmente fez a coisa certa.",
-      "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
-      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
-      "sparkle_wrench": "A Wrench infused with pieces of Sparkle Fragments. Somehow it feels a lot sturdier."
+      "wrench": "Uma chave inglesa comum que você pode comprar no mercado. Útil para reparar itens.",
+      "comet_wrench": "Uma Chave Inglesa infundida com pedaços de Gemas de Cometas. De alguma forma, parece mais resistente.",
+      "sparkle_wrench": "Uma Chave Inglesa com pedaços de Matérias Brilhantes. De alguma forma, parece muito mais resistente."
     },
     "description": {
       "headphones": "Isso é o que acontece quando você ouve muita música. Embora, deve valer alguma coisa.",
@@ -2526,24 +2533,24 @@
       "coffee": "Uma maneira deliciosa de começar o seu dia.",
       "waifu_pill": "Te dá uma vantagem signficativa em mineração e pesca se uma de suas waifus está avaliada em mais de 20,000. Dura 3 sessões.",
       "bait": "Dá uma chance maior de pegar peixes.",
-      "diamond_pick": "A strong-ish pick.",
+      "diamond_pick": "Uma picareta forte.",
       "tv": "Devo... assistir... TV...",
       "wrench": "Ferramenta de fusão. Útil para juntar coisas.",
       "star_wrench": "Ferramenta de fusão. Útil para juntar coisas. Menos chances de quebrar, necessário para fundir vários itens de uma só vez. Tier 2.",
       "sparkle_wrench": "Feramenta de fusão. Útil para juntar coisas. Menos chances de quebrar. Menos custo por fusão. Tier 3.",
       "motorcycle": "Dando umas voltas, da maneira mais legal.",
-      "comet_pick": "A stronger pick.",
-      "star_pick": "A much stronger pick.",
+      "comet_pick": "Uma picareta forte.",
+      "star_pick": "Uma picareta mais forte.",
       "sparkle": "Uma das gemas mais raras daqui. Certifique-se de mantê-la. É usado para fundir uma picareta brilhante & varas brilhantes.",
-      "sparkle_pick": "One of the strongests pick out there.",
+      "sparkle_pick": "Uma das picaretas mais fortes daqui.",
       "pizza": "Delicioso.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
-      "comet_rod": "A slightly stronger rod.",
-      "star_rod": "A stronger rod .",
-      "sparkle_rod": "A way stronger rod.",
+      "mine_crate": "Uma gema que você encontrou ao minerar. Pode haver algumas coisas legais dentro. Pode ser aberta com `~>opencrate gem crate`",
+      "fish_crate": "Um tesouro que você encontrou enquanto pescava. Pode haver algumas coisas legais dentro. Pode ser aberto `~>opencrate treasure`",
+      "mine_premium_crate": "Uma gema que você encontrou ao minerar. Pode haver algumas coisas legais dentro. Pode ser aberta com `~>opencrate gem premium crate`",
+      "fish_premium_crate": "Um tesouro que você encontrou enquanto pescava. Pode haver algumas coisas legais dentro. Pode ser aberto `~>opencrate premium treasure`",
+      "comet_rod": "Uma vara meio forte.",
+      "star_rod": "Uma vara forte.",
+      "sparkle_rod": "Uma vara até que mais forte.",
       "shell": "Encontrada no fundo do oceano. O que poderia valer a pena?",
       "shark": "Woah. Como você pegou isso?",
       "crab": "Um caranguejo. Ele dança, talvez.",
@@ -2557,7 +2564,7 @@
       "broken_comet_rod": "Uma vara de cometa que se quebrou durante a mineração. Ainda recuperável.",
       "broken_sparkle_rod": "Uma vara brilhante que se quebrou durante a mineração. Ainda recuperável.",
       "broken_star_rod": "Uma vara de estrela se que quebrou durante a mineração. Ainda recuperável.",
-      "incubator_egg": "The one catalyst you need to call your personal pet home.",
+      "incubator_egg": "O único catalisador de que você precisa para chamar seu pet pessoal para casa.",
       "water_bottle": "Um item que cura magicamente a sede do seu pet.",
       "magic_watch": "Um relógio mágico que desacelera o tempo quando você precisar. Isso será automaticamente consumido para salvar seu combo no diário!",
       "pet_house": "Uma casa onde vive o seu pet. Talvez. Às vezes eles gostam de ficar do lado de fora.",
@@ -2568,16 +2575,16 @@
       "cat_food": "Comida que seu gato pode gostar muito.",
       "hamster_food": "Comida que seu hamster pode gostar.",
       "wood": "Drop comum das árvores. Útil para fusão.",
-      "moon_pick": "A very much stronger pick.",
-      "hellfire_pick": "Way too OP pick.",
-      "axe": "A normal, middle-of-the-road axe.",
-      "comet_axe": "A stronger axe.",
-      "star_axe": "A much stronger axe.",
-      "moon_axe": "A very much stronger axe.",
-      "sparkle_axe": "A way stronger axe.",
-      "hellfire_axe": "Way too OP axe.",
-      "moon_rod": "A stronger rod.",
-      "hellfire_rod": "Way too OP rod.",
+      "moon_pick": "Uma picareta muito mais forte.",
+      "hellfire_pick": "Uma picareta muito OP.",
+      "axe": "Normal, um machado mediano.",
+      "comet_axe": "Um machado forte.",
+      "star_axe": "Um machado mais forte.",
+      "moon_axe": "Um machado muito mais forte.",
+      "sparkle_axe": "Um machado até que forte.",
+      "hellfire_axe": "Um machado muito OP.",
+      "moon_rod": "Uma vara forte.",
+      "hellfire_rod": "Uma vara muito OP.",
       "leaves": "Um drop lento de uma árvore que você tentou cortar.",
       "apple": "Você por acaso cortou uma macieira e a maçã caiu na sua cabeça. Ouch.",
       "pear": "Você por acaso cortou uma pereira e uma pera caiu na sua cabeça. Ouch.",
@@ -2592,8 +2599,8 @@
       "broken_hellfire_pick": "Uma picareta de fogo do inferno que se extinguiu enquanto minerava. Ainda recuperável.",
       "broken_hellfire_axe": "Um machado de fogo do inferno que se extinguiu enquanto cortava. Ainda recuperável.",
       "broken_hellfire_rod": "Uma vara de fogo do inferno que se extinguiu enquanto pescava. Ainda recuperável.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "chop_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `~>opencrate chop crate`",
+      "chop_premium_crate": "Um baú que você encontrou enquanto cortava. Pode conter coisas boas. Pode ser aberto com `~>opencrate chop premium crate`"
     }
   },
   "test": {

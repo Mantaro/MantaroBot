@@ -345,7 +345,8 @@
       "queue_cancel": "%1$sمتابعة قائمة الإنتظار الحالية",
       "queue_repeat": "%1$sتكرار قائمة الإنتظار الحالية",
       "song_cancel": "%1$sمتابعة قائمة الإنتظار العادية",
-      "song_repeat": "%1$sتكرار الأغنية الحالية. قم بتشغيل هذا الأمر مرة أخرى لتعطيله."
+      "song_repeat": "%1$sتكرار الأغنية الحالية. قم بتشغيل هذا الأمر مرة أخرى لتعطيله.",
+      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
     },
     "nextsong": {
       "no_song_next": "%1$sاوه, ليس هناك اعنية اخرى.",
@@ -473,7 +474,8 @@
         "success": "%1$sتمت إزالة الإستجابة **#%2$d** للأمر `%3$s`بشكل صحيح"
       },
       "rename": {
-        "success": "%1$sإعادة تسمية الأمر من `%2$s` الى `%3$s`"
+        "success": "%1$sإعادة تسمية الأمر من `%2$s` الى `%3$s`",
+        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
       },
       "add": {
         "no_command": "%1$sيجب ان تحدد اي امر تريد ان تضيفه.",
@@ -622,7 +624,8 @@
       "confirmation": "%1$s%2$s قم بكتابة **yes** أو **no** لإقتراح الزواج من %3$s\n%4$sالمهلة 120 ثانيه فقط لتُقرر :)! ",
       "ring_check_fail": "%1$sلايمكنك الزواج مع أقل من خاتمين في مخزونك :( ",
       "accepted": "%1$s**%2$s#%3$s** قبل الزواج من **%4$s#%5$s**!",
-      "denied": "%1$sرفض اقتراح الزواج من **%2$s**"
+      "denied": "%1$sرفض اقتراح الزواج من **%2$s**",
+      "ratelimit_message": "Why would you want to marry this much?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -755,6 +758,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to sell.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تبيعه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد بيعها.",
         "all": {
@@ -770,6 +774,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "no_item": "%1$sYou need to specify the item to buy.",
         "no_item_amount": "%1$sتحتاج أن تحدد الكمية من هذا الغرض (اذا كان مجرد واحد، لاتحتاج لتحديد الكمية) وأيضاً الغرض الذي تريد شرائه. ",
         "invalid": "%1$sرقم غير صحيح للأغراض المراد شرائها.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -799,8 +804,8 @@
       "no_item_mention": "%1$sيجب أن تحدد عضو لتحويل غرض له وأيضا يجب أن تحدد الغرض المراد تحويله."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 7 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 7 days old.",
+      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
+      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
       "transfer_yourself_note": "%1$sلايمكنك تحويل مال لنفسك.",
       "bot_notice": "%1$sلايمكنك تحويل مال لبوت.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -813,7 +818,8 @@
       "receipt_over_limit": "%1$sهذا العضو بالفعل لديه الكثير من المال....",
       "success": "%1$sتم تحويل **%2$,d** *(%3$,d بعد 8%% ضريبة)* الى **%4$s** بنجاح.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes."
+      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
+      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
     },
     "useitem": {
       "ls": {
@@ -1035,11 +1041,12 @@
       "footer": "الشارات هي مثل الإنجازات ، وأنها اكتسبت من خلال التقدم في لعبة مانتارو أو مجرد استخدام البوت."
     },
     "rep": {
-      "new_account_notice": "%1$sيجب أن يكون عمر الحساب (مقدار الوقت منذ إنشاء حساب دسكورد) لإعطاء أو استقبال ريب أقدم من 5 أيام. حاول مرة أخرى في وقت لاحق.",
+      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
       "no_mentions": "%1$sتحتاج إلى منشن أو وضع اسم عضو واحد. %2$s",
       "more_than_one": "%1$sيمكنك إعطاء الريب لشخص واحد فقط",
       "rep_bot": "%1$sلايمكنك إعطاء بوت ريب \n%2$s",
       "rep_yourself": "%1$sلايمكنك إعطاء نفسك ريب! \n%2$s",
+      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
       "cooldown": {
         "waiting": "**سيمكنك إستخدام هذا الأمر مرك أخرى بعد %1$s**",
         "pass": "يمكنك إعطاء ريب الآن.",
