@@ -442,9 +442,7 @@ public class CurrencyActionCmds {
 
                     // START OF WAIFU HELP IMPLEMENTATION
                     boolean waifuHelp = false;
-                    if (ItemHelper.handleEffect(
-                            PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
-
+                    if (ItemHelper.handleEffect(PlayerEquipment.EquipmentType.POTION, userData.getEquippedItems(), ItemReference.WAIFU_PILL, dbUser)) {
                         if (userData.getWaifus().entrySet().stream().anyMatch((w) -> w.getValue() > 20_000L)) {
                             money += Math.max(10, random.nextInt(150));
                             waifuHelp = true;
@@ -467,7 +465,6 @@ public class CurrencyActionCmds {
                     // END OF FISH LOOT CRATE HANDLING
 
                     if ((item == ItemReference.SPARKLE_ROD || item == ItemReference.HELLFIRE_ROD) && random.nextInt(30) > 20) {
-
                         if (random.nextInt(100) > 96) {
                             fish.addAll(Stream.of(ItemReference.ALL)
                                     .filter(i -> i.getItemType() == ItemType.FISHING_RARE && !i.isHidden() && i.isSellable())

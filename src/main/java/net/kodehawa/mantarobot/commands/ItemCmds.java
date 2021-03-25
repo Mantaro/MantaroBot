@@ -177,7 +177,7 @@ public class ItemCmds {
                         }
 
                         var limit = (isItemCastable ? ((Castable) castItem).getMaximumCastAmount() : 5);
-                        if (wrenchItem.getTier() > 4)
+                        if (wrenchItem.getTier() >= 4)
                             limit *= 2;
 
                         if (amountSpecified > limit) {
