@@ -371,7 +371,7 @@ public class WaifuCmd {
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
                 //Add badges
-                if (claimedUserData.getWaifus().containsKey(ctx.getAuthor().getId()) || claimerUserData.getWaifus().containsKey(toLookup.getId())) {
+                if (claimedUserData.getWaifus().containsKey(ctx.getAuthor().getId()) && claimerUserData.getWaifus().containsKey(toLookup.getId())) {
                     claimerPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
                     claimedPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
                 }
