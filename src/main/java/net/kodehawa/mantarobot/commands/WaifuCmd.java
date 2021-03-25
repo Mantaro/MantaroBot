@@ -192,13 +192,13 @@ public class WaifuCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                ctx.sendLocalized("commands.waifu.optout.warning", EmoteReference.WARNING);
                 final var player = ctx.getPlayer();
                 if (player.getData().isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
                     return;
                 }
 
+                ctx.sendLocalized("commands.waifu.optout.warning", EmoteReference.WARNING);
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 60, e -> {
                     if (!e.getAuthor().getId().equals(ctx.getAuthor().getId())) {
                         return Operation.IGNORED;
@@ -370,18 +370,20 @@ public class WaifuCmd {
                 claimerUserData.getWaifus().put(toLookup.getId(), waifuFinalValue);
                 claimedUserData.setTimesClaimed(claimedUserData.getTimesClaimed() + 1);
 
+                boolean badgesAdded = false;
                 //Add badges
                 if (claimedUserData.getWaifus().containsKey(ctx.getAuthor().getId()) && claimerUserData.getWaifus().containsKey(toLookup.getId())) {
                     claimerPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
-                    claimedPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
+                    badgesAdded = claimedPlayerData.addBadgeIfAbsent(Badge.MUTUAL);
                 }
 
                 claimerPlayerData.addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
-                claimedPlayerData.addBadgeIfAbsent(Badge.CLAIMED);
+                if (badgesAdded && claimedPlayerData.addBadgeIfAbsent(Badge.CLAIMED)) {
+                    claimedPlayer.saveAsync();
+                }
 
                 //Massive saving operation owo.
                 claimerPlayer.saveAsync();
-                claimedPlayer.saveAsync();
                 claimedUser.saveAsync();
                 claimerUser.saveAsync();
 
