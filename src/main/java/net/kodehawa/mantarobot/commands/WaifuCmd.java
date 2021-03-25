@@ -378,7 +378,7 @@ public class WaifuCmd {
                 }
 
                 claimerPlayerData.addBadgeIfAbsent(Badge.WAIFU_CLAIMER);
-                if (badgesAdded && claimedPlayerData.addBadgeIfAbsent(Badge.CLAIMED)) {
+                if (badgesAdded || claimedPlayerData.addBadgeIfAbsent(Badge.CLAIMED)) {
                     claimedPlayer.saveAsync();
                 }
 
