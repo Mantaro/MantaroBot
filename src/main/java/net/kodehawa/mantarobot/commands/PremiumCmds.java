@@ -325,8 +325,8 @@ public class PremiumCmds {
                                             %s has more keys claimed than given keys, dumping extra keys:
                                             %s
                                             Currently pledging: %s, Claimed keys: %s, Should have %s total keys.""".formatted(
-                                                Utils.paste(keys, true), owner.getId(),
-                                                patreonAmount, amountClaimed, (patreonAmount / 2)
+                                                    owner.getId(), Utils.paste(keys, true),
+                                                    patreonAmount, amountClaimed, (patreonAmount / 2)
                                             )
                                         );
                                     }

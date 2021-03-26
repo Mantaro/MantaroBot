@@ -37,11 +37,12 @@ targetCompatibility = 15
 
 repositories {
     mavenCentral()
-    jcenter()
     maven {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
     }
+
+    jcenter()
 
     maven { url "https://dl.bintray.com/kodehawa/maven" }
     maven { url 'https://dl.bintray.com/natanbc/maven' }
