@@ -166,7 +166,6 @@ public class HelpCmd {
                     }
 
                     var help = command.help();
-
                     if (help == null || help.getDescription() == null) {
                         ctx.sendLocalized("commands.help.extended.no_help", EmoteReference.ERROR);
                         return;
@@ -204,13 +203,6 @@ public class HelpCmd {
                         builder.addField(EmoteReference.SLIDER.toHeaderString() + "Parameters", help.getParameters().entrySet().stream()
                                         .map(entry -> "`%s` - *%s*".formatted(entry.getKey(), entry.getValue()))
                                         .collect(Collectors.joining("\n")), false
-                        );
-                    }
-
-                    if (help.isSeasonal()) {
-                        builder.addField(EmoteReference.PENNY.toHeaderString() + "Seasonal",
-                                "This command allows the usage of the `-season` (or `-s`) argument.",
-                                false
                         );
                     }
 
