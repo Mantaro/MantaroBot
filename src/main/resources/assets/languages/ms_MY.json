@@ -392,7 +392,7 @@
     "lyrics": {
       "no_current_track": "%1$sTiada lagu yang sedang dimainkan di pelayan ini!",
       "error_searching": "%1$sTerdapat ralat semasa mencari trek ini ataupun carian ini tidak mendapatkan hasil.",
-      "header": "%1$sLirik untuk %2$s",
+      "header": "%1$sLirik %2$s",
       "footer": "Terima kasih kerana menggunakan Mantaro! Halaman: %1$d, Jumlah: %2$d."
     },
     "prefix": {
@@ -1351,7 +1351,7 @@
       "status": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk periksa statusnya. Jalankan `~>pet` untuk mendapatkan penerangan. (Pilihan: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sAnda mempunyai haiwan peliharaan pada pilihan %2$s (%3$s). Anda boleh menukar kepadanya dengan `~>pet choice %2$s`",
-        "header": "Status untuk %1$s",
+        "header": "Status %1$s",
         "description": "Peringatan untuk menjaga dan menyayangi haiwan peliharaan anda :heart:\nLihat `~>pet` dan `~>help pet` untuk penerangan.",
         "cost": "Harga",
         "type": "Jenis",
@@ -1535,12 +1535,12 @@
       "note": "**Jika anda menyukai Mantaro, sila mengundi di** <https://discordbots.org/bot/mantaro> **dan/atau pertimbangkan untuk menderma di Patreon atau Paypal! Terima kasih~**"
     },
     "avatar": {
-      "result": "Avatar bagi %1$s",
+      "result": "Avatar %1$s",
       "footer": "Haraplah ia sangat cantik."
     },
     "serverinfo": {
       "header": "Maklumat Pelayan",
-      "description": "Maklumat pelayan untuk %1$s",
+      "description": "Maklumat pelayan %1$s",
       "users": "Pengguna",
       "created": "Tarikh Penciptaan",
       "channels": "Saluran Suara/Teks",
@@ -1550,7 +1550,7 @@
       "id_show": "ID Pelayan: %1$s"
     },
     "userinfo": {
-      "header": "Maklumat pengguna untuk %1$s#%2$s",
+      "header": "Maklumat pengguna %1$s#%2$s",
       "roles": "Peranan: [%1$,d]",
       "id": "ID Pengguna",
       "join_date": "Tarikh Penyertaan",
@@ -1564,7 +1564,7 @@
       "default": "Default"
     },
     "roleinfo": {
-      "header": "Maklumat peranan untuk %1$s",
+      "header": "Maklumat peranan %1$s",
       "id": "ID Peranan",
       "created": "Peranan Dicipta",
       "age": "Umur Peranan",
@@ -2536,8 +2536,8 @@
       "diamond_pick": "Beliung yang agak kuat.",
       "tv": "Mesti... menonton... TV...",
       "wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda.",
-      "star_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan, diperlukan untuk mencipta beberapa item sekali gus. Tahap 2.",
-      "sparkle_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan. Kos yang lebih rendah setiap ciptaan. Tahap 3.",
+      "star_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan, diperlukan untuk mencipta beberapa item sekali gus. Tahap 3.",
+      "sparkle_wrench": "Peralatan ciptaan. Berguna untuk menghimpunkan benda. Peluang yang lebih rendah untuk dipatahkan. Kos yang lebih rendah setiap ciptaan. Tahap 4.",
       "motorcycle": "Pusing-pusing, dengan gaya yang hebat.",
       "comet_pick": "Beliung yang lebih kuat.",
       "star_pick": "Beliung yang lebih kuat lagi.",
