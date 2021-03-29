@@ -154,9 +154,9 @@
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de pesca."
       },
       "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no pudiste recogerlos y los devolviste al agua.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sMientras pescabas con tranquilidad, encuentras %2$s usando un *%3$s* y seguidamente los guardas en tu cubo.",
+      "success_money": "%1$sMientras pescas con tranquilidad, encuentras %2$s y **$%3$,d créditos** usando un *%4$s* y seguidamente los guardas en tu cubo.%5$s",
+      "success_money_noitem": "%1$sMientras pescas con tranquilidad, encuentras **$%2$,d créditos** usando un *%3$s* y procedes a guardarlos en tu bolsillo.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :(",
       "waifu_help": "Tu waifu te vino a ayudar en tu aventura de pesca y ambos colectan más loot!",
       "not_suitable": "%1$sNo puedes usar esto para pescar.",
@@ -475,7 +475,7 @@
       },
       "rename": {
         "success": "%1$sRenombrado comando `%2$s` a `%3$s`!",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sDebes especificar el comando que deseas renombrar y el nuevo nombre."
       },
       "add": {
         "no_command": "%1$sNecesitas especificar qué comando quieres añadir.",
@@ -514,7 +514,7 @@
       "no_users": "%1$sNecesito que me digas a quien mutear.",
       "no_manage_roles": "%1$sNo tengo permiso para administrar roles en este servidor",
       "time_not_specified": "%1$s¡Especificaste el parametro para agregar tiempo pero no pusiste por cuanto!",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `~>mute 20m @mention reason goes here`, for example.",
+      "time_not_specified_generic": "%1$sNo has especificado ningún tiempo. Si quieres silenciar por 20 minutos deberías decir `~>mute 20m @mención la razón aquí`, por ejemplo.",
       "negative_time_notice": "%1$sNo creo que sea posible mutear a alguien por tiempo negativo...",
       "default_time_too_long": "%1$sEl tiempo de muteo por defecto es muy largo (Máximo: 10 días)...",
       "time_too_little": "%1$sLa duración por defecto del muteo es menos de 10 segundos.\n¿Estas seguro/a de que usaste el formato correcto? Para 20 minutos, usa 20m, para 1 hora, usa 1h, o cualquier combinación de ambos (1h45m), por ejemplo.",
@@ -522,8 +522,8 @@
       "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
       "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
       "user_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que tú, o el rol está en una jerarquía mas alta que tu rol más importante!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "success": "%1$sHe añadido el rol de silenciamiento a **%2$s** por %3$s",
+      "success_reason": "%1$sHe añadido el rol de silenciamiento a **%2$s** por %3$s debido a la siguiente razón: %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder des-mutear!",
@@ -570,11 +570,11 @@
         "empty": "%1$sNo puedes dejar la carta de amor vacía.",
         "no_marriage": "%1$sNo estás casado/a, y no puedes escribirte una carta de amor a ti mismo...",
         "not_proposing_player": "%1$s¡No eres el jugador que propuso este casamiento!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sEste matrimonio ya tiene una carta de amor asignada. Revísala diciendo `~>marry status`",
         "too_long": "%1$sEsta carta de amor es muy larga (500 carácteres máximo)",
         "cannot_see": "%1$sNo puedo encontrar al usuario con el que estás casado/a... Probablemente no está en ningun servidor donde me encuentro.",
         "confirmation": "%1$sEstás *seguro* que quieres escribir esta carta de amor para tu casamiento con **%2$s#%3$s**? Esto es PERMANENTE mientras el casamiento esté en pie. *Contenido de la carta:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$s¡He entregado la carta de amor a tu persona amada exitosamente! Revísala diciendo `~>marry status`",
         "scrapped": "%1$sAún tienes tiempo para pensar en que escribirle, no es necesario apurarse :)"
       },
       "status": {
@@ -625,7 +625,7 @@
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
       "accepted": "%1$s**%2$s#%3$s** ha aceptado la proposición de %4$s#%5$s!",
       "denied": "%1$sLa proposición de `%2$s` fue negada :(",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "¿Por qué querrías casarte tan desesperadamente?"
     },
     "divorce": {
       "confirm": "%1$s¿Seguro que quieres acabar con este matrimonio? El dinero gastado en mascotas, carros y casas, será dividido en dos. Escribe `yes` (si) para confirmar o `no` (no) para cancelar. **Tu mascota desaparecerá, ya que es parte del casamiento**",
@@ -693,7 +693,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDame una waifu para puntuar!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sPuntúo a tu waifu con un **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sConseguiste **%2$d**%3$s",
@@ -804,8 +804,8 @@
       "no_item_mention": "%1$sNecesitas especificar a quién transferirle el ítem y el ítem que deseas transferirle."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sTu cuenta debe tener al menos 14 días de existencia para transferir dinero.",
+      "new_account_notice_other": "%1$sLa cuenta a la que intentas transferir dinero tiene menos de 14 días de existencia.",
       "transfer_yourself_note": "%1$sNo puedes transferirte créditos a ti mismo.",
       "bot_notice": "%1$sNo puedes transferirle créditos a un bot.",
       "no_amount": "%1$sNecesitas especificar el monto. Usa el comando `transferitems` si quieres transferir ítems.",
@@ -924,8 +924,8 @@
         "disabled": "%1$sAcciones inhabilitadas para que no se realicen hacia tí."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Mascota Activa",
+        "none": "No hay mascotas activas"
       },
       "stats": {
         "header": "Estadísticas del perfil para %1$s",
@@ -1041,7 +1041,7 @@
       "footer": "Los trofeos son logros que obtienes usando el bot o progresando en el juego de Mantaro."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sLa edad de la cuenta (Tiempo desde que la cuenta de Discord fue creada) para dar o recibir rep debe ser de mas de 30 días. Inténtalo más tarde.",
       "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n%2$s",
       "more_than_one": "%1$sSolo puedes darle reputación a una persona",
       "rep_bot": "%1$sNo puedes darle reputación a un bot.\n%2$s",
@@ -2567,15 +2567,15 @@
       "incubator_egg": "The one catalyst you need to call your personal pet home.",
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "Un reloj mágico que ralentiza el tiempo cuando lo necesitas. ¡Esto será consumido automáticamente para salvar tu racha diaria!",
-      "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
-      "steak": "Very yummy if you're not vegetarian.",
-      "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
-      "milk_3": "Very good food for cats, I've heard.",
-      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
-      "cat_food": "Food your cat might like a lot.",
-      "hamster_food": "Food your hamster might enjoy.",
-      "wood": "Common drop from trees. Useful for casting.",
-      "moon_pick": "A very much stronger pick.",
+      "pet_house": "Una casa en la que tu perro vive. Tal vez. A veces solo les gusta descansar afuera.",
+      "steak": "Muy rico si no eres vegetariano.",
+      "chicken": "Very yummy if you're not vegetarian, pero en cambio viene de un pollo.",
+      "milk_3": "Muy bueno para los gatos, según lo que escuché.",
+      "dog_food": "Comida que a tu perro tal vez le encante. O también le puede gustar más el pan, como los míos.",
+      "cat_food": "Comida que a tu gato le podría encantar.",
+      "hamster_food": "Comida que tu hamster podría disfrutar.",
+      "wood": "Algo común que cae de los arboles. Útil para fundir.",
+      "moon_pick": "Una picota mucho más fuerte.",
       "hellfire_pick": "Way too OP pick.",
       "axe": "A normal, middle-of-the-road axe.",
       "comet_axe": "A stronger axe.",
