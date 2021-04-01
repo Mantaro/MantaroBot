@@ -52,7 +52,10 @@ import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 import java.awt.Color;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -662,7 +665,6 @@ public class ProfileCmd {
                     var isBuffActive = buff != null &&
                             (equippedItems.isEffectActive(PlayerEquipment.EquipmentType.BUFF, buff.getMaxUses())
                             || buffEffect.getAmountEquipped() > 1);
-
 
                     var potionEquipped = 0L;
                     var buffEquipped = 0L;
