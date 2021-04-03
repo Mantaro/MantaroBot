@@ -166,17 +166,18 @@ public class MusicCmds {
         cr.register("pause", new SimpleCommand(CommandCategory.MUSIC) {
             @Override
             public void call(Context ctx, String content, String[] args) {
-                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
-
+                final var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                final var trackScheduler = musicManager.getTrackScheduler();
                 if (isNotInCondition(ctx, musicManager.getLavaLink())) {
                     return;
                 }
 
-                var paused = !musicManager.getTrackScheduler().getMusicPlayer().isPaused();
+                var paused = !trackScheduler.getMusicPlayer().isPaused();
                 var languageContext = ctx.getLanguageContext();
 
+                trackScheduler.setPausedManually(paused);
                 var toSend = EmoteReference.MEGA + (paused ? languageContext.get("commands.pause.paused") : languageContext.get("commands.pause.unpaused"));
-                musicManager.getTrackScheduler().getMusicPlayer().setPaused(paused);
+                trackScheduler.getMusicPlayer().setPaused(paused);
                 ctx.send(toSend);
 
                 TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);

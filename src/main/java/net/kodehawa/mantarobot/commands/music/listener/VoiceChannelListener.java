@@ -87,8 +87,8 @@ public class VoiceChannelListener implements EventListener {
             return;
         }
 
+        var scheduler = musicManager.getTrackScheduler();
         if (event.isMuted()) {
-            var scheduler = musicManager.getTrackScheduler();
             if (scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
                 var textChannel = scheduler.getRequestedTextChannel();
                 //Didn't ratelimit this one because mute can only be done by admins and such? Don't think it'll get abused.
@@ -103,7 +103,9 @@ public class VoiceChannelListener implements EventListener {
             }
         } else {
             if (!isAlone(voiceState.getChannel()) && musicManager.getTrackScheduler().getCurrentTrack() != null) {
-                musicManager.getLavaLink().getPlayer().setPaused(false);
+                if (!scheduler.isPausedManually()) {
+                    musicManager.getLavaLink().getPlayer().setPaused(false);
+                }
             }
         }
 
@@ -139,7 +141,9 @@ public class VoiceChannelListener implements EventListener {
 
             musicManager.cancelLeave();
             musicManager.setAwaitingDeath(false);
-            musicManager.getLavaLink().getPlayer().setPaused(false);
+            if (!scheduler.isPausedManually()) {
+                musicManager.getLavaLink().getPlayer().setPaused(false);
+            }
         }
     }
 
