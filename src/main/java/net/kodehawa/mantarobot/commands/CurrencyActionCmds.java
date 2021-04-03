@@ -437,11 +437,13 @@ public class CurrencyActionCmds {
 
                     // Basically more chance if you have a better rod.
                     if (chance > (70 - nominalLevel)) {
-                        var moneyAmount = 130 + (4 * nominalLevel);
                         if (nominalLevel >= 20) {
-                            moneyAmount = 250 + (8 * nominalLevel);
+                            var moneyAmount = 300 + (8 * nominalLevel);
+                            money += Math.max(140, random.nextInt(moneyAmount));
+                        } else {
+                            var moneyAmount = 150 + (4 * nominalLevel);
+                            money += Math.max(25, random.nextInt(moneyAmount));
                         }
-                        money += Math.max(25, random.nextInt(moneyAmount));
                     }
 
                     // START OF WAIFU HELP IMPLEMENTATION
