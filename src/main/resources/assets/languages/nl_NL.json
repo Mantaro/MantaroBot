@@ -286,6 +286,7 @@
         "loaded_playlist": "%1$sIk heb **%2$d nummers** toegevoegd aan de afspeellijst van de afspeellijst: **%3$s** *(%4$s)*",
         "no_matches": "%1$sHet zoeken heeft geen resultaten opgeleverd. Als dit wordt weergegeven voor * alle nummers * waarnaar je probeert te zoeken, kun je `~>play soundcloud <zoekterm>` proberen te gebruiken. Directe koppelingen naar youtube zouden ook moeten werken.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
         "over_32_minutes": "%1$s**Kon `%2$s`: niet in de wachtrij plaatsen: track is langer dan %3$s.** (De lengte van het nummer is %4$s).\nU kunt een langere limiet voor de tracklengte krijgen en livestreams afspelen met Mantaro Premium! Kijk op <https://patreon.com/mantaro> voor meer info.",
         "fair_queue_limit_reached": "%1$s**Het nummer %2$d komt te vaak voor in de afspeellijst**",
