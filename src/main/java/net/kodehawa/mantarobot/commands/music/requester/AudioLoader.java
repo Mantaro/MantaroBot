@@ -133,6 +133,10 @@ public class AudioLoader implements AudioLoadResultHandler {
     @Override
     public void loadFailed(FriendlyException exception) {
         if (failureCount == 0) {
+            if (exception.getMessage() == null) {
+                event.getChannel().sendMessageFormat(language.get("commands.music_general.loader.unknown_error_loading"), EmoteReference.ERROR).queue();
+            }
+
             event.getChannel().sendMessageFormat(
                     language.get("commands.music_general.loader.error_loading"), EmoteReference.ERROR, exception.getMessage()
             ).queue();
