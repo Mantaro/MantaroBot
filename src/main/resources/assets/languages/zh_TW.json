@@ -286,6 +286,7 @@
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**進入播放清單:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索沒有結果。如果你搜索的*每首歌曲*都發生此訊息，請先暫時使用 `~>play soundcloud <關鍵字>`，你也可以直接貼上YouTube連結。",
         "error_loading": "%1$s取得音樂時發生錯誤：%2$s。試著在試一次或使用別的鏈接？",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**無法加入 `%2$s`：清單長度超出限制(%3$s)**",
         "over_32_minutes": "%1$s**無法加入 `%2$s` 至清單：長度超過 %3$s。**(歌曲長度為 %4$s)。\n你可以使用Mantaro Premium取得更高的長度限制和直播播放！查看 <https://patreon.com/mantaro> 獲得更多訊息。",
         "fair_queue_limit_reached": "%1$s**超出公平播放數量%2$d (相同歌曲數目過多)**",
