@@ -104,6 +104,12 @@ public class TrackScheduler extends PlayerEventListenerAdapter {
             }
 
             if (repeatMode == Repeat.QUEUE) {
+                if (previousTrack == null) {
+                    currentTrack = null;
+                    onTrackStart();
+                    return;
+                }
+
                 queue(previousTrack.makeClone());
             }
         }

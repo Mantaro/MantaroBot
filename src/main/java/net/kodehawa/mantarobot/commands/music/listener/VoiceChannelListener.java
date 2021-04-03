@@ -102,6 +102,10 @@ public class VoiceChannelListener implements EventListener {
                 musicManager.getLavaLink().getPlayer().setPaused(true);
             }
         } else {
+            if (voiceState.getChannel() == null) {
+                return;
+            }
+
             if (!isAlone(voiceState.getChannel()) && musicManager.getTrackScheduler().getCurrentTrack() != null) {
                 if (!scheduler.isPausedManually()) {
                     musicManager.getLavaLink().getPlayer().setPaused(false);
