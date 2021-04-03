@@ -286,6 +286,7 @@
         "loaded_playlist": "%1$s**%2$d buah lagu** telah ditambah ke antrian playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sCarian ini tidak mendapatkan hasil. Sekiranya ini muncul untuk *semua lagu* yang anda cuba mencari, cubalah gunakan `~>play soundcloud <istilah carian>` sementaranya. Pautan langsung dari youtube juga semestinya berjalan.",
         "error_loading": "%1$sRalat semasa mendapatkan muzik: %2$s. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Tidak dapat mengantri `%2$s`: Melepasi had lagu antrian (%3$s)**",
         "over_32_minutes": "%1$s**Tidak dapat mengantri `%2$s`: Trek ini melebihi %3$s.** (Tempoh lagu yang dilaporkan ialah %4$s). Anda boleh mendapatkan had tempoh trek yang lebih panjang dan playback siaran langsung dengan Mantaro Premium! Baca lebih lanjut di <https://patreon.com/mantaro>.",
         "fair_queue_limit_reached": "%1$s**Melebihi tahap antrian adil %2$d (Terlalu banyak lagu yang sama)**",
