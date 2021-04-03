@@ -286,6 +286,7 @@
         "loaded_playlist": "%1$s已加入**%2$d首歌曲**进入播放清单:**%3$s** *(%4$s)*",
         "no_matches": "%1$s你的搜索没有结果。如果你搜索的*每首歌曲*都發生此讯息，请先暂时使用`~>play soundcloud <关键字>`，你也可以直接贴上YouTube连结。",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**超出公平播放数量%2$d (相同歌曲数目过多)**",
