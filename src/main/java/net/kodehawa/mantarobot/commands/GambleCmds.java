@@ -386,8 +386,14 @@ public class GambleCmds {
             @Override
             public HelpContent help() {
                 return new HelpContent.Builder()
-                        .setDescription("Rolls the slot machine. Requires a default of 50 coins to roll.")
-                        .setUsage(
+                        .setDescription(
+                                """
+                                Rolls the slot machine. Requires a default of 50 coins to roll.
+                                To win, you need to hit all 3 emojis of the same type on the middle row. 
+                                You can gain anywhere from 25% to 175% of the money you put in. This is what you can *gain*, if you win you won't lose what you put in.
+                                
+                                """
+                        ).setUsage(
                                 """
                                 `~>slots` - Default one, 50 coins.
                                 `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 coins.
