@@ -322,8 +322,6 @@ public class GambleCmds {
                 );
 
                 var builder = new StringBuilder();
-
-
                 for (int i = 0; i < 9; i++) {
                     if (i > 1 && i % 3 == 0) {
                         builder.append("\n");
@@ -342,7 +340,7 @@ public class GambleCmds {
 
                 if (winCombinations.contains(rows[1])) {
                     isWin = true;
-                    gains = random.nextInt((int) Math.round(money * 1.76)) + 16;
+                    gains = (int) Math.max(money / 4, random.nextInt((int) Math.round(money * 1.76)) + 16);
                 }
 
                 rows[1] = rows[1] + " \u2b05";
