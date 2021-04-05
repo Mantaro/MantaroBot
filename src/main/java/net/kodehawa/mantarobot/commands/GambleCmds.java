@@ -215,7 +215,7 @@ public class GambleCmds {
 
                 var playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
                 if (opts.containsKey("useticket")) {
-                    if (playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+                    if (!playerInventory.containsItem(ItemReference.SLOT_COIN)) {
                         ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
                         return;
                     }
