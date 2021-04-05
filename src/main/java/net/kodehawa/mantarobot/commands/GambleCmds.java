@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 @Module
 public class GambleCmds {
     private static final int SLOTS_MAX_MONEY = 50_000;
-    private static final int TICKETS_MAX_AMOUNT = 50;
+    private static final int TICKETS_MAX_AMOUNT = 100; // Technically ~8,000 credits.
     private static final long GAMBLE_ABSOLUTE_MAX_MONEY = Integer.MAX_VALUE;
     private static final long GAMBLE_MAX_MONEY = 10_000;
 
@@ -213,11 +213,15 @@ public class GambleCmds {
                     seasonalPlayer = ctx.getSeasonPlayer();
                 }
 
+                var playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
                 if (opts.containsKey("useticket")) {
+                    if (playerInventory.containsItem(ItemReference.SLOT_COIN)) {
+                        ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
+                        return;
+                    }
+
                     coinSelect = true;
                 }
-
-                var playerInventory = season ? seasonalPlayer.getInventory() : player.getInventory();
 
                 if (opts.containsKey("amount") && opts.get("amount") != null) {
                     if (!coinSelect) {
@@ -232,7 +236,7 @@ public class GambleCmds {
                     }
 
                     try {
-                        coinAmount = Integer.parseInt(amount);
+                        coinAmount = Math.abs(Integer.parseInt(amount));
                     } catch (NumberFormatException e) {
                         ctx.sendLocalized("general.invalid_number", EmoteReference.ERROR);
                         return;
@@ -247,21 +251,17 @@ public class GambleCmds {
                         ctx.sendLocalized("commands.slots.errors.not_enough_tickets", EmoteReference.ERROR);
                         return;
                     }
-
-                    money += 58L * coinAmount;
                 }
 
                 if (args.length >= 1 && !coinSelect) {
                     try {
                         var parsed = new RoundedMetricPrefixFormat().parseObject(args[0], new ParsePosition(0));
-
                         if (parsed == null) {
                             ctx.sendLocalized("commands.slots.errors.no_valid_amount", EmoteReference.ERROR);
                             return;
                         }
 
                         money = Math.abs(parsed);
-
                         if (money < 25) {
                             ctx.sendLocalized("commands.slots.errors.below_minimum", EmoteReference.ERROR);
                             return;
@@ -278,7 +278,6 @@ public class GambleCmds {
                 }
 
                 var playerMoney = season ? seasonalPlayer.getMoney() : player.getCurrentMoney();
-
                 if (playerMoney < money && !coinSelect) {
                     ctx.sendLocalized("commands.slots.errors.not_enough_money", EmoteReference.SAD);
                     return;
@@ -289,19 +288,15 @@ public class GambleCmds {
                 }
 
                 if (coinSelect) {
-                    if (playerInventory.containsItem(ItemReference.SLOT_COIN)) {
-                        playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -coinAmount));
-                        if (season)
-                            seasonalPlayer.save();
-                        else
-                            player.save();
-
-                        slotsChance = slotsChance + 10;
-                        money = 80L;
+                    playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -coinAmount));
+                    if (season) {
+                        seasonalPlayer.save();
                     } else {
-                        ctx.sendLocalized("commands.slots.errors.no_tickets", EmoteReference.SAD);
-                        return;
+                        player.save();
                     }
+
+                    slotsChance = slotsChance + Math.max(6, random.nextInt(12));
+                    money = 70L * coinAmount;
                 } else {
                     if (season) {
                         seasonalPlayer.removeMoney(money);
@@ -313,7 +308,6 @@ public class GambleCmds {
                 }
 
                 var languageContext = ctx.getLanguageContext();
-
                 var message = new StringBuilder(
                         languageContext.withRoot("commands", "slots.roll").formatted(
                                 EmoteReference.DICE, coinSelect ? coinAmount + " " +
