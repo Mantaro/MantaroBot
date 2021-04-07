@@ -334,7 +334,7 @@ public class GambleCmds {
 
                 if (winCombinations.contains(rows[1])) {
                     isWin = true;
-                    gains = (int) Math.max(money / 4, random.nextInt((int) Math.round(money * 1.76)) + 16);
+                    gains = (int) Math.max(money / 6, random.nextInt((int) Math.round(money * 1.76)) + 16);
                 }
 
                 rows[1] = rows[1] + " \u2b05";
@@ -384,8 +384,7 @@ public class GambleCmds {
                                 """
                                 Rolls the slot machine. Requires a default of 50 coins to roll.
                                 To win, you need to hit all 3 emojis of the same type on the middle row. 
-                                You can gain anywhere from 25% to 175% of the money you put in. This is what you can *gain*, if you win you won't lose what you put in.
-                                
+                                You can gain anywhere from ~15% to 175% of the money you put in. This is what you can *gain*, if you win you won't lose what you put in.
                                 """
                         ).setUsage(
                                 """

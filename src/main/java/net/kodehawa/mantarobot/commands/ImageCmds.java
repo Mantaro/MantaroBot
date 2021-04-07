@@ -219,6 +219,11 @@ public class ImageCmds {
         cr.register("konachan", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
+                    return;
+                }
+
                 sendImage(ctx, konachan, false, "konachan", args);
             }
 
@@ -248,6 +253,11 @@ public class ImageCmds {
         cr.register("safebooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
+                    return;
+                }
+
                 sendImage(ctx, safebooru, false, "safebooru", args);
             }
 
@@ -272,6 +282,11 @@ public class ImageCmds {
         cr.register("danbooru", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                if (!ctx.getChannel().isNSFW()) {
+                    ctx.sendLocalized("commands.imageboard.konachan_nsfw_notice", EmoteReference.ERROR);
+                    return;
+                }
+
                 sendImage(ctx, danbooru, false, "danbooru", args);
             }
 
@@ -302,6 +317,7 @@ public class ImageCmds {
         cr.register("rule34", new SimpleCommand(CommandCategory.IMAGE) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                // This is nsfw-only, so its restricted to nsfw channels aswell, just not with a special message.
                 sendImage(ctx, rule34, true, "rule34", args);
             }
 
