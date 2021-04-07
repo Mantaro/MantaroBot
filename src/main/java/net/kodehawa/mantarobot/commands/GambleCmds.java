@@ -295,7 +295,7 @@ public class GambleCmds {
                         player.save();
                     }
 
-                    slotsChance = slotsChance + Math.max(6, random.nextInt(12));
+                    slotsChance = slotsChance + Math.max(6, random.nextInt(12) + 1);
                     money = 70L * coinAmount;
                 } else {
                     if (season) {
@@ -392,7 +392,7 @@ public class GambleCmds {
                                 `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 coins.
                                 `~>slots -useticket` - Rolls the slot machine with one slot coin.
                                 You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`).
-                                Using tickets increases your chance by 10%. Maximum amount of tickets allowed is 50.
+                                Using tickets increases your chance by 6 to 12%. Maximum amount of tickets allowed is 50.
                                 """
                         ).build();
             }
