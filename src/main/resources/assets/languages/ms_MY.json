@@ -1341,7 +1341,8 @@
       "rating": "Penilaian",
       "load_notice": "Sekiranya imej tidak dimuat, tekan tajuk.",
       "rule34_notice": "Sekiranya anda tidak menyukai kandungan pada arahan ini, anda boleh menggunakan `~>yandere`. Jika gif animasi /kandungan webm tidak berjalan, tekan pautan dalam tajuk embed.",
-      "yandere_nsfw_notice": "%1$sArahan Yande.re dan Gelbooru hanya boleh digunakan dalam saluran NSFW disebabkan sebilangan laporan bahawa ia menghantar imej eksplisit yang ditandai selamat.\nAnda boleh cuba menggunakan `~>konachan` sebagai gantinya!",
+      "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sArahan e621 hanya boleh digunakan di saluran NSFW.",
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
