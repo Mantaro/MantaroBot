@@ -1341,7 +1341,8 @@
       "rating": "Rating",
       "load_notice": "Als de afbeelding niet wordt geladen, klik op de titel.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
-      "yandere_nsfw_notice": "%1$sHet commando Yande.re en Gelbooru kunnen alleen in NSFW-kanalen worden gebruikt vanwege verschillende rapporten waarin expliciete afbeeldingen worden verzonden die als veilig zijn gemarkeerd.\nJe kan proberen om `~>konachan` te gebruiken!",
+      "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
