@@ -361,6 +361,7 @@ public class PetCmds {
                             playerFinal.saveUpdating();
                             ctx.sendLocalized("commands.pet.remove.success_personal", EmoteReference.CORRECT, toRefundPersonal);
                         }
+
                         return Operation.COMPLETED;
                     }
 

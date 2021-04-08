@@ -174,6 +174,8 @@ public class MoneyCmds {
                                 streakSaversUsed, streakSaversUsed + 1,
                                 amountStreaksavers - streakSaversUsed)
                         );
+
+                        removedWatch = true;
                     }
                 } else {
                     if (streak == 0) {
