@@ -378,17 +378,17 @@ public class GambleCmds {
                 return new HelpContent.Builder()
                         .setDescription(
                                 """
-                                Rolls the slot machine. Requires a default of 50 coins to roll.
+                                Rolls the slot machine. Requires a default of 50 credits to roll.
                                 To win, you need to hit all 3 emojis of the same type on the middle row. 
                                 You can gain anywhere from ~15% to 175% of the money you put in. This is what you can *gain*, if you win you won't lose what you put in.
                                 """
                         ).setUsage(
                                 """
-                                `~>slots` - Default one, 50 coins.
-                                `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 coins.
+                                `~>slots` - Default one, 50 credits.
+                                `~>slots <credits>` - Puts x credits on the slot machine. You can put a maximum of 50,000 credits.
                                 `~>slots -useticket` - Rolls the slot machine with one slot coin.
                                 You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`).
-                                Using tickets increases your chance by 6 to 12%. Maximum amount of tickets allowed is 50.
+                                Using tickets increases your chance by 6 to 12%. Maximum amount of tickets allowed is 100.
                                 """
                         ).build();
             }
