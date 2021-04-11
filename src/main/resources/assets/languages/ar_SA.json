@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sتم إيقاف تشغيل الأغاني مؤقتاً لأنني حصلت على ميوت :(",
         "resumed": "%1$sجاري إستئناف التشغيل لانه شخص ما إنضم!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sسأُغادر **%2$s** في غضون دقيقتان لأنني تُركت وحيده :(",
         "leave": "%1$sقررت مغادرة **%2$s** لأنني تُركت وحيده :("
       },
