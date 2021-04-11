@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$s我被静音了，暂停播放中 :(",
         "resumed": "%1$s有人加入了! 继续播放中",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$s孤单的我会在2分钟内离开**%2$s** :(",
         "leave": "%1$s我决定离开**%2$s**因为现在只剩我一人 :("
       },
