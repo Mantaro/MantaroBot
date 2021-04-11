@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sBeni mutelediğin için çalmıyorum işte :(",
         "resumed": "%1$sBiri katıldığı için şarkı listesini tekrar başlatıyorum!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$s**%2$s** kanalını 2 dakika içinde terketedeceğim çünkü tek başıma kaldım :(",
         "leave": "%1$s **%2$s** kanalını terkettim çünkü tek baışma kaldım :("
       },
