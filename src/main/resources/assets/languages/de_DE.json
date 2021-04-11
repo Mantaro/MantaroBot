@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sWiedergabe pausieren, weil ich gemuted wurde :(",
         "resumed": "%1$sFortsetzen der Wiedergabe, weil jemand beigetreten ist!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sIch verlasse **%2$s** in 2 Minuten, weil ich allein gelassen wurde. :(",
         "leave": "%1$sIch habe **%2$s** verlassen, weil ich allein gelassen wurde. :("
       },
