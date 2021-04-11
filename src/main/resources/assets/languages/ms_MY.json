@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sPemain sedang dihentikan kerana saya dibisukan :(",
         "resumed": "%1$sPlayback dilanjutkan kerana ada yang baru tersambung!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sSaya akan tinggalkan **%2$s** dalam tempoh dua minit kerana saya ditinggalkan sendirian :(",
         "leave": "%1$sSaya memutuskan untuk tinggalkan **%2$s** kerana saya ditinggalkan sendirian :("
       },
