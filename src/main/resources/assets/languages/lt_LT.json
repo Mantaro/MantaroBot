@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sPristabdau grotuvą, nes buvau užtildyta :(",
         "resumed": "%1$sTęsiu grojimą, nes kažkas prisijungė!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sAš paliksiu **%2$s** po 2 minučių, nes aš likau visiškai viena :(",
         "leave": "%1$sAš nusprendžiau palikti **%2$s**, kadangi likau visiškai viena :("
       },
