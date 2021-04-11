@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sTạm dừng chơi nhạc bởi vì tôi bị tắt tiếng :(",
         "resumed": "%1$sTiếp tục phát nhạc bởi vì có người tham gia!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sTôi sẽ rời **%2$s** trong 2 phút vì tôi bị mọi người bỏ rơi :(",
         "leave": "%1$sTôi quyết định rời **%2$s** bởi vì mọi người bỏ tui một mình :("
       },
