@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sВоспроизведение приостановлено, я получил мут :(",
         "resumed": "%1$sПродолжаю воспроизведение т.к. кто-то подключился к каналу!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sЯ покинул канал **%2$s** ведь я был совсем один 2 минуты :(",
         "leave": "%1$sВоспроизведение приостановлено **%2$s** ведь я остался один :("
       },
