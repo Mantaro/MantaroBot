@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sミュートされたため、再生を一時停止します。 (・_・、)",
         "resumed": "%1$s誰かが参加したため再生を再開します！",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$s 誰も **%2$s** に居ないため、2分以内に切断します。 (・_・、)",
         "leave": "%1$s 誰も **%2$s** に居ないため切断しました。:("
       },
