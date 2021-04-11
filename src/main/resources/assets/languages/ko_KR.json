@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$s제가 음소거 되었기 때문에 플레이어를 멈추는 중이에요 ㅠㅠ",
         "resumed": "%1$s다른 사용자가 참여했기 때문에 재생을 다시 시작하고 있어요!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$s혼자 남겨졌으니까 **%2$s**을(를) 2분 뒤에 떠날거예요 ㅠㅠ",
         "leave": "%1$s혼자 남겨졌으니까 **%2$s**을(를) 떠나기로 결정했어요 ㅠㅠ"
       },
