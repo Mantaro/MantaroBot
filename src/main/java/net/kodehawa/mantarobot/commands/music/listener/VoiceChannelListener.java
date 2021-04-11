@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.TimeUnit;
 
 public class VoiceChannelListener implements EventListener {
-    private final RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+    private final RateLimiter vcRatelimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
@@ -131,22 +131,30 @@ public class VoiceChannelListener implements EventListener {
             }
 
             var scheduler = musicManager.getTrackScheduler();
-            if (scheduler.getCurrentTrack() != null) {
-                if (musicManager.isAwaitingDeath()) {
-                    var textChannel = scheduler.getRequestedTextChannel();
-                    if (textChannel.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
-                        textChannel.sendMessageFormat(
-                                scheduler.getLanguage().get("commands.music_general.listener.resumed"),
-                                EmoteReference.POPPER
-                        ).queue();
+            if (musicManager.isAwaitingDeath()) {
+                if (scheduler.getCurrentTrack() != null) {
+                    var channel = scheduler.getRequestedTextChannel();
+                    if (channel.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
+                        if (scheduler.isPausedManually()) {
+                            channel.sendMessageFormat(
+                                    scheduler.getLanguage().get("commands.music_general.listener.not_resumed"),
+                                    EmoteReference.POPPER
+                            ).queue();
+                        } else {
+                            channel.sendMessageFormat(
+                                    scheduler.getLanguage().get("commands.music_general.listener.resumed"),
+                                    EmoteReference.POPPER
+                            ).queue();
+                        }
                     }
                 }
-            }
 
-            musicManager.cancelLeave();
-            musicManager.setAwaitingDeath(false);
-            if (!scheduler.isPausedManually()) {
-                musicManager.getLavaLink().getPlayer().setPaused(false);
+                if (!scheduler.isPausedManually()) {
+                    musicManager.getLavaLink().getPlayer().setPaused(false);
+                }
+
+                musicManager.cancelLeave();
+                musicManager.setAwaitingDeath(false);
             }
         }
     }

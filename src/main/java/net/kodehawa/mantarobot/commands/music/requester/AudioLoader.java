@@ -68,12 +68,13 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
+        final var member = event.getMember();
         if (playlist.isSearchResult()) {
             if (!skipSelection) {
                 onSearch(playlist);
             } else {
                 loadSingle(playlist.getTracks().get(0), false,
-                        db.getGuild(event.getGuild()), db.getUser(event.getMember())
+                        db.getGuild(event.getGuild()), db.getUser(member)
                 );
             }
 
@@ -83,7 +84,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         try {
             var count = 0;
             var dbGuild = db.getGuild(event.getGuild());
-            var user = db.getUser(event.getMember());
+            var user = db.getUser(member);
             var guildData = dbGuild.getData();
 
             for (var track : playlist.getTracks()) {

@@ -289,22 +289,8 @@ public class GambleCmds {
 
                 if (coinSelect) {
                     playerInventory.process(new ItemStack(ItemReference.SLOT_COIN, -coinAmount));
-                    if (season) {
-                        seasonalPlayer.save();
-                    } else {
-                        player.save();
-                    }
-
                     slotsChance = slotsChance + Math.max(6, random.nextInt(12) + 1);
                     money = 70L * coinAmount;
-                } else {
-                    if (season) {
-                        seasonalPlayer.removeMoney(money);
-                        seasonalPlayer.saveAsync();
-                    } else {
-                        player.removeMoney(money);
-                        player.saveUpdating();
-                    }
                 }
 
                 var languageContext = ctx.getLanguageContext();
@@ -328,13 +314,15 @@ public class GambleCmds {
                 var gains = 0;
                 var rows = toSend.split("\\r?\\n");
 
-                if (random.nextInt(100) < slotsChance) {
+                var chance = random.nextInt(100);
+                if (chance < slotsChance) {
                     rows[1] = winCombinations.get(random.nextInt(winCombinations.size()));
                 }
 
                 if (winCombinations.contains(rows[1])) {
                     isWin = true;
-                    gains = (int) Math.max(money / 6, random.nextInt((int) Math.round(money * 1.76)) + 16);
+                    var maxGains = random.nextInt((int) Math.round(money * 1.76)) + 16;
+                    gains = (int) Math.max(money / 6, maxGains);
                 }
 
                 rows[1] = rows[1] + " \u2b05";
@@ -358,17 +346,25 @@ public class GambleCmds {
                     }
 
                     if (season) {
-                        seasonalPlayer.addMoney(gains + money);
-                        seasonalPlayer.saveUpdating();
+                        seasonalPlayer.addMoney(gains);
+                        seasonalPlayer.save();
                     } else {
-                        player.addMoney(gains + money);
-                        player.saveUpdating();
+                        player.addMoney(gains);
+                        player.save();
                     }
                 } else {
                     stats.getData().incrementSlotsLose();
                     message.append(toSend).append("\n\n").append(
                             languageContext.withRoot("commands", "slots.lose").formatted(EmoteReference.SAD)
                     );
+
+                    if (season) {
+                        seasonalPlayer.removeMoney(money);
+                        seasonalPlayer.save();
+                    } else {
+                        player.removeMoney(money);
+                        player.save();
+                    }
                 }
 
                 stats.saveUpdating();
