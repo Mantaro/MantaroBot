@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sZatrzymywanie, ponieważ zostałam wyciszona :(",
         "resumed": "%1$sWznawiam odtwarzanie, bo ktoś się przyłączył!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sWyjdę **%2$s** w 2 minuty, bo zostałem całkiem sam :(",
         "leave": "%1$sZdecydowałem odejść **%2$s**, ponieważ zostałem sam :("
       },
