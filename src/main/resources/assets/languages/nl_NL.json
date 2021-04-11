@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sDe muziek is gepauzeerd aangezien ik gemute ben :(",
         "resumed": "%1$sDe muziek is weer gestart aangezien iemand het spraak-kanaal heeft gejoined!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sIk zal **%2$s** over 2 minuten verlaten omdat ik alleen achtergelaten ben :(",
         "leave": "%1$sIk heb besloten om **%2$s** te verlaten omdat ik alleen achtergelaten ben :("
       },
