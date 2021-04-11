@@ -270,6 +270,7 @@
       "listener": {
         "paused": "%1$sPausing player because I got muted :(",
         "resumed": "%1$sResuming playback because someone joined!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sI'll leave **%2$s** in 2 minutes because I was left all alone :(",
         "leave": "%1$sI decided to leave **%2$s** because I was left all alone :("
       },
