@@ -188,7 +188,7 @@ public class AutoRoleOptions extends OptionHandler {
                 if (guildData.getAutoroles().containsKey(autorole)) {
                     categories.get(category).add(autorole);
                     dbGuild.save();
-                    ctx.sendLocalized("options.autoroles_category_add.success", EmoteReference.CORRECT, category, autorole);
+                    ctx.sendLocalized("options.autoroles_category_add.success", EmoteReference.CORRECT, autorole, category);
                 } else {
                     ctx.sendLocalized("options.autoroles_category_add.no_role", EmoteReference.ERROR, autorole);
                 }

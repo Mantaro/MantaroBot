@@ -227,9 +227,7 @@ public class MiscCmds {
 
                         if (roleString.length() > 0) {
                             fields.add(new MessageEmbed.Field(
-                                    cat,
-                                    languageContext.get("commands.iam.list.role") + " `" + roleString + "`",
-                                    false)
+                                    cat, languageContext.get("commands.iam.list.role") + roleString, false)
                             );
                         }
                     });

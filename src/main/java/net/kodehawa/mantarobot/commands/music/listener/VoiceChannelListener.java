@@ -88,6 +88,7 @@ public class VoiceChannelListener implements EventListener {
         }
 
         var scheduler = musicManager.getTrackScheduler();
+        var player = musicManager.getLavaLink().getPlayer();
         if (event.isMuted()) {
             if (scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
                 var textChannel = scheduler.getRequestedTextChannel();
@@ -99,7 +100,7 @@ public class VoiceChannelListener implements EventListener {
                     ).queue();
                 }
 
-                musicManager.getLavaLink().getPlayer().setPaused(true);
+                player.setPaused(true);
             }
         } else {
             if (voiceState.getChannel() == null) {
@@ -108,7 +109,7 @@ public class VoiceChannelListener implements EventListener {
 
             if (!isAlone(voiceState.getChannel()) && musicManager.getTrackScheduler().getCurrentTrack() != null) {
                 if (!scheduler.isPausedManually()) {
-                    musicManager.getLavaLink().getPlayer().setPaused(false);
+                    player.setPaused(false);
                 }
             }
         }

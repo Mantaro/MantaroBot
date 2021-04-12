@@ -88,7 +88,7 @@ public class MoneyCmds {
                 final var authorDBUser = ctx.getDBUser();
                 final var authorUserData = authorDBUser.getData();
 
-                if (authorPlayer.isLocked()){
+                if (authorPlayer.isLocked()) {
                     ctx.sendLocalized("commands.daily.errors.own_locked");
                     return;
                 }
@@ -97,7 +97,7 @@ public class MoneyCmds {
                 User otherUser = null;
 
                 boolean targetOther = !mentionedUsers.isEmpty();
-                if (targetOther){
+                if (targetOther) {
                     otherUser = mentionedUsers.get(0);
                     // Bot check mentioned authorDBUser
                     if (otherUser.isBot()){
@@ -142,7 +142,7 @@ public class MoneyCmds {
                     toAddMoneyTo = UnifiedPlayer.of(otherUser, ctx.getConfig().getCurrentSeason());
 
 
-                } else{
+                } else {
                     // This is here so you dont overwrite yourself....
                     authorPlayer = toAddMoneyTo.getPlayer();
                     authorPlayerData = authorPlayer.getData();
