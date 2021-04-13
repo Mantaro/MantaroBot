@@ -220,14 +220,14 @@ public class MiscCmds {
                                 if (role == null)
                                     continue;
 
-                                roleString.append("`").append(iam).append("`. Gives role: ").append(role.getName()).append(", ");
+                                roleString.append(languageContext.get("commands.iam.list.role")).append(" `").append(iam).append("`, Gives role: `").append(role.getName()).append("`\n");
                                 categorizedRoles.add(role.getId());
                             }
                         }
 
                         if (roleString.length() > 0) {
                             fields.add(new MessageEmbed.Field(
-                                    cat, languageContext.get("commands.iam.list.role") + roleString, false)
+                                    languageContext.get("commands.iam.list.category") + " " + cat,  roleString.toString(), false)
                             );
                         }
                     });

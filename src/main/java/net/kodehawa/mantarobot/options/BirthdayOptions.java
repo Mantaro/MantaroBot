@@ -182,7 +182,8 @@ public class BirthdayOptions extends OptionHandler {
                         EmoteReference.ERROR
                 );
             } catch (Exception ex) {
-                ctx.send(lang.get("general.invalid_syntax") + "\nCheck https://github.com/Mantaro/MantaroBot/wiki/Configuration for more information.");
+                ex.printStackTrace();
+                ctx.send(lang.get("general.invalid_syntax") + "\nCheck https://github.com/Mantaro/MantaroBot/wiki/Birthday-101 for more information.");
             }
         });
 

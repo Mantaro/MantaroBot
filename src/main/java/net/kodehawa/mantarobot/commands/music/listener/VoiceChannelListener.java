@@ -132,6 +132,7 @@ public class VoiceChannelListener implements EventListener {
             }
 
             var scheduler = musicManager.getTrackScheduler();
+            var player = musicManager.getLavaLink().getPlayer();
             if (musicManager.isAwaitingDeath()) {
                 if (scheduler.getCurrentTrack() != null) {
                     var channel = scheduler.getRequestedTextChannel();
@@ -151,7 +152,7 @@ public class VoiceChannelListener implements EventListener {
                 }
 
                 if (!scheduler.isPausedManually()) {
-                    musicManager.getLavaLink().getPlayer().setPaused(false);
+                    player.setPaused(false);
                 }
 
                 musicManager.cancelLeave();
@@ -176,6 +177,7 @@ public class VoiceChannelListener implements EventListener {
             }
 
             var scheduler = musicManager.getTrackScheduler();
+            var player = musicManager.getLavaLink().getPlayer();
             if (scheduler != null && scheduler.getCurrentTrack() != null && scheduler.getRequestedTextChannel() != null) {
                 var textChannel = scheduler.getRequestedTextChannel();
                 if (textChannel.canTalk() && vcRatelimiter.process(vc.getGuild().getId())) {
@@ -188,7 +190,7 @@ public class VoiceChannelListener implements EventListener {
 
             musicManager.setAwaitingDeath(true);
             musicManager.scheduleLeave();
-            musicManager.getLavaLink().getPlayer().setPaused(true);
+            player.setPaused(true);
         }
     }
 
