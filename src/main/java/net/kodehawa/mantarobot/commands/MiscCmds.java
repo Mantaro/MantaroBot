@@ -196,7 +196,6 @@ public class MiscCmds {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
-                EmbedBuilder embed;
                 List<MessageEmbed.Field> fields = new LinkedList<>();
 
                 var dbGuild = ctx.getDBGuild();
@@ -204,9 +203,14 @@ public class MiscCmds {
 
                 var autoroles = guildData.getAutoroles();
                 var autorolesCategories = guildData.getAutoroleCategories();
-                embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
+
+                var embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
                         .setDescription(languageContext.get("commands.iam.list.description") + "")
                         .setThumbnail(ctx.getGuild().getIconUrl());
+
+                var emptyEmbed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
+                        .setThumbnail(ctx.getGuild().getIconUrl())
+                        .setDescription(languageContext.get("commands.iam.list.no_autoroles"));
 
                 if (autoroles.size() > 0) {
                     var categorizedRoles = new ArrayList<>();
@@ -244,13 +248,14 @@ public class MiscCmds {
                         }
                     });
 
+                    if (fields.isEmpty()) {
+                        ctx.send(emptyEmbed.build());
+                        return;
+                    }
+
                     DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(6, fields));
                 } else {
-                    embed = baseEmbed(ctx, languageContext.get("commands.iam.list.header"))
-                            .setThumbnail(ctx.getGuild().getIconUrl())
-                            .setDescription(languageContext.get("commands.iam.list.no_autoroles"));
-
-                    ctx.send(embed.build());
+                    ctx.send(emptyEmbed.build());
                 }
             }
         });
