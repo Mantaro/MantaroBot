@@ -103,7 +103,7 @@ public class ItemCmds {
                             // It's a number
                             if (arguments[0].matches("^\\d{1,2}$")) {
                                 try {
-                                    amountSpecified = Integer.parseInt(arguments[0]);
+                                    amountSpecified = Math.max(1, Integer.parseInt(arguments[0]));
                                     content = content.replaceFirst(arguments[0], "").trim();
                                 } catch (Exception ignored) { } // This shouldn't fail?
                             }
@@ -130,10 +130,6 @@ public class ItemCmds {
 
                         if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
                             return;
-                        }
-
-                        if (multipleArg) {
-                            amountSpecified = Math.max(1, Integer.parseInt(optionalArguments.get("amount")));
                         }
 
                         var castItem = toCast.get();

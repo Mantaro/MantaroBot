@@ -20,6 +20,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.*;
 import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
@@ -48,7 +49,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
             throw new IllegalArgumentException("No subcommands registered!");
         }
 
-        Command command = subCommands.get(args[0]);
+        Command command = subCommands.get(args[0].toLowerCase());
         boolean isDefault = false;
         if (command == null) {
             command = defaultTrigger(context, commandName, content);

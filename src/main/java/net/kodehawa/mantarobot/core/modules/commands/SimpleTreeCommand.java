@@ -21,6 +21,7 @@ import net.kodehawa.mantarobot.core.modules.commands.i18n.I18nContext;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
@@ -54,8 +55,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
             throw new IllegalArgumentException("No subcommands registered!");
         }
 
-        var command= subCommands.get(args[0]);
-
+        var command= subCommands.get(args[0].toLowerCase());
         if (command == null) {
             defaultTrigger(context, commandName, args[0]);
             return;

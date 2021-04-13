@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.kodehawa.mantarobot.commands.currency.item.*;
+import net.kodehawa.mantarobot.commands.currency.item.special.gems.CastedGem;
 import net.kodehawa.mantarobot.commands.currency.item.special.gems.Gem;
 import net.kodehawa.mantarobot.commands.currency.item.special.helpers.attributes.GemType;
 import net.kodehawa.mantarobot.commands.currency.item.special.tools.Axe;
@@ -181,7 +182,15 @@ public class CurrencyActionCmds {
 
                 if (random.nextInt(400) >= gemChance) {
                     List<Item> gem = Stream.of(ItemReference.ALL)
-                            .filter(Gem.class::isInstance)
+                            .filter(g -> {
+                                if (g instanceof Gem) {
+                                    return true;
+                                } else if (g instanceof CastedGem) {
+                                    return random.nextBoolean();
+                                } else {
+                                    return false;
+                                }
+                            })
                             // Give less probabilities of getting a rock because it can get annoying (lol)
                             .filter(i -> random.nextBoolean() || i != ItemReference.ROCK)
                             .collect(Collectors.toList());
@@ -192,10 +201,16 @@ public class CurrencyActionCmds {
                     Item extraItem = null;
 
                     // Extra chance of gettting a Gem Fragment or Moon Gem in case you didn't get a Gem already.
-                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM) {
+                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM && !(selectedGem.getItem() instanceof CastedGem)) {
                         List<Item> extra = Stream.of(ItemReference.ALL)
-                                .filter(Gem.class::isInstance)
-                                .filter(i -> ((Gem) i).getType() == GemType.GEM)
+                                .filter(g -> g instanceof Gem || g instanceof CastedGem)
+                                .filter(i -> {
+                                    if (i instanceof Gem) {
+                                        return ((Gem) i).getType() == GemType.GEM;
+                                    } else {
+                                        return true;
+                                    }
+                                })
                                 .collect(Collectors.toList());
 
                         extraGem = new ItemStack(extra.get(random.nextInt(extra.size())), Math.max(1, random.nextInt(3)));
