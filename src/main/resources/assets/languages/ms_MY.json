@@ -1833,7 +1833,7 @@
   },
   "options": {
     "options": "Pilihan Mantaro",
-    "error_general": "%1$sPenggunaan yang salah atau kehilangan argumen.\nSekiranya anda tersesat atau memerlukan bantuan tentang penggunaan opts, periksa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk mendapatkan panduan tentang cara menggunakan opts. Jika anda menemui sebarang isu setelah membaca wiki, hubungi <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sTidak dapat mendapatkan nilai. Peliknya...",
       "header": "Pilihan ditetapkan untuk pelayan **%1$s**.",
