@@ -1833,7 +1833,7 @@
   },
   "options": {
     "options": "Настройки Мантаро",
-    "error_general": "%1$sНеправильное использование или пропущенные аргументы. \nЕсли вы потерялись или хотите получить помощь по использованию опций, проверьте <https://github.com/Mantaro/MantaroBot/wiki/Configuration> руководство о том, как использовать opts. Если у вас возникли проблемы после прочтения вики, перейдите на  <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sНельзя получить значения. Странная вещь...",
       "header": "Настройки установлены для сервера **%1$s**.",
