@@ -1833,7 +1833,7 @@
   },
   "options": {
     "options": "Opções da Mantaro",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sUso incorreto ou argumentos faltando. Certifique-se de que o primeiro argumento não começa com uma nova linha!\nSe estiver perdido ou querer ajuda sobre como usar opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar opts. Se você tiver algum problema depois de ler a wiki, vá para <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sNão é possível recuperar valores. Coisa esquisita...",
       "header": "Opções definidas para o servidor **%1$s**.",
