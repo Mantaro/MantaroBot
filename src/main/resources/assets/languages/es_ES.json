@@ -847,6 +847,7 @@
         "role": " | Da el rol **",
         "category": "Categoría: ",
         "header": "Lista de autoroles",
+        "role_give": "Gives role:",
         "no_autoroles": "No hay ningún autorol configurado en este servidor!",
         "description": "Estos son los roles que los usuarios se pueden asignar a si mismos en este servidor. Puedes usarlos con `~>iam <name of the role>`"
       },
