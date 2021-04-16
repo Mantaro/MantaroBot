@@ -847,6 +847,7 @@
         "role": "رتبة:",
         "category": "الفئة: ",
         "header": "قائمة الرُتب التلقائية",
+        "role_give": "Gives role:",
         "no_autoroles": "لايوجد أي إعداد للرتب التلقائية في هذا السيرفر.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
