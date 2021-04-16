@@ -847,6 +847,7 @@
         "role": "역할:",
         "category": "카테고리: ",
         "header": "자동-역할 리스트",
+        "role_give": "Gives role:",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
