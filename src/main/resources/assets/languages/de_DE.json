@@ -847,6 +847,7 @@
         "role": " | Gibt Rolle **",
         "category": "Kategorie: ",
         "header": "Autorollen Liste",
+        "role_give": "Gives role:",
         "no_autoroles": "Es gibt keine Autorollen in diesem Server!",
         "description": "Dies sind die aktuellen selbst zuweisbaren Rollen auf diesem Server. Du kannst sie über folgenden Befehl nutzen: `~>iam <Name der Rolle>`"
       },
