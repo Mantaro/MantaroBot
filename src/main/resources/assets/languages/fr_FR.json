@@ -847,6 +847,7 @@
         "role": "Rôle: ",
         "category": "Categorie: ",
         "header": "Liste des autorôles",
+        "role_give": "Gives role:",
         "no_autoroles": "Il n'y a pas d'autorôles sur ce serveur.",
         "description": "Voici les rôles auto-assignables de ce serveur. Tu peux te les attribuer en faisant `~>iam <name of the role>`"
       },
