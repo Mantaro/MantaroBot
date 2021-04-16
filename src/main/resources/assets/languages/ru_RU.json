@@ -847,6 +847,7 @@
         "role": " | Роли**",
         "category": "Категория: ",
         "header": "Список авто-выдаваемых ролей",
+        "role_give": "Gives role:",
         "no_autoroles": "На этом сервере нет настроек авто-выдачи ролей.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
