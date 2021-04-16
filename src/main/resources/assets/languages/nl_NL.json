@@ -847,6 +847,7 @@
         "role": " | Geeft rol **",
         "category": "Categorie: ",
         "header": "Autorol lijst",
+        "role_give": "Gives role:",
         "no_autoroles": "Er zijn geen autorol-instellingen in deze server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
