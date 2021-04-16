@@ -250,7 +250,7 @@ public class ItemReference {
                     20, true
             ),
 
-            POTION_HASTE = new Potion(ItemType.POTION, 3, "\uD83C\uDF76",
+            POTION_HASTE = new Potion(ItemType.POTION, 4, "\uD83C\uDF76",
                     "Haste Potion", "items.haste", "items.description.haste",
                     490, true
             ),
@@ -260,7 +260,7 @@ public class ItemReference {
                     50, true
             ),
 
-            POTION_STAMINA = new Potion(ItemType.POTION, 3, "\uD83C\uDFFA",
+            POTION_STAMINA = new Potion(ItemType.POTION, 4, "\uD83C\uDFFA",
                     "Energy Beverage", "items.energy", "items.description.energy",
                     450, true
             ),
