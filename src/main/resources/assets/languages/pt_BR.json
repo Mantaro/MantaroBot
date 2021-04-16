@@ -39,14 +39,6 @@
       "mop": "%1$sVocê limpou todas as poeiras que você tinha acumulado sobre todas as sessões de mineração.",
       "mop_not_enough": "%1$sSeu nível de poeira é 5%%, então limpar não será muito útil.",
       "milk": "%1$sEfeitos de poção removidos.",
-      "stamina": "%1$sEstâmina ativada para 5 sessões de mineração.",
-      "stamina_used": "%1$sVocê já tem um efeito de estâmina usado!",
-      "haste": "%1$sPressa ativada por 2 sessões.",
-      "haste_used": "%1$sVocê já tem um efeito de pressa ativado!",
-      "bait": "%1$sVocê inseriu uma isca na sua vara de pesca! Boa sorte na pesca. (Ativado por 1 uso)",
-      "bait_used": "%1$sVocê já tem uma isca de pesca ativa!",
-      "pill": "%1$sVocê tomou uma pílula de waifu! (Ativada por 5 sessões)",
-      "pill_used": "%1$sVocê já tem uma pílula de waifu ativa!",
       "crate": {
         "no_key": "%1$sVocê precisa de uma chave do baú pra abrir um baú. Está fechado! Você pode comprar um usando `~>buy key`",
         "no_crate": "%1$sVocê precisa de um baú! Você geralmente ganha baús dos comandos de moeda.",
@@ -278,6 +270,7 @@
       "listener": {
         "paused": "%1$sPausando o player porque eu fui mutada :(",
         "resumed": "%1$sVoltando a tocar porque alguém entrou!",
+        "not_resumed": "%1$sAlguém entrou, mas eu não retomei a reprodução porque fui pausada manualmente! Use `~>resume` para manualmente retomar a reprodução.",
         "left_alone": "%1$sIrei sair do **%2$s** em 2 minutos porque fiquei sozinha :(",
         "leave": "%1$sEu decidi sair do **%2$s** porque eu fiquei sozinha :("
       },
@@ -286,6 +279,7 @@
         "loaded_playlist": "%1$sAdicionado **%2$d músicas** na fila da playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sA pesquisa não teve resultados. Se isso aparecer para *todas as músicas* que você tenta procurar, você pode usar `~>play soundcloud <termo de pesquisa>` em vez disso no entretanto. Links diretos para o youtube devem funcionar também.",
         "error_loading": "%1$sErro ao buscar música: %2$s. Talvez tente novamente ou tente outro link?",
+        "unknown_error_loading": "%1$sErro desconhecido ao buscar música. Talvez tente novamente ou tente com outro link?",
         "over_queue_limit": "%1$s**Não foi possível coloar na fila `%2$s`: Limite de músicas na fila ultrapassado (%3$s)**",
         "over_32_minutes": "%1$s**Não foi possível colocar na fila `%2$s`: A música é maior que %3$s.** (Tamanho de músicas suportadas é %4$s).\nVocê pode ganhar uma maior duração de música e playback de livestream com Mantaro Premium!\nCheque <https://patreon.com/mantaro> para mais informações.",
         "fair_queue_limit_reached": "%1$s**Ultrapassou o nível da fila de %2$d (Muitas músicas que são exatamente iguais)**",
@@ -853,6 +847,7 @@
         "role": " | Dar cargos **",
         "category": "Categoria: ",
         "header": "Lista de cargos automáticos",
+        "role_give": "Gives role:",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
         "description": "Esses são os cargos automáticos que os usuários podem ter neste servidor. Você pode usar eles fazendo `~>iam <name of the role>`"
       },
@@ -1340,7 +1335,8 @@
       "rating": "Avaliação",
       "load_notice": "Se a imagem não carrega, clica no título.",
       "rule34_notice": "Se você não gosta do conteúdo deste comando, você pode usar `~>yandere`. Se gifs/webm animados não tocar, clique no link no título da embed.",
-      "yandere_nsfw_notice": "%1$sO Comando Yande.re só pode ser usado em canal NSFW devido a inúmeros relatos dele enviando imagens explícitas que estão marcados como seguros ao seu lado.\nVocê pode tentar usar `~>konachan` ao invés disso!",
+      "yandere_nsfw_notice": "%1$sOs comandos de Yande.re e Gelbooru só podem ser usados em canais NSFW devido a inúmeros relatos de envio de imagens explícitas que estavam marcadas como segura ao lado. Use esse comando em um canal NSFW ao invés disso.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru e safebooru só podem ser usados em canais NSFW devido à classificação inconsistentes ao seu lado. Use esse comando em um canal NSFW ao invés disso (você pode deixar um canal assim nas configurações de canal).",
       "e621_nsfw_notice": "%1$sO comando e621 só pode ser usado em canais NSFW.",
       "e926_nsfw_notice": "%1$sO comando e926 só pode ser usado em canais NSFW. As imagens devem ser geralmente de boas, mas a classificação é inconsistente."
     },
@@ -1838,7 +1834,7 @@
   },
   "options": {
     "options": "Opções da Mantaro",
-    "error_general": "%1$sUso incorreto ou argumentos ausentes.\nSe você está perdido ou quer ajuda para usar as opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar o opts. Se você tiver algum problema depois de ler a wiki, vá até <https://support.mantaro.site>",
+    "error_general": "%1$sUso incorreto ou argumentos faltando. Certifique-se de que o primeiro argumento não começa com uma nova linha!\nSe estiver perdido ou querer ajuda sobre como usar opts, cheque <https://github.com/Mantaro/MantaroBot/wiki/Configuration> para um guia de como usar opts. Se você tiver algum problema depois de ler a wiki, vá para <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sNão é possível recuperar valores. Coisa esquisita...",
       "header": "Opções definidas para o servidor **%1$s**.",
@@ -2469,7 +2465,7 @@
       "comet_rod": "Depois de testar os Fragmentos de Cometa em seu machado, você também percebeu que podia usá-los em sua vara. Isso torna ela mais forte e parece que atrai mais peixes para ela. Tudo que você poderia desejar.",
       "star_rod": "O brilho hipnotizante e brilhante deste fragmento não poderia ser esquecido. Você o fundiu com sua vara, e os peixes passaram por ele! Parece que uma isca não necessária o tempo todo, mas ainda é útil.",
       "moon_rod": "Você ainda está impressionado com a forma como esta gema flutua sozinha. Independentemente disso, você funde ele com o fio de sua vara da melhor maneira possível. Parece um pouco mais forte que um Fragmento de Estrela, mas não muito.\nDe qualquer forma, você aprecia o brilho dele como se fosse o primeiro dia que você o vê.",
-      "sparkle_rod": "Um toque de brilho aqui, um toque de brilho ali\nVocê pulverizou os Fragmentos Brilhantes e cobriu o fio de sua vara de pesca com eles.\nVocê parece confuso. Como isso pode atrair peixes?\nO mundo tem muitos mistérios, e este é um deles. Talvez ajude você a conseguir mais moedas. Talvez isso possa lhe trazer satisfação.\nO brilho que deixa no mar é incrível, e você encara ele por horas até acabar. Talvez você tenha feito a escolha certa.",
+      "sparkle_rod": "Um toque de brilho aqui, um toque de brilho ali\nVocê pulverizou os Fragmentos Brilhantes e cobriu o fio de sua vara de pesca com eles.\nVocê parece confuso. Como isso pode atrair peixes?\nO mundo tem muitos mistérios, e este é um deles. Talvez ajude você a conseguir mais créditos. Talvez isso possa lhe trazer satisfação.\nO brilho que deixa no mar é incrível, e você encara ele por horas até acabar. Talvez você tenha feito a escolha certa.",
       "hellfire_rod": "As reações entre todos os elementos podem ser um processo estranho e perigoso.\nVocê já dominou os elementos, e fundi-los com sua vara de pesca agora parecia trivial. Talvez seja o brilho, talvez fosse o fogo, mas você tinha que fazer isso.\nIsso faz maravilhas. Os peixes vêm em cardumes pra você. Nada pode se comparar. Mas você ainda está se perguntando se realmente fez a coisa certa.",
       "wrench": "Uma chave inglesa comum que você pode comprar no mercado. Útil para reparar itens.",
       "comet_wrench": "Uma Chave Inglesa infundida com pedaços de Gemas de Cometas. De alguma forma, parece mais resistente.",

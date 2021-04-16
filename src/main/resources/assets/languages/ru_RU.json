@@ -39,14 +39,6 @@
       "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
       "mop_not_enough": "%1$sYour dust level is less than 5%%, so mopping wouldn't be too useful.",
       "milk": "%1$sCleared all potion effects.",
-      "stamina": "%1$sАктивирована выносливость на 3 сессии добычи полезных ископаемых.",
-      "stamina_used": "%1$sУ вас уже активировано зелье выносливости!",
-      "haste": "%1$sАктивирует ускорение на 2 действия.",
-      "haste_used": "%1$sВы активировали зелье ускорения!",
-      "bait": "%1$sНаживка на крючке, удачной рыбалки! (Активно на 1 использование)",
-      "bait_used": "%1$sУ вас уже активирована приманка!",
-      "pill": "%1$sВы использовали пилюлю вайфу! (Активно на 5 действий)",
-      "pill_used": "%1$sВы уже активировали пилюлю вайфу!",
       "crate": {
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
@@ -278,6 +270,7 @@
       "listener": {
         "paused": "%1$sВоспроизведение приостановлено, я получил мут :(",
         "resumed": "%1$sПродолжаю воспроизведение т.к. кто-то подключился к каналу!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sЯ покинул канал **%2$s** ведь я был совсем один 2 минуты :(",
         "leave": "%1$sВоспроизведение приостановлено **%2$s** ведь я остался один :("
       },
@@ -286,6 +279,7 @@
         "loaded_playlist": "%1$sДобавлено **%2$d треков** в очередь данного плейлиста: **%3$s** *(%4$s)*",
         "no_matches": "%1$sПоиск не дал результатов. Если такое происходит со *всеми треками* вы можете попробовать использовать поиск `~>play soundcloud <название>`. Прямые ссылки на youtube тоже должны работать.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
         "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
         "fair_queue_limit_reached": "%1$s**Превышен уровень очереди %2$d (Слишком много однотипных треков)**",
@@ -853,6 +847,7 @@
         "role": " | Роли**",
         "category": "Категория: ",
         "header": "Список авто-выдаваемых ролей",
+        "role_give": "Gives role:",
         "no_autoroles": "На этом сервере нет настроек авто-выдачи ролей.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
@@ -1340,7 +1335,8 @@
       "rating": "Rating",
       "load_notice": "Если изображение не загрузилось, то кликните на название.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
-      "yandere_nsfw_notice": "%1$sКоманду yandere можно использовать только в NSFW каналах, так как многочисленные сообщения об отправке откровенных изображений, помеченных как безопасные с их стороны.\nВы можете попробоваться `~>konachan` вместо этого!",
+      "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
@@ -1838,7 +1834,7 @@
   },
   "options": {
     "options": "Настройки Мантаро",
-    "error_general": "%1$sНеправильное использование или пропущенные аргументы. \nЕсли вы потерялись или хотите получить помощь по использованию опций, проверьте <https://github.com/Mantaro/MantaroBot/wiki/Configuration> руководство о том, как использовать opts. Если у вас возникли проблемы после прочтения вики, перейдите на  <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sНельзя получить значения. Странная вещь...",
       "header": "Настройки установлены для сервера **%1$s**.",
@@ -2469,7 +2465,7 @@
       "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
       "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
       "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
-      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
+      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more credits. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
       "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
       "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
       "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",

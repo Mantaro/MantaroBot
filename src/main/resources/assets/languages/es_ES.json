@@ -39,14 +39,6 @@
       "mop": "%1$sHas limpiado todo el polvo que se ha acumulado en todos esas sesiones de minería.",
       "mop_not_enough": "%1$sEl nivel de polvo es menor a 5%%, no creo que fregar sea útil.",
       "milk": "%1$sTodos los efectos de poción han sido removidos.",
-      "stamina": "%1$sActivada poción de stamina por 5 sesiones de mine.",
-      "stamina_used": "%1$s¡Ya tienes un efecto de energía activado!",
-      "haste": "%1$sPrisa activado por 2 minutos.",
-      "haste_used": "%1$s¡Ya tienes el efecto de apuro activado!",
-      "bait": "%1$sInsertaste un cebo de pezca en tu caña de pescar. Suerte pezcando (Activada por 1 uso)",
-      "bait_used": "%1$s¡Ya tienes un cebo de pesca activo!",
-      "pill": "%1$s¡Tomaste una pastilla de waifu! (Activada por 5 sesiones)",
-      "pill_used": "%1$s¡Ya tienes una pastilla de waifu activada!",
       "crate": {
         "no_key": "%1$sNecesitas una crate key para abrir una crate. Puedes comprar una usando `~>buy key`",
         "no_crate": "%1$sNecesitas una crate! Normalmente se consiguen usando comandos de economía.",
@@ -154,9 +146,9 @@
         "success": "%1$sSe equipó una **%2$s** automáticamente en tu slot de pesca."
       },
       "overflow": "%1$sEncontraste unos pescados, pero tu inventario está lleno, asi que no pudiste recogerlos y los devolviste al agua.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sMientras pescabas con tranquilidad, encuentras %2$s usando un *%3$s* y seguidamente los guardas en tu cubo.",
+      "success_money": "%1$sMientras pescas con tranquilidad, encuentras %2$s y **$%3$,d créditos** usando un *%4$s* y seguidamente los guardas en tu cubo.%5$s",
+      "success_money_noitem": "%1$sMientras pescas con tranquilidad, encuentras **$%2$,d créditos** usando un *%3$s* y procedes a guardarlos en tu bolsillo.",
       "rod_broke": "%1$sTu caña de pescar se ha roto mientras intentabas atrapar un pez :(",
       "waifu_help": "Tu waifu te vino a ayudar en tu aventura de pesca y ambos colectan más loot!",
       "not_suitable": "%1$sNo puedes usar esto para pescar.",
@@ -278,6 +270,7 @@
       "listener": {
         "paused": "%1$sPausando el reproductor porque me mutearon :(",
         "resumed": "%1$sResumiendo el reproductor de música!",
+        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
         "left_alone": "%1$sSaldré del canal **%2$s** en dos minutos porque me dejaron solita :(",
         "leave": "%1$sDecidí salir del canal **%2$s** porque me dejaron solita :("
       },
@@ -286,6 +279,7 @@
         "loaded_playlist": "%1$sAñadidas **%2$d canciones** a la cola en la lista de reproducción: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa búsqueda no arrojó resultados. Si esto aparece para *todas las canciones* que intentas buscar, podrías intentar usar `~>play soundcloud <término de busqueda>` en su lugar. Links directos de youtube y soundcloud deberían funcionar también.",
         "error_loading": "%1$sHubo un error buscando música: %2$s. Intenta denuevo o prueba otro link?",
+        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s**No lo he podido poner en la cola `%2$s`: El límite de canciones en cola ha sido sobrepasado (%3$s)**",
         "over_32_minutes": "%1$s**No lo he podido poner en cola `%2$s`: Audio mayor a %3$s.** (Longitud de canción reportada es de %4$s). ¡Puedes obtener una extensión de audio y reproducción en directo con Mantaro Premium! Mira <https://patreon.com/mantaro> para mas información.",
         "fair_queue_limit_reached": "%1$s**Sobrepasado el nivel de fair queue para %2$d (Muchas canciones que son exactamente iguales)**",
@@ -475,7 +469,7 @@
       },
       "rename": {
         "success": "%1$sRenombrado comando `%2$s` a `%3$s`!",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sDebes especificar el comando que deseas renombrar y el nuevo nombre."
       },
       "add": {
         "no_command": "%1$sNecesitas especificar qué comando quieres añadir.",
@@ -514,7 +508,7 @@
       "no_users": "%1$sNecesito que me digas a quien mutear.",
       "no_manage_roles": "%1$sNo tengo permiso para administrar roles en este servidor",
       "time_not_specified": "%1$s¡Especificaste el parametro para agregar tiempo pero no pusiste por cuanto!",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `~>mute 20m @mention reason goes here`, for example.",
+      "time_not_specified_generic": "%1$sNo has especificado ningún tiempo. Si quieres silenciar por 20 minutos deberías decir `~>mute 20m @mención la razón aquí`, por ejemplo.",
       "negative_time_notice": "%1$sNo creo que sea posible mutear a alguien por tiempo negativo...",
       "default_time_too_long": "%1$sEl tiempo de muteo por defecto es muy largo (Máximo: 10 días)...",
       "time_too_little": "%1$sLa duración por defecto del muteo es menos de 10 segundos.\n¿Estas seguro/a de que usaste el formato correcto? Para 20 minutos, usa 20m, para 1 hora, usa 1h, o cualquier combinación de ambos (1h45m), por ejemplo.",
@@ -522,8 +516,8 @@
       "already_muted": "%1$sEste usuario ya está muteado. Ejecuta `~>unmute` para des-mutearlo.",
       "self_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que yo, o el rol está en una jerarquía mas alta que mi rol más importante!",
       "user_hierarchy_error": "%1$sNo puedo asignar el rol de muteo a este usuario porque está en una jerarquía mas alta que tú, o el rol está en una jerarquía mas alta que tu rol más importante!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
-      "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
+      "success": "%1$sHe añadido el rol de silenciamiento a **%2$s** por %3$s",
+      "success_reason": "%1$sHe añadido el rol de silenciamiento a **%2$s** por %3$s debido a la siguiente razón: %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sNecesitas tener el permiso para expulsar o banear miembros para poder des-mutear!",
@@ -570,11 +564,11 @@
         "empty": "%1$sNo puedes dejar la carta de amor vacía.",
         "no_marriage": "%1$sNo estás casado/a, y no puedes escribirte una carta de amor a ti mismo...",
         "not_proposing_player": "%1$s¡No eres el jugador que propuso este casamiento!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sEste matrimonio ya tiene una carta de amor asignada. Revísala diciendo `~>marry status`",
         "too_long": "%1$sEsta carta de amor es muy larga (500 carácteres máximo)",
         "cannot_see": "%1$sNo puedo encontrar al usuario con el que estás casado/a... Probablemente no está en ningun servidor donde me encuentro.",
         "confirmation": "%1$sEstás *seguro* que quieres escribir esta carta de amor para tu casamiento con **%2$s#%3$s**? Esto es PERMANENTE mientras el casamiento esté en pie. *Contenido de la carta:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$s¡He entregado la carta de amor a tu persona amada exitosamente! Revísala diciendo `~>marry status`",
         "scrapped": "%1$sAún tienes tiempo para pensar en que escribirle, no es necesario apurarse :)"
       },
       "status": {
@@ -625,7 +619,7 @@
       "ring_check_fail": "%1$sNo puedes casarte con menos de dos anillos en tu inventario!",
       "accepted": "%1$s**%2$s#%3$s** ha aceptado la proposición de %4$s#%5$s!",
       "denied": "%1$sLa proposición de `%2$s` fue negada :(",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "¿Por qué querrías casarte tan desesperadamente?"
     },
     "divorce": {
       "confirm": "%1$s¿Seguro que quieres acabar con este matrimonio? El dinero gastado en mascotas, carros y casas, será dividido en dos. Escribe `yes` (si) para confirmar o `no` (no) para cancelar. **Tu mascota desaparecerá, ya que es parte del casamiento**",
@@ -693,7 +687,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDame una waifu para puntuar!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sPuntúo a tu waifu con un **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sConseguiste **%2$d**%3$s",
@@ -804,8 +798,8 @@
       "no_item_mention": "%1$sNecesitas especificar a quién transferirle el ítem y el ítem que deseas transferirle."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sTu cuenta debe tener al menos 14 días de existencia para transferir dinero.",
+      "new_account_notice_other": "%1$sLa cuenta a la que intentas transferir dinero tiene menos de 14 días de existencia.",
       "transfer_yourself_note": "%1$sNo puedes transferirte créditos a ti mismo.",
       "bot_notice": "%1$sNo puedes transferirle créditos a un bot.",
       "no_amount": "%1$sNecesitas especificar el monto. Usa el comando `transferitems` si quieres transferir ítems.",
@@ -853,6 +847,7 @@
         "role": " | Da el rol **",
         "category": "Categoría: ",
         "header": "Lista de autoroles",
+        "role_give": "Gives role:",
         "no_autoroles": "No hay ningún autorol configurado en este servidor!",
         "description": "Estos son los roles que los usuarios se pueden asignar a si mismos en este servidor. Puedes usarlos con `~>iam <name of the role>`"
       },
@@ -924,8 +919,8 @@
         "disabled": "%1$sAcciones inhabilitadas para que no se realicen hacia tí."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Mascota Activa",
+        "none": "No hay mascotas activas"
       },
       "stats": {
         "header": "Estadísticas del perfil para %1$s",
@@ -1041,7 +1036,7 @@
       "footer": "Los trofeos son logros que obtienes usando el bot o progresando en el juego de Mantaro."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sLa edad de la cuenta (Tiempo desde que la cuenta de Discord fue creada) para dar o recibir rep debe ser de mas de 30 días. Inténtalo más tarde.",
       "no_mentions": "%1$sNecesitas mencionar o escribir el nombre de un usuario.\n%2$s",
       "more_than_one": "%1$sSolo puedes darle reputación a una persona",
       "rep_bot": "%1$sNo puedes darle reputación a un bot.\n%2$s",
@@ -1340,7 +1335,8 @@
       "rating": "Rating",
       "load_notice": "Si la imagen no carga, clickea el título.",
       "rule34_notice": "Si no te gusta el contenido de este comando, puedes usar `~>yandere`. Si los gifs/webm no se reproducen, clickea el link en el embed.",
-      "yandere_nsfw_notice": "%1$sEl comando de Yande.re solo puede ser usado en canales NSFW debido a numerosos reportes de este enviando imagenes sugerentes cuando se pedian imagenes no sugerentes.\nPuedes intentar usar `~>konachan` como reemplazo.",
+      "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sEl comando e621 solo puede ser usado en canales NSFW.",
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
@@ -1838,7 +1834,7 @@
   },
   "options": {
     "options": "Configuraciones de Mantaro",
-    "error_general": "%1$sUso incorrecto o faltan argumentos.\nSi estás perdido o necesitas ayuda usando opts, revisa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> (en inglés) para una guía sobre como usar opts. Si tienes algun problema luego de leer la wiki, anda a <https://support.mantaro.site>",
+    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sDatos no encontrados. Que raro...",
       "header": "Configuraciones para este servidor **%1$s**",
@@ -2469,7 +2465,7 @@
       "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
       "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
       "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
-      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more coins. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
+      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more credits. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
       "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
       "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
       "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
@@ -2567,15 +2563,15 @@
       "incubator_egg": "The one catalyst you need to call your personal pet home.",
       "water_bottle": "An item that magically heals your pet's thirst.",
       "magic_watch": "Un reloj mágico que ralentiza el tiempo cuando lo necesitas. ¡Esto será consumido automáticamente para salvar tu racha diaria!",
-      "pet_house": "A house where your pet lives. Maybe. Sometimes they just like to flop outside.",
-      "steak": "Very yummy if you're not vegetarian.",
-      "chicken": "Very yummy if you're not vegetarian, but it comes from a chicken instead.",
-      "milk_3": "Very good food for cats, I've heard.",
-      "dog_food": "Food your dog might like a lot. Or they might like bread more, like mines.",
-      "cat_food": "Food your cat might like a lot.",
-      "hamster_food": "Food your hamster might enjoy.",
-      "wood": "Common drop from trees. Useful for casting.",
-      "moon_pick": "A very much stronger pick.",
+      "pet_house": "Una casa en la que tu perro vive. Tal vez. A veces solo les gusta descansar afuera.",
+      "steak": "Muy rico si no eres vegetariano.",
+      "chicken": "Very yummy if you're not vegetarian, pero en cambio viene de un pollo.",
+      "milk_3": "Muy bueno para los gatos, según lo que escuché.",
+      "dog_food": "Comida que a tu perro tal vez le encante. O también le puede gustar más el pan, como los míos.",
+      "cat_food": "Comida que a tu gato le podría encantar.",
+      "hamster_food": "Comida que tu hamster podría disfrutar.",
+      "wood": "Algo común que cae de los arboles. Útil para fundir.",
+      "moon_pick": "Una picota mucho más fuerte.",
       "hellfire_pick": "Way too OP pick.",
       "axe": "A normal, middle-of-the-road axe.",
       "comet_axe": "A stronger axe.",

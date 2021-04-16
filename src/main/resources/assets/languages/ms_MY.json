@@ -39,14 +39,6 @@
       "mop": "%1$sAnda telah membersihkan semua habuk yang telah anda kumpulkan sepanjang semua sesi perlombongan anda.",
       "mop_not_enough": "%1$sTahap habuk anda kurang dari 5%%, jadi menggunakan mop tidak akan terlalu berguna.",
       "milk": "%1$sSemua kesan ramuan telah dihilangkan.",
-      "stamina": "%1$sStamina diaktifkan untuk 3 sesi perlombongan.",
-      "stamina_used": "%1$sAnda sudah mempunyai kesan stamina yang aktif!",
-      "haste": "%1$sHaste diaktifkan untuk 2 sesi.",
-      "haste_used": "%1$sAnda sudah mempunyai kesan haste yang aktif!",
-      "bait": "%1$sTelah memasukkan umpan di dalam joran anda! Semoga berjaya memancing. (Diaktifkan untuk 1 penggunaan)",
-      "bait_used": "%1$sAnda sudah mempunyai umpan memancing yang aktif!",
-      "pill": "%1$sAnda minum pil waifu! (Diaktifkan selama 5 sesi)",
-      "pill_used": "%1$sAnda sudah mempunyai pil waifu yang aktif!",
       "crate": {
         "no_key": "%1$sAnda memerlukan sebentuk kunci peti untuk membuka sebuah peti. Ia terkunci! Anda boleh membelinya menggunakan `~>buy key`",
         "no_crate": "%1$sAnda memerlukan sebuah peti! Anda biasanya mendapatkan peti melalui arahan mata wang.",
@@ -278,6 +270,7 @@
       "listener": {
         "paused": "%1$sPemain sedang dihentikan kerana saya dibisukan :(",
         "resumed": "%1$sPlayback dilanjutkan kerana ada yang baru tersambung!",
+        "not_resumed": "%1$sAda yang baru tersambung, tetapi saya tidak melanjutkan playback kerana saya dihentikan secara manual! Gunakan `~>resume` untuk melanjutkan playback secara manual.",
         "left_alone": "%1$sSaya akan tinggalkan **%2$s** dalam tempoh dua minit kerana saya ditinggalkan sendirian :(",
         "leave": "%1$sSaya memutuskan untuk tinggalkan **%2$s** kerana saya ditinggalkan sendirian :("
       },
@@ -286,6 +279,7 @@
         "loaded_playlist": "%1$s**%2$d buah lagu** telah ditambah ke antrian playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sCarian ini tidak mendapatkan hasil. Sekiranya ini muncul untuk *semua lagu* yang anda cuba mencari, cubalah gunakan `~>play soundcloud <istilah carian>` sementaranya. Pautan langsung dari youtube juga semestinya berjalan.",
         "error_loading": "%1$sRalat semasa mendapatkan muzik: %2$s. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
+        "unknown_error_loading": "%1$sRalat tidak diketahui semasa mendapatkan muzik. Mungkin anda boleh cuba sekali lagi atau mencuba pautan yang lain?",
         "over_queue_limit": "%1$s**Tidak dapat mengantri `%2$s`: Melepasi had lagu antrian (%3$s)**",
         "over_32_minutes": "%1$s**Tidak dapat mengantri `%2$s`: Trek ini melebihi %3$s.** (Tempoh lagu yang dilaporkan ialah %4$s). Anda boleh mendapatkan had tempoh trek yang lebih panjang dan playback siaran langsung dengan Mantaro Premium! Baca lebih lanjut di <https://patreon.com/mantaro>.",
         "fair_queue_limit_reached": "%1$s**Melebihi tahap antrian adil %2$d (Terlalu banyak lagu yang sama)**",
@@ -853,6 +847,7 @@
         "role": "Peranan:",
         "category": "Kategori: ",
         "header": "Senarai peranan automatik",
+        "role_give": "Gives role:",
         "no_autoroles": "Tiada peranan automatik yang ditetapkan di pelayan ini.",
         "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <nama peranan>`"
       },
@@ -1340,7 +1335,8 @@
       "rating": "Penilaian",
       "load_notice": "Sekiranya imej tidak dimuat, tekan tajuk.",
       "rule34_notice": "Sekiranya anda tidak menyukai kandungan pada arahan ini, anda boleh menggunakan `~>yandere`. Jika gif animasi /kandungan webm tidak berjalan, tekan pautan dalam tajuk embed.",
-      "yandere_nsfw_notice": "%1$sArahan Yande.re dan Gelbooru hanya boleh digunakan dalam saluran NSFW disebabkan sebilangan laporan bahawa ia menghantar imej eksplisit yang ditandai selamat.\nAnda boleh cuba menggunakan `~>konachan` sebagai gantinya!",
+      "yandere_nsfw_notice": "%1$sArahan Yande.re dan Gelbooru hanya boleh digunakan dalam saluran NSFW disebabkan sebilangan laporan bahawa ia menghantar imej eksplisit yang ditandai selamat. Jadi, sila gunakan arahan ini dalam saluran NSFW.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru hanya boleh digunakan dalam saluran NSFW disebabkan penilaiannya yang tidak konsisten. Jadi, sila gunakan arahan ini dalam saluran NSFW (anda boleh menanda sesebuah saluran sebagai NSFW pada tetapan saluran tersebut).",
       "e621_nsfw_notice": "%1$sArahan e621 hanya boleh digunakan di saluran NSFW.",
       "e926_nsfw_notice": "%1$sArahan e926 hanya boleh digunakan pada saluran NSFW. Sebilangan besar gambarnya sebenarnya selamat, tetapi penilaiannya tidak konsisten."
     },
@@ -1838,7 +1834,7 @@
   },
   "options": {
     "options": "Pilihan Mantaro",
-    "error_general": "%1$sPenggunaan yang salah atau kehilangan argumen.\nSekiranya anda tersesat atau memerlukan bantuan tentang penggunaan opts, periksa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk mendapatkan panduan tentang cara menggunakan opts. Jika anda menemui sebarang isu setelah membaca wiki, hubungi <https://support.mantaro.site>",
+    "error_general": "%1$sPenggunaan yang salah atau kehilangan argumen. Pastikan bahawa argumen pertama tidak bermula dengan baris yang baharu!\nSekiranya anda tersesat atau memerlukan bantuan tentang penggunaan opts, periksa <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk mendapatkan panduan tentang cara menggunakan opts. Jika anda menemui sebarang isu setelah membaca wiki, hubungi <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sTidak dapat mendapatkan nilai. Peliknya...",
       "header": "Pilihan ditetapkan untuk pelayan **%1$s**.",
@@ -2469,7 +2465,7 @@
       "comet_rod": "Setelah menguji Serpihan Komet pada kapak anda, anda juga menyedari bahawa anda boleh menggunakannya pada joran anda. Ia menjadikan talinya lebih kuat, dan nampaknya ia menarik lebih banyak ikan. Semua yang anda mahukan.",
       "star_rod": "Cahaya serpihan yang terang ini sangat mempesonakan. Anda menyatukan serpihan itu dengan joran anda, dan ikan terus mengelilinginya! Rasanya umpan tidak lagi diperlukan tiap-tiap kali, tetapi ia masih berguna.",
       "moon_rod": "Anda masih terpesona dengan keupayaan permata ini yang boleh terapung sendiri. Tidak kesah, anda menyatukan permata itu dengan joran anda sebaik mungkin. Nampaknya ia lebih kuat daripada joran yang disatukan dengan Serpihan Bintang, tetapi bezanya tidak besar.\nWalaubagaimanapun, anda masih kagum dengan kilauannya seperti hari pertama anda menjumpainya.",
-      "sparkle_rod": "Sedikit kilauan di sini, sedikit kilauan di situ!\nAnda mencairkan Serpihan Berkilau dan melapisi tali joran anda dengannya. Anda tertanya-tanya. Bagaimanakah joran ini boleh menarik ikan? Terdapat banyak misteri di dunia, dan inilah salah satunya. Mungkin ia dapat membawa hasil yang lebih besar. Mungkin ia dapat memuaskan hati anda.\nKilauan di lautan yang ditinggalkannya indah sekali, dan anda menikmati keindahannya berjam-jam. Mungkinlah anda telah melakukan perkara yang betul akhirnya.",
+      "sparkle_rod": "Sedikit kilauan di sini, sedikit kilauan di situ!\nAnda mencairkan Serpihan Berkilau dan melapisi tali joran anda dengannya.\nAnda tertanya-tanya. Bagaimanakah joran ini boleh menarik ikan?\nTerdapat banyak misteri di dunia, dan inilah salah satunya. Mungkin ia dapat membawa hasil yang lebih besar. Mungkin ia dapat memuaskan hati anda.\nKilauan di lautan yang ditinggalkannya indah sekali, dan anda menikmati keindahannya berjam-jam. Mungkinlah anda telah melakukan perkara yang betul akhirnya.",
       "hellfire_rod": "Reaksi antara semua elemen boleh menjadi proses yang pelik dan berbahaya.\nAnda sudah menguasai semua elemen, dan penyatuan elemen-elemen tersebut dengan joran anda kini menjadi mudah. Mungkin kilauannya, mungkin apinya, tetapi anda terpaksa melakukannya.\nFungsinya begitu efisien. Ikan-ikan berkumpul di sekeliling joran anda. Tiada apa-apa yang dapat dibandingkan. Tetapi anda masih tertanya-tanya sama ada anda betul-betul melakukan perkara yang betul.",
       "wrench": "Perengkuh biasa yang dibeli dari pasar. Berguna untuk membaiki item.",
       "comet_wrench": "Perengkuh yang disuntik dengan kepingan Permata Komet. Entah kenapa, rasanya perengkuh ini lebih kuat.",
