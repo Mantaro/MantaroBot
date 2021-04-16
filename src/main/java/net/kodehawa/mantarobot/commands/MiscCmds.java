@@ -224,7 +224,15 @@ public class MiscCmds {
                                 if (role == null)
                                     continue;
 
-                                roleString.append(languageContext.get("commands.iam.list.role")).append(" `").append(iam).append("`, Gives role: `").append(role.getName()).append("`\n");
+                                // Päin
+                                roleString.append(languageContext.get("commands.iam.list.role")).append(" `")
+                                        .append(iam)
+                                        .append("`, ")
+                                        .append(languageContext.get("commands.iam.list.role_give"))
+                                        .append(" `")
+                                        .append(role.getName())
+                                        .append("`\n");
+
                                 categorizedRoles.add(role.getId());
                             }
                         }

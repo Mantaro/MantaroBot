@@ -55,7 +55,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
             throw new IllegalArgumentException("No subcommands registered!");
         }
 
-        var command= subCommands.get(args[0].toLowerCase());
+        var command = subCommands.get(args[0].toLowerCase());
         if (command == null) {
             defaultTrigger(context, commandName, args[0]);
             return;
