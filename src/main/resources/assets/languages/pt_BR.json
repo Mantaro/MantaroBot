@@ -847,6 +847,7 @@
         "role": " | Dar cargos **",
         "category": "Categoria: ",
         "header": "Lista de cargos automáticos",
+        "role_give": "Gives role:",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
         "description": "Esses são os cargos automáticos que os usuários podem ter neste servidor. Você pode usar eles fazendo `~>iam <name of the role>`"
       },
