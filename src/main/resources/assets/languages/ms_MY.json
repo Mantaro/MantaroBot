@@ -847,6 +847,7 @@
         "role": "Peranan:",
         "category": "Kategori: ",
         "header": "Senarai peranan automatik",
+        "role_give": "Gives role:",
         "no_autoroles": "Tiada peranan automatik yang ditetapkan di pelayan ini.",
         "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <nama peranan>`"
       },
