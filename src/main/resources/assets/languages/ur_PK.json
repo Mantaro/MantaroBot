@@ -847,6 +847,7 @@
         "role": "کردار:",
         "category": "Category: ",
         "header": "Auto-roles list",
+        "role_give": "Gives role:",
         "no_autoroles": "There aren't any autoroles setup in this server.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
