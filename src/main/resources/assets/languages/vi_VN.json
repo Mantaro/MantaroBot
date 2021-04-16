@@ -847,6 +847,7 @@
         "role": "Vai trò:",
         "category": "Danh mục: ",
         "header": "Danh sách vai trò tự động",
+        "role_give": "Gives role:",
         "no_autoroles": "Chưa có bất ký một vai trò tự động nào trong máy chủ này.",
         "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
       },
