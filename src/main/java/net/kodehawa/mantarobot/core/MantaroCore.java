@@ -20,6 +20,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -45,6 +46,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.shard.Shard;
+import net.kodehawa.mantarobot.core.shard.discord.BotGateway;
 import net.kodehawa.mantarobot.core.shard.jda.BucketedController;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -52,6 +54,7 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.data.JsonDataManager;
 import net.kodehawa.mantarobot.utils.exporters.Metrics;
 import net.kodehawa.mantarobot.utils.external.BotListPost;
 import okhttp3.Request;
@@ -61,6 +64,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.concurrent.*;
@@ -220,7 +224,6 @@ public class MantaroCore {
                     // Don't spam on mass-prune.
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
-                    // We technically don't need it, as we don't ask for either GUILD_PRESENCES nor GUILD_EMOJIS anymore.
                     .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS, CacheFlag.ROLE_TAGS))
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
             
@@ -399,6 +402,22 @@ public class MantaroCore {
 
     public EventBus getShardEventBus() {
         return this.shardEventBus;
+    }
+
+    public BotGateway getGateway(JDA jda) throws IOException {
+        var call = Utils.httpClient.newCall(new Request.Builder()
+                .url("https://discordapp.com/api/gateway/bot")
+                .header("Authorization", jda.getToken())
+                .build()
+        ).execute();
+
+        final var body = call.body();
+        if (body == null) {
+            return null;
+        }
+
+        var json = body.string();
+        return JsonDataManager.fromJson(json, BotGateway.class);
     }
 
     private void startPostLoadProcedure(long elapsed) {
