@@ -835,11 +835,13 @@ public class ItemCmds {
                 } else {
                     if (item instanceof Tiered) {
                         ctx.sendLocalized("commands.iteminfo.success_tiered", EmoteReference.BLUE_SMALL_MARKER,
-                                item.getEmoji(), item.getName(), translatedName, type, description, ((Tiered) item).getTierStars()
+                                item.getEmoji(), item.getName(), translatedName, type, description, ((Tiered) item).getTierStars(),
+                                item.isBuyable() ? item.getValue() : 0, item.isSellable() ? Math.round(item.getValue() * 0.9) : 0
                         );
                     } else {
                         ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
-                                item.getEmoji(), item.getName(), translatedName, type, description
+                                item.getEmoji(), item.getName(), translatedName, type, description,
+                                item.isBuyable() ? item.getValue() : 0, item.isSellable() ? Math.round(item.getValue() * 0.9) : 0
                         );
                     }
                 }

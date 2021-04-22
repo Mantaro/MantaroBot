@@ -61,7 +61,6 @@ public class PremiumCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 final var db = ctx.db();
-
                 if (config.isPremiumBot()) {
                     ctx.sendLocalized("commands.activatekey.mp", EmoteReference.WARNING);
                     return;
@@ -102,7 +101,7 @@ public class PremiumCmds {
                         return;
                     }
 
-                    //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                    // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!ctx.getAuthor().getId().equals(key.getOwner())) {
                         var ownerUser = db.getUser(key.getOwner());
                         ownerUser.getData().getKeysClaimed().put(ctx.getAuthor().getId(), key.getId());
@@ -132,7 +131,7 @@ public class PremiumCmds {
                         }
                     }
 
-                    //Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
+                    // Add to keys claimed storage if it's NOT your first key (count starts at 2/2 = 1)
                     if (!ctx.getAuthor().getId().equals(key.getOwner())) {
                         var ownerUser = db.getUser(key.getOwner());
                         ownerUser.getData().getKeysClaimed().put(ctx.getAuthor().getId(), key.getId());

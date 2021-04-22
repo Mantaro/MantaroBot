@@ -467,7 +467,7 @@ public class MarketCmd {
         if (isMassive) {
             try {
                 itemNumber = Math.abs(Integer.parseInt(split));
-                itemName = itemName.replace(args[0], "").trim();
+                itemName = itemName.replaceFirst(args[0], "").trim();
             } catch (NumberFormatException e) {
                 ctx.sendLocalized("commands.market.sell.invalid", warn + EmoteReference.ERROR);
                 return;
