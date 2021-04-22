@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s telah memenangi **%3$s permainan**",
       "nothing_specified": "%1$sAnda tidak menyatakan apa-apa untuk dimainkan...",
-      "not_enough_games": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. Misalnya, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. (Permainan sah: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sAnda perlu menyatakan permainan dan bilangan kali untuk menjalankannya.",
         "invalid_times": "%1$sBilangan kali tidak sah. Ingat bahawa ia mestilah nombor bulat.",
-        "too_many_games": "%1$sAnda hanya boleh memulakan sebanyak 5 permainan yang sama jenisnya pada masa yang sama.",
         "no_character": "%1$sAnda tidak boleh menggunakan permainan watak dalam permainan berkali-kali atau lobi disebabkan had AniList API."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$sGagal menyediakan permainan untuk watak pra-simpanan: %2$s. Sekiranya ini berlaku untuk semua watak, ia mungkin ralat sementara.",
       "character_request_error": "%1$sRalat semasa memohon watak ini dari API Kitsu.",
       "character_start": "Teka watak tersebut",
-      "too_many_games": "%1$sAnda boleh memulakan maksimum 4 permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: 8)",
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
       "disabled_multiple": "%1$sPelayan ini telah mematikan permainan berkali-kali/lobi."
     },
     "opencrate": {
@@ -1823,8 +1822,8 @@
         "upgrade": "Mahu menaik tarafnya?",
         "upgrade_content": "Tekan [sini](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
-      "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s",
-      "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sBot tidak mempunyai level.",
