@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s فاز **%3$s لعبة**",
       "nothing_specified": "%1$sلم تحدد أي شيء لتلعبه.",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sتحتاج إلى تحديد اللعبة وعدد المرات المُراد لعبها.",
         "invalid_times": "%1$sعدد مرات لعب غير صحيحة. تذكر أنه يجب أن يكون عدد صحيح.",
-        "too_many_games": "%1$sيمكنك البدء ب 5 ألعاب كحد أقصى لنفس النوع من الألعاب.",
         "no_character": "%1$sلا يمكنك استخدام لعبة الأحرف في لعبة متعددة أو اللوبي بسبب قيود API AniList."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$s حدث خطأ أثناء إعداد اللعبة لشخصية محفوظة مسبقاً: %2$s. إذا حدث هذا لكل الشخصيات, قد يكون خطأ مؤقت.",
       "character_request_error": "%1$s حدث خطأ اثناء طلب الشخصية من Kitsu's API.",
       "character_start": "خمن الشخصية",
-      "too_many_games": "%1$sيمكنك بدء 4 مباريات كحد أقصى في نفس الوقت مع لوبي اللعبة. (مع البريميوم: 8)",
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
       "disabled_multiple": "%1$s هذا السيرفر قام بتعطيل اللعبة المتعددة/اللوبيات."
     },
     "opencrate": {
@@ -1823,8 +1822,8 @@
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sالبوتات لا تملك مستوى (لفل).",
