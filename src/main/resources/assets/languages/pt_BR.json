@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s ganhou **%3$s jogos**",
       "nothing_specified": "%1$sVocê não especificou nada pra jogar...",
-      "not_enough_games": "%1$sVocê precisa especificar pelo menos dois jogos. Por exemplo, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sVocê precisa especificar pelo menos dois jogos. (Jogos válidos: personagem, pokemon, número, trivia)",
       "multiple": {
         "invalid": "%1$sVocê precisa especificar o jogo e o número de vezes para executá-lo",
         "invalid_times": "%1$sNúmero inválido de vezes. Lembre-se que tem que ser um inteiro.",
-        "too_many_games": "%1$sVocê só pode iniciar no máximo 5 jogos do mesmo tipo de cada vez.",
         "no_character": "%1$sVocê não pode jogar o jogo de character múltiplas vezes devido a limitações do API do AniList."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$sRelate isso no servidor oficial por favor. Falha ao configurar o jogo para um personagem pré-gravado: %2$s",
       "character_request_error": "%1$sErro ao solicitar esse personagem no API do AniList.",
       "character_start": "Adivinhe o personagem",
-      "too_many_games": "%1$sVocê pode iniciar um máximo de 4 jogos ao mesmo tempo com o lobby de jovo. (Com Premium: 8)",
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
       "disabled_multiple": "%1$sEsse servidor tem múltiplos jogos/lobby desativado."
     },
     "opencrate": {
@@ -1823,8 +1822,8 @@
         "upgrade": "Procurando por upgrades?",
         "upgrade_content": "Clique [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) para mais informações de como melhorar suas ferramentas!"
       },
-      "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sBots não tem level.",
