@@ -365,7 +365,7 @@ public class ItemReference {
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 180, 100, 320,3,
+                    "1;2;7", 180, 100, 320, 3,
                     "items.explanation.comet_pick", 10, 48, 101
             ),
 
