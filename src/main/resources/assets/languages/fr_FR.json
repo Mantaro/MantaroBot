@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s a gagné **%3$s parties**",
       "nothing_specified": "%1$sTu n'as pas spécifié le jeu à lancer..",
-      "not_enough_games": "%1$sTu dois spécifier au moins deux jeux. Par exemple: `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sTu dois spécifier au moins deux jeux. (Jeux valides : character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
         "invalid_times": "%1$sNombre de parties à jouer invalide.",
-        "too_many_games": "%1$sTu ne peux commencer que 5 parties à la fois.",
         "no_character": "%1$sTu ne peux pas jouer à character en multijoueur ou en lobby à cause de la limitation de l'API."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$sRapporte ça sur le serveur officiel s'il te plait. Échec de mise en place du jeu pour le personnage pré-sauvegardé : %2$s",
       "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
       "character_start": "Devine le personnage",
-      "too_many_games": "%1$sTu peux démarrer 4 jeux du même type dans un lobby. (8 en étant Premium)",
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
       "disabled_multiple": "%1$sCe serveur a désactivé les commandes game multiple/lobby."
     },
     "opencrate": {
@@ -1823,8 +1822,8 @@
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sLes bots n'ont pas de niveau.",
