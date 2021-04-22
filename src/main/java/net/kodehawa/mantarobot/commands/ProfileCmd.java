@@ -881,7 +881,7 @@ public class ProfileCmd {
         cr.registerAlias("profile", "me");
     }
 
-    private String parsePlayerEquipment(PlayerEquipment equipment, I18nContext languageContext) {
+    public static String parsePlayerEquipment(PlayerEquipment equipment, I18nContext languageContext) {
         var toolsEquipment = equipment.getEquipment();
         var separator = SEPARATOR + SEPARATOR_HALF + LIST_MARKER + SEPARATOR_HALF;
 

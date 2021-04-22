@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.utils.commands.CustomFinderUtil;
 import net.kodehawa.mantarobot.utils.commands.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
+import net.kodehawa.mantarobot.utils.commands.ratelimit.RatelimitUtils;
 
 import java.awt.Color;
 import java.util.*;
@@ -571,5 +572,40 @@ public class CurrencyCmds {
         }
 
         item.getAction().test(ctx, false);
+    }
+
+    @Subscribe
+    public void tools(CommandRegistry cr) {
+        final var rateLimiter = new IncreasingRateLimiter.Builder()
+                .spamTolerance(1)
+                .cooldown(3, TimeUnit.SECONDS)
+                .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
+                .maxCooldown(5, TimeUnit.MINUTES)
+                .pool(MantaroData.getDefaultJedisPool())
+                .prefix("tools")
+                .build();
+
+        cr.register("tools", new SimpleCommand(CommandCategory.CURRENCY) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
+                    return;
+                }
+
+                var dbUser = ctx.getDBUser();
+                var data = dbUser.getData();
+                var equippedItems = data.getEquippedItems();
+                var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
+
+                ctx.send(equipment);
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription("Check the durability and status of your tools.")
+                        .build();
+            }
+        });
     }
 }

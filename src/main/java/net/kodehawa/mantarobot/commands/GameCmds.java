@@ -49,6 +49,8 @@ import static net.kodehawa.mantarobot.utils.Utils.createLinkedList;
 @Module
 public class GameCmds {
     private final Map<String, Function<TriviaDifficulty, Game<?>>> games = new HashMap<>();
+    private final int MAX_GAME_AMOUNT = 8;
+    private final int MAX_GAME_AMOUNT_PREMIUM = 12;
 
     @Subscribe
     public void game(CommandRegistry cr) {
@@ -173,8 +175,10 @@ public class GameCmds {
                 var userData = ctx.getDBUser().getData();
                 var key = MantaroData.db().getPremiumKey(userData.getPremiumKey());
                 var premium = key != null && key.getDurationDays() > 1;
-                if (split.length > (premium ? 8 : 5)) {
-                    ctx.sendLocalized("commands.game.too_many_games", EmoteReference.ERROR);
+                if (split.length > (premium ? MAX_GAME_AMOUNT_PREMIUM : MAX_GAME_AMOUNT)) {
+                    ctx.sendLocalized(
+                            "commands.game.too_many_games", EmoteReference.ERROR, MAX_GAME_AMOUNT, MAX_GAME_AMOUNT_PREMIUM
+                    );
                     return;
                 }
 
@@ -247,8 +251,11 @@ public class GameCmds {
                     return;
                 }
 
-                if (number > 5) {
-                    ctx.sendLocalized("commands.game.multiple.too_many_games", EmoteReference.ERROR);
+                if (number > MAX_GAME_AMOUNT) {
+                    ctx.sendLocalized(
+                            "commands.game.too_many_games", EmoteReference.ERROR, MAX_GAME_AMOUNT, MAX_GAME_AMOUNT_PREMIUM
+                    );
+
                     return;
                 }
 
