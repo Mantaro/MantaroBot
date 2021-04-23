@@ -833,15 +833,25 @@ public class ItemCmds {
 
                     ctx.send(builder.build());
                 } else {
+                    var buyable = item.isBuyable();
+                    var sellable = item.isSellable();
+                    // Blame me for bad organization...
+                    var credits = ctx.getLanguageContext().get("commands.slots.credits");
+                    var none = ctx.getLanguageContext().get("general.none");
+
                     if (item instanceof Tiered) {
                         ctx.sendLocalized("commands.iteminfo.success_tiered", EmoteReference.BLUE_SMALL_MARKER,
                                 item.getEmoji(), item.getName(), translatedName, type, description, ((Tiered) item).getTierStars(),
-                                item.isBuyable() ? item.getValue() : 0, item.isSellable() ? Math.round(item.getValue() * 0.9) : 0
+                                // This is pain
+                                buyable ? item.getValue() : none, buyable ? credits : "",
+                                sellable ? Math.round(item.getValue() * 0.9) : none, sellable ? credits : ""
                         );
                     } else {
                         ctx.sendLocalized("commands.iteminfo.success", EmoteReference.BLUE_SMALL_MARKER,
                                 item.getEmoji(), item.getName(), translatedName, type, description,
-                                item.isBuyable() ? item.getValue() : 0, item.isSellable() ? Math.round(item.getValue() * 0.9) : 0
+                                // This is pain
+                                buyable ? item.getValue() : none, buyable ? credits : "",
+                                sellable ? Math.round(item.getValue() * 0.9) : none, sellable ? credits : ""
                         );
                     }
                 }

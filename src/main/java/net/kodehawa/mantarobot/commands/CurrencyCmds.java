@@ -578,6 +578,7 @@ public class CurrencyCmds {
     public void tools(CommandRegistry cr) {
         final var rateLimiter = new IncreasingRateLimiter.Builder()
                 .spamTolerance(1)
+                .limit(1)
                 .cooldown(3, TimeUnit.SECONDS)
                 .cooldownPenaltyIncrease(5, TimeUnit.SECONDS)
                 .maxCooldown(5, TimeUnit.MINUTES)
@@ -595,9 +596,11 @@ public class CurrencyCmds {
                 var dbUser = ctx.getDBUser();
                 var data = dbUser.getData();
                 var equippedItems = data.getEquippedItems();
+                // TODO: Make a common class for this instead of making static methods on unrelated classes, PLEASE
                 var equipment = ProfileCmd.parsePlayerEquipment(equippedItems, ctx.getLanguageContext());
 
-                ctx.send(equipment);
+                // This is funny, but I really don't wanna repeat code ;-;
+                ctx.send(equipment.replaceAll("\u2009", "").trim());
             }
 
             @Override

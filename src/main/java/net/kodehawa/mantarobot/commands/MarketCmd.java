@@ -519,9 +519,8 @@ public class MarketCmd {
                 return;
             }
 
-            var toSell = ItemHelper.fromAnyNoId(itemName.replace("\"", ""), ctx.getLanguageContext())
-                    .orElse(null);
-
+            var finalName = itemName.replace("\"", "").trim();
+            var toSell = ItemHelper.fromAnyNoId(finalName, ctx.getLanguageContext()).orElse(null);
             if (toSell == null) {
                 ctx.sendLocalized("commands.market.sell.non_existent", warn + EmoteReference.ERROR);
                 return;

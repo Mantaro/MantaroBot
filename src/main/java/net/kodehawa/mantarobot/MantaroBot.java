@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot;
 
+import ch.qos.logback.classic.Level;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lavalink.client.io.LavalinkLoadBalancer;
 import lavalink.client.io.LessAnnoyingJdaLavalink;
@@ -223,6 +224,7 @@ public class MantaroBot {
         return getShardManager().getShardById(id);
     }
 
+    // -- This bunch are basically almost always eval'd, so they're unused
     public void restartShard(int shardId) {
         getShardManager().restart(shardId);
     }
@@ -240,6 +242,18 @@ public class MantaroBot {
     public int getShardIdForGuild(long guildId) {
         return (int) ((guildId >> 22) % getShardManager().getShardsTotal());
     }
+
+    public void enableDebugCommands() {
+        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger("net.kodehawa.mantarobot.core"))
+                .setLevel(Level.DEBUG);
+    }
+
+    public void disableDebugCommands() {
+        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger("net.kodehawa.mantarobot.core"))
+                .setLevel(Level.INFO);
+    }
+
+    // -- Until here
 
     // You would ask, doesn't ShardManager#getShardsTotal do that? Absolutely not. It's screwed. Fucked. I dunno why.
     // DefaultShardManager overrides it, nvm, ouch.
@@ -345,25 +359,6 @@ public class MantaroBot {
                 );
             }
         }
-    }
-
-    private void cleanPlayers() {
-        for (var manager : getAudioManager().getMusicManagers().entrySet()) {
-            var musicManager = manager.getValue();
-            final var trackScheduler = musicManager.getTrackScheduler();
-            final var guild = trackScheduler.getGuild();
-            final var player = musicManager.getLavaLink().getPlayer();
-
-            // We have no track, no queue, and it's not awaiting to be killed.
-            if (trackScheduler.getCurrentTrack() == null && trackScheduler.getQueue().isEmpty() &&
-                    !musicManager.isAwaitingDeath() && guild != null && player.getPlayingTrack() != null) {
-                audioManager.resetMusicManagerFor(guild.getId());
-            }
-        }
-    }
-
-    public void forceRestartShardFromGuild(String guildId) {
-        restartShard(getShardGuild(guildId).getShardInfo().getShardId());
     }
 
     public MantaroAudioManager getAudioManager() {

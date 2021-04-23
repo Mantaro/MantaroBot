@@ -201,7 +201,7 @@ public class CurrencyActionCmds {
                     Item extraItem = null;
 
                     // Extra chance of gettting a Gem Fragment or Moon Gem in case you didn't get a Gem already.
-                    if (random.nextBoolean() && ((Gem)itemGem).getType() != GemType.GEM && !(selectedGem.getItem() instanceof CastedGem)) {
+                    if (random.nextBoolean() && (!(itemGem instanceof CastedGem) && ((Gem)itemGem).getType() != GemType.GEM)) {
                         List<Item> extra = Stream.of(ItemReference.ALL)
                                 .filter(g -> g instanceof Gem || g instanceof CastedGem)
                                 .filter(i -> {
