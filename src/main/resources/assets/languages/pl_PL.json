@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sMusisz mi powiedzieć, jaki rozkaz chcesz sprowadzić.",
-        "not_found": "%1$sNie ma żadnych niestandardowych poleceń pasujących do Twojego zapytania wyszukiwania.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (Odpowiedzi: %2$s) - Gildia: `%3$s`",
         "selection": "Wybierz komendę:",
         "note": "(Niestandardowe komendy można wybierać tylko z gildii, których jesteś członkiem)",
