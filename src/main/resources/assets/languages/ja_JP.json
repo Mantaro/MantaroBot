@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sThere are no custom commands matching your search query.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (応答: %2$s) - サーバー: `%3$s`",
         "selection": "コマンドを選択:",
         "note": "(自分が所属しているサーバーからのみカスタムコマンドを選択することができます)",
