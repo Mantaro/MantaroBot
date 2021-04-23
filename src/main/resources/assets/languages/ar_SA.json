@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sيجب أن تخبرني ما الأمر الذي تريد استيراده.",
-        "not_found": "%1$sلا توجد أوامر مخصصة تطابق استعلام البحث الخاص بك.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (إستجابة: %2$s) - النقابة Guild: `%3$s`",
         "selection": "اختر الامر:",
         "note": "(يمكنك فقط اختيار أوامر مخصصة من النقابات التي أنت عضو فيها)",
