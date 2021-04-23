@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$s你需要告訴我你想匯入哪條指令。",
-        "not_found": "%1$s找不到符合此搜尋關鍵字的自定義指令。",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (回應：%2$s) - 伺服器：`%3$s`",
         "selection": "選擇指令：",
         "note": "(你只能選擇你所在伺服器中的自定義指令)",
