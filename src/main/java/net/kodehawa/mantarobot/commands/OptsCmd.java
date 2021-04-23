@@ -129,11 +129,11 @@ public class OptsCmd {
                     }
 
                     name.append(str);
-                    var option = Option.getOptionMap().get(name.toString());
+                    var lookup = name.toString().replace("\n", "");
+                    var option = Option.getOptionMap().get(lookup);
 
                     if (option != null) {
-                        var callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
-
+                        var callable = option.getEventConsumer();
                         try {
                             String[] a;
                             if (++i < args.length) {
