@@ -198,6 +198,11 @@ public class MantaroCore {
                     GatewayIntent.GUILD_VOICE_STATES, // Receive voice states, needed so Member#getVoiceState doesn't return null.
             };
 
+            var disabledIntents = EnumSet.of(
+                    CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS,
+                    CacheFlag.ROLE_TAGS, CacheFlag.ONLINE_STATUS
+            );
+
             log.info("Using intents {}", Arrays.stream(toEnable)
                     .map(Enum::name)
                     .collect(Collectors.joining(", "))
@@ -224,7 +229,7 @@ public class MantaroCore {
                     // Don't spam on mass-prune.
                     .setBulkDeleteSplittingEnabled(false)
                     .setVoiceDispatchInterceptor(MantaroBot.getInstance().getLavaLink().getVoiceInterceptor())
-                    .disableCache(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS, CacheFlag.ROLE_TAGS))
+                    .disableCache(disabledIntents)
                     .setActivity(Activity.playing("Hold on to your seatbelts!"));
             
             /* only create eviction strategies that will get used */

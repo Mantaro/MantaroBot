@@ -63,7 +63,7 @@ task generateLanguageList {
 
 dependencies {
     // Base
-    implementation 'net.dv8tion:JDA:4.2.1_259'
+    implementation 'net.dv8tion:JDA:4.2.1_260'
     implementation 'club.minnced:discord-webhooks:0.5.6'
 
     // Music
@@ -84,7 +84,7 @@ dependencies {
 
     // Database
     implementation 'com.rethinkdb:rethinkdb-driver:2.4.4'
-    implementation 'redis.clients:jedis:3.5.2'
+    implementation 'redis.clients:jedis:3.6.0'
 
     // Utilities
     implementation 'net.jodah:expiringmap:0.5.9'
