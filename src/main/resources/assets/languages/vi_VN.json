@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sBạn phải nói cho tôi biết bạn muốn sao chép về cái lệnh nào.",
-        "not_found": "%1$sKhông có lệnh tùy chỉnh nào khớp với tìm kiếm của bạn.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (Số phản hồi: %2$s) - Máy chủ: `%3$s`",
         "selection": "Chọn Lệnh:",
         "note": "(Bạn chỉ có thể chọn lệnh tùy chỉnh từ máy chủ mà bạn đang là thành viên)",
