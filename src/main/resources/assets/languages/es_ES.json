@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sNecesitas decirme qué comando quieres importar.",
-        "not_found": "%1$sNo hay comandos personalizados que coincidan con los términos de búsqueda.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (Respuestas: %2$s) - Servidor: `%3$s`",
         "selection": "Seleccione el comando:",
         "note": "(Solo puedes importar comandos personalizados desde servidores donde eres miembro)",
