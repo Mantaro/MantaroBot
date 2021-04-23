@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sTu dois me dire quelle commande je dois importer.",
-        "not_found": "%1$sAucune commande personnalisée ne correspond à ta requête de recherche..",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` - Guilde: `%2$s`",
         "selection": "Sélection de la commande:",
         "note": "(Tu peux sélectionner une commande personnalisée uniquement d'une guilde dont tu es membre)",
