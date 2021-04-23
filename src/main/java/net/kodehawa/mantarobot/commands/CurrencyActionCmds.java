@@ -195,8 +195,11 @@ public class CurrencyActionCmds {
                             .filter(i -> random.nextBoolean() || i != ItemReference.ROCK)
                             .collect(Collectors.toList());
 
-                    var selectedGem = new ItemStack(gem.get(random.nextInt(gem.size())), Math.max(1, random.nextInt(5)));
-                    var itemGem = selectedGem.getItem();
+                    var itemGem = gem.get(random.nextInt(gem.size()));
+                    var selectedGem = new ItemStack(itemGem,
+                            Math.max(1, itemGem instanceof CastedGem ? random.nextInt(3) : random.nextInt(5))
+                    );
+
                     ItemStack extraGem = null;
                     Item extraItem = null;
 
@@ -213,8 +216,10 @@ public class CurrencyActionCmds {
                                 })
                                 .collect(Collectors.toList());
 
-                        extraGem = new ItemStack(extra.get(random.nextInt(extra.size())), Math.max(1, random.nextInt(3)));
-                        extraItem = extraGem.getItem();
+                        extraItem = extra.get(random.nextInt(extra.size()));
+                        extraGem = new ItemStack(extraItem,
+                                extraItem instanceof CastedGem ? Math.max(1, random.nextInt(2)) : Math.max(1, random.nextInt(3))
+                        );
                     }
 
                     if (extraGem != null && (inventory.getAmount(extraItem) + extraGem.getAmount() >= 5000)) {
