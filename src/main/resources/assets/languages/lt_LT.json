@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sYou need to tell me what command you want to import.",
-        "not_found": "%1$sNėra jokios pasirinktinės komandos, atitinkančios tavo paieškos kriterijus.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s` (Responses: %2$s) - Serveris: `%3$s`",
         "selection": "Pasirink komandą:",
         "note": "(Tu matai tik tų serverių pasirinktines komandas, kuriuose tu esi)",
