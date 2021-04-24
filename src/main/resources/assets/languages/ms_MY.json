@@ -1058,7 +1058,7 @@
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan dikemas kini setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
@@ -1080,7 +1080,7 @@
         "success": "%1$sPeringatan anda telah dibatalkan.",
         "select": "Sila memilih peringatan yang ingin anda batalkan."
       },
-      "no_time": "%1$sAnda tidak menyatakan sebarang masa. Cuba menyatakannya pada permulaan arahan, misalnya, `~>remindme 1h mencuci pinggan`. Formatnya ialah nombor diikuti oleh sama ada d (hari), h (jam) atau m (minit). Periksa `~>help mute` untuk melihat contohnya.",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sAnda tidak memberi saya masa pada argumen `-time`.",
       "too_little_time": "%1$sTempoh itu terlalu pendek (Minimum: 1 minit, Contoh: `remindme 1m mencuci pinggan`)",
       "too_long": "Tempoh itu terlalu panjang... (Maksimum: 180 hari)",
@@ -1363,6 +1363,9 @@
         "buildup_stats": "%1$,d kredit / %2$,d item",
         "buildup_stats_credits": "%1$,d kredit",
         "footer": "Terima kasih kerana menggunakan Mantaro! <3"
+      },
+      "check": {
+        "success": "**Pet status for %1$s:**\n\n%2$s Thrist: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sAnda memerlukan sekurang-kurangnya %2$,d kredit untuk membersihkan **%3$s**.",
