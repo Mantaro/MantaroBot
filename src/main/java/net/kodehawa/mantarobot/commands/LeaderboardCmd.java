@@ -23,6 +23,7 @@ import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.utils.Types;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.utils.leaderboards.CachedLeaderboardMember;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -86,7 +87,14 @@ public class LeaderboardCmd {
             }
         });
 
-        leaderboards.setPredicate(ctx -> RatelimitUtils.ratelimit(rateLimiter, ctx, null));
+        leaderboards.setPredicate(ctx -> {
+            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                ctx.sendLocalized("general.missing_embed_permissions");
+                return false;
+            }
+
+            return RatelimitUtils.ratelimit(rateLimiter, ctx, null);
+        });
 
         leaderboards.addSubCommand("gamble", new SubCommand() {
             @Override
