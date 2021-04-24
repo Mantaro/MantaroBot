@@ -74,7 +74,7 @@
     "sellout": "Considere doar no [Patreon](https://www.patreon.com/mantaro) se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé!",
     "deprecated": "Não sendo mais usado",
     "space_notice": "Se o nome tem espaço, tente \"coloca-lo entre aspas\". Provavelmente o comando help pode te dizer mais.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "missing_embed_permissions": "O bot está sem a permissão de Inserir Links que é necessária pra mostrar esse comando. Por favor dê as permissões necessárias ao bot (certifique-se de checar as permissões do canal e categoria). Por favor se você precisar de mais ajuda vá para <https://support.mantaro.site>. Você também pode checar a wiki em <https://wiki.mantaro.site> para mais informações sobre o bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
       "spam_1": "Por favor descanse, faz bem pra saúde. **Lembre-se que o limite de taxa irá continuar aumentando se você tentar antes do tempo resetar!**",
@@ -1058,7 +1058,7 @@
       "header": "**%1$s Aniversário em %2$s**\nCache de aniversário atualiza a cada 23 horas, então se o seu aniversário não aparecer aqui, não entre em pânico e espere. Exibindo até 100 resultados.\n",
       "full_header": "**%1$s aniversários**\n%2$s\nLembre-se que os aniversários entram em cache a cada 23 horas e eles tem que executar `~>birthday allowserver`. Exibindo até 100 resultados.",
       "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se que o formato de data é `dd-mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro)",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
+      "error_date": "%1$sA data que você colocou não é válida ou eu não consigo analisá-la corretamente. Por favor tente com a formatação correta.\nLembre-se de que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro).\nSe o mês ou dia tiver apenas um digito você precisará acrescentar um 0 a ele. Por exemplo, 14/7 seria 14/07 e 7/12 seria 07/12.",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de nascimento: %2$s *(Formato: dd-MM)* [day-month]. Para este servidor anunciar seu aniversário, você terá que usar `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
       "no_content": "%1$sVocê tem que especificar seu aniversário, `remove` para remover seu aniversário ou `month` para checar a lista de aniversários do mês. Depois, para este servidor anunciar seu aniversário, você agora tem que executar `~>birthday allowserver`",
@@ -1080,7 +1080,7 @@
         "success": "%1$sLembrete cancelado.",
         "select": "Selecione o lembrete que você deseja cancelar."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). Check `~>help mute` for an example.",
+      "no_time": "%1$sVocê não especificou o tempo. Tente especificar ele no início do comando, por exemplo, `~>remindme 1h lavar a louça`. O formato do número é seguido d (dias), por h (horas), m (minutos) ou s (segundos) Cheque `~>help mute` para um exemplo.",
       "no_time_arg": "%1$sVocê não me deu um tempo sobre o argumento `-time`.",
       "too_little_time": "%1$sÉ muito pouco tempo (Mínimo: 1 minuto, Exemplo `~>remindme 1m lavar a louça`)",
       "too_long": "Isso é muito tempo... (Máximo 180 dias)",
@@ -1365,11 +1365,11 @@
         "footer": "Obrigado por usar a Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thrist: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**Status do pet %1$s:**\n\n%2$s Sede: **%3$s / 100** | %4$s Fome: **%5$s / 100** | %6$s Sujeira: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sVocê precisa de pelo menos %2$,d créditos para limpar **%3$s**.",
-        "not_dusty": "%1$s**%2$s** não está sujo. (Nível atual de poeira: %3$,d%%)",
+        "not_dusty": "%1$s**%2$s** não está sujo. (Nível atual de sujeira: %3$,d%%)",
         "success": "%1$s**%2$s** está agora brilhando de limpa! O custo para a limpeza do seu pet foi %3$,d créditos."
       },
       "choice": {
