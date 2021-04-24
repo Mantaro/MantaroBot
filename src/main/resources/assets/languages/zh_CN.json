@@ -74,7 +74,7 @@
     "sellout": "如果你喜欢我，请考虑在 [Patreon](https://www.patreon.com/mantaro) 上贊助我一杯咖啡 úwù\n即使是一点点的贊助也能让我持续开發!",
     "deprecated": "不再使用",
     "space_notice": "如果物品名称有空格，试着把他 \"用引号包起来\"。也许help指令能告诉你更多资讯。",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (限速中)\n **你能够在 %3$s 秒内再次使用这个指令**",
       "spam_1": "拜託休息一下！这对你的健康是很好的。**记得如果在冷却结束前不断尝试，速率限制是会持续增加喔！**",
