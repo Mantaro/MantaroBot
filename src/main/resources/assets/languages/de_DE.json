@@ -74,7 +74,7 @@
     "sellout": "Erwäge auf [Patreon](https://www.patreon.com/mantaro) zu spenden, falls du mich magst, selbst eine kleine Spende würde mir helfen den Bot am Laufen zu halten!",
     "deprecated": "Nicht länger genutzt",
     "space_notice": "Wenn der Name Leerzeichen beinhaltet, versuche \"ihn in Anführungzeichen zu setzen\". Die Befehlshilfe kann dir wahrscheinlich weiter helfen.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Du kannst den Befehl in %3$s wieder nutzen.**",
       "spam_1": "Mach bitte eine Pause, das wäre auch für deine Gesundheit gut. **Beachte, dass das Ratelimit weiter erhöht wird, wenn du es, bevor es ausläuft, weiterversuchst!**",
