@@ -74,7 +74,7 @@
     "sellout": "Isaalang-alang ang pagdodonate sa [Patreon](https://www.patreon.com/mantaro) kung nagustuhan mo ako, kahit konting donasyon lang ay makakatulong na ito upang mapanatili akong buhay!",
     "deprecated": "Hindi na ginagamit",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n**Magagamit mo uli ang command na ito sa loob ng %3$s.**",
       "spam_1": "Magpahinga ka muna, mabuti iyan para sa iyong kalusugan. **Tandaan na ang ratelimit ay patuloy na lalaki kung susubukan mo bago mag-rereset ang cooldown!**",
