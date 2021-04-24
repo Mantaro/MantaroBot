@@ -473,7 +473,7 @@ public class LeaderboardCmd {
                 // If no user was found, we need to return null. This is later handled on generateLeaderboardEmbed.
                 if (user == null) {
                     jedis.set(missed, "1");
-                    jedis.expire(missed, (int) TimeUnit.HOURS.toSeconds(12));
+                    jedis.expire(missed, TimeUnit.HOURS.toSeconds(12));
                     return null;
                 }
 
@@ -483,7 +483,7 @@ public class LeaderboardCmd {
                 jedis.set(savedTo, JsonDataManager.toJson(cached));
 
                 // Set the value to expire in 48 hours.
-                jedis.expire(savedTo, (int) TimeUnit.HOURS.toSeconds(48));
+                jedis.expire(savedTo, TimeUnit.HOURS.toSeconds(48));
                 return cached;
             } else {
                 return JsonDataManager.fromJson(json, CachedLeaderboardMember.class);

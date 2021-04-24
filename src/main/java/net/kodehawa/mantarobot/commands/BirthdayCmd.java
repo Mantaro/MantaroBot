@@ -96,8 +96,7 @@ public class BirthdayCmd {
                             date = String.join("-", parts);
                             birthdayDate = MonthDay.parse(birthday, displayFormat);
                         } catch (Exception e) {
-                            ctx.sendStrippedLocalized("commands.birthday.error_date", "\u274C");
-                            e.printStackTrace();
+                            ctx.sendStrippedLocalized("commands.birthday.error_date", EmoteReference.ERROR);
                             return;
                         }
 

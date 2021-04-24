@@ -194,7 +194,8 @@ public class PetCmds {
 
                 ctx.sendLocalized("commands.pet.choice.success", EmoteReference.CORRECT, Utils.capitalize(choice.toString()), EmoteReference.POPPER);
             }
-        });
+        }).createSubCommandAlias("choice", "select")
+            .createSubCommandAlias("choice", "choose");
 
         pet.addSubCommand("level", new SubCommand() {
             @Override
@@ -305,6 +306,29 @@ public class PetCmds {
                 ctx.send(status.build());
             }
         }).createSubCommandAlias("status", "stats");
+
+        pet.addSubCommand("check", new SubCommand() {
+            @Override
+            public String description() {
+                return "Check thrist, hunger and dust of your current pet.";
+            }
+
+            @Override
+            protected void call(Context ctx, I18nContext languageContext, String content) {
+                var dbUser = ctx.getDBUser();
+                var marriage = dbUser.getData().getMarriage();
+                var player = ctx.getPlayer();
+                var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
+                if (pet == null) {
+                    return;
+                }
+
+                ctx.sendLocalized("commands.pet.check.success",
+                        pet.getName(), EmoteReference.DROPLET, pet.getThirst(),
+                        EmoteReference.FORK, pet.getHunger(), EmoteReference.DUST, pet.getDust()
+                );
+            }
+        });
 
         pet.addSubCommand("sell", new SubCommand() {
             @Override
