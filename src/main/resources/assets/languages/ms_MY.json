@@ -74,7 +74,7 @@
     "sellout": "Pertimbangkan untuk menderma di [Patreon] (https://www.patreon.com/mantaro) jika anda menyukai saya, walaupun sedikit sumbangan akan membantu bot untuk terus hidup!",
     "deprecated": "Tidak lagi digunakan",
     "space_notice": "Jika nama tersebut mengandungi ruang di antara perkataan, cuba \"mengapit nama tersebut menggunakan tanda petik\". Mungkin arahan help dapat membantu anda lebih lanjut.",
-    "missing_embed_permissions": "Bot memerlukan kebenaran Pautan Embed untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (periksa kebenaran saluran dan kategori juga). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini semula dalam %3$s.**",
       "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda cuba lagi sebelum cooldown ditetapkan semula!**",
