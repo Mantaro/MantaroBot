@@ -277,6 +277,11 @@ public class MusicCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(Context ctx, I18nContext languageContext, String content) {
+                        if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                            ctx.sendLocalized("general.missing_embed_permissions");
+                            return;
+                        }
+
                         var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
                         embedForQueue(ctx.getEvent(), musicManager, ctx.getLanguageContext());
                         TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
