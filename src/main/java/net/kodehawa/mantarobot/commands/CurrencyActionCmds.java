@@ -195,16 +195,16 @@ public class CurrencyActionCmds {
                             .filter(i -> random.nextBoolean() || i != ItemReference.ROCK)
                             .collect(Collectors.toList());
 
-                    var itemGem = gem.get(random.nextInt(gem.size()));
-                    var selectedGem = new ItemStack(itemGem,
-                            Math.max(1, itemGem instanceof CastedGem ? random.nextInt(3) : random.nextInt(5))
-                    );
+                    final var itemGem = gem.get(random.nextInt(gem.size()));
+                    final var isCastedGem = itemGem instanceof CastedGem;
+                    final var isMoon = itemGem == ItemReference.MOON_RUNES;
+                    final var selectedGem = new ItemStack(itemGem, Math.max(1, isCastedGem || isMoon ? random.nextInt(3) : random.nextInt(5)));
 
                     ItemStack extraGem = null;
                     Item extraItem = null;
 
                     // Extra chance of gettting a Gem Fragment or Moon Gem in case you didn't get a Gem already.
-                    if (random.nextBoolean() && (!(itemGem instanceof CastedGem) && ((Gem)itemGem).getType() != GemType.GEM)) {
+                    if (random.nextBoolean() && (!isCastedGem && ((Gem)itemGem).getType() != GemType.GEM)) {
                         List<Item> extra = Stream.of(ItemReference.ALL)
                                 .filter(g -> g instanceof Gem || g instanceof CastedGem)
                                 .filter(i -> {

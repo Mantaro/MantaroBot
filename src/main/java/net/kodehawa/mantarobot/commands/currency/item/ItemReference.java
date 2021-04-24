@@ -365,14 +365,14 @@ public class ItemReference {
                     1, 10, EmoteReference.COMET_PICK.getDiscordNotation(),
                     "Comet Pickaxe", "items.comet_pick", "items.description.comet_pick",
                     290, true, false,
-                    "1;2;7", 180, 100, 320, 3,
+                    "1;2;7", 180, 100, 310, 3,
                     "items.explanation.comet_pick", 10, 48, 101
             ),
 
             STAR_PICKAXE = new Pickaxe(ItemType.MINE_PICK, EmoteReference.STAR_PICK.getDiscordNotation(),
                     "Star Pickaxe", "items.star_pick", "items.description.star_pick",
                     1, 10, 350, true, false, "1;2;7",
-                    220, 100, 3, 390, 310, 4,
+                    220, 100, 3, 390, 300, 4,
                     "items.explanation.star_pick", 10, 49, 101
             ),
 
@@ -604,7 +604,7 @@ public class ItemReference {
                     "Moon Pickaxe", "items.moon_pick", "items.description.moon_pick",
                     2, 7, 1000, true, false,
                     "1;3;2;5;10", 320, 140, 4,
-                    388, 300, 5,
+                    388, 290, 5,
                     "items.explanation.moon_pick", 83, 18, 76, 101
             ),
 
@@ -612,7 +612,7 @@ public class ItemReference {
                     "Hellfire Pickaxe", "items.hellfire_pick", "items.description.hellfire_pick",
                     4, 1, 15000, true, false,
                     "450;1;175;1;175;1;55;1;50;50", 3000, 1500,
-                    10, 365, 270, 7, "items.explanation.hellfire_pick",
+                    10, 365, 260, 7, "items.explanation.hellfire_pick",
                     18, 57, 48, 61, 49, 62, 74, 73, 101, 76
             ),
 
