@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.command.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -142,6 +143,11 @@ public class HelpCmd {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx, false)) {
+                    return;
+                }
+
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.sendLocalized("general.missing_embed_permissions");
                     return;
                 }
 
