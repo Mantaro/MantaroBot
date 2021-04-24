@@ -74,7 +74,7 @@
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
     "deprecated": "Niet langer in gebruik",
     "space_notice": "Als de naam ervan spaties bevat, probeer dan \"het tussen aanhalingstekens te plaatsen\". Waarschijnlijk kan het commando help je meer vertellen.",
-    "missing_embed_permissions": "De bot mist de toestemming voor het insluiten van links die nodig is om deze opdracht weer te geven. Geef de bot de benodigde rechten (controleer ook de kanaal- en categorierechten). Als je meer hulp nodig hebt, ga dan naar <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
       "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
