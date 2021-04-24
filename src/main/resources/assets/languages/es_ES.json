@@ -74,7 +74,7 @@
     "sellout": "Considera donar en patreon.com/mantaro si te gusta como soy, ¡hasta una donación pequeña nos ayuda a mantener el bot vivo!",
     "deprecated": "Ya no se usa",
     "space_notice": "Si el nombre contiene espacios, intenta \"ponerlo entre comillas\". Probablemente la ayuda del comando te pueda decir más.",
-    "missing_embed_permissions": "Mantaro no tiene el permiso de Insertar Enlaces necesario para mostrar este comando. Porfavor dame los permisos necesarios (revisa los permisos por categoría/canal por si acaso). Si necesitas más ayuda puedes preguntar en <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Podrás usar este comando en %3$s.**",
       "spam_1": "Por favor descansa, es bueno para tu salud. **¡Recuerda que el limite de tarifa seguirá incrementando si lo intentas antes de que el tiempo de espera se reinicie!**",
