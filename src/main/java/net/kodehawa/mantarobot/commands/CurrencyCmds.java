@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kodehawa.mantarobot.commands.currency.item.*;
 import net.kodehawa.mantarobot.commands.currency.item.special.Potion;
@@ -103,6 +104,11 @@ public class CurrencyCmds {
                     }
 
                     if (arguments.containsKey("info") || arguments.containsKey("full")) {
+                        if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                            ctx.sendLocalized("general.missing_embed_permissions");
+                            return;
+                        }
+
                         EmbedBuilder builder = baseEmbed(ctx,
                                 languageContext.get("commands.inventory.header").formatted(member.getEffectiveName()),
                                 member.getUser().getEffectiveAvatarUrl()

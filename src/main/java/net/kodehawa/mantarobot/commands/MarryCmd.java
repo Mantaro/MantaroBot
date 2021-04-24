@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -632,6 +633,11 @@ public class MarryCmd {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.sendLocalized("general.missing_embed_permissions");
+                    return;
+                }
+
                 final var author = ctx.getAuthor();
                 final var dbUser = ctx.getDBUser();
                 final var dbUserData = dbUser.getData();

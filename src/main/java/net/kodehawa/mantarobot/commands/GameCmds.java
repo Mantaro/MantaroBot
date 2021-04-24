@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.*;
@@ -112,7 +113,14 @@ public class GameCmds {
             }
         }));
 
-        gameCommand.setPredicate(ctx -> RatelimitUtils.ratelimit(rateLimiter, ctx, null));
+        gameCommand.setPredicate(ctx -> {
+            if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                ctx.sendLocalized("general.missing_embed_permissions");
+                return false;
+            }
+
+            return RatelimitUtils.ratelimit(rateLimiter, ctx, null);
+        });
 
         //Sub-commands.
         gameCommand.addSubCommand("wins", new SubCommand() {
@@ -309,6 +317,11 @@ public class GameCmds {
             @Override
             protected void call(Context ctx, String content, String[] args) {
                 if (!RatelimitUtils.ratelimit(rateLimiter, ctx)) {
+                    return;
+                }
+
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.sendLocalized("general.missing_embed_permissions");
                     return;
                 }
 

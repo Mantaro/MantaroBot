@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.commands.currency.Waifu;
@@ -99,9 +100,16 @@ public class WaifuCmd {
                             return;
                         }
 
+                        if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                            ctx.sendLocalized("general.missing_embed_permissions");
+                            return;
+                        }
+
                         final var description = userData.getWaifus().isEmpty() ?
                                 languageContext.get("commands.waifu.waifu_header") + "\n" + languageContext.get("commands.waifu.no_waifu") :
                                 languageContext.get("commands.waifu.waifu_header");
+
+
 
                         final var waifusEmbed = new EmbedBuilder()
                                 .setAuthor(languageContext.get("commands.waifu.header"), null, ctx.getAuthor().getEffectiveAvatarUrl())
@@ -233,6 +241,11 @@ public class WaifuCmd {
 
                 if (playerData.isWaifuout()) {
                     ctx.sendLocalized("commands.waifu.optout.notice", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.sendLocalized("general.missing_embed_permissions");
                     return;
                 }
 

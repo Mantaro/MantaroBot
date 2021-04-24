@@ -220,6 +220,11 @@ public class CustomCmds {
 
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
+                if (!ctx.getSelfMember().hasPermission(ctx.getChannel(), Permission.MESSAGE_EMBED_LINKS)) {
+                    ctx.sendLocalized("general.missing_embed_permissions");
+                    return;
+                }
+
                 List<String> commands = ctx.db().getCustomCommands(ctx.getGuild())
                         .stream()
                         .map(CustomCommand::getName)
