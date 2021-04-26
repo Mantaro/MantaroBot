@@ -32,6 +32,21 @@
         </encoder>
     </appender>
 
+    <appender name="command-logs" class="ch.qos.logback.core.FileAppender">
+        <file>logs/commands.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/commands.%d{yyyyMMdd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0}] %X{jda.shard}: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="command-log" level="DEBUG" additivity="false">
+        <appender-ref ref="command-logs"/>
+    </logger>
+
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>

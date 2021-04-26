@@ -53,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class CommandRegistry {
+    private static final Logger commandLog = LoggerFactory.getLogger("command-log");
     private static final Logger log = LoggerFactory.getLogger(CommandRegistry.class);
 
     private final Map<String, Command> commands;
@@ -258,7 +259,7 @@ public class CommandRegistry {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content, isMention), cmdName, content);
         }
 
-        log.debug("!! COMMAND INVOKE: command:{}, user:{} ({}), guild:{}, channel:{}",
+        commandLog.debug("!! COMMAND INVOKE: command:{}, user:{} ({}), guild:{}, channel:{}",
                 cmdName, author.getAsTag(), author.getId(), guild.getId(), channel.getId()
         );
 
