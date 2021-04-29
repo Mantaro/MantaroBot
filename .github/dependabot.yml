@@ -1,0 +1,31 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: io.prometheus:simpleclient
+    versions:
+    - ">= 0.10.a, < 0.11"
+  - dependency-name: io.prometheus:simpleclient_hotspot
+    versions:
+    - ">= 0.10.a, < 0.11"
+  - dependency-name: io.prometheus:simpleclient_httpserver
+    versions:
+    - ">= 0.10.a, < 0.11"
+  - dependency-name: net.dv8tion:JDA
+    versions:
+    - 4.2.0_239
+    - 4.2.0_240
+    - 4.2.0_242
+    - 4.2.0_245
+    - 4.2.0_DEV
+    - 4.2.1_253
+    - 4.2.1_254
+    - 4.2.1_255
+    - 4.2.1_261
+  - dependency-name: com.sedmelluq:lavaplayer
+    versions:
+    - 1.3.76
