@@ -74,7 +74,7 @@
     "sellout": "[Patreon](https://www.patreon.com/mantaro)에 후원하는걸 고려해봐요 만약 저를 좋아한다면, 작은 기부라도 봇을 살려주는 데 도움이 될 거예요!",
     "deprecated": "더 이상 사용되지 않아요",
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (check channel and category permissions aswell). If you need any further help please go to <https://support.mantaro.site>",
+    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
       "header": "%1$s%2$s (제한된 속도)\n **%3$s초 후 이 명령어를 다시 사용할 수 있어요.**",
       "spam_1": "건강을 위해서 쉬세요. **재사용 대기시간이 재설정되기 전에 시도하면 제한된 속도가 계속 증가한다는 것을 기억하세요!**",
@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$s어떤 명령어를 가져가고 싶은지 말해주세요.",
-        "not_found": "%1$s검색 결과와 일치하는 사용자 정의 명령어가 없어요.",
+        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
         "header": "`%1$s`(응답: %2$s) - 길드: `%3$s`",
         "selection": "명령어 선택:",
         "note": "(자신이 속한 길드의 사용자 정의 명령어만 선택할 수 있어요)",
@@ -1058,7 +1058,7 @@
       "header": "**%1$s's Birthdays for %2$s**\nBirthday cache is updated every 23 hours, so if your birthday doesn't appear here, don't panic and wait it out. Showing up to 100 results.\n",
       "full_header": "**%1$s's Birthdays**\n%2$s\nRemember that birthdays are cached every 23 hours and that they have to run `~>birthday allowserver`. Showing up to 100 results.",
       "invalid_date": "%1$sNot a valid date or it's not in the correct format.\nRemember that the date format is `dd-mm` (For example, use `~>birthday 16-11` for the 16th of November)",
-      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November)",
+      "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sThat's not a valid month number! (Valid months are numbers from 1 to 12)",
       "no_content": "%1$sYou need to specify your birthday, `remove` to reset your birthday or `month` to check the birthday month list. Then, for this server to announce your birthday, you now have to run `~>birthday allowserver`",
@@ -1080,7 +1080,7 @@
         "success": "%1$sCancelled your reminder.",
         "select": "Select the reminder you want to cancel."
       },
-      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours) or m (minutes). Check `~>help mute` for an example.",
+      "no_time": "%1$sYou didn't specify the time. Try specifying it at the start of the command, for example, `~>remindme 1h do the dishes`. The format is a number followed by either d (days), h (hours), m (minutes) or s (seconds). Check `~>help mute` for an example.",
       "no_time_arg": "%1$sYou didn't give me a time on the `-time` argument.",
       "too_little_time": "%1$sThat's too little time (Minimum: 1 minute, Example: `~>remindme 1m do the dishes`)",
       "too_long": "That's too much time... (Maximum: 180 days)",
@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s has won **%3$s games**",
       "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sYou need to specify the game and the number of times to run it.",
         "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "too_many_games": "%1$sYou can only start a maximum of 5 games of the same type at a time.",
         "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
       "character_request_error": "%1$sError requesting this character from Kitsu's API.",
       "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of 4 games at the same time with game lobby. (With Premium: 8)",
+      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
@@ -1364,6 +1363,9 @@
         "buildup_stats": "%1$,d credits / %2$,d items",
         "buildup_stats_credits": "%1$,d credits",
         "footer": "Thanks you for using Mantaro! <3"
+      },
+      "check": {
+        "success": "**Pet status for %1$s:**\n\n%2$s Thrist: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sYou need at least %2$,d credits to clean **%3$s**.",
@@ -1823,8 +1825,8 @@
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
-      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*"
+      "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
+      "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sBots don't have level.",

@@ -74,7 +74,7 @@
     "sellout": "Considere doar no [Patreon](https://www.patreon.com/mantaro) se você gosta de mim, até mesmo uma pequena doação vai ajudar para continuar com o bot de pé!",
     "deprecated": "Não sendo mais usado",
     "space_notice": "Se o nome tem espaço, tente \"coloca-lo entre aspas\". Provavelmente o comando help pode te dizer mais.",
-    "missing_embed_permissions": "O bot não tem a permissão Inserir Links necessária para executar este comando. Por favor, conceda todas as permissões necessárias (verifique as permissões de canal e de categoria também). Se você precisar de ajuda dirija-se à <https://support.mantaro.site>",
+    "missing_embed_permissions": "O bot está sem a permissão de Inserir Links que é necessária pra mostrar esse comando. Por favor dê as permissões necessárias ao bot (certifique-se de checar as permissões do canal e categoria). Por favor se você precisar de mais ajuda vá para <https://support.mantaro.site>. Você também pode checar a wiki em <https://wiki.mantaro.site> para mais informações sobre o bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de Taxa)\n **Você poderá usar este comando novamente em %3$s.**",
       "spam_1": "Por favor descanse, faz bem pra saúde. **Lembre-se que o limite de taxa irá continuar aumentando se você tentar antes do tempo resetar!**",
@@ -95,7 +95,7 @@
     "ratelimit_quotes": [
       "Woah... você está me chamando rápido demais... Eu posso ficar tonta!",
       "Não seja ganancioso!",
-      "V-Você está me chamando tão rápido estou ficando tonta...",
+      "V-Você está me chamando tão rápido que estou ficando tonta...",
       "Pera lá amigo!",
       "Espere só mais um pouquiiiinho uwu",
       "Parece que vamos ser multados se continuarmos rápido!",
@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sVocê tem que me dizer que comando você quer importar.",
-        "not_found": "%1$sNão há comandos personalizados que correspondam à sua pesquisa.",
+        "not_found": "%1$sNão tem nenhum comando personalizado com esse critério de pesquisa.\n**Esse comando pode não funcionar perfeitamente!**\nEm alguns casos, você pode manualmente copiar o comando usando o `~>custom raw` ao invés disso.",
         "header": "`%1$s` (Responses: %2$s) - Servidor: `%3$s`",
         "selection": "Selecione o Comando:",
         "note": "(Você só pode selecionar comandos personalizados de servidores das quais você é membro)",
@@ -847,7 +847,7 @@
         "role": " | Dar cargos **",
         "category": "Categoria: ",
         "header": "Lista de cargos automáticos",
-        "role_give": "Gives role:",
+        "role_give": "Cargos dados:",
         "no_autoroles": "Não tem nenhum cargo automático definido nesse servidor.",
         "description": "Esses são os cargos automáticos que os usuários podem ter neste servidor. Você pode usar eles fazendo `~>iam <name of the role>`"
       },
@@ -1058,7 +1058,7 @@
       "header": "**%1$s Aniversário em %2$s**\nCache de aniversário atualiza a cada 23 horas, então se o seu aniversário não aparecer aqui, não entre em pânico e espere. Exibindo até 100 resultados.\n",
       "full_header": "**%1$s aniversários**\n%2$s\nLembre-se que os aniversários entram em cache a cada 23 horas e eles tem que executar `~>birthday allowserver`. Exibindo até 100 resultados.",
       "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se que o formato de data é `dd-mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro)",
-      "error_date": "%1$sA data que você inseriu não é válida ou eu não consigo analisá-la corretamente. Por favor, tente com a formatação correta.\nLembre-se de que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11 para 16 de Novembro)",
+      "error_date": "%1$sA data que você colocou não é válida ou eu não consigo analisá-la corretamente. Por favor tente com a formatação correta.\nLembre-se de que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro).\nSe o mês ou dia tiver apenas um digito você precisará acrescentar um 0 a ele. Por exemplo, 14/7 seria 14/07 e 7/12 seria 07/12.",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de nascimento: %2$s *(Formato: dd-MM)* [day-month]. Para este servidor anunciar seu aniversário, você terá que usar `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
       "no_content": "%1$sVocê tem que especificar seu aniversário, `remove` para remover seu aniversário ou `month` para checar a lista de aniversários do mês. Depois, para este servidor anunciar seu aniversário, você agora tem que executar `~>birthday allowserver`",
@@ -1080,7 +1080,7 @@
         "success": "%1$sLembrete cancelado.",
         "select": "Selecione o lembrete que você deseja cancelar."
       },
-      "no_time": "%1$sVocê não especificou o tempo. Tente especificar ele no início do comando, por exemplo, `~>remindme 1h lavar a louça`. O formato do número é seguido d (dias), por h (horas) ou m (minutos). Cheque `~>help mute` para um exemplo.",
+      "no_time": "%1$sVocê não especificou o tempo. Tente especificar ele no início do comando, por exemplo, `~>remindme 1h lavar a louça`. O formato do número é seguido d (dias), por h (horas), m (minutos) ou s (segundos) Cheque `~>help mute` para um exemplo.",
       "no_time_arg": "%1$sVocê não me deu um tempo sobre o argumento `-time`.",
       "too_little_time": "%1$sÉ muito pouco tempo (Mínimo: 1 minuto, Exemplo `~>remindme 1m lavar a louça`)",
       "too_long": "Isso é muito tempo... (Máximo 180 dias)",
@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s ganhou **%3$s jogos**",
       "nothing_specified": "%1$sVocê não especificou nada pra jogar...",
-      "not_enough_games": "%1$sVocê precisa especificar pelo menos dois jogos. Por exemplo, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sVocê tem que especificar pelo menos dois jogos. Por exemplo: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sVocê precisa especificar pelo menos dois jogos. (Jogos válidos: personagem, pokemon, número, trivia)",
       "multiple": {
         "invalid": "%1$sVocê precisa especificar o jogo e o número de vezes para executá-lo",
         "invalid_times": "%1$sNúmero inválido de vezes. Lembre-se que tem que ser um inteiro.",
-        "too_many_games": "%1$sVocê só pode iniciar no máximo 5 jogos do mesmo tipo de cada vez.",
         "no_character": "%1$sVocê não pode jogar o jogo de character múltiplas vezes devido a limitações do API do AniList."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$sRelate isso no servidor oficial por favor. Falha ao configurar o jogo para um personagem pré-gravado: %2$s",
       "character_request_error": "%1$sErro ao solicitar esse personagem no API do AniList.",
       "character_start": "Adivinhe o personagem",
-      "too_many_games": "%1$sVocê pode iniciar um máximo de 4 jogos ao mesmo tempo com o lobby de jovo. (Com Premium: 8)",
+      "too_many_games": "%1$sVocê pode iniciar um máximo de %2$,d jogos ao mesmo tempo com o lobby de jogo. (Com Premium: %3$,d)",
       "disabled_multiple": "%1$sEsse servidor tem múltiplos jogos/lobby desativado."
     },
     "opencrate": {
@@ -1365,9 +1364,12 @@
         "buildup_stats_credits": "%1$,d créditos",
         "footer": "Obrigado por usar a Mantaro! <3"
       },
+      "check": {
+        "success": "**Status do pet %1$s:**\n\n%2$s Sede: **%3$s / 100** | %4$s Fome: **%5$s / 100** | %6$s Sujeira: **%7$s%%**"
+      },
       "clean": {
         "not_enough_money": "%1$sVocê precisa de pelo menos %2$,d créditos para limpar **%3$s**.",
-        "not_dusty": "%1$s**%2$s** não está sujo. (Nível atual de poeira: %3$,d%%)",
+        "not_dusty": "%1$s**%2$s** não está sujo. (Nível atual de sujeira: %3$,d%%)",
         "success": "%1$s**%2$s** está agora brilhando de limpa! O custo para a limpeza do seu pet foi %3$,d créditos."
       },
       "choice": {
@@ -1823,8 +1825,8 @@
         "upgrade": "Procurando por upgrades?",
         "upgrade_content": "Clique [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) para mais informações de como melhorar suas ferramentas!"
       },
-      "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s",
-      "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*"
+      "success_tiered": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Preço de Compra:** %8$s %9$s\n%1$s**Preço de Venda:** %10$s %11$s",
+      "success": "**Informação do Item** %2$s **%3$s** (%4$s)\n%1$s**Tipo:** %5$s\n%1$s**Descrição:** *%6$s*\n%1$s**Preço de Compra:** %7$s %8$s\n%1$s**Preço de Venda:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sBots não tem level.",
