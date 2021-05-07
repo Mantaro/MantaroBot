@@ -26,7 +26,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.stats.StatsManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -577,7 +576,7 @@ public class MusicCmds {
 
                         final var filters = player.getFilters();
                         var volume = (int) (filters.getVolume() * 100);
-                        ctx.sendLocalized("commands.volume.check", EmoteReference.ZAP, volume, StatsManager.bar(volume, 50));
+                        ctx.sendLocalized("commands.volume.check", EmoteReference.ZAP, volume, Utils.bar(volume, 50));
                         return;
                     }
 
@@ -599,7 +598,7 @@ public class MusicCmds {
                             .commit();
 
                     ctx.sendLocalized("commands.volume.success",
-                            EmoteReference.OK, volume, StatsManager.bar(volume, 50)
+                            EmoteReference.OK, volume, Utils.bar(volume, 50)
                     );
                 } else {
                     ctx.sendLocalized("commands.volume.premium_only", EmoteReference.ERROR);

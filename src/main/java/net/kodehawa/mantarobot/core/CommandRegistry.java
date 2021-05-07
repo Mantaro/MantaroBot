@@ -20,8 +20,6 @@ import com.google.common.base.Preconditions;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.CustomCmds;
-import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
 import net.kodehawa.mantarobot.core.command.CommandManager;
 import net.kodehawa.mantarobot.core.command.NewCommand;
 import net.kodehawa.mantarobot.core.command.NewContext;
@@ -265,9 +263,6 @@ public class CommandRegistry {
 
         final var end = System.currentTimeMillis();
         final var category = root(cmd).category() == null ? "custom" : root(cmd).category().name().toLowerCase();
-
-        CommandStatsManager.log(name(cmd, cmdName));
-        CategoryStatsManager.log(category);
 
         Metrics.CATEGORY_COUNTER.labels(category).inc();
         Metrics.COMMAND_COUNTER.labels(name(cmd, cmdName)).inc();

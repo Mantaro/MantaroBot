@@ -21,7 +21,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemReference;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
-import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -29,6 +28,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandCategory;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.core.modules.commands.help.HelpContent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RPGDice;
 import net.kodehawa.mantarobot.utils.commands.ratelimit.IncreasingRateLimiter;
@@ -280,7 +280,7 @@ public class FunCmds {
                         .setThumbnail(ctx.getAuthor().getEffectiveAvatarUrl())
                         .setDescription("\n**" + toDisplay + "**\n\n" +
                                 percentage + "% **\\|\\|**  " +
-                                CommandStatsManager.bar(percentage, 30) + "  **\\|\\|** \n\n" +
+                                Utils.bar(percentage, 30) + "  **\\|\\|** \n\n" +
                                 "**" + languageContext.get("commands.love.result") + "** " + result
                         ).setColor(ctx.getMember().getColor())
                         .build();

@@ -16,14 +16,11 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import com.github.natanbc.usagetracker.DefaultBucket;
 import com.google.common.eventbus.Subscribe;
 import lavalink.client.io.LavalinkSocket;
 import lavalink.client.io.RemoteStats;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
@@ -160,77 +157,6 @@ public class StatsCmd {
                 }
 
                 DiscordUtils.sendPaginatedEmbed(ctx, embed, DiscordUtils.divideFields(3, fields));
-            }
-        });
-
-        statsCommand.addSubCommand("cmds", new SubCommand() {
-            @Override
-            public String description() {
-                return "The bot's command usage";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.equalsIgnoreCase("total")) {
-                    ctx.send(CommandStatsManager.fillEmbed(DefaultBucket.TOTAL, baseEmbed(ctx, "Command Stats | Total")).build());
-                    return;
-                }
-                ctx.send(
-                        baseEmbed(ctx, "Command Stats")
-                                .addField(
-                                        languageContext.get("general.now"),
-                                        CommandStatsManager.resume(DefaultBucket.MINUTE), false
-                                )
-                                .addField(
-                                        languageContext.get("general.hourly"),
-                                        CommandStatsManager.resume(DefaultBucket.HOUR), false
-                                )
-                                .addField(
-                                        languageContext.get("general.daily"),
-                                        CommandStatsManager.resume(DefaultBucket.DAY), false
-                                )
-                                .addField(
-                                        languageContext.get("general.total"),
-                                        CommandStatsManager.resume(DefaultBucket.TOTAL), false
-                                ).build()
-                );
-            }
-        });
-
-        statsCommand.addSubCommand("category", new SubCommand() {
-            private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
-
-            @Override
-            public String description() {
-                return "The bot's category usage";
-            }
-
-            @Override
-            protected void call(Context ctx, I18nContext languageContext, String content) {
-                if (content.equalsIgnoreCase("total")) {
-                    ctx.send(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(ctx, "Category Stats | Total")).build());
-                    return;
-                }
-
-                ctx.send(
-                        baseEmbed(ctx, "Category Stats")
-                                .addField(
-                                        languageContext.get("general.now"),
-                                        categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false
-                                )
-                                .addField(
-                                        languageContext.get("general.hourly"),
-                                        categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false
-                                )
-                                .addField(
-                                        languageContext.get("general.daily"),
-                                        categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false
-                                )
-                                .addField(
-                                        languageContext.get("general.total"),
-                                        categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false
-                                ).build()
-                );
             }
         });
     }

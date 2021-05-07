@@ -53,6 +53,8 @@ import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_M
 
 public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
+    private static final char ACTIVE_BLOCK = '\u2588';
+    private static final char EMPTY_BLOCK = '\u200b';
 
     public static final OkHttpClient httpClient = new OkHttpClient();
     public static final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
@@ -426,6 +428,17 @@ public class Utils {
         Collections.addAll(list, elements);
 
         return list;
+    }
+
+    public static String bar(long percent, long total) {
+        var activeBlocks = (int) ((float) percent / 100f * total);
+        var builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
+
+        for (long i = 0; i < total; i++) {
+            builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
+        }
+
+        return builder.append(EMPTY_BLOCK).append('`').toString();
     }
 
     /**

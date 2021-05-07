@@ -25,7 +25,6 @@ import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.custom.v3.CCv3;
 import net.kodehawa.mantarobot.commands.custom.v3.Parser;
-import net.kodehawa.mantarobot.commands.info.stats.CategoryStatsManager;
 import net.kodehawa.mantarobot.core.modules.commands.base.Context;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -166,7 +165,6 @@ public class CustomCommandHandler {
         }
 
         ctx.send(builder.build());
-        CategoryStatsManager.log("custom");
     }
 
     public void handle() {

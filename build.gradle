@@ -43,10 +43,6 @@ repositories {
     }
 
     jcenter()
-
-    maven { url "https://dl.bintray.com/kodehawa/maven" }
-    maven { url 'https://dl.bintray.com/natanbc/maven' }
-    maven { url 'https://dl.bintray.com/sedmelluq/com.sedmelluq' }
     maven { url 'https://jitpack.io' }
 }
 
@@ -92,10 +88,7 @@ dependencies {
     implementation 'net.jodah:expiringmap:0.5.9'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.commons:commons-text:1.9'
-
-    // Internal deps (aka we made this ourselves)
-    implementation 'net.kodehawa:imageboard-api:2.4.5'
-    implementation 'com.github.natanbc:usage-tracker:0.1.1'
+    implementation 'com.github.Kodehawa:imageboard-api:1907d46a98'
 
     //Basically for FinderUtil
     implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
