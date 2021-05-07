@@ -257,8 +257,8 @@ public class CommandRegistry {
             cmd.run(new Context(event, new I18nContext(guildData, userData), content, isMention), cmdName, content);
         }
 
-        commandLog.debug("!! COMMAND INVOKE: command:{}, user:{} ({}), guild:{}, channel:{}",
-                cmdName, author.getAsTag(), author.getId(), guild.getId(), channel.getId()
+        commandLog.debug("Command: {}, User: {} ({}), Guild: {}, Channel: {}, Message: {}" ,
+                cmdName, author.getAsTag(), author.getId(), guild.getId(), channel.getId(), event.getMessage().getId()
         );
 
         final var end = System.currentTimeMillis();
