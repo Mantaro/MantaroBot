@@ -74,7 +74,7 @@
     "sellout": "Pertimbangkan untuk menderma di [Patreon] (https://www.patreon.com/mantaro) jika anda menyukai saya, walaupun sedikit sumbangan akan membantu bot untuk terus hidup!",
     "deprecated": "Tidak lagi digunakan",
     "space_notice": "Jika nama tersebut mengandungi ruang di antara perkataan, cuba \"mengapit nama tersebut menggunakan tanda petik\". Mungkin arahan help dapat membantu anda lebih lanjut.",
-    "missing_embed_permissions": "Bot memerlukan kebenaran Pautan Embed untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (periksa kebenaran saluran dan kategori juga). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>",
+    "missing_embed_permissions": "Bot memerlukan kebenaran Pautan Embed untuk memaparkan arahan ini. Sila memberikan kebenaran yang diperlukan kepada bot (pastikan untuk memeriksa kebenaran saluran dan kategori). Jika anda memerlukan pertolongan lebih lanjut, sila hubungi <https://support.mantaro.site>. Anda juga boleh membaca maklumat lanjut tentang bot di <https://wiki.mantaro.site>.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Anda akan dapat menggunakan arahan ini semula dalam %3$s.**",
       "spam_1": "Sila berehat, ia baik untuk kesihatan anda. **Ingatlah bahawa ratelimit akan terus meningkat jika anda cuba lagi sebelum cooldown ditetapkan semula!**",
@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sAnda perlu memberitahu saya arahan apa yang ingin anda mengimport.",
-        "not_found": "%1$sTidak ada arahan kustom yang berkaitan dengan carian anda.",
+        "not_found": "%1$sTiada arahan kustom yang berkaitan dengan carian anda.\n**Kadang-kadang, arahan ini tidak berfungsi!**\nDalam situasi sedemikian, anda boleh menyalin arahan tersebut secara manual menggunakan respons `~>custom raw` sebagai gantinya.",
         "header": "`%1$s` (Respons: %2$s) - Pelayan: `%3$s`",
         "selection": "Memilih Arahan:",
         "note": "(Anda hanya boleh memilih arahan dari pelayan yang telah anda sertai)",
@@ -847,7 +847,7 @@
         "role": "Peranan:",
         "category": "Kategori: ",
         "header": "Senarai peranan automatik",
-        "role_give": "Gives role:",
+        "role_give": "Memberi peranan:",
         "no_autoroles": "Tiada peranan automatik yang ditetapkan di pelayan ini.",
         "description": "Berikut adalah peranan automatik yang boleh ditugaskan kepada pengguna di pelayan ini. Anda boleh mendapatkan peranan yang disenaraikan dengan menjalankan `~>iam <nama peranan>`"
       },
@@ -1058,7 +1058,7 @@
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan dikemas kini setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
       "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
-      "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format traikh ialah `dd/mm` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
+      "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format tarikh ialah `hh/bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November).\nSekiranya bulan atau hari hanya mempunyai satu angka, anda perlu menambahkan angka 0 kepadanya. Sebagai contoh, 14/7 akan menjadi 14/07 dan 7/12 akan menjadi 07/12.",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
       "no_content": "%1$sAnda perlu menyatakan hari jadi anda, `remove` untuk menetapkan semula hari jadi anda atau `month` untuk periksa senarai hari jadi bulanan. Kemudian, untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu menjalankan `~>birthday allowserver`",
@@ -1080,7 +1080,7 @@
         "success": "%1$sPeringatan anda telah dibatalkan.",
         "select": "Sila memilih peringatan yang ingin anda batalkan."
       },
-      "no_time": "%1$sAnda tidak menyatakan sebarang masa. Cuba menyatakannya pada permulaan arahan, misalnya, `~>remindme 1h mencuci pinggan`. Formatnya ialah nombor diikuti oleh sama ada d (hari), h (jam) atau m (minit). Periksa `~>help mute` untuk melihat contohnya.",
+      "no_time": "%1$sAnda tidak menyatakan sebarang masa. Cuba menyatakannya pada permulaan arahan, misalnya, `~>remindme 1h mencuci pinggan`. Formatnya ialah nombor diikuti oleh sama ada d (hari), h (jam), m (minit) atau s (saat). Periksa `~>help mute` untuk melihat contohnya.",
       "no_time_arg": "%1$sAnda tidak memberi saya masa pada argumen `-time`.",
       "too_little_time": "%1$sTempoh itu terlalu pendek (Minimum: 1 minit, Contoh: `remindme 1m mencuci pinggan`)",
       "too_long": "Tempoh itu terlalu panjang... (Maksimum: 180 hari)",
@@ -1227,12 +1227,11 @@
     "game": {
       "won_games": "%1$s%2$s telah memenangi **%3$s permainan**",
       "nothing_specified": "%1$sAnda tidak menyatakan apa-apa untuk dimainkan...",
-      "not_enough_games": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. Misalnya, `~>game lobby pokemon,trivia`",
+      "not_enough_games": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. Contoh: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sAnda perlu menyatakan sekurang-kurangnya dua permainan. (Permainan sah: character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sAnda perlu menyatakan permainan dan bilangan kali untuk menjalankannya.",
         "invalid_times": "%1$sBilangan kali tidak sah. Ingat bahawa ia mestilah nombor bulat.",
-        "too_many_games": "%1$sAnda hanya boleh memulakan sebanyak 5 permainan yang sama jenisnya pada masa yang sama.",
         "no_character": "%1$sAnda tidak boleh menggunakan permainan watak dalam permainan berkali-kali atau lobi disebabkan had AniList API."
       },
       "trivia": {
@@ -1275,7 +1274,7 @@
       "character_load_error": "%1$sGagal menyediakan permainan untuk watak pra-simpanan: %2$s. Sekiranya ini berlaku untuk semua watak, ia mungkin ralat sementara.",
       "character_request_error": "%1$sRalat semasa memohon watak ini dari API Kitsu.",
       "character_start": "Teka watak tersebut",
-      "too_many_games": "%1$sAnda boleh memulakan maksimum 4 permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: 8)",
+      "too_many_games": "%1$sAnda boleh memulakan maksimum %2$,d permainan pada masa yang sama dengan lobi permainan. (Dengan Premium: %3$,d)",
       "disabled_multiple": "%1$sPelayan ini telah mematikan permainan berkali-kali/lobi."
     },
     "opencrate": {
@@ -1364,6 +1363,9 @@
         "buildup_stats": "%1$,d kredit / %2$,d item",
         "buildup_stats_credits": "%1$,d kredit",
         "footer": "Terima kasih kerana menggunakan Mantaro! <3"
+      },
+      "check": {
+        "success": "**Status haiwan peliharaan %1$s:**\n\n%2$s Kedahagaan: **%3$s / 100** | %4$s Kelaparan: **%5$s / 100** | %6$s Habuk: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sAnda memerlukan sekurang-kurangnya %2$,d kredit untuk membersihkan **%3$s**.",
@@ -1823,8 +1825,8 @@
         "upgrade": "Mahu menaik tarafnya?",
         "upgrade_content": "Tekan [sini](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) untuk maklumat lanjut tentang cara menaik taraf peralatan anda!"
       },
-      "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s",
-      "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*"
+      "success_tiered": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Tahap:** %7$s\n%1$s**Harga Membeli:** %8$s %9$s\n%1$s**Harga Menjual:** %10$s %11$s",
+      "success": "**Maklumat Item untuk** %2$s **%3$s** (%4$s)\n%1$s**Jenis:** %5$s\n%1$s**Penerangan:** *%6$s*\n%1$s**Harga Membeli:** %7$s %8$s\n%1$s**Harga Menjual:** %9$s %10$s"
     },
     "level": {
       "bot_notice": "%1$sBot tidak mempunyai level.",
