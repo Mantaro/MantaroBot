@@ -309,21 +309,21 @@ public class ItemHelper {
         List<Item> premium = handleItemDrop(i -> i.getItemType() == ItemType.PREMIUM);
 
         List<Item> mine = handleItemDrop(i ->
-                i.getItemType() == ItemType.MINE ||
+                (i.getItemType() == ItemType.MINE ||
                 i.getItemType() == ItemType.CAST_OBTAINABLE ||
-                i.getItemType() == ItemType.MINE_PICK, true
+                i.getItemType() == ItemType.MINE_PICK) && i != ItemReference.ROCK, true
         );
 
         List<Item> fish = handleItemDrop(i -> i.getItemType() == ItemType.FISHING ||  i.getItemType() == ItemType.FISHROD, true);
         List<Item> chop = handleItemDrop(i -> i.getItemType() == ItemType.CHOP_DROP ||  i.getItemType() == ItemType.CHOP_AXE, true);
 
         List<Item> premiumMine = handleItemDrop(i ->
-                i.getItemType() == ItemType.CAST_MINE ||
+                (i.getItemType() == ItemType.CAST_MINE ||
                 i.getItemType() == ItemType.MINE_PICK ||
                 i.getItemType() == ItemType.MINE ||
                 i.getItemType() == ItemType.MINE_RARE ||
                 i.getItemType() == ItemType.CAST_OBTAINABLE ||
-                i.getItemType() == ItemType.MINE_RARE_PICK
+                i.getItemType() == ItemType.MINE_RARE_PICK) && i != ItemReference.ROCK
         );
 
         List<Item> premiumFish = handleItemDrop(i ->
