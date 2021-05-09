@@ -146,9 +146,9 @@
         "success": "%1$sTu avais équipé un objet désormais cassé, j'ai donc pris la liberté d'équiper une **%2$s**"
       },
       "overflow": "%1$sTu as trouvé des poissons, mais une partie de ton inventaire était pleine, nous avons donc dû en jeter une partie dans l’eau.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sEn pêchant tranquillement, tu as trouvé %2$s grâce à ta *%3$s* et tu les as gardés dans ton seau.",
+      "success_money": "%1$sEn pêchant tranquillement, tu as trouvé %2$s et **$%3$,d credits** grâce à *%4$s* et tu les as gardés dans ton seau.%5$s",
+      "success_money_noitem": "%1$sEn pêchant tranquillement, tu as trouvé **$%2$,d credits** grâce à *%3$s* et tu les as gardés.",
       "rod_broke": "%1$sTa canne à pêche s'est cassée en essayant d'attraper un poisson :(",
       "waifu_help": "Ta waifu est venue et t'as rejoint dans ton aventure de pêche. Ensemble, vous obtenez un plus grand butin !",
       "not_suitable": "%1$sTu ne peux pas utiliser ça pour pêcher.",
@@ -279,7 +279,7 @@
         "loaded_playlist": "%1$sAjout de **%2$d musiques** à la file d'attente de la playlist: **%3$s** *(%4$s)*",
         "no_matches": "%1$sLa recherche n'a donné aucun résultat. Si cela apparaît pour *toutes les chansons* pour lesquelles tu as fait une recherche, utilises`~>play soundcloud <termes recherchés>`à la place. Les liens directs vers YouTube devraient également fonctionner.",
         "error_loading": "%1$sErreur en recherchant la musique: %2$s. Réessaie de nouveau ou utilise un autre lien?",
-        "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
+        "unknown_error_loading": "%1$sErreur inconnue en recherchant de la musique. Réessaie de nouveau ou utilise un autre lien?",
         "over_queue_limit": "%1$s**Je n'ai pas pu ajouter de musique à la file d'attente' %2$s: Limite de titres dans la liste de lecture dépassée (%3$s)**",
         "over_32_minutes": "%1$s**Je n'ai pas pu ajouter `%2$s` à la file d'attente: Cette musique est plus longue que %3$s.**\n(La durée de ce morceau est %4$s).\nTu peux augmenter la limite de longueur des musique et des rediffusions de stream grâce à Mantaro Premium! Va sur <https://patreon.com/mantaro> pour plus d'infos.",
         "fair_queue_limit_reached": "%1$s**Niveau de la file d'attente dépassé de %2$d (Trop de musiques similaires)**",
@@ -469,7 +469,7 @@
       },
       "rename": {
         "success": "%1$sCommande renommée de `%2$s` à `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sTu dois spécifier la commande que tu veux renommer et son nouveau nom."
       },
       "add": {
         "no_command": "$1$sTu dois spécifier la commande à ajouter.",
@@ -516,7 +516,7 @@
       "already_muted": "%1$sCet utilisateur a déjà un rôle muet attribué. Ecris `~>unmute` pour annuler le mute.",
       "self_hierarchy_error": "%1$sJe ne peux pas attribuer le rôle muet à cet utilisateur, car il appartient à une hiérarchie supérieure à la mienne ou le rôle est supérieur dans la hiérarchie!",
       "user_hierarchy_error": "%1$sJe ne peux pas attribuer le rôle muet à cet utilisateur, car il appartient à une hiérarchie supérieure à la mienne ou le rôle est supérieur dans la hiérarchie par rapport à toi!",
-      "success": "%1$sAdded mute role to **%2$s** for %3$s",
+      "success": "%1$sAjout du rôle muet à **%2$s** pendant %3$s",
       "success_reason": "%1$sAdded mute role to **%2$s** for %3$s because of the following reason: %4$s"
     },
     "unmute": {
@@ -564,11 +564,11 @@
         "empty": "%1$sTu ne peux pas laisser la lettre d'amour vide.",
         "no_marriage": "%1$sTu n'es pas marié, tu ne peux pas écrire une lettre d'amour à toi-même...",
         "not_proposing_player": "%1$sTu n'es pas le joueur qui a demandé en mariage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sCe mariage a déjà une lettre d'amour assignée. Vérifie-la en utilisant `~>marry status`",
         "too_long": "%1$sLa lettre d'amour est trop longue (le maximum est 500 caractères)",
         "cannot_see": "%1$sJe ne peux pas trouver l'utilisateur auquel vous êtes marié... Il n'est probablement dans aucun serveur avec moi.",
         "confirmation": "%1$sÊtes-vous *sûr.e* de vouloir écrire cette lettre pour votre mariage avec **%2$s#%3$s**? Ceci est PERMANENT contrairement au mariage. *Contenu de la lettre :* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$sLa lettre d'amour a été délivrée avec succès à ton amoureux.se! Vérifie-la en utilisant `~>marry status`",
         "scrapped": "%1$sTu as toujours du temps pour réfléchir à ce que tu veux écrire, pas besoin de se dépêcher!"
       },
       "status": {
@@ -597,7 +597,7 @@
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter plus d'emplacements! (Prix actuel d'une maison: %2$d credits.)",
         "no_name": "%1$sVous devez nommer votre maison! Par exemple, `~>marry house cozy house`",
         "confirm": "%1$sTu es sûr.e de vouloir acheter cette maison? Le prix déduit de ton portefeuille est %2$d et le nom de ta maison sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
-        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
+        "success": "%1$sTu as acheté ta maison pour %2$d credits avec succès. Le nom de ton nouveau nid douillet est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
       },
       "buycar": {
@@ -605,7 +605,7 @@
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter une voiture! (Prix actuel d'une voiture: %2$d credits.)",
         "no_name": "%1$sVous devez nommer votre voiture! Par exemple, `~>marry car vroom`",
         "confirm": "%1$sTu es sûr.e de vouloir acheter cette voiture? Le prix déduit de ton portefeuille est %2$d et le nom de ta voiture sera %3$s. Envoie `yes` pour confirmer ou `no` pour annuler.",
-        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
+        "success": "%1$sTu as acheté ta voiture pour %2$d credits avec succès. Le nom de ton nouveau bolide est %3$s, profites-en!",
         "cancel_success": "%1$sOpération annulée."
       },
       "no_mention": "%1$sMentionne l'utilisateur auquel tu veux te marier.",
@@ -619,7 +619,7 @@
       "ring_check_fail": "%1$sTu ne peux pas te marier avec moins de deux bagues de mariage dans ton inventaire :(",
       "accepted": "%1$s**%2$s#%3$s** a accepté la demande de **%4$s#%5$s**!",
       "denied": "%1$sa refusé la demande de **%2$s**",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "Pourquoi veux-tu te marier autant?"
     },
     "divorce": {
       "confirm": "%1$sÊtes vous sûr.e.s de vouloir divorcer? L'argent dépensé en animaux de compagnie, maisons et voitures sera divisé entre vous. Écris `yes` pour continuer ou `no` pour annuler. Votre animal disparaitra, puisqu'il est lié au mariage.",
@@ -646,7 +646,7 @@
         "key_locked": "%1$sLa personne que tu tentes d'acquérir est verrouillée. Elle peut se déverrouiller en faisant la commande `~>profile claimlock remove` si elle le souhaite.",
         "not_enough_money": "%1$sTu n'as pas assez de monnaie pour acheter cette waifu **(Cout: %2$s)**",
         "not_enough_slots": "%1$sTu n'as pas assez d'emplacements disponibles pour accueillir cette waifu. (Emplacements au total : %2$s, Emplacements utilisés : %3$s)",
-        "success": "%1$sSuccessfully claimed `%2$s` for %3$,d credits. Slots used: %4$s",
+        "success": "%1$sAcheté.e `%2$s` avec succès pour %3$,d credits. Emplacements utilisés: %4$s",
         "yourself": "%1$sTu ne peux pas t’acheter !",
         "already_claimed": "%1$sTu as déjà acheté cette waifu.",
         "not_found": "%1$sJe ne trouve aucun utilisateur avec cette recherche."
@@ -664,7 +664,7 @@
       "buyslot": {
         "locked": "%1$sTu n'as mentionné aucun utilisateur à réclamer.",
         "not_enough_money": "%1$sTu n'as pas assez de monnaie pour acheter plus d'emplacements! Tu as besoin de %2$d credits.",
-        "success": "%1$sSuccessfully bought this slot for %2$s credits, you currently have %3$s total slots and %4$s available slots.",
+        "success": "%1$sAcheté avec succès cet emplacement pour %2$s credits, tu as actuellement %3$s emplacements au total et %4$s emplacements disponibles.",
         "too_many": "%1$sTu as trop d'emplacements! Le maximum est de 30 emplacements."
       },
       "optout": {
@@ -687,7 +687,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sDonnez-moi une waifu à noter!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sJe note ta waifu **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sTu as eu **%2$d**%3$s",
