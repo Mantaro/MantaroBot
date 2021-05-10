@@ -250,7 +250,7 @@ public class HelpCmd {
 
                         if (stringBuilder.length() > 0) {
                             builder.addField(EmoteReference.ZAP.toHeaderString() + "Sub-commands",
-                                    "**Append the main command to use any of this.**\n" + stringBuilder,
+                                    "**Prepend the main command to use any of this.**\n" + stringBuilder,
                                     false
                             );
                         }
