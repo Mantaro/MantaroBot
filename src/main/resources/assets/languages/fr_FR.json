@@ -43,7 +43,7 @@
         "no_key": "%1$sTu as besoin d'une clé pour ouvrir ce coffre. Il est fermé à clé ! Tu peux en acheter une en utilisant `~>buy key`",
         "no_crate": "%1$sTu as besoin d'un coffre! Tu peux trouver des coffres dans les commandes de devise.",
         "success": "%1$s**Tu as gagné:** %2$s%3$s",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success_high": "%1$sTu as obtenu des objets d'une rareté 3 étoiles: %2$s. Le nombre d'objets t'as été montré plus haut",
         "overflow": "Mais tu en avais déjà trop, alors tu as décidé de jeter l'excédent"
       },
       "potion_active": "%1$sTu as déjà un effet de potion **%2$s** actif!",
@@ -74,7 +74,7 @@
     "sellout": "Pense à faire un don sur [Patreon](https://www.patreon.com/mantaro) si tu m'aimes, même un petit don aidera à garder le bot en vie!",
     "deprecated": "Ce n'est plus utilisé'",
     "space_notice": "Si le nom est composé, essaie de le \"mettre entre guillemets\". La commande help t'en dira surement plus.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "missing_embed_permissions": "Le bot n'a pas la permission d'intégrer des liens nécessaire pour cette commande. Donne-lui cette permission s'il te plait (jette un œil aux permissions de salon et de catégorie). Si tu as besoin d'aide supplémentaire, va sur <https://support.mantaro.site>. Tu peux également aller voir sur le wiki à <https://wiki.mantaro.site> pour plus d'infos sur le bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Limite de temps)\n **Tu pourras utiliser cette commande à nouveau dans %3$s.**",
       "spam_1": "S'il te plait repose toi, c'est bon pour ta santé. **N'oublies pas que le temps limite continuera d'augmenter si tu essaies avant la fin du temps imparti!**",
@@ -228,9 +228,9 @@
       "not_connected": "%1$sTu n'es connecté à aucun salon vocal dans lequel je joue actuellement! (Si tu penses qu'il s'agit d'une erreur, signales le sur le serveur de support)",
       "np_message": "%1$s Joue actuellement **%2$s** (%3$s) sur **%4$s** | %5$s",
       "track_error": "%1$sOuch, quelque chose s'est mal passé en jouant à ce morceau! Désolé, je vais essayer de jouer le prochain morceau disponible s'il y en a un.",
-      "queue_finished": "%1$sFinished playing current queue! I hope you enjoyed it :heart:",
+      "queue_finished": "%1$sJ'ai fini de jouer la liste de lecture! J'espère que tu as aimé :heart:",
       "soundcloud_no_args": "%1$sTu dois me donner le nom de la chanson, je ne suis pas un magicien, je ne peux pas le deviner :(",
-      "missing_embed_permissions": "%1$sYou need to give the bot the Embed Links permission for it to display the menu. If you want to skip the menu, use `~>forceplay` instead, which will play the first result.",
+      "missing_embed_permissions": "%1$sTu dois donner la permission Intégrer des liens au bot pour lui permettre de faire apparaitre le menu. Si tu veux passer le menu, utilise `~>forceplay` à la place ce qui jouera le premier résultat.",
       "no_vc_found": "%1$sJe ne suis connecté à aucun salon vocal même si je devrais. Essaie à nouveau.",
       "queue": {
         "header_field": "Instructions",
@@ -254,7 +254,7 @@
         "songs": "chanson(s)",
         "clear_error": "%1$sSoit tu n'es pas connecté au salon vocal, soit tu n'es pas DJ.",
         "clear_success": "%1$sListe de lecture en cours effacée avec succès.",
-        "no_embed": "%1$sYou need to give the bot the Embed Links permission for it to display the queue embed."
+        "no_embed": "%1$sTu dois donner la permission Intégrer des liens au bot pour lui permettre de faire apparaitre la liste de lecture."
       },
       "connect": {
         "success": "%1$sConnecté avec succès au salon vocal **%2$s**!",
@@ -270,7 +270,7 @@
       "listener": {
         "paused": "%1$sMusique en pause parce qu'on m'a rendu muet :(",
         "resumed": "%1$sReprise de la lecture parce que quelqu'un a rejoint le salon vocal!",
-        "not_resumed": "%1$sSomeone joined, but I didn't resume playback since I was paused manually! Use `~>resume` to manually resume playback.",
+        "not_resumed": "%1$sQuelqu'un nous a rejoint mais je n'ai pas repris la lecture puisque j'ai été mise en pause manuellement! Utilise `~>resume` pour relancer la lecture manuellement.",
         "left_alone": "%1$sJe partirai **%2$s** dans 2 minutes parce qu’on m'a laissé tout seul :(",
         "leave": "%1$sJ'ai décidé de partir **%2$s** parce qu’on m'a laissé tout seul :("
       },
@@ -340,7 +340,7 @@
       "queue_repeat": "%1$sRépétition de la file d'attente actuelle.",
       "song_cancel": "%1$sPoursuite avec la file d'attente normale.",
       "song_repeat": "%1$sRépétition de la chanson en cours.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "invalid": "%1$sCe n'est pas un choix alide. Lance cette commande sans argument ou utilise `~>repeat queue` pour répéter la liste en entier."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, il n'y a pas de chanson à suivre",
@@ -391,7 +391,7 @@
     },
     "prefix": {
       "header": "%1$sLes préfixes par défaut sont %2$s et me mentionner (Je réponds à chacun d'eux!). %3$s. \nTu peux définir un nouveau préfixe en écrivant `~>opts prefix set <prefix>`. Ne pas inclure les <>.\nPour réinitialiser le préfixe du serveur utilise `~>opts prefix clear`\nSi tu as des questions, rejoins <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
+      "guild_prefix": "Mon préfixe sur ce serveur est `%1$s` (Ça ne fonctionne qu'ici)",
       "none": "Il n'y a pas de préfixe personnalisé défini sur ce serveur."
     },
     "custom": {
@@ -421,7 +421,7 @@
         "not_found": "%1$sJe ne trouve pas cette commande.",
         "header": "Commande \"%1$s\":",
         "amount": "(Affichage de %1$d réponse sur %2$d)",
-        "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
+        "too_large_view": "C'est trop grand que pour le voir ici, utilise `~>custom view %1$s %2$s`",
         "description": "Ceci est une liste de toutes les réponses de cette commande au format brut (ce que vous entrez dans la commande)."
       },
       "clear": {
@@ -445,7 +445,7 @@
       },
       "import": {
         "no_command": "%1$sTu dois me dire quelle commande je dois importer.",
-        "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
+        "not_found": "%1$sIl n'y a pas de commande personnalisée correspondant à ta recherche.\n**Cette commande dysfonctionne peut-être!**\nDans ce cas, tu peux copier la commande en utilisant le retour de la commande `~>custom raw` à la place.",
         "header": "`%1$s` - Guilde: `%2$s`",
         "selection": "Sélection de la commande:",
         "note": "(Tu peux sélectionner une commande personnalisée uniquement d'une guilde dont tu es membre)",
@@ -714,16 +714,16 @@
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
       "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
       "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
+      "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire une **%3$s**. **(Nécessaires : %4$s, Possédés : %5$s)**",
+      "success": "%1$sTu as fabriqué %2$,dx %3$s **%4$s** avec succès pour %5$,d credits. *Matériaux utilisés : %6$s*",
+      "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
       "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
-      "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
+      "too_many": "%1$sTu auras plus de 5000 exemplaires de cet objet si tu continues. Essaie d'en faire moins ?!",
+      "low_tier": "%1$sTu as besoin d'une clé de Tier 2 au minimum (la clé de comète) pour forger plus d'objets. Ta clé actuelle est de Tier %2$s.",
+      "not_enough_wrench_level": "%1$sTa clé n'est pas assez puissante pour forger cet objet. Spécifie peut-être une plus puissante ? (*Niveau de ta clé : %2$s, Niveau nécessaire : %3$s*)",
       "too_many_amount": "%1$sTu ne peux pas forger autant d'exemplaires de cet objet en une fois! Limite : %2$s, Essais : %3$s. Une clé anglaise scintillante double la limite ! A moins que tu ne l'utilises déjà.",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+        "success": "%1$sTu avais équipé un objet désormais cassé, j'ai donc pris la liberté d'équiper une **%2$s**"
       },
       "ls": {
         "header": "Liste des objets à fabriquer",
@@ -752,7 +752,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to sell.",
+        "no_item": "%1$sTu dois spécifier l'objet à vendre.",
         "no_item_amount": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser) et l'objet que tu veux vendre.",
         "invalid": "%1$sNombre d'objets à vendre invalide.",
         "all": {
@@ -768,7 +768,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to buy.",
+        "no_item": "%1$sTu dois spécifier l'objet à acheter.",
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
         "non_existent": "%1$sTu ne peux pas acheter un objet inexistant. Si tu es perdu.e, tu peux essayer de taper le nom raccourci ou de mettre le nom entre guillemets. De plus, le nombre d'objets doit être présent avant le nom de l'objet, par exemple : `~>buy 15 energy`",
@@ -778,7 +778,7 @@
         "success_breakable": "%1$sAcheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux équiper cet objet avec `~>equip <item name>`",
         "success_potion": "%1$sAcheté %2$,d %3$s pour %4$,d crédits avec succès. Tu as maintenant %5$,d crédits. Tu peux utiliser cet objet avec `~>useitem <item name>`",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet objet. Portefeuille: %2$,d crédits, Valeur: %3$,d crédits.",
-        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
+        "success_breakable_upgrade": "Clique ici <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> pour plus d'informations sur les améliorations d'outils!"
       },
       "header": "Marché de Mantaro",
       "reference": "\nTu peux acheter et vendre des objets en utilisant `~>buy <item>` et `~>sell <item>`. Utilise `~>help market` pour plus d'informations, ou tu peux aussi voir une version courte du marché avec `~>market tools`.",
@@ -798,8 +798,8 @@
       "no_item_mention": "%1$sTu dois spécifier la personne à qui tu transfère l'objet ainsi que l'objet lui-même."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sTon compte doit avoir au moins 14 jours d'ancienneté pour transférer de l'argent.",
+      "new_account_notice_other": "%1$sLe compte sur lequel tu transfères doit avoir au moins 14 jours d'ancienneté.",
       "transfer_yourself_note": "%1$sTu ne peux pas t'envoyer de l'argent à toi-même.",
       "bot_notice": "%1$sTu ne peux pas envoyer de l'argent à un bot.",
       "no_amount": "%1$sTu dois spécifier le montant. Utilise la commande `transferitems` si tu veux transférer un objet.",
@@ -847,14 +847,14 @@
         "role": "Rôle: ",
         "category": "Categorie: ",
         "header": "Liste des autorôles",
-        "role_give": "Gives role:",
+        "role_give": "Donne le rôle:",
         "no_autoroles": "Il n'y a pas d'autorôles sur ce serveur.",
         "description": "Voici les rôles auto-assignables de ce serveur. Tu peux te les attribuer en faisant `~>iam <name of the role>`"
       },
       "deleted_role": "%1$sLe rôle auquel correspond cet autorôle a été supprimé",
       "already_assigned": "%1$sTu as déjà ce rôle, idiot!",
       "success": "%1$s%2$s, tu viens de recevoir le rôle **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "error": "%1$sJe ne peux pas t'enlever **%2$s**. Assure toi que j'ai la permission d'ajouter les rôles (Gérer les rôles) et que mon rôle est au-dessus de **%2$s**",
       "no_role": "%1$sIl n'y a pas d'auto-rôle avec le nom `%2$s`",
       "no_iam": "%1$sTu dois spécifier quel rôle auto-assignable tu veux t'assigner!"
     },
@@ -890,9 +890,9 @@
         "reset_success": "%1$sTon fuseau horaire a été réinitialisé avec succès."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
+        "no_argument": "%1$sTu dois me donner un argument! (set ou remove). Par exemple, `~>profile description set Hello there!`",
+        "no_content": "%1$sTu ne m'as pas dit ce que tu voulais comme description. Par exemple, `~>profile description set Hello there!`",
+        "too_long": "%1$sTa description est trop longue! (Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)",
         "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
         "clear_success": "%1$sDescription supprimée avec succès."
       },
@@ -920,7 +920,7 @@
       },
       "pet": {
         "header": "Active Pet",
-        "none": "No active pet"
+        "none": "Aucun animal actif"
       },
       "stats": {
         "header": "Statistique de profil de %1$s",
@@ -962,12 +962,12 @@
         "success": "%1$sTu as équipé %2$s *%3$s* avec succès, ce qui ne sera pas oublié la prochaine fois que tu utilises une commande monétaire.",
         "not_suitable": "%1$sTu ne peux pas équiper cela.",
         "not_equipped": "%1$sTu n'as pas équipé ça.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sTu as déjà équipé un objet de ce type! Essaie `~>unequip <type>` (Le type peut être rod, axe, pick ou wrench) pour le déséquiper."
       },
       "unequip": {
         "not_equipped": "%1$sTu n'as rien d'équipé à cet emplacement.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
+        "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, axe, rod, wrench`(pioche, hache, canne à pêche, clé).",
+        "invalid_type": "%1$sType invalide. Les types d'objets valides sont `pick, axe, rod, wrench` pioche, hache, canne à pêche et clé en anglais.",
         "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
         "equipment_recover": "\nPuisque tu ne l'avais pas utilisée, tu la retrouve dans ton inventaire (équipement retrouvé: %1$s)!",
@@ -1036,7 +1036,7 @@
       "footer": "Les badges sont comme des succès, on les obtiens en progressant dans le jeu de Mantaro ou simplement en utilisant le bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$s Pour donner ou recevoir des points de réputation, le compte Discord doit être plus vieux que 30 jours. Réessaie plus tard.",
       "no_mentions": "%1$sTu dois mentionner quelqu'un ou au moins écrire son nom.\n%2$s",
       "more_than_one": "%1$sTu ne peux donner un point de réputation qu'à une personne.",
       "rep_bot": "%1$sTu ne peux pas donner un point de réputations aux bots.\n%2$s",
@@ -1059,7 +1059,7 @@
       "full_header": "**Anniversaires du mois de %1$s**\n%2$s\nSouviens-toi que le cache des anniversaires se met à jour toutes les 23 heures et que tu dois lancer `~>birthday allowserver`. Montre jusque 100 résultats.",
       "invalid_date": "%1$sCe n'est pas une date valide ou le format est incorrect.\nSouviens-toi que le format de date est `jj-mm` (Par exemple, utilise `~>birthday 16-11` pour le 16 novembre)",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
-      "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
+      "added_birthdate": "%1$sTu as ajouté ta date d'anniversaire avec succès. Nouvelle date d'anniversaire: %2$s *(Format: jj-MM)* [day-month]. Pour que ce serveur annonce ton anniversaire , tu dois lancer la commande `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sCe n'est pas un numéro de mois valide! (Les nombres valides de mois vont de 01 à 12)",
       "no_content": "%1$sTu dois spécifier ton anniversaire, `remove` pour le réinitialiser ou `month` pour vérifier la liste des anniversaire du mois. Maintenant, pour que ce serveur annonce ton anniversaire, lance `~>birthday allowserver`",
       "new_format": "%1$sLe nouveau format est juste `jj-mm` (jour-mois, par exemple 20-10 pour le 20 octobre). Plus besoin d'entrer l'année maintenant, donc tu peux omettre cette partie!",
@@ -1227,7 +1227,7 @@
     "game": {
       "won_games": "%1$s%2$s a gagné **%3$s parties**",
       "nothing_specified": "%1$sTu n'as pas spécifié le jeu à lancer..",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
+      "not_enough_games": "%1$sTu dois spécifier au moins deux jeux. Par exemple: `~>game lobby pokemon, trivia`",
       "invalid_selection": "%1$sTu dois spécifier au moins deux jeux. (Jeux valides : character, pokemon, number, trivia)",
       "multiple": {
         "invalid": "%1$sTu dois spécifier le jeu et le nombre de fois auquel tu veux y jouer",
@@ -1274,7 +1274,7 @@
       "character_load_error": "%1$sRapporte ça sur le serveur officiel s'il te plait. Échec de mise en place du jeu pour le personnage pré-sauvegardé : %2$s",
       "character_request_error": "%1$sErreur en requérant ce personnage à l'API AniList.",
       "character_start": "Devine le personnage",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
+      "too_many_games": "%1$sTu peux démarrer au maximum %2$,d jeux en même temps dans un lobby. (%3$,d en étant Premium)",
       "disabled_multiple": "%1$sCe serveur a désactivé les commandes game multiple/lobby."
     },
     "opencrate": {
@@ -1334,7 +1334,7 @@
       "rating": "Classement",
       "load_notice": "Si l'image ne charge pas cliques sur le titre.",
       "rule34_notice": "Si tu n'aimes pas le contenu de cette commande, tu peux utiliser `~> yandere`. Si le contenu gifs / webm ne se joue pas, clique sur le lien dans le titre.",
-      "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
+      "yandere_nsfw_notice": "%1$sLes commandes Yande.re peuvent être utilisées uniquement dans les salons NSFW à cause d'un nombre important de plainte concernant le contenu explicite envoyé avec le tag \"safe\". Tu peux donc utiliser cette commande dans un salon NSFW.",
       "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
       "e621_nsfw_notice": "%1$sLa commande e621 ne peut être utilisée que sur les canaux NSFW.",
       "e926_nsfw_notice": "%1$sLa commande e926 ne peut être utilisée que dans les canaux NSFW. Les images sont majoritairement saines, mais les classements sont inconstants."
@@ -1344,7 +1344,7 @@
       "no_marriage": "%1$sTu dois être marié.e pour avoir un animal de compagnie. Pour l'instant. Regarde `~>help marry` et `~>pet`",
       "no_marriage_other": "%1$s%2$sDoit être marié.e pour avoir un animal de compagnie. Pour l'instant. Regarde `~>help marry` et `~>pet`",
       "status": {
-        "no_pet": "%1$sYou don't have any pets to check the status of. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sTu n'as pas d'animaux à surveiller. Fais la commande `~>pet` pour plus d'explications. (Choix: %2$s)%3$s",
         "pet_in_other_category": "\n%1$sYou have a pet on the %2$s choice (%3$s). You can switch to it with `~>pet choice %2$s`",
         "header": "Statut de %1$s",
         "description": "N'oublie pas de t'occuper de ton animal et l'aimer :heart:\nVoir `~>pet` et`~>help pet` pour une explication.",
@@ -1356,7 +1356,7 @@
         "thirst": "Soif",
         "hunger": "Faim",
         "stamina": "Endurance",
-        "dust": "Dust (%)",
+        "dust": "Poussière (%)",
         "pet": "Caresses",
         "buildup": "Credit / Item Buildup",
         "buildup_coin": "Credit Buildup",
@@ -1388,7 +1388,7 @@
         "header": "%1$s**Animaux disponibles**\n\n%2$s\n\n%3$s**Explication des capacités:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sTu n'as pas d'animaux à caresser. Fais la commande `~>pet` pour plus d'explications. (Choix: %2$s)",
         "no_pet_other": "%1$s%2$sn'a pas d'animaux à caresser. Voir `~>pet` pour plus d'information.",
         "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
         "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
@@ -1410,14 +1410,14 @@
         "already_has_pet": "%1$sYou already have a pet. (Current choice: %2$s)",
         "nothing_found": "%1$sJe n'ai pas trouvé le type d'animal que tu as spécifié. Tu as spécifié: `%2$s`, Types valides: `%3$s`",
         "not_enough_money": "%1$sTu n'as pas assez d'argent pour acheter cet animal. Valeur: %2$,d crédits, Portefeuille: %3$,d crédits",
-        "confirm": "%1$sAre you sure you want to buy this pet? Name: %2$s, Type: %3$s, Cost: %4$,d credits. Choice: %5$s. Type `yes` to continue, `no` otherwise.",
-        "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
-        "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
+        "confirm": "%1$sEs-tu sûr.e de vouloir acheter cet animal? Nom: %2$s, Type: %3$s, Cout: %4$,d crédits. Choix: %5$s. Envoie `yes` pour continuer, `no` pour annuler.",
+        "success": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommé `%4$s`. Le cout de cet achat est de %5$,d crédits son choix était: %6$s",
+        "success_personal": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommé `%4$s`. Le cout de cet achat est de %5$,d crédits son choix était: %6$s",
         "cancel_success": "%1$sOpération annulée.",
         "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères."
       },
       "feed": {
-        "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sTu n'as pas d'animaux à nourrir. Fais la commande `~>pet` pour plus d'explications. (Choix: %2$s)%3$s",
         "no_content": "%1$sTu dois spécifier ce que tu veux donner à manger à ton animal. Par exemple, `~>pet feed steak`",
         "no_item": "%1$sJe n'ai pas trouvé l'objet que tu as spécifié.",
         "not_food": "%1$sOulah doucement! Ce n'est pas de la nourriture, pas même en cas d'urgence!",
@@ -1428,7 +1428,7 @@
         "too_much": "%1$sDonne lui peut-être moins de nourriture? Tu vas gaspiller sinon! (L'augmentation surpasse 100%%)"
       },
       "water": {
-        "no_pet": "%1$sYou don't have any pets to water. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
+        "no_pet": "%1$sTu n'as pas d'animaux à abreuver. Fais la commande `~>pet` pour plus d'explications. (Choix: %2$s)%3$s",
         "no_need": "%1$sTon animal n'a pas soif pour le moment.",
         "not_inventory": "%1$sTu n'as pas de bouteille d'eau dans ton inventaire. Assure-toi d'en avoir.",
         "not_enough_inventory": "%1$sTu n'as pas assez de bouteilles dans ton inventaire! Tu en as besoin de %2$s.",
@@ -1455,10 +1455,10 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
-        "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
-        "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
+        "confirm": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$,d crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit que ce remboursement ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
+        "confirm_personal": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$,d crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit que ce remboursement ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
         "success": "%1$sAnimal de compagnie enlevé avec succès. Chaque membre de ce mariage recevras %2$s crédits de remboursement.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
+        "success_personal": "%1$sAnimal de compagnie enlevé avec succès. Chaque membre de ce mariage recevras %2$s crédits de remboursement."
       },
       "info": {
         "not_found": "%1$sJe ne trouve pas le type d'animal que tu cherches. Utilise `~>pet list` pour avoir la liste des types d'animaux.",
@@ -1467,7 +1467,7 @@
         "cost": "Cout de l'animal",
         "abilities": "Capacités",
         "food": "Régime alimentaire",
-        "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
+        "coin_buildup": "Renforcement pécuniaire (Niv. 1/100)",
         "item_buildup": "Renforcement de l'objet (Niv. 1/100)"
       }
     },
@@ -1496,8 +1496,8 @@
       "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "dust": "%1$sTon inventaire à trop de poussière pour essayer de sauver cet objet, essaye de le nettoyer avec un balai.",
       "no_returnables": "%1$sCet objet n'a pas rendu d'éléments ayant servi à le sauver.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "item_broke": "%1$sTa clé (%1$s) s'est brisée en essayant de sauver cet objet :(",
+      "success": "%1$s %2$s réparée avec succès et tu as obtenu %3$s en retour. Ça t'a couté %4$s crédits.",
       "ls": {
         "header": "Liste des objets qui peuvent être réparés",
         "cost": "Cout de la réparation: ",
@@ -1595,7 +1595,7 @@
     "repair": {
       "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
       "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
+      "no_main_item": "%1$sTu n'as pas l'objet que tu veux réparer (%2$s)",
       "cant_repair": "%1$s**%2$s** ce n'est pas un objet réparable. Tu ne peux réparer que ce qui est cassé.",
       "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
       "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
@@ -1604,7 +1604,7 @@
       "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
       "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "no_item_recipe": "%1$sTu n'as pas le *%2$s* nécessaire pour faire cette réparation.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
+      "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire cette réparation de **%3$s**. **(Nécessaire: %4$s, Actuellement en ta possession: %5$s)**",
       "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
       "success": "%1$sRéparation réalisée avec succès! Objet réparé %2$s **%3$s** -> %4$s **%5$s**. La réparation a couté *%6$s* credits et la recette de réparation était *%7$s*.",
       "ls": {
@@ -1761,9 +1761,9 @@
         "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "success_only_item": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s grâce à ta *%3$s* et tu les as gardés.",
+      "success": "%1$sEn coupant du bois tranquillement, tu as trouvé %2$s et **$%3$,d crédits** grâce à ta *%4$s* et tu les as gardés.",
+      "success_money_noitem": "%1$sEn coupant du bois tranquillement, tu as trouvé **$%2$,d crédits** grâce à ta *%3$s* et tu les as gardés dans ta poche."
     },
     "slots": {
       "errors": {
@@ -1815,15 +1815,15 @@
       "no_content": "%1$sTu n'as pas spécifié l'objet recherché! Tu peux le chercher par son nom ou par son emoji.",
       "no_item": "%1$sAucun objet ne correspond à ta recherche",
       "embed": {
-        "header": "Item Information for %1$s",
+        "header": "Information d'objet pour %1$s",
         "type": "Type",
-        "usefulness": "Usefulness",
-        "attributes": "Attributes",
+        "usefulness": "Utilité",
+        "attributes": "Attributs",
         "tier": "Tier",
-        "durability": "Durability",
+        "durability": "Durabilité",
         "desc": "Description",
-        "upgrade": "Looking to upgrade?",
-        "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
+        "upgrade": "Tu cherches à améliorer?",
+        "upgrade_content": "Clique [ici](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) pour plus d'informations sur les améliorations d'outils!"
       },
       "success_tiered": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Tier:** %7$s\n%1$s**Buy Price:** %8$s %9$s\n%1$s**Sell Price:** %10$s %11$s",
       "success": "**Item Information for** %2$s **%3$s** (%4$s)\n%1$s**Type:** %5$s\n%1$s**Description:** *%6$s*\n%1$s**Buy Price:** %7$s %8$s\n%1$s**Sell Price:** %9$s %10$s"
@@ -1836,7 +1836,7 @@
   },
   "options": {
     "options": "Options Mantaro",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sUtilisation incorrecte ou éléments manquants. Assure-toi que ton premier argument ne commence pas par une nouvelle ligne!\nSi tu es perdu.e, va voir <https://github.com/Mantaro/MantaroBot/wiki/Configuration> pour un guide sur l'utilisation des options. Si tu as des problèmes vis-à-vis du Wiki, vas voir <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sImpossible de récupérer les valeurs. Chose étrange...",
       "header": "Options définies pour le serveur **%1$s**.",
@@ -2301,27 +2301,27 @@
       "rare": "Rare Item",
       "premium": "Premium Item",
       "cast_mine": "Casted Mine Item",
-      "mine": "Mined Item",
-      "fish": "Fished Item",
-      "fish_rare": "Fished Item (Rare)",
-      "mine_rare": "Mined Item (Rare)",
-      "crate": "Loot Crate",
-      "chop_drop": "Chopped Item",
+      "mine": "Objets minés",
+      "fish": "Objets pêchés",
+      "fish_rare": "Objets pêchés (rares)",
+      "mine_rare": "Objets minés (rare)",
+      "crate": "Coffre au trésor",
+      "chop_drop": "Objets bucheronnés",
       "potion": "Potion",
-      "buff": "Buff",
-      "wrench": "Wrench",
-      "waifu": "Waifu Item",
-      "mine_pick": "Pickaxe",
-      "mine_rare_pick": "Pickaxe (Rare)",
-      "fish_rod": "Fishing Rod",
-      "fish_rod_rare": "Fishing Rod (Rare)",
-      "chop_axe": "Axe",
-      "chop_axe_rare": "Axe (Rare)",
-      "broken": "Broken Item",
-      "pet": "Pet Item",
-      "pet_food": "Pet Food",
-      "deprecated": "Deprecated",
-      "interactive": "Interactive Item"
+      "buff": "Bonus",
+      "wrench": "Clé",
+      "waifu": "Objets de Waifu",
+      "mine_pick": "Pioche",
+      "mine_rare_pick": "Pioche (rare)",
+      "fish_rod": "Canne à pêche",
+      "fish_rod_rare": "Canne à pêche (rare)",
+      "chop_axe": "Hache",
+      "chop_axe_rare": "Hache (rare)",
+      "broken": "Four cassé",
+      "pet": "Objets pour animaux de compagnie",
+      "pet_food": "Nourriture pour animaux de compagnie",
+      "deprecated": "Obsolète",
+      "interactive": "Objets interactifs"
     },
     "headphones": "Écouteurs",
     "ban_hammer": "Marteau du bannissement",
@@ -2394,10 +2394,10 @@
     "pizza": "Pizza",
     "mine_crate": "Caisse de joyau",
     "fish_crate": "Trésor sous-marin",
-    "chop_crate": "Chop Crate",
+    "chop_crate": "Coffre au trésor",
     "mine_premium_crate": "Caisse de joyau premium",
     "fish_premium_crate": "Trésor sous-marin premium",
-    "chop_premium_crate": "Chop Premium Crate",
+    "chop_premium_crate": "Coffre au trésor Premium",
     "comet_rod": "Canne de comète",
     "star_rod": "Canne des étoiles",
     "sparkle_rod": "Canne scintillante",
@@ -2484,7 +2484,7 @@
       "forgotten": "Jamais téléchargé. Surement copyrighté.",
       "pencil": "Nous en avons plein!",
       "moneybag": "Quoi d'autre?",
-      "pick": "A basic pick for your regularly scheduled mining.",
+      "pick": "Une pioche basique pour un minage ponctuel.",
       "milk": "Peut-être que ce n'est pas si mal d'en avoir un peu.",
       "beverage": "Ça te fais vraiment un drôle d'effet en grande quantité. Enfin ça dépend de ce que c'est ;)",
       "lewd": "Trop de commandes obscènes, vraiment trop! Tu prends ton pied hein !?",
@@ -2518,7 +2518,7 @@
       "haste": "Ça te permet de trouver plus de chose en utilisant les commandes monétaires. Valable pour 3 commandes.",
       "milky": "Ça te débarrasse des effets de potions.",
       "energy": "Fait en sorte qu'un outils perde moins de durabilité par utilisation. Dure 3 commandes.",
-      "rod": "A basic rod for your fishing activities.",
+      "rod": "Une canne à pêche basique pour les pêcheurs du dimanche.",
       "fish": "Poisson attrapé en pêchant.",
       "tropical_fish": "Un poisson assez tropical pêché.",
       "blowfish": "Je me demande si c'est.. bon ? Attrapé en pêchant.",
@@ -2534,18 +2534,18 @@
       "diamond_pick": "A strong-ish pick.",
       "tv": "Doit... regarder... la... Télé...",
       "wrench": "Outil de moulage. Utile pour fabriquer des trucs.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 3.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 4.",
+      "star_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et nécessaire pour fabriquer plusieurs objets à la fois. Tier 3.",
+      "sparkle_wrench": "Outil de moulage. Utile pour fabriquer des trucs. Plus résistante et réduit le cout de fabrication. Tier 4.",
       "motorcycle": "Pour se promener, d'une façon stylée.",
       "comet_pick": "A stronger pick.",
       "star_pick": "A much stronger pick.",
       "sparkle": "Un des joyaux les plus rares. Assurez-vous de le garder. C'est utilisé pour fabriquer pioche et canne à pêche scintillantes.",
       "sparkle_pick": "One of the strongests pick out there.",
       "pizza": "Délicieux.",
-      "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
-      "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "mine_crate": "Coffre au trésor trouvé en minant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `~> opencrate gem crate`",
+      "fish_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses. Peut être ouvert avec` ~> opencrate treasure`",
+      "mine_premium_crate": "Coffre au trésor trouvé en minant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `~> opencrate gem premium crate`",
+      "fish_premium_crate": "Coffre au trésor trouvé en pêchant. Il pourrait contenir de belles choses. Peut être ouvert avec `~> opencrate premium treasure`",
       "comet_rod": "A slightly stronger rod.",
       "star_rod": "A stronger rod .",
       "sparkle_rod": "A way stronger rod.",
@@ -2598,7 +2598,7 @@
       "broken_hellfire_axe": "Une hache des enfers qui s'est éteinte durant une session de bucheronnage, il y a toujours de l'espoir pour la réparer.",
       "broken_hellfire_rod": "Une canne des enfers qui s'est éteinte durant une session de pêche, il y a toujours de l'espoir pour la réparer.",
       "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "chop_premium_crate": "Coffre au trésor trouvé en bucheronnant. Il y a peut-être des trucs intéressants dedans. Peut être ouvert avec `~> opencrate chop premium crate`"
     }
   },
   "test": {
