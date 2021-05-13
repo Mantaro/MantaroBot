@@ -3,8 +3,8 @@
     "invalid_number": "%1$sНекорректное число!",
     "requested_by": "Запросил(а) %1$s.",
     "operation_timed_out": "%1$sВремя ожидания ответа истекло.",
-    "too_many_users_found": "%1$sПо вашему запросу найдено слишком много пользователей, попробуйте повторить поиск? (ex. use name#discriminator)\n**Пользователей найдено:** %2$s",
-    "search_no_result": "%1$sВаш поиск не дал результатов :(",
+    "too_many_users_found": "%1$sПо твоему запросу найдено слишком много пользователей, попробуешь повторить поиск? (ex. use name#discriminator)\n**Пользователей найдено:** %2$s",
+    "search_no_result": "%1$sТвой поиск не дал результатов :(",
     "unknown": "Неизвестно",
     "days": "Дней",
     "none": "Нет",
@@ -12,7 +12,7 @@
     "hourly": "Каждый час",
     "daily": "Ежедневно",
     "total": "Всего",
-    "arrow_react": "Используйте стрелки, чтобы сменить страницу.",
+    "arrow_react": "Используй стрелки, чтобы сменить страницу.",
     "text_menu": "Use &p >> and &p << to change pages and &cancel to end.",
     "not_found": "Не найдено",
     "no_results": "Не дало результата.",
@@ -23,17 +23,17 @@
     "name": "Имя",
     "description": "Описание",
     "options": "Настройки",
-    "find_members_failure": "%1$sПо вашему запросу не найдено ни одного участника :(",
-    "too_many_members": "%1$sНайдено слишком много участников, попробуйте изменить ваш запрос? (ex. use name#discriminator)\n**Найденные участники:** %2$s",
-    "too_many_mentions": "%1$sПожалуйста, укажите только одного человека при поиске участников.",
-    "query_too_small": "%1$sВаш запрос слишком маленький. Проверьте, чтобы ваше сообщение было более 4 символов. Если имя пользователя слишком короткое, лучше использовать имя пользователя#дискриминатор или идентификатор пользователя.",
+    "find_members_failure": "%1$sПо твоему запросу не найдено ни одного участника :(",
+    "too_many_members": "%1$sНайдено слишком много участников, попробуешь изменить свой запрос? (ex. use name#discriminator)\n**Найденные участники:** %2$s",
+    "too_many_mentions": "%1$sПожалуйста, укажи только одного человека при поиске участников.",
+    "query_too_small": "%1$sТвой запрос слишком маленький. Проверь, чтобы твоё сообщение состояло более чем из 4 символов. Если имя пользователя слишком короткое, лучше использовать имя пользователя#дискриминатор или идентификатор пользователя.",
     "dust": "Здесь только пыль.",
     "invalid_syntax": "Неверный синтаксис.",
     "item_lookup": {
-      "no_item_emoji": "Нет предмета связанного с этим эмодзи.",
-      "no_item_name": "Нет предмета связанного с этим именем.",
+      "no_item_emoji": "Нет предмета, связанного с этим эмодзи.",
+      "no_item_name": "Нет предмета, связанного с этим именем.",
       "not_found": "Couldn't find any related items with your search.\nIf you're lost, try using the short name, for example for `Energy Beverage`, use `energy`. Or wrap the name in quotes.",
-      "claim_key": "Вы не можете передать вайфу ключ."
+      "claim_key": "Ты не можешь передать вайфу ключ."
     },
     "misc_item_usage": {
       "mop": "%1$sYou cleaned all of the dust you have accumulated over all of your mining trips.",
@@ -42,7 +42,7 @@
       "crate": {
         "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sYou need a crate! You usually get crates from currency commands.",
-        "success": "%1$sВы успешно открыли сундук и получили: %2$s%3$s. Поздравляю!",
+        "success": "%1$sТы успешно открыл сундук и получили: %2$s%3$s. Поздравляю!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
         "overflow": "Но у вас уже их слишком много, поэтому вы решили выбросить лишнее"
       },
@@ -61,7 +61,7 @@
         "thanks_message": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:",
         "thanks_message_daily": "Thank you for supporting Mantaro. Without help from people like you we couldn't keep Mantaro alive :heart:\nYou also get double the credits as a bonus!"
       },
-      "twitter": "Did you know we have a Twitter account? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
+      "twitter": "Ты знал, что у нас есть аккаунт в Twitter? Yes we do! Follow us at (at)mantarodiscord <https://twitter.com/mantarodiscord> for updates and silly stuff."
     },
     "mention_user_required": "%1$sВам нужно упомянуть хотя бы одного пользователя.",
     "invalid_character": "%1$sЭто недопустимый персонаж.",
@@ -76,9 +76,9 @@
     "space_notice": "If the name of it contains spaces, try \"wrapping it in quotes\". Probably the command help can tell you more.",
     "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
     "ratelimit": {
-      "header": "%1$s%2$s (Достигнут лимит)\n **Вы сможете снова использовать эту команду снова через %3$s.**",
-      "spam_1": "Остановитесь и отдохните, это полезно для вашего здоровья. **Время запроса продолжит увеличиваться, если вы продолжишь спамить!**",
-      "spam_2": "\nЯ думаю тебе лучше остановиться сейчас...",
+      "header": "%1$s%2$s (Достигнут лимит)\n **Ты сможешь снова использовать эту команду через %3$s.**",
+      "spam_1": "Остановись и отдохни, это полезно для твоего здоровья. **Время запроса продолжит увеличиваться, если ты продолжишь спамить!**",
+      "spam_2": "\nЯ думаю, тебе лучше сейчас остановиться...",
       "spam_3": "\nПочему бы тебе немного не прогуляться на улице?",
       "spam_4": "\nЭта штука вообще работает?"
     },
@@ -129,7 +129,7 @@
   },
   "commands": {
     "fish": {
-      "dust": "%1$sДень закончился и ваше ведро собрало только пыль. (Уровень пыли %2$s%%)",
+      "dust": "%1$sДень закончился, и в твоём ведре собралась только пыль. (Уровень пыли %2$s%%)",
       "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
       "trash": {
         "overflow": "%1$sВы нашли какой-то мусор во время рыбалки, но ваш инвентарь был полон, поэтому мы отправили его обратно в воду...",
