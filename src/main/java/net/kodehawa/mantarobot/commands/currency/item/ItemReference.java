@@ -110,7 +110,7 @@ public class ItemReference {
                     25, true
             ),
 
-            LEWD_MAGAZINE = new Item(ItemType.COMMON, EmoteReference.MAGAZINE.getUnicode(),
+            LEWD_MAGAZINE = new Item(ItemType.COLLECTABLE, EmoteReference.MAGAZINE.getUnicode(),
                     "Lewd Magazine",
                     "items.lewd", "items.description.lewd",
                     25, true
