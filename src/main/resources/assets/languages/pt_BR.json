@@ -49,7 +49,7 @@
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
       "potion_not_found": "%1$sEu não encontrei essa poção ou tipo de equipamento!",
       "potion_applied": "%1$sPoção aplicada com sucesso **%2$s** do tipo *%3$s* (%4$dx). Cheque seu novo efeito brilhante em `~>profile stats`",
-      "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então empilhamos. Tamanho atual da pilha: %4$s",
+      "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então acumulamos. Quantidade atual de acúmulos: %4$s",
       "max_stack_size": "%1$sVocê já acumulou o valor máximo de %2$s que você pode ter. (Máximo: 15, Depois de acumular: %3$s)",
       "max_stack_size_2": "%1$sVocê não pode acumular isso tudo %2$s. (Máximo: 15, Tentado: %3$s)",
       "not_same_potion": "%1$sVocê já tem uma poção do tipo %2$s empilhada e ativada, então você não pode empilhar poções do tipo %3$s nela."
