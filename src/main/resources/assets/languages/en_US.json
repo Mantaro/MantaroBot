@@ -203,7 +203,7 @@
       "7": "- To **pause or unpause** just use `~>pause`",
       "8": "- To **stop the music and unbind the player** use `~>stop`",
       "9": "- To **shuffle the queue** just use `~>shuffle`",
-      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)",
       "12": "Enjoy your music and thanks for using Mantaro!"
     },
@@ -339,9 +339,7 @@
       "queue_cancel": "%1$sContinuing with the current queue.",
       "queue_repeat": "%1$sRepeating the current queue.",
       "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it.",
-      "repeat_song_queue": "%1$sThe player is currently on song repeat mode. Run `~>repeat` to disable it beforehand, then run this again.",
-      "repeat_queue_song": "%1$sThe player is currently on queue repeat mode. Run `~>repeatqueue` to disable it beforehand, then run this again."
+      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, there isn't any song coming next.",

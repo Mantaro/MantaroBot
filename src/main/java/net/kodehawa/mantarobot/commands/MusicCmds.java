@@ -339,11 +339,6 @@ public class MusicCmds {
                 }
 
                 final var trackScheduler = musicManager.getTrackScheduler();
-                if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
-                    ctx.sendLocalized("commands.repeat.repeat_queue_song", EmoteReference.ERROR);
-                    return;
-                }
-
                 if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
                     trackScheduler.setRepeatMode(null);
                     ctx.sendLocalized("commands.repeat.song_cancel", EmoteReference.CORRECT);
@@ -383,11 +378,6 @@ public class MusicCmds {
                 }
 
                 final var trackScheduler = musicManager.getTrackScheduler();
-                if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
-                    ctx.sendLocalized("commands.repeat.repeat_song_queue", EmoteReference.ERROR);
-                    return;
-                }
-
                 if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
                     trackScheduler.setRepeatMode(null);
                     ctx.sendLocalized("commands.repeat.queue_cancel", EmoteReference.CORRECT);
