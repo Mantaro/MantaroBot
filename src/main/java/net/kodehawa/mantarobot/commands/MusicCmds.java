@@ -339,32 +339,20 @@ public class MusicCmds {
                 }
 
                 final var trackScheduler = musicManager.getTrackScheduler();
-
-                if (args.length == 0) {
-                    if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
-                        trackScheduler.setRepeatMode(null);
-                        ctx.sendLocalized("commands.repeat.song_cancel", EmoteReference.CORRECT);
-                    } else {
-                        trackScheduler.setRepeatMode(TrackScheduler.Repeat.SONG);
-                        ctx.sendLocalized("commands.repeat.song_repeat", EmoteReference.CORRECT);
-                    }
-
-                    TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
-                } else {
-                    if (args[0].equalsIgnoreCase("queue") || args[0].equalsIgnoreCase("q")) {
-                        if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
-                            trackScheduler.setRepeatMode(null);
-                            ctx.sendLocalized("commands.repeat.queue_cancel", EmoteReference.CORRECT);
-                        } else {
-                            trackScheduler.setRepeatMode(TrackScheduler.Repeat.QUEUE);
-                            ctx.sendLocalized("commands.repeat.queue_repeat", EmoteReference.CORRECT);
-                        }
-
-                        TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
-                    } else {
-                        ctx.sendLocalized("commands.repeat.invalid", EmoteReference.ERROR);
-                    }
+                if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
+                    ctx.sendLocalized("commands.repeat.repeat_queue_song", EmoteReference.ERROR);
+                    return;
                 }
+
+                if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
+                    trackScheduler.setRepeatMode(null);
+                    ctx.sendLocalized("commands.repeat.song_cancel", EmoteReference.CORRECT);
+                } else {
+                    trackScheduler.setRepeatMode(TrackScheduler.Repeat.SONG);
+                    ctx.sendLocalized("commands.repeat.song_repeat", EmoteReference.CORRECT);
+                }
+
+                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
             }
 
             @Override
@@ -374,15 +362,58 @@ public class MusicCmds {
                             """
                             Repeats a song, or disables repeat. This command is a toggle.
                             It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off.
+                            To repeat the queue, use `~>repeatqueue` (or `~>loopqueue`)
                             """
-                        ).setUsage("`~>repeat [queue]`")
-                        .addParameterOptional("queue", "Add this if you want to repeat the queue (`~>repeat queue`)")
-                        .build();
+                        ).build();
             }
         });
 
         cr.registerAlias("repeat", "loop");
         cr.registerAlias("repeat", "rp");
+    }
+
+    @Subscribe
+    public void repeatQueue(CommandRegistry cr) {
+        cr.register("repeatqueue", new SimpleCommand(CommandCategory.MUSIC) {
+            @Override
+            protected void call(Context ctx, String content, String[] args) {
+                var musicManager = ctx.getAudioManager().getMusicManager(ctx.getGuild());
+                if (isNotInCondition(ctx, musicManager.getLavaLink())) {
+                    return;
+                }
+
+                final var trackScheduler = musicManager.getTrackScheduler();
+                if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.SONG) {
+                    ctx.sendLocalized("commands.repeat.repeat_song_queue", EmoteReference.ERROR);
+                    return;
+                }
+
+                if (trackScheduler.getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
+                    trackScheduler.setRepeatMode(null);
+                    ctx.sendLocalized("commands.repeat.queue_cancel", EmoteReference.CORRECT);
+                } else {
+                    trackScheduler.setRepeatMode(TrackScheduler.Repeat.QUEUE);
+                    ctx.sendLocalized("commands.repeat.queue_repeat", EmoteReference.CORRECT);
+                }
+
+                TextChannelGround.of(ctx.getEvent()).dropItemWithChance(0, 10);
+
+            }
+
+            @Override
+            public HelpContent help() {
+                return new HelpContent.Builder()
+                        .setDescription(
+                            """
+                            Repeats the queue, or disables repeat. This command is a toggle.
+                            It will **disable** repeat if it's ran when it's turned on, and of course enable repeat if repeat it's off.
+                            To repeat a single song, use `~>repeat` (or `~>loop`)
+                            """
+                        ).build();
+            }
+        });
+
+        cr.registerAlias("repeatqueue", "loopqueue");
     }
 
     @Subscribe
