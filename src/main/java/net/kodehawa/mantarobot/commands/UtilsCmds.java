@@ -169,8 +169,9 @@ public class UtilsCmds {
             @Override
             protected void call(Context ctx, I18nContext languageContext, String content) {
                 var reminders = ctx.getDBUser().getData().getReminders();
-                var rms = getReminders(reminders);
-                rms = rms.stream().sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis)).collect(Collectors.toList());
+                var rms = getReminders(reminders).stream()
+                        .sorted(Comparator.comparingLong(ReminderObject::getScheduledAtMillis))
+                        .collect(Collectors.toList());
 
                 if (rms.isEmpty()) {
                     ctx.sendLocalized("commands.remindme.no_reminders", EmoteReference.ERROR);
