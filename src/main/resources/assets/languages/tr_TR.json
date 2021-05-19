@@ -203,7 +203,7 @@
       "7": "- **Durdurmak veya devam etmek için** `~>pause` kullanabilirsin.",
       "8": "- **Çalınan şarkıları durdurmak için** `~>stop` yaz.",
       "9": "- **Listeyi karmak için** `~>shuffle` kullanabilirsin.",
-      "10": "- ve son olarak, **şarkı tekrarlamak için** `~>repeat` kullanabilirsin ve listeyi **tekrar etmek için** `~>repeat queue` yazabilirsin. `~>repeat` bir tekrar açıkken kullanılırsa, tekrarı iptal eder.\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Daha fazla bilgi için `~>help <komut adı>` kullanabilirsin. (komut adını bilgi almak istediğin komut adıyla değiştirebilirsin.)",
       "12": "Mantaro ile müziğe doyun! Beni kullandığın için teşekkürler, şekerim."
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sŞu anki listeyle devam ediyoruz.",
       "queue_repeat": "%1$sŞu anki listeyi tekrarlıyoruz.",
       "song_cancel": "%1$sNormal listeyle devam ediyoruz.",
-      "song_repeat": "%1$sŞu anki şarkıyı tekrarlıyoruz.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$sŞu anki şarkıyı tekrarlıyoruz."
     },
     "nextsong": {
       "no_song_next": "%1$sAma ama, başka şarkı yok ki :(",
@@ -1649,7 +1648,7 @@
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
