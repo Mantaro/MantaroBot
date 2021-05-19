@@ -203,7 +203,7 @@
       "7": "- Untuk **menghentikan atau melanjutkan** hanya gunakan `~>pause`",
       "8": "- Untuk **menghentikan muzik dan melepaskan ikatan pemain** gunakan `~>stop`",
       "9": "- Untuk **menggeser antrian** hanya gunakan `~>shuffle`",
-      "10": "- Dan yang terakhir, untuk **mengulangi lagu** gunakan `~>repeat` dan untuk **mengulangi antrian** gunakan` ~>repeat queue`. Penggunaan `~>repeat` semasa pengulangan masih hidup akan mematikannya\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Untuk maklumat lebih lanjut sila gunakan `~>help <nama arahan>` (tanpa <> dan ganti command name dengan nama arahan yang anda mahukan)",
       "12": "Nikmati muzik anda dan terima kasih kerana menggunakan Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sAntrian semasa dilanjutkan.",
       "queue_repeat": "%1$sAntrian semasa sedang diulangi.",
       "song_cancel": "%1$sSedang meneruskan dengan antrian norma.",
-      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya.",
-      "invalid": "%1$sBukan pilihan yang sah. Sama ada jalankan arahan ini tanpa sebarang argumen atau jalankan `~>repeat queue` untuk mengulangi antrian penuh."
+      "song_repeat": "%1$sLagu semasa sedang diulangi. Jalankan arahan ini sekali lagi untuk membatalkannya."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, tiada lagu yang seterusnya.",
@@ -1649,7 +1648,7 @@
       "bot_notice": "%1$sBot tidak dapat memiliki wang.",
       "external_balance": "Baki %1$s ialah **$%2$,d kredit.**",
       "own_balance": "Baki anda ialah **$%1$,d kredit.**%2$s",
-      "new_player": "\nHai! Nampaknya mungkin anda baru datang. Panduan ini akan banyak membantu anda: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Ini akan dipaparkan sekali sahaja.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nJika anda ingin mengetahui apa yang berlaku pada wang anda, baca <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nAnda tidak kehilangan wang lama anda sepenuhnya, ia masih dapat dilihat pada `~>profile` :heart:\nInventori anda masih dikekalkan, mungkin menjual beberapa item untuk mendapatkan wang?\nIni akan dipaparkan sekali sahaja. Membaca halaman yang dipaut untuk mendapatkan maklumat lanjut."
     },
     "daily": {
