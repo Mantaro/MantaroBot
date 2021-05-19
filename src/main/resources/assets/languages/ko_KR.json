@@ -203,7 +203,7 @@
       "7": "- **일시 중지 또는 일시 중지 해제**는 `~>pause`를 사용하세요",
       "8": "- **음악을 멈추고 플레이어 언바인(unbind)**하려면 `~>stop`을 사용하세요",
       "9": "- 대기열을 **섞으려면** `~>shuffle`만 사용하세요",
-      "10": "- 마지막으로 **노래 반복**은 `~>repeat`을 사용하고 **대기열 반복**는 `~>repeat queue`을 사용하세요. 반복이 켜져 있는 동안`~>repeat`'을 사용하면 꺼져요",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "자세한 내용은`~>help <명령어 이름>`을 사용하세요. ( <> 없이 명령어 이름을 원하는 명령어로 바꾸세요)",
       "12": "음악을 즐기시고 만타로(Mantaro)를 이용해 주셔서 감사해요!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$s현재 대기열을 계속 재생하는 중이에요.",
       "queue_repeat": "%1$s현재 대기열을 반복 해요.",
       "song_cancel": "%1$s일반 대기열을 계속 재생하는 중이에요.",
-      "song_repeat": "%1$s현재 노래를 반복하고 있어요. 이 명령을 다시 실행하여 비활성화하세요.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$s현재 노래를 반복하고 있어요. 이 명령을 다시 실행하여 비활성화하세요."
     },
     "nextsong": {
       "no_song_next": "%1$s앗, 다음 곡은 없네요.",
@@ -1649,7 +1648,7 @@
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
