@@ -203,7 +203,7 @@
       "7": "- Para **pausar ou despausar** apenas use `~>pause`",
       "8": "- Para **parar a música e desvincular do player** use `~>stop`",
       "9": "- Para **embaralhar a fila** apenas use `~>shuffle`",
-      "10": "- E por último, para **repetir uma música** use `~>repeat` e para **repetir a fila** use `~>repeat queue`. Usando `~>repeat` enquanto a repetição está ligada, irá desliga-la\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Para mais informações por favor use `~>help <nome do comando>` (sem as <> e troque nome do comando pelo nome do comando que você quer)",
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sContinuando com a fila atual.",
       "queue_repeat": "%1$sRepetindo a fila atual.",
       "song_cancel": "%1$sContinuando com a fila normal.",
-      "song_repeat": "%1$sRepetindo a música atual.",
-      "invalid": "%1$sNão é uma escolha válida. Use este comando sem nenhum argumento ou use `~>repeat queue` para repetir a filha inteira."
+      "song_repeat": "%1$sRepetindo a música atual."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, não tem nenhuma música depois",
@@ -1649,7 +1648,7 @@
       "bot_notice": "%1$sBots não podem ter dinheiro.",
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
-      "new_player": "\nOlá! Vejo que você pode ser novo aqui. Este guia vai te ajudar muito: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Isso só será mostrado uma vez.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `~>profile` :heart:\nSeu inventário foi mantido, talvez venda algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
     },
     "daily": {
