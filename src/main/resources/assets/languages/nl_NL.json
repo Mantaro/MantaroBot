@@ -203,7 +203,7 @@
       "7": "- Om **te pauzeren of de pauze op te heffen** gebruik `~>pause`",
       "8": "- Om **de muziek te stoppen en de muziekpeler los te koppelen** gebruik `~>stop`",
       "9": "- Om **de nummers in de afspeellijst te verschuiven** gebruik `~>shuffle`",
-      "10": "- En als laatst, Om **een nummer te herhalen** gebruik `~>repeat` en om **een afspeellijst te herhalen** gebruik `~>repeat queue`. Als je `~>repeat` gebruikt als deze aanstaat, wordt het uitgeschakeld\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Voor meer informatie gebruik `~>help <commando naam>` (zonder de <> en vervang de commandonaam met de naam van het gewenste commando)",
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sHervatten van de huidige afspeellijst.",
       "queue_repeat": "%1$sHerhalen van de huidige afspeellijst.",
       "song_cancel": "%1$sHervatten van de normale afspeellijst.",
-      "song_repeat": "%1$sHerhalen van het huidige nummer.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$sHerhalen van het huidige nummer."
     },
     "nextsong": {
       "no_song_next": "%1$sOh, er is geen volgende nummer",
@@ -1649,7 +1648,7 @@
       "bot_notice": "%1$sBots kunnen geen geld hebben.",
       "external_balance": "%1$s's balans is **$%2$.d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {
