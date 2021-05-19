@@ -203,7 +203,7 @@
       "7": "- Para **pausar o resumir la canción** usa `~>pause`",
       "8": "- Para **parar la musica y desconectar al bot del canal de voz** usa `~>stop`",
       "9": "- Para **barajar/randomizar la cola** usa `~>shuffle`",
-      "10": "- Al final,para **repetir una canción** usa `~>repeat` y para **repetir la cola** usa `~>repeat queue`. Usar `~>repeat` cuando la repetición está encendida, la apaga.\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Para más información porfavor usa `~>help <nombre del comando>` (sin el <> y reemplaza nombre del comando con el nombre del comando que quieras revisar en la ayuda)",
       "12": "Disfruta la música y gracias por usar Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sContinuando con la cola actual.",
       "queue_repeat": "%1$sRepitiendo la cola actual.",
       "song_cancel": "%1$sContinuando con la cola actual.",
-      "song_repeat": "%1$sRepitiendo la canción actual.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$sRepitiendo la canción actual."
     },
     "nextsong": {
       "no_song_next": "%1$sOuch, no hay más canciones por aqui!",
@@ -1649,7 +1648,7 @@
       "bot_notice": "%1$sLos bots no pueden tener créditos...",
       "external_balance": "%1$s tiene **$%2$,d créditos.**",
       "own_balance": "Tienes **$%1$,d créditos.**%2$s",
-      "new_player": "\nHoli! Veo que puedes ser nuevo/a. Esta guia te ayudará bastante: https://github.com/Mantaro/MantaroBot/wiki/Currency-101 (en inglés).\nEsto solo lo verás una vez.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nSi quieres saber que le pasó a tus créditos, lee <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nNo perdiste tus cŕeditos antiguos completamente, aún es visible en `~>profile` :heart:\nTu inventario aún está ahí. ¿Tal vez vender unas cosas sirva?\nEsto solo se mostrará una vez. Lee la página linkeada (en inglés) para más detalles."
     },
     "daily": {
