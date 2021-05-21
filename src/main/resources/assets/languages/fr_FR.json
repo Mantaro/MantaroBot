@@ -712,7 +712,7 @@
       "no_item_found": "%1$sJe n'ai pas trouvé l'objet dont tu me parles. Assure-toi de me donner le nom complet pour éviter les confusions ou alors montre moi l'emoji quand c'est possible. Exemple: `~>cast star pick`",
       "item_not_cast": "%1$sTu ne peux pas fabriquer cet objet. Va voir la liste avec `~>cast ls` pour savoir ce que tu peux fabriquer. Si tu penses être dans le bon, utilise le nom complet, le problème vient peut-être de là.",
       "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
-      "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication.",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire une **%3$s**. **(Nécessaires : %4$s, Possédés : %5$s)**",
       "success": "%1$sTu as fabriqué %2$,dx %3$s **%4$s** avec succès pour %5$,d credits. *Matériaux utilisés : %6$s*",
       "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
@@ -1023,7 +1023,8 @@
       },
       "ls": {
         "header": "Liste des badges obtenables",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
+        "obtained": "**Obtained:** %s"
       },
       "brief_success": "**Badges de %1$s:**\n%2$s",
       "profile_notice": "Si tu penses avoir eu un nouveau badge mais qu'il n'apparait pas ici, utilise `~>profile` puis refais cette commande.\n",
