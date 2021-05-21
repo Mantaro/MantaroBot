@@ -196,7 +196,7 @@ public class ItemCmds {
                             var amount = Integer.parseInt(splitRecipe[increment]) * amountSpecified;
 
                             if (!playerInventory.containsItem(item)) {
-                                ctx.sendLocalized("commands.cast.no_item", EmoteReference.ERROR, item.getName());
+                                ctx.sendLocalized("commands.cast.no_item", EmoteReference.ERROR, item.getName(), amount);
                                 return;
                             }
 
