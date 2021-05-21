@@ -181,11 +181,17 @@ public class UtilsCmds {
                 var builder = new StringBuilder();
                 var i = new AtomicInteger();
                 for (var rems : rms) {
-                    builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(rems.getReminder()).append("*, Due in: **")
-                            .append(Utils.formatDuration(rems.getTime() - System.currentTimeMillis())).append("**").append("\n");
+                    builder.append("**").append(i.incrementAndGet()).append(".-**")
+                            .append("Content: *")
+                            .append(rems.getReminder())
+                            .append("*, Due in: **")
+                            .append(Utils.formatDuration(rems.getTime() - System.currentTimeMillis()))
+                            .append("**").append("\n");
                 }
 
-                var toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                var toSend = new MessageBuilder().append(builder.toString())
+                        .buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+
                 toSend.forEach(ctx::send);
             }
         });

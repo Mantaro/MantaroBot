@@ -481,11 +481,11 @@ public class PetCmds {
         });
 
         pet.addSubCommand("clean", new SubCommand() {
-            final long price = 600L;
+            final long basePrice = 600L;
 
             @Override
             public String description() {
-                return "Cleans your pet when it's too dusty. Costs %s credits.".formatted(price);
+                return "Cleans your pet when it's too dusty. Costs %s credits.".formatted(basePrice);
             }
 
             @Override
@@ -493,10 +493,15 @@ public class PetCmds {
                 var player = ctx.getPlayer();
                 var dbUser = ctx.getDBUser();
                 var marriage = dbUser.getData().getMarriage();
+                var price = basePrice;
 
                 var pet = getCurrentPet(ctx, player, marriage, "commands.pet.status.no_pet");
                 if (pet == null) {
                     return;
+                }
+
+                if (pet.getDust() <= 50) {
+                    price = price / 2;
                 }
 
                 if (player.getCurrentMoney() < price) {
