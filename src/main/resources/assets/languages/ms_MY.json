@@ -712,7 +712,7 @@
       "no_item_found": "%1$sSaya tidak dapat mencari sebarang item yang berkaitan dengan carian tersebut. Pastikan anda menaip nama penuh item untuk mengelakkan ketidakcocokan, ataupun menggunakan emoji jika boleh. Contoh: `~>cast star pick`",
       "item_not_cast": "%1$sAnda tidak boleh mencipta alatan ini. Anda boleh periksa `~>cast ls` untuk mendapatkan senarai alatan yang boleh dicipta. Cuba menggunakan nama penuh jika anda yakin bahawa item tersebut adalah betul.",
       "not_enough_money": "%1$sAnda tidak mempunyai wang yang mencukupi untuk mencipta alatan ini **(Kos: %2$s)**",
-      "no_item": "%1$sAnda tidak mempunyai item *%2$s* yang diperlukan untuk meneruskan penciptaan ini.",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sAnda tidak mempunyai item *%2$s* yang mencukupi untuk meneruskan penciptaan **%3$s**. **(Diperlukan: %4$s, Semasa: %5$s)**",
       "success": "%1$sAnda berjaya mencipta %2$,dx %3$s **%4$s** untuk harga %5$,d kredit. *Penciptaan menggunakan: %6$s*",
       "no_tool": "%1$sAnda memerlukan %2$s untuk meneruskan penciptaan ini!",
@@ -1023,7 +1023,8 @@
       },
       "ls": {
         "header": "Senarai Lencana",
-        "desc": "Berikut adalah senarai lencana yang kini boleh didapati di Mantaro. Senarai ini mengandungi nama dan penerangan lencana, yang seharusnya memberikan gambaran keseluruhan mengenai apa yang anda perlukan untuk mencapainya.\nJika anda yakin bahawa anda sudah mendapat lencana tetapi tidak menjumpainya di senarai lencana peribadi anda, gunakan `~>profile` lalu menjalankan `~>badges` sekali lagi.\nSemoga berjaya, pemburu lencana!"
+        "desc": "Berikut adalah senarai lencana yang kini boleh didapati di Mantaro. Senarai ini mengandungi nama dan penerangan lencana, yang seharusnya memberikan gambaran keseluruhan mengenai apa yang anda perlukan untuk mencapainya.\nJika anda yakin bahawa anda sudah mendapat lencana tetapi tidak menjumpainya di senarai lencana peribadi anda, gunakan `~>profile` lalu menjalankan `~>badges` sekali lagi.\nSemoga berjaya, pemburu lencana!",
+        "obtained": "**Obtained:** %s"
       },
       "brief_success": "**Lencana %1$s:**\n%2$s",
       "profile_notice": "Jika anda yakin bahawa anda sudah mendapat lencana yang baru tetapi ia tidak muncul di sini, sila gunakan `~>profile` lalu menjalankan arahan ini sekali lagi.\n",
