@@ -503,6 +503,7 @@ public class PlayerCmds {
                         .setColor(Color.PINK)
                         .setFooter(languageContext.get("general.requested_by").formatted(ctx.getMember().getEffectiveName()), null);
 
+                var player = ctx.getPlayer();
                 List<MessageEmbed.Field> fields = new LinkedList<>();
                 for (Badge badge : badges) {
                     if (!badge.isObtainable()) {
@@ -510,7 +511,8 @@ public class PlayerCmds {
                     }
 
                     fields.add(new MessageEmbed.Field("%s\u2009\u2009\u2009%s".formatted(badge.unicode, badge.display),
-                            badge.getDescription(),
+                            badge.getDescription() + "\n" +
+                                    String.format(languageContext.get("commands.badges.ls.obtained"), player.getData().hasBadge(badge)),
                             false)
                     );
                 }
