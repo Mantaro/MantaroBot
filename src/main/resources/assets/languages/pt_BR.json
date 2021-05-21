@@ -712,7 +712,7 @@
       "no_item_found": "%1$s Eu não encontrei nenhum item que corresponda a isso. Certifique-se de digitar o nome completo do item para evitar incompatibilidades ou use o emoji, se você puder. Exemplo: `~>cast star pick`",
       "item_not_cast": "%1$sVocê não pode confeccionar esse item. Você pode checar `~>cast ls` para uma lista de itens confeccionáveis. Tente usar o nome completo se você acha que tem o item correto.",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
-      "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sVocê não tem o suficiente do item *%2$s* para prosseguir e fazrr a fusão de um **%3$s**. **(Necessário: %4$s, Atual: %5$s)**",
       "success": "%1$sCom sucesso você fundiu %2$,dx %3$s **%4$s** por %5$,d créditos. *Fundição usada: %6$s*",
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
@@ -1023,7 +1023,8 @@
       },
       "ls": {
         "header": "Lista de Insígnias Obteníveis",
-        "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!"
+        "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!",
+        "obtained": "**Obtained:** %s"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
