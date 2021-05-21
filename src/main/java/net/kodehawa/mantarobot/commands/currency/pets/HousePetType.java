@@ -26,7 +26,7 @@ public enum HousePetType {
     DOG(EmoteReference.DOG, "Dog", List.of(HousePetAbility.CATCH, HousePetAbility.CHEER), 40000, 200, 20, true),
     CAT(EmoteReference.CAT, "Cat", List.of(HousePetAbility.FISH, HousePetAbility.CHEER), 35000, 150, 0, true),
     RAT(EmoteReference.HAMSTER, "Hamster", List.of(HousePetAbility.CHOP, HousePetAbility.CHEER), 30000, 30, 0, true),
-    KODE(EmoteReference.DEV, "Kodehawa",
+    KODE(EmoteReference.DEV, "Dev",
             // All of them?
             List.of(HousePetAbility.CHEER, HousePetAbility.FISH, HousePetAbility.CATCH, HousePetAbility.CHOP),
             3000000, 300, 30, true
