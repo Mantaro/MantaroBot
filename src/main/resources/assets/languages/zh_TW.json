@@ -967,7 +967,7 @@
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$s已取消裝備你的%2$s欄位。",
         "equipment_recover": "\n由於你從未使用過這個裝備，你拿回了你的%1$s！",
         "broken_equipment_recover": "\n這個裝備已經被使用過，所以你得到了%1$s，不過你還是可以修復他的！",
