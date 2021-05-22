@@ -143,7 +143,7 @@
         "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
-        "success": "%1$s自動裝備了**%2$s**到你的魚竿欄位。"
+        "success": "%1$s自動裝備了 **%2$s** 到你的魚竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
       "success": "%1$s在安靜的釣魚時，你用 *%3$s* 找到了 %2$s 且把它們放到水桶裡了。",
@@ -720,7 +720,7 @@
       "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
       "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
       "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
-      "too_many_amount": "%1$s你無法一次鑄造這麼多物品！最高：%2$s，嘗試：%3$s。順帶一提，火花扳手將使數量限制加倍！除非你已經在使用了。",
+      "too_many_amount": "%1$s你無法一次鑄造這麼多物品！最高：%2$s，嘗試：%3$s。順帶一提，火花扳手將使最高數量加倍！",
       "autoequip": {
         "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
       },
@@ -1741,7 +1741,7 @@
         "success": "你在挖礦的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要先用 `~>buy key` 購買一個寶箱鑰匙！"
       },
       "autoequip": {
-        "success": "%1$s自動裝備了**%2$s**到你的鎬子欄位。"
+        "success": "%1$s自動裝備了 **%2$s** 到你的鎬子欄位。"
       },
       "item_broke": "%1$s你的%2$s壞了 :( %3$s",
       "item_broke_autoequip": "*提示：你可以使用 `~>profile autoequip` 來開啟自動裝備，當物品損壞時他將會為你自動裝備回相同物品，前提是你的背包內還有另外一個*",
@@ -1754,7 +1754,7 @@
       "not_equipped": "%1$s你沒有任何已裝備的斧頭。使用 `~>equip <斧頭名稱>` 來裝備一支新的斧頭！如果你沒有任何斧頭，使用 `~>buy axe` 來購買一把。",
       "dust": "%1$s那棵樹太脆弱了，你只得到了木屑。(灰塵高度 %2$d%%)",
       "autoequip": {
-        "success": "%1$s自動裝備了**%2$s**到你的斧頭欄位。"
+        "success": "%1$s自動裝備了 **%2$s** 到你的斧頭欄位。"
       },
       "crate": {
         "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
@@ -2458,17 +2458,17 @@
       "sparkle_pick": "某些東西使你抬頭望向洞窟頂部，你發現了一些閃閃發光的寶石。看著看著，一些碎片就掉到你的鎬子上了，你的鎬子散發出極大的光芒，照亮了整個洞窟。\n你迅速地拿起了一些閃亮的碎片，跑到了你的鑄造台。\n這把鎬子耀眼得像太陽一樣... 看起來也非常地結實... 為甚麼他會跟鐵結合得那麼好？",
       "hellfire_pick": "大量不同物質融合在一起的反應是個奇怪且危險的過程。\n不管你朋友告訴了你什麼，你還是決定繼續研究這個主題，並做出了比你所見過的各種物質都還亮的東西...\n他似乎是所有元素的混和體，不過看起來很不好控制... 摸起來也很堅硬，能破壞他的東西應該不多...\n難道我發明了新東西？還是我將未知的物質帶到了世界？",
       "axe": "一把市場買來的普通斧頭。還是砍得了一些樹的。",
-      "comet_axe": "嘗試將彗星碎片融合進你的鎬子之後，你也發現了他們能用於你的斧頭上。他們把你的斧頭變得了更堅固，更明亮。所有你能想像得到的結果。",
+      "comet_axe": "嘗試將彗星碎片融合進你的鎬子之後，你也發現了他們能用於你的斧頭上。他們把你的斧頭變得了更堅固，更明亮。任何你想要的都有。",
       "star_axe": "來自遠處星星的光芒，但在你的手上。\n似乎能用這把閃亮的新斧頭繼續砍樹。一開始你覺得很奇怪：為什麼這把斧頭會給我更多的樹木？\n你很快就意識到了原因...",
       "sparkle_axe": "這裡也閃閃發亮，那裡也閃閃發亮！\n這把斧頭閃亮得像太陽... 看起來也非常地結實... 為甚麼他會跟鐵結合得那麼好？",
       "moon_axe": "看著這把斧頭，你對這些像月光的光芒非常著迷。\n是因為他們會像月亮一樣發光？還是因為他們似乎會自體漂浮的關係？\n你迷上了這些物質，將這些物質鑄造到了斧頭上，然後... 哇！\n結果看起來不錯。砍樹的速度好像也變快了。為什麼他會那麼鋒利？這真的只是對面月亮的碎片嗎？",
       "hellfire_axe": "大量不同物質融合在一起的反應是個奇怪且危險的過程。\n你已經將這個技術練得非常精熟了，將他與斧頭融合起來也非常簡單。也許是因光芒，也許是火，不過你就是想要。\n他用起來非常順手。沒有什麼可以比擬。但你仍然在想你是不是真的做對了。",
       "rod": "一把市場買來的普通釣竿。看起來還是不錯的。",
-      "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
-      "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
-      "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
-      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more credits. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
-      "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
+      "comet_rod": "嘗試將彗星碎片融合進你的斧頭之後，你也發現了他們能用於你的釣竿上。把你的釣竿變得了更堅固，貌似也會吸引更多的魚。任何你想要的都有。",
+      "star_rod": "你無法忽視這些碎片的迷人且閃亮的光芒。你將其與你的釣竿融合在了一起，所有的魚像海浪一樣一隻接著一隻的游過來！魚餌好像不太重要了，不過還是有用處的。",
+      "moon_rod": "你還是對這些會自體漂浮的寶石印象深刻。無論如何，你用了你最好的技術將他們與你的釣竿融合在一起。他看起來好像比注入星星碎片後的釣竿堅固，但其實也不多。\n不過，你還是持續像第一天見到他一樣的享受。",
+      "sparkle_rod": "這裡也閃閃發亮，那裡也閃閃發亮！\n你把那些火花碎片磨碎並將其覆蓋到你的釣竿上\n你感到很困惑。為什麼這些東西會那麼吸引魚呢？\n世界上有許多不解的謎團，這也許就是其中的一個。也許它能讓你得到更多的錢。也許他能帶給你滿足。\n他在海面上留下的光芒真的令人讚嘆，你也能持續盯著他看好幾個小時。也許你根本就沒做錯任何事情。",
+      "hellfire_rod": "大量不同物質融合在一起的反應是個奇怪且危險的過程。\n你已經將這個技術練得非常精熟了，將他與釣竿融合起來也非常簡單。也許是光芒，也許是火，不過你就是想要。\n他用起來非常順手。魚還會自己游過來找你。沒有什麼可以比擬。但你仍然在想你是不是真的做對了。",
       "wrench": "一把市場買來的普通扳手。能拿來修復物品。",
       "comet_wrench": "一支注入了彗星碎片的扳手。不知為何拿起來感覺很堅固。",
       "sparkle_wrench": "一支注入了火花碎片的扳手。不知為何拿起來感覺非常堅固。"
