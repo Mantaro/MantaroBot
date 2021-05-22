@@ -967,7 +967,7 @@
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
         "no_content": "%1$sVocê precisa especificar um tipo de ferramenta para desequipar, pode ser entre `pick, axe, rod, wrench`",
         "invalid_type": "%1$sTipo inválido. Os tipos válidos são `pick, axe, rod, wrench`",
-        "confirm": "%1$sVocê tem certeza de que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar. Isso lhe dará uma versão quebrada da sua ferramenta equipada agora.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
         "broken_equipment_recover": "\nSeu equipamento foi usado, mas você ganhou %1$s de volta, você pode conserta-lo se você precisar depois!",
