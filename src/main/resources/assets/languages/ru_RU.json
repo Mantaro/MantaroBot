@@ -967,7 +967,7 @@
         "not_equipped": "%1$sУ вас ничего не экипировано в данном слоте.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$sУспешно снят ваш %2$s слот.",
         "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
         "broken_equipment_recover": "\nВаша экипировка уже была использована, но вы получили %1$s назад, вы можете починить это если вам понадобится позже!",
