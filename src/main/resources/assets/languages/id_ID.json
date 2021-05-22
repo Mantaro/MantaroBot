@@ -507,7 +507,7 @@
       "no_users": "%1$sYou need to give me an user to mute.",
       "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
       "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
-      "time_not_specified_generic": "%1$sYou didn't specify any time. For example, if you want to mute for 20 minutes you should do `~>mute 20m @mention reason goes here`, for example.",
+      "time_not_specified_generic": "%1$sKamu tidak menentukan waktunya. Contoh, kalau kamu ingin mute selama 20 menit kamu bisa ketik `~>mute 20m @mention reason goes here`.",
       "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
       "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
       "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
@@ -918,8 +918,8 @@
         "disabled": "%1$sDisabled actions from being done to you."
       },
       "pet": {
-        "header": "Active Pet",
-        "none": "No active pet"
+        "header": "Peliharaan Yang Aktif",
+        "none": "Tidak ada peliharaan yang aktif"
       },
       "stats": {
         "header": "Profile Statistics for %1$s",
@@ -995,7 +995,7 @@
       "badge_header": "%1$s Display Badge",
       "bot_notice": "%1$sBots don't have profiles.",
       "header": "%1$s's Profile",
-      "no_desc": "No description set. You can set one with `~>profile description`",
+      "no_desc": "Tidak ada deskripsi yang tertera. Kamu bisa mengisinya dengan `~>profile description`",
       "credits": "Credits",
       "old_credits": "Legacy Credits",
       "level": "Level",
@@ -1045,7 +1045,7 @@
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
         "pass": "You can rep someone now.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "explanation": "Kamu bisa memberi reputasi pada satu orang setiap 12 jam. Harap tunggu jangka waktu tersebut sebelum memberikan lagi pada orang lain."
       },
       "success": "%1$sAdded reputation to **%2$s**"
     },
@@ -1375,7 +1375,7 @@
       "choice": {
         "no_choice": "%1$sKamu perlu menentukan pilihan (Pribadi atau Pernikahan).",
         "invalid_choice": "%1$sPilihannya tidak valid. Silakan pilih antara Pribadi atau Pernikahan. Pribadi untuk kamu sendiri, Pernikahan untuk kamu dan pasaganmu",
-        "ratelimit_message": "You can change your choice 3 times. You'll have to wait the specified time for more changes to be possible. This is to avoid spam!",
+        "ratelimit_message": "Kamu bisa mengubah pilihanmu sebanyak 3 kali. Kamu harus menunggu waktu yang ditentukan untuk melakukan perubahan lagi. Ini untuk menghindari spam!",
         "already_chosen": "%1$sThis is already your choice.",
         "success": "%1$sBerhasil menetapkan pilihan ke: %2$s %3$s"
       },
@@ -1391,7 +1391,7 @@
         "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
         "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
-        "ratelimit_message": "You can pat your pet up to 25 times. After this you'll have to wait the time above for 25 more pats.",
+        "ratelimit_message": "Kamu bisa mengelus-elus peliharaanmu sebanyak 25 kali. Setelah itu kamu harus menunggu waktu yang tertera untuk mengelus lagi.",
         "too_many": "How did you even get this many pats?"
       },
       "pet_reactions": {
@@ -1496,7 +1496,7 @@
       "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
+      "item_broke": "%1$sKunci pasmu (%1$s) rusak saat mencoba memungut item ini :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
         "header": "Salvageable Item List",
@@ -1605,7 +1605,7 @@
       "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
       "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
+      "item_broke": "%1$sSayangnya, kunci pasmu (%1$s) rusak saat memperbaiki item ini, tapi itemnya sudah jadi kok!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
         "header": "Repair-able Items List",
@@ -1655,7 +1655,7 @@
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
       "about_now": "about now",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
+      "ratelimit_message": "Kamu hanya bisa menjalankan daily sekali setiap hari. Kalau ingin mengecek, kamu juga bisa pakai `~>daily -check`. Selamat menikmati!",
       "errors": {
         "bot": "%1$sYou cannot transfer your daily to a bot.",
         "receipt_locked": "That user cannot receive daily credits now.",
@@ -1722,7 +1722,7 @@
       "not_suitable": "%1$sThis is not a pick you can use to mine!",
       "not_in_inventory": "%1$sYou don't have this pick on your inventory, switching to the default pick.",
       "success": "%1$sYou mined minerals worth **$%2$,d credits**, using a *%3$s*",
-      "reminder": "\n*You can cast better picks using the gems you get while mining. Check `~>cast ls` for a list of things you can cast*\nFor a guide on how to upgrade your tools, give this a read: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
+      "reminder": "\n*Kamu bisa membuat belencong lebih bagus dengan permata yang kamu dapat saat menambang. Cek `~>cast ls` untuk melihat daftar item yang bisa kamu buat*\nUntuk petunjuk cara meningkatkat peralatanmu, coba baca ini: <https://github.com/Mantaro/MantaroBot/wiki/Currency-103>",
       "diamond": {
         "overflow": "Huh, you found a diamond while mining, but you already had too much, so I sold it for you.",
         "success": "Huh! You got lucky and found %1$s diamond(s) while mining, check your inventory!"
@@ -2321,7 +2321,7 @@
       "pet": "Pet Item",
       "pet_food": "Pet Food",
       "deprecated": "Deprecated",
-      "interactive": "Interactive Item"
+      "interactive": "Item Interaktif"
     },
     "headphones": "Headphones",
     "ban_hammer": "Ban Hammer",
