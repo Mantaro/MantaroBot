@@ -133,14 +133,14 @@
       "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <魚竿名稱>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>buy rod` 來購買一隻。",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
-        "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的%2$s，但那看起來一點都不值錢 :("
+        "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的 %2$s，但那看起來一點都不值錢 :("
       },
       "tier3": {
-        "extra": "然後你也幸運的找到了%1$s!"
+        "extra": "然後你也幸運的找到了 %1$s!"
       },
       "crate": {
-        "overflow": "你在釣魚的時候找到了**%1$s**，但是你已經擁有太多了，所以只能把它丟回水裡...",
-        "success": "你在釣魚的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
+        "overflow": "你在釣魚的時候找到了 **%1$s**，但是你已經擁有太多了，所以只能把它丟回水裡...",
+        "success": "你在釣魚的時候找到了 %1$s **%2$s** 並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
         "success": "%1$s自動裝備了 **%2$s** 到你的魚竿欄位。"
@@ -150,12 +150,12 @@
       "success_money": "%1$s在安靜的釣魚時，你用 *%4$s* 找到了 %2$s 和 **%3$,d 元** 且把它們放到水桶裡了。%5$s",
       "success_money_noitem": "%1$s在安靜的釣魚時，你用 *%3$s* 找到了 **%2$,d 元** 且把它們放到水桶裡了。",
       "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
-      "waifu_help": "你的waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
+      "waifu_help": "你的Waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
       "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛，是不是？",
       "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
       "bait": "有隻魚在過程中把你的魚餌吃掉了!",
-      "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備魚竿已重設。",
+      "missing_equipped": "%1$s你原本有支已裝備的 %2$s，但是你已經把庫存都用光了！已裝備魚竿已重設。",
       "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
       "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！"
     },
@@ -559,15 +559,15 @@
     },
     "marry": {
       "loveletter": {
-        "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
+        "no_letter": "%1$s你的背包裡沒有情書，你沒有任和東西可以寫你的信。結婚後將會自動給予你一封空情書。",
         "empty": "%1$s你無法將情書留白。",
         "no_marriage": "%1$s你尚未結婚，不能寫情書給你自己...",
         "not_proposing_player": "%1$s你不是提出這場婚姻的人！",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$s這條婚姻已經指定情書訊息。使用 `~>marry status` 查看",
         "too_long": "%1$s情書訊息過長 (最長500字元)",
         "cannot_see": "%1$s我找不到你的伴侶... 也許他們不在我的伺服器內。",
         "confirmation": "%1$s你*確定*想寫這張情書給**%2$s#%3$s**嗎？這將會持續到婚姻結束。*情書內容：*%4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$s情書已成功傳遞給你的愛人！使用 `~>marry status` 查看",
         "scrapped": "%1$s你還有時間思考該寫什麼，不必著急！"
       },
       "status": {
@@ -575,7 +575,7 @@
         "header": "目前婚姻狀況",
         "description_format": "%1$s**%2$s** 與 **%3$s** 的婚姻關係",
         "date": "結婚日期",
-        "age": "Marriage Age",
+        "age": "婚姻長度",
         "love_letter": "情書訊息",
         "waifus": "Waifu所有權",
         "house": "房屋名稱",
@@ -596,7 +596,7 @@
         "not_enough_money": "%1$s你沒有足夠的錢來購買房屋。(目前房屋價格：%2$d元)",
         "no_name": "%1$s你需要先給你的房子起一個名字！像是 `~>marry house 舒適的小屋`。",
         "confirm": "%1$s你確定要買這棟房子嗎？這將從你的錢包中扣除%2$d元，然後你的房屋名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$sYou successfully bought a house for %2$d credits. The name of your new cozy house is %3$s, enjoy!",
+        "success": "%1$s你成功用 %2$d 元買了一棟房子！你的新房屋名稱是 %3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
       },
       "buycar": {
@@ -604,7 +604,7 @@
         "not_enough_money": "%1$s你沒有足夠的錢來購買汽車。(目前汽車價格：%2$d元)",
         "no_name": "%1$s你需要先給你的車子起一個名字！像是 `~>marry car 保時捷`。",
         "confirm": "%1$s你確定要買這台汽車嗎？這將從你的錢包中扣除%2$d元，然後你的汽車名稱將是%3$s。傳送 `yes` 確認或 `no` 取消。",
-        "success": "%1$sYou successfully bought a car for %2$d credits. The name of your new fast car is %3$s, enjoy!",
+        "success": "%1$s你成功用 %2$d 元買了一台汽車！你的新車子名稱是 %3$s，恭喜！",
         "cancel_success": "%1$s操作取消。"
       },
       "no_mention": "%1$s請提及你想結婚的人。",
@@ -618,13 +618,13 @@
       "ring_check_fail": "%1$s你需要持有兩個戒指才能結婚 :(",
       "accepted": "%1$s**%2$s#%3$s**接受了**%4$s#%5$s**的求婚！",
       "denied": "%1$s已拒絕**%2$s**的求婚",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "你為什麼想結那麼多次婚？"
     },
     "divorce": {
       "confirm": "%1$s你確定要結束這場婚姻嗎？花在寵物，房子和車子上的錢將會被平分給你們。傳送 `yes` 繼續或 `no` 取消。**屬於你婚姻的寵物將會消失**",
-      "cancelled": "%1$sCancelled divorce.",
-      "not_married": "%1$sYou aren't married with anyone, why don't you find that special someone?\nWanna unclaim a Waifu? Use `~>waifu unclaim` instead.",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
+      "cancelled": "%1$s已取消離婚。",
+      "not_married": "%1$s你尚未與任何人結婚，為什麼不去找那個特別的人？\n想取消認領一個Waifu嗎？使用 `~>waifu unclaim` 代替。",
+      "success": "%1$s你現在是單身了。我猜這樣也不錯。\n%2$s",
       "split": "剩下來的資產 (寵物/房子/車子) 已被賣掉並平分給兩人。每人都得到了 **%1$d** 元。"
     },
     "waifu": {
@@ -698,38 +698,38 @@
       "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
     },
     "inventory": {
-      "bot_notice": "%1$sHere, bots have no inventory. Well, sometimes you might wish they had one but then it would only be a `~>dump`",
+      "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>dump`",
       "brief": "**%1$s 的所有物品** %2$s\n\n*使用 `~>inventory -info` 取得更詳細的版本。祝你玩得開心！*",
-      "calculate": "%1$s%2$s will get **%3$,d credits** if all of the items are sold.",
+      "calculate": "%1$s如果賣出了所有物品，%2$s 將得到 **%3$,d 元**。",
       "header": "%1$s 的背包",
-      "format": "**Price**: 📥 %1$,d 📤 %2$,d\n%3$s",
+      "format": "**價格**：📥 %1$,d 📤 %2$,d\n%3$s",
       "empty": "%1$s這個背包是空的！:(",
       "brief_notice": "你可以使用 `~>inventory -brief` 取得較適合手機的版本。",
-      "sorted_by": " *(sorted by: %1$s)*"
+      "sorted_by": " *(以 %1$s 排序)*"
     },
     "cast": {
-      "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "no_item_specified": "%1$s你尚未指出任何物品。使用 `~>cast ls` 來查看所有可鑄造的物品",
+      "no_item_found": "%1$s找不到任何匹配的物品。確定你輸入了物品的全名，或使用相對應的表情符號來避免錯誤。範例：`~>cast star pick",
+      "item_not_cast": "%1$s你無法鑄造這個物品。使用 `~>cast ls` 來查看所有可鑄造的物品。如果你確定那是正確的，請輸入該物品的全名。",
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
-      "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
+      "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。你需要 %3$,d 個。",
+      "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
+      "success": "%1$s你成功的用 %5$,d 元鑄造了 %2$,dx %3$s **%4$s**。*鑄造消耗：%6$s*",
+      "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！",
+      "not_equipped": "%1$s你沒有任何已裝備的扳手。使用 `~>equip <扳手名稱>` 來裝備扳手和開始你的冒險！如果你沒有任何扳手的話，使用 `~>buy wrench` 來購買。\n你無須再指定此指令使用的扳手。如需一次鑄造多個物品，在物品名稱前加上數量，範例：`~>cast 5 star pick`",
+      "too_many": "%1$s如果持續進行的話，你將擁有5000個以上該物品。試著鑄造少一點的數量？",
+      "low_tier": "%1$s你至少需要一個等級二的扳手 (彗星扳手或更高) 來一次鑄造更多物品。你目前擁有等級 %2$s 的扳手。",
+      "not_enough_wrench_level": "%1$s你的扳手等級不足以鑄造這個物品。也許裝備一隻更強壯的扳手？(*扳手等級：%2$s，需求等級：%3$s*)",
       "too_many_amount": "%1$s你無法一次鑄造這麼多物品！最高：%2$s，嘗試：%3$s。順帶一提，火花扳手將使最高數量加倍！",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+        "success": "%1$s自動裝備了 **%2$s** 到你的扳手欄位。"
       },
       "ls": {
         "header": "可鑄造物品清單",
         "cost": "鑄造消耗：",
         "desc": "這是你能使用 `~>cast` 鑄造的物品清單。\n你可以使用全名或更簡短的名稱，或是表情符號也可以。\n**鑄造的最低費用為該物品價格的一半。如下所示。**\n扳手等級2和3分別是彗星與火花。"
       },
-      "dust": "%1$s你的背包太骯髒了，無法鑄造！*(灰塵高度：%2$s%%)*。為何不用 `~>useitem mop` 來清理呢？",
+      "dust": "%1$s你的背包灰塵太多了，無法鑄造！*(灰塵高度：%2$s%%)*。為何不用 `~>useitem mop` 來清理呢？",
       "wrench_multiple_use": "小提示：*你無法使用要鑄造的扳手作為原料！*"
     },
     "market": {
@@ -792,8 +792,8 @@
       "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
       "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
       "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
-      "multiple_items_error": "%1$sYou don't have any of these items in your inventory",
-      "error": "%1$sYou don't have enough of this item in your inventory to do this!",
+      "multiple_items_error": "%1$s你的背包中沒有任何這些物品",
+      "error": "%1$s你的背包中沒有足夠的這些物品來執行此操作！",
       "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
@@ -823,7 +823,7 @@
       "no_items_specified": "%1$sYou need to specify what item to use.",
       "not_interactive": "%1$sYou cannot interact with this item.",
       "interactive_no_action": "%1$s這個物品已被標記為可互動的，但並沒有任何動作。也許他有自己的指令？例如像鎬子的 `~>mine`",
-      "no_item": "%1$sYou don't have this item in your inventory.",
+      "no_item": "%1$s你的背包中沒有這個物品。",
       "not_enough_items": "%1$sYou don't have enough of this item.",
       "too_little": "%1$sYou can't use less than 1 item.",
       "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
@@ -1278,7 +1278,7 @@
       "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
     },
     "opencrate": {
-      "no_crate": "%1$sYou don't have any loot crate of this type (%2$s) to open. (If you're trying to open a crate of any other than the default type, use the name of the crate after the command. If you want to use seasonal inventory, append `-s`)",
+      "no_crate": "%1$s你沒有這個種類 (%2$s) 的寶箱來開啟。(如果你想要打開默認類型外的任何寶箱，在指令後面加上該寶箱名稱。如果你想使用季節性背包，加上 `-s`)",
       "not_crate": "%1$s那不是一個有效的寶箱名稱！",
       "nothing_found": "%1$s找不到你指出的寶箱。確定你輸入了正確的名稱。"
     },
@@ -1492,9 +1492,9 @@
       "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
-      "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
+      "no_tool_default": "%1$s你至少需要一個彗星扳手來執行此操作，如果想要的話也可以指定一個更高級的扳手。",
       "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
-      "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
+      "dust": "%1$s你的背包灰塵太多了，無法執行此回收，試著用拖把來清潔他。",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
@@ -1593,20 +1593,20 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
-      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
+      "no_item": "%1$s你需要指出你想修復的物品。如果你確定那是正確的，請輸入該物品的全名。",
+      "no_item_found": "%1$s找不到該物品。如果你確定那是正確的，請輸入該物品的全名。",
+      "no_main_item": "%1$s你沒有該物品 (%2$s)",
       "cant_repair": "%1$s**%2$s** 不是你能修復的物品。你只能修復壞掉的物品。",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
+      "no_tool": "%1$s你需要使用2級以上扳手 (至少為彗星扳手) 來修復此物品。別忘記裝備他 (範例：`~>equip Comet Wrench`)",
+      "no_tool_specified": "%1$s你指定了一把你不擁有的扳手 (%2$s)。請使用你擁有的工具或鑄造他。如果你確定那是正確的，請輸入該物品的全名。",
       "dust": "%1$s你的背包灰塵太多了，無法修復。灰塵高度：%2$s",
       "not_wrench": "%1$s你不能使用它作為扳手。如果名稱含有空格，記得使用引號。",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_level": "%1$s你需要更高級的扳手來修復此物品。別忘記裝備他 (範例：`~>equip Comet Wrench`)",
+      "not_enough_money": "%1$s你沒有足夠的金錢來修復此物品。*(錢包：%2$,d，需求：%3$,d)*",
       "no_item_recipe": "%1$s你沒有物品 *%2$s* 來進行修復。",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "item_broke": "%1$sSadly, your wrench (%1$s) broke while repairing this item, but you still got your item!",
-      "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
+      "not_enough_items": "%1$s你沒有足夠的 *%2$s* 來修復 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
+      "item_broke": "%1$s可惜的，你的扳手 (%1$s) 在修復過程中壞掉了，不過你還是獲得了你的物品！",
+      "success": "%1$s修復成功！已修復物品 %2$s **%3$s** -> %4$s **%5$s**。此修復費用為 *%6$s* 元，材料為 *%7$s*。",
       "ls": {
         "header": "可修復物品清單",
         "cost": "修復花費：",
@@ -1650,7 +1650,7 @@
       "external_balance": "%1$s's balance is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
       "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
-      "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
+      "reset_notice": "\n如果你想知道你的以前的錢發生什麼事了，請閱讀 <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements> (英文)\n你沒有完全失去你的舊錢，他還是依舊在你的 `~>profile` 上 :heart:\n你的背包已被保留，也許考慮賣掉一些東西來賺錢？\n這只會顯示一次。閱讀上面的連結獲得更多資訊。"
     },
     "daily": {
       "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
@@ -1721,16 +1721,16 @@
       "no_pick": "%1$s你沒有任何鎬子能夠用來挖礦。如果你想使用其他鎬子，使用 `~>mine <鎬子名稱>`",
       "not_suitable": "%1$s你無法使用這個來挖礦！",
       "not_in_inventory": "%1$s你的背包裡沒有這種鎬子，切換到默認選擇。",
-      "success": "%1$s你用*%3$s*開採了價值**%2$,d元**的礦物",
+      "success": "%1$s你用 *%3$s* 開採了價值 **%2$,d 元** 的礦物",
       "reminder": "\n*你能使用採礦時找到的寶石來鑄造更好的鎬子。使用 `~>cast ls` 來查看你能鑄造的東西*\n別忘了你能到 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 查看我們的工具指南 (英文)",
       "diamond": {
         "overflow": "你在採礦時時發現了一顆鑽石，但是你已經擁有太多了，所以我為你出售了。",
-        "success": "你在採礦時幸運的找到了%1$s顆鑽石，檢查你的背包！"
+        "success": "你在採礦時幸運的找到了 %1$s 顆鑽石，檢查你的背包！"
       },
       "gem": {
         "overflow": "你在採礦時時發現了 *%1$s*，但是你已經擁有太多了，所以我為你出售了。",
         "success": "你在採礦時幸運的找到了 *%1$s*，檢查你的背包。",
-        "success_extra": "耶! 你在採礦時幸運的找到了 *%1$s* 和 *%2$s*，檢查你的背包。"
+        "success_extra": "太棒了！你在採礦時幸運的找到了 *%1$s* 和 *%2$s*，檢查你的背包。"
       },
       "sparkle": {
         "overflow": "你找到了閃閃發光的寶石，不過你好像已經擁有太多了，所以我為你出售了。",
@@ -1738,15 +1738,15 @@
       },
       "crate": {
         "overflow": "你在挖礦時找到了一個 **%1$s**，不過你因為擁有太多了，就把他拋在後面了...",
-        "success": "你在挖礦的時候找到了%1$s**%2$s**並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要先用 `~>buy key` 購買一個寶箱鑰匙！"
+        "success": "你在挖礦的時候找到了 %1$s **%2$s** 並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要先用 `~>buy key` 購買一個寶箱鑰匙！"
       },
       "autoequip": {
         "success": "%1$s自動裝備了 **%2$s** 到你的鎬子欄位。"
       },
-      "item_broke": "%1$s你的%2$s壞了 :( %3$s",
+      "item_broke": "%1$s你的 %2$s 壞了 :( %3$s",
       "item_broke_autoequip": "*提示：你可以使用 `~>profile autoequip` 來開啟自動裝備，當物品損壞時他將會為你自動裝備回相同物品，前提是你的背包內還有另外一個*",
-      "waifu_help": "你的waifu加入了你的採礦冒險，你們都得到了更多的收穫!",
-      "missing_equipped": "%1$s你原本有支已裝備的%2$s，但是你已經把庫存都用光了！已裝備鎬子已重設。",
+      "waifu_help": "你的Waifu加入了你的採礦冒險，你們都得到了更多的收穫!",
+      "missing_equipped": "%1$s你原本有支已裝備的 %2$s，但是你已經把庫存都用光了！已裝備鎬子已重設。",
       "broken_drop": "%1$s你的工具壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
       "broken_drop_miss": "%1$s你的工具壞了，沒能把它找回來。"
     },
@@ -1757,13 +1757,13 @@
         "success": "%1$s自動裝備了 **%2$s** 到你的斧頭欄位。"
       },
       "crate": {
-        "overflow": "You found a **%1$s** while chopping trees, but you had too many already, so we threw it back into the ocean...",
-        "success": "You found a %1$s **%2$s** while chopping trees and you proceeded to pick it up. Go and open it with `~>opencrate <crate name>`. You need a crate key!"
+        "overflow": "你在伐木時找到了 **%1$s**，但是你已經擁有太多了，所以只能把它丟回水裡...",
+        "success": "你在伐木時找到了 %1$s **%2$s** 並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "overflow": "%1$s你在伐木時找到了一些資源，但是你已經擁有太多了，所以你決定將多出來的丟掉。",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "success_only_item": "%1$s在伐木時，你用 *%3$s* 找到了 %2$s 且把他們放進背包裡了。",
+      "success": "%1$s在伐木時，你用 *%4$s* 找到了 %2$s 和 **%3$,d 元** 且把他們放進背包裡了。",
+      "success_money_noitem": "%1$s在伐木時，你用 *%3$s* 找到了 **%2$,d 元** 且把他們放進口袋裡了。"
     },
     "slots": {
       "errors": {
