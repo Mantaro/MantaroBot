@@ -967,7 +967,7 @@
         "not_equipped": "%1$sAnda tidak memasang apa-apa pada slot ini.",
         "no_content": "%1$sAnda perlu menyatakan jenis peralatan yang ingin disingkirkan, sama ada `pick, axe, rod, wrench`",
         "invalid_type": "%1$sJenis tidak sah. Jenis yang sah ialah `pick, axe, rod, wrench`",
-        "confirm": "%1$sAdakah anda pasti akan **menyingkirkan** %2$s %3$s anda? Taip `yes` untuk sahkan, `no` untuk membatalkan. Ini akan memberi anda versi peralatan yang sudah rosak.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$sBerjaya menyingkirkan slot %2$s anda.",
         "equipment_recover": "\nDisebabkan anda tidak pernah menggunakan peralatan anda, anda mendapat %1$s anda kembali!",
         "broken_equipment_recover": "\nPeralatan anda pernah digunakan, tetapi anda mendapat %1$s kembali, anda boleh membaikinya sekiranya anda memerlukannya nanti!",
