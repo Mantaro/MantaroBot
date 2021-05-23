@@ -203,7 +203,7 @@
       "7": "- **暂停或继续播放** `~>pause`",
       "8": "- **停止播放并退出语音频道** `~>stop`",
       "9": "- **随机播放目前清单** `~>shuffle`",
-      "10": "- 最后 **重複播放某首歌曲** 使用 `~>repeat`，**重複播放目前清单** 使用 `~>repeat queue`。在重複播放开启的时后使用 `~>repeat` 来关闭它\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "要取得更多资讯请使用 `~>help <指令名称>` (不包含<>)",
       "12": "谢谢使用Mantaro，享受你的音乐吧!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$s正在播放目前的伫列。",
       "queue_repeat": "%1$s正在重复播放目前的伫列。",
       "song_cancel": "%1$s正在跟着目前的伫列继续播放。",
-      "song_repeat": "%1$s正在重复播放目前的歌曲，再次执行此命令来停止重复播放。",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$s正在重复播放目前的歌曲，再次执行此命令来停止重复播放。"
     },
     "nextsong": {
       "no_song_next": "%1$s哎，之后没有任何歌曲了。",
@@ -429,8 +428,8 @@
       },
       "make": {
         "start_text": "%1$sStarted **\"Creation of Custom Command `%2$s`\"**!\nSend `&~>stop` to stop creation **without saving**.\nSend `&~>save` to stop creation an **save the new Command**. Send any text beginning with `&` to be added to the Command Responses. Use `~>nsfw` to mark this command as NSFW and `~>sfw` to revert.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.",
-        "cancel": "%1$sCommand Creation canceled.",
-        "no_responses_added": "%1$sNo responses were added. Stopping creation without saving...",
+        "cancel": "%1$s指令创建已取消。",
+        "no_responses_added": "%1$s没有添加任何回应。停止创建且不保存...",
         "success": "%1$s已加到指令`%2$s`",
         "no_name_specified": "%1$s你尚未输入你所要创建的自定义指令名称！"
       },
@@ -440,13 +439,13 @@
         "error": "%1$sThere was an error while evaluating this custom command!\n%2$s"
       },
       "remove": {
-        "no_command": "%1$sYou need to tell me what command you want to remove.",
-        "success": "%1$sRemoved Custom Command `%2$s`"
+        "no_command": "%1$s你需要告诉我你想移除哪条指令。",
+        "success": "%1$s已移除自定义指令`%2$s`"
       },
       "import": {
-        "no_command": "%1$sYou need to tell me what command you want to import.",
+        "no_command": "%1$s你需要告诉我你想汇入哪条指令。",
         "not_found": "%1$sThere are no custom commands matching your search query.\n**This command might not work properly!**\nIn such cases, you can manually copy the command using the output of `~>custom raw` instead.",
-        "header": "`%1$s` (Responses: %2$s) - Guild: `%3$s`",
+        "header": "`%1$s` (回应：%2$s) - 伺服器：`%3$s`",
         "selection": "请选择指令：",
         "note": "（你需要是一个协会的成员才能使用他们的独特指令哦～）",
         "success": "来自“%2$s”的独特指令“%1$s”导入成功！共有%3$d个回复"
@@ -457,53 +456,53 @@
         "no_index": "%1$s 你不能编辑一个不存在的索引哦～",
         "empty_response": "%1$s 回复不能为空哦～",
         "not_enough_args": "%1$s你需要指出指令名称，回应编号及新的回应。",
-        "success": "%1$sEdited response **#%2$d** of the command `%3$s` correctly"
+        "success": "%1$s已成功编辑指令`%3$s`的第**#%2$d**条回应"
       },
       "deleteresponse": {
         "no_command": "%1$s你需要指出你想移除回应的指令名称。",
         "invalid_number": "%1$s你需要指出你想删除的回应编号。",
-        "no_index": "%1$sYou cannot remove a non-existent index.",
+        "no_index": "%1$s 你不能移除一个不存在的索引哦～",
         "not_enough_args": "%1$s你需要指出你想删除的指令名称及回应编号。",
-        "no_responses_left": "%1$sThere were no responses left, so I removed the command.",
-        "success": "%1$sRemoved response **#%2$d** of the command `%3$s` correctly"
+        "no_responses_left": "%1$s看起来这条指令已经没有任何回应了，所以我把它移除了。",
+        "success": "%1$s已成功移除指令`%3$s`的第**#%2$d**条回应"
       },
       "rename": {
-        "success": "%1$sRenamed command `%2$s` to `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "success": "%1$s已重新命名指令 `%2$s` 为 `%3$s`",
+        "not_enough_args": "%1$s你需要指出你想重新命名的指令及新名称。"
       },
       "add": {
         "no_command": "%1$s你需要指出你想创建的指令名称。",
         "not_enough_args": "%1$s你需要指出你想新增的指令名称及回应。",
         "empty_content": "%1$s你需要指出这个自定义指令的内容。",
-        "success": "%1$sSaved to command `%2$s`",
-        "too_many_responses": "%1$sThere's too many responses (%2$s) on this command. This limit is double (up to 100) for premium servers (Check <https://patreon.com/mantaro>)",
-        "too_many_commands": "%1%sThere are too many commands on this server, so you can't add more (+100). This can be bypassed by premium guilds (Check <https://patreon.com/mantaro>)."
+        "success": "%1$s已加到指令`%2$s`",
+        "too_many_responses": "%1$s此指令有太多回应了 (%2$s)。高级伺服器将提供双倍的限制 (至100)。(浏览<https://patreon.com/mantaro>)",
+        "too_many_commands": "%1%s此伺服器的自定义指令数量已超过限制 (+100)，你无法再新增更多。高级伺服器将无视这个限制。(浏览<https://patreon.com/mantaro>)"
       },
       "lockcommand": {
         "no_permission": "%1$sYou need the Manage Server permission to lock and unlock commands.",
-        "no_command": "%1$sYou need to specify the command you want to lock.",
-        "success": "%1$sSuccesfully locked the `%2$s` command. You'll need to unlock it for further edits."
+        "no_command": "%1$s你需要指出你想锁定的指令名称。",
+        "success": "%1$s已成功锁定指令`%2$s`。你将需要解锁它来进行编辑。"
       },
       "unlockcommand": {
-        "no_command": "%1$sYou need to specify the command you want to unlock.",
-        "not_locked": "%1$sThis command isn't locked.",
-        "success": "%1$sSuccesfully unlocked the `%2$s` command. You'll need to lock it later if you want to avoid further edits."
+        "no_command": "%1$s你需要指出你想解锁的指令名称。",
+        "not_locked": "%1$s此指令没有被锁定。",
+        "success": "%1$s已成功解锁指令`%2$s`。你将需要锁定它来避免编辑。"
       },
       "character_not_allowed": "%1$sThis character isn't allowed on custom command names.",
-      "already_exists": "%1$sThe command `%2$s` already exists and it's a default bot command.",
+      "already_exists": "%1$s指令 `%2$s` 已经存在且是默认的指令。",
       "name_too_long": "%1$s 名字过长了哦~",
       "no_cc": "%1$s 这个协会并没有独特指令，只有积下来的灰哦",
-      "admin_only": "This guild only accepts custom command creation, edits, imports and eval from administrators.\n**This is now the DEFAULT setting.**\n- If you want to let everyone do this, and are an admin (Bot Commander role or Manage Server permission), run `~>opts admincustom false`",
-      "not_found": "%1$sThere's no Custom Command `%2$s` in this Guild.",
-      "invalid_image": "%1$sThis command contains an invalid image, please fix...",
-      "invalid_string": "%1$sThe string `{%2$s}` isn't valid, or the output is longer than 2000 characters.",
-      "invalid_json": "%1$sThe string `{%2$s}` isn't a valid JSON.",
+      "admin_only": "此伺服器只接受来自管理员的自定义指令创建，编辑，汇入和测试。\n**这是目前的默认设置。**\n- 如果你是管理员，且想让任何人执行这些，运行 `~>opts admincustom false`",
+      "not_found": "%1$s此伺服器没有自定指令`%2$s`。",
+      "invalid_image": "%1$s这条指令包含无效的图像，请将它移除...",
+      "invalid_string": "%1$s字串 `{%2$s}` 无效，或是长于2000字元。",
+      "invalid_json": "%1$s字串 `{%2$s}` 不是有效的JSON。",
       "invalid_link": "%1$s “%2$s”不是一个有效链接哦～",
-      "locked_command": "%1$sYou can't edit or remove this command while it's locked, please run `~>custom unlockcommand <command name>` to unlock it."
+      "locked_command": "%1$s你无法编辑或移除已锁定的指令，传送 `~>custom unlockcommand <指令名称>` 来解锁它。"
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
+      "no_mute_role": "%1$s此伺服器目前还没设定禁言身分组，你能用 `~>opts muterole set <身分组>` 来设定它。",
       "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
       "no_users": "%1$s 你想要禁言哪个用户呢？",
       "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
@@ -536,17 +535,17 @@
         "这个经常发生吗？",
         "我—我有正常工作吗？",
         "<3",
-        "pat pat",
+        "摸摸",
         "乓",
         "乓",
         "乓",
         "乓",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "不知道我做得怎样",
+        "有问题吗？",
+        "乒乓？耶！",
+        "嗯...嗯 嗨...嗨"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **我的Ping：%3$,d ms**\n(Websocket: %4$,d ms)"
     },
     "love": {
       "no_mention": "%1$s 请@一位用户",
@@ -562,19 +561,19 @@
       "loveletter": {
         "no_letter": "%1$sYou have no love letters in your inventory, so you don't have anything to write your letter on. A love letter is given to you upon marriage.",
         "empty": "%1$s 空的情书？你怎么可以这样嘛~~赶紧赶紧，写点东西上去啦~~",
-        "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
-        "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "no_marriage": "%1$s你还没结婚，不能写情书给你自己…",
+        "not_proposing_player": "%1$s你不是提出这场婚姻的人！",
+        "already_done": "%1$s这条婚姻已经指定情书讯息。传送 `~>marry status` 检查",
         "too_long": "%1$s 大作家，你的情书太长啦！ 最长只能有五百字哦~~",
         "cannot_see": "%1$s 我找不到你的对象呢。他们可能不在我所在的任何协会吧~~",
         "confirmation": "%1$s 你确定这就是你的情书的内容吗？你和**%2$s#%3$s**的爱情只要不断这个内容就不能被更改哦~~\n\n%4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
-        "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
+        "confirmed": "%1$s情书已成功传递给你的爱人！传送 `~>marry status` 检查",
+        "scrapped": "%1$s你还有时间思考该写什么，不必着急！"
       },
       "status": {
-        "no_marriage": "%1$sYou aren't married, so I guess your status is uh... \"not married\" (If you see a marriage in your profile and see this message that means you are in the old system, try remarrying)",
+        "no_marriage": "%1$s你目前还没结婚，所以你处在...\"单身状态\" (如果你能在你的个人资料看到婚姻那表示你还处在久的系统，试着重新结婚)",
         "header": "当前婚姻状态",
-        "description_format": "%1$sMarriage status between **%2$s** and **%3$s**",
+        "description_format": "%1$s**%2$s**和**%3$s**之间的婚姻状态",
         "date": "结婚日",
         "age": "Marriage Age",
         "love_letter": "情书",
@@ -592,7 +591,7 @@
         "not_married": "%1$sYou're not married."
       },
       "buyhouse": {
-        "not_married": "%1$sYou can only buy a house while you're married. This might change in the future.",
+        "not_married": "%1$s你只能在结婚时买房子。这将有可能在未来更改。",
         "no_house": "%1$sYou need a house item in your inventory. Use `~>buy house` to get one.",
         "not_enough_money": "%1$sYou don't have enough money to buy a house. (Current house price: %2$d credits)",
         "no_name": "%1$sYou need to give your house a name! For example, `~>marry house cozy house`",
@@ -713,7 +712,7 @@
       "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast.",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
       "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
@@ -968,7 +967,7 @@
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
@@ -1024,7 +1023,8 @@
       },
       "ls": {
         "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
+        "obtained": "**Obtained:** %s"
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
@@ -1649,7 +1649,7 @@
       "bot_notice": "%1$sBots cannot have money.",
       "external_balance": "%1$s's balance is **$%2$,d credits.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {

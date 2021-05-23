@@ -203,7 +203,7 @@
       "7": "- Para **pausar o resumir la canción** usa `~>pause`",
       "8": "- Para **parar la musica y desconectar al bot del canal de voz** usa `~>stop`",
       "9": "- Para **barajar/randomizar la cola** usa `~>shuffle`",
-      "10": "- Al final,para **repetir una canción** usa `~>repeat` y para **repetir la cola** usa `~>repeat queue`. Usar `~>repeat` cuando la repetición está encendida, la apaga.\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Para más información porfavor usa `~>help <nombre del comando>` (sin el <> y reemplaza nombre del comando con el nombre del comando que quieras revisar en la ayuda)",
       "12": "Disfruta la música y gracias por usar Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sContinuando con la cola actual.",
       "queue_repeat": "%1$sRepitiendo la cola actual.",
       "song_cancel": "%1$sContinuando con la cola actual.",
-      "song_repeat": "%1$sRepitiendo la canción actual.",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$sRepitiendo la canción actual."
     },
     "nextsong": {
       "no_song_next": "%1$sOuch, no hay más canciones por aqui!",
@@ -713,7 +712,7 @@
       "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
       "not_enough_money": "%1$sNo tienes suficiente dinero para crear este item. **(Costo: %2$s)**",
-      "no_item": "%1$sNo tienes el item necesario (*%2$s*) para proceder con la creación de este ítem.",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
       "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
@@ -968,7 +967,7 @@
         "not_equipped": "%1$sNo tienes nada equipado en este slot.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$sCorrectamente desequipado tu slot de %2$s.",
         "equipment_recover": "\n¡Ya que nunca has usado tu equipamiento, recibiste tu %1$s de vuelta!",
         "broken_equipment_recover": "\nTu equipamiento estaba usado, pero recibiste un %1$s de vuelta, ¡puedes repararlo si lo necesitas después!",
@@ -1024,7 +1023,8 @@
       },
       "ls": {
         "header": "Lista de Trofeos Obtenibles",
-        "desc": "Esta es una lista de todos los trofeos que puedes obtener en Mantaro. Esta lista contiene el nombre y descripción del trofeo, lo que debería darte una idea de como obtenerlo.\nSi crees que conseguiste un trofeo y no lo ves en tu lista de trofeos personal, usa `~>profile` y luego `~>badges` denuevo.\n¡Buena suerte, cazadores de trofeos!"
+        "desc": "Esta es una lista de todos los trofeos que puedes obtener en Mantaro. Esta lista contiene el nombre y descripción del trofeo, lo que debería darte una idea de como obtenerlo.\nSi crees que conseguiste un trofeo y no lo ves en tu lista de trofeos personal, usa `~>profile` y luego `~>badges` denuevo.\n¡Buena suerte, cazadores de trofeos!",
+        "obtained": "**Obtained:** %s"
       },
       "brief_success": "**Trofeos de %1$s**\n%2$s",
       "profile_notice": "Si crees que tienes un trofeo pero no aparece aquí, usa `~>profile` y luego ejecuta este comando denuevo.\n",
@@ -1649,7 +1649,7 @@
       "bot_notice": "%1$sLos bots no pueden tener créditos...",
       "external_balance": "%1$s tiene **$%2$,d créditos.**",
       "own_balance": "Tienes **$%1$,d créditos.**%2$s",
-      "new_player": "\nHoli! Veo que puedes ser nuevo/a. Esta guia te ayudará bastante: https://github.com/Mantaro/MantaroBot/wiki/Currency-101 (en inglés).\nEsto solo lo verás una vez.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nSi quieres saber que le pasó a tus créditos, lee <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nNo perdiste tus cŕeditos antiguos completamente, aún es visible en `~>profile` :heart:\nTu inventario aún está ahí. ¿Tal vez vender unas cosas sirva?\nEsto solo se mostrará una vez. Lee la página linkeada (en inglés) para más detalles."
     },
     "daily": {

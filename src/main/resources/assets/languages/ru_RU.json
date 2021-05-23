@@ -203,7 +203,7 @@
       "7": "- Чтобы **поставить на паузу или убрать паузу** используй `~>pause`",
       "8": "- Чтобы **остановить трек и выгнать бота** используй `~>stop`",
       "9": "- Чтобы **перемешать очередь** используй `~>shuffle`",
-      "10": "- И наконец, чтобы повторить **играющий трек** используй `~>repeat` или если вы желаете повторить **весь плейлист** используй `~>repeat queue`.\n",
+      "10": "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeatqueue`. Using `~>repeat` while repeat is on, turns it off, the same is true for `~>repeatqueue`\n",
       "11": "Для того чтобы получить больше информации используй `~>help <название команды>` (без <>)",
       "12": "Наслаждайтесь годными треками и благодарим вас за использование Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sПродолжаю данную очередь.",
       "queue_repeat": "%1$sПовтор данной очереди.",
       "song_cancel": "%1$sСледующий трек...",
-      "song_repeat": "%1$sПовтор трека...",
-      "invalid": "%1$sNot a valid choice. Either run this command without any arguments or run `~>repeat queue` to repeat the full queue."
+      "song_repeat": "%1$sПовтор трека..."
     },
     "nextsong": {
       "no_song_next": "%1$sОй, а следующей песни нет :(",
@@ -713,7 +712,7 @@
       "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
       "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
       "not_enough_money": "%1$sУ вас не хвататет денег чтобы создать это. **(Цена: %2$s)**",
-      "no_item": "%1$sУ вас нет необходимых предметов *%2$s* чтобы создать это.",
+      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
       "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
       "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
       "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
@@ -968,7 +967,7 @@
         "not_equipped": "%1$sУ вас ничего не экипировано в данном слоте.",
         "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
         "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool.",
+        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
         "success": "%1$sУспешно снят ваш %2$s слот.",
         "equipment_recover": "\nПоскольку вы никогда не использовали своё снаряжение, вы получаете %1$s обратно!",
         "broken_equipment_recover": "\nВаша экипировка уже была использована, но вы получили %1$s назад, вы можете починить это если вам понадобится позже!",
@@ -1024,7 +1023,8 @@
       },
       "ls": {
         "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!"
+        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
+        "obtained": "**Obtained:** %s"
       },
       "brief_success": "**%1$s's значки:**\n%2$s",
       "profile_notice": "Если вы уверены в том, что получили новый значок но он тут не отображается, используйте `~>profile` и после повторите запрос.\n",
@@ -1649,7 +1649,7 @@
       "bot_notice": "%1$sУ ботов нет денег.",
       "external_balance": "%1$s имеет **$%2$d кредитов.**",
       "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. This will only be shown once.",
+      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
       "reset_notice": "\nIf you wanna know what happened to your money, read <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nYou didn't lose your old money completely, it's still visible on `~>profile` :heart:\nYour inventory was kept, maybe sell some stuff to get some money?\nThis will only be shown once. Read the page linked for more details."
     },
     "daily": {

@@ -49,7 +49,7 @@
       "potion_active": "%1$sVocê já tem um ativo **%2$s** efeito de poção e tem a quantidade máxima possível disso!",
       "potion_not_found": "%1$sEu não encontrei essa poção ou tipo de equipamento!",
       "potion_applied": "%1$sPoção aplicada com sucesso **%2$s** do tipo *%3$s* (%4$dx). Cheque seu novo efeito brilhante em `~>profile stats`",
-      "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então empilhamos. Tamanho atual da pilha: %4$s",
+      "potion_applied_multiple": "%1$sAplicada com sucesso **%2$s** do tipo *%3$s*.\nVocê já tem esse efeito aplicado, então acumulamos. Quantidade atual de acúmulos: %4$s",
       "max_stack_size": "%1$sVocê já acumulou o valor máximo de %2$s que você pode ter. (Máximo: 15, Depois de acumular: %3$s)",
       "max_stack_size_2": "%1$sVocê não pode acumular isso tudo %2$s. (Máximo: 15, Tentado: %3$s)",
       "not_same_potion": "%1$sVocê já tem uma poção do tipo %2$s empilhada e ativada, então você não pode empilhar poções do tipo %3$s nela."
@@ -203,7 +203,7 @@
       "7": "- Para **pausar ou despausar** apenas use `~>pause`",
       "8": "- Para **parar a música e desvincular do player** use `~>stop`",
       "9": "- Para **embaralhar a fila** apenas use `~>shuffle`",
-      "10": "- E por último, para **repetir uma música** use `~>repeat` e para **repetir a fila** use `~>repeat queue`. Usando `~>repeat` enquanto a repetição está ligada, irá desliga-la\n",
+      "10": "- E por último, para **repetir uma música** use `~>repeat` e para **repetir a fila** use `~>repeatqueue`. Usar `~>repeat` enquanto a repetição está ativa, irá desativá-la, o mesmo acontece com `~>repeatqueue`\n",
       "11": "Para mais informações por favor use `~>help <nome do comando>` (sem as <> e troque nome do comando pelo nome do comando que você quer)",
       "12": "Aprecie sua música e obrigado por usar a Mantaro!"
     },
@@ -339,8 +339,7 @@
       "queue_cancel": "%1$sContinuando com a fila atual.",
       "queue_repeat": "%1$sRepetindo a fila atual.",
       "song_cancel": "%1$sContinuando com a fila normal.",
-      "song_repeat": "%1$sRepetindo a música atual.",
-      "invalid": "%1$sNão é uma escolha válida. Use este comando sem nenhum argumento ou use `~>repeat queue` para repetir a filha inteira."
+      "song_repeat": "%1$sRepetindo a música atual."
     },
     "nextsong": {
       "no_song_next": "%1$sOw, não tem nenhuma música depois",
@@ -713,7 +712,7 @@
       "no_item_found": "%1$s Eu não encontrei nenhum item que corresponda a isso. Certifique-se de digitar o nome completo do item para evitar incompatibilidades ou use o emoji, se você puder. Exemplo: `~>cast star pick`",
       "item_not_cast": "%1$sVocê não pode confeccionar esse item. Você pode checar `~>cast ls` para uma lista de itens confeccionáveis. Tente usar o nome completo se você acha que tem o item correto.",
       "not_enough_money": "%1$sVocê não tem dinheiro suficiente para fundir isso. **(Custo: %2$s)**",
-      "no_item": "%1$sVocê não tem o item necessário *%2$s* para prosseguir e fundir.",
+      "no_item": "%1$sVocê não tem o item necessário *%2$s* para continuar a fundir. Você precisa de %3$,d do item.",
       "not_enough_items": "%1$sVocê não tem o suficiente do item *%2$s* para prosseguir e fazrr a fusão de um **%3$s**. **(Necessário: %4$s, Atual: %5$s)**",
       "success": "%1$sCom sucesso você fundiu %2$,dx %3$s **%4$s** por %5$,d créditos. *Fundição usada: %6$s*",
       "no_tool": "%1$sVocê tem que ter um %2$s para prosseguir e fundir!",
@@ -968,7 +967,7 @@
         "not_equipped": "%1$sVocê não tem nada equipado nesse slot.",
         "no_content": "%1$sVocê precisa especificar um tipo de ferramenta para desequipar, pode ser entre `pick, axe, rod, wrench`",
         "invalid_type": "%1$sTipo inválido. Os tipos válidos são `pick, axe, rod, wrench`",
-        "confirm": "%1$sVocê tem certeza de que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar. Isso lhe dará uma versão quebrada da sua ferramenta equipada agora.",
+        "confirm": "%1$sVocê tem certeza de que quer **desequipar** sua %2$s %3$s? Digite `yes` para confirmar, `no` para cancelar. Isso lhe dará uma versão quebrada da sua ferramenta que está equipada no momento, isso significa que sua ferramenta equipada agora irá quebrar.",
         "success": "%1$sDesequipado com sucesso seu slot de %2$s.",
         "equipment_recover": "\nJá que você nunca usou seu equipamento, você ganhou sua %1$s de volta!",
         "broken_equipment_recover": "\nSeu equipamento foi usado, mas você ganhou %1$s de volta, você pode conserta-lo se você precisar depois!",
@@ -1024,7 +1023,8 @@
       },
       "ls": {
         "header": "Lista de Insígnias Obteníveis",
-        "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!"
+        "desc": "Essa é uma lista de todas as insígnias obteníveis na Mantaro. Essa lista contém o nome e a descrição da insígnia, que deve dar uma visão geral do que você precisa para alcançá-lo.\nSe você acha que você ganhou uma insígnia e você não vê ela na sua lista pessoal de insígnia, use `~>profile` e depois use `~>badges` de novo.\nBoa sorte, caçadores de insígnias!",
+        "obtained": "**Obtidas:** %s"
       },
       "brief_success": "**Insígnias de **%1$s:**\n%2$s",
       "profile_notice": "Se você acha que ganhou uma insígnia nova e não aparece aqui, por favor use `~>profile` em seguida, use esse comando novamente.\n",
@@ -1649,7 +1649,7 @@
       "bot_notice": "%1$sBots não podem ter dinheiro.",
       "external_balance": "O saldo de %1$s é de **$%2$,d créditos.**",
       "own_balance": "Seu saldo é de **$%1$,d créditos.**%2$s",
-      "new_player": "\nOlá! Vejo que você pode ser novo aqui. Este guia vai te ajudar muito: https://github.com/Mantaro/MantaroBot/wiki/Currency-101. Isso só será mostrado uma vez.",
+      "new_player": "\nOlá! Vejo que você possa ser novo aqui. Este guia vai te ajudar muito: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. Isso só será mostrado uma vez.",
       "reset_notice": "\nSe você quiser saber o que aconteceu com seu dinheiro, leia <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements>\nVocê não perdeu seu dinheiro antigo completamente, ainda é visível no `~>profile` :heart:\nSeu inventário foi mantido, talvez venda algumas coisas pra ganhar dinheiro?\nIsso só será mostrado uma vez. Leia o link da página para mais detalhes."
     },
     "daily": {
