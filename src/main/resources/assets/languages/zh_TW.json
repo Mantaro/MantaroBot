@@ -714,7 +714,7 @@
       "not_enough_money": "%1$s你沒有足夠的金錢來鑄造此物品。**(費用：%2$s)**",
       "no_item": "%1$s你沒有物品 *%2$s* 來進行鑄造。你需要 %3$,d 個。",
       "not_enough_items": "%1$s你沒有足夠的物品 *%2$s* 來鑄造 **%3$s**。**(需求：%4$s，擁有：%5$s)**",
-      "success": "%1$s你成功的用 %5$,d 元鑄造了 %2$,dx %3$s **%4$s**。*鑄造消耗：%6$s*",
+      "success": "%1$s你成功的用 %5$,d 元鑄造了 %2$,dx %3$s **%4$s**。*鑄造花費：%6$s*",
       "no_tool": "%1$s你需要一個 %2$s 來進行鑄造！",
       "not_equipped": "%1$s你沒有任何已裝備的扳手。使用 `~>equip <扳手名稱>` 來裝備扳手和開始你的冒險！如果你沒有任何扳手的話，使用 `~>buy wrench` 來購買。\n你無須再指定此指令使用的扳手。如需一次鑄造多個物品，在物品名稱前加上數量，範例：`~>cast 5 star pick`",
       "too_many": "%1$s如果持續進行的話，你將擁有5000個以上該物品。試著鑄造少一點的數量？",
@@ -726,7 +726,7 @@
       },
       "ls": {
         "header": "可鑄造物品清單",
-        "cost": "鑄造消耗：",
+        "cost": "鑄造花費：",
         "desc": "這是你能使用 `~>cast` 鑄造的物品清單。\n你可以使用全名或更簡短的名稱，或是表情符號也可以。\n**鑄造的最低費用為該物品價格的一半。如下所示。**\n扳手等級2和3分別是彗星與火花。"
       },
       "dust": "%1$s你的背包灰塵太多了，無法鑄造！*(灰塵高度：%2$s%%)*。為何不用 `~>useitem mop` 來清理呢？",
@@ -1033,7 +1033,7 @@
       "no_badges": "No badges to show (yet!)",
       "header": "Badges achieved by %1$s",
       "total_badges": "**Total achieved badges:** %1$s",
-      "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
+      "footer": "徽章就像是成就，你能夠通過遊玩Mantaro的遊戲或單純使用機器人來獲得他們。"
     },
     "rep": {
       "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
@@ -1225,57 +1225,57 @@
       "meow": "Meow."
     },
     "game": {
-      "won_games": "%1$s%2$s has won **%3$s games**",
-      "nothing_specified": "%1$sYou didn't specify anything to play...",
-      "not_enough_games": "%1$sYou need to specify two games at least. For example: `~>game lobby pokemon, trivia`",
-      "invalid_selection": "%1$sYou need to specify two games at least. (Valid games: character, pokemon, number, trivia)",
+      "won_games": "%1$s%2$s 贏了 **%3$s 次遊戲**",
+      "nothing_specified": "%1$s你並沒有指出任何要開始的遊戲...",
+      "not_enough_games": "%1$s你需要指出至少兩個遊戲。範例：`~>game lobby pokemon, trivia`",
+      "invalid_selection": "%1$s你需要指出至少兩個遊戲。(有效遊戲：character, pokemon, number, trivia)",
       "multiple": {
-        "invalid": "%1$sYou need to specify the game and the number of times to run it.",
-        "invalid_times": "%1$sInvalid number of times. Remember that it must be an integer.",
-        "no_character": "%1$sYou cannot use character game in game multiple or lobby due to AniList API limitations."
+        "invalid": "%1$s你需要指出想遊玩的遊戲和次數。",
+        "invalid_times": "%1$s無效次數。記得那只能是一個整數。",
+        "no_character": "%1$s由於 AniList API 的限制，你無法在連續模式或大廳遊玩猜角色遊戲。"
       },
       "trivia": {
-        "wrong_diff": "%1$sWrong difficulty specified! (Supported: easy, medium and hard)",
-        "fetch_error": "%1$sError while starting trivia. Seemingly Open Trivia DB is having trouble.",
-        "possibilities": "Possibilities",
-        "difficulty": "Difficulty",
-        "category": "Category"
+        "wrong_diff": "%1$s難度錯誤！(有效難度：easy, medium, hard)",
+        "fetch_error": "%1$s開始冷知識時發生錯誤。看來 Open Trivia DB 可能有些問題。",
+        "possibilities": "可能答案",
+        "difficulty": "難度",
+        "category": "類別"
       },
       "number": {
-        "start": "%1$sGuess the number! **You have 5 attempts and 1 minute. The number is between 0 and 150**",
-        "nan": "%1$sThat's not even a number...",
-        "ended_game": "%1$sEnded game. The number was: %2$d",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. The number was: %2$d",
-        "hint": "Hint: The number is %1$s than your input number.",
-        "higher": "higher",
-        "lower": "lower"
+        "start": "%1$s猜數字！**你有 5 次機會和 1 分鐘。該數字在 0 與 150 之間**",
+        "nan": "%1$s那根本就不是數字...",
+        "ended_game": "%1$s已結束遊戲。數字是：%2$d",
+        "all_attempts_used": "%1$s已使用完所有機會，遊戲結束。數字是：%2$d",
+        "hint": "提示：該數字比你輸入的數字 %1$s。",
+        "higher": "大",
+        "lower": "小"
       },
       "pokemon": {
-        "header": "Who's that pokemon?",
-        "footer": "You have 5 attempts and 75 seconds. (Type end to end the game)"
+        "header": "這是哪隻神奇寶貝？",
+        "footer": "你有 5 次機會和 75 秒鐘。(傳送 end 來結束遊戲)"
       },
-      "started_mp_role": "%1$sStarted a multi-player lobby with all users with the specified role: **%2$s**",
-      "started_mp_user": "%1$sStarted a multi-player lobby with users: **%2$s**",
-      "lobby_started": "%1$sStarted a new lobby! **Games: %2$s**\nYou can type `endlobby` to end all games and finish the lobby.",
-      "game_timeout_drop": "%1$sSeems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!",
-      "other_lobby_running": "%1$sCannot start a new game lobby when there is a game currently running. (If this is an error, tell an admin to run `~>opts lobby reset`)",
+      "started_mp_role": "%1$s已為身分組：**%2$s** 的所有用戶開始了多人大廳",
+      "started_mp_user": "%1$s已為用戶：**%2$s** 開始了多人大廳",
+      "lobby_started": "%1$s已開始了一個新的大廳！**遊戲：%2$s**\n你可以輸入 `endlobby` 來結束所有遊戲和大廳。",
+      "game_timeout_drop": "%1$s我好像在這邊忘記了一個遊戲... 我會馬上開始你的新遊戲！",
+      "other_lobby_running": "%1$s目前還有運行中的遊戲，無法開始一個新大廳。(如果這是錯誤的，請讓管理員運行 `~>opts lobby reset`)",
       "lobby": {
-        "ended_game": "%1$sEnded game. Possible answers were: %2$s",
-        "ended_lobby": "%1$sEnded lobby correctly! Thanks for playing.",
-        "all_attempts_used": "%1$sAlready used all attempts, ending game. Possible answers were: %2$s",
-        "incorrect_answer": "%1$sThat's not it, you have %2$d attempts remaining.",
-        "won_game": "%1$s**%2$s** just won $%3$,d credits by answering correctly!"
+        "ended_game": "%1$s遊戲結束。可能的答案是：%2$s",
+        "ended_lobby": "%1$s已正確結束大廳！感謝遊玩。",
+        "all_attempts_used": "%1$s已使用完所有機會，遊戲結束。可能的答案是：%2$s",
+        "incorrect_answer": "%1$s答案錯誤，你還有 %2$d 次機會。",
+        "won_game": "%1$s**%2$s** 回答了正確答案且獲得了 %3$,d 元！"
       },
-      "lobby_time_out": "%1$sThe time ran out! The correct answer is: %2$s",
-      "end_footer": "You have 5 attempts and 60 seconds. (Type end to end the game)",
-      "trivia_end_footer": "You have %1$s attempts and 60 seconds. (Type end to end the game)",
-      "error": "%1$sI found an error while setting up the game... (internal error)",
-      "error_missing_permissions": "%1$sI can't attach files. Please check permissions.",
-      "character_load_error": "%1$sFailed to setup game for pre-saved character: %2$s. If this happens for all characters, it could be a temporary error.",
-      "character_request_error": "%1$sError requesting this character from Kitsu's API.",
-      "character_start": "Guess the character",
-      "too_many_games": "%1$sYou can start a maximum of %2$,d games at the same time with game lobby. (With Premium: %3$,d)",
-      "disabled_multiple": "%1$sThis server has game multiple/lobby disabled."
+      "lobby_time_out": "%1$s時間已經到達！正確答案為：%2$s",
+      "end_footer": "你有 5 次機會和 60 秒鐘。(傳送 end 來結束遊戲)",
+      "trivia_end_footer": "你有 %1$s 次機會和 60 秒鐘。(傳送 end 來結束遊戲)",
+      "error": "%1$s開始遊戲時發生錯誤... (內部錯誤)",
+      "error_missing_permissions": "%1$s我無法傳送文件。請檢查權限。",
+      "character_load_error": "%1$s無法為預先保存的角色：%2$s 開始遊戲。如果所有角色都發生這種情況，則可能只是暫時錯誤。",
+      "character_request_error": "%1$s從 Kitsu API 要求這個角色時產生錯誤。",
+      "character_start": "猜角色",
+      "too_many_games": "%1$s你只能在同一個大廳內開始最多 %2$,d 個遊戲。(Premium 用戶：%3$,d)",
+      "disabled_multiple": "%1$s此伺服器已禁用遊戲連續模式及大廳。"
     },
     "opencrate": {
       "no_crate": "%1$s你沒有這個種類 (%2$s) 的寶箱來開啟。(如果你想要打開默認類型外的任何寶箱，在指令後面加上該寶箱名稱。如果你想使用季節性背包，加上 `-s`)",
@@ -1283,9 +1283,9 @@
       "nothing_found": "%1$s找不到你指出的寶箱。確定你輸入了正確的名稱。"
     },
     "dailycrate": {
-      "check": "%1$sYou'll be able to claim your daily crate on: **%2$s.**",
-      "not_premium": "%1$sYou're not premium!\nPlease check out more at <https://patreon.com/mantaro>\n\nAs a premium user, you can obtain a premium crate every day using this command, which has a higher chance of containing high-tier tools and items for the different currency commands (4 stars and above!)\nThanks for your consideration, as we need help to keep Mantaro alive. Thanks for using Mantaro <3",
-      "success": "%1$sYou just got a **%2$s**! Come back in 24 hours to get another one! You can open this using `~>opencrate <crate name>`. You need to buy a crate key using `~>buy key` to open it."
+      "check": "%1$s你能夠在 **%2$s** 內再次領取每日寶箱。",
+      "not_premium": "%1$s你還不是Premium！\n到 <https://patreon.com/mantaro> 查看更多資訊\n\nPremium用戶每次簽到將能領取一個高級寶箱，有更高的機率能開出高級工具和各種貨幣指令的掉落物 (4星和更高！)\n感謝你的考慮，我們需要你的幫助來持續運行Mantaro。感謝使用Mantaro <3",
+      "success": "%1$s你得到了一個 **%2$s**！在24小時後再次簽到來繼續領取！你可以使用 `~>opencrate <寶箱名稱>` 來開啟。別忘了你還需要使用 `~>buy key` 購買一個寶箱鑰匙。"
     },
     "prune": {
       "no_messages_specified": "%1$sYou specified no messages to prune.",
@@ -1365,7 +1365,7 @@
         "footer": "感謝使用Mantaro！<3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thrist: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**%1$s 的狀態：**\n\n%2$s 口渴度：**%3$s / 100** | %4$s 飢餓度：**%5$s / 100** | %6$s 骯髒度：**%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$s你至少需要 %2$,d 元來清潔寵物 **%3$s**。",
@@ -1484,24 +1484,24 @@
       "footer": "We hope you have fun with the bot."
     },
     "salvage": {
-      "not_broken": "%1$sYou can only salvage broken tools.",
-      "no_item": "%1$sYou need to specify the item you want to salvage.",
-      "no_item_found": "%1$sI can't find the item you specified.",
-      "cant_salvage": "%1$sYou can't salvage this item.",
-      "not_wrench": "%1$sYou need a wrench to salvage an item. You might need to specify it manually after the item.",
-      "not_enough_level": "%1$sYou need at least a level 2 wrench to salvage this item.",
-      "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
-      "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
+      "not_broken": "%1$s你只能回收壞掉的工具。",
+      "no_item": "%1$s你需要指出你想回收的物品名稱。",
+      "no_item_found": "%1$s找不到你指定的物品。",
+      "cant_salvage": "%1$s你無法回收這個物品。",
+      "not_wrench": "%1$s你需要扳手來回收物品。你可能需要在物品名稱後面指出他。",
+      "not_enough_level": "%1$s你至少需要二級扳手才能回收這個物品。",
+      "no_main_item": "%1$s你好像沒有你想回收的物品。",
+      "no_tool": "%1$s你沒有這個扳手。試著在物品名稱後面指出他，或嘗試另一種扳手。",
       "no_tool_default": "%1$s你至少需要一個彗星扳手來執行此操作，如果想要的話也可以指定一個更高級的扳手。",
-      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_money": "%1$s你沒有足夠的金錢來回收此物品。*(錢包：%2$,d，需求：%3$,d)*",
       "dust": "%1$s你的背包灰塵太多了，無法執行此回收，試著用拖把來清潔他。",
-      "no_returnables": "%1$sThis item has no returnable salvage elements.",
-      "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "no_returnables": "%1$s這個物品沒有可回收的元素。",
+      "item_broke": "%1$s你在回收這個物品的時候弄壞了你的扳手 (%1$s) :(",
+      "success": "%1$s成功回收 %2$s，你得到了 %3$s。回收費用為 %4$s 元。",
       "ls": {
-        "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
-        "return": "Could Return: ",
+        "header": "可回收物品清單",
+        "cost": "回收花費：",
+        "return": "可能得到：",
         "desc": "這是你能使用 `~>salvage` 回收的物品清單。\n你可以使用全名或更簡短的名稱，或是表情符號也可以。\n回收的費用為該物品價格的三分之一。如下所示。\n回收時只會獲得下面列出的隨機一種物品。\n扳手等級2和3分別是彗星與火花。"
       }
     },
@@ -1533,8 +1533,8 @@
       "note": "**If you like Mantaro, please up-vote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**"
     },
     "avatar": {
-      "result": "Avatar for %1$s",
-      "footer": "Hopefully a very pretty one."
+      "result": "%1$s 的頭像",
+      "footer": "希望是張美麗的頭像。"
     },
     "serverinfo": {
       "header": "伺服器訊息",
@@ -1646,21 +1646,21 @@
       "no_info": "No info."
     },
     "balance": {
-      "bot_notice": "%1$sBots cannot have money.",
-      "external_balance": "%1$s's balance is **$%2$,d credits.**",
-      "own_balance": "Your balance is **$%1$,d credits.**%2$s",
-      "new_player": "\nHello there! I see you might be new here. This guide will help you a lot: <https://github.com/Mantaro/MantaroBot/wiki/Currency-101>. This will only be shown once.",
+      "bot_notice": "%1$s機器人們不能擁有錢。",
+      "external_balance": "%1$s 擁有 **%2$,d 元**。",
+      "own_balance": "你擁有 **%1$,d 元**。%2$s",
+      "new_player": "\n嘿！你應該是新來的。這個指南 (英文) 可以提供你一些幫助：<https://github.com/Mantaro/MantaroBot/wiki/Currency-101>。這只會顯示一次。",
       "reset_notice": "\n如果你想知道你的以前的錢發生什麼事了，請閱讀 <https://github.com/Mantaro/MantaroBot/wiki/Money-Reset-FAQ-and-General-Statements> (英文)\n你沒有完全失去你的舊錢，他還是依舊在你的 `~>profile` 上 :heart:\n你的背包已被保留，也許考慮賣掉一些東西來賺錢？\n這只會顯示一次。閱讀上面的連結獲得更多資訊。"
     },
     "daily": {
-      "check": "%1$sYou'll be able to claim your daily on: **%2$s.**",
-      "about_now": "about now",
-      "ratelimit_message": "You can run daily once a day. If you need to check, you can also use `~>daily -check`. Enjoy!",
+      "check": "%1$s你能夠在 **%2$s** 內再次簽到。",
+      "about_now": "差不多了",
+      "ratelimit_message": "你一天只能簽到一次。如果你想要查看冷卻時間的話，也可以使用 `~>daily -check`。享受吧！",
       "errors": {
-        "bot": "%1$sYou cannot transfer your daily to a bot.",
-        "receipt_locked": "That user cannot receive daily credits now.",
-        "own_locked": "You cannot receive your daily now.",
-        "same_user": "%1$sUse daily without mentioning yourself if you're gonna mention yourself :P"
+        "bot": "%1$s你無法將每日獎勵傳送給一個機器人。",
+        "receipt_locked": "這個用戶目前無法領取每日獎勵。",
+        "own_locked": "你目前無法領取每日獎勵。",
+        "same_user": "%1$s請不要提及自己 :P"
       },
       "streak": {
         "up": "簽到成功！目前連續簽到數：`%1$,dx`",
@@ -1676,8 +1676,8 @@
         },
         "watch_used": "你的`魔法手錶`成功拯救了你的簽到！你總共用了 `%1$d` 個來延長你的簽到時長至 %2$dx，剩餘 `%3$d` 個魔法手錶！"
       },
-      "given_credits": "%1$sI gave your **$%2$,d** daily credits to %3$s",
-      "credits": "%1$sYou got **$%2$,d** daily credits.",
+      "given_credits": "%1$s我已經把你的 **%2$,d 元** 每日獎勵傳送給 %3$s 了",
+      "credits": "%1$s你得到了 **%2$,d 元** 每日獎勵。",
       "sellout": {
         "get_premium": "我們需要你的幫助來持續運行/更新Mantaro！瀏覽<https://patreon.com/mantaro>獲得更多資訊。**你可以透過Premium獲得兩倍的每日獎勵！**會員資格最低只需每月2美元，單純一杯珍奶的價格！",
         "already_premium": "感謝你對Mantaro的支持。沒有你的幫助我將不會活到今天 :heart:"
@@ -1686,20 +1686,20 @@
       "watch_get": "你的連續簽到數是50的倍數！恭喜你獲得了一個`魔法手錶`！"
     },
     "gamble": {
-      "no_credits": "%1$sYou're broke. Maybe search for some credits first.",
-      "too_much_money": "%1$sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! Thanks for not breaking the local bank. *(Gamble absolute limit: %2$d credits)*",
-      "invalid_money_or_modifier": "%1$sPlease type a valid number less than or equal to your current balance or `all` to gamble all your credits.",
-      "not_enough_money": "%1$sPlease type a value within your balance.",
-      "invalid_percentage": "%1$sPlease type a valid percentage value.",
-      "confirmation_message": "%1$sYou're about to bet **%2$,d** credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.",
-      "cancelled_bet": "%1$sCancelled bet.",
-      "win": "%1$sCongrats, you won %2$,d credits and got to keep what you had.",
-      "win_overflow": "%1$sCongrats, you won %2$,d credits. But you already had too many credits. Your bag overflowed.",
-      "lose": "%1$sSadly, you lost %2$s credits. %3$s",
-      "lose_all": "all of your",
-      "credits": "credits",
-      "too_much": "%1$sYou can only gamble up so much at once. You don't want to go full broke do you? *(Gamble single limit: %2$,d credits)*",
-      "too_little": "%1$sYou cannot gamble so little money (Minimum: 100 credits)"
+      "no_credits": "%1$s你還太窮了。也許想先賺點金錢。",
+      "too_much_money": "%1$s你擁有太多錢了！也許考慮將一些轉移給別人或拿去買東西？記得你也可以使用 `~>slots` 來解決你的賭博需求！感謝你沒毀滅當地銀行。*(賭博絕對限制：%2$d 元)*",
+      "invalid_money_or_modifier": "%1$s請輸入一個小於或等於你所有金錢的正確數字，或使用 `all` 來賭掉所有金錢。",
+      "not_enough_money": "%1$s請輸入一個在你的金錢範圍內的值。",
+      "invalid_percentage": "%1$s請輸入一個正確的百分比。",
+      "confirmation_message": "%1$s你即將下注 **%2$,d** 元 (這似乎很多)。確定要這樣做嗎？ 傳送 **yes** 確認或 **no** 取消。",
+      "cancelled_bet": "%1$s已取消賭注。",
+      "win": "%1$s恭喜，你贏了 %2$,d 元並保留了你原本擁有的錢。",
+      "win_overflow": "%1$s恭喜，你贏了 %2$,d 元。不過你原本就擁有了太多錢了。你的袋子滿出來了。",
+      "lose": "%1$s可惜，你失去了 %2$s 元。%3$s",
+      "lose_all": "你所有的",
+      "credits": "元",
+      "too_much": "%1$s你一次只能賭那麼多錢。你應該不想完全破產吧？*(單次賭博限制：%2$,d 元)*",
+      "too_little": "%1$s你不能只賭這麼少的錢 (最小：100 元)"
     },
     "loot": {
       "player_locked": "%1$s你目前無法搶劫。",
@@ -1789,16 +1789,16 @@
       "header_seasonal": "Mantaro's %1$s season Leaderboard",
       "money": "Money Leaderboard",
       "reputation": "Reputation Leaderboard",
-      "gamble": "Gamble Wins Leaderboard",
+      "gamble": "賭博獲勝排行榜",
       "slots": "Slots Wins Leaderboard",
       "daily": "連續簽到排行榜",
       "level": "Level leaderboard",
-      "game": "Game Wins leaderboard",
+      "game": "遊戲獲勝排行榜",
       "waifu": "Waifu Value leaderboard",
       "claim": "Waifu Claim leaderboard",
       "inner": {
         "experience": "經驗",
-        "game": "%1sThis page shows the top 10 people who have won the most games.\n\nCheck out `~>help game` or `~>help trivia` for details on how games work!",
+        "game": "%1s此頁面包含遊戲獲勝次數最高的前十名用戶。\n\n查看 `~>help game` 或 `~>help trivia` 獲得更多遊戲的資訊！",
         "claim": "%1sThis page shows the top 10 people who have been waifu claimed the most.\n\nCheck out `~>help waifu` for details on the waifu system.",
         "money_old": "%1$sThis page shows the top 10 richest people on Mantaro (before the reset).\n",
         "money": "%1$sThis page shows the top 10 richest people on Mantaro. Grinding is hard!",
@@ -1807,7 +1807,7 @@
         "streak": "%1s此頁面包含連續每日簽到時長最長的前十名用戶。\n\n查看 `~>help daily` 獲得更多消息",
         "lvl": "%1sThis page shows the top 10 people with the most level.\n\nLevel is earning through talking. Command usage doesn't contribute to experience, and XP has a 30 seconds cooldown.",
         "waifu": "%1sThis page shows the top 10 people with the most weighted waifu value.\n\nCheck out `~>help waifu` for details on the waifu system.",
-        "gamble": "%1sThis page shows the top 10 people with the most gamble runs won.\n\nCheck out `~>help gamble` for details on gamble.",
+        "gamble": "%1s此頁面包含賭博獲勝次數最高的前十名用戶。\n\n查看 `~>help gamble` 獲得賭博的更多消息。",
         "slots": "%1sThis page shows the top 10 people with the most slots runs won.\n\nCheck out `~>help slots` for details on slots."
       }
     },
