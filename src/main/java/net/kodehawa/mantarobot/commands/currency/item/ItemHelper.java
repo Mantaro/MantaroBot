@@ -318,12 +318,12 @@ public class ItemHelper {
         List<Item> chop = handleItemDrop(i -> i.getItemType() == ItemType.CHOP_DROP ||  i.getItemType() == ItemType.CHOP_AXE, true);
 
         List<Item> premiumMine = handleItemDrop(i ->
-                (i.getItemType() == ItemType.CAST_MINE ||
+                i.getItemType() == ItemType.CAST_MINE ||
                 i.getItemType() == ItemType.MINE_PICK ||
                 i.getItemType() == ItemType.MINE ||
                 i.getItemType() == ItemType.MINE_RARE ||
                 i.getItemType() == ItemType.CAST_OBTAINABLE ||
-                i.getItemType() == ItemType.MINE_RARE_PICK) && i != ItemReference.ROCK
+                i.getItemType() == ItemType.MINE_RARE_PICK
         );
 
         List<Item> premiumFish = handleItemDrop(i ->
