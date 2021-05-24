@@ -734,12 +734,12 @@
     },
     "market": {
       "dump": {
-        "replacement": "You can use `~>dump` now. For example, instead of `~>market dump floppy` you can do `~>dump floppy`. Please use the new command instead... I wonder what happened to all the floppies you all threw away?",
+        "replacement": "請使用新的指令 `~>dump`。你現在可以使用 `~>dump floppy` 來代替 `~>market dump floppy` 了... 我想知道你以前丟掉的磁碟片都跑到哪了？",
         "no_item": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想丟棄的物品名稱。",
-        "invalid": "%1$s物品丟棄數量無效。",
+        "invalid": "%1$s丟棄數量無效。",
         "non_existent": "%1$s你無法丟棄不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
         "player_no_item": "%1$s你無法丟棄你不擁有的物品！",
-        "more_items_than_player": "%1$s你丟棄的數量不能超過你所擁有的數量。",
+        "more_items_than_player": "%1$s丟棄的數量不能超過你所擁有的數量。",
         "success": "%1$s已把%2$,d個 **%3$s %4$s** 丟至垃圾桶。"
       },
       "price": {
