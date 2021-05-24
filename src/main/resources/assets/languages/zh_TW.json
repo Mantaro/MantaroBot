@@ -130,7 +130,7 @@
   "commands": {
     "fish": {
       "dust": "%1$s時機已經過了，你的桶子只有灰塵。(灰塵高度 %2$s%%)",
-      "no_rod": "%1$s你沒有任何已裝備的魚竿。使用 `~>equip <魚竿名稱>` 來裝備一支新的魚竿！如果你沒有任何魚竿，使用 `~>buy rod` 來購買一隻。",
+      "no_rod": "%1$s你沒有任何已裝備的釣竿。使用 `~>equip <釣竿名稱>` 來裝備一支新的釣竿！如果你沒有任何釣竿，使用 `~>buy rod` 來購買一隻。",
       "trash": {
         "overflow": "%1$s你在釣魚的時候釣到了一些垃圾，但是你的背包是滿的，所以只能把它們丟回水裡...",
         "success": "%1$s在安靜的釣魚時，你釣到了漂浮中的 %2$s，但那看起來一點都不值錢 :("
@@ -143,21 +143,21 @@
         "success": "你在釣魚的時候找到了 %1$s **%2$s** 並且把他撿了起來。馬上用 `~>opencrate <寶箱名稱>` 來開啟它！別忘了你需要一個寶箱鑰匙！"
       },
       "autoequip": {
-        "success": "%1$s自動裝備了 **%2$s** 到你的魚竿欄位。"
+        "success": "%1$s自動裝備了 **%2$s** 到你的釣竿欄位。"
       },
       "overflow": "%1$s你釣到了一些魚，但是你的背包有一部分是滿的，所以你只能把他們丟回水裡。",
       "success": "%1$s在安靜的釣魚時，你用 *%3$s* 找到了 %2$s 且把它們放到水桶裡了。",
       "success_money": "%1$s在安靜的釣魚時，你用 *%4$s* 找到了 %2$s 和 **%3$,d 元** 且把它們放到水桶裡了。%5$s",
       "success_money_noitem": "%1$s在安靜的釣魚時，你用 *%3$s* 找到了 **%2$,d 元** 且把它們放到水桶裡了。",
-      "rod_broke": "%1$s你在釣魚的時候把魚竿弄壞了 :(",
+      "rod_broke": "%1$s你在釣魚的時候把釣竿弄壞了 :(",
       "waifu_help": "你的Waifu加入了你的釣魚冒險，你們都得到了更多的收穫!",
       "not_suitable": "%1$s你不能用這個釣魚。",
-      "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的魚竿看起來挺堅固的嘛，是不是？",
+      "shark_success": "%1$s你設法釣到了一隻大鯊魚，你的釣竿看起來挺堅固的嘛，是不是？",
       "fossil_success": "%1$s你在釣魚時還釣到了化石，看起來像是鑄造的材料，這可能非常值錢。",
       "bait": "有隻魚在過程中把你的魚餌吃掉了!",
-      "missing_equipped": "%1$s你原本有支已裝備的 %2$s，但是你已經把庫存都用光了！已裝備魚竿已重設。",
-      "broken_drop": "%1$s你的魚竿壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
-      "no_rod_equipped": "%1$s你目前沒有已裝備的魚竿。使用 `~>equip <rod name>` 來裝備一支新的魚竿！"
+      "missing_equipped": "%1$s你原本有支已裝備的 %2$s，但是你已經把庫存都用光了！已裝備釣竿已重設。",
+      "broken_drop": "%1$s你的釣竿壞掉了，但是你還可以修復它。得到損壞物品：%2$s *%3$s*",
+      "no_rod_equipped": "%1$s你目前沒有已裝備的釣竿。使用 `~>equip <rod name>` 來裝備一支新的釣竿！"
     },
     "softban": {
       "no_permission": "%1$s無法soft ban(軟驅逐)：你沒有*驅逐成員*權限。",
@@ -743,15 +743,15 @@
         "success": "%1$s已把%2$,d個 **%3$s %4$s** 丟至垃圾桶。"
       },
       "price": {
-        "no_item": "%1$sYou need to specify the item you want to check the price of.",
+        "no_item": "%1$s你需要指出你想查看價格的物品名稱。",
         "non_existent": "%1$s你無法查看不存在物品的價格！試著使用更簡短的名稱或將他\"用引號包起來\"。",
         "no_price": "%1$s你無法購買或售出這個物品 (也許是收藏品)",
         "collectible": "%1$s這是一個收藏品。(售出價格：%2$,d 元)",
         "success": "%1$s%2$s**%3$s** 在市場內的出售價格是 %4$s 元，買入價格為 %5$s 元。"
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to sell.",
+        "replacement": "請使用新的指令 `~>sell`。你現在可以使用 `~>sell pick` 來代替 `~>market sell pick` 了。",
+        "no_item": "%1$s你需要指出你想出售的物品名稱。",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想出售的物品名稱。",
         "invalid": "%1$s物品出售數量無效。",
         "all": {
@@ -760,24 +760,24 @@
           "cancelled": "%1$s取消成功。"
         },
         "non_existent": "%1$s你無法出售不存在的物品！試著使用更簡短的名稱或將他\"用引號包起來\"。",
-        "no_sell_price": "%1$sYou cannot sell an item that cannot be sold. (But you can `~>dump` it)",
+        "no_sell_price": "%1$s你無法出售不能出售的物品。(不過你還是可以使用 `~>dump` 來丟棄他)",
         "no_item_player": "%1$s你無法出售你不擁有的物品。",
         "more_items_than_player": "%1$s你出售的數量不能超過你所擁有的數量。",
         "success": "%1$s你出售了 %2$,d 個 **%3$s** 且獲得了 %4$,d 元！"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to buy.",
+        "replacement": "請使用新的指令 `~>buy`。你現在可以使用 `~>buy pick` 來代替 `~>market buy pick` 了。",
+        "no_item": "%1$s你需要指出你想購買的物品名稱。",
         "no_item_amount": "%1$s你需要指出物品數量(如果只有一個，不需指出數量)和你想購買的物品名稱。",
         "invalid": "%1$s物品購買數量無效。",
         "non_existent": "%1$s你無法購買不存在的物品。試著使用更簡短的名稱或將他\"用引號包起來\"。記得把數量放在名稱前面，像是：`~>buy 15 energy`",
         "no_buy_price": "%1$s你無法購買不能被購買的物品。",
-        "item_limit_reached": "%1$sYou cannot buy more of that object. You can only have a maximum of 5000 of any item.",
+        "item_limit_reached": "%1$s你無法購買更多此物品。你最多只能擁有5000個同樣物品。",
         "success": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。",
-        "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
-        "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
-        "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
-        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
+        "success_breakable": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。你可以使用 `~>equip <物品名稱>` 來裝備他。",
+        "success_potion": "%1$s成功用 %4$,d 元購買了 %2$,d 個 %3$s。你目前還有 %5$,d 元。你可以使用 `~>useitem <物品名稱>` 來使用藥水或增益效果。",
+        "not_enough_money": "%1$s你沒有足夠的錢來購買此物品。你的錢包：%2$,d 元，你需要：%3$,d 元。",
+        "success_breakable_upgrade": "你可以查看 <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> 獲得更多有關工具升級的資訊！"
       },
       "header": "Mantaro市場",
       "reference": "\n你可以使用 `~>buy <物品名稱>` 和 `~>sell <物品名稱>` 來購買和出售物品至市場。查看 `~>help market` 獲得更多資訊，你也可以用 `~>market tools` 等指令取得更簡短的清單。",
@@ -816,17 +816,17 @@
     },
     "useitem": {
       "ls": {
-        "header": "Interactive Items List",
+        "header": "可互動物品清單",
         "desc": "這是Mantaro所有可互動物品的清單。查看我的維基獲得更多資訊！"
       },
       "use_command": "%1$s對於此物品，你需要使用相對應的指令來使用他！(鎬子用mine，釣竿用fish等等)",
-      "no_items_specified": "%1$sYou need to specify what item to use.",
-      "not_interactive": "%1$sYou cannot interact with this item.",
+      "no_items_specified": "%1$s你需要指出你想使用的物品名稱。",
+      "not_interactive": "%1$s你無法與這個物品互動。",
       "interactive_no_action": "%1$s這個物品已被標記為可互動的，但並沒有任何動作。也許他有自己的指令？例如像鎬子的 `~>mine`",
       "no_item": "%1$s你的背包中沒有這個物品。",
-      "not_enough_items": "%1$sYou don't have enough of this item.",
-      "too_little": "%1$sYou can't use less than 1 item.",
-      "invalid_amount": "%1$sThe amount needs to be a valid number between `1` and `15`!"
+      "not_enough_items": "%1$s你沒有足夠的此物品。",
+      "too_little": "%1$s你不能使用少於1個物品。",
+      "invalid_amount": "%1$s使用數量必須介於 `1` 到 `15` 之間！"
     },
     "opts": {
       "note": "%1$sHey, if you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.\nNote: Only administrators, people with Manage Server or people with the Bot Commander role can use this command!",
@@ -889,10 +889,10 @@
         "reset_success": "%1$s時區已重設。"
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
+        "no_argument": "%1$s你需要提供參數！(set 或 remove)。範例：`~>profile description set Hi there!`",
+        "no_content": "%1$s你需要指出你的個人簡介。範例：`~>profile description set Hi there!`",
+        "too_long": "%1$s簡介過長！(一般用戶最多300字元，Premium用戶為500字元)",
+        "success": "%1$s已成功設置了你的簡介。使用 `~>profile` 來查看你的新簡介",
         "clear_success": "%1$s成功移除簡介。"
       },
       "displaybadge": {
@@ -914,8 +914,8 @@
         "success": "%1$s成功更改了你的背包排序，現在是：**%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$s已允許其他人對你使用動作指令。",
+        "disabled": "%1$s已拒絕其他人對你使用動作指令。"
       },
       "pet": {
         "header": "寵物",
@@ -961,13 +961,13 @@
         "success": "%1$s成功裝備了 %2$s *%3$s*，下次你使用相對應的貨幣指令時，該物品將會自動被選擇。",
         "not_suitable": "%1$s你無法裝備這個。",
         "not_equipped": "%1$s你尚未裝備這個。",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$s你已經裝備了這種類型的物品！如果你想要取消裝備他的話，請使用 `~>unequip <類型>` (類型可以是 rod, axe, pick 或 wrench) (分別是 釣竿 斧頭 鎬子 和 扳手)。"
       },
       "unequip": {
         "not_equipped": "%1$s你還沒有裝備這種類型的物品。",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
+        "no_content": "%1$s你需要指出你想取消裝備的類型，類型可以是 `pick, axe, rod 或 wrench` (分別是 鎬子 斧頭 釣竿 和 扳手)",
+        "invalid_type": "%1$s類型無效。有效類型為 `pick, axe, rod 和 wrench`",
+        "confirm": "%1$s你確定想要**取消裝備**你的 %2$s %3$s 嗎？傳送 `yes` 確認，`no` 取消。你將會收到當前工具的損壞版本，也代表著你取消裝備的工具將會立即損壞。",
         "success": "%1$s已取消裝備你的%2$s欄位。",
         "equipment_recover": "\n由於你從未使用過這個裝備，你拿回了你的%1$s！",
         "broken_equipment_recover": "\n這個裝備已經被使用過，所以你得到了%1$s，不過你還是可以修復他的！",
@@ -995,7 +995,7 @@
       "badge_header": "%1$s 展示徽章",
       "bot_notice": "%1$s機器人沒有個人資料。",
       "header": "%1$s的個人資料",
-      "no_desc": "No description set. You can set one with `~>profile description`",
+      "no_desc": "尚未設定簡介。你可以使用 `~>profile description` 來設定",
       "credits": "金錢",
       "old_credits": "舊版金錢",
       "level": "等級",
@@ -1012,27 +1012,27 @@
       "not_specified": "未設置",
       "potion": "藥水效果",
       "no_potion": "沒有藥水效果。",
-      "hidelegacy": "%1$sLegacy credits hide status is now: `%2$s`"
+      "hidelegacy": "%1$s舊版金錢顯示狀況已改成：`%2$s`"
     },
     "badges": {
       "info": {
-        "not_specified": "%1$sYou need to specify a badge to see the info of. For example, `~>badge info claimer`",
-        "not_found": "%1$sThere's no such badge...",
-        "header": "Badge information for %1$s",
-        "achieved": "Achieved"
+        "not_specified": "%1$s你需要指出你想查看的徽章。範例：`~>badge info claimer`",
+        "not_found": "%1$s沒有此徽章...",
+        "header": "徽章資訊：%1$s",
+        "achieved": "已達成"
       },
       "ls": {
-        "header": "Obtainable Badges List",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
-        "obtained": "**Obtained:** %s"
+        "header": "可取得徽章清單",
+        "desc": "這使你能取得的徽章清單。此清單包含各個徽章的名稱和說明。\n如果你認為你得到了新徽章，但還沒出現在你的徽章列表，請先使用 `~>profile` 然後再次運行 `~>badges`。",
+        "obtained": "**已取得：**%s"
       },
-      "brief_success": "**%1$s's badges:**\n%2$s",
+      "brief_success": "**%1$s 的徽章清單：**\n%2$s",
       "profile_notice": "如果你認為你得到了新徽章，但還沒出現在這邊，請使用 `~>profile` 然後再次運行此指令。\n",
-      "info_notice": "Use `~>badges info <badge name>` to get more information about a badge. [You can also check the wiki](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "donate_notice": "**You can get a badge for [supporting the development of Mantaro!](https://patreon.com/mantaro)!** (It might take some minutes to process)\n\n",
-      "no_badges": "No badges to show (yet!)",
-      "header": "Badges achieved by %1$s",
-      "total_badges": "**Total achieved badges:** %1$s",
+      "info_notice": "使用 `~>badges info <徽章名稱>` 取得該徽章的更多資訊。[你也可以查看我們的維基](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
+      "donate_notice": "**別忘己你也可以獲得 [支持Mantaro開發] 的徽章 (https://patreon.com/mantaro)！**(可能需要幾分鐘來更新)\n\n",
+      "no_badges": "(目前！) 還沒有徽章可顯示",
+      "header": "%1$s 的徽章清單",
+      "total_badges": "**已取得徽章數目：**%1$s",
       "footer": "徽章就像是成就，你能夠通過遊玩Mantaro的遊戲或單純使用機器人來獲得他們。"
     },
     "rep": {
@@ -1370,7 +1370,7 @@
       "clean": {
         "not_enough_money": "%1$s你至少需要 %2$,d 元來清潔寵物 **%3$s**。",
         "not_dusty": "%1$s**%2$s** 身上還不髒。(目前骯髒程度：%3$,d%%)",
-        "success": "%1$s**%2$s** 看起來閃閃發光！你花了 %3$,d 元來清潔你的寵物。"
+        "success": "%1$s**%2$s** 現在看起來閃閃發光！你花了 %3$,d 元來清潔你的寵物。"
       },
       "choice": {
         "no_choice": "%1$s你需要指出正確的選擇 (Personal 或 Marriage)。",
@@ -1548,18 +1548,18 @@
       "id_show": "伺服器ID：%1$s"
     },
     "userinfo": {
-      "header": "User info for %1$s#%2$s",
-      "roles": "Roles: [%1$,d]",
-      "id": "User ID",
-      "join_date": "Join Date",
-      "created": "Account Created",
-      "account_age": "Account Age",
-      "mutual_guilds": "Mutual Guilds",
-      "vc": "Voice Channel",
-      "color": "Color",
-      "status": "Status",
-      "nothing": "Nothing",
-      "default": "Default"
+      "header": "%1$s#%2$s 的用戶資訊",
+      "roles": "身分組：[%1$,d]",
+      "id": "用戶 ID",
+      "join_date": "伺服器加入日期",
+      "created": "用戶創建日期",
+      "account_age": "帳號年齡",
+      "mutual_guilds": "共同伺服器",
+      "vc": "語音頻道",
+      "color": "顏色",
+      "status": "狀態",
+      "nothing": "無",
+      "default": "預設"
     },
     "roleinfo": {
       "header": "Role info for %1$s",
@@ -1578,18 +1578,18 @@
       "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
     },
     "help": {
-      "title": "Mantaro Help",
-      "base_category": "Command list for category %1$s. For a detailed guide, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki). [Currency Guide](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
-      "base": "**Full command list**. For a detailed guide, please check our [wiki](https://github.com/Mantaro/MantaroBot/wiki).\nRemember you can get more information on a command using `~>help <name of command>`\n",
-      "support": "If you're still lost you can join the [support server](https://support.mantaro.site). You can also follow me on [Twitter](https://twitter.com/mantarodiscord) for updates.\n",
-      "patreon": "**[We need your help to keep Mantaro online! Click here for more info.](https://www.patreon.com/mantaro)**",
-      "disabled_commands": "Only showing non-disabled commands. Total disabled commands: %1$s",
-      "channel_specific_disabled_commands": "\nOnly showing non-disabled commands. Total channel-specific disabled commands: %1$s",
-      "footer": "Thanks for using Mantaro %1$s (Total Commands: %2$s)",
-      "commands": "Commands",
+      "title": "Mantaro 幫助",
+      "base_category": "%1$s 類別的指令清單。如需詳細資訊，請參考我們的[維基](https://github.com/Mantaro/MantaroBot/wiki)。[貨幣系統教程](https://github.com/Mantaro/MantaroBot/wiki/Currency-101)\n",
+      "base": "**指令清單**。如需詳細資訊，請參考我們的[維基](https://github.com/Mantaro/MantaroBot/wiki)。\n記得你能使用 `~>help <指令名稱>` 獲得個別指令的更多資訊\n",
+      "support": "如果你還是不清楚該如何使用，可以加入我們的[官方伺服](https://support.mantaro.site)。你也可以跟隨我的[Twitter](https://twitter.com/mantarodiscord)獲得更新訊息。\n",
+      "patreon": "**[我們需要你的幫助來持續運行/更新Mantaro！點擊這裡獲取更多資訊。](https://www.patreon.com/mantaro)**",
+      "disabled_commands": "僅顯示未禁用指令。禁用指令數量：%1$s",
+      "channel_specific_disabled_commands": "\n僅顯示未禁用指令。個別頻道禁用指令數量：%1$s",
+      "footer": "感謝使用Mantaro %1$s (指令數量：%2$s)",
+      "commands": "指令",
       "extended": {
-        "no_help": "%1$sThere's no extended help set for this command.",
-        "not_found": "%1$sA command with this name doesn't exist"
+        "no_help": "%1$s此指令沒有個別的幫助。",
+        "not_found": "%1$s此指令不存在"
       }
     },
     "repair": {
@@ -2368,7 +2368,7 @@
     "haste": "勤奮藥水",
     "milky": "白色藥水",
     "energy": "能量飲料",
-    "rod": "釣魚竿",
+    "rod": "釣釣竿",
     "fish": "魚",
     "tropical_fish": "熱帶魚",
     "blowfish": "河豚",
