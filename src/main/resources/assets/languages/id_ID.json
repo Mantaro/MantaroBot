@@ -146,9 +146,9 @@
         "success": "%1$sAutomatically equipped a **%2$s** on your fish slot."
       },
       "overflow": "%1$sYou found some fish, but part of your inventory was full, so we had to throw some of it back into the water.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
-      "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
+      "success": "%1$sSaat memancing menggunakan *%3$s* kamu menemukan %2$s dan menyimpannya dalam ember.",
+      "success_money": "%1$sSaat memancing menggunakan *%4$s*, kamu menemukan %2$s dan **$%3$,d kredit** lalu menyimpannya ke dalam ember.%5$s",
+      "success_money_noitem": "%1$sSaat memancing menggunakan *%3$s*, kamu menemukan **$%2$,d kredit** lalu menyimpannya ke dalam saku.",
       "rod_broke": "%1$sYour fishing rod broke while trying to catch a fish :(",
       "waifu_help": "Your waifu came and joined your fishing adventure and you both get a larger haul!",
       "not_suitable": "%1$sYou can't use this to fish.",
@@ -468,7 +468,7 @@
       },
       "rename": {
         "success": "%1$sRenamed command `%2$s` to `%3$s`",
-        "not_enough_args": "%1$sYou need to specify the command you want to rename and the new name."
+        "not_enough_args": "%1$sKamu harus menulis nama yang ingin diganti dan nama baru."
       },
       "add": {
         "no_command": "%1$sYou need to specify the command you want to add.",
@@ -563,11 +563,11 @@
         "empty": "%1$sYou cannot leave the love letter empty.",
         "no_marriage": "%1$sYou aren't married, you cannot write a love letter for yourself...",
         "not_proposing_player": "%1$sYou aren't the player who proposed this marriage!",
-        "already_done": "%1$sThis marriage already has a love letter assigned. Check it using `~>marry status`",
+        "already_done": "%1$sPernikahan ini sudah memiliki surat cinta. Cek dengan `~>marry status`",
         "too_long": "%1$sThe love letter is too long (maximum is 500 characters)",
         "cannot_see": "%1$sI cannot find the user that you're married to... Probably they aren't in any server with me.",
         "confirmation": "%1$sAre you *sure* you want to write this letter for your marriage with **%2$s#%3$s**? This is PERMANENT while the marriage lasts. *Letter content:* %4$s",
-        "confirmed": "%1$sSuccessfully delivered the love letter to your loved one! Check it using `~>marry status`",
+        "confirmed": "%1$sBerhasil mengirim surat cinta ke belahan hatimu! Cek dengan `~>marry status`",
         "scrapped": "%1$sYou still have time to think on what to write, no need to rush!"
       },
       "status": {
@@ -618,7 +618,7 @@
       "ring_check_fail": "%1$sYou cannot marry with less than two rings on your inventory :(",
       "accepted": "%1$s**%2$s#%3$s** accepted the proposal of **%4$s#%5$s**!",
       "denied": "%1$sDenied proposal from **%2$s**",
-      "ratelimit_message": "Why would you want to marry this much?"
+      "ratelimit_message": "Kenapa kamu ingin menikah sebanyak ini?"
     },
     "divorce": {
       "confirm": "%1$sAre you sure you want to end this marriage? The money spent in pets, houses and cars will be split in two. Type `yes` to continue and `no` to cancel. **Your pet will dissapear, since it's tied to the marriage**",
@@ -686,7 +686,7 @@
     },
     "ratewaifu": {
       "nothing_specified": "%1$sGive me a waifu to rate!",
-      "success": "%1$sI rate your waifu with a **%2$,d/100**"
+      "success": "%1$sWaifu-mu kuberi nilai **%2$,d/100**"
     },
     "roll": {
       "success": "%1$sYou got **%2$,d**%3$s",
@@ -709,20 +709,20 @@
     },
     "cast": {
       "no_item_specified": "%1$sYou didn't specify any items. For a list, check `~>cast ls`",
-      "no_item_found": "%1$sI didn't find any item matching that. Make sure to type the full item name to avoid mismatches, or use the emoji if you can. Example: `~>cast star pick`",
-      "item_not_cast": "%1$sYou cannot cast this item. You can check `~>cast ls` for a list of castable items. Try using the full name if you think you have the correct item.",
+      "no_item_found": "%1$sAku tidak menemukan item yang cocok dengan itu. Tulis nama lengkap item untuk menghindari ketidakcocokan, atau pakai emoji jika bisa. Contoh: `~>cast star pick`",
+      "item_not_cast": "%1$sKamu tidak bisa membuat item ini. Kamu bisa cek `~>cast ls` untuk lihat daftar item yang bisa dibuat. Coba pakai nama lengkap kalau menurutmu nama itemnya pas.",
       "not_enough_money": "%1$sYou don't have enough money to cast this. **(Cost: %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
-      "not_enough_items": "%1$sYou don't have enough of item *%2$s* to proceed the cast of a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
-      "success": "%1$sYou successfully casted %2$,dx %3$s **%4$s** for %5$,d credits. *Cast used: %6$s*",
-      "no_tool": "%1$sYou need to have a %2$s to proceed with this cast!",
-      "not_equipped": "%1$sYou don't have any equipped wrench. Use `~>equip <wrench name>` to equip a wrench and start your adventure! If you don't have any, first run `~>buy wrench`.\nYou don't have to specify the wrench used in this command anymore. To cast multiple items, put the number before the item name, for example: `~>cast 5 star pick`",
-      "too_many": "%1$sYou'd have more than 5,000 of this item if you proceed. Try casting less of this object?",
-      "low_tier": "%1$sYou need at least a Tier 2 wrench (at least a Comet Wrench) to cast more items per call. You currently have a Tier %2$s wrench equipped.",
-      "not_enough_wrench_level": "%1$sYour wrench is not powerful enough to cast this item. Maybe equip a more powerful one? (*Wrench level: %2$s, Required level: %3$s*)",
+      "no_item": "%1$sKamu tidak memiliki item *%2$s* yang diperlukan untuk membuatnya. Kamu butuh %3$,d dari item tersebut.",
+      "not_enough_items": "%1$sItem *%2$s* milikmu tidak cukup untuk membuat sebuah **%3$s**. **(Butuh: %4$s, Punya: %5$s)**",
+      "success": "%1$sKamu berhasil membuat %2$,dx %3$s **%4$s** seharga %5$,d kredit. *Cetakan terpakai: %6$s*",
+      "no_tool": "%1$sKamu harus punya sebuah %2$s untuk membuat item!",
+      "not_equipped": "%1$sKamu tidak memakai Wrench apapun. Ketik `~>equip <nama wrench>` untuk memakai sebuah Wrench dan mulai petualanganmu! Kalau tidak punya, ketik `~>buy wrench`.\nKamu tidak perlu lagi menulis jenis Wrench dalam perintah ini. Untuk membuat banyak item, tulis angka sebelum nama item, contohnya: `~>cast 5 star pick`",
+      "too_many": "%1$sKamu akan punya lebih dari 5.000 item ini kalau dilanjut. Coba kurangi membuat item ini, ya?",
+      "low_tier": "%1$sMinimal kamu butuh sebuah Wrench Tingkat 2 (paling tidak Comet Wrench) untuk membuat lebih banyak item di setiap perintah. Saat ini kamu memakai Wrench Tingkat %2$s.",
+      "not_enough_wrench_level": "%1$sWrench-mu kurang kuat untuk membuat item ini. Coba pakai yang lebih kuat lagi? (*Level Wrench: %2$s, Syarat level: %3$s*)",
       "too_many_amount": "%1$sYou can't cast that many of this item at once! Limit: %2$s, Attempt: %3$s. A sparkle wrench makes the limit double! Unless you're already using one.",
       "autoequip": {
-        "success": "%1$sAutomatically equipped a **%2$s** on your wrench slot."
+        "success": "%1$sSebuah **%2$s** terpasang otomatis di slot Wrench-mu."
       },
       "ls": {
         "header": "Castable Item List",
@@ -751,7 +751,7 @@
       },
       "sell": {
         "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to sell.",
+        "no_item": "%1$sKamu harus menulis nama item untuk menjual.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to sell.",
         "invalid": "%1$sNot a valid number of items to sell.",
         "all": {
@@ -767,7 +767,7 @@
       },
       "buy": {
         "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
-        "no_item": "%1$sYou need to specify the item to buy.",
+        "no_item": "%1$sKamu harus menulis nama item untuk membeli.",
         "no_item_amount": "%1$sYou need to specify the amount of that item (if it's only one, you don't need to specify the amount) and the item that you want to buy.",
         "invalid": "%1$sNot a valid number of items to buy.",
         "non_existent": "%1$sYou cannot buy an non-existent item. If you're lost, you can try typing the short name or wrapping the name in quotes. Also, the item amount goes before the item name, example: `~>buy 15 energy`",
@@ -777,7 +777,7 @@
         "success_breakable": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can equip this using `~>equip <item name>`",
         "success_potion": "%1$sBought %2$,d %3$s for %4$,d credits successfully. You now have %5$,d credits. You can use this potion or buff using `~>useitem <item name>`",
         "not_enough_money": "%1$sYou don't have enough money to buy this item. Current: %2$,d credits, Needed: %3$,d credits.",
-        "success_breakable_upgrade": "You can check <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> for more information on how to upgrade your tools!"
+        "success_breakable_upgrade": "Silakan cek <https://github.com/Mantaro/MantaroBot/wiki/Currency-103> untuk info lebih lanjut soal cara upgrade peralatanmu!"
       },
       "header": "Mantaro's Market",
       "reference": "\nYou can buy and sell items using `~>buy <item>` and `~>sell <item>`. Check `~>help market` for more info, you can also see shorter market lists there, like `~>market tools`",
@@ -797,8 +797,8 @@
       "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
+      "new_account_notice_yourself": "%1$sMinimal akunmu harus berusia 14 hari untuk transfer uang.",
+      "new_account_notice_other": "%1$sAkun tujuan transfer harus berusia minimal 14 hari.",
       "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
       "bot_notice": "%1$sYou cannot transfer money to a bot.",
       "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
@@ -812,7 +812,7 @@
       "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
       "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
       "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "blacklisted_transfer": "%1$sKamu tidak bisa mentransfer ke pengguna yang ada di daftar hitam."
     },
     "useitem": {
       "ls": {
@@ -889,10 +889,10 @@
         "reset_success": "%1$sSuccessfully reset your timezone."
       },
       "description": {
-        "no_argument": "%1$sYou need to provide an argument! (set or remove). For example, `~>profile description set Hi there!`",
-        "no_content": "%1$sYou didn't specify what you want on your description. For example, `~>profile description set Hi there!`",
-        "too_long": "%1$sThe description is too long! (Limit of 300 characters for everyone and 500 for premium users)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
+        "no_argument": "%1$sKamu harus menyertakan argumen! (`set` atau `remove`). Contoh, `~>profile description set Halo semua!`",
+        "no_content": "%1$sKamu tidak menulis isi deskripsimu. Contoh, `~>profile description set Halo semua!`",
+        "too_long": "%1$sDeskripsi terlalu panjang! (Semua orang batasnya 300 karakter dan 500 karakter bagi pengguna premium)",
+        "success": "%1$sAku berhasil mengganti deskripsi profilmu. Cek profil baru nan kinclong milikmu pakai `~>profile`",
         "clear_success": "%1$sSuccessfully cleared description."
       },
       "displaybadge": {
@@ -961,13 +961,13 @@
         "success": "%1$sYou successfully equipped %2$s *%3$s*, which will be remembered next time you use the proper currency command.",
         "not_suitable": "%1$sYou can't equip this.",
         "not_equipped": "%1$sYou don't have this equipped.",
-        "already_equipped": "%1$sYou already have an item of this type equipped! Try `~>unequip <type>` (Type can be rod, axe, pick or wrench) if you wanna unequip it."
+        "already_equipped": "%1$sKamu sudah memakai item jenis ini! Coba `~>unequip <type>` (Type melingkupi `rod`, `axe`, `pick` atau `wrench`) kalau mau melepasnya."
       },
       "unequip": {
         "not_equipped": "%1$sYou don't have anything equipped on this slot.",
-        "no_content": "%1$sYou need to specify a tool type to unequip, can be either `pick, axe, rod, wrench`",
-        "invalid_type": "%1$sInvalid type. Valid types are `pick, axe, rod, wrench`",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
+        "no_content": "%1$sKamu harus menulis tipe alat yang mau dilepas, bisa dengan `pick, axe, rod, wrench`",
+        "invalid_type": "%1$sTipe tidak valid. Tipe yang valid adalah `pick, axe, rod, wrench`",
+        "confirm": "%1$sYakin mau **melepas** %2$s %3$s mu? Ketik `yes` untuk lanjut, `no` untuk batal. Ini akan memberimu versi rusak dari alat yang kamu pakai saat ini, artinya alat yang kamu pakai saat ini akan rusak.",
         "success": "%1$sSuccessfully unequipped your %2$s slot.",
         "equipment_recover": "\nSince you never used your equipment, you got your %1$s back!",
         "broken_equipment_recover": "\nYour equipment was used, but you got a %1$s back, you can repair it if you need it later!",
@@ -1024,7 +1024,7 @@
       "ls": {
         "header": "Obtainable Badges List",
         "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
-        "obtained": "**Obtained:** %s"
+        "obtained": "**Didapat:** %s"
       },
       "brief_success": "**%1$s's badges:**\n%2$s",
       "profile_notice": "If you think you got a new badge and it doesn't appear here, please use `~>profile` and then run this command again.\n",
@@ -1036,12 +1036,12 @@
       "footer": "Badges are like achievements, and they're gained through progression in Mantaro's game or by just using the bot."
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
+      "new_account_notice": "%1$sUsia akun (dihitung sejak akun Discord dibuat) untuk memberi dan menerima rep harus berusia minimal 30 hari. Coba lagi nanti.",
       "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
       "more_than_one": "%1$sYou can only give reputation to one person",
       "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
       "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "blacklisted_rep": "%1$sKamu tidak bisa memberi rep pengguna yang ada di daftar hitam.",
       "cooldown": {
         "waiting": "**You'll be able to use this command again in %1$s**",
         "pass": "You can rep someone now.",
@@ -1334,8 +1334,8 @@
       "rating": "Rating",
       "load_notice": "If the image doesn't load, click the title.",
       "rule34_notice": "If you don't like the content on this command, you can use `~>yandere`. If animated gifs/webm content doesn't play, click the link in the embed title.",
-      "yandere_nsfw_notice": "%1$sThe Yande.re and Gelbooru commands can only be used in NSFW channels due to numerous reports of it sending explicit images which are marked as safe on their side. Use this command in a NSFW channel instead.",
-      "konachan_nsfw_notice": "%1$sKonachan, danbooru and safebooru can only be used in NSFW channels only due to inconsistent rating on their side. Use this command in a NSFW channel instead (you can mark a channel as one in the channel settings).",
+      "yandere_nsfw_notice": "%1$sPerintah Yande.re dan Gelbooru hanya bisa dipakai di Channel NSFW karena banyak yang melaporkan gambar yang dikirim ternyata vulgar. Gunakan perintah ini di channel NSFW saja.",
+      "konachan_nsfw_notice": "%1$sKonachan, danbooru, dan safebooru hanya bisa dipakai di Channel NSFW karena penandaan yang non-konsisten. Gunakan perintah ini di channel NSFW saja (kamu bisa mengubah pengaturan channel sebagai NSFW di channel setting).",
       "e621_nsfw_notice": "%1$sThe e621 command can only be used on NSFW channels.",
       "e926_nsfw_notice": "%1$sThe e926 command can only be used on NSFW channels. The images should be mostly safe, but the rating is inconsistent."
     },
@@ -1376,7 +1376,7 @@
         "no_choice": "%1$sKamu perlu menentukan pilihan (Pribadi atau Pernikahan).",
         "invalid_choice": "%1$sPilihannya tidak valid. Silakan pilih antara Pribadi atau Pernikahan. Pribadi untuk kamu sendiri, Pernikahan untuk kamu dan pasaganmu",
         "ratelimit_message": "Kamu bisa mengubah pilihanmu sebanyak 3 kali. Kamu harus menunggu waktu yang ditentukan untuk melakukan perubahan lagi. Ini untuk menghindari spam!",
-        "already_chosen": "%1$sThis is already your choice.",
+        "already_chosen": "%1$sKamu sudah memilih yang ini.",
         "success": "%1$sBerhasil menetapkan pilihan ke: %2$s %3$s"
       },
       "level": {
@@ -1388,9 +1388,9 @@
         "header": "%1$s**Current available Pets**\n\n%2$s\n\n%3$s**Ability explanation:**\n%4$s"
       },
       "pat": {
-        "no_pet": "%1$sYou don't have any pets to pat. Check `~>pet` for an explanation. (Choice: %2$s)",
+        "no_pet": "%1$sKamu tidak punya peliharaan buat dielus. Cek `~>pet` untuk penjelasan. (Pilihan: %2$s)",
         "no_pet_other": "%1$s%2$s doesn't have any pets to pat. Check `~>pet` for an explanation.",
-        "personal_pet_other": "%1$sYou can't pet other people's personal pets. For now.",
+        "personal_pet_other": "%1$sKamu tidak bisa mengelus peliharaan pribadi orang lain. Untuk saat ini.",
         "ratelimit_message": "Kamu bisa mengelus-elus peliharaanmu sebanyak 25 kali. Setelah itu kamu harus menunggu waktu yang tertera untuk mengelus lagi.",
         "too_many": "How did you even get this many pats?"
       },
@@ -1493,11 +1493,11 @@
       "no_main_item": "%1$sYou don't appear to have the item you're trying to salvage.",
       "no_tool": "%1$sYou don't have this wrench. Try specifying it, or specifying another wrench.",
       "no_tool_default": "%1$sYou need at least a Comet Wrench in your inventory to do this, but you can also specify a higher one if you want to.",
-      "not_enough_money": "%1$sYou don't have enough money to salvage this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_money": "%1$sUangmu tidak cukup untuk memungut item ini. *(Dompet: %2$,d, Butuh: %3$,d)*",
       "dust": "%1$sYour inventory is too dusty to attempt a item salvage, try cleaning it with a mop.",
       "no_returnables": "%1$sThis item has no returnable salvage elements.",
       "item_broke": "%1$sKunci pasmu (%1$s) rusak saat mencoba memungut item ini :(",
-      "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
+      "success": "%1$sBerhasil memungut %2$s dan dapat %3$s. Ongkosnya %4$s kredit.",
       "ls": {
         "header": "Salvageable Item List",
         "cost": "Salvage Cost: ",
@@ -1593,18 +1593,18 @@
       }
     },
     "repair": {
-      "no_item": "%1$sYou didn't specify any item to repair. If you think you have the correct item, try using the full name.",
-      "no_item_found": "%1$sI can't find that item. If you think you have the correct item, try using the full name.",
-      "no_main_item": "%1$sYou don't have the item you're trying to repair (%2$s)",
+      "no_item": "%1$sKamu tidak menulis nama item yang mau diperbaiki. Kalau menurutmu namanya sudah benar, coba pakai nama lengkapnya.",
+      "no_item_found": "%1$sAku tidak menemukan item tersebut. Kalau menurutmu namanya sudah benar, coba pakai nama lengkapnya.",
+      "no_main_item": "%1$sKamu tidak punya item tersebut untuk diperbaiki (%2$s)",
       "cant_repair": "%1$s**%2$s** it's not an item you can repair. You can only repair broken items.",
-      "no_tool": "%1$sYou need a Tier 2 (at least Comet Wrench) or above wrench to repair this item. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "no_tool_specified": "%1$sYou specified a wrench you don't have (%2$s). Please use a tool you have or cast it. If you think you have the correct item, try using the full name.",
+      "no_tool": "%1$sKamu butuh sebuah Wrench Tingkat 2 (paling tidak Comet Wrench) atau atasnya untuk memperbaiki item ini. Kamu bisa memakainya kalau perlu (contohnya, `~>equip Comet Wrench`)",
+      "no_tool_specified": "%1$sKamu menulis Wrench yang tidak kamu miliki (%2$s). Harap gunakan alat yang dimiliki atau buatlah dulu. Kalau menurutmu kamu punya item tersebut, coba pakai nama lengkapnya.",
       "dust": "%1$sYour inventory it's too dusty to perform a repair. Dust level: %2$s",
       "not_wrench": "%1$sYou can't use this as a wrench. Remember to use quotes if the name has spaces.",
-      "not_enough_level": "%1$sYou need a higher tier wrench to perform this repair. You can equip one if needed (`~>equip Comet Wrench`, for example)",
-      "not_enough_money": "%1$sYou don't have enough money to repair this item. *(Wallet: %2$,d, Needed: %3$,d)*",
+      "not_enough_level": "%1$sKamu butuh Wrench dengan tingkat lebih tinggi untuk melakukan perbaikan ini. Kamu bisa memakainya kalau perlu (contohnya, `~>equip Comet Wrench`)",
+      "not_enough_money": "%1$sUangmu tidak cukup untuk memperbaiki item ini. *(Dompet: %2$,d, Butuh: %3$,d)*",
       "no_item_recipe": "%1$sYou don't have the necessary *%2$s* to perform this repair.",
-      "not_enough_items": "%1$sYou don't have enough of *%2$s* to perform this repair on a **%3$s**. **(Needed: %4$s, Current: %5$s)**",
+      "not_enough_items": "%1$sItem *%2$s* milikmu tidak cukup untuk memperbaiki sebuah **%3$s**. **(Butuh: %4$s, Punya: %5$s)**",
       "item_broke": "%1$sSayangnya, kunci pasmu (%1$s) rusak saat memperbaiki item ini, tapi itemnya sudah jadi kok!",
       "success": "%1$sRepair successful! Repaired item %2$s **%3$s** -> %4$s **%5$s**. The repair cost was *%6$s* credits and the recipe to repair it was *%7$s*.",
       "ls": {
@@ -1761,9 +1761,9 @@
         "success": "Kamu menemukan sebuah %1$s **%2$s** saat menebang pohon dan mengambilnya. Cepat buka dengan `~>opencrate <crate name>`. Kamu butuh sebuah crate key!"
       },
       "overflow": "%1$sYou found some stuff chopping, but you couldn't hold more of some items, so we had to leave some of it away.",
-      "success_only_item": "%1$sWhile chopping trees, you found %2$s using a *%3$s* and proceed to save them into your inventory.",
-      "success": "%1$sWhile chopping trees, you found %2$s and **$%3$,d credits** using a *%4$s* and proceed to save them into your inventory.",
-      "success_money_noitem": "%1$sWhile chopping trees, you found **$%2$,d credits** using a *%3$s* and proceed to save them into your pocket."
+      "success_only_item": "%1$sSaat menebang pohon menggunakan *%3$s* kamu menemukan %2$s dan menyimpannya dalam inventaris.",
+      "success": "%1$sSaat menebang pohon menggunakan *%4$s*, kamu menemukan %2$s dan **%3$,d kredit** lalu menyimpannya ke inventaris.",
+      "success_money_noitem": "%1$sSaat menebang pohon menggunakan *%3$s*, kamu menemukan **$%2$,d kredit** lalu menyimpannya ke dalam saku."
     },
     "slots": {
       "errors": {
@@ -1836,7 +1836,7 @@
   },
   "options": {
     "options": "Mantaro Options",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "error_general": "%1$sPemakaian salah atau argumen belum ada. Pastikan argumen pertama anda tidak berada di paragraf baru!\nKalau bingung dan butuh bantuan memakai perintah ini, cek <https://github.com/Mantaro/MantaroBot/wiki/Configuration> untuk petunjuk pemakaian. Kalau masih ada masalah setelah membaca wiki, buka saja <https://support.mantaro.site>",
     "check_data": {
       "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
       "header": "Options set for server **%1$s**.",
@@ -2467,11 +2467,11 @@
       "comet_rod": "After testing the Comet Fragments on your axe, you also realized you could use them on your rod. It made the thread stronger, and it seemed to attract more fish to it. All you could wish for.",
       "star_rod": "The mesmerizing and shiny glow of this fragment could not be overlooked. You fused it together with the thread of your rod, and the fish came flowing through it! Seems like a bait isn't necessary all the time, but it's still useful.",
       "moon_rod": "You're still impressed by the way this gem floats on it's own. Regardless, you fuse it with the thread of your rod as best as you can. It seems to be a little stronger than a Star Fragment infused rod, but not by much.\nEitherway, you enjoy the glow of it like it's the first day you've ever seen it.",
-      "sparkle_rod": "A touch of sparkle here, a touch of sparkle there!\nYou pulverized the Sparkle Fragments and coated the thread of your fishing rod with it.\nYou seem confused. How can this attract fish?\nThe world has many mysteries, and this is one of them. Maybe it can help you get more credits. Maybe it can bring you satisfaction.\nThe glow it leaves on the sea is amazing, and you stare at it for hours on end. Maybe you did do the right thing after all.",
+      "sparkle_rod": "Berkilauan sekali!\nKamu melumat Sparkle Fragments dan melapisi benang pancingmu dengan itu.\nKamu kebingungan. Kok ini bisa dipakai mancing ikan, ya?\nDunia penuh dengan misteri, dan ini salah satunya. Mungkin ini bisa membantumu dapat kredit lebih. Mungkin juga bisa membuatmu puas.\nCahaya yang memantul saat dipakai memancing sangatlah indah, dan kau menatapnya selama berjam-jam. Anggap saja tindakanmu ini sudah benar.",
       "hellfire_rod": "Reactions between all the elements can be a weird and dangerous process.\nYou mastered the elements already, and fusing it with your fishing rod thread now seemed trivial. Maybe it was the glow, maybe it was the fire, but you had to do it.\nIt works wonders. Fish come in shoals to you. Nothing can compare. But you're still left wondering whether you really did the right thing.",
-      "wrench": "A run of the mill wrench you can buy from the market. Useful for repairing items.",
-      "comet_wrench": "A Wrench infused with pieces of Comet Gems. Somehow it feels way sturdier.",
-      "sparkle_wrench": "A Wrench infused with pieces of Sparkle Fragments. Somehow it feels a lot sturdier."
+      "wrench": "Kunci pas biasa yang bisa dibeli dari pasar. Berguna untuk memperbaiki barang.",
+      "comet_wrench": "Kunci pas yang diisi dengan potongan Comet Gems. Terasa lebih kokoh.",
+      "sparkle_wrench": "Kunci pas yang diisi dengan cuilan Sparkle Fragments. Terasa jauh lebih kokoh."
     },
     "description": {
       "headphones": "That's what happens when you listen to too much music. Should be worth something, tho.",
@@ -2534,8 +2534,8 @@
       "diamond_pick": "A strong-ish pick.",
       "tv": "Must... watch... TV...",
       "wrench": "Casting tool. Useful to put stuff together.",
-      "star_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking, needed to cast multiple items at once. Tier 3.",
-      "sparkle_wrench": "Casting tool. Useful to put stuff together. Less chance of breaking. Less cost per cast. Tier 4.",
+      "star_wrench": "Alat mencetak. Berguna untuk membuat item. Peluang rusak lebih kecil, penting untuk membuat beberapa item sekaligus. Tingkat 3.",
+      "sparkle_wrench": "Alat mencetak. Berguna untuk membuat item. Peluang rusak lebih kecil. Biaya tiap pembuatan lebih murah. Tingkat 4.",
       "motorcycle": "Going around, the cool way.",
       "comet_pick": "A stronger pick.",
       "star_pick": "A much stronger pick.",
@@ -2597,8 +2597,8 @@
       "broken_hellfire_pick": "A hellfire pick that extinguished while mining. Still salvageable.",
       "broken_hellfire_axe": "A hellfire axe that extinguished while chopping. Still salvageable.",
       "broken_hellfire_rod": "A hellfire rod that extinguished while fishing. Still salvageable.",
-      "chop_crate": "Peti yang kamu temukan saat memancing mungkin punya item bagus di dalamnya. Bisa dibuka dengan `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "chop_crate": "Peti yang kamu temukan saat menebang mungkin punya item bagus di dalamnya. Bisa dibuka dengan `~>opencrate chop crate`",
+      "chop_premium_crate": "Peti yang kamu temukan saat menebang mungkin punya item bagus di dalamnya. Bisa dibuka dengan `~>opencrate chop premium crate`"
     }
   },
   "test": {
