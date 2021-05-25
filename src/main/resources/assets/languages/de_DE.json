@@ -1057,7 +1057,6 @@
       "error": "%1$sEtwas ging beim Abrufen der Geburtstage schief. (internal error) :(",
       "header": "**%1$ss Geburtstage für %2$s**\nDer Geburtstagscache wird alle 23 Stunden aktualisiert, sollte dein Geburtstag nicht auftauchen brauchst du dich also nicht zu erschrecken, sondern nur warten. Zeigt bis zu 100 Ergebnisse.\n",
       "full_header": "**%1$ss Geburtstage**\n%2$s\nBeachte, dass Geburtstage alle 23 Stunden gecached werden, und dass Nutzer den Befehl `~>birthday allowserver` ausführen müssen. Zeigt bis zu 100 Ergebnisse.",
-      "invalid_date": "%1$sUngültiges Datum, oder nicht im richtigen Format.\nDas korrekte Format ist `tt-mm` (Tag-Monat) (Als Beispiel, `~>birthday 16-11` für den 16. November)",
       "error_date": "%1$sThe date you entered is either not a valid date or I can't parse it properly. Please try with the correct formatting.\nRemember that the date format is `dd/mm` (For example, use `~>birthday 16-11` for the 16th of November).\nIf the month or day has only one digit you need to append a 0 to it. For example, 14/7 would become 14/07 and 7/12 would become 07/12.",
       "added_birthdate": "%1$sSuccessfully added birth date. New birthday date: %2$s *(Format: dd-MM)* [day-month]. For this server to announce your birthday, you now have to run `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sDas ist keine gültige Monatszahl! (Gültige Monate sind Nummern von 1-12)",
