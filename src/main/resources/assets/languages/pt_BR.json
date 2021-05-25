@@ -1057,7 +1057,6 @@
       "error": "%1$sAlgo deu errado ao receber aniversários (erro interno) :(",
       "header": "**%1$s Aniversário em %2$s**\nCache de aniversário atualiza a cada 23 horas, então se o seu aniversário não aparecer aqui, não entre em pânico e espere. Exibindo até 100 resultados.\n",
       "full_header": "**%1$s aniversários**\n%2$s\nLembre-se que os aniversários entram em cache a cada 23 horas e eles tem que executar `~>birthday allowserver`. Exibindo até 100 resultados.",
-      "invalid_date": "%1$sNão é uma data válida ou não está no formato correto.\nLembre-se que o formato de data é `dd-mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro)",
       "error_date": "%1$sA data que você colocou não é válida ou eu não consigo analisá-la corretamente. Por favor tente com a formatação correta.\nLembre-se de que o formato de data é `dd/mm` (Por exemplo, use `~>birthday 16-11` para 16 de Novembro).\nSe o mês ou dia tiver apenas um digito você precisará acrescentar um 0 a ele. Por exemplo, 14/7 seria 14/07 e 7/12 seria 07/12.",
       "added_birthdate": "%1$sData de nascimento adicionada com sucesso. Nova data de nascimento: %2$s *(Formato: dd-MM)* [day-month]. Para este servidor anunciar seu aniversário, você terá que usar `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sEsse não é um número de mês válido! (Meses válidos são números de 1 a 12)",
