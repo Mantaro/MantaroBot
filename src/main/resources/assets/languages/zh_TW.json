@@ -326,7 +326,7 @@
       "vc_not_found": "%1$s無法找到語音頻道或者你沒有指明一個！"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**我在Shard %1$d / %2$d** (節點 %3$d / %4$d)\n\n**Shard伺服數：**%6$,d 個伺服\n**已緩存用戶：**%5$,d 位用戶\n**已緩存成員：**%7$,d 位成員\n\n如果需要協助，請瀏覽 <https://support.mantaro.site>。感謝使用Mantaro！"
     },
     "queue": {
       "clear": {
