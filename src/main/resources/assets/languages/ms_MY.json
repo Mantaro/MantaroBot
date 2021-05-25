@@ -1057,7 +1057,6 @@
       "error": "%1$sTerdapat ralat semasa mengumpul hari jadi (ralat dalaman) :(",
       "header": "**Hari Jadi %1$s bagi %2$s**\nCache hari jadi dikemas kini setiap 23 jam, jadi sekiranya hari jadi anda tidak muncul di sini, jangan panik dan tunggu dengan sabar. Memaparkan sehingga 100 keputusan.\n",
       "full_header": "**Hari Jadi %1$s**\n%2$s\nIngat bahawa cache hari jadi akan dikemas kini setiap 23 jam dan mereka perlu menjalankan `~>birthday allowserver`. Memaparkan sehingga 100 keputusan.",
-      "invalid_date": "%1$sBukan tarikh yang sah ataupun ia tidak menggunakan format yang betul.\nIngat, format tarikh ialah `hh-bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November)",
       "error_date": "%1$sTarikh yang telah anda masukkan bukan tarikh yang sah ataupun saya tidak dapat memprosesnya dengan betul. Sila cuba sekali lagi menggunakan format yang betul.\nIngat, format tarikh ialah `hh/bb` (Misalnya, gunakan `~>birthday 16-11` untuk 16 November).\nSekiranya bulan atau hari hanya mempunyai satu angka, anda perlu menambahkan angka 0 kepadanya. Sebagai contoh, 14/7 akan menjadi 14/07 dan 7/12 akan menjadi 07/12.",
       "added_birthdate": "%1$sTarikh hari jadi telah ditambah. Tarikh hari jadi yang baru: %2$s *(Format: hh-BB)* [hari-bulan]. Untuk membenarkan pelayan ini mengumumkan hari jadi anda, anda perlu jalankan `~>birthday allowserver`%3$s",
       "invalid_month": "%1$sItu bukan nombor bulan yang sah! (Bulan yang sah ialah nombor dari 1 hingga 12)",
