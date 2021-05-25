@@ -1471,16 +1471,16 @@
       }
     },
     "invite": {
-      "url": "Invite URL",
-      "server": "Support Server",
-      "patreon": "Patreon URL",
+      "url": "邀請連結",
+      "server": "支援伺服器",
+      "patreon": "Patreon連結",
       "description": {
-        "1": "Here are some useful links!",
-        "2": "**If you have any questions about the bot, feel free to join the support guild and ask**!.",
-        "3": "We provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!].",
-        "4": "Thanks you for using the bot! **<3 from the developers and the Mantaro team**"
+        "1": "這是一些實用的連結！",
+        "2": "**如果你對我有任何問題，歡迎隨時加入我們的官方支援伺服器**！",
+        "3": "我們也提供Patreon連結，如果你想要透過贊助[和獲得特殊待遇!]來支持Mantaro的運行。",
+        "4": "感謝你使用我！**<3 來自開發者和Mantaro團隊**"
       },
-      "footer": "We hope you have fun with the bot."
+      "footer": "希望你玩得開心。"
     },
     "salvage": {
       "not_broken": "%1$s你只能回收壞掉的工具。",
@@ -1505,22 +1505,22 @@
       }
     },
     "stats": {
-      "header": "Mantaro Statistics",
-      "description": "Well... I did my math!",
+      "header": "Mantaro 統計資訊",
+      "description": "我數學... 還行吧！",
       "usage": {
-        "header": "Mantaro's usage information",
-        "description": "Hardware and usage information.",
-        "threads": "Threads",
-        "memory_usage": "Memory Usage",
-        "cores": "CPU Cores",
-        "cpu_usage": "CPU Usage",
-        "assigned_mem": "Assigned Memory",
-        "assigned_remaining": "Remaining from assigned"
+        "header": "Mantaro的使用資訊",
+        "description": "硬體和使用數據。",
+        "threads": "線程",
+        "memory_usage": "記憶體使用量",
+        "cores": "CPU核心",
+        "cpu_usage": "CPU使用量",
+        "assigned_mem": "已分配記憶體",
+        "assigned_remaining": "剩餘已分配記憶體"
       },
       "server": {
-        "header": "Mantaro's server usage information",
-        "cpu_usage": "CPU Usage",
-        "rem": "RAM (TOTAL/FREE/USED)"
+        "header": "Mantaro伺服器使用資訊",
+        "cpu_usage": "CPU使用量",
+        "rem": "記憶體 (總共/剩餘/已使用)"
       }
     },
     "social": {
