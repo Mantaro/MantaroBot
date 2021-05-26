@@ -317,7 +317,7 @@
       "success": "%1$s已跳至%2$s。"
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
+      "no_voice": "%1$s你或我還不在一個語音頻道裡，",
       "attempt": "%1$s我會試著移至你所在的頻道",
       "error_moving": "%1$s切換頻道失敗。",
       "cannot_connect": "%1$s無法連接：我沒有說話或移動成員的權限。",
@@ -376,11 +376,11 @@
       "cleanup": "%1$s已從佇列中移除了 **%2$d 首歌曲**"
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
-      "check": "%1$s這一階段的音量是：%2$d \n\n%3$s",
-      "success": "%1$s音量設置為 %2$d\n\n%3$s",
-      "no_args": "%1$s你需要告訴我你想我設置音量為多少。(5至 100)",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "no_player": "%1$s這裡沒有任何東西正在播放。",
+      "check": "%1$s這一階段的音量是：%2$d\n\n%3$s",
+      "success": "%1$s音量已設置為 %2$d\n\n%3$s",
+      "no_args": "%1$s你需要告訴我你想設置我的音量為多少 (5 至 100)。",
+      "premium_only": "%1$s這是僅限Premium用戶的功能。為了獲得像這個的高級功能，你可以贊助我們的Patreon (https://www.patreon.com/mantaro)。感謝您的理解哦！\n高級功能可以綁定到一位用戶或一個伺服器上。如果你贊助了我們，請加入Mantaro的伺服器來領取。"
     },
     "lyrics": {
       "no_current_track": "%1$s現在並沒有任何播放中的歌曲！",
