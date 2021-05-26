@@ -40,7 +40,7 @@
       "mop_not_enough": "%1$sLevel debumu kurang dari 5%%, percuma saja dipel.",
       "milk": "%1$sSemua efek potion dihilangkan.",
       "crate": {
-        "no_key": "%1$sKamu ngebutuhin sebuah crate key buat ngebuka crate! Kamu bisa beli menggunakan `~>buy key`",
+        "no_key": "%1$sYou need a crate key to open a crate. It's locked! You can buy one using `~>buy key`",
         "no_crate": "%1$sKamu ngebutuhin sebuah crate! Kamu bisa nemuin crate saat menggunakan currency commands.",
         "success": "%1$sKamu membuka sebuah crate dan mendapatkan: %2$s%3$s. Selamat!",
         "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
@@ -280,63 +280,63 @@
         "no_matches": "%1$sThe search yielded no results. If this appears for *all songs* you try to search for, you might want to use`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.",
         "error_loading": "%1$sError while fetching music: %2$s. Maybe give it a try again or try another link?",
         "unknown_error_loading": "%1$sKesalahan tidak diketahui saat mengambil data musik. Mau mencobanya lagi atau coba tautan lain?",
-        "over_queue_limit": "%1$s**Could not queue `%2$s`: Surpassed queue song limit (%3$s)**",
-        "over_32_minutes": "%1$s**Could not queue `%2$s`: Track is longer than %3$s.** (Reported song length is %4$s).\nYou can get a longer track length limit and livestream playback with Mantaro Premium! Check <https://patreon.com/mantaro> for more info.",
-        "fair_queue_limit_reached": "%1$s**Surpassed fair queue level of %2$d (Too many songs which are exactly equal)**",
-        "loaded_song": "%1$sAdded to queue -> **%2$s** *(%3$s)*",
-        "selection_text": "Song selection. Type the song number to continue.",
-        "timeout_text": "This timeouts in 30 seconds. Type &cancel to cancel."
+        "over_queue_limit": "%1$s**Tidak bisa menambah `%2$s`: Melebihi batas lagu dalam antrean (%3$s)**",
+        "over_32_minutes": "%1$s**Tidak bisa menambah `%2$s`: Durasi trek lebih panjang dari %3$s.** (Durasi lagu yang dilaporkan %4$s).\nKamu bisa memainkan menambah batas durasi trek dan memutar livestream dengan Mantaro Premium! Cek <https://patreon.com/mantaro> untuk info lebih lanjut.",
+        "fair_queue_limit_reached": "%1$s**Melampaui tingkat antrian wajar %2$d (Terlalu banyak lagu yang sama persis)**",
+        "loaded_song": "%1$sDitambah ke antrean -> **%2$s** *(%3$s)*",
+        "selection_text": "Pilihan lagu. Ketik nomor lagu untuk melanjutkan.",
+        "timeout_text": "Waktu akan habis dalam 30 detik. Ketik &cancel untuk membatalkan."
       },
       "premium_beg": "%1$sKalau kamu suka denganku, berdonasilah di <https://patreon.com/mantaro> kalau berkenan, sumbangan sekecil apapun akan membantu bot untuk tetap aktif (Cek `~>donate` untuk info lebih lanjut!)",
-      "closed_connection": "%1$sClosed audio connection, unbinding player..."
+      "closed_connection": "%1$sMenutup koneksi audio, mencopot pemutar..."
     },
     "forceskip": {
-      "success": "%1$sAn admin or Bot Commander decided to skip this song."
+      "success": "%1$sSeorang admin atau Bot Commander memutuskan lagu ini dilewati."
     },
     "np": {
-      "no_track": "%1$sThere either isn't track playing or we cannot seem to find it, try playing a song",
-      "header": "Now Playing"
+      "no_track": "%1$sTidak ada trek yang diputar atau ditemukan, coba mainkan sebuah lagu",
+      "header": "Sedang Diputar"
     },
     "pause": {
-      "paused": "Player paused. *(Player was un-paused previously)*",
-      "unpaused": "Player un-paused. *(Player was paused previously)*"
+      "paused": "Pemutar dijeda. *(Sebelumnya sedang berputar)*",
+      "unpaused": "Pemutar berlanjut. *(Sebelumnya sedang dijeda)*"
     },
     "rewind": {
-      "no_time": "%1$sYou need to tell me how much you want to rewind the song. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "negative": "%1$sPositive numbers only",
-      "too_little": "%1$sYou need to use the correct format. Please check the command help. *(Example: `~>rewind 1m45s` will rewind the song 1 minute and 45 seconds)*",
-      "before_beginning": "%1$sYou can't skip to before the beginning of a song",
-      "success": "%1$sRewound song to: %2$s."
+      "no_time": "%1$sKamu harus memberitahuku durasi rewind yang diinginkan.\n*(Contoh: `~>rewind 1m45s` akan me-rewind lagu 1 menit dan 45 detik)*",
+      "negative": "%1$sAngka positif saja",
+      "too_little": "%1$sKamu harus memakai format yang benar. Silakan cek di perintah help.\n*(Contoh: `~>rewind 1m45s` akan me-rewind lagu 1 menit dan 45 detik)*",
+      "before_beginning": "%1$sKamu tidak bisa skip lagu yang belum diputar",
+      "success": "%1$sRewind lagu ke: %2$s."
     },
     "restartsong": {
-      "success": "%1$sRestarted current song."
+      "success": "%1$sLagu telah diulang."
     },
     "skipahead": {
-      "no_time": "%1$sYou need to tell me how much you want to skip ahead in the song. *(Example: `~>skipahead 1m45s` will skip 1 minutes and 45 seconds from where you are on the song)*",
-      "past_duration": "%1$sYou can't skip past the duration of a song",
-      "success": "%1$sSkipped ahead to %2$s."
+      "no_time": "%1$sKamu harus memberitahuku durasi skip yang diinginkan.\n*(Contoh: `~>skipahead 1m45s` akan men-skip 1 menit dan 45 detik dari lagu yang diputar)*",
+      "past_duration": "%1$sDurasi skip tidak boleh melebihi durasi lagu",
+      "success": "%1$sSkip ke %2$s."
     },
     "move": {
-      "no_voice": "%1$sYou're not in a voice channel, or the bot isn't in one.",
-      "attempt": "%1$sI will try to move to the channel you're in",
-      "error_moving": "%1$sFailed to switch voice channels.",
-      "cannot_connect": "%1$sCannot connect: I either don't have permission to talk or to move channels.",
-      "non_existent_channel": "%1$sI can't move to a non-existent channel!",
-      "success": "%1$sMoved bot to channel `%2$s`",
-      "vc_not_found": "%1$sVoice channel not found or you didn't specify one!"
+      "no_voice": "%1$sKamu tidak ada di voice channel, atau botnya yang tidak ada.",
+      "attempt": "%1$sAkan kucoba pindah ke channel dimana ada kamu",
+      "error_moving": "%1$sGagal pindah ke voice channel.",
+      "cannot_connect": "%1$sTidak bisa terhubung: Antara aku tidak punya izin untuk bicara atau pindah channel.",
+      "non_existent_channel": "%1$sAku tidak bisa pindah ke channel yang tidak ada!",
+      "success": "%1$sBot pindah ke channel `%2$s`",
+      "vc_not_found": "%1$sVoice channel tak ditemukan atau kamu salah tulis!"
     },
     "shard": {
-      "info": "**I'm in shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d servers\n**Cached Users:** %6$,d users\n**Cached Members:** %7$,d members\n\nIf you need any help, please head to <https://support.mantaro.site>. Thanks for using Mantaro!"
+      "info": "**Aku berada di shard %1$d / %2$d** (Node %3$d / %4$d)\n\n**Shard Guilds:** %5$,d server\n**Cached Users:** %6$,d user\n**Cached Members:** %7$,d member\n\nKalau butuh bantuan, buka <https://support.mantaro.site>. Terima kasih sudah memakai Mantaro!"
     },
     "queue": {
       "clear": {
-        "header": "%1$sThe server DJ has decided to clear the queue!",
-        "success": "%1$sRemoved **%2$d songs** from the queue.",
-        "error": "%1$sEither you're not connected to the VC or you're not the DJ."
+        "header": "%1$sDJ server telah membersihkan antrian!",
+        "success": "%1$sMenghapus **%2$d lagu** dari antrean.",
+        "error": "%1$sAntara kamu tidak terhubung ke VC atau kamu bukan DJ."
       }
     },
     "repeat": {
-      "queue_cancel": "%1$sContinuing with the current queue.",
+      "queue_cancel": "%1$sMelanjutkan pemutaran antrean.",
       "queue_repeat": "%1$sRepeating the current queue.",
       "song_cancel": "%1$sContinuing with the normal queue.",
       "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
