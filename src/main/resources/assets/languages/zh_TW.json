@@ -842,43 +842,43 @@
     },
     "iam": {
       "list": {
-        "name": "Auto-role name: ",
-        "role": "Role:",
-        "category": "Category: ",
-        "header": "Auto-roles list",
-        "role_give": "Gives role:",
-        "no_autoroles": "There aren't any autoroles setup in this server.",
-        "description": "This are the current user-assignable auto roles on this server. You can use these by doing `~>iam <name of the role>`"
+        "name": "自動身分組名稱：",
+        "role": "身分組：",
+        "category": "類別：",
+        "header": "自動身分組清單",
+        "role_give": "將給予身分組：",
+        "no_autoroles": "這個伺服裡沒有任何自動身分組的設置。",
+        "description": "這些是此伺服內用戶可主動添加的自動身分組。你可以使用 `~>iam <自動身分組名稱>` 來添加他們"
       },
-      "deleted_role": "%1$sThe role that this autorole corresponded to has been deleted",
-      "already_assigned": "%1$sYou already have this role, silly!",
-      "success": "%1$s%2$s, you've been given the **%3$s** role",
+      "deleted_role": "%1$s這個自動身分組對應的身分組已被刪除",
+      "already_assigned": "%1$s你已經擁有這個身分組了！",
+      "success": "%1$s%2$s，你已經被給予身分組 **%3$s**",
       "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
-      "no_role": "%1$sThere isn't an autorole with the name `%2$s`",
-      "no_iam": "%1$sYou need to specify which auto-assignable role you want to assign yourself!"
+      "no_role": "%1$s找不到叫做 `%2$s` 的自動身分組",
+      "no_iam": "%1$s你需要指出你想添加給自己的自動身分組！"
     },
     "iamnot": {
-      "no_args": "%1$sYou have to specify what role you want me to remove from you, silly.",
-      "not_assigned": "%1$sYou don't have this role, silly!",
-      "success": "%1$s%2$s, you've lost the **%3$s** role"
+      "no_args": "%1$s你需要指出你想移除的身分組。",
+      "not_assigned": "%1$s你沒有這個身分組！",
+      "success": "%1$s%2$s，你已經被移除身分組 **%3$s**"
     },
     "poll": {
-      "missing": "%1$sYou didn't include either the %2$s argument or it was empty!\n%3$s",
-      "invalid": "%1$sThis poll cannot build. **Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\nOptions are separated with a comma, for example `1,2,3` (no spaces between them!). For spaced stuff use quotation marks at the start and end of the sentence. If you're really lost, there's an example on `~>help poll`",
-      "other_poll_running": "%1$sThere seems to be another poll running here...",
-      "no_reaction_perms": "%1$sSeems like I cannot add reactions here...",
-      "too_long": "%1$sThis was too long to show. Try with less options?",
-      "header": "Poll #%1$d created by %2$s",
-      "success": "**Poll started. React to the number to vote.**\n*%1$s*\nType &cancelpoll to cancel a running poll.",
-      "time": "You have %1$s to vote.",
-      "error": "%1$sAn unknown error has occurred while setting up a poll. Maybe try again? (internal error)",
-      "result_header": "Poll results",
-      "result_screen": "**Showing results for the poll started by %1$s** with name: *%2$s*",
-      "vote_results": "+Registered %1$d votes for option %2$s",
-      "thank_note": "Thanks for your vote",
-      "results": "Results",
-      "cancelled": "%1$sCancelled poll",
-      "incorrect_time_format": "%1$sIncorrect time format. Remember, the proper time format it's a number followed by `h, m or s` (hours, minutes or seconds). Example: `-time 40m`"
+      "missing": "%1$s你並沒有輸入 %2$s 參數，或者該參數為空！\n%3$s",
+      "invalid": "%1$s這則投票無法被建立。**請記得選項數最多為9個/最少為2個，時間最長為45分鐘/最短為30秒。**\n選項之間用(英文)逗號分割，像是 `1,2,3` (不須加空格)。選項如包含空白內容，請將他用引號包起來。如果還是不清楚的話可以查看 `~>help poll`",
+      "other_poll_running": "%1$s這裡似乎還有另一則投票正在進行...",
+      "no_reaction_perms": "%1$s我好像不能在這裡添加反應...",
+      "too_long": "%1$s這樣子太長了無法顯示。試著減少一些選項？",
+      "header": "由 %2$s 建立的投票 #%1$d",
+      "success": "**投票已開始。反應至底下的數字來投票。**\n*%1$s*\n傳送 &cancelpoll 來移除進行中的投票。",
+      "time": "你有 %1$s 次可以投票。",
+      "error": "%1$s在建立投票時發生錯誤。也許在試一次？(內部錯誤)",
+      "result_header": "投票結果",
+      "result_screen": "**正在顯示由 %1$s 建立的投票** 名稱：*%2$s*",
+      "vote_results": "+選項 %2$s 得到了 %1$d 票",
+      "thank_note": "感謝您的投票",
+      "results": "結果",
+      "cancelled": "%1$s已取消投票",
+      "incorrect_time_format": "%1$s時間格式錯誤。正確的格式為數字加上 `h, m 或 s` (小時, 分鐘 或 秒鐘)。範例：`-time 40m`"
     },
     "profile": {
       "timezone": {
@@ -1029,7 +1029,7 @@
       "brief_success": "**%1$s 的徽章清單：**\n%2$s",
       "profile_notice": "如果你認為你得到了新徽章，但還沒出現在這邊，請使用 `~>profile` 然後再次運行此指令。\n",
       "info_notice": "使用 `~>badges info <徽章名稱>` 取得該徽章的更多資訊。[你也可以查看我們的維基](https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation)\n",
-      "donate_notice": "**別忘己你也可以獲得 [支持Mantaro開發] 的徽章 (https://patreon.com/mantaro)！**(可能需要幾分鐘來更新)\n\n",
+      "donate_notice": "**別忘記你也可以獲得 [支持Mantaro開發] 的徽章 (https://patreon.com/mantaro)！**(可能需要幾分鐘來更新)\n\n",
       "no_badges": "(目前！) 還沒有徽章可顯示",
       "header": "%1$s 的徽章清單",
       "total_badges": "**已取得徽章數目：**%1$s",
@@ -1093,34 +1093,34 @@
       "user_no_timezone": "%1$sThe user you mentioned has no timezone set on their profile."
     },
     "urban": {
-      "no_args": "%1$sYou need to tell me what term to look for in Urban Dictionary.",
-      "header": "Urban Dictionary definition for %1$s",
-      "too_many_args": "%1$sToo many arguments! Page format is `name->page number`",
-      "main_def": "Main definition.",
-      "footer": "Information by Urban Dictionary",
-      "nsfw_notice": "%1$sThis command can only be used in NSFW channels due to the nature of its results.",
-      "error": "%1$sThere was an error processing the response from UD. Try again?"
+      "no_args": "%1$s你需要告訴我你想在 Urban Dictionary 上查詢的字彙。",
+      "header": "%1$s 在 Urban Dictionary 上的定義",
+      "too_many_args": "%1$s參數過多！頁數格式是 `名稱->頁數`",
+      "main_def": "主要定義。",
+      "footer": "由 Urban Dictionary 提供",
+      "nsfw_notice": "%1$s由於其結果的性質，該指令只能被用於NSFW的頻道裡。",
+      "error": "%1$s處理UD結果時發生錯誤。也許在試一次？"
     },
     "activatekey": {
       "check": {
-        "key_valid_for": "%1$sYour key is valid for %2$s more days :heart:",
-        "no_key_found": "%1$sYou don't have a key enabled... If you're a premium from the old system you should still have your rewards, though!"
+        "key_valid_for": "%1$s你的密鑰還有 %2$s 天有效 :heart:",
+        "no_key_found": "%1$s你還沒啟用任何密鑰... 如果你是舊系統的Premium，獎勵應該還會保持有效！"
       },
-      "no_key_provided": "%1$sI cannot enable a premium key if you don't give me one",
-      "invalid_key": "%1$sYou provided an invalid or already enabled key",
+      "no_key_provided": "%1$s如果你不給我一個密鑰我也無法啟動他",
+      "invalid_key": "%1$s你提供了無效或已過期的密鑰",
       "guild_already_premium": "%1$s此伺服器已訂閱Mantaro premium",
-      "guild_successful": "%1$sThis server is now **Premium** :heart: (For: %2$d days)\nIf you're pledging in Patreon, this key is linked to your pledge.",
+      "guild_successful": "%1$s這個伺服器已成為 **Premium** :heart: (期限：%2$d 天)\n如果你使用Patreon贊助，這個密鑰則與你的用戶連結。",
       "user_already_premium": "%1$s你已經有Premium了 :heart:",
-      "user_successful": "%1$sYou're now **Premium** :heart:\nIf you're pledging in Patreon, this key is linked to your pledge.",
-      "mp": "Mantaro Patreon uses no keys, instead, it's a given that it's premium by the fact that the bot itself works."
+      "user_successful": "%1$s你已成為 **Premium** :heart:\n如果你使用Patreon贊助，這個密鑰則與你的用戶連結。",
+      "mp": "Mantaro Patreon 並不需要任何密鑰，因為這個機器人本身就是Premium。"
     },
     "claimkey": {
-      "not_patron": "%1$sYou're not a patron, so you can't do this. If you want to support Mantaro and get perks along with it, head over to <https://www.patreon.com/mantaro>\nIf you're currently pledging and you see this message, it means you don't have an active key. Please double-check that you enabled the key Mantaro should've DM'd you.",
-      "already_top": "%1$sYou already claimed all the keys you had. If any of them expired, please head over to the support server at <https://support.mantaro.site> (Though they should renew automatically)",
-      "successful": "%1$sSuccessfully claimed key `%2$s`. You have claimed a total of %3$s keys and have %4$s left keys to claim. This key is of type %5$s. (If this is a guild key, use it on the server where you want it on)",
-      "cant_dm": "%1%sI can't DM you the key because of your privacy settings, seemingly, so it wasn't generated.",
-      "success": "%1$sSent the information via DM.",
-      "invalid_scope": "%1$sInvalid key scope! Valid are `user` and `guild`. Without any arguments, this command defaults to `user`. Example: `~>claimkey guild` or `~>claimkey user`"
+      "not_patron": "%1$s你還不是我們Patreon上的贊助者，無法做這件事情。如果你想支持Mantaro並獲得Mantaro上的特殊待遇，請查看 <https://www.patreon.com/mantaro>\n如果你已是贊助者但還繼續收到這則訊息，表示你的密鑰還未被啟動。請再次確定你已經啟動了Mantaro私訊給你的密鑰。",
+      "already_top": "%1$s你已經領取了你擁有的所有密鑰。如果其中一個已過期，請到我們的支援伺服 <https://support.mantaro.site> 詢問 (他們應該會自動更新)",
+      "successful": "%1$s成功領取密鑰 `%2$s`。你總共領取了 %3$s 個密鑰，還剩 %4$s 個可以領取。該密鑰的類型為 %5$s。(如果這是一個 guild [伺服器] 密鑰，將他使用在你想要的伺服器裡面)",
+      "cant_dm": "%1%s由於你的隱私設置讓阻止我私訊你密鑰，所以他還沒被產生。",
+      "success": "%1$s已發送私訊給你。",
+      "invalid_scope": "%1$s無效密鑰類型！有效類型為 `user` 和 `guild` (個人 和 伺服)。如不輸入參數則默認為 `user`。範例：`~>claimkey guild` 或 `~>claimkey user`"
     },
     "vipstatus": {
       "user": {
@@ -1561,20 +1561,20 @@
       "default": "預設"
     },
     "roleinfo": {
-      "header": "Role info for %1$s",
-      "id": "Role ID",
-      "created": "Role Created",
-      "age": "Role Age",
-      "color": "Color",
-      "members": "Members",
-      "position": "Position",
-      "hoisted": "Hoisted",
-      "managed": "Managed",
-      "permissions": "Permissions: [%1$,d]"
+      "header": "%1$s 的身分組資訊",
+      "id": "身分組ID",
+      "created": "建立日期",
+      "age": "身分組年齡",
+      "color": "顏色",
+      "members": "成員",
+      "position": "位置",
+      "hoisted": "分開顯示",
+      "managed": "管理員",
+      "permissions": "權限：[%1$,d]"
     },
     "donate": {
-      "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
-      "methods": "**Donation Methods**\n**- Patreon:** <%1$s>\n**- Paypal:** <%2$s>"
+      "beg": "%1$s嘿！如果你對贊助有興趣的話，請查看下面的連結。運行Mantaro也需要時間和金錢，任何金額都是很感謝的！\n\n%2$s",
+      "methods": "**贊助方式**\n**- Patreon：**<%1$s>\n**- Paypal：**<%2$s>"
     },
     "help": {
       "title": "Mantaro 幫助",
