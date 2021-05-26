@@ -853,7 +853,7 @@
       "deleted_role": "%1$s這個自動身分組對應的身分組已被刪除",
       "already_assigned": "%1$s你已經擁有這個身分組了！",
       "success": "%1$s%2$s，你已經被給予身分組 **%3$s**",
-      "error": "%1$sI couldn't take from you **%2$s**. Make sure that I have permission to add roles (Manage Roles) and that my role is above **%2$s**",
+      "error": "%1$s我無法給你 **%2$s**。確定我有添加身分組的權限 (管理身分組)，並且我的等級比 **%2$s** 高",
       "no_role": "%1$s找不到叫做 `%2$s` 的自動身分組",
       "no_iam": "%1$s你需要指出你想添加給自己的自動身分組！"
     },
