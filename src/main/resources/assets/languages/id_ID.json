@@ -337,13 +337,13 @@
     },
     "repeat": {
       "queue_cancel": "%1$sMelanjutkan pemutaran antrean.",
-      "queue_repeat": "%1$sRepeating the current queue.",
-      "song_cancel": "%1$sContinuing with the normal queue.",
-      "song_repeat": "%1$sRepeating the current song. Run this command again to disable it."
+      "queue_repeat": "%1$sMengulang antrean saat ini.",
+      "song_cancel": "%1$sMelanjutkan pemutar seperti biasa.",
+      "song_repeat": "%1$sMengulang lagu saat ini. Jalankan perintah ini lagi kalau ingin membatalkan."
     },
     "nextsong": {
-      "no_song_next": "%1$sOw, there isn't any song coming next.",
-      "format": "%1$sNext song in queue: **%2$s** (%3$s) | *Total songs in queue: %4$,d*"
+      "no_song_next": "%1$sYah, setelah ini tidak ada lagu.",
+      "format": "%1$sLagu berikutnya dalam antrean: **%2$s** (%3$s) | *Jumlah lagu dalam antrean: %4$,d*"
     },
     "shuffle": {
       "success": "%1$sRandomized the order of the current queue."
