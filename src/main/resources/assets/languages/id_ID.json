@@ -346,50 +346,50 @@
       "format": "%1$sLagu berikutnya dalam antrean: **%2$s** (%3$s) | *Jumlah lagu dalam antrean: %4$,d*"
     },
     "shuffle": {
-      "success": "%1$sRandomized the order of the current queue."
+      "success": "%1$sUrutan di antrean ini berhasil diacak."
     },
     "skip": {
-      "dj_skip": "%1$sThe DJ has decided to skip this song.",
+      "dj_skip": "%1$sDJ melewati lagu ini.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to skip!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to skip!"
+        "submit": "%1$s**Voting telah dikirim** Kamu butuh %2$d vote lagi untuk skip!",
+        "remove": "%1$s**Votingmu telah dihapus** Kamu butuh %2$d vote lagi untuk skip!"
       },
-      "success": "%1$sReached the required amount of votes, skipping song...",
-      "no_track": "%1$sThere seems to be no track to skip, so I cannot do anything..."
+      "success": "%1$sJumlah vote terpenuhi, melewati lagu...",
+      "no_track": "%1$sSepertinya tidak ada trek untuk dilewati, jadi aku tidak bisa apa-apa..."
     },
     "removetrack": {
-      "invalid_range": "%1$s`%2$s` is not a valid range.",
-      "no_track": "%1$sThere isn't a queued track at the position `%2$d`!",
-      "invalid_number": "(%1$s`%2$s`) One of the ranges is not a valid number!",
-      "invalid_number_range": "%1$s`%2$s` is not a valid number or range!",
-      "success": "%1$sRemoved **%2$d** track(s) from the queue.",
-      "not_dj": "%1$sYou need to be a DJ to perform this action."
+      "invalid_range": "%1$s`%2$s` bukan nilai yang valid.",
+      "no_track": "%1$sTidak ada trek pada nomor `%2$d` di antrean!",
+      "invalid_number": "(%1$s`%2$s`) Salah satu nilai tidak valid!",
+      "invalid_number_range": "%1$s`%2$s` bukan nilai atau angka yang valid!",
+      "success": "%1$s**%2$d** trek dihapus dari antrean.",
+      "not_dj": "%1$sKamu harus jadi seorang DJ untuk melakukan aksi ini."
     },
     "stop": {
-      "dj_stop": "%1$sThe server DJ has decided to stop the current queue.",
+      "dj_stop": "%1$sDJ server telah menghentikan antrean saat ini.",
       "vote": {
-        "submit": "%1$s**Your vote has been submitted** You need %2$d more vote(s) to stop!",
-        "remove": "%1$s**Your vote has been removed** You need %2$d more vote(s) to stop!"
+        "submit": "%1$s**Voting telah dikirim** Kamu butuh %2$d vote lagi untuk stop!",
+        "remove": "%1$s**Votingmu telah dihapus** Kamu butuh %2$d vote lagi untuk stop!"
       },
-      "success": "%1$sReached the required amount of votes, stopping player...",
-      "no_player": "%1$sThere seems to be no player to stop, so I cannot do anything...",
-      "cleanup": "%1$sRemoved **%2$d songs** from the queue."
+      "success": "%1$sJumlah vote terpenuhi, menghentikan pemutar...",
+      "no_player": "%1$sSepertinya tidak pemutar untuk dihentikan, jadi aku tidak bisa apa-apa...",
+      "cleanup": "%1$s**%2$d** lagu dihapus dari antrean."
     },
     "volume": {
-      "no_player": "%1$sThere's nothing playing here.",
-      "check": "%1$sThe current volume for this session is: %2$d\n\n%3$s",
-      "success": "%1$sVolume set to %2$d\n\n%3$s",
-      "no_args": "%1$sYou need to tell me what volume you want me to set the music to (5 to 100).",
-      "premium_only": "%1$sThis is a premium-only feature. In order to get premium benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to a user or a server, please, if you donate, join the support guild and ask for it."
+      "no_player": "%1$sTidak ada apa-apa yang diputar.",
+      "check": "%1$sVolume dalam sesi ini adalah: %2$d\n\n%3$s",
+      "success": "%1$sVolume diatur ke %2$d\n\n%3$s",
+      "no_args": "%1$sKamu harus menulis sebesar apa volume yang ingin kamu atur dari (5 s.d. 100).",
+      "premium_only": "%1$sFitur ini hanya untuk pengguna premium. Untuk dapat keuntungan premium seperti ini kamu bisa donasi di patreon (https://www.patreon.com/mantaro). Terima kasih atas pengertiannya. Fitur premium dapat diikat ke pengguna atau server, dan dimohon kalau kamu berdonasi, bergabunglah dengan server pendukung untuk memintanya."
     },
     "lyrics": {
-      "no_current_track": "%1$sThere's no song currently playing on this server!",
-      "error_searching": "%1$sThere was an error searching for this track or there was no results found.",
-      "header": "%1$sLyrics for %2$s",
-      "footer": "Thanks for using Mantaro! Page: %1$d, Total: %2$d."
+      "no_current_track": "%1$sTidak ada lagu yang diputar di server ini!",
+      "error_searching": "%1$sTerjadi galat saat mencari trek atau hasil tidak ditemukan.",
+      "header": "%1$sLirik untuk %2$s",
+      "footer": "Terima kasih sudah memakai Mantaro! Halaman: %1$d, Total: %2$d."
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
+      "header": "%1$sPrefix default adalah %2$s dan mention ke bot (Akan kurespon kok!). %3$s.\nKamu bisa mengatur prefix baru dengan `~>opts prefix set <prefix>`. <> tidak perlu ikut diketik.\nUntuk me-reset prefix server jalankan `~>opts prefix clear`\nKalau ada saran, kamu bisa gabung ke <https://support.mantaro.site>",
       "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
       "none": "There's no custom prefix set on this server."
     },
