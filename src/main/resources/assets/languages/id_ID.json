@@ -390,8 +390,8 @@
     },
     "prefix": {
       "header": "%1$sPrefix default adalah %2$s dan mention ke bot (Akan kurespon kok!). %3$s.\nKamu bisa mengatur prefix baru dengan `~>opts prefix set <prefix>`. <> tidak perlu ikut diketik.\nUntuk me-reset prefix server jalankan `~>opts prefix clear`\nKalau ada saran, kamu bisa gabung ke <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
-      "none": "There's no custom prefix set on this server."
+      "guild_prefix": "Prefix server adalah `%1$s` (Hanya bisa dipakai di server ini)",
+      "none": "Tidak ada prefix khusus yang disetel di server ini."
     },
     "custom": {
       "no_args": "%1$sYou need to specify what you want to do with this command. Check command help for more info!",
