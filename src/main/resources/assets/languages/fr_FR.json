@@ -712,7 +712,7 @@
       "no_item_found": "%1$sJe n'ai pas trouvé l'objet dont tu me parles. Assure-toi de me donner le nom complet pour éviter les confusions ou alors montre moi l'emoji quand c'est possible. Exemple: `~>cast star pick`",
       "item_not_cast": "%1$sTu ne peux pas fabriquer cet objet. Va voir la liste avec `~>cast ls` pour savoir ce que tu peux fabriquer. Si tu penses être dans le bon, utilise le nom complet, le problème vient peut-être de là.",
       "not_enough_money": "%1$sTu n'as pas assez d’argent pour fabriquer ça. **(Cout : %2$s)**",
-      "no_item": "%1$sYou don't have the necessary item *%2$s* to proceed with this cast. You need %3$,d of them.",
+      "no_item": "%1$sTu n'as pas l'objet nécessaire *%2$s* pour procéder à cette fabrication. Tu en as besoin.",
       "not_enough_items": "%1$sTu n'as pas assez de *%2$s* pour faire une **%3$s**. **(Nécessaires : %4$s, Possédés : %5$s)**",
       "success": "%1$sTu as fabriqué %2$,dx %3$s **%4$s** avec succès pour %5$,d credits. *Matériaux utilisés : %6$s*",
       "no_tool": "%1$sTu as besoin d'un.e %2$s pour procéder à cette fabrication!",
@@ -750,7 +750,7 @@
         "success": "%1$sLe prix de %2$s**%3$s** au marché est de %4$s credits à l'achat et tu peux avoir %5$s credits si tu le vends."
       },
       "sell": {
-        "replacement": "You can use `~>sell` now. For example, instead of `~>market sell pick` you can do `~>sell pick`. Please use the new command instead.",
+        "replacement": "Tu peux utiliser `~>sell` maintenant. Par exemple, au lieu de `~>market sell pick` tu peux faire `~>sell pick`. Utilise la nouvelle commande s'il te plait.",
         "no_item": "%1$sTu dois spécifier l'objet à vendre.",
         "no_item_amount": "%1$sTu dois préciser la quantité (s'il n'y en a qu'un, pas besoin de préciser) et l'objet que tu veux vendre.",
         "invalid": "%1$sNombre d'objets à vendre invalide.",
@@ -766,7 +766,7 @@
         "success": "%1$sTu as vendu %2$,d **%3$s** et as gagné %4$,d crédits!"
       },
       "buy": {
-        "replacement": "You can use `~>buy` now. For example, instead of `~>market buy pick` you can do `~>buy pick`. Please use the new command instead.",
+        "replacement": "Tu peux utiliser `~>buy` maintenant. Par exemple, au lieu de `~>market buy pick` tu peux faire `~>buy pick`. Utilise la nouvelle commande s'il te plait.",
         "no_item": "%1$sTu dois spécifier l'objet à acheter.",
         "no_item_amount": "%1$sTu dois spécifier un montant de cet objet (si c'est seulement 1, pas besoin de spécifier) et l'objet que tu veux acheter.",
         "invalid": "%1$sNombre d'objets à acheter invalide.",
@@ -812,7 +812,7 @@
       "success": "%1$sEnvoyé **%2$d** *(%3$d après taxe de 8%%)* à **%4$s** avec succès.",
       "item_transfer": "%1$sTu ne peux pas transférer d'objets avec 'transfer', merci d'utiliser `~>transferitems` à la place.",
       "party": "Tu peux transférer à la même personne (%1$s) toutes les 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "blacklisted_transfer": "%1$sTu peux transférer les joueurs de la liste noire."
     },
     "useitem": {
       "ls": {
@@ -867,7 +867,7 @@
       "invalid": "%1$sCe sondage ne peut être construit. **Souviens-toi que le nombre maximum d'option est 9 et que le minimum est de 2 et que le temps limite est de maximum 45min et de minimum 30s.**\nLes options sont séparées avec une virgule, par exemple `1,2,3` (pas d'espaces entre eux !). Pour les éléments requérants des espaces, veille à les écrire entre guillemets. Si tu es vraiment perdu.e, il y a un exemple sur `~>help poll`",
       "other_poll_running": "%1$sIl semble qu'un autre sondage soit en cours..",
       "no_reaction_perms": "%1$sIl semble que je ne peux pas ajouter de réactions ici...",
-      "too_long": "%1$sThis was too long to show. Try with less options?",
+      "too_long": "%1$sC'était trop long à montrer. Essaie avec moins d'option peut-être?",
       "header": "Sondage #%1$d créé par %2$s",
       "success": "**Le sondage commence. Réagis avec les nombres pour voter.**\n*%1$s*\nEnvoie &cancelpoll pour arrêter le sondage en cours.",
       "time": "Tu as %1$s pour voter.",
@@ -892,7 +892,7 @@
         "no_argument": "%1$sTu dois me donner un argument! (set ou remove). Par exemple, `~>profile description set Hello there!`",
         "no_content": "%1$sTu ne m'as pas dit ce que tu voulais comme description. Par exemple, `~>profile description set Hello there!`",
         "too_long": "%1$sTa description est trop longue! (Limite de 300 caractères pour tout le monde et de 500 pour les utilisateurs premium)",
-        "success": "%1$sI set your profile description successfully. Check your shiny new profile with `~>profile`",
+        "success": "%1$sJ'ai défini ta description avec succès. Tu peux voir ton profil tout neuf en faisant `~>profile`",
         "clear_success": "%1$sDescription supprimée avec succès."
       },
       "displaybadge": {
@@ -914,8 +914,8 @@
         "success": "%1$sLe tri de ton inventaire a bien été changé, c'est désormais: **%2$s**"
       },
       "toggleaction": {
-        "enabled": "%1$sEnabled actions to be done to you.",
-        "disabled": "%1$sDisabled actions from being done to you."
+        "enabled": "%1$sEt voilà, on peut désormais t'inclure dans les actions!",
+        "disabled": "%1$sOn ne peut désormais plus t'inclure dans les actions."
       },
       "pet": {
         "header": "Animal actif",
@@ -967,7 +967,7 @@
         "not_equipped": "%1$sTu n'as rien d'équipé à cet emplacement.",
         "no_content": "%1$sTu dois spécifier quel type d'objet déséquiper `pick, axe, rod, wrench`(pioche, hache, canne à pêche, clé).",
         "invalid_type": "%1$sType invalide. Les types d'objets valides sont `pick, axe, rod, wrench` pioche, hache, canne à pêche et clé en anglais.",
-        "confirm": "%1$sAre you sure you want to **unequip** your %2$s %3$s? Type `yes` to confirm, `no` to cancel. This will give you a broken version of your currently equipped tool, which means your currently equipped tool will break.",
+        "confirm": "%1$sEs-tu sûr.e de vouloir **déséquiper** ta %2$s %3$s? Envoie `yes` pour confirmer, `no` pour annuler. Ça te donnera une version endommagée de ton outil équipé actuellement, ce qui signifie qu'il cassera.",
         "success": "%1$sTu as déséquipé ton slot %2$s (pour rappel pick = pioche, rod = canne à pêche).",
         "equipment_recover": "\nPuisque tu ne l'avais pas utilisée, tu la retrouve dans ton inventaire (équipement retrouvé: %1$s)!",
         "broken_equipment_recover": "\nTon équipement était utilisé mais tu as tout de même récupéré une %1$s, tu peux toujours la réparer pour t'en servir plus tard!",
@@ -995,7 +995,7 @@
       "badge_header": "%1$sBadge affiché",
       "bot_notice": "%1$sLes bots n'ont pas de profil.",
       "header": "Profil de %1$s",
-      "no_desc": "No description set. You can set one with `~>profile description`",
+      "no_desc": "Aucune description définie. Tu peux en définir une avec `~>profile description`",
       "credits": "Crédits",
       "old_credits": "Crédits d'héritage",
       "level": "Niveau",
@@ -1023,8 +1023,8 @@
       },
       "ls": {
         "header": "Liste des badges obtenables",
-        "desc": "This is a list of all of the currently obtainable badges on Mantaro. This list contains the name and description of the badge, which should give you a overall picture of what you need to achieve it.\nIf you think you got a badge and you don't see it on your personal badge list, use `~>profile` and then run `~>badges` again.\nGood luck, badge hunters!",
-        "obtained": "**Obtained:** %s"
+        "desc": "Voici une liste de tous les badges disponibles actuellement sur Mantaro. Cette liste contient le nom et la description du badge, ce qui te donnera une vue globale de ce que tu dois accomplir.\nSi tu penses avoir obtenu un badge mais que tu ne le vois pas sur ta liste de badges personnels, utilise `~>profile` et relance `~>badges`.\nBonne chance, chasseurs de badges!",
+        "obtained": "**Obtenu:** %s"
       },
       "brief_success": "**Badges de %1$s:**\n%2$s",
       "profile_notice": "Si tu penses avoir eu un nouveau badge mais qu'il n'apparait pas ici, utilise `~>profile` puis refais cette commande.\n",
@@ -1454,6 +1454,7 @@
       },
       "remove": {
         "no_pet": "%1$sYou don't have a pet to remove. (Choice: %2$s)%3$s",
+        "no_pet_confirm": "%1$sI don't see any pet here...",
         "confirm": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$,d crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit que ce remboursement ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
         "confirm_personal": "%1$sEs-tu sûr.e de vouloir enlever cet animal? La personne avec qui tu es marié.e et toi recevrez respectivement %2$,d crédits.\nEnvoie `yes` pour confirmer ou `no` pour annuler. Garde à l'esprit que ce remboursement ne prendra pas de valeur avec le temps ou l'expérience donc prend ça comme l'achat d'un nouveau tomagotchi ou un truc du genre.",
         "success": "%1$sAnimal de compagnie enlevé avec succès. Chaque membre de ce mariage recevras %2$s crédits de remboursement.",
