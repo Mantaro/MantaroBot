@@ -1469,7 +1469,8 @@
         "food": "Edibles",
         "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "Invite URL",

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.kodehawa.mantarobot.commands.currency.pets.HousePet;
 
@@ -30,6 +31,7 @@ public class MarriageData {
     private String carName;
     private HousePet pet;
     private String timezone;
+    private long lockedUntil;
 
     public MarriageData() { }
 
@@ -95,5 +97,13 @@ public class MarriageData {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    public long getLockedUntil() {
+        return lockedUntil;
+    }
+
+    public void setLockedUntil(long lockedUntil) {
+        this.lockedUntil = lockedUntil;
     }
 }

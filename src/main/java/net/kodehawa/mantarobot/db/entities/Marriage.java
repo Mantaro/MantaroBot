@@ -89,6 +89,17 @@ public class Marriage implements ManagedObject {
         return this.player2;
     }
 
+    //it's 3am and i cba to replace usages of this so whatever
+    @JsonIgnore
+    public boolean isLocked() {
+        return data.getLockedUntil() - System.currentTimeMillis() > 0;
+    }
+
+    @JsonIgnore
+    public void setLocked(boolean locked) {
+        data.setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
+    }
+
     @Nonnull
     public String getId() {
         return this.id;

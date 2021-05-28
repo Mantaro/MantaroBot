@@ -123,7 +123,7 @@ public class CurrencyCmds {
                                     .sorted(playerData.getInventorySortType().getSort().getComparator())
                                     .forEach(stack -> {
                                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
-                                        long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
+                                        long sellValue = stack.getItem().isSellable() ? Math.round(stack.getItem().getValue() * 0.9) : 0;
                                         fields.add(new MessageEmbed.Field(
                                                 "%s %s x %d".formatted(
                                                         stack.getItem().getEmoji(),
