@@ -1413,7 +1413,8 @@
         "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$sCancelled operation.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
+        "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
@@ -1458,7 +1459,7 @@
         "confirm": "%1$sAre you sure you wanna remove this pet? The person you're married to will receive %2$,d credits, and you will receive %2$,d credits aswell.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "confirm_personal": "%1$sAre you sure you wanna remove this pet? You will receive %2$,d credits.\nType `yes` to confirm or `no` otherwise. Keep in mind your refund won't scale with levels or anything, so take this as buying a new tomagotchi or something similar.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
-        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund."
+        "success_personal": "%1$sSuccessfully removed pet. You received %2$s credits as a refund.",
       },
       "info": {
         "not_found": "%1$sI can't find the pet type you're looking for. Use `~>pet list` for a list of pet types.",
