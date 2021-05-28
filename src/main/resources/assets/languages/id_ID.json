@@ -1454,6 +1454,7 @@
       },
       "remove": {
         "no_pet": "%1$sKamu tidak punya peliharaan untuk dihapus. (Pilihan: %2$s)%3$s",
+        "no_pet_confirm": "%1$sI don't see any pet here...",
         "confirm": "%1$sKamu yakin ingin menjual peliharaan ini? Pasanganmu akan menerima %2$,d kredit, dan kamu juga akan menerima %2$,d kredit.\nKetik `yes` untuk lanjut atau `no` untuk tidak. Pengembalian dana tidak akan dipengaruhi oleh level atau hal lain, jadi anggap saja seperti beli tomagotchi baru dan semacamnya.",
         "confirm_personal": "%1$sKamu yakin ingin menjual peliharaan ini? Kamu akan menerima %2$,d kredit.\nKetik `yes` untuk lanjut atau `no` untuk tidak. Pengembalian dana tidak akan dipengaruhi oleh level atau hal lain, jadi anggap saja seperti beli tomagotchi baru dan semacamnya.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
