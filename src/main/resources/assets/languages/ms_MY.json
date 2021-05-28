@@ -1454,6 +1454,7 @@
       },
       "remove": {
         "no_pet": "%1$sAnda tidak memiliki haiwan peliharaan untuk dipinggirkan. (Pilihan: %2$s)%3$s",
+        "no_pet_confirm": "%1$sI don't see any pet here...",
         "confirm": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Pasangan perkahwinan akan menerima %2$,d kredit, dan anda juga akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
         "confirm_personal": "%1$sAdakah anda pasti akan meminggirkan haiwan peliharaan ini? Anda akan menerima %2$,d kredit.\nTaip `yes` untuk sahkan atau `no` jika tidak. Anda diingatkan bahawa bayaran balik ini tidak berdasarkan level atau yang lain-lain, jadi anggaplah ini sebagai membeli tamagotchi yang baru atau sesuatu yang hampir sama.",
         "success": "%1$sBerjaya meminggirkan haiwan peliharaan. Setiap orang dalam perkahwinan ini telah menerima %2$s kredit sebagai bayaran balik.",
