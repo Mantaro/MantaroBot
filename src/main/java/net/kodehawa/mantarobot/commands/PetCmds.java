@@ -779,8 +779,7 @@ public class PetCmds {
         pet.addSubCommand("feed", new SubCommand() {
             @Override
             public String description() {
-                return "Feeds your pet. Needed food may vary per pet. " +
-                       "Usage: `~>pet feed <food> [amount]`. Use full instead of amount to replenish all.";
+                return "Feeds your pet. Needed food may vary per pet. Usage: `~>pet feed <food> [amount]`";
             }
 
             @Override
@@ -883,7 +882,7 @@ public class PetCmds {
         pet.addSubCommand("hydrate", new SubCommand() {
             @Override
             public String description() {
-                return "Hydrates your pet. Usage: `~>pet hydrate [amount]`. Use full instead of amount to replenish all.";
+                return "Hydrates your pet. Usage: `~>pet hydrate [amount]`";
             }
 
             @Override
