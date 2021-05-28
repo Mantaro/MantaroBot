@@ -216,7 +216,7 @@ public enum Badge {
             (player, stats, dbUser) -> player.getCurrentMoney() >= 10_000_000, false
     ),
 
-    THE_BEST_FRIEND("The Best Friend", "\uD83D\uDCBB", "Get a Kodehawa pet.",
+    THE_BEST_FRIEND("The Best Friend", "\uD83D\uDCBB", "Get a Dev pet.",
             91, 92,
             (player, stats, dbUser) -> player.getData().getPet() != null && player.getData().getPet().getType() == HousePetType.KODE, false
     ),
