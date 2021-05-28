@@ -742,7 +742,10 @@ public class MarryCmd {
                     if (content.equalsIgnoreCase("yes")) {
                         final var divorceeDBUser = ctx.getDBUser();
                         final var marriage = divorceeDBUser.getData().getMarriage();
-
+                        if (marriage == null) {
+                            ctx.sendLocalized("commands.divorce.not_married", EmoteReference.ERROR);
+                            return Operation.COMPLETED;
+                        }
                         final var marriageData = marriage.getData();
 
                         //We do have a marriage, get rid of it.

@@ -357,6 +357,10 @@ public class PetCmds {
                 } else {
                     ctx.sendLocalized("commands.pet.remove.confirm_personal", EmoteReference.WARNING, toRefundPersonal);
                 }
+
+                player.setLocked(true);
+                player.save();
+
                 InteractiveOperations.create(ctx.getChannel(), ctx.getAuthor().getIdLong(), 50, (e) -> {
                     if (!e.getAuthor().equals(ctx.getAuthor()))
                         return Operation.IGNORED;
@@ -367,11 +371,17 @@ public class PetCmds {
                             final var marriedPlayer = ctx.getPlayer();
                             var marriageConfirmed = dbUser.getData().getMarriage();
 
+                            if (marriageConfirmed.getData().getPet() == null) {
+                                ctx.sendLocalized("commands.pet.remove.no_pet_confirm", EmoteReference.ERROR);
+                                return Operation.COMPLETED;
+                            }
+
                             marriageConfirmed.getData().setPet(null);
                             marriageConfirmed.save();
 
                             marriedWithPlayer.addMoney(toRefund);
                             marriedPlayer.addMoney(toRefund);
+                            marriedPlayer.setLocked(false);
 
                             marriedPlayer.save();
                             marriedWithPlayer.save();
@@ -380,9 +390,15 @@ public class PetCmds {
                             var playerFinal = ctx.getPlayer();
                             var playerData = playerFinal.getData();
 
+                            if (playerData.getPet() == null) {
+                                ctx.sendLocalized("commands.pet.remove.no_pet_confirm", EmoteReference.ERROR);
+                                return Operation.COMPLETED;
+                            }
+
                             playerData.setPet(null);
                             playerFinal.addMoney(toRefundPersonal);
-                            playerFinal.saveUpdating();
+                            playerFinal.setLocked(false);
+                            playerFinal.save();
                             ctx.sendLocalized("commands.pet.remove.success_personal", EmoteReference.CORRECT, toRefundPersonal);
                         }
 
