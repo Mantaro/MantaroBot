@@ -1454,6 +1454,7 @@
       },
       "remove": {
         "no_pet": "%1$sVocê não tem um pet para remover. (Escolha: %2$s)%3$s",
+        "no_pet_confirm": "%1$sEu não vejo nenhum animal de estimação aqui...",
         "confirm": "%1$sVocê tem certeza de que quer remover esse pet? A pessoa com quem você é casado irá receber %2$,d créditos, e você receberá %2$,d créditos também.\nDigite `yes` para confirmar ou `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tamagotchi ou algo semelhante.",
         "confirm_personal": "%1$sVocê tem certeza de que quer remover esse pet? Você irá receber %2$,d créditos.\nDigite `yes` para confirmar e `no` caso contrário. Tenha em mente que seu reembolso não aumentará com os níveis ou qualquer coisa, então considere isso como comprar um novo tamagotchi ou algo semelhante.",
         "success": "%1$sPet removido com sucesso. Cada pessoa neste casamento recebeu %2$s créditos como um reembolso.",
