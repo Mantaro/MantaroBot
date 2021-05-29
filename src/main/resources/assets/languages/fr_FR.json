@@ -1041,11 +1041,11 @@
       "more_than_one": "%1$sTu ne peux donner un point de réputation qu'à une personne.",
       "rep_bot": "%1$sTu ne peux pas donner un point de réputations aux bots.\n%2$s",
       "rep_yourself": "%1$sTu ne peux pas te donner des points de réputations.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "blacklisted_rep": "%1$sTu ne peux pas donner de point de réputation à un membre de la liste noire.",
       "cooldown": {
         "waiting": "**Tu pourras réutiliser cette commande dans %1$s**",
         "pass": "Tu peux utiliser la commande `->rep` maintenant.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "explanation": "Tu peux donner un point de réputation toutes les 12 heures. Il faut attendre avant de recommencer, même pour le donner à quelqu'un d'autre."
       },
       "success": "%1$s a donné un point de réputation à **%2$s**"
     },
@@ -1413,7 +1413,8 @@
         "success": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommé `%4$s`. Le cout de cet achat est de %5$,d crédits son appartenance était: %6$s",
         "success_personal": "%1$sFélicitations! Vous êtes désormais tous deux propriétaires d'un `%2$s%3$s` nommé `%4$s`. Le cout de cet achat est de %5$,d crédits son appartenance était: %6$s",
         "cancel_success": "%1$sOpération annulée.",
-        "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères."
+        "too_long": "%1$sCe nom est trop long. Il doit avoir moins de 150 caractères.",
+        "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
         "no_pet": "%1$sTu n'as pas d'animaux à nourrir. Fais la commande `~>pet` pour plus d'explications. (Appartenance: %2$s)%3$s",
@@ -1469,7 +1470,8 @@
         "food": "Régime alimentaire",
         "coin_buildup": "Renforcement pécuniaire (Niv. 1/100)",
         "item_buildup": "Renforcement de l'objet (Niv. 1/100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "URL d'invitation",
@@ -1968,8 +1970,8 @@
       "invalid": "%1$sLongueur d'argument incorrecte."
     },
     "logs_timezone": {
-      "not_specified": "%1$sYou need to specify a timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
-      "invalid": "%1$sNot a valid timezone. A valid timezone would be, for example, America/Chicago or GMT-4. A list can be found at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Use the TZ database name)",
+      "not_specified": "%1$sTu dois spécifier ton fuseau horaire. Un fuseau valide serait, par exemple, Europe/Brussels ou GMT+1. Une liste complète se trouve sur <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilises les données de la colonne \"TZ database name\")",
+      "invalid": "%1$sCeci n'est pas un fuseau horaire valide. Un fuseau valide serait, par exemple, Europe/Brussels ou GMT+1. Une liste complète se trouve sur <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> (Utilises les données de la colonne \"TZ database name\")",
       "success": "%1$sSet logs timezone to `%2$s`. This timezone will be used to display the time on moderation logs."
     },
     "logs_timezonereset": {
