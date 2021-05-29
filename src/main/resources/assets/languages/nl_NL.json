@@ -1573,7 +1573,8 @@
       "position": "Positie",
       "hoisted": "Weergegeven in ledenlijst",
       "managed": "Beheerd",
-      "permissions": "Machtigingen: [%1$d]"
+      "permissions": "Machtigingen: [%1$d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh Hallo! Als je geïnteresseerd bent om te doneren, bekijk dan de onderstaande links. Het up-to-date houden van Mantaro kost tijd en geld, en elke euro wordt zeer gewaardeerd!\n\n%2$s",
