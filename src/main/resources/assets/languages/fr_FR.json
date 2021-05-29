@@ -1573,7 +1573,8 @@
       "position": "Position",
       "hoisted": "Séparé",
       "managed": "Géré",
-      "permissions": "Permissions: [%1$d]"
+      "permissions": "Permissions: [%1$d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh salut! Si tu es intéressé de nous faire un don, va sur les liens ci-dessous. S'occuper de Mantaro demande de temps et de l'argent, chaque dollar est fortement apprécié !\n\n%2$s",
