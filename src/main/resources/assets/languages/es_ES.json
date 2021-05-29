@@ -1573,7 +1573,8 @@
       "position": "Posición",
       "hoisted": "Separado",
       "managed": "Manejado",
-      "permissions": "Permisos: [%1$d]"
+      "permissions": "Permisos: [%1$d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$s¡Oh!, Hola. Si estás interesado/a en donar, clickea en los links de abajo. Correr Mantaro toma tiempo y dinero, y cualquier dinero que puedan donar será muy apreciado!\n\n%2$s",
