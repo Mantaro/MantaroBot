@@ -1471,7 +1471,7 @@
         "coin_buildup": "Acúmulo de Créditos (Nvl. 1 / 100)",
         "item_buildup": "Acúmulo de Itens (Nvl. 1 / 100)"
       },
-      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
+      "locked_notice": "%1$sVocê não pode comprar/vender um pet quando a transação tá bloqueada. Se isso é um erro, tente novamente em alguns minutos."
     },
     "invite": {
       "url": "URL de Convite ",
@@ -1573,7 +1573,8 @@
       "position": "Posição",
       "hoisted": "Hosteado",
       "managed": "Gerenciado",
-      "permissions": "Permissões: [%1$d]"
+      "permissions": "Permissões: [%1$d]",
+      "no_content": "%1$sVocê tem que especificar o nome do cargo para ver."
     },
     "donate": {
       "beg": "%1$sOh oi! Se você estiver interessado em doar, por favor cheque os links abaixo. Deixar Mantaro ativa leva tempo e dinheiro, e todo dolar é altamente apreciado!\n\n%2$s",
