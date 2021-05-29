@@ -1573,7 +1573,8 @@
       "position": "位置",
       "hoisted": "分開顯示",
       "managed": "管理員",
-      "permissions": "權限：[%1$,d]"
+      "permissions": "權限：[%1$,d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$s嘿！如果你對贊助有興趣的話，請查看下面的連結。運行Mantaro也需要時間和金錢，任何金額都是很感謝的！\n\n%2$s",
