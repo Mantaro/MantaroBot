@@ -379,6 +379,11 @@ public class InfoCmds {
         cr.register("roleinfo", new SimpleCommand(CommandCategory.INFO) {
             @Override
             protected void call(Context ctx, String content, String[] args) {
+                if (content.isEmpty()) {
+                    ctx.sendLocalized("commands.roleinfo.no_content", EmoteReference.ERROR);
+                    return;
+                }
+
                 var role = FinderUtils.findRole(ctx.getEvent(), content);
                 if (role == null) {
                     return;
