@@ -33,7 +33,7 @@
       "no_item_emoji": "沒有與此表情符號相關的物品。",
       "no_item_name": "沒有與此表情符號相關的名字。",
       "not_found": "無法依據你的搜索條件找到任何結果。\n試著使用更簡短的名稱，範例：使用 '能量' 代替 `能量飲料`。或將他用引號包起來。",
-      "claim_key": "你無法轉移認領鑰匙。"
+      "claim_key": "你無法傳送認領鑰匙。"
     },
     "misc_item_usage": {
       "mop": "%1$s你已經清理完了你家中的所有塵土。",
@@ -43,7 +43,7 @@
         "no_key": "%1$s你需要一個寶箱鑰匙來開啟寶箱。他是鎖住的！你能使用 `~>buy key` 來購買他。",
         "no_crate": "%1$s你需要一個寶箱！你能透過貨幣指令獲得寶箱。",
         "success": "%1$s你開啟了一個寶箱且得到了：%2$s%3$s。恭喜！",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success_high": "%1$s你獲得了以下等級超過三星的物品：%2$s。數量如上所示",
         "overflow": "但是你已經擁有太多了，所以你決定將多出來的丟掉"
       },
       "potion_active": "%1$s你目前已經有最高數量的 **%2$s** 效果了!",
@@ -389,9 +389,9 @@
       "footer": "感謝使用Mantaro呀！頁數：%1$d, 總頁數:%2$d"
     },
     "prefix": {
-      "header": "%1$sThe default prefixes are %2$s and mentioning the bot (I respond to any of those!). %3$s.\nYou can set a new prefix by using `~>opts prefix set <prefix>`. Don't include the <>.\nTo reset the server prefix run `~>opts prefix clear`\nIf you have any questions, you can join <https://support.mantaro.site>",
-      "guild_prefix": "The server prefix is `%1$s` (Only works on this server)",
-      "none": "此伺服器暫時沒有自訂的指令詞頭。"
+      "header": "%1$s我默認的指令詞頭是 %2$s，或是你也可以提及我 (我兩種都會回應！)。%3$s。\n你可以使用 `~>opts prefix set <詞頭>` 設定一個新的詞頭，記得不用輸入 <> 唷。\n使用 `~>opts prefix clear` 來重設此伺服詞頭，\n有任何疑問的話，你可以加入 <https://support.mantaro.site> 詢問",
+      "guild_prefix": "此伺服的詞頭是 `%1$s` (只能在此伺服使用)",
+      "none": "此伺服器沒有設置自定義指令詞頭。"
     },
     "custom": {
       "no_args": "%1$s你需要說明你用此指令想做些甚麼。運行指令 help 來看更多資訊！",
@@ -689,13 +689,13 @@
       "success": "%1$sI rate your waifu with a **%2$,d/100**"
     },
     "roll": {
-      "success": "%1$sYou got **%2$,d**%3$s",
-      "amount": "Doing **%1$,d** rolls."
+      "success": "%1$s你得到了 **%2$,d**%3$s",
+      "amount": "正在丟擲 **%1$,d** 次骰子。"
     },
     "coinflip": {
-      "over_limit": "%1$sHold in there! The limit is 1,000 coin flips",
+      "over_limit": "%1$s等等！最高只能連續丟1000次",
       "no_repetitions": "%1$s你需要指出一個整數當作重複的次數 (範例，`~>roll 100`)",
-      "success": "%1$s Your result from **%2$,d** time(s) yielded **%3$,d** heads and **%4$,d** tails"
+      "success": "%1$s 你丟了 **%2$,d** 次硬幣並得到了 **%3$,d** 次正面和 **%4$,d** 次反面"
     },
     "inventory": {
       "bot_notice": "%1$s其實機器人沒有背包。好吧，如果你希望他有的話，那也只會是一個 `~>dump`",
@@ -785,34 +785,34 @@
       "buy_price": "- **購買價格：**"
     },
     "itemtransfer": {
-      "transfer_yourself_note": "%1$sYou cannot transfer items to yourself.",
-      "bot_notice": "%1$sYou cannot transfer items to a bot.",
-      "locked_notice": "%1$sYou cannot transfer items now. (Player is locked)",
-      "hidden_item": "%1$sYou cannot transfer this item!",
-      "overflow": "%1$sThis player has the maximum amount (5000) of this item.",
-      "overflow_after": "%1$sAfter transferring the item, the player would have more than the maximum amount (5000) of this item.",
-      "success": "%1$s%2$s gave **%3$s** **%4$s** to %5$s",
+      "transfer_yourself_note": "%1$s你無法傳送物品給自己。",
+      "bot_notice": "%1$s你無法傳送物品給一個機器人。",
+      "locked_notice": "%1$s你目前無法傳送物品。(用戶已被鎖定)",
+      "hidden_item": "%1$s你無法傳送這個物品。",
+      "overflow": "%1$s該用戶已經擁有5000個 (最大數量) 該物品了。",
+      "overflow_after": "%1$s傳送完這些物品之後，該用戶將擁有超過5000個 (最大數量) 該物品。",
+      "success": "%1$s%2$s 傳送了 **%3$s** 個 **%4$s** 給 %5$s",
       "multiple_items_error": "%1$s你的背包中沒有任何這些物品",
       "error": "%1$s你的背包中沒有足夠的這些物品來執行此操作！",
-      "no_item_mention": "%1$sYou need to specify the person to transfer the item and the item to transfer."
+      "no_item_mention": "%1$s你需要指出要傳送的用戶和物品數量。"
     },
     "transfer": {
-      "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
-      "new_account_notice_other": "%1$sThe account you're transferring to must be at least 14 days old.",
-      "transfer_yourself_note": "%1$sYou cannot transfer money to yourself.",
-      "bot_notice": "%1$sYou cannot transfer money to a bot.",
-      "no_amount": "%1$sYou need to specify the amount. Use the `transferitems` command instead if you meant to transfer an item.",
-      "no_money_specified_notice": "%1$sYou cannot transfer no money :P",
-      "over_transfer_limit": "%1$sYou cannot transfer this much money. (Limit: %2$,d credits)",
-      "own_locked_notice": "%1$sYou cannot transfer money now.",
-      "receipt_overflow_notice": "Cannot send money to this player.",
-      "no_money_notice": "%1$sYou cannot transfer money you don't have.",
-      "receipt_locked_notice": "1$sThat user cannot receive money now.",
-      "receipt_over_limit": "%1$sThis user already has too much money...",
-      "success": "%1$sTransferred **%2$,d** *(%3$,d after 8%% tax)* to **%4$s** successfully.",
-      "item_transfer": "%1$sYou cannot transfer items using transfer, use the `~>transferitems` command instead.",
-      "party": "You can only transfer to the same person (%1$s) once every 10 minutes.",
-      "blacklisted_transfer": "%1$sYou can't transfer to blacklisted users."
+      "new_account_notice_yourself": "%1$s你的帳號年齡必須高於14天才能傳送金錢。",
+      "new_account_notice_other": "%1$s你要傳送的帳號年齡必須高於14天。",
+      "transfer_yourself_note": "%1$s你無法傳送金錢給自己。",
+      "bot_notice": "%1$s你無法傳送金錢給一個機器人。",
+      "no_amount": "%1$s你需要指出金額。如果你想要傳送物品，請使用 `transferitems`。",
+      "no_money_specified_notice": "%1$s你無法傳送0元 :P",
+      "over_transfer_limit": "%1$s你無法傳送那麼多錢。(限制：%2$,d 元)",
+      "own_locked_notice": "%1$s你目前無法傳送金錢。",
+      "receipt_overflow_notice": "無法傳送金錢給這位用戶。",
+      "no_money_notice": "%1$s你無法傳送你不擁有的錢。",
+      "receipt_locked_notice": "1$s那位用戶目前無法接收金錢。",
+      "receipt_over_limit": "%1$s這位用戶已經擁有太多錢了...",
+      "success": "%1$s已成功傳送 **%2$,d** *(減去8%%稅後為 %3$,d)* 給 **%4$s**。",
+      "item_transfer": "%1$s你無法使用一般傳送指令傳送物品，請改用 `~>transferitems` 指令。",
+      "party": "你每隔10分鐘才能再次傳送給同一位用戶 (%1$s)。",
+      "blacklisted_transfer": "%1$s你無法傳送給已列入黑名單的用戶。"
     },
     "useitem": {
       "ls": {
@@ -1036,18 +1036,18 @@
       "footer": "徽章就像是成就，你能夠通過遊玩Mantaro的遊戲或單純使用機器人來獲得他們。"
     },
     "rep": {
-      "new_account_notice": "%1$sThe account age (amount of time since the Discord account was created) for giving or receiving rep must be more than 30 days old. Try again later.",
-      "no_mentions": "%1$sYou need to mention or put the name of one user.\n%2$s",
-      "more_than_one": "%1$sYou can only give reputation to one person",
-      "rep_bot": "%1$sYou cannot rep a bot.\n%2$s",
-      "rep_yourself": "%1$sYou cannot rep yourself.\n%2$s",
-      "blacklisted_rep": "%1$sYou cannot rep a blacklisted account.",
+      "new_account_notice": "%1$s接收或給予聲望的帳號年齡 (自Discord帳號建立以來的時間) 都必須高於30天。請等等再試。",
+      "no_mentions": "%1$s你需要提及該用戶或輸入該用戶的名稱。\n%2$s",
+      "more_than_one": "%1$s你只能給予一個人聲望",
+      "rep_bot": "%1$s你無法給予一個機器人聲望。\n%2$s",
+      "rep_yourself": "%1$s你無法給予自己聲望。\n%2$s",
+      "blacklisted_rep": "%1$s你無法給予黑名單內的用戶聲望。",
       "cooldown": {
-        "waiting": "**You'll be able to use this command again in %1$s**",
-        "pass": "You can rep someone now.",
-        "explanation": "You can give reputation to one person every 12 hours. Please wait the time above before you can give reputation to someone else."
+        "waiting": "**你能夠在 %1$s 內再次使用這個指令**",
+        "pass": "你可以給予聲望了。",
+        "explanation": "你每12小時才能給予一個人聲望。請等待上面所示的時間再次給予聲望。"
       },
-      "success": "%1$sAdded reputation to **%2$s**"
+      "success": "%1$s已給予 **%2$s** 聲望"
     },
     "birthday": {
       "reset": "%1$s已重設生日。",
@@ -1838,37 +1838,37 @@
     }
   },
   "options": {
-    "options": "Mantaro Options",
-    "error_general": "%1$sIncorrect usage or missing arguments. Make sure the first argument doesn't start with a new line!\nIf you're lost or want help on using opts, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts. If you have any issues after reading the wiki, head to <https://support.mantaro.site>",
+    "options": "Mantaro 設定",
+    "error_general": "%1$s使用方法錯誤或缺少參數。確定第一個參數不以換行開頭！\n如果你不確定該如何使用設定，你能到 <https://github.com/Mantaro/MantaroBot/wiki/Configuration> 查看設定指南。如果還是有問題的話，歡迎到 <https://support.mantaro.site> 詢問",
     "check_data": {
-      "retrieve_failure": "%1$sCannot retrieve values. Weird thing...",
-      "header": "Options set for server **%1$s**.",
-      "terminology": "\n\n**Useful terminology:** [] = empty list, null = not set, {} = empty object. If you see numbers=[...] it means that for that id, it applies what's inside the brackets. Objects are usually comma-separated",
-      "footer": "This is a debug command, therefore it's not 100% user-friendly",
-      "null_set": "is not set to anything.",
-      "set_to": "is set to:"
+      "retrieve_failure": "%1$s無法取得數值。怪怪的...",
+      "header": "**%1$s** 的伺服器設定。",
+      "terminology": "\n\n**專用語法：** [] = 空白清單，null = 未設定，{} = 空白物件。如果你看到 numbers=[...]，代表那個ID將會被給予括弧內的內容。物件通常將以逗號分割",
+      "footer": "這是一個測試指令，代表他不是100%使用者友好的",
+      "null_set": "並未設置成任何內容。",
+      "set_to": "已設為："
     },
     "reset_all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$s已重置你的設定！"
     },
     "server_command_disallow": {
-      "no_command": "%1$sYou need to specify the command you want to disable on this server.",
-      "success": "%1$sDisabled %2$s on this server."
+      "no_command": "%1$s你需要指出你想為此伺服禁用的指令。",
+      "success": "%1$s已為此伺服禁用 %2$s。"
     },
     "server_command_allow": {
-      "no_command": "%1$sYou need to specify the command you want to enable on this server.",
-      "success": "%1$sEnabled %2$s on this server."
+      "no_command": "%1$s你需要指出你想為此伺服啟用的指令。",
+      "success": "%1$s已為此伺服啟用 %2$s。"
     },
     "server_command_specific_disallow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to disallow.",
-      "success": "%1$sDisabled %2$s on channel #%3$s."
+      "invalid": "%1$s你需要指出頻道名稱和你想為他禁用的指令。",
+      "success": "%1$s已為頻道 #%3$s 禁用 %2$s。"
     },
     "server_command_specific_allow": {
-      "invalid": "%1$sYou need to specify the channel name and the command to allow.",
-      "success": "%1$sEnabled %2$s on channel #%3$s."
+      "invalid": "%1$s你需要指出頻道名稱和你想為他啟用的指令。",
+      "success": "%1$s已為頻道 #%3$s 啟用 %2$s。"
     },
     "server_channel_disallow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot not to listen to commands.",
+      "no_channel": "%1$s你需要指出你想完全禁用指令的頻道。",
       "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
       "success": "%1$sChannel %2$s will no longer listen to commands."
     },
@@ -1884,32 +1884,32 @@
     },
     "category_enable": {
       "no_category": "%1$sYou need to specify a category to enable.",
-      "success": "%1$sEnabled category `%2$s`"
+      "success": "%1$s已啟用類別 `%2$s`"
     },
     "category_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the channel where.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s` on channel %3$s"
+      "invalid": "%1$s你需要指出頻道名稱和你想禁用的類別。",
+      "already_disabled": "%1$s此類別原本已經被禁用。",
+      "moderation_notice": "%1$s你無法禁用管理類別，不然你就無法使用 opts 指令了。",
+      "success": "%1$s已為頻道 %3$s 禁用類別 `%2$s`"
     },
     "category_specific_enable": {
-      "invalid": "%1$sYou need to specify a category to enable and the channel where.",
-      "invalid_channel": "%1$sThat's not a valid channel!",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` on channel %3$s"
+      "invalid": "%1$s你需要指出頻道名稱和你想為他啟用的類別。",
+      "invalid_channel": "%1$s那不是一個有效的頻道!",
+      "not_disabled": "%1$s此類別尚未被禁用。",
+      "success": "%1$s已為頻道 %3$s 啟用類別 `%2$s`"
     },
     "server_role_specific_disallow": {
-      "invalid": "%1$sYou need the role and the command to disallow!",
-      "already_disabled": "%1$sThis command was already disabled for the specified role.",
-      "success": "%1$sSuccessfully restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$s你需要指出身分組名稱和你想為他禁用的指令！",
+      "already_disabled": "%1$s已經為此身分組禁用這個指令。",
+      "success": "%1$s成功為身分組 `%3$s` 禁用指令 `%2$s`"
     },
     "server_role_specific_allow": {
-      "invalid": "%1$sYou need the role and the command to allow!",
-      "not_disabled": "%1$sThis command wasn't disabled for this role.",
-      "success": "%1$sSuccessfully un-restricted command `%2$s` for role `%3$s`"
+      "invalid": "%1$s你需要指出身分組名稱和你想為他啟用的指令！",
+      "not_disabled": "%1$s此身分組尚未被禁用這個指令。",
+      "success": "%1$s成功為身分組 `%3$s` 啟用指令 `%2$s`"
     },
     "category_role_specific_disable": {
-      "invalid": "%1$sYou need to specify a category to disable and the role to.",
+      "invalid": "%1$s你需要指出身分組名稱和你想為他禁用的類別。",
       "already_disabled": "%1$sThis category is already disabled.",
       "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
       "success": "%1$sDisabled category `%2$s` for role %3$s"
@@ -2020,7 +2020,7 @@
       "success": "%1$s此伺服器的自定義詞頭已更改為 %2$s"
     },
     "prefix_clear": {
-      "success": "%1$s此伺服器的自定義詞頭已取消"
+      "success": "%1$s此伺服器的自定義詞頭已被取消"
     },
     "autorole_set": {
       "no_role": "%1$sYou didn't tell me what role to look for!",
@@ -2100,7 +2100,7 @@
       "success": "%1$sCleared all auto-assignable roles!"
     },
     "admincustom": {
-      "no_args": "%1$s你需要指出true或false (true來將自定義指令創建限定給管理員)",
+      "no_args": "%1$s你需要指出true或false (使用true來將自定義指令的創建限制給管理員)",
       "admin_only": "自定義指令的創建已限制給管理員。",
       "everyone": "自定義指令的創建已開放給任何人。",
       "not_bool": "%1$s那不是一個布林值 (true或false)！"
