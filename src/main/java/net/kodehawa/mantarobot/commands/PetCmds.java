@@ -310,7 +310,7 @@ public class PetCmds {
         pet.addSubCommand("check", new SubCommand() {
             @Override
             public String description() {
-                return "Check thrist, hunger and dust of your current pet.";
+                return "Check thirst, hunger and dust of your current pet.";
             }
 
             @Override
