@@ -1413,7 +1413,8 @@
         "success": "%1$sParabéns! Vocês dois agora são os orgulhosos proprietários de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse pet foi %5$,d créditos e essa escolha de pet foi: %6$s",
         "success_personal": "%1$sParabéns! Você agora é o orgulhoso proprietário de um `%2$s%3$s` e ele foi nomeado de `%4$s`. O custo para comprar esse pet foi %5$,d créditos e essa escolha de pet foi: %6$s",
         "cancel_success": "%1$sOperação cancelada.",
-        "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres."
+        "too_long": "%1$sEsse nome é muito longo. Ele precisa ter menos de 150 caracteres.",
+        "no_marriage_marry": "%1$sEu não vejo nenhum casamento aqui..."
       },
       "feed": {
         "no_pet": "%1$sVocê não tem nenhum pet para alimentar. Cheque `~>pet` para uma explicação. (Escolha: %2$s)%3$s",
@@ -1469,7 +1470,8 @@
         "food": "Comestíveis",
         "coin_buildup": "Acúmulo de Créditos (Nvl. 1 / 100)",
         "item_buildup": "Acúmulo de Itens (Nvl. 1 / 100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "URL de Convite ",
