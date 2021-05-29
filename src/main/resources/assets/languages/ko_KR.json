@@ -1413,7 +1413,8 @@
         "success": "%1$sCongratulations! You're both now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "success_personal": "%1$sCongratulations! You're now the proud owner of a `%2$s%3$s` and they were named `%4$s`. The cost to buy this pet was %5$,d credits and this pet choice was: %6$s",
         "cancel_success": "%1$sCancelled operation.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
+        "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
         "no_pet": "%1$sYou don't have any pets to feed. Check `~>pet` for an explanation. (Choice: %2$s)%3$s",
@@ -1469,7 +1470,8 @@
         "food": "Edibles",
         "coin_buildup": "Credit Buildup (Lvl. 1 / 100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "Invite URL",
