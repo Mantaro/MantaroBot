@@ -1573,7 +1573,8 @@
       "position": "Pozicija",
       "hoisted": "Hoisted",
       "managed": "Managed",
-      "permissions": "Leidimai: [%1$d]"
+      "permissions": "Leidimai: [%1$d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh labas! Jeigu nori paremti mane, patikrink nuorodas žemiau. Mantaro palaikymas reikalauja laiko ir pinigų, ir kiekvienas euras arba doleris reikalingas!\n\n%2$s",
