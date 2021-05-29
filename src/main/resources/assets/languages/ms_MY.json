@@ -1573,7 +1573,8 @@
       "position": "Kedudukan",
       "hoisted": "Diasingkan",
       "managed": "Diuruskan",
-      "permissions": "Kebenaran: [%1$,d]"
+      "permissions": "Kebenaran: [%1$,d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh hai! Jika anda berminat untuk menderma, sila periksa pautan di bawah. Menjalankan Mantaro mengambil masa dan wang, dan setiap dolar sangat dihargai!\n\n%2$s",
