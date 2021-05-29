@@ -1573,7 +1573,8 @@
       "position": "الترتيب",
       "hoisted": "مفترق",
       "managed": "مُدار",
-      "permissions": "الصلاحيات: [%1$,d]"
+      "permissions": "الصلاحيات: [%1$,d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$s اوه مرحباً! اذا كنت مهتماً في دعم البوت, الرجاء اتباع الروابط أدناه. تشغيل مانتارو يأخد الكثير من الوقت والمال, ونحن نقدر كل دولار يُقدم لنا!\n\n%2$s",
