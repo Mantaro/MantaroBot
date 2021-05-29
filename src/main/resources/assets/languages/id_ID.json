@@ -1413,7 +1413,8 @@
         "success": "%1$sSelamat! Sekarang kalian jadi pemilik seekor `%2$s%3$s` dan namanya adalah `%4$s`. Biaya pembelian peliharaan ini adalah %5$,d kredit dan pilihan peliharaan ini adalah: %6$s",
         "success_personal": "%1$sSelamat! Sekarang kamu jadi pemilik seekor `%2$s%3$s` dan namanya adalah `%4$s`. Biaya pembelian peliharaan ini adalah %5$,d kredit dan pilihan peliharaan ini adalah: %6$s",
         "cancel_success": "%1$sCancelled operation.",
-        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters."
+        "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
+        "no_marriage_marry": "%1$sI don't see any marriage here..."
       },
       "feed": {
         "no_pet": "%1$sKamu tidak punya peliharaan untuk diberi makan. Cek `~>pet` untuk penjelasan. (Pilihan: %2$s)%3$s",
@@ -1469,7 +1470,8 @@
         "food": "Edibles",
         "coin_buildup": "Penumpukan Kredit (Lvl. 1/100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
-      }
+      },
+      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
     },
     "invite": {
       "url": "Invite URL",
