@@ -1573,7 +1573,8 @@
       "position": "Position",
       "hoisted": "Hoisted",
       "managed": "Managed",
-      "permissions": "Permissions: [%1$d]"
+      "permissions": "Permissions: [%1$d]",
+      "no_content": "%1$sYou need to specify the name of the role to look for."
     },
     "donate": {
       "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
