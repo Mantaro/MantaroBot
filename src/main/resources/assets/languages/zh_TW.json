@@ -1869,21 +1869,21 @@
     },
     "server_channel_disallow": {
       "no_channel": "%1$s你需要指出你想完全禁用指令的頻道。",
-      "too_many": "%1$sYou cannot disable more channels since the bot wouldn't be able to talk otherwise :(",
-      "success": "%1$sChannel %2$s will no longer listen to commands."
+      "too_many": "%1$s你無法禁用所有頻道，不然你就無法使用我了 :(",
+      "success": "%1$s頻道 %2$s 將不再接收指令。"
     },
     "server_channel_allow": {
-      "no_channel": "%1$sYou need to specify the channel where you want the bot to listen to commands. (All channels by default)",
-      "success": "%1$sChannel %2$s will now listen to commands."
+      "no_channel": "%1$s你需要指出你想啟用指令的頻道。(默認是所有頻道)",
+      "success": "%1$s頻道 %2$s 將開始接收指令。"
     },
     "category_disable": {
-      "no_category": "%1$sYou need to specify a category to disable.",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it would disable the opts command.",
-      "success": "%1$sDisabled category `%2$s`"
+      "no_category": "%1$s你需要指出你想禁用的指令類別。",
+      "already_disabled": "%1$s此類別原本已經被禁用。",
+      "moderation_notice": "%1$s你無法禁用管理類別，不然你就無法使用 opts 指令了。",
+      "success": "%1$s已禁用類別 `%2$s`"
     },
     "category_enable": {
-      "no_category": "%1$sYou need to specify a category to enable.",
+      "no_category": "%1$s你需要指出你想啟用的指令類別。",
       "success": "%1$s已啟用類別 `%2$s`"
     },
     "category_specific_disable": {
@@ -1910,33 +1910,33 @@
     },
     "category_role_specific_disable": {
       "invalid": "%1$s你需要指出身分組名稱和你想為他禁用的類別。",
-      "already_disabled": "%1$sThis category is already disabled.",
-      "moderation_notice": "%1$sYou cannot disable moderation since it contains this command.",
-      "success": "%1$sDisabled category `%2$s` for role %3$s"
+      "already_disabled": "%1$s此類別原本已經被禁用。",
+      "moderation_notice": "%1$s你無法禁用管理類別，不然你就無法使用這個指令了。",
+      "success": "%1$s已為身分組 %3$s 禁用類別 `%2$s`"
     },
     "category_role_specific_enable": {
-      "invalid": "%1$sYou need to specify a role to enable and the channel where.",
-      "not_disabled": "%1$sThis category isn't disabled.",
-      "success": "%1$sEnabled category `%2$s` for role %3$s"
+      "invalid": "%1$s你需要指出頻道名稱和你想為他啟用的身分組。",
+      "not_disabled": "%1$s此類別尚未被禁用。",
+      "success": "%1$s已為身分組 %3$s 啟用類別 `%2$s`"
     },
     "fairqueue_max": {
-      "invalid": "%1$sYou need to specify a positive integer.",
-      "success": "%1$sSet max fair queue (max duplicated songs) size to %2$d"
+      "invalid": "%1$s你需要指出一個正整數。",
+      "success": "%1$s已設置最大公平播放數 (相同歌曲數目) 為 %2$d"
     },
     "musicannounce_toggle": {
-      "success": "%1$sSet music announce to **%2$s**"
+      "success": "%1$s已設置歌曲公告為 **%2$s**"
     },
     "music_channel": {
-      "no_channel": "%1$sYou need to specify what voice channel you want to bind the music player to.",
-      "success": "%1$sMusic Channel set to: %2$s"
+      "no_channel": "%1$s你需要指出你想將音樂播放器綁定到的頻道名稱。",
+      "success": "%1$s音樂頻道已設置為：%2$s"
     },
     "music_queuelimit": {
-      "no_args": "%1$sYou need to specify what's the queue limit you want to use. *(Default: 350)*",
-      "success": "%1$sThe queue limit on this server is now **%2$d** songs.",
-      "invalid": "%1$sYou're trying to set too high of a number (which won't be applied anyway), silly"
+      "no_args": "%1$s你需要指出歌曲清單的數量限制。*(預設：350)*",
+      "success": "%1$s已設置此伺服的歌曲清單數量限制為 **%2$d**",
+      "invalid": "%1$s你想設置的數量過高 (也還是不會被應用)，真是的"
     },
     "music_clearchannel": {
-      "success": "%1$sI can play music on all channels now."
+      "success": "%1$s我可以在所有頻道播放音樂了。"
     },
     "music_vote_toggle": {
       "success": "%1$sVoting (to stop/skip) is now set to %2$s"
@@ -2157,7 +2157,7 @@
       "success": "%1$sSet mute role to **%2$s**"
     },
     "reset:all": {
-      "success": "%1$sCorrectly reset your options!"
+      "success": "%1$s已重置你的設定！"
     },
     "birthday_test": {
       "no_user": "%1$sYou need to specify an user to test the assigner with. Just mention them.",
