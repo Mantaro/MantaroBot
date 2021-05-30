@@ -502,54 +502,54 @@
     },
     "mute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to mute.",
-      "no_mute_role": "%1$sThe mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`",
-      "null_mute_role": "%1$sThe previously configured mute role on this server is now non-existent.",
-      "no_users": "%1$sYou need to give me an user to mute.",
-      "no_manage_roles": "%1$sI don't have permissions to administrate roles on this server.",
-      "time_not_specified": "%1$sYou wanted time but didn't specify for how long.",
+      "no_mute_role": "%1$sRole mute tidak diset dalam server ini, kau bisa mengaturnya dengan `~>opts muterole set <role>`",
+      "null_mute_role": "%1$sKonfigurasi role mute di server ini telah diubah.",
+      "no_users": "%1$sKamu harus menandai seseorang untuk di mute.",
+      "no_manage_roles": "%1$sAku tidak punya izin untuk mengelola role di server ini.",
+      "time_not_specified": "%1$sKamu tidak menyebutkan lama waktunya.",
       "time_not_specified_generic": "%1$sKamu tidak menentukan waktunya. Contoh, kalau kamu ingin mute selama 20 menit kamu bisa ketik `~>mute 20m @mention reason goes here`.",
-      "negative_time_notice": "%1$sYou cannot mute someone for negative time. Unless you can bend space-time that is.",
-      "default_time_too_long": "%1$sThe default mute timeout length is too long (Maximum: 10 days)...",
-      "time_too_little": "%1$sThe specified mute timeout length is less than 10 seconds.\nYou sure you used the right format? For 20 minutes, use 20m, for 1 hour, use 1h, or any combination of both (1h45m) for example.",
-      "time_too_long": "%1$sThe specified mute timeout length is too long (Maximum: 10 days)...",
-      "already_muted": "%1$sThis user already has a mute role assigned. Please do `~>unmute` to un-mute them.",
-      "self_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!",
-      "user_hierarchy_error": "%1$sI cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!",
+      "negative_time_notice": "%1$sKamu tidak bisa mute dengan angka negatif. Kecuali kalau kamu punya mesin waktu.",
+      "default_time_too_long": "%1$sWaktu mute default terlalu lama (Maksimal: 10 hari)...",
+      "time_too_little": "%1$sWaktu mute yang ditentukan kurang dari 10 detik.\nKamu yakin formatnya sudah benar? Untuk 20 menit, pakai 20m, untuk 1 jam, pakai 1h, atau gabungan kebuanya (1h45m) contohnya.",
+      "time_too_long": "%1$sWaktu mute yang ditentukan terlalu lama (Maksimal: 10 hari)...",
+      "already_muted": "%1$sPengguna ini telah memiliki role mute. Harap ketik `~>unmute` kalau ingin un-mute dia.",
+      "self_hierarchy_error": "%1$sAku tidak bisa menetapkan role mute pada pengguna ini karena mereka berada dalam hierarki yang lebih tinggi darku, atau role tersebut berada dalam hierarki lebih tinggi!",
+      "user_hierarchy_error": "%1$sAku tidak bisa menetapkan role mute pada pengguna ini karena mereka berada dalam hierarki yang lebih tinggi darku, atau role tersebut berada dalam hierarki lebih tinggi darimu!",
       "success": "%1$sMemberi role mute pada **%2$s** selama %3$s",
       "success_reason": "%1$sMemberi role mute pada **%2$s** selama %3$s karena alasan berikut: %4$s"
     },
     "unmute": {
       "no_permissions": "%1$sYou need to have either ban or kick members permission to un-mute!",
-      "no_mentions": "%1$sYou need to mention at least one user to un-mute.",
-      "success": "%1$sRemoved mute role from **%2$s**",
-      "no_role_assigned": "%1$sThis user doesn't have the mute role assigned to them."
+      "no_mentions": "%1$sKamu harus mention setidaknya satu orang yang ingin di un-mute.",
+      "success": "%1$sMelepas role mute dari **%2$s**",
+      "no_role_assigned": "%1$sPengguna ini tidak memiliki role mute."
     },
     "ping": {
       "display": [
-        "W-Was I fast enough?",
-        "What are you doing?",
-        "W-What are you looking at?!",
-        "Huh.",
-        "Did I do well?",
-        "What do you think?",
-        "Does this happen often?",
-        "Am I performing p-properly?",
+        "A-Apa sudah cepat?",
+        "Kamu ngapain?",
+        "L-Lihat apa kamu?!",
+        "Hah.",
+        "Lumayan kan?",
+        "Gimana menurutmu?",
+        "Apa ini sering terjadi?",
+        "Apa aku b-berfungsi dengan baik?",
         "<3",
-        "pat pat",
+        "elus elus",
         "Pong.",
         "Pang.",
         "Pung.",
         "Peng.",
-        "Wondering how I'd do",
-        "Any issue?",
-        "Ping-pong? Yay!",
-        "U-Uh... h-hi"
+        "Penasaran sama keadaanku ya",
+        "Ada masalah tidak?",
+        "Ping-pong? Yey!",
+        "O-Oh... h-hai"
       ],
-      "text": "%1$s*%2$s* -- **My ping: %3$,d ms** (Websocket: %4$,d ms)"
+      "text": "%1$s*%2$s* -- **Ping-ku: %3$,d ms** (Websocket: %4$,d ms)"
     },
     "love": {
-      "no_mention": "%1$sYou need to mention at least 1 user.",
-      "not_ideal": "Try again next time...",
+      "no_mention": "%1$sKamu harus mention seseorang.",
+      "not_ideal": "Coba lagi lain kali...",
       "decent": "Good enough!",
       "nice": "Good match!",
       "perfect": "Perfect match!",
@@ -622,22 +622,22 @@
     },
     "divorce": {
       "confirm": "%1$sKamu yakin mau memutus hubungan pernikahan ini? Uang yang dihabiskan untuk pelliharaan, rumah, dan mobil akan dibagi jadi dua. Ketik `yes` untuk lanjut dan `no` untuk batal. **Peliharaan kalian juga akan hilang karena terikat oleh pernikahan**",
-      "cancelled": "%1$sCancelled divorce.",
+      "cancelled": "%1$sCerai dibatalkan.",
       "not_married": "%1$sKamu belum menikah dengan siapa-siapa, kenapa tidak coba cari dulu belahan hatimu?\nMau membatalkan klaim Waifu? Pakai `~>waifu unclaim` saja.",
-      "success": "%1$sNow you're single. That's nice I guess.\n%2$s",
+      "success": "%1$sSekarang kamu lajang. Bagus deh.\n%2$s",
       "split": "Uang sisa telah dibagi ke dua belah pihak dari hasil penjualan aset mereka (peliharaan, rumah, mobil). Masing-masing mendapat **%1$d** kredit di dompet mereka."
     },
     "waifu": {
-      "bot": "%1$sA bot can't be a waifu, even if you want to...",
-      "notice": "This feature isn't meant to have any kind of relationship, either implicit or explicit, with real life events.",
+      "bot": "%1$sBot tidak bisa jadi waifu, jangan ngotot ya...",
+      "notice": "Fitur ini tidak dimaksudkan untuk memiliki hubungan apa pun, baik implisit maupun eksplisit, dengan peristiwa kehidupan nyata.",
       "id": "**ID:**",
       "stats": {
-        "header": "Your waifu stats",
-        "header_other": "%1$s's waifu stats",
-        "format": "%1$s **Money weight value:** %2$,d\n%1$s **Badge weight value:** %3$,d\n%1$s **Experience weight value:** %4$,d\n%1$s **Claim weight value:** %5$,d\n%1$s **Reputation multiplier:** %6$.2fx",
-        "value": "Total waifu value",
-        "credits": "%1$,d credits",
-        "performance": "Waifu Performance Points"
+        "header": "Statistik Waifu-mu",
+        "header_other": "Statistik waifu-nya %1$s",
+        "format": "%1$s** Nilai bobot uang: **%2$,d\n%1$s** Nilai bobot badge: **%3$,d\n%1$s** Nilai bobot exp: **%4$,d\n%1$s** Nilai bobot klaim: **%5$,d\n%1$s** Pengganda reputasi: **%6$.2fx",
+        "value": "Bobot total waifu",
+        "credits": "%1$,d kredit",
+        "performance": "Poin Performa Waifu"
       },
       "claim": {
         "no_user": "%1$sYou didn't mention any user to claim.",
@@ -1364,7 +1364,7 @@
         "footer": "Thanks you for using Mantaro! <3"
       },
       "check": {
-        "success": "**Pet status for %1$s:**\n\n%2$s Thirst: **%3$s / 100** | %4$s Hunger: **%5$s / 100** | %6$s Dust: **%7$s%%**"
+        "success": "**Status peliharaan untuk %1$s:**\n\n%2$s Haus: **%3$s / 100** | %4$s Lapar: **%5$s / 100** | %6$s Debu: **%7$s%%**"
       },
       "clean": {
         "not_enough_money": "%1$sKamu butuh minimal %2$,d kredit untuk membersihkan **%3$s**.",
@@ -1414,7 +1414,7 @@
         "success_personal": "%1$sSelamat! Sekarang kamu jadi pemilik seekor `%2$s%3$s` dan namanya adalah `%4$s`. Biaya pembelian peliharaan ini adalah %5$,d kredit dan pilihan peliharaan ini adalah: %6$s",
         "cancel_success": "%1$sCancelled operation.",
         "too_long": "%1$sThis name is too long. It needs to be shorter than 150 characters.",
-        "no_marriage_marry": "%1$sI don't see any marriage here..."
+        "no_marriage_marry": "%1$sKamu tidak sedang menikah..."
       },
       "feed": {
         "no_pet": "%1$sKamu tidak punya peliharaan untuk diberi makan. Cek `~>pet` untuk penjelasan. (Pilihan: %2$s)%3$s",
@@ -1432,7 +1432,7 @@
         "no_need": "%1$sYour pet isn't thirsty, so they don't want to drink right now.",
         "not_inventory": "%1$sYou don't have a Water Bottle. Make sure it's in your inventory.",
         "not_enough_inventory": "%1$sYou don't have enough water bottles in your inventory! You need %2$s.",
-        "too_much": "%1$sMaybe give it a little less water? You'd be wasting water otherwise! (The amount used would surpass 100%% thirst)",
+        "too_much": "%1$sKamu kebanyakan kasih minum. Nanti mubazir lho! (Kalau tetap dikasih minum akan melebihi 100%% haus)",
         "success": "%1$sYay! Succesfully gave your pet %2$d water and it recovered %3$s%% of their thirst. Their thirst is now %4$s%% quenched."
       },
       "activity": {
@@ -1455,7 +1455,7 @@
       },
       "remove": {
         "no_pet": "%1$sKamu tidak punya peliharaan untuk dihapus. (Pilihan: %2$s)%3$s",
-        "no_pet_confirm": "%1$sI don't see any pet here...",
+        "no_pet_confirm": "%1$sKamu tidak punya peliharaan...",
         "confirm": "%1$sKamu yakin ingin menjual peliharaan ini? Pasanganmu akan menerima %2$,d kredit, dan kamu juga akan menerima %2$,d kredit.\nKetik `yes` untuk lanjut atau `no` untuk tidak. Pengembalian dana tidak akan dipengaruhi oleh level atau hal lain, jadi anggap saja seperti beli tomagotchi baru dan semacamnya.",
         "confirm_personal": "%1$sKamu yakin ingin menjual peliharaan ini? Kamu akan menerima %2$,d kredit.\nKetik `yes` untuk lanjut atau `no` untuk tidak. Pengembalian dana tidak akan dipengaruhi oleh level atau hal lain, jadi anggap saja seperti beli tomagotchi baru dan semacamnya.",
         "success": "%1$sSuccessfully removed pet. Every person in this marriage received %2$s credits as a refund.",
@@ -1471,7 +1471,7 @@
         "coin_buildup": "Penumpukan Kredit (Lvl. 1/100)",
         "item_buildup": "Item Buildup (Lvl. 1 / 100)"
       },
-      "locked_notice": "%1$sYou can't buy/sell a pet when the transaction is locked. If this is an error, try again in a few minutes."
+      "locked_notice": "%1$sKamu tidak bisa jual/beli pet saat transaksi dikunci. Kalau ini galat, coba lagi beberapa menit."
     },
     "invite": {
       "url": "Invite URL",
@@ -1574,7 +1574,7 @@
       "hoisted": "Hoisted",
       "managed": "Managed",
       "permissions": "Permissions: [%1$,d]",
-      "no_content": "%1$sYou need to specify the name of the role to look for."
+      "no_content": "%1$sKamu harus menulis nama role yang dicari."
     },
     "donate": {
       "beg": "%1$sOh hi! If you are interested in donating, please check the links below. Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n%2$s",
