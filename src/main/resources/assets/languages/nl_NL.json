@@ -24,7 +24,7 @@
     "description": "Beschrijving",
     "options": "Opties",
     "find_members_failure": "%1$sGeen gebruikers gevonden met jouw zoekcriteria :(",
-    "too_many_members": "%1$sTe veel gebruikers gevonden, probeer specifieker te zijn (bijv. gebruik naam#discriminator)\n**Gebruikers gevonden:** %2$s",
+    "too_many_members": "%1$sTe veel gebruikers gevonden, misschien kun je jouw zoekopdracht verfijnen? (bijv. gebruik naam#discriminator)\n**Gebruikers gevonden:** %2$s",
     "too_many_mentions": "%1$sAsjeblieft mention maar 1 persoon per member lookup.",
     "query_too_small": "%1$sJe zoekopdracht is te klein. Zorg ervoor dat je minimaal 4 karakters zoekt. Als de gebruikersnaam te kort is, kun je beter gebruikersnaam#discriminator of een gebruikers-Id gebruiken.",
     "dust": "Er is hier alleen maar stof.",
@@ -42,8 +42,8 @@
       "crate": {
         "no_key": "%1$sJe hebt een kist sleutel nodig om een ​​kist te openen. Het is op slot! Je kunt er een kopen met`~>buy key`",
         "no_crate": "%1$sJe hebt een krat nodig! Je krijgt meestal kratten van valuta commando's.",
-        "success": "%1$s**Je hebt gewonnen:** %2$s%3$s",
-        "success_high": "%1$sYou got the following items with a rarity of over 3 stars: %2$s. The item amount was shown above",
+        "success": "%1$sJe hebt een kist geopend en hebt gewonnen: %2$s%3$s. Gefeliciteerd!",
+        "success_high": "%1$se hebt de volgende voorwerp met een zeldzaamheid van meer dan 3 sterren: %2$s. Het item bedrag word hierboven getoond",
         "overflow": "Je hebt al te veel gekregen dus je hebt besloten om wat je te veel had, weg te gooien"
       },
       "potion_active": "%1$s Je hebt al een actieve **%2$s** Toverdrank effect en het maximale aantal er van!",
@@ -74,7 +74,7 @@
     "sellout": "Overweeg om te doneren op [Patreon](https://www.patreon.com/mantaro) als je mij leuk vindt. Zelfs een kleine donatie helpt om de bot in leven te houden!",
     "deprecated": "Niet langer in gebruik",
     "space_notice": "Als de naam ervan spaties bevat, probeer dan \"het tussen aanhalingstekens te plaatsen\". Waarschijnlijk kan het commando help je meer vertellen.",
-    "missing_embed_permissions": "The bot is missing the Embed Links permission needed to display this command. Please give the bot the needed permissions (make sure to also check channel and category permissions). If you need any further help please go to <https://support.mantaro.site>. You can also check the wiki at <https://wiki.mantaro.site> for more information about the bot.",
+    "missing_embed_permissions": "De bot mist de Embed Links machtiging die nodig is om dit commando weer te geven. alstublieft geef de bot de benodigde machtigingen (zorg ervoor dat je ook de channel en category machtigingen controleert). Als je meer hulp nodig hebt, ga dan naar <https://support.mantaro.site>. Je kunt ook de wiki bekijken op <https://wiki.mantaro.site> voor meer informatie over de bot.",
     "ratelimit": {
       "header": "%1$s%2$s (Ratelimited)\n **Je kunt deze opdracht over %3$s opnieuw gebruiken.**",
       "spam_1": "Rust alsjeblieft, het is goed voor je gezondheid. **Onthoud dat de ratelimit blijft toenemen als je het opnieuw probeert voordat de afkoelperiode afgelopen is! **",
@@ -120,7 +120,7 @@
     "moderation": "Moderatie",
     "owner": "Eigenaar",
     "image": "Afbeelding",
-    "utils": "Utils",
+    "utils": "Utility",
     "fun": "Grappig",
     "games": "Spelletjes",
     "info": "Informatie",
@@ -129,8 +129,8 @@
   },
   "commands": {
     "fish": {
-      "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen. (Dust level %2$s%%)",
-      "no_rod": "%1$sYou don't have any equipped rod. Use `~>equip <rod name>` to equip a rod and start your fishing trip! If you don't have any rod, first run `~>buy rod`",
+      "dust": "%1$sDe dag is voorbij en je visemmer kon alleen stof verzamelen. (Stof level %2$s%%)",
+      "no_rod": "%1$sJe hebt geen hengel uitgeruste. Gebruik `~>equip <vishengel naam>` om een ​​hengel uit te rusten en je vis avontuur te beginnen! Als je geen hengel hebt, gebruik dan eerst `~>buy rod`",
       "trash": {
         "overflow": "%1$sJe vond wat afval tijdens het vissen, maar je inventaris was vol, dus we moesten het terug in het water gooien...",
         "success": "%1$sTerwijl je rustig aan het vissen was, vond je een drijvend %2$s, maar helaas was het afval :("
@@ -146,7 +146,7 @@
         "success": "%1$sAutomatisch uitgerust met een **%2$s** op uw vis slot."
       },
       "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien.",
-      "success": "%1$sWhile calmly fishing, you found %2$s using a *%3$s* and you proceed to save them into your bucket.",
+      "success": "%1$sTerwijl je rustig aan het vissen was, vond je %2$s met een *%3$s* en je stopt ze in je emmer.",
       "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sJe vishengel ging kapot terwijl je een vis probeerde te vangen :(",
@@ -163,12 +163,12 @@
       "no_permission": "%1$sJe kunt niet soft-bannen: Je hebt de `Ban Members` toestemming nodig.",
       "no_permission_self": "%1$sSorry! Ik heb geen bevoegdheid om gebruikers te soft-bannen in deze server.",
       "no_users": "%1$sJe moet me een gebruiker geven om te soft-bannen.",
-      "hierarchy_conflict": "%1$sJe kunt geen soft-ban geven aan iemand met meer rechten dan jijzelf!  Leuk geprobeerd ",
+      "hierarchy_conflict": "%1$sJe kunt geen soft-ban geven aan iemand met meer rechten dan jijzelf",
       "yourself_note": "%1$sWaarom probeer je jezelf een soft-ban te geven?",
       "self_hierarchy_conflict": "%1$sKan de gebruiker niet soft-bannen: %2$s, zij hebben dezelfde, of meer rechten dan ik heb!",
       "success": "%1$s%2$s. **(%3$s is soft-banned)**",
       "error": "%1$sFoutmelding tijdens het soft-bannen [%2$s]: (Ik heb eerst toestemming nodig: %3$s)",
-      "unknown_error": "%1$sOh nee, ik kreeg een onbekende foutmelding tijdens het soft-bannen [%2$s]: <%3$s>: %4$s"
+      "unknown_error": "%1$sOnbekende fout bij het soft-bannen van %2$s: *(Fout? %3$s: %4$s)*"
     },
     "ban": {
       "no_permission": "%1$sJe kunt niet bannen: Je hebt de `Ban gebruikers` toestemming nodig.",
@@ -208,7 +208,7 @@
       "12": "Geniet van je muziek en bedankt voor het gebruiken van Mantaro!"
     },
     "lang": {
-      "info": "%1$sJe kunt de server taal wijzigen (indien beschikbaar) door middel van  `~>opts language set <taal code>`. Je persoonlijke taalvoorkeur kan gewijzigd worden met `~>profile lang <taal code>`.\n**Beschikbare talen:** `%2$s`"
+      "info": "%1$sJe kunt de server taal wijzigen (indien beschikbaar) door middel van  `~>opts language set <taal code>`. Je persoonlijke taalvoorkeur kan gewijzigd worden met `~>profile lang <taal code>`.\n**Beschikbare talen:** `%2$s`\nAls je taal hier niet tussen staat en je wilt helpen, voel je dan vrij om lid te worden van de ondersteuningsserver en onderdeel te worden van het vertaal team!"
     },
     "season": {
       "info": "Een * seizoen * is de tijdspan van gewoonlijk 6 maanden waarin spelers strijden om de top 10 slots op het geld- of reputatieklassement. De winnaars ontvangen badges en prijzen op basis van hun seizoensprestaties.\nDit is om een ​​competitiever frame mogelijk te maken (voorheen was het geld behoorlijk oud en saai) en om het spel een beetje leuker te maken.\nJe hebt toegang tot seizoensgebonden dingen met behulp van `-season`. Commando's zoals profile, mine, fish en balance zullen het vereisen, terwijl games, loot, daily en reputation geld/rep opleveren voor zowel je globale als seizoensprofiel.",
@@ -221,10 +221,10 @@
       },
       "not_working": "%1$sMusic werkt momenteel niet omdat YouTube verkeer van de meeste grote bots blokkeert. Onze Patreon-bot werkt nog steeds, dus je kunt het proberen als je wilt door $ 4 / maand te doneren aan Mantaro. Dit zal ons ook helpen onze inspanningen om te buigen naar het repareren van muziek als geheel.\nalsjeblieft kijk op <https://patreon.com/mantaro>\n\nExcuses voor het ongemak. Probeer SoundCloud! (`~>play soundcloud <search term>)`",
       "no_song": "%1$sJe moet me vertellen welk nummer je wilt afspelen! *(YouTube, Soundcloud, Twitch URL of zoektermen zijn toegestaan)*",
-      "not_playing": "%1$sOp dit moment speel ik geen muziek af",
+      "not_playing": "%1$sOp dit moment speel ik geen muziek af, Als je denkt dat dit een fout is, meld dit dan op <https://support.mantaro.site>",
       "dj_only": "%1$sOm dit commando te kunnen gebruiken moet je een DJ zijn.",
       "enjoy_note": "Geniet van de muziek! <3",
-      "no_player": "%1$sIk kan hier geen muziekspeler vinden...",
+      "no_player": "%1$sIk kan hier geen muziekspeler vinden... (probeer nog iets te spelen?)",
       "not_connected": "%1$sJe bevind je op dit moment niet in hetzelfde spraak-kanaal als ik! (Als je denkt dat dit een fout is, meld dit dan op onze support discord)",
       "np_message": "%1$s Ik speel nu **%2$s** (%3$s) op **%4$s** | %5$s",
       "track_error": "%1$sOeps, er is iets mis gegaan tijdens het afspelen van dit nummer! Excuses voor het ongemak. Ik probeer het volgende nummer af te spelen als deze beschikbaar is.",
@@ -234,7 +234,7 @@
       "no_vc_found": "%1$sIk ben niet verbonden met een spraak-kanaal, hoewel ik dat wel zou moeten zijn? Probeer het opnieuw.",
       "queue": {
         "header_field": "Instructies",
-        "header_noreact": "Gebruik `&p >>` en `&p <<` om door de pagina`s te bladeren.",
+        "header_noreact": "Gebruik `&p >>` en `&p <<` om door de pagina's te bladeren.",
         "no_track_found_np": "Niets, of de titel/afspeelduur niet gevonden.",
         "header": "afspeellijst voor de server %1$s",
         "nothing_playing": "Nothing here, just dust. Why don't you queue some songs?\nIf you think there are songs here but they don't appear, try using `~>queue 1`",
@@ -794,7 +794,7 @@
       "success": "%1$s%2$s gaf **%3$s** **%4$s** aan %5$s",
       "multiple_items_error": "%1$sJe hebt geen van deze voorwerpen in je inventaris",
       "error": "%1$sJe hebt niet genoeg van dit voorwerp in je inventaris om dit te doen!",
-      "no_item_mention": "%1$sJe moet de naam van het voorwerp, en de naam van de persoon opgeven naar wie je het item wilt verzenden ."
+      "no_item_mention": "%1$sJe moet de naam van het voorwerp, en de naam van de persoon opgeven naar wie je het voorwerp wilt verzenden."
     },
     "transfer": {
       "new_account_notice_yourself": "%1$sYour account must be at least 14 days old to transfer money.",
@@ -1070,7 +1070,7 @@
     },
     "choose": {
       "nothing_to": "%1$sYou need to tell me what to choose between. (example: `~>choose anime manga \"sleeping out\"`)",
-      "success": "%1$sI kies `%2$s`"
+      "success": "%1$sIk kies `%2$s`"
     },
     "remindme": {
       "nothing_specified": "%1$sHoe kan ik je herinneren als je me niet verteld waar ik je aan moet herinneren? Ow! Ik kan je er aan herinneren om een herinnering in te stellen!",
@@ -1322,7 +1322,7 @@
       "error_random": "%1$sThere was an error while looking for a random image.",
       "error_general": "%1$sWe found an error while making a request to this imageboard.",
       "non_nsfw_channel": "%1$sNot on an NSFW channel. Cannot send lewd images.\n**Reminder:** You can set this channel as NSFW by going to the channel settings and checking `Set this Channel as NSFW`",
-      "loli_content_disallow": "%1$sHelaas kan ik geen afbeeldingen weergeven die naar verluidt `loli` of `shota` lwed/NSFW-inhoud bevatten omdat Discord dit verbiedt. (Filter uitgevoerd: afbeelding bevat een loli of shota-tag en het is NSFW)",
+      "loli_content_disallow": "%1$skan geen afbeeldingen weergeven die naar verluidt `loli` of `shota` (of gerelateerde tags) onzedelijke/NSFW-inhoud bevatten, omdat discord dit verbiedt. Opnieuw proberen met andere tags?",
       "null_list_notice": "%1$sOeps ... er is iets mis gegaan bij het zoeken ... (Als u een tag heeft gebruikt, bestaat de tag mogelijk niet)",
       "found_image": "Image Found",
       "description_image": "Beoordeling: **%1$s**, Afbeeldingbord: **%2$s**",
@@ -1690,7 +1690,7 @@
     },
     "gamble": {
       "no_credits": "%1$sJe bent blut. Zoek misschien eerst eens naar credits.",
-      "too_much_money": "%1$sJe hebt te veel geld! Misschien wil je items overboeken of kopen? Je kunt ook het commando `~>slots` gebruiken voor al je gokbehoeften! Bedankt dat je de lokale bank niet hebt gebroken. *(Absoluut gok limiet: %2,$d credits)*",
+      "too_much_money": "%1$sJe hebt te veel geld! Misschien kan je geld overboeken of items kopen? Je kunt ook het commando `~>slots` gebruiken voor al je gokbehoeften! Bedankt dat je de lokale bank niet hebt gebroken. *(maximale gok limiet: %2$d credits)*",
       "invalid_money_or_modifier": "%1$sTyp een geldig getal kleiner dan of gelijk aan je huidige saldo of typ `all` om al je credits te gokken.",
       "not_enough_money": "%1$sTyp een waarde binnen je saldo.",
       "invalid_percentage": "%1$sVoer een geldige percentagewaarde in.",
@@ -2299,32 +2299,32 @@
   },
   "items": {
     "categories": {
-      "collectable": "Collectible Item",
-      "common": "Common Item",
-      "rare": "Rare Item",
-      "premium": "Premium Item",
-      "cast_mine": "Casted Mine Item",
-      "mine": "Mined Item",
-      "fish": "Fished Item",
-      "fish_rare": "Fished Item (Rare)",
-      "mine_rare": "Mined Item (Rare)",
-      "crate": "Loot Crate",
+      "collectable": "Verzamelbaar Voorwerp",
+      "common": "Veelvoorkomend Voorwerp",
+      "rare": "Zeldzaam Voorwerp",
+      "premium": "Premium Voorwerp",
+      "cast_mine": "Gegoten Mijn Voorwerp",
+      "mine": "Gemijnd Voorwerp",
+      "fish": "Gevist Voorwerp",
+      "fish_rare": "Gevis Voorwerp (Zeldzaam)",
+      "mine_rare": "Gemijnd Voorwerp (Zeldzaam)",
+      "crate": "Buit Kist",
       "chop_drop": "Chopped Item",
-      "potion": "Potion",
+      "potion": "Drankje",
       "buff": "Buff",
-      "wrench": "Wrench",
+      "wrench": "Moersleutel",
       "waifu": "Waifu Item",
-      "mine_pick": "Pickaxe",
-      "mine_rare_pick": "Pickaxe (Rare)",
-      "fish_rod": "Fishing Rod",
-      "fish_rod_rare": "Fishing Rod (Rare)",
-      "chop_axe": "Axe",
-      "chop_axe_rare": "Axe (Rare)",
-      "broken": "Broken Item",
-      "pet": "Pet Item",
-      "pet_food": "Pet Food",
-      "deprecated": "Deprecated",
-      "interactive": "Interactive Item"
+      "mine_pick": "Pikhouweel",
+      "mine_rare_pick": "Pikhouweel (Zeldzaam)",
+      "fish_rod": "Vishengel",
+      "fish_rod_rare": "Vishengel (Zeldzaam)",
+      "chop_axe": "Bijl",
+      "chop_axe_rare": "Bijl (Zeldzaam)",
+      "broken": "Gebroken Voorwerp",
+      "pet": "Huisdier Voorwerp",
+      "pet_food": "Huisdier voer",
+      "deprecated": "Verouderd",
+      "interactive": "Interactieve Voorwerp"
     },
     "headphones": "Koptelefoon",
     "ban_hammer": "Ban Hamer",
@@ -2566,7 +2566,7 @@
       "broken_sparkle_rod": "Een fonkelende hengel die brak tijdens het vissen. Nog steeds te redden.",
       "broken_star_rod": "Een ster hengel die brak tijdens het vissen. Nog steeds te redden.",
       "incubator_egg": "De enige katalysator die u nodig heeft om uw persoonlijke huisdier naar huis te roepen.",
-      "water_bottle": "Een item dat op magische wijze de dorst van uw huisdier lest.",
+      "water_bottle": "Een voorwerp dat op magische wijze de dorst van uw huisdier lest.",
       "magic_watch": "Een magische wand dat de tijd trager maakt wanneer je het nodig hebt. Dit zal automatisch gebruikt worden om je opeenvolgende dagen te redden!",
       "pet_house": "Een huis waar uw huisdier woont. Misschien. Soms vinden ze het gewoon leuk om buiten te ploffen.",
       "steak": "Erg lekker als je geen vegetariër bent.",
