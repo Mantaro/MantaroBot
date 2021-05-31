@@ -2023,86 +2023,86 @@
       "success": "%1$s此伺服器的自定義前綴已被關閉"
     },
     "autorole_set": {
-      "no_role": "%1$sYou didn't tell me what role to look for!",
-      "no_role_found": "%1$sI couldn't find a role with that name. If the role has spaces, try wrapping it in quotes.",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as autorole!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as autorole!",
-      "success": "%1$sThe server autorole is now set to: **%2$s** (Position: %3$d)"
+      "no_role": "%1$s你需要指出你想使用的身分組名稱！",
+      "no_role_found": "%1$s我找不到此身分組。如果包含空格，試著將他用引號包起來。",
+      "hierarchy_conflict": "%1$s這個身分組的等級比你的最高身分組還高，所以你無法將它設置成自動身分組！",
+      "self_hierarchy_conflict": "%1$s這個身分組的等級比我的最高身分組還高，所以你無法將它設置成自動身分組！",
+      "success": "%1$s此伺服的自動身分組已設為：**%2$s** (位置：%3$d)"
     },
     "autorole_unbind": {
-      "success": "%1$sThe autorole for this server has been removed."
+      "success": "%1$s此伺服的自動身分組已被移除。"
     },
     "usermessage_resetchannel": {
-      "success": "%1$sSuccessfully reset the join/leave channel."
+      "success": "%1$s已成功重置加入/離開頻道。"
     },
     "usermessage_resetdata": {
-      "success": "%1$sSuccessfully reset the join/leave data."
+      "success": "%1$s已成功重置加入/離開訊息。"
     },
     "usermessage_join_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join message.",
-      "success": "%1$sThe user join log channel is now set to: %2$s"
+      "no_channel": "%1$s你需要指出你想要我傳送加入訊息的頻道。",
+      "success": "%1$s成員加入訊息頻道已設成：%2$s"
     },
     "usermessage_join_resetchannel": {
-      "success": "%1$sSuccessfully reset log join channel!"
+      "success": "%1$s已成功重置加入訊息頻道。"
     },
     "usermessage_leave_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the leave message.",
-      "success": "%1$sThe user leave log channel is now set to: %2$s"
+      "no_channel": "%1$s你需要指出你想要我傳送離開訊息的頻道。",
+      "success": "%1$s成員離開訊息頻道已設成：%2$s"
     },
     "usermessage_leave_resetchannel": {
-      "success": "%1$sSuccessfully reset log leave channel!"
+      "success": "%1$s已成功重置離開訊息頻道。"
     },
     "usermessage_channel": {
-      "no_channel": "%1$sYou need to specify what channel you want me to send the join and leave messages.",
-      "success": "%1$sThe logging Join/Leave channel is set to: %2$s"
+      "no_channel": "%1$s你需要指出你想要我傳送加入和離開訊息的頻道。",
+      "success": "%1$s成員加入/離開訊息頻道已設成：%2$s"
     },
     "usermessage_joinmessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone joins!",
-      "success": "%1$sServer join message set to: `%2$s`"
+      "no_message": "%1$s你需要指出你想要我在成員加入時傳送的訊息！",
+      "success": "%1$s伺服加入訊息已設成：`%2$s`"
     },
     "usermessage_leavemessage": {
-      "no_message": "%1$sYou need to specify what message you want me to say when someone leaves!",
-      "success": "%1$sServer leave message set to: `%2$s`"
+      "no_message": "%1$s你需要指出你想要我在成員離開時傳送的訊息！",
+      "success": "%1$s伺服離開訊息已設成：`%2$s`"
     },
     "usermessage_joinmessage_reset": {
-      "success": "%1$sReset server join message."
+      "success": "%1$s已重設伺服加入訊息。"
     },
     "usermessage_leavemessage_reset": {
-      "success": "%1$sReset server leave message."
+      "success": "%1$s已重設伺服離開訊息。"
     },
     "autoroles_add": {
-      "too_long": "%1$sThe autorole name needs to be at most 40 characters long.",
-      "no_args": "%1$sYou need to specify the name of the iam and the name of the role.",
-      "no_role_found": "%1$sI didn't find a role with that name!\nIf the role name has spaces wrap it in quotes like this: \"Role Name\"",
-      "hierarchy_conflict": "%1$sThis role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!",
-      "self_hierarchy_conflict": "%1$sThis role is placed higher than my highest role, therefore you cannot put it as an auto-assignable role!",
-      "success": "%1$sAdded auto-assignable role **%2$s**, which gives the role **%3$s**"
+      "too_long": "%1$s自動身分組名稱的長度最多為40個字。",
+      "no_args": "%1$s你需要指出iam的名稱和身分組的名稱。",
+      "no_role_found": "%1$s我找不到該身分組！\n如果他包含空格請將他\"用引號包起來\"",
+      "hierarchy_conflict": "%1$s這個身分組的等級比你的最高身分組還高，所以你無法將它設置成能自動分配的身分組！",
+      "self_hierarchy_conflict": "%1$s這個身分組的等級比我的最高身分組還高，所以你無法將它設置成能自動分配的身分組！",
+      "success": "%1$s已新增可自動分配身分組 **%2$s**，他將給予身分組 **%3$s**"
     },
     "autoroles_category_add": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to add one to an existing category).",
-      "success_new": "%1$sAdded auto-assignable list category **%2$s**",
-      "success": "%1$sAdded auto-assignable role **%2$s** to list category **%3$s**",
-      "already_exists": "%1$sThis category already exists and you didn't specify a role to add to it.",
-      "no_role": "%1$sThere's no autorole **%2$s**, so I can't add it."
+      "no_args": "%1$s你需要指出類別的名稱和該iam的名稱 (如果你想把他加入現有的類別)。",
+      "success_new": "%1$s已新增可自動分配身分組類別 **%2$s**",
+      "success": "%1$s已新增可自動分配身分組 **%2$s** 至類別 **%3$s**",
+      "already_exists": "%1$s此類別已經存在且你未指定要加至他的身分組。",
+      "no_role": "%1$s找不到身分組 **%2$s**，所以我無法添加。"
     },
     "autoroles_category_remove": {
-      "no_args": "%1$sYou need to specify the name of the category (and the name of the iam role if you want to remove one from an existing category).",
-      "success_new": "%1$sRemoved auto-assignable list category **%2$s**",
-      "success": "%1$sRemoved auto-assignable role **%2$s** from list category **%3$s**",
-      "no_category": "%1$sThere's no category **%2$s**"
+      "no_args": "%1$s你需要指出類別的名稱和該iam的名稱 (如果你想把他從現有的類別移除)。",
+      "success_new": "%1$s已移除可自動分配身分組類別 **%2$s**",
+      "success": "%1$s已從可自動分配身分組類別 **%3$s** 中移除身分組 **%2$s**",
+      "no_category": "%1$s找不到類別 **%2$s**"
     },
     "autoroles_remove": {
-      "no_args": "%1$sYou need to specify the name of the iam you want to remove.",
-      "not_found": "%1$sI couldn't find an auto-assignable role with that name",
-      "success": "%1$sRemoved auto-assignable role %2$s"
+      "no_args": "%1$s你需要指出你想移除的iam名稱。",
+      "not_found": "%1$s我找不到該自動分配身分組",
+      "success": "%1$s已移除可自動分配身分組 %2$s"
     },
     "autoroles_clear": {
-      "success": "%1$sCleared all auto-assignable roles!"
+      "success": "%1$s已清除所有可自動分配身分組！"
     },
     "admincustom": {
       "no_args": "%1$s你需要指出true或false (使用true來將自定義指令的創建限制給管理員)",
       "admin_only": "自定義指令的創建已限制給管理員。",
-      "everyone": "自定義指令的創建已開放給任何人。",
+      "everyone": "自定義指令的創建已開放給所有人。",
       "not_bool": "%1$s那不是一個布林值 (true或false)！"
     },
     "timedisplay_set": {
