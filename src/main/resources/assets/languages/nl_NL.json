@@ -147,7 +147,7 @@
       },
       "overflow": "%1$sJe hebt wat vis gevonden, maar een deel van je inventaris was vol, dus we moesten een deel ervan terug in het water gooien.",
       "success": "%1$sTerwijl je rustig aan het vissen was, vond je %2$s met een *%3$s* en je stopt ze in je emmer.",
-      "success_money": "%1$sWhile calmly fishing, you found %2$s and **$%3$,d credits** using a *%4$s* and you proceed to save them into your bucket.%5$s",
+      "success_money": "%1$sTijdens het rustig vissen vond je %2$s en **$%3$,d credits** met een *%4$s* en je stopt ze op in je emmer.%5$s",
       "success_money_noitem": "%1$sWhile calmly fishing, you found **$%2$,d credits** using a *%3$s* and you proceed to save them into your pocket.",
       "rod_broke": "%1$sJe vishengel ging kapot terwijl je een vis probeerde te vangen :(",
       "waifu_help": "Je waifu kwam langs en deed mee aan je visavontuur waardoor jullie allebei een grotere vangst krijgen!",
@@ -241,7 +241,7 @@
         "nothing_playing_2": "**Als er een nummer wordt afgespeeld en er staan geen nummers in de wachtrij, dan wordt er geen muziek meer afgespeeld. Je kunt natuurlijk meer nummers in de wachtrij plaatsen!**",
         "np": "Speelt op dit moment",
         "dj_np": "**In de wachtrij geplaatst door:** ",
-        "page_overflow": "Er is hier niets te zien, probeer eens een pagina terug te gaan",
+        "page_overflow": "Er is hier niets te zien, alleen stof. probeer eens een pagina terug te gaan?",
         "page_overflow_2": "If you think there are songs here but they don't appear, try using `~>queue 1`",
         "total_queue_time": "Totale afspeellijst duur",
         "total_size": "Totale afspeellijst groote",
@@ -259,7 +259,7 @@
       "connect": {
         "success": "%1$sSuccessvol verbinding gemaakt met het kanaal **%2$s**!",
         "full_channel": "%1$sIk kan geen verbinding maken met dit kanaal omdat hij vol is!",
-        "non_existent_channel": "%1$sIk krijg terug dat dit kanaal niet bestaat. Het kan zijn dat je een spraak-kanaal hebt aangemaakt en daarna weer verwijderd.\n Ik heb het muziek-kanaal gereset dus probeer nogmaals om muziek af te spelen.",
+        "non_existent_channel": "%1$sIk krijg terug dat dit kanaal niet bestaat. Het kan zijn dat je een spraak-kanaal hebt aangemaakt en daarna weer verwijderd.\n Ik heb het muziek-kanaal gereset, probeer nogmaals om muziek af te spelen.",
         "user_no_vc": "%1$s**Sluit u aan bij een spraakkanaal**. Als je in een spraakkanaal zit en de bot zojuist is losgekoppeld, sluit je dan opnieuw aan bij het kanaal.",
         "missing_permissions_connect": "%1$sIk kan geen verbinding maken met dit kanaal omdat ik daar geen toestemming voor heb (%2$s).",
         "missing_permission_speak": "%1$sIk kan geen geluid laten horen omdat ik daar geen toestemming voor heb (%2$s).",
@@ -282,7 +282,7 @@
         "unknown_error_loading": "%1$sUnknown error while fetching music. Maybe give it a try again or try another link?",
         "over_queue_limit": "%1$s **Kan het nummer `%2$s` niet toevoegen aan de afspeellijst: Het limiet van het aantal nummers in de afspeellijst is bereikt (%3$s)**",
         "over_32_minutes": "%1$s**Kon `%2$s`: niet in de wachtrij plaatsen: track is langer dan %3$s.** (De lengte van het nummer is %4$s).\nU kunt een langere limiet voor de tracklengte krijgen en livestreams afspelen met Mantaro Premium! Kijk op <https://patreon.com/mantaro> voor meer info.",
-        "fair_queue_limit_reached": "%1$s**Het nummer %2$d komt te vaak voor in de afspeellijst**",
+        "fair_queue_limit_reached": "%1$s**Redelijk wachtrijniveau van %2$d (te veel nummers die exact gelijk zijn)**",
         "loaded_song": "%1$sToegevoegd aan wachtrij -> **%2$s** **(%3$s)**",
         "selection_text": "Nummer geselecteerd. Type het cijfer van het nummer om door te gaan.",
         "timeout_text": "Dit zal een time-out geven in 30 seconden. Type &cancel om dit te annuleren."
@@ -291,7 +291,7 @@
       "closed_connection": "%1$sDe verbinding van het geluid is afgesloten, loskoppel van muziekspeler..."
     },
     "forceskip": {
-      "success": "%1$sEen Admin of Bot Commander heeft besloten om het volgende nummer af te spelen."
+      "success": "%1$sEen Admin of Bot Commander heeft besloten om het nummer over te slaan."
     },
     "np": {
       "no_track": "%1$sEr is geen nummer om af te spelen of ik kan geen nummer vinden. Probeer een nummer af te spelen",
@@ -339,7 +339,7 @@
       "queue_cancel": "%1$sHervatten van de huidige afspeellijst.",
       "queue_repeat": "%1$sHerhalen van de huidige afspeellijst.",
       "song_cancel": "%1$sHervatten van de normale afspeellijst.",
-      "song_repeat": "%1$sHerhalen van het huidige nummer."
+      "song_repeat": "%1$sHerhalen van het huidige nummer. Voer deze opdracht opnieuw uit om deze uit te schakelen."
     },
     "nextsong": {
       "no_song_next": "%1$sOh, er is geen volgende nummer",
@@ -418,7 +418,7 @@
       "raw": {
         "no_command": "%1$sJe zult me moeten vertellen welk commando je wilt bekijken.",
         "not_found": "%1$sIk kan dit commando niet vinden.",
-        "header": "Commando \"%1$s\":",
+        "header": "Onbewerkte Aangepaste Opdracht: %1$s",
         "amount": "(Laat %1$d antwoorden zien van %2$d)",
         "too_large_view": "Too large to view here, use `~>custom view %1$s %2$s`",
         "description": "Dit is een lijst met alle reacties van dit commando in een onbewerkt formaat (wat je invoert in het commando)."
@@ -1501,8 +1501,8 @@
       "item_broke": "%1$sYour wrench (%1$s) broke while trying to salvage this item :(",
       "success": "%1$sSuccessfully salvaged %2$s and got %3$s in return. The cost was %4$s credits.",
       "ls": {
-        "header": "Salvageable Item List",
-        "cost": "Salvage Cost: ",
+        "header": "Te Redden Voorwerpen Lijst",
+        "cost": "Kosten Om Te Redden: ",
         "return": "Could Return: ",
         "desc": "This is a list of the items you can salvage using `~>salvage`.\nYou can use full name, short name or the emoji\nSalvaging has a cost of 1/3rd the price of the item, which is shown below.\nYou will only get one item of the listed here, choosen randomly.\nWrench tier 2 and 3 are comet and sparkle, respectively."
       }
@@ -1820,11 +1820,11 @@
       "embed": {
         "header": "Item Information for %1$s",
         "type": "Type",
-        "usefulness": "Usefulness",
-        "attributes": "Attributes",
-        "tier": "Tier",
-        "durability": "Durability",
-        "desc": "Description",
+        "usefulness": "Bruikbaarheid",
+        "attributes": "Attributen",
+        "tier": "Klasse",
+        "durability": "Duurzaamheid",
+        "desc": "Beschrijving",
         "upgrade": "Looking to upgrade?",
         "upgrade_content": "Click [here](https://github.com/Mantaro/MantaroBot/wiki/Currency-103#tools---getting-an-upgrade) for more information on how to upgrade your tools!"
       },
@@ -2411,9 +2411,9 @@
     "shrimp": "Garnaal",
     "moon": "Maan Rune",
     "flake": "Sneeuwvlok",
-    "broken_comet_pick": "Broken Comet Pickaxe",
-    "broken_sparkle_pick": "Broken Sparkle Pickaxe",
-    "broken_star_pick": "Broken Star Pickaxe",
+    "broken_comet_pick": "Gebroken Komeet Pickhouweel",
+    "broken_sparkle_pick": "Gebroken Fonkelende Pickhouweel",
+    "broken_star_pick": "Gebroken Ster Pickhouweel",
     "broken_comet_rod": "Gebroken Komeet Hengel",
     "broken_sparkle_rod": "Gebroken Fonkelende hengel",
     "broken_star_rod": "Gebroken Ster Hengel",
@@ -2443,13 +2443,13 @@
     "pear": "Peer",
     "cherry_blossom": "Kersenbloesem",
     "rock": "Steen",
-    "broken_moon_pick": "Broken Moon Pickaxe",
+    "broken_moon_pick": "Gebroken Maan Pickhouweel",
     "broken_moon_axe": "Gebroken Maan Bijl",
     "broken_moon_rod": "Gebroken Maan Hengel",
     "broken_star_axe": "Gebroken Ster Bijl",
     "broken_comet_axe": "Gebroken Komeet Bijl",
     "broken_sparkle_axe": "Gebroken Fonkelende Bijl",
-    "broken_hellfire_pick": "Broken Hellfire Pickaxe",
+    "broken_hellfire_pick": "Gebroken Hellevuur Pikhouweel",
     "broken_hellfire_axe": "Gebroken Hellevuur Bijl",
     "broken_hellfire_rod": "Gebroken Hellevuur Hengel",
     "explanation": {
@@ -2547,8 +2547,8 @@
       "pizza": "Lekker.",
       "mine_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem crate`",
       "fish_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate treasure`",
-      "mine_premium_crate": "A gem you found while mining. Might have some nice stuff inside. Can be opened with `~>opencrate gem premium crate`",
-      "fish_premium_crate": "A treasure you found while fishing. Might have some nice stuff inside. Can be opened with `~>opencrate premium treasure`",
+      "mine_premium_crate": "Een juweeltje dat je hebt gevonden tijdens het mijnen. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate gem premium crate`",
+      "fish_premium_crate": "Een schat die je tijdens het vissen hebt gevonden. Misschien zitten er wel leuke dingen in. Kan worden geopend met `~>opencrate premium treasure`",
       "comet_rod": "Een beetje sterkere hengel.",
       "star_rod": "Een sterkere hengel.",
       "sparkle_rod": "Een veel sterkere hengel.",
@@ -2600,8 +2600,8 @@
       "broken_hellfire_pick": "Een hellevuur pikhouweel die brak tijdens het hakken. Nog steeds te redden.",
       "broken_hellfire_axe": "Een hellevuur bijl die brak tijdens het mijnen. Nog steeds te redden.",
       "broken_hellfire_rod": "Een hellevuur hengel die brak tijdens het hakken. Nog steeds te redden.",
-      "chop_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop crate`",
-      "chop_premium_crate": "A chest you found while chopping. Might contain good stuff. Can be opened with `~>opencrate chop premium crate`"
+      "chop_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Te openen met `~>opencrate chop crate`",
+      "chop_premium_crate": "Een kist die je vond tijdens het hakken. Kan goed spul bevatten. Kan geopend worden met `~>opencrate chop premium crate`"
     }
   },
   "test": {
