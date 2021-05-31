@@ -94,7 +94,7 @@ dependencies {
     implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
 
     // Prometheus
-    implementation 'io.prometheus:simpleclient:0.9.0'
+    implementation 'io.prometheus:simpleclient:0.11.0'
     implementation 'io.prometheus:simpleclient_hotspot:0.9.0'
     implementation 'io.prometheus:simpleclient_httpserver:0.9.0'
 
